@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA521A3150
-	for <oe-kbuild@lists.linux.dev>; Fri, 13 Jun 2025 10:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756C9275AE6
+	for <oe-kbuild@lists.linux.dev>; Fri, 13 Jun 2025 11:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749811578; cv=none; b=ZvuHuSULFP8e4yBU3zKAgkS0Ipe0/yzGaG3PMIOa2pq+w/yHZdOuEVb8THPUERiotruuBnuhcc3QVrHBIpfU2M0OLxpeQ1D72kiJCZqug5Fpy5taj5KH81uXTH/QebWOLzM/9z7lEcz6fvwVJBxc546cHgu4pc5CRLQejYx8pRk=
+	t=1749815913; cv=none; b=NrBd7KexCOZupVMhYhZjFmhT5JmcOoXxYe9M6kLP0I2SJGJJFYF7xU2lMMiS2pdmbrgHVC7PCD/rEznUbpAKG91BIr3DMhBdjyKgFB5pkOL5MsUb+Xki5pVvrqIOcIEcEnbTI/FOZF6Duc2H3wlkO5pba5qOo0VFf8aRlGY5KFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749811578; c=relaxed/simple;
-	bh=LhQgU3JtAGjpn0hDkK5GhHyHr4vGPuvkrEbT4ie+Elc=;
+	s=arc-20240116; t=1749815913; c=relaxed/simple;
+	bh=ufbrXaQ0dPHxtmpk+fB2U9OYPZ4LlOmhY/upJ3QWVZ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bXqxOiA+V14TBAjtJyurRF86kWzxMFhDc6H3Y5WRytX0uyKb8cdvypjqPJIV/NoYdj4e3dPNvEq2OyyOAd3kCa+HKDByUYm396uxbbGUOnSg5YAOnSa08l+MPNPkxF3VuzxmO01x5ttrfzJY8R2ABjy1ryr2FLOEVmr3uyyA0+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IkSpzPQ4; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=nU2XR4Wu77g7FMXaXABwCmEZ86jyu4S5KZ7d5iqzBZyRX6jFZh7RqQMv4FevP3yxHcaAHxMl0mcH84F7CE2ICxP0V8UGTH9yxrTbmxF3T/Ngc5JfmblV1GnPANZsHiuJ4F2cebLVG96KpGMdSRHztQTzhNbKJvEhaadPhh5nL/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H5bzNa0v; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IkSpzPQ4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H5bzNa0v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749811577; x=1781347577;
+  t=1749815911; x=1781351911;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LhQgU3JtAGjpn0hDkK5GhHyHr4vGPuvkrEbT4ie+Elc=;
-  b=IkSpzPQ4AzfQXX2SO9izB88YFbme6i72v3zC87jYuJrT493pYDqKgVVB
-   cGLVYxLMbRcSFv3a+D8y1BVtvYLRR5jYxIX5oFpJIMsqMJvVRceIlZSzn
-   zcRAWibzh1+tjSfZkko6vdqvGQx3/6nMgBDT4yKnIRvX2vT/dFQ0RLYF+
-   5NZJ5kPpIERehqWmvshHh8twAxsIxkDph0vrAYKgphLr/pqZzRsBmLZ0I
-   nbxUh7B6DVwK/6MPKHZqnco97jS4pvqVVnh91Lgoz/NSdxAvgvz7/577C
-   4x9oWI+jiPojfeV9P/AnzHLgF9lLk6JVT1iE9K2TBg7S6nas1BIHlOWMT
+  bh=ufbrXaQ0dPHxtmpk+fB2U9OYPZ4LlOmhY/upJ3QWVZ4=;
+  b=H5bzNa0vPbPYtD5P7knkEQ2qnl2iWt469bS+Oa04J/8mgqOkvQYkQm3/
+   VELw+3pld2t7qAV+n4VTEyM7vC/SXuU/klGiPYf7xbBr82vXen8UwB9jL
+   Y8xgpJCWM8p+8vJ0huE5gaN0+KJeu/KO2nv6f4jewvvXMjJF/f+2/UjWN
+   WBErgs0tUejHFa2O23D9NAYzBqcW66uCqScnBNW1T2VOXifqUrhHzPSC5
+   xNhjU2oBfO3LT9D+IpNrQQIRKObI/WvyC+SYf7aPs4SGbXer8ts+KPmVY
+   UKuNWxEYQCbrZqmQoLSdS4n7WuhhEKb25o2HQC7cjSzcDHw/ujmdq2CFM
    g==;
-X-CSE-ConnectionGUID: hjaqHCOxT8e0z6ZLB/M2hw==
-X-CSE-MsgGUID: BHi69d0zSZODNMQle6i54Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="51890735"
+X-CSE-ConnectionGUID: +GuAiKE3TeW/7953UnRUrQ==
+X-CSE-MsgGUID: R6EXphxjRO+NtbACzEn/HQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="55701197"
 X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="51890735"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 03:46:16 -0700
-X-CSE-ConnectionGUID: W8iysfy0SxK+w+K1Ta+kYg==
-X-CSE-MsgGUID: imb/kL3cS0unkf9OerUShA==
+   d="scan'208";a="55701197"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 04:58:31 -0700
+X-CSE-ConnectionGUID: UCdAs5vpR92H+8+U6AXSJw==
+X-CSE-MsgGUID: +sM9QXwtRW2aNgoCAyi7Ow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="147675838"
+   d="scan'208";a="147712568"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Jun 2025 03:46:14 -0700
+  by orviesa010.jf.intel.com with ESMTP; 13 Jun 2025 04:58:28 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQ1vI-000CUM-1X;
-	Fri, 13 Jun 2025 10:46:12 +0000
-Date: Fri, 13 Jun 2025 18:45:49 +0800
+	id 1uQ33D-000CZG-1k;
+	Fri, 13 Jun 2025 11:58:27 +0000
+Date: Fri, 13 Jun 2025 19:58:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 1/1] arm64: dts: msm: Add eMMC support for qcs8300
-Message-ID: <202506131843.V9iUuXWo-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [robh:dt/memory-region 2/17] drivers/remoteproc/ti_k3_common.c:522
+ k3_reserved_mem_init() error: uninitialized symbol 'rmem'.
+Message-ID: <202506131936.YWTiF0TB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,63 +62,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250612092146.5170-2-quic_sayalil@quicinc.com>
-References: <20250612092146.5170-2-quic_sayalil@quicinc.com>
-TO: Sayali Lokhande <quic_sayalil@quicinc.com>
-TO: andersson@kernel.org
-TO: konradybcio@kernel.org
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-CC: linux-arm-msm@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-mmc-owner@vger.kernel.org
+TO: "Rob Herring (Arm)" <robh@kernel.org>
 
-Hi Sayali,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.16-rc1 next-20250613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sayali-Lokhande/arm64-dts-msm-Add-eMMC-support-for-qcs8300/20250612-172345
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250612092146.5170-2-quic_sayalil%40quicinc.com
-patch subject: [PATCH 1/1] arm64: dts: msm: Add eMMC support for qcs8300
-:::::: branch date: 25 hours ago
-:::::: commit date: 25 hours ago
-config: arm64-randconfig-051-20250613 (https://download.01.org/0day-ci/archive/20250613/202506131843.V9iUuXWo-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-dtschema version: 2025.3.dev28+g49451a5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250613/202506131843.V9iUuXWo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/memory-region
+head:   acb6a336a64dc26032171de30a4d43a25aa88284
+commit: ad8112ef27e513573350ff33dfc28c2796c294ec [2/17] remoteproc: Use of_reserved_mem_region_* functions for "memory-region"
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: openrisc-randconfig-r072-20250613 (https://download.01.org/0day-ci/archive/20250613/202506131936.YWTiF0TB-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506131843.V9iUuXWo-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202506131936.YWTiF0TB-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/qcs8300.dtsi:3840.23-3894.5: Warning (simple_bus_reg): /soc@0/mmc@87C4000: simple-bus unit address format error, expected "87c4000"
->> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: soc@0 (simple-bus): mmc@87C4000: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: mmc@87C4000 (qcom,sdhci-msm-v5): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sdhci-msm-v5'] is too short
-   	'qcom,sdhci-msm-v5' is not one of ['qcom,sdhci-msm-v4']
-   	'qcom,sdhci-msm-v5' is not one of ['qcom,apq8084-sdhci', 'qcom,ipq4019-sdhci', 'qcom,ipq8074-sdhci', 'qcom,msm8226-sdhci', 'qcom,msm8953-sdhci', 'qcom,msm8974-sdhci', 'qcom,msm8976-sdhci', 'qcom,msm8916-sdhci', 'qcom,msm8992-sdhci', 'qcom,msm8994-sdhci', 'qcom,msm8996-sdhci', 'qcom,msm8998-sdhci']
-   	'qcom,sdhci-msm-v5' is not one of ['qcom,ipq5018-sdhci', 'qcom,ipq5332-sdhci', 'qcom,ipq5424-sdhci', 'qcom,ipq6018-sdhci', 'qcom,ipq9574-sdhci', 'qcom,qcm2290-sdhci', 'qcom,qcs404-sdhci', 'qcom,qcs615-sdhci', 'qcom,qdu1000-sdhci', 'qcom,sar2130p-sdhci', 'qcom,sc7180-sdhci', 'qcom,sc7280-sdhci', 'qcom,sc8280xp-sdhci', 'qcom,sdm630-sdhci', 'qcom,sdm670-sdhci', 'qcom,sdm845-sdhci', 'qcom,sdx55-sdhci', 'qcom,sdx65-sdhci', 'qcom,sdx75-sdhci', 'qcom,sm6115-sdhci', 'qcom,sm6125-sdhci', 'qcom,sm6350-sdhci', 'qcom,sm6375-sdhci', 'qcom,sm7150-sdhci', 'qcom,sm8150-sdhci', 'qcom,sm8250-sdhci', 'qcom,sm8350-sdhci', 'qcom,sm8450-sdhci', 'qcom,sm8550-sdhci', 'qcom,sm8650-sdhci', 'qcom,x1e80100-sdhci']
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-msm.yaml#
->> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: mmc@87C4000 (qcom,sdhci-msm-v5): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-msm.yaml#
+smatch warnings:
+drivers/remoteproc/ti_k3_common.c:522 k3_reserved_mem_init() error: uninitialized symbol 'rmem'.
+
+vim +/rmem +522 drivers/remoteproc/ti_k3_common.c
+
+744270b336c70b Beleswar Padhi    2025-05-13  471  
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  472  int k3_reserved_mem_init(struct k3_rproc *kproc)
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  473  {
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  474  	struct device *dev = kproc->dev;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  475  	struct device_node *np = dev->of_node;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  476  	struct device_node *rmem_np;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  477  	struct reserved_mem *rmem;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  478  	int num_rmems;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  479  	int ret, i;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  480  
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  481) 	num_rmems = of_reserved_mem_region_count(np);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  482  	if (num_rmems < 0) {
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  483  		dev_err(dev, "device does not reserved memory regions (%d)\n",
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  484  			num_rmems);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  485  		return -EINVAL;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  486  	}
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  487  	if (num_rmems < 2) {
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  488  		dev_err(dev, "device needs at least two memory regions to be defined, num = %d\n",
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  489  			num_rmems);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  490  		return -EINVAL;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  491  	}
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  492  
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  493  	/* use reserved memory region 0 for vring DMA allocations */
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  494  	ret = of_reserved_mem_device_init_by_idx(dev, np, 0);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  495  	if (ret) {
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  496  		dev_err(dev, "device cannot initialize DMA pool (%d)\n", ret);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  497  		return ret;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  498  	}
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  499  	ret = devm_add_action_or_reset(dev, k3_mem_release, dev);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  500  	if (ret)
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  501  		return ret;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  502  
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  503  	num_rmems--;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  504  	kproc->rmem = devm_kcalloc(dev, num_rmems, sizeof(*kproc->rmem), GFP_KERNEL);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  505  	if (!kproc->rmem)
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  506  		return -ENOMEM;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  507  
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  508  	/* use remaining reserved memory regions for static carveouts */
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  509  	for (i = 0; i < num_rmems; i++) {
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  510) 		struct resource res;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  511  
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  512) 		ret = of_reserved_mem_region_to_resource(np, i + 1, &res);
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  513) 		if (ret)
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  514) 			return ret;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  515  
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  516) 		kproc->rmem[i].bus_addr = res.start;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  517  		/* 64-bit address regions currently not supported */
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  518) 		kproc->rmem[i].dev_addr = (u32)res.start;
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  519) 		kproc->rmem[i].size = resource_size(&res);
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  520) 		kproc->rmem[i].cpu_addr = devm_ioremap_resource_wc(dev, &res);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  521  		if (!kproc->rmem[i].cpu_addr) {
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13 @522  			dev_err(dev, "failed to map reserved memory#%d at %pa of size %pa\n",
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  523  				i + 1, &rmem->base, &rmem->size);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  524  			return -ENOMEM;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  525  		}
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  526  
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  527  		dev_dbg(dev, "reserved memory%d: bus addr %pa size 0x%zx va %pK da 0x%x\n",
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  528  			i + 1, &kproc->rmem[i].bus_addr,
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  529  			kproc->rmem[i].size, kproc->rmem[i].cpu_addr,
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  530  			kproc->rmem[i].dev_addr);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  531  	}
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  532  	kproc->num_rmems = num_rmems;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  533  
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  534  	return 0;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  535  }
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  536  EXPORT_SYMBOL_GPL(k3_reserved_mem_init);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  537  
+
+:::::: The code at line 522 was first introduced by commit
+:::::: c52d5f1d2aaca18b57b71d1c146e03fd08bbd91a remoteproc: k3: Refactor reserved_mem_init() functions into common driver
+
+:::::: TO: Beleswar Padhi <b-padhi@ti.com>
+:::::: CC: Mathieu Poirier <mathieu.poirier@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
