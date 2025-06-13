@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090BA1CEAA3
-	for <oe-kbuild@lists.linux.dev>; Fri, 13 Jun 2025 05:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18812C327C
+	for <oe-kbuild@lists.linux.dev>; Fri, 13 Jun 2025 07:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749790847; cv=none; b=SJ9k6SH8yGRKQ1/EoEQQdQCxLMmMq2avdW5MgCu36HiZL4S/C/ep3ydq1Ym4Jw3wh1O9+7lcj7h7lEyOtxH2ITQkU33gT2o5uBHz+yeUwlS4dooiM5FEJdb2/d5g9iULrcwdQ6NSu5KSdqwgSASYHcvGOroOXRavnRbOpKA+0NY=
+	t=1749800156; cv=none; b=G3TCct5dhPso60543CA5fFT8uoxAT2dhOPo8T3MQ3bCgadgW+XFlgix9XayVlz4ddPdbHH0/why/hffQMmGtSU8YB8CyjFiVHw1KZVu/ppLZko29b6PRoIqCQWfyEKsctoOeOqEgZCTBh3NjGd+Wn1g83SWh2eYFu7DRPFiVKTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749790847; c=relaxed/simple;
-	bh=by81MvInhSFgUlgAfqEkuBwbWSnFO2PRQXtC49CjWYg=;
+	s=arc-20240116; t=1749800156; c=relaxed/simple;
+	bh=bmSUYZYhX30eSxMQR4w8s2emErkkpuHVDFnudiqy5Oo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cU1T86qG7PJW5gOKeAnAfzNjMu8kOM4U/eiQ8/nQTEq9tzkivoTzs4vEoTNt2fTNgz5IUwPTUmaka5sSy3ITKujK7SeAnMSAsIghy31WE/GVqvZ22sUwxseNYADylgTuhJM9haLWbEfWhVE8ASH1ZDEZL3u+hbPqYuHV3JXWCGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UTHFYrje; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=qPgiQRd4hDcHfKuFwtMFTlQdjVEWhtFgFJW2ug6nPL7CqyScmqPG7PKS1BoVFY25Yf0LExeExzOYMTpNUipB29NSoE8aejc43ZK4O4185H66JKvgcfWVZa+XRVYvPl1svZm3PhG1gx0L4wQ8NRUKDpQm3f8KbY+ykZvXYAEwCxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=axMTRPSy; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UTHFYrje"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="axMTRPSy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749790842; x=1781326842;
+  t=1749800155; x=1781336155;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=by81MvInhSFgUlgAfqEkuBwbWSnFO2PRQXtC49CjWYg=;
-  b=UTHFYrjeG9YQc0Cs8dam5oUEPe3RcdIzPWlIYYaJVHYLbqqBBKSzb+F/
-   x+YissdVKtC1Tiz3wv50nDkHkQZGvITuxqqdjTf9x4GDRva2K9coHVi5W
-   kHaC4RbL9THh9cjWexQlSNWiN+Nmx6afqTLwEKHJRFz07D+EgAOmXFsiB
-   EjtiFlUILJHPxlPJ1+WOMefd+68WhwjgQXSZJ6EQBqNlRLrnLZzsGdWCy
-   DfQxZ58Y7z82dhY09BjzruBOjo6Ic5g/jPg6Gdsve3yqZqe3COdwO3kf1
-   tm6yLSn480sg8fO3sk09KGlo/MOIHmkyuDiqHKQ6BVNtJuXs82gJCwy/e
-   Q==;
-X-CSE-ConnectionGUID: JYaFAjc2QS+QKTx/H1VYrA==
-X-CSE-MsgGUID: tZ1sqGYwRlK9W6aiyn1+SQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="51713280"
-X-IronPort-AV: E=Sophos;i="6.16,232,1744095600"; 
-   d="scan'208";a="51713280"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 22:00:41 -0700
-X-CSE-ConnectionGUID: s6tSndFDS0+cIJ2pVyTq1w==
-X-CSE-MsgGUID: DxoNgZmHRteCjlr1/uAnYw==
+  bh=bmSUYZYhX30eSxMQR4w8s2emErkkpuHVDFnudiqy5Oo=;
+  b=axMTRPSyklxxA/iFu5BU4HHRXlS70kyBxHpULJdQkm0hslY132CMBmZ9
+   OchqHAFxrkImvzUu9JEJr9qp5RZEuXDR7RINlAbZADefYvPQRRkz3K6qU
+   VcAuAgbjGBo9/7JuwlOv33iA9NnlzLbcF7kinGKhRJdBtVNO0zUHVwB9A
+   RM9pjSLOLQfo3EYnJn1auCpWVkLDqMSU+F1H1BTDmYfoE5Cn7Cx5pRa9w
+   8uolXgjtvlBAY012nEbFIdnb2DdFAnTXPZpjzbmTr3oTryHg5C3j1x+sx
+   i41yqiHg6fCd4MCfp40cAlg0UI2kSM6j/G2Ztt8aZ6wE5ek03AYmaYQpH
+   A==;
+X-CSE-ConnectionGUID: 6HmXklPLTr2aAjdBozeBgw==
+X-CSE-MsgGUID: G95qnYhdQkejgH7gK4WVFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="51121824"
+X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
+   d="scan'208";a="51121824"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 00:35:54 -0700
+X-CSE-ConnectionGUID: tQEBvyoiTPqHdE/13TqvCg==
+X-CSE-MsgGUID: jyGB1roRQi+Dy3WOagCEvQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,232,1744095600"; 
-   d="scan'208";a="148610109"
+X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
+   d="scan'208";a="148309242"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 12 Jun 2025 22:00:40 -0700
+  by orviesa007.jf.intel.com with ESMTP; 13 Jun 2025 00:35:53 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPwWs-000CFS-0N;
-	Fri, 13 Jun 2025 05:00:38 +0000
-Date: Fri, 13 Jun 2025 13:00:27 +0800
+	id 1uPyx4-000CKM-1e;
+	Fri, 13 Jun 2025 07:35:50 +0000
+Date: Fri, 13 Jun 2025 15:34:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v0 4/5] arm64: dts: aspeed: Add AST2700 EVB device tree
-Message-ID: <202506131239.yptF7RBQ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH net-next 12/13] net: mctp: add gateway routing support
+Message-ID: <202506131515.a5tCsTj0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,86 +61,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250612100933.3007673-5-ryan_chen@aspeedtech.com>
-References: <20250612100933.3007673-5-ryan_chen@aspeedtech.com>
-TO: Ryan Chen <ryan_chen@aspeedtech.com>
-TO: "ryan_chen" <ryan_chen@aspeedtech.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Joel Stanley <joel@jms.id.au>
-TO: Andrew Jeffery <andrew@codeconstruct.com.au>
-TO: Catalin Marinas <catalin.marinas@arm.com>
-TO: Will Deacon <will@kernel.org>
-TO: Arnd Bergmann <arnd@arndb.de>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Geert Uytterhoeven <geert@linux-m68k.org>
-TO: Nishanth Menon <nm@ti.com>
-TO: nfraprado@collabora.com
-TO: Taniya Das <quic_tdas@quicinc.com>
-TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-TO: Eric Biggers <ebiggers@google.com>
-TO: devicetree@vger.kernel.org
-TO: linux-arm-kernel@lists.infradead.org
-TO: linux-aspeed@lists.ozlabs.org
-TO: linux-kernel@vger.kernel.org
-TO: soc@lists.linux.dev
-TO: Mo Elbadry <elbadrym@google.com>
-TO: Rom Lemarchand <romlem@google.com>
-TO: William Kennington <wak@google.com>
-TO: Yuxiao Zhang <yuxiaozhang@google.com>
-TO: wthai@nvidia.com
-TO: leohu@nvidia.com
-TO: dkodihalli@nvidia.com
-TO: spuranik@nvidia.com
+In-Reply-To: <20250611-dev-forwarding-v1-12-6b69b1feb37f@codeconstruct.com.au>
+References: <20250611-dev-forwarding-v1-12-6b69b1feb37f@codeconstruct.com.au>
+TO: Jeremy Kerr <jk@codeconstruct.com.au>
+TO: Matt Johnston <matt@codeconstruct.com.au>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+TO: Eric Dumazet <edumazet@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: Simon Horman <horms@kernel.org>
 
-Hi Ryan,
+Hi Jeremy,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on arm64/for-next/core soc/for-next linus/master v6.16-rc1 next-20250612]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 0097c4195b1d0ca57d15979626c769c74747b5a0]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/dt-bindings-arm-aspeed-Add-AST2700-board-compatible/20250612-181222
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250612100933.3007673-5-ryan_chen%40aspeedtech.com
-patch subject: [PATCH v0 4/5] arm64: dts: aspeed: Add AST2700 EVB device tree
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: arm64-randconfig-051-20250613 (https://download.01.org/0day-ci/archive/20250613/202506131239.yptF7RBQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-dtschema version: 2025.3.dev28+g49451a5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250613/202506131239.yptF7RBQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-mctp-don-t-use-source-cb-data-when-forwarding-ensure-pkt_type-is-set/20250611-143319
+base:   0097c4195b1d0ca57d15979626c769c74747b5a0
+patch link:    https://lore.kernel.org/r/20250611-dev-forwarding-v1-12-6b69b1feb37f%40codeconstruct.com.au
+patch subject: [PATCH net-next 12/13] net: mctp: add gateway routing support
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: csky-randconfig-r073-20250612 (https://download.01.org/0day-ci/archive/20250613/202506131515.a5tCsTj0-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506131239.yptF7RBQ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202506131515.a5tCsTj0-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: serial@14c33b00 (ns16550a): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
->> arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: interrupt-controller@100 (aspeed,ast2700-intc-ic): interrupts-extended: [[6, 0, 3844]] is too short
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
-   arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: interrupt-controller@110 (aspeed,ast2700-intc-ic): interrupts-extended: [[6, 1, 3844]] is too short
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
-   arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: interrupt-controller@120 (aspeed,ast2700-intc-ic): interrupts-extended: [[6, 2, 3844]] is too short
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
-   arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: interrupt-controller@130 (aspeed,ast2700-intc-ic): interrupts-extended: [[6, 3, 3844]] is too short
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
-   arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: interrupt-controller@140 (aspeed,ast2700-intc-ic): interrupts-extended: [[6, 4, 3844]] is too short
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
-   arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: interrupt-controller@150 (aspeed,ast2700-intc-ic): interrupts-extended: [[6, 5, 3844]] is too short
+New smatch warnings:
+net/mctp/route.c:1381 mctp_route_nlparse_common() error: uninitialized symbol 'gateway'.
+
+Old smatch warnings:
+net/mctp/route.c:1397 mctp_route_nlparse_common() error: uninitialized symbol 'gateway'.
+
+vim +/gateway +1381 net/mctp/route.c
+
+33d33bef994e518 Jeremy Kerr   2025-06-11  1344  
+75626016e50cb9a Jeremy Kerr   2025-06-11  1345  /* base parsing; common to both _lookup and _populate variants.
+75626016e50cb9a Jeremy Kerr   2025-06-11  1346   *
+75626016e50cb9a Jeremy Kerr   2025-06-11  1347   * For gateway routes (which have a RTA_GATEWAY, and no RTA_OIF), we populate
+75626016e50cb9a Jeremy Kerr   2025-06-11  1348   * *gatweayp. for direct routes (RTA_OIF, no RTA_GATEWAY), we populate *mdev.
+75626016e50cb9a Jeremy Kerr   2025-06-11  1349   */
+33d33bef994e518 Jeremy Kerr   2025-06-11  1350  static int mctp_route_nlparse_common(struct net *net, struct nlmsghdr *nlh,
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1351  				     struct netlink_ext_ack *extack,
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1352  				     struct nlattr **tb, struct rtmsg **rtm,
+33d33bef994e518 Jeremy Kerr   2025-06-11  1353  				     struct mctp_dev **mdev,
+75626016e50cb9a Jeremy Kerr   2025-06-11  1354  				     struct mctp_fq_addr *gatewayp,
+33d33bef994e518 Jeremy Kerr   2025-06-11  1355  				     mctp_eid_t *daddr_start)
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1356  {
+75626016e50cb9a Jeremy Kerr   2025-06-11  1357  	struct mctp_fq_addr *gateway;
+75626016e50cb9a Jeremy Kerr   2025-06-11  1358  	unsigned int ifindex = 0;
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1359  	struct net_device *dev;
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1360  	int rc;
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1361  
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1362  	rc = nlmsg_parse(nlh, sizeof(struct rtmsg), tb, RTA_MAX,
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1363  			 rta_mctp_policy, extack);
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1364  	if (rc < 0) {
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1365  		NL_SET_ERR_MSG(extack, "incorrect format");
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1366  		return rc;
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1367  	}
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1368  
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1369  	if (!tb[RTA_DST]) {
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1370  		NL_SET_ERR_MSG(extack, "dst EID missing");
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1371  		return -EINVAL;
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1372  	}
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1373  	*daddr_start = nla_get_u8(tb[RTA_DST]);
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1374  
+75626016e50cb9a Jeremy Kerr   2025-06-11  1375  	if (tb[RTA_OIF])
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1376  		ifindex = nla_get_u32(tb[RTA_OIF]);
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1377  
+75626016e50cb9a Jeremy Kerr   2025-06-11  1378  	if (tb[RTA_GATEWAY])
+75626016e50cb9a Jeremy Kerr   2025-06-11  1379  		gateway = nla_data(tb[RTA_GATEWAY]);
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1380  
+75626016e50cb9a Jeremy Kerr   2025-06-11 @1381  	if (ifindex && gateway) {
+75626016e50cb9a Jeremy Kerr   2025-06-11  1382  		NL_SET_ERR_MSG(extack,
+75626016e50cb9a Jeremy Kerr   2025-06-11  1383  			       "cannot specify both ifindex and gateway");
+33d33bef994e518 Jeremy Kerr   2025-06-11  1384  		return -EINVAL;
+33d33bef994e518 Jeremy Kerr   2025-06-11  1385  
+75626016e50cb9a Jeremy Kerr   2025-06-11  1386  	} else if (ifindex) {
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1387  		dev = __dev_get_by_index(net, ifindex);
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1388  		if (!dev) {
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1389  			NL_SET_ERR_MSG(extack, "bad ifindex");
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1390  			return -ENODEV;
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1391  		}
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1392  		*mdev = mctp_dev_get_rtnl(dev);
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1393  		if (!*mdev)
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1394  			return -ENODEV;
+75626016e50cb9a Jeremy Kerr   2025-06-11  1395  		gatewayp->eid = 0;
+75626016e50cb9a Jeremy Kerr   2025-06-11  1396  
+75626016e50cb9a Jeremy Kerr   2025-06-11  1397  	} else if (gateway) {
+75626016e50cb9a Jeremy Kerr   2025-06-11  1398  		if (!mctp_address_unicast(gateway->eid)) {
+75626016e50cb9a Jeremy Kerr   2025-06-11  1399  			NL_SET_ERR_MSG(extack, "bad gateway");
+75626016e50cb9a Jeremy Kerr   2025-06-11  1400  			return -EINVAL;
+75626016e50cb9a Jeremy Kerr   2025-06-11  1401  		}
+75626016e50cb9a Jeremy Kerr   2025-06-11  1402  
+75626016e50cb9a Jeremy Kerr   2025-06-11  1403  		gatewayp->eid = gateway->eid;
+75626016e50cb9a Jeremy Kerr   2025-06-11  1404  		gatewayp->net = gateway->net != MCTP_NET_ANY ?
+75626016e50cb9a Jeremy Kerr   2025-06-11  1405  			gateway->net :
+75626016e50cb9a Jeremy Kerr   2025-06-11  1406  			READ_ONCE(net->mctp.default_net);
+75626016e50cb9a Jeremy Kerr   2025-06-11  1407  		*mdev = NULL;
+75626016e50cb9a Jeremy Kerr   2025-06-11  1408  
+75626016e50cb9a Jeremy Kerr   2025-06-11  1409  	} else {
+75626016e50cb9a Jeremy Kerr   2025-06-11  1410  		NL_SET_ERR_MSG(extack, "no route output provided");
+75626016e50cb9a Jeremy Kerr   2025-06-11  1411  		return -EINVAL;
+75626016e50cb9a Jeremy Kerr   2025-06-11  1412  	}
+75626016e50cb9a Jeremy Kerr   2025-06-11  1413  
+75626016e50cb9a Jeremy Kerr   2025-06-11  1414  	*rtm = nlmsg_data(nlh);
+75626016e50cb9a Jeremy Kerr   2025-06-11  1415  	if ((*rtm)->rtm_family != AF_MCTP) {
+75626016e50cb9a Jeremy Kerr   2025-06-11  1416  		NL_SET_ERR_MSG(extack, "route family must be AF_MCTP");
+75626016e50cb9a Jeremy Kerr   2025-06-11  1417  		return -EINVAL;
+75626016e50cb9a Jeremy Kerr   2025-06-11  1418  	}
+75626016e50cb9a Jeremy Kerr   2025-06-11  1419  
+75626016e50cb9a Jeremy Kerr   2025-06-11  1420  	if ((*rtm)->rtm_type != RTN_UNICAST) {
+75626016e50cb9a Jeremy Kerr   2025-06-11  1421  		NL_SET_ERR_MSG(extack, "rtm_type must be RTN_UNICAST");
+75626016e50cb9a Jeremy Kerr   2025-06-11  1422  		return -EINVAL;
+75626016e50cb9a Jeremy Kerr   2025-06-11  1423  	}
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1424  
+33d33bef994e518 Jeremy Kerr   2025-06-11  1425  	return 0;
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1426  }
+06d2f4c583a7d89 Matt Johnston 2021-07-29  1427  
 
 -- 
 0-DAY CI Kernel Test Service
