@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0C93FFD
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Jun 2025 09:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745FA1DE3A8
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Jun 2025 10:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749894744; cv=none; b=nl+CEpoQWak25jMULEV9+x/YqcR1N9/eYY1gNr34xs9LSQyUNmB/G7q8dArdKXNpTGKqe2JmHJzvpUa7PVw4IlmI32pJ4SzsfAZ8YE7RRpbN46BHY0CxR6DW0PPMtZQ/aabewFsoK9Fy+z9cssJEJ1JJFpxxSPSm+p952coJE1w=
+	t=1749895947; cv=none; b=BuArt9GenN0ZvGrIvxJlynKjLhxP67VNql9ZCXJFkaynOC4utM8ODd1CxoOl9S5QCkcqlMe/1svH84yvnnObdMrGjz9+xWQfi8jksjEf3zQba9tiGPxd4R117zhGyAW6R0i8ysnh8lTO5Z3ks4D+IDSWPSrGjl0hDWJjGA7/cq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749894744; c=relaxed/simple;
-	bh=a3+M2B2/jHh2EIyOri828P1TWyjj6NfVd7hy0BAyNOg=;
+	s=arc-20240116; t=1749895947; c=relaxed/simple;
+	bh=QT3tesY9uGPRUUlaCICYbi5VH+0CQX7M35KBPElGjdc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hy0AVJLpMxyO1BY7iBdUI24bj/u9P0/UL1m3Wu7CxJORf6y3FYmBOSsRqCSFw01K4uIdjUBq//MkxtJfKptK2zwpVVqwQSDVqbK5rFLHE5Al0wLoc3tqg82AjYVtIijXUkbFG0gJwVRSL+qc3BZHcaK15vFl/QfsT7VSnH6/O+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g/Svo/nb; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=eeJKaiN4VkBWJhNIYCdw2PIPio+jO6uH8DwNhmAXOEcaQUtwRO9cWyqEiKBQjW/K3IaP1HweR7tGl5tomPQwJReJPc1u/cfVb9eimUPz+/Sezk10t10lfaYaUbQ+otbrJnAcLMj/YJOVJSbvdD1UtKjc3ZzLV74+yENhJGtogB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a7atSejt; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g/Svo/nb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a7atSejt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749894743; x=1781430743;
+  t=1749895946; x=1781431946;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=a3+M2B2/jHh2EIyOri828P1TWyjj6NfVd7hy0BAyNOg=;
-  b=g/Svo/nbJaSLczegPoANwXMlQN5E6ODdEiCcPPGknkJDnOrxsR8e9+Ec
-   BWlv6/a0pkkoVHJg9UqENIVNlubnRCR6ldaAS9e8fISRncADDR+pRIkJD
-   wy9tp13vwPNHDRao8BcUtMajcIcwlPPQXZhC8HDr6nAji8M0JxkqqJwEe
-   N9y0BUCTQpryGX0cdSYidmrNLHNYYrcyFqQOH7GVcn21yns/sXjlH/KWM
-   wWcr1BqCsrpwFeFO82vexc10KIaKUvF9wyp5pvC7uHP3tiWP6Nf8Av3MM
-   9JIT1Rq0oVRb6l9I7vgEma9khUQj3XOB/C+Fog0nypvnv43hIYuwp5QNL
-   A==;
-X-CSE-ConnectionGUID: DqVEMaRZQweQevOEdujd8Q==
-X-CSE-MsgGUID: GtgWfZTwT2qnltbnp8D0BQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="55903352"
+  bh=QT3tesY9uGPRUUlaCICYbi5VH+0CQX7M35KBPElGjdc=;
+  b=a7atSejtCLfxMrwSL32tZ8F755UtnFmC6kive6U49Dt9+TsCx68yi4Rx
+   +wEHhA7xVHUe2LeaR2zSez8yPJgN2q3KopFj1fYdl5LVKdXA9hx6DJGvh
+   Q40B9D7FbArBxV0fGSB0OopgxlSavRfIVF3972NbOM7QQRoybllCLHlk5
+   clAvYXf4zzbv/4ggo9xSScxvBMEzsEf8CBSrQ58iDsOQXbt72cI/XpOAu
+   L4n+0dZda4NfFqznU49ak2A0bWfscEb/lvukAEmDsXVmYXf+BNSrXY9zy
+   9maPdFlZ0otgbm4bGnVcJJVqnIkJjrXgM9sTeV5q7pDOheGeSj2D+xBKe
+   Q==;
+X-CSE-ConnectionGUID: 2I5LIi60RIKIiT9d4/Yv+Q==
+X-CSE-MsgGUID: mYe5wYIrTESYUNIn9qQW7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="55780904"
 X-IronPort-AV: E=Sophos;i="6.16,236,1744095600"; 
-   d="scan'208";a="55903352"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2025 02:52:22 -0700
-X-CSE-ConnectionGUID: Vba+pawLR/q/HWHrmB1tOQ==
-X-CSE-MsgGUID: kAFRXc+GQPGQWaRxOpcqeQ==
+   d="scan'208";a="55780904"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2025 03:12:25 -0700
+X-CSE-ConnectionGUID: HafMCQ8vTO25bLfHygoE1w==
+X-CSE-MsgGUID: gkQMD0eDQUG17O2tmpMO8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,236,1744095600"; 
-   d="scan'208";a="148934216"
+   d="scan'208";a="147872474"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Jun 2025 02:52:21 -0700
+  by orviesa006.jf.intel.com with ESMTP; 14 Jun 2025 03:12:23 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQNYg-000DPK-3A;
-	Sat, 14 Jun 2025 09:52:18 +0000
-Date: Sat, 14 Jun 2025 17:51:25 +0800
+	id 1uQNs4-000DQs-2z;
+	Sat, 14 Jun 2025 10:12:20 +0000
+Date: Sat, 14 Jun 2025 18:11:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [RFC PATCH 3/4] drm/i915/writeback: Add some preliminary
- writeback definitions
-Message-ID: <202506141740.CCj2OXji-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 3/3] drm/ttm, drm_xe, Implement ttm_lru_walk_for_evict()
+ using the guarded LRU iteration
+Message-ID: <202506141727.FtEuY8xN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,66 +66,110 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250613061550.2893526-4-suraj.kandpal@intel.com>
-References: <20250613061550.2893526-4-suraj.kandpal@intel.com>
-TO: Suraj Kandpal <suraj.kandpal@intel.com>
+In-Reply-To: <20250613151824.178650-4-thomas.hellstrom@linux.intel.com>
+References: <20250613151824.178650-4-thomas.hellstrom@linux.intel.com>
+TO: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+TO: intel-xe@lists.freedesktop.org
+CC: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+CC: dri-devel@lists.freedesktop.org
+CC: airlied@gmail.com
+CC: Matthew Brost <matthew.brost@intel.com>
+CC: Matthew Auld <matthew.auld@intel.com>
+CC: "Christian König" <christian.koenig@amd.com>
 
-Hi Suraj,
+Hi Thomas,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16-rc1 next-20250613]
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on linus/master v6.16-rc1 next-20250613]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-writeback-Add-function-that-takes-preallocated-connector/20250613-142752
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250613061550.2893526-4-suraj.kandpal%40intel.com
-patch subject: [RFC PATCH 3/4] drm/i915/writeback: Add some preliminary writeback definitions
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-config: x86_64-randconfig-102-20250614 (https://download.01.org/0day-ci/archive/20250614/202506141740.CCj2OXji-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Use-a-struct-for-the-common-part-of-struct-ttm_lru_walk-and-struct-ttm_bo_lru_cursor/20250613-232106
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250613151824.178650-4-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH 3/3] drm/ttm, drm_xe, Implement ttm_lru_walk_for_evict() using the guarded LRU iteration
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: i386-randconfig-141-20250614 (https://download.01.org/0day-ci/archive/20250614/202506141727.FtEuY8xN-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202506141740.CCj2OXji-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202506141727.FtEuY8xN-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/display/intel_display_device.c:838:2-22: duplicated argument to & or |
+smatch warnings:
+drivers/gpu/drm/ttm/ttm_bo_util.c:975 __ttm_bo_lru_cursor_next() error: uninitialized symbol 'ret'.
 
-vim +838 drivers/gpu/drm/i915/display/intel_display_device.c
+vim +/ret +975 drivers/gpu/drm/ttm/ttm_bo_util.c
 
-785778ce21cf50 Jani Nikula   2024-05-22  816  
-69d439818fe501 Matt Roper    2023-05-23  817  #define GEN9_LP_DISPLAY			 \
-69d439818fe501 Matt Roper    2023-05-23  818  	.dbuf.slice_mask = BIT(DBUF_S1), \
-69d439818fe501 Matt Roper    2023-05-23  819  	.has_dp_mst = 1, \
-69d439818fe501 Matt Roper    2023-05-23  820  	.has_ddi = 1, \
-69d439818fe501 Matt Roper    2023-05-23  821  	.has_fpga_dbg = 1, \
-69d439818fe501 Matt Roper    2023-05-23  822  	.has_hotplug = 1, \
-69d439818fe501 Matt Roper    2023-05-23  823  	.has_ipc = 1, \
-69d439818fe501 Matt Roper    2023-05-23  824  	.has_psr = 1, \
-69d439818fe501 Matt Roper    2023-05-23  825  	.has_psr_hw_tracking = 1, \
-69d439818fe501 Matt Roper    2023-05-23  826  	HSW_PIPE_OFFSETS, \
-69d439818fe501 Matt Roper    2023-05-23  827  	IVB_CURSOR_OFFSETS, \
-69d439818fe501 Matt Roper    2023-05-23  828  	IVB_COLORS, \
-69d439818fe501 Matt Roper    2023-05-23  829  	\
-69d439818fe501 Matt Roper    2023-05-23  830  	.__runtime_defaults.has_dmc = 1, \
-69d439818fe501 Matt Roper    2023-05-23  831  	.__runtime_defaults.has_hdcp = 1, \
-69d439818fe501 Matt Roper    2023-05-23  832  	.__runtime_defaults.fbc_mask = BIT(INTEL_FBC_A), \
-69d439818fe501 Matt Roper    2023-05-23  833  	.__runtime_defaults.pipe_mask = BIT(PIPE_A) | BIT(PIPE_B) | BIT(PIPE_C), \
-69d439818fe501 Matt Roper    2023-05-23  834  	.__runtime_defaults.cpu_transcoder_mask = \
-69d439818fe501 Matt Roper    2023-05-23  835  		BIT(TRANSCODER_A) | BIT(TRANSCODER_B) | \
-69d439818fe501 Matt Roper    2023-05-23  836  		BIT(TRANSCODER_C) | BIT(TRANSCODER_EDP) | \
-2798e4d1ccd9b3 Ville Syrjälä 2023-06-16  837  		BIT(TRANSCODER_DSI_A) | BIT(TRANSCODER_DSI_C), \
-ff9a930b83a165 Suraj Kandpal 2025-06-13 @838  		BIT(TRANSCODER_WD_0) | BIT(TRANSCODER_WD_0), \
-2798e4d1ccd9b3 Ville Syrjälä 2023-06-16  839  	.__runtime_defaults.port_mask = BIT(PORT_A) | BIT(PORT_B) | BIT(PORT_C)
-69d439818fe501 Matt Roper    2023-05-23  840  
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  926  
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  927  static struct ttm_buffer_object *
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  928  __ttm_bo_lru_cursor_next(struct ttm_bo_lru_cursor *curs, bool first)
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  929  {
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  930  	spinlock_t *lru_lock = &curs->res_curs.man->bdev->lru_lock;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  931  	struct ttm_resource *res = NULL;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  932  	struct ttm_buffer_object *bo;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  933  	struct ttm_lru_walk_arg *arg = curs->arg;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  934  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  935  	ttm_bo_lru_cursor_cleanup_bo(curs);
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  936  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  937  	spin_lock(lru_lock);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  938  	for (;;) {
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  939  		int mem_type, ret;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  940  		bool bo_locked = false;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  941  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  942  		if (first) {
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  943  			res = ttm_resource_manager_first(&curs->res_curs);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  944  			first = false;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  945  		} else {
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  946  			res = ttm_resource_manager_next(&curs->res_curs);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  947  		}
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  948  		if (!res)
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  949  			break;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  950  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  951  		bo = res->bo;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  952  		if (ttm_lru_walk_trylock(arg, bo, &curs->needs_unlock))
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  953  			bo_locked = true;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  954  		else if (!arg->ticket || arg->ctx->no_wait_gpu || arg->trylock_only)
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  955  			continue;
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  956  
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  957  		if (!ttm_bo_get_unless_zero(bo)) {
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  958  			if (curs->needs_unlock)
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  959  				dma_resv_unlock(bo->base.resv);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  960  			continue;
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  961  		}
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  962  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  963  		mem_type = res->mem_type;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  964  		spin_unlock(lru_lock);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  965  		if (!bo_locked)
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  966  			ret = ttm_lru_walk_ticketlock(arg, bo, &curs->needs_unlock);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  967  		/*
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  968  		 * Note that in between the release of the lru lock and the
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  969  		 * ticketlock, the bo may have switched resource,
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  970  		 * and also memory type, since the resource may have been
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  971  		 * freed and allocated again with a different memory type.
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  972  		 * In that case, just skip it.
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  973  		 */
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  974  		curs->bo = bo;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13 @975  		if (!ret && bo->resource && bo->resource->mem_type == mem_type)
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  976  			return bo;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  977  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  978  		ttm_bo_lru_cursor_cleanup_bo(curs);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  979  		if (ret)
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  980  			return ERR_PTR(ret);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  981  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  982  		spin_lock(lru_lock);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  983  	}
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  984  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  985  	spin_unlock(lru_lock);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  986  	return res ? bo : NULL;
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  987  }
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  988  
 
 -- 
 0-DAY CI Kernel Test Service
