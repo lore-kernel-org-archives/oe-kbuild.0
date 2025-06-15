@@ -1,214 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FABC2E11D2
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Jun 2025 01:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87A33FE7
+	for <oe-kbuild@lists.linux.dev>; Sun, 15 Jun 2025 02:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749949438; cv=none; b=HGz6a5b+GHJq7W2zJ8YWSsLkuaixkGh46kEFgd3uOKNkccSTg6I1vCS1pctL1KG9HD1N02Xcn7oSgnRhTpNviMzFAPRQwcrbqqXbg6O8MR9SgWwaQvLjQPWeqtr4ZmWvd1lm9ruD4ZKfyGkMR4Z2/CQs8jXpoOECNA9oXJ1qy6U=
+	t=1749954966; cv=none; b=jAQJzu4+eQbIdGiDa56iBz4C9v05QlB55RjrEaO9V7aDXnpDpNyGuVWiFX2pKSkpyBrzJ0bnGF8cyWUYybmJDctS94RwI6AKeqdy9sQqsh2XmMCXfnk1hpmf9u91VizKPWlU1aVw1LfjnnIcRkHR8Bj+djxDbxPyDkeE5kxwII0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749949438; c=relaxed/simple;
-	bh=P4uvUlrUWrvsr4kLxMib1SI0JmgAnILc8H58dzFuNV0=;
+	s=arc-20240116; t=1749954966; c=relaxed/simple;
+	bh=t7FuFgD0BrIdYZiJdAzVraMqfYDG2Nm6fmTkSaipqCs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ExTPWw2R+mIcBZLZP2U5B2Uf7OzGTlMelcEv51jkDHV+ZeDiTvFCaKzmg8tQyqeXFtFYG3OiXo5uHDM1Gh6+gkfQyu8XlRXTvl6A8kC3zScurT41YjSAhkdGn1/kFPc+Rq7XUaHKWCeC8MSqGHUEsfhqNCR5G6OLciUtjVQ+BXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lz/0jQwe; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=TppKjdmtbS2Qq+Kc9RFr0z9dp7e3L3YKKaNQwHl8peqqe8VqIjbVi5pVbfLvcGBwBnrDQST9P+zsWDj0zJrgDN/ye+yanOgkx+u+f1ulmLBZp1CiMiDkdboqQTJfCBuBbjHN5X1Rrhsg3kS2GrIVlKV4IZ1o7/+tnDqkEXByx9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wu0aL5pI; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lz/0jQwe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wu0aL5pI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749949437; x=1781485437;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P4uvUlrUWrvsr4kLxMib1SI0JmgAnILc8H58dzFuNV0=;
-  b=lz/0jQwerqc3tXsqmluAP7whma3UiDLj5Y3xPeG/7Cyj5t/UqK/FUqQO
-   KuuN4AGkbUaH/+xJUre7FRoZHJrN74GXT4/cFbiQjrttICnF/hAtpOouu
-   qboGeAGlAh7L6wFvCRZhqTRtE0wq22Cf5jnaECIlkRkekcuOYFMucXLM5
-   dX0knkp9LGHqdOlLD0DfoWxt6WozNR4YG7+V+p9u8zjGjXbX1Sn/D13sn
-   RHgACH6zf9UD8oixtqG3WITYqV8/iNcCelKCbnxRwccMpk+jd2GaPjGQv
-   ZqTvTo3J8hOHgTxmHpIQNLbAJkbf0xO9DcfylwFHcCL08v/sN1dDeKfuT
-   w==;
-X-CSE-ConnectionGUID: JDwKpmUIQmWQTuoS6HcZfA==
-X-CSE-MsgGUID: tnFs2OQTRIeaiNeYJ/9Y1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11464"; a="55803503"
+  t=1749954963; x=1781490963;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=t7FuFgD0BrIdYZiJdAzVraMqfYDG2Nm6fmTkSaipqCs=;
+  b=Wu0aL5pIs4r8Uysvm9IOnaHjkXlY6km+OgBsHrj88OH8xZxRN8aCJHJ9
+   9HPfSxraj8CN3oLETItRsCrdpxFXeKNg3rGz59YFUfsbelmDlwNW+o+NO
+   5Jt4que9/aSczqMj668PvphcHal//A3A/Txos3FSwPHjNoJQL5sg2stgx
+   6DwUd9IX+ye+NuWQfWiNORmo3NgR4uWy5/9CHC21THnXPHuXrA12LyQs4
+   NbckdigkkAsXJfGTmLYHwlGYbxYUS1T+UnD6m9+ZSsluDaBQmSewFFtB9
+   09AOGMhzSRZDNUl2mR0H2YAcSurEhr00wMReoOxqwwLKyzzgMtiL9hpjw
+   Q==;
+X-CSE-ConnectionGUID: czy6jfqfSw2gmNP9zgpknw==
+X-CSE-MsgGUID: rjcoJ1F5SVigi9AH/4+9UA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11464"; a="63163201"
 X-IronPort-AV: E=Sophos;i="6.16,238,1744095600"; 
-   d="scan'208";a="55803503"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2025 18:03:56 -0700
-X-CSE-ConnectionGUID: Gkh2D7S4RDW3j4tIurO/1w==
-X-CSE-MsgGUID: 8RMgUP1MSDubvCJTDi5F4A==
+   d="scan'208";a="63163201"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2025 19:36:03 -0700
+X-CSE-ConnectionGUID: /KcC3t3NSBagiyzvdssw9A==
+X-CSE-MsgGUID: Ip+EX9ajRG6ECSmD5V0TCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,238,1744095600"; 
-   d="scan'208";a="179038161"
+   d="scan'208";a="148046626"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 14 Jun 2025 18:03:55 -0700
+  by orviesa010.jf.intel.com with ESMTP; 14 Jun 2025 19:36:02 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQbmq-000E12-29;
-	Sun, 15 Jun 2025 01:03:52 +0000
-Date: Sun, 15 Jun 2025 09:03:23 +0800
+	id 1uQdDz-000E3g-1A;
+	Sun, 15 Jun 2025 02:35:59 +0000
+Date: Sun, 15 Jun 2025 10:35:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:openEuler-1.0-LTS 1568/1568]
- block/blk-throttle.c:2306:1-7: preceding lock on line 2212
-Message-ID: <202506150922.Sv0hlBx2-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [pdx86-platform-drivers-x86:review-ilpo-next 7/16]
+ drivers/platform/x86/lenovo/thinkpad_acpi.c:1206 tpacpi_new_rfkill() warn:
+ 'atp_rfk->rfkill' is an error pointer or valid
+Message-ID: <202506151006.LOmeIEcH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yang Yingliang <yangyingliang@huawei.com>
+CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Hans de Goede <hdegoede@redhat.com>
+TO: Mark Pearson <mpearson-lenovo@squebb.ca>
+CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   7b14992c5fc2361904e3c2f345fe502cf7961adb
-commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1568/1568] blk-throttle: Set BIO_THROTTLED when bio has been throttled
-:::::: branch date: 4 days ago
-:::::: commit date: 3 years, 3 months ago
-config: x86_64-randconfig-102-20250408 (https://download.01.org/0day-ci/archive/20250615/202506150922.Sv0hlBx2-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo-next
+head:   73f0f2b52c5ea67b3140b23f58d8079d158839c8
+commit: 651b57dd40871d4d0d61fb291e7f26e2b8bd69b1 [7/16] platform/x86: Move Lenovo files into lenovo subdir
+:::::: branch date: 2 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-141-20250614 (https://download.01.org/0day-ci/archive/20250615/202506151006.LOmeIEcH-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202506150922.Sv0hlBx2-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202506151006.LOmeIEcH-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+smatch warnings:
+drivers/platform/x86/lenovo/thinkpad_acpi.c:1206 tpacpi_new_rfkill() warn: 'atp_rfk->rfkill' is an error pointer or valid
+drivers/platform/x86/lenovo/thinkpad_acpi.c:2662 hotkey_inputdev_close() warn: bitwise AND condition is false here
+drivers/platform/x86/lenovo/thinkpad_acpi.c:3669 hotkey_notify_hotkey() warn: bitwise AND condition is false here
 
-vim +2306 block/blk-throttle.c
+vim +1206 drivers/platform/x86/lenovo/thinkpad_acpi.c
 
-2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
-ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
-ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
-e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
-c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
-ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
-73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
-0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
-bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
-e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
-e43473b7f223ec Vivek Goyal   2010-09-15  2203  
-ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
-ae118896361111 Tejun Heo     2015-08-18  2205  
-2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
-e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
-e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
-bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
-e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2211  
-e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
-c9589f03e49095 Tejun Heo     2015-08-18  2213  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
-c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
-e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
-f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
-2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
-9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
-9e234eeafbe17e Shaohua Li    2017-03-27  2221  
-73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
-73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
-c79892c5576163 Shaohua Li    2017-03-27  2224  again:
-9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
-3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
-3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
-fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
-0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
-9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
-9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
-c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
-3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
-c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
-c79892c5576163 Shaohua Li    2017-03-27  2240  			}
-9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
-c79892c5576163 Shaohua Li    2017-03-27  2242  		}
-de701c74a34005 Vivek Goyal   2011-03-07  2243  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
-e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
-04521db04e9a11 Vivek Goyal   2011-03-22  2246  
-04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
-04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
-04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
-04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
-04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
-04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
-04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
-04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
-04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
-04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
-04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
-0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
-9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
-9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
-9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
-9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
-c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
-9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
-9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
-e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
-e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2271  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
-fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
-8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
-9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
-9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
-9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
-73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
-e43473b7f223ec Vivek Goyal   2010-09-15  2279  
-3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df Shaohua Li    2017-03-27  2281  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
-c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
-bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
-e43473b7f223ec Vivek Goyal   2010-09-15  2285  
-7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
-7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
-7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
-7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
-7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
-7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
-0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
-77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
-7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
-e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2296  
-bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
-111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
-5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
-e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
-e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
-bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
-e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
-e43473b7f223ec Vivek Goyal   2010-09-15  2308  
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1184  
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1185  static int __init tpacpi_new_rfkill(const enum tpacpi_rfk_id id,
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1186  			const struct tpacpi_rfk_ops *tp_rfkops,
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1187  			const enum rfkill_type rfktype,
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1188  			const char *name,
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1189  			const bool set_default)
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1190  {
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1191  	struct tpacpi_rfk *atp_rfk;
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1192  	int res;
+06d5caf47ef4fbd drivers/platform/x86/thinkpad_acpi.c Alan Jenkins                2009-06-16  1193  	bool sw_state = false;
+5451a923bbdcff6 drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Holschuh 2009-12-15  1194  	bool hw_state;
+06d5caf47ef4fbd drivers/platform/x86/thinkpad_acpi.c Alan Jenkins                2009-06-16  1195  	int sw_status;
+90d9d3c79c44bcf drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Holschuh 2009-01-11  1196  
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1197  	BUG_ON(id >= TPACPI_RFK_SW_MAX || tpacpi_rfkill_switches[id]);
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1198  
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1199  	atp_rfk = kzalloc(sizeof(struct tpacpi_rfk), GFP_KERNEL);
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1200  	if (atp_rfk)
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1201  		atp_rfk->rfkill = rfkill_alloc(name,
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1202  						&tpacpi_pdev->dev,
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1203  						rfktype,
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1204  						&tpacpi_rfk_rfkill_ops,
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1205  						atp_rfk);
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02 @1206  	if (!atp_rfk || !atp_rfk->rfkill) {
+0978e012cfbaca8 drivers/platform/x86/thinkpad_acpi.c Joe Perches                 2011-04-04  1207  		pr_err("failed to allocate memory for rfkill class\n");
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1208  		kfree(atp_rfk);
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1209  		return -ENOMEM;
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1210  	}
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1211  
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1212  	atp_rfk->id = id;
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1213  	atp_rfk->ops = tp_rfkops;
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1214  
+06d5caf47ef4fbd drivers/platform/x86/thinkpad_acpi.c Alan Jenkins                2009-06-16  1215  	sw_status = (tp_rfkops->get_status)();
+06d5caf47ef4fbd drivers/platform/x86/thinkpad_acpi.c Alan Jenkins                2009-06-16  1216  	if (sw_status < 0) {
+0978e012cfbaca8 drivers/platform/x86/thinkpad_acpi.c Joe Perches                 2011-04-04  1217  		pr_err("failed to read initial state for %s, error %d\n",
+06d5caf47ef4fbd drivers/platform/x86/thinkpad_acpi.c Alan Jenkins                2009-06-16  1218  		       name, sw_status);
+b3fa1329eaf2a7b drivers/platform/x86/thinkpad_acpi.c Alan Jenkins                2009-06-08  1219  	} else {
+06d5caf47ef4fbd drivers/platform/x86/thinkpad_acpi.c Alan Jenkins                2009-06-16  1220  		sw_state = (sw_status == TPACPI_RFK_RADIO_OFF);
+b3fa1329eaf2a7b drivers/platform/x86/thinkpad_acpi.c Alan Jenkins                2009-06-08  1221  		if (set_default) {
+b3fa1329eaf2a7b drivers/platform/x86/thinkpad_acpi.c Alan Jenkins                2009-06-08  1222  			/* try to keep the initial state, since we ask the
+b3fa1329eaf2a7b drivers/platform/x86/thinkpad_acpi.c Alan Jenkins                2009-06-08  1223  			 * firmware to preserve it across S5 in NVRAM */
+06d5caf47ef4fbd drivers/platform/x86/thinkpad_acpi.c Alan Jenkins                2009-06-16  1224  			rfkill_init_sw_state(atp_rfk->rfkill, sw_state);
+b3fa1329eaf2a7b drivers/platform/x86/thinkpad_acpi.c Alan Jenkins                2009-06-08  1225  		}
+b3fa1329eaf2a7b drivers/platform/x86/thinkpad_acpi.c Alan Jenkins                2009-06-08  1226  	}
+5451a923bbdcff6 drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Holschuh 2009-12-15  1227  	hw_state = tpacpi_rfk_check_hwblock_state();
+5451a923bbdcff6 drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Holschuh 2009-12-15  1228  	rfkill_set_hw_state(atp_rfk->rfkill, hw_state);
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1229  
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1230  	res = rfkill_register(atp_rfk->rfkill);
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1231  	if (res < 0) {
+0978e012cfbaca8 drivers/platform/x86/thinkpad_acpi.c Joe Perches                 2011-04-04  1232  		pr_err("failed to register %s rfkill switch: %d\n", name, res);
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1233  		rfkill_destroy(atp_rfk->rfkill);
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1234  		kfree(atp_rfk);
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1235  		return res;
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1236  	}
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1237  
+19d337dff95cbf7 drivers/platform/x86/thinkpad_acpi.c Johannes Berg               2009-06-02  1238  	tpacpi_rfkill_switches[id] = atp_rfk;
+5451a923bbdcff6 drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Holschuh 2009-12-15  1239  
+0978e012cfbaca8 drivers/platform/x86/thinkpad_acpi.c Joe Perches                 2011-04-04  1240  	pr_info("rfkill switch %s: radio is %sblocked\n",
+5451a923bbdcff6 drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Holschuh 2009-12-15  1241  		name, (sw_state || hw_state) ? "" : "un");
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1242  	return 0;
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1243  }
+0e74dc2646db04b drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-07-21  1244  
 
-:::::: The code at line 2306 was first introduced by commit
-:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
+:::::: The code at line 1206 was first introduced by commit
+:::::: 19d337dff95cbf76edd3ad95c0cee2732c3e1ec5 rfkill: rewrite
 
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+:::::: TO: Johannes Berg <johannes@sipsolutions.net>
+:::::: CC: John W. Linville <linville@tuxdriver.com>
 
 -- 
 0-DAY CI Kernel Test Service
