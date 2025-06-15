@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B951BC3F
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Jun 2025 16:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51ACD8C11
+	for <oe-kbuild@lists.linux.dev>; Sun, 15 Jun 2025 18:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750003824; cv=none; b=NzWDIPZKS6T8+PPnka2gT50GFHajwKFuZ80p3I//PesqsCmEQGjfZks/EunkWlQmn2l/Dp7foHgyWB5LrtHx14+qMu2EBFWyU0ghuTWoEPT4TmU/G1WdKWB1tCn0h+ixrmbgzeEHkvVW1Rsdu2p+x4amnJokItTh+ByL38EkB/I=
+	t=1750010674; cv=none; b=FUykm8WTykgPRZaP9o5SSIFlvoZfUlUrNLTcyLmPyDNyv5KPkILnzw8kCoTfypLdSm4rTFqeBkHIRA7ijc71zxytAyePSY3vkvUYd+kDea9JtzPAeMIS9sbImS5oSmZGxUl/2QTvdJOe+EcRyTLbPztC37pXIwLErVTC3Yw7VHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750003824; c=relaxed/simple;
-	bh=iDEJFagjkioWNwLFXnEbUEwZpZtEzsM4CxRjXzB0EPk=;
+	s=arc-20240116; t=1750010674; c=relaxed/simple;
+	bh=HHDsU0DdHvnlItb6gz8XJmUjwf/PDRDgF4CPSloLVXc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cjXszjH7uu5wyxwXFq2wpoZ5GPJlMm0kAhPCaQaOaq3rigdOSL1FaftlL9BQJbonJbKYMY/zRuY4p2gfaGR/FFjlxqKVvkRcjP3I7IAYpCoXuJ4EhpHqMxJBFuOMY3oAmgDkeeXN5+Fdz6B0aYogu8y7hn8tuYlzAIAZie4M+f0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yxzu57D6; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=uK4WnOanDjFUxopLykvwYnkQ6BVQLvX1AjlHzNKzjoKLU78HVlWTj1zZ8i6UPwWYG9KLBixSLsRgvwlULemhSUsE7cOSKGr57cJyhwysJyZUHtSwV0Vjf1FuljhMTDH+xRvQa6ACdb0Qvhb68Q3VKq3x+Tl+e21oeZMi16JhBF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TdrOiBW3; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yxzu57D6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TdrOiBW3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750003822; x=1781539822;
+  t=1750010671; x=1781546671;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iDEJFagjkioWNwLFXnEbUEwZpZtEzsM4CxRjXzB0EPk=;
-  b=Yxzu57D61wuXl7SXbecULm8Cx8BNq6GlfHnnucxkVv6FDIQMY7/Pa7TE
-   FzjJYKqd/e+O5LhjfkAkwz8am1UGO621Gz+imF80JbaKK4UQ2h6dvCfl/
-   TuMS03q8WhsINRRXIsqi0j3dXswNBPpASZKuR4Kl0xxOwkXgxm1xqQFuJ
-   1X2MzsHB5a6bNOFCOb+zoQW3SMFeDA9hfUzH63bs9+WfaTQ7Bto8ZRJQo
-   bv2+2PRP5J8M9tymU0w2uHrwe+DdUNQSV3mwnrrR83FJ0QsTQDeZNF0Fs
-   rlYsQeoFXq9Gh3AMO8cvrX6YtGBZTQgFntN+8mN1w6KgKVskytOHd3y9h
-   A==;
-X-CSE-ConnectionGUID: LjfJN0dWTnqrlbDEf/f/kQ==
-X-CSE-MsgGUID: AOzc5EiFR/y59Oknqnw0uQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="51376885"
+  bh=HHDsU0DdHvnlItb6gz8XJmUjwf/PDRDgF4CPSloLVXc=;
+  b=TdrOiBW3H4vOhYbWcuddPuvtWnbnHX5/WpVoendhUZf7JkysXVpgTxlR
+   237KdQ/Ghap+cQPpgw9rHXQ+mPVN7nmn5ojSsEPQAfcEAwXejbSYOf2Yq
+   1NL7R5E0ssBg9n70Ih4RvmfL4e67ao1mnPqOUgWr0bNW9cR05TKODGTFB
+   oTNlqbR0PVOXzuw3blnjZFDLnYENi9x0wtSZDwe5OPht8WNeuNdGwHXvB
+   lC+p1IfplAQxcR5tp1pYWGYi4agZvueXEbcn13Sl5gXKG08U3YC+f/FHy
+   wChbffd0uREZJFNYIyguv2nh5s2aZc/5/kCThBWmozZ0on5m2dxhsUJ95
+   Q==;
+X-CSE-ConnectionGUID: 6fM46n0gSz2pzkNg7ZYk0Q==
+X-CSE-MsgGUID: h2DHmYAVRPupOdg9TG104Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="52294598"
 X-IronPort-AV: E=Sophos;i="6.16,239,1744095600"; 
-   d="scan'208";a="51376885"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 09:10:22 -0700
-X-CSE-ConnectionGUID: gVtfcuKIT3aIWbD8ytUy8Q==
-X-CSE-MsgGUID: UqXzZg8pQrG5z77SCd1lLw==
+   d="scan'208";a="52294598"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 11:04:30 -0700
+X-CSE-ConnectionGUID: 2U56Aai3TQmCobZVNDbSWA==
+X-CSE-MsgGUID: DjDGD/LxQhiFDVJw7vOdug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,239,1744095600"; 
-   d="scan'208";a="148150130"
+   d="scan'208";a="149157370"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 15 Jun 2025 09:10:20 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Jun 2025 11:04:29 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQpw2-000EPg-0N;
-	Sun, 15 Jun 2025 16:10:18 +0000
-Date: Mon, 16 Jun 2025 00:09:52 +0800
+	id 1uQriV-000ETA-0y;
+	Sun, 15 Jun 2025 18:04:27 +0000
+Date: Mon, 16 Jun 2025 02:04:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v14 13/32] fs/resctrl: Introduce mbm_cntr_cfg to track
- assignable counters per domain
-Message-ID: <202506152337.QnpVwzbV-lkp@intel.com>
+Subject: Re: [PATCH v14 31/32] fs/resctrl: Introduce the interface to switch
+ between monitor modes
+Message-ID: <202506160118.OzwDWrcT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,8 +64,8 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <1a3ed4abaaebbcf2399068ef5004760e8722d9e0.1749848715.git.babu.moger@amd.com>
-References: <1a3ed4abaaebbcf2399068ef5004760e8722d9e0.1749848715.git.babu.moger@amd.com>
+In-Reply-To: <dada02bec2f7ea2fa316f892560c07e0bc45df41.1749848715.git.babu.moger@amd.com>
+References: <dada02bec2f7ea2fa316f892560c07e0bc45df41.1749848715.git.babu.moger@amd.com>
 TO: Babu Moger <babu.moger@amd.com>
 TO: babu.moger@amd.com
 TO: corbet@lwn.net
@@ -111,78 +111,105 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-fs-resctrl-Remove-unappropriate-references-to-cacheinfo-in-the-resctrl-subsystem/20250614-051344
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/1a3ed4abaaebbcf2399068ef5004760e8722d9e0.1749848715.git.babu.moger%40amd.com
-patch subject: [PATCH v14 13/32] fs/resctrl: Introduce mbm_cntr_cfg to track assignable counters per domain
+patch link:    https://lore.kernel.org/r/dada02bec2f7ea2fa316f892560c07e0bc45df41.1749848715.git.babu.moger%40amd.com
+patch subject: [PATCH v14 31/32] fs/resctrl: Introduce the interface to switch between monitor modes
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: i386-randconfig-141-20250615 (https://download.01.org/0day-ci/archive/20250615/202506152337.QnpVwzbV-lkp@intel.com/config)
+config: i386-randconfig-141-20250615 (https://download.01.org/0day-ci/archive/20250616/202506160118.OzwDWrcT-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202506152337.QnpVwzbV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506160118.OzwDWrcT-lkp@intel.com/
 
-smatch warnings:
-fs/resctrl/rdtgroup.c:4181 domain_setup_mon_state() error: uninitialized symbol 'idx'.
+New smatch warnings:
+fs/resctrl/rdtgroup.c:2338 resctrl_process_assign() warn: excess argument passed to 'sprintf'
 
-vim +/idx +4181 fs/resctrl/rdtgroup.c
+Old smatch warnings:
+fs/resctrl/rdtgroup.c:4870 domain_setup_mon_state() error: uninitialized symbol 'idx'.
 
-7168ae330e8105 James Morse 2025-05-15  4135  
-7168ae330e8105 James Morse 2025-05-15  4136  /**
-7168ae330e8105 James Morse 2025-05-15  4137   * domain_setup_mon_state() -  Initialise domain monitoring structures.
-7168ae330e8105 James Morse 2025-05-15  4138   * @r:	The resource for the newly online domain.
-7168ae330e8105 James Morse 2025-05-15  4139   * @d:	The newly online domain.
-7168ae330e8105 James Morse 2025-05-15  4140   *
-7168ae330e8105 James Morse 2025-05-15  4141   * Allocate monitor resources that belong to this domain.
-7168ae330e8105 James Morse 2025-05-15  4142   * Called when the first CPU of a domain comes online, regardless of whether
-7168ae330e8105 James Morse 2025-05-15  4143   * the filesystem is mounted.
-7168ae330e8105 James Morse 2025-05-15  4144   * During boot this may be called before global allocations have been made by
-7168ae330e8105 James Morse 2025-05-15  4145   * resctrl_mon_resource_init().
-7168ae330e8105 James Morse 2025-05-15  4146   *
-7168ae330e8105 James Morse 2025-05-15  4147   * Returns 0 for success, or -ENOMEM.
-7168ae330e8105 James Morse 2025-05-15  4148   */
-7168ae330e8105 James Morse 2025-05-15  4149  static int domain_setup_mon_state(struct rdt_resource *r, struct rdt_mon_domain *d)
-7168ae330e8105 James Morse 2025-05-15  4150  {
-7168ae330e8105 James Morse 2025-05-15  4151  	u32 idx_limit = resctrl_arch_system_num_rmid_idx();
-cc090e096f5c8a Tony Luck   2025-06-13  4152  	size_t tsize = sizeof(*d->mbm_states[0]);
-cc090e096f5c8a Tony Luck   2025-06-13  4153  	enum resctrl_event_id eventid;
-cc090e096f5c8a Tony Luck   2025-06-13  4154  	int idx;
-7168ae330e8105 James Morse 2025-05-15  4155  
-e2b61edf2a3412 Tony Luck   2025-06-13  4156  	if (resctrl_is_mon_event_enabled(QOS_L3_OCCUP_EVENT_ID)) {
-7168ae330e8105 James Morse 2025-05-15  4157  		d->rmid_busy_llc = bitmap_zalloc(idx_limit, GFP_KERNEL);
-7168ae330e8105 James Morse 2025-05-15  4158  		if (!d->rmid_busy_llc)
-7168ae330e8105 James Morse 2025-05-15  4159  			return -ENOMEM;
-7168ae330e8105 James Morse 2025-05-15  4160  	}
-cc090e096f5c8a Tony Luck   2025-06-13  4161  
-cc090e096f5c8a Tony Luck   2025-06-13  4162  	for_each_mbm_event_id(eventid) {
-cc090e096f5c8a Tony Luck   2025-06-13  4163  		if (!resctrl_is_mon_event_enabled(eventid))
-cc090e096f5c8a Tony Luck   2025-06-13  4164  			continue;
-cc090e096f5c8a Tony Luck   2025-06-13  4165  		idx = MBM_STATE_IDX(eventid);
-cc090e096f5c8a Tony Luck   2025-06-13  4166  		d->mbm_states[idx] = kcalloc(idx_limit, tsize, GFP_KERNEL);
-cc090e096f5c8a Tony Luck   2025-06-13  4167  		if (!d->mbm_states[idx])
-cc090e096f5c8a Tony Luck   2025-06-13  4168  			goto cleanup;
-7168ae330e8105 James Morse 2025-05-15  4169  	}
-cc090e096f5c8a Tony Luck   2025-06-13  4170  
-484a3872292c5e Babu Moger  2025-06-13  4171  	if (resctrl_is_mbm_enabled() && r->mon.mbm_cntr_assignable) {
-484a3872292c5e Babu Moger  2025-06-13  4172  		tsize = sizeof(*d->cntr_cfg);
-484a3872292c5e Babu Moger  2025-06-13  4173  		d->cntr_cfg = kcalloc(r->mon.num_mbm_cntrs, tsize, GFP_KERNEL);
-484a3872292c5e Babu Moger  2025-06-13  4174  		if (!d->cntr_cfg)
-484a3872292c5e Babu Moger  2025-06-13  4175  			goto cleanup;
-484a3872292c5e Babu Moger  2025-06-13  4176  	}
-484a3872292c5e Babu Moger  2025-06-13  4177  
-cc090e096f5c8a Tony Luck   2025-06-13  4178  	return 0;
-cc090e096f5c8a Tony Luck   2025-06-13  4179  cleanup:
-7168ae330e8105 James Morse 2025-05-15  4180  	bitmap_free(d->rmid_busy_llc);
-cc090e096f5c8a Tony Luck   2025-06-13 @4181  	while (--idx >= 0) {
-cc090e096f5c8a Tony Luck   2025-06-13  4182  		kfree(d->mbm_states[idx]);
-cc090e096f5c8a Tony Luck   2025-06-13  4183  		d->mbm_states[idx] = NULL;
-7168ae330e8105 James Morse 2025-05-15  4184  	}
-7168ae330e8105 James Morse 2025-05-15  4185  
-cc090e096f5c8a Tony Luck   2025-06-13  4186  	return -ENOMEM;
-7168ae330e8105 James Morse 2025-05-15  4187  }
-7168ae330e8105 James Morse 2025-05-15  4188  
+vim +/sprintf +2338 fs/resctrl/rdtgroup.c
+
+8d241742f76648 Babu Moger 2025-06-13  2267  
+8d241742f76648 Babu Moger 2025-06-13  2268  static int resctrl_process_assign(struct rdt_resource *r, struct rdtgroup *rdtgrp,
+8d241742f76648 Babu Moger 2025-06-13  2269  				  char *event, char *tok)
+8d241742f76648 Babu Moger 2025-06-13  2270  {
+8d241742f76648 Babu Moger 2025-06-13  2271  	struct rdt_mon_domain *d;
+8d241742f76648 Babu Moger 2025-06-13  2272  	unsigned long dom_id = 0;
+8d241742f76648 Babu Moger 2025-06-13  2273  	char *dom_str, *id_str;
+8d241742f76648 Babu Moger 2025-06-13  2274  	struct mon_evt *mevt;
+8d241742f76648 Babu Moger 2025-06-13  2275  	int assign_state;
+8d241742f76648 Babu Moger 2025-06-13  2276  	char domain[10];
+8b5e58fe62862b Babu Moger 2025-06-13  2277  	int ret = 0;
+8d241742f76648 Babu Moger 2025-06-13  2278  	bool found;
+8d241742f76648 Babu Moger 2025-06-13  2279  
+8d241742f76648 Babu Moger 2025-06-13  2280  	mevt = mbm_get_mon_event_by_name(r, event);
+8d241742f76648 Babu Moger 2025-06-13  2281  	if (!mevt) {
+8d241742f76648 Babu Moger 2025-06-13  2282  		rdt_last_cmd_printf("Invalid event %s\n", event);
+8d241742f76648 Babu Moger 2025-06-13  2283  		return  -ENOENT;
+8d241742f76648 Babu Moger 2025-06-13  2284  	}
+8d241742f76648 Babu Moger 2025-06-13  2285  
+8d241742f76648 Babu Moger 2025-06-13  2286  next:
+8d241742f76648 Babu Moger 2025-06-13  2287  	if (!tok || tok[0] == '\0')
+8d241742f76648 Babu Moger 2025-06-13  2288  		return 0;
+8d241742f76648 Babu Moger 2025-06-13  2289  
+8d241742f76648 Babu Moger 2025-06-13  2290  	/* Start processing the strings for each domain */
+8d241742f76648 Babu Moger 2025-06-13  2291  	dom_str = strim(strsep(&tok, ";"));
+8d241742f76648 Babu Moger 2025-06-13  2292  
+8d241742f76648 Babu Moger 2025-06-13  2293  	id_str = strsep(&dom_str, "=");
+8d241742f76648 Babu Moger 2025-06-13  2294  
+8d241742f76648 Babu Moger 2025-06-13  2295  	/* Check for domain id '*' which means all domains */
+8d241742f76648 Babu Moger 2025-06-13  2296  	if (id_str && *id_str == '*') {
+8d241742f76648 Babu Moger 2025-06-13  2297  		d = NULL;
+8d241742f76648 Babu Moger 2025-06-13  2298  		goto check_state;
+8d241742f76648 Babu Moger 2025-06-13  2299  	} else if (!id_str || kstrtoul(id_str, 10, &dom_id)) {
+8d241742f76648 Babu Moger 2025-06-13  2300  		rdt_last_cmd_puts("Missing domain id\n");
+8d241742f76648 Babu Moger 2025-06-13  2301  		return -EINVAL;
+8d241742f76648 Babu Moger 2025-06-13  2302  	}
+8d241742f76648 Babu Moger 2025-06-13  2303  
+8d241742f76648 Babu Moger 2025-06-13  2304  	/* Verify if the dom_id is valid */
+8d241742f76648 Babu Moger 2025-06-13  2305  	found = false;
+8d241742f76648 Babu Moger 2025-06-13  2306  	list_for_each_entry(d, &r->mon_domains, hdr.list) {
+8d241742f76648 Babu Moger 2025-06-13  2307  		if (d->hdr.id == dom_id) {
+8d241742f76648 Babu Moger 2025-06-13  2308  			found = true;
+8d241742f76648 Babu Moger 2025-06-13  2309  			break;
+8d241742f76648 Babu Moger 2025-06-13  2310  		}
+8d241742f76648 Babu Moger 2025-06-13  2311  	}
+8d241742f76648 Babu Moger 2025-06-13  2312  
+8d241742f76648 Babu Moger 2025-06-13  2313  	if (!found) {
+8d241742f76648 Babu Moger 2025-06-13  2314  		rdt_last_cmd_printf("Invalid domain id %ld\n", dom_id);
+8d241742f76648 Babu Moger 2025-06-13  2315  		return -EINVAL;
+8d241742f76648 Babu Moger 2025-06-13  2316  	}
+8d241742f76648 Babu Moger 2025-06-13  2317  
+8d241742f76648 Babu Moger 2025-06-13  2318  check_state:
+8d241742f76648 Babu Moger 2025-06-13  2319  	assign_state = resctrl_get_assign_state(dom_str);
+8d241742f76648 Babu Moger 2025-06-13  2320  
+8d241742f76648 Babu Moger 2025-06-13  2321  	switch (assign_state) {
+8d241742f76648 Babu Moger 2025-06-13  2322  	case ASSIGN_NONE:
+8b5e58fe62862b Babu Moger 2025-06-13  2323  		resctrl_unassign_cntr_event(r, d, rdtgrp, mevt);
+8d241742f76648 Babu Moger 2025-06-13  2324  		break;
+8d241742f76648 Babu Moger 2025-06-13  2325  	case ASSIGN_EXCLUSIVE:
+8d241742f76648 Babu Moger 2025-06-13  2326  		ret = resctrl_assign_cntr_event(r, d, rdtgrp, mevt);
+8d241742f76648 Babu Moger 2025-06-13  2327  		break;
+8d241742f76648 Babu Moger 2025-06-13  2328  	case ASSIGN_INVALID:
+8d241742f76648 Babu Moger 2025-06-13  2329  		ret = -EINVAL;
+8d241742f76648 Babu Moger 2025-06-13  2330  	}
+8d241742f76648 Babu Moger 2025-06-13  2331  
+8d241742f76648 Babu Moger 2025-06-13  2332  	if (ret)
+8d241742f76648 Babu Moger 2025-06-13  2333  		goto out_fail;
+8d241742f76648 Babu Moger 2025-06-13  2334  
+8d241742f76648 Babu Moger 2025-06-13  2335  	goto next;
+8d241742f76648 Babu Moger 2025-06-13  2336  
+8d241742f76648 Babu Moger 2025-06-13  2337  out_fail:
+8d241742f76648 Babu Moger 2025-06-13 @2338  	sprintf(domain, d ? "%ld" : "*", dom_id);
+8d241742f76648 Babu Moger 2025-06-13  2339  
+8d241742f76648 Babu Moger 2025-06-13  2340  	rdt_last_cmd_printf("Assign operation '%s:%s=%s' failed\n", event, domain, dom_str);
+8d241742f76648 Babu Moger 2025-06-13  2341  
+8d241742f76648 Babu Moger 2025-06-13  2342  	return ret;
+8d241742f76648 Babu Moger 2025-06-13  2343  }
+8d241742f76648 Babu Moger 2025-06-13  2344  
 
 -- 
 0-DAY CI Kernel Test Service
