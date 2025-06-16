@@ -1,115 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCABA262FD4
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Jun 2025 20:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C59814A4F9
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Jun 2025 03:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750019804; cv=none; b=u9QlfDuFyhI/W87kQJmGcI3YrcdwvisS8Gz219PY8cjqZ9jP876q49SzUVAna6dhyzabvG2AvvRHBaRq6ZbMxxz/1FKE/c/ned1tQzBds5HNHVUy5EXvPfsscZ0t8BQKmnT7GXDq+/hFHiY+1uzDINk2aJaUi/mwfXbynjwMMus=
+	t=1750043051; cv=none; b=gZKxNmN2CKzHAFDhUx2gX1bM1PhIN7rbt2XTiP8VIDiHHupZnQveUHSB25IQwEDCvOlfQfU/d+X4Ym4S7UcjhVRTZTew5BvOUCGF7SFjh6qY6maM0O03psAlGRAtmG+qhsWZX4Uqq1vPXT8WcjQyeRJtkgzLcjZV7In0Y12R5Qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750019804; c=relaxed/simple;
-	bh=33Jd1hqe1kbZ6z7uk0ei0QVNhrK8ccYepgKZDuYQvxw=;
+	s=arc-20240116; t=1750043051; c=relaxed/simple;
+	bh=f2HmTcBU4MWOABJ6KNBQ3wxeRpqMdoBn/T5GfD5XEDI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=upAPJyQ/YuQfHZ3jYrl7Leo7Gblxk1+1bcBn+nN7a9ImCvrYRb/l/Uh77DJKT8uNS2vX+ZwaxRuTpoiCH2KSv730uNHZW/PmT0EY/5QLWlJYCJQbNQ3zH4JG5jo9k13Zhhw05bEIPKKA3A/xMZ3aai6L6D9MgvCsUymZShRU4v8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D7CxKNL4; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=md3xWpJfM7pi8aVW4rA9bQ92zWdODWDo5pIaNhP/M/tVHEXoxQvykYPp6GrXLgVHdW2uZ4ynHy0W1iWcin6aijtrGcGamhyQOCs8ItrH5ZELadxDwYrtF0VnTEvBNtR7iQzJM6QAm3e3BSY3N/cEYY5ihKSO36ZPjnjQZ5eD65g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AM14bTOj; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D7CxKNL4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AM14bTOj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750019802; x=1781555802;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=33Jd1hqe1kbZ6z7uk0ei0QVNhrK8ccYepgKZDuYQvxw=;
-  b=D7CxKNL4uv5b4zGcDEHGDu9I1f1INfJYY6KJakk9ar8yVLIGX5sbWVnb
-   Nzl7oWNPmQ1wdK+ZUbCkQqMcciDmr4m2nGsagzuAyQi5QnPVSow4boNdz
-   kmaSlHdzk4fgbT4gi4biGg/j67kbz4l/n6UIq3YEiknZNEg8eIqgecfT6
-   ynlxVkQ2blhFUgxpMtd0oVT7knRnllbZD14sVIUE/Gc7c2mkLxY/SY/0G
-   P3/npDF/cvPjeViM9kihNwEoHSTNQnwdrqjmMCnyTtDLU+EQPs/xANYqk
-   oE4TUGpxPQhhftedkhqV7NBqqN7r35NUS2KFKoUFlfpmB+tQdGPtz6Tsw
+  t=1750043049; x=1781579049;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=f2HmTcBU4MWOABJ6KNBQ3wxeRpqMdoBn/T5GfD5XEDI=;
+  b=AM14bTOjJdeYTj03PpoQQsv2z6C9smgXj0ml1sZeY8RHtgfwXmaAC+Zk
+   H3twwjUSTbPfATM40DATG0USQo1GmP/A3INl7CqBvSeHQTocK1mtKVAws
+   9+7cJPxZGZQAiUdIsNbhYq2LGNZWctx192oIWXF/rucb8x4LHWfP+YdDn
+   cDEnOEF18nCZOYBfAjQYrIJMV7gt62JBXdLorxsOAiyeDtTCBW6uFDb15
+   CZrNRtvU4vQ2iQYESr3wslILuN8Pvwa4BUHHuzF9dArmNwi7Z3wINF8aF
+   q7pX6OmzXvCjRa6fchzW7ZNIzMb5FRQ7lppMJIOP71ksrRsK/QE0DRY9n
    A==;
-X-CSE-ConnectionGUID: K692WxKaTKa2V1goPqGdMw==
-X-CSE-MsgGUID: BQ7WFOfBT1qZvhLOHrgyog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="69737720"
-X-IronPort-AV: E=Sophos;i="6.16,239,1744095600"; 
-   d="scan'208";a="69737720"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 13:36:41 -0700
-X-CSE-ConnectionGUID: +6F4sJ5eRZm3giwsrSKjbw==
-X-CSE-MsgGUID: pndU0VRHQZyKHgXV1dJz6A==
+X-CSE-ConnectionGUID: 9xfGOgXHSFaidJmbq2IUSQ==
+X-CSE-MsgGUID: xkHTgO3/SV6PXk2eEXzNoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="52046599"
+X-IronPort-AV: E=Sophos;i="6.16,240,1744095600"; 
+   d="scan'208";a="52046599"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 20:04:09 -0700
+X-CSE-ConnectionGUID: kvlV7mqXSRKePD33jbg6sg==
+X-CSE-MsgGUID: e7yx8NtBS5etJTT81VXcYg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,239,1744095600"; 
-   d="scan'208";a="148192837"
+X-IronPort-AV: E=Sophos;i="6.16,240,1744095600"; 
+   d="scan'208";a="153649627"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Jun 2025 13:36:37 -0700
+  by orviesa005.jf.intel.com with ESMTP; 15 Jun 2025 20:04:08 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQu5l-000EXM-2z;
-	Sun, 15 Jun 2025 20:36:37 +0000
-Date: Mon, 16 Jun 2025 04:36:24 +0800
+	id 1uR08j-000Ehg-2G;
+	Mon, 16 Jun 2025 03:04:05 +0000
+Date: Mon, 16 Jun 2025 11:03:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [btrfs:pr/1157 1/1] fs/btrfs/qgroup.c:359 qgroup_mark_inconsistent()
- warn: maybe use && instead of &
-Message-ID: <202506160432.y5tEff7D-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 4/4] arm64: dts: qcom: msm8976-longcheer-l9360: Add
+ initial device tree
+Message-ID: <202506161012.nIwUkSxN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Qu Wenruo <wqu@suse.com>
-CC: Filipe Manana <fdmanana@suse.com>
+In-Reply-To: <20250615-bqx5plus-v2-4-72b45c84237d@apitzsch.eu>
+References: <20250615-bqx5plus-v2-4-72b45c84237d@apitzsch.eu>
+TO: "André Apitzsch via B4 Relay" <devnull+git.apitzsch.eu@kernel.org>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Konrad Dybcio <konradybcio@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: Marijn Suijten <marijn.suijten@somainline.org>
+CC: ~postmarketos/upstreaming@lists.sr.ht
+CC: phone-devel@vger.kernel.org
+CC: linux-arm-msm@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: "André Apitzsch" <git@apitzsch.eu>
 
-tree:   https://github.com/btrfs/linux.git pr/1157
-head:   b9b695688148bd512273989145bc6ca0e272a53c
-commit: b9b695688148bd512273989145bc6ca0e272a53c [1/1] btrfs: add extra warning when qgroup is marked inconsistent
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: i386-randconfig-141-20250616 (https://download.01.org/0day-ci/archive/20250616/202506160432.y5tEff7D-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi André,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0bb71d301869446810a0b13d3da290bd455d7c78]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Apitzsch-via-B4-Relay/arm64-dts-qcom-msm8976-Make-blsp_dma-controlled-remotely/20250616-043719
+base:   0bb71d301869446810a0b13d3da290bd455d7c78
+patch link:    https://lore.kernel.org/r/20250615-bqx5plus-v2-4-72b45c84237d%40apitzsch.eu
+patch subject: [PATCH v2 4/4] arm64: dts: qcom: msm8976-longcheer-l9360: Add initial device tree
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
+config: arm64-randconfig-004-20250616 (https://download.01.org/0day-ci/archive/20250616/202506161012.nIwUkSxN-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250616/202506161012.nIwUkSxN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202506160432.y5tEff7D-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506161012.nIwUkSxN-lkp@intel.com/
 
-smatch warnings:
-fs/btrfs/qgroup.c:359 qgroup_mark_inconsistent() warn: maybe use && instead of &
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:987.27-1061.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:1063.27-1118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pm8004.dtsi:14.23-23.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pm8950.dtsi:176.9-185.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@1: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/msm8976-longcheer-l9360.dts:111.20-139.4: Warning (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:510.27-513.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s0-p1@219: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s0-p2@219)
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:530.27-533.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s2-p1@21c: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s2-p2@21c)
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:555.27-558.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s4-p1@221: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s4-p2@221)
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:575.27-578.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s6-p1@224: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s6-p2@224)
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:595.25-598.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/mode@228: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s8-p1@228)
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:605.27-608.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s8-p2@229: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s9-p1@229)
 
-vim +359 fs/btrfs/qgroup.c
+vim +111 arch/arm64/boot/dts/qcom/msm8976-longcheer-l9360.dts
 
-faa2dbf004e89e Josef Bacik  2014-05-07  348  
-b9b695688148bd Qu Wenruo    2025-06-11  349  __printf(2, 3)
-b9b695688148bd Qu Wenruo    2025-06-11  350  static void qgroup_mark_inconsistent(struct btrfs_fs_info *fs_info, const char *fmt, ...)
-e562a8bdf652b0 Qu Wenruo    2022-08-24  351  {
-b9b695688148bd Qu Wenruo    2025-06-11  352  	bool old_flags = fs_info->qgroup_flags;
-b9b695688148bd Qu Wenruo    2025-06-11  353  
-182940f4f4dbd9 Boris Burkov 2023-05-16  354  	if (btrfs_qgroup_mode(fs_info) == BTRFS_QGROUP_MODE_SIMPLE)
-182940f4f4dbd9 Boris Burkov 2023-05-16  355  		return;
-e562a8bdf652b0 Qu Wenruo    2022-08-24  356  	fs_info->qgroup_flags |= (BTRFS_QGROUP_STATUS_FLAG_INCONSISTENT |
-e15e9f43c7ca25 Qu Wenruo    2022-08-24  357  				  BTRFS_QGROUP_RUNTIME_FLAG_CANCEL_RESCAN |
-e15e9f43c7ca25 Qu Wenruo    2022-08-24  358  				  BTRFS_QGROUP_RUNTIME_FLAG_NO_ACCOUNTING);
-b9b695688148bd Qu Wenruo    2025-06-11 @359  	if (!(old_flags & BTRFS_QGROUP_STATUS_FLAG_INCONSISTENT)) {
-b9b695688148bd Qu Wenruo    2025-06-11  360  		struct va_format vaf;
-b9b695688148bd Qu Wenruo    2025-06-11  361  		va_list args;
-b9b695688148bd Qu Wenruo    2025-06-11  362  
-b9b695688148bd Qu Wenruo    2025-06-11  363  		va_start(args, fmt);
-b9b695688148bd Qu Wenruo    2025-06-11  364  		vaf.fmt = fmt;
-b9b695688148bd Qu Wenruo    2025-06-11  365  		vaf.va = &args;
-b9b695688148bd Qu Wenruo    2025-06-11  366  
-b9b695688148bd Qu Wenruo    2025-06-11  367  		btrfs_warn_rl(fs_info, "qgroup marked inconsistent, %pV", &vaf);
-b9b695688148bd Qu Wenruo    2025-06-11  368  		va_end(args);
-b9b695688148bd Qu Wenruo    2025-06-11  369  	}
-e562a8bdf652b0 Qu Wenruo    2022-08-24  370  }
-e562a8bdf652b0 Qu Wenruo    2022-08-24  371  
+7d6bd12f08efbd André Apitzsch 2025-06-15  107  
+7d6bd12f08efbd André Apitzsch 2025-06-15  108  &blsp1_i2c2 {
+7d6bd12f08efbd André Apitzsch 2025-06-15  109  	status = "okay";
+7d6bd12f08efbd André Apitzsch 2025-06-15  110  
+7d6bd12f08efbd André Apitzsch 2025-06-15 @111  	led-controller@30 {
+7d6bd12f08efbd André Apitzsch 2025-06-15  112  		compatible = "kinetic,ktd2026";
+7d6bd12f08efbd André Apitzsch 2025-06-15  113  		reg = <0x30>;
+7d6bd12f08efbd André Apitzsch 2025-06-15  114  		#address-cells = <1>;
+7d6bd12f08efbd André Apitzsch 2025-06-15  115  		#size-cells = <0>;
+7d6bd12f08efbd André Apitzsch 2025-06-15  116  
+7d6bd12f08efbd André Apitzsch 2025-06-15  117  		multi-led {
+7d6bd12f08efbd André Apitzsch 2025-06-15  118  			color = <LED_COLOR_ID_RGB>;
+7d6bd12f08efbd André Apitzsch 2025-06-15  119  			function = LED_FUNCTION_STATUS;
+7d6bd12f08efbd André Apitzsch 2025-06-15  120  
+7d6bd12f08efbd André Apitzsch 2025-06-15  121  			#address-cells = <1>;
+7d6bd12f08efbd André Apitzsch 2025-06-15  122  			#size-cells = <0>;
+7d6bd12f08efbd André Apitzsch 2025-06-15  123  
+7d6bd12f08efbd André Apitzsch 2025-06-15  124  			led@0 {
+7d6bd12f08efbd André Apitzsch 2025-06-15  125  				reg = <0>;
+7d6bd12f08efbd André Apitzsch 2025-06-15  126  				color = <LED_COLOR_ID_RED>;
+7d6bd12f08efbd André Apitzsch 2025-06-15  127  			};
+7d6bd12f08efbd André Apitzsch 2025-06-15  128  
+7d6bd12f08efbd André Apitzsch 2025-06-15  129  			led@1 {
+7d6bd12f08efbd André Apitzsch 2025-06-15  130  				reg = <1>;
+7d6bd12f08efbd André Apitzsch 2025-06-15  131  				color = <LED_COLOR_ID_GREEN>;
+7d6bd12f08efbd André Apitzsch 2025-06-15  132  			};
+7d6bd12f08efbd André Apitzsch 2025-06-15  133  
+7d6bd12f08efbd André Apitzsch 2025-06-15  134  			led@2 {
+7d6bd12f08efbd André Apitzsch 2025-06-15  135  				reg = <2>;
+7d6bd12f08efbd André Apitzsch 2025-06-15  136  				color = <LED_COLOR_ID_BLUE>;
+7d6bd12f08efbd André Apitzsch 2025-06-15  137  			};
+7d6bd12f08efbd André Apitzsch 2025-06-15  138  		};
+7d6bd12f08efbd André Apitzsch 2025-06-15  139  	};
+7d6bd12f08efbd André Apitzsch 2025-06-15  140  };
+7d6bd12f08efbd André Apitzsch 2025-06-15  141  
 
 -- 
 0-DAY CI Kernel Test Service
