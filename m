@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA2E10E3
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 01:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2578F8635B
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 01:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750209221; cv=none; b=kismgN9XD6wECvZtklHrAu8Q+LXt7W8sDxzy11uiAIEoOnTBgxDOXDfeQDqCfk1mHNTE5qI8FavL29r2W7f2mjBIhA/FVhz3lVVpQfVQr5oSG2MY1VhB2fq9kzfLoN3eEFdGJFwIwCM3XEPyXGtWZmy+6eBMyp+iO43ImvzptMk=
+	t=1750209223; cv=none; b=nouYvruamVDGHZ417C0Xgj12PUakLztP5L2hzlWE2Uew1Jk3qNIjrXXT/6vvWD6r8SO2CZBw920JyuQfGjC4j6d2rEABjXf5pYxNoFtCr21ALxE42HtHTehVEDQH+YZCINM7aml5J1mHj5UyOmSUmevAIWZNzUnS8DyNDYLI4Hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750209221; c=relaxed/simple;
-	bh=SryXCoBZViOuv0U/s7ylwgsV1dknW7RAY8VDpC+covg=;
+	s=arc-20240116; t=1750209223; c=relaxed/simple;
+	bh=WgVqypFaLNjsRN7QKrbjckUoAzCFYfiOXbQ3pF5jwE0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GJmpLav4ciTi6vL/knQBm3ui+DFH7nGB4+hQ6YAtrc+Qu6wQl6hRvPk5itzn6DVNlIpRkfglsXI1IplF0hT44Omiul/zAYtunYecGtDBVZg9IzP6vLrrDdsKeZuXrBJY2iCU4Tu8X5yw79GRh8sBXWqm3EYgUlLeUIkXYFeUU1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BlG+ei+I; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=qbe26ZhP8IyylNpXsJ5IhfI36buKqyoDlHlyYuL00QOGj+b2ppeqEWHIjOyRhhDeIKXgvB5ldHcgX3kvQrQsYp1WRRPQQYXeF2cSGk9SKzbcR2TLDtNDcMvG0y+3uOXpOpKjkjCm7ZPWSd1+i/uYXP3xlJlMPXq0isV+JQYYnyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O4LmDLb9; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BlG+ei+I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O4LmDLb9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750209220; x=1781745220;
+  t=1750209221; x=1781745221;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SryXCoBZViOuv0U/s7ylwgsV1dknW7RAY8VDpC+covg=;
-  b=BlG+ei+Ir4d2Y8jOTUGAGWWGxDGBuUKSRPK3Ns8q/wQX2g/TEJ0nC6xC
-   4QeMWnuaODWddRbC4E2YYDINmg1p/T5i9p7s6N5/NfMamioUanbxvNHx4
-   MzrR8AJJaAuhen4Xi0ur3VQhmO7bZQ/tZ5LymZjQj+S/z8ZEdsaet3QDw
-   cWsFUjUcp7pHbokesC994A99mvUItwyd75/HkeSOgUinYZ+9ab2PISKyE
-   MIBWTg494Wy69SygiB+YzHlaHcTBya28bfkd/E2TvxpmpZci7Cuafe5jo
-   aQOepbtPokmDVsEch0lpUj+ek8J++mCool8E3kO82sCJPi7PTZ8MAB84i
-   A==;
-X-CSE-ConnectionGUID: hBbo8qf9T9WajB2weG4HtQ==
-X-CSE-MsgGUID: vhYuaUWQSaijOjAhLiE0rA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="56225130"
+  bh=WgVqypFaLNjsRN7QKrbjckUoAzCFYfiOXbQ3pF5jwE0=;
+  b=O4LmDLb932/zQ/9E1FzVHg1KJDBTOg9WaXaxvWcXbZEOLMnqCmQwMy0k
+   wxGyZ1GWh1FeoHq3ud0AKXw3NBTM0O7xo1ZEmhiP8rlL2koh+KZG28i5G
+   XCL7MpKhEhEGlnPX+Fkj1SYBNLwf9c2pIODMrGCjAwIVabn756RH+NxJu
+   /JlZKaPZNZ3yW2dNWwTk7b/inXoHKjSLqCJGF6OXW+L1jd3bR9OFPZaDu
+   BpubzwhhDgcvNKdZiTR6Ozw7uzaRlMGZ7stMGH3++fdpZgJrFItz87OVM
+   1BXNY+QlqUSYQF2+thajxiRCw5oJ3OF39PknpTz90kQiMw47Ej6Wukrri
+   w==;
+X-CSE-ConnectionGUID: wZ+B8BwjRPm00WVaPiouSg==
+X-CSE-MsgGUID: ni5RDIwTQmmKPwCrzgfRKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="69858427"
 X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
-   d="scan'208";a="56225130"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 18:13:40 -0700
-X-CSE-ConnectionGUID: TDUcuzjmQe+EdPhGSh49bg==
-X-CSE-MsgGUID: igGefLoCT/ST9d4Ylv522g==
+   d="scan'208";a="69858427"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 18:13:40 -0700
+X-CSE-ConnectionGUID: zD30TVa6TE6QUJ6HHTtYIQ==
+X-CSE-MsgGUID: AFT1Pt+dShKl7rajWvw4Yw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
-   d="scan'208";a="186354315"
+   d="scan'208";a="180001752"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 17 Jun 2025 18:13:39 -0700
+  by orviesa002.jf.intel.com with ESMTP; 17 Jun 2025 18:13:40 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRhMu-000JHC-1J;
+	id 1uRhMu-000JHG-1R;
 	Wed, 18 Jun 2025 01:13:36 +0000
-Date: Wed, 18 Jun 2025 09:13:22 +0800
+Date: Wed, 18 Jun 2025 09:13:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [akpm-mm:mm-new 174/174] mm/zblock.h:21:2: sparse: sparse: This
- PAGE_SIZE is not quite supported yet
-Message-ID: <202506180901.VHfl4lau-lkp@intel.com>
+Subject: [sverdlin:snps-trng 12/23]
+ arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb:
+ /soc/ethernet@4070000: failed to match any schema with compatible:
+ ['sophgo,cv1800b-dwmac', 'snps,dwmac-3.70a']
+Message-ID: <202506180936.s5yxlawh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,48 +65,32 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: mm/zblock.h:21:2: sparse: sparse: This PAGE_SIZE is not quite supported yet"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Vitaly Wool <vitaly.wool@konsulko.se>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Igor Belousov <igor.b@beldev.am>
+TO: Inochi Amaoto <inochiama@gmail.com>
+CC: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   2f24ee10fe6d1959d674a4298d63b66f54508a68
-commit: 2f24ee10fe6d1959d674a4298d63b66f54508a68 [174/174] mm: add zblock allocator
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: arm64-randconfig-r111-20250618 (https://download.01.org/0day-ci/archive/20250618/202506180901.VHfl4lau-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20250618/202506180901.VHfl4lau-lkp@intel.com/reproduce)
+tree:   https://github.com/sverdlin/linux snps-trng
+head:   21e232768cb64142db24034d3dceffbc48c2447e
+commit: b032091ddac7766c3083e34ca48029a173a17282 [12/23] riscv: dts: sophgo: Add ethernet device for cv18xx
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-052-20250617 (https://download.01.org/0day-ci/archive/20250618/202506180936.s5yxlawh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.3.dev28+g49451a5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506180936.s5yxlawh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506180901.VHfl4lau-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506180936.s5yxlawh-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/zblock.c: note: in included file:
->> mm/zblock.h:21:2: sparse: sparse: This PAGE_SIZE is not quite supported yet
-
-vim +21 mm/zblock.h
-
-2f24ee10fe6d19 Vitaly Wool 2025-04-12  13  
-2f24ee10fe6d19 Vitaly Wool 2025-04-12  14  #if PAGE_SIZE == 0x1000
-2f24ee10fe6d19 Vitaly Wool 2025-04-12  15  /* max 64 slots per block, max table size 64 */
-2f24ee10fe6d19 Vitaly Wool 2025-04-12  16  #define SLOT_BITS 6
-2f24ee10fe6d19 Vitaly Wool 2025-04-12  17  #elif PAGE_SIZE == 0x4000
-2f24ee10fe6d19 Vitaly Wool 2025-04-12  18  /* max 256 slots per block, max table size 64 */
-2f24ee10fe6d19 Vitaly Wool 2025-04-12  19  #define SLOT_BITS 8
-2f24ee10fe6d19 Vitaly Wool 2025-04-12  20  #else
-2f24ee10fe6d19 Vitaly Wool 2025-04-12 @21  #warning This PAGE_SIZE is not quite supported yet
-2f24ee10fe6d19 Vitaly Wool 2025-04-12  22  #define SLOT_BITS 8
-2f24ee10fe6d19 Vitaly Wool 2025-04-12  23  #endif
-2f24ee10fe6d19 Vitaly Wool 2025-04-12  24  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/reset-controller@3003000: failed to match any schema with compatible: ['sophgo,cv1800b-reset']
+>> arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/ethernet@4070000: failed to match any schema with compatible: ['sophgo,cv1800b-dwmac', 'snps,dwmac-3.70a']
 
 -- 
 0-DAY CI Kernel Test Service
