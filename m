@@ -1,160 +1,171 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D677F1B78F3
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 20:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC6B3085CC
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 22:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750280124; cv=none; b=Lg7ZNf5j/OyLaWD2GCR5k1+U014ikG8rDUoa6tH5J8to6Y/dDIQLOyNJWJocn2VgcSdvZmXUTACcgMdi0Qzmen2cV5GZNuP0hkLF2DjIgs6qzemWiojF3K15cV/ac6qSeInHU811D5hhQnzYUKyi+qVq9uYekcH+Sm2p3IiH0sU=
+	t=1750287467; cv=none; b=ilBLAL7Pss4awDNacxlWTXfKjnPeIPLexguTtGqBCnvbwU/CtTz2YyR8SGpaJrWgE7NOeXem+loNWYxs1ytnO+gtFs/8eyujH1ZEeBuIH3RYO7Y5kR46o+Sm1GljuL+ZdBjk70Xo2wA7DJYFRSfHBM+b+hNw3585NA+E+TyBdvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750280124; c=relaxed/simple;
-	bh=+NpVQGFhmS4rPioi85uTEcjg6f+US4Dhi7gtR3weyBk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iLKmVY/mr5QB0ll1TjRUk4VdpvOGIl9v1tf0IAa/wey3rtGd9VEGh3xzshuGA7RmLRw6CPtxkLJEp4EADUzCuJVb8ACut2b6+G6dOTCzKLUG/TgaWF+YPGy74OV9tQuzsXsaScl/UzdfKlApTn3MsMsOtlOGkCgnyguVmIi87QY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ABeOLaYh; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1750287467; c=relaxed/simple;
+	bh=DsV5UfblYe9nj6q4knJcZh6i21lnyVOZ+2Tz/4IvrFM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DVv/HEa706ex/tFGaq86lkzQrF5VWSaKLNLzOzzATZbD7E8OKn57ztOJAhnbAvOyEPzhIQVB1D/QY/2rCol2TUUuRCpvyBokJoZ9qTARlQfTAnYawj8Xdsy/ueo50vyYtmZwov7C6nGsyjFxLuFaQ5pgKjXhxUtMrCPNJYnqgqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yb5/+67o; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ABeOLaYh"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a36748920cso133228f8f.2
-        for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 13:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1750280119; x=1750884919; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=nRRhMFjufeLbp9SWZPabXIdBXStp8C4hFpfOMJXdYoA=;
-        b=ABeOLaYhno+s5k2AVq5ty40+tUw6Guf2Ix+tgmb65ZOpbFwiXmz5K72z+YUvy9RsVQ
-         whuDXyi9Ys8E8NcQ/ElgL1tOjjpxZqJ24el80gz5sxQuFbtdgOfqc/eQjsJjFKjDsr94
-         a1IBrYZxI9PoamVEPZMD+V+9rPtlFCNTKRQzndXHtN7ChBGRSvAGw6f9kR8f5B5DJwPx
-         uR/dIBwNVPbp+bGWyoInWM6mrIzdVC+vHeLfsiXZ0YZDLbZHhVqeDwNfa1ofhzRdDJBr
-         JkjfqklOQCj7FV6YASwh3IPbYU2qAE+K9lfkPDA/FAKqeXsHUF3qD78YxQW3CdHxjgDQ
-         7y2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750280119; x=1750884919;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nRRhMFjufeLbp9SWZPabXIdBXStp8C4hFpfOMJXdYoA=;
-        b=L5u/vQjjEHgnB/updcpplzri5J/h6b3SDpZ2zfWxkHaNkAWj17Ac87mOnNARDjRiqd
-         +lbVfKecYvnyTmq25hRiUnXYmyrhEtCTC58mrRvaXs1+QVK0jHH6DHaME6bjKZOcsjpx
-         O3MZ4low1l7bT13sOCSdJ/Mmk69LBe5BCL+/rjvtC9onO8PwZTMqpVkDK4A0GusLsyAQ
-         Gl/1c+D+aX+o/PY/AGZHcqDlnXdFcgInrFPELZpFCYo5LNfzqCbY8szKZmTvX6/hE3PM
-         1yFQ/Gr+gadrSFM4j3pgP3aHdnyHNxK/f3Pyea1IHIHnTR0UXu1WdvoWQNiQOl7Mtd/e
-         2t3g==
-X-Forwarded-Encrypted: i=1; AJvYcCXfEgnLbGSHFiRIM+tC6oMNoK7j9WYhuoabic7awiyrrbdq8Au8RJJ0r0SNKVZ21yDkI21B4SnVNo8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxuPCIb02NoiuewIf3EzmWxEYRURL3CTSgkaTyxLuGpIs2X8zjV
-	eRsoGBgauda3EWFhgpPxUUuNZg0GacYFGawrDCRdbSDdpkT+hwOZI0KZSXz8QU8kEkM=
-X-Gm-Gg: ASbGncv38/kbKUM9NJQj/PtcnfRxWZKWG40UtwVy8cWl70AKO7oX9NSyCffhdGcqQ3c
-	VAjTV2z934ROPKKAvB8Dir9jXDEPL4eXbglKqIx6V87pVUrdJqResbpedmzTSBy+/H4nzeGMKix
-	zoQ9KGYYmue1tKH3IC2O3AOCmjSxSdpl0+H1QN8uEg5IDvKY/7JhXFAmBvZ8iNJwOrMt8Ca2ykJ
-	8cS1idclaiuYK0aCrXrOnoN1NFjTU1Wzp27WYYNs6XXz6m8732A9A2CXq40V9G6+M/dgCQHrEwH
-	4bBCO1ACaNYk4G+jJ/PDZ85kXaiA+0gx21aWcuJALvQ1mILZSptq9K8Ef7kWWgPEXEBK4NxibbR
-	ljZ3i2KVYkcCNlIk5yp8jXrHh
-X-Google-Smtp-Source: AGHT+IGDSkKjEo5evK2cdRF7Dfkyixu/R8GRzZkXd330C6ZVRH56En8ZvkkHo05zOMDMsOa/udBO5w==
-X-Received: by 2002:a05:6000:26c3:b0:3a4:ef33:e60 with SMTP id ffacd0b85a97d-3a5723aed82mr15789002f8f.40.1750280118863;
-        Wed, 18 Jun 2025 13:55:18 -0700 (PDT)
-Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2fe16803c3sm11488101a12.41.2025.06.18.13.55.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jun 2025 13:55:18 -0700 (PDT)
-Message-ID: <ab681f30-1afb-47f7-afaa-6209fe56d4b3@suse.com>
-Date: Thu, 19 Jun 2025 06:25:14 +0930
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yb5/+67o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750287465; x=1781823465;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DsV5UfblYe9nj6q4knJcZh6i21lnyVOZ+2Tz/4IvrFM=;
+  b=Yb5/+67o5uhXIJPNHVxHGX2hUJyQgUr7sfYquaH8DSJtZjsaWhv2Eci6
+   RMhnfXvnKW3xcUOJzWtj71F5JQIWpD8xcFyhDXIoZEFDX+Rf4kSCocwPa
+   Mp9jLBFCFtb6sO7jxiMOreAkWeE93RfXqrgfwETqGsPkjsvOyEj6dsb5z
+   IwSmFA+4KJ7LJfHYHQ8XYAf0+93iHZPy7+hvHlN5f1AdzIaS9sfOIh2Ca
+   n3wLe0qHVgh9CLHmj3XNs57/ZStWkkF77vtfoQCbUGQH9a2tVtUv8T3+a
+   6rKf9jL5MwDjrJgkDJBFzA13qH0VJwJt2KNZqsxsGNdwJOBj3l7f5fjg/
+   w==;
+X-CSE-ConnectionGUID: dsTyNz2UTo6W3Be2je/vsQ==
+X-CSE-MsgGUID: XhGdLkCHTmWkfJBdFOe0vA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="40138283"
+X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
+   d="scan'208";a="40138283"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 15:57:45 -0700
+X-CSE-ConnectionGUID: 49biSVOxRwuF00/YUBKShg==
+X-CSE-MsgGUID: pT/Q76/FTGi3/HC0AltDAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
+   d="scan'208";a="150779499"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 18 Jun 2025 15:57:44 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uS1iw-000KEk-16;
+	Wed, 18 Jun 2025 22:57:42 +0000
+Date: Thu, 19 Jun 2025 06:56:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v1 2/2] ARM: tegra: Add device-tree for ASUS VivoTab RT
+ TF600T
+Message-ID: <202506190651.D3f6dWGz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [btrfs:pr/1157 1/1] fs/btrfs/qgroup.c:359
- qgroup_mark_inconsistent() warn: maybe use && instead of &
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- Filipe Manana <fdmanana@suse.com>
-References: <9ebc0142-96b2-45a4-94d2-5e3100c599f2@suswa.mountain>
-Content-Language: en-US
-From: Qu Wenruo <wqu@suse.com>
-Autocrypt: addr=wqu@suse.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
- FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
- Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
- fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
- 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
- V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
- rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
- rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
- Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
- E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
- vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
- g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
- AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
- cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
- qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
- /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
- o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
- JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
-In-Reply-To: <9ebc0142-96b2-45a4-94d2-5e3100c599f2@suswa.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250617070320.9153-3-clamor95@gmail.com>
+References: <20250617070320.9153-3-clamor95@gmail.com>
+TO: Svyatoslav Ryhel <clamor95@gmail.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Thierry Reding <thierry.reding@gmail.com>
+TO: Jonathan Hunter <jonathanh@nvidia.com>
+TO: Svyatoslav Ryhel <clamor95@gmail.com>
+TO: David Heidelberg <david@ixit.cz>
+TO: Ion Agorria <ion@agorria.com>
+CC: devicetree@vger.kernel.org
+CC: linux-tegra@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
 
-在 2025/6/19 03:26, Dan Carpenter 写道:
-> tree:   https://github.com/btrfs/linux.git pr/1157
-> head:   b9b695688148bd512273989145bc6ca0e272a53c
-> commit: b9b695688148bd512273989145bc6ca0e272a53c [1/1] btrfs: add extra warning when qgroup is marked inconsistent
-> config: i386-randconfig-141-20250616 (https://download.01.org/0day-ci/archive/20250616/202506160432.y5tEff7D-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202506160432.y5tEff7D-lkp@intel.com/
-> 
-> smatch warnings:
-> fs/btrfs/qgroup.c:359 qgroup_mark_inconsistent() warn: maybe use && instead of &
-> 
-> vim +359 fs/btrfs/qgroup.c
-> 
-> b9b695688148bd Qu Wenruo    2025-06-11  349  __printf(2, 3)
-> b9b695688148bd Qu Wenruo    2025-06-11  350  static void qgroup_mark_inconsistent(struct btrfs_fs_info *fs_info, const char *fmt, ...)
-> e562a8bdf652b0 Qu Wenruo    2022-08-24  351  {
-> b9b695688148bd Qu Wenruo    2025-06-11  352  	bool old_flags = fs_info->qgroup_flags;
-> 
-> old_flags should be u64 type.
-> 
-> b9b695688148bd Qu Wenruo    2025-06-11  353
-> 182940f4f4dbd9 Boris Burkov 2023-05-16  354  	if (btrfs_qgroup_mode(fs_info) == BTRFS_QGROUP_MODE_SIMPLE)
-> 182940f4f4dbd9 Boris Burkov 2023-05-16  355  		return;
-> e562a8bdf652b0 Qu Wenruo    2022-08-24  356  	fs_info->qgroup_flags |= (BTRFS_QGROUP_STATUS_FLAG_INCONSISTENT |
-> e15e9f43c7ca25 Qu Wenruo    2022-08-24  357  				  BTRFS_QGROUP_RUNTIME_FLAG_CANCEL_RESCAN |
-> e15e9f43c7ca25 Qu Wenruo    2022-08-24  358  				  BTRFS_QGROUP_RUNTIME_FLAG_NO_ACCOUNTING);
-> b9b695688148bd Qu Wenruo    2025-06-11 @359  	if (!(old_flags & BTRFS_QGROUP_STATUS_FLAG_INCONSISTENT)) {
-> 
-> This can never be true.
+Hi Svyatoslav,
 
-Already fixed in that tree.
+kernel test robot noticed the following build warnings:
 
-Thanks,
-Qu>
-> b9b695688148bd Qu Wenruo    2025-06-11  360  		struct va_format vaf;
-> b9b695688148bd Qu Wenruo    2025-06-11  361  		va_list args;
-> b9b695688148bd Qu Wenruo    2025-06-11  362
-> b9b695688148bd Qu Wenruo    2025-06-11  363  		va_start(args, fmt);
-> b9b695688148bd Qu Wenruo    2025-06-11  364  		vaf.fmt = fmt;
-> b9b695688148bd Qu Wenruo    2025-06-11  365  		vaf.va = &args;
-> b9b695688148bd Qu Wenruo    2025-06-11  366
-> b9b695688148bd Qu Wenruo    2025-06-11  367  		btrfs_warn_rl(fs_info, "qgroup marked inconsistent, %pV", &vaf);
-> b9b695688148bd Qu Wenruo    2025-06-11  368  		va_end(args);
-> b9b695688148bd Qu Wenruo    2025-06-11  369  	}
-> e562a8bdf652b0 Qu Wenruo    2022-08-24  370  }
-> 
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.16-rc2 next-20250618]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-arm-tegra-Add-Asus-VivoTab-RT-TF600T/20250617-150708
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250617070320.9153-3-clamor95%40gmail.com
+patch subject: [PATCH v1 2/2] ARM: tegra: Add device-tree for ASUS VivoTab RT TF600T
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-051-20250618 (https://download.01.org/0day-ci/archive/20250619/202506190651.D3f6dWGz-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+dtschema version: 2025.3.dev28+g49451a5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506190651.D3f6dWGz-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202506190651.D3f6dWGz-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts:48.22-54.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma@80000000: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1110.15-1123.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1196.15-1208.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
+>> arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
+>> arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
+>> arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: /i2c@7000c500/flash-led@33: failed to match any schema with compatible: ['ti,tps61052']
+>> arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: audio-codec@1c (realtek,rt5640): Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
+>> arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: /i2c@7000d000/pmic@2d: failed to match any schema with compatible: ['ti,tps65911']
+>> arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: light-sensor@48 (capella,cm32181): 'vdd-supply' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+>> arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: core-regulator@60 (ti,tps62361): Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/ti,tps62360.yaml#
+>> arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+>> arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+>> arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
+
+vim +48 arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dts
+
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  12  
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  13  / {
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  14  	model = "Asus VivoTab RT TF600T";
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  15  	compatible = "asus,tf600t", "nvidia,tegra30";
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  16  	chassis-type = "convertible";
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  17  
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  18  	aliases {
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  19  		mmc0 = &sdmmc4; /* eMMC */
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  20  		mmc1 = &sdmmc1; /* uSD slot */
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  21  		mmc2 = &sdmmc3; /* WiFi */
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  22  
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  23  		rtc0 = &pmic;
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  24  		rtc1 = "/rtc@7000e000";
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  25  
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  26  		display1 = &hdmi;
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  27  
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  28  		serial1 = &uartc; /* Bluetooth */
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  29  		serial2 = &uartb; /* GPS */
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  30  	};
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  31  
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  32  	/*
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  33  	 * The decompressor and also some bootloaders rely on a
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  34  	 * pre-existing /chosen node to be available to insert the
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  35  	 * command line and merge other ATAGS info.
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  36  	 */
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  37  	chosen {};
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  38  
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  39  	memory@80000000 {
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  40  		reg = <0x80000000 0x80000000>;
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  41  	};
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  42  
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  43  	reserved-memory {
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  44  		#address-cells = <1>;
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  45  		#size-cells = <1>;
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  46  		ranges;
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17  47  
+fbcc4c6dc57b9e Svyatoslav Ryhel 2025-06-17 @48  		linux,cma@80000000 {
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
