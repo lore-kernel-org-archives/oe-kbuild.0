@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C7519DFA2
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 07:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0767335963
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 08:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750231100; cv=none; b=RiUk31B0Cm2jRINej9PTEmDkp/AJzQIxWF/CMzmjoaPO2RDs8uug9k0DkL4AHX4piqIA933WAiXmhiEaBkrooQs1xxNsyHnbadggvcMGV7HjV2uyZnRuLGcMgM4LOnWsfnLkJvysTXosIi2XTMyG3HqJwvviKbOCshHbUMlX8T8=
+	t=1750236752; cv=none; b=FezQMYNyvrvf0w/j483P7HNbm8I/aORi6AggsWEmlSwag+dRjfsKhDw2VcDaHRdPMFfII/VQpMZRHGljCKActXxDA1jSOlt8JSAwWToCCNkErTZVSz2miPLAETG+nhjyR9jzhQiUAaogH5eCTSaRN9MfMNkiG/GWLs1c7m98zuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750231100; c=relaxed/simple;
-	bh=VbzXOz91XNv38fKL9zGaJB0dFBRUtOcNSRV/sahf1Lw=;
+	s=arc-20240116; t=1750236752; c=relaxed/simple;
+	bh=nWBrBkN3Ht94er4OyTapWoF1AEvq+7EChkRPMUs22+U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C/g8pUePP0AAWMwLgrocAB1j8GcQ0szOtObVCy83EVkf8Uwr++1d/qBMtgDOHV/GZY6vjsuFzBG+wWsM9SoiO5Iqc44BjBbPqDyXA0xv+Q8VAvmb46tkBnS6sL/h6r2ffX8n0Y8cKIRoVUx9XjIEwGtIvHDEgstFGL+PQCqiwUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayCjrhPg; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=jXv7Tp2JV95elBtAi1I3Ap67Kfr1RTEgtRE05tcKC0vPDkNwLIgTvN4iN76zDTxpq8he90/wbwz9QCk/23gJJe5NBicqqErp/TVmuXe0/2q6Ow5ec5qHoU3Tm2mA1sB/WO0b8g5D8fsRSnyiMQcZ95aQGTaR2iFPDD1M8Ut+C2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f+nS6FJg; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayCjrhPg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f+nS6FJg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750231099; x=1781767099;
+  t=1750236751; x=1781772751;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VbzXOz91XNv38fKL9zGaJB0dFBRUtOcNSRV/sahf1Lw=;
-  b=ayCjrhPgcjCAGJRtx0EbfFyFNPu2K9sbC5pFdFJFpjRBW2bDtFVY+Xh1
-   nXxNfsZeInQq4AkxsYYPH0Or5mwisgthZ1wvAqU0rpab9M5RvMA4VCUCr
-   Gq3k8R+yKhr6THtgvM0zHBHY7LBDvwb3vFa/+EsYXfJih4wzs7WqaeAHe
-   UESUxqtCYgUI1iMz9HPWoGkMhkoCIBsMWq0aOiMTyc0B353UL/uk4bGW6
-   AWW2XJQCH3vM1EhzjCRAmDjaQpTAfvfd3TWOPNsfBC7D4Mw4bYc+uds9E
-   aipgUo1xEno4Tm8mRbQviH6fQEhZFprQw45IgjeJcP5XKuvh3hqRHmC0Q
-   Q==;
-X-CSE-ConnectionGUID: tmEPHsw6TsG2rQONCCF6tA==
-X-CSE-MsgGUID: E6iJY3nNT0q4ZQOMpHHH5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52523431"
+  bh=nWBrBkN3Ht94er4OyTapWoF1AEvq+7EChkRPMUs22+U=;
+  b=f+nS6FJg2bTQAhErG1O6AxBQlq8oIJMZzzbjwmuQgdeLUXFHUTJ1irz7
+   lZAA1St6tk3Nbj+Rw38IKZ5F19TI/7+hNk5p9QtHvguiMqaDHMaWD9dNa
+   K20pPa+EeTqmz28FxRCPv2PrWSnOuT14jWh8Ofej4N+ME1QPZXAsRafa0
+   Jm+hJewqP4PHhlCW9wX613CVMN5+Oc1PXBOcv6kGHixJLBGj5DbwxEEBY
+   6WKliJBhmtpEU/ATkdNznogyaGCUkSVB2Dl//8bckKQX8QZK8FhnJIhi8
+   I5ZnvkS5NXILXfAvwG2K8vlWVsU6tCgesNVrGvfoeojAS9nlsrNuJTpBO
+   w==;
+X-CSE-ConnectionGUID: hWFBwTBVRtSX6wUHgD14qg==
+X-CSE-MsgGUID: cc8Lgd24QFKRLq19swu5xQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="69886111"
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="52523431"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 00:18:12 -0700
-X-CSE-ConnectionGUID: AplHvrpCRmyKTgDq3aCM1Q==
-X-CSE-MsgGUID: NulZGI9kQA2aKOYdW98fFw==
+   d="scan'208";a="69886111"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 01:51:23 -0700
+X-CSE-ConnectionGUID: ONPbq09TSCCjFHGFFQrMog==
+X-CSE-MsgGUID: UtYgz8vwRa2r2uK+CNAzKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="153214994"
+   d="scan'208";a="180360123"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 18 Jun 2025 00:18:10 -0700
+  by orviesa002.jf.intel.com with ESMTP; 18 Jun 2025 01:51:21 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRn3g-000JVK-2L;
-	Wed, 18 Jun 2025 07:18:08 +0000
-Date: Wed, 18 Jun 2025 15:17:17 +0800
+	id 1uRoVq-000Ja0-2Z;
+	Wed, 18 Jun 2025 08:51:18 +0000
+Date: Wed, 18 Jun 2025 16:51:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH V3 19/19] virtio_ring: add in order support
-Message-ID: <202506181549.sXYT8j1M-lkp@intel.com>
+Subject: [sverdlin:snps-trng 14/23]
+ arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb:
+ /soc/syscon@3000000: failed to match any schema with compatible:
+ ['sophgo,cv1800b-top-syscon', 'syscon', 'simple-mfd']
+Message-ID: <202506181642.28WfZuNn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,46 +65,40 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250616082518.10411-20-jasowang@redhat.com>
-References: <20250616082518.10411-20-jasowang@redhat.com>
-TO: Jason Wang <jasowang@redhat.com>
+TO: Inochi Amaoto <inochiama@gmail.com>
+CC: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 
-Hi Jason,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mst-vhost/linux-next]
-[also build test WARNING on linus/master v6.16-rc2 next-20250618]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Wang/virtio_ring-rename-virtqueue_reinit_xxx-to-virtqueue_reset_xxx/20250616-163418
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-patch link:    https://lore.kernel.org/r/20250616082518.10411-20-jasowang%40redhat.com
-patch subject: [PATCH V3 19/19] virtio_ring: add in order support
+tree:   https://github.com/sverdlin/linux snps-trng
+head:   21e232768cb64142db24034d3dceffbc48c2447e
+commit: 97d7c3f7db50e21e32c2f2c43fa88fda0d145b00 [14/23] riscv: dts: sophgo: Add syscon node for cv18xx
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: loongarch-randconfig-r072-20250618 (https://download.01.org/0day-ci/archive/20250618/202506181549.sXYT8j1M-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181549.sXYT8j1M-lkp@intel.com/reproduce)
+config: arm64-randconfig-052-20250617 (https://download.01.org/0day-ci/archive/20250618/202506181642.28WfZuNn-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.3.dev28+g49451a5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181642.28WfZuNn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506181549.sXYT8j1M-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506181642.28WfZuNn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/virtio/virtio_ring.o: warning: objtool: detach_buf_split_in_order+0xfc: unreachable instruction
-   drivers/virtio/virtio_ring.o: warning: objtool: virtqueue_add_packed_in_order+0x8c: unreachable instruction
-   drivers/virtio/virtio_ring.o: warning: objtool: virtqueue_add_packed+0x90: unreachable instruction
-   drivers/virtio/virtio_ring.o: warning: objtool: virtqueue_add_split+0x88: unreachable instruction
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/syscon@3000000: failed to match any schema with compatible: ['sophgo,cv1800b-top-syscon', 'syscon', 'simple-mfd']
+>> arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/syscon@3000000/phy@48: failed to match any schema with compatible: ['sophgo,cv1800b-usb2-phy']
+>> arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/syscon@3000000/dma-router@154: failed to match any schema with compatible: ['sophgo,cv1800b-dmamux']
+>> arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: dma-router@154 (sophgo,cv1800b-dmamux): dma-masters: 4 is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
+>> arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: dma-router@154 (sophgo,cv1800b-dmamux): dma-masters: 4 is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
+   arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/reset-controller@3003000: failed to match any schema with compatible: ['sophgo,cv1800b-reset']
+   arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/mdio@3009000: failed to match any schema with compatible: ['sophgo,cv1800b-mdio-mux']
+   arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/ethernet@4070000: failed to match any schema with compatible: ['sophgo,cv1800b-dwmac', 'snps,dwmac-3.70a']
 
 -- 
 0-DAY CI Kernel Test Service
