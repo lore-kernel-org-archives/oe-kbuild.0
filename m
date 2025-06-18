@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C62B285C8B
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 10:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E7C27FD58
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 12:01:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750241131; cv=none; b=FvoKVT0O19MXy/BQX4R40JTf4lJDdUzPnFhV2aM7nYUumzckfRy0zC6U3hdEueF7W2ujnfFQ14U5QFjCUR4i5p4nBM+iTIOb2DDWVCFZEN39QQ4bzeDmiPcjqSc1G3v20AAjpMc7wGPW8xbCnPRsYW7g0hQGamp/BUvQvtW8M9E=
+	t=1750248105; cv=none; b=Rjj6TcymTF1ggm5pHm4XNqivONi3WNVsM36gu6BMj+3eDbslwUyuRWNjnEQGResleKAtfiMEblJzx49MmNHHPdGVzmDgV3bTIqHs9d2w0j4WyFwRpY77XhdSfPnm8Knf8why/4BNcXch9euGAtz0yRa5SmXw/fkxSnwt8qi1lUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750241131; c=relaxed/simple;
-	bh=I6M22QaoxPaxqVNl3N2mstGAQOGOgaWmEX65hyeHXR4=;
+	s=arc-20240116; t=1750248105; c=relaxed/simple;
+	bh=09/DbnuWZTnLZPw+CRsoPJROXjDDYP5AvJ02XTmL3xM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KJ5RHQIEKmZ20Lb9p1j81vRPt66dClaja+vad4K2CVbJNsil9VpCegZD8B3q2EXGqjKupp4EAImFOm5tWBdg3ccUlGIKjKbs+A7Fg6oy8LG0ifuQI9XnRDJZgUJ5ZpsKm2qvX1okSGiifNuxF7p1QM5UC9eL38qmyB4eZAX6yxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YlFhrvC5; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=h5EqSEAOtkjMsqXBP6f2zmDtLFKOD6te3vMplc4tKsae+zXTOZqej5zfNUUjmaYbsVJXMXGmZHKDxDyUzFBJXzxTXSQkPA+58v9h+LvuV6RCI5/imP8WkAv73nchKJ4mxbgTu1PL5JXkeOB74J/Tk3jvUydWkbdhORU2N1VL2o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dBYRG3Q2; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YlFhrvC5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBYRG3Q2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750241129; x=1781777129;
+  t=1750248101; x=1781784101;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I6M22QaoxPaxqVNl3N2mstGAQOGOgaWmEX65hyeHXR4=;
-  b=YlFhrvC5PFE67d95h/IsW4XoeMWX89dAgy5isIZy6NnR8nOsQ9fQDh14
-   +El0W+Va+TVRiD6evGCeKLrUuMPG6dPV9PSlN60K3y194LrmOgVee6oFT
-   hmKGYWhUa34b3mlj06VP4k/iMBARkeS2DuAhqGUVQRzlB5o5sNLxMkk+V
-   QIOaakDBxTuAiqTFAk6PQ0ap1vPBazAZxc5qD4xWhutIW5D2SFc8YCUnU
-   k8OYwUCt/HxDd5zCDyNGg+UKu7kg1eDMn+kuqP40arVCZkgATFJnZxBDa
-   oY4qYuHodyILB35/PstEt6ytVYR9NohMd141NXJdDF/Z9Tf+2/3B2dZnQ
+  bh=09/DbnuWZTnLZPw+CRsoPJROXjDDYP5AvJ02XTmL3xM=;
+  b=dBYRG3Q2UXDnmqd7eDpVhL8Qj5s4dsjMm8GEcFq3VDL3gzt0g7lJW6pc
+   I/o/lbJ1/uI3czg037I/wzyIJEtMdnIxtX/nAPb6k8oHSskap9fGDahVv
+   Eyx75Yx/ThHf/1mknJDfE4CUoFb0BAO8HEWN03vVeb/9oHCBtJ7gNK6iW
+   Fla2ca3EVX9pvj+zVOO0LRDg5HQ8mO3OT8ehw/kdwwFz4WT/10lTbv6xL
+   pPrGgrPadRS+9MwnS3TfPBqhMZbgoUtQGpphhEak9Iu5LCcdYjSyUdY0I
+   4CsAKl0qE28FvXW4Uq+WNlo9BXDkcfI2OU1P1bRuMsbdb54NhuJkACGnG
    A==;
-X-CSE-ConnectionGUID: vfZkjjXpQGGVcR+Zqv/4HQ==
-X-CSE-MsgGUID: cb6JtGDeRLWzmWzKSF9DLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52371033"
-X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="52371033"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 03:05:28 -0700
-X-CSE-ConnectionGUID: 54J+upHnR4yBbczvCxb76g==
-X-CSE-MsgGUID: Z4bw7/9UQD6tf+0Aiq+g4w==
+X-CSE-ConnectionGUID: 9RCOOVKjRMS2hSQVYFdASA==
+X-CSE-MsgGUID: VtTlv8HBTx2om12f6CcbyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="63068133"
+X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
+   d="scan'208";a="63068133"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 05:01:40 -0700
+X-CSE-ConnectionGUID: TTQzI617Tp6RtsCKVRxA+w==
+X-CSE-MsgGUID: 75AJneNbRQKQT+M1QO/cag==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="149218619"
+X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
+   d="scan'208";a="154909184"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 18 Jun 2025 03:05:28 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 18 Jun 2025 05:01:38 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRpfZ-000Jdy-0K;
-	Wed, 18 Jun 2025 10:05:25 +0000
-Date: Wed, 18 Jun 2025 18:04:49 +0800
+	id 1uRrU0-000Jjw-1p;
+	Wed, 18 Jun 2025 12:01:36 +0000
+Date: Wed, 18 Jun 2025 20:01:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [jaegeuk-f2fs:dev-test 6/18] fs/f2fs/segment.o: warning: objtool:
- do_write_page+0x104: unreachable instruction
-Message-ID: <202506181735.hhZVgCI3-lkp@intel.com>
+Subject: [sverdlin:snps-trng 23/23]
+ arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: rng@2070000
+ (snps,dw-trng): 'resets' does not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <202506181959.T7rAtMan-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,40 +65,40 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-f2fs-devel@lists.sourceforge.net
-TO: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-CC: Jaegeuk Kim <jaegeuk@kernel.org>
+TO: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-head:   efa38cdf8fc886c1070d25890c91d6c2a7e70dec
-commit: 5c7fd57eb036a7b736d39f31bee7e52708ec3877 [6/18] f2fs: do sanity check on fio.new_blkaddr in do_write_page()
+tree:   https://github.com/sverdlin/linux snps-trng
+head:   21e232768cb64142db24034d3dceffbc48c2447e
+commit: 21e232768cb64142db24034d3dceffbc48c2447e [23/23] arm64: dts: sophgo: sg2000: Add reset control into TRNG node
 :::::: branch date: 2 days ago
-:::::: commit date: 8 days ago
-config: loongarch-randconfig-r072-20250618 (https://download.01.org/0day-ci/archive/20250618/202506181735.hhZVgCI3-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181735.hhZVgCI3-lkp@intel.com/reproduce)
+:::::: commit date: 2 days ago
+config: arm64-randconfig-052-20250617 (https://download.01.org/0day-ci/archive/20250618/202506181959.T7rAtMan-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.3.dev28+g49451a5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181959.T7rAtMan-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506181735.hhZVgCI3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506181959.T7rAtMan-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   fs/f2fs/segment.o: warning: objtool: update_sit_entry_for_alloc+0x74: unreachable instruction
-   fs/f2fs/segment.o: warning: objtool: update_sit_entry_for_release+0x210: unreachable instruction
-   fs/f2fs/segment.o: warning: objtool: __locate_dirty_segment+0x1cc: unreachable instruction
-   fs/f2fs/segment.o: warning: objtool: get_new_segment+0x298: unreachable instruction
-   fs/f2fs/segment.o: warning: objtool: __issue_discard_cmd+0x248: unreachable instruction
-   fs/f2fs/segment.o: warning: objtool: f2fs_do_replace_block+0x130: unreachable instruction
-   fs/f2fs/segment.o: warning: objtool: f2fs_allocate_data_block+0x138: unreachable instruction
->> fs/f2fs/segment.o: warning: objtool: do_write_page+0x104: unreachable instruction
-   fs/f2fs/segment.o: warning: objtool: f2fs_flush_sit_entries+0x158: unreachable instruction
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: rng@2070000 (snps,dw-trng): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/rng/snps,dw-trng.yaml#
+   arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/syscon@3000000: failed to match any schema with compatible: ['sophgo,cv1800b-top-syscon', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/syscon@3000000/phy@48: failed to match any schema with compatible: ['sophgo,cv1800b-usb2-phy']
+   arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/syscon@3000000/dma-router@154: failed to match any schema with compatible: ['sophgo,cv1800b-dmamux']
+   arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: dma-router@154 (sophgo,cv1800b-dmamux): dma-masters: 4 is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
+   arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: dma-router@154 (sophgo,cv1800b-dmamux): dma-masters: 4 is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/dma/dma-router.yaml#
+   arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/reset-controller@3003000: failed to match any schema with compatible: ['sophgo,cv1800b-reset']
+   arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/mdio@3009000: failed to match any schema with compatible: ['sophgo,cv1800b-mdio-mux']
 
 -- 
 0-DAY CI Kernel Test Service
