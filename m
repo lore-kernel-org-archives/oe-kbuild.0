@@ -1,2079 +1,7114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F376221FB2
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jun 2025 05:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E086514F98
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jun 2025 06:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750311268; cv=none; b=Vuq/moHx9XkdieNThpvyfSRBdTSL16j6TF/NY6XsqpuvS7b/aAykzTPkT79192selA/SnEZp8NVMxL5sj0CBkBayUrDkErdwaUFAqqvbzYk64lbDxqdIYMUeYn4o0RrPPPmzyDgGQjoyX4X6Oklrqi4vOjDcz5tc0s3HdAtWBw4=
+	t=1750313441; cv=none; b=Pr3g6JXXdwy1unS236suUmbtbD41beKW0G0wWbQBjAEhMSmDPOoTfQ9jKlgGu9sGbmYM9t+RT1RFGSwvOfwx4TWKA3bxyLgQoR0BLD1Vi9OkZg3Bwfe5Vng8/5YQsbEYStHWF0EmBoeCLM1TtTntWf45YvbF/a6z9uDRygYeWA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750311268; c=relaxed/simple;
-	bh=rdO5IpH1UWL9ZmlLEa9lNYG6yhyqT4MIkSnSZEI8SeA=;
+	s=arc-20240116; t=1750313441; c=relaxed/simple;
+	bh=r9vvFYNQQno2wICpjCi06QBRUKv9Qfru0aoqNt8qbQk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jqZ6HydkSfB5ylhnu3FrclkbjEMIf5hCuo3FzC45XBNKoK2aaeJXnLW2NhhtG3jrRKoPRwJhHVxPYOiE2PmWg9jyChhfIfV7BpQFDfVMX6OWTFALt0KgHlujy+VaUhHjSNCJSYqJRPkya5cdtqDr3aA2j7s4qrbAjC+3h4Ienc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P+JXO0af; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=WjUaVwrQmYnFZVHyGRnVJGt3BvbXXDHuaN0+JTg07Og4Yl2WnjO0v4J4WfiYu6I7nk6n582MpfIG2cwYaRNjEmoxRjPV2d8vAG7ZJe4Bw+cRbNfpr5bqUa0vg2XfT3/WEfRuuq6cQ23B8WAx9XwXLskiUcCYsI9f1W7V2uxHQg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i1psA3rC; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P+JXO0af"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i1psA3rC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750311260; x=1781847260;
+  t=1750313435; x=1781849435;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=rdO5IpH1UWL9ZmlLEa9lNYG6yhyqT4MIkSnSZEI8SeA=;
-  b=P+JXO0af18v6o+dPWRSs3arQdqOOc537USdTIairjS2fmuFnJ48MMaHs
-   LcacxuT/KO0uXeKHD0ePOc9ZmUkP8igeqJCy966NpHI0ZhaxHPglEch8g
-   WKD76cBH3vQjOB2xvmct3uNxBd6AhD8iuNaV2uukp0V3RmkSc6MDWwMd2
-   ITeWzaAmeZytLaHm9x3aYBctQOHxHwZU/A1mOeyeSNqiyHVj7kiXdtM5f
-   s2L2CcPQMMxAuTRBKTYvOJr+/XWg29Eto0j8ZjlvVXawBmq/gOd6Tr8nT
-   8mAlHRzyO3+o1PEvsrzyc3LtVPhPhNmQapQcRxwGhs5KqXA26VxNGUTSC
-   A==;
-X-CSE-ConnectionGUID: HkMjCmpoQrqXfEdQgsjARA==
-X-CSE-MsgGUID: DyT+9h4RTDO8Cvmz5TBX7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="40163080"
+  bh=r9vvFYNQQno2wICpjCi06QBRUKv9Qfru0aoqNt8qbQk=;
+  b=i1psA3rCOMmqPsWufLUVmazstdJlXYNnNQzpCzO1WjrIuiTmd16dwW0I
+   8SSrMzE7Q086GK4HDgvKkjrilU+8yGWfLhlv1zsF2VAsXYG6oTitjLkHw
+   3TWLllIz29wSyQMNAnSxPhtmhDT2XL2iwfj+KTISrcf+1egejmctAkoY1
+   8SDfr6vXAXxTEqicSfuNEUApVuRX7SY2gTwtCSZF1MXAPE2H0Ea0u6ekB
+   tKKI4cCsc5KaGXN9OiOl6sYHiLOAtsJCs9T53+KCV21I7yag4Cgs5RFBp
+   i+AYqdxq3f5Kfr07+P0/NI8OM5u8Ql9Di01dsOdnNkp07045/bxrbgUaF
+   Q==;
+X-CSE-ConnectionGUID: NieSPaoTSZyM5GLbyIgGIw==
+X-CSE-MsgGUID: +/uM4EH5QkaOKO1G1xt0eA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52432241"
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="40163080"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 22:34:18 -0700
-X-CSE-ConnectionGUID: veuKDkf0QTKtHq2VhwcAxA==
-X-CSE-MsgGUID: yVmH0Kd6T9qX9P4/kLh8dg==
+   d="scan'208";a="52432241"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 23:10:35 -0700
+X-CSE-ConnectionGUID: tO6SEJO7SHqViIlLwb9pvQ==
+X-CSE-MsgGUID: XrNnCxjzQ3qmPGsqGKfcug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="156232801"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 18 Jun 2025 22:34:15 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+   d="scan'208";a="155106591"
+Received: from igk-lkp-server01.igk.intel.com (HELO 28ae90bf6994) ([10.91.175.65])
+  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 23:10:32 -0700
+Received: from kbuild by 28ae90bf6994 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uS7uf-000KR4-0K;
-	Thu, 19 Jun 2025 05:34:13 +0000
-Date: Thu, 19 Jun 2025 13:34:12 +0800
+	id 1uS8Te-0000ns-0a;
+	Thu, 19 Jun 2025 06:10:22 +0000
+Date: Wed, 18 Jun 2025 10:50:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v9 12/13] arm64: dts: rockchip: add mipi csi-2 receiver
- node to rk356x
-Message-ID: <202506191327.wbrz3oHo-lkp@intel.com>
+Subject: [thomas-weissschuh:b4/vdso-ptp 25/34] ld: cannot find
+ loongarch64-linux-gcc:: No such file or directory
+Message-ID: <202506181036.mDym00m8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="ZGPwKmDdaqRj54NV"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+
+--ZGPwKmDdaqRj54NV
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240220-rk3568-vicap-v9-12-ace1e5cc4a82@collabora.com>
-References: <20240220-rk3568-vicap-v9-12-ace1e5cc4a82@collabora.com>
-TO: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-TO: Mehdi Djait <mehdi.djait@linux.intel.com>
-TO: Maxime Chevallier <maxime.chevallier@bootlin.com>
-TO: "Théo Lebrun" <theo.lebrun@bootlin.com>
-TO: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-TO: Gerald Loacker <gerald.loacker@wolfvision.net>
-TO: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-TO: Markus Elfring <Markus.Elfring@web.de>
-TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Heiko Stuebner <heiko@sntech.de>
-TO: Kever Yang <kever.yang@rock-chips.com>
-TO: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-TO: Sebastian Reichel <sebastian.reichel@collabora.com>
-TO: Collabora Kernel Team <kernel@collabora.com>
-TO: Paul Kocialkowski <paulk@sys-base.io>
-TO: Alexander Shiyan <eagle.alexander923@gmail.com>
-TO: Val Packett <val@packett.cool>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
-TO: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-CC: Michael Riesch <michael.riesch@collabora.com>
+TO: "Thomas Weißschuh" <thomas.weissschuh@linutronix.de>
 
-Hi Michael,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 19272b37aa4f83ca52bdf9c16d5d81bdd1354494]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Riesch-via-B4-Relay/Documentation-admin-guide-media-add-rockchip-camera-interface/20250618-235355
-base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-patch link:    https://lore.kernel.org/r/20240220-rk3568-vicap-v9-12-ace1e5cc4a82%40collabora.com
-patch subject: [PATCH v9 12/13] arm64: dts: rockchip: add mipi csi-2 receiver node to rk356x
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: arm64-randconfig-002-20250619 (https://download.01.org/0day-ci/archive/20250619/202506191327.wbrz3oHo-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506191327.wbrz3oHo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-ptp
+head:   07453cfef5683be5805a70316b1345e7fbeb716b
+commit: e844e7134d3f49799bf7a762d2870dfc9b228bfa [25/34] libgcc
+:::::: branch date: 2 weeks ago
+:::::: commit date: 2 weeks ago
+config: loongarch-randconfig-2003-20250605
+compiler: loongarch64-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build):
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506191327.wbrz3oHo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506181036.mDym00m8-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
---
-   arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi:288.10-292.5: Warning (unit_address_vs_reg): /dsi@fe060000/panel@0/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi:289.29-291.6: Warning (unit_address_vs_reg): /dsi@fe060000/panel@0/port@0/endpoint@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
---
->> arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
-   arch/arm64/boot/dts/rockchip/rk3566-pinenote.dtsi:488.10-499.6: Warning (graph_child_address): /i2c@fe5c0000/tcpc@60/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+All errors (new ones prefixed by >>):
 
-vim +282 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi
-
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    14  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    15  / {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    16  	interrupt-parent = <&gic>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    17  	#address-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    18  	#size-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    19  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    20  	aliases {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    21  		gpio0 = &gpio0;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    22  		gpio1 = &gpio1;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    23  		gpio2 = &gpio2;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    24  		gpio3 = &gpio3;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    25  		gpio4 = &gpio4;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    26  		i2c0 = &i2c0;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    27  		i2c1 = &i2c1;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    28  		i2c2 = &i2c2;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    29  		i2c3 = &i2c3;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    30  		i2c4 = &i2c4;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    31  		i2c5 = &i2c5;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    32  		serial0 = &uart0;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    33  		serial1 = &uart1;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    34  		serial2 = &uart2;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    35  		serial3 = &uart3;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    36  		serial4 = &uart4;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    37  		serial5 = &uart5;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    38  		serial6 = &uart6;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    39  		serial7 = &uart7;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    40  		serial8 = &uart8;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    41  		serial9 = &uart9;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27    42  		spi0 = &spi0;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27    43  		spi1 = &spi1;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27    44  		spi2 = &spi2;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27    45  		spi3 = &spi3;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    46  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    47  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    48  	cpus {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    49  		#address-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    50  		#size-cells = <0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    51  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    52  		cpu0: cpu@0 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    53  			device_type = "cpu";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    54  			compatible = "arm,cortex-a55";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    55  			reg = <0x0 0x0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    56  			clocks = <&scmi_clk 0>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28    57  			#cooling-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    58  			enable-method = "psci";
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    59  			i-cache-size = <0x8000>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    60  			i-cache-line-size = <64>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    61  			i-cache-sets = <128>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    62  			d-cache-size = <0x8000>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    63  			d-cache-line-size = <64>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    64  			d-cache-sets = <128>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    65  			next-level-cache = <&l3_cache>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    66  		};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    67  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    68  		cpu1: cpu@100 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    69  			device_type = "cpu";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    70  			compatible = "arm,cortex-a55";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    71  			reg = <0x0 0x100>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28    72  			#cooling-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    73  			enable-method = "psci";
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    74  			i-cache-size = <0x8000>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    75  			i-cache-line-size = <64>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    76  			i-cache-sets = <128>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    77  			d-cache-size = <0x8000>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    78  			d-cache-line-size = <64>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    79  			d-cache-sets = <128>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    80  			next-level-cache = <&l3_cache>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    81  		};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    82  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    83  		cpu2: cpu@200 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    84  			device_type = "cpu";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    85  			compatible = "arm,cortex-a55";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    86  			reg = <0x0 0x200>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28    87  			#cooling-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    88  			enable-method = "psci";
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    89  			i-cache-size = <0x8000>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    90  			i-cache-line-size = <64>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    91  			i-cache-sets = <128>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    92  			d-cache-size = <0x8000>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    93  			d-cache-line-size = <64>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    94  			d-cache-sets = <128>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09    95  			next-level-cache = <&l3_cache>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    96  		};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    97  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    98  		cpu3: cpu@300 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22    99  			device_type = "cpu";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   100  			compatible = "arm,cortex-a55";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   101  			reg = <0x0 0x300>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   102  			#cooling-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   103  			enable-method = "psci";
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   104  			i-cache-size = <0x8000>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   105  			i-cache-line-size = <64>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   106  			i-cache-sets = <128>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   107  			d-cache-size = <0x8000>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   108  			d-cache-line-size = <64>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   109  			d-cache-sets = <128>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   110  			next-level-cache = <&l3_cache>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   111  		};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   112  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   113  
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   114  	/*
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   115  	 * There are no private per-core L2 caches, but only the
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   116  	 * L3 cache that appears to the CPU cores as L2 caches
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   117  	 */
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   118  	l3_cache: l3-cache {
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   119  		compatible = "cache";
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   120  		cache-level = <2>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   121  		cache-unified;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   122  		cache-size = <0x80000>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   123  		cache-line-size = <64>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   124  		cache-sets = <512>;
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   125  	};
-8612169a05c5e97 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Dragan Simic         2024-03-09   126  
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   127  	display_subsystem: display-subsystem {
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   128  		compatible = "rockchip,display-subsystem";
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   129  		ports = <&vop_out>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   130  	};
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   131  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   132  	firmware {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   133  		scmi: scmi {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   134  			compatible = "arm,scmi-smc";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   135  			arm,smc-id = <0x82000010>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   136  			shmem = <&scmi_shmem>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   137  			#address-cells = <1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   138  			#size-cells = <0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   139  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   140  			scmi_clk: protocol@14 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   141  				reg = <0x14>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   142  				#clock-cells = <1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   143  			};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   144  		};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   145  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   146  
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   147  	hdmi_sound: hdmi-sound {
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   148  		compatible = "simple-audio-card";
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   149  		simple-audio-card,name = "HDMI";
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   150  		simple-audio-card,format = "i2s";
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   151  		simple-audio-card,mclk-fs = <256>;
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   152  		status = "disabled";
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   153  
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   154  		simple-audio-card,codec {
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   155  			sound-dai = <&hdmi>;
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   156  		};
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   157  
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   158  		simple-audio-card,cpu {
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   159  			sound-dai = <&i2s0_8ch>;
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   160  		};
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   161  	};
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11   162  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   163  	pmu {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   164  		compatible = "arm,cortex-a55-pmu";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   165  		interrupts = <GIC_SPI 228 IRQ_TYPE_LEVEL_HIGH>,
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   166  			     <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>,
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   167  			     <GIC_SPI 230 IRQ_TYPE_LEVEL_HIGH>,
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   168  			     <GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   169  		interrupt-affinity = <&cpu0>, <&cpu1>, <&cpu2>, <&cpu3>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   170  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   171  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   172  	psci {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   173  		compatible = "arm,psci-1.0";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   174  		method = "smc";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   175  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   176  
-8fbb9376f0c489d arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2025-03-08   177  	reserved-memory {
-8fbb9376f0c489d arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2025-03-08   178  		#address-cells = <2>;
-8fbb9376f0c489d arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2025-03-08   179  		#size-cells = <2>;
-8fbb9376f0c489d arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2025-03-08   180  		ranges;
-8fbb9376f0c489d arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2025-03-08   181  
-8fbb9376f0c489d arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2025-03-08   182  		scmi_shmem: shmem@10f000 {
-8fbb9376f0c489d arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2025-03-08   183  			compatible = "arm,scmi-shmem";
-8fbb9376f0c489d arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2025-03-08   184  			reg = <0x0 0x0010f000 0x0 0x100>;
-8fbb9376f0c489d arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2025-03-08   185  			no-map;
-8fbb9376f0c489d arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2025-03-08   186  		};
-8fbb9376f0c489d arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2025-03-08   187  	};
-8fbb9376f0c489d arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2025-03-08   188  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   189  	timer {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   190  		compatible = "arm,armv8-timer";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   191  		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_HIGH>,
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   192  			     <GIC_PPI 14 IRQ_TYPE_LEVEL_HIGH>,
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   193  			     <GIC_PPI 11 IRQ_TYPE_LEVEL_HIGH>,
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   194  			     <GIC_PPI 10 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   195  		arm,no-tick-in-suspend;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   196  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   197  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   198  	xin24m: xin24m {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   199  		compatible = "fixed-clock";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   200  		clock-frequency = <24000000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   201  		clock-output-names = "xin24m";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   202  		#clock-cells = <0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   203  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   204  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   205  	xin32k: xin32k {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   206  		compatible = "fixed-clock";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   207  		clock-frequency = <32768>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   208  		clock-output-names = "xin32k";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   209  		pinctrl-0 = <&clk32k_out0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   210  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   211  		#clock-cells = <0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   212  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   213  
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   214  	sata1: sata@fc400000 {
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   215  		compatible = "rockchip,rk3568-dwc-ahci", "snps,dwc-ahci";
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   216  		reg = <0 0xfc400000 0 0x1000>;
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   217  		clocks = <&cru ACLK_SATA1>, <&cru CLK_SATA1_PMALIVE>,
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   218  			 <&cru CLK_SATA1_RXOOB>;
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   219  		clock-names = "sata", "pmalive", "rxoob";
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   220  		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH>;
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   221  		phys = <&combphy1 PHY_TYPE_SATA>;
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   222  		phy-names = "sata-phy";
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   223  		ports-implemented = <0x1>;
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   224  		power-domains = <&power RK3568_PD_PIPE>;
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   225  		status = "disabled";
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   226  	};
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   227  
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   228  	sata2: sata@fc800000 {
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   229  		compatible = "rockchip,rk3568-dwc-ahci", "snps,dwc-ahci";
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   230  		reg = <0 0xfc800000 0 0x1000>;
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   231  		clocks = <&cru ACLK_SATA2>, <&cru CLK_SATA2_PMALIVE>,
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   232  			 <&cru CLK_SATA2_RXOOB>;
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   233  		clock-names = "sata", "pmalive", "rxoob";
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   234  		interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>;
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   235  		phys = <&combphy2 PHY_TYPE_SATA>;
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   236  		phy-names = "sata-phy";
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   237  		ports-implemented = <0x1>;
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   238  		power-domains = <&power RK3568_PD_PIPE>;
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   239  		status = "disabled";
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   240  	};
-16c0f95d9ed14f0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-03-11   241  
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   242  	usb_host0_xhci: usb@fcc00000 {
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   243  		compatible = "rockchip,rk3568-dwc3", "snps,dwc3";
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   244  		reg = <0x0 0xfcc00000 0x0 0x400000>;
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   245  		interrupts = <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   246  		clocks = <&cru CLK_USB3OTG0_REF>, <&cru CLK_USB3OTG0_SUSPEND>,
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   247  			 <&cru ACLK_USB3OTG0>;
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   248  		clock-names = "ref_clk", "suspend_clk",
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   249  			      "bus_clk";
-bc405bb3eeee4b7 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-04-25   250  		dr_mode = "otg";
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   251  		phy_type = "utmi_wide";
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   252  		power-domains = <&power RK3568_PD_PIPE>;
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   253  		resets = <&cru SRST_USB3OTG0>;
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   254  		snps,dis_u2_susphy_quirk;
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   255  		status = "disabled";
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   256  	};
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   257  
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   258  	usb_host1_xhci: usb@fd000000 {
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   259  		compatible = "rockchip,rk3568-dwc3", "snps,dwc3";
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   260  		reg = <0x0 0xfd000000 0x0 0x400000>;
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   261  		interrupts = <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>;
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   262  		clocks = <&cru CLK_USB3OTG1_REF>, <&cru CLK_USB3OTG1_SUSPEND>,
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   263  			 <&cru ACLK_USB3OTG1>;
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   264  		clock-names = "ref_clk", "suspend_clk",
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   265  			      "bus_clk";
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   266  		dr_mode = "host";
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   267  		phys = <&usb2phy0_host>, <&combphy1 PHY_TYPE_USB3>;
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   268  		phy-names = "usb2-phy", "usb3-phy";
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   269  		phy_type = "utmi_wide";
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   270  		power-domains = <&power RK3568_PD_PIPE>;
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   271  		resets = <&cru SRST_USB3OTG1>;
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   272  		snps,dis_u2_susphy_quirk;
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   273  		status = "disabled";
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   274  	};
-9f4c480f24e2ce1 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-08   275  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   276  	gic: interrupt-controller@fd400000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   277  		compatible = "arm,gic-v3";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   278  		reg = <0x0 0xfd400000 0 0x10000>, /* GICD */
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   279  		      <0x0 0xfd460000 0 0x80000>; /* GICR */
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   280  		interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   281  		interrupt-controller;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  @282  		#interrupt-cells = <3>;
-b6c1a590148c63f arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   283  		mbi-alias = <0x0 0xfd410000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   284  		mbi-ranges = <296 24>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   285  		msi-controller;
-f15be3d4a0a55db arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dmitry Osipenko      2025-02-17   286  		ranges;
-f15be3d4a0a55db arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dmitry Osipenko      2025-02-17   287  		#address-cells = <2>;
-f15be3d4a0a55db arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dmitry Osipenko      2025-02-17   288  		#size-cells = <2>;
-f15be3d4a0a55db arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dmitry Osipenko      2025-02-17   289  		dma-noncoherent;
-f15be3d4a0a55db arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dmitry Osipenko      2025-02-17   290  
-f15be3d4a0a55db arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dmitry Osipenko      2025-02-17   291  		its: msi-controller@fd440000 {
-f15be3d4a0a55db arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dmitry Osipenko      2025-02-17   292  			compatible = "arm,gic-v3-its";
-f15be3d4a0a55db arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dmitry Osipenko      2025-02-17   293  			reg = <0x0 0xfd440000 0 0x20000>;
-f15be3d4a0a55db arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dmitry Osipenko      2025-02-17   294  			dma-noncoherent;
-f15be3d4a0a55db arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dmitry Osipenko      2025-02-17   295  			msi-controller;
-f15be3d4a0a55db arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dmitry Osipenko      2025-02-17   296  			#msi-cells = <1>;
-f15be3d4a0a55db arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dmitry Osipenko      2025-02-17   297  		};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   298  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   299  
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   300  	usb_host0_ehci: usb@fd800000 {
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   301  		compatible = "generic-ehci";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   302  		reg = <0x0 0xfd800000 0x0 0x40000>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   303  		interrupts = <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   304  		clocks = <&cru HCLK_USB2HOST0>, <&cru HCLK_USB2HOST0_ARB>,
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   305  			 <&cru PCLK_USB>;
-78f7186095db5a6 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-27   306  		phys = <&usb2phy1_otg>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   307  		phy-names = "usb";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   308  		status = "disabled";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   309  	};
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   310  
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   311  	usb_host0_ohci: usb@fd840000 {
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   312  		compatible = "generic-ohci";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   313  		reg = <0x0 0xfd840000 0x0 0x40000>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   314  		interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   315  		clocks = <&cru HCLK_USB2HOST0>, <&cru HCLK_USB2HOST0_ARB>,
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   316  			 <&cru PCLK_USB>;
-78f7186095db5a6 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-27   317  		phys = <&usb2phy1_otg>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   318  		phy-names = "usb";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   319  		status = "disabled";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   320  	};
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   321  
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   322  	usb_host1_ehci: usb@fd880000 {
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   323  		compatible = "generic-ehci";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   324  		reg = <0x0 0xfd880000 0x0 0x40000>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   325  		interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   326  		clocks = <&cru HCLK_USB2HOST1>, <&cru HCLK_USB2HOST1_ARB>,
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   327  			 <&cru PCLK_USB>;
-78f7186095db5a6 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-27   328  		phys = <&usb2phy1_host>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   329  		phy-names = "usb";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   330  		status = "disabled";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   331  	};
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   332  
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   333  	usb_host1_ohci: usb@fd8c0000 {
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   334  		compatible = "generic-ohci";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   335  		reg = <0x0 0xfd8c0000 0x0 0x40000>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   336  		interrupts = <GIC_SPI 134 IRQ_TYPE_LEVEL_HIGH>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   337  		clocks = <&cru HCLK_USB2HOST1>, <&cru HCLK_USB2HOST1_ARB>,
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   338  			 <&cru PCLK_USB>;
-78f7186095db5a6 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-27   339  		phys = <&usb2phy1_host>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   340  		phy-names = "usb";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   341  		status = "disabled";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   342  	};
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   343  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   344  	pmugrf: syscon@fdc20000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   345  		compatible = "rockchip,rk3568-pmugrf", "syscon", "simple-mfd";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   346  		reg = <0x0 0xfdc20000 0x0 0x10000>;
-2dbcb2514c83416 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2021-08-05   347  
-2dbcb2514c83416 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2021-08-05   348  		pmu_io_domains: io-domains {
-2dbcb2514c83416 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2021-08-05   349  			compatible = "rockchip,rk3568-pmu-io-voltage-domain";
-2dbcb2514c83416 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2021-08-05   350  			status = "disabled";
-2dbcb2514c83416 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2021-08-05   351  		};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   352  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   353  
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   354  	pipegrf: syscon@fdc50000 {
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   355  		reg = <0x0 0xfdc50000 0x0 0x1000>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   356  	};
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   357  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   358  	grf: syscon@fdc60000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   359  		compatible = "rockchip,rk3568-grf", "syscon", "simple-mfd";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   360  		reg = <0x0 0xfdc60000 0x0 0x10000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   361  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   362  
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   363  	pipe_phy_grf1: syscon@fdc80000 {
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   364  		compatible = "rockchip,rk3568-pipe-phy-grf", "syscon";
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   365  		reg = <0x0 0xfdc80000 0x0 0x1000>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   366  	};
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   367  
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   368  	pipe_phy_grf2: syscon@fdc90000 {
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   369  		compatible = "rockchip,rk3568-pipe-phy-grf", "syscon";
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   370  		reg = <0x0 0xfdc90000 0x0 0x1000>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   371  	};
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08   372  
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   373  	usb2phy0_grf: syscon@fdca0000 {
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   374  		compatible = "rockchip,rk3568-usb2phy-grf", "syscon";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   375  		reg = <0x0 0xfdca0000 0x0 0x8000>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   376  	};
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   377  
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   378  	usb2phy1_grf: syscon@fdca8000 {
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   379  		compatible = "rockchip,rk3568-usb2phy-grf", "syscon";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   380  		reg = <0x0 0xfdca8000 0x0 0x8000>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   381  	};
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15   382  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   383  	pmucru: clock-controller@fdd00000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   384  		compatible = "rockchip,rk3568-pmucru";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   385  		reg = <0x0 0xfdd00000 0x0 0x1000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   386  		#clock-cells = <1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   387  		#reset-cells = <1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   388  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   389  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   390  	cru: clock-controller@fdd20000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   391  		compatible = "rockchip,rk3568-cru";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   392  		reg = <0x0 0xfdd20000 0x0 0x1000>;
-cd2d081d18de396 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-05-11   393  		clocks = <&xin24m>;
-cd2d081d18de396 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-05-11   394  		clock-names = "xin24m";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   395  		#clock-cells = <1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   396  		#reset-cells = <1>;
-64b69474edf3b88 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Jonas Karlman        2023-01-10   397  		assigned-clocks = <&pmucru CLK_RTC_32K>, <&cru PLL_GPLL>, <&pmucru PLL_PPLL>;
-64b69474edf3b88 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Jonas Karlman        2023-01-10   398  		assigned-clock-rates = <32768>, <1200000000>, <200000000>;
-64b69474edf3b88 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Jonas Karlman        2023-01-10   399  		assigned-clock-parents = <&pmucru CLK_RTC32K_FRAC>;
-95ad4dbe5f43bf6 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2021-08-23   400  		rockchip,grf = <&grf>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   401  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   402  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   403  	i2c0: i2c@fdd40000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   404  		compatible = "rockchip,rk3568-i2c", "rockchip,rk3399-i2c";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   405  		reg = <0x0 0xfdd40000 0x0 0x1000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   406  		interrupts = <GIC_SPI 46 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   407  		clocks = <&pmucru CLK_I2C0>, <&pmucru PCLK_I2C0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   408  		clock-names = "i2c", "pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   409  		pinctrl-0 = <&i2c0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   410  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   411  		#address-cells = <1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   412  		#size-cells = <0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   413  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   414  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   415  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   416  	uart0: serial@fdd50000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   417  		compatible = "rockchip,rk3568-uart", "snps,dw-apb-uart";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   418  		reg = <0x0 0xfdd50000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   419  		interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   420  		clocks = <&pmucru SCLK_UART0>, <&pmucru PCLK_UART0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   421  		clock-names = "baudclk", "apb_pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   422  		dmas = <&dmac0 0>, <&dmac0 1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   423  		pinctrl-0 = <&uart0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   424  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   425  		reg-io-width = <4>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   426  		reg-shift = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   427  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   428  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   429  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   430  	pwm0: pwm@fdd70000 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   431  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   432  		reg = <0x0 0xfdd70000 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   433  		clocks = <&pmucru CLK_PWM0>, <&pmucru PCLK_PWM0>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   434  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   435  		pinctrl-0 = <&pwm0m0_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08   436  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   437  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   438  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   439  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   440  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   441  	pwm1: pwm@fdd70010 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   442  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   443  		reg = <0x0 0xfdd70010 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   444  		clocks = <&pmucru CLK_PWM0>, <&pmucru PCLK_PWM0>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   445  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   446  		pinctrl-0 = <&pwm1m0_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08   447  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   448  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   449  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   450  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   451  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   452  	pwm2: pwm@fdd70020 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   453  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   454  		reg = <0x0 0xfdd70020 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   455  		clocks = <&pmucru CLK_PWM0>, <&pmucru PCLK_PWM0>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   456  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   457  		pinctrl-0 = <&pwm2m0_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08   458  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   459  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   460  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   461  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   462  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   463  	pwm3: pwm@fdd70030 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   464  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   465  		reg = <0x0 0xfdd70030 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   466  		clocks = <&pmucru CLK_PWM0>, <&pmucru PCLK_PWM0>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   467  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   468  		pinctrl-0 = <&pwm3_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08   469  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   470  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   471  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   472  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26   473  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   474  	pmu: power-management@fdd90000 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   475  		compatible = "rockchip,rk3568-pmu", "syscon", "simple-mfd";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   476  		reg = <0x0 0xfdd90000 0x0 0x1000>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   477  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   478  		power: power-controller {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   479  			compatible = "rockchip,rk3568-power-controller";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   480  			#power-domain-cells = <1>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   481  			#address-cells = <1>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   482  			#size-cells = <0>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   483  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   484  			/* These power domains are grouped by VD_GPU */
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   485  			power-domain@RK3568_PD_GPU {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   486  				reg = <RK3568_PD_GPU>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   487  				clocks = <&cru ACLK_GPU_PRE>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   488  					 <&cru PCLK_GPU_PRE>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   489  				pm_qos = <&qos_gpu>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   490  				#power-domain-cells = <0>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   491  			};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   492  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   493  			/* These power domains are grouped by VD_LOGIC */
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   494  			power-domain@RK3568_PD_VI {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   495  				reg = <RK3568_PD_VI>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   496  				clocks = <&cru HCLK_VI>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   497  					 <&cru PCLK_VI>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   498  				pm_qos = <&qos_isp>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   499  					 <&qos_vicap0>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   500  					 <&qos_vicap1>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   501  				#power-domain-cells = <0>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   502  			};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   503  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   504  			power-domain@RK3568_PD_VO {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   505  				reg = <RK3568_PD_VO>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   506  				clocks = <&cru HCLK_VO>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   507  					 <&cru PCLK_VO>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   508  					 <&cru ACLK_VOP_PRE>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   509  				pm_qos = <&qos_hdcp>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   510  					 <&qos_vop_m0>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   511  					 <&qos_vop_m1>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   512  				#power-domain-cells = <0>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   513  			};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   514  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   515  			power-domain@RK3568_PD_RGA {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   516  				reg = <RK3568_PD_RGA>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   517  				clocks = <&cru HCLK_RGA_PRE>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   518  					 <&cru PCLK_RGA_PRE>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   519  				pm_qos = <&qos_ebc>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   520  					 <&qos_iep>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   521  					 <&qos_jpeg_dec>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   522  					 <&qos_jpeg_enc>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   523  					 <&qos_rga_rd>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   524  					 <&qos_rga_wr>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   525  				#power-domain-cells = <0>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   526  			};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   527  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   528  			power-domain@RK3568_PD_VPU {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   529  				reg = <RK3568_PD_VPU>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   530  				clocks = <&cru HCLK_VPU_PRE>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   531  				pm_qos = <&qos_vpu>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   532  				#power-domain-cells = <0>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   533  			};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   534  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   535  			power-domain@RK3568_PD_RKVDEC {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   536  				clocks = <&cru HCLK_RKVDEC_PRE>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   537  				reg = <RK3568_PD_RKVDEC>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   538  				pm_qos = <&qos_rkvdec>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   539  				#power-domain-cells = <0>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   540  			};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   541  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   542  			power-domain@RK3568_PD_RKVENC {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   543  				reg = <RK3568_PD_RKVENC>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   544  				clocks = <&cru HCLK_RKVENC_PRE>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   545  				pm_qos = <&qos_rkvenc_rd_m0>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   546  					 <&qos_rkvenc_rd_m1>,
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   547  					 <&qos_rkvenc_wr_m0>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   548  				#power-domain-cells = <0>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   549  			};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   550  		};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   551  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   552  
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   553  	gpu: gpu@fde60000 {
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   554  		compatible = "rockchip,rk3568-mali", "arm,mali-bifrost";
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   555  		reg = <0x0 0xfde60000 0x0 0x4000>;
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   556  		interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>,
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   557  			     <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>,
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   558  			     <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   559  		interrupt-names = "job", "mmu", "gpu";
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   560  		clocks = <&scmi_clk 1>, <&cru CLK_GPU>;
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   561  		clock-names = "gpu", "bus";
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   562  		#cooling-cells = <2>;
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   563  		power-domains = <&power RK3568_PD_GPU>;
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   564  		status = "disabled";
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   565  	};
-810028668c6d9da arch/arm64/boot/dts/rockchip/rk356x.dtsi      Ezequiel Garcia      2022-02-09   566  
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   567  	csi: csi@fdfb0000 {
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   568  		compatible = "rockchip,rk3568-mipi-csi";
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   569  		reg = <0x0 0xfdfb0000 0x0 0x10000>;
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   570  		interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH 0>,
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   571  			     <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH 0>;
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   572  		interrupt-names = "irq1", "irq2";
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   573  		clocks = <&cru PCLK_CSI2HOST1>;
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   574  		phys = <&csi_dphy>;
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   575  		power-domains = <&power RK3568_PD_VI>;
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   576  		resets = <&cru SRST_P_CSI2HOST1>;
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   577  		status = "disabled";
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   578  
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   579  		ports {
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   580  			#address-cells = <1>;
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   581  			#size-cells = <0>;
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   582  
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   583  			csi_in: port@0 {
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   584  				reg = <0>;
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   585  			};
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   586  
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   587  			csi_out: port@1 {
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   588  				reg = <1>;
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   589  
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   590  				csi_output: endpoint {
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   591  					remote-endpoint = <&vicap_mipi_input>;
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   592  				};
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   593  			};
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   594  		};
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   595  	};
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   596  
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   597  	vicap: video-capture@fdfe0000 {
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   598  		compatible = "rockchip,rk3568-vicap";
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   599  		reg = <0x0 0xfdfe0000 0x0 0x200>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   600  		interrupts = <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   601  		assigned-clocks = <&cru DCLK_VICAP>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   602  		assigned-clock-rates = <300000000>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   603  		clocks = <&cru ACLK_VICAP>, <&cru HCLK_VICAP>,
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   604  			 <&cru DCLK_VICAP>, <&cru ICLK_VICAP_G>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   605  		clock-names = "aclk", "hclk", "dclk", "iclk";
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   606  		iommus = <&vicap_mmu>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   607  		power-domains = <&power RK3568_PD_VI>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   608  		resets = <&cru SRST_A_VICAP>, <&cru SRST_H_VICAP>,
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   609  			 <&cru SRST_D_VICAP>, <&cru SRST_P_VICAP>,
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   610  			 <&cru SRST_I_VICAP>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   611  		reset-names = "arst", "hrst", "drst", "prst", "irst";
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   612  		rockchip,grf = <&grf>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   613  		status = "disabled";
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   614  
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   615  		ports {
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   616  			#address-cells = <1>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   617  			#size-cells = <0>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   618  
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   619  			vicap_dvp: port@0 {
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   620  				reg = <0>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   621  			};
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   622  
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   623  			vicap_mipi: port@1 {
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   624  				reg = <1>;
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   625  
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   626  				vicap_mipi_input: endpoint {
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   627  					remote-endpoint = <&csi_output>;
-447b2badad0bf07 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   628  				};
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   629  			};
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   630  		};
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   631  	};
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   632  
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   633  	vicap_mmu: iommu@fdfe0800 {
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   634  		compatible = "rockchip,rk3568-iommu";
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   635  		reg = <0x0 0xfdfe0800 0x0 0x100>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   636  		interrupts = <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   637  		clocks = <&cru ACLK_VICAP>, <&cru HCLK_VICAP>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   638  		clock-names = "aclk", "iface";
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   639  		#iommu-cells = <0>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   640  		power-domains = <&power RK3568_PD_VI>;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   641  		rockchip,disable-mmu-reset;
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   642  		status = "disabled";
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   643  	};
-ff6375d29bd4efa arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Michael Riesch       2025-06-18   644  
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   645  	vpu: video-codec@fdea0400 {
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   646  		compatible = "rockchip,rk3568-vpu";
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   647  		reg = <0x0 0xfdea0000 0x0 0x800>;
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   648  		interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
-d1c44d9afa6f89a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2024-02-27   649  		interrupt-names = "vdpu";
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   650  		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   651  		clock-names = "aclk", "hclk";
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   652  		iommus = <&vdpu_mmu>;
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   653  		power-domains = <&power RK3568_PD_VPU>;
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   654  	};
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   655  
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   656  	vdpu_mmu: iommu@fdea0800 {
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   657  		compatible = "rockchip,rk3568-iommu";
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   658  		reg = <0x0 0xfdea0800 0x0 0x40>;
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   659  		interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   660  		clock-names = "aclk", "iface";
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   661  		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   662  		power-domains = <&power RK3568_PD_VPU>;
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   663  		#iommu-cells = <0>;
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   664  	};
-944be6fba401639 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Piotr Oniszczuk      2022-02-14   665  
-0c3391f8bb06b74 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Tretter      2023-01-20   666  	rga: rga@fdeb0000 {
-0c3391f8bb06b74 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Tretter      2023-01-20   667  		compatible = "rockchip,rk3568-rga", "rockchip,rk3288-rga";
-0c3391f8bb06b74 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Tretter      2023-01-20   668  		reg = <0x0 0xfdeb0000 0x0 0x180>;
-0c3391f8bb06b74 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Tretter      2023-01-20   669  		interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
-0c3391f8bb06b74 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Tretter      2023-01-20   670  		clocks = <&cru ACLK_RGA>, <&cru HCLK_RGA>, <&cru CLK_RGA_CORE>;
-0c3391f8bb06b74 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Tretter      2023-01-20   671  		clock-names = "aclk", "hclk", "sclk";
-0c3391f8bb06b74 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Tretter      2023-01-20   672  		resets = <&cru SRST_RGA_CORE>, <&cru SRST_A_RGA>, <&cru SRST_H_RGA>;
-0c3391f8bb06b74 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Tretter      2023-01-20   673  		reset-names = "core", "axi", "ahb";
-0c3391f8bb06b74 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Tretter      2023-01-20   674  		power-domains = <&power RK3568_PD_RGA>;
-0c3391f8bb06b74 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Tretter      2023-01-20   675  	};
-0c3391f8bb06b74 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Tretter      2023-01-20   676  
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   677  	vepu: video-codec@fdee0000 {
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   678  		compatible = "rockchip,rk3568-vepu";
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   679  		reg = <0x0 0xfdee0000 0x0 0x800>;
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   680  		interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>;
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   681  		clocks = <&cru ACLK_JENC>, <&cru HCLK_JENC>;
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   682  		clock-names = "aclk", "hclk";
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   683  		iommus = <&vepu_mmu>;
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   684  		power-domains = <&power RK3568_PD_RGA>;
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   685  	};
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   686  
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   687  	vepu_mmu: iommu@fdee0800 {
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   688  		compatible = "rockchip,rk3568-iommu";
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   689  		reg = <0x0 0xfdee0800 0x0 0x40>;
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   690  		interrupts = <GIC_SPI 63 IRQ_TYPE_LEVEL_HIGH>;
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   691  		clocks = <&cru ACLK_JENC>, <&cru HCLK_JENC>;
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   692  		clock-names = "aclk", "iface";
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   693  		power-domains = <&power RK3568_PD_RGA>;
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   694  		#iommu-cells = <0>;
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   695  	};
-03d86fb5a56919c arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-12   696  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   697  	sdmmc2: mmc@fe000000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   698  		compatible = "rockchip,rk3568-dw-mshc", "rockchip,rk3288-dw-mshc";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   699  		reg = <0x0 0xfe000000 0x0 0x4000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   700  		interrupts = <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   701  		clocks = <&cru HCLK_SDMMC2>, <&cru CLK_SDMMC2>,
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   702  			 <&cru SCLK_SDMMC2_DRV>, <&cru SCLK_SDMMC2_SAMPLE>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   703  		clock-names = "biu", "ciu", "ciu-drive", "ciu-sample";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   704  		fifo-depth = <0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   705  		max-frequency = <150000000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   706  		resets = <&cru SRST_SDMMC2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   707  		reset-names = "reset";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   708  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   709  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22   710  
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   711  	gmac1: ethernet@fe010000 {
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   712  		compatible = "rockchip,rk3568-gmac", "snps,dwmac-4.20a";
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   713  		reg = <0x0 0xfe010000 0x0 0x10000>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   714  		interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>,
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   715  			     <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   716  		interrupt-names = "macirq", "eth_wake_irq";
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   717  		clocks = <&cru SCLK_GMAC1>, <&cru SCLK_GMAC1_RX_TX>,
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   718  			 <&cru SCLK_GMAC1_RX_TX>, <&cru CLK_MAC1_REFOUT>,
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   719  			 <&cru ACLK_GMAC1>, <&cru PCLK_GMAC1>,
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   720  			 <&cru SCLK_GMAC1_RX_TX>, <&cru CLK_GMAC1_PTP_REF>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   721  		clock-names = "stmmaceth", "mac_clk_rx",
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   722  			      "mac_clk_tx", "clk_mac_refout",
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   723  			      "aclk_mac", "pclk_mac",
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   724  			      "clk_mac_speed", "ptp_ref";
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   725  		resets = <&cru SRST_A_GMAC1>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   726  		reset-names = "stmmaceth";
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   727  		rockchip,grf = <&grf>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   728  		snps,axi-config = <&gmac1_stmmac_axi_setup>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   729  		snps,mixed-burst;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   730  		snps,mtl-rx-config = <&gmac1_mtl_rx_setup>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   731  		snps,mtl-tx-config = <&gmac1_mtl_tx_setup>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   732  		snps,tso;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   733  		status = "disabled";
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   734  
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   735  		mdio1: mdio {
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   736  			compatible = "snps,dwmac-mdio";
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   737  			#address-cells = <0x1>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   738  			#size-cells = <0x0>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   739  		};
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   740  
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   741  		gmac1_stmmac_axi_setup: stmmac-axi-config {
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   742  			snps,blen = <0 0 0 0 16 8 4>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   743  			snps,rd_osr_lmt = <8>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   744  			snps,wr_osr_lmt = <4>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   745  		};
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   746  
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   747  		gmac1_mtl_rx_setup: rx-queues-config {
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   748  			snps,rx-queues-to-use = <1>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   749  			queue0 {};
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   750  		};
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   751  
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   752  		gmac1_mtl_tx_setup: tx-queues-config {
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   753  			snps,tx-queues-to-use = <1>;
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   754  			queue0 {};
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   755  		};
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   756  	};
-0dcec571cee5199 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28   757  
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   758  	vop: vop@fe040000 {
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   759  		reg = <0x0 0xfe040000 0x0 0x3000>, <0x0 0xfe044000 0x0 0x1000>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   760  		reg-names = "vop", "gamma-lut";
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   761  		interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   762  		clocks = <&cru ACLK_VOP>, <&cru HCLK_VOP>, <&cru DCLK_VOP0>,
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   763  			 <&cru DCLK_VOP1>, <&cru DCLK_VOP2>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   764  		clock-names = "aclk", "hclk", "dclk_vp0", "dclk_vp1", "dclk_vp2";
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   765  		iommus = <&vop_mmu>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   766  		power-domains = <&power RK3568_PD_VO>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   767  		rockchip,grf = <&grf>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   768  		status = "disabled";
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   769  
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   770  		vop_out: ports {
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   771  			#address-cells = <1>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   772  			#size-cells = <0>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   773  
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   774  			vp0: port@0 {
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   775  				reg = <0>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   776  				#address-cells = <1>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   777  				#size-cells = <0>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   778  			};
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   779  
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   780  			vp1: port@1 {
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   781  				reg = <1>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   782  				#address-cells = <1>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   783  				#size-cells = <0>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   784  			};
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   785  
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   786  			vp2: port@2 {
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   787  				reg = <2>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   788  				#address-cells = <1>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   789  				#size-cells = <0>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   790  			};
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   791  		};
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   792  	};
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   793  
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   794  	vop_mmu: iommu@fe043e00 {
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   795  		compatible = "rockchip,rk3568-iommu";
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   796  		reg = <0x0 0xfe043e00 0x0 0x100>, <0x0 0xfe043f00 0x0 0x100>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   797  		interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   798  		clocks = <&cru ACLK_VOP>, <&cru HCLK_VOP>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   799  		clock-names = "aclk", "iface";
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   800  		#iommu-cells = <0>;
-9d42c3ee3ce37cd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Cristian Ciocaltea   2024-07-02   801  		power-domains = <&power RK3568_PD_VO>;
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   802  		status = "disabled";
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   803  	};
-9d6c6d978f97fab arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   804  
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   805  	dsi0: dsi@fe060000 {
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   806  		compatible = "rockchip,rk3568-mipi-dsi", "snps,dw-mipi-dsi";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   807  		reg = <0x00 0xfe060000 0x00 0x10000>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   808  		interrupts = <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>;
-cadda005961cd6a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Johan Jonker         2022-12-22   809  		clock-names = "pclk";
-cadda005961cd6a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Johan Jonker         2022-12-22   810  		clocks = <&cru PCLK_DSITX_0>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   811  		phy-names = "dphy";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   812  		phys = <&dsi_dphy0>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   813  		power-domains = <&power RK3568_PD_VO>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   814  		reset-names = "apb";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   815  		resets = <&cru SRST_P_DSITX_0>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   816  		rockchip,grf = <&grf>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   817  		status = "disabled";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   818  
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   819  		ports {
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   820  			#address-cells = <1>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   821  			#size-cells = <0>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   822  
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   823  			dsi0_in: port@0 {
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   824  				reg = <0>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   825  			};
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   826  
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   827  			dsi0_out: port@1 {
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   828  				reg = <1>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   829  			};
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   830  		};
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   831  	};
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   832  
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   833  	dsi1: dsi@fe070000 {
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   834  		compatible = "rockchip,rk3568-mipi-dsi", "snps,dw-mipi-dsi";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   835  		reg = <0x0 0xfe070000 0x0 0x10000>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   836  		interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-cadda005961cd6a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Johan Jonker         2022-12-22   837  		clock-names = "pclk";
-cadda005961cd6a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Johan Jonker         2022-12-22   838  		clocks = <&cru PCLK_DSITX_1>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   839  		phy-names = "dphy";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   840  		phys = <&dsi_dphy1>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   841  		power-domains = <&power RK3568_PD_VO>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   842  		reset-names = "apb";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   843  		resets = <&cru SRST_P_DSITX_1>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   844  		rockchip,grf = <&grf>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   845  		status = "disabled";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   846  
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   847  		ports {
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   848  			#address-cells = <1>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   849  			#size-cells = <0>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   850  
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   851  			dsi1_in: port@0 {
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   852  				reg = <0>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   853  			};
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   854  
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   855  			dsi1_out: port@1 {
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   856  				reg = <1>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   857  			};
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   858  		};
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   859  	};
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19   860  
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   861  	hdmi: hdmi@fe0a0000 {
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   862  		compatible = "rockchip,rk3568-dw-hdmi";
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   863  		reg = <0x0 0xfe0a0000 0x0 0x20000>;
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   864  		interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   865  		clocks = <&cru PCLK_HDMI_HOST>,
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   866  			 <&cru CLK_HDMI_SFR>,
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   867  			 <&cru CLK_HDMI_CEC>,
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   868  			 <&pmucru CLK_HDMI_REF>,
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   869  			 <&cru HCLK_VO>;
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   870  		clock-names = "iahb", "isfr", "cec", "ref";
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   871  		pinctrl-names = "default";
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   872  		pinctrl-0 = <&hdmitx_scl &hdmitx_sda &hdmitxm0_cec>;
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   873  		power-domains = <&power RK3568_PD_VO>;
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   874  		reg-io-width = <4>;
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   875  		rockchip,grf = <&grf>;
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   876  		#sound-dai-cells = <0>;
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   877  		status = "disabled";
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   878  
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   879  		ports {
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   880  			#address-cells = <1>;
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   881  			#size-cells = <0>;
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   882  
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   883  			hdmi_in: port@0 {
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   884  				reg = <0>;
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   885  			};
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   886  
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   887  			hdmi_out: port@1 {
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   888  				reg = <1>;
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   889  			};
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   890  		};
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   891  	};
-d689e5709b8a9d5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2022-04-22   892  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   893  	qos_gpu: qos@fe128000 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   894  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   895  		reg = <0x0 0xfe128000 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   896  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   897  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   898  	qos_rkvenc_rd_m0: qos@fe138080 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   899  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   900  		reg = <0x0 0xfe138080 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   901  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   902  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   903  	qos_rkvenc_rd_m1: qos@fe138100 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   904  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   905  		reg = <0x0 0xfe138100 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   906  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   907  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   908  	qos_rkvenc_wr_m0: qos@fe138180 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   909  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   910  		reg = <0x0 0xfe138180 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   911  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   912  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   913  	qos_isp: qos@fe148000 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   914  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   915  		reg = <0x0 0xfe148000 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   916  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   917  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   918  	qos_vicap0: qos@fe148080 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   919  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   920  		reg = <0x0 0xfe148080 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   921  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   922  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   923  	qos_vicap1: qos@fe148100 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   924  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   925  		reg = <0x0 0xfe148100 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   926  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   927  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   928  	qos_vpu: qos@fe150000 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   929  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   930  		reg = <0x0 0xfe150000 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   931  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   932  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   933  	qos_ebc: qos@fe158000 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   934  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   935  		reg = <0x0 0xfe158000 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   936  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   937  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   938  	qos_iep: qos@fe158100 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   939  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   940  		reg = <0x0 0xfe158100 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   941  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   942  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   943  	qos_jpeg_dec: qos@fe158180 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   944  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   945  		reg = <0x0 0xfe158180 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   946  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   947  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   948  	qos_jpeg_enc: qos@fe158200 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   949  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   950  		reg = <0x0 0xfe158200 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   951  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   952  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   953  	qos_rga_rd: qos@fe158280 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   954  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   955  		reg = <0x0 0xfe158280 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   956  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   957  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   958  	qos_rga_wr: qos@fe158300 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   959  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   960  		reg = <0x0 0xfe158300 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   961  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   962  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   963  	qos_npu: qos@fe180000 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   964  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   965  		reg = <0x0 0xfe180000 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   966  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   967  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   968  	qos_pcie2x1: qos@fe190000 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   969  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   970  		reg = <0x0 0xfe190000 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   971  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   972  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   973  	qos_sata1: qos@fe190280 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   974  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   975  		reg = <0x0 0xfe190280 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   976  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   977  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   978  	qos_sata2: qos@fe190300 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   979  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   980  		reg = <0x0 0xfe190300 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   981  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   982  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   983  	qos_usb3_0: qos@fe190380 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   984  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   985  		reg = <0x0 0xfe190380 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   986  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   987  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   988  	qos_usb3_1: qos@fe190400 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   989  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   990  		reg = <0x0 0xfe190400 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   991  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   992  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   993  	qos_rkvdec: qos@fe198000 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   994  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   995  		reg = <0x0 0xfe198000 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   996  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   997  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   998  	qos_hdcp: qos@fe1a8000 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24   999  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24  1000  		reg = <0x0 0xfe1a8000 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24  1001  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24  1002  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24  1003  	qos_vop_m0: qos@fe1a8080 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24  1004  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24  1005  		reg = <0x0 0xfe1a8080 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24  1006  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24  1007  
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24  1008  	qos_vop_m1: qos@fe1a8100 {
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24  1009  		compatible = "rockchip,rk3568-qos", "syscon";
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24  1010  		reg = <0x0 0xfe1a8100 0x0 0x20>;
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24  1011  	};
-e1152a526b16951 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-24  1012  
-085be8875ca8a08 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2023-10-18  1013  	dfi: dfi@fe230000 {
-085be8875ca8a08 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2023-10-18  1014  		compatible = "rockchip,rk3568-dfi";
-085be8875ca8a08 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2023-10-18  1015  		reg = <0x00 0xfe230000 0x00 0x400>;
-085be8875ca8a08 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2023-10-18  1016  		interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
-085be8875ca8a08 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2023-10-18  1017  		rockchip,pmu = <&pmugrf>;
-085be8875ca8a08 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2023-10-18  1018  	};
-085be8875ca8a08 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2023-10-18  1019  
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1020  	pcie2x1: pcie@fe260000 {
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1021  		compatible = "rockchip,rk3568-pcie";
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1022  		reg = <0x3 0xc0000000 0x0 0x00400000>,
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1023  		      <0x0 0xfe260000 0x0 0x00010000>,
-568a67e742dfa90 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Andrew Powers-Holmes 2023-06-01  1024  		      <0x0 0xf4000000 0x0 0x00100000>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1025  		reg-names = "dbi", "apb", "config";
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1026  		interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>,
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1027  			     <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>,
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1028  			     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1029  			     <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>,
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1030  			     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
-3cee9c635f27d10 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2023-11-14  1031  		interrupt-names = "sys", "pmc", "msg", "legacy", "err";
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1032  		bus-range = <0x0 0xf>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1033  		clocks = <&cru ACLK_PCIE20_MST>, <&cru ACLK_PCIE20_SLV>,
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1034  			 <&cru ACLK_PCIE20_DBI>, <&cru PCLK_PCIE20>,
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1035  			 <&cru CLK_PCIE20_AUX_NDFT>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1036  		clock-names = "aclk_mst", "aclk_slv",
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1037  			      "aclk_dbi", "pclk", "aux";
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1038  		device_type = "pci";
-a323e6b5737bb6e arch/arm64/boot/dts/rockchip/rk356x.dtsi      Jensen Huang         2023-01-13  1039  		#interrupt-cells = <1>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1040  		interrupt-map-mask = <0 0 0 7>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1041  		interrupt-map = <0 0 0 1 &pcie_intc 0>,
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1042  				<0 0 0 2 &pcie_intc 1>,
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1043  				<0 0 0 3 &pcie_intc 2>,
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1044  				<0 0 0 4 &pcie_intc 3>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1045  		linux,pci-domain = <0>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1046  		num-ib-windows = <6>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1047  		num-ob-windows = <2>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1048  		max-link-speed = <2>;
-b956c9de91757c9 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dmitry Osipenko      2025-02-17  1049  		msi-map = <0x0 &its 0x0 0x1000>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1050  		num-lanes = <1>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1051  		phys = <&combphy2 PHY_TYPE_PCIE>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1052  		phy-names = "pcie-phy";
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1053  		power-domains = <&power RK3568_PD_PIPE>;
-568a67e742dfa90 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Andrew Powers-Holmes 2023-06-01  1054  		ranges = <0x01000000 0x0 0xf4100000 0x0 0xf4100000 0x0 0x00100000>,
-568a67e742dfa90 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Andrew Powers-Holmes 2023-06-01  1055  			 <0x02000000 0x0 0xf4200000 0x0 0xf4200000 0x0 0x01e00000>,
-568a67e742dfa90 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Andrew Powers-Holmes 2023-06-01  1056  			 <0x03000000 0x0 0x40000000 0x3 0x00000000 0x0 0x40000000>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1057  		resets = <&cru SRST_PCIE20_POWERUP>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1058  		reset-names = "pipe";
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1059  		#address-cells = <3>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1060  		#size-cells = <2>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1061  		status = "disabled";
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1062  
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1063  		pcie_intc: legacy-interrupt-controller {
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1064  			#address-cells = <0>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1065  			#interrupt-cells = <1>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1066  			interrupt-controller;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1067  			interrupt-parent = <&gic>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1068  			interrupts = <GIC_SPI 72 IRQ_TYPE_EDGE_RISING>;
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1069  		};
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1070  	};
-66b51ea7d70fcc2 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1071  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1072  	sdmmc0: mmc@fe2b0000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1073  		compatible = "rockchip,rk3568-dw-mshc", "rockchip,rk3288-dw-mshc";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1074  		reg = <0x0 0xfe2b0000 0x0 0x4000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1075  		interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1076  		clocks = <&cru HCLK_SDMMC0>, <&cru CLK_SDMMC0>,
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1077  			 <&cru SCLK_SDMMC0_DRV>, <&cru SCLK_SDMMC0_SAMPLE>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1078  		clock-names = "biu", "ciu", "ciu-drive", "ciu-sample";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1079  		fifo-depth = <0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1080  		max-frequency = <150000000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1081  		resets = <&cru SRST_SDMMC0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1082  		reset-names = "reset";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1083  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1084  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1085  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1086  	sdmmc1: mmc@fe2c0000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1087  		compatible = "rockchip,rk3568-dw-mshc", "rockchip,rk3288-dw-mshc";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1088  		reg = <0x0 0xfe2c0000 0x0 0x4000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1089  		interrupts = <GIC_SPI 99 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1090  		clocks = <&cru HCLK_SDMMC1>, <&cru CLK_SDMMC1>,
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1091  			 <&cru SCLK_SDMMC1_DRV>, <&cru SCLK_SDMMC1_SAMPLE>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1092  		clock-names = "biu", "ciu", "ciu-drive", "ciu-sample";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1093  		fifo-depth = <0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1094  		max-frequency = <150000000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1095  		resets = <&cru SRST_SDMMC1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1096  		reset-names = "reset";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1097  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1098  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1099  
-13e0ee34f39c019 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1100  	sfc: spi@fe300000 {
-13e0ee34f39c019 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1101  		compatible = "rockchip,sfc";
-13e0ee34f39c019 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1102  		reg = <0x0 0xfe300000 0x0 0x4000>;
-13e0ee34f39c019 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1103  		interrupts = <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>;
-13e0ee34f39c019 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1104  		clocks = <&cru SCLK_SFC>, <&cru HCLK_SFC>;
-13e0ee34f39c019 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1105  		clock-names = "clk_sfc", "hclk_sfc";
-13e0ee34f39c019 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1106  		pinctrl-0 = <&fspi_pins>;
-13e0ee34f39c019 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1107  		pinctrl-names = "default";
-13e0ee34f39c019 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1108  		status = "disabled";
-13e0ee34f39c019 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1109  	};
-13e0ee34f39c019 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2022-04-29  1110  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1111  	sdhci: mmc@fe310000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1112  		compatible = "rockchip,rk3568-dwcmshc";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1113  		reg = <0x0 0xfe310000 0x0 0x10000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1114  		interrupts = <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1115  		assigned-clocks = <&cru BCLK_EMMC>, <&cru TCLK_EMMC>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1116  		assigned-clock-rates = <200000000>, <24000000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1117  		clocks = <&cru CCLK_EMMC>, <&cru HCLK_EMMC>,
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1118  			 <&cru ACLK_EMMC>, <&cru BCLK_EMMC>,
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1119  			 <&cru TCLK_EMMC>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1120  		clock-names = "core", "bus", "axi", "block", "timer";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1121  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1122  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1123  
-5afdb98dcc55917 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dragan Simic         2024-12-02  1124  	/*
-5afdb98dcc55917 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dragan Simic         2024-12-02  1125  	 * Testing showed that the HWRNG found in RK3566 produces unacceptably
-5afdb98dcc55917 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dragan Simic         2024-12-02  1126  	 * low quality of random data, so the HWRNG isn't enabled for all RK356x
-5afdb98dcc55917 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dragan Simic         2024-12-02  1127  	 * SoC variants despite its presence.
-5afdb98dcc55917 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Dragan Simic         2024-12-02  1128  	 */
-afeccc4084963aa arch/arm64/boot/dts/rockchip/rk356x.dtsi      Aurelien Jarno       2024-07-30  1129  	rng: rng@fe388000 {
-afeccc4084963aa arch/arm64/boot/dts/rockchip/rk356x.dtsi      Aurelien Jarno       2024-07-30  1130  		compatible = "rockchip,rk3568-rng";
-afeccc4084963aa arch/arm64/boot/dts/rockchip/rk356x.dtsi      Aurelien Jarno       2024-07-30  1131  		reg = <0x0 0xfe388000 0x0 0x4000>;
-afeccc4084963aa arch/arm64/boot/dts/rockchip/rk356x.dtsi      Aurelien Jarno       2024-07-30  1132  		clocks = <&cru CLK_TRNG_NS>, <&cru HCLK_TRNG_NS>;
-afeccc4084963aa arch/arm64/boot/dts/rockchip/rk356x.dtsi      Aurelien Jarno       2024-07-30  1133  		clock-names = "core", "ahb";
-afeccc4084963aa arch/arm64/boot/dts/rockchip/rk356x.dtsi      Aurelien Jarno       2024-07-30  1134  		resets = <&cru SRST_TRNG_NS>;
-afeccc4084963aa arch/arm64/boot/dts/rockchip/rk356x.dtsi      Aurelien Jarno       2024-07-30  1135  		status = "disabled";
-afeccc4084963aa arch/arm64/boot/dts/rockchip/rk356x.dtsi      Aurelien Jarno       2024-07-30  1136  	};
-afeccc4084963aa arch/arm64/boot/dts/rockchip/rk356x.dtsi      Aurelien Jarno       2024-07-30  1137  
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1138  	i2s0_8ch: i2s@fe400000 {
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1139  		compatible = "rockchip,rk3568-i2s-tdm";
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1140  		reg = <0x0 0xfe400000 0x0 0x1000>;
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1141  		interrupts = <GIC_SPI 52 IRQ_TYPE_LEVEL_HIGH>;
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1142  		assigned-clocks = <&cru CLK_I2S0_8CH_TX_SRC>, <&cru CLK_I2S0_8CH_RX_SRC>;
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1143  		assigned-clock-rates = <1188000000>, <1188000000>;
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1144  		clocks = <&cru MCLK_I2S0_8CH_TX>, <&cru MCLK_I2S0_8CH_RX>, <&cru HCLK_I2S0_8CH>;
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1145  		clock-names = "mclk_tx", "mclk_rx", "hclk";
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1146  		dmas = <&dmac1 0>;
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1147  		dma-names = "tx";
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1148  		resets = <&cru SRST_M_I2S0_8CH_TX>, <&cru SRST_M_I2S0_8CH_RX>;
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1149  		reset-names = "tx-m", "rx-m";
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1150  		rockchip,grf = <&grf>;
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1151  		#sound-dai-cells = <0>;
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1152  		status = "disabled";
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1153  	};
-697ee8546e241bd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2022-06-11  1154  
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1155  	i2s1_8ch: i2s@fe410000 {
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1156  		compatible = "rockchip,rk3568-i2s-tdm";
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1157  		reg = <0x0 0xfe410000 0x0 0x1000>;
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1158  		interrupts = <GIC_SPI 53 IRQ_TYPE_LEVEL_HIGH>;
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1159  		assigned-clocks = <&cru CLK_I2S1_8CH_TX_SRC>, <&cru CLK_I2S1_8CH_RX_SRC>;
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1160  		assigned-clock-rates = <1188000000>, <1188000000>;
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1161  		clocks = <&cru MCLK_I2S1_8CH_TX>, <&cru MCLK_I2S1_8CH_RX>,
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1162  			 <&cru HCLK_I2S1_8CH>;
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1163  		clock-names = "mclk_tx", "mclk_rx", "hclk";
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1164  		dmas = <&dmac1 3>, <&dmac1 2>;
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1165  		dma-names = "rx", "tx";
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1166  		resets = <&cru SRST_M_I2S1_8CH_TX>, <&cru SRST_M_I2S1_8CH_RX>;
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1167  		reset-names = "tx-m", "rx-m";
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1168  		rockchip,grf = <&grf>;
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1169  		pinctrl-names = "default";
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1170  		pinctrl-0 = <&i2s1m0_sclktx &i2s1m0_sclkrx
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1171  			     &i2s1m0_lrcktx &i2s1m0_lrckrx
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1172  			     &i2s1m0_sdi0   &i2s1m0_sdi1
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1173  			     &i2s1m0_sdi2   &i2s1m0_sdi3
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1174  			     &i2s1m0_sdo0   &i2s1m0_sdo1
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1175  			     &i2s1m0_sdo2   &i2s1m0_sdo3>;
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1176  		#sound-dai-cells = <0>;
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1177  		status = "disabled";
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1178  	};
-ef5c913570040df arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-10-16  1179  
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1180  	i2s2_2ch: i2s@fe420000 {
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1181  		compatible = "rockchip,rk3568-i2s-tdm";
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1182  		reg = <0x0 0xfe420000 0x0 0x1000>;
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1183  		interrupts = <GIC_SPI 54 IRQ_TYPE_LEVEL_HIGH>;
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1184  		assigned-clocks = <&cru CLK_I2S2_2CH_SRC>;
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1185  		assigned-clock-rates = <1188000000>;
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1186  		clocks = <&cru MCLK_I2S2_2CH>, <&cru MCLK_I2S2_2CH>, <&cru HCLK_I2S2_2CH>;
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1187  		clock-names = "mclk_tx", "mclk_rx", "hclk";
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1188  		dmas = <&dmac1 4>, <&dmac1 5>;
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1189  		dma-names = "tx", "rx";
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1190  		resets = <&cru SRST_M_I2S2_2CH>;
-0fc19ab75acde78 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2024-02-27  1191  		reset-names = "tx-m";
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1192  		rockchip,grf = <&grf>;
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1193  		pinctrl-names = "default";
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1194  		pinctrl-0 = <&i2s2m0_sclktx
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1195  				&i2s2m0_lrcktx
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1196  				&i2s2m0_sdi
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1197  				&i2s2m0_sdo>;
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1198  		#sound-dai-cells = <0>;
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1199  		status = "disabled";
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1200  	};
-755f37010f3eac0 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Shengyu Qu           2022-10-30  1201  
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1202  	i2s3_2ch: i2s@fe430000 {
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1203  		compatible = "rockchip,rk3568-i2s-tdm";
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1204  		reg = <0x0 0xfe430000 0x0 0x1000>;
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1205  		interrupts = <GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH>;
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1206  		clocks = <&cru MCLK_I2S3_2CH_TX>, <&cru MCLK_I2S3_2CH_RX>,
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1207  			 <&cru HCLK_I2S3_2CH>;
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1208  		clock-names = "mclk_tx", "mclk_rx", "hclk";
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1209  		dmas = <&dmac1 6>, <&dmac1 7>;
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1210  		dma-names = "tx", "rx";
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1211  		resets = <&cru SRST_M_I2S3_2CH_TX>, <&cru SRST_M_I2S3_2CH_RX>;
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1212  		reset-names = "tx-m", "rx-m";
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1213  		rockchip,grf = <&grf>;
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1214  		#sound-dai-cells = <0>;
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1215  		status = "disabled";
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1216  	};
-ad14de0638903b5 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-31  1217  
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1218  	pdm: pdm@fe440000 {
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1219  		compatible = "rockchip,rk3568-pdm";
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1220  		reg = <0x0 0xfe440000 0x0 0x1000>;
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1221  		interrupts = <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1222  		clocks = <&cru MCLK_PDM>, <&cru HCLK_PDM>;
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1223  		clock-names = "pdm_clk", "pdm_hclk";
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1224  		dmas = <&dmac1 9>;
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1225  		dma-names = "rx";
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1226  		pinctrl-0 = <&pdmm0_clk
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1227  			     &pdmm0_clk1
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1228  			     &pdmm0_sdi0
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1229  			     &pdmm0_sdi1
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1230  			     &pdmm0_sdi2
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1231  			     &pdmm0_sdi3>;
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1232  		pinctrl-names = "default";
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1233  		resets = <&cru SRST_M_PDM>;
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1234  		reset-names = "pdm-m";
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1235  		#sound-dai-cells = <0>;
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1236  		status = "disabled";
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1237  	};
-79c5f0e52d29a68 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Samuel Holland       2022-01-29  1238  
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1239  	spdif: spdif@fe460000 {
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1240  		compatible = "rockchip,rk3568-spdif";
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1241  		reg = <0x0 0xfe460000 0x0 0x1000>;
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1242  		interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1243  		clock-names = "mclk", "hclk";
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1244  		clocks = <&cru MCLK_SPDIF_8CH>, <&cru HCLK_SPDIF_8CH>;
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1245  		dmas = <&dmac1 1>;
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1246  		dma-names = "tx";
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1247  		pinctrl-names = "default";
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1248  		pinctrl-0 = <&spdifm0_tx>;
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1249  		#sound-dai-cells = <0>;
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1250  		status = "disabled";
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1251  	};
-d4eade428d22f2a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Heiko Stuebner       2022-10-30  1252  
-2ddd96aadbd0412 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-01-23  1253  	dmac0: dma-controller@fe530000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1254  		compatible = "arm,pl330", "arm,primecell";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1255  		reg = <0x0 0xfe530000 0x0 0x4000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1256  		interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>,
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1257  			     <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1258  		arm,pl330-periph-burst;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1259  		clocks = <&cru ACLK_BUS>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1260  		clock-names = "apb_pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1261  		#dma-cells = <1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1262  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1263  
-2ddd96aadbd0412 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Frank Wunderlich     2022-01-23  1264  	dmac1: dma-controller@fe550000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1265  		compatible = "arm,pl330", "arm,primecell";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1266  		reg = <0x0 0xfe550000 0x0 0x4000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1267  		interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1268  			     <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1269  		arm,pl330-periph-burst;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1270  		clocks = <&cru ACLK_BUS>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1271  		clock-names = "apb_pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1272  		#dma-cells = <1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1273  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1274  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1275  	i2c1: i2c@fe5a0000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1276  		compatible = "rockchip,rk3568-i2c", "rockchip,rk3399-i2c";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1277  		reg = <0x0 0xfe5a0000 0x0 0x1000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1278  		interrupts = <GIC_SPI 47 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1279  		clocks = <&cru CLK_I2C1>, <&cru PCLK_I2C1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1280  		clock-names = "i2c", "pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1281  		pinctrl-0 = <&i2c1_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1282  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1283  		#address-cells = <1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1284  		#size-cells = <0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1285  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1286  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1287  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1288  	i2c2: i2c@fe5b0000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1289  		compatible = "rockchip,rk3568-i2c", "rockchip,rk3399-i2c";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1290  		reg = <0x0 0xfe5b0000 0x0 0x1000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1291  		interrupts = <GIC_SPI 48 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1292  		clocks = <&cru CLK_I2C2>, <&cru PCLK_I2C2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1293  		clock-names = "i2c", "pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1294  		pinctrl-0 = <&i2c2m0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1295  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1296  		#address-cells = <1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1297  		#size-cells = <0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1298  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1299  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1300  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1301  	i2c3: i2c@fe5c0000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1302  		compatible = "rockchip,rk3568-i2c", "rockchip,rk3399-i2c";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1303  		reg = <0x0 0xfe5c0000 0x0 0x1000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1304  		interrupts = <GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1305  		clocks = <&cru CLK_I2C3>, <&cru PCLK_I2C3>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1306  		clock-names = "i2c", "pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1307  		pinctrl-0 = <&i2c3m0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1308  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1309  		#address-cells = <1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1310  		#size-cells = <0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1311  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1312  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1313  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1314  	i2c4: i2c@fe5d0000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1315  		compatible = "rockchip,rk3568-i2c", "rockchip,rk3399-i2c";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1316  		reg = <0x0 0xfe5d0000 0x0 0x1000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1317  		interrupts = <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1318  		clocks = <&cru CLK_I2C4>, <&cru PCLK_I2C4>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1319  		clock-names = "i2c", "pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1320  		pinctrl-0 = <&i2c4m0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1321  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1322  		#address-cells = <1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1323  		#size-cells = <0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1324  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1325  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1326  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1327  	i2c5: i2c@fe5e0000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1328  		compatible = "rockchip,rk3568-i2c", "rockchip,rk3399-i2c";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1329  		reg = <0x0 0xfe5e0000 0x0 0x1000>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1330  		interrupts = <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1331  		clocks = <&cru CLK_I2C5>, <&cru PCLK_I2C5>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1332  		clock-names = "i2c", "pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1333  		pinctrl-0 = <&i2c5m0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1334  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1335  		#address-cells = <1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1336  		#size-cells = <0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1337  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1338  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1339  
-0edcfec3fafa1fe arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-06-22  1340  	wdt: watchdog@fe600000 {
-0edcfec3fafa1fe arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-06-22  1341  		compatible = "rockchip,rk3568-wdt", "snps,dw-wdt";
-0edcfec3fafa1fe arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-06-22  1342  		reg = <0x0 0xfe600000 0x0 0x100>;
-0edcfec3fafa1fe arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-06-22  1343  		interrupts = <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>;
-0edcfec3fafa1fe arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-06-22  1344  		clocks = <&cru TCLK_WDT_NS>, <&cru PCLK_WDT_NS>;
-0edcfec3fafa1fe arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-06-22  1345  		clock-names = "tclk", "pclk";
-0edcfec3fafa1fe arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-06-22  1346  	};
-0edcfec3fafa1fe arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-06-22  1347  
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1348  	spi0: spi@fe610000 {
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1349  		compatible = "rockchip,rk3568-spi", "rockchip,rk3066-spi";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1350  		reg = <0x0 0xfe610000 0x0 0x1000>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1351  		interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1352  		clocks = <&cru CLK_SPI0>, <&cru PCLK_SPI0>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1353  		clock-names = "spiclk", "apb_pclk";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1354  		dmas = <&dmac0 20>, <&dmac0 21>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1355  		dma-names = "tx", "rx";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1356  		pinctrl-names = "default";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1357  		pinctrl-0 = <&spi0m0_cs0 &spi0m0_cs1 &spi0m0_pins>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1358  		#address-cells = <1>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1359  		#size-cells = <0>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1360  		status = "disabled";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1361  	};
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1362  
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1363  	spi1: spi@fe620000 {
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1364  		compatible = "rockchip,rk3568-spi", "rockchip,rk3066-spi";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1365  		reg = <0x0 0xfe620000 0x0 0x1000>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1366  		interrupts = <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1367  		clocks = <&cru CLK_SPI1>, <&cru PCLK_SPI1>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1368  		clock-names = "spiclk", "apb_pclk";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1369  		dmas = <&dmac0 22>, <&dmac0 23>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1370  		dma-names = "tx", "rx";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1371  		pinctrl-names = "default";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1372  		pinctrl-0 = <&spi1m0_cs0 &spi1m0_cs1 &spi1m0_pins>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1373  		#address-cells = <1>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1374  		#size-cells = <0>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1375  		status = "disabled";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1376  	};
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1377  
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1378  	spi2: spi@fe630000 {
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1379  		compatible = "rockchip,rk3568-spi", "rockchip,rk3066-spi";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1380  		reg = <0x0 0xfe630000 0x0 0x1000>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1381  		interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1382  		clocks = <&cru CLK_SPI2>, <&cru PCLK_SPI2>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1383  		clock-names = "spiclk", "apb_pclk";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1384  		dmas = <&dmac0 24>, <&dmac0 25>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1385  		dma-names = "tx", "rx";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1386  		pinctrl-names = "default";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1387  		pinctrl-0 = <&spi2m0_cs0 &spi2m0_cs1 &spi2m0_pins>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1388  		#address-cells = <1>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1389  		#size-cells = <0>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1390  		status = "disabled";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1391  	};
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1392  
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1393  	spi3: spi@fe640000 {
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1394  		compatible = "rockchip,rk3568-spi", "rockchip,rk3066-spi";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1395  		reg = <0x0 0xfe640000 0x0 0x1000>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1396  		interrupts = <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1397  		clocks = <&cru CLK_SPI3>, <&cru PCLK_SPI3>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1398  		clock-names = "spiclk", "apb_pclk";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1399  		dmas = <&dmac0 26>, <&dmac0 27>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1400  		dma-names = "tx", "rx";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1401  		pinctrl-names = "default";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1402  		pinctrl-0 = <&spi3m0_cs0 &spi3m0_cs1 &spi3m0_pins>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1403  		#address-cells = <1>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1404  		#size-cells = <0>;
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1405  		status = "disabled";
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1406  	};
-aaa552d84580e92 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Nicolas Frattaroli   2021-11-27  1407  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1408  	uart1: serial@fe650000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1409  		compatible = "rockchip,rk3568-uart", "snps,dw-apb-uart";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1410  		reg = <0x0 0xfe650000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1411  		interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1412  		clocks = <&cru SCLK_UART1>, <&cru PCLK_UART1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1413  		clock-names = "baudclk", "apb_pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1414  		dmas = <&dmac0 2>, <&dmac0 3>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1415  		pinctrl-0 = <&uart1m0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1416  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1417  		reg-io-width = <4>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1418  		reg-shift = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1419  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1420  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1421  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1422  	uart2: serial@fe660000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1423  		compatible = "rockchip,rk3568-uart", "snps,dw-apb-uart";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1424  		reg = <0x0 0xfe660000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1425  		interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1426  		clocks = <&cru SCLK_UART2>, <&cru PCLK_UART2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1427  		clock-names = "baudclk", "apb_pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1428  		dmas = <&dmac0 4>, <&dmac0 5>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1429  		pinctrl-0 = <&uart2m0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1430  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1431  		reg-io-width = <4>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1432  		reg-shift = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1433  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1434  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1435  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1436  	uart3: serial@fe670000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1437  		compatible = "rockchip,rk3568-uart", "snps,dw-apb-uart";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1438  		reg = <0x0 0xfe670000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1439  		interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1440  		clocks = <&cru SCLK_UART3>, <&cru PCLK_UART3>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1441  		clock-names = "baudclk", "apb_pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1442  		dmas = <&dmac0 6>, <&dmac0 7>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1443  		pinctrl-0 = <&uart3m0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1444  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1445  		reg-io-width = <4>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1446  		reg-shift = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1447  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1448  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1449  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1450  	uart4: serial@fe680000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1451  		compatible = "rockchip,rk3568-uart", "snps,dw-apb-uart";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1452  		reg = <0x0 0xfe680000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1453  		interrupts = <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1454  		clocks = <&cru SCLK_UART4>, <&cru PCLK_UART4>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1455  		clock-names = "baudclk", "apb_pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1456  		dmas = <&dmac0 8>, <&dmac0 9>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1457  		pinctrl-0 = <&uart4m0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1458  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1459  		reg-io-width = <4>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1460  		reg-shift = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1461  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1462  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1463  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1464  	uart5: serial@fe690000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1465  		compatible = "rockchip,rk3568-uart", "snps,dw-apb-uart";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1466  		reg = <0x0 0xfe690000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1467  		interrupts = <GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1468  		clocks = <&cru SCLK_UART5>, <&cru PCLK_UART5>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1469  		clock-names = "baudclk", "apb_pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1470  		dmas = <&dmac0 10>, <&dmac0 11>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1471  		pinctrl-0 = <&uart5m0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1472  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1473  		reg-io-width = <4>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1474  		reg-shift = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1475  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1476  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1477  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1478  	uart6: serial@fe6a0000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1479  		compatible = "rockchip,rk3568-uart", "snps,dw-apb-uart";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1480  		reg = <0x0 0xfe6a0000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1481  		interrupts = <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1482  		clocks = <&cru SCLK_UART6>, <&cru PCLK_UART6>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1483  		clock-names = "baudclk", "apb_pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1484  		dmas = <&dmac0 12>, <&dmac0 13>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1485  		pinctrl-0 = <&uart6m0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1486  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1487  		reg-io-width = <4>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1488  		reg-shift = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1489  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1490  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1491  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1492  	uart7: serial@fe6b0000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1493  		compatible = "rockchip,rk3568-uart", "snps,dw-apb-uart";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1494  		reg = <0x0 0xfe6b0000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1495  		interrupts = <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1496  		clocks = <&cru SCLK_UART7>, <&cru PCLK_UART7>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1497  		clock-names = "baudclk", "apb_pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1498  		dmas = <&dmac0 14>, <&dmac0 15>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1499  		pinctrl-0 = <&uart7m0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1500  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1501  		reg-io-width = <4>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1502  		reg-shift = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1503  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1504  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1505  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1506  	uart8: serial@fe6c0000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1507  		compatible = "rockchip,rk3568-uart", "snps,dw-apb-uart";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1508  		reg = <0x0 0xfe6c0000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1509  		interrupts = <GIC_SPI 124 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1510  		clocks = <&cru SCLK_UART8>, <&cru PCLK_UART8>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1511  		clock-names = "baudclk", "apb_pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1512  		dmas = <&dmac0 16>, <&dmac0 17>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1513  		pinctrl-0 = <&uart8m0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1514  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1515  		reg-io-width = <4>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1516  		reg-shift = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1517  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1518  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1519  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1520  	uart9: serial@fe6d0000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1521  		compatible = "rockchip,rk3568-uart", "snps,dw-apb-uart";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1522  		reg = <0x0 0xfe6d0000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1523  		interrupts = <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1524  		clocks = <&cru SCLK_UART9>, <&cru PCLK_UART9>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1525  		clock-names = "baudclk", "apb_pclk";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1526  		dmas = <&dmac0 18>, <&dmac0 19>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1527  		pinctrl-0 = <&uart9m0_xfer>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1528  		pinctrl-names = "default";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1529  		reg-io-width = <4>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1530  		reg-shift = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1531  		status = "disabled";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1532  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1533  
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1534  	thermal_zones: thermal-zones {
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1535  		cpu_thermal: cpu-thermal {
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1536  			polling-delay-passive = <100>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1537  			polling-delay = <1000>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1538  
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1539  			thermal-sensors = <&tsadc 0>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1540  
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1541  			trips {
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1542  				cpu_alert0: cpu_alert0 {
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1543  					temperature = <70000>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1544  					hysteresis = <2000>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1545  					type = "passive";
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1546  				};
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1547  				cpu_alert1: cpu_alert1 {
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1548  					temperature = <75000>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1549  					hysteresis = <2000>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1550  					type = "passive";
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1551  				};
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1552  				cpu_crit: cpu_crit {
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1553  					temperature = <95000>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1554  					hysteresis = <2000>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1555  					type = "critical";
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1556  				};
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1557  			};
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1558  
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1559  			cooling-maps {
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1560  				map0 {
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1561  					trip = <&cpu_alert0>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1562  					cooling-device =
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1563  						<&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1564  						<&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1565  						<&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1566  						<&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1567  				};
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1568  			};
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1569  		};
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1570  
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1571  		gpu_thermal: gpu-thermal {
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1572  			polling-delay-passive = <20>; /* milliseconds */
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1573  			polling-delay = <1000>; /* milliseconds */
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1574  
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1575  			thermal-sensors = <&tsadc 1>;
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1576  
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1577  			trips {
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1578  				gpu_threshold: gpu-threshold {
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1579  					temperature = <70000>;
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1580  					hysteresis = <2000>;
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1581  					type = "passive";
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1582  				};
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1583  				gpu_target: gpu-target {
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1584  					temperature = <75000>;
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1585  					hysteresis = <2000>;
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1586  					type = "passive";
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1587  				};
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1588  				gpu_crit: gpu-crit {
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1589  					temperature = <95000>;
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1590  					hysteresis = <2000>;
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1591  					type = "critical";
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1592  				};
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1593  			};
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1594  
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1595  			cooling-maps {
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1596  				map0 {
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1597  					trip = <&gpu_target>;
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1598  					cooling-device =
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1599  						<&gpu THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1600  				};
-c0a7259fad2df72 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alex Bee             2022-02-09  1601  			};
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1602  		};
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1603  	};
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1604  
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1605  	tsadc: tsadc@fe710000 {
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1606  		compatible = "rockchip,rk3568-tsadc";
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1607  		reg = <0x0 0xfe710000 0x0 0x100>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1608  		interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1609  		assigned-clocks = <&cru CLK_TSADC_TSEN>, <&cru CLK_TSADC>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1610  		assigned-clock-rates = <17000000>, <700000>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1611  		clocks = <&cru CLK_TSADC>, <&cru PCLK_TSADC>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1612  		clock-names = "tsadc", "apb_pclk";
-5c9e66c6b75a754 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Johan Jonker         2021-09-30  1613  		resets = <&cru SRST_P_TSADC>, <&cru SRST_TSADC>,
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1614  			 <&cru SRST_TSADCPHY>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1615  		rockchip,grf = <&grf>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1616  		rockchip,hw-tshut-temp = <95000>;
-1c9034eb025330f arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alexander Shiyan     2024-07-09  1617  		pinctrl-names = "default", "sleep";
-1c9034eb025330f arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alexander Shiyan     2024-07-09  1618  		pinctrl-0 = <&tsadc_shutorg>;
-1c9034eb025330f arch/arm64/boot/dts/rockchip/rk356x.dtsi      Alexander Shiyan     2024-07-09  1619  		pinctrl-1 = <&tsadc_pin>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1620  		#thermal-sensor-cells = <1>;
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1621  		status = "disabled";
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1622  	};
-1330875dc2a3742 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1623  
-2076121eecc18fa arch/arm64/boot/dts/rockchip/rk3568.dtsi      Simon Xue            2021-07-05  1624  	saradc: saradc@fe720000 {
-2076121eecc18fa arch/arm64/boot/dts/rockchip/rk3568.dtsi      Simon Xue            2021-07-05  1625  		compatible = "rockchip,rk3568-saradc", "rockchip,rk3399-saradc";
-2076121eecc18fa arch/arm64/boot/dts/rockchip/rk3568.dtsi      Simon Xue            2021-07-05  1626  		reg = <0x0 0xfe720000 0x0 0x100>;
-2076121eecc18fa arch/arm64/boot/dts/rockchip/rk3568.dtsi      Simon Xue            2021-07-05  1627  		interrupts = <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH>;
-2076121eecc18fa arch/arm64/boot/dts/rockchip/rk3568.dtsi      Simon Xue            2021-07-05  1628  		clocks = <&cru CLK_SARADC>, <&cru PCLK_SARADC>;
-2076121eecc18fa arch/arm64/boot/dts/rockchip/rk3568.dtsi      Simon Xue            2021-07-05  1629  		clock-names = "saradc", "apb_pclk";
-2076121eecc18fa arch/arm64/boot/dts/rockchip/rk3568.dtsi      Simon Xue            2021-07-05  1630  		resets = <&cru SRST_P_SARADC>;
-2076121eecc18fa arch/arm64/boot/dts/rockchip/rk3568.dtsi      Simon Xue            2021-07-05  1631  		reset-names = "saradc-apb";
-2076121eecc18fa arch/arm64/boot/dts/rockchip/rk3568.dtsi      Simon Xue            2021-07-05  1632  		#io-channel-cells = <1>;
-2076121eecc18fa arch/arm64/boot/dts/rockchip/rk3568.dtsi      Simon Xue            2021-07-05  1633  		status = "disabled";
-2076121eecc18fa arch/arm64/boot/dts/rockchip/rk3568.dtsi      Simon Xue            2021-07-05  1634  	};
-2076121eecc18fa arch/arm64/boot/dts/rockchip/rk3568.dtsi      Simon Xue            2021-07-05  1635  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1636  	pwm4: pwm@fe6e0000 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1637  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1638  		reg = <0x0 0xfe6e0000 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1639  		clocks = <&cru CLK_PWM1>, <&cru PCLK_PWM1>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1640  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1641  		pinctrl-0 = <&pwm4_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08  1642  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1643  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1644  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1645  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1646  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1647  	pwm5: pwm@fe6e0010 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1648  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1649  		reg = <0x0 0xfe6e0010 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1650  		clocks = <&cru CLK_PWM1>, <&cru PCLK_PWM1>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1651  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1652  		pinctrl-0 = <&pwm5_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08  1653  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1654  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1655  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1656  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1657  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1658  	pwm6: pwm@fe6e0020 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1659  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1660  		reg = <0x0 0xfe6e0020 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1661  		clocks = <&cru CLK_PWM1>, <&cru PCLK_PWM1>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1662  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1663  		pinctrl-0 = <&pwm6_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08  1664  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1665  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1666  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1667  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1668  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1669  	pwm7: pwm@fe6e0030 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1670  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1671  		reg = <0x0 0xfe6e0030 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1672  		clocks = <&cru CLK_PWM1>, <&cru PCLK_PWM1>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1673  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1674  		pinctrl-0 = <&pwm7_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08  1675  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1676  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1677  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1678  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1679  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1680  	pwm8: pwm@fe6f0000 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1681  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1682  		reg = <0x0 0xfe6f0000 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1683  		clocks = <&cru CLK_PWM2>, <&cru PCLK_PWM2>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1684  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1685  		pinctrl-0 = <&pwm8m0_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08  1686  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1687  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1688  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1689  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1690  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1691  	pwm9: pwm@fe6f0010 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1692  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1693  		reg = <0x0 0xfe6f0010 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1694  		clocks = <&cru CLK_PWM2>, <&cru PCLK_PWM2>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1695  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1696  		pinctrl-0 = <&pwm9m0_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08  1697  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1698  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1699  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1700  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1701  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1702  	pwm10: pwm@fe6f0020 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1703  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1704  		reg = <0x0 0xfe6f0020 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1705  		clocks = <&cru CLK_PWM2>, <&cru PCLK_PWM2>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1706  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1707  		pinctrl-0 = <&pwm10m0_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08  1708  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1709  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1710  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1711  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1712  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1713  	pwm11: pwm@fe6f0030 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1714  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1715  		reg = <0x0 0xfe6f0030 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1716  		clocks = <&cru CLK_PWM2>, <&cru PCLK_PWM2>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1717  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1718  		pinctrl-0 = <&pwm11m0_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08  1719  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1720  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1721  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1722  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1723  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1724  	pwm12: pwm@fe700000 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1725  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1726  		reg = <0x0 0xfe700000 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1727  		clocks = <&cru CLK_PWM3>, <&cru PCLK_PWM3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1728  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1729  		pinctrl-0 = <&pwm12m0_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08  1730  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1731  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1732  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1733  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1734  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1735  	pwm13: pwm@fe700010 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1736  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1737  		reg = <0x0 0xfe700010 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1738  		clocks = <&cru CLK_PWM3>, <&cru PCLK_PWM3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1739  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1740  		pinctrl-0 = <&pwm13m0_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08  1741  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1742  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1743  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1744  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1745  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1746  	pwm14: pwm@fe700020 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1747  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1748  		reg = <0x0 0xfe700020 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1749  		clocks = <&cru CLK_PWM3>, <&cru PCLK_PWM3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1750  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1751  		pinctrl-0 = <&pwm14m0_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08  1752  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1753  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1754  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1755  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1756  
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1757  	pwm15: pwm@fe700030 {
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1758  		compatible = "rockchip,rk3568-pwm", "rockchip,rk3328-pwm";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1759  		reg = <0x0 0xfe700030 0x0 0x10>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1760  		clocks = <&cru CLK_PWM3>, <&cru PCLK_PWM3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1761  		clock-names = "pwm", "pclk";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1762  		pinctrl-0 = <&pwm15m0_pins>;
-2e4dbcf7177e5dd arch/arm64/boot/dts/rockchip/rk356x.dtsi      Sascha Hauer         2021-12-08  1763  		pinctrl-names = "default";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1764  		#pwm-cells = <3>;
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1765  		status = "disabled";
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1766  	};
-98419a39d1dc276 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Liang Chen           2021-07-26  1767  
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1768  	combphy1: phy@fe830000 {
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1769  		compatible = "rockchip,rk3568-naneng-combphy";
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1770  		reg = <0x0 0xfe830000 0x0 0x100>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1771  		clocks = <&pmucru CLK_PCIEPHY1_REF>,
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1772  			 <&cru PCLK_PIPEPHY1>,
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1773  			 <&cru PCLK_PIPE>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1774  		clock-names = "ref", "apb", "pipe";
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1775  		assigned-clocks = <&pmucru CLK_PCIEPHY1_REF>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1776  		assigned-clock-rates = <100000000>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1777  		resets = <&cru SRST_PIPEPHY1>;
-8b9c12757f91915 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2024-11-22  1778  		reset-names = "phy";
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1779  		rockchip,pipe-grf = <&pipegrf>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1780  		rockchip,pipe-phy-grf = <&pipe_phy_grf1>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1781  		#phy-cells = <1>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1782  		status = "disabled";
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1783  	};
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1784  
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1785  	combphy2: phy@fe840000 {
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1786  		compatible = "rockchip,rk3568-naneng-combphy";
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1787  		reg = <0x0 0xfe840000 0x0 0x100>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1788  		clocks = <&pmucru CLK_PCIEPHY2_REF>,
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1789  			 <&cru PCLK_PIPEPHY2>,
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1790  			 <&cru PCLK_PIPE>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1791  		clock-names = "ref", "apb", "pipe";
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1792  		assigned-clocks = <&pmucru CLK_PCIEPHY2_REF>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1793  		assigned-clock-rates = <100000000>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1794  		resets = <&cru SRST_PIPEPHY2>;
-8b9c12757f91915 arch/arm64/boot/dts/rockchip/rk356x-base.dtsi Chukun Pan           2024-11-22  1795  		reset-names = "phy";
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1796  		rockchip,pipe-grf = <&pipegrf>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1797  		rockchip,pipe-phy-grf = <&pipe_phy_grf2>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1798  		#phy-cells = <1>;
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1799  		status = "disabled";
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1800  	};
-3cc8cd2d25954ed arch/arm64/boot/dts/rockchip/rk356x.dtsi      Yifeng Zhao          2022-02-08  1801  
-b6c228401b2565b arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-07-20  1802  	csi_dphy: phy@fe870000 {
-b6c228401b2565b arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-07-20  1803  		compatible = "rockchip,rk3568-csi-dphy";
-b6c228401b2565b arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-07-20  1804  		reg = <0x0 0xfe870000 0x0 0x10000>;
-b6c228401b2565b arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-07-20  1805  		clocks = <&cru PCLK_MIPICSIPHY>;
-b6c228401b2565b arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-07-20  1806  		clock-names = "pclk";
-b6c228401b2565b arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-07-20  1807  		#phy-cells = <0>;
-b6c228401b2565b arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-07-20  1808  		resets = <&cru SRST_P_MIPICSIPHY>;
-b6c228401b2565b arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-07-20  1809  		reset-names = "apb";
-b6c228401b2565b arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-07-20  1810  		rockchip,grf = <&grf>;
-b6c228401b2565b arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-07-20  1811  		status = "disabled";
-b6c228401b2565b arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-07-20  1812  	};
-b6c228401b2565b arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-07-20  1813  
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1814  	dsi_dphy0: mipi-dphy@fe850000 {
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1815  		compatible = "rockchip,rk3568-dsi-dphy";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1816  		reg = <0x0 0xfe850000 0x0 0x10000>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1817  		clock-names = "ref", "pclk";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1818  		clocks = <&pmucru CLK_MIPIDSIPHY0_REF>, <&cru PCLK_MIPIDSIPHY0>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1819  		#phy-cells = <0>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1820  		power-domains = <&power RK3568_PD_VO>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1821  		reset-names = "apb";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1822  		resets = <&cru SRST_P_MIPIDSIPHY0>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1823  		status = "disabled";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1824  	};
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1825  
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1826  	dsi_dphy1: mipi-dphy@fe860000 {
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1827  		compatible = "rockchip,rk3568-dsi-dphy";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1828  		reg = <0x0 0xfe860000 0x0 0x10000>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1829  		clock-names = "ref", "pclk";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1830  		clocks = <&pmucru CLK_MIPIDSIPHY1_REF>, <&cru PCLK_MIPIDSIPHY1>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1831  		#phy-cells = <0>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1832  		power-domains = <&power RK3568_PD_VO>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1833  		reset-names = "apb";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1834  		resets = <&cru SRST_P_MIPIDSIPHY1>;
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1835  		status = "disabled";
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1836  	};
-e18d9b093006d8a arch/arm64/boot/dts/rockchip/rk356x.dtsi      Chris Morgan         2022-09-19  1837  
-78f7186095db5a6 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-27  1838  	usb2phy0: usb2phy@fe8a0000 {
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1839  		compatible = "rockchip,rk3568-usb2phy";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1840  		reg = <0x0 0xfe8a0000 0x0 0x10000>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1841  		clocks = <&pmucru CLK_USBPHY0_REF>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1842  		clock-names = "phyclk";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1843  		clock-output-names = "clk_usbphy0_480m";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1844  		interrupts = <GIC_SPI 135 IRQ_TYPE_LEVEL_HIGH>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1845  		rockchip,usbgrf = <&usb2phy0_grf>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1846  		#clock-cells = <0>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1847  		status = "disabled";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1848  
-78f7186095db5a6 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-27  1849  		usb2phy0_host: host-port {
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1850  			#phy-cells = <0>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1851  			status = "disabled";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1852  		};
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1853  
-78f7186095db5a6 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-27  1854  		usb2phy0_otg: otg-port {
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1855  			#phy-cells = <0>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1856  			status = "disabled";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1857  		};
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1858  	};
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1859  
-78f7186095db5a6 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-27  1860  	usb2phy1: usb2phy@fe8b0000 {
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1861  		compatible = "rockchip,rk3568-usb2phy";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1862  		reg = <0x0 0xfe8b0000 0x0 0x10000>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1863  		clocks = <&pmucru CLK_USBPHY1_REF>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1864  		clock-names = "phyclk";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1865  		clock-output-names = "clk_usbphy1_480m";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1866  		interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1867  		rockchip,usbgrf = <&usb2phy1_grf>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1868  		#clock-cells = <0>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1869  		status = "disabled";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1870  
-78f7186095db5a6 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-27  1871  		usb2phy1_host: host-port {
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1872  			#phy-cells = <0>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1873  			status = "disabled";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1874  		};
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1875  
-78f7186095db5a6 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Michael Riesch       2022-01-27  1876  		usb2phy1_otg: otg-port {
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1877  			#phy-cells = <0>;
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1878  			status = "disabled";
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1879  		};
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1880  	};
-91c4c3e06a256c9 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-12-15  1881  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1882  	pinctrl: pinctrl {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1883  		compatible = "rockchip,rk3568-pinctrl";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1884  		rockchip,grf = <&grf>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1885  		rockchip,pmu = <&pmugrf>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1886  		#address-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1887  		#size-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1888  		ranges;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1889  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1890  		gpio0: gpio@fdd60000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1891  			compatible = "rockchip,gpio-bank";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1892  			reg = <0x0 0xfdd60000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1893  			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
-3d9170c3ea221f4 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1894  			clocks = <&pmucru PCLK_GPIO0>, <&pmucru DBCLK_GPIO0>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1895  			gpio-controller;
-6f5ab8fa33238fd arch/arm64/boot/dts/rockchip/rk356x.dtsi      John Clark           2023-04-13  1896  			gpio-ranges = <&pinctrl 0 0 32>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1897  			#gpio-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1898  			interrupt-controller;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1899  			#interrupt-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1900  		};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1901  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1902  		gpio1: gpio@fe740000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1903  			compatible = "rockchip,gpio-bank";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1904  			reg = <0x0 0xfe740000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1905  			interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
-3d9170c3ea221f4 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1906  			clocks = <&cru PCLK_GPIO1>, <&cru DBCLK_GPIO1>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1907  			gpio-controller;
-6f5ab8fa33238fd arch/arm64/boot/dts/rockchip/rk356x.dtsi      John Clark           2023-04-13  1908  			gpio-ranges = <&pinctrl 0 32 32>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1909  			#gpio-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1910  			interrupt-controller;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1911  			#interrupt-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1912  		};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1913  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1914  		gpio2: gpio@fe750000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1915  			compatible = "rockchip,gpio-bank";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1916  			reg = <0x0 0xfe750000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1917  			interrupts = <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
-3d9170c3ea221f4 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1918  			clocks = <&cru PCLK_GPIO2>, <&cru DBCLK_GPIO2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1919  			gpio-controller;
-6f5ab8fa33238fd arch/arm64/boot/dts/rockchip/rk356x.dtsi      John Clark           2023-04-13  1920  			gpio-ranges = <&pinctrl 0 64 32>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1921  			#gpio-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1922  			interrupt-controller;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1923  			#interrupt-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1924  		};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1925  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1926  		gpio3: gpio@fe760000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1927  			compatible = "rockchip,gpio-bank";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1928  			reg = <0x0 0xfe760000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1929  			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
-3d9170c3ea221f4 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1930  			clocks = <&cru PCLK_GPIO3>, <&cru DBCLK_GPIO3>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1931  			gpio-controller;
-6f5ab8fa33238fd arch/arm64/boot/dts/rockchip/rk356x.dtsi      John Clark           2023-04-13  1932  			gpio-ranges = <&pinctrl 0 96 32>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1933  			#gpio-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1934  			interrupt-controller;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1935  			#interrupt-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1936  		};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1937  
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1938  		gpio4: gpio@fe770000 {
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1939  			compatible = "rockchip,gpio-bank";
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1940  			reg = <0x0 0xfe770000 0x0 0x100>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1941  			interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
-3d9170c3ea221f4 arch/arm64/boot/dts/rockchip/rk356x.dtsi      Peter Geis           2021-07-28  1942  			clocks = <&cru PCLK_GPIO4>, <&cru DBCLK_GPIO4>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1943  			gpio-controller;
-6f5ab8fa33238fd arch/arm64/boot/dts/rockchip/rk356x.dtsi      John Clark           2023-04-13  1944  			gpio-ranges = <&pinctrl 0 128 32>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1945  			#gpio-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1946  			interrupt-controller;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1947  			#interrupt-cells = <2>;
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1948  		};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1949  	};
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1950  };
-a3adc0b9071d880 arch/arm64/boot/dts/rockchip/rk3568.dtsi      Liang Chen           2021-06-22  1951  
+>> ld: cannot find loongarch64-linux-gcc:: No such file or directory
+>> ld: cannot find note:: No such file or directory
+>> ld: cannot find ABI: No such file or directory
+>> ld: cannot find lp64s: No such file or directory
+>> ld: cannot find is: No such file or directory
+>> ld: cannot find not: No such file or directory
+>> ld: cannot find enabled: No such file or directory
+>> ld: cannot find at: No such file or directory
+>> ld: cannot find configure-time,: No such file or directory
+>> ld: cannot find the: No such file or directory
+>> ld: cannot find linker: No such file or directory
+>> ld: cannot find might: No such file or directory
+>> ld: cannot find report: No such file or directory
+>> ld: cannot find an: No such file or directory
+>> ld: cannot find error: No such file or directory
+>> ld: cannot find loongarch64-linux-gcc:: No such file or directory
+>> ld: cannot find note:: No such file or directory
+>> ld: cannot find ABI: No such file or directory
+>> ld: cannot find with: No such file or directory
+>> ld: cannot find startfiles:: No such file or directory
+   ld: cannot find lp64d: No such file or directory
+   collect2: error: ld returned 1 exit status
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+--ZGPwKmDdaqRj54NV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename=config
+
+#
+# Automatically generated file; DO NOT EDIT.
+# Linux/loongarch 6.15.0-rc7 Kernel Configuration
+#
+CONFIG_CC_VERSION_TEXT="loongarch64-linux-gcc (GCC) 12.4.0"
+CONFIG_CC_IS_GCC=y
+CONFIG_GCC_VERSION=120400
+CONFIG_CLANG_VERSION=0
+CONFIG_AS_IS_GNU=y
+CONFIG_AS_VERSION=24200
+CONFIG_LD_IS_BFD=y
+CONFIG_LD_VERSION=24200
+CONFIG_LLD_VERSION=0
+CONFIG_RUSTC_VERSION=0
+CONFIG_RUSTC_LLVM_VERSION=0
+CONFIG_ARCH_HAS_NOLIBC=y
+CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y
+CONFIG_CC_HAS_ASM_GOTO_TIED_OUTPUT=y
+CONFIG_CC_HAS_ASM_INLINE=y
+CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
+CONFIG_LD_CAN_USE_KEEP_IN_OVERLAY=y
+CONFIG_PAHOLE_VERSION=130
+CONFIG_IRQ_WORK=y
+CONFIG_BUILDTIME_TABLE_SORT=y
+
+#
+# General setup
+#
+CONFIG_INIT_ENV_ARG_LIMIT=32
+CONFIG_COMPILE_TEST=y
+# CONFIG_WERROR is not set
+CONFIG_LOCALVERSION=""
+CONFIG_BUILD_SALT=""
+CONFIG_DEFAULT_INIT=""
+CONFIG_DEFAULT_HOSTNAME="(none)"
+# CONFIG_SYSVIPC is not set
+CONFIG_POSIX_MQUEUE=y
+CONFIG_WATCH_QUEUE=y
+CONFIG_CROSS_MEMORY_ATTACH=y
+# CONFIG_USELIB is not set
+# CONFIG_AUDIT is not set
+CONFIG_HAVE_ARCH_AUDITSYSCALL=y
+
+#
+# IRQ subsystem
+#
+CONFIG_GENERIC_IRQ_PROBE=y
+CONFIG_GENERIC_IRQ_SHOW=y
+CONFIG_GENERIC_IRQ_EFFECTIVE_AFF_MASK=y
+CONFIG_GENERIC_IRQ_MIGRATION=y
+CONFIG_GENERIC_IRQ_INJECTION=y
+CONFIG_GENERIC_IRQ_CHIP=y
+CONFIG_IRQ_DOMAIN=y
+CONFIG_IRQ_SIM=y
+CONFIG_IRQ_DOMAIN_HIERARCHY=y
+CONFIG_IRQ_FASTEOI_HIERARCHY_HANDLERS=y
+CONFIG_GENERIC_MSI_IRQ=y
+CONFIG_GENERIC_IRQ_MATRIX_ALLOCATOR=y
+CONFIG_GENERIC_IRQ_STAT_SNAPSHOT=y
+CONFIG_IRQ_FORCED_THREADING=y
+CONFIG_SPARSE_IRQ=y
+CONFIG_GENERIC_IRQ_DEBUGFS=y
+# end of IRQ subsystem
+
+CONFIG_GENERIC_IRQ_MULTI_HANDLER=y
+CONFIG_GENERIC_TIME_VSYSCALL=y
+CONFIG_GENERIC_CLOCKEVENTS=y
+CONFIG_GENERIC_CMOS_UPDATE=y
+CONFIG_HAVE_POSIX_CPU_TIMERS_TASK_WORK=y
+CONFIG_POSIX_CPU_TIMERS_TASK_WORK=y
+CONFIG_TIME_KUNIT_TEST=y
+CONFIG_CONTEXT_TRACKING=y
+CONFIG_CONTEXT_TRACKING_IDLE=y
+
+#
+# Timers subsystem
+#
+CONFIG_TICK_ONESHOT=y
+CONFIG_NO_HZ_COMMON=y
+# CONFIG_HZ_PERIODIC is not set
+# CONFIG_NO_HZ_IDLE is not set
+CONFIG_NO_HZ_FULL=y
+CONFIG_CONTEXT_TRACKING_USER=y
+CONFIG_CONTEXT_TRACKING_USER_FORCE=y
+# CONFIG_NO_HZ is not set
+CONFIG_HIGH_RES_TIMERS=y
+# CONFIG_POSIX_AUX_CLOCKS is not set
+# end of Timers subsystem
+
+CONFIG_BPF=y
+CONFIG_HAVE_EBPF_JIT=y
+CONFIG_ARCH_WANT_DEFAULT_BPF_JIT=y
+
+#
+# BPF subsystem
+#
+CONFIG_BPF_SYSCALL=y
+# CONFIG_BPF_JIT is not set
+# CONFIG_BPF_UNPRIV_DEFAULT_OFF is not set
+# end of BPF subsystem
+
+CONFIG_PREEMPT_VOLUNTARY_BUILD=y
+CONFIG_ARCH_HAS_PREEMPT_LAZY=y
+# CONFIG_PREEMPT_NONE is not set
+CONFIG_PREEMPT_VOLUNTARY=y
+# CONFIG_PREEMPT is not set
+# CONFIG_PREEMPT_LAZY is not set
+CONFIG_PREEMPT_COUNT=y
+# CONFIG_PREEMPT_DYNAMIC is not set
+
+#
+# CPU/Task time and stats accounting
+#
+CONFIG_VIRT_CPU_ACCOUNTING=y
+CONFIG_VIRT_CPU_ACCOUNTING_GEN=y
+CONFIG_IRQ_TIME_ACCOUNTING=y
+CONFIG_HAVE_SCHED_AVG_IRQ=y
+CONFIG_BSD_PROCESS_ACCT=y
+# CONFIG_BSD_PROCESS_ACCT_V3 is not set
+# CONFIG_TASKSTATS is not set
+# CONFIG_PSI is not set
+# end of CPU/Task time and stats accounting
+
+CONFIG_CPU_ISOLATION=y
+
+#
+# RCU Subsystem
+#
+CONFIG_TREE_RCU=y
+# CONFIG_RCU_EXPERT is not set
+CONFIG_TREE_SRCU=y
+CONFIG_TASKS_RCU_GENERIC=y
+CONFIG_NEED_TASKS_RCU=y
+CONFIG_TASKS_TRACE_RCU=y
+CONFIG_RCU_STALL_COMMON=y
+CONFIG_RCU_NEED_SEGCBLIST=y
+CONFIG_RCU_NOCB_CPU=y
+CONFIG_RCU_NOCB_CPU_DEFAULT_ALL=y
+CONFIG_RCU_LAZY=y
+# CONFIG_RCU_LAZY_DEFAULT_OFF is not set
+# end of RCU Subsystem
+
+CONFIG_IKCONFIG=y
+# CONFIG_IKCONFIG_PROC is not set
+CONFIG_IKHEADERS=y
+CONFIG_LOG_BUF_SHIFT=17
+CONFIG_LOG_CPU_MAX_BUF_SHIFT=12
+CONFIG_PRINTK_INDEX=y
+CONFIG_GENERIC_SCHED_CLOCK=y
+
+#
+# Scheduler features
+#
+# end of Scheduler features
+
+CONFIG_ARCH_SUPPORTS_NUMA_BALANCING=y
+CONFIG_CC_HAS_INT128=y
+CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough=5"
+CONFIG_GCC10_NO_ARRAY_BOUNDS=y
+CONFIG_CC_NO_ARRAY_BOUNDS=y
+CONFIG_GCC_NO_STRINGOP_OVERFLOW=y
+CONFIG_CC_NO_STRINGOP_OVERFLOW=y
+CONFIG_ARCH_SUPPORTS_INT128=y
+CONFIG_NUMA_BALANCING=y
+CONFIG_NUMA_BALANCING_DEFAULT_ENABLED=y
+CONFIG_CGROUPS=y
+# CONFIG_CGROUP_FAVOR_DYNMODS is not set
+# CONFIG_MEMCG is not set
+CONFIG_CGROUP_SCHED=y
+CONFIG_GROUP_SCHED_WEIGHT=y
+CONFIG_FAIR_GROUP_SCHED=y
+CONFIG_CFS_BANDWIDTH=y
+# CONFIG_RT_GROUP_SCHED is not set
+CONFIG_SCHED_MM_CID=y
+# CONFIG_CGROUP_PIDS is not set
+CONFIG_CGROUP_RDMA=y
+# CONFIG_CGROUP_DMEM is not set
+CONFIG_CGROUP_FREEZER=y
+CONFIG_CPUSETS=y
+CONFIG_CPUSETS_V1=y
+CONFIG_PROC_PID_CPUSET=y
+# CONFIG_CGROUP_DEVICE is not set
+# CONFIG_CGROUP_CPUACCT is not set
+# CONFIG_CGROUP_PERF is not set
+# CONFIG_CGROUP_BPF is not set
+CONFIG_CGROUP_MISC=y
+# CONFIG_CGROUP_DEBUG is not set
+CONFIG_SOCK_CGROUP_DATA=y
+CONFIG_NAMESPACES=y
+CONFIG_UTS_NS=y
+# CONFIG_TIME_NS is not set
+CONFIG_IPC_NS=y
+# CONFIG_USER_NS is not set
+CONFIG_PID_NS=y
+# CONFIG_NET_NS is not set
+# CONFIG_CHECKPOINT_RESTORE is not set
+CONFIG_SCHED_AUTOGROUP=y
+CONFIG_RELAY=y
+# CONFIG_BLK_DEV_INITRD is not set
+# CONFIG_BOOT_CONFIG is not set
+# CONFIG_INITRAMFS_PRESERVE_MTIME is not set
+# CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE is not set
+CONFIG_CC_OPTIMIZE_FOR_SIZE=y
+CONFIG_LD_ORPHAN_WARN=y
+CONFIG_LD_ORPHAN_WARN_LEVEL="warn"
+CONFIG_SYSCTL_EXCEPTION_TRACE=y
+CONFIG_SYSCTL_ARCH_UNALIGN_NO_WARN=y
+CONFIG_SYSCTL_ARCH_UNALIGN_ALLOW=y
+CONFIG_SYSFS_SYSCALL=y
+CONFIG_EXPERT=y
+CONFIG_MULTIUSER=y
+# CONFIG_SGETMASK_SYSCALL is not set
+# CONFIG_FHANDLE is not set
+CONFIG_POSIX_TIMERS=y
+CONFIG_PRINTK=y
+CONFIG_BUG=y
+CONFIG_ELF_CORE=y
+# CONFIG_BASE_SMALL is not set
+# CONFIG_FUTEX is not set
+# CONFIG_EPOLL is not set
+# CONFIG_SIGNALFD is not set
+# CONFIG_TIMERFD is not set
+CONFIG_EVENTFD=y
+CONFIG_SHMEM=y
+CONFIG_AIO=y
+# CONFIG_IO_URING is not set
+# CONFIG_ADVISE_SYSCALLS is not set
+CONFIG_MEMBARRIER=y
+CONFIG_KCMP=y
+CONFIG_RSEQ=y
+# CONFIG_DEBUG_RSEQ is not set
+# CONFIG_CACHESTAT_SYSCALL is not set
+CONFIG_PC104=y
+CONFIG_KALLSYMS=y
+CONFIG_KALLSYMS_SELFTEST=y
+CONFIG_KALLSYMS_ALL=y
+CONFIG_HAVE_PERF_EVENTS=y
+CONFIG_PERF_USE_VMALLOC=y
+
+#
+# Kernel Performance Events And Counters
+#
+CONFIG_PERF_EVENTS=y
+CONFIG_DEBUG_PERF_USE_VMALLOC=y
+# end of Kernel Performance Events And Counters
+
+CONFIG_SYSTEM_DATA_VERIFICATION=y
+CONFIG_PROFILING=y
+CONFIG_TRACEPOINTS=y
+
+#
+# Kexec and crash features
+#
+# CONFIG_KEXEC is not set
+# end of Kexec and crash features
+# end of General setup
+
+CONFIG_LOONGARCH=y
+CONFIG_64BIT=y
+CONFIG_GENERIC_BUG=y
+CONFIG_GENERIC_BUG_RELATIVE_POINTERS=y
+CONFIG_GENERIC_CALIBRATE_DELAY=y
+CONFIG_GENERIC_CSUM=y
+CONFIG_GENERIC_HWEIGHT=y
+CONFIG_L1_CACHE_SHIFT=6
+CONFIG_LOCKDEP_SUPPORT=y
+CONFIG_STACKTRACE_SUPPORT=y
+CONFIG_MACH_LOONGSON64=y
+CONFIG_FIX_EARLYCON_MEM=y
+CONFIG_PGTABLE_3LEVEL=y
+CONFIG_PGTABLE_LEVELS=3
+CONFIG_SCHED_OMIT_FRAME_POINTER=y
+CONFIG_AS_HAS_EXPLICIT_RELOCS=y
+CONFIG_AS_HAS_FCSR_CLASS=y
+CONFIG_AS_HAS_THIN_ADD_SUB=y
+CONFIG_AS_HAS_LSX_EXTENSION=y
+CONFIG_AS_HAS_LASX_EXTENSION=y
+CONFIG_AS_HAS_LBT_EXTENSION=y
+CONFIG_AS_HAS_LVZ_EXTENSION=y
+
+#
+# Kernel type and options
+#
+# CONFIG_HZ_100 is not set
+# CONFIG_HZ_250 is not set
+CONFIG_HZ_300=y
+# CONFIG_HZ_1000 is not set
+CONFIG_HZ=300
+CONFIG_SCHED_HRTICK=y
+# CONFIG_4KB_3LEVEL is not set
+# CONFIG_4KB_4LEVEL is not set
+# CONFIG_16KB_2LEVEL is not set
+# CONFIG_16KB_3LEVEL is not set
+# CONFIG_64KB_2LEVEL is not set
+CONFIG_64KB_3LEVEL=y
+CONFIG_CMDLINE=""
+# CONFIG_CMDLINE_BOOTLOADER is not set
+# CONFIG_CMDLINE_EXTEND is not set
+CONFIG_CMDLINE_FORCE=y
+# CONFIG_BUILTIN_DTB is not set
+# CONFIG_DMI is not set
+CONFIG_EFI=y
+# CONFIG_EFI_STUB is not set
+# CONFIG_SCHED_SMT is not set
+CONFIG_SMP=y
+CONFIG_HOTPLUG_CPU=y
+CONFIG_NR_CPUS=64
+CONFIG_NUMA=y
+CONFIG_NODES_SHIFT=6
+CONFIG_ARCH_FORCE_MAX_ORDER=13
+# CONFIG_ARCH_IOREMAP is not set
+CONFIG_ARCH_WRITECOMBINE=y
+# CONFIG_ARCH_STRICT_ALIGN is not set
+CONFIG_CPU_HAS_FPU=y
+# CONFIG_CPU_HAS_LSX is not set
+# CONFIG_CPU_HAS_LBT is not set
+CONFIG_CPU_HAS_PREFETCH=y
+CONFIG_ARCH_SUPPORTS_KEXEC=y
+CONFIG_ARCH_SUPPORTS_CRASH_DUMP=y
+CONFIG_ARCH_DEFAULT_CRASH_DUMP=y
+CONFIG_RELOCATABLE=y
+# CONFIG_RANDOMIZE_BASE is not set
+CONFIG_HAVE_LIVEPATCH=y
+# CONFIG_PARAVIRT is not set
+# end of Kernel type and options
+
+CONFIG_ARCH_SELECT_MEMORY_MODEL=y
+CONFIG_ARCH_SPARSEMEM_ENABLE=y
+CONFIG_ARCH_MEMORY_PROBE=y
+CONFIG_MMU=y
+CONFIG_ARCH_MMAP_RND_BITS_MIN=12
+CONFIG_ARCH_MMAP_RND_BITS_MAX=18
+CONFIG_ARCH_SUPPORTS_UPROBES=y
+
+#
+# Power management options
+#
+CONFIG_ARCH_SUSPEND_POSSIBLE=y
+CONFIG_ARCH_HIBERNATION_POSSIBLE=y
+# CONFIG_SUSPEND is not set
+CONFIG_PM=y
+# CONFIG_PM_DEBUG is not set
+CONFIG_PM_CLK=y
+CONFIG_PM_GENERIC_DOMAINS=y
+CONFIG_WQ_POWER_EFFICIENT_DEFAULT=y
+CONFIG_PM_GENERIC_DOMAINS_OF=y
+CONFIG_CPU_PM=y
+CONFIG_ENERGY_MODEL=y
+CONFIG_ARCH_SUPPORTS_ACPI=y
+CONFIG_ACPI=y
+CONFIG_ACPI_GENERIC_GSI=y
+CONFIG_ACPI_SYSTEM_POWER_STATES_SUPPORT=y
+CONFIG_ACPI_THERMAL_LIB=y
+CONFIG_ACPI_DEBUGGER=y
+CONFIG_ACPI_DEBUGGER_USER=m
+CONFIG_ACPI_SPCR_TABLE=y
+CONFIG_ACPI_EC=y
+# CONFIG_ACPI_EC_DEBUGFS is not set
+CONFIG_ACPI_AC=m
+CONFIG_ACPI_BATTERY=m
+CONFIG_ACPI_BUTTON=y
+CONFIG_ACPI_VIDEO=m
+CONFIG_ACPI_FAN=m
+# CONFIG_ACPI_DOCK is not set
+CONFIG_ACPI_CPU_FREQ_PSS=y
+CONFIG_ACPI_PROCESSOR_IDLE=y
+CONFIG_ACPI_MCFG=y
+CONFIG_ACPI_PROCESSOR=m
+CONFIG_ACPI_IPMI=m
+CONFIG_ACPI_HOTPLUG_CPU=y
+CONFIG_ACPI_THERMAL=m
+CONFIG_ACPI_CUSTOM_DSDT_FILE=""
+CONFIG_ARCH_HAS_ACPI_TABLE_UPGRADE=y
+CONFIG_ACPI_DEBUG=y
+CONFIG_ACPI_PCI_SLOT=y
+CONFIG_ACPI_CONTAINER=y
+# CONFIG_ACPI_HOTPLUG_MEMORY is not set
+# CONFIG_ACPI_HED is not set
+# CONFIG_ACPI_BGRT is not set
+CONFIG_ACPI_REDUCED_HARDWARE_ONLY=y
+CONFIG_ACPI_NUMA=y
+CONFIG_ACPI_HMAT=y
+CONFIG_ACPI_WATCHDOG=y
+CONFIG_ACPI_CONFIGFS=y
+CONFIG_ACPI_PFRUT=m
+CONFIG_ACPI_PPTT=y
+CONFIG_ACPI_FFH=y
+# CONFIG_PMIC_OPREGION is not set
+
+#
+# CPU Frequency scaling
+#
+CONFIG_CPU_FREQ=y
+CONFIG_CPU_FREQ_GOV_ATTR_SET=y
+CONFIG_CPU_FREQ_GOV_COMMON=y
+CONFIG_CPU_FREQ_STAT=y
+# CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE is not set
+# CONFIG_CPU_FREQ_DEFAULT_GOV_POWERSAVE is not set
+CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE=y
+# CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND is not set
+# CONFIG_CPU_FREQ_DEFAULT_GOV_CONSERVATIVE is not set
+# CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL is not set
+# CONFIG_CPU_FREQ_GOV_PERFORMANCE is not set
+CONFIG_CPU_FREQ_GOV_POWERSAVE=y
+CONFIG_CPU_FREQ_GOV_USERSPACE=y
+# CONFIG_CPU_FREQ_GOV_ONDEMAND is not set
+CONFIG_CPU_FREQ_GOV_CONSERVATIVE=m
+# CONFIG_CPU_FREQ_GOV_SCHEDUTIL is not set
+
+#
+# CPU frequency scaling drivers
+#
+CONFIG_CPUFREQ_DT=m
+CONFIG_CPUFREQ_DT_PLATDEV=y
+# CONFIG_ARM_AIROHA_SOC_CPUFREQ is not set
+# CONFIG_ARM_APPLE_SOC_CPUFREQ is not set
+CONFIG_ARM_ARMADA_37XX_CPUFREQ=m
+# CONFIG_ARM_ARMADA_8K_CPUFREQ is not set
+# CONFIG_ARM_BRCMSTB_AVS_CPUFREQ is not set
+# CONFIG_ARM_IMX_CPUFREQ_DT is not set
+CONFIG_ARM_MEDIATEK_CPUFREQ=m
+# CONFIG_ARM_MEDIATEK_CPUFREQ_HW is not set
+# CONFIG_ARM_OMAP2PLUS_CPUFREQ is not set
+CONFIG_ARM_QCOM_CPUFREQ_HW=m
+CONFIG_ARM_RASPBERRYPI_CPUFREQ=y
+# CONFIG_ARM_S3C64XX_CPUFREQ is not set
+# CONFIG_ARM_S5PV210_CPUFREQ is not set
+# CONFIG_ARM_SCMI_CPUFREQ is not set
+CONFIG_ARM_SPEAR_CPUFREQ=y
+CONFIG_ARM_STI_CPUFREQ=m
+CONFIG_ARM_TEGRA20_CPUFREQ=m
+CONFIG_ARM_TEGRA124_CPUFREQ=y
+# CONFIG_ARM_TI_CPUFREQ is not set
+CONFIG_ARM_PXA2xx_CPUFREQ=y
+# CONFIG_LOONGSON3_CPUFREQ is not set
+# CONFIG_QORIQ_CPUFREQ is not set
+# end of CPU Frequency scaling
+# end of Power management options
+
+CONFIG_VIRTUALIZATION=y
+# CONFIG_KVM is not set
+CONFIG_CPU_MITIGATIONS=y
+
+#
+# General architecture-dependent options
+#
+CONFIG_GENERIC_ENTRY=y
+# CONFIG_KPROBES is not set
+CONFIG_JUMP_LABEL=y
+CONFIG_STATIC_KEYS_SELFTEST=y
+CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y
+CONFIG_ARCH_USE_BUILTIN_BSWAP=y
+CONFIG_HAVE_IOREMAP_PROT=y
+CONFIG_HAVE_KPROBES=y
+CONFIG_HAVE_KRETPROBES=y
+CONFIG_HAVE_KPROBES_ON_FTRACE=y
+CONFIG_HAVE_FUNCTION_ERROR_INJECTION=y
+CONFIG_HAVE_NMI=y
+CONFIG_TRACE_IRQFLAGS_SUPPORT=y
+CONFIG_HAVE_ARCH_TRACEHOOK=y
+CONFIG_HAVE_DMA_CONTIGUOUS=y
+CONFIG_GENERIC_SMP_IDLE_THREAD=y
+CONFIG_ARCH_HAS_FORTIFY_SOURCE=y
+CONFIG_ARCH_HAS_SET_MEMORY=y
+CONFIG_ARCH_HAS_SET_DIRECT_MAP=y
+CONFIG_ARCH_HAS_CPU_FINALIZE_INIT=y
+CONFIG_ARCH_WANTS_NO_INSTR=y
+CONFIG_HAVE_ASM_MODVERSIONS=y
+CONFIG_HAVE_REGS_AND_STACK_ACCESS_API=y
+CONFIG_HAVE_RSEQ=y
+CONFIG_HAVE_RUST=y
+CONFIG_HAVE_FUNCTION_ARG_ACCESS_API=y
+CONFIG_HAVE_HW_BREAKPOINT=y
+CONFIG_HAVE_PERF_REGS=y
+CONFIG_HAVE_PERF_USER_STACK_DUMP=y
+CONFIG_HAVE_ARCH_JUMP_LABEL=y
+CONFIG_HAVE_ARCH_JUMP_LABEL_RELATIVE=y
+CONFIG_MMU_GATHER_MERGE_VMAS=y
+CONFIG_MMU_LAZY_TLB_REFCOUNT=y
+CONFIG_ARCH_HAS_NMI_SAFE_THIS_CPU_OPS=y
+CONFIG_HAVE_ARCH_SECCOMP=y
+CONFIG_HAVE_ARCH_SECCOMP_FILTER=y
+# CONFIG_SECCOMP is not set
+CONFIG_HAVE_STACKPROTECTOR=y
+# CONFIG_STACKPROTECTOR is not set
+CONFIG_ARCH_SUPPORTS_LTO_CLANG=y
+CONFIG_ARCH_SUPPORTS_LTO_CLANG_THIN=y
+CONFIG_LTO_NONE=y
+CONFIG_HAVE_CONTEXT_TRACKING_USER=y
+CONFIG_HAVE_TIF_NOHZ=y
+CONFIG_HAVE_VIRT_CPU_ACCOUNTING_GEN=y
+CONFIG_HAVE_IRQ_TIME_ACCOUNTING=y
+CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE=y
+CONFIG_HAVE_MOD_ARCH_SPECIFIC=y
+CONFIG_MODULES_USE_ELF_RELA=y
+CONFIG_HAVE_IRQ_EXIT_ON_IRQ_STACK=y
+CONFIG_ARCH_HAS_ELF_RANDOMIZE=y
+CONFIG_HAVE_ARCH_MMAP_RND_BITS=y
+CONFIG_HAVE_EXIT_THREAD=y
+CONFIG_ARCH_MMAP_RND_BITS=12
+CONFIG_HAVE_PAGE_SIZE_64KB=y
+CONFIG_PAGE_SIZE_64KB=y
+CONFIG_PAGE_SIZE_LESS_THAN_256KB=y
+CONFIG_PAGE_SHIFT=16
+CONFIG_ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT=y
+CONFIG_HAVE_OBJTOOL=y
+CONFIG_HAVE_STACK_VALIDATION=y
+CONFIG_ISA_BUS_API=y
+CONFIG_COMPAT_32BIT_TIME=y
+CONFIG_ARCH_SUPPORTS_RT=y
+CONFIG_HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET=y
+# CONFIG_RANDOMIZE_KSTACK_OFFSET is not set
+# CONFIG_LOCK_EVENT_COUNTS is not set
+CONFIG_ARCH_HAS_RELR=y
+CONFIG_ARCH_HAS_VDSO_ARCH_DATA=y
+CONFIG_HAVE_PREEMPT_DYNAMIC=y
+CONFIG_HAVE_PREEMPT_DYNAMIC_KEY=y
+CONFIG_ARCH_WANT_LD_ORPHAN_WARN=y
+CONFIG_ARCH_HAS_KERNEL_FPU_SUPPORT=y
+
+#
+# GCOV-based kernel profiling
+#
+# CONFIG_GCOV_KERNEL is not set
+# end of GCOV-based kernel profiling
+
+CONFIG_HAVE_GCC_PLUGINS=y
+CONFIG_FUNCTION_ALIGNMENT=0
+# end of General architecture-dependent options
+
+CONFIG_RT_MUTEXES=y
+CONFIG_MODULES=y
+# CONFIG_MODULE_DEBUG is not set
+CONFIG_MODULE_FORCE_LOAD=y
+# CONFIG_MODULE_UNLOAD is not set
+# CONFIG_MODULE_SRCVERSION_ALL is not set
+# CONFIG_MODULE_SIG is not set
+# CONFIG_MODULE_COMPRESS is not set
+CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS=y
+CONFIG_MODPROBE_PATH="/sbin/modprobe"
+CONFIG_TRIM_UNUSED_KSYMS=y
+CONFIG_UNUSED_KSYMS_WHITELIST=""
+CONFIG_MODULES_TREE_LOOKUP=y
+# CONFIG_BLOCK is not set
+CONFIG_PADATA=y
+CONFIG_ASN1=y
+CONFIG_ARCH_INLINE_SPIN_TRYLOCK=y
+CONFIG_ARCH_INLINE_SPIN_TRYLOCK_BH=y
+CONFIG_ARCH_INLINE_SPIN_LOCK=y
+CONFIG_ARCH_INLINE_SPIN_LOCK_BH=y
+CONFIG_ARCH_INLINE_SPIN_LOCK_IRQ=y
+CONFIG_ARCH_INLINE_SPIN_LOCK_IRQSAVE=y
+CONFIG_ARCH_INLINE_SPIN_UNLOCK=y
+CONFIG_ARCH_INLINE_SPIN_UNLOCK_BH=y
+CONFIG_ARCH_INLINE_SPIN_UNLOCK_IRQ=y
+CONFIG_ARCH_INLINE_SPIN_UNLOCK_IRQRESTORE=y
+CONFIG_ARCH_INLINE_READ_LOCK=y
+CONFIG_ARCH_INLINE_READ_LOCK_BH=y
+CONFIG_ARCH_INLINE_READ_LOCK_IRQ=y
+CONFIG_ARCH_INLINE_READ_LOCK_IRQSAVE=y
+CONFIG_ARCH_INLINE_READ_UNLOCK=y
+CONFIG_ARCH_INLINE_READ_UNLOCK_BH=y
+CONFIG_ARCH_INLINE_READ_UNLOCK_IRQ=y
+CONFIG_ARCH_INLINE_READ_UNLOCK_IRQRESTORE=y
+CONFIG_ARCH_INLINE_WRITE_LOCK=y
+CONFIG_ARCH_INLINE_WRITE_LOCK_BH=y
+CONFIG_ARCH_INLINE_WRITE_LOCK_IRQ=y
+CONFIG_ARCH_INLINE_WRITE_LOCK_IRQSAVE=y
+CONFIG_ARCH_INLINE_WRITE_UNLOCK=y
+CONFIG_ARCH_INLINE_WRITE_UNLOCK_BH=y
+CONFIG_ARCH_INLINE_WRITE_UNLOCK_IRQ=y
+CONFIG_ARCH_INLINE_WRITE_UNLOCK_IRQRESTORE=y
+CONFIG_UNINLINE_SPIN_UNLOCK=y
+CONFIG_ARCH_SUPPORTS_ATOMIC_RMW=y
+CONFIG_MUTEX_SPIN_ON_OWNER=y
+CONFIG_RWSEM_SPIN_ON_OWNER=y
+CONFIG_LOCK_SPIN_ON_OWNER=y
+CONFIG_ARCH_USE_QUEUED_SPINLOCKS=y
+CONFIG_QUEUED_SPINLOCKS=y
+CONFIG_ARCH_USE_QUEUED_RWLOCKS=y
+CONFIG_QUEUED_RWLOCKS=y
+CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE=y
+CONFIG_FREEZER=y
+
+#
+# Executable file formats
+#
+# CONFIG_BINFMT_ELF is not set
+CONFIG_ARCH_BINFMT_ELF_STATE=y
+CONFIG_BINFMT_SCRIPT=y
+CONFIG_BINFMT_MISC=y
+CONFIG_COREDUMP=y
+CONFIG_EXEC_KUNIT_TEST=y
+# end of Executable file formats
+
+#
+# Memory Management options
+#
+
+#
+# Slab allocator options
+#
+CONFIG_SLUB=y
+CONFIG_KVFREE_RCU_BATCHED=y
+# CONFIG_SLAB_MERGE_DEFAULT is not set
+# CONFIG_SLAB_FREELIST_RANDOM is not set
+CONFIG_SLAB_FREELIST_HARDENED=y
+# CONFIG_SLAB_BUCKETS is not set
+# CONFIG_SLUB_STATS is not set
+# CONFIG_SLUB_CPU_PARTIAL is not set
+# CONFIG_RANDOM_KMALLOC_CACHES is not set
+# end of Slab allocator options
+
+# CONFIG_SHUFFLE_PAGE_ALLOCATOR is not set
+# CONFIG_COMPAT_BRK is not set
+CONFIG_SELECT_MEMORY_MODEL=y
+CONFIG_SPARSEMEM_MANUAL=y
+CONFIG_SPARSEMEM=y
+CONFIG_SPARSEMEM_EXTREME=y
+CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
+CONFIG_SPARSEMEM_VMEMMAP=y
+CONFIG_ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP=y
+CONFIG_HAVE_GUP_FAST=y
+CONFIG_ARCH_KEEP_MEMBLOCK=y
+CONFIG_NUMA_KEEP_MEMINFO=y
+CONFIG_MEMORY_ISOLATION=y
+CONFIG_ARCH_ENABLE_MEMORY_HOTPLUG=y
+CONFIG_ARCH_ENABLE_MEMORY_HOTREMOVE=y
+CONFIG_MEMORY_HOTPLUG=y
+# CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE is not set
+CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO=y
+# CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_KERNEL is not set
+# CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_MOVABLE is not set
+CONFIG_MEMORY_HOTREMOVE=y
+CONFIG_SPLIT_PTE_PTLOCKS=y
+CONFIG_MEMORY_BALLOON=y
+# CONFIG_COMPACTION is not set
+CONFIG_PAGE_REPORTING=y
+CONFIG_MIGRATION=y
+CONFIG_CONTIG_ALLOC=y
+CONFIG_PCP_BATCH_SCALE_MAX=5
+CONFIG_PHYS_ADDR_T_64BIT=y
+CONFIG_MMU_NOTIFIER=y
+CONFIG_KSM=y
+CONFIG_DEFAULT_MMAP_MIN_ADDR=4096
+CONFIG_ARCH_WANTS_THP_SWAP=y
+# CONFIG_TRANSPARENT_HUGEPAGE is not set
+CONFIG_PAGE_MAPCOUNT=y
+CONFIG_NEED_PER_CPU_EMBED_FIRST_CHUNK=y
+CONFIG_NEED_PER_CPU_PAGE_FIRST_CHUNK=y
+CONFIG_USE_PERCPU_NUMA_NODE_ID=y
+CONFIG_HAVE_SETUP_PER_CPU_AREA=y
+CONFIG_CMA=y
+CONFIG_CMA_DEBUGFS=y
+CONFIG_CMA_SYSFS=y
+CONFIG_CMA_AREAS=20
+CONFIG_DEFERRED_STRUCT_PAGE_INIT=y
+CONFIG_PAGE_IDLE_FLAG=y
+CONFIG_IDLE_PAGE_TRACKING=y
+CONFIG_ARCH_HAS_CURRENT_STACK_POINTER=y
+CONFIG_ARCH_HAS_PTE_DEVMAP=y
+CONFIG_ZONE_DMA32=y
+# CONFIG_ZONE_DEVICE is not set
+CONFIG_HMM_MIRROR=y
+CONFIG_GET_FREE_REGION=y
+CONFIG_VMAP_PFN=y
+CONFIG_VM_EVENT_COUNTERS=y
+CONFIG_PERCPU_STATS=y
+# CONFIG_GUP_TEST is not set
+CONFIG_DMAPOOL_TEST=m
+CONFIG_ARCH_HAS_PTE_SPECIAL=y
+CONFIG_MEMFD_CREATE=y
+CONFIG_SECRETMEM=y
+# CONFIG_USERFAULTFD is not set
+CONFIG_LRU_GEN=y
+CONFIG_LRU_GEN_ENABLED=y
+CONFIG_LRU_GEN_STATS=y
+CONFIG_LOCK_MM_AND_FIND_VMA=y
+CONFIG_EXECMEM=y
+
+#
+# Data Access Monitoring
+#
+CONFIG_DAMON=y
+CONFIG_DAMON_KUNIT_TEST=y
+CONFIG_DAMON_VADDR=y
+# CONFIG_DAMON_PADDR is not set
+CONFIG_DAMON_VADDR_KUNIT_TEST=y
+# CONFIG_DAMON_SYSFS is not set
+# end of Data Access Monitoring
+# end of Memory Management options
+
+CONFIG_NET=y
+CONFIG_NET_INGRESS=y
+CONFIG_NET_EGRESS=y
+CONFIG_NET_XGRESS=y
+CONFIG_SKB_EXTENSIONS=y
+CONFIG_NET_DEVMEM=y
+
+#
+# Networking options
+#
+CONFIG_PACKET=y
+# CONFIG_PACKET_DIAG is not set
+CONFIG_UNIX=y
+# CONFIG_AF_UNIX_OOB is not set
+CONFIG_UNIX_DIAG=y
+CONFIG_XDP_SOCKETS=y
+CONFIG_XDP_SOCKETS_DIAG=m
+CONFIG_NET_HANDSHAKE_KUNIT_TEST=y
+# CONFIG_INET is not set
+CONFIG_NETWORK_SECMARK=y
+CONFIG_NET_PTP_CLASSIFY=y
+# CONFIG_NETWORK_PHY_TIMESTAMPING is not set
+# CONFIG_NETFILTER is not set
+# CONFIG_ATM is not set
+CONFIG_STP=m
+CONFIG_MRP=m
+CONFIG_BRIDGE=m
+CONFIG_BRIDGE_VLAN_FILTERING=y
+# CONFIG_BRIDGE_MRP is not set
+CONFIG_BRIDGE_CFM=y
+CONFIG_VLAN_8021Q=m
+# CONFIG_VLAN_8021Q_GVRP is not set
+CONFIG_VLAN_8021Q_MVRP=y
+CONFIG_LLC=m
+CONFIG_LLC2=m
+CONFIG_ATALK=m
+CONFIG_X25=m
+CONFIG_LAPB=m
+CONFIG_PHONET=y
+# CONFIG_IEEE802154 is not set
+CONFIG_NET_SCHED=y
+
+#
+# Queueing/Scheduling
+#
+CONFIG_NET_SCH_HTB=m
+CONFIG_NET_SCH_HFSC=y
+CONFIG_NET_SCH_PRIO=y
+CONFIG_NET_SCH_MULTIQ=m
+CONFIG_NET_SCH_RED=y
+CONFIG_NET_SCH_SFB=m
+CONFIG_NET_SCH_SFQ=m
+CONFIG_NET_SCH_TEQL=y
+# CONFIG_NET_SCH_TBF is not set
+# CONFIG_NET_SCH_CBS is not set
+CONFIG_NET_SCH_ETF=y
+CONFIG_NET_SCH_MQPRIO_LIB=y
+CONFIG_NET_SCH_TAPRIO=y
+CONFIG_NET_SCH_GRED=y
+# CONFIG_NET_SCH_NETEM is not set
+CONFIG_NET_SCH_DRR=m
+CONFIG_NET_SCH_MQPRIO=m
+CONFIG_NET_SCH_SKBPRIO=y
+# CONFIG_NET_SCH_CHOKE is not set
+CONFIG_NET_SCH_QFQ=y
+# CONFIG_NET_SCH_CODEL is not set
+# CONFIG_NET_SCH_FQ_CODEL is not set
+# CONFIG_NET_SCH_CAKE is not set
+CONFIG_NET_SCH_FQ=m
+CONFIG_NET_SCH_HHF=m
+CONFIG_NET_SCH_PIE=m
+# CONFIG_NET_SCH_FQ_PIE is not set
+# CONFIG_NET_SCH_INGRESS is not set
+# CONFIG_NET_SCH_PLUG is not set
+CONFIG_NET_SCH_ETS=m
+# CONFIG_NET_SCH_DEFAULT is not set
+
+#
+# Classification
+#
+CONFIG_NET_CLS=y
+# CONFIG_NET_CLS_BASIC is not set
+CONFIG_NET_CLS_FW=m
+# CONFIG_NET_CLS_U32 is not set
+# CONFIG_NET_CLS_FLOW is not set
+CONFIG_NET_CLS_CGROUP=y
+# CONFIG_NET_CLS_BPF is not set
+# CONFIG_NET_CLS_FLOWER is not set
+CONFIG_NET_CLS_MATCHALL=y
+CONFIG_NET_EMATCH=y
+CONFIG_NET_EMATCH_STACK=32
+# CONFIG_NET_EMATCH_CMP is not set
+CONFIG_NET_EMATCH_NBYTE=m
+CONFIG_NET_EMATCH_U32=y
+CONFIG_NET_EMATCH_META=m
+CONFIG_NET_EMATCH_TEXT=m
+# CONFIG_NET_EMATCH_CANID is not set
+CONFIG_NET_CLS_ACT=y
+# CONFIG_NET_ACT_POLICE is not set
+CONFIG_NET_ACT_GACT=m
+CONFIG_GACT_PROB=y
+CONFIG_NET_ACT_MIRRED=m
+# CONFIG_NET_ACT_SAMPLE is not set
+CONFIG_NET_ACT_NAT=m
+CONFIG_NET_ACT_PEDIT=m
+CONFIG_NET_ACT_SIMP=y
+# CONFIG_NET_ACT_SKBEDIT is not set
+CONFIG_NET_ACT_MPLS=y
+CONFIG_NET_ACT_VLAN=m
+# CONFIG_NET_ACT_BPF is not set
+# CONFIG_NET_ACT_SKBMOD is not set
+CONFIG_NET_ACT_IFE=y
+# CONFIG_NET_ACT_TUNNEL_KEY is not set
+CONFIG_NET_ACT_GATE=m
+CONFIG_NET_IFE_SKBMARK=m
+CONFIG_NET_IFE_SKBPRIO=m
+CONFIG_NET_IFE_SKBTCINDEX=y
+# CONFIG_NET_TC_SKB_EXT is not set
+CONFIG_NET_SCH_FIFO=y
+# CONFIG_DCB is not set
+CONFIG_DNS_RESOLVER=y
+CONFIG_BATMAN_ADV=m
+# CONFIG_BATMAN_ADV_BATMAN_V is not set
+# CONFIG_BATMAN_ADV_NC is not set
+# CONFIG_BATMAN_ADV_DEBUG is not set
+CONFIG_BATMAN_ADV_TRACING=y
+CONFIG_VSOCKETS=m
+CONFIG_VSOCKETS_DIAG=m
+# CONFIG_VSOCKETS_LOOPBACK is not set
+CONFIG_VIRTIO_VSOCKETS=m
+CONFIG_VIRTIO_VSOCKETS_COMMON=m
+CONFIG_NETLINK_DIAG=m
+# CONFIG_MPLS is not set
+# CONFIG_NET_NSH is not set
+CONFIG_HSR=m
+CONFIG_PRP_DUP_DISCARD_KUNIT_TEST=m
+CONFIG_QRTR=y
+CONFIG_QRTR_SMD=m
+CONFIG_QRTR_TUN=y
+CONFIG_QRTR_MHI=m
+# CONFIG_PCPU_DEV_REFCNT is not set
+CONFIG_MAX_SKB_FRAGS=17
+# CONFIG_RPS is not set
+CONFIG_SOCK_RX_QUEUE_MAPPING=y
+CONFIG_XPS=y
+CONFIG_CGROUP_NET_PRIO=y
+CONFIG_CGROUP_NET_CLASSID=y
+CONFIG_NET_RX_BUSY_POLL=y
+CONFIG_BQL=y
+
+#
+# Network testing
+#
+# end of Network testing
+# end of Networking options
+
+CONFIG_HAMRADIO=y
+
+#
+# Packet Radio protocols
+#
+CONFIG_AX25=y
+# CONFIG_AX25_DAMA_SLAVE is not set
+CONFIG_NETROM=m
+CONFIG_ROSE=y
+
+#
+# AX.25 network device drivers
+#
+# CONFIG_BPQETHER is not set
+CONFIG_BAYCOM_SER_FDX=y
+CONFIG_BAYCOM_SER_HDX=y
+CONFIG_BAYCOM_PAR=m
+# CONFIG_YAM is not set
+# end of AX.25 network device drivers
+
+CONFIG_CAN=m
+# CONFIG_CAN_RAW is not set
+# CONFIG_CAN_BCM is not set
+# CONFIG_CAN_GW is not set
+# CONFIG_CAN_J1939 is not set
+# CONFIG_CAN_ISOTP is not set
+CONFIG_BT=m
+CONFIG_BT_BREDR=y
+# CONFIG_BT_RFCOMM is not set
+CONFIG_BT_BNEP=m
+CONFIG_BT_BNEP_MC_FILTER=y
+# CONFIG_BT_BNEP_PROTO_FILTER is not set
+CONFIG_BT_HIDP=m
+# CONFIG_BT_LE is not set
+# CONFIG_BT_LEDS is not set
+# CONFIG_BT_MSFTEXT is not set
+# CONFIG_BT_AOSPEXT is not set
+# CONFIG_BT_DEBUGFS is not set
+CONFIG_BT_SELFTEST=y
+CONFIG_BT_FEATURE_DEBUG=y
+
+#
+# Bluetooth device drivers
+#
+CONFIG_BT_QCA=m
+CONFIG_BT_MTK=m
+CONFIG_BT_HCIBTSDIO=m
+CONFIG_BT_HCIBCM4377=m
+CONFIG_BT_HCIVHCI=m
+CONFIG_BT_MRVL=m
+# CONFIG_BT_MRVL_SDIO is not set
+CONFIG_BT_MTKSDIO=m
+# CONFIG_BT_MTKUART is not set
+CONFIG_BT_QCOMSMD=m
+CONFIG_BT_VIRTIO=m
+# CONFIG_BT_NXPUART is not set
+# CONFIG_BT_INTEL_PCIE is not set
+# end of Bluetooth device drivers
+
+CONFIG_MCTP=y
+CONFIG_MCTP_TEST=y
+CONFIG_MCTP_FLOWS=y
+# CONFIG_WIRELESS is not set
+CONFIG_RFKILL=m
+CONFIG_RFKILL_INPUT=y
+CONFIG_RFKILL_GPIO=m
+CONFIG_NET_9P=y
+CONFIG_NET_9P_FD=m
+CONFIG_NET_9P_VIRTIO=y
+# CONFIG_NET_9P_DEBUG is not set
+CONFIG_CAIF=m
+CONFIG_CAIF_DEBUG=y
+# CONFIG_CAIF_NETDEV is not set
+CONFIG_CAIF_USB=m
+# CONFIG_NFC is not set
+# CONFIG_PSAMPLE is not set
+CONFIG_NET_IFE=y
+CONFIG_LWTUNNEL=y
+CONFIG_NET_SOCK_MSG=y
+CONFIG_PAGE_POOL=y
+CONFIG_PAGE_POOL_STATS=y
+# CONFIG_FAILOVER is not set
+# CONFIG_ETHTOOL_NETLINK is not set
+CONFIG_NETDEV_ADDR_LIST_TEST=y
+CONFIG_NET_TEST=y
+
+#
+# Device Drivers
+#
+CONFIG_HAVE_PCI=y
+CONFIG_GENERIC_PCI_IOMAP=y
+CONFIG_PCI=y
+CONFIG_PCI_DOMAINS=y
+CONFIG_PCI_DOMAINS_GENERIC=y
+CONFIG_PCIEPORTBUS=y
+CONFIG_PCIEAER=y
+CONFIG_PCIEAER_INJECT=y
+# CONFIG_PCIE_ECRC is not set
+CONFIG_PCIEASPM=y
+# CONFIG_PCIEASPM_DEFAULT is not set
+CONFIG_PCIEASPM_POWERSAVE=y
+# CONFIG_PCIEASPM_POWER_SUPERSAVE is not set
+# CONFIG_PCIEASPM_PERFORMANCE is not set
+CONFIG_PCIE_PME=y
+CONFIG_PCIE_DPC=y
+CONFIG_PCIE_PTM=y
+# CONFIG_PCIE_EDR is not set
+CONFIG_PCI_MSI=y
+CONFIG_PCI_MSI_ARCH_FALLBACKS=y
+CONFIG_PCI_QUIRKS=y
+CONFIG_PCI_DEBUG=y
+CONFIG_PCI_REALLOC_ENABLE_AUTO=y
+CONFIG_PCI_STUB=y
+# CONFIG_PCI_PF_STUB is not set
+CONFIG_PCI_ATS=y
+CONFIG_PCI_DOE=y
+CONFIG_PCI_ECAM=y
+CONFIG_PCI_BRIDGE_EMUL=y
+CONFIG_PCI_IOV=y
+CONFIG_PCI_NPEM=y
+CONFIG_PCI_PRI=y
+# CONFIG_PCI_PASID is not set
+CONFIG_PCIE_TPH=y
+CONFIG_PCI_LABEL=y
+# CONFIG_PCI_DYNAMIC_OF_NODES is not set
+# CONFIG_PCIE_BUS_TUNE_OFF is not set
+# CONFIG_PCIE_BUS_DEFAULT is not set
+# CONFIG_PCIE_BUS_SAFE is not set
+# CONFIG_PCIE_BUS_PERFORMANCE is not set
+CONFIG_PCIE_BUS_PEER2PEER=y
+# CONFIG_VGA_ARB is not set
+# CONFIG_HOTPLUG_PCI is not set
+
+#
+# PCI controller drivers
+#
+CONFIG_PCI_AARDVARK=m
+# CONFIG_PCIE_ALTERA is not set
+CONFIG_PCIE_APPLE_MSI_DOORBELL_ADDR=0xfffff000
+CONFIG_PCIE_APPLE=y
+# CONFIG_PCI_VERSATILE is not set
+CONFIG_PCIE_BRCMSTB=m
+# CONFIG_PCI_HOST_THUNDER_PEM is not set
+# CONFIG_PCI_HOST_THUNDER_ECAM is not set
+# CONFIG_PCI_FTPCI100 is not set
+CONFIG_PCI_HOST_COMMON=y
+# CONFIG_PCI_HOST_GENERIC is not set
+CONFIG_PCI_LOONGSON=y
+CONFIG_PCIE_MEDIATEK=m
+# CONFIG_PCIE_MEDIATEK_GEN3 is not set
+# CONFIG_PCIE_MT7621 is not set
+# CONFIG_PCI_TEGRA is not set
+CONFIG_PCIE_RCAR_HOST=y
+CONFIG_PCIE_RCAR_EP=y
+CONFIG_PCIE_ROCKCHIP=y
+CONFIG_PCIE_ROCKCHIP_HOST=y
+CONFIG_PCIE_ROCKCHIP_EP=y
+# CONFIG_PCI_V3_SEMI is not set
+# CONFIG_PCI_XGENE is not set
+# CONFIG_PCIE_XILINX is not set
+CONFIG_PCIE_XILINX_DMA_PL=y
+CONFIG_PCIE_XILINX_NWL=y
+# CONFIG_PCIE_XILINX_CPM is not set
+
+#
+# Cadence-based PCIe controllers
+#
+CONFIG_PCIE_CADENCE=y
+CONFIG_PCIE_CADENCE_HOST=y
+CONFIG_PCIE_CADENCE_EP=y
+CONFIG_PCIE_CADENCE_PLAT=y
+CONFIG_PCIE_CADENCE_PLAT_HOST=y
+# CONFIG_PCIE_CADENCE_PLAT_EP is not set
+CONFIG_PCI_J721E=y
+CONFIG_PCI_J721E_HOST=y
+CONFIG_PCI_J721E_EP=y
+# end of Cadence-based PCIe controllers
+
+#
+# DesignWare-based PCIe controllers
+#
+CONFIG_PCIE_DW=y
+# CONFIG_PCIE_DW_DEBUGFS is not set
+CONFIG_PCIE_DW_HOST=y
+CONFIG_PCIE_DW_EP=y
+# CONFIG_PCIE_AL is not set
+CONFIG_PCIE_AMD_MDB=y
+CONFIG_PCI_MESON=m
+CONFIG_PCIE_ARTPEC6=y
+CONFIG_PCIE_ARTPEC6_HOST=y
+CONFIG_PCIE_ARTPEC6_EP=y
+CONFIG_PCIE_BT1=y
+# CONFIG_PCI_IMX6_HOST is not set
+# CONFIG_PCI_IMX6_EP is not set
+CONFIG_PCI_LAYERSCAPE=y
+# CONFIG_PCI_LAYERSCAPE_EP is not set
+CONFIG_PCI_HISI=y
+# CONFIG_PCIE_KIRIN is not set
+CONFIG_PCIE_HISI_STB=y
+# CONFIG_PCIE_INTEL_GW is not set
+CONFIG_PCIE_KEEMBAY=y
+CONFIG_PCIE_KEEMBAY_HOST=y
+# CONFIG_PCIE_KEEMBAY_EP is not set
+CONFIG_PCIE_ARMADA_8K=y
+CONFIG_PCIE_TEGRA194=y
+CONFIG_PCIE_TEGRA194_HOST=y
+CONFIG_PCIE_TEGRA194_EP=y
+CONFIG_PCIE_DW_PLAT=y
+CONFIG_PCIE_DW_PLAT_HOST=y
+# CONFIG_PCIE_DW_PLAT_EP is not set
+CONFIG_PCIE_QCOM_COMMON=y
+CONFIG_PCIE_QCOM=y
+CONFIG_PCIE_QCOM_EP=m
+CONFIG_PCIE_RCAR_GEN4=m
+# CONFIG_PCIE_RCAR_GEN4_HOST is not set
+CONFIG_PCIE_RCAR_GEN4_EP=m
+CONFIG_PCIE_ROCKCHIP_DW=y
+# CONFIG_PCIE_ROCKCHIP_DW_HOST is not set
+CONFIG_PCIE_ROCKCHIP_DW_EP=y
+# CONFIG_PCI_EXYNOS is not set
+CONFIG_PCIE_FU740=y
+CONFIG_PCIE_UNIPHIER=y
+# CONFIG_PCIE_UNIPHIER_EP is not set
+CONFIG_PCIE_SPEAR13XX=y
+CONFIG_PCI_KEYSTONE=y
+CONFIG_PCI_KEYSTONE_HOST=y
+# CONFIG_PCI_KEYSTONE_EP is not set
+# CONFIG_PCIE_VISCONTI_HOST is not set
+# end of DesignWare-based PCIe controllers
+
+#
+# Mobiveil-based PCIe controllers
+#
+CONFIG_PCIE_MOBIVEIL=y
+CONFIG_PCIE_MOBIVEIL_HOST=y
+# CONFIG_PCIE_LAYERSCAPE_GEN4 is not set
+CONFIG_PCIE_MOBIVEIL_PLAT=y
+# end of Mobiveil-based PCIe controllers
+
+#
+# PLDA-based PCIe controllers
+#
+CONFIG_PCIE_PLDA_HOST=y
+# CONFIG_PCIE_MICROCHIP_HOST is not set
+CONFIG_PCIE_STARFIVE_HOST=m
+# end of PLDA-based PCIe controllers
+# end of PCI controller drivers
+
+#
+# PCI Endpoint
+#
+CONFIG_PCI_ENDPOINT=y
+# CONFIG_PCI_ENDPOINT_CONFIGFS is not set
+CONFIG_PCI_EPF_TEST=y
+CONFIG_PCI_EPF_NTB=y
+# CONFIG_PCI_EPF_VNTB is not set
+# end of PCI Endpoint
+
+#
+# PCI switch controller drivers
+#
+CONFIG_PCI_SW_SWITCHTEC=y
+# end of PCI switch controller drivers
+
+CONFIG_PCI_PWRCTL=y
+CONFIG_PCI_PWRCTL_SLOT=y
+# CONFIG_CXL_BUS is not set
+# CONFIG_PCCARD is not set
+# CONFIG_RAPIDIO is not set
+
+#
+# Generic Driver Options
+#
+CONFIG_AUXILIARY_BUS=y
+# CONFIG_UEVENT_HELPER is not set
+# CONFIG_DEVTMPFS is not set
+# CONFIG_STANDALONE is not set
+CONFIG_PREVENT_FIRMWARE_BUILD=y
+
+#
+# Firmware loader
+#
+CONFIG_FW_LOADER=y
+CONFIG_FW_LOADER_PAGED_BUF=y
+CONFIG_FW_LOADER_SYSFS=y
+CONFIG_EXTRA_FIRMWARE=""
+# CONFIG_FW_LOADER_USER_HELPER is not set
+# CONFIG_FW_LOADER_COMPRESS is not set
+CONFIG_FW_UPLOAD=y
+# end of Firmware loader
+
+CONFIG_WANT_DEV_COREDUMP=y
+# CONFIG_ALLOW_DEV_COREDUMP is not set
+# CONFIG_DEBUG_DRIVER is not set
+CONFIG_DEBUG_DEVRES=y
+CONFIG_DEBUG_TEST_DRIVER_REMOVE=y
+CONFIG_PM_QOS_KUNIT_TEST=y
+CONFIG_HMEM_REPORTING=y
+# CONFIG_TEST_ASYNC_DRIVER_PROBE is not set
+CONFIG_DM_KUNIT_TEST=y
+CONFIG_DRIVER_PE_KUNIT_TEST=y
+CONFIG_GENERIC_CPU_DEVICES=y
+CONFIG_GENERIC_CPU_AUTOPROBE=y
+CONFIG_GENERIC_CPU_VULNERABILITIES=y
+CONFIG_SOC_BUS=y
+CONFIG_REGMAP=y
+# CONFIG_REGMAP_KUNIT is not set
+CONFIG_REGMAP_BUILD=y
+CONFIG_REGMAP_I2C=y
+CONFIG_REGMAP_SPMI=m
+CONFIG_REGMAP_W1=m
+CONFIG_REGMAP_MMIO=y
+CONFIG_REGMAP_IRQ=y
+CONFIG_REGMAP_I3C=m
+CONFIG_DMA_SHARED_BUFFER=y
+# CONFIG_DMA_FENCE_TRACE is not set
+CONFIG_FW_DEVLINK_SYNC_STATE_TIMEOUT=y
+# end of Generic Driver Options
+
+#
+# Bus devices
+#
+# CONFIG_ARM_INTEGRATOR_LM is not set
+CONFIG_BT1_APB=y
+CONFIG_BT1_AXI=y
+CONFIG_HISILICON_LPC=y
+# CONFIG_IMX_WEIM is not set
+# CONFIG_INTEL_IXP4XX_EB is not set
+# CONFIG_QCOM_EBI2 is not set
+# CONFIG_STM32_FIREWALL is not set
+CONFIG_MHI_BUS=m
+CONFIG_MHI_BUS_DEBUG=y
+# CONFIG_MHI_BUS_PCI_GENERIC is not set
+# CONFIG_MHI_BUS_EP is not set
+# end of Bus devices
+
+#
+# Cache Drivers
+#
+# end of Cache Drivers
+
+# CONFIG_CONNECTOR is not set
+
+#
+# Firmware Drivers
+#
+
+#
+# ARM System Control and Management Interface Protocol
+#
+# CONFIG_ARM_SCMI_PROTOCOL is not set
+# CONFIG_ARM_SCMI_POWER_CONTROL is not set
+# end of ARM System Control and Management Interface Protocol
+
+CONFIG_ARM_SCPI_PROTOCOL=y
+CONFIG_FIRMWARE_MEMMAP=y
+# CONFIG_SYSFB_SIMPLEFB is not set
+# CONFIG_TH1520_AON_PROTOCOL is not set
+CONFIG_TI_SCI_PROTOCOL=m
+CONFIG_TURRIS_MOX_RWTM=y
+# CONFIG_BCM47XX_NVRAM is not set
+# CONFIG_GOOGLE_FIRMWARE is not set
+
+#
+# EFI (Extensible Firmware Interface) Support
+#
+CONFIG_EFI_ESRT=y
+CONFIG_EFI_RUNTIME_WRAPPERS=y
+CONFIG_EFI_BOOTLOADER_CONTROL=m
+# CONFIG_EFI_CAPSULE_LOADER is not set
+CONFIG_EFI_TEST=m
+CONFIG_EFI_RCI2_TABLE=y
+# CONFIG_EFI_DISABLE_PCI_DMA is not set
+CONFIG_EFI_CUSTOM_SSDT_OVERLAYS=y
+# CONFIG_EFI_DISABLE_RUNTIME is not set
+CONFIG_EFI_COCO_SECRET=y
+# end of EFI (Extensible Firmware Interface) Support
+
+CONFIG_IMX_DSP=m
+CONFIG_IMX_SCU=y
+CONFIG_IMX_SCMI_MISC_DRV=y
+
+#
+# Qualcomm firmware drivers
+#
+CONFIG_QCOM_SCM=m
+CONFIG_QCOM_TZMEM=m
+# CONFIG_QCOM_TZMEM_MODE_GENERIC is not set
+CONFIG_QCOM_TZMEM_MODE_SHMBRIDGE=y
+# end of Qualcomm firmware drivers
+
+CONFIG_EXYNOS_ACPM_PROTOCOL=y
+
+#
+# Tegra firmware driver
+#
+# end of Tegra firmware driver
+# end of Firmware Drivers
+
+# CONFIG_FWCTL is not set
+# CONFIG_GNSS is not set
+# CONFIG_MTD is not set
+CONFIG_DTC=y
+CONFIG_OF=y
+CONFIG_OF_UNITTEST=y
+CONFIG_OF_KUNIT_TEST=y
+# CONFIG_OF_ALL_DTBS is not set
+CONFIG_OF_FLATTREE=y
+CONFIG_OF_EARLY_FLATTREE=y
+CONFIG_OF_KOBJ=y
+CONFIG_OF_DYNAMIC=y
+CONFIG_OF_ADDRESS=y
+CONFIG_OF_IRQ=y
+CONFIG_OF_RESERVED_MEM=y
+CONFIG_OF_RESOLVE=y
+# CONFIG_OF_OVERLAY is not set
+CONFIG_OF_OVERLAY_KUNIT_TEST=y
+CONFIG_ARCH_MIGHT_HAVE_PC_PARPORT=y
+CONFIG_PARPORT=y
+# CONFIG_PARPORT_PC is not set
+# CONFIG_PARPORT_1284 is not set
+CONFIG_PNP=y
+CONFIG_PNP_DEBUG_MESSAGES=y
+
+#
+# Protocols
+#
+# CONFIG_ISAPNP is not set
+CONFIG_PNPACPI=y
+
+#
+# NVME Support
+#
+# end of NVME Support
+
+#
+# Misc devices
+#
+# CONFIG_AD525X_DPOT is not set
+CONFIG_DUMMY_IRQ=y
+CONFIG_PHANTOM=m
+# CONFIG_RPMB is not set
+CONFIG_TIFM_CORE=y
+CONFIG_TIFM_7XX1=y
+CONFIG_ICS932S401=m
+CONFIG_ATMEL_SSC=y
+CONFIG_ENCLOSURE_SERVICES=m
+# CONFIG_SMPRO_ERRMON is not set
+CONFIG_SMPRO_MISC=m
+# CONFIG_HI6421V600_IRQ is not set
+CONFIG_HP_ILO=m
+CONFIG_QCOM_COINCELL=m
+CONFIG_QCOM_FASTRPC=m
+CONFIG_APDS9802ALS=y
+# CONFIG_ISL29003 is not set
+CONFIG_ISL29020=y
+CONFIG_SENSORS_TSL2550=y
+CONFIG_SENSORS_BH1770=m
+CONFIG_SENSORS_APDS990X=m
+CONFIG_HMC6352=y
+CONFIG_DS1682=y
+# CONFIG_PCH_PHUB is not set
+CONFIG_SRAM=y
+CONFIG_DW_XDATA_PCIE=m
+# CONFIG_PCI_ENDPOINT_TEST is not set
+CONFIG_XILINX_SDFEC=y
+CONFIG_OPEN_DICE=y
+CONFIG_NTSYNC=m
+CONFIG_VCPU_STALL_DETECTOR=m
+CONFIG_NSM=y
+CONFIG_MARVELL_CN10K_DPI=m
+CONFIG_C2PORT=m
+
+#
+# EEPROM support
+#
+CONFIG_EEPROM_AT24=y
+CONFIG_EEPROM_MAX6875=m
+CONFIG_EEPROM_93CX6=y
+CONFIG_EEPROM_IDT_89HPESX=y
+CONFIG_EEPROM_EE1004=y
+# end of EEPROM support
+
+CONFIG_CB710_CORE=y
+CONFIG_CB710_DEBUG=y
+CONFIG_CB710_DEBUG_ASSUMPTIONS=y
+# CONFIG_SENSORS_LIS3_I2C is not set
+CONFIG_ALTERA_STAPL=m
+# CONFIG_GENWQE is not set
+CONFIG_ECHO=m
+CONFIG_BCM_VK=y
+# CONFIG_MISC_ALCOR_PCI is not set
+# CONFIG_MISC_RTSX_PCI is not set
+CONFIG_UACCE=y
+# CONFIG_PVPANIC is not set
+CONFIG_GP_PCI1XXXX=m
+# CONFIG_KEBA_CP500 is not set
+# end of Misc devices
+
+#
+# SCSI device support
+#
+CONFIG_SCSI_LIB_KUNIT_TEST=y
+# end of SCSI device support
+
+CONFIG_FUSION=y
+CONFIG_FUSION_MAX_SGE=128
+# CONFIG_FUSION_LOGGING is not set
+
+#
+# IEEE 1394 (FireWire) support
+#
+CONFIG_FIREWIRE=m
+CONFIG_FIREWIRE_KUNIT_UAPI_TEST=m
+CONFIG_FIREWIRE_KUNIT_DEVICE_ATTRIBUTE_TEST=m
+CONFIG_FIREWIRE_KUNIT_PACKET_SERDES_TEST=m
+CONFIG_FIREWIRE_KUNIT_SELF_ID_SEQUENCE_HELPER_TEST=m
+CONFIG_FIREWIRE_OHCI=m
+CONFIG_FIREWIRE_KUNIT_OHCI_SERDES_TEST=m
+CONFIG_FIREWIRE_NOSY=m
+# end of IEEE 1394 (FireWire) support
+
+# CONFIG_NETDEVICES is not set
+
+#
+# Input device support
+#
+CONFIG_INPUT=y
+# CONFIG_INPUT_LEDS is not set
+CONFIG_INPUT_FF_MEMLESS=y
+CONFIG_INPUT_SPARSEKMAP=m
+CONFIG_INPUT_MATRIXKMAP=y
+CONFIG_INPUT_VIVALDIFMAP=y
+
+#
+# Userland interfaces
+#
+CONFIG_INPUT_MOUSEDEV=m
+CONFIG_INPUT_MOUSEDEV_PSAUX=y
+CONFIG_INPUT_MOUSEDEV_SCREEN_X=1024
+CONFIG_INPUT_MOUSEDEV_SCREEN_Y=768
+# CONFIG_INPUT_JOYDEV is not set
+CONFIG_INPUT_EVDEV=y
+CONFIG_INPUT_KUNIT_TEST=y
+
+#
+# Input Device Drivers
+#
+CONFIG_INPUT_KEYBOARD=y
+CONFIG_KEYBOARD_ADC=y
+CONFIG_KEYBOARD_ADP5588=y
+CONFIG_KEYBOARD_ADP5589=m
+CONFIG_KEYBOARD_ATKBD=y
+# CONFIG_KEYBOARD_QT1050 is not set
+CONFIG_KEYBOARD_QT1070=m
+CONFIG_KEYBOARD_QT2160=m
+# CONFIG_KEYBOARD_CLPS711X is not set
+CONFIG_KEYBOARD_DLINK_DIR685=m
+CONFIG_KEYBOARD_LKKBD=y
+CONFIG_KEYBOARD_EP93XX=y
+CONFIG_KEYBOARD_GPIO=m
+# CONFIG_KEYBOARD_GPIO_POLLED is not set
+CONFIG_KEYBOARD_TCA6416=m
+CONFIG_KEYBOARD_TCA8418=m
+CONFIG_KEYBOARD_MATRIX=m
+# CONFIG_KEYBOARD_LM8323 is not set
+CONFIG_KEYBOARD_LM8333=m
+CONFIG_KEYBOARD_LPC32XX=m
+# CONFIG_KEYBOARD_MAX7359 is not set
+# CONFIG_KEYBOARD_MPR121 is not set
+CONFIG_KEYBOARD_SNVS_PWRKEY=m
+CONFIG_KEYBOARD_IMX=m
+CONFIG_KEYBOARD_IMX_BBM_SCMI=y
+CONFIG_KEYBOARD_IMX_SC_KEY=m
+CONFIG_KEYBOARD_NEWTON=m
+CONFIG_KEYBOARD_TEGRA=y
+# CONFIG_KEYBOARD_OPENCORES is not set
+CONFIG_KEYBOARD_PINEPHONE=m
+CONFIG_KEYBOARD_PXA27x=m
+# CONFIG_KEYBOARD_PMIC8XXX is not set
+CONFIG_KEYBOARD_SAMSUNG=y
+CONFIG_KEYBOARD_GOLDFISH_EVENTS=y
+CONFIG_KEYBOARD_STOWAWAY=y
+CONFIG_KEYBOARD_ST_KEYSCAN=m
+CONFIG_KEYBOARD_SUNKBD=y
+CONFIG_KEYBOARD_SH_KEYSC=y
+CONFIG_KEYBOARD_STMPE=y
+CONFIG_KEYBOARD_IQS62X=y
+CONFIG_KEYBOARD_OMAP4=m
+CONFIG_KEYBOARD_SPEAR=m
+CONFIG_KEYBOARD_TM2_TOUCHKEY=y
+CONFIG_KEYBOARD_TWL4030=m
+CONFIG_KEYBOARD_XTKBD=y
+CONFIG_KEYBOARD_CROS_EC=m
+# CONFIG_KEYBOARD_CAP11XX is not set
+# CONFIG_KEYBOARD_BCM is not set
+# CONFIG_KEYBOARD_MT6779 is not set
+# CONFIG_KEYBOARD_MTK_PMIC is not set
+# CONFIG_KEYBOARD_CYPRESS_SF is not set
+# CONFIG_INPUT_MOUSE is not set
+# CONFIG_INPUT_JOYSTICK is not set
+# CONFIG_INPUT_TABLET is not set
+# CONFIG_INPUT_TOUCHSCREEN is not set
+CONFIG_INPUT_MISC=y
+# CONFIG_INPUT_88PM860X_ONKEY is not set
+CONFIG_INPUT_88PM80X_ONKEY=m
+CONFIG_INPUT_88PM886_ONKEY=m
+# CONFIG_INPUT_AD714X is not set
+# CONFIG_INPUT_ATC260X_ONKEY is not set
+CONFIG_INPUT_ATMEL_CAPTOUCH=y
+# CONFIG_INPUT_BBNSM_PWRKEY is not set
+CONFIG_INPUT_BMA150=m
+# CONFIG_INPUT_E3X0_BUTTON is not set
+# CONFIG_INPUT_PM8941_PWRKEY is not set
+# CONFIG_INPUT_PM8XXX_VIBRATOR is not set
+# CONFIG_INPUT_PMIC8XXX_PWRKEY is not set
+CONFIG_INPUT_MAX77650_ONKEY=y
+CONFIG_INPUT_MMA8450=m
+CONFIG_INPUT_GPIO_BEEPER=y
+CONFIG_INPUT_GPIO_DECODER=m
+# CONFIG_INPUT_GPIO_VIBRA is not set
+# CONFIG_INPUT_KXTJ9 is not set
+CONFIG_INPUT_REGULATOR_HAPTIC=m
+CONFIG_INPUT_RETU_PWRBUTTON=m
+CONFIG_INPUT_TPS65218_PWRBUTTON=m
+CONFIG_INPUT_TPS65219_PWRBUTTON=y
+CONFIG_INPUT_AXP20X_PEK=y
+# CONFIG_INPUT_TWL4030_PWRBUTTON is not set
+# CONFIG_INPUT_TWL4030_VIBRA is not set
+CONFIG_INPUT_TWL6040_VIBRA=y
+CONFIG_INPUT_UINPUT=y
+CONFIG_INPUT_PCF8574=y
+# CONFIG_INPUT_RK805_PWRKEY is not set
+CONFIG_INPUT_GPIO_ROTARY_ENCODER=m
+CONFIG_INPUT_DA7280_HAPTICS=y
+# CONFIG_INPUT_DA9052_ONKEY is not set
+CONFIG_INPUT_DA9055_ONKEY=m
+CONFIG_INPUT_ADXL34X=m
+# CONFIG_INPUT_ADXL34X_I2C is not set
+# CONFIG_INPUT_IBM_PANEL is not set
+CONFIG_INPUT_IQS269A=m
+CONFIG_INPUT_IQS626A=m
+# CONFIG_INPUT_IQS7222 is not set
+# CONFIG_INPUT_CMA3000 is not set
+CONFIG_INPUT_IDEAPAD_SLIDEBAR=y
+# CONFIG_INPUT_SOC_BUTTON_ARRAY is not set
+CONFIG_INPUT_DRV260X_HAPTICS=m
+# CONFIG_INPUT_DRV2665_HAPTICS is not set
+CONFIG_INPUT_DRV2667_HAPTICS=m
+CONFIG_INPUT_HISI_POWERKEY=m
+# CONFIG_INPUT_SC27XX_VIBRA is not set
+# CONFIG_INPUT_RT5120_PWRKEY is not set
+CONFIG_INPUT_STPMIC1_ONKEY=y
+CONFIG_RMI4_CORE=y
+# CONFIG_RMI4_I2C is not set
+CONFIG_RMI4_SMB=y
+# CONFIG_RMI4_F03 is not set
+CONFIG_RMI4_2D_SENSOR=y
+CONFIG_RMI4_F11=y
+# CONFIG_RMI4_F12 is not set
+CONFIG_RMI4_F30=y
+# CONFIG_RMI4_F34 is not set
+CONFIG_RMI4_F3A=y
+# CONFIG_RMI4_F55 is not set
+
+#
+# Hardware I/O ports
+#
+CONFIG_SERIO=y
+CONFIG_ARCH_MIGHT_HAVE_PC_SERIO=y
+CONFIG_SERIO_I8042=y
+CONFIG_SERIO_PARKBD=y
+CONFIG_SERIO_PCIPS2=m
+CONFIG_SERIO_LIBPS2=y
+# CONFIG_SERIO_RAW is not set
+CONFIG_SERIO_ALTERA_PS2=m
+CONFIG_SERIO_PS2MULT=m
+CONFIG_SERIO_ARC_PS2=y
+# CONFIG_SERIO_APBPS2 is not set
+CONFIG_SERIO_OLPC_APSP=y
+CONFIG_SERIO_SUN4I_PS2=m
+# CONFIG_SERIO_GPIO_PS2 is not set
+CONFIG_USERIO=m
+CONFIG_GAMEPORT=y
+# CONFIG_GAMEPORT_EMU10K1 is not set
+CONFIG_GAMEPORT_FM801=y
+# end of Hardware I/O ports
+# end of Input device support
+
+#
+# Character devices
+#
+# CONFIG_TTY is not set
+CONFIG_SERIAL_DEV_BUS=m
+CONFIG_PRINTER=m
+# CONFIG_LP_CONSOLE is not set
+CONFIG_PPDEV=y
+CONFIG_IPMI_HANDLER=m
+CONFIG_IPMI_PLAT_DATA=y
+CONFIG_IPMI_PANIC_EVENT=y
+# CONFIG_IPMI_PANIC_STRING is not set
+CONFIG_IPMI_DEVICE_INTERFACE=m
+CONFIG_IPMI_SI=m
+CONFIG_IPMI_SSIF=m
+CONFIG_IPMI_IPMB=m
+CONFIG_IPMI_WATCHDOG=m
+CONFIG_IPMI_POWEROFF=m
+CONFIG_IPMI_KCS_BMC=y
+# CONFIG_ASPEED_KCS_IPMI_BMC is not set
+CONFIG_NPCM7XX_KCS_IPMI_BMC=y
+CONFIG_IPMI_KCS_BMC_CDEV_IPMI=m
+CONFIG_IPMI_KCS_BMC_SERIO=y
+CONFIG_ASPEED_BT_IPMI_BMC=y
+CONFIG_SSIF_IPMI_BMC=y
+CONFIG_IPMB_DEVICE_INTERFACE=m
+CONFIG_HW_RANDOM=y
+CONFIG_HW_RANDOM_TIMERIOMEM=y
+CONFIG_HW_RANDOM_INTEL=m
+CONFIG_HW_RANDOM_AMD=m
+CONFIG_HW_RANDOM_AIROHA=m
+CONFIG_HW_RANDOM_ATMEL=y
+CONFIG_HW_RANDOM_BA431=y
+CONFIG_HW_RANDOM_BCM2835=m
+# CONFIG_HW_RANDOM_BCM74110 is not set
+CONFIG_HW_RANDOM_IPROC_RNG200=m
+CONFIG_HW_RANDOM_GEODE=y
+CONFIG_HW_RANDOM_IXP4XX=m
+CONFIG_HW_RANDOM_OMAP=y
+# CONFIG_HW_RANDOM_OMAP3_ROM is not set
+# CONFIG_HW_RANDOM_VIRTIO is not set
+# CONFIG_HW_RANDOM_MXC_RNGA is not set
+CONFIG_HW_RANDOM_IMX_RNGC=m
+# CONFIG_HW_RANDOM_INGENIC_RNG is not set
+# CONFIG_HW_RANDOM_INGENIC_TRNG is not set
+# CONFIG_HW_RANDOM_NOMADIK is not set
+# CONFIG_HW_RANDOM_HISI is not set
+CONFIG_HW_RANDOM_HISTB=m
+# CONFIG_HW_RANDOM_ST is not set
+# CONFIG_HW_RANDOM_XGENE is not set
+CONFIG_HW_RANDOM_STM32=y
+CONFIG_HW_RANDOM_PIC32=y
+# CONFIG_HW_RANDOM_MESON is not set
+CONFIG_HW_RANDOM_MTK=y
+CONFIG_HW_RANDOM_EXYNOS=y
+CONFIG_HW_RANDOM_NPCM=y
+CONFIG_HW_RANDOM_KEYSTONE=y
+# CONFIG_HW_RANDOM_CCTRNG is not set
+CONFIG_HW_RANDOM_XIPHERA=m
+CONFIG_HW_RANDOM_CN10K=y
+CONFIG_HW_RANDOM_JH7110=m
+CONFIG_HW_RANDOM_ROCKCHIP=y
+CONFIG_APPLICOM=y
+CONFIG_DEVMEM=y
+# CONFIG_DEVPORT is not set
+CONFIG_TCG_TPM=y
+# CONFIG_TCG_TPM2_HMAC is not set
+# CONFIG_HW_RANDOM_TPM is not set
+CONFIG_TCG_TIS_CORE=y
+CONFIG_TCG_TIS=m
+CONFIG_TCG_TIS_I2C=y
+CONFIG_TCG_TIS_SYNQUACER=y
+CONFIG_TCG_TIS_I2C_CR50=m
+# CONFIG_TCG_TIS_I2C_ATMEL is not set
+CONFIG_TCG_TIS_I2C_INFINEON=y
+CONFIG_TCG_TIS_I2C_NUVOTON=m
+CONFIG_TCG_ATMEL=y
+# CONFIG_TCG_INFINEON is not set
+CONFIG_TCG_CRB=m
+CONFIG_TCG_VTPM_PROXY=y
+CONFIG_TCG_TIS_ST33ZP24=y
+CONFIG_TCG_TIS_ST33ZP24_I2C=y
+# CONFIG_XILLYBUS is not set
+# end of Character devices
+
+#
+# I2C support
+#
+CONFIG_I2C=y
+CONFIG_ACPI_I2C_OPREGION=y
+CONFIG_I2C_BOARDINFO=y
+CONFIG_I2C_CHARDEV=y
+CONFIG_I2C_MUX=y
+
+#
+# Multiplexer I2C Chip support
+#
+CONFIG_I2C_ARB_GPIO_CHALLENGE=y
+CONFIG_I2C_MUX_GPIO=y
+CONFIG_I2C_MUX_GPMUX=m
+# CONFIG_I2C_MUX_LTC4306 is not set
+CONFIG_I2C_MUX_PCA9541=m
+CONFIG_I2C_MUX_PCA954x=m
+CONFIG_I2C_MUX_PINCTRL=y
+# CONFIG_I2C_MUX_REG is not set
+# CONFIG_I2C_DEMUX_PINCTRL is not set
+CONFIG_I2C_MUX_MLXCPLD=m
+CONFIG_I2C_MUX_MULE=m
+# end of Multiplexer I2C Chip support
+
+CONFIG_I2C_ATR=m
+# CONFIG_I2C_HELPER_AUTO is not set
+CONFIG_I2C_SMBUS=y
+
+#
+# I2C Algorithms
+#
+CONFIG_I2C_ALGOBIT=y
+CONFIG_I2C_ALGOPCF=m
+CONFIG_I2C_ALGOPCA=y
+# end of I2C Algorithms
+
+#
+# I2C Hardware Bus support
+#
+
+#
+# PC SMBus host controller drivers
+#
+CONFIG_I2C_CCGX_UCSI=m
+CONFIG_I2C_ALI1535=m
+CONFIG_I2C_ALI1563=m
+# CONFIG_I2C_ALI15X3 is not set
+CONFIG_I2C_AMD756=m
+# CONFIG_I2C_AMD8111 is not set
+CONFIG_I2C_AMD_MP2=m
+CONFIG_I2C_HIX5HD2=y
+CONFIG_I2C_I801=m
+CONFIG_I2C_ISCH=y
+# CONFIG_I2C_PIIX4 is not set
+CONFIG_I2C_NFORCE2=y
+CONFIG_I2C_NVIDIA_GPU=m
+# CONFIG_I2C_SIS5595 is not set
+CONFIG_I2C_SIS630=m
+CONFIG_I2C_SIS96X=y
+# CONFIG_I2C_VIA is not set
+CONFIG_I2C_VIAPRO=m
+CONFIG_I2C_ZHAOXIN=m
+
+#
+# ACPI drivers
+#
+CONFIG_I2C_SCMI=m
+
+#
+# I2C system bus drivers (mostly embedded / system-on-chip)
+#
+CONFIG_I2C_ALTERA=m
+CONFIG_I2C_ASPEED=y
+CONFIG_I2C_AT91=m
+CONFIG_I2C_AT91_SLAVE_EXPERIMENTAL=y
+# CONFIG_I2C_AXXIA is not set
+CONFIG_I2C_BCM2835=y
+# CONFIG_I2C_BCM_IPROC is not set
+CONFIG_I2C_BCM_KONA=m
+CONFIG_I2C_BRCMSTB=m
+# CONFIG_I2C_CADENCE is not set
+CONFIG_I2C_CBUS_GPIO=m
+# CONFIG_I2C_DAVINCI is not set
+# CONFIG_I2C_DESIGNWARE_CORE is not set
+# CONFIG_I2C_DIGICOLOR is not set
+# CONFIG_I2C_EG20T is not set
+CONFIG_I2C_EMEV2=y
+CONFIG_I2C_EXYNOS5=y
+CONFIG_I2C_GPIO=m
+# CONFIG_I2C_GPIO_FAULT_INJECTOR is not set
+CONFIG_I2C_GXP=m
+# CONFIG_I2C_HIGHLANDER is not set
+# CONFIG_I2C_HISI is not set
+CONFIG_I2C_IMG=y
+CONFIG_I2C_IMX=m
+# CONFIG_I2C_IMX_LPI2C is not set
+# CONFIG_I2C_IOP3XX is not set
+CONFIG_I2C_JZ4780=m
+CONFIG_I2C_K1=m
+CONFIG_I2C_KEBA=m
+CONFIG_I2C_KEMPLD=y
+# CONFIG_I2C_LPC2K is not set
+CONFIG_I2C_LS2X=y
+CONFIG_I2C_MESON=y
+CONFIG_I2C_MICROCHIP_CORE=m
+# CONFIG_I2C_MT65XX is not set
+CONFIG_I2C_MT7621=m
+# CONFIG_I2C_MV64XXX is not set
+CONFIG_I2C_MXS=y
+# CONFIG_I2C_NOMADIK is not set
+CONFIG_I2C_NPCM=m
+CONFIG_I2C_OCORES=y
+CONFIG_I2C_OMAP=y
+# CONFIG_I2C_OWL is not set
+CONFIG_I2C_APPLE=y
+CONFIG_I2C_PCA_PLATFORM=y
+CONFIG_I2C_PNX=y
+CONFIG_I2C_PXA=y
+CONFIG_I2C_PXA_SLAVE=y
+CONFIG_I2C_QCOM_CCI=y
+CONFIG_I2C_QCOM_GENI=y
+# CONFIG_I2C_QUP is not set
+CONFIG_I2C_RIIC=m
+CONFIG_I2C_RK3X=y
+CONFIG_I2C_RTL9300=y
+CONFIG_I2C_RZV2M=m
+CONFIG_I2C_S3C2410=m
+CONFIG_I2C_SH_MOBILE=y
+CONFIG_I2C_SIMTEC=m
+# CONFIG_I2C_SPRD is not set
+CONFIG_I2C_ST=m
+CONFIG_I2C_STM32F4=y
+CONFIG_I2C_STM32F7=y
+# CONFIG_I2C_SUN6I_P2WI is not set
+CONFIG_I2C_SYNQUACER=y
+CONFIG_I2C_TEGRA_BPMP=m
+CONFIG_I2C_UNIPHIER=m
+CONFIG_I2C_UNIPHIER_F=y
+# CONFIG_I2C_VERSATILE is not set
+CONFIG_I2C_WMT=y
+CONFIG_I2C_THUNDERX=m
+CONFIG_I2C_XILINX=y
+CONFIG_I2C_XLP9XX=m
+CONFIG_I2C_RCAR=y
+
+#
+# External I2C/SMBus adapter drivers
+#
+CONFIG_I2C_PARPORT=m
+# CONFIG_I2C_PCI1XXXX is not set
+
+#
+# Other I2C/SMBus bus drivers
+#
+CONFIG_I2C_MLXCPLD=m
+# CONFIG_I2C_CROS_EC_TUNNEL is not set
+# CONFIG_I2C_VIRTIO is not set
+# end of I2C Hardware Bus support
+
+# CONFIG_I2C_STUB is not set
+CONFIG_I2C_SLAVE=y
+# CONFIG_I2C_SLAVE_EEPROM is not set
+# CONFIG_I2C_SLAVE_TESTUNIT is not set
+CONFIG_I2C_DEBUG_CORE=y
+# CONFIG_I2C_DEBUG_ALGO is not set
+# CONFIG_I2C_DEBUG_BUS is not set
+# end of I2C support
+
+CONFIG_I3C=y
+CONFIG_CDNS_I3C_MASTER=m
+CONFIG_DW_I3C_MASTER=y
+CONFIG_AST2600_I3C_MASTER=y
+CONFIG_SVC_I3C_MASTER=m
+CONFIG_MIPI_I3C_HCI=y
+CONFIG_MIPI_I3C_HCI_PCI=y
+# CONFIG_SPI is not set
+CONFIG_SPMI=m
+CONFIG_SPMI_HISI3670=m
+CONFIG_SPMI_MSM_PMIC_ARB=m
+# CONFIG_SPMI_MTK_PMIF is not set
+CONFIG_HSI=m
+CONFIG_HSI_BOARDINFO=y
+
+#
+# HSI controllers
+#
+
+#
+# HSI clients
+#
+CONFIG_HSI_CHAR=m
+CONFIG_PPS=y
+# CONFIG_PPS_DEBUG is not set
+
+#
+# PPS clients support
+#
+CONFIG_PPS_CLIENT_KTIMER=y
+CONFIG_PPS_CLIENT_PARPORT=m
+CONFIG_PPS_CLIENT_GPIO=y
+CONFIG_PPS_GENERATOR=y
+CONFIG_PPS_GENERATOR_DUMMY=m
+
+#
+# PTP clock support
+#
+CONFIG_PTP_1588_CLOCK=m
+CONFIG_PTP_1588_CLOCK_OPTIONAL=m
+# CONFIG_PTP_1588_CLOCK_DTE is not set
+CONFIG_PTP_1588_CLOCK_QORIQ=m
+
+#
+# Enable PHYLIB and NETWORK_PHY_TIMESTAMPING to see the additional clocks.
+#
+CONFIG_PTP_1588_CLOCK_PCH=m
+CONFIG_PTP_1588_CLOCK_IDT82P33=m
+CONFIG_PTP_1588_CLOCK_IDTCM=m
+CONFIG_PTP_1588_CLOCK_FC3W=m
+CONFIG_PTP_1588_CLOCK_MOCK=m
+# end of PTP clock support
+
+CONFIG_PINCTRL=y
+CONFIG_GENERIC_PINCTRL_GROUPS=y
+CONFIG_PINMUX=y
+CONFIG_GENERIC_PINMUX_FUNCTIONS=y
+CONFIG_PINCONF=y
+CONFIG_GENERIC_PINCONF=y
+CONFIG_DEBUG_PINCTRL=y
+# CONFIG_PINCTRL_AMD is not set
+# CONFIG_PINCTRL_AMDISP is not set
+CONFIG_PINCTRL_AS3722=m
+CONFIG_PINCTRL_AT91PIO4=y
+CONFIG_PINCTRL_AXP209=y
+# CONFIG_PINCTRL_AW9523 is not set
+# CONFIG_PINCTRL_BM1880 is not set
+CONFIG_PINCTRL_CY8C95X0=m
+CONFIG_PINCTRL_DA850_PUPD=y
+# CONFIG_PINCTRL_EQUILIBRIUM is not set
+# CONFIG_PINCTRL_EYEQ5 is not set
+# CONFIG_PINCTRL_INGENIC is not set
+# CONFIG_PINCTRL_K230 is not set
+CONFIG_PINCTRL_LOONGSON2=y
+# CONFIG_PINCTRL_LPC18XX is not set
+CONFIG_PINCTRL_MCP23S08_I2C=y
+CONFIG_PINCTRL_MCP23S08=y
+# CONFIG_PINCTRL_MICROCHIP_SGPIO is not set
+# CONFIG_PINCTRL_OCELOT is not set
+CONFIG_PINCTRL_PISTACHIO=y
+CONFIG_PINCTRL_RK805=m
+CONFIG_PINCTRL_ROCKCHIP=y
+# CONFIG_PINCTRL_SCMI is not set
+# CONFIG_PINCTRL_SINGLE is not set
+# CONFIG_PINCTRL_STMFX is not set
+# CONFIG_PINCTRL_SX150X is not set
+CONFIG_PINCTRL_TH1520=y
+CONFIG_PINCTRL_MLXBF3=y
+# CONFIG_PINCTRL_OWL is not set
+CONFIG_PINCTRL_ASPEED=y
+CONFIG_PINCTRL_ASPEED_G4=y
+CONFIG_PINCTRL_ASPEED_G5=y
+# CONFIG_PINCTRL_ASPEED_G6 is not set
+CONFIG_PINCTRL_BCM281XX=y
+CONFIG_PINCTRL_BCM2835=m
+CONFIG_PINCTRL_BCM4908=y
+CONFIG_PINCTRL_BCM63XX=y
+CONFIG_PINCTRL_BCM6318=y
+CONFIG_PINCTRL_BCM6328=y
+# CONFIG_PINCTRL_BCM6358 is not set
+CONFIG_PINCTRL_BCM6362=y
+CONFIG_PINCTRL_BCM6368=y
+CONFIG_PINCTRL_BCM63268=y
+# CONFIG_PINCTRL_IPROC_GPIO is not set
+CONFIG_PINCTRL_CYGNUS_MUX=y
+# CONFIG_PINCTRL_NS is not set
+CONFIG_PINCTRL_NSP_GPIO=y
+CONFIG_PINCTRL_NS2_MUX=y
+# CONFIG_PINCTRL_NSP_MUX is not set
+CONFIG_PINCTRL_BERLIN=y
+CONFIG_PINCTRL_AS370=y
+# CONFIG_PINCTRL_BERLIN_BG4CT is not set
+CONFIG_PINCTRL_CS42L43=m
+CONFIG_PINCTRL_MADERA=y
+CONFIG_PINCTRL_CS47L35=y
+CONFIG_PINCTRL_CS47L90=y
+CONFIG_PINCTRL_IMX=y
+CONFIG_PINCTRL_IMX_SCU=m
+CONFIG_PINCTRL_IMX1_CORE=y
+CONFIG_PINCTRL_IMX1=y
+# CONFIG_PINCTRL_IMX27 is not set
+CONFIG_PINCTRL_IMX25=y
+CONFIG_PINCTRL_IMX35=y
+CONFIG_PINCTRL_IMX50=y
+CONFIG_PINCTRL_IMX51=y
+CONFIG_PINCTRL_IMX53=y
+CONFIG_PINCTRL_IMX6Q=y
+CONFIG_PINCTRL_IMX6SL=y
+# CONFIG_PINCTRL_IMX6SLL is not set
+# CONFIG_PINCTRL_IMX6SX is not set
+# CONFIG_PINCTRL_IMX6UL is not set
+CONFIG_PINCTRL_IMX7D=y
+# CONFIG_PINCTRL_IMX7ULP is not set
+CONFIG_PINCTRL_IMX8MM=m
+CONFIG_PINCTRL_IMX8MN=m
+CONFIG_PINCTRL_IMX8MP=y
+CONFIG_PINCTRL_IMX8MQ=m
+# CONFIG_PINCTRL_IMX8QM is not set
+CONFIG_PINCTRL_IMX8QXP=m
+CONFIG_PINCTRL_IMX8DXL=m
+CONFIG_PINCTRL_IMX8ULP=y
+CONFIG_PINCTRL_IMXRT1050=y
+# CONFIG_PINCTRL_IMX93 is not set
+# CONFIG_PINCTRL_VF610 is not set
+# CONFIG_PINCTRL_IMXRT1170 is not set
+
+#
+# Intel pinctrl drivers
+#
+CONFIG_PINCTRL_BAYTRAIL=y
+CONFIG_PINCTRL_CHERRYVIEW=y
+CONFIG_PINCTRL_LYNXPOINT=y
+CONFIG_PINCTRL_INTEL=y
+CONFIG_PINCTRL_INTEL_PLATFORM=m
+# CONFIG_PINCTRL_ALDERLAKE is not set
+CONFIG_PINCTRL_BROXTON=m
+# CONFIG_PINCTRL_CANNONLAKE is not set
+CONFIG_PINCTRL_CEDARFORK=y
+# CONFIG_PINCTRL_DENVERTON is not set
+# CONFIG_PINCTRL_ELKHARTLAKE is not set
+# CONFIG_PINCTRL_EMMITSBURG is not set
+CONFIG_PINCTRL_GEMINILAKE=m
+CONFIG_PINCTRL_ICELAKE=y
+CONFIG_PINCTRL_JASPERLAKE=m
+# CONFIG_PINCTRL_LAKEFIELD is not set
+CONFIG_PINCTRL_LEWISBURG=m
+CONFIG_PINCTRL_METEORLAKE=m
+# CONFIG_PINCTRL_METEORPOINT is not set
+# CONFIG_PINCTRL_SUNRISEPOINT is not set
+# CONFIG_PINCTRL_TIGERLAKE is not set
+CONFIG_PINCTRL_TANGIER=m
+CONFIG_PINCTRL_MERRIFIELD=m
+# CONFIG_PINCTRL_MOOREFIELD is not set
+# end of Intel pinctrl drivers
+
+#
+# MediaTek pinctrl drivers
+#
+CONFIG_EINT_MTK=y
+CONFIG_PINCTRL_MTK=y
+CONFIG_PINCTRL_MTK_V2=y
+CONFIG_PINCTRL_MTK_MOORE=y
+CONFIG_PINCTRL_MTK_PARIS=y
+CONFIG_PINCTRL_MT2701=y
+CONFIG_PINCTRL_MT7623=y
+CONFIG_PINCTRL_MT7629=y
+# CONFIG_PINCTRL_MT8135 is not set
+CONFIG_PINCTRL_MT8127=y
+# CONFIG_PINCTRL_AIROHA is not set
+# CONFIG_PINCTRL_MT2712 is not set
+CONFIG_PINCTRL_MT6765=m
+CONFIG_PINCTRL_MT6779=y
+# CONFIG_PINCTRL_MT6795 is not set
+CONFIG_PINCTRL_MT6797=y
+CONFIG_PINCTRL_MT7622=y
+# CONFIG_PINCTRL_MT7981 is not set
+# CONFIG_PINCTRL_MT7986 is not set
+# CONFIG_PINCTRL_MT7988 is not set
+# CONFIG_PINCTRL_MT8167 is not set
+# CONFIG_PINCTRL_MT8173 is not set
+CONFIG_PINCTRL_MT8183=y
+CONFIG_PINCTRL_MT8186=y
+# CONFIG_PINCTRL_MT8188 is not set
+# CONFIG_PINCTRL_MT8192 is not set
+# CONFIG_PINCTRL_MT8195 is not set
+# CONFIG_PINCTRL_MT8365 is not set
+# CONFIG_PINCTRL_MT8516 is not set
+# CONFIG_PINCTRL_MT6397 is not set
+# end of MediaTek pinctrl drivers
+
+# CONFIG_PINCTRL_MESON is not set
+# CONFIG_PINCTRL_NOMADIK is not set
+CONFIG_PINCTRL_WPCM450=y
+# CONFIG_PINCTRL_NPCM7XX is not set
+# CONFIG_PINCTRL_NPCM8XX is not set
+# CONFIG_PINCTRL_MA35D1 is not set
+# CONFIG_PINCTRL_PXA25X is not set
+# CONFIG_PINCTRL_PXA27X is not set
+CONFIG_PINCTRL_MSM=m
+CONFIG_PINCTRL_APQ8064=m
+CONFIG_PINCTRL_APQ8084=m
+CONFIG_PINCTRL_IPQ4019=m
+# CONFIG_PINCTRL_IPQ5018 is not set
+CONFIG_PINCTRL_IPQ8064=m
+CONFIG_PINCTRL_IPQ5332=m
+CONFIG_PINCTRL_IPQ5424=m
+# CONFIG_PINCTRL_IPQ8074 is not set
+# CONFIG_PINCTRL_IPQ6018 is not set
+CONFIG_PINCTRL_IPQ9574=m
+# CONFIG_PINCTRL_MSM8226 is not set
+CONFIG_PINCTRL_MSM8660=m
+CONFIG_PINCTRL_MSM8960=m
+CONFIG_PINCTRL_MDM9607=m
+# CONFIG_PINCTRL_MDM9615 is not set
+CONFIG_PINCTRL_MSM8X74=m
+# CONFIG_PINCTRL_MSM8909 is not set
+# CONFIG_PINCTRL_MSM8916 is not set
+CONFIG_PINCTRL_MSM8917=m
+CONFIG_PINCTRL_MSM8953=m
+CONFIG_PINCTRL_MSM8976=m
+CONFIG_PINCTRL_MSM8994=m
+CONFIG_PINCTRL_MSM8996=m
+CONFIG_PINCTRL_MSM8998=m
+CONFIG_PINCTRL_QCM2290=m
+CONFIG_PINCTRL_QCS404=m
+CONFIG_PINCTRL_QCS615=m
+# CONFIG_PINCTRL_QCS8300 is not set
+CONFIG_PINCTRL_QDF2XXX=m
+CONFIG_PINCTRL_QDU1000=m
+CONFIG_PINCTRL_SA8775P=m
+CONFIG_PINCTRL_SAR2130P=m
+# CONFIG_PINCTRL_SC7180 is not set
+CONFIG_PINCTRL_SC7280=m
+CONFIG_PINCTRL_SC8180X=m
+CONFIG_PINCTRL_SC8280XP=m
+# CONFIG_PINCTRL_SDM660 is not set
+CONFIG_PINCTRL_SDM670=m
+# CONFIG_PINCTRL_SDM845 is not set
+CONFIG_PINCTRL_SDX55=m
+# CONFIG_PINCTRL_SDX65 is not set
+CONFIG_PINCTRL_SDX75=m
+CONFIG_PINCTRL_SM4450=m
+CONFIG_PINCTRL_SM6115=m
+CONFIG_PINCTRL_SM6125=m
+CONFIG_PINCTRL_SM6350=m
+CONFIG_PINCTRL_SM6375=m
+# CONFIG_PINCTRL_SM7150 is not set
+CONFIG_PINCTRL_SM8150=m
+CONFIG_PINCTRL_SM8250=m
+# CONFIG_PINCTRL_SM8350 is not set
+CONFIG_PINCTRL_SM8450=m
+# CONFIG_PINCTRL_SM8550 is not set
+# CONFIG_PINCTRL_SM8650 is not set
+CONFIG_PINCTRL_SM8750=m
+CONFIG_PINCTRL_X1E80100=m
+CONFIG_PINCTRL_TLMM_TEST=m
+# CONFIG_PINCTRL_QCOM_SPMI_PMIC is not set
+CONFIG_PINCTRL_QCOM_SSBI_PMIC=m
+CONFIG_PINCTRL_LPASS_LPI=m
+# CONFIG_PINCTRL_SC7280_LPASS_LPI is not set
+CONFIG_PINCTRL_SM4250_LPASS_LPI=m
+CONFIG_PINCTRL_SM6115_LPASS_LPI=m
+CONFIG_PINCTRL_SM8250_LPASS_LPI=m
+# CONFIG_PINCTRL_SM8350_LPASS_LPI is not set
+# CONFIG_PINCTRL_SM8450_LPASS_LPI is not set
+CONFIG_PINCTRL_SC8280XP_LPASS_LPI=m
+# CONFIG_PINCTRL_SM8550_LPASS_LPI is not set
+# CONFIG_PINCTRL_SM8650_LPASS_LPI is not set
+
+#
+# Renesas pinctrl drivers
+#
+# CONFIG_PINCTRL_RENESAS is not set
+CONFIG_PINCTRL_SH_PFC=y
+CONFIG_PINCTRL_SH_PFC_GPIO=y
+CONFIG_PINCTRL_SH_FUNC_GPIO=y
+# CONFIG_PINCTRL_PFC_EMEV2 is not set
+# CONFIG_PINCTRL_PFC_R8A77995 is not set
+CONFIG_PINCTRL_PFC_R8A7794=y
+# CONFIG_PINCTRL_PFC_R8A77990 is not set
+CONFIG_PINCTRL_PFC_R8A7779=y
+# CONFIG_PINCTRL_PFC_R8A7790 is not set
+CONFIG_PINCTRL_PFC_R8A77951=y
+# CONFIG_PINCTRL_PFC_R8A7778 is not set
+# CONFIG_PINCTRL_PFC_R8A7793 is not set
+# CONFIG_PINCTRL_PFC_R8A7791 is not set
+CONFIG_PINCTRL_PFC_R8A77965=y
+# CONFIG_PINCTRL_PFC_R8A77960 is not set
+# CONFIG_PINCTRL_PFC_R8A77961 is not set
+CONFIG_PINCTRL_PFC_R8A779F0=y
+# CONFIG_PINCTRL_PFC_R8A7792 is not set
+CONFIG_PINCTRL_PFC_R8A77980=y
+# CONFIG_PINCTRL_PFC_R8A77970 is not set
+# CONFIG_PINCTRL_PFC_R8A779A0 is not set
+CONFIG_PINCTRL_PFC_R8A779G0=y
+# CONFIG_PINCTRL_PFC_R8A779H0 is not set
+CONFIG_PINCTRL_PFC_R8A7740=y
+CONFIG_PINCTRL_PFC_R8A73A4=y
+# CONFIG_PINCTRL_RZA1 is not set
+CONFIG_PINCTRL_RZA2=y
+# CONFIG_PINCTRL_RZG2L is not set
+# CONFIG_PINCTRL_PFC_R8A77470 is not set
+# CONFIG_PINCTRL_PFC_R8A7745 is not set
+# CONFIG_PINCTRL_PFC_R8A7742 is not set
+CONFIG_PINCTRL_PFC_R8A7743=y
+CONFIG_PINCTRL_PFC_R8A7744=y
+# CONFIG_PINCTRL_PFC_R8A774C0 is not set
+# CONFIG_PINCTRL_PFC_R8A774E1 is not set
+CONFIG_PINCTRL_PFC_R8A774A1=y
+CONFIG_PINCTRL_PFC_R8A774B1=y
+CONFIG_PINCTRL_RZN1=y
+CONFIG_PINCTRL_RZV2M=y
+CONFIG_PINCTRL_PFC_SH7203=y
+# CONFIG_PINCTRL_PFC_SH7264 is not set
+# CONFIG_PINCTRL_PFC_SH7269 is not set
+CONFIG_PINCTRL_PFC_SH7720=y
+# CONFIG_PINCTRL_PFC_SH7722 is not set
+CONFIG_PINCTRL_PFC_SH7734=y
+# CONFIG_PINCTRL_PFC_SH7757 is not set
+# CONFIG_PINCTRL_PFC_SH7785 is not set
+# CONFIG_PINCTRL_PFC_SH7786 is not set
+CONFIG_PINCTRL_PFC_SH73A0=y
+# CONFIG_PINCTRL_PFC_SH7723 is not set
+# CONFIG_PINCTRL_PFC_SH7724 is not set
+# CONFIG_PINCTRL_PFC_SHX3 is not set
+# end of Renesas pinctrl drivers
+
+CONFIG_PINCTRL_SAMSUNG=y
+CONFIG_PINCTRL_EXYNOS=y
+# CONFIG_PINCTRL_EXYNOS_ARM is not set
+# CONFIG_PINCTRL_EXYNOS_ARM64 is not set
+# CONFIG_PINCTRL_S3C64XX is not set
+CONFIG_PINCTRL_SOPHGO_COMMON=y
+CONFIG_PINCTRL_SOPHGO_CV18XX_OPS=y
+# CONFIG_PINCTRL_SOPHGO_CV1800B is not set
+CONFIG_PINCTRL_SOPHGO_CV1812H=m
+CONFIG_PINCTRL_SOPHGO_SG2000=m
+# CONFIG_PINCTRL_SOPHGO_SG2002 is not set
+CONFIG_PINCTRL_SOPHGO_SG2042_OPS=y
+CONFIG_PINCTRL_SOPHGO_SG2042=m
+CONFIG_PINCTRL_SOPHGO_SG2044=y
+# CONFIG_PINCTRL_SPACEMIT_K1 is not set
+CONFIG_PINCTRL_SPRD=m
+CONFIG_PINCTRL_SPRD_SC9860=m
+CONFIG_PINCTRL_STARFIVE_JH7100=y
+CONFIG_PINCTRL_STARFIVE_JH7110=y
+# CONFIG_PINCTRL_STARFIVE_JH7110_SYS is not set
+CONFIG_PINCTRL_STARFIVE_JH7110_AON=m
+CONFIG_PINCTRL_STM32=y
+CONFIG_PINCTRL_STM32F429=y
+CONFIG_PINCTRL_STM32F469=y
+# CONFIG_PINCTRL_STM32F746 is not set
+# CONFIG_PINCTRL_STM32F769 is not set
+# CONFIG_PINCTRL_STM32H743 is not set
+# CONFIG_PINCTRL_STM32MP135 is not set
+CONFIG_PINCTRL_STM32MP157=y
+CONFIG_PINCTRL_STM32MP257=y
+# CONFIG_PINCTRL_TI_IODELAY is not set
+# CONFIG_PINCTRL_UNIPHIER is not set
+# CONFIG_PINCTRL_TMPV7700 is not set
+CONFIG_GPIOLIB=y
+CONFIG_GPIOLIB_FASTPATH_LIMIT=512
+CONFIG_OF_GPIO=y
+CONFIG_GPIO_ACPI=y
+CONFIG_GPIOLIB_IRQCHIP=y
+CONFIG_DEBUG_GPIO=y
+CONFIG_GPIO_SYSFS=y
+CONFIG_GPIO_CDEV=y
+# CONFIG_GPIO_CDEV_V1 is not set
+CONFIG_GPIO_GENERIC=y
+CONFIG_GPIO_REGMAP=y
+CONFIG_GPIO_MAX730X=y
+CONFIG_GPIO_IDIO_16=y
+
+#
+# Memory mapped GPIO drivers
+#
+# CONFIG_GPIO_74XX_MMIO is not set
+CONFIG_GPIO_ALTERA=m
+CONFIG_GPIO_AMDPT=y
+CONFIG_GPIO_ASPEED=y
+CONFIG_GPIO_ASPEED_SGPIO=y
+# CONFIG_GPIO_ATH79 is not set
+CONFIG_GPIO_RASPBERRYPI_EXP=m
+CONFIG_GPIO_BCM_KONA=y
+CONFIG_GPIO_BCM_XGS_IPROC=m
+# CONFIG_GPIO_BRCMSTB is not set
+CONFIG_GPIO_CADENCE=m
+CONFIG_GPIO_CLPS711X=y
+# CONFIG_GPIO_DAVINCI is not set
+CONFIG_GPIO_DWAPB=y
+# CONFIG_GPIO_EIC_SPRD is not set
+CONFIG_GPIO_EM=y
+# CONFIG_GPIO_GE_FPGA is not set
+CONFIG_GPIO_FTGPIO010=y
+# CONFIG_GPIO_GENERIC_PLATFORM is not set
+CONFIG_GPIO_GRANITERAPIDS=y
+CONFIG_GPIO_GRGPIO=y
+CONFIG_GPIO_HISI=y
+CONFIG_GPIO_HLWD=y
+CONFIG_GPIO_IMX_SCU=y
+# CONFIG_GPIO_LOGICVC is not set
+# CONFIG_GPIO_LOONGSON_64BIT is not set
+CONFIG_GPIO_LPC18XX=m
+CONFIG_GPIO_LPC32XX=y
+CONFIG_GPIO_MB86S7X=y
+# CONFIG_GPIO_MPC8XXX is not set
+# CONFIG_GPIO_MT7621 is not set
+CONFIG_GPIO_MVEBU=y
+CONFIG_GPIO_MXC=y
+# CONFIG_GPIO_MXS is not set
+CONFIG_GPIO_NOMADIK=y
+# CONFIG_GPIO_NPCM_SGPIO is not set
+CONFIG_GPIO_OMAP=m
+CONFIG_GPIO_POLARFIRE_SOC=y
+# CONFIG_GPIO_PXA is not set
+CONFIG_GPIO_RCAR=y
+# CONFIG_GPIO_RDA is not set
+# CONFIG_GPIO_ROCKCHIP is not set
+CONFIG_GPIO_SAMA5D2_PIOBU=y
+CONFIG_GPIO_SIFIVE=y
+# CONFIG_GPIO_SIOX is not set
+CONFIG_GPIO_SNPS_CREG=y
+CONFIG_GPIO_SPRD=m
+CONFIG_GPIO_STP_XWAY=y
+CONFIG_GPIO_SYSCON=y
+CONFIG_GPIO_TEGRA=y
+CONFIG_GPIO_TEGRA186=m
+CONFIG_GPIO_TS4800=y
+CONFIG_GPIO_THUNDERX=m
+CONFIG_GPIO_UNIPHIER=m
+# CONFIG_GPIO_VF610 is not set
+CONFIG_GPIO_VISCONTI=y
+# CONFIG_GPIO_XGENE_SB is not set
+CONFIG_GPIO_XILINX=m
+CONFIG_GPIO_XLP=y
+CONFIG_GPIO_AMD_FCH=y
+# CONFIG_GPIO_IDT3243X is not set
+# end of Memory mapped GPIO drivers
+
+#
+# I2C GPIO expanders
+#
+CONFIG_GPIO_ADNP=y
+CONFIG_GPIO_FXL6408=y
+CONFIG_GPIO_DS4520=m
+CONFIG_GPIO_GW_PLD=m
+CONFIG_GPIO_MAX7300=y
+CONFIG_GPIO_MAX732X=m
+# CONFIG_GPIO_PCA953X is not set
+CONFIG_GPIO_PCA9570=m
+CONFIG_GPIO_PCF857X=m
+CONFIG_GPIO_TPIC2810=m
+CONFIG_GPIO_TS4900=y
+# end of I2C GPIO expanders
+
+#
+# MFD GPIO expanders
+#
+CONFIG_GPIO_BD71815=m
+CONFIG_GPIO_BD71828=y
+CONFIG_GPIO_BD9571MWV=y
+CONFIG_GPIO_CROS_EC=m
+CONFIG_GPIO_DA9052=y
+CONFIG_GPIO_DA9055=y
+# CONFIG_GPIO_ELKHARTLAKE is not set
+CONFIG_GPIO_JANZ_TTL=m
+CONFIG_GPIO_KEMPLD=y
+CONFIG_GPIO_LP3943=m
+# CONFIG_GPIO_LP873X is not set
+# CONFIG_GPIO_LP87565 is not set
+CONFIG_GPIO_MADERA=y
+# CONFIG_GPIO_MAX77650 is not set
+CONFIG_GPIO_PMIC_EIC_SPRD=y
+CONFIG_GPIO_RC5T583=y
+CONFIG_GPIO_SL28CPLD=m
+CONFIG_GPIO_STMPE=y
+# CONFIG_GPIO_TIMBERDALE is not set
+CONFIG_GPIO_TPS65086=m
+CONFIG_GPIO_TPS65218=m
+CONFIG_GPIO_TPS65219=y
+CONFIG_GPIO_TPS6586X=y
+# CONFIG_GPIO_TPS65910 is not set
+CONFIG_GPIO_TQMX86=y
+CONFIG_GPIO_TWL4030=y
+CONFIG_GPIO_TWL6040=y
+# CONFIG_GPIO_WM8350 is not set
+# end of MFD GPIO expanders
+
+#
+# PCI GPIO expanders
+#
+CONFIG_GPIO_AMD8111=y
+CONFIG_GPIO_BT8XX=y
+# CONFIG_GPIO_MLXBF is not set
+# CONFIG_GPIO_MLXBF2 is not set
+CONFIG_GPIO_MLXBF3=y
+# CONFIG_GPIO_ML_IOH is not set
+# CONFIG_GPIO_PCH is not set
+CONFIG_GPIO_PCI_IDIO_16=y
+# CONFIG_GPIO_PCIE_IDIO_24 is not set
+CONFIG_GPIO_RDC321X=m
+# end of PCI GPIO expanders
+
+#
+# Virtual GPIO drivers
+#
+# CONFIG_GPIO_AGGREGATOR is not set
+# CONFIG_GPIO_LATCH is not set
+CONFIG_GPIO_MOCKUP=y
+CONFIG_GPIO_VIRTIO=y
+CONFIG_GPIO_SIM=y
+# end of Virtual GPIO drivers
+
+#
+# GPIO Debugging utilities
+#
+CONFIG_GPIO_SLOPPY_LOGIC_ANALYZER=y
+# CONFIG_GPIO_VIRTUSER is not set
+# end of GPIO Debugging utilities
+
+CONFIG_DEV_SYNC_PROBE=y
+CONFIG_W1=y
+
+#
+# 1-wire Bus Masters
+#
+# CONFIG_W1_MASTER_AMD_AXI is not set
+CONFIG_W1_MASTER_MATROX=m
+CONFIG_W1_MASTER_DS2482=m
+# CONFIG_W1_MASTER_MXC is not set
+CONFIG_W1_MASTER_GPIO=m
+# CONFIG_HDQ_MASTER_OMAP is not set
+CONFIG_W1_MASTER_SGI=y
+CONFIG_W1_MASTER_UART=m
+# end of 1-wire Bus Masters
+
+#
+# 1-wire Slaves
+#
+# CONFIG_W1_SLAVE_THERM is not set
+CONFIG_W1_SLAVE_SMEM=y
+CONFIG_W1_SLAVE_DS2405=y
+CONFIG_W1_SLAVE_DS2408=m
+CONFIG_W1_SLAVE_DS2408_READBACK=y
+CONFIG_W1_SLAVE_DS2413=m
+CONFIG_W1_SLAVE_DS2406=y
+CONFIG_W1_SLAVE_DS2423=y
+CONFIG_W1_SLAVE_DS2805=y
+CONFIG_W1_SLAVE_DS2430=m
+CONFIG_W1_SLAVE_DS2431=y
+# CONFIG_W1_SLAVE_DS2433 is not set
+CONFIG_W1_SLAVE_DS2438=m
+CONFIG_W1_SLAVE_DS250X=y
+CONFIG_W1_SLAVE_DS2780=y
+CONFIG_W1_SLAVE_DS2781=m
+CONFIG_W1_SLAVE_DS28E04=y
+# CONFIG_W1_SLAVE_DS28E17 is not set
+# end of 1-wire Slaves
+
+CONFIG_POWER_RESET=y
+# CONFIG_POWER_RESET_AS3722 is not set
+CONFIG_POWER_RESET_ATC260X=m
+# CONFIG_POWER_RESET_BRCMKONA is not set
+# CONFIG_POWER_RESET_BRCMSTB is not set
+CONFIG_POWER_RESET_EP93XX=y
+CONFIG_POWER_RESET_GEMINI_POWEROFF=y
+CONFIG_POWER_RESET_GPIO=y
+# CONFIG_POWER_RESET_GPIO_RESTART is not set
+CONFIG_POWER_RESET_OCELOT_RESET=y
+CONFIG_POWER_RESET_ODROID_GO_ULTRA_POWEROFF=y
+CONFIG_POWER_RESET_PIIX4_POWEROFF=m
+CONFIG_POWER_RESET_LTC2952=y
+# CONFIG_POWER_RESET_REGULATOR is not set
+# CONFIG_POWER_RESET_RESTART is not set
+CONFIG_POWER_RESET_TPS65086=y
+CONFIG_POWER_RESET_KEYSTONE=y
+# CONFIG_POWER_RESET_SYSCON is not set
+# CONFIG_POWER_RESET_SYSCON_POWEROFF is not set
+CONFIG_POWER_RESET_RMOBILE=m
+CONFIG_REBOOT_MODE=y
+CONFIG_SYSCON_REBOOT_MODE=m
+# CONFIG_POWER_RESET_SC27XX is not set
+CONFIG_NVMEM_REBOOT_MODE=y
+CONFIG_POWER_MLXBF=m
+# CONFIG_POWER_SEQUENCING is not set
+CONFIG_POWER_SUPPLY=y
+# CONFIG_POWER_SUPPLY_DEBUG is not set
+# CONFIG_POWER_SUPPLY_HWMON is not set
+# CONFIG_GENERIC_ADC_BATTERY is not set
+CONFIG_IP5XXX_POWER=y
+CONFIG_WM8350_POWER=y
+# CONFIG_TEST_POWER is not set
+# CONFIG_BATTERY_88PM860X is not set
+CONFIG_CHARGER_ADP5061=m
+CONFIG_BATTERY_ACT8945A=m
+# CONFIG_BATTERY_CW2015 is not set
+# CONFIG_BATTERY_DS2760 is not set
+CONFIG_BATTERY_DS2780=y
+CONFIG_BATTERY_DS2781=m
+CONFIG_BATTERY_DS2782=y
+CONFIG_BATTERY_LEGO_EV3=m
+CONFIG_BATTERY_LENOVO_YOGA_C630=m
+# CONFIG_BATTERY_SAMSUNG_SDI is not set
+CONFIG_BATTERY_SBS=m
+CONFIG_CHARGER_SBS=y
+# CONFIG_MANAGER_SBS is not set
+CONFIG_BATTERY_BQ27XXX=m
+CONFIG_BATTERY_BQ27XXX_I2C=m
+CONFIG_BATTERY_BQ27XXX_HDQ=m
+CONFIG_BATTERY_BQ27XXX_DT_UPDATES_NVM=y
+CONFIG_BATTERY_DA9052=m
+CONFIG_CHARGER_DA9150=y
+CONFIG_BATTERY_DA9150=y
+# CONFIG_AXP20X_POWER is not set
+CONFIG_BATTERY_MAX17040=m
+CONFIG_BATTERY_MAX17042=m
+# CONFIG_BATTERY_MAX1720X is not set
+CONFIG_BATTERY_MAX1721X=m
+CONFIG_CHARGER_MAX8903=y
+CONFIG_CHARGER_TWL4030=y
+CONFIG_CHARGER_TWL6030=m
+# CONFIG_CHARGER_LP8727 is not set
+CONFIG_CHARGER_LP8788=m
+CONFIG_CHARGER_GPIO=m
+# CONFIG_CHARGER_MANAGER is not set
+CONFIG_CHARGER_LT3651=y
+CONFIG_CHARGER_LTC4162L=m
+# CONFIG_CHARGER_MAX14577 is not set
+CONFIG_CHARGER_DETECTOR_MAX14656=m
+CONFIG_CHARGER_MAX77650=m
+# CONFIG_CHARGER_MAX77693 is not set
+CONFIG_CHARGER_MAX77705=m
+CONFIG_CHARGER_MAX77976=m
+# CONFIG_CHARGER_MAX8998 is not set
+CONFIG_CHARGER_MP2629=m
+CONFIG_CHARGER_QCOM_SMBB=m
+CONFIG_BATTERY_PM8916_BMS_VM=y
+CONFIG_CHARGER_PM8916_LBC=y
+# CONFIG_CHARGER_BQ2415X is not set
+CONFIG_CHARGER_BQ24190=m
+# CONFIG_CHARGER_BQ24257 is not set
+# CONFIG_CHARGER_BQ24735 is not set
+CONFIG_CHARGER_BQ2515X=m
+CONFIG_CHARGER_BQ25890=m
+CONFIG_CHARGER_BQ25980=y
+# CONFIG_CHARGER_BQ256XX is not set
+CONFIG_CHARGER_RK817=m
+CONFIG_CHARGER_SMB347=y
+CONFIG_CHARGER_TPS65090=y
+# CONFIG_BATTERY_GAUGE_LTC2941 is not set
+CONFIG_BATTERY_GOLDFISH=m
+# CONFIG_BATTERY_RT5033 is not set
+# CONFIG_CHARGER_RT9455 is not set
+CONFIG_CHARGER_RT9467=m
+CONFIG_CHARGER_RT9471=m
+# CONFIG_CHARGER_SC2731 is not set
+CONFIG_FUEL_GAUGE_SC27XX=m
+# CONFIG_FUEL_GAUGE_STC3117 is not set
+# CONFIG_CHARGER_UCS1002 is not set
+CONFIG_CHARGER_BD99954=m
+CONFIG_BATTERY_ACER_A500=m
+CONFIG_BATTERY_UG3105=m
+CONFIG_CHARGER_QCOM_SMB2=m
+CONFIG_FUEL_GAUGE_MM8013=y
+CONFIG_HWMON=y
+CONFIG_HWMON_VID=y
+CONFIG_HWMON_DEBUG_CHIP=y
+
+#
+# Native drivers
+#
+CONFIG_SENSORS_ABITUGURU=m
+CONFIG_SENSORS_ABITUGURU3=y
+CONFIG_SENSORS_SMPRO=m
+CONFIG_SENSORS_AD7414=m
+# CONFIG_SENSORS_AD7418 is not set
+# CONFIG_SENSORS_ADM1025 is not set
+# CONFIG_SENSORS_ADM1026 is not set
+CONFIG_SENSORS_ADM1029=y
+CONFIG_SENSORS_ADM1031=m
+CONFIG_SENSORS_ADM1177=y
+# CONFIG_SENSORS_ADM9240 is not set
+# CONFIG_SENSORS_ADT7410 is not set
+CONFIG_SENSORS_ADT7411=m
+CONFIG_SENSORS_ADT7462=m
+CONFIG_SENSORS_ADT7470=y
+# CONFIG_SENSORS_ADT7475 is not set
+CONFIG_SENSORS_AHT10=y
+CONFIG_SENSORS_AS370=m
+CONFIG_SENSORS_ASC7621=m
+# CONFIG_SENSORS_ASUS_ROG_RYUJIN is not set
+CONFIG_SENSORS_AXI_FAN_CONTROL=m
+CONFIG_SENSORS_ARM_SCPI=y
+CONFIG_SENSORS_ASB100=m
+CONFIG_SENSORS_ASPEED=y
+CONFIG_SENSORS_ATXP1=m
+CONFIG_SENSORS_BT1_PVT=m
+# CONFIG_SENSORS_BT1_PVT_ALARMS is not set
+CONFIG_SENSORS_CHIPCAP2=m
+CONFIG_SENSORS_CORSAIR_CPRO=y
+# CONFIG_SENSORS_CORSAIR_PSU is not set
+# CONFIG_SENSORS_DS620 is not set
+CONFIG_SENSORS_DS1621=m
+CONFIG_SENSORS_DA9052_ADC=m
+CONFIG_SENSORS_DA9055=m
+# CONFIG_SENSORS_I5K_AMB is not set
+CONFIG_SENSORS_SPARX5=y
+CONFIG_SENSORS_F71805F=m
+CONFIG_SENSORS_F71882FG=y
+# CONFIG_SENSORS_F75375S is not set
+# CONFIG_SENSORS_FSCHMD is not set
+CONFIG_SENSORS_FTSTEUTATES=m
+# CONFIG_SENSORS_GL518SM is not set
+# CONFIG_SENSORS_GL520SM is not set
+CONFIG_SENSORS_G760A=m
+# CONFIG_SENSORS_G762 is not set
+# CONFIG_SENSORS_GPIO_FAN is not set
+CONFIG_SENSORS_GXP_FAN_CTRL=m
+CONFIG_SENSORS_HIH6130=m
+CONFIG_SENSORS_HS3001=y
+CONFIG_SENSORS_HTU31=m
+CONFIG_SENSORS_IBMAEM=m
+CONFIG_SENSORS_IBMPEX=m
+CONFIG_SENSORS_IIO_HWMON=y
+CONFIG_SENSORS_ISL28022=m
+# CONFIG_SENSORS_IT87 is not set
+CONFIG_SENSORS_JC42=m
+CONFIG_SENSORS_POWR1220=y
+# CONFIG_SENSORS_LAN966X is not set
+# CONFIG_SENSORS_LINEAGE is not set
+CONFIG_SENSORS_LTC2945=y
+CONFIG_SENSORS_LTC2947=m
+CONFIG_SENSORS_LTC2947_I2C=m
+CONFIG_SENSORS_LTC2990=m
+CONFIG_SENSORS_LTC2991=y
+# CONFIG_SENSORS_LTC2992 is not set
+CONFIG_SENSORS_LTC4151=m
+CONFIG_SENSORS_LTC4215=y
+CONFIG_SENSORS_LTC4222=m
+CONFIG_SENSORS_LTC4245=m
+CONFIG_SENSORS_LTC4260=m
+CONFIG_SENSORS_LTC4261=y
+CONFIG_SENSORS_LTC4282=y
+# CONFIG_SENSORS_MAX127 is not set
+CONFIG_SENSORS_MAX16065=m
+# CONFIG_SENSORS_MAX1619 is not set
+# CONFIG_SENSORS_MAX1668 is not set
+CONFIG_SENSORS_MAX197=y
+CONFIG_SENSORS_MAX31730=y
+CONFIG_SENSORS_MAX31760=m
+CONFIG_MAX31827=y
+# CONFIG_SENSORS_MAX6620 is not set
+# CONFIG_SENSORS_MAX6621 is not set
+# CONFIG_SENSORS_MAX6639 is not set
+CONFIG_SENSORS_MAX6650=m
+CONFIG_SENSORS_MAX6697=m
+# CONFIG_SENSORS_MAX31790 is not set
+CONFIG_SENSORS_MC34VR500=y
+# CONFIG_SENSORS_MCP3021 is not set
+# CONFIG_SENSORS_MLXREG_FAN is not set
+# CONFIG_SENSORS_TC654 is not set
+CONFIG_SENSORS_TPS23861=y
+CONFIG_SENSORS_MENF21BMC_HWMON=m
+CONFIG_SENSORS_MR75203=y
+CONFIG_SENSORS_LM63=y
+CONFIG_SENSORS_LM73=y
+CONFIG_SENSORS_LM75=m
+CONFIG_SENSORS_LM77=y
+# CONFIG_SENSORS_LM78 is not set
+CONFIG_SENSORS_LM80=y
+CONFIG_SENSORS_LM83=y
+# CONFIG_SENSORS_LM85 is not set
+# CONFIG_SENSORS_LM87 is not set
+CONFIG_SENSORS_LM90=m
+CONFIG_SENSORS_LM92=y
+# CONFIG_SENSORS_LM93 is not set
+# CONFIG_SENSORS_LM95234 is not set
+CONFIG_SENSORS_LM95241=y
+# CONFIG_SENSORS_LM95245 is not set
+CONFIG_SENSORS_PC87360=y
+# CONFIG_SENSORS_PC87427 is not set
+CONFIG_SENSORS_NTC_THERMISTOR=y
+CONFIG_SENSORS_NCT6683=y
+CONFIG_SENSORS_NCT6775_CORE=y
+CONFIG_SENSORS_NCT6775=y
+# CONFIG_SENSORS_NCT6775_I2C is not set
+CONFIG_SENSORS_NCT7363=m
+CONFIG_SENSORS_NCT7802=m
+CONFIG_SENSORS_NCT7904=y
+CONFIG_SENSORS_NPCM7XX=y
+# CONFIG_SENSORS_NSA320 is not set
+# CONFIG_SENSORS_OCC_P8_I2C is not set
+CONFIG_SENSORS_PCF8591=y
+CONFIG_SENSORS_PECI_CPUTEMP=m
+CONFIG_SENSORS_PECI_DIMMTEMP=m
+CONFIG_SENSORS_PECI=m
+# CONFIG_PMBUS is not set
+# CONFIG_SENSORS_PT5161L is not set
+CONFIG_SENSORS_PWM_FAN=y
+# CONFIG_SENSORS_RASPBERRYPI_HWMON is not set
+CONFIG_SENSORS_SL28CPLD=y
+CONFIG_SENSORS_SBTSI=m
+# CONFIG_SENSORS_SBRMI is not set
+CONFIG_SENSORS_SHT15=m
+CONFIG_SENSORS_SHT21=m
+# CONFIG_SENSORS_SHT3x is not set
+# CONFIG_SENSORS_SHT4x is not set
+CONFIG_SENSORS_SHTC1=y
+CONFIG_SENSORS_SIS5595=y
+# CONFIG_SENSORS_SY7636A is not set
+CONFIG_SENSORS_DME1737=y
+CONFIG_SENSORS_EMC1403=m
+CONFIG_SENSORS_EMC2103=m
+CONFIG_SENSORS_EMC2305=m
+CONFIG_SENSORS_EMC6W201=y
+CONFIG_SENSORS_SMSC47M1=m
+CONFIG_SENSORS_SMSC47M192=m
+# CONFIG_SENSORS_SMSC47B397 is not set
+CONFIG_SENSORS_SCH56XX_COMMON=y
+CONFIG_SENSORS_SCH5627=y
+CONFIG_SENSORS_SCH5636=m
+# CONFIG_SENSORS_STTS751 is not set
+# CONFIG_SENSORS_SFCTEMP is not set
+CONFIG_SENSORS_SG2042_MCU=y
+CONFIG_SENSORS_ADC128D818=m
+# CONFIG_SENSORS_ADS7828 is not set
+CONFIG_SENSORS_AMC6821=y
+# CONFIG_SENSORS_INA209 is not set
+# CONFIG_SENSORS_INA2XX is not set
+CONFIG_SENSORS_INA238=m
+CONFIG_SENSORS_INA3221=y
+# CONFIG_SENSORS_SPD5118 is not set
+# CONFIG_SENSORS_TC74 is not set
+# CONFIG_SENSORS_THMC50 is not set
+CONFIG_SENSORS_TMP102=m
+CONFIG_SENSORS_TMP103=m
+# CONFIG_SENSORS_TMP108 is not set
+CONFIG_SENSORS_TMP401=m
+CONFIG_SENSORS_TMP421=m
+# CONFIG_SENSORS_TMP464 is not set
+CONFIG_SENSORS_TMP513=m
+CONFIG_SENSORS_VIA686A=m
+# CONFIG_SENSORS_VT1211 is not set
+CONFIG_SENSORS_VT8231=m
+CONFIG_SENSORS_W83773G=y
+CONFIG_SENSORS_W83781D=m
+CONFIG_SENSORS_W83791D=y
+CONFIG_SENSORS_W83792D=m
+CONFIG_SENSORS_W83793=y
+# CONFIG_SENSORS_W83795 is not set
+CONFIG_SENSORS_W83L785TS=m
+CONFIG_SENSORS_W83L786NG=y
+# CONFIG_SENSORS_W83627HF is not set
+CONFIG_SENSORS_W83627EHF=m
+CONFIG_SENSORS_WM8350=m
+
+#
+# ACPI drivers
+#
+# CONFIG_SENSORS_ACPI_POWER is not set
+CONFIG_THERMAL=y
+CONFIG_THERMAL_NETLINK=y
+# CONFIG_THERMAL_STATISTICS is not set
+# CONFIG_THERMAL_DEBUGFS is not set
+CONFIG_THERMAL_CORE_TESTING=y
+CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS=0
+# CONFIG_THERMAL_HWMON is not set
+CONFIG_THERMAL_OF=y
+# CONFIG_THERMAL_DEFAULT_GOV_STEP_WISE is not set
+CONFIG_THERMAL_DEFAULT_GOV_FAIR_SHARE=y
+# CONFIG_THERMAL_DEFAULT_GOV_USER_SPACE is not set
+# CONFIG_THERMAL_DEFAULT_GOV_BANG_BANG is not set
+CONFIG_THERMAL_GOV_FAIR_SHARE=y
+# CONFIG_THERMAL_GOV_STEP_WISE is not set
+CONFIG_THERMAL_GOV_BANG_BANG=y
+# CONFIG_THERMAL_GOV_USER_SPACE is not set
+# CONFIG_THERMAL_GOV_POWER_ALLOCATOR is not set
+# CONFIG_CPU_THERMAL is not set
+CONFIG_PCIE_THERMAL=y
+# CONFIG_THERMAL_EMULATION is not set
+CONFIG_THERMAL_MMIO=m
+# CONFIG_HISI_THERMAL is not set
+# CONFIG_IMX_THERMAL is not set
+# CONFIG_IMX_SC_THERMAL is not set
+# CONFIG_IMX8MM_THERMAL is not set
+CONFIG_K3_THERMAL=m
+CONFIG_QORIQ_THERMAL=y
+# CONFIG_SPEAR_THERMAL is not set
+CONFIG_SUN8I_THERMAL=y
+CONFIG_ROCKCHIP_THERMAL=m
+# CONFIG_KIRKWOOD_THERMAL is not set
+CONFIG_DOVE_THERMAL=y
+# CONFIG_ARMADA_THERMAL is not set
+CONFIG_DA9062_THERMAL=m
+
+#
+# Mediatek thermal drivers
+#
+CONFIG_MTK_THERMAL=y
+# CONFIG_MTK_SOC_THERMAL is not set
+CONFIG_MTK_LVTS_THERMAL=m
+CONFIG_MTK_LVTS_THERMAL_DEBUGFS=y
+# end of Mediatek thermal drivers
+
+#
+# Intel thermal drivers
+#
+
+#
+# ACPI INT340X thermal drivers
+#
+# end of ACPI INT340X thermal drivers
+# end of Intel thermal drivers
+
+#
+# Broadcom thermal drivers
+#
+CONFIG_BCM2711_THERMAL=m
+CONFIG_BCM2835_THERMAL=y
+# CONFIG_BRCMSTB_THERMAL is not set
+CONFIG_BCM_NS_THERMAL=y
+CONFIG_BCM_SR_THERMAL=m
+# end of Broadcom thermal drivers
+
+#
+# Texas Instruments thermal drivers
+#
+CONFIG_TI_SOC_THERMAL=m
+# CONFIG_TI_THERMAL is not set
+CONFIG_OMAP3_THERMAL=y
+CONFIG_OMAP4_THERMAL=y
+CONFIG_OMAP5_THERMAL=y
+# CONFIG_DRA752_THERMAL is not set
+# end of Texas Instruments thermal drivers
+
+#
+# Samsung thermal drivers
+#
+CONFIG_EXYNOS_THERMAL=y
+# end of Samsung thermal drivers
+
+CONFIG_RCAR_THERMAL=y
+CONFIG_RCAR_GEN3_THERMAL=m
+CONFIG_RZG2L_THERMAL=m
+
+#
+# NVIDIA Tegra thermal drivers
+#
+CONFIG_TEGRA_SOCTHERM=y
+# CONFIG_TEGRA_BPMP_THERMAL is not set
+# CONFIG_TEGRA30_TSENSOR is not set
+# end of NVIDIA Tegra thermal drivers
+
+# CONFIG_GENERIC_ADC_THERMAL is not set
+
+#
+# Qualcomm thermal drivers
+#
+# CONFIG_QCOM_TSENS is not set
+CONFIG_QCOM_SPMI_ADC_TM5=m
+# CONFIG_QCOM_SPMI_TEMP_ALARM is not set
+# end of Qualcomm thermal drivers
+
+CONFIG_UNIPHIER_THERMAL=y
+# CONFIG_SPRD_THERMAL is not set
+CONFIG_KHADAS_MCU_FAN_THERMAL=y
+CONFIG_LOONGSON2_THERMAL=m
+CONFIG_WATCHDOG=y
+CONFIG_WATCHDOG_CORE=y
+# CONFIG_WATCHDOG_NOWAYOUT is not set
+CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED=y
+CONFIG_WATCHDOG_OPEN_TIMEOUT=0
+CONFIG_WATCHDOG_SYSFS=y
+# CONFIG_WATCHDOG_HRTIMER_PRETIMEOUT is not set
+
+#
+# Watchdog Pretimeout Governors
+#
+CONFIG_WATCHDOG_PRETIMEOUT_GOV=y
+CONFIG_WATCHDOG_PRETIMEOUT_GOV_SEL=m
+CONFIG_WATCHDOG_PRETIMEOUT_GOV_NOOP=m
+CONFIG_WATCHDOG_PRETIMEOUT_GOV_PANIC=y
+# CONFIG_WATCHDOG_PRETIMEOUT_DEFAULT_GOV_NOOP is not set
+CONFIG_WATCHDOG_PRETIMEOUT_DEFAULT_GOV_PANIC=y
+
+#
+# Watchdog Device Drivers
+#
+CONFIG_SOFT_WATCHDOG=y
+# CONFIG_SOFT_WATCHDOG_PRETIMEOUT is not set
+CONFIG_BD957XMUF_WATCHDOG=y
+CONFIG_BD96801_WATCHDOG=m
+CONFIG_CROS_EC_WATCHDOG=m
+CONFIG_DA9052_WATCHDOG=m
+CONFIG_DA9055_WATCHDOG=m
+CONFIG_DA9063_WATCHDOG=y
+CONFIG_DA9062_WATCHDOG=m
+# CONFIG_GPIO_WATCHDOG is not set
+# CONFIG_LENOVO_SE10_WDT is not set
+CONFIG_LENOVO_SE30_WDT=m
+CONFIG_MENF21BMC_WATCHDOG=m
+CONFIG_WDAT_WDT=y
+CONFIG_WM8350_WATCHDOG=m
+CONFIG_XILINX_WATCHDOG=y
+CONFIG_XILINX_WINDOW_WATCHDOG=y
+CONFIG_ZIIRAVE_WATCHDOG=m
+# CONFIG_MLX_WDT is not set
+CONFIG_SL28CPLD_WATCHDOG=y
+# CONFIG_AIROHA_WATCHDOG is not set
+CONFIG_ARMADA_37XX_WATCHDOG=m
+CONFIG_ASM9260_WATCHDOG=m
+CONFIG_AT91RM9200_WATCHDOG=m
+# CONFIG_AT91SAM9X_WATCHDOG is not set
+CONFIG_SAMA5D4_WATCHDOG=y
+CONFIG_CADENCE_WATCHDOG=y
+# CONFIG_FTWDT010_WATCHDOG is not set
+CONFIG_S3C2410_WATCHDOG=m
+CONFIG_SA1100_WATCHDOG=y
+CONFIG_DW_WATCHDOG=y
+CONFIG_EP93XX_WATCHDOG=y
+# CONFIG_OMAP_WATCHDOG is not set
+# CONFIG_PNX4008_WATCHDOG is not set
+CONFIG_DAVINCI_WATCHDOG=y
+# CONFIG_K3_RTI_WATCHDOG is not set
+CONFIG_RN5T618_WATCHDOG=m
+CONFIG_SUNXI_WATCHDOG=y
+# CONFIG_NPCM7XX_WATCHDOG is not set
+CONFIG_TWL4030_WATCHDOG=y
+# CONFIG_STMP3XXX_RTC_WATCHDOG is not set
+CONFIG_TS4800_WATCHDOG=m
+CONFIG_TS72XX_WATCHDOG=y
+CONFIG_MAX63XX_WATCHDOG=m
+CONFIG_MAX77620_WATCHDOG=m
+CONFIG_IMX2_WDT=y
+CONFIG_IMX7ULP_WDT=y
+CONFIG_RETU_WATCHDOG=m
+# CONFIG_MOXART_WDT is not set
+CONFIG_ST_LPC_WATCHDOG=m
+# CONFIG_TEGRA_WATCHDOG is not set
+CONFIG_QCOM_WDT=y
+CONFIG_MESON_GXBB_WATCHDOG=y
+# CONFIG_MESON_WATCHDOG is not set
+CONFIG_MEDIATEK_WATCHDOG=y
+CONFIG_DIGICOLOR_WATCHDOG=m
+CONFIG_LPC18XX_WATCHDOG=m
+CONFIG_RENESAS_WDT=y
+CONFIG_RENESAS_RZAWDT=m
+# CONFIG_RENESAS_RZN1WDT is not set
+# CONFIG_RENESAS_RZG2LWDT is not set
+CONFIG_RENESAS_RZV2HWDT=y
+# CONFIG_ASPEED_WATCHDOG is not set
+# CONFIG_STM32_WATCHDOG is not set
+# CONFIG_STPMIC1_WATCHDOG is not set
+# CONFIG_UNIPHIER_WATCHDOG is not set
+# CONFIG_RTD119X_WATCHDOG is not set
+CONFIG_REALTEK_OTTO_WDT=m
+# CONFIG_SPRD_WATCHDOG is not set
+CONFIG_PM8916_WATCHDOG=m
+CONFIG_VISCONTI_WATCHDOG=m
+# CONFIG_MSC313E_WATCHDOG is not set
+# CONFIG_APPLE_WATCHDOG is not set
+CONFIG_SUNPLUS_WATCHDOG=m
+CONFIG_ADVANTECH_WDT=y
+# CONFIG_ADVANTECH_EC_WDT is not set
+CONFIG_ALIM1535_WDT=m
+# CONFIG_ALIM7101_WDT is not set
+CONFIG_EBC_C384_WDT=y
+CONFIG_EXAR_WDT=m
+# CONFIG_F71808E_WDT is not set
+CONFIG_SP5100_TCO=y
+CONFIG_SC520_WDT=y
+# CONFIG_SBC_FITPC2_WATCHDOG is not set
+CONFIG_EUROTECH_WDT=m
+CONFIG_IB700_WDT=y
+CONFIG_IBMASR=y
+CONFIG_WAFER_WDT=y
+# CONFIG_I6300ESB_WDT is not set
+# CONFIG_IE6XX_WDT is not set
+CONFIG_IT8712F_WDT=y
+CONFIG_IT87_WDT=y
+CONFIG_HP_WATCHDOG=y
+# CONFIG_KEMPLD_WDT is not set
+CONFIG_SC1200_WDT=y
+# CONFIG_PC87413_WDT is not set
+CONFIG_NV_TCO=y
+CONFIG_RDC321X_WDT=y
+CONFIG_60XX_WDT=y
+CONFIG_SMSC_SCH311X_WDT=m
+CONFIG_SMSC37B787_WDT=y
+CONFIG_TQMX86_WDT=y
+CONFIG_VIA_WDT=m
+# CONFIG_W83627HF_WDT is not set
+CONFIG_W83877F_WDT=y
+# CONFIG_W83977F_WDT is not set
+# CONFIG_MACHZ_WDT is not set
+CONFIG_SBC_EPX_C3_WATCHDOG=m
+CONFIG_NIC7018_WDT=m
+CONFIG_BCM47XX_WDT=y
+CONFIG_JZ4740_WDT=m
+CONFIG_MARVELL_GTI_WDT=m
+# CONFIG_BCM2835_WDT is not set
+CONFIG_BCM_KONA_WDT=y
+CONFIG_BCM_KONA_WDT_DEBUG=y
+CONFIG_BCM7038_WDT=m
+CONFIG_IMGPDC_WDT=m
+CONFIG_LOONGSON1_WDT=y
+# CONFIG_GXP_WATCHDOG is not set
+# CONFIG_MT7621_WDT is not set
+CONFIG_MPC5200_WDT=y
+# CONFIG_MEN_A21_WDT is not set
+CONFIG_STARFIVE_WATCHDOG=y
+CONFIG_UML_WATCHDOG=m
+
+#
+# PCI-based Watchdog Cards
+#
+# CONFIG_PCIPCWATCHDOG is not set
+CONFIG_WDTPCI=m
+CONFIG_SSB_POSSIBLE=y
+CONFIG_SSB=m
+CONFIG_SSB_PCIHOST_POSSIBLE=y
+# CONFIG_SSB_PCIHOST is not set
+CONFIG_SSB_SDIOHOST_POSSIBLE=y
+CONFIG_SSB_SDIOHOST=y
+# CONFIG_SSB_DRIVER_GPIO is not set
+CONFIG_BCMA_POSSIBLE=y
+CONFIG_BCMA=y
+CONFIG_BCMA_HOST_PCI_POSSIBLE=y
+# CONFIG_BCMA_HOST_PCI is not set
+# CONFIG_BCMA_HOST_SOC is not set
+# CONFIG_BCMA_DRIVER_PCI is not set
+# CONFIG_BCMA_DRIVER_MIPS is not set
+CONFIG_BCMA_DRIVER_GMAC_CMN=y
+# CONFIG_BCMA_DRIVER_GPIO is not set
+# CONFIG_BCMA_DEBUG is not set
+
+#
+# Multifunction device drivers
+#
+CONFIG_MFD_CORE=y
+# CONFIG_MFD_ADP5585 is not set
+CONFIG_MFD_ACT8945A=y
+CONFIG_MFD_SUN4I_GPADC=m
+CONFIG_MFD_AS3711=y
+CONFIG_MFD_SMPRO=m
+CONFIG_MFD_AS3722=y
+# CONFIG_PMIC_ADP5520 is not set
+# CONFIG_MFD_AAT2870_CORE is not set
+CONFIG_MFD_AT91_USART=m
+CONFIG_MFD_ATMEL_FLEXCOM=y
+CONFIG_MFD_ATMEL_HLCDC=y
+# CONFIG_MFD_BCM590XX is not set
+CONFIG_MFD_BD9571MWV=y
+CONFIG_MFD_AXP20X=y
+CONFIG_MFD_AXP20X_I2C=y
+# CONFIG_MFD_CROS_EC_DEV is not set
+CONFIG_MFD_CS42L43=m
+CONFIG_MFD_CS42L43_I2C=m
+CONFIG_MFD_MADERA=y
+CONFIG_MFD_MADERA_I2C=y
+# CONFIG_MFD_MAX5970 is not set
+# CONFIG_MFD_CS47L15 is not set
+CONFIG_MFD_CS47L35=y
+# CONFIG_MFD_CS47L85 is not set
+CONFIG_MFD_CS47L90=y
+# CONFIG_MFD_CS47L92 is not set
+# CONFIG_PMIC_DA903X is not set
+CONFIG_PMIC_DA9052=y
+CONFIG_MFD_DA9052_I2C=y
+CONFIG_MFD_DA9055=y
+# CONFIG_MFD_DA9062 is not set
+# CONFIG_MFD_DA9063 is not set
+CONFIG_MFD_DA9150=y
+# CONFIG_MFD_ENE_KB3930 is not set
+CONFIG_MFD_EXYNOS_LPASS=m
+# CONFIG_MFD_GATEWORKS_GSC is not set
+# CONFIG_MFD_MC13XXX_I2C is not set
+CONFIG_MFD_MP2629=y
+CONFIG_MFD_MXS_LRADC=m
+# CONFIG_MFD_MX25_TSADC is not set
+CONFIG_MFD_HI6421_PMIC=m
+# CONFIG_MFD_HI6421_SPMI is not set
+CONFIG_MFD_HI655X_PMIC=m
+CONFIG_LPC_ICH=y
+CONFIG_LPC_SCH=y
+# CONFIG_INTEL_SOC_PMIC is not set
+CONFIG_MFD_IQS62X=y
+CONFIG_MFD_JANZ_CMODIO=m
+CONFIG_MFD_KEMPLD=y
+CONFIG_MFD_88PM800=m
+# CONFIG_MFD_88PM805 is not set
+CONFIG_MFD_88PM860X=y
+CONFIG_MFD_88PM886_PMIC=y
+CONFIG_MFD_MAX14577=y
+CONFIG_MFD_MAX77541=y
+# CONFIG_MFD_MAX77620 is not set
+CONFIG_MFD_MAX77650=y
+CONFIG_MFD_MAX77686=y
+CONFIG_MFD_MAX77693=y
+CONFIG_MFD_MAX77705=m
+CONFIG_MFD_MAX77714=y
+# CONFIG_MFD_MAX77843 is not set
+CONFIG_MFD_MAX8907=y
+# CONFIG_MFD_MAX8925 is not set
+# CONFIG_MFD_MAX8997 is not set
+CONFIG_MFD_MAX8998=y
+# CONFIG_MFD_MT6360 is not set
+# CONFIG_MFD_MT6370 is not set
+# CONFIG_MFD_MT6397 is not set
+CONFIG_MFD_MENF21BMC=y
+CONFIG_MFD_NTXEC=m
+CONFIG_MFD_RETU=m
+CONFIG_MFD_PM8XXX=y
+CONFIG_MFD_SPMI_PMIC=m
+CONFIG_MFD_SY7636A=m
+CONFIG_MFD_RDC321X=m
+# CONFIG_MFD_RT4831 is not set
+# CONFIG_MFD_RT5033 is not set
+CONFIG_MFD_RT5120=y
+CONFIG_MFD_RC5T583=y
+CONFIG_MFD_RK8XX=m
+CONFIG_MFD_RK8XX_I2C=m
+# CONFIG_MFD_RN5T618 is not set
+CONFIG_MFD_SEC_CORE=y
+CONFIG_MFD_SI476X_CORE=y
+CONFIG_MFD_SIMPLE_MFD_I2C=m
+# CONFIG_MFD_SL28CPLD is not set
+CONFIG_MFD_SM501=y
+CONFIG_MFD_SM501_GPIO=y
+# CONFIG_MFD_SKY81452 is not set
+CONFIG_RZ_MTU3=y
+CONFIG_ABX500_CORE=y
+CONFIG_MFD_STMPE=y
+
+#
+# STMicroelectronics STMPE Interface Drivers
+#
+CONFIG_STMPE_I2C=y
+# end of STMicroelectronics STMPE Interface Drivers
+
+CONFIG_MFD_SUN6I_PRCM=y
+CONFIG_MFD_SYSCON=y
+CONFIG_MFD_TI_AM335X_TSCADC=y
+CONFIG_MFD_LP3943=m
+CONFIG_MFD_LP8788=y
+# CONFIG_MFD_TI_LMU is not set
+# CONFIG_MFD_PALMAS is not set
+CONFIG_TPS6105X=m
+CONFIG_TPS65010=m
+CONFIG_TPS6507X=m
+CONFIG_MFD_TPS65086=y
+CONFIG_MFD_TPS65090=y
+# CONFIG_MFD_TPS65217 is not set
+CONFIG_MFD_TI_LP873X=m
+CONFIG_MFD_TI_LP87565=m
+CONFIG_MFD_TPS65218=m
+CONFIG_MFD_TPS65219=y
+CONFIG_MFD_TPS6586X=y
+CONFIG_MFD_TPS65910=y
+# CONFIG_MFD_TPS65912_I2C is not set
+# CONFIG_MFD_TPS6594_I2C is not set
+CONFIG_TWL4030_CORE=y
+# CONFIG_MFD_TWL4030_AUDIO is not set
+CONFIG_TWL6040_CORE=y
+CONFIG_MFD_WL1273_CORE=m
+CONFIG_MFD_LM3533=m
+CONFIG_MFD_TIMBERDALE=m
+# CONFIG_MFD_TC3589X is not set
+# CONFIG_MFD_TQMX86 is not set
+CONFIG_MFD_VX855=y
+# CONFIG_MFD_LOCHNAGAR is not set
+# CONFIG_MFD_ARIZONA_I2C is not set
+CONFIG_MFD_WM8400=y
+# CONFIG_MFD_WM831X_I2C is not set
+CONFIG_MFD_WM8350=y
+CONFIG_MFD_WM8350_I2C=y
+# CONFIG_MFD_WM8994 is not set
+CONFIG_MFD_STW481X=m
+CONFIG_MFD_ROHM_BD718XX=y
+CONFIG_MFD_ROHM_BD71828=y
+CONFIG_MFD_ROHM_BD957XMUF=y
+CONFIG_MFD_ROHM_BD96801=m
+# CONFIG_MFD_STM32_LPTIMER is not set
+CONFIG_MFD_STM32_TIMERS=m
+CONFIG_MFD_STPMIC1=y
+CONFIG_MFD_STMFX=m
+CONFIG_MFD_ATC260X=m
+CONFIG_MFD_ATC260X_I2C=m
+CONFIG_MFD_KHADAS_MCU=y
+CONFIG_MFD_ACER_A500_EC=y
+CONFIG_MFD_QCOM_PM8008=y
+# CONFIG_MFD_CS40L50_I2C is not set
+# CONFIG_RAVE_SP_CORE is not set
+# CONFIG_MFD_QNAP_MCU is not set
+CONFIG_MFD_RSMU_I2C=m
+# end of Multifunction device drivers
+
+CONFIG_REGULATOR=y
+CONFIG_REGULATOR_DEBUG=y
+CONFIG_REGULATOR_FIXED_VOLTAGE=y
+# CONFIG_REGULATOR_VIRTUAL_CONSUMER is not set
+CONFIG_REGULATOR_USERSPACE_CONSUMER=y
+# CONFIG_REGULATOR_NETLINK_EVENTS is not set
+CONFIG_REGULATOR_88PG86X=y
+# CONFIG_REGULATOR_88PM800 is not set
+CONFIG_REGULATOR_88PM8607=m
+CONFIG_REGULATOR_88PM886=y
+# CONFIG_REGULATOR_ACT8865 is not set
+CONFIG_REGULATOR_ACT8945A=y
+CONFIG_REGULATOR_AD5398=m
+CONFIG_REGULATOR_ANATOP=y
+# CONFIG_REGULATOR_AS3711 is not set
+CONFIG_REGULATOR_AS3722=m
+# CONFIG_REGULATOR_ATC260X is not set
+CONFIG_REGULATOR_AW37503=m
+CONFIG_REGULATOR_AXP20X=y
+CONFIG_REGULATOR_BD71815=m
+CONFIG_REGULATOR_BD71828=m
+CONFIG_REGULATOR_BD718XX=m
+# CONFIG_REGULATOR_BD9571MWV is not set
+CONFIG_REGULATOR_BD957XMUF=m
+# CONFIG_REGULATOR_BD96801 is not set
+CONFIG_REGULATOR_CROS_EC=m
+CONFIG_REGULATOR_DA9052=y
+# CONFIG_REGULATOR_DA9055 is not set
+CONFIG_REGULATOR_DA9121=y
+CONFIG_REGULATOR_DA9210=m
+CONFIG_REGULATOR_DA9211=m
+CONFIG_REGULATOR_FAN53555=y
+# CONFIG_REGULATOR_FAN53880 is not set
+CONFIG_REGULATOR_GPIO=y
+# CONFIG_REGULATOR_HI6421 is not set
+CONFIG_REGULATOR_HI6421V530=m
+CONFIG_REGULATOR_HI655X=m
+CONFIG_REGULATOR_ISL9305=y
+# CONFIG_REGULATOR_ISL6271A is not set
+CONFIG_REGULATOR_LP3971=y
+CONFIG_REGULATOR_LP3972=m
+CONFIG_REGULATOR_LP872X=m
+CONFIG_REGULATOR_LP873X=m
+CONFIG_REGULATOR_LP8755=y
+# CONFIG_REGULATOR_LP87565 is not set
+CONFIG_REGULATOR_LP8788=y
+# CONFIG_REGULATOR_LTC3589 is not set
+# CONFIG_REGULATOR_LTC3676 is not set
+CONFIG_REGULATOR_MAX14577=m
+CONFIG_REGULATOR_MAX1586=m
+CONFIG_REGULATOR_MAX77503=m
+CONFIG_REGULATOR_MAX77541=m
+# CONFIG_REGULATOR_MAX77620 is not set
+CONFIG_REGULATOR_MAX77650=m
+CONFIG_REGULATOR_MAX77857=m
+CONFIG_REGULATOR_MAX8649=m
+CONFIG_REGULATOR_MAX8660=y
+CONFIG_REGULATOR_MAX8893=m
+# CONFIG_REGULATOR_MAX8907 is not set
+# CONFIG_REGULATOR_MAX8952 is not set
+CONFIG_REGULATOR_MAX8973=m
+CONFIG_REGULATOR_MAX8998=y
+# CONFIG_REGULATOR_MAX20086 is not set
+CONFIG_REGULATOR_MAX20411=m
+CONFIG_REGULATOR_MAX77686=m
+# CONFIG_REGULATOR_MAX77693 is not set
+CONFIG_REGULATOR_MAX77802=y
+CONFIG_REGULATOR_MAX77826=y
+CONFIG_REGULATOR_MCP16502=m
+# CONFIG_REGULATOR_MP5416 is not set
+CONFIG_REGULATOR_MP8859=m
+CONFIG_REGULATOR_MP886X=m
+CONFIG_REGULATOR_MPQ7920=m
+# CONFIG_REGULATOR_MT6311 is not set
+CONFIG_REGULATOR_MT6315=m
+CONFIG_REGULATOR_PBIAS=y
+CONFIG_REGULATOR_PCA9450=y
+# CONFIG_REGULATOR_PF9453 is not set
+# CONFIG_REGULATOR_PF8X00 is not set
+CONFIG_REGULATOR_PFUZE100=m
+CONFIG_REGULATOR_PV88060=y
+CONFIG_REGULATOR_PV88080=y
+# CONFIG_REGULATOR_PV88090 is not set
+CONFIG_REGULATOR_QCOM_PM8008=m
+CONFIG_REGULATOR_QCOM_REFGEN=m
+CONFIG_REGULATOR_QCOM_RPMH=y
+CONFIG_REGULATOR_QCOM_SMD_RPM=y
+# CONFIG_REGULATOR_QCOM_SPMI is not set
+CONFIG_REGULATOR_QCOM_USB_VBUS=m
+CONFIG_REGULATOR_RAA215300=m
+CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY=m
+# CONFIG_REGULATOR_RC5T583 is not set
+CONFIG_REGULATOR_RK808=m
+CONFIG_REGULATOR_ROHM=m
+CONFIG_REGULATOR_RT4801=m
+# CONFIG_REGULATOR_RT4803 is not set
+CONFIG_REGULATOR_RT5120=y
+CONFIG_REGULATOR_RT5190A=m
+CONFIG_REGULATOR_RT5739=m
+CONFIG_REGULATOR_RT5759=y
+CONFIG_REGULATOR_RT6160=y
+# CONFIG_REGULATOR_RT6190 is not set
+CONFIG_REGULATOR_RT6245=m
+# CONFIG_REGULATOR_RTQ2134 is not set
+CONFIG_REGULATOR_RTMV20=y
+# CONFIG_REGULATOR_RTQ6752 is not set
+# CONFIG_REGULATOR_RTQ2208 is not set
+CONFIG_REGULATOR_S2MPA01=y
+CONFIG_REGULATOR_S2MPS11=y
+# CONFIG_REGULATOR_S5M8767 is not set
+CONFIG_REGULATOR_SC2731=m
+# CONFIG_REGULATOR_SLG51000 is not set
+CONFIG_REGULATOR_STM32_BOOSTER=y
+# CONFIG_REGULATOR_STM32_VREFBUF is not set
+# CONFIG_REGULATOR_STM32_PWR is not set
+CONFIG_REGULATOR_STPMIC1=y
+# CONFIG_REGULATOR_TI_ABB is not set
+# CONFIG_REGULATOR_STW481X_VMMC is not set
+CONFIG_REGULATOR_SUN20I=y
+CONFIG_REGULATOR_SY7636A=m
+CONFIG_REGULATOR_SY8106A=y
+CONFIG_REGULATOR_SY8824X=m
+CONFIG_REGULATOR_SY8827N=y
+CONFIG_REGULATOR_TPS51632=m
+CONFIG_REGULATOR_TPS6105X=m
+CONFIG_REGULATOR_TPS62360=m
+CONFIG_REGULATOR_TPS6286X=m
+CONFIG_REGULATOR_TPS6287X=m
+CONFIG_REGULATOR_TPS65023=y
+# CONFIG_REGULATOR_TPS6507X is not set
+CONFIG_REGULATOR_TPS65086=m
+CONFIG_REGULATOR_TPS65090=y
+# CONFIG_REGULATOR_TPS65132 is not set
+CONFIG_REGULATOR_TPS65218=m
+CONFIG_REGULATOR_TPS65219=y
+CONFIG_REGULATOR_TPS6586X=y
+CONFIG_REGULATOR_TPS65910=m
+CONFIG_REGULATOR_TPS68470=y
+CONFIG_REGULATOR_TWL4030=y
+CONFIG_REGULATOR_UNIPHIER=m
+CONFIG_REGULATOR_RZG2L_VBCTRL=y
+CONFIG_REGULATOR_VCTRL=m
+CONFIG_REGULATOR_WM8350=y
+CONFIG_REGULATOR_WM8400=y
+CONFIG_REGULATOR_QCOM_LABIBB=m
+# CONFIG_RC_CORE is not set
+CONFIG_CEC_CORE=y
+CONFIG_CEC_NOTIFIER=y
+CONFIG_CEC_PIN=y
+
+#
+# CEC support
+#
+# CONFIG_CEC_PIN_ERROR_INJ is not set
+CONFIG_MEDIA_CEC_SUPPORT=y
+# CONFIG_CEC_CH7322 is not set
+# CONFIG_CEC_NXP_TDA9950 is not set
+CONFIG_CEC_CROS_EC=m
+CONFIG_CEC_MESON_AO=m
+CONFIG_CEC_MESON_G12A_AO=y
+CONFIG_CEC_GPIO=y
+CONFIG_CEC_SAMSUNG_S5P=y
+# CONFIG_CEC_STI is not set
+CONFIG_CEC_STM32=m
+CONFIG_CEC_TEGRA=y
+# end of CEC support
+
+# CONFIG_MEDIA_SUPPORT is not set
+
+#
+# Graphics support
+#
+CONFIG_APERTURE_HELPERS=y
+CONFIG_VIDEO=y
+CONFIG_AUXDISPLAY=y
+CONFIG_CHARLCD=y
+CONFIG_HD44780_COMMON=y
+CONFIG_HD44780=m
+# CONFIG_LCD2S is not set
+CONFIG_PARPORT_PANEL=y
+CONFIG_PANEL_PARPORT=0
+CONFIG_PANEL_PROFILE=5
+CONFIG_PANEL_CHANGE_MESSAGE=y
+CONFIG_PANEL_BOOT_MESSAGE=""
+# CONFIG_CHARLCD_BL_OFF is not set
+CONFIG_CHARLCD_BL_ON=y
+# CONFIG_CHARLCD_BL_FLASH is not set
+CONFIG_LINEDISP=y
+# CONFIG_IMG_ASCII_LCD is not set
+# CONFIG_HT16K33 is not set
+CONFIG_MAX6959=y
+CONFIG_SEG_LED_GPIO=y
+CONFIG_PANEL=y
+CONFIG_TEGRA_HOST1X_CONTEXT_BUS=y
+CONFIG_TEGRA_HOST1X=y
+# CONFIG_TEGRA_HOST1X_FIREWALL is not set
+CONFIG_IMX_IPUV3_CORE=m
+CONFIG_DRM=y
+CONFIG_DRM_MIPI_DSI=y
+CONFIG_DRM_DEBUG_MM=y
+CONFIG_DRM_KUNIT_TEST_HELPERS=y
+CONFIG_DRM_KUNIT_TEST=y
+CONFIG_DRM_KMS_HELPER=y
+CONFIG_DRM_DRAW=y
+# CONFIG_DRM_PANIC is not set
+CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS=y
+CONFIG_DRM_DEBUG_MODESET_LOCK=y
+CONFIG_DRM_CLIENT=y
+CONFIG_DRM_CLIENT_LIB=y
+CONFIG_DRM_CLIENT_SELECTION=y
+CONFIG_DRM_CLIENT_SETUP=y
+
+#
+# Supported DRM clients
+#
+# CONFIG_DRM_FBDEV_EMULATION is not set
+CONFIG_DRM_CLIENT_LOG=y
+CONFIG_DRM_CLIENT_DEFAULT_LOG=y
+CONFIG_DRM_CLIENT_DEFAULT="log"
+# end of Supported DRM clients
+
+# CONFIG_DRM_LOAD_EDID_FIRMWARE is not set
+CONFIG_DRM_DISPLAY_DP_AUX_BUS=y
+CONFIG_DRM_DISPLAY_HELPER=y
+CONFIG_DRM_BRIDGE_CONNECTOR=y
+CONFIG_DRM_DISPLAY_DP_AUX_CEC=y
+CONFIG_DRM_DISPLAY_DP_AUX_CHARDEV=y
+CONFIG_DRM_DISPLAY_DP_HELPER=y
+CONFIG_DRM_DISPLAY_DSC_HELPER=y
+CONFIG_DRM_DISPLAY_HDCP_HELPER=y
+CONFIG_DRM_DISPLAY_HDMI_AUDIO_HELPER=y
+CONFIG_DRM_DISPLAY_HDMI_HELPER=y
+CONFIG_DRM_DISPLAY_HDMI_STATE_HELPER=y
+CONFIG_DRM_TTM=y
+CONFIG_DRM_EXEC=y
+CONFIG_DRM_GPUVM=y
+CONFIG_DRM_BUDDY=y
+CONFIG_DRM_VRAM_HELPER=y
+CONFIG_DRM_TTM_HELPER=y
+CONFIG_DRM_GEM_DMA_HELPER=y
+CONFIG_DRM_GEM_SHMEM_HELPER=y
+CONFIG_DRM_SUBALLOC_HELPER=y
+CONFIG_DRM_SCHED=y
+
+#
+# ARM devices
+#
+# CONFIG_DRM_HDLCD is not set
+CONFIG_DRM_MALI_DISPLAY=m
+CONFIG_DRM_KOMEDA=y
+# end of ARM devices
+
+CONFIG_DRM_RADEON=m
+# CONFIG_DRM_RADEON_USERPTR is not set
+# CONFIG_DRM_AMDGPU is not set
+CONFIG_DRM_NOUVEAU=m
+CONFIG_NOUVEAU_DEBUG=5
+CONFIG_NOUVEAU_DEBUG_DEFAULT=3
+# CONFIG_NOUVEAU_DEBUG_MMU is not set
+CONFIG_NOUVEAU_DEBUG_PUSH=y
+# CONFIG_DRM_NOUVEAU_BACKLIGHT is not set
+# CONFIG_DRM_NOUVEAU_GSP_DEFAULT is not set
+CONFIG_DRM_NOUVEAU_CH7006=m
+CONFIG_DRM_NOUVEAU_SIL164=m
+CONFIG_DRM_XE=y
+CONFIG_DRM_XE_DEVMEM_MIRROR=y
+CONFIG_DRM_XE_FORCE_PROBE=""
+
+#
+# drm/Xe Debugging
+#
+# CONFIG_DRM_XE_DEBUG_VM is not set
+# CONFIG_DRM_XE_DEBUG_MEMIRQ is not set
+# CONFIG_DRM_XE_DEBUG_SRIOV is not set
+CONFIG_DRM_XE_DEBUG_MEM=y
+CONFIG_DRM_XE_KUNIT_TEST=y
+# CONFIG_DRM_XE_LARGE_GUC_BUFFER is not set
+# CONFIG_DRM_XE_USERPTR_INVAL_INJECT is not set
+# end of drm/Xe Debugging
+
+#
+# drm/xe Profile Guided Optimisation
+#
+CONFIG_DRM_XE_JOB_TIMEOUT_MAX=10000
+CONFIG_DRM_XE_JOB_TIMEOUT_MIN=1
+CONFIG_DRM_XE_TIMESLICE_MAX=10000000
+CONFIG_DRM_XE_TIMESLICE_MIN=1
+CONFIG_DRM_XE_PREEMPT_TIMEOUT=640000
+CONFIG_DRM_XE_PREEMPT_TIMEOUT_MAX=10000000
+CONFIG_DRM_XE_PREEMPT_TIMEOUT_MIN=1
+# CONFIG_DRM_XE_ENABLE_SCHEDTIMEOUT_LIMIT is not set
+# end of drm/xe Profile Guided Optimisation
+
+CONFIG_DRM_KMB_DISPLAY=m
+CONFIG_DRM_VGEM=m
+CONFIG_DRM_VKMS=y
+CONFIG_DRM_EXYNOS=y
+
+#
+# CRTCs
+#
+CONFIG_DRM_EXYNOS_FIMD=y
+# CONFIG_DRM_EXYNOS5433_DECON is not set
+CONFIG_DRM_EXYNOS7_DECON=y
+# CONFIG_DRM_EXYNOS_MIXER is not set
+CONFIG_DRM_EXYNOS_VIDI=y
+
+#
+# Encoders and Bridges
+#
+# CONFIG_DRM_EXYNOS_DPI is not set
+# CONFIG_DRM_EXYNOS_DSI is not set
+# CONFIG_DRM_EXYNOS_DP is not set
+
+#
+# Sub-drivers
+#
+CONFIG_DRM_EXYNOS_G2D=y
+CONFIG_DRM_EXYNOS_IPP=y
+CONFIG_DRM_EXYNOS_FIMC=y
+CONFIG_DRM_EXYNOS_ROTATOR=y
+CONFIG_DRM_EXYNOS_SCALER=y
+# CONFIG_DRM_EXYNOS_GSC is not set
+CONFIG_DRM_AST=m
+CONFIG_DRM_MGAG200=y
+# CONFIG_DRM_ATMEL_HLCDC is not set
+CONFIG_DRM_RCAR_DU=y
+CONFIG_DRM_RCAR_USE_CMM=y
+CONFIG_DRM_RCAR_CMM=y
+# CONFIG_DRM_RCAR_DW_HDMI is not set
+CONFIG_DRM_RCAR_USE_LVDS=y
+CONFIG_DRM_RCAR_LVDS=y
+# CONFIG_DRM_RCAR_USE_MIPI_DSI is not set
+# CONFIG_DRM_RZG2L_MIPI_DSI is not set
+CONFIG_DRM_SHMOBILE=m
+# CONFIG_DRM_SUN4I is not set
+# CONFIG_DRM_QXL is not set
+# CONFIG_DRM_VIRTIO_GPU is not set
+CONFIG_DRM_TEGRA=y
+CONFIG_DRM_TEGRA_DEBUG=y
+CONFIG_DRM_STM=y
+CONFIG_DRM_STM_DSI=y
+CONFIG_DRM_STM_LVDS=m
+CONFIG_DRM_PANEL=y
+
+#
+# Display Panels
+#
+CONFIG_DRM_PANEL_ARM_VERSATILE=y
+# CONFIG_DRM_PANEL_ASUS_Z00T_TM5P5_NT35596 is not set
+# CONFIG_DRM_PANEL_BOE_BF060Y8M_AJ0 is not set
+CONFIG_DRM_PANEL_BOE_HIMAX8279D=m
+# CONFIG_DRM_PANEL_BOE_TH101MB31UIG002_28A is not set
+# CONFIG_DRM_PANEL_BOE_TV101WUM_NL6 is not set
+CONFIG_DRM_PANEL_BOE_TV101WUM_LL2=y
+CONFIG_DRM_PANEL_EBBG_FT8719=m
+CONFIG_DRM_PANEL_ELIDA_KD35T133=m
+CONFIG_DRM_PANEL_FEIXIN_K101_IM2BA02=y
+CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D=y
+# CONFIG_DRM_PANEL_DSI_CM is not set
+CONFIG_DRM_PANEL_LVDS=m
+# CONFIG_DRM_PANEL_HIMAX_HX83102 is not set
+CONFIG_DRM_PANEL_HIMAX_HX83112A=m
+CONFIG_DRM_PANEL_HIMAX_HX8394=y
+CONFIG_DRM_PANEL_ILITEK_ILI9805=m
+CONFIG_DRM_PANEL_ILITEK_ILI9806E=y
+CONFIG_DRM_PANEL_ILITEK_ILI9881C=m
+CONFIG_DRM_PANEL_ILITEK_ILI9882T=y
+CONFIG_DRM_PANEL_INNOLUX_P079ZCA=y
+CONFIG_DRM_PANEL_JADARD_JD9365DA_H3=y
+CONFIG_DRM_PANEL_JDI_LPM102A188A=m
+CONFIG_DRM_PANEL_JDI_LT070ME05000=y
+# CONFIG_DRM_PANEL_JDI_R63452 is not set
+CONFIG_DRM_PANEL_KHADAS_TS050=m
+CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04=m
+# CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W is not set
+# CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829 is not set
+# CONFIG_DRM_PANEL_LINCOLNTECH_LCD197 is not set
+CONFIG_DRM_PANEL_LG_SW43408=m
+CONFIG_DRM_PANEL_MANTIX_MLAF057WE51=y
+CONFIG_DRM_PANEL_NEWVISION_NV3051D=m
+# CONFIG_DRM_PANEL_NOVATEK_NT35510 is not set
+CONFIG_DRM_PANEL_NOVATEK_NT35560=y
+# CONFIG_DRM_PANEL_NOVATEK_NT35950 is not set
+# CONFIG_DRM_PANEL_NOVATEK_NT36523 is not set
+# CONFIG_DRM_PANEL_NOVATEK_NT36672A is not set
+# CONFIG_DRM_PANEL_NOVATEK_NT36672E is not set
+# CONFIG_DRM_PANEL_OLIMEX_LCD_OLINUXINO is not set
+CONFIG_DRM_PANEL_ORISETECH_OTM8009A=m
+# CONFIG_DRM_PANEL_OSD_OSD101T2587_53TS is not set
+CONFIG_DRM_PANEL_PANASONIC_VVX10F034N00=m
+CONFIG_DRM_PANEL_RASPBERRYPI_TOUCHSCREEN=y
+# CONFIG_DRM_PANEL_RAYDIUM_RM67191 is not set
+# CONFIG_DRM_PANEL_RAYDIUM_RM67200 is not set
+CONFIG_DRM_PANEL_RAYDIUM_RM68200=y
+CONFIG_DRM_PANEL_RAYDIUM_RM692E5=y
+CONFIG_DRM_PANEL_RAYDIUM_RM69380=y
+# CONFIG_DRM_PANEL_RONBO_RB070D30 is not set
+# CONFIG_DRM_PANEL_SAMSUNG_AMS581VF01 is not set
+# CONFIG_DRM_PANEL_SAMSUNG_AMS639RQ08 is not set
+CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS427AP24=y
+# CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01 is not set
+CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20=m
+CONFIG_DRM_PANEL_SAMSUNG_S6E3FA7=y
+# CONFIG_DRM_PANEL_SAMSUNG_S6D16D0 is not set
+CONFIG_DRM_PANEL_SAMSUNG_S6D7AA0=y
+CONFIG_DRM_PANEL_SAMSUNG_S6E3HA2=m
+# CONFIG_DRM_PANEL_SAMSUNG_S6E3HA8 is not set
+# CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03 is not set
+CONFIG_DRM_PANEL_SAMSUNG_S6E63M0=y
+CONFIG_DRM_PANEL_SAMSUNG_S6E63M0_DSI=y
+CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0=m
+CONFIG_DRM_PANEL_SAMSUNG_SOFEF00=m
+CONFIG_DRM_PANEL_SEIKO_43WVF1G=m
+CONFIG_DRM_PANEL_SHARP_LQ101R1SX01=y
+CONFIG_DRM_PANEL_SHARP_LS037V7DW01=m
+CONFIG_DRM_PANEL_SHARP_LS043T1LE01=m
+CONFIG_DRM_PANEL_SHARP_LS060T1SX01=y
+# CONFIG_DRM_PANEL_SITRONIX_ST7701 is not set
+# CONFIG_DRM_PANEL_SITRONIX_ST7703 is not set
+# CONFIG_DRM_PANEL_SONY_TD4353_JDI is not set
+# CONFIG_DRM_PANEL_SONY_TULIP_TRULY_NT35521 is not set
+CONFIG_DRM_PANEL_STARTEK_KD070FHFID015=m
+CONFIG_DRM_PANEL_EDP=y
+CONFIG_DRM_PANEL_SIMPLE=y
+CONFIG_DRM_PANEL_SUMMIT=y
+# CONFIG_DRM_PANEL_SYNAPTICS_R63353 is not set
+# CONFIG_DRM_PANEL_TDO_TL070WSH30 is not set
+CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA=y
+CONFIG_DRM_PANEL_VISIONOX_R66451=m
+CONFIG_DRM_PANEL_VISIONOX_RM69299=m
+CONFIG_DRM_PANEL_VISIONOX_RM692E5=m
+# CONFIG_DRM_PANEL_VISIONOX_VTDR6130 is not set
+# CONFIG_DRM_PANEL_XINPENG_XPP055C272 is not set
+# end of Display Panels
+
+CONFIG_DRM_BRIDGE=y
+CONFIG_DRM_PANEL_BRIDGE=y
+
+#
+# Display Interface Bridges
+#
+CONFIG_DRM_CHIPONE_ICN6211=y
+CONFIG_DRM_CHRONTEL_CH7033=y
+# CONFIG_DRM_CROS_EC_ANX7688 is not set
+CONFIG_DRM_DISPLAY_CONNECTOR=m
+CONFIG_DRM_FSL_LDB=m
+CONFIG_DRM_I2C_NXP_TDA998X=m
+CONFIG_DRM_ITE_IT6263=m
+CONFIG_DRM_ITE_IT6505=m
+CONFIG_DRM_LONTIUM_LT8912B=m
+CONFIG_DRM_LONTIUM_LT9211=y
+CONFIG_DRM_LONTIUM_LT9611=y
+CONFIG_DRM_LONTIUM_LT9611UXC=y
+CONFIG_DRM_ITE_IT66121=m
+CONFIG_DRM_LVDS_CODEC=m
+CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW=y
+CONFIG_DRM_NWL_MIPI_DSI=m
+CONFIG_DRM_NXP_PTN3460=y
+CONFIG_DRM_PARADE_PS8622=y
+# CONFIG_DRM_PARADE_PS8640 is not set
+# CONFIG_DRM_SAMSUNG_DSIM is not set
+CONFIG_DRM_SIL_SII8620=y
+CONFIG_DRM_SII902X=m
+CONFIG_DRM_SII9234=m
+# CONFIG_DRM_SIMPLE_BRIDGE is not set
+CONFIG_DRM_THINE_THC63LVD1024=m
+CONFIG_DRM_TOSHIBA_TC358762=m
+CONFIG_DRM_TOSHIBA_TC358764=y
+CONFIG_DRM_TOSHIBA_TC358767=m
+# CONFIG_DRM_TOSHIBA_TC358768 is not set
+CONFIG_DRM_TOSHIBA_TC358775=m
+CONFIG_DRM_TI_DLPC3433=m
+CONFIG_DRM_TI_TDP158=y
+CONFIG_DRM_TI_TFP410=y
+CONFIG_DRM_TI_SN65DSI83=m
+CONFIG_DRM_TI_SN65DSI86=y
+# CONFIG_DRM_TI_TPD12S015 is not set
+CONFIG_DRM_ANALOGIX_ANX6345=m
+CONFIG_DRM_ANALOGIX_ANX78XX=y
+CONFIG_DRM_ANALOGIX_DP=y
+# CONFIG_DRM_ANALOGIX_ANX7625 is not set
+CONFIG_DRM_I2C_ADV7511=m
+# CONFIG_DRM_I2C_ADV7511_CEC is not set
+CONFIG_DRM_CDNS_DSI=m
+CONFIG_DRM_CDNS_DSI_J721E=y
+# CONFIG_DRM_CDNS_MHDP8546 is not set
+CONFIG_DRM_IMX_LDB_HELPER=m
+CONFIG_DRM_IMX_LEGACY_BRIDGE=m
+CONFIG_DRM_IMX8MP_DW_HDMI_BRIDGE=m
+CONFIG_DRM_IMX8MP_HDMI_PVI=m
+CONFIG_DRM_IMX8QM_LDB=m
+CONFIG_DRM_IMX8QXP_LDB=m
+CONFIG_DRM_IMX8QXP_PIXEL_COMBINER=m
+# CONFIG_DRM_IMX8QXP_PIXEL_LINK is not set
+CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI=y
+# CONFIG_DRM_IMX93_MIPI_DSI is not set
+CONFIG_DRM_DW_HDMI=m
+CONFIG_DRM_DW_HDMI_AHB_AUDIO=m
+# CONFIG_DRM_DW_HDMI_I2S_AUDIO is not set
+CONFIG_DRM_DW_HDMI_GP_AUDIO=m
+# CONFIG_DRM_DW_HDMI_CEC is not set
+CONFIG_DRM_DW_MIPI_DSI=y
+# end of Display Interface Bridges
+
+CONFIG_DRM_STI=y
+CONFIG_DRM_IMX_DCSS=y
+CONFIG_DRM_IMX=m
+CONFIG_DRM_IMX_PARALLEL_DISPLAY=m
+CONFIG_DRM_IMX_TVE=m
+CONFIG_DRM_IMX_LDB=m
+CONFIG_DRM_IMX_HDMI=m
+CONFIG_DRM_IMX_LCDC=m
+# CONFIG_DRM_INGENIC is not set
+CONFIG_DRM_V3D=y
+CONFIG_DRM_LOONGSON=m
+CONFIG_DRM_ETNAVIV=y
+CONFIG_DRM_ETNAVIV_THERMAL=y
+CONFIG_DRM_HISI_HIBMC=y
+CONFIG_DRM_HISI_KIRIN=y
+# CONFIG_DRM_LOGICVC is not set
+CONFIG_DRM_MXS=y
+CONFIG_DRM_MXSFB=y
+CONFIG_DRM_IMX_LCDIF=m
+CONFIG_DRM_MESON=m
+CONFIG_DRM_MESON_DW_HDMI=m
+CONFIG_DRM_MESON_DW_MIPI_DSI=m
+# CONFIG_DRM_ARCPGU is not set
+# CONFIG_DRM_BOCHS is not set
+CONFIG_DRM_CIRRUS_QEMU=m
+# CONFIG_DRM_OFDRM is not set
+# CONFIG_DRM_SIMPLEDRM is not set
+# CONFIG_DRM_PL111 is not set
+CONFIG_DRM_TVE200=y
+# CONFIG_DRM_LIMA is not set
+# CONFIG_DRM_PANFROST is not set
+# CONFIG_DRM_PANTHOR is not set
+CONFIG_DRM_ASPEED_GFX=y
+CONFIG_DRM_MCDE=m
+CONFIG_DRM_TIDSS=y
+CONFIG_DRM_ZYNQMP_DPSUB=m
+CONFIG_DRM_SSD130X=m
+CONFIG_DRM_SSD130X_I2C=m
+CONFIG_DRM_SPRD=m
+CONFIG_DRM_EXPORT_FOR_TESTS=y
+CONFIG_DRM_LIB_RANDOM=y
+CONFIG_DRM_PRIVACY_SCREEN=y
+# CONFIG_DRM_WERROR is not set
+CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=y
+
+#
+# Frame buffer Devices
+#
+CONFIG_FB=m
+CONFIG_FB_SVGALIB=m
+CONFIG_FB_CIRRUS=m
+CONFIG_FB_PM2=m
+CONFIG_FB_PM2_FIFO_DISCONNECT=y
+CONFIG_FB_CLPS711X=m
+# CONFIG_FB_IMX is not set
+# CONFIG_FB_CYBER2000 is not set
+CONFIG_FB_ARC=m
+CONFIG_FB_PVR2=m
+# CONFIG_FB_OPENCORES is not set
+CONFIG_FB_S1D13XXX=m
+CONFIG_FB_ATMEL=m
+CONFIG_FB_NVIDIA=m
+CONFIG_FB_NVIDIA_I2C=y
+CONFIG_FB_NVIDIA_DEBUG=y
+CONFIG_FB_NVIDIA_BACKLIGHT=y
+CONFIG_FB_RIVA=m
+# CONFIG_FB_RIVA_I2C is not set
+# CONFIG_FB_RIVA_DEBUG is not set
+CONFIG_FB_RIVA_BACKLIGHT=y
+CONFIG_FB_I740=m
+# CONFIG_FB_MATROX is not set
+CONFIG_FB_RADEON=m
+# CONFIG_FB_RADEON_I2C is not set
+CONFIG_FB_RADEON_BACKLIGHT=y
+# CONFIG_FB_RADEON_DEBUG is not set
+# CONFIG_FB_ATY128 is not set
+# CONFIG_FB_ATY is not set
+CONFIG_FB_S3=m
+CONFIG_FB_S3_DDC=y
+CONFIG_FB_SAVAGE=m
+CONFIG_FB_SAVAGE_I2C=y
+CONFIG_FB_SAVAGE_ACCEL=y
+CONFIG_FB_SIS=m
+# CONFIG_FB_SIS_300 is not set
+CONFIG_FB_SIS_315=y
+# CONFIG_FB_VIA is not set
+CONFIG_FB_NEOMAGIC=m
+CONFIG_FB_KYRO=m
+CONFIG_FB_3DFX=m
+CONFIG_FB_3DFX_ACCEL=y
+CONFIG_FB_3DFX_I2C=y
+# CONFIG_FB_VOODOO1 is not set
+CONFIG_FB_VT8623=m
+# CONFIG_FB_TRIDENT is not set
+# CONFIG_FB_ARK is not set
+CONFIG_FB_PM3=m
+# CONFIG_FB_CARMINE is not set
+CONFIG_FB_PXA168=m
+CONFIG_FB_SH_MOBILE_LCDC=m
+CONFIG_FB_S3C=m
+# CONFIG_FB_S3C_DEBUG_REGWRITE is not set
+CONFIG_FB_SM501=m
+# CONFIG_FB_IBM_GXT4500 is not set
+CONFIG_FB_GOLDFISH=m
+CONFIG_FB_VIRTUAL=m
+# CONFIG_FB_METRONOME is not set
+# CONFIG_FB_MB862XX is not set
+# CONFIG_FB_BROADSHEET is not set
+CONFIG_FB_SIMPLE=m
+CONFIG_FB_SSD1307=m
+# CONFIG_FB_SM712 is not set
+CONFIG_FB_OMAP2=m
+CONFIG_FB_OMAP2_DEBUG_SUPPORT=y
+CONFIG_FB_OMAP2_NUM_FBS=3
+CONFIG_FB_OMAP2_DSS_INIT=y
+CONFIG_FB_OMAP2_DSS=m
+CONFIG_FB_OMAP2_DSS_DEBUG=y
+# CONFIG_FB_OMAP2_DSS_DEBUGFS is not set
+# CONFIG_FB_OMAP2_DSS_DPI is not set
+CONFIG_FB_OMAP2_DSS_VENC=y
+# CONFIG_FB_OMAP4_DSS_HDMI is not set
+# CONFIG_FB_OMAP5_DSS_HDMI is not set
+# CONFIG_FB_OMAP2_DSS_SDI is not set
+CONFIG_FB_OMAP2_DSS_DSI=y
+CONFIG_FB_OMAP2_DSS_MIN_FCK_PER_PCK=0
+# CONFIG_FB_OMAP2_DSS_SLEEP_AFTER_VENC_RESET is not set
+
+#
+# OMAPFB Panel and Encoder Drivers
+#
+CONFIG_FB_OMAP2_ENCODER_OPA362=m
+# CONFIG_FB_OMAP2_ENCODER_TFP410 is not set
+# CONFIG_FB_OMAP2_ENCODER_TPD12S015 is not set
+CONFIG_FB_OMAP2_CONNECTOR_DVI=m
+CONFIG_FB_OMAP2_CONNECTOR_HDMI=m
+CONFIG_FB_OMAP2_CONNECTOR_ANALOG_TV=m
+CONFIG_FB_OMAP2_PANEL_DPI=m
+CONFIG_FB_OMAP2_PANEL_DSI_CM=m
+# end of OMAPFB Panel and Encoder Drivers
+
+CONFIG_MMP_DISP=y
+# CONFIG_MMP_DISP_CONTROLLER is not set
+CONFIG_MMP_FB=m
+CONFIG_FB_CORE=m
+CONFIG_FB_NOTIFY=y
+# CONFIG_FIRMWARE_EDID is not set
+CONFIG_FB_DEVICE=y
+CONFIG_FB_DDC=m
+CONFIG_FB_CFB_FILLRECT=m
+CONFIG_FB_CFB_COPYAREA=m
+CONFIG_FB_CFB_IMAGEBLIT=m
+CONFIG_FB_SYS_FILLRECT=m
+CONFIG_FB_SYS_COPYAREA=m
+CONFIG_FB_SYS_IMAGEBLIT=m
+CONFIG_FB_PROVIDE_GET_FB_UNMAPPED_AREA=y
+# CONFIG_FB_FOREIGN_ENDIAN is not set
+CONFIG_FB_SYSMEM_FOPS=m
+CONFIG_FB_DEFERRED_IO=y
+CONFIG_FB_DMAMEM_HELPERS=y
+CONFIG_FB_IOMEM_FOPS=m
+CONFIG_FB_IOMEM_HELPERS=y
+CONFIG_FB_SYSMEM_HELPERS=y
+CONFIG_FB_SYSMEM_HELPERS_DEFERRED=y
+CONFIG_FB_BACKLIGHT=y
+CONFIG_FB_MODE_HELPERS=y
+CONFIG_FB_TILEBLITTING=y
+# end of Frame buffer Devices
+
+#
+# Backlight & LCD device support
+#
+CONFIG_LCD_CLASS_DEVICE=m
+# CONFIG_LCD_PLATFORM is not set
+CONFIG_BACKLIGHT_CLASS_DEVICE=y
+# CONFIG_BACKLIGHT_ATMEL_LCDC is not set
+# CONFIG_BACKLIGHT_KTD253 is not set
+# CONFIG_BACKLIGHT_KTD2801 is not set
+# CONFIG_BACKLIGHT_KTZ8866 is not set
+# CONFIG_BACKLIGHT_LM3533 is not set
+# CONFIG_BACKLIGHT_OMAP1 is not set
+CONFIG_BACKLIGHT_DA9052=m
+# CONFIG_BACKLIGHT_APPLE_DWI is not set
+# CONFIG_BACKLIGHT_QCOM_WLED is not set
+CONFIG_BACKLIGHT_ADP8860=m
+# CONFIG_BACKLIGHT_ADP8870 is not set
+# CONFIG_BACKLIGHT_88PM860X is not set
+CONFIG_BACKLIGHT_LM3509=m
+CONFIG_BACKLIGHT_LM3639=y
+CONFIG_BACKLIGHT_PANDORA=y
+CONFIG_BACKLIGHT_AS3711=y
+# CONFIG_BACKLIGHT_GPIO is not set
+CONFIG_BACKLIGHT_LV5207LP=y
+CONFIG_BACKLIGHT_BD6107=m
+# CONFIG_BACKLIGHT_ARCXCNN is not set
+CONFIG_BACKLIGHT_LED=m
+# end of Backlight & LCD device support
+
+CONFIG_VGASTATE=m
+CONFIG_VIDEOMODE_HELPERS=y
+CONFIG_HDMI=y
+CONFIG_LOGO=y
+CONFIG_LOGO_LINUX_MONO=y
+# CONFIG_LOGO_LINUX_VGA16 is not set
+CONFIG_LOGO_LINUX_CLUT224=y
+# end of Graphics support
+
+CONFIG_DRM_ACCEL=y
+CONFIG_DRM_ACCEL_QAIC=m
+CONFIG_SOUND=m
+CONFIG_SOUND_OSS_CORE=y
+CONFIG_SOUND_OSS_CORE_PRECLAIM=y
+CONFIG_SND=m
+CONFIG_SND_TIMER=m
+CONFIG_SND_PCM=m
+CONFIG_SND_PCM_ELD=y
+CONFIG_SND_PCM_IEC958=y
+CONFIG_SND_HWDEP=m
+CONFIG_SND_SEQ_DEVICE=m
+CONFIG_SND_RAWMIDI=m
+CONFIG_SND_CORE_TEST=m
+CONFIG_SND_OSSEMUL=y
+# CONFIG_SND_MIXER_OSS is not set
+# CONFIG_SND_PCM_OSS is not set
+CONFIG_SND_PCM_TIMER=y
+CONFIG_SND_HRTIMER=m
+# CONFIG_SND_DYNAMIC_MINORS is not set
+# CONFIG_SND_SUPPORT_OLD_API is not set
+CONFIG_SND_PROC_FS=y
+# CONFIG_SND_VERBOSE_PROCFS is not set
+# CONFIG_SND_CTL_FAST_LOOKUP is not set
+CONFIG_SND_DEBUG=y
+CONFIG_SND_DEBUG_VERBOSE=y
+# CONFIG_SND_CTL_INPUT_VALIDATION is not set
+CONFIG_SND_CTL_DEBUG=y
+CONFIG_SND_UTIMER=y
+CONFIG_SND_SEQUENCER=m
+CONFIG_SND_SEQ_DUMMY=m
+CONFIG_SND_SEQUENCER_OSS=m
+# CONFIG_SND_SEQ_HRTIMER_DEFAULT is not set
+CONFIG_SND_SEQ_MIDI_EVENT=m
+CONFIG_SND_SEQ_MIDI=m
+CONFIG_SND_SEQ_VIRMIDI=m
+CONFIG_SND_SEQ_UMP=y
+CONFIG_SND_MPU401_UART=m
+CONFIG_SND_DRIVERS=y
+CONFIG_SND_DUMMY=m
+# CONFIG_SND_ALOOP is not set
+CONFIG_SND_PCMTEST=m
+CONFIG_SND_VIRMIDI=m
+CONFIG_SND_MTPAV=m
+CONFIG_SND_MTS64=m
+CONFIG_SND_SERIAL_U16550=m
+# CONFIG_SND_SERIAL_GENERIC is not set
+CONFIG_SND_MPU401=m
+# CONFIG_SND_PORTMAN2X4 is not set
+# CONFIG_SND_PCI is not set
+
+#
+# HD-Audio
+#
+# end of HD-Audio
+
+CONFIG_SND_HDA_PREALLOC_SIZE=64
+CONFIG_SND_FIREWIRE=y
+CONFIG_SND_FIREWIRE_LIB=m
+CONFIG_SND_DICE=m
+CONFIG_SND_OXFW=m
+CONFIG_SND_ISIGHT=m
+CONFIG_SND_FIREWORKS=m
+CONFIG_SND_BEBOB=m
+# CONFIG_SND_FIREWIRE_DIGI00X is not set
+CONFIG_SND_FIREWIRE_TASCAM=m
+CONFIG_SND_FIREWIRE_MOTU=m
+CONFIG_SND_FIREFACE=m
+# CONFIG_SND_SOC is not set
+# CONFIG_SND_VIRTIO is not set
+CONFIG_HID_SUPPORT=y
+CONFIG_HID=y
+CONFIG_HID_BATTERY_STRENGTH=y
+CONFIG_HIDRAW=y
+CONFIG_UHID=y
+# CONFIG_HID_GENERIC is not set
+
+#
+# Special HID drivers
+#
+# CONFIG_HID_A4TECH is not set
+CONFIG_HID_ACRUX=y
+CONFIG_HID_ACRUX_FF=y
+CONFIG_HID_APPLE=y
+# CONFIG_HID_APPLETB_BL is not set
+# CONFIG_HID_AUREAL is not set
+CONFIG_HID_BELKIN=m
+CONFIG_HID_CHERRY=m
+CONFIG_HID_COUGAR=m
+CONFIG_HID_MACALLY=y
+# CONFIG_HID_CMEDIA is not set
+CONFIG_HID_CYPRESS=y
+CONFIG_HID_DRAGONRISE=y
+CONFIG_DRAGONRISE_FF=y
+# CONFIG_HID_EMS_FF is not set
+CONFIG_HID_ELECOM=m
+CONFIG_HID_EVISION=m
+# CONFIG_HID_EZKEY is not set
+# CONFIG_HID_GEMBIRD is not set
+# CONFIG_HID_GFRM is not set
+# CONFIG_HID_GLORIOUS is not set
+CONFIG_HID_VIVALDI_COMMON=y
+CONFIG_HID_GOOGLE_STADIA_FF=m
+CONFIG_HID_VIVALDI=y
+CONFIG_HID_KEYTOUCH=m
+CONFIG_HID_KYE=y
+# CONFIG_HID_WALTOP is not set
+# CONFIG_HID_VIEWSONIC is not set
+CONFIG_HID_VRC2=m
+CONFIG_HID_XIAOMI=y
+# CONFIG_HID_GYRATION is not set
+# CONFIG_HID_ICADE is not set
+# CONFIG_HID_ITE is not set
+CONFIG_HID_JABRA=m
+# CONFIG_HID_TWINHAN is not set
+CONFIG_HID_KENSINGTON=y
+CONFIG_HID_LCPOWER=y
+CONFIG_HID_LED=y
+# CONFIG_HID_LENOVO is not set
+# CONFIG_HID_MAGICMOUSE is not set
+CONFIG_HID_MALTRON=y
+# CONFIG_HID_MAYFLASH is not set
+CONFIG_HID_REDRAGON=y
+# CONFIG_HID_MICROSOFT is not set
+CONFIG_HID_MONTEREY=m
+CONFIG_HID_MULTITOUCH=y
+CONFIG_HID_NINTENDO=m
+# CONFIG_NINTENDO_FF is not set
+# CONFIG_HID_NTI is not set
+# CONFIG_HID_ORTEK is not set
+CONFIG_HID_PANTHERLORD=y
+CONFIG_PANTHERLORD_FF=y
+CONFIG_HID_PETALYNX=m
+CONFIG_HID_PICOLCD=m
+# CONFIG_HID_PICOLCD_FB is not set
+# CONFIG_HID_PICOLCD_BACKLIGHT is not set
+# CONFIG_HID_PICOLCD_LCD is not set
+# CONFIG_HID_PICOLCD_LEDS is not set
+CONFIG_HID_PLANTRONICS=m
+CONFIG_HID_PLAYSTATION=m
+# CONFIG_PLAYSTATION_FF is not set
+CONFIG_HID_PXRC=m
+CONFIG_HID_RAZER=y
+CONFIG_HID_PRIMAX=y
+CONFIG_HID_SAITEK=m
+CONFIG_HID_SEMITEK=y
+# CONFIG_HID_SPEEDLINK is not set
+CONFIG_HID_STEAM=m
+# CONFIG_STEAM_FF is not set
+CONFIG_HID_SUNPLUS=m
+# CONFIG_HID_RMI is not set
+# CONFIG_HID_GREENASIA is not set
+CONFIG_HID_SMARTJOYPLUS=y
+CONFIG_SMARTJOYPLUS_FF=y
+CONFIG_HID_TIVO=y
+# CONFIG_HID_TOPSEED is not set
+# CONFIG_HID_TOPRE is not set
+CONFIG_HID_THINGM=y
+# CONFIG_HID_UDRAW_PS3 is not set
+CONFIG_HID_WIIMOTE=y
+CONFIG_HID_XINMO=m
+CONFIG_HID_ZEROPLUS=y
+CONFIG_ZEROPLUS_FF=y
+CONFIG_HID_ZYDACRON=m
+# CONFIG_HID_SENSOR_HUB is not set
+CONFIG_HID_ALPS=y
+# end of Special HID drivers
+
+#
+# HID-BPF support
+#
+# end of HID-BPF support
+
+CONFIG_I2C_HID=m
+# CONFIG_I2C_HID_ACPI is not set
+CONFIG_I2C_HID_OF=m
+CONFIG_I2C_HID_OF_ELAN=m
+CONFIG_I2C_HID_OF_GOODIX=m
+CONFIG_I2C_HID_CORE=m
+
+#
+# Intel ISH HID support
+#
+# end of Intel ISH HID support
+
+#
+# AMD SFH HID Support
+#
+# end of AMD SFH HID Support
+
+CONFIG_USB_OHCI_LITTLE_ENDIAN=y
+# CONFIG_USB_SUPPORT is not set
+CONFIG_MMC=y
+CONFIG_PWRSEQ_EMMC=m
+# CONFIG_PWRSEQ_SIMPLE is not set
+CONFIG_MMC_TEST=y
+
+#
+# MMC/SD/SDIO Host Controller Drivers
+#
+CONFIG_MMC_DEBUG=y
+CONFIG_MMC_SUNPLUS=m
+# CONFIG_MMC_SDHCI is not set
+CONFIG_MMC_MESON_GX=m
+CONFIG_MMC_MESON_MX_SDHC=m
+CONFIG_MMC_MESON_MX_SDIO=m
+# CONFIG_MMC_MOXART is not set
+CONFIG_MMC_OMAP_HS=m
+CONFIG_MMC_TIFM_SD=y
+CONFIG_MMC_DAVINCI=y
+CONFIG_MMC_TMIO_CORE=m
+# CONFIG_MMC_SDHI is not set
+CONFIG_MMC_UNIPHIER=m
+CONFIG_MMC_CB710=y
+# CONFIG_MMC_VIA_SDMMC is not set
+CONFIG_MMC_CAVIUM_THUNDERX=m
+CONFIG_MMC_DW=m
+CONFIG_MMC_DW_PLTFM=m
+CONFIG_MMC_DW_BLUEFIELD=m
+CONFIG_MMC_DW_EXYNOS=m
+# CONFIG_MMC_DW_HI3798CV200 is not set
+CONFIG_MMC_DW_HI3798MV200=m
+CONFIG_MMC_DW_K3=m
+# CONFIG_MMC_DW_PCI is not set
+CONFIG_MMC_SH_MMCIF=y
+CONFIG_MMC_USDHI6ROL0=y
+# CONFIG_MMC_SUNXI is not set
+# CONFIG_MMC_CQHCI is not set
+CONFIG_MMC_HSQ=m
+# CONFIG_MMC_TOSHIBA_PCI is not set
+# CONFIG_MMC_BCM2835 is not set
+# CONFIG_MMC_MTK is not set
+CONFIG_MMC_OWL=y
+CONFIG_MMC_LITEX=m
+CONFIG_MEMSTICK=m
+# CONFIG_MEMSTICK_DEBUG is not set
+
+#
+# MemoryStick drivers
+#
+# CONFIG_MEMSTICK_UNSAFE_RESUME is not set
+
+#
+# MemoryStick Host Controller Drivers
+#
+# CONFIG_MEMSTICK_TIFM_MS is not set
+CONFIG_MEMSTICK_JMICRON_38X=m
+CONFIG_MEMSTICK_R592=m
+CONFIG_NEW_LEDS=y
+CONFIG_LEDS_CLASS=y
+# CONFIG_LEDS_CLASS_FLASH is not set
+CONFIG_LEDS_CLASS_MULTICOLOR=y
+# CONFIG_LEDS_BRIGHTNESS_HW_CHANGED is not set
+
+#
+# LED drivers
+#
+CONFIG_LEDS_88PM860X=m
+CONFIG_LEDS_AN30259A=m
+CONFIG_LEDS_ARIEL=m
+# CONFIG_LEDS_AW200XX is not set
+CONFIG_LEDS_AW2013=y
+CONFIG_LEDS_BCM6328=m
+# CONFIG_LEDS_BCM6358 is not set
+CONFIG_LEDS_LM3530=y
+CONFIG_LEDS_LM3532=m
+CONFIG_LEDS_LM3533=m
+# CONFIG_LEDS_LM3642 is not set
+CONFIG_LEDS_LM3692X=y
+CONFIG_LEDS_COBALT_QUBE=y
+# CONFIG_LEDS_COBALT_RAQ is not set
+CONFIG_LEDS_SUN50I_A100=m
+# CONFIG_LEDS_PCA9532 is not set
+# CONFIG_LEDS_GPIO is not set
+CONFIG_LEDS_LP3944=m
+CONFIG_LEDS_LP3952=m
+CONFIG_LEDS_LP50XX=m
+# CONFIG_LEDS_LP55XX_COMMON is not set
+# CONFIG_LEDS_LP8788 is not set
+CONFIG_LEDS_LP8860=y
+CONFIG_LEDS_LP8864=y
+CONFIG_LEDS_PCA955X=y
+# CONFIG_LEDS_PCA955X_GPIO is not set
+CONFIG_LEDS_PCA963X=y
+CONFIG_LEDS_PCA995X=y
+CONFIG_LEDS_WM8350=m
+CONFIG_LEDS_DA9052=y
+CONFIG_LEDS_REGULATOR=m
+CONFIG_LEDS_BD2606MVV=m
+CONFIG_LEDS_BD2802=y
+CONFIG_LEDS_LT3593=m
+# CONFIG_LEDS_NS2 is not set
+# CONFIG_LEDS_NETXBIG is not set
+CONFIG_LEDS_TCA6507=m
+CONFIG_LEDS_TLC591XX=y
+# CONFIG_LEDS_MAX77650 is not set
+CONFIG_LEDS_MAX77705=m
+# CONFIG_LEDS_LM355x is not set
+CONFIG_LEDS_OT200=y
+CONFIG_LEDS_MENF21BMC=m
+# CONFIG_LEDS_IS31FL319X is not set
+# CONFIG_LEDS_IS31FL32XX is not set
+
+#
+# LED driver for blink(1) USB RGB LED is under Special HID drivers (HID_THINGM)
+#
+CONFIG_LEDS_BLINKM=m
+CONFIG_LEDS_BLINKM_MULTICOLOR=y
+# CONFIG_LEDS_SYSCON is not set
+CONFIG_LEDS_PM8058=y
+# CONFIG_LEDS_MLXREG is not set
+CONFIG_LEDS_USER=y
+# CONFIG_LEDS_NIC78BX is not set
+CONFIG_LEDS_TI_LMU_COMMON=y
+# CONFIG_LEDS_LM3697 is not set
+# CONFIG_LEDS_ST1202 is not set
+# CONFIG_LEDS_TPS6105X is not set
+CONFIG_LEDS_IP30=m
+CONFIG_LEDS_ACER_A500=y
+# CONFIG_LEDS_BCM63138 is not set
+CONFIG_LEDS_LGM=m
+
+#
+# Flash and Torch LED drivers
+#
+
+#
+# RGB LED drivers
+#
+CONFIG_LEDS_GROUP_MULTICOLOR=y
+CONFIG_LEDS_KTD202X=y
+CONFIG_LEDS_NCP5623=y
+
+#
+# LED Triggers
+#
+# CONFIG_LEDS_TRIGGERS is not set
+
+#
+# Simatic LED drivers
+#
+CONFIG_ACCESSIBILITY=y
+
+#
+# Speakup console speech
+#
+# end of Speakup console speech
+
+CONFIG_EDAC_SUPPORT=y
+CONFIG_EDAC=m
+# CONFIG_EDAC_LEGACY_SYSFS is not set
+# CONFIG_EDAC_DEBUG is not set
+# CONFIG_EDAC_SCRUB is not set
+# CONFIG_EDAC_ECS is not set
+CONFIG_EDAC_MEM_REPAIR=y
+CONFIG_EDAC_AL_MC=m
+CONFIG_EDAC_XGENE=m
+# CONFIG_EDAC_ZYNQMP is not set
+# CONFIG_EDAC_NPCM is not set
+CONFIG_EDAC_VERSAL=m
+# CONFIG_EDAC_LOONGSON is not set
+CONFIG_RTC_LIB=y
+# CONFIG_RTC_CLASS is not set
+CONFIG_DMADEVICES=y
+CONFIG_DMADEVICES_DEBUG=y
+# CONFIG_DMADEVICES_VDEBUG is not set
+
+#
+# DMA Devices
+#
+CONFIG_ASYNC_TX_ENABLE_CHANNEL_SWITCH=y
+CONFIG_DMA_ENGINE=y
+CONFIG_DMA_VIRTUAL_CHANNELS=y
+CONFIG_DMA_ACPI=y
+CONFIG_DMA_OF=y
+CONFIG_ALTERA_MSGDMA=y
+CONFIG_APPLE_ADMAC=m
+CONFIG_AXI_DMAC=m
+CONFIG_DMA_JZ4780=y
+CONFIG_DMA_SA11X0=y
+# CONFIG_DMA_SUN6I is not set
+CONFIG_DW_AXI_DMAC=m
+CONFIG_EP93XX_DMA=y
+CONFIG_FSL_EDMA=m
+CONFIG_HISI_DMA=y
+CONFIG_IMG_MDC_DMA=y
+# CONFIG_INTEL_IDMA64 is not set
+CONFIG_K3_DMA=y
+# CONFIG_LOONGSON1_APB_DMA is not set
+# CONFIG_LOONGSON2_APB_DMA is not set
+# CONFIG_MILBEAUT_HDMAC is not set
+CONFIG_MILBEAUT_XDMAC=y
+# CONFIG_MMP_PDMA is not set
+CONFIG_MMP_TDMA=m
+# CONFIG_MV_XOR is not set
+# CONFIG_MXS_DMA is not set
+CONFIG_NBPFAXI_DMA=y
+CONFIG_PCH_DMA=m
+# CONFIG_PXA_DMA is not set
+CONFIG_PLX_DMA=m
+CONFIG_SPRD_DMA=m
+CONFIG_TEGRA186_GPC_DMA=y
+CONFIG_TEGRA20_APB_DMA=m
+CONFIG_TEGRA210_ADMA=m
+CONFIG_TIMB_DMA=y
+# CONFIG_UNIPHIER_MDMAC is not set
+CONFIG_UNIPHIER_XDMAC=m
+# CONFIG_XGENE_DMA is not set
+CONFIG_XILINX_DMA=y
+# CONFIG_XILINX_XDMA is not set
+CONFIG_XILINX_ZYNQMP_DMA=m
+CONFIG_XILINX_ZYNQMP_DPDMA=y
+CONFIG_AMD_QDMA=m
+CONFIG_MTK_HSDMA=m
+CONFIG_MTK_CQDMA=m
+# CONFIG_QCOM_HIDMA_MGMT is not set
+CONFIG_QCOM_HIDMA=m
+CONFIG_DW_DMAC_CORE=m
+CONFIG_DW_DMAC=m
+CONFIG_RZN1_DMAMUX=m
+# CONFIG_DW_DMAC_PCI is not set
+CONFIG_DW_EDMA=y
+CONFIG_DW_EDMA_PCIE=y
+CONFIG_SF_PDMA=m
+CONFIG_RENESAS_DMA=y
+CONFIG_SH_DMAE_BASE=y
+CONFIG_SH_DMAE=y
+CONFIG_RCAR_DMAC=y
+CONFIG_RENESAS_USB_DMAC=m
+# CONFIG_RZ_DMAC is not set
+# CONFIG_TI_EDMA is not set
+# CONFIG_DMA_OMAP is not set
+CONFIG_INTEL_LDMA=y
+# CONFIG_STM32_DMA is not set
+CONFIG_STM32_MDMA=y
+CONFIG_STM32_DMA3=y
+
+#
+# DMA Clients
+#
+CONFIG_ASYNC_TX_DMA=y
+# CONFIG_DMATEST is not set
+
+#
+# DMABUF options
+#
+CONFIG_SYNC_FILE=y
+# CONFIG_SW_SYNC is not set
+CONFIG_UDMABUF=y
+CONFIG_DMABUF_MOVE_NOTIFY=y
+# CONFIG_DMABUF_DEBUG is not set
+# CONFIG_DMABUF_SELFTESTS is not set
+CONFIG_DMABUF_HEAPS=y
+# CONFIG_DMABUF_SYSFS_STATS is not set
+CONFIG_DMABUF_HEAPS_SYSTEM=y
+CONFIG_DMABUF_HEAPS_CMA=y
+# end of DMABUF options
+
+CONFIG_UIO=m
+CONFIG_UIO_CIF=m
+CONFIG_UIO_PDRV_GENIRQ=m
+CONFIG_UIO_DMEM_GENIRQ=m
+CONFIG_UIO_AEC=m
+CONFIG_UIO_SERCOS3=m
+CONFIG_UIO_PCI_GENERIC=m
+CONFIG_UIO_NETX=m
+# CONFIG_UIO_MF624 is not set
+# CONFIG_VFIO is not set
+CONFIG_IRQ_BYPASS_MANAGER=m
+CONFIG_VIRT_DRIVERS=y
+CONFIG_VMGENID=y
+CONFIG_VBOXGUEST=m
+CONFIG_VIRTIO_ANCHOR=y
+CONFIG_VIRTIO=y
+CONFIG_VIRTIO_PCI_LIB=m
+CONFIG_VIRTIO_PCI_LIB_LEGACY=m
+CONFIG_VIRTIO_MENU=y
+CONFIG_VIRTIO_PCI=m
+CONFIG_VIRTIO_PCI_ADMIN_LEGACY=y
+CONFIG_VIRTIO_PCI_LEGACY=y
+CONFIG_VIRTIO_VDPA=m
+CONFIG_VIRTIO_BALLOON=y
+CONFIG_VIRTIO_INPUT=m
+CONFIG_VIRTIO_MMIO=m
+# CONFIG_VIRTIO_MMIO_CMDLINE_DEVICES is not set
+# CONFIG_VIRTIO_DEBUG is not set
+CONFIG_VDPA=m
+CONFIG_IFCVF=m
+# CONFIG_MLX5_VDPA_STEERING_DEBUG is not set
+# CONFIG_VP_VDPA is not set
+CONFIG_SNET_VDPA=m
+CONFIG_OCTEONEP_VDPA=m
+CONFIG_VHOST_IOTLB=y
+CONFIG_VHOST_TASK=y
+CONFIG_VHOST=y
+CONFIG_VHOST_MENU=y
+CONFIG_VHOST_NET=y
+# CONFIG_VHOST_VSOCK is not set
+CONFIG_VHOST_VDPA=m
+# CONFIG_VHOST_CROSS_ENDIAN_LEGACY is not set
+
+#
+# Microsoft Hyper-V guest support
+#
+# end of Microsoft Hyper-V guest support
+
+# CONFIG_GREYBUS is not set
+CONFIG_COMEDI=y
+CONFIG_COMEDI_DEBUG=y
+CONFIG_COMEDI_DEFAULT_BUF_SIZE_KB=2048
+CONFIG_COMEDI_DEFAULT_BUF_MAXSIZE_KB=20480
+CONFIG_COMEDI_MISC_DRIVERS=y
+CONFIG_COMEDI_BOND=m
+CONFIG_COMEDI_TEST=y
+CONFIG_COMEDI_PARPORT=m
+# CONFIG_COMEDI_SSV_DNP is not set
+# CONFIG_COMEDI_ISA_DRIVERS is not set
+CONFIG_COMEDI_PCI_DRIVERS=m
+# CONFIG_COMEDI_8255_PCI is not set
+CONFIG_COMEDI_ADDI_WATCHDOG=m
+CONFIG_COMEDI_ADDI_APCI_1032=m
+# CONFIG_COMEDI_ADDI_APCI_1500 is not set
+# CONFIG_COMEDI_ADDI_APCI_1516 is not set
+CONFIG_COMEDI_ADDI_APCI_1564=m
+CONFIG_COMEDI_ADDI_APCI_16XX=m
+# CONFIG_COMEDI_ADDI_APCI_2032 is not set
+# CONFIG_COMEDI_ADDI_APCI_2200 is not set
+# CONFIG_COMEDI_ADDI_APCI_3120 is not set
+# CONFIG_COMEDI_ADDI_APCI_3501 is not set
+CONFIG_COMEDI_ADDI_APCI_3XXX=m
+CONFIG_COMEDI_ADL_PCI6208=m
+CONFIG_COMEDI_ADL_PCI7X3X=m
+# CONFIG_COMEDI_ADL_PCI8164 is not set
+CONFIG_COMEDI_ADL_PCI9111=m
+# CONFIG_COMEDI_ADL_PCI9118 is not set
+CONFIG_COMEDI_ADV_PCI1710=m
+CONFIG_COMEDI_ADV_PCI1720=m
+# CONFIG_COMEDI_ADV_PCI1723 is not set
+CONFIG_COMEDI_ADV_PCI1724=m
+CONFIG_COMEDI_ADV_PCI1760=m
+CONFIG_COMEDI_ADV_PCI_DIO=m
+CONFIG_COMEDI_AMPLC_DIO200_PCI=m
+# CONFIG_COMEDI_AMPLC_PC236_PCI is not set
+CONFIG_COMEDI_AMPLC_PC263_PCI=m
+# CONFIG_COMEDI_AMPLC_PCI224 is not set
+CONFIG_COMEDI_AMPLC_PCI230=m
+CONFIG_COMEDI_CONTEC_PCI_DIO=m
+CONFIG_COMEDI_DAS08_PCI=m
+CONFIG_COMEDI_DT3000=m
+CONFIG_COMEDI_DYNA_PCI10XX=m
+# CONFIG_COMEDI_GSC_HPDI is not set
+CONFIG_COMEDI_MF6X4=m
+CONFIG_COMEDI_ICP_MULTI=m
+CONFIG_COMEDI_DAQBOARD2000=m
+CONFIG_COMEDI_JR3_PCI=m
+# CONFIG_COMEDI_KE_COUNTER is not set
+CONFIG_COMEDI_CB_PCIDAS64=m
+# CONFIG_COMEDI_CB_PCIDAS is not set
+CONFIG_COMEDI_CB_PCIDDA=m
+CONFIG_COMEDI_CB_PCIMDAS=m
+CONFIG_COMEDI_CB_PCIMDDA=m
+# CONFIG_COMEDI_ME4000 is not set
+CONFIG_COMEDI_ME_DAQ=m
+# CONFIG_COMEDI_NI_6527 is not set
+# CONFIG_COMEDI_NI_65XX is not set
+# CONFIG_COMEDI_NI_660X is not set
+CONFIG_COMEDI_NI_670X=m
+# CONFIG_COMEDI_NI_LABPC_PCI is not set
+CONFIG_COMEDI_NI_PCIDIO=m
+CONFIG_COMEDI_NI_PCIMIO=m
+CONFIG_COMEDI_RTD520=m
+CONFIG_COMEDI_S626=m
+CONFIG_COMEDI_MITE=m
+CONFIG_COMEDI_NI_TIOCMD=m
+CONFIG_COMEDI_8254=m
+CONFIG_COMEDI_8255=m
+CONFIG_COMEDI_8255_SA=m
+CONFIG_COMEDI_KCOMEDILIB=m
+CONFIG_COMEDI_AMPLC_DIO200=m
+CONFIG_COMEDI_DAS08=m
+CONFIG_COMEDI_NI_TIO=m
+CONFIG_COMEDI_NI_ROUTING=y
+CONFIG_COMEDI_TESTS=y
+CONFIG_COMEDI_TESTS_EXAMPLE=m
+CONFIG_COMEDI_TESTS_NI_ROUTES=y
+# CONFIG_STAGING is not set
+CONFIG_LOONGARCH_PLATFORM_DEVICES=y
+CONFIG_LOONGSON_LAPTOP=m
+# CONFIG_GOLDFISH is not set
+CONFIG_CHROME_PLATFORMS=y
+CONFIG_CHROMEOS_ACPI=m
+# CONFIG_CHROMEOS_TBMC is not set
+CONFIG_CHROMEOS_OF_HW_PROBER=y
+CONFIG_CROS_EC=m
+CONFIG_CROS_EC_I2C=m
+CONFIG_CROS_EC_RPMSG=m
+CONFIG_CROS_EC_UART=m
+# CONFIG_CROS_EC_LPC is not set
+CONFIG_CROS_EC_PROTO=y
+# CONFIG_CROS_KBD_LED_BACKLIGHT is not set
+# CONFIG_CROS_HPS_I2C is not set
+CONFIG_CHROMEOS_PRIVACY_SCREEN=y
+CONFIG_CROS_KUNIT_EC_PROTO_TEST=m
+# CONFIG_CZNIC_PLATFORMS is not set
+CONFIG_MELLANOX_PLATFORM=y
+CONFIG_MLX_PLATFORM=y
+CONFIG_MLXREG_HOTPLUG=m
+CONFIG_MLXREG_IO=y
+CONFIG_MLXREG_LC=y
+CONFIG_NVSW_SN2201=y
+CONFIG_OLPC_XO175=y
+# CONFIG_SURFACE_PLATFORMS is not set
+CONFIG_ARM64_PLATFORM_DEVICES=y
+CONFIG_EC_ACER_ASPIRE1=m
+# CONFIG_EC_HUAWEI_GAOKUN is not set
+CONFIG_EC_LENOVO_YOGA_C630=m
+CONFIG_HAVE_CLK=y
+CONFIG_HAVE_CLK_PREPARE=y
+CONFIG_COMMON_CLK=y
+
+#
+# Clock driver for ARM Reference designs
+#
+CONFIG_CLK_ICST=y
+# CONFIG_CLK_SP810 is not set
+# end of Clock driver for ARM Reference designs
+
+# CONFIG_CLK_HSDK is not set
+CONFIG_COMMON_CLK_APPLE_NCO=y
+CONFIG_COMMON_CLK_MAX77686=m
+# CONFIG_COMMON_CLK_MAX9485 is not set
+# CONFIG_COMMON_CLK_RK808 is not set
+# CONFIG_COMMON_CLK_HI655X is not set
+CONFIG_COMMON_CLK_SCMI=y
+# CONFIG_COMMON_CLK_SCPI is not set
+CONFIG_COMMON_CLK_SI5341=m
+CONFIG_COMMON_CLK_SI5351=y
+CONFIG_COMMON_CLK_SI514=y
+CONFIG_COMMON_CLK_SI544=m
+CONFIG_COMMON_CLK_SI570=m
+# CONFIG_COMMON_CLK_BM1880 is not set
+# CONFIG_COMMON_CLK_CDCE706 is not set
+CONFIG_COMMON_CLK_TPS68470=m
+CONFIG_COMMON_CLK_CDCE925=y
+CONFIG_COMMON_CLK_CS2000_CP=y
+CONFIG_COMMON_CLK_EN7523=y
+# CONFIG_COMMON_CLK_EP93XX is not set
+CONFIG_COMMON_CLK_EYEQ=y
+CONFIG_COMMON_CLK_FSL_FLEXSPI=m
+CONFIG_COMMON_CLK_FSL_SAI=y
+# CONFIG_COMMON_CLK_GEMINI is not set
+CONFIG_COMMON_CLK_LAN966X=y
+# CONFIG_COMMON_CLK_ASPEED is not set
+# CONFIG_COMMON_CLK_S2MPS11 is not set
+CONFIG_CLK_TWL=y
+# CONFIG_CLK_TWL6040 is not set
+CONFIG_COMMON_CLK_AXI_CLKGEN=m
+CONFIG_CLK_QORIQ=y
+CONFIG_CLK_LS1028A_PLLDIG=m
+CONFIG_COMMON_CLK_XGENE=y
+CONFIG_COMMON_CLK_NPCM8XX=y
+CONFIG_COMMON_CLK_LOONGSON2=y
+# CONFIG_COMMON_CLK_RS9_PCIE is not set
+# CONFIG_COMMON_CLK_SI521XX is not set
+# CONFIG_COMMON_CLK_VC3 is not set
+CONFIG_COMMON_CLK_VC5=y
+# CONFIG_COMMON_CLK_VC7 is not set
+# CONFIG_COMMON_CLK_MMP2_AUDIO is not set
+CONFIG_COMMON_CLK_BD718XX=y
+# CONFIG_COMMON_CLK_FIXED_MMIO is not set
+CONFIG_COMMON_CLK_SP7021=m
+CONFIG_CLK_ACTIONS=y
+# CONFIG_CLK_OWL_S500 is not set
+# CONFIG_CLK_OWL_S700 is not set
+CONFIG_CLK_OWL_S900=y
+CONFIG_CLK_ANALOGBITS_WRPLL_CLN28HPC=m
+CONFIG_CLK_BAIKAL_T1=y
+# CONFIG_CLK_BT1_CCU_PLL is not set
+CONFIG_CLK_BT1_CCU_DIV=y
+# CONFIG_CLK_BT1_CCU_RST is not set
+CONFIG_CLK_BCM2711_DVP=y
+# CONFIG_CLK_BCM2835 is not set
+# CONFIG_CLK_BCM_63XX is not set
+# CONFIG_CLK_BCM_63XX_GATE is not set
+CONFIG_CLK_BCM63268_TIMER=y
+CONFIG_CLK_BCM_KONA=y
+CONFIG_COMMON_CLK_IPROC=y
+CONFIG_CLK_BCM_CYGNUS=y
+# CONFIG_CLK_BCM_HR2 is not set
+# CONFIG_CLK_BCM_NSP is not set
+CONFIG_CLK_BCM_NS2=y
+# CONFIG_CLK_BCM_SR is not set
+# CONFIG_CLK_RASPBERRYPI is not set
+# CONFIG_COMMON_CLK_HI3516CV300 is not set
+# CONFIG_COMMON_CLK_HI3519 is not set
+# CONFIG_COMMON_CLK_HI3559A is not set
+CONFIG_COMMON_CLK_HI3660=y
+# CONFIG_COMMON_CLK_HI3670 is not set
+CONFIG_COMMON_CLK_HI3798CV200=y
+CONFIG_COMMON_CLK_HI6220=y
+CONFIG_RESET_HISI=y
+CONFIG_STUB_CLK_HI6220=y
+# CONFIG_STUB_CLK_HI3660 is not set
+# CONFIG_COMMON_CLK_BOSTON is not set
+CONFIG_MXC_CLK=y
+# CONFIG_CLK_IMX8MM is not set
+CONFIG_CLK_IMX8MN=y
+CONFIG_CLK_IMX8MP=m
+# CONFIG_CLK_IMX8MQ is not set
+CONFIG_CLK_IMX8ULP=m
+# CONFIG_CLK_IMX93 is not set
+# CONFIG_CLK_IMX95_BLK_CTL is not set
+# CONFIG_CLK_IMXRT1050 is not set
+
+#
+# Ingenic SoCs drivers
+#
+CONFIG_INGENIC_CGU_COMMON=y
+CONFIG_INGENIC_CGU_JZ4740=y
+# CONFIG_INGENIC_CGU_JZ4755 is not set
+CONFIG_INGENIC_CGU_JZ4725B=y
+CONFIG_INGENIC_CGU_JZ4760=y
+# CONFIG_INGENIC_CGU_JZ4770 is not set
+CONFIG_INGENIC_CGU_JZ4780=y
+# CONFIG_INGENIC_CGU_X1000 is not set
+# CONFIG_INGENIC_CGU_X1830 is not set
+CONFIG_INGENIC_TCU_CLK=y
+# end of Ingenic SoCs drivers
+
+CONFIG_COMMON_CLK_KEYSTONE=m
+CONFIG_TI_SCI_CLK=m
+# CONFIG_TI_SCI_CLK_PROBE_FROM_FW is not set
+CONFIG_TI_SYSCON_CLK=m
+
+#
+# Clock driver for MediaTek SoC
+#
+CONFIG_COMMON_CLK_MEDIATEK=y
+CONFIG_COMMON_CLK_MEDIATEK_FHCTL=y
+CONFIG_COMMON_CLK_MT2701=y
+# CONFIG_COMMON_CLK_MT2701_MMSYS is not set
+CONFIG_COMMON_CLK_MT2701_IMGSYS=y
+CONFIG_COMMON_CLK_MT2701_VDECSYS=y
+CONFIG_COMMON_CLK_MT2701_HIFSYS=y
+CONFIG_COMMON_CLK_MT2701_ETHSYS=y
+# CONFIG_COMMON_CLK_MT2701_BDPSYS is not set
+# CONFIG_COMMON_CLK_MT2701_AUDSYS is not set
+# CONFIG_COMMON_CLK_MT2701_G3DSYS is not set
+# CONFIG_COMMON_CLK_MT2712 is not set
+CONFIG_COMMON_CLK_MT6735=m
+CONFIG_COMMON_CLK_MT6735_IMGSYS=m
+CONFIG_COMMON_CLK_MT6735_MFGCFG=m
+# CONFIG_COMMON_CLK_MT6735_VDECSYS is not set
+CONFIG_COMMON_CLK_MT6735_VENCSYS=m
+# CONFIG_COMMON_CLK_MT6765 is not set
+CONFIG_COMMON_CLK_MT6779=y
+CONFIG_COMMON_CLK_MT6779_MMSYS=y
+CONFIG_COMMON_CLK_MT6779_IMGSYS=m
+CONFIG_COMMON_CLK_MT6779_IPESYS=m
+CONFIG_COMMON_CLK_MT6779_CAMSYS=m
+CONFIG_COMMON_CLK_MT6779_VDECSYS=m
+CONFIG_COMMON_CLK_MT6779_VENCSYS=m
+CONFIG_COMMON_CLK_MT6779_MFGCFG=m
+CONFIG_COMMON_CLK_MT6779_AUDSYS=m
+CONFIG_COMMON_CLK_MT6795=m
+CONFIG_COMMON_CLK_MT6795_MFGCFG=m
+CONFIG_COMMON_CLK_MT6795_MMSYS=m
+# CONFIG_COMMON_CLK_MT6795_VDECSYS is not set
+# CONFIG_COMMON_CLK_MT6795_VENCSYS is not set
+# CONFIG_COMMON_CLK_MT6797 is not set
+CONFIG_COMMON_CLK_MT7622=y
+CONFIG_COMMON_CLK_MT7622_ETHSYS=y
+CONFIG_COMMON_CLK_MT7622_HIFSYS=m
+CONFIG_COMMON_CLK_MT7622_AUDSYS=m
+# CONFIG_COMMON_CLK_MT7629 is not set
+CONFIG_COMMON_CLK_MT7981=y
+# CONFIG_COMMON_CLK_MT7981_ETHSYS is not set
+CONFIG_COMMON_CLK_MT7986=m
+# CONFIG_COMMON_CLK_MT7986_ETHSYS is not set
+# CONFIG_COMMON_CLK_MT7988 is not set
+# CONFIG_COMMON_CLK_MT8135 is not set
+CONFIG_COMMON_CLK_MT8167=m
+# CONFIG_COMMON_CLK_MT8167_AUDSYS is not set
+CONFIG_COMMON_CLK_MT8167_IMGSYS=m
+CONFIG_COMMON_CLK_MT8167_MFGCFG=m
+CONFIG_COMMON_CLK_MT8167_MMSYS=m
+# CONFIG_COMMON_CLK_MT8167_VDECSYS is not set
+CONFIG_COMMON_CLK_MT8173=y
+CONFIG_COMMON_CLK_MT8173_IMGSYS=y
+# CONFIG_COMMON_CLK_MT8173_MMSYS is not set
+# CONFIG_COMMON_CLK_MT8173_VDECSYS is not set
+CONFIG_COMMON_CLK_MT8173_VENCSYS=m
+CONFIG_COMMON_CLK_MT8183=y
+CONFIG_COMMON_CLK_MT8183_AUDIOSYS=m
+CONFIG_COMMON_CLK_MT8183_CAMSYS=m
+# CONFIG_COMMON_CLK_MT8183_IMGSYS is not set
+CONFIG_COMMON_CLK_MT8183_IPU_CORE0=m
+# CONFIG_COMMON_CLK_MT8183_IPU_CORE1 is not set
+CONFIG_COMMON_CLK_MT8183_IPU_ADL=m
+# CONFIG_COMMON_CLK_MT8183_IPU_CONN is not set
+CONFIG_COMMON_CLK_MT8183_MFGCFG=m
+CONFIG_COMMON_CLK_MT8183_MMSYS=m
+CONFIG_COMMON_CLK_MT8183_VDECSYS=m
+CONFIG_COMMON_CLK_MT8183_VENCSYS=y
+CONFIG_COMMON_CLK_MT8186=y
+CONFIG_COMMON_CLK_MT8186_CAMSYS=y
+# CONFIG_COMMON_CLK_MT8186_IMGSYS is not set
+# CONFIG_COMMON_CLK_MT8186_IMP_IIC_WRAP is not set
+CONFIG_COMMON_CLK_MT8186_MCUSYS=y
+# CONFIG_COMMON_CLK_MT8186_MDPSYS is not set
+CONFIG_COMMON_CLK_MT8186_MFGCFG=m
+CONFIG_COMMON_CLK_MT8186_MMSYS=y
+# CONFIG_COMMON_CLK_MT8186_VDECSYS is not set
+# CONFIG_COMMON_CLK_MT8186_VENCSYS is not set
+CONFIG_COMMON_CLK_MT8188=y
+CONFIG_COMMON_CLK_MT8188_ADSP_AUDIO26M=y
+CONFIG_COMMON_CLK_MT8188_CAMSYS=m
+CONFIG_COMMON_CLK_MT8188_IMGSYS=m
+# CONFIG_COMMON_CLK_MT8188_IMP_IIC_WRAP is not set
+CONFIG_COMMON_CLK_MT8188_IPESYS=m
+CONFIG_COMMON_CLK_MT8188_MFGCFG=y
+CONFIG_COMMON_CLK_MT8188_VDECSYS=m
+# CONFIG_COMMON_CLK_MT8188_VDOSYS is not set
+CONFIG_COMMON_CLK_MT8188_VENCSYS=m
+CONFIG_COMMON_CLK_MT8188_VPPSYS=m
+# CONFIG_COMMON_CLK_MT8188_WPESYS is not set
+# CONFIG_COMMON_CLK_MT8192 is not set
+# CONFIG_COMMON_CLK_MT8195 is not set
+# CONFIG_COMMON_CLK_MT8365 is not set
+# CONFIG_COMMON_CLK_MT8516 is not set
+# end of Clock driver for MediaTek SoC
+
+#
+# Clock support for Amlogic platforms
+#
+# end of Clock support for Amlogic platforms
+
+CONFIG_MSTAR_MSC313_CPUPLL=y
+CONFIG_MSTAR_MSC313_MPLL=y
+# CONFIG_MCHP_CLK_MPFS is not set
+# CONFIG_COMMON_CLK_NUVOTON is not set
+CONFIG_COMMON_CLK_PISTACHIO=y
+# CONFIG_COMMON_CLK_QCOM is not set
+CONFIG_CLK_MT7621=y
+# CONFIG_CLK_MTMIPS is not set
+CONFIG_CLK_RENESAS=y
+# CONFIG_CLK_EMEV2 is not set
+CONFIG_CLK_RZA1=y
+CONFIG_CLK_R7S9210=y
+# CONFIG_CLK_R8A73A4 is not set
+CONFIG_CLK_R8A7740=y
+# CONFIG_CLK_R8A7742 is not set
+CONFIG_CLK_R8A7743=y
+# CONFIG_CLK_R8A7745 is not set
+CONFIG_CLK_R8A77470=y
+CONFIG_CLK_R8A774A1=y
+# CONFIG_CLK_R8A774B1 is not set
+# CONFIG_CLK_R8A774C0 is not set
+# CONFIG_CLK_R8A774E1 is not set
+# CONFIG_CLK_R8A7778 is not set
+# CONFIG_CLK_R8A7779 is not set
+# CONFIG_CLK_R8A7790 is not set
+# CONFIG_CLK_R8A7791 is not set
+# CONFIG_CLK_R8A7792 is not set
+# CONFIG_CLK_R8A7794 is not set
+CONFIG_CLK_R8A7795=y
+# CONFIG_CLK_R8A77960 is not set
+# CONFIG_CLK_R8A77961 is not set
+CONFIG_CLK_R8A77965=y
+# CONFIG_CLK_R8A77970 is not set
+# CONFIG_CLK_R8A77980 is not set
+CONFIG_CLK_R8A77990=y
+# CONFIG_CLK_R8A77995 is not set
+CONFIG_CLK_R8A779A0=y
+CONFIG_CLK_R8A779F0=y
+CONFIG_CLK_R8A779G0=y
+CONFIG_CLK_R8A779H0=y
+# CONFIG_CLK_R9A06G032 is not set
+# CONFIG_CLK_R9A07G043 is not set
+CONFIG_CLK_R9A07G044=y
+# CONFIG_CLK_R9A07G054 is not set
+CONFIG_CLK_R9A08G045=y
+CONFIG_CLK_R9A09G011=y
+CONFIG_CLK_R9A09G047=y
+# CONFIG_CLK_R9A09G057 is not set
+CONFIG_CLK_SH73A0=y
+CONFIG_CLK_RCAR_CPG_LIB=y
+CONFIG_CLK_RCAR_GEN2_CPG=y
+CONFIG_CLK_RCAR_GEN3_CPG=y
+CONFIG_CLK_RCAR_GEN4_CPG=y
+CONFIG_CLK_RCAR_USB2_CLOCK_SEL=y
+CONFIG_CLK_RZG2L=y
+CONFIG_CLK_RZV2H=y
+# CONFIG_CLK_RENESAS_VBATTB is not set
+CONFIG_CLK_RENESAS_CPG_MSSR=y
+CONFIG_CLK_RENESAS_CPG_MSTP=y
+CONFIG_CLK_RENESAS_DIV6=y
+CONFIG_COMMON_CLK_SAMSUNG=y
+CONFIG_S3C64XX_COMMON_CLK=y
+CONFIG_S5PV210_COMMON_CLK=y
+# CONFIG_EXYNOS_3250_COMMON_CLK is not set
+# CONFIG_EXYNOS_4_COMMON_CLK is not set
+CONFIG_EXYNOS_5250_COMMON_CLK=y
+# CONFIG_EXYNOS_5260_COMMON_CLK is not set
+# CONFIG_EXYNOS_5410_COMMON_CLK is not set
+# CONFIG_EXYNOS_5420_COMMON_CLK is not set
+CONFIG_EXYNOS_ARM64_COMMON_CLK=y
+# CONFIG_EXYNOS_AUDSS_CLK_CON is not set
+# CONFIG_EXYNOS_CLKOUT is not set
+CONFIG_TESLA_FSD_COMMON_CLK=y
+CONFIG_CLK_SIFIVE=y
+CONFIG_CLK_SIFIVE_PRCI=m
+# CONFIG_CLK_INTEL_SOCFPGA is not set
+# CONFIG_CLK_SOPHGO_CV1800 is not set
+CONFIG_CLK_SOPHGO_SG2042_PLL=y
+CONFIG_CLK_SOPHGO_SG2042_CLKGEN=y
+CONFIG_CLK_SOPHGO_SG2042_RPGATE=y
+CONFIG_SPRD_COMMON_CLK=y
+CONFIG_SPRD_SC9860_CLK=y
+CONFIG_SPRD_SC9863A_CLK=y
+CONFIG_SPRD_UMS512_CLK=y
+CONFIG_CLK_STARFIVE_JH71X0=y
+CONFIG_CLK_STARFIVE_JH7100=y
+CONFIG_CLK_STARFIVE_JH7100_AUDIO=m
+# CONFIG_CLK_STARFIVE_JH7110_PLL is not set
+# CONFIG_CLK_STARFIVE_JH7110_SYS is not set
+CONFIG_CLK_SUNXI=y
+CONFIG_CLK_SUNXI_CLOCKS=y
+CONFIG_CLK_SUNXI_PRCM_SUN6I=y
+# CONFIG_CLK_SUNXI_PRCM_SUN8I is not set
+# CONFIG_CLK_SUNXI_PRCM_SUN9I is not set
+CONFIG_SUNXI_CCU=m
+CONFIG_SUNIV_F1C100S_CCU=m
+# CONFIG_SUN20I_D1_CCU is not set
+CONFIG_SUN20I_D1_R_CCU=m
+CONFIG_SUN50I_A64_CCU=m
+# CONFIG_SUN50I_A100_CCU is not set
+CONFIG_SUN50I_A100_R_CCU=m
+# CONFIG_SUN50I_H6_CCU is not set
+CONFIG_SUN50I_H616_CCU=m
+CONFIG_SUN50I_H6_R_CCU=m
+# CONFIG_SUN55I_A523_CCU is not set
+CONFIG_SUN55I_A523_R_CCU=m
+# CONFIG_SUN4I_A10_CCU is not set
+CONFIG_SUN6I_A31_CCU=m
+# CONFIG_SUN6I_RTC_CCU is not set
+CONFIG_SUN8I_A23_CCU=m
+# CONFIG_SUN8I_A33_CCU is not set
+CONFIG_SUN8I_A83T_CCU=m
+CONFIG_SUN8I_H3_CCU=m
+CONFIG_SUN8I_V3S_CCU=m
+CONFIG_SUN8I_DE2_CCU=m
+CONFIG_SUN8I_R40_CCU=m
+CONFIG_SUN9I_A80_CCU=m
+# CONFIG_SUN8I_R_CCU is not set
+# CONFIG_CLK_THEAD_TH1520_AP is not set
+CONFIG_COMMON_CLK_STM32MP=y
+CONFIG_COMMON_CLK_STM32MP135=y
+# CONFIG_COMMON_CLK_STM32MP157 is not set
+# CONFIG_COMMON_CLK_STM32MP257 is not set
+CONFIG_COMMON_CLK_TI_ADPLL=m
+# CONFIG_CLK_UNIPHIER is not set
+CONFIG_COMMON_CLK_VISCONTI=y
+CONFIG_CLK_LGM_CGU=y
+CONFIG_XILINX_VCU=m
+CONFIG_COMMON_CLK_XLNX_CLKWZRD=y
+# CONFIG_COMMON_CLK_ZYNQMP is not set
+CONFIG_CLK_KUNIT_TEST=y
+CONFIG_CLK_FIXED_RATE_KUNIT_TEST=y
+CONFIG_CLK_GATE_KUNIT_TEST=y
+CONFIG_CLK_FD_KUNIT_TEST=y
+# CONFIG_HWSPINLOCK is not set
+
+#
+# Clock Source drivers
+#
+CONFIG_TIMER_OF=y
+CONFIG_TIMER_PROBE=y
+CONFIG_CLKSRC_MMIO=y
+# CONFIG_BCM2835_TIMER is not set
+# CONFIG_BCM_KONA_TIMER is not set
+# CONFIG_DAVINCI_TIMER is not set
+# CONFIG_DIGICOLOR_TIMER is not set
+# CONFIG_OMAP_DM_TIMER is not set
+# CONFIG_DW_APB_TIMER is not set
+# CONFIG_FTTMR010_TIMER is not set
+CONFIG_IXP4XX_TIMER=y
+# CONFIG_MESON6_TIMER is not set
+# CONFIG_OWL_TIMER is not set
+CONFIG_RDA_TIMER=y
+# CONFIG_REALTEK_OTTO_TIMER is not set
+CONFIG_SUN4I_TIMER=y
+# CONFIG_SUN5I_HSTIMER is not set
+# CONFIG_TEGRA_TIMER is not set
+CONFIG_TEGRA186_TIMER=y
+# CONFIG_VT8500_TIMER is not set
+# CONFIG_NPCM7XX_TIMER is not set
+CONFIG_CADENCE_TTC_TIMER=y
+# CONFIG_ASM9260_TIMER is not set
+# CONFIG_CLKSRC_DBX500_PRCMU is not set
+CONFIG_CLPS711X_TIMER=y
+CONFIG_MXS_TIMER=y
+CONFIG_NSPIRE_TIMER=y
+CONFIG_INTEGRATOR_AP_TIMER=y
+# CONFIG_CLKSRC_PISTACHIO is not set
+# CONFIG_CLKSRC_TI_32K is not set
+# CONFIG_CLKSRC_STM32_LP is not set
+CONFIG_CLKSRC_MPS2=y
+CONFIG_ARC_TIMERS=y
+CONFIG_ARC_TIMERS_64BIT=y
+# CONFIG_ARM_TIMER_SP804 is not set
+CONFIG_ARMV7M_SYSTICK=y
+# CONFIG_ATMEL_PIT is not set
+CONFIG_ATMEL_ST=y
+# CONFIG_CLKSRC_SAMSUNG_PWM is not set
+CONFIG_FSL_FTM_TIMER=y
+# CONFIG_MTK_TIMER is not set
+# CONFIG_MTK_CPUX_TIMER is not set
+# CONFIG_SPRD_TIMER is not set
+CONFIG_CLKSRC_JCORE_PIT=y
+CONFIG_SH_TIMER_CMT=y
+# CONFIG_SH_TIMER_MTU2 is not set
+CONFIG_RENESAS_OSTM=y
+# CONFIG_SH_TIMER_TMU is not set
+# CONFIG_EM_TIMER_STI is not set
+# CONFIG_CLKSRC_VERSATILE is not set
+# CONFIG_CLKSRC_PXA is not set
+# CONFIG_TIMER_IMX_SYS_CTR is not set
+CONFIG_CLKSRC_LOONGSON1_PWM=y
+CONFIG_CLKSRC_ST_LPC=y
+# CONFIG_GXP_TIMER is not set
+CONFIG_MSC313E_TIMER=y
+CONFIG_INGENIC_TIMER=y
+CONFIG_INGENIC_SYSOST=y
+CONFIG_INGENIC_OST=y
+CONFIG_RALINK_TIMER=y
+# end of Clock Source drivers
+
+CONFIG_MAILBOX=y
+CONFIG_ARM_MHU_V3=m
+CONFIG_EXYNOS_MBOX=y
+CONFIG_IMX_MBOX=m
+CONFIG_PLATFORM_MHU=y
+CONFIG_ARMADA_37XX_RWTM_MBOX=y
+CONFIG_OMAP2PLUS_MBOX=y
+CONFIG_ROCKCHIP_MBOX=y
+# CONFIG_PCC is not set
+CONFIG_ALTERA_MBOX=m
+CONFIG_TI_MESSAGE_MANAGER=m
+CONFIG_HI3660_MBOX=m
+CONFIG_HI6220_MBOX=y
+# CONFIG_MAILBOX_TEST is not set
+# CONFIG_POLARFIRE_SOC_MAILBOX is not set
+# CONFIG_QCOM_APCS_IPC is not set
+CONFIG_BCM_PDC_MBOX=m
+CONFIG_STM32_IPCC=y
+# CONFIG_MTK_ADSP_MBOX is not set
+CONFIG_MTK_CMDQ_MBOX=y
+CONFIG_SUN6I_MSGBOX=y
+# CONFIG_SPRD_MBOX is not set
+CONFIG_QCOM_CPUCP_MBOX=y
+# CONFIG_QCOM_IPCC is not set
+CONFIG_THEAD_TH1520_MBOX=y
+CONFIG_IOMMU_IOVA=y
+CONFIG_IOMMU_API=y
+# CONFIG_IOMMU_SUPPORT is not set
+
+#
+# Remoteproc drivers
+#
+# CONFIG_REMOTEPROC is not set
+# end of Remoteproc drivers
+
+#
+# Rpmsg drivers
+#
+CONFIG_RPMSG=y
+# CONFIG_RPMSG_CHAR is not set
+CONFIG_RPMSG_CTRL=y
+CONFIG_RPMSG_NS=y
+CONFIG_RPMSG_QCOM_GLINK=m
+CONFIG_RPMSG_QCOM_GLINK_RPM=m
+CONFIG_RPMSG_VIRTIO=y
+# end of Rpmsg drivers
+
+#
+# SOC (System On Chip) specific Drivers
+#
+
+#
+# Amlogic SoC drivers
+#
+CONFIG_MESON_CANVAS=y
+CONFIG_MESON_CLK_MEASURE=y
+# CONFIG_MESON_GX_SOCINFO is not set
+# CONFIG_MESON_MX_SOCINFO is not set
+# end of Amlogic SoC drivers
+
+#
+# Apple SoC drivers
+#
+# CONFIG_APPLE_MAILBOX is not set
+CONFIG_APPLE_SART=y
+# end of Apple SoC drivers
+
+#
+# ASPEED SoC drivers
+#
+# CONFIG_ASPEED_LPC_CTRL is not set
+# CONFIG_ASPEED_LPC_SNOOP is not set
+# CONFIG_ASPEED_UART_ROUTING is not set
+CONFIG_ASPEED_P2A_CTRL=y
+# CONFIG_ASPEED_SOCINFO is not set
+# end of ASPEED SoC drivers
+
+# CONFIG_AT91_SOC_ID is not set
+# CONFIG_AT91_SOC_SFR is not set
+
+#
+# Broadcom SoC drivers
+#
+# CONFIG_SOC_BRCMSTB is not set
+# end of Broadcom SoC drivers
+
+#
+# NXP/Freescale QorIQ SoC drivers
+#
+CONFIG_FSL_DPAA=y
+# CONFIG_FSL_DPAA_CHECKING is not set
+# CONFIG_FSL_BMAN_TEST is not set
+# CONFIG_FSL_QMAN_TEST is not set
+# CONFIG_QUICC_ENGINE is not set
+# CONFIG_DPAA2_CONSOLE is not set
+# end of NXP/Freescale QorIQ SoC drivers
+
+#
+# fujitsu SoC drivers
+#
+# end of fujitsu SoC drivers
+
+#
+# Hisilicon SoC drivers
+#
+# end of Hisilicon SoC drivers
+
+#
+# i.MX SoC drivers
+#
+CONFIG_SOC_IMX8M=y
+# CONFIG_SOC_IMX9 is not set
+# end of i.MX SoC drivers
+
+#
+# IXP4xx SoC drivers
+#
+# CONFIG_IXP4XX_QMGR is not set
+# CONFIG_IXP4XX_NPE is not set
+# end of IXP4xx SoC drivers
+
+#
+# Enable LiteX SoC Builder specific drivers
+#
+CONFIG_LITEX=y
+CONFIG_LITEX_SOC_CONTROLLER=m
+# end of Enable LiteX SoC Builder specific drivers
+
+CONFIG_LOONGSON2_GUTS=m
+CONFIG_LOONGSON2_PM=y
+
+#
+# MediaTek SoC drivers
+#
+CONFIG_MTK_CMDQ=y
+# CONFIG_MTK_DEVAPC is not set
+CONFIG_MTK_INFRACFG=y
+# CONFIG_MTK_PMIC_WRAP is not set
+CONFIG_MTK_REGULATOR_COUPLER=y
+# CONFIG_MTK_MMSYS is not set
+# CONFIG_MTK_SVS is not set
+CONFIG_MTK_SOCINFO=y
+# end of MediaTek SoC drivers
+
+CONFIG_WPCM450_SOC=m
+
+#
+# Qualcomm SoC drivers
+#
+# CONFIG_QCOM_AOSS_QMP is not set
+CONFIG_QCOM_COMMAND_DB=y
+CONFIG_QCOM_GENI_SE=y
+CONFIG_QCOM_GSBI=y
+CONFIG_QCOM_LLCC=y
+CONFIG_QCOM_PD_MAPPER=y
+CONFIG_QCOM_PDR_MSG=y
+CONFIG_QCOM_PMIC_PDCHARGER_ULOG=y
+CONFIG_QCOM_QMI_HELPERS=y
+# CONFIG_QCOM_RAMP_CTRL is not set
+# CONFIG_QCOM_RMTFS_MEM is not set
+# CONFIG_QCOM_RPM_MASTER_STATS is not set
+CONFIG_QCOM_RPMH=y
+CONFIG_QCOM_SMD_RPM=y
+CONFIG_QCOM_SPM=m
+CONFIG_QCOM_WCNSS_CTRL=m
+# CONFIG_QCOM_APR is not set
+# CONFIG_QCOM_ICC_BWMON is not set
+CONFIG_QCOM_PBS=m
+# end of Qualcomm SoC drivers
+
+CONFIG_SOC_RENESAS=y
+# CONFIG_PWC_RZV2M is not set
+CONFIG_RST_RCAR=y
+CONFIG_SYSC_RZ=y
+# CONFIG_SYSC_R9A08G045 is not set
+CONFIG_SYS_R9A09G047=y
+# CONFIG_SYS_R9A09G057 is not set
+# CONFIG_ROCKCHIP_GRF is not set
+CONFIG_ROCKCHIP_IODOMAIN=y
+CONFIG_SOC_SAMSUNG=y
+CONFIG_EXYNOS_ASV_ARM=y
+CONFIG_EXYNOS_CHIPID=m
+# CONFIG_EXYNOS_USI is not set
+CONFIG_EXYNOS_REGULATOR_COUPLER=y
+# CONFIG_SOC_TEGRA20_VOLTAGE_COUPLER is not set
+# CONFIG_SOC_TEGRA30_VOLTAGE_COUPLER is not set
+CONFIG_SOC_TI=y
+CONFIG_TI_PRUSS=y
+# CONFIG_UX500_SOC_ID is not set
+# CONFIG_SOC_INTEGRATOR_CM is not set
+# CONFIG_SOC_REALVIEW is not set
+
+#
+# Xilinx SoC drivers
+#
+# end of Xilinx SoC drivers
+# end of SOC (System On Chip) specific Drivers
+
+#
+# PM Domains
+#
+CONFIG_OWL_PM_DOMAINS_HELPER=y
+CONFIG_OWL_PM_DOMAINS=y
+
+#
+# Amlogic PM Domains
+#
+CONFIG_MESON_EE_PM_DOMAINS=y
+# end of Amlogic PM Domains
+
+CONFIG_APPLE_PMGR_PWRSTATE=y
+CONFIG_ARM_SCMI_PERF_DOMAIN=m
+CONFIG_ARM_SCMI_POWER_DOMAIN=m
+CONFIG_ARM_SCPI_POWER_DOMAIN=m
+
+#
+# Broadcom PM Domains
+#
+# CONFIG_BCM2835_POWER is not set
+# CONFIG_BCM_PMB is not set
+CONFIG_BCM63XX_POWER=y
+# end of Broadcom PM Domains
+
+#
+# i.MX PM Domains
+#
+# CONFIG_IMX_GPCV2_PM_DOMAINS is not set
+CONFIG_IMX_SCU_PD=y
+# end of i.MX PM Domains
+
+#
+# MediaTek PM Domains
+#
+# CONFIG_MTK_SCPSYS is not set
+CONFIG_MTK_SCPSYS_PM_DOMAINS=y
+# end of MediaTek PM Domains
+
+#
+# Qualcomm PM Domains
+#
+CONFIG_QCOM_RPMHPD=y
+CONFIG_QCOM_RPMPD=m
+# end of Qualcomm PM Domains
+
+CONFIG_SYSC_RCAR=y
+CONFIG_SYSC_RCAR_GEN4=y
+CONFIG_SYSC_R8A77995=y
+CONFIG_SYSC_R8A7794=y
+CONFIG_SYSC_R8A77990=y
+# CONFIG_SYSC_R8A7779 is not set
+CONFIG_SYSC_R8A7790=y
+CONFIG_SYSC_R8A7795=y
+# CONFIG_SYSC_R8A7791 is not set
+# CONFIG_SYSC_R8A77965 is not set
+CONFIG_SYSC_R8A77960=y
+CONFIG_SYSC_R8A77961=y
+# CONFIG_SYSC_R8A779F0 is not set
+# CONFIG_SYSC_R8A7792 is not set
+# CONFIG_SYSC_R8A77980 is not set
+CONFIG_SYSC_R8A77970=y
+CONFIG_SYSC_R8A779A0=y
+# CONFIG_SYSC_R8A779G0 is not set
+# CONFIG_SYSC_R8A779H0 is not set
+CONFIG_SYSC_RMOBILE=y
+# CONFIG_SYSC_R8A77470 is not set
+CONFIG_SYSC_R8A7745=y
+# CONFIG_SYSC_R8A7742 is not set
+CONFIG_SYSC_R8A7743=y
+CONFIG_SYSC_R8A774C0=y
+# CONFIG_SYSC_R8A774E1 is not set
+# CONFIG_SYSC_R8A774A1 is not set
+CONFIG_SYSC_R8A774B1=y
+CONFIG_EXYNOS_PM_DOMAINS=y
+# CONFIG_UX500_PM_DOMAIN is not set
+# CONFIG_JH71XX_PMU is not set
+CONFIG_SUN20I_PPU=y
+CONFIG_TI_SCI_PM_DOMAINS=m
+# end of PM Domains
+
+# CONFIG_PM_DEVFREQ is not set
+CONFIG_EXTCON=y
+
+#
+# Extcon Device Drivers
+#
+CONFIG_EXTCON_ADC_JACK=m
+CONFIG_EXTCON_FSA9480=m
+CONFIG_EXTCON_GPIO=m
+CONFIG_EXTCON_INTEL_INT3496=y
+CONFIG_EXTCON_LC824206XA=m
+# CONFIG_EXTCON_MAX14577 is not set
+CONFIG_EXTCON_MAX3355=m
+# CONFIG_EXTCON_MAX77693 is not set
+CONFIG_EXTCON_PTN5150=y
+CONFIG_EXTCON_QCOM_SPMI_MISC=y
+# CONFIG_EXTCON_RT8973A is not set
+CONFIG_EXTCON_SM5502=y
+CONFIG_EXTCON_USB_GPIO=m
+CONFIG_EXTCON_USBC_CROS_EC=m
+# CONFIG_MEMORY is not set
+CONFIG_IIO=y
+CONFIG_IIO_BUFFER=y
+CONFIG_IIO_BUFFER_CB=y
+CONFIG_IIO_BUFFER_DMA=y
+CONFIG_IIO_BUFFER_DMAENGINE=m
+CONFIG_IIO_BUFFER_HW_CONSUMER=y
+CONFIG_IIO_KFIFO_BUF=y
+CONFIG_IIO_TRIGGERED_BUFFER=y
+CONFIG_IIO_CONFIGFS=y
+CONFIG_IIO_GTS_HELPER=y
+CONFIG_IIO_TRIGGER=y
+CONFIG_IIO_CONSUMERS_PER_TRIGGER=2
+CONFIG_IIO_SW_DEVICE=y
+CONFIG_IIO_SW_TRIGGER=m
+CONFIG_IIO_TRIGGERED_EVENT=m
+CONFIG_IIO_BACKEND=y
+
+#
+# Accelerometers
+#
+# CONFIG_ADXL313_I2C is not set
+# CONFIG_ADXL355_I2C is not set
+# CONFIG_ADXL367_I2C is not set
+CONFIG_ADXL372=y
+CONFIG_ADXL372_I2C=y
+CONFIG_ADXL380=m
+CONFIG_ADXL380_I2C=m
+CONFIG_BMA400=y
+CONFIG_BMA400_I2C=y
+# CONFIG_BMC150_ACCEL is not set
+CONFIG_BMI088_ACCEL=m
+CONFIG_BMI088_ACCEL_I2C=m
+# CONFIG_DA280 is not set
+CONFIG_DA311=m
+# CONFIG_DMARD06 is not set
+# CONFIG_DMARD09 is not set
+CONFIG_DMARD10=m
+CONFIG_FXLS8962AF=m
+CONFIG_FXLS8962AF_I2C=m
+CONFIG_IIO_ST_ACCEL_3AXIS=m
+# CONFIG_IIO_ST_ACCEL_I2C_3AXIS is not set
+CONFIG_IIO_KX022A=y
+CONFIG_IIO_KX022A_I2C=y
+CONFIG_KXSD9=m
+CONFIG_KXSD9_I2C=m
+CONFIG_KXCJK1013=y
+CONFIG_MC3230=y
+CONFIG_MMA7455=m
+CONFIG_MMA7455_I2C=m
+CONFIG_MMA7660=y
+CONFIG_MMA8452=m
+CONFIG_MMA9551_CORE=y
+CONFIG_MMA9551=y
+# CONFIG_MMA9553 is not set
+# CONFIG_MSA311 is not set
+CONFIG_MXC4005=y
+# CONFIG_MXC6255 is not set
+CONFIG_STK8312=y
+CONFIG_STK8BA50=y
+# end of Accelerometers
+
+#
+# Analog to digital converters
+#
+CONFIG_AD7091R=y
+CONFIG_AD7091R5=y
+CONFIG_AD7291=y
+CONFIG_AD7606=m
+CONFIG_AD7606_IFACE_PARALLEL=m
+CONFIG_AD799X=m
+# CONFIG_ADI_AXI_ADC is not set
+# CONFIG_ASPEED_ADC is not set
+CONFIG_AT91_ADC=m
+CONFIG_AT91_SAMA5D2_ADC=m
+# CONFIG_AXP20X_ADC is not set
+CONFIG_AXP288_ADC=y
+CONFIG_BCM_IPROC_ADC=m
+# CONFIG_BERLIN2_ADC is not set
+CONFIG_CC10001_ADC=m
+CONFIG_DA9150_GPADC=y
+CONFIG_ENVELOPE_DETECTOR=m
+CONFIG_EP93XX_ADC=y
+# CONFIG_EXYNOS_ADC is not set
+CONFIG_MXS_LRADC_ADC=m
+CONFIG_GEHC_PMC_ADC=m
+CONFIG_HX711=y
+CONFIG_INA2XX_ADC=y
+# CONFIG_INGENIC_ADC is not set
+CONFIG_IMX7D_ADC=m
+CONFIG_IMX8QXP_ADC=m
+CONFIG_IMX93_ADC=m
+CONFIG_LP8788_ADC=m
+CONFIG_LPC18XX_ADC=y
+# CONFIG_LPC32XX_ADC is not set
+# CONFIG_LTC2309 is not set
+CONFIG_LTC2471=y
+# CONFIG_LTC2485 is not set
+# CONFIG_LTC2497 is not set
+CONFIG_MAX1363=y
+CONFIG_MAX34408=y
+CONFIG_MAX77541_ADC=y
+CONFIG_MAX9611=y
+# CONFIG_MCP3422 is not set
+# CONFIG_MEDIATEK_MT6577_AUXADC is not set
+CONFIG_MESON_SARADC=y
+CONFIG_MP2629_ADC=y
+# CONFIG_NAU7802 is not set
+# CONFIG_NPCM_ADC is not set
+# CONFIG_PAC1921 is not set
+# CONFIG_PAC1934 is not set
+CONFIG_QCOM_VADC_COMMON=m
+CONFIG_QCOM_PM8XXX_XOADC=m
+CONFIG_QCOM_SPMI_RRADC=m
+CONFIG_QCOM_SPMI_IADC=m
+CONFIG_QCOM_SPMI_VADC=m
+# CONFIG_QCOM_SPMI_ADC5 is not set
+CONFIG_RCAR_GYRO_ADC=m
+CONFIG_ROCKCHIP_SARADC=m
+# CONFIG_RICHTEK_RTQ6056 is not set
+CONFIG_RZG2L_ADC=y
+# CONFIG_SC27XX_ADC is not set
+# CONFIG_SOPHGO_CV1800B_ADC is not set
+CONFIG_SPEAR_ADC=m
+CONFIG_SD_ADC_MODULATOR=y
+# CONFIG_STM32_ADC_CORE is not set
+CONFIG_STM32_DFSDM_CORE=y
+CONFIG_STM32_DFSDM_ADC=y
+CONFIG_STMPE_ADC=y
+CONFIG_SUN4I_GPADC=m
+CONFIG_SUN20I_GPADC=m
+CONFIG_TI_ADC081C=m
+# CONFIG_TI_ADS1015 is not set
+CONFIG_TI_ADS1119=m
+CONFIG_TI_ADS7138=m
+# CONFIG_TI_ADS7924 is not set
+CONFIG_TI_ADS1100=y
+CONFIG_TI_AM335X_ADC=m
+# CONFIG_TWL4030_MADC is not set
+# CONFIG_TWL6030_GPADC is not set
+# CONFIG_VF610_ADC is not set
+CONFIG_XILINX_XADC=y
+# CONFIG_XILINX_AMS is not set
+# end of Analog to digital converters
+
+#
+# Analog to digital and digital to analog converters
+#
+# end of Analog to digital and digital to analog converters
+
+#
+# Analog Front Ends
+#
+CONFIG_IIO_RESCALE=m
+# end of Analog Front Ends
+
+#
+# Amplifiers
+#
+CONFIG_HMC425=m
+# end of Amplifiers
+
+#
+# Capacitance to digital converters
+#
+CONFIG_AD7150=y
+CONFIG_AD7746=y
+# end of Capacitance to digital converters
+
+#
+# Chemical Sensors
+#
+# CONFIG_AOSONG_AGS02MA is not set
+CONFIG_ATLAS_PH_SENSOR=y
+# CONFIG_ATLAS_EZO_SENSOR is not set
+# CONFIG_BME680 is not set
+CONFIG_CCS811=m
+CONFIG_ENS160=m
+CONFIG_ENS160_I2C=m
+CONFIG_IAQCORE=m
+CONFIG_PMS7003=m
+# CONFIG_SCD30_CORE is not set
+CONFIG_SCD4X=y
+CONFIG_SENSIRION_SGP30=m
+# CONFIG_SENSIRION_SGP40 is not set
+CONFIG_SPS30=y
+CONFIG_SPS30_I2C=y
+CONFIG_SPS30_SERIAL=m
+# CONFIG_SENSEAIR_SUNRISE_CO2 is not set
+# CONFIG_VZ89X is not set
+# end of Chemical Sensors
+
+#
+# Hid Sensor IIO Common
+#
+# end of Hid Sensor IIO Common
+
+CONFIG_IIO_INV_SENSORS_TIMESTAMP=y
+CONFIG_IIO_MS_SENSORS_I2C=y
+
+#
+# IIO SCMI Sensors
+#
+# end of IIO SCMI Sensors
+
+#
+# SSP Sensor Common
+#
+# end of SSP Sensor Common
+
+CONFIG_IIO_ST_SENSORS_I2C=m
+CONFIG_IIO_ST_SENSORS_CORE=y
+
+#
+# Digital to analog converters
+#
+CONFIG_AD3552R_HS=y
+CONFIG_AD3552R_LIB=y
+CONFIG_AD5064=y
+CONFIG_AD5380=y
+CONFIG_AD5446=m
+# CONFIG_AD5593R is not set
+# CONFIG_ADI_AXI_DAC is not set
+CONFIG_AD5686=y
+CONFIG_AD5696_I2C=y
+CONFIG_DPOT_DAC=m
+CONFIG_DS4424=y
+CONFIG_LPC18XX_DAC=y
+CONFIG_M62332=m
+CONFIG_MAX517=m
+CONFIG_MAX5821=y
+CONFIG_MCP4725=m
+CONFIG_MCP4728=m
+CONFIG_STM32_DAC=m
+CONFIG_STM32_DAC_CORE=m
+# CONFIG_TI_DAC5571 is not set
+# CONFIG_VF610_DAC is not set
+# end of Digital to analog converters
+
+#
+# IIO dummy driver
+#
+CONFIG_IIO_DUMMY_EVGEN=m
+CONFIG_IIO_SIMPLE_DUMMY=m
+CONFIG_IIO_SIMPLE_DUMMY_EVENTS=y
+CONFIG_IIO_SIMPLE_DUMMY_BUFFER=y
+# end of IIO dummy driver
+
+#
+# Filters
+#
+# end of Filters
+
+#
+# Frequency Synthesizers DDS/PLL
+#
+
+#
+# Clock Generator/Distribution
+#
+# end of Clock Generator/Distribution
+
+#
+# Phase-Locked Loop (PLL) frequency synthesizers
+#
+# CONFIG_ADMFM2000 is not set
+# end of Phase-Locked Loop (PLL) frequency synthesizers
+# end of Frequency Synthesizers DDS/PLL
+
+#
+# Digital gyroscope sensors
+#
+CONFIG_BMG160=y
+CONFIG_BMG160_I2C=y
+# CONFIG_FXAS21002C is not set
+# CONFIG_MPU3050_I2C is not set
+CONFIG_IIO_ST_GYRO_3AXIS=m
+# CONFIG_IIO_ST_GYRO_I2C_3AXIS is not set
+# CONFIG_ITG3200 is not set
+# end of Digital gyroscope sensors
+
+#
+# Health Sensors
+#
+
+#
+# Heart Rate Monitors
+#
+CONFIG_AFE4404=y
+CONFIG_MAX30100=m
+CONFIG_MAX30102=y
+# end of Heart Rate Monitors
+# end of Health Sensors
+
+#
+# Humidity sensors
+#
+# CONFIG_AM2315 is not set
+CONFIG_DHT11=m
+# CONFIG_ENS210 is not set
+CONFIG_HDC100X=m
+CONFIG_HDC2010=y
+CONFIG_HDC3020=m
+CONFIG_HTS221=y
+CONFIG_HTS221_I2C=y
+CONFIG_HTU21=y
+# CONFIG_SI7005 is not set
+CONFIG_SI7020=m
+# end of Humidity sensors
+
+#
+# Inertial measurement units
+#
+# CONFIG_BMI160_I2C is not set
+CONFIG_BMI270=m
+CONFIG_BMI270_I2C=m
+CONFIG_BMI323=y
+CONFIG_BMI323_I2C=y
+CONFIG_BOSCH_BNO055=m
+CONFIG_BOSCH_BNO055_SERIAL=m
+CONFIG_BOSCH_BNO055_I2C=m
+CONFIG_FXOS8700=y
+CONFIG_FXOS8700_I2C=y
+CONFIG_KMX61=m
+CONFIG_INV_ICM42600=m
+CONFIG_INV_ICM42600_I2C=m
+CONFIG_INV_MPU6050_IIO=y
+CONFIG_INV_MPU6050_I2C=y
+CONFIG_IIO_ST_LSM6DSX=m
+# CONFIG_IIO_ST_LSM6DSX_I2C is not set
+# CONFIG_IIO_ST_LSM6DSX_I3C is not set
+CONFIG_IIO_ST_LSM9DS0=m
+# CONFIG_IIO_ST_LSM9DS0_I2C is not set
+# end of Inertial measurement units
+
+#
+# Light sensors
+#
+CONFIG_ACPI_ALS=m
+CONFIG_ADJD_S311=m
+CONFIG_ADUX1020=y
+CONFIG_AL3000A=y
+CONFIG_AL3010=m
+CONFIG_AL3320A=m
+CONFIG_APDS9160=m
+CONFIG_APDS9300=m
+# CONFIG_APDS9306 is not set
+CONFIG_APDS9960=y
+CONFIG_AS73211=m
+CONFIG_BH1745=y
+# CONFIG_BH1750 is not set
+CONFIG_BH1780=m
+# CONFIG_CM32181 is not set
+CONFIG_CM3232=y
+CONFIG_CM3323=y
+CONFIG_CM3605=y
+# CONFIG_CM36651 is not set
+CONFIG_GP2AP002=m
+CONFIG_GP2AP020A00F=m
+# CONFIG_IQS621_ALS is not set
+CONFIG_SENSORS_ISL29018=m
+CONFIG_SENSORS_ISL29028=y
+# CONFIG_ISL29125 is not set
+# CONFIG_ISL76682 is not set
+CONFIG_JSA1212=m
+# CONFIG_ROHM_BU27034 is not set
+CONFIG_RPR0521=y
+# CONFIG_SENSORS_LM3533 is not set
+CONFIG_LTR390=m
+CONFIG_LTR501=y
+CONFIG_LTRF216A=y
+# CONFIG_LV0104CS is not set
+CONFIG_MAX44000=y
+# CONFIG_MAX44009 is not set
+# CONFIG_NOA1305 is not set
+CONFIG_OPT3001=m
+CONFIG_OPT4001=m
+CONFIG_OPT4060=m
+CONFIG_PA12203001=m
+CONFIG_SI1133=y
+CONFIG_SI1145=m
+CONFIG_STK3310=y
+CONFIG_ST_UVIS25=m
+CONFIG_ST_UVIS25_I2C=m
+# CONFIG_TCS3414 is not set
+CONFIG_TCS3472=m
+CONFIG_SENSORS_TSL2563=m
+# CONFIG_TSL2583 is not set
+CONFIG_TSL2591=y
+# CONFIG_TSL2772 is not set
+CONFIG_TSL4531=m
+# CONFIG_US5182D is not set
+# CONFIG_VCNL4000 is not set
+CONFIG_VCNL4035=m
+# CONFIG_VEML3235 is not set
+# CONFIG_VEML6030 is not set
+CONFIG_VEML6040=y
+CONFIG_VEML6070=y
+# CONFIG_VEML6075 is not set
+CONFIG_VL6180=m
+CONFIG_ZOPT2201=m
+# end of Light sensors
+
+#
+# Magnetometer sensors
+#
+# CONFIG_AF8133J is not set
+CONFIG_AK8974=y
+CONFIG_AK8975=y
+CONFIG_AK09911=m
+CONFIG_ALS31300=m
+CONFIG_BMC150_MAGN=m
+CONFIG_BMC150_MAGN_I2C=m
+CONFIG_MAG3110=m
+# CONFIG_MMC35240 is not set
+CONFIG_IIO_ST_MAGN_3AXIS=y
+CONFIG_IIO_ST_MAGN_I2C_3AXIS=m
+CONFIG_SENSORS_HMC5843=y
+CONFIG_SENSORS_HMC5843_I2C=y
+CONFIG_SENSORS_RM3100=y
+CONFIG_SENSORS_RM3100_I2C=y
+CONFIG_SI7210=m
+# CONFIG_TI_TMAG5273 is not set
+# CONFIG_YAMAHA_YAS530 is not set
+# end of Magnetometer sensors
+
+#
+# Multiplexers
+#
+CONFIG_IIO_MUX=m
+# end of Multiplexers
+
+#
+# Inclinometer sensors
+#
+# end of Inclinometer sensors
+
+CONFIG_IIO_GTS_KUNIT_TEST=y
+CONFIG_IIO_RESCALE_KUNIT_TEST=m
+CONFIG_IIO_FORMAT_KUNIT_TEST=y
+
+#
+# Triggers - standalone
+#
+CONFIG_IIO_HRTIMER_TRIGGER=m
+CONFIG_IIO_INTERRUPT_TRIGGER=y
+CONFIG_IIO_STM32_LPTIMER_TRIGGER=m
+# CONFIG_IIO_STM32_TIMER_TRIGGER is not set
+CONFIG_IIO_TIGHTLOOP_TRIGGER=m
+CONFIG_IIO_SYSFS_TRIGGER=m
+# end of Triggers - standalone
+
+#
+# Linear and angular position sensors
+#
+CONFIG_IQS624_POS=m
+# end of Linear and angular position sensors
+
+#
+# Digital potentiometers
+#
+CONFIG_AD5110=y
+CONFIG_AD5272=y
+# CONFIG_DS1803 is not set
+CONFIG_MAX5432=m
+CONFIG_MCP4018=y
+# CONFIG_MCP4531 is not set
+CONFIG_TPL0102=m
+# end of Digital potentiometers
+
+#
+# Digital potentiostats
+#
+CONFIG_LMP91000=m
+# end of Digital potentiostats
+
+#
+# Pressure sensors
+#
+CONFIG_ABP060MG=m
+CONFIG_ROHM_BM1390=m
+# CONFIG_BMP280 is not set
+CONFIG_DLHL60D=m
+CONFIG_DPS310=y
+CONFIG_HP03=m
+# CONFIG_HSC030PA is not set
+CONFIG_ICP10100=y
+CONFIG_MPL115=m
+CONFIG_MPL115_I2C=m
+CONFIG_MPL3115=y
+CONFIG_MPRLS0025PA=m
+CONFIG_MPRLS0025PA_I2C=m
+CONFIG_MS5611=y
+CONFIG_MS5611_I2C=m
+CONFIG_MS5637=m
+CONFIG_SDP500=y
+CONFIG_IIO_ST_PRESS=m
+# CONFIG_IIO_ST_PRESS_I2C is not set
+CONFIG_T5403=m
+# CONFIG_HP206C is not set
+CONFIG_ZPA2326=y
+CONFIG_ZPA2326_I2C=y
+# end of Pressure sensors
+
+#
+# Lightning sensors
+#
+# end of Lightning sensors
+
+#
+# Proximity and distance sensors
+#
+CONFIG_CROS_EC_MKBP_PROXIMITY=m
+CONFIG_HX9023S=m
+CONFIG_IRSD200=m
+CONFIG_ISL29501=m
+CONFIG_LIDAR_LITE_V2=m
+CONFIG_MB1232=y
+# CONFIG_PING is not set
+CONFIG_RFD77402=m
+# CONFIG_SRF04 is not set
+CONFIG_SX_COMMON=y
+# CONFIG_SX9310 is not set
+CONFIG_SX9324=y
+CONFIG_SX9360=y
+CONFIG_SX9500=m
+CONFIG_SRF08=y
+# CONFIG_VCNL3020 is not set
+CONFIG_VL53L0X_I2C=y
+# CONFIG_AW96103 is not set
+# end of Proximity and distance sensors
+
+#
+# Resolver to digital converters
+#
+# end of Resolver to digital converters
+
+#
+# Temperature sensors
+#
+CONFIG_IQS620AT_TEMP=y
+CONFIG_MLX90614=m
+CONFIG_MLX90632=m
+CONFIG_MLX90635=y
+CONFIG_TMP006=y
+CONFIG_TMP007=y
+CONFIG_TMP117=y
+CONFIG_TSYS01=m
+# CONFIG_TSYS02D is not set
+CONFIG_MAX30208=m
+CONFIG_MCP9600=m
+# end of Temperature sensors
+
+CONFIG_NTB=m
+# CONFIG_NTB_MSI is not set
+CONFIG_NTB_IDT=m
+# CONFIG_NTB_EPF is not set
+CONFIG_NTB_SWITCHTEC=m
+# CONFIG_NTB_PINGPONG is not set
+# CONFIG_NTB_TOOL is not set
+CONFIG_NTB_PERF=m
+# CONFIG_NTB_TRANSPORT is not set
+# CONFIG_PWM is not set
+
+#
+# IRQ chip support
+#
+CONFIG_IRQCHIP=y
+CONFIG_IRQ_MSI_LIB=y
+# CONFIG_AL_FIC is not set
+CONFIG_LAN966X_OIC=y
+CONFIG_MADERA_IRQ=y
+CONFIG_JCORE_AIC=y
+CONFIG_RENESAS_INTC_IRQPIN=y
+# CONFIG_RENESAS_IRQC is not set
+CONFIG_RENESAS_RZA1_IRQC=y
+CONFIG_RENESAS_RZG2L_IRQC=y
+# CONFIG_RENESAS_RZV2H_ICU is not set
+CONFIG_SL28CPLD_INTC=y
+CONFIG_TS4800_IRQ=m
+# CONFIG_XILINX_INTC is not set
+CONFIG_INGENIC_TCU_IRQ=y
+CONFIG_STM32MP_EXTI=y
+# CONFIG_IRQ_UNIPHIER_AIDET is not set
+CONFIG_MESON_IRQ_GPIO=y
+CONFIG_IMX_IRQSTEER=y
+CONFIG_IMX_INTMUX=y
+# CONFIG_IMX_MU_MSI is not set
+CONFIG_TI_SCI_INTR_IRQCHIP=m
+CONFIG_TI_PRUSS_INTC=y
+CONFIG_STARFIVE_JH8100_INTC=y
+CONFIG_EXYNOS_IRQ_COMBINER=y
+CONFIG_IRQ_LOONGARCH_CPU=y
+CONFIG_LOONGSON_LIOINTC=y
+CONFIG_LOONGSON_EIOINTC=y
+CONFIG_LOONGSON_HTVEC=y
+CONFIG_LOONGSON_PCH_PIC=y
+CONFIG_LOONGSON_PCH_MSI=y
+CONFIG_LOONGSON_PCH_LPC=y
+# CONFIG_MST_IRQ is not set
+CONFIG_MCHP_EIC=y
+# CONFIG_SOPHGO_SG2042_MSI is not set
+CONFIG_SUNPLUS_SP7021_INTC=y
+# end of IRQ chip support
+
+CONFIG_IPACK_BUS=m
+CONFIG_BOARD_TPCI200=m
+CONFIG_RESET_CONTROLLER=y
+CONFIG_RESET_A10SR=y
+CONFIG_RESET_ATH79=y
+# CONFIG_RESET_AXS10X is not set
+CONFIG_RESET_BCM6345=y
+CONFIG_RESET_BERLIN=m
+CONFIG_RESET_BRCMSTB=m
+# CONFIG_RESET_BRCMSTB_RESCAL is not set
+CONFIG_RESET_EYEQ=y
+CONFIG_RESET_GPIO=y
+CONFIG_RESET_HSDK=y
+CONFIG_RESET_IMX7=y
+CONFIG_RESET_IMX8MP_AUDIOMIX=m
+# CONFIG_RESET_INTEL_GW is not set
+# CONFIG_RESET_K210 is not set
+CONFIG_RESET_LANTIQ=y
+# CONFIG_RESET_LPC18XX is not set
+CONFIG_RESET_MCHP_SPARX5=m
+# CONFIG_RESET_NPCM is not set
+CONFIG_RESET_NUVOTON_MA35D1=y
+# CONFIG_RESET_PISTACHIO is not set
+# CONFIG_RESET_QCOM_AOSS is not set
+CONFIG_RESET_QCOM_PDC=y
+# CONFIG_RESET_RASPBERRYPI is not set
+CONFIG_RESET_RZG2L_USBPHY_CTRL=y
+# CONFIG_RESET_SCMI is not set
+CONFIG_RESET_SIMPLE=y
+CONFIG_RESET_SOCFPGA=y
+CONFIG_RESET_SUNPLUS=y
+# CONFIG_RESET_SUNXI is not set
+CONFIG_RESET_TI_SCI=m
+CONFIG_RESET_TI_SYSCON=m
+CONFIG_RESET_TI_TPS380X=m
+CONFIG_RESET_TN48M_CPLD=y
+CONFIG_RESET_UNIPHIER=y
+CONFIG_RESET_UNIPHIER_GLUE=m
+CONFIG_RESET_ZYNQ=y
+# CONFIG_RESET_ZYNQMP is not set
+CONFIG_RESET_MESON_COMMON=y
+CONFIG_RESET_MESON=y
+CONFIG_RESET_MESON_AUX=y
+CONFIG_RESET_MESON_AUDIO_ARB=y
+CONFIG_RESET_STARFIVE_JH71X0=y
+CONFIG_RESET_STARFIVE_JH7100=y
+CONFIG_STIH407_RESET=y
+CONFIG_COMMON_RESET_HI3660=y
+# CONFIG_COMMON_RESET_HI6220 is not set
+CONFIG_RESET_TEGRA_BPMP=y
+
+#
+# PHY Subsystem
+#
+CONFIG_GENERIC_PHY=y
+CONFIG_GENERIC_PHY_MIPI_DPHY=y
+# CONFIG_PHY_LPC18XX_USB_OTG is not set
+CONFIG_PHY_PISTACHIO_USB=y
+CONFIG_PHY_XGENE=y
+CONFIG_PHY_CAN_TRANSCEIVER=y
+CONFIG_PHY_AIROHA_PCIE=y
+CONFIG_PHY_NXP_PTN3222=m
+CONFIG_PHY_SUN6I_MIPI_DPHY=m
+# CONFIG_PHY_SUN50I_USB3 is not set
+# CONFIG_PHY_MESON8_HDMI_TX is not set
+CONFIG_PHY_MESON_G12A_MIPI_DPHY_ANALOG=y
+CONFIG_PHY_MESON_G12A_USB2=m
+CONFIG_PHY_MESON_G12A_USB3_PCIE=m
+CONFIG_PHY_MESON_AXG_PCIE=y
+CONFIG_PHY_MESON_AXG_MIPI_PCIE_ANALOG=y
+# CONFIG_PHY_MESON_AXG_MIPI_DPHY is not set
+
+#
+# PHY drivers for Broadcom platforms
+#
+CONFIG_PHY_BCM63XX_USBH=m
+# CONFIG_PHY_CYGNUS_PCIE is not set
+CONFIG_PHY_BCM_SR_USB=m
+# CONFIG_BCM_KONA_USB2_PHY is not set
+CONFIG_PHY_BCM_NS_USB2=y
+CONFIG_PHY_NS2_USB_DRD=m
+CONFIG_PHY_BRCM_SATA=y
+CONFIG_PHY_BRCM_USB=y
+CONFIG_PHY_BCM_SR_PCIE=y
+# end of PHY drivers for Broadcom platforms
+
+CONFIG_PHY_CADENCE_TORRENT=m
+CONFIG_PHY_CADENCE_DPHY=m
+CONFIG_PHY_CADENCE_DPHY_RX=y
+CONFIG_PHY_CADENCE_SIERRA=y
+CONFIG_PHY_CADENCE_SALVO=y
+# CONFIG_PHY_FSL_IMX8MQ_USB is not set
+CONFIG_PHY_MIXEL_LVDS_PHY=m
+CONFIG_PHY_MIXEL_MIPI_DPHY=m
+CONFIG_PHY_FSL_IMX8M_PCIE=m
+CONFIG_PHY_FSL_IMX8QM_HSIO=m
+CONFIG_PHY_FSL_SAMSUNG_HDMI_PHY=m
+CONFIG_PHY_FSL_LYNX_28G=y
+CONFIG_PHY_HI6220_USB=m
+CONFIG_PHY_HI3660_USB=y
+CONFIG_PHY_HI3670_USB=m
+CONFIG_PHY_HI3670_PCIE=y
+CONFIG_PHY_HISTB_COMBPHY=y
+# CONFIG_PHY_HISI_INNO_USB2 is not set
+CONFIG_PHY_LANTIQ_VRX200_PCIE=m
+# CONFIG_PHY_LANTIQ_RCU_USB2 is not set
+CONFIG_ARMADA375_USBCLUSTER_PHY=y
+# CONFIG_PHY_BERLIN_SATA is not set
+# CONFIG_PHY_BERLIN_USB is not set
+# CONFIG_PHY_MVEBU_A3700_UTMI is not set
+# CONFIG_PHY_MVEBU_A38X_COMPHY is not set
+# CONFIG_PHY_PXA_28NM_HSIC is not set
+CONFIG_PHY_PXA_28NM_USB2=y
+# CONFIG_PHY_PXA_USB is not set
+# CONFIG_PHY_MMP3_USB is not set
+CONFIG_PHY_MMP3_HSIC=m
+CONFIG_PHY_MTK_PCIE=m
+# CONFIG_PHY_MTK_XFI_TPHY is not set
+CONFIG_PHY_MTK_TPHY=y
+CONFIG_PHY_MTK_UFS=y
+# CONFIG_PHY_MTK_XSPHY is not set
+CONFIG_PHY_MTK_HDMI=y
+CONFIG_PHY_MTK_MIPI_CSI_0_5=m
+CONFIG_PHY_MTK_MIPI_DSI=m
+CONFIG_PHY_MTK_DP=m
+CONFIG_PHY_SPARX5_SERDES=y
+CONFIG_PHY_LAN966X_SERDES=y
+CONFIG_PHY_OCELOT_SERDES=m
+CONFIG_PHY_MA35_USB=y
+# CONFIG_PHY_ATH79_USB is not set
+# CONFIG_PHY_QCOM_EDP is not set
+CONFIG_PHY_QCOM_IPQ4019_USB=y
+CONFIG_PHY_QCOM_PCIE2=m
+# CONFIG_PHY_QCOM_QMP is not set
+CONFIG_PHY_QCOM_QUSB2=m
+CONFIG_PHY_QCOM_SNPS_EUSB2=m
+CONFIG_PHY_QCOM_EUSB2_REPEATER=m
+# CONFIG_PHY_QCOM_USB_SNPS_FEMTO_V2 is not set
+# CONFIG_PHY_QCOM_USB_HS_28NM is not set
+# CONFIG_PHY_QCOM_USB_SS is not set
+CONFIG_PHY_QCOM_IPQ806X_USB=y
+CONFIG_PHY_QCOM_SGMII_ETH=m
+CONFIG_PHY_MT7621_PCI=y
+CONFIG_PHY_RALINK_USB=m
+CONFIG_PHY_R8A779F0_ETHERNET_SERDES=m
+CONFIG_PHY_RCAR_GEN3_USB3=m
+# CONFIG_PHY_ROCKCHIP_DPHY_RX0 is not set
+# CONFIG_PHY_ROCKCHIP_INNO_HDMI is not set
+# CONFIG_PHY_ROCKCHIP_INNO_CSIDPHY is not set
+CONFIG_PHY_ROCKCHIP_INNO_DSIDPHY=m
+CONFIG_PHY_ROCKCHIP_PCIE=y
+# CONFIG_PHY_ROCKCHIP_SAMSUNG_DCPHY is not set
+CONFIG_PHY_ROCKCHIP_SAMSUNG_HDPTX=m
+CONFIG_PHY_ROCKCHIP_SNPS_PCIE3=m
+# CONFIG_PHY_ROCKCHIP_TYPEC is not set
+CONFIG_PHY_EXYNOS_DP_VIDEO=m
+CONFIG_PHY_EXYNOS_MIPI_VIDEO=m
+CONFIG_PHY_EXYNOS_PCIE=y
+CONFIG_PHY_SAMSUNG_UFS=m
+CONFIG_PHY_SAMSUNG_USB2=y
+CONFIG_PHY_S5PV210_USB2=y
+# CONFIG_PHY_UNIPHIER_USB2 is not set
+CONFIG_PHY_UNIPHIER_USB3=y
+CONFIG_PHY_UNIPHIER_PCIE=m
+CONFIG_PHY_UNIPHIER_AHCI=m
+# CONFIG_PHY_ST_SPEAR1310_MIPHY is not set
+# CONFIG_PHY_ST_SPEAR1340_MIPHY is not set
+# CONFIG_PHY_STIH407_USB is not set
+CONFIG_PHY_STM32_COMBOPHY=y
+CONFIG_PHY_STM32_USBPHYC=y
+CONFIG_PHY_STARFIVE_JH7110_DPHY_RX=y
+# CONFIG_PHY_STARFIVE_JH7110_DPHY_TX is not set
+CONFIG_PHY_STARFIVE_JH7110_PCIE=m
+# CONFIG_PHY_SUNPLUS_USB is not set
+CONFIG_PHY_TEGRA194_P2U=y
+CONFIG_PHY_DA8XX_USB=m
+CONFIG_PHY_AM654_SERDES=m
+CONFIG_PHY_J721E_WIZ=y
+# CONFIG_OMAP_CONTROL_PHY is not set
+# CONFIG_TI_PIPE3 is not set
+CONFIG_PHY_INTEL_KEEMBAY_EMMC=m
+# CONFIG_PHY_INTEL_KEEMBAY_USB is not set
+# CONFIG_PHY_INTEL_LGM_COMBO is not set
+CONFIG_PHY_INTEL_LGM_EMMC=y
+CONFIG_PHY_XILINX_ZYNQMP=m
+# end of PHY Subsystem
+
+# CONFIG_POWERCAP is not set
+# CONFIG_MCB is not set
+
+#
+# Performance monitor support
+#
+CONFIG_ARM_CCN=y
+CONFIG_ARM_CMN=y
+CONFIG_ARM_NI=m
+# CONFIG_STARFIVE_STARLINK_PMU is not set
+# CONFIG_ARM_SMMU_V3_PMU is not set
+# CONFIG_FSL_IMX8_DDR_PMU is not set
+CONFIG_THUNDERX2_PMU=m
+# CONFIG_XGENE_PMU is not set
+# CONFIG_ARM_DMC620_PMU is not set
+CONFIG_MARVELL_CN10K_TAD_PMU=m
+# CONFIG_ALIBABA_UNCORE_DRW_PMU is not set
+CONFIG_HNS3_PMU=m
+CONFIG_MARVELL_CN10K_DDR_PMU=m
+# CONFIG_DWC_PCIE_PMU is not set
+# CONFIG_ARM_CORESIGHT_PMU_ARCH_SYSTEM_PMU is not set
+CONFIG_MESON_DDR_PMU=m
+CONFIG_MARVELL_PEM_PMU=m
+# end of Performance monitor support
+
+CONFIG_RAS=y
+# CONFIG_USB4 is not set
+
+#
+# Android
+#
+# CONFIG_ANDROID_BINDER_IPC is not set
+# end of Android
+
+CONFIG_DAX=m
+CONFIG_NVMEM=y
+CONFIG_NVMEM_SYSFS=y
+CONFIG_NVMEM_LAYOUTS=y
+
+#
+# Layout Types
+#
+CONFIG_NVMEM_LAYOUT_SL28_VPD=y
+CONFIG_NVMEM_LAYOUT_ONIE_TLV=m
+CONFIG_NVMEM_LAYOUT_U_BOOT_ENV=m
+# end of Layout Types
+
+# CONFIG_NVMEM_APPLE_EFUSES is not set
+# CONFIG_NVMEM_BCM_OCOTP is not set
+CONFIG_NVMEM_BRCM_NVRAM=m
+# CONFIG_NVMEM_IMX_IIM is not set
+# CONFIG_NVMEM_IMX_OCOTP is not set
+CONFIG_NVMEM_IMX_OCOTP_ELE=m
+CONFIG_NVMEM_JZ4780_EFUSE=y
+# CONFIG_NVMEM_LAN9662_OTPC is not set
+CONFIG_NVMEM_LAYERSCAPE_SFP=m
+CONFIG_NVMEM_LPC18XX_EEPROM=y
+CONFIG_NVMEM_LPC18XX_OTP=m
+# CONFIG_NVMEM_MESON_MX_EFUSE is not set
+# CONFIG_NVMEM_MICROCHIP_OTPC is not set
+CONFIG_NVMEM_MTK_EFUSE=y
+# CONFIG_NVMEM_MXS_OCOTP is not set
+CONFIG_NVMEM_NINTENDO_OTP=m
+CONFIG_NVMEM_QCOM_QFPROM=y
+CONFIG_NVMEM_QCOM_SEC_QFPROM=m
+CONFIG_NVMEM_RCAR_EFUSE=y
+CONFIG_NVMEM_RMEM=m
+CONFIG_NVMEM_ROCKCHIP_EFUSE=m
+CONFIG_NVMEM_ROCKCHIP_OTP=m
+CONFIG_NVMEM_SC27XX_EFUSE=y
+CONFIG_NVMEM_SNVS_LPGPR=y
+CONFIG_NVMEM_SPMI_SDAM=m
+CONFIG_NVMEM_SPRD_EFUSE=y
+# CONFIG_NVMEM_STM32_ROMEM is not set
+CONFIG_NVMEM_SUNPLUS_OCOTP=m
+CONFIG_NVMEM_UNIPHIER_EFUSE=y
+CONFIG_NVMEM_VF610_OCOTP=y
+CONFIG_NVMEM_QORIQ_EFUSE=y
+
+#
+# HW tracing support
+#
+CONFIG_STM=m
+CONFIG_STM_PROTO_BASIC=m
+# CONFIG_STM_PROTO_SYS_T is not set
+CONFIG_STM_DUMMY=m
+# CONFIG_STM_SOURCE_CONSOLE is not set
+# CONFIG_STM_SOURCE_HEARTBEAT is not set
+# CONFIG_STM_SOURCE_FTRACE is not set
+CONFIG_INTEL_TH=y
+CONFIG_INTEL_TH_PCI=y
+CONFIG_INTEL_TH_ACPI=m
+CONFIG_INTEL_TH_GTH=y
+# CONFIG_INTEL_TH_STH is not set
+# CONFIG_INTEL_TH_MSU is not set
+# CONFIG_INTEL_TH_PTI is not set
+CONFIG_INTEL_TH_DEBUG=y
+CONFIG_HISI_PTT=m
+# end of HW tracing support
+
+# CONFIG_FPGA is not set
+# CONFIG_FSI is not set
+# CONFIG_TEE is not set
+CONFIG_MULTIPLEXER=y
+
+#
+# Multiplexer drivers
+#
+CONFIG_MUX_ADG792A=y
+# CONFIG_MUX_GPIO is not set
+CONFIG_MUX_MMIO=y
+# end of Multiplexer drivers
+
+CONFIG_PM_OPP=y
+CONFIG_SIOX=y
+CONFIG_SIOX_BUS_GPIO=y
+# CONFIG_SLIMBUS is not set
+CONFIG_INTERCONNECT=y
+# CONFIG_INTERCONNECT_IMX is not set
+# CONFIG_INTERCONNECT_MTK is not set
+CONFIG_INTERCONNECT_QCOM_OSM_L3=y
+# CONFIG_INTERCONNECT_SAMSUNG is not set
+# CONFIG_COUNTER is not set
+CONFIG_MOST=m
+# CONFIG_MOST_CDEV is not set
+CONFIG_MOST_SND=m
+CONFIG_PECI=m
+CONFIG_PECI_CPU=m
+# CONFIG_PECI_ASPEED is not set
+CONFIG_PECI_NPCM=m
+CONFIG_HTE=y
+# CONFIG_HTE_TEGRA194 is not set
+# CONFIG_HTE_TEGRA194_TEST is not set
+# end of Device Drivers
+
+#
+# File systems
+#
+CONFIG_VALIDATE_FS_PARSER=y
+CONFIG_FS_STACK=y
+CONFIG_FS_POSIX_ACL=y
+CONFIG_EXPORTFS=y
+# CONFIG_EXPORTFS_BLOCK_OPS is not set
+# CONFIG_FILE_LOCKING is not set
+# CONFIG_FS_ENCRYPTION is not set
+CONFIG_FS_VERITY=y
+CONFIG_FS_VERITY_BUILTIN_SIGNATURES=y
+CONFIG_FSNOTIFY=y
+CONFIG_DNOTIFY=y
+# CONFIG_INOTIFY_USER is not set
+CONFIG_FANOTIFY=y
+# CONFIG_FANOTIFY_ACCESS_PERMISSIONS is not set
+# CONFIG_QUOTA is not set
+CONFIG_AUTOFS_FS=m
+CONFIG_FUSE_FS=y
+CONFIG_CUSE=m
+CONFIG_VIRTIO_FS=y
+# CONFIG_FUSE_PASSTHROUGH is not set
+CONFIG_OVERLAY_FS=m
+CONFIG_OVERLAY_FS_REDIRECT_DIR=y
+# CONFIG_OVERLAY_FS_REDIRECT_ALWAYS_FOLLOW is not set
+# CONFIG_OVERLAY_FS_INDEX is not set
+# CONFIG_OVERLAY_FS_XINO_AUTO is not set
+CONFIG_OVERLAY_FS_METACOPY=y
+# CONFIG_OVERLAY_FS_DEBUG is not set
+
+#
+# Caches
+#
+CONFIG_NETFS_SUPPORT=y
+CONFIG_NETFS_STATS=y
+CONFIG_NETFS_DEBUG=y
+# CONFIG_FSCACHE is not set
+# end of Caches
+
+#
+# Pseudo filesystems
+#
+CONFIG_PROC_FS=y
+# CONFIG_PROC_KCORE is not set
+# CONFIG_PROC_SYSCTL is not set
+# CONFIG_PROC_PAGE_MONITOR is not set
+CONFIG_PROC_CHILDREN=y
+CONFIG_KERNFS=y
+CONFIG_SYSFS=y
+CONFIG_TMPFS=y
+CONFIG_TMPFS_POSIX_ACL=y
+CONFIG_TMPFS_XATTR=y
+# CONFIG_TMPFS_INODE64 is not set
+# CONFIG_TMPFS_QUOTA is not set
+CONFIG_ARCH_SUPPORTS_HUGETLBFS=y
+# CONFIG_HUGETLBFS is not set
+CONFIG_CONFIGFS_FS=y
+# CONFIG_EFIVAR_FS is not set
+# end of Pseudo filesystems
+
+# CONFIG_MISC_FILESYSTEMS is not set
+# CONFIG_NETWORK_FILESYSTEMS is not set
+CONFIG_NLS=y
+CONFIG_NLS_DEFAULT="iso8859-1"
+CONFIG_NLS_CODEPAGE_437=m
+# CONFIG_NLS_CODEPAGE_737 is not set
+# CONFIG_NLS_CODEPAGE_775 is not set
+CONFIG_NLS_CODEPAGE_850=m
+# CONFIG_NLS_CODEPAGE_852 is not set
+CONFIG_NLS_CODEPAGE_855=y
+# CONFIG_NLS_CODEPAGE_857 is not set
+# CONFIG_NLS_CODEPAGE_860 is not set
+CONFIG_NLS_CODEPAGE_861=y
+# CONFIG_NLS_CODEPAGE_862 is not set
+CONFIG_NLS_CODEPAGE_863=m
+CONFIG_NLS_CODEPAGE_864=m
+# CONFIG_NLS_CODEPAGE_865 is not set
+CONFIG_NLS_CODEPAGE_866=y
+CONFIG_NLS_CODEPAGE_869=y
+CONFIG_NLS_CODEPAGE_936=m
+CONFIG_NLS_CODEPAGE_950=m
+# CONFIG_NLS_CODEPAGE_932 is not set
+CONFIG_NLS_CODEPAGE_949=m
+# CONFIG_NLS_CODEPAGE_874 is not set
+CONFIG_NLS_ISO8859_8=m
+CONFIG_NLS_CODEPAGE_1250=m
+# CONFIG_NLS_CODEPAGE_1251 is not set
+CONFIG_NLS_ASCII=y
+CONFIG_NLS_ISO8859_1=y
+CONFIG_NLS_ISO8859_2=m
+CONFIG_NLS_ISO8859_3=y
+# CONFIG_NLS_ISO8859_4 is not set
+CONFIG_NLS_ISO8859_5=y
+CONFIG_NLS_ISO8859_6=m
+CONFIG_NLS_ISO8859_7=y
+CONFIG_NLS_ISO8859_9=y
+CONFIG_NLS_ISO8859_13=y
+CONFIG_NLS_ISO8859_14=m
+# CONFIG_NLS_ISO8859_15 is not set
+CONFIG_NLS_KOI8_R=y
+# CONFIG_NLS_KOI8_U is not set
+CONFIG_NLS_MAC_ROMAN=m
+CONFIG_NLS_MAC_CELTIC=y
+CONFIG_NLS_MAC_CENTEURO=m
+CONFIG_NLS_MAC_CROATIAN=y
+# CONFIG_NLS_MAC_CYRILLIC is not set
+CONFIG_NLS_MAC_GAELIC=y
+# CONFIG_NLS_MAC_GREEK is not set
+# CONFIG_NLS_MAC_ICELAND is not set
+CONFIG_NLS_MAC_INUIT=m
+# CONFIG_NLS_MAC_ROMANIAN is not set
+CONFIG_NLS_MAC_TURKISH=m
+CONFIG_NLS_UTF8=y
+CONFIG_UNICODE=y
+CONFIG_UNICODE_NORMALIZATION_KUNIT_TEST=y
+# end of File systems
+
+#
+# Security options
+#
+CONFIG_KEYS=y
+CONFIG_KEYS_REQUEST_CACHE=y
+# CONFIG_PERSISTENT_KEYRINGS is not set
+# CONFIG_BIG_KEYS is not set
+CONFIG_TRUSTED_KEYS=y
+# CONFIG_TRUSTED_KEYS_TPM is not set
+
+#
+# No trust source selected!
+#
+# CONFIG_ENCRYPTED_KEYS is not set
+CONFIG_KEY_DH_OPERATIONS=y
+# CONFIG_KEY_NOTIFICATIONS is not set
+# CONFIG_SECURITY_DMESG_RESTRICT is not set
+# CONFIG_PROC_MEM_ALWAYS_FORCE is not set
+CONFIG_PROC_MEM_FORCE_PTRACE=y
+# CONFIG_PROC_MEM_NO_FORCE is not set
+# CONFIG_SECURITY is not set
+# CONFIG_SECURITYFS is not set
+CONFIG_STATIC_USERMODEHELPER=y
+CONFIG_STATIC_USERMODEHELPER_PATH="/sbin/usermode-helper"
+CONFIG_DEFAULT_SECURITY_DAC=y
+CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,ipe,bpf"
+
+#
+# Kernel hardening options
+#
+
+#
+# Memory initialization
+#
+CONFIG_CC_HAS_AUTO_VAR_INIT_PATTERN=y
+CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO_BARE=y
+CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO=y
+CONFIG_INIT_STACK_NONE=y
+# CONFIG_INIT_STACK_ALL_PATTERN is not set
+# CONFIG_INIT_STACK_ALL_ZERO is not set
+CONFIG_INIT_ON_ALLOC_DEFAULT_ON=y
+CONFIG_INIT_ON_FREE_DEFAULT_ON=y
+CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
+# CONFIG_ZERO_CALL_USED_REGS is not set
+# end of Memory initialization
+
+#
+# Bounds checking
+#
+# CONFIG_FORTIFY_SOURCE is not set
+# CONFIG_HARDENED_USERCOPY is not set
+# end of Bounds checking
+
+#
+# Hardening of kernel data structures
+#
+# CONFIG_LIST_HARDENED is not set
+# CONFIG_BUG_ON_DATA_CORRUPTION is not set
+# end of Hardening of kernel data structures
+
+CONFIG_RANDSTRUCT_NONE=y
+# end of Kernel hardening options
+# end of Security options
+
+CONFIG_CRYPTO=y
+
+#
+# Crypto core or helper
+#
+CONFIG_CRYPTO_ALGAPI=y
+CONFIG_CRYPTO_ALGAPI2=y
+CONFIG_CRYPTO_AEAD=y
+CONFIG_CRYPTO_AEAD2=y
+CONFIG_CRYPTO_SIG=y
+CONFIG_CRYPTO_SIG2=y
+CONFIG_CRYPTO_SKCIPHER=y
+CONFIG_CRYPTO_SKCIPHER2=y
+CONFIG_CRYPTO_HASH=y
+CONFIG_CRYPTO_HASH2=y
+CONFIG_CRYPTO_RNG=y
+CONFIG_CRYPTO_RNG2=y
+CONFIG_CRYPTO_RNG_DEFAULT=y
+CONFIG_CRYPTO_AKCIPHER2=y
+CONFIG_CRYPTO_AKCIPHER=y
+CONFIG_CRYPTO_KPP2=y
+CONFIG_CRYPTO_KPP=y
+CONFIG_CRYPTO_ACOMP2=y
+CONFIG_CRYPTO_MANAGER=y
+CONFIG_CRYPTO_MANAGER2=y
+CONFIG_CRYPTO_USER=m
+CONFIG_CRYPTO_MANAGER_DISABLE_TESTS=y
+CONFIG_CRYPTO_NULL=y
+CONFIG_CRYPTO_NULL2=y
+CONFIG_CRYPTO_PCRYPT=y
+CONFIG_CRYPTO_CRYPTD=y
+CONFIG_CRYPTO_AUTHENC=y
+CONFIG_CRYPTO_KRB5ENC=y
+# CONFIG_CRYPTO_TEST is not set
+CONFIG_CRYPTO_ENGINE=y
+# end of Crypto core or helper
+
+#
+# Public-key cryptography
+#
+CONFIG_CRYPTO_RSA=y
+CONFIG_CRYPTO_DH=y
+# CONFIG_CRYPTO_DH_RFC7919_GROUPS is not set
+CONFIG_CRYPTO_ECC=y
+CONFIG_CRYPTO_ECDH=y
+CONFIG_CRYPTO_ECDSA=y
+# CONFIG_CRYPTO_ECRDSA is not set
+# CONFIG_CRYPTO_CURVE25519 is not set
+# end of Public-key cryptography
+
+#
+# Block ciphers
+#
+CONFIG_CRYPTO_AES=y
+CONFIG_CRYPTO_AES_TI=y
+# CONFIG_CRYPTO_ANUBIS is not set
+CONFIG_CRYPTO_ARIA=m
+CONFIG_CRYPTO_BLOWFISH=m
+CONFIG_CRYPTO_BLOWFISH_COMMON=m
+CONFIG_CRYPTO_CAMELLIA=y
+CONFIG_CRYPTO_CAST_COMMON=y
+CONFIG_CRYPTO_CAST5=y
+# CONFIG_CRYPTO_CAST6 is not set
+CONFIG_CRYPTO_DES=y
+CONFIG_CRYPTO_FCRYPT=m
+CONFIG_CRYPTO_KHAZAD=y
+CONFIG_CRYPTO_SEED=y
+# CONFIG_CRYPTO_SERPENT is not set
+CONFIG_CRYPTO_SM4=y
+CONFIG_CRYPTO_SM4_GENERIC=y
+CONFIG_CRYPTO_TEA=y
+CONFIG_CRYPTO_TWOFISH=m
+CONFIG_CRYPTO_TWOFISH_COMMON=m
+# end of Block ciphers
+
+#
+# Length-preserving ciphers and modes
+#
+# CONFIG_CRYPTO_ADIANTUM is not set
+CONFIG_CRYPTO_ARC4=m
+CONFIG_CRYPTO_CHACHA20=y
+CONFIG_CRYPTO_CBC=y
+CONFIG_CRYPTO_CTR=y
+CONFIG_CRYPTO_CTS=y
+CONFIG_CRYPTO_ECB=y
+# CONFIG_CRYPTO_HCTR2 is not set
+# CONFIG_CRYPTO_LRW is not set
+# CONFIG_CRYPTO_PCBC is not set
+# CONFIG_CRYPTO_XTS is not set
+# end of Length-preserving ciphers and modes
+
+#
+# AEAD (authenticated encryption with associated data) ciphers
+#
+CONFIG_CRYPTO_AEGIS128=m
+CONFIG_CRYPTO_CHACHA20POLY1305=y
+CONFIG_CRYPTO_CCM=y
+CONFIG_CRYPTO_GCM=y
+CONFIG_CRYPTO_GENIV=m
+CONFIG_CRYPTO_SEQIV=m
+# CONFIG_CRYPTO_ECHAINIV is not set
+CONFIG_CRYPTO_ESSIV=y
+# end of AEAD (authenticated encryption with associated data) ciphers
+
+#
+# Hashes, digests, and MACs
+#
+CONFIG_CRYPTO_BLAKE2B=y
+CONFIG_CRYPTO_CMAC=y
+CONFIG_CRYPTO_GHASH=y
+CONFIG_CRYPTO_HMAC=y
+CONFIG_CRYPTO_MD4=y
+CONFIG_CRYPTO_MD5=y
+CONFIG_CRYPTO_MICHAEL_MIC=y
+CONFIG_CRYPTO_POLY1305=y
+CONFIG_CRYPTO_RMD160=m
+CONFIG_CRYPTO_SHA1=y
+CONFIG_CRYPTO_SHA256=y
+CONFIG_CRYPTO_SHA512=y
+CONFIG_CRYPTO_SHA3=y
+CONFIG_CRYPTO_SM3=m
+CONFIG_CRYPTO_SM3_GENERIC=m
+# CONFIG_CRYPTO_STREEBOG is not set
+# CONFIG_CRYPTO_WP512 is not set
+# CONFIG_CRYPTO_XCBC is not set
+# CONFIG_CRYPTO_XXHASH is not set
+# end of Hashes, digests, and MACs
+
+#
+# CRCs (cyclic redundancy checks)
+#
+# CONFIG_CRYPTO_CRC32C is not set
+CONFIG_CRYPTO_CRC32=m
+# end of CRCs (cyclic redundancy checks)
+
+#
+# Compression
+#
+CONFIG_CRYPTO_DEFLATE=y
+CONFIG_CRYPTO_LZO=y
+CONFIG_CRYPTO_842=y
+CONFIG_CRYPTO_LZ4=m
+# CONFIG_CRYPTO_LZ4HC is not set
+CONFIG_CRYPTO_ZSTD=y
+# end of Compression
+
+#
+# Random number generation
+#
+CONFIG_CRYPTO_ANSI_CPRNG=m
+CONFIG_CRYPTO_DRBG_MENU=y
+CONFIG_CRYPTO_DRBG_HMAC=y
+# CONFIG_CRYPTO_DRBG_HASH is not set
+CONFIG_CRYPTO_DRBG_CTR=y
+CONFIG_CRYPTO_DRBG=y
+CONFIG_CRYPTO_JITTERENTROPY=y
+CONFIG_CRYPTO_JITTERENTROPY_MEMORY_BLOCKS=64
+CONFIG_CRYPTO_JITTERENTROPY_MEMORY_BLOCKSIZE=32
+CONFIG_CRYPTO_JITTERENTROPY_OSR=1
+CONFIG_CRYPTO_KDF800108_CTR=y
+# end of Random number generation
+
+#
+# Userspace interface
+#
+CONFIG_CRYPTO_USER_API=y
+CONFIG_CRYPTO_USER_API_HASH=y
+# CONFIG_CRYPTO_USER_API_SKCIPHER is not set
+CONFIG_CRYPTO_USER_API_RNG=y
+CONFIG_CRYPTO_USER_API_RNG_CAVP=y
+CONFIG_CRYPTO_USER_API_AEAD=m
+CONFIG_CRYPTO_USER_API_ENABLE_OBSOLETE=y
+# end of Userspace interface
+
+CONFIG_CRYPTO_HASH_INFO=y
+
+#
+# Accelerated Cryptographic Algorithms for CPU (loongarch)
+#
+# end of Accelerated Cryptographic Algorithms for CPU (loongarch)
+
+CONFIG_CRYPTO_HW=y
+# CONFIG_CRYPTO_DEV_ALLWINNER is not set
+CONFIG_CRYPTO_DEV_SL3516=m
+CONFIG_CRYPTO_DEV_SL3516_DEBUG=y
+# CONFIG_CRYPTO_DEV_FSL_CAAM is not set
+CONFIG_CRYPTO_DEV_EXYNOS_RNG=y
+CONFIG_CRYPTO_DEV_S5P=y
+# CONFIG_CRYPTO_DEV_ATMEL_AUTHENC is not set
+CONFIG_CRYPTO_DEV_ATMEL_AES=m
+CONFIG_CRYPTO_DEV_ATMEL_TDES=y
+CONFIG_CRYPTO_DEV_ATMEL_SHA=m
+CONFIG_CRYPTO_DEV_ATMEL_I2C=m
+CONFIG_CRYPTO_DEV_ATMEL_ECC=m
+# CONFIG_CRYPTO_DEV_ATMEL_SHA204A is not set
+CONFIG_CRYPTO_DEV_CPT=y
+CONFIG_CAVIUM_CPT=y
+CONFIG_CRYPTO_DEV_NITROX=m
+CONFIG_CRYPTO_DEV_NITROX_CNN55XX=m
+CONFIG_CRYPTO_DEV_MARVELL=m
+# CONFIG_CRYPTO_DEV_MARVELL_CESA is not set
+CONFIG_CRYPTO_DEV_OCTEONTX_CPT=m
+CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4=y
+CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4_ECB=y
+# CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4_CTS is not set
+CONFIG_CRYPTO_DEV_KEEMBAY_OCS_ECC=y
+# CONFIG_CRYPTO_DEV_KEEMBAY_OCS_HCU is not set
+CONFIG_CRYPTO_DEV_QAT=y
+CONFIG_CRYPTO_DEV_QAT_DH895xCC=m
+CONFIG_CRYPTO_DEV_QAT_C3XXX=y
+CONFIG_CRYPTO_DEV_QAT_C62X=y
+CONFIG_CRYPTO_DEV_QAT_4XXX=m
+# CONFIG_CRYPTO_DEV_QAT_420XX is not set
+CONFIG_CRYPTO_DEV_QAT_DH895xCCVF=m
+CONFIG_CRYPTO_DEV_QAT_C3XXXVF=m
+# CONFIG_CRYPTO_DEV_QAT_C62XVF is not set
+# CONFIG_CRYPTO_DEV_QAT_ERROR_INJECTION is not set
+# CONFIG_CRYPTO_DEV_CAVIUM_ZIP is not set
+# CONFIG_CRYPTO_DEV_QCE is not set
+# CONFIG_CRYPTO_DEV_QCOM_RNG is not set
+CONFIG_CRYPTO_DEV_IMGTEC_HASH=m
+# CONFIG_CRYPTO_DEV_TEGRA is not set
+# CONFIG_CRYPTO_DEV_ZYNQMP_AES is not set
+CONFIG_CRYPTO_DEV_ZYNQMP_SHA3=y
+# CONFIG_CRYPTO_DEV_VIRTIO is not set
+CONFIG_CRYPTO_DEV_SAFEXCEL=y
+# CONFIG_CRYPTO_DEV_CCREE is not set
+CONFIG_CRYPTO_DEV_HISI_SEC=y
+CONFIG_CRYPTO_DEV_HISI_SEC2=m
+CONFIG_CRYPTO_DEV_HISI_QM=y
+CONFIG_CRYPTO_DEV_HISI_ZIP=y
+# CONFIG_CRYPTO_DEV_HISI_HPRE is not set
+CONFIG_CRYPTO_DEV_AMLOGIC_GXL=m
+CONFIG_CRYPTO_DEV_AMLOGIC_GXL_DEBUG=y
+CONFIG_CRYPTO_DEV_SA2UL=y
+CONFIG_CRYPTO_DEV_ASPEED=m
+CONFIG_CRYPTO_DEV_ASPEED_DEBUG=y
+# CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH is not set
+CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO=y
+# CONFIG_CRYPTO_DEV_ASPEED_ACRY is not set
+CONFIG_CRYPTO_DEV_JH7110=m
+CONFIG_CRYPTO_DEV_EIP93=y
+CONFIG_ASYMMETRIC_KEY_TYPE=y
+CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y
+CONFIG_X509_CERTIFICATE_PARSER=y
+CONFIG_PKCS8_PRIVATE_KEY_PARSER=y
+CONFIG_PKCS7_MESSAGE_PARSER=y
+CONFIG_PKCS7_TEST_KEY=y
+CONFIG_SIGNED_PE_FILE_VERIFICATION=y
+CONFIG_FIPS_SIGNATURE_SELFTEST=y
+CONFIG_FIPS_SIGNATURE_SELFTEST_RSA=y
+CONFIG_FIPS_SIGNATURE_SELFTEST_ECDSA=y
+
+#
+# Certificates for signature checking
+#
+CONFIG_SYSTEM_TRUSTED_KEYRING=y
+CONFIG_SYSTEM_TRUSTED_KEYS=""
+CONFIG_SYSTEM_EXTRA_CERTIFICATE=y
+CONFIG_SYSTEM_EXTRA_CERTIFICATE_SIZE=4096
+CONFIG_SECONDARY_TRUSTED_KEYRING=y
+# CONFIG_SECONDARY_TRUSTED_KEYRING_SIGNED_BY_BUILTIN is not set
+CONFIG_SYSTEM_BLACKLIST_KEYRING=y
+CONFIG_SYSTEM_BLACKLIST_HASH_LIST=""
+# CONFIG_SYSTEM_REVOCATION_LIST is not set
+CONFIG_SYSTEM_BLACKLIST_AUTH_UPDATE=y
+# end of Certificates for signature checking
+
+CONFIG_CRYPTO_KRB5=y
+# CONFIG_CRYPTO_KRB5_SELFTESTS is not set
+CONFIG_BINARY_PRINTF=y
+
+#
+# Library routines
+#
+CONFIG_LINEAR_RANGES=y
+# CONFIG_PACKING is not set
+CONFIG_BITREVERSE=y
+CONFIG_GENERIC_STRNCPY_FROM_USER=y
+CONFIG_GENERIC_STRNLEN_USER=y
+CONFIG_GENERIC_NET_UTILS=y
+CONFIG_CORDIC=m
+CONFIG_PRIME_NUMBERS=y
+CONFIG_RATIONAL=y
+CONFIG_STMP_DEVICE=y
+CONFIG_ARCH_USE_CMPXCHG_LOCKREF=y
+CONFIG_ARCH_HAS_FAST_MULTIPLIER=y
+
+#
+# Crypto library routines
+#
+CONFIG_CRYPTO_LIB_UTILS=y
+CONFIG_CRYPTO_LIB_AES=y
+CONFIG_CRYPTO_LIB_ARC4=m
+CONFIG_CRYPTO_LIB_GF128MUL=y
+CONFIG_CRYPTO_LIB_BLAKE2S_GENERIC=y
+CONFIG_CRYPTO_LIB_CHACHA_GENERIC=y
+CONFIG_CRYPTO_LIB_CHACHA_INTERNAL=y
+CONFIG_CRYPTO_LIB_DES=y
+CONFIG_CRYPTO_LIB_POLY1305_RSIZE=1
+CONFIG_CRYPTO_LIB_POLY1305_GENERIC=y
+CONFIG_CRYPTO_LIB_POLY1305_INTERNAL=y
+CONFIG_CRYPTO_LIB_SHA1=y
+CONFIG_CRYPTO_LIB_SHA256=y
+# end of Crypto library routines
+
+CONFIG_CRC_CCITT=y
+CONFIG_CRC16=y
+CONFIG_CRC_ITU_T=m
+CONFIG_CRC32=y
+CONFIG_ARCH_HAS_CRC32=y
+CONFIG_CRC8=y
+# CONFIG_CRC_OPTIMIZATIONS is not set
+CONFIG_XXHASH=y
+# CONFIG_RANDOM32_SELFTEST is not set
+CONFIG_842_COMPRESS=y
+CONFIG_842_DECOMPRESS=y
+CONFIG_ZLIB_INFLATE=y
+CONFIG_ZLIB_DEFLATE=y
+CONFIG_LZO_COMPRESS=y
+CONFIG_LZO_DECOMPRESS=y
+CONFIG_LZ4_COMPRESS=m
+CONFIG_LZ4_DECOMPRESS=m
+CONFIG_ZSTD_COMMON=y
+CONFIG_ZSTD_COMPRESS=y
+CONFIG_ZSTD_DECOMPRESS=y
+# CONFIG_XZ_DEC is not set
+CONFIG_GENERIC_ALLOCATOR=y
+CONFIG_TEXTSEARCH=y
+CONFIG_TEXTSEARCH_KMP=m
+CONFIG_TEXTSEARCH_BM=m
+CONFIG_TEXTSEARCH_FSM=m
+CONFIG_INTERVAL_TREE=y
+CONFIG_ASSOCIATIVE_ARRAY=y
+CONFIG_HAS_IOMEM=y
+CONFIG_HAS_IOPORT=y
+CONFIG_HAS_IOPORT_MAP=y
+CONFIG_HAS_DMA=y
+CONFIG_NEED_DMA_MAP_STATE=y
+CONFIG_ARCH_DMA_ADDR_T_64BIT=y
+CONFIG_DMA_DECLARE_COHERENT=y
+CONFIG_SWIOTLB=y
+CONFIG_SWIOTLB_DYNAMIC=y
+CONFIG_DMA_NEED_SYNC=y
+# CONFIG_DMA_RESTRICTED_POOL is not set
+CONFIG_DMA_CMA=y
+CONFIG_DMA_NUMA_CMA=y
+
+#
+# Default contiguous memory area size:
+#
+CONFIG_CMA_SIZE_MBYTES=16
+CONFIG_CMA_SIZE_PERCENTAGE=10
+# CONFIG_CMA_SIZE_SEL_MBYTES is not set
+# CONFIG_CMA_SIZE_SEL_PERCENTAGE is not set
+CONFIG_CMA_SIZE_SEL_MIN=y
+# CONFIG_CMA_SIZE_SEL_MAX is not set
+CONFIG_CMA_ALIGNMENT=8
+# CONFIG_DMA_API_DEBUG is not set
+CONFIG_DMA_MAP_BENCHMARK=y
+CONFIG_SGL_ALLOC=y
+# CONFIG_CPUMASK_OFFSTACK is not set
+CONFIG_DQL=y
+CONFIG_GLOB=y
+# CONFIG_GLOB_SELFTEST is not set
+CONFIG_NLATTR=y
+CONFIG_CLZ_TAB=y
+# CONFIG_IRQ_POLL is not set
+CONFIG_MPILIB=y
+CONFIG_LIBFDT=y
+CONFIG_OID_REGISTRY=y
+CONFIG_UCS2_STRING=y
+CONFIG_HAVE_GENERIC_VDSO=y
+CONFIG_GENERIC_GETTIMEOFDAY=y
+CONFIG_GENERIC_VDSO_TIME_NS=y
+CONFIG_VDSO_GETRANDOM=y
+CONFIG_GENERIC_VDSO_DATA_STORE=y
+CONFIG_FONT_SUPPORT=y
+CONFIG_FONTS=y
+CONFIG_FONT_8x16=y
+CONFIG_FONT_MINI_4x6=y
+# CONFIG_FONT_6x10 is not set
+CONFIG_SG_SPLIT=y
+CONFIG_MEMREGION=y
+CONFIG_ARCH_STACKWALK=y
+CONFIG_STACKDEPOT=y
+CONFIG_STACKDEPOT_MAX_FRAMES=64
+CONFIG_REF_TRACKER=y
+# CONFIG_PARMAN is not set
+# CONFIG_OBJAGG is not set
+# CONFIG_LWQ_TEST is not set
+# end of Library routines
+
+CONFIG_GENERIC_IOREMAP=y
+CONFIG_GENERIC_LIB_ASHLDI3=y
+CONFIG_GENERIC_LIB_ASHRDI3=y
+CONFIG_GENERIC_LIB_LSHRDI3=y
+CONFIG_GENERIC_LIB_CMPDI2=y
+CONFIG_GENERIC_LIB_UCMPDI2=y
+CONFIG_GENERIC_LIB_DEVMEM_IS_ALLOWED=y
+CONFIG_POLYNOMIAL=m
+CONFIG_FIRMWARE_TABLE=y
+CONFIG_UNION_FIND=y
+
+#
+# Kernel hacking
+#
+
+#
+# printk and dmesg options
+#
+CONFIG_PRINTK_TIME=y
+# CONFIG_PRINTK_CALLER is not set
+# CONFIG_STACKTRACE_BUILD_ID is not set
+CONFIG_CONSOLE_LOGLEVEL_DEFAULT=7
+CONFIG_CONSOLE_LOGLEVEL_QUIET=4
+CONFIG_MESSAGE_LOGLEVEL_DEFAULT=4
+CONFIG_BOOT_PRINTK_DELAY=y
+# CONFIG_DYNAMIC_DEBUG is not set
+CONFIG_DYNAMIC_DEBUG_CORE=y
+# CONFIG_SYMBOLIC_ERRNAME is not set
+# CONFIG_DEBUG_BUGVERBOSE is not set
+# end of printk and dmesg options
+
+CONFIG_DEBUG_KERNEL=y
+CONFIG_DEBUG_MISC=y
+
+#
+# Compile-time checks and compiler options
+#
+CONFIG_DEBUG_INFO=y
+CONFIG_AS_HAS_NON_CONST_ULEB128=y
+# CONFIG_DEBUG_INFO_NONE is not set
+CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
+# CONFIG_DEBUG_INFO_DWARF4 is not set
+# CONFIG_DEBUG_INFO_DWARF5 is not set
+# CONFIG_DEBUG_INFO_REDUCED is not set
+CONFIG_DEBUG_INFO_COMPRESSED_NONE=y
+# CONFIG_DEBUG_INFO_COMPRESSED_ZLIB is not set
+# CONFIG_DEBUG_INFO_SPLIT is not set
+# CONFIG_DEBUG_INFO_BTF is not set
+CONFIG_PAHOLE_HAS_SPLIT_BTF=y
+CONFIG_PAHOLE_HAS_LANG_EXCLUDE=y
+CONFIG_GDB_SCRIPTS=y
+CONFIG_FRAME_WARN=0
+CONFIG_STRIP_ASM_SYMS=y
+# CONFIG_READABLE_ASM is not set
+CONFIG_HEADERS_INSTALL=y
+CONFIG_DEBUG_SECTION_MISMATCH=y
+CONFIG_SECTION_MISMATCH_WARN_ONLY=y
+CONFIG_VMLINUX_MAP=y
+CONFIG_BUILTIN_MODULE_RANGES=y
+CONFIG_DEBUG_FORCE_WEAK_PER_CPU=y
+# end of Compile-time checks and compiler options
+
+#
+# Generic Kernel Debugging Instruments
+#
+# CONFIG_MAGIC_SYSRQ is not set
+CONFIG_DEBUG_FS=y
+# CONFIG_DEBUG_FS_ALLOW_ALL is not set
+CONFIG_DEBUG_FS_DISALLOW_MOUNT=y
+# CONFIG_DEBUG_FS_ALLOW_NONE is not set
+CONFIG_HAVE_ARCH_KGDB=y
+# CONFIG_KGDB is not set
+CONFIG_ARCH_HAS_UBSAN=y
+CONFIG_UBSAN=y
+CONFIG_CC_HAS_UBSAN_BOUNDS_STRICT=y
+# CONFIG_UBSAN_BOUNDS is not set
+# CONFIG_UBSAN_SHIFT is not set
+CONFIG_UBSAN_DIV_ZERO=y
+CONFIG_UBSAN_UNREACHABLE=y
+CONFIG_UBSAN_BOOL=y
+# CONFIG_UBSAN_ENUM is not set
+CONFIG_TEST_UBSAN=m
+CONFIG_HAVE_KCSAN_COMPILER=y
+# end of Generic Kernel Debugging Instruments
+
+#
+# Networking Debugging
+#
+CONFIG_NET_DEV_REFCNT_TRACKER=y
+# CONFIG_NET_NS_REFCNT_TRACKER is not set
+CONFIG_DEBUG_NET=y
+CONFIG_DEBUG_NET_SMALL_RTNL=y
+# end of Networking Debugging
+
+#
+# Memory Debugging
+#
+CONFIG_PAGE_EXTENSION=y
+CONFIG_DEBUG_PAGEALLOC=y
+# CONFIG_DEBUG_PAGEALLOC_ENABLE_DEFAULT is not set
+CONFIG_SLUB_DEBUG=y
+# CONFIG_SLUB_DEBUG_ON is not set
+CONFIG_PAGE_OWNER=y
+CONFIG_PAGE_POISONING=y
+CONFIG_DEBUG_PAGE_REF=y
+CONFIG_HAVE_DEBUG_KMEMLEAK=y
+# CONFIG_DEBUG_KMEMLEAK is not set
+# CONFIG_DEBUG_OBJECTS is not set
+CONFIG_SHRINKER_DEBUG=y
+# CONFIG_DEBUG_STACK_USAGE is not set
+CONFIG_SCHED_STACK_END_CHECK=y
+CONFIG_ARCH_HAS_DEBUG_VM_PGTABLE=y
+# CONFIG_DEBUG_VFS is not set
+CONFIG_DEBUG_VM_IRQSOFF=y
+CONFIG_DEBUG_VM=y
+CONFIG_DEBUG_VM_MAPLE_TREE=y
+# CONFIG_DEBUG_VM_RB is not set
+# CONFIG_DEBUG_VM_PGFLAGS is not set
+# CONFIG_DEBUG_VM_PGTABLE is not set
+# CONFIG_DEBUG_MEMORY_INIT is not set
+# CONFIG_MEMORY_NOTIFIER_ERROR_INJECT is not set
+CONFIG_DEBUG_PER_CPU_MAPS=y
+CONFIG_HAVE_DEBUG_STACKOVERFLOW=y
+# CONFIG_DEBUG_STACKOVERFLOW is not set
+CONFIG_HAVE_ARCH_KASAN=y
+CONFIG_ARCH_DISABLE_KASAN_INLINE=y
+CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
+CONFIG_HAVE_ARCH_KFENCE=y
+# CONFIG_KFENCE is not set
+# end of Memory Debugging
+
+CONFIG_DEBUG_SHIRQ=y
+
+#
+# Debug Oops, Lockups and Hangs
+#
+CONFIG_PANIC_ON_OOPS=y
+CONFIG_PANIC_ON_OOPS_VALUE=1
+CONFIG_PANIC_TIMEOUT=0
+CONFIG_LOCKUP_DETECTOR=y
+CONFIG_SOFTLOCKUP_DETECTOR=y
+CONFIG_SOFTLOCKUP_DETECTOR_INTR_STORM=y
+# CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC is not set
+CONFIG_HAVE_HARDLOCKUP_DETECTOR_BUDDY=y
+CONFIG_HARDLOCKUP_DETECTOR=y
+# CONFIG_HARDLOCKUP_DETECTOR_PERF is not set
+CONFIG_HARDLOCKUP_DETECTOR_BUDDY=y
+# CONFIG_HARDLOCKUP_DETECTOR_ARCH is not set
+CONFIG_HARDLOCKUP_DETECTOR_COUNTS_HRTIMER=y
+# CONFIG_BOOTPARAM_HARDLOCKUP_PANIC is not set
+CONFIG_DETECT_HUNG_TASK=y
+CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=120
+CONFIG_BOOTPARAM_HUNG_TASK_PANIC=y
+# CONFIG_DETECT_HUNG_TASK_BLOCKER is not set
+# CONFIG_WQ_WATCHDOG is not set
+# CONFIG_WQ_CPU_INTENSIVE_REPORT is not set
+CONFIG_TEST_LOCKUP=m
+# end of Debug Oops, Lockups and Hangs
+
+#
+# Scheduler Debugging
+#
+CONFIG_SCHED_INFO=y
+CONFIG_SCHEDSTATS=y
+# end of Scheduler Debugging
+
+#
+# Lock Debugging (spinlocks, mutexes, etc...)
+#
+CONFIG_LOCK_DEBUGGING_SUPPORT=y
+CONFIG_PROVE_LOCKING=y
+CONFIG_PROVE_RAW_LOCK_NESTING=y
+# CONFIG_LOCK_STAT is not set
+CONFIG_DEBUG_RT_MUTEXES=y
+CONFIG_DEBUG_SPINLOCK=y
+CONFIG_DEBUG_MUTEXES=y
+CONFIG_DEBUG_WW_MUTEX_SLOWPATH=y
+CONFIG_DEBUG_RWSEMS=y
+CONFIG_DEBUG_LOCK_ALLOC=y
+CONFIG_LOCKDEP=y
+CONFIG_LOCKDEP_BITS=15
+CONFIG_LOCKDEP_CHAINS_BITS=16
+CONFIG_LOCKDEP_STACK_TRACE_BITS=19
+CONFIG_LOCKDEP_STACK_TRACE_HASH_BITS=14
+CONFIG_LOCKDEP_CIRCULAR_QUEUE_BITS=12
+CONFIG_DEBUG_LOCKDEP=y
+CONFIG_DEBUG_ATOMIC_SLEEP=y
+CONFIG_DEBUG_LOCKING_API_SELFTESTS=y
+CONFIG_LOCK_TORTURE_TEST=m
+CONFIG_WW_MUTEX_SELFTEST=m
+CONFIG_SCF_TORTURE_TEST=m
+CONFIG_CSD_LOCK_WAIT_DEBUG=y
+# CONFIG_CSD_LOCK_WAIT_DEBUG_DEFAULT is not set
+# end of Lock Debugging (spinlocks, mutexes, etc...)
+
+CONFIG_TRACE_IRQFLAGS=y
+CONFIG_DEBUG_IRQFLAGS=y
+CONFIG_STACKTRACE=y
+# CONFIG_WARN_ALL_UNSEEDED_RANDOM is not set
+# CONFIG_DEBUG_KOBJECT is not set
+
+#
+# Debug kernel data structures
+#
+# CONFIG_DEBUG_LIST is not set
+CONFIG_DEBUG_PLIST=y
+CONFIG_DEBUG_SG=y
+CONFIG_DEBUG_NOTIFIERS=y
+CONFIG_DEBUG_MAPLE_TREE=y
+# end of Debug kernel data structures
+
+#
+# RCU Debugging
+#
+CONFIG_PROVE_RCU=y
+CONFIG_TORTURE_TEST=y
+# CONFIG_RCU_SCALE_TEST is not set
+CONFIG_RCU_TORTURE_TEST=y
+# CONFIG_RCU_TORTURE_TEST_CHK_RDR_STATE is not set
+CONFIG_RCU_TORTURE_TEST_LOG_CPU=y
+# CONFIG_RCU_TORTURE_TEST_LOG_GP is not set
+CONFIG_RCU_REF_SCALE_TEST=y
+CONFIG_RCU_CPU_STALL_TIMEOUT=21
+CONFIG_RCU_EXP_CPU_STALL_TIMEOUT=0
+# CONFIG_RCU_CPU_STALL_CPUTIME is not set
+# CONFIG_RCU_TRACE is not set
+CONFIG_RCU_EQS_DEBUG=y
+# end of RCU Debugging
+
+CONFIG_DEBUG_WQ_FORCE_RR_CPU=y
+# CONFIG_CPU_HOTPLUG_STATE_CONTROL is not set
+CONFIG_USER_STACKTRACE_SUPPORT=y
+CONFIG_NOP_TRACER=y
+CONFIG_HAVE_RETHOOK=y
+CONFIG_HAVE_FUNCTION_TRACER=y
+CONFIG_HAVE_FUNCTION_GRAPH_TRACER=y
+CONFIG_HAVE_FUNCTION_GRAPH_FREGS=y
+CONFIG_HAVE_FTRACE_GRAPH_FUNC=y
+CONFIG_HAVE_DYNAMIC_FTRACE=y
+CONFIG_HAVE_DYNAMIC_FTRACE_WITH_REGS=y
+CONFIG_HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS=y
+CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS=y
+CONFIG_HAVE_FTRACE_REGS_HAVING_PT_REGS=y
+CONFIG_HAVE_FTRACE_MCOUNT_RECORD=y
+CONFIG_HAVE_SYSCALL_TRACEPOINTS=y
+CONFIG_HAVE_C_RECORDMCOUNT=y
+CONFIG_TRACE_CLOCK=y
+CONFIG_RING_BUFFER=y
+CONFIG_EVENT_TRACING=y
+CONFIG_CONTEXT_SWITCH_TRACER=y
+CONFIG_PREEMPTIRQ_TRACEPOINTS=y
+CONFIG_TRACING=y
+CONFIG_TRACING_SUPPORT=y
+# CONFIG_FTRACE is not set
+# CONFIG_SAMPLES is not set
+CONFIG_HAVE_SAMPLE_FTRACE_DIRECT=y
+CONFIG_HAVE_SAMPLE_FTRACE_DIRECT_MULTI=y
+# CONFIG_STRICT_DEVMEM is not set
+
+#
+# loongarch Debugging
+#
+# CONFIG_UNWINDER_GUESS is not set
+CONFIG_UNWINDER_PROLOGUE=y
+# CONFIG_UNWINDER_ORC is not set
+# end of loongarch Debugging
+
+#
+# Kernel Testing and Coverage
+#
+CONFIG_KUNIT=y
+CONFIG_KUNIT_DEBUGFS=y
+CONFIG_KUNIT_FAULT_TEST=y
+CONFIG_KUNIT_TEST=y
+CONFIG_KUNIT_EXAMPLE_TEST=y
+CONFIG_KUNIT_ALL_TESTS=y
+CONFIG_KUNIT_DEFAULT_ENABLED=y
+CONFIG_KUNIT_AUTORUN_ENABLED=y
+CONFIG_KUNIT_UAPI=y
+CONFIG_NOTIFIER_ERROR_INJECTION=y
+# CONFIG_PM_NOTIFIER_ERROR_INJECT is not set
+# CONFIG_OF_RECONFIG_NOTIFIER_ERROR_INJECT is not set
+CONFIG_NETDEV_NOTIFIER_ERROR_INJECT=m
+CONFIG_FAULT_INJECTION=y
+CONFIG_FAILSLAB=y
+# CONFIG_FAIL_PAGE_ALLOC is not set
+CONFIG_FAULT_INJECTION_USERCOPY=y
+CONFIG_FAULT_INJECTION_DEBUG_FS=y
+CONFIG_FAIL_MMC_REQUEST=y
+# CONFIG_FAIL_SKB_REALLOC is not set
+CONFIG_FAULT_INJECTION_CONFIGFS=y
+CONFIG_ARCH_HAS_KCOV=y
+CONFIG_CC_HAS_SANCOV_TRACE_PC=y
+# CONFIG_KCOV is not set
+# CONFIG_RUNTIME_TESTING_MENU is not set
+CONFIG_ARCH_USE_MEMTEST=y
+# CONFIG_MEMTEST is not set
+# end of Kernel Testing and Coverage
+
+#
+# Rust hacking
+#
+# end of Rust hacking
+# end of Kernel hacking
+
+#
+# Documentation
+#
+CONFIG_WARN_MISSING_DOCUMENTS=y
+CONFIG_WARN_ABI_ERRORS=y
+# end of Documentation
+
+--ZGPwKmDdaqRj54NV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename=reproduce
+
+reproduce (this is a W=1 build):
+        git clone https://github.com/intel/lkp-tests.git ~/lkp-tests
+        # https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git/commit/?id=e844e7134d3f49799bf7a762d2870dfc9b228bfa
+        git remote add thomas-weissschuh https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git
+        git fetch --no-tags thomas-weissschuh b4/vdso-ptp
+        git checkout e844e7134d3f49799bf7a762d2870dfc9b228bfa
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.4.0 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.4.0 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
+
+--ZGPwKmDdaqRj54NV--
