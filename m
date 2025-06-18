@@ -1,72 +1,69 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526DF2ED174
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 17:26:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E84139D1B
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 17:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750267620; cv=none; b=IBkxmlTzGT69k/S0LdCFudM4AS0w6VS4CkcREIfHIaOUuW4F+sbyEpVmtWSoO8FiN2lYKYkQq7L/fi+u0hd+uqzHxuIiQd9Px1A7AxMnRCj5yAAMrsyX51cy7zoxt+Y0R5m72TrcembOxHzhsrUZQg3oetXv/NCX3/Hz5JW+GEE=
+	t=1750267889; cv=none; b=oruNgdXcJn2QJbJzKtVaLfajcpT77sDJav+vNhYBfgB+UyBDettE43VBCuSQSPvKNj7f3FZ5WnO+0edgzJ9BKtOUFXGAjIuVlp7itVAQ0qyCAU9FTZPxtNjii6V2MuZk8Lfq0IkMmJLc5ylq6U1ei0DTdE31LbyXu6KjikMw/0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750267620; c=relaxed/simple;
-	bh=J+BqwMFmKcN19hQQ3aT9eKAwy1PnKrQMbSUnQLnRrRI=;
+	s=arc-20240116; t=1750267889; c=relaxed/simple;
+	bh=0YEwiPo8T4OcWBogr82UpcKJ7cH5rx4rCLi+sPvqIeY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=saaTADJb442+TKJToANRG5td+LaP0kw61xwGkIInHGCpaqkQsS2yOYN81DecKc56YuV009k4i13rmG1Q3tnkHok6P9HKntW/nMmERY2vMhhHi2R7x8Kaat8ZNEL/bm/oNDdcS5sYx5+gNO7yHGI+xr85rOuVKTIXQE6zUH/0UU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ocl897MR; arc=none smtp.client-ip=209.85.210.50
+	 Content-Disposition:In-Reply-To; b=YJheE0Xjym4ZTnyuAH1agBeZP7sD6Ja04VrOhS6AI9Kv3wKyYqTcEP4ZtD1n9duPiMuthE9+6MvGLK10kDd5o6jwHzjCERxgJdeCLRokd3FK11oQ5tr8zq6SVWC8WnCFoy3gchM+kIJcPElNHLl26WRkPzH71EZmZWFo0J0meJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xrLkKQYR; arc=none smtp.client-ip=209.85.167.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ocl897MR"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-735a6faec9eso4276107a34.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 10:26:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xrLkKQYR"
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-4080548891fso2265136b6e.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 10:31:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750267618; x=1750872418; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1750267887; x=1750872687; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6p/EuXGOB6YYcPGLEVBf9Y7M5MlRj/BCkj3EsNFJrV8=;
-        b=Ocl897MRUpzE66RW0f6kBVunC9BZp1b6npRC/srGbXtJTBjdHyPwyFlZn4+qo/2qoe
-         HqKQq5Ghuhzl002rAQ6PtiNOaaMX/uoKgPXhZUxSWmoO79TOYghl73OBCyg2KRfQFi2E
-         mxbB3FZe2YjvvAfXNCYBYLPXPf6rJPVRRHsPBzSnOnlQYN9XJH34c3AeuxPyDHOx4VjW
-         J7iz1GQuFSI3lMsvuqU6T+qiAc+RYZ4m9btU3kD4BRf7E5SlOe1fLWhBTfOoOq/CP4b/
-         eHk3GQFVfVbYmOmezVRUjwNyuzgBzXPlxg8lfDUSSoXTbRHQytkoZ9dnL3irO7c+4um2
-         5/iA==
+        bh=YFOtBsExh2BQyD2oG26Jl5MLncIJvS+Gsu483YiffqY=;
+        b=xrLkKQYR1olWaZTcuswsIv3UbXUW7Vo2xqpkRfozllZ8GMSgt7RaKqTA7T+/ytra7A
+         FOP61QXGeQmLjIh6mQibx5Mv7xf2yYK0DDcXFoQG2EkSkcgzY5CWnMrlR+smv6SgnDu8
+         n9+Oe17covgLdJX23XFG/UvP6XNAZtKLCCOQyN0WgaTTMs0EyYTxKuuPNefaZ0KvQs7T
+         ZZmacSLnJ11QXGV9fqPzal3QaplU3OaXcu9MkB9AwNfT33evTVQGBNtpxOXrFZ8GDqXp
+         n3936vlCzRPRgxrcXlJSR6azJ0Ml8HvEhLXbbBex8mVPWJYOynQX7boFqr/s0BqUvaLm
+         mJUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750267618; x=1750872418;
+        d=1e100.net; s=20230601; t=1750267887; x=1750872687;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6p/EuXGOB6YYcPGLEVBf9Y7M5MlRj/BCkj3EsNFJrV8=;
-        b=huBwTUO7H+kcovU+aUPrjbzYI265KoNKVLInECpaAGMZtkVWFXk2pJ1yBEdgz9GqOA
-         5YfctzXBoFXfrazRxzDGGin/9L0Plmv3cSERuXJ8WblL0aKlcpvL053EWis9df/Hqnqg
-         elnBvJ/+gaBTooQZ3cYsazr3LiEjUkC22deZKCqhc3lkT2nFXOkOHP31HCa+9OzIiPJ0
-         uD6Mi9g9EWFlT4+wMANMwJaA+yamL47syWIe3ZzEb/aStNaG7R0mHfi97ljn64DIa+pq
-         uNJ6ekfk+gL+dh0PGgRNIBnRKsQCCY2fiTEN++Ig8WdJ8Ifg5M2iJg8Aiw9R6D1/twKW
-         Xhgw==
-X-Gm-Message-State: AOJu0YwbA5kOfDDX25SBmJDZ0sLyZmFMzTBrFA65ZuEdYoAHdZ4ixfLc
-	GdGbZEdQKDwh9e/7hTO2mgCLQiJV+um5q7lzJYAffzCRJCKktJ4J91ssE82MpL6hw+gLMsZUcdg
-	GeUCe
-X-Gm-Gg: ASbGncslKVtuAJOTjkEUKB9cK28IJvj4ZwLtK+yFCj9JDNEYDGuE5/QxSq5MY2K3zoN
-	FezSZRo3zwLA1HM2LTZSxwZ27GM3eHHMTdgFqau4xNEmhGn5V21Mj6KCIyZxdSL785ouIwIhSHx
-	LGAOuYYtZStgeazMQH/HtUxi/VH2KsRmvrBz0+Q3KyTas1d6Dnno7Gam16FOrRYb62mEaWiHDAf
-	iMjhyxgjubfOV7Kcasw2twRrSiDLkRXM3u8jPAQBP9a05HxxifAXY1XX4YY8NVHMIYSuTbidTBg
-	+wZH591OXQ1LgOhRi2RMwcJe864UVCSrtx/7LX1uzAXuu/IB6pqH2wQE9J0a2EFxe2F57Q==
-X-Google-Smtp-Source: AGHT+IFP0GuBKlRwXw2OJNEzq9cywJo2wUE5iUpl+qcRNZHJ6Edt+/XzOGWu0ECCFUNYcg28rXeKvA==
-X-Received: by 2002:a05:6830:6219:b0:735:b4ef:acaf with SMTP id 46e09a7af769-73a36405b46mr12502515a34.27.1750267618055;
-        Wed, 18 Jun 2025 10:26:58 -0700 (PDT)
+        bh=YFOtBsExh2BQyD2oG26Jl5MLncIJvS+Gsu483YiffqY=;
+        b=pJPJpFZuEB33HLXoyTZfXtL57drA9kcPBPrgTAF2Lmlo8LQSp66hvGLk8Eid3plkyl
+         DE1slZFodm59bD0d7EqJqPdIClO6/104mI8S8GWAz0wn0ztAuN7vmN45SLM+x1jwZBP2
+         MYPwQ8sqWdyBk+GjX8FnrgWMRCLM6kLuBXDH8xvLoxxxn05Su706YmTMc+iXZH9z1h8X
+         wZzb0COTeFmf5IkrtDhSqrWFV9o08EwBahW86oNNAo+WgNRN9UU/Y+WYjE5I4wvevmLR
+         1nqablrvsyMEjjAr2L3Q40+JR/5hVwS2u2P5WM0j/4r6Xtl+aZSneVo/1hm0qm9S3pyX
+         pNog==
+X-Gm-Message-State: AOJu0YzqgMoBcc2OwKhCtZJV+jHyn+ioP/qxH19mpdeL94MG/SFeAt2z
+	rEexIAWw3gsmY/oJZur9ukAIQ8/oIJlRVDz9bXIZtrvmRLmafH73be+gJfyvOIVLtq/S2/pbu45
+	e9iFk
+X-Gm-Gg: ASbGncvN1KvIaM1t8B5RBSGRD6emfZoex0a6I8bQEL2y2IUb/T0atS6GKNJqPoH9cvf
+	OpKCPkAf/Au9xZWX8huuS8A0vvXm/sQFJwTpN4OP225/9wY/D6czG7lurtFcvArmy74w5Gr4sDu
+	IxIID0LlmPFIbSYh/qVl3OWOqpi7+ovltI9wBvNtTx99H491Wnb0l65lo6OkD0U93jlNx0q23EC
+	S4/R9kHezAQRZL5LU6s4gHwum63xgy4FVrbbLo7XQopExLoHZUZK2hCluaGwKryimYB3nMMKB0R
+	Efi5inrGsRR3bOieT3r8UEdTAkyyt+V5NG33kMe2Qvsc5l6jX38z4y0AM26/K69WlzU2lbdxBnt
+	+2r0H
+X-Google-Smtp-Source: AGHT+IFq/TTKxXerQXOZD6z3ttN0SBB3O4FF6/J83p6jBo2TVRfqU4lrL6RjS+Jqa8IWmsmDVdriYQ==
+X-Received: by 2002:a05:6808:2384:b0:40a:59fd:1368 with SMTP id 5614622812f47-40a7c1b4040mr11436498b6e.4.1750267886667;
+        Wed, 18 Jun 2025 10:31:26 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:1b3b:c162:aefa:da1b])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a284039bdsm2037108a34.22.2025.06.18.10.26.57
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-40a73fc91c8sm2439768b6e.0.2025.06.18.10.31.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 10:26:57 -0700 (PDT)
-Date: Wed, 18 Jun 2025 20:26:56 +0300
+        Wed, 18 Jun 2025 10:31:25 -0700 (PDT)
+Date: Wed, 18 Jun 2025 20:31:23 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jeremy Kerr <jk@codeconstruct.com.au>,
-	Matt Johnston <matt@codeconstruct.com.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next 12/13] net: mctp: add gateway routing support
-Message-ID: <c336c490-e002-48a8-bda7-b095ebde4c33@suswa.mountain>
+To: oe-kbuild@lists.linux.dev,
+	Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v5] char: misc: add test cases
+Message-ID: <00b3cd7a-fd52-4efd-9d1e-d7cc585ab22f@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,71 +72,55 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250611-dev-forwarding-v1-12-6b69b1feb37f@codeconstruct.com.au>
+In-Reply-To: <20250612-misc-dynrange-v5-1-6f35048f7273@igalia.com>
 
-Hi Jeremy,
+Hi Thadeu,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-mctp-don-t-use-source-cb-data-when-forwarding-ensure-pkt_type-is-set/20250611-143319
-base:   0097c4195b1d0ca57d15979626c769c74747b5a0
-patch link:    https://lore.kernel.org/r/20250611-dev-forwarding-v1-12-6b69b1feb37f%40codeconstruct.com.au
-patch subject: [PATCH net-next 12/13] net: mctp: add gateway routing support
-config: csky-randconfig-r073-20250612 (https://download.01.org/0day-ci/archive/20250613/202506131515.a5tCsTj0-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Thadeu-Lima-de-Souza-Cascardo/char-misc-add-test-cases/20250613-013440
+base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+patch link:    https://lore.kernel.org/r/20250612-misc-dynrange-v5-1-6f35048f7273%40igalia.com
+patch subject: [PATCH v5] char: misc: add test cases
+config: powerpc-randconfig-r072-20250613 (https://download.01.org/0day-ci/archive/20250613/202506132058.thWZHlrb-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506131515.a5tCsTj0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506132058.thWZHlrb-lkp@intel.com/
 
-New smatch warnings:
-net/mctp/route.c:1381 mctp_route_nlparse_common() error: uninitialized symbol 'gateway'.
+smatch warnings:
+drivers/misc/misc_minor_kunit.c:192 miscdev_test_can_open() warn: passing zero to 'PTR_ERR'
 
-vim +/gateway +1381 net/mctp/route.c
+vim +/PTR_ERR +192 drivers/misc/misc_minor_kunit.c
 
-33d33bef994e518 Jeremy Kerr   2025-06-11  1350  static int mctp_route_nlparse_common(struct net *net, struct nlmsghdr *nlh,
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1351  				     struct netlink_ext_ack *extack,
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1352  				     struct nlattr **tb, struct rtmsg **rtm,
-33d33bef994e518 Jeremy Kerr   2025-06-11  1353  				     struct mctp_dev **mdev,
-75626016e50cb9a Jeremy Kerr   2025-06-11  1354  				     struct mctp_fq_addr *gatewayp,
-33d33bef994e518 Jeremy Kerr   2025-06-11  1355  				     mctp_eid_t *daddr_start)
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1356  {
-75626016e50cb9a Jeremy Kerr   2025-06-11  1357  	struct mctp_fq_addr *gateway;
-75626016e50cb9a Jeremy Kerr   2025-06-11  1358  	unsigned int ifindex = 0;
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1359  	struct net_device *dev;
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1360  	int rc;
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1361  
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1362  	rc = nlmsg_parse(nlh, sizeof(struct rtmsg), tb, RTA_MAX,
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1363  			 rta_mctp_policy, extack);
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1364  	if (rc < 0) {
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1365  		NL_SET_ERR_MSG(extack, "incorrect format");
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1366  		return rc;
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1367  	}
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1368  
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1369  	if (!tb[RTA_DST]) {
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1370  		NL_SET_ERR_MSG(extack, "dst EID missing");
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1371  		return -EINVAL;
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1372  	}
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1373  	*daddr_start = nla_get_u8(tb[RTA_DST]);
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1374  
-75626016e50cb9a Jeremy Kerr   2025-06-11  1375  	if (tb[RTA_OIF])
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1376  		ifindex = nla_get_u32(tb[RTA_OIF]);
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1377  
-75626016e50cb9a Jeremy Kerr   2025-06-11  1378  	if (tb[RTA_GATEWAY])
-75626016e50cb9a Jeremy Kerr   2025-06-11  1379  		gateway = nla_data(tb[RTA_GATEWAY]);
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  178  static void __init miscdev_test_can_open(struct kunit *test, struct miscdevice *misc)
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  179  {
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  180  	int ret;
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  181  	struct file *filp;
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  182  	char *devname;
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  183  
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  184  	devname = kasprintf(GFP_KERNEL, "/dev/%s", misc->name);
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  185  	ret = init_mknod(devname, S_IFCHR | 0600,
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  186  			 new_encode_dev(MKDEV(MISC_MAJOR, misc->minor)));
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  187  	if (ret != 0)
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  188  		KUNIT_FAIL(test, "failed to create node\n");
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  189  
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  190  	filp = filp_open(devname, O_RDONLY, 0);
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  191  	if (IS_ERR_OR_NULL(filp))
 
-Unitialized on else path
+This should just be if (IS_ERR()) {
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
 
-06d2f4c583a7d89 Matt Johnston 2021-07-29  1380  
-75626016e50cb9a Jeremy Kerr   2025-06-11 @1381  	if (ifindex && gateway) {
-                                                                       ^^^^^^^
-warning.
-
-75626016e50cb9a Jeremy Kerr   2025-06-11  1382  		NL_SET_ERR_MSG(extack,
-75626016e50cb9a Jeremy Kerr   2025-06-11  1383  			       "cannot specify both ifindex and gateway");
-33d33bef994e518 Jeremy Kerr   2025-06-11  1384  		return -EINVAL;
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12 @192  		KUNIT_FAIL(test, "failed to open misc device: %ld\n", PTR_ERR(filp));
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  193  	else
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  194  		fput(filp);
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  195  
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  196  	init_unlink(devname);
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  197  	kfree(devname);
+127b049d35f107 Thadeu Lima de Souza Cascardo 2025-06-12  198  }
 
 -- 
 0-DAY CI Kernel Test Service
