@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A2E2853F9
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 09:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C62B285C8B
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 10:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750240533; cv=none; b=nlpF59/prW5QyOet3KIb80hj4jEglEuTGdKf9aiBMuodsQ909VF+8AJBG5b6BUcgXnZGt33zzHkT90o/h4Ec1Us39fsdfVSQZ24mCqqfya7K4M8KpeZQQFKZYx4fmYqaNUCkouWhW2Epee29tSvtD7swu2nQPXm6AGeEvDy7KQU=
+	t=1750241131; cv=none; b=FvoKVT0O19MXy/BQX4R40JTf4lJDdUzPnFhV2aM7nYUumzckfRy0zC6U3hdEueF7W2ujnfFQ14U5QFjCUR4i5p4nBM+iTIOb2DDWVCFZEN39QQ4bzeDmiPcjqSc1G3v20AAjpMc7wGPW8xbCnPRsYW7g0hQGamp/BUvQvtW8M9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750240533; c=relaxed/simple;
-	bh=f0+7wpVhikqaRv+XAZaappsJ8owWoHcbSBFqRLKUDw8=;
+	s=arc-20240116; t=1750241131; c=relaxed/simple;
+	bh=I6M22QaoxPaxqVNl3N2mstGAQOGOgaWmEX65hyeHXR4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XFNb46kx+DoElbEGx8TZbhsP1VugtKPSnXEHyx8/qbMJSAj3fxGv3BzGnY89cuyRlIVHQzIit66gj7e9kTmIFjOXpKp1CAtyRGkSxd+yIT79mhFFVTJKZ11lcrOiO1t4YoieZISAMHSVA1tF6GD/EEDkI/wGmtsugr5RLbA2xSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I5vo0y2A; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=KJ5RHQIEKmZ20Lb9p1j81vRPt66dClaja+vad4K2CVbJNsil9VpCegZD8B3q2EXGqjKupp4EAImFOm5tWBdg3ccUlGIKjKbs+A7Fg6oy8LG0ifuQI9XnRDJZgUJ5ZpsKm2qvX1okSGiifNuxF7p1QM5UC9eL38qmyB4eZAX6yxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YlFhrvC5; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I5vo0y2A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YlFhrvC5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750240531; x=1781776531;
+  t=1750241129; x=1781777129;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f0+7wpVhikqaRv+XAZaappsJ8owWoHcbSBFqRLKUDw8=;
-  b=I5vo0y2AHp3Y4KZcumXcfam8Sk8wTmrxj7F+lR0z67eyNbWryfr0j2oB
-   Moy4jO11GQ2gOfkaWB2ANV61DrsoBqkhSjsbIpBI2vVfNegrdu7n6nPwJ
-   deFyxub6zwHsgG0wtV4xQ+w6Ya3LYn3OIB3eLIbDrkzJ3U1dZv9ePSN8b
-   WPwC1TArbVZG2hlWP85xW5MykZ/24exfiUQ3Rii17Ez8/MpmPU8fzdwj5
-   WQrxVus4R9x1hm0Vn/xHPZKQ4p27TV347pnrcXEqTvTt/s4R+njb+GsET
-   Y+0L589EpDCtRCBIFQm+NLsYMqVQR/uVG7dUdxp9TfJk5j2qjojGQ6al0
-   g==;
-X-CSE-ConnectionGUID: rBXVXSNpRmammwzAC/ZZ3g==
-X-CSE-MsgGUID: tWSo5c1DTBugXG3cIFd1ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52593520"
+  bh=I6M22QaoxPaxqVNl3N2mstGAQOGOgaWmEX65hyeHXR4=;
+  b=YlFhrvC5PFE67d95h/IsW4XoeMWX89dAgy5isIZy6NnR8nOsQ9fQDh14
+   +El0W+Va+TVRiD6evGCeKLrUuMPG6dPV9PSlN60K3y194LrmOgVee6oFT
+   hmKGYWhUa34b3mlj06VP4k/iMBARkeS2DuAhqGUVQRzlB5o5sNLxMkk+V
+   QIOaakDBxTuAiqTFAk6PQ0ap1vPBazAZxc5qD4xWhutIW5D2SFc8YCUnU
+   k8OYwUCt/HxDd5zCDyNGg+UKu7kg1eDMn+kuqP40arVCZkgATFJnZxBDa
+   oY4qYuHodyILB35/PstEt6ytVYR9NohMd141NXJdDF/Z9Tf+2/3B2dZnQ
+   A==;
+X-CSE-ConnectionGUID: vfZkjjXpQGGVcR+Zqv/4HQ==
+X-CSE-MsgGUID: cb6JtGDeRLWzmWzKSF9DLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52371033"
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="52593520"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 02:55:28 -0700
-X-CSE-ConnectionGUID: B/1bC1sjSQOKcmtnHVPDuQ==
-X-CSE-MsgGUID: neO+qUzgRk+14rrDgCU5fA==
+   d="scan'208";a="52371033"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 03:05:28 -0700
+X-CSE-ConnectionGUID: 54J+upHnR4yBbczvCxb76g==
+X-CSE-MsgGUID: Z4bw7/9UQD6tf+0Aiq+g4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="149238739"
+   d="scan'208";a="149218619"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 18 Jun 2025 02:55:26 -0700
+  by orviesa006.jf.intel.com with ESMTP; 18 Jun 2025 03:05:28 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRpVs-000Jde-18;
-	Wed, 18 Jun 2025 09:55:24 +0000
-Date: Wed, 18 Jun 2025 17:54:32 +0800
+	id 1uRpfZ-000Jdy-0K;
+	Wed, 18 Jun 2025 10:05:25 +0000
+Date: Wed, 18 Jun 2025 18:04:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 09/10] PM: EM: Implement
- em_notify_pd_created/updated().
-Message-ID: <202506181708.P4eRyPUC-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [jaegeuk-f2fs:dev-test 6/18] fs/f2fs/segment.o: warning: objtool:
+ do_write_page+0x104: unreachable instruction
+Message-ID: <202506181735.hhZVgCI3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,91 +62,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250613094428.267791-10-changwoo@igalia.com>
-References: <20250613094428.267791-10-changwoo@igalia.com>
-TO: Changwoo Min <changwoo@igalia.com>
-TO: lukasz.luba@arm.com
-TO: rafael@kernel.org
-TO: len.brown@intel.com
-TO: pavel@kernel.org
-CC: christian.loehle@arm.com
-CC: tj@kernel.org
-CC: kernel-dev@igalia.com
-CC: linux-pm@vger.kernel.org
-CC: sched-ext@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: Changwoo Min <changwoo@igalia.com>
+CC: linux-f2fs-devel@lists.sourceforge.net
+TO: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+CC: Jaegeuk Kim <jaegeuk@kernel.org>
 
-Hi Changwoo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16-rc2 next-20250618]
-[cannot apply to amd-pstate/linux-next amd-pstate/bleeding-edge]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Changwoo-Min/PM-EM-Add-em-yaml-and-autogen-files/20250613-174859
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250613094428.267791-10-changwoo%40igalia.com
-patch subject: [PATCH v2 09/10] PM: EM: Implement em_notify_pd_created/updated().
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: x86_64-randconfig-161-20250618 (https://download.01.org/0day-ci/archive/20250618/202506181708.P4eRyPUC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+head:   efa38cdf8fc886c1070d25890c91d6c2a7e70dec
+commit: 5c7fd57eb036a7b736d39f31bee7e52708ec3877 [6/18] f2fs: do sanity check on fio.new_blkaddr in do_write_page()
+:::::: branch date: 2 days ago
+:::::: commit date: 8 days ago
+config: loongarch-randconfig-r072-20250618 (https://download.01.org/0day-ci/archive/20250618/202506181735.hhZVgCI3-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181735.hhZVgCI3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202506181708.P4eRyPUC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506181735.hhZVgCI3-lkp@intel.com/
 
-smatch warnings:
-kernel/power/em_netlink.c:249 __em_notify_pd_table() error: uninitialized symbol 'ret'.
+All warnings (new ones prefixed by >>):
 
-vim +/ret +249 kernel/power/em_netlink.c
-
-24b309699bc739 Changwoo Min 2025-06-13  215  
-b0668476cf48ef Changwoo Min 2025-06-13  216  
-b0668476cf48ef Changwoo Min 2025-06-13  217  /**************************** Event encoding *********************************/
-76ab710f256a78 Changwoo Min 2025-06-13  218  static int __em_notify_pd_table(const struct em_perf_domain *pd, int ntf_type)
-76ab710f256a78 Changwoo Min 2025-06-13  219  {
-76ab710f256a78 Changwoo Min 2025-06-13  220  	struct sk_buff *msg;
-76ab710f256a78 Changwoo Min 2025-06-13  221  	int msg_sz, ret;
-76ab710f256a78 Changwoo Min 2025-06-13  222  	void *hdr;
-76ab710f256a78 Changwoo Min 2025-06-13  223  
-76ab710f256a78 Changwoo Min 2025-06-13  224  	if (!genl_has_listeners(&em_nl_family, &init_net, EM_NLGRP_EVENT))
-76ab710f256a78 Changwoo Min 2025-06-13  225  		return 0;
-76ab710f256a78 Changwoo Min 2025-06-13  226  
-76ab710f256a78 Changwoo Min 2025-06-13  227  	msg_sz = __em_nl_get_pd_table_size(pd);
-76ab710f256a78 Changwoo Min 2025-06-13  228  
-76ab710f256a78 Changwoo Min 2025-06-13  229  	msg = genlmsg_new(msg_sz, GFP_KERNEL);
-76ab710f256a78 Changwoo Min 2025-06-13  230  	if (!msg)
-76ab710f256a78 Changwoo Min 2025-06-13  231  		return -ENOMEM;
-76ab710f256a78 Changwoo Min 2025-06-13  232  
-76ab710f256a78 Changwoo Min 2025-06-13  233  	hdr = genlmsg_put(msg, 0, 0, &em_nl_family, 0, ntf_type);
-76ab710f256a78 Changwoo Min 2025-06-13  234  	if (!hdr)
-76ab710f256a78 Changwoo Min 2025-06-13  235  		goto out_free_msg;
-76ab710f256a78 Changwoo Min 2025-06-13  236  
-76ab710f256a78 Changwoo Min 2025-06-13  237  	ret = __em_nl_get_pd_table(msg, pd);
-76ab710f256a78 Changwoo Min 2025-06-13  238  	if (ret)
-76ab710f256a78 Changwoo Min 2025-06-13  239  		goto out_free_msg;
-76ab710f256a78 Changwoo Min 2025-06-13  240  
-76ab710f256a78 Changwoo Min 2025-06-13  241  	genlmsg_end(msg, hdr);
-76ab710f256a78 Changwoo Min 2025-06-13  242  
-76ab710f256a78 Changwoo Min 2025-06-13  243  	genlmsg_multicast(&em_nl_family, msg, 0, EM_NLGRP_EVENT, GFP_KERNEL);
-76ab710f256a78 Changwoo Min 2025-06-13  244  
-76ab710f256a78 Changwoo Min 2025-06-13  245  	return 0;
-76ab710f256a78 Changwoo Min 2025-06-13  246  
-76ab710f256a78 Changwoo Min 2025-06-13  247  out_free_msg:
-76ab710f256a78 Changwoo Min 2025-06-13  248  	nlmsg_free(msg);
-76ab710f256a78 Changwoo Min 2025-06-13 @249  	return ret;
-76ab710f256a78 Changwoo Min 2025-06-13  250  }
-76ab710f256a78 Changwoo Min 2025-06-13  251  
+   fs/f2fs/segment.o: warning: objtool: update_sit_entry_for_alloc+0x74: unreachable instruction
+   fs/f2fs/segment.o: warning: objtool: update_sit_entry_for_release+0x210: unreachable instruction
+   fs/f2fs/segment.o: warning: objtool: __locate_dirty_segment+0x1cc: unreachable instruction
+   fs/f2fs/segment.o: warning: objtool: get_new_segment+0x298: unreachable instruction
+   fs/f2fs/segment.o: warning: objtool: __issue_discard_cmd+0x248: unreachable instruction
+   fs/f2fs/segment.o: warning: objtool: f2fs_do_replace_block+0x130: unreachable instruction
+   fs/f2fs/segment.o: warning: objtool: f2fs_allocate_data_block+0x138: unreachable instruction
+>> fs/f2fs/segment.o: warning: objtool: do_write_page+0x104: unreachable instruction
+   fs/f2fs/segment.o: warning: objtool: f2fs_flush_sit_entries+0x158: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
