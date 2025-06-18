@@ -1,69 +1,68 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44122EF29C
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 17:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B14D3085C9;
+	Wed, 18 Jun 2025 17:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750269373; cv=none; b=eMJUNuTG7u+LNKQ5iTrHcowc+X7or+AvTJdUwV7mDfP8EoopZKodHyeJkONlcNpgJSEpcHI0Wd7cdlsCaJIMV/wq4ySDfrvAFMMDzqt6W5T8DPhczRMPaM3t+eqL3dr+WgsvV5tGI4O6oWszqgrzS+eDQPvMKx9CBp/aGOsg2lw=
+	t=1750269568; cv=none; b=Pil1+dpMX0rQeyl18p3J/ZuM6LFpCft8pMd6Ban3vVmAu+uYIZGYZeHdzj8QqcCMI8PotVWTVRPeQt57RlMv8DI40l/vgBSMd5pVPkFWO/lI+GQoqxqQ1eGdaLrGFkFhD5MWsxxug9dRfvhOTuFscJVdfgwWxaXKRrQqFv6s/HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750269373; c=relaxed/simple;
-	bh=fdeGnDy5vpzn3RuKTaxCNjRf02O3Qfcwavi+aZaoNE8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VlXkX71Z822ktWPdiENOsEORg6n2Y+RmymzPEz6I9ZYnvQswejsm3nxLz6afhG1lYBrmm1y0/++2e+kfAmK9k5Eyir22R6UMtJ2adf0PoBy+p/iTt4ZGw4zIR3GjlfVfWRcpgosDneNYkcqrp06wpulCE8CeixNdFS/+s8yDS5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MISBlLyO; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1750269568; c=relaxed/simple;
+	bh=VsQ9mjiyc4dnTIlr6g4DfKjP8V0Y85rIOMAAUGcigOs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XwTGFm82xCQ5prPUI4UdUCVmD6u97Sg8IArm4IHwLKexhqO+jwQ7yVArfnC58U0hg+EcWbbC1cw9DdhbnHHNEMHyOKyQf/FrpvCgM2DLmoPPz6IHa8eJl/Im429IPOF3y68Dz7CIkbJhL9WRWGFxlk3xxLkKaAyiRpKD3tD0Mww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQ/X910X; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MISBlLyO"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-72c13802133so2513289a34.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 18 Jun 2025 10:56:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750269369; x=1750874169; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8nDxAIuh4le4P8G41oVoXdzWOeBgcCDEMHyqW+lO4Cg=;
-        b=MISBlLyOO+/h+HI4v+By5aq5qqg77uhrIVjagyPXahizx8ib6OWDQt0aRAZE4cvM66
-         hhg6zzvC4q3sPkXfCN4FQRKfvBFvueRJM3tdAOyWddcHw9JVFDcjWrKBZuWYpFVYv+eV
-         LU+Ym2PRwgFfUpZXSA+xxLsbpSKyIBmELoR1q3inaulB4VNNyOoWf3wrcyjNenWLYeUY
-         Xm/v5/Ui5fpECHqPU6LXf35LlumE6y8zrHmTPoCtYrzHDxAjsppFhyH/yTHlumbMexaW
-         51qE+QFvAWRip1eEGgw0n77KW0gbLwavKO3/hv2F/1eo7IMQvubMPh76rTRP47zZNME6
-         Hdvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750269369; x=1750874169;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8nDxAIuh4le4P8G41oVoXdzWOeBgcCDEMHyqW+lO4Cg=;
-        b=InclJWsSru23jUDVSlLmGSH5mhPMpw+QL4n00SJYXiHGG5YY4vA/q3Ku/gPUkJ9gwY
-         EPNaQAv1llHNNTtezqqMiML6wxaGiStQQ0yUgkvoclIszI7llxbCSLm7QjGstLrc5Ohk
-         E7h8Xk5uENbW8tpd2zSgDmIov6F9DMotPWUzsbHxLYQtFUZBo8gYfrzwQx3aZOGaRdZh
-         4SfcX753/gHCnh+wC15uiCqSYMe52BLtQqwR1Afy6nk7HT52eF1TPB//LmFZnpVXPrRj
-         ZkGlwfw4K8cEH4WmvgJTraLWECoDmBZwlFsm+1zVoiVb6VOsvgS+7/uW6axi+rDJ7/vh
-         1gQw==
-X-Gm-Message-State: AOJu0YwTg9uWVQnhw5dsStG49Eyk4woxYJio96chjeAgFR6OaNxor475
-	/ZXRfKwNGULvh9aZSZ1TYGOaAitg7qZ7ij08oQpVy9eELiFtVs0asl6MC5PDecAqTqgunNmvj65
-	/2HNM
-X-Gm-Gg: ASbGncuO6SIktTbW/ZD8OpZSnloMPU3HwFerhIav6CC9PCvmSSqJ6m+qtuDzYioxBNg
-	Ssjkggq+tG/I9iC1gf4FRaDqcjqZu8TFdfPmTm4LsP3Otw51BTjDZrELsh4WnlswyM0D2UGi61d
-	0ChYMIV5tm1VRLQll7Rmt1DidYN7rGVvM9kqTzujQM5fETMCAm4lGoTDUlwReDJepY5AZPrIq+2
-	uPnNA79ybSuYb6+nly6Fgh1b4BzCa5TZFflHFzsiQEBEgIbPDQeXrkKH3+bHtGLLktLMU0ctzX8
-	iTGxwqzRPIUHOy+lfneJ5DIO43iVFM8FFUnZdjzVm9aCHUq3uR8rDz48Am9S+NIAt5tT/LjZMBU
-	WgyUs
-X-Google-Smtp-Source: AGHT+IExwjL5VgU1mVPYBX2AAa5v1KmLZNpSEvOeH4O966iEHrbOX2XCETO++jGNvLD4sx+bxAkggg==
-X-Received: by 2002:a05:6830:2c0d:b0:727:423c:95d5 with SMTP id 46e09a7af769-73a3625e00amr10579124a34.3.1750269369369;
-        Wed, 18 Jun 2025 10:56:09 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:1b3b:c162:aefa:da1b])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a284039bdsm2046723a34.22.2025.06.18.10.56.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 10:56:09 -0700 (PDT)
-Date: Wed, 18 Jun 2025 20:56:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Qu Wenruo <wqu@suse.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Filipe Manana <fdmanana@suse.com>
-Subject: [btrfs:pr/1157 1/1] fs/btrfs/qgroup.c:359 qgroup_mark_inconsistent()
- warn: maybe use && instead of &
-Message-ID: <9ebc0142-96b2-45a4-94d2-5e3100c599f2@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQ/X910X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750269565; x=1781805565;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VsQ9mjiyc4dnTIlr6g4DfKjP8V0Y85rIOMAAUGcigOs=;
+  b=JQ/X910XcsAL1KSJ3KZQSO/u4W+jTqWZ30TXsI+zoEQZcxr6hkh+N5jy
+   7Soi5lgb494Ea5AY7jeEu+wWyXZQHLWO2ZlpKNXR88+wj1x/KCwZT60nF
+   5hndzq1pCMv50sPdr8yOdPKHPT3Ux3HDzYhKrcwG31JUzv8PcA7AOSFlb
+   9u5OwvgixAP1wv/jdVMB13cN2FiR31FwQLYFTcney4yMqWXB11i9xLQX3
+   lvY/SzdJ2jWoCs8zAj12EYbegIwisSfLdSmS/ZVoA5o7o/Nw6gJDZ3gjA
+   unPwJi7L1bSYyFJ1ovDM9eRL21tabH7BA+t3BN6kgb5G2yswbkTFyf/IC
+   w==;
+X-CSE-ConnectionGUID: fIs0P0zISpuQ1N22YyIYdw==
+X-CSE-MsgGUID: k+dN1HGkQhKfoa/wCzs2JQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="51734705"
+X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
+   d="scan'208";a="51734705"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 10:59:25 -0700
+X-CSE-ConnectionGUID: ulQXaGOQTyCSlh6Kla1M5w==
+X-CSE-MsgGUID: 4AskfPP0Rc6Mp7Knk70Z+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
+   d="scan'208";a="150654595"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 10:59:20 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uRx48-00000007okJ-279d;
+	Wed, 18 Jun 2025 20:59:16 +0300
+Date: Wed, 18 Jun 2025 20:59:16 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Ana-Maria Cusco <ana-maria.cusco@analog.com>, jic23@kernel.org,
+	lars@metafoo.de, Michael.Hennerich@analog.com,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	linus.walleij@linaro.org, brgl@bgdev.pl, marcelo.schmitt1@gmail.com
+Subject: Re: [PATCH v5 02/11] iio: adc: Add basic support for AD4170
+Message-ID: <aFL-dLs5EQsde8Cq@smile.fi.intel.com>
+References: <48598c0753cccf515addbe85acba3f883ff8f036.1749582679.git.marcelo.schmitt@analog.com>
+ <d6ae8122-ff38-4fca-8e02-f27c7ac2ccd8@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,54 +71,77 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <d6ae8122-ff38-4fca-8e02-f27c7ac2ccd8@suswa.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-tree:   https://github.com/btrfs/linux.git pr/1157
-head:   b9b695688148bd512273989145bc6ca0e272a53c
-commit: b9b695688148bd512273989145bc6ca0e272a53c [1/1] btrfs: add extra warning when qgroup is marked inconsistent
-config: i386-randconfig-141-20250616 (https://download.01.org/0day-ci/archive/20250616/202506160432.y5tEff7D-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+On Wed, Jun 18, 2025 at 08:37:53PM +0300, Dan Carpenter wrote:
+> Hi Marcelo,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/dt-bindings-iio-adc-Add-AD4170/20250611-101842
+> base:   4c6073fec2fee4827fa0dd8a4ab4e6f7bbc05ee6
+> patch link:    https://lore.kernel.org/r/48598c0753cccf515addbe85acba3f883ff8f036.1749582679.git.marcelo.schmitt%40analog.com
+> patch subject: [PATCH v5 02/11] iio: adc: Add basic support for AD4170
+> config: powerpc-randconfig-r072-20250613 (https://download.01.org/0day-ci/archive/20250614/202506140009.GdV0BtKr-lkp@intel.com/config)
+> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202506140009.GdV0BtKr-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/iio/adc/ad4170.c:1181 ad4170_parse_adc_channel_type() warn: passing zero to 'dev_err_probe'
+> 
+> vim +/dev_err_probe +1181 drivers/iio/adc/ad4170.c
+> 
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1170  static int ad4170_parse_adc_channel_type(struct device *dev,
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1171  					 struct fwnode_handle *child,
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1172  					 struct iio_chan_spec *chan)
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1173  {
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1174  	int ret, ret2;
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1175  	u32 pins[2];
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1176  
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1177  	/* Parse pseudo-differential channel configuration */
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1178  	ret = fwnode_property_read_u32(child, "single-channel", &pins[0]);
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1179  	ret2 = fwnode_property_read_u32(child, "common-mode-channel", &pins[1]);
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1180  	if (!ret && ret2)
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10 @1181  		return dev_err_probe(dev, ret,
+>                                                                                           ^^^
+> ret is zero, so this returns success.  s/ret/ret2/.
+> 
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1182  			"single-ended channels must define common-mode-channel\n");
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506160432.y5tEff7D-lkp@intel.com/
+Instead of ret and ret2 this code should be refactored to use
+_preperty_present() beforehands and return an error to the caller if it's
+present but failed to be read or not optional at all.
 
-smatch warnings:
-fs/btrfs/qgroup.c:359 qgroup_mark_inconsistent() warn: maybe use && instead of &
-
-vim +359 fs/btrfs/qgroup.c
-
-b9b695688148bd Qu Wenruo    2025-06-11  349  __printf(2, 3)
-b9b695688148bd Qu Wenruo    2025-06-11  350  static void qgroup_mark_inconsistent(struct btrfs_fs_info *fs_info, const char *fmt, ...)
-e562a8bdf652b0 Qu Wenruo    2022-08-24  351  {
-b9b695688148bd Qu Wenruo    2025-06-11  352  	bool old_flags = fs_info->qgroup_flags;
-
-old_flags should be u64 type.
-
-b9b695688148bd Qu Wenruo    2025-06-11  353  
-182940f4f4dbd9 Boris Burkov 2023-05-16  354  	if (btrfs_qgroup_mode(fs_info) == BTRFS_QGROUP_MODE_SIMPLE)
-182940f4f4dbd9 Boris Burkov 2023-05-16  355  		return;
-e562a8bdf652b0 Qu Wenruo    2022-08-24  356  	fs_info->qgroup_flags |= (BTRFS_QGROUP_STATUS_FLAG_INCONSISTENT |
-e15e9f43c7ca25 Qu Wenruo    2022-08-24  357  				  BTRFS_QGROUP_RUNTIME_FLAG_CANCEL_RESCAN |
-e15e9f43c7ca25 Qu Wenruo    2022-08-24  358  				  BTRFS_QGROUP_RUNTIME_FLAG_NO_ACCOUNTING);
-b9b695688148bd Qu Wenruo    2025-06-11 @359  	if (!(old_flags & BTRFS_QGROUP_STATUS_FLAG_INCONSISTENT)) {
-
-This can never be true.
-
-b9b695688148bd Qu Wenruo    2025-06-11  360  		struct va_format vaf;
-b9b695688148bd Qu Wenruo    2025-06-11  361  		va_list args;
-b9b695688148bd Qu Wenruo    2025-06-11  362  
-b9b695688148bd Qu Wenruo    2025-06-11  363  		va_start(args, fmt);
-b9b695688148bd Qu Wenruo    2025-06-11  364  		vaf.fmt = fmt;
-b9b695688148bd Qu Wenruo    2025-06-11  365  		vaf.va = &args;
-b9b695688148bd Qu Wenruo    2025-06-11  366  
-b9b695688148bd Qu Wenruo    2025-06-11  367  		btrfs_warn_rl(fs_info, "qgroup marked inconsistent, %pV", &vaf);
-b9b695688148bd Qu Wenruo    2025-06-11  368  		va_end(args);
-b9b695688148bd Qu Wenruo    2025-06-11  369  	}
-e562a8bdf652b0 Qu Wenruo    2022-08-24  370  }
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1184  	if (!ret && !ret2) {
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1185  		chan->differential = false;
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1186  		chan->channel = pins[0];
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1187  		chan->channel2 = pins[1];
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1188  		return 0;
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1189  	}
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1190  	/* Failed to parse pseudo-diff chan props so try diff chan */
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1191  
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1192  	/* Parse differential channel configuration */
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1193  	ret = fwnode_property_read_u32_array(child, "diff-channels", pins,
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1194  					     ARRAY_SIZE(pins));
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1195  	if (!ret) {
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1196  		chan->differential = true;
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1197  		chan->channel = pins[0];
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1198  		chan->channel2 = pins[1];
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1199  		return 0;
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1200  	}
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1201  	return dev_err_probe(dev, ret,
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1202  		"Channel must define one of diff-channels or single-channel.\n");
+> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1203  }
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
 
