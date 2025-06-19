@@ -1,365 +1,212 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EF121E082
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jun 2025 09:36:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98352206B5;
+	Thu, 19 Jun 2025 09:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750325801; cv=none; b=iS2RO+Sz+xotZCT7S/8CjHnE3gKRSNUJuesWNVZAEmM05Y73SwqePofCMPsyXHUW5THtCm00P/HecJr3veubgae8KMcJztAtumty9T4YcXdlRk76uzFLZdqyHBEGFiu5PuLCWU7uCrRRmCo740wWQqF5glc+ILScWlcMRE7bpz4=
+	t=1750326825; cv=none; b=Kx9MJz5PQa1nHkaPbQuNGhjmAmHWlgZVXA3O8PyL/gRPp+46xQIcfJPTbYDICwlVh2T1J705wFtyDl79TwAnwUW55AjprS+EjxUtwXdy3mg8ro1zwLPrR7ScwWgy9b42rogk9laWmiYOhO1WLLmbHRR3DHS3Ld/HrMNCE70UFyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750325801; c=relaxed/simple;
-	bh=4aTcUYnIAakaj4a3pga/HgDnpnY7YndrB+8bMV1k13w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QNL7/Bjjlif5wRDT+SJYcsnOpe9+yetVxu7pTVq2GSyZmvM4woaCxrGLF2DUZJA7RRWdmdCfZflOtHoptAPfp/455q3pJuNgdOTUC+ec/TZUV7vi3eq36mcvdxSbylWWt73iKxbhzLHBWOVw+qwIL9dkbPKdqTzsUF9H17sExn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g1N6gzen; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750326825; c=relaxed/simple;
+	bh=aoabY3uN68FF/AqK9E73rIZP0Jr9EBrc7Uh6DHc60hk=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W+aTwNOM2OYF4hva4/R06uhGVGr59rcfUx2v1aJZRv7Te/gaqXz7ytNA/IMrFPX0742/C7ZR0eBm7bpEpcxeYnyRY5NOoRjreYJ7E5FnX/vljFHeMf2C0mPEHr/igHYDfzRrx3huKJ6rDyfPmkza77te+L80pwe99mGrLxvDmpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bt37SAm6; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g1N6gzen"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750325798; x=1781861798;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4aTcUYnIAakaj4a3pga/HgDnpnY7YndrB+8bMV1k13w=;
-  b=g1N6gzenCaBz2NJd4Q7PzIUU/YV/7oGFwOArtWtfY/T6VTn6NDs5KdB6
-   8TyscsoS/Ucx8pCNrxzoqGChk68lTNcVPOxlGRhjM61RqG97hi4+tQ7wz
-   etrVHqhBaXLdar2Zo4iswtw7Bowu8Dzk68H4yd6z5vjpOuszZ06DnKcw4
-   aLVscoh1xdYyhoQU+3bmfsiJEj7by64gfL28QdGxtKj+w/XH8K/7wW3wl
-   ruHA3aLD96+HH1VexJxno4TqprjCSFB1TXRczKIIRNCUPqO316ljOGv3f
-   z/svTqCVM7iuJrFB3v6M0eNZ2b9HDgeraeVDMqbh1hIERFg6OPbOgHxQd
-   A==;
-X-CSE-ConnectionGUID: Rgpl0RTKTTSxLpqS1mCVWw==
-X-CSE-MsgGUID: V2jccY24QG60dBBXpeejGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52657286"
-X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="52657286"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 02:36:38 -0700
-X-CSE-ConnectionGUID: 2nbnB/3ETaaGrLeamLq+Pw==
-X-CSE-MsgGUID: Hv0FCY5fT4e0Tec7RfvXQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="150680689"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Jun 2025 02:36:37 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uSBhC-000KcQ-2m;
-	Thu, 19 Jun 2025 09:36:34 +0000
-Date: Thu, 19 Jun 2025 17:35:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v9 12/13] arm64: dts: rockchip: add mipi csi-2 receiver
- node to rk356x
-Message-ID: <202506191718.AGLdyjHT-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bt37SAm6"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-553c31542b1so493038e87.2;
+        Thu, 19 Jun 2025 02:53:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750326822; x=1750931622; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8lxye2GX1z6QI+SRVMkfZEngbWK9B27pd3eBJcWGrlg=;
+        b=Bt37SAm6IbFxUOnDK0eVCY3B88SbTKmhNLux6pIwSxH0x/FFPJ9CVCFZ2gRMvLRMBs
+         CPExE6zNCQ6xg5zEYPS4YR++YkM6VJBbTyFZeASw2SfcgFzvb1towOqhmNk4tT4rAsQy
+         wcdvNxru2r+oWt7byYN5/rBm+GDURcrtjoAVP+oOv8ZSPs+Y/pLNer2be5ZFZs9n9+WB
+         6CIbPSdnaB36YEXHm1e7Zfil7Grm/NZm6RhUPEEKSP1i4e0E+EEFUWl6cIumDqJh3bU2
+         1ZayiEdtQeSVAs3AoTZnJOwT9yreApFi6ICrJfFt/puItpa8RTAV/YHapkEH2wlodLw3
+         C02A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750326822; x=1750931622;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8lxye2GX1z6QI+SRVMkfZEngbWK9B27pd3eBJcWGrlg=;
+        b=Z4EAGoTwkSkO1oD+0JO0iJ1R8pM/PRYHlBq0l1K0NSab3i6BRizxIh1HG+CVMWgL9T
+         QjfuGO+Mqq8CKK8d/8AiZH8QY+XI/peWiMEWC3FCPBC/1mnTvWUYPXquzehHbTxHDCFQ
+         UXekYbQbL9bhXz7jqenaEWWUZy3qF/NHdE3M+x+SGn2ZF/it7B2HuGf3LDVdrtRXTe9v
+         AS/dbz1r6Fg/AyXdjCFVF2n70Q4fz1oc83JNsLPfJnqkdCBpMNCIsHFYnIkLiQbPzqae
+         uZMur+hyY22SK+eIB5LVH8zACiaFN+GloPqm6Pp8tq2IDTtUqADUkBwIcY7lIMhgEivB
+         u6+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUr4lD5BC+kWjZVsrjEaWqhivjlBR2gd+lG/0kSyDm9wr8mBRu1Tx/vV1ytWWx5hz5SDJ/jaRxl9WT2IlpC@lists.linux.dev
+X-Gm-Message-State: AOJu0YzdXLnG4zI9O5xbJmPaKVMZVVYUQXUjL4NxsJtoKEXU9fWKzLbg
+	Rd1RHG1/LgKUow+MP+eVDcNngTmSnzF8IAiNSB3S+Z7jhpMFjUvqovR5
+X-Gm-Gg: ASbGncuGVXCV58WZGVuCMPkILa2EYf4KvN94FRplA/siwfjwCc2giGcPuRZ1jBJVjRv
+	UGTiovjoA9mRztBcTOEjg1Bn8BHWgruNTXtJ2aQzv8GEW53el71E0y3/AOV8eCCDtGRoI4qebIN
+	qayzkykcxx/HP9KPcx8MJ754W0J9UkEE8VJO27lQXQm4uHioGQ/+718Thuff05W8qdSNsyquCz0
+	4FwHc1EiNYsL3cNcnBC5xREmaxSAItbeftDPC0/B3YiOtX5H8sgbAr1i9P5vQN/MkUXHwqXUMai
+	idETCMwc38QosdVV0fL5CooNp9bkW+b5v7YXXLpl86p3WVyBGwrWHILBTZqQMMmNMBBkuuP1L81
+	kCX5H/CIQO24=
+X-Google-Smtp-Source: AGHT+IEJV7RqZa9E1nD948cD6oSgemriE8btKJowGkw8tp48NbrB1jrcDoGclBvee7YrwcLZgS368g==
+X-Received: by 2002:a05:6512:1049:b0:553:1f90:cca4 with SMTP id 2adb3069b0e04-553b6e74ae6mr5656846e87.13.1750326821436;
+        Thu, 19 Jun 2025 02:53:41 -0700 (PDT)
+Received: from pc636 (host-95-203-1-180.mobileonline.telia.com. [95.203.1.180])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553ac1367e9sm2541889e87.79.2025.06.19.02.53.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jun 2025 02:53:41 -0700 (PDT)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
+Date: Thu, 19 Jun 2025 11:53:38 +0200
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild@lists.linux.dev, Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andrew Morton <akpm@linux-foundation.org>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, sparclinux@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org, Hugh Dickins <hughd@google.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>, Juergen Gross <jgross@suse.com>,
+	Jeremy Fitzhardinge <jeremy@goop.org>,
+	Ryan Roberts <ryan.roberts@arm.com>
+Subject: Re: [PATCH 2/6] mm: Lock kernel page tables before entering lazy MMU
+ mode
+Message-ID: <aFPeIisE3ufUGEUq@pc636>
+References: <7bd3a45dbc375dc2c15cebae09cb2bb972d6039f.1749747752.git.agordeev@linux.ibm.com>
+ <0be7d42e-5898-4b94-829b-59c661c2f07b@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <0be7d42e-5898-4b94-829b-59c661c2f07b@suswa.mountain>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+On Wed, Jun 18, 2025 at 08:32:28PM +0300, Dan Carpenter wrote:
+> Hi Alexander,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Gordeev/mm-Cleanup-apply_to_pte_range-routine/20250613-013835
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/7bd3a45dbc375dc2c15cebae09cb2bb972d6039f.1749747752.git.agordeev%40linux.ibm.com
+> patch subject: [PATCH 2/6] mm: Lock kernel page tables before entering lazy MMU mode
+> config: x86_64-randconfig-161-20250613 (https://download.01.org/0day-ci/archive/20250613/202506132017.T1l1l6ME-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202506132017.T1l1l6ME-lkp@intel.com/
+> 
+> smatch warnings:
+> mm/vmalloc.c:552 vmap_pages_pte_range() warn: inconsistent returns 'global &init_mm.page_table_lock'.
+> 
+> vim +552 mm/vmalloc.c
+> 
+> 0a264884046f1ab Nicholas Piggin   2021-04-29  517  static int vmap_pages_pte_range(pmd_t *pmd, unsigned long addr,
+> 2ba3e6947aed9bb Joerg Roedel      2020-06-01  518  		unsigned long end, pgprot_t prot, struct page **pages, int *nr,
+> 2ba3e6947aed9bb Joerg Roedel      2020-06-01  519  		pgtbl_mod_mask *mask)
+> ^1da177e4c3f415 Linus Torvalds    2005-04-16  520  {
+> ^1da177e4c3f415 Linus Torvalds    2005-04-16  521  	pte_t *pte;
+> ^1da177e4c3f415 Linus Torvalds    2005-04-16  522  
+> db64fe02258f150 Nicholas Piggin   2008-10-18  523  	/*
+> db64fe02258f150 Nicholas Piggin   2008-10-18  524  	 * nr is a running index into the array which helps higher level
+> db64fe02258f150 Nicholas Piggin   2008-10-18  525  	 * callers keep track of where we're up to.
+> db64fe02258f150 Nicholas Piggin   2008-10-18  526  	 */
+> db64fe02258f150 Nicholas Piggin   2008-10-18  527  
+> 2ba3e6947aed9bb Joerg Roedel      2020-06-01  528  	pte = pte_alloc_kernel_track(pmd, addr, mask);
+> ^1da177e4c3f415 Linus Torvalds    2005-04-16  529  	if (!pte)
+> ^1da177e4c3f415 Linus Torvalds    2005-04-16  530  		return -ENOMEM;
+> 44562c71e2cfc9e Ryan Roberts      2025-04-22  531  
+> dac0cc793368851 Alexander Gordeev 2025-06-12  532  	spin_lock(&init_mm.page_table_lock);
+> 44562c71e2cfc9e Ryan Roberts      2025-04-22  533  	arch_enter_lazy_mmu_mode();
+> 44562c71e2cfc9e Ryan Roberts      2025-04-22  534  
+> ^1da177e4c3f415 Linus Torvalds    2005-04-16  535  	do {
+> db64fe02258f150 Nicholas Piggin   2008-10-18  536  		struct page *page = pages[*nr];
+> db64fe02258f150 Nicholas Piggin   2008-10-18  537  
+> c33c794828f2121 Ryan Roberts      2023-06-12  538  		if (WARN_ON(!pte_none(ptep_get(pte))))
+> db64fe02258f150 Nicholas Piggin   2008-10-18  539  			return -EBUSY;
+> db64fe02258f150 Nicholas Piggin   2008-10-18  540  		if (WARN_ON(!page))
+> ^1da177e4c3f415 Linus Torvalds    2005-04-16  541  			return -ENOMEM;
+> 4fcdcc12915c707 Yury Norov        2022-04-28  542  		if (WARN_ON(!pfn_valid(page_to_pfn(page))))
+> 4fcdcc12915c707 Yury Norov        2022-04-28  543  			return -EINVAL;
+> 
+> These error paths don't unlock &init_mm.page_table_lock?
+> 
+> 4fcdcc12915c707 Yury Norov        2022-04-28  544  
+> ^1da177e4c3f415 Linus Torvalds    2005-04-16  545  		set_pte_at(&init_mm, addr, pte, mk_pte(page, prot));
+> db64fe02258f150 Nicholas Piggin   2008-10-18  546  		(*nr)++;
+> ^1da177e4c3f415 Linus Torvalds    2005-04-16  547  	} while (pte++, addr += PAGE_SIZE, addr != end);
+> 44562c71e2cfc9e Ryan Roberts      2025-04-22  548  
+> 44562c71e2cfc9e Ryan Roberts      2025-04-22  549  	arch_leave_lazy_mmu_mode();
+> dac0cc793368851 Alexander Gordeev 2025-06-12  550  	spin_unlock(&init_mm.page_table_lock);
+> 2ba3e6947aed9bb Joerg Roedel      2020-06-01  551  	*mask |= PGTBL_PTE_MODIFIED;
+> ^1da177e4c3f415 Linus Torvalds    2005-04-16 @552  	return 0;
+> ^1da177e4c3f415 Linus Torvalds    2005-04-16  553  }
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
+> 
+This patch introduce a huge performance degrade when testing this by
+the test_vmalloc.sh performance tool. We return back to a single, not
+serialized global spilock where we spend 90% of cycles:
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240220-rk3568-vicap-v9-12-ace1e5cc4a82@collabora.com>
-References: <20240220-rk3568-vicap-v9-12-ace1e5cc4a82@collabora.com>
-TO: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-TO: Mehdi Djait <mehdi.djait@linux.intel.com>
-TO: Maxime Chevallier <maxime.chevallier@bootlin.com>
-TO: "Théo Lebrun" <theo.lebrun@bootlin.com>
-TO: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-TO: Gerald Loacker <gerald.loacker@wolfvision.net>
-TO: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-TO: Markus Elfring <Markus.Elfring@web.de>
-TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Heiko Stuebner <heiko@sntech.de>
-TO: Kever Yang <kever.yang@rock-chips.com>
-TO: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-TO: Sebastian Reichel <sebastian.reichel@collabora.com>
-TO: Collabora Kernel Team <kernel@collabora.com>
-TO: Paul Kocialkowski <paulk@sys-base.io>
-TO: Alexander Shiyan <eagle.alexander923@gmail.com>
-TO: Val Packett <val@packett.cool>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
-TO: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-CC: Michael Riesch <michael.riesch@collabora.com>
+<snip>
++   91.01%     1.67%  [kernel]          [k] _raw_spin_lock
+-   89.29%    89.25%  [kernel]          [k] native_queued_spin_lock_slowpath
+     69.82% ret_from_fork_asm
+      - ret_from_fork
+         - 69.81% kthread
+            - 69.66% test_func
+               - 26.31% full_fit_alloc_test
+                  - 19.11% __vmalloc_node_noprof
+                     - __vmalloc_node_range_noprof
+                        - 13.73% vmap_small_pages_range_noflush
+                             _raw_spin_lock
+                             native_queued_spin_lock_slowpath
+                        - 5.38% __get_vm_area_node
+                             alloc_vmap_area
+                             _raw_spin_lock
+                             native_queued_spin_lock_slowpath
+                  - 13.32% vfree.part.0
+                     - 13.31% remove_vm_area
+                        - 13.27% __vunmap_range_noflush
+                             _raw_spin_lock
+                             native_queued_spin_lock_slowpath
+               - 25.57% fix_size_alloc_test
+                  - 22.59% __vmalloc_node_noprof
+                     - __vmalloc_node_range_noprof
+                        - 17.34% vmap_small_pages_range_noflush
+                             _raw_spin_lock
+                             native_queued_spin_lock_slowpath
+                        - 5.25% __get_vm_area_node
+                             alloc_vmap_area
+                             _raw_spin_lock
+                             native_queued_spin_lock_slowpath
+                  - 11.59% vfree.part.0
+                     - remove_vm_area
+                        - 11.55% __vunmap_range_noflush
+                             _raw_spin_lock
+                             native_queued_spin_lock_slowpath
+               - 17.78% long_busy_list_alloc_test
+                  - 13.90% __vmalloc_node_noprof
+                     - __vmalloc_node_range_noprof
+                        - 9.95% vmap_small_pages_range_noflush
+                             _raw_spin_lock
+<snip>
 
-Hi Michael,
+No, we can not take this patch.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 19272b37aa4f83ca52bdf9c16d5d81bdd1354494]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Riesch-via-B4-Relay/Documentation-admin-guide-media-add-rockchip-camera-interface/20250618-235355
-base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-patch link:    https://lore.kernel.org/r/20240220-rk3568-vicap-v9-12-ace1e5cc4a82%40collabora.com
-patch subject: [PATCH v9 12/13] arm64: dts: rockchip: add mipi csi-2 receiver node to rk356x
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-config: arm64-randconfig-051-20250619 (https://download.01.org/0day-ci/archive/20250619/202506191718.AGLdyjHT-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 875b36a8742437b95f623bab1e0332562c7b4b3f)
-dtschema version: 2025.3.dev28+g49451a5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506191718.AGLdyjHT-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506191718.AGLdyjHT-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-d.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
 --
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-s.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353p.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353ps.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353v.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353vs.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-orangepi-3b-v1.1.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-orangepi-3b-v2.1.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
-   arch/arm64/boot/dts/rockchip/rk3566-pinenote.dtsi:488.10-499.6: Warning (graph_child_address): /i2c@fe5c0000/tcpc@60/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: usb2phy@fe8a0000 (rockchip,rk3568-usb2phy): otg-port: 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi:288.10-292.5: Warning (unit_address_vs_reg): /dsi@fe060000/panel@0/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi:289.29-291.6: Warning (unit_address_vs_reg): /dsi@fe060000/panel@0/port@0/endpoint@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v0.1.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v0.1.dtb: panel@0 (boe,th101mb31ig002-28a): 'port@0' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/panel/boe,th101mb31ig002-28a.yaml#
-   arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v0.1.dtb: phy@fe870000 (rockchip,rk3568-csi-dphy): 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip-inno-csi-dphy.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi:288.10-292.5: Warning (unit_address_vs_reg): /dsi@fe060000/panel@0/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi:289.29-291.6: Warning (unit_address_vs_reg): /dsi@fe060000/panel@0/port@0/endpoint@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v2.0.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v2.0.dtb: panel@0 (boe,th101mb31ig002-28a): 'port@0' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/panel/boe,th101mb31ig002-28a.yaml#
-   arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v2.0.dtb: phy@fe870000 (rockchip,rk3568-csi-dphy): 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip-inno-csi-dphy.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb10max3.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb20sx.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb30.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-x55.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-quartz64-b.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-radxa-cm3-io.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3566-radxa-cm3-io.dtb: wifi@1 (brcm,bcm43455-fmac): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['brcm,bcm43455-fmac'] is too short
-   	'brcm,bcm43455-fmac' is not one of ['brcm,bcm4329-fmac', 'pci14e4,43dc', 'pci14e4,4464', 'pci14e4,4488', 'pci14e4,4425', 'pci14e4,4433', 'pci14e4,449d']
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
-   arch/arm64/boot/dts/rockchip/rk3566-radxa-cm3-io.dtb: wifi@1 (brcm,bcm43455-fmac): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-radxa-zero-3e.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-radxa-zero-3w.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-roc-pc.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-rock-3c.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-soquartz-blade.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-soquartz-cm4.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-soquartz-model-a.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-box-demo.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-lckfb-tspi.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-lubancat-1.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-nanopi-r3s.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: /i2c@fe5c0000/touchscreen@48: failed to match any schema with compatible: ['ti,tsc2007']
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: /i2c@fe5c0000/touchscreen@48: failed to match any schema with compatible: ['ti,tsc2007']
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-fastrhino-r66s.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-fastrhino-r68s.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-lubancat-2.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-mecsbc.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-nanopi-r5c.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-nanopi-r5s.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-photonicat.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-radxa-e25.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-roc-pc.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-rock-3b.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk356x-base.dtsi:282.3-26: Warning (interrupts_property): /csi@fdfb0000:#interrupt-cells: size is (32), expected multiple of 12
->> arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
---
->> arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: csi@fdfb0000 (rockchip,rk3568-mipi-csi): interrupts: [[0, 8, 4], [0, 0, 9], [4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: panel@0 (jasonic,jt240mhqs-hwt-ek-e3): compatible: ['jasonic,jt240mhqs-hwt-ek-e3', 'sitronix,st7789v'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/panel/sitronix,st7789v.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: touchscreen@55 (sitronix,st1624): compatible:0: 'sitronix,st1624' is not one of ['sitronix,st1232', 'sitronix,st1633']
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/sitronix,st1232.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: touchscreen@55 (sitronix,st1624): compatible: ['sitronix,st1624', 'sitronix,st1633'] is too long
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/sitronix,st1232.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: touchscreen@55 (sitronix,st1624): Unevaluated properties are not allowed ('compatible', 'wakeup-source' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/sitronix,st1232.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: /i2c@fe5a0000/touchscreen@55: failed to match any schema with compatible: ['sitronix,st1624', 'sitronix,st1633']
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Uladzislau Rezki
