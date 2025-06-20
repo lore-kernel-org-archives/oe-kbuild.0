@@ -1,72 +1,57 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E8F1C6FF6
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Jun 2025 02:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7647D137E
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Jun 2025 03:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750387010; cv=none; b=mU32Sl3l04YRzl+H29mRQs8EwanKW910RaYjhIh/vDL0AmHckbUfLIIrncrAvyOLn0eS9II2P9v4uFE9zmlCulgIlr5CB/GFFiHLApo5rJ0x8wfWPKUj041Zp1tMtgXN+h6M7qfgOFASR+GZXQqjrvbLepiT+D2ar1AF80CcuBU=
+	t=1750388482; cv=none; b=qp31/9YZETaUHXS4OmlCogJwjk0JLTZxtC4sdA6YKNNJRpsug79udU+dfgWJrQuer7sHj/lW/fVsWYj8PGV3SjWMvSBX/eca1YHWJbsfhGVaW0swMKotrnDOcXLY6kWiqCBFCxiAtVlEjGuHdkSaOyppgziWgUgP/bYqO0oGTlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750387010; c=relaxed/simple;
-	bh=hG1ZdXViD6AbAyDwakvGzzsX8OTenI6ot8PMxV7TY9k=;
+	s=arc-20240116; t=1750388482; c=relaxed/simple;
+	bh=6k4AN7xVbqFMdZ7Y8UD4CDnU6otX+xTPaLptz1U7mXc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Bm/8ZhOjGsfsohl97cG00jMLEZFw0sul1rt/6G0t7ydPQVF7weUpFbzILPd7Pkkv4rmT2TqUzg9wcQtuyY/T1jVqqW+YSD7OsKy0THgRKssVgp+H0TCNNxlQZnLHryuXnX5qYryLOlMk6QbE6s41/7atHmO3eWZg0AzNt7vqfZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YAaN5Wz2; arc=none smtp.client-ip=209.85.167.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=MprhKO1FOUnWes+as4sUEd+UvUU6BJA5f/fCMPWnKxAymki2xFD3BHMVNXVe2DX33pKwRcLstcFyNRklMd1qVt5Ly7yuttbuCb7WA7aQyaUIvdrg372a6vjQ4ifFiCaAl6OM2eSzeNVNzueuPGIJ48Ytf06uQQaVJ/FHUV8vApc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cZNpmxX3; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YAaN5Wz2"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-4067b7d7e52so309811b6e.2
-        for <oe-kbuild@lists.linux.dev>; Thu, 19 Jun 2025 19:36:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750387008; x=1750991808; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JzM92pnb5kciFT5sFfWWCwGdEyggW8xJbiGstXoCan0=;
-        b=YAaN5Wz2+2zc+XqWmGsw1BaPRPNRyua+ThPs/faQzwQ0NnD6CNXoaD5ARNMwoRua69
-         6Xhy15WM513twaRfrfan+arb0pCipt2FIguQONut/R64R8Szpz87HI+K/PnbIAiqISzk
-         KGoMTA5ctXyMUkIMQQ82dFWd5jVTIEnnI0kk9fl8ugvezD5IyYYz9g2hvb6gEjkBA2gE
-         1ZCZtaFPpEfutLMCWyk25ANldeXH6D5I7PWB8pj6B5A1+OswDLlkK6duU6cC2aYYbV8Z
-         UnMvOIv7qDbALmyRI8SrVDK/dA7c8h8QHgaU32EC7PhdxwRq/goj3+QOeh8Djuu7uWSQ
-         v0Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750387008; x=1750991808;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JzM92pnb5kciFT5sFfWWCwGdEyggW8xJbiGstXoCan0=;
-        b=h/6Ni+yf/LGvqXOsfLKhNi/5CSixxxO/NBdfT6s7LSt25OmxiY6Fh+DD6A6cdbNxdj
-         70Hp2LPsk8Lo0vEVaojf5tLp1cjTNQxXjudohaChc43PVyw8A9YoZBZGnoHcbSOEVVvV
-         q3CRMfCsGJBR/hnNbKz5Zjqo6WGNWci5QiS0NjFfaGD2mZUq8ReMC7f1g5AgaHzUAPD5
-         fDAMITaFXV5knYHo9wCrQmRV0C6JgECzrMmCEASsOPrh8zbPQfC39NK6VQKVhEfgA7pb
-         m76gh92xl/ur0JNOhFmYfyO+nDm5/KUyMNHKaDhqqhpFYM00/H+eBJ93VZOWo+MRpMo7
-         ONow==
-X-Gm-Message-State: AOJu0YwkuSN3vkQpY7o1tDd/tk/l9RCsCf39piZuzxTH6Yi+cuzfeOS9
-	hnfiCqgFB31Y2yQ4TD/08QwSXk+xTgjMmmHv0ibjzC+wn7haO2ojeG7XeNlrHJ0R4RIB0bOuV82
-	6wmT4
-X-Gm-Gg: ASbGncvNbIBw3C4ddf3PFYqYxqgwjsQfe0yX01Xzzuhh2YnrQFdbQwUrJ0PO8zlVzX/
-	oRbPmLSkU37yBIVMfpuw78KKvH+sSqS+4sjn8hoamWNZZrisYciIsSZFLWpvqZSgNDwp6J+D9wT
-	LekKAXrGcjMiTGOBCPWfokFZlIKueT7pSUgLEsdhibo404oEETFpwkiIrcOTrUcw9IxCrqVbqxv
-	4hNiQiIr22pUwxK/JIKM+uVYsnNYGtC0NpJ6oMCg8AEHdcwffIcs3nB/rdIryfXIwuNTx+80Em8
-	+/nYoeyKPOV+MW/WK4T/l0gl6KIwQDbKqw6jMag1iOnmBlu6k2pOKfeulWAIahK1f6wEmXlVAIT
-	iqI8f
-X-Google-Smtp-Source: AGHT+IHC5MEthcpCCp8n0W5HVZ30ICKD25Cgr7vOwziWL9tEqFSbHlhXS1cd+FIagwiDa2O+PavoSQ==
-X-Received: by 2002:a05:6870:40c7:b0:2d5:cb5:2193 with SMTP id 586e51a60fabf-2eeee655a28mr1041121fac.35.1750387007762;
-        Thu, 19 Jun 2025 19:36:47 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:67e2:ece8:b2f5:738f])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ee664c0dcesm197478fac.9.2025.06.19.19.36.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jun 2025 19:36:47 -0700 (PDT)
-Date: Fri, 20 Jun 2025 05:36:44 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v2 2/3] media: v4l2-ctrls: Return the handler's error in
- v4l2_ctrl_handler_free()
-Message-ID: <5a78e918-b44c-40f5-a6c7-b53828e27450@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cZNpmxX3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750388481; x=1781924481;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6k4AN7xVbqFMdZ7Y8UD4CDnU6otX+xTPaLptz1U7mXc=;
+  b=cZNpmxX3nVZSwDOgPKHHmyATqZ8pU9H7kRIFu53BNGTIgbDGz4kVuJEy
+   r6mODVNHVc6cqV6u2tU0J0UKJdQHeUKld479B64jZgyUKSL9IpS4HM9tS
+   ULZIj/yDdI7zIx8+uFHaOepNuauRrKsh3rSh+f39Meoxg7NOsLV86jTxM
+   YXMCu2rm7hHfNZUZ4hZLZ6Xshv48v7b069ssiFXUDLk/jp5C6dUvEgPE9
+   lNOTC6E/TjRzw02AbDwuO+iQG8euP4CsDUvSBj8LvTD0d3Fn0agzWdF4g
+   oUEin/220FGWcDDtee/3vXqpWyDwE4BU2jPhbi36lF7SORZshkCEZfXEJ
+   Q==;
+X-CSE-ConnectionGUID: yvUNVA0LQA28t7h6DZE1+w==
+X-CSE-MsgGUID: E96uGbMxQnK6D5y63Ryqww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="64073599"
+X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
+   d="scan'208";a="64073599"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 20:01:19 -0700
+X-CSE-ConnectionGUID: nvtVB7W9RQ+gBQ98tPO5TA==
+X-CSE-MsgGUID: mNRE5uwdSweQCQF6R6e30Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
+   d="scan'208";a="150282491"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 19 Jun 2025 20:01:18 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uSS0B-000LJw-1x;
+	Fri, 20 Jun 2025 03:01:15 +0000
+Date: Fri, 20 Jun 2025 11:00:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH] i2c: busses: Use min() to improve code
+Message-ID: <202506201020.x0ig9fuA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,54 +60,128 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250619095227.1939114-3-sakari.ailus@linux.intel.com>
 
-Hi Sakari,
+:::::: 
+:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250619142609.323082-1-rongqianfeng@vivo.com>
+References: <20250619142609.323082-1-rongqianfeng@vivo.com>
+TO: Qianfeng Rong <rongqianfeng@vivo.com>
+TO: Patrice Chotard <patrice.chotard@foss.st.com>
+TO: Andi Shyti <andi.shyti@kernel.org>
+TO: linux-arm-kernel@lists.infradead.org
+TO: linux-i2c@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: opensource.kernel@vivo.com
+CC: Qianfeng Rong <rongqianfeng@vivo.com>
 
+Hi Qianfeng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on linus/master v6.16-rc2 next-20250619]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l2-ctrls-Don-t-reset-handler-s-error-in-v4l2_ctrl_handler_free/20250619-175457
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20250619095227.1939114-3-sakari.ailus%40linux.intel.com
-patch subject: [PATCH v2 2/3] media: v4l2-ctrls: Return the handler's error in v4l2_ctrl_handler_free()
-config: i386-randconfig-141-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201045.80WKwL22-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Qianfeng-Rong/i2c-busses-Use-min-to-improve-code/20250619-222745
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20250619142609.323082-1-rongqianfeng%40vivo.com
+patch subject: [PATCH] i2c: busses: Use min() to improve code
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: arm-randconfig-004-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201020.x0ig9fuA-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 875b36a8742437b95f623bab1e0332562c7b4b3f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201020.x0ig9fuA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506201045.80WKwL22-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506201020.x0ig9fuA-lkp@intel.com/
 
-smatch warnings:
-drivers/media/v4l2-core/v4l2-ctrls-core.c:1641 v4l2_ctrl_handler_free() error: we previously assumed 'hdl' could be null (see line 1640)
+All errors (new ones prefixed by >>):
 
-vim +/hdl +1641 drivers/media/v4l2-core/v4l2-ctrls-core.c
+>> drivers/i2c/busses/i2c-st.c:453:6: error: call to '__compiletime_assert_499' declared with 'error' attribute: min(max, 0x8 - tx_fstat) signedness error
+     453 |         i = min(max, SSC_TXFIFO_SIZE - tx_fstat);
+         |             ^
+   include/linux/minmax.h:105:19: note: expanded from macro 'min'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^
+   include/linux/minmax.h:98:2: note: expanded from macro '__careful_cmp'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^
+   include/linux/minmax.h:93:2: note: expanded from macro '__careful_cmp_once'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:556:2: note: expanded from macro '_compiletime_assert'
+     556 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:549:4: note: expanded from macro '__compiletime_assert'
+     549 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:166:1: note: expanded from here
+     166 | __compiletime_assert_499
+         | ^
+>> drivers/i2c/busses/i2c-st.c:453:6: error: call to '__compiletime_assert_499' declared with 'error' attribute: min(max, 0x8 - tx_fstat) signedness error
+   include/linux/minmax.h:105:19: note: expanded from macro 'min'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^
+   include/linux/minmax.h:98:2: note: expanded from macro '__careful_cmp'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^
+   include/linux/minmax.h:93:2: note: expanded from macro '__careful_cmp_once'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:556:2: note: expanded from macro '_compiletime_assert'
+     556 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:549:4: note: expanded from macro '__compiletime_assert'
+     549 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:166:1: note: expanded from here
+     166 | __compiletime_assert_499
+         | ^
+   2 errors generated.
 
-b56f94c6d2dfdd Sakari Ailus 2025-06-19  1634  int v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
-71c689dc2e732d Hans Verkuil 2021-04-27  1635  {
-71c689dc2e732d Hans Verkuil 2021-04-27  1636  	struct v4l2_ctrl_ref *ref, *next_ref;
-71c689dc2e732d Hans Verkuil 2021-04-27  1637  	struct v4l2_ctrl *ctrl, *next_ctrl;
-71c689dc2e732d Hans Verkuil 2021-04-27  1638  	struct v4l2_subscribed_event *sev, *next_sev;
-71c689dc2e732d Hans Verkuil 2021-04-27  1639  
-71c689dc2e732d Hans Verkuil 2021-04-27 @1640  	if (hdl == NULL || hdl->buckets == NULL)
-                                                    ^^^^^^^^^^^
-hdl is NULL
 
-b56f94c6d2dfdd Sakari Ailus 2025-06-19 @1641  		return hdl->error;
-                                                               ^^^^^^^^^^
-Dereferenced.
+vim +453 drivers/i2c/busses/i2c-st.c
 
-71c689dc2e732d Hans Verkuil 2021-04-27  1642  
-71c689dc2e732d Hans Verkuil 2021-04-27  1643  	v4l2_ctrl_handler_free_request(hdl);
-71c689dc2e732d Hans Verkuil 2021-04-27  1644  
-71c689dc2e732d Hans Verkuil 2021-04-27  1645  	mutex_lock(hdl->lock);
-71c689dc2e732d Hans Verkuil 2021-04-27  1646  	/* Free all nodes */
-71c689dc2e732d Hans Verkuil 2021-04-27  1647  	list_for_each_entry_safe(ref, next_ref, &hdl->ctrl_refs, node) {
+85b4fab2696000 Maxime COQUELIN 2013-11-06  431  
+85b4fab2696000 Maxime COQUELIN 2013-11-06  432  /**
+85b4fab2696000 Maxime COQUELIN 2013-11-06  433   * st_i2c_rd_fill_tx_fifo() - Fill the Tx FIFO in read mode
+85b4fab2696000 Maxime COQUELIN 2013-11-06  434   * @i2c_dev: Controller's private data
+f491c668733292 Alain Volmat    2020-03-26  435   * @max: Maximum amount of data to fill into the Tx FIFO
+85b4fab2696000 Maxime COQUELIN 2013-11-06  436   *
+85b4fab2696000 Maxime COQUELIN 2013-11-06  437   * This functions fills the Tx FIFO with fixed pattern when
+85b4fab2696000 Maxime COQUELIN 2013-11-06  438   * in read mode to trigger clock.
+85b4fab2696000 Maxime COQUELIN 2013-11-06  439   */
+85b4fab2696000 Maxime COQUELIN 2013-11-06  440  static void st_i2c_rd_fill_tx_fifo(struct st_i2c_dev *i2c_dev, int max)
+85b4fab2696000 Maxime COQUELIN 2013-11-06  441  {
+85b4fab2696000 Maxime COQUELIN 2013-11-06  442  	struct st_i2c_client *c = &i2c_dev->client;
+85b4fab2696000 Maxime COQUELIN 2013-11-06  443  	u32 tx_fstat, sta;
+85b4fab2696000 Maxime COQUELIN 2013-11-06  444  	int i;
+85b4fab2696000 Maxime COQUELIN 2013-11-06  445  
+85b4fab2696000 Maxime COQUELIN 2013-11-06  446  	sta = readl_relaxed(i2c_dev->base + SSC_STA);
+85b4fab2696000 Maxime COQUELIN 2013-11-06  447  	if (sta & SSC_STA_TX_FIFO_FULL)
+85b4fab2696000 Maxime COQUELIN 2013-11-06  448  		return;
+85b4fab2696000 Maxime COQUELIN 2013-11-06  449  
+85b4fab2696000 Maxime COQUELIN 2013-11-06  450  	tx_fstat = readl_relaxed(i2c_dev->base + SSC_TX_FSTAT);
+85b4fab2696000 Maxime COQUELIN 2013-11-06  451  	tx_fstat &= SSC_TX_FSTAT_STATUS;
+85b4fab2696000 Maxime COQUELIN 2013-11-06  452  
+6a2a53759c181d Qianfeng Rong   2025-06-19 @453  	i = min(max, SSC_TXFIFO_SIZE - tx_fstat);
+85b4fab2696000 Maxime COQUELIN 2013-11-06  454  
+85b4fab2696000 Maxime COQUELIN 2013-11-06  455  	for (; i > 0; i--, c->xfered++)
+85b4fab2696000 Maxime COQUELIN 2013-11-06  456  		st_i2c_write_tx_fifo(i2c_dev, 0xff);
+85b4fab2696000 Maxime COQUELIN 2013-11-06  457  }
+85b4fab2696000 Maxime COQUELIN 2013-11-06  458  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
