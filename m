@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3A7101EE
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Jun 2025 10:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA19B2EA143
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Jun 2025 17:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750415704; cv=none; b=r/r3f+ZOFDvm5qXHBAtavjexqfn0bydmoQVQv9JmEti3doish4bMmp8y9G0sFFoRT5SDwskvWr46ceT9ws6UYGLI5azl+26y7bOAka1OfimZQUEXYL+uBYn1HP0cf65YknIxCRCSKm+hQ412EtuEKjTHE29Gan9lGQx4Q/H+Vyc=
+	t=1750441250; cv=none; b=hT/YHFgpFI+v9UEifLRuiYvYz0krx/ExToRjM78jNlVL7i6MjDM8sJTz3Ox5gohiihuamBDmo/0S0MQmW51YYoX0Exsf4blr9tj4301frVZZfxPTRLFHnTW+8tm/30jeqb+8nA6Jv36a1T9TCTVVUykjlY/SIu47JHoNNNqk8oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750415704; c=relaxed/simple;
-	bh=Ta3FbyEhOC3pmnU8xmYG1EAg9eIQSvurb5lwzIPSNOs=;
+	s=arc-20240116; t=1750441250; c=relaxed/simple;
+	bh=y4rimwHw1nsEDbql5Ge/Pvkqgit5TtDFLoIid9knFHs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dcTkOyZS9chq7PlA2Vh6ydXYx81LvHP8DXGjKowsATCr0Q0TscDoUYqn+tq2wJGdqq0OmKw53pvGnHRYgFYvXqhkk8OMdyXaHdRIExod28IjmRaRjMorEOrTHM572bgEiI5cTHjln3dsP5VJMVIorcQ8WTTNaEVPx2Nid5PXoUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i40Qg7eJ; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=I+BVh2HvmYLczUydyORqeOIjVgqCPRwCwguzMTSr9tO6fHK79jhuQJmPmPoT1fk6RKj66HZO2clERB4VPPcgwu/6SAnAzABzjGQYrUkS44SBiKkvfMnX7twEeZZ/iDfjwZ9fZjnMv9w7yrYn+jYgN3FZlRFNA/myxlKSUG7r9fU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zu5plceN; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i40Qg7eJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zu5plceN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750415703; x=1781951703;
+  t=1750441248; x=1781977248;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ta3FbyEhOC3pmnU8xmYG1EAg9eIQSvurb5lwzIPSNOs=;
-  b=i40Qg7eJdsYQWkFelaRmff80uGnbra+wP0qWIUcWqQm528I0zTze0HwZ
-   lpKCpokyWuyaLQ5i1rJJsNkeiCnKED56yc/jA/9txsbxFbY1p6pk16uPv
-   euQtULjS5G4O7s9uVXSWnXSxJJS32tcXxGfGoJNfv6TDnaO6z+JWHQLJJ
-   9PlPUOv8WgbVYDH943trkPdG4zd7RMQM3MUDxlrX291SCfV/a1LCe6gcK
-   npinhTNW/hHnRGGch9a9sJVQ8GxFYowuGfJl7YTifMyzx9VO3NBX2iToO
-   4iifw0EArYZN6kus8r7kRI6ZiM5YTSX279FHyTGCqSSSb5CJIgJBRJa1z
-   A==;
-X-CSE-ConnectionGUID: jP2TgveDQoagZLVLxZsrtQ==
-X-CSE-MsgGUID: uTs92iHSSYenj8XCuMcSmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63726176"
-X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="63726176"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 03:35:02 -0700
-X-CSE-ConnectionGUID: fqTWUKQ9TGyINhLiGJ2ToQ==
-X-CSE-MsgGUID: ckltyZn0TIGBrP2Nsg0/Yg==
+  bh=y4rimwHw1nsEDbql5Ge/Pvkqgit5TtDFLoIid9knFHs=;
+  b=Zu5plceNLQBSym2mGlv8eypmI+BGDbeKUBEEWlwWDAYnC8AZ9JmUmoTS
+   WWLJE94U1GcRtINtY9MdzY71LaPGmhlKuE+MQVGnc1XX91woD9ztgmcAE
+   gI871zJMnpxRrpXe8ar5hCQ+Ru+KcWiiYVGwl3RT0xaTdu7lF2D0lly4X
+   /k0C5UTTPC5TmkJ818lCZ6F2K2bvdQFnBqxUZb0bCS5EcUFI0S2YYUIdK
+   34RNZniGIMrw3XgK58nOqpCAR7LOZrwDZlqvi//jx0niFTgcB76RwLnAU
+   WFNVl25UjikCBTWe9jGr04a7LoHUtIbK/kusg7A2r7VS+Q6H4fiFoYqKR
+   g==;
+X-CSE-ConnectionGUID: XfpaRdxOTBa2pVNm9Krg+w==
+X-CSE-MsgGUID: ZANTVISdTiyo72OWPvkrlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="51828519"
+X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
+   d="scan'208";a="51828519"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 10:40:47 -0700
+X-CSE-ConnectionGUID: AVK8X9q4R+KpWdSbKgrEdw==
+X-CSE-MsgGUID: zOqaRmfeTMqOGh5h5LgNeg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="150473756"
+X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
+   d="scan'208";a="151270713"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Jun 2025 03:35:01 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 20 Jun 2025 10:40:46 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSZ5G-000Lcw-2x;
-	Fri, 20 Jun 2025 10:34:58 +0000
-Date: Fri, 20 Jun 2025 18:34:28 +0800
+	id 1uSfjI-000M1O-0M;
+	Fri, 20 Jun 2025 17:40:44 +0000
+Date: Sat, 21 Jun 2025 01:40:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 3438/3877]
- drivers/pinctrl/pinctrl-aw9523.c:658:1-7: preceding lock on line 642
-Message-ID: <202506201841.imLBtvxC-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 2/2] bitops: rotate: Add riscv implementation using Zbb
+ extension
+Message-ID: <202506210147.ur3sfq5j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,64 +62,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
+In-Reply-To: <20250620111610.52750-3-cp0613@linux.alibaba.com>
+References: <20250620111610.52750-3-cp0613@linux.alibaba.com>
+TO: cp0613@linux.alibaba.com
+TO: yury.norov@gmail.com
+TO: linux@rasmusvillemoes.dk
+TO: arnd@arndb.de
+TO: paul.walmsley@sifive.com
+TO: palmer@dabbelt.com
+TO: aou@eecs.berkeley.edu
+TO: alex@ghiti.fr
+CC: linux-riscv@lists.infradead.org
+CC: linux-arch@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Chen Pei <cp0613@linux.alibaba.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2c923c845768a0f0e34b8161d70bc96525385782
-commit: dffe286e2428a32bf5a70648d22a678b83080414 [3438/3877] pinctrl: aw9523: use new GPIO line value setter callbacks
-:::::: branch date: 23 hours ago
-:::::: commit date: 2 days ago
-config: alpha-randconfig-r051-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201841.imLBtvxC-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on arnd-asm-generic/master]
+[also build test WARNING on linus/master v6.16-rc2 next-20250620]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/cp0613-linux-alibaba-com/bitops-generic-rotate/20250620-192016
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
+patch link:    https://lore.kernel.org/r/20250620111610.52750-3-cp0613%40linux.alibaba.com
+patch subject: [PATCH 2/2] bitops: rotate: Add riscv implementation using Zbb extension
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202506201841.imLBtvxC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506210147.ur3sfq5j-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/pinctrl/pinctrl-aw9523.c:658:1-7: preceding lock on line 642
+includecheck warnings: (new ones prefixed by >>)
+   arch/riscv/include/asm/bitops.h: asm-generic/bitops/ffs.h is included more than once.
+   arch/riscv/include/asm/bitops.h: asm-generic/bitops/fls.h is included more than once.
+   arch/riscv/include/asm/bitops.h: asm-generic/bitops/__fls.h is included more than once.
+>> arch/riscv/include/asm/bitops.h: asm-generic/bitops/rotate.h is included more than once.
+   arch/riscv/include/asm/bitops.h: asm-generic/bitops/__ffs.h is included more than once.
 
-vim +658 drivers/pinctrl/pinctrl-aw9523.c
+vim +23 arch/riscv/include/asm/bitops.h
 
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  627  
-dffe286e2428a3 Bartosz Golaszewski        2025-06-12  628  static int aw9523_gpio_set_multiple(struct gpio_chip *chip,
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  629  				    unsigned long *mask,
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  630  				    unsigned long *bits)
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  631  {
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  632  	struct aw9523 *awi = gpiochip_get_data(chip);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  633  	u8 mask_lo, mask_hi, bits_lo, bits_hi;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  634  	unsigned int reg;
-dffe286e2428a3 Bartosz Golaszewski        2025-06-12  635  	int ret = 0;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  636  
-4210ef801a2482 Andy Shevchenko            2024-03-29  637  	mask_lo = *mask;
-4210ef801a2482 Andy Shevchenko            2024-03-29  638  	mask_hi = *mask >> 8;
-4210ef801a2482 Andy Shevchenko            2024-03-29  639  	bits_lo = *bits;
-4210ef801a2482 Andy Shevchenko            2024-03-29  640  	bits_hi = *bits >> 8;
-4210ef801a2482 Andy Shevchenko            2024-03-29  641  
-576623d706613f AngeloGioacchino Del Regno 2024-03-01 @642  	mutex_lock(&awi->i2c_lock);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  643  	if (mask_hi) {
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  644  		reg = AW9523_REG_OUT_STATE(AW9523_PINS_PER_PORT);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  645  		ret = regmap_write_bits(awi->regmap, reg, mask_hi, bits_hi);
-091655b9285d83 Andy Shevchenko            2024-03-29  646  		if (ret)
-dffe286e2428a3 Bartosz Golaszewski        2025-06-12  647  			goto out;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  648  	}
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  649  	if (mask_lo) {
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  650  		reg = AW9523_REG_OUT_STATE(0);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  651  		ret = regmap_write_bits(awi->regmap, reg, mask_lo, bits_lo);
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  652  		if (ret)
-dffe286e2428a3 Bartosz Golaszewski        2025-06-12  653  			goto out;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  654  	}
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  655  	mutex_unlock(&awi->i2c_lock);
-dffe286e2428a3 Bartosz Golaszewski        2025-06-12  656  
-dffe286e2428a3 Bartosz Golaszewski        2025-06-12  657  out:
-dffe286e2428a3 Bartosz Golaszewski        2025-06-12 @658  	return ret;
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  659  }
-576623d706613f AngeloGioacchino Del Regno 2024-03-01  660  
+    17	
+    18	#if !(defined(CONFIG_RISCV_ISA_ZBB) && defined(CONFIG_TOOLCHAIN_HAS_ZBB)) || defined(NO_ALTERNATIVE)
+    19	#include <asm-generic/bitops/__ffs.h>
+    20	#include <asm-generic/bitops/__fls.h>
+    21	#include <asm-generic/bitops/ffs.h>
+    22	#include <asm-generic/bitops/fls.h>
+  > 23	#include <asm-generic/bitops/rotate.h>
+    24	
+    25	#else
+    26	#define __HAVE_ARCH___FFS
+    27	#define __HAVE_ARCH___FLS
+    28	#define __HAVE_ARCH_FFS
+    29	#define __HAVE_ARCH_FLS
+    30	#define __HAVE_ARCH_ROTATE
+    31	
+    32	#include <asm-generic/bitops/__ffs.h>
+    33	#include <asm-generic/bitops/__fls.h>
+    34	#include <asm-generic/bitops/ffs.h>
+    35	#include <asm-generic/bitops/fls.h>
+  > 36	#include <asm-generic/bitops/rotate.h>
+    37	
 
 -- 
 0-DAY CI Kernel Test Service
