@@ -1,58 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D216625
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Jun 2025 03:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA7C1E3DDE
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Jun 2025 03:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750390405; cv=none; b=dR5mO3q2hdmc3eswqUqW9KOu+LsJHY894aghg6hL4bk/5frAL4czuUDY+3v1ewgNehy3O8toAO3gTXSTgq6H/L5PAsbz2xrGZv4BujZ5dakAwL4yg+zqjXKEcAcBaEpfwWCj00WfgIrr0VgAcInZJH8gWo6BGhCsI22AtITaYGo=
+	t=1750391909; cv=none; b=unrLD4ynXVXsvoZ+he2d3kkKN/4zPcdL0nCBTc2EprRiJRjfFwKhK86EPQhhoxZfoaA0iVOw4eKlWZycmi6bYFXl48UYZgEdil3FbRZsDT7nTlsscNeEq3eQjvYzHdBpfeYZo5OUjezPryOz/XInDa5a9HbH//6dTNW+XJ6/4/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750390405; c=relaxed/simple;
-	bh=Ituub3t+4gcvqY+0DfTrwCMDf21rMZxM9xmNFUxJR7s=;
+	s=arc-20240116; t=1750391909; c=relaxed/simple;
+	bh=9pJouk95Dk7jxMDD63iVY7u8zgT7ckQalui69Rr6lv0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DC90XVEpyyzUpnswSw7MbF22MHlUMnHj+Ox+QsIdYJp8PNo6DyLG1VFi2tYdm05Zk7PRCR7cZbd05GAyA0uiOqK5xcuxF8mjaIn9NYZsxxNSaOXNE7jg6vjdyr3J1Qhe+hLx+VipAVelerG9mQhGfRsWeQjLkMyDR42vCz/DmLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LQWE5VbG; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=kT5hga/dwEYFQDUPiJ1UUkxFtTs8HxPteptBO54SKk6oiUCalxDWhg9v4cm9MaQK/m6UJ+Rhm0R0hqkiZtYDE6TJ94sFjjOIM/w8OHDqYmws51M2qESINFCdACKYt8cYN/YKwfKy1SP8wghs3MeDEKnobSzD7SlJB/tS6BErG+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z7W7CL4W; arc=none smtp.client-ip=209.85.210.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LQWE5VbG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750390403; x=1781926403;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ituub3t+4gcvqY+0DfTrwCMDf21rMZxM9xmNFUxJR7s=;
-  b=LQWE5VbGqrdNvfOv1blYEigTU2Df9bL8Y3z4qsi/NotVFk4782Blh0pe
-   HqS/j+8nRwQeg4a32SCu0t9XYusXJCIealtnVwFcayr7A2Pr5KuLjUWXX
-   mb4M339fkDaC7qq8UYlw3T4/SsZ8l61CZmCn14MejI19xSFpNbsJptEZ3
-   0rqoRC6fKYuQ49JyOU0++bQxIPlhkfkGTcy0YxQmTrRvJXDRjhQfMDPOk
-   WnsB3u+GeAL++gNnYAHDiaoOT+pARlQpqKp+K5oy4Wv3TBkWYG1vpDwE6
-   ovod1qyKVgPOAyn9fIiGlvm2LOAu8yTm4Iw264vB9vGksmJGSqc8zfV59
-   A==;
-X-CSE-ConnectionGUID: Byf3OjKkQRmjez014ix/WQ==
-X-CSE-MsgGUID: LQr61A1HRyKO0kQv1YtYAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63691997"
-X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
-   d="scan'208";a="63691997"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 20:33:22 -0700
-X-CSE-ConnectionGUID: R5Wiu7cLRbyizQUayi8x4A==
-X-CSE-MsgGUID: uAseC0yFTiaQrCz3TRukrQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
-   d="scan'208";a="151105045"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 19 Jun 2025 20:33:20 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uSSVB-000LLA-2w;
-	Fri, 20 Jun 2025 03:33:17 +0000
-Date: Fri, 20 Jun 2025 11:32:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z7W7CL4W"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-73884ccffcbso1155780a34.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 19 Jun 2025 20:58:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750391907; x=1750996707; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IFHKqqtOaEqzhi2Jp/MtBYDxod6qfm4n84K2u+AHhyw=;
+        b=Z7W7CL4WZ2y22++teE4p7tkvbCNc0WXSYqj2gQiqwMuLWspmnS3O7UotxXz5xoFXC8
+         3DJY4ZeBvhZMalLEJ1v5YSi1Hvg0OmRaL16630rFEH0yfjmg6KjPMbX44NpHQO5A1ikv
+         YmhOc558TdcsPvbzI3gi+aiKAgNev4oGQlQk5ka4H87awauZmGfVv4YXTBzdJ06uiTit
+         +VDxrqcq8y6GhzRmSspGAEbv+3EEc04wTwTXpBLDv2E9B+nD+J2nhP5JT4vL1lie1xB6
+         iXoKF+EzUPd3WLaeOMdgyvh6f618CFOQaFa4fig//Kn5LBOnLJ324KVuv+B2eWsOWSMV
+         +LfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750391907; x=1750996707;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IFHKqqtOaEqzhi2Jp/MtBYDxod6qfm4n84K2u+AHhyw=;
+        b=V52ynUcFQy2KZF/pI0rge4wzPpkiEDhJ+2fE83Y01eSszgNvhIed3+hLpXp0qoWbM8
+         uvd2IR2AicKcKt7G1FP5Y6UB5BjnGEwhpkCYjznrhsH5XmwAF00N8M00bhaJdWlCKf0o
+         7IYVjhRvr4K+rUI34oS86xzF1vCuit30iS6wY84h5Q55jMrCjMqrmNSYNztEWuUWLh7U
+         jfL/Ou9ebaeoWyJNKkLfN28LgB3wcSDtEy+rVsguUznS/NKVKY7YPX5J4HI/GVEeFExO
+         zCrxbcdxfCuRQiIjZsbvyNsDY4+ldUkVlDfVMVYsa+1zqLNx14T1C4VhK9WR/Le3Rkwd
+         iQYw==
+X-Gm-Message-State: AOJu0YwKm9nCOOwSfRJCn3TFjh6Fa77FNVfvPmBu4jHhaCR8LMhyTvMa
+	f2py7HRH9mabN/g7bs0cb8aLgOL1h3Ue0TauavL1cQxm32od53NGYs3jfXj3fNFsB1YsEP+77Bb
+	POOpK
+X-Gm-Gg: ASbGncsne2tC9HviFzPWrM0yyfJ07GDQQVZ607wy0YzshOVNzrvlU78DYSWP4Rxz8dF
+	4UW0CirhUTR/FiXcR1jY/ftd/WmpHsKjhHu9Rh3xaWd3Gm6NwQg7H/+z93Ir4ER049Q5d/c897x
+	ZIGlItUw1SsK0qoQvE1Q38DuDfJ/0iPNnl7NsLSMrbMZu1KJvlyhG2hGJ0D40tdfCF2eJVNgwes
+	2uBJ68unnVezgih9NNTvFqLyETXRkDBTVFY5MK9e/TdRg+gnQfDnBxPGa5hJpVypsoTN+zDpZwx
+	jt5CiGi7Fvvpuc1mGiSNaohRc5XEkOb7g/paXYWcB5pPG4Lvgelx7Ly5uMAES8kvbnd6cw==
+X-Google-Smtp-Source: AGHT+IGUQmTj+9m7FaiYD4WJ5FF0OHhs7IVIQp/ZWwzNCBLK0VP6ehnZzuOQGptDNVvffH6/iWPxOQ==
+X-Received: by 2002:a05:6830:8088:b0:72b:9bac:c044 with SMTP id 46e09a7af769-73a918fa9b7mr739379a34.0.1750391906569;
+        Thu, 19 Jun 2025 20:58:26 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:67e2:ece8:b2f5:738f])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a90ca8a3csm185316a34.47.2025.06.19.20.58.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jun 2025 20:58:26 -0700 (PDT)
+Date: Fri, 20 Jun 2025 06:58:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	bingbu.cao@linux.intel.com, stanislaw.gruszka@linux.intel.com,
+	tian.shu.qiu@intel.com, tomi.valkeinen@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com
 Subject: Re: [PATCH 12/13] media: v4l2-mc: Introduce
  v4l2_mc_pipeline_enabled()
-Message-ID: <202506201121.oifnpp7r-lkp@intel.com>
+Message-ID: <e216aeb2-0a2a-4720-aeb5-13513d857054@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,42 +75,25 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20250619081546.1582969-13-sakari.ailus@linux.intel.com>
-References: <20250619081546.1582969-13-sakari.ailus@linux.intel.com>
-TO: Sakari Ailus <sakari.ailus@linux.intel.com>
-TO: linux-media@vger.kernel.org
-CC: bingbu.cao@linux.intel.com
-CC: stanislaw.gruszka@linux.intel.com
-CC: tian.shu.qiu@intel.com
-CC: tomi.valkeinen@ideasonboard.com
-CC: laurent.pinchart@ideasonboard.com
 
 Hi Sakari,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linuxtv-media-pending/master]
-[also build test WARNING on linus/master media-tree/master v6.16-rc2 next-20250619]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-ipu6-Use-correct-pads-for-xlate_streams/20250619-161847
 base:   https://git.linuxtv.org/media-ci/media-pending.git master
 patch link:    https://lore.kernel.org/r/20250619081546.1582969-13-sakari.ailus%40linux.intel.com
 patch subject: [PATCH 12/13] media: v4l2-mc: Introduce v4l2_mc_pipeline_enabled()
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
 config: i386-randconfig-141-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201121.oifnpp7r-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202506201121.oifnpp7r-lkp@intel.com/
 
 smatch warnings:
@@ -105,117 +102,6 @@ drivers/media/v4l2-core/v4l2-mc.c:834 v4l2_mc_pipeline_enabled() warn: variable 
 
 vim +/source_stream +732 drivers/media/v4l2-core/v4l2-mc.c
 
-bc83f513f8ad94 Sakari Ailus 2025-06-19  660  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  661  static int v4l2_mc_downpath_enabled(struct media_pad *sink_pad,
-bc83f513f8ad94 Sakari Ailus 2025-06-19  662  				    unsigned int sink_stream,
-bc83f513f8ad94 Sakari Ailus 2025-06-19  663  				    bool (*func)(struct video_device *vdev),
-bc83f513f8ad94 Sakari Ailus 2025-06-19  664  				    struct media_pad **__sink_pad,
-bc83f513f8ad94 Sakari Ailus 2025-06-19  665  				    u64 *__sink_streams)
-bc83f513f8ad94 Sakari Ailus 2025-06-19  666  {
-bc83f513f8ad94 Sakari Ailus 2025-06-19  667  	struct v4l2_subdev_state *state;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  668  	struct v4l2_subdev_route *route;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  669  	struct v4l2_subdev *sd;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  670  	struct media_pad *source_pad, *tmp_pad;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  671  	u32 source_stream;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  672  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  673  	if (!is_media_entity_v4l2_subdev(sink_pad->entity))
-bc83f513f8ad94 Sakari Ailus 2025-06-19  674  		return -ENXIO;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  675  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  676  	sd = media_entity_to_v4l2_subdev(sink_pad->entity);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  677  	dev_dbg(sd->dev, "path_enabled: found sub-device %s\n",
-bc83f513f8ad94 Sakari Ailus 2025-06-19  678  		sd->entity.name);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  679  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  680  	state = v4l2_subdev_lock_and_get_active_state(sd);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  681  	route = v4l2_subdev_find_route(&state->routing, sink_pad->index,
-bc83f513f8ad94 Sakari Ailus 2025-06-19  682  				       sink_stream, true, 0);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  683  	if (IS_ERR(route)) {
-bc83f513f8ad94 Sakari Ailus 2025-06-19  684  		v4l2_subdev_unlock_state(state);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  685  		dev_dbg(sd->dev,
-bc83f513f8ad94 Sakari Ailus 2025-06-19  686  			"path_enabled: can't find opposite route for %s:%u/%u",
-bc83f513f8ad94 Sakari Ailus 2025-06-19  687  			sd->entity.name, sink_pad->index, sink_stream);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  688  		return 2;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  689  	}
-bc83f513f8ad94 Sakari Ailus 2025-06-19  690  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  691  	source_pad = &sd->entity.pads[route->source_pad];
-bc83f513f8ad94 Sakari Ailus 2025-06-19  692  	v4l2_subdev_unlock_state(state);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  693  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  694  	tmp_pad = sink_pad;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  695  	sink_pad = media_pad_remote_pad_unique(source_pad);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  696  	if (IS_ERR(sink_pad)) {
-bc83f513f8ad94 Sakari Ailus 2025-06-19  697  		dev_dbg(sd->dev,
-bc83f513f8ad94 Sakari Ailus 2025-06-19  698  			"path_enabled: can't find remote source for %s:%u\n",
-bc83f513f8ad94 Sakari Ailus 2025-06-19  699  			source_pad->entity->name, source_pad->index);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  700  		return PTR_ERR(sink_pad);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  701  	}
-bc83f513f8ad94 Sakari Ailus 2025-06-19  702  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  703  	if (is_media_entity_v4l2_video_device(sink_pad->entity)) {
-bc83f513f8ad94 Sakari Ailus 2025-06-19  704  		struct video_device *vdev;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  705  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  706  		vdev = media_entity_to_video_device(sink_pad->entity);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  707  		if (!vdev)
-bc83f513f8ad94 Sakari Ailus 2025-06-19  708  			return -ENXIO;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  709  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  710  		dev_dbg(vdev->dev_parent,
-bc83f513f8ad94 Sakari Ailus 2025-06-19  711  			"path_enabled: found video device %s\n",
-bc83f513f8ad94 Sakari Ailus 2025-06-19  712  			vdev->name);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  713  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  714  		if (!*__sink_pad) {
-bc83f513f8ad94 Sakari Ailus 2025-06-19  715  			*__sink_pad = tmp_pad;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  716  			dev_dbg(sd->dev, "path_enabled: sink %u/%u\n",
-bc83f513f8ad94 Sakari Ailus 2025-06-19  717  				tmp_pad->index, sink_stream);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  718  		} else if (tmp_pad != *__sink_pad) {
-bc83f513f8ad94 Sakari Ailus 2025-06-19  719  			dev_dbg(sd->dev,
-bc83f513f8ad94 Sakari Ailus 2025-06-19  720  				"path_enabled: pads %s/%u and %s/%u differ\n",
-bc83f513f8ad94 Sakari Ailus 2025-06-19  721  				tmp_pad->entity->name, tmp_pad->index,
-bc83f513f8ad94 Sakari Ailus 2025-06-19  722  				(*__sink_pad)->entity->name,
-bc83f513f8ad94 Sakari Ailus 2025-06-19  723  				(*__sink_pad)->index);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  724  			return -EXDEV;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  725  		}
-bc83f513f8ad94 Sakari Ailus 2025-06-19  726  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  727  		*__sink_streams |= BIT_ULL(sink_stream);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  728  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  729  		return func(vdev);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  730  	}
-bc83f513f8ad94 Sakari Ailus 2025-06-19  731  
-bc83f513f8ad94 Sakari Ailus 2025-06-19 @732  	return v4l2_mc_downpath_enabled(sink_pad, source_stream, func,
-bc83f513f8ad94 Sakari Ailus 2025-06-19  733  					__sink_pad, __sink_streams);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  734  }
-bc83f513f8ad94 Sakari Ailus 2025-06-19  735  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  736  static int v4l2_mc_source_get_streams(struct v4l2_subdev *sd, unsigned int pad,
-bc83f513f8ad94 Sakari Ailus 2025-06-19  737  				      u64 *__streams)
-bc83f513f8ad94 Sakari Ailus 2025-06-19  738  {
-bc83f513f8ad94 Sakari Ailus 2025-06-19  739  	struct v4l2_mbus_frame_desc desc;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  740  	u64 streams = 0;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  741  	int ret;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  742  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  743  	if (!__streams)
-bc83f513f8ad94 Sakari Ailus 2025-06-19  744  		return -EINVAL;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  745  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  746  	ret = v4l2_subdev_call(sd, pad, get_frame_desc, pad, &desc);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  747  	if (ret == -ENOIOCTLCMD) {
-bc83f513f8ad94 Sakari Ailus 2025-06-19  748  		*__streams = 1ULL;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  749  		return 0;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  750  	}
-bc83f513f8ad94 Sakari Ailus 2025-06-19  751  	if (ret)
-bc83f513f8ad94 Sakari Ailus 2025-06-19  752  		return ret;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  753  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  754  	for (unsigned int i = 0; i < desc.num_entries; i++) {
-bc83f513f8ad94 Sakari Ailus 2025-06-19  755  		if (streams & BIT_ULL(desc.entry[i].stream))
-bc83f513f8ad94 Sakari Ailus 2025-06-19  756  			return -EINVAL;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  757  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  758  		streams |= BIT_ULL(desc.entry[i].stream);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  759  	}
-bc83f513f8ad94 Sakari Ailus 2025-06-19  760  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  761  	dev_dbg(sd->dev, "found streams %#llx based on streams %#llx\n",
-bc83f513f8ad94 Sakari Ailus 2025-06-19  762  		*__streams, streams);
-bc83f513f8ad94 Sakari Ailus 2025-06-19  763  	if (*__streams & ~streams)
-bc83f513f8ad94 Sakari Ailus 2025-06-19  764  		return -EINVAL;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  765  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  766  	*__streams = streams;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  767  
-bc83f513f8ad94 Sakari Ailus 2025-06-19  768  	return 0;
-bc83f513f8ad94 Sakari Ailus 2025-06-19  769  }
-bc83f513f8ad94 Sakari Ailus 2025-06-19  770  
 bc83f513f8ad94 Sakari Ailus 2025-06-19  771  int v4l2_mc_pipeline_enabled(struct video_device *vdev,
 bc83f513f8ad94 Sakari Ailus 2025-06-19  772  			     bool (*func)(struct video_device *vdev),
 bc83f513f8ad94 Sakari Ailus 2025-06-19  773  			     struct media_pad **__sink_pad, u64 *__sink_streams)
@@ -280,7 +166,11 @@ bc83f513f8ad94 Sakari Ailus 2025-06-19  831  	for (unsigned int i = __ffs(src_st
 bc83f513f8ad94 Sakari Ailus 2025-06-19  832  	     src_streams &= ~BIT_ULL(i), i = __ffs(src_streams)) {
 bc83f513f8ad94 Sakari Ailus 2025-06-19  833  		sink_pad = media_pad_remote_pad_unique(src_pad);
 bc83f513f8ad94 Sakari Ailus 2025-06-19 @834  		if (IS_ERR(src_pad)) {
+                                                                   ^^^^^^^
+Copy and paste.  s/src_pad/sink_pad/.
+
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
