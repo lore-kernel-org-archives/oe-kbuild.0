@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B996229405
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Jun 2025 00:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559D31EA6F
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Jun 2025 07:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750467163; cv=none; b=lJKnU7uocyCqbECb4tDyG6xlJZUQ6PZ1dJujjI5gelIyqnKLv895VZDefQoqcLYFve2BrYFzfi9RDdoO2sD1dX0SGQKRUDeDPVnDK+Tse0H7HGZxjp7SVhyx22Lh7mrqewkTQj8e0VVghDK7ZuomQYEqpaSg8Yab9lom24Rdn7Q=
+	t=1750491146; cv=none; b=EcdD4by4sOI2pwePojQNVWlMSkl018dSD537LenqtKOVEzQ3oq9qkQbhYAWoWNfA3ht1QvClWQUKQ0Hi2NSbWM/rBKm9TUic+4mWQ2N0OJlXaUMjosnzbtf0Q5dP4y9rr0wCZM9VZpb29O3mb8BBq8ojDdGnRv4XpkjjEsC+mJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750467163; c=relaxed/simple;
-	bh=dImg2YI0v/2EJGOyvqVXTf39lgp+6blS5zdcSsrxZo8=;
+	s=arc-20240116; t=1750491146; c=relaxed/simple;
+	bh=N1GUtvUlztBjL+HuwKFgb59dmzR4kkszXaeR7W7+ABQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XjBS3aOLr0jFrykQs0Hh3I31mQyYp0bIg4UtfkZ+DfXVX85Xs+h6GAuougNLsUl5cV2VADoDqdz6qW5nuhbwd0s+Lcn8oK+wJjHUORIKwdU+kME42J2+I+3xHtAg2ZGparMVJhSF05q5CdGZRBltff7CeE16/JERhUICCflCohQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9nZc85y; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=onm3Nfs6Lo/DrxUEzmkaLUyTa1tvFbiv0PhY3kWR5EdSXMA3YEopXMqCDMQ++KL4Lb7iA0GDhLq+SfxGBdgaQoKSJaKgCwjso9MkBh25bxpked+sQkK7aIuNGvG2MV/spAUGEjpu4yQUzlOmdeXTxfHSPodynamkWl3FPiasM2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XMJ2xfTM; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9nZc85y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XMJ2xfTM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750467161; x=1782003161;
+  t=1750491144; x=1782027144;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dImg2YI0v/2EJGOyvqVXTf39lgp+6blS5zdcSsrxZo8=;
-  b=m9nZc85yUSzY05GOdFWi7A98B3Gb7X58urorD5ExS3UEaL0rJuL0EXFd
-   RbP5ylJ7Y15LrKcFzzL+lhhD9r01mfOVmyaAUH1DO+okRWzOZia9LEN51
-   CVPNeAcUCZQF9RERKs8k3KYNPETD15MKdASYbD1616txiXjGeWFSwXTpn
-   v7iIu5SmyGwZ9gXFcC6RCP6F1zkjb+j14J87aT4vdHsCoqULEx/kI5Itm
-   QqF8Mp8yGGzp8yvW5IMCgT+iF0ixNhyUxHng3yZecg0rJRDSUWwsFvFIY
-   wBYVCC4jXrNX6LDt7b/Q1jJNK8QPvPm1HGy9+eJBhl8osSN0C2yD/o6QB
+  bh=N1GUtvUlztBjL+HuwKFgb59dmzR4kkszXaeR7W7+ABQ=;
+  b=XMJ2xfTMH5mEWE4HTJzp5XtDS2LglUJH/L9CwIOtzJ5f4igqEgtqmRmc
+   4kO7oG5gQhTjcz9WzNRERglqoqXWX1iQPV+Ee6fC8zDSPn4g1xO2nNJFW
+   j4FhNczxn7F1XOJlGFWD/WbMyqiz1/LJt46PBEgDZniGBKbNYplkwnPgQ
+   oxKoAGqvPgVqKL+0tfNAP6uouTrHfQgOuwyYBjHHrFwXTqjE4+kbOoELa
+   Ggvz8AJs/sGQ5CcYqUplVzwackkGX7/NKtwf/PeCZNTYKe3tyGrU/AgfR
+   +b4SanCfUMAkzZoH3+Vz83T/d90akOUU8KgUh8bp+zPwaB2fR2haEmVfF
    g==;
-X-CSE-ConnectionGUID: XtELfoF3T0WWZ6CHPSctlw==
-X-CSE-MsgGUID: 2ppEEuFUQ3WYH77P+3LrwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63787008"
-X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
-   d="scan'208";a="63787008"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 17:52:40 -0700
-X-CSE-ConnectionGUID: vxRxKRScSpWadXwsc1yKdw==
-X-CSE-MsgGUID: lRVYo/QeQ3+MJ9Gg4drMmQ==
+X-CSE-ConnectionGUID: 6kRrdLBNT/6Sbz4mIJg7JA==
+X-CSE-MsgGUID: K9XWO61xTDu1KPotlbZ2kA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="64188921"
+X-IronPort-AV: E=Sophos;i="6.16,253,1744095600"; 
+   d="scan'208";a="64188921"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2025 00:32:24 -0700
+X-CSE-ConnectionGUID: IG8DiY4VTCKOFkz4YpFSQQ==
+X-CSE-MsgGUID: 8LAt7I3KRCepiSrG2FqflA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
-   d="scan'208";a="151187271"
+X-IronPort-AV: E=Sophos;i="6.16,253,1744095600"; 
+   d="scan'208";a="155662405"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Jun 2025 17:52:39 -0700
+  by orviesa004.jf.intel.com with ESMTP; 21 Jun 2025 00:32:23 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSmTE-000MG5-3B;
-	Sat, 21 Jun 2025 00:52:36 +0000
-Date: Sat, 21 Jun 2025 08:52:02 +0800
+	id 1uSsi4-000MS8-25;
+	Sat, 21 Jun 2025 07:32:20 +0000
+Date: Sat, 21 Jun 2025 15:32:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 4297/4336]
- drivers/gpio/gpiolib-sysfs.c:785:17-21: ERROR: reference preceded by free on
- line 784
-Message-ID: <202506210804.m4CZ8Q5h-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [arnd-playground:to_build 57/57] lib/maple_tree.c:4073:22: warning:
+ stack frame size (1024) exceeds limit (960) in 'mas_wr_bnode'
+Message-ID: <202506211558.2nx1iAxu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,83 +62,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   5d4809e25903ab8e74034c1f23c787fd26d52934
-commit: fd19792851db77e74cff4e2dc772d25a83cdc34d [4297/4336] gpio: sysfs: remove the mockdev pointer from struct gpio_device
-:::::: branch date: 13 hours ago
-:::::: commit date: 17 hours ago
-config: s390-randconfig-r053-20250621 (https://download.01.org/0day-ci/archive/20250621/202506210804.m4CZ8Q5h-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 875b36a8742437b95f623bab1e0332562c7b4b3f)
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+TO: Arnd Bergmann <arnd@arndb.de>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git to_build
+head:   45965d80ee21635e7f04e6d7fd6caa929820b219
+commit: 45965d80ee21635e7f04e6d7fd6caa929820b219 [57/57] Kbuild: rework stack frame warn logic
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250621/202506211558.2nx1iAxu-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250621/202506211558.2nx1iAxu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202506210804.m4CZ8Q5h-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506211558.2nx1iAxu-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpio/gpiolib-sysfs.c:785:17-21: ERROR: reference preceded by free on line 784
+All warnings (new ones prefixed by >>):
 
-vim +785 drivers/gpio/gpiolib-sysfs.c
+   lib/maple_tree.c:3815:22: warning: stack frame size (1056) exceeds limit (960) in 'mas_wr_spanning_store' [-Wframe-larger-than]
+    3815 | static noinline void mas_wr_spanning_store(struct ma_wr_state *wr_mas)
+         |                      ^
+>> lib/maple_tree.c:4073:22: warning: stack frame size (1024) exceeds limit (960) in 'mas_wr_bnode' [-Wframe-larger-than]
+    4073 | static noinline void mas_wr_bnode(struct ma_wr_state *wr_mas)
+         |                      ^
+   2 warnings generated.
 
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  738  
-afbc4f312b5e6e Linus Walleij       2016-02-09  739  int gpiochip_sysfs_register(struct gpio_device *gdev)
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  740  {
-fd19792851db77 Bartosz Golaszewski 2025-06-10  741  	struct gpiodev_data *data;
-d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  742  	struct gpio_chip *chip;
-513246a34b8dc5 Bartosz Golaszewski 2023-12-21  743  	struct device *parent;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  744  
-426577bd8846d6 Johan Hovold        2015-05-04  745  	/*
-426577bd8846d6 Johan Hovold        2015-05-04  746  	 * Many systems add gpio chips for SOC support very early,
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  747  	 * before driver model support is available.  In those cases we
-426577bd8846d6 Johan Hovold        2015-05-04  748  	 * register later, in gpiolib_sysfs_init() ... here we just
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  749  	 * verify that _some_ field of gpio_class got initialized.
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  750  	 */
-6f14c02220c791 Greg Kroah-Hartman  2023-03-31  751  	if (!class_is_registered(&gpio_class))
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  752  		return 0;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  753  
-d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  754  	guard(srcu)(&gdev->srcu);
-d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  755  
-d82b9e0887e69d Bartosz Golaszewski 2024-02-14  756  	chip = srcu_dereference(gdev->chip, &gdev->srcu);
-d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  757  	if (!chip)
-d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  758  		return -ENODEV;
-d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  759  
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  760  	/*
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  761  	 * For sysfs backward compatibility we need to preserve this
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  762  	 * preferred parenting to the gpio_chip parent field, if set.
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  763  	 */
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  764  	if (chip->parent)
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  765  		parent = chip->parent;
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  766  	else
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  767  		parent = &gdev->dev;
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  768  
-fd19792851db77 Bartosz Golaszewski 2025-06-10  769  	data = kmalloc(sizeof(*data), GFP_KERNEL);
-fd19792851db77 Bartosz Golaszewski 2025-06-10  770  	if (!data)
-fd19792851db77 Bartosz Golaszewski 2025-06-10  771  		return -ENOMEM;
-fd19792851db77 Bartosz Golaszewski 2025-06-10  772  
-fd19792851db77 Bartosz Golaszewski 2025-06-10  773  	data->gdev = gdev;
-3ff74be5c1a72d Johan Hovold        2015-05-04  774  
-f4af1671c28854 Bartosz Golaszewski 2024-10-31  775  	guard(mutex)(&sysfs_lock);
-fd19792851db77 Bartosz Golaszewski 2025-06-10  776  
-fd19792851db77 Bartosz Golaszewski 2025-06-10  777  	/* use chip->base for the ID; it's already known to be unique */
-fd19792851db77 Bartosz Golaszewski 2025-06-10  778  	data->cdev_base = device_create_with_groups(&gpio_class, parent,
-fd19792851db77 Bartosz Golaszewski 2025-06-10  779  						    MKDEV(0, 0), data,
-fd19792851db77 Bartosz Golaszewski 2025-06-10  780  						    gpiochip_groups,
-fd19792851db77 Bartosz Golaszewski 2025-06-10  781  						    GPIOCHIP_NAME "%d",
-fd19792851db77 Bartosz Golaszewski 2025-06-10  782  						    chip->base);
-fd19792851db77 Bartosz Golaszewski 2025-06-10  783  	if (IS_ERR(data->cdev_base)) {
-fd19792851db77 Bartosz Golaszewski 2025-06-10 @784  		kfree(data);
-fd19792851db77 Bartosz Golaszewski 2025-06-10 @785  		return PTR_ERR(data->cdev_base);
-fd19792851db77 Bartosz Golaszewski 2025-06-10  786  	}
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  787  
-6a4b6b0a3b55f2 Johan Hovold        2015-05-04  788  	return 0;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  789  }
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  790  
+
+vim +/mas_wr_bnode +4073 lib/maple_tree.c
+
+54a611b605901c Liam R. Howlett 2022-09-06  4066  
+54a611b605901c Liam R. Howlett 2022-09-06  4067  /*
+54a611b605901c Liam R. Howlett 2022-09-06  4068   * mas_wr_bnode() - Slow path for a modification.
+54a611b605901c Liam R. Howlett 2022-09-06  4069   * @wr_mas: The write maple state
+54a611b605901c Liam R. Howlett 2022-09-06  4070   *
+54a611b605901c Liam R. Howlett 2022-09-06  4071   * This is where split, rebalance end up.
+54a611b605901c Liam R. Howlett 2022-09-06  4072   */
+361e97e055ccf0 Arnd Bergmann   2025-06-16 @4073  static noinline void mas_wr_bnode(struct ma_wr_state *wr_mas)
+54a611b605901c Liam R. Howlett 2022-09-06  4074  {
+54a611b605901c Liam R. Howlett 2022-09-06  4075  	struct maple_big_node b_node;
+54a611b605901c Liam R. Howlett 2022-09-06  4076  
+54a611b605901c Liam R. Howlett 2022-09-06  4077  	trace_ma_write(__func__, wr_mas->mas, 0, wr_mas->entry);
+54a611b605901c Liam R. Howlett 2022-09-06  4078  	memset(&b_node, 0, sizeof(struct maple_big_node));
+54a611b605901c Liam R. Howlett 2022-09-06  4079  	mas_store_b_node(wr_mas, &b_node, wr_mas->offset_end);
+62c7b2b9842c54 Sidhartha Kumar 2024-08-14  4080  	mas_commit_b_node(wr_mas, &b_node);
+54a611b605901c Liam R. Howlett 2022-09-06  4081  }
+54a611b605901c Liam R. Howlett 2022-09-06  4082  
+
+:::::: The code at line 4073 was first introduced by commit
+:::::: 361e97e055ccf02e7d0b7b8cd68e06793b04c797 maple_tree: try to reduce stack usage
+
+:::::: TO: Arnd Bergmann <arnd@arndb.de>
+:::::: CC: Arnd Bergmann <arnd@arndb.de>
 
 -- 
 0-DAY CI Kernel Test Service
