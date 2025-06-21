@@ -1,228 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A668241668
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Jun 2025 22:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B996229405
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Jun 2025 00:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750458390; cv=none; b=MNaHWgNYmDn1WftealHg8+C8RZ9SMzBWt7/CHDM1hsuh3kV/1PFnuzFuhpLiuP8CA5yQiI5tDpp4graj1+Auk6zsOURG6uAo4wNB/o4HuQjDArG2VBQc8BRQ6iibewRZVreiQfDz07Xvy1zALXVbDuOVEvteD+Y38JZIG9YhilE=
+	t=1750467163; cv=none; b=lJKnU7uocyCqbECb4tDyG6xlJZUQ6PZ1dJujjI5gelIyqnKLv895VZDefQoqcLYFve2BrYFzfi9RDdoO2sD1dX0SGQKRUDeDPVnDK+Tse0H7HGZxjp7SVhyx22Lh7mrqewkTQj8e0VVghDK7ZuomQYEqpaSg8Yab9lom24Rdn7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750458390; c=relaxed/simple;
-	bh=ADR+3I9WiNdS6bZ7On3lPQ9ebUwl3cR3rhy5WLYN3go=;
+	s=arc-20240116; t=1750467163; c=relaxed/simple;
+	bh=dImg2YI0v/2EJGOyvqVXTf39lgp+6blS5zdcSsrxZo8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rl+zHgAn51xlCC8jtGnsRZKrx5RG9IFk11WQz4IHCA0wJdO/+qSZmIxAiln6pjwGtTTjGXwbA1JEHISvYq2qxTqu/MhLo5LeQCfIfVBnYYzPfi3oVvpEFYI6m3aqykbshN+HAWPaEJqIsbwZd74jKTjje+fWThnp3axxiQbdfqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ro7iDiiS; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=XjBS3aOLr0jFrykQs0Hh3I31mQyYp0bIg4UtfkZ+DfXVX85Xs+h6GAuougNLsUl5cV2VADoDqdz6qW5nuhbwd0s+Lcn8oK+wJjHUORIKwdU+kME42J2+I+3xHtAg2ZGparMVJhSF05q5CdGZRBltff7CeE16/JERhUICCflCohQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9nZc85y; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ro7iDiiS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9nZc85y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750458389; x=1781994389;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ADR+3I9WiNdS6bZ7On3lPQ9ebUwl3cR3rhy5WLYN3go=;
-  b=Ro7iDiiSmvF74gBFlDp/in2LE9razri3eDm3XY4W9Khvxfyu4WbBI/ir
-   t0w7t+tyj0VzbvHRpqlFN4fi6aPv8vkHhK8Lp+xkY66vThLp6GfccM3EL
-   3uMwS2kN8LCAFZbcoMYJtknD+U3890GT0c5qLnF6nF+I3idPr6N93DXJs
-   HoUQnZ9JHsn8BMzEbmllgRGrZORy+Ai5Ez4nNzIuGjA1Pb3yiBy+7aeAb
-   xTJnNL0famI8Hy50dkS6R5ZqI61enIoSEXwXVL+f+wgVdoDiXvk2fFFlM
-   G2iJCfKVgWcz2DG6TDkUEwd2lFley1RYJd42pEs1N5VhyLW3AEHKphuzg
-   w==;
-X-CSE-ConnectionGUID: 2tdRsjU0TDeo/QvddBFXDw==
-X-CSE-MsgGUID: pBI9/QHDQgaQM7rZ+jYvHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="56407015"
+  t=1750467161; x=1782003161;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dImg2YI0v/2EJGOyvqVXTf39lgp+6blS5zdcSsrxZo8=;
+  b=m9nZc85yUSzY05GOdFWi7A98B3Gb7X58urorD5ExS3UEaL0rJuL0EXFd
+   RbP5ylJ7Y15LrKcFzzL+lhhD9r01mfOVmyaAUH1DO+okRWzOZia9LEN51
+   CVPNeAcUCZQF9RERKs8k3KYNPETD15MKdASYbD1616txiXjGeWFSwXTpn
+   v7iIu5SmyGwZ9gXFcC6RCP6F1zkjb+j14J87aT4vdHsCoqULEx/kI5Itm
+   QqF8Mp8yGGzp8yvW5IMCgT+iF0ixNhyUxHng3yZecg0rJRDSUWwsFvFIY
+   wBYVCC4jXrNX6LDt7b/Q1jJNK8QPvPm1HGy9+eJBhl8osSN0C2yD/o6QB
+   g==;
+X-CSE-ConnectionGUID: XtELfoF3T0WWZ6CHPSctlw==
+X-CSE-MsgGUID: 2ppEEuFUQ3WYH77P+3LrwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63787008"
 X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
-   d="scan'208";a="56407015"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 15:26:28 -0700
-X-CSE-ConnectionGUID: Uz8yRdBJQBCfmg2bLE7q1A==
-X-CSE-MsgGUID: sKIKGDkxRxmbCRr0iwErug==
+   d="scan'208";a="63787008"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 17:52:40 -0700
+X-CSE-ConnectionGUID: vxRxKRScSpWadXwsc1yKdw==
+X-CSE-MsgGUID: lRVYo/QeQ3+MJ9Gg4drMmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
-   d="scan'208";a="155413646"
+   d="scan'208";a="151187271"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 20 Jun 2025 15:26:26 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 20 Jun 2025 17:52:39 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSkBk-000MCI-0B;
-	Fri, 20 Jun 2025 22:26:24 +0000
-Date: Sat, 21 Jun 2025 06:26:07 +0800
+	id 1uSmTE-000MG5-3B;
+	Sat, 21 Jun 2025 00:52:36 +0000
+Date: Sat, 21 Jun 2025 08:52:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v5 2/4] clk: add TI CDCE6214 clock driver
-Message-ID: <202506210630.ubyOC6RA-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 4297/4336]
+ drivers/gpio/gpiolib-sysfs.c:785:17-21: ERROR: reference preceded by free on
+ line 784
+Message-ID: <202506210804.m4CZ8Q5h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250618-clk-cdce6214-v5-2-9938b8ed0b94@pengutronix.de>
-References: <20250618-clk-cdce6214-v5-2-9938b8ed0b94@pengutronix.de>
-TO: Sascha Hauer <s.hauer@pengutronix.de>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: linux-clk@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: kernel@pengutronix.de
-CC: "Alvin Šipraga" <alsi@bang-olufsen.dk>
-CC: Sascha Hauer <s.hauer@pengutronix.de>
+TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+CC: Linus Walleij <linus.walleij@linaro.org>
 
-Hi Sascha,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on e04c78d86a9699d136910cfc0bdcf01087e3267e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sascha-Hauer/dt-bindings-clock-add-TI-CDCE6214-binding/20250618-172505
-base:   e04c78d86a9699d136910cfc0bdcf01087e3267e
-patch link:    https://lore.kernel.org/r/20250618-clk-cdce6214-v5-2-9938b8ed0b94%40pengutronix.de
-patch subject: [PATCH v5 2/4] clk: add TI CDCE6214 clock driver
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: parisc-randconfig-r073-20250619 (https://download.01.org/0day-ci/archive/20250621/202506210630.ubyOC6RA-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   5d4809e25903ab8e74034c1f23c787fd26d52934
+commit: fd19792851db77e74cff4e2dc772d25a83cdc34d [4297/4336] gpio: sysfs: remove the mockdev pointer from struct gpio_device
+:::::: branch date: 13 hours ago
+:::::: commit date: 17 hours ago
+config: s390-randconfig-r053-20250621 (https://download.01.org/0day-ci/archive/20250621/202506210804.m4CZ8Q5h-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 875b36a8742437b95f623bab1e0332562c7b4b3f)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202506210630.ubyOC6RA-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202506210804.m4CZ8Q5h-lkp@intel.com/
 
-smatch warnings:
-drivers/clk/clk-cdce6214.c:549 cdce6214_clk_out_recalc_rate() error: uninitialized symbol 'div'.
-drivers/clk/clk-cdce6214.c:633 cdce6214_clk_out_get_parent() error: uninitialized symbol 'idx'.
-drivers/clk/clk-cdce6214.c:910 cdce6214_clk_psx_recalc_rate() error: uninitialized symbol 'div'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpio/gpiolib-sysfs.c:785:17-21: ERROR: reference preceded by free on line 784
 
-vim +/div +549 drivers/clk/clk-cdce6214.c
+vim +785 drivers/gpio/gpiolib-sysfs.c
 
-5c09be6e85aa86 Sascha Hauer 2025-06-18  521  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  522  static unsigned long cdce6214_clk_out_recalc_rate(struct clk_hw *hw,
-5c09be6e85aa86 Sascha Hauer 2025-06-18  523  						  unsigned long parent_rate)
-5c09be6e85aa86 Sascha Hauer 2025-06-18  524  {
-5c09be6e85aa86 Sascha Hauer 2025-06-18  525  	struct cdce6214_clock *clock = hw_to_cdce6214_clk(hw);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  526  	struct cdce6214 *priv = clock->priv;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  527  	unsigned int val, div;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  528  	unsigned long r;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  529  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  530  	switch (clock->index) {
-5c09be6e85aa86 Sascha Hauer 2025-06-18  531  	case CDCE6214_CLK_OUT1:
-5c09be6e85aa86 Sascha Hauer 2025-06-18  532  		regmap_read(priv->regmap, R56, &val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  533  		div = FIELD_GET(R56_CH1_DIV, val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  534  		break;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  535  	case CDCE6214_CLK_OUT2:
-5c09be6e85aa86 Sascha Hauer 2025-06-18  536  		regmap_read(priv->regmap, R62, &val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  537  		div = FIELD_GET(R62_CH2_DIV, val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  538  		break;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  539  	case CDCE6214_CLK_OUT3:
-5c09be6e85aa86 Sascha Hauer 2025-06-18  540  		regmap_read(priv->regmap, R67, &val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  541  		div = FIELD_GET(R67_CH3_DIV, val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  542  		break;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  543  	case CDCE6214_CLK_OUT4:
-5c09be6e85aa86 Sascha Hauer 2025-06-18  544  		regmap_read(priv->regmap, R72, &val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  545  		div = FIELD_GET(R72_CH4_DIV, val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  546  		break;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  547  	};
-5c09be6e85aa86 Sascha Hauer 2025-06-18  548  
-5c09be6e85aa86 Sascha Hauer 2025-06-18 @549  	if (!div)
-5c09be6e85aa86 Sascha Hauer 2025-06-18  550  		div = 1;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  551  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  552  	r = DIV_ROUND_UP_ULL((u64)parent_rate, div);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  553  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  554  	return r;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  555  }
-5c09be6e85aa86 Sascha Hauer 2025-06-18  556  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  557  static unsigned int cdce6214_get_out_div(unsigned long rate, unsigned long parent_rate)
-5c09be6e85aa86 Sascha Hauer 2025-06-18  558  {
-5c09be6e85aa86 Sascha Hauer 2025-06-18  559  	unsigned int div;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  560  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  561  	div = divider_get_val(rate, parent_rate, NULL, 14, CLK_DIVIDER_ONE_BASED);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  562  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  563  	if (div < 1)
-5c09be6e85aa86 Sascha Hauer 2025-06-18  564  		div = 1;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  565  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  566  	return div;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  567  }
-5c09be6e85aa86 Sascha Hauer 2025-06-18  568  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  569  static int cdce6214_clk_out_determine_rate(struct clk_hw *hw,
-5c09be6e85aa86 Sascha Hauer 2025-06-18  570  					   struct clk_rate_request *req)
-5c09be6e85aa86 Sascha Hauer 2025-06-18  571  {
-5c09be6e85aa86 Sascha Hauer 2025-06-18  572  	unsigned int div = cdce6214_get_out_div(req->rate, req->best_parent_rate);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  573  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  574  	req->rate = DIV_ROUND_UP_ULL((u64)req->best_parent_rate, div);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  575  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  576  	return 0;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  577  }
-5c09be6e85aa86 Sascha Hauer 2025-06-18  578  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  579  static int cdce6214_clk_out_set_rate(struct clk_hw *hw, unsigned long rate,
-5c09be6e85aa86 Sascha Hauer 2025-06-18  580  				     unsigned long parent_rate)
-5c09be6e85aa86 Sascha Hauer 2025-06-18  581  {
-5c09be6e85aa86 Sascha Hauer 2025-06-18  582  	unsigned int div = cdce6214_get_out_div(rate, parent_rate);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  583  	struct cdce6214_clock *clock = hw_to_cdce6214_clk(hw);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  584  	struct cdce6214 *priv = clock->priv;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  585  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  586  	switch (clock->index) {
-5c09be6e85aa86 Sascha Hauer 2025-06-18  587  	case CDCE6214_CLK_OUT1:
-5c09be6e85aa86 Sascha Hauer 2025-06-18  588  		regmap_update_bits(priv->regmap, R56, R56_CH1_DIV,
-5c09be6e85aa86 Sascha Hauer 2025-06-18  589  				   FIELD_PREP(R56_CH1_DIV, div));
-5c09be6e85aa86 Sascha Hauer 2025-06-18  590  		break;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  591  	case CDCE6214_CLK_OUT2:
-5c09be6e85aa86 Sascha Hauer 2025-06-18  592  		regmap_update_bits(priv->regmap, R62, R62_CH2_DIV,
-5c09be6e85aa86 Sascha Hauer 2025-06-18  593  				   FIELD_PREP(R62_CH2_DIV, div));
-5c09be6e85aa86 Sascha Hauer 2025-06-18  594  		break;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  595  	case CDCE6214_CLK_OUT3:
-5c09be6e85aa86 Sascha Hauer 2025-06-18  596  		regmap_update_bits(priv->regmap, R67, R67_CH3_DIV,
-5c09be6e85aa86 Sascha Hauer 2025-06-18  597  				   FIELD_PREP(R67_CH3_DIV, div));
-5c09be6e85aa86 Sascha Hauer 2025-06-18  598  		break;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  599  	case CDCE6214_CLK_OUT4:
-5c09be6e85aa86 Sascha Hauer 2025-06-18  600  		regmap_update_bits(priv->regmap, R72, R72_CH4_DIV,
-5c09be6e85aa86 Sascha Hauer 2025-06-18  601  				   FIELD_PREP(R72_CH4_DIV, div));
-5c09be6e85aa86 Sascha Hauer 2025-06-18  602  		break;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  603  	};
-5c09be6e85aa86 Sascha Hauer 2025-06-18  604  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  605  	return 0;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  606  }
-5c09be6e85aa86 Sascha Hauer 2025-06-18  607  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  608  static u8 cdce6214_clk_out_get_parent(struct clk_hw *hw)
-5c09be6e85aa86 Sascha Hauer 2025-06-18  609  {
-5c09be6e85aa86 Sascha Hauer 2025-06-18  610  	struct cdce6214_clock *clock = hw_to_cdce6214_clk(hw);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  611  	struct cdce6214 *priv = clock->priv;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  612  	unsigned int val, idx;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  613  
-5c09be6e85aa86 Sascha Hauer 2025-06-18  614  	switch (clock->index) {
-5c09be6e85aa86 Sascha Hauer 2025-06-18  615  	case CDCE6214_CLK_OUT1:
-5c09be6e85aa86 Sascha Hauer 2025-06-18  616  		regmap_read(priv->regmap, R56, &val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  617  		idx = FIELD_GET(R56_CH1_MUX, val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  618  		break;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  619  	case CDCE6214_CLK_OUT2:
-5c09be6e85aa86 Sascha Hauer 2025-06-18  620  		regmap_read(priv->regmap, R62, &val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  621  		idx = FIELD_GET(R62_CH2_MUX, val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  622  		break;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  623  	case CDCE6214_CLK_OUT3:
-5c09be6e85aa86 Sascha Hauer 2025-06-18  624  		regmap_read(priv->regmap, R67, &val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  625  		idx = FIELD_GET(R67_CH3_MUX, val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  626  		break;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  627  	case CDCE6214_CLK_OUT4:
-5c09be6e85aa86 Sascha Hauer 2025-06-18  628  		regmap_read(priv->regmap, R72, &val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  629  		idx = FIELD_GET(R72_CH4_MUX, val);
-5c09be6e85aa86 Sascha Hauer 2025-06-18  630  		break;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  631  	};
-5c09be6e85aa86 Sascha Hauer 2025-06-18  632  
-5c09be6e85aa86 Sascha Hauer 2025-06-18 @633  	return idx;
-5c09be6e85aa86 Sascha Hauer 2025-06-18  634  }
-5c09be6e85aa86 Sascha Hauer 2025-06-18  635  
+0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  738  
+afbc4f312b5e6e Linus Walleij       2016-02-09  739  int gpiochip_sysfs_register(struct gpio_device *gdev)
+0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  740  {
+fd19792851db77 Bartosz Golaszewski 2025-06-10  741  	struct gpiodev_data *data;
+d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  742  	struct gpio_chip *chip;
+513246a34b8dc5 Bartosz Golaszewski 2023-12-21  743  	struct device *parent;
+0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  744  
+426577bd8846d6 Johan Hovold        2015-05-04  745  	/*
+426577bd8846d6 Johan Hovold        2015-05-04  746  	 * Many systems add gpio chips for SOC support very early,
+0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  747  	 * before driver model support is available.  In those cases we
+426577bd8846d6 Johan Hovold        2015-05-04  748  	 * register later, in gpiolib_sysfs_init() ... here we just
+0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  749  	 * verify that _some_ field of gpio_class got initialized.
+0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  750  	 */
+6f14c02220c791 Greg Kroah-Hartman  2023-03-31  751  	if (!class_is_registered(&gpio_class))
+0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  752  		return 0;
+0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  753  
+d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  754  	guard(srcu)(&gdev->srcu);
+d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  755  
+d82b9e0887e69d Bartosz Golaszewski 2024-02-14  756  	chip = srcu_dereference(gdev->chip, &gdev->srcu);
+d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  757  	if (!chip)
+d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  758  		return -ENODEV;
+d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  759  
+d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  760  	/*
+d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  761  	 * For sysfs backward compatibility we need to preserve this
+d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  762  	 * preferred parenting to the gpio_chip parent field, if set.
+d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  763  	 */
+d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  764  	if (chip->parent)
+d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  765  		parent = chip->parent;
+d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  766  	else
+d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  767  		parent = &gdev->dev;
+d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  768  
+fd19792851db77 Bartosz Golaszewski 2025-06-10  769  	data = kmalloc(sizeof(*data), GFP_KERNEL);
+fd19792851db77 Bartosz Golaszewski 2025-06-10  770  	if (!data)
+fd19792851db77 Bartosz Golaszewski 2025-06-10  771  		return -ENOMEM;
+fd19792851db77 Bartosz Golaszewski 2025-06-10  772  
+fd19792851db77 Bartosz Golaszewski 2025-06-10  773  	data->gdev = gdev;
+3ff74be5c1a72d Johan Hovold        2015-05-04  774  
+f4af1671c28854 Bartosz Golaszewski 2024-10-31  775  	guard(mutex)(&sysfs_lock);
+fd19792851db77 Bartosz Golaszewski 2025-06-10  776  
+fd19792851db77 Bartosz Golaszewski 2025-06-10  777  	/* use chip->base for the ID; it's already known to be unique */
+fd19792851db77 Bartosz Golaszewski 2025-06-10  778  	data->cdev_base = device_create_with_groups(&gpio_class, parent,
+fd19792851db77 Bartosz Golaszewski 2025-06-10  779  						    MKDEV(0, 0), data,
+fd19792851db77 Bartosz Golaszewski 2025-06-10  780  						    gpiochip_groups,
+fd19792851db77 Bartosz Golaszewski 2025-06-10  781  						    GPIOCHIP_NAME "%d",
+fd19792851db77 Bartosz Golaszewski 2025-06-10  782  						    chip->base);
+fd19792851db77 Bartosz Golaszewski 2025-06-10  783  	if (IS_ERR(data->cdev_base)) {
+fd19792851db77 Bartosz Golaszewski 2025-06-10 @784  		kfree(data);
+fd19792851db77 Bartosz Golaszewski 2025-06-10 @785  		return PTR_ERR(data->cdev_base);
+fd19792851db77 Bartosz Golaszewski 2025-06-10  786  	}
+0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  787  
+6a4b6b0a3b55f2 Johan Hovold        2015-05-04  788  	return 0;
+0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  789  }
+0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  790  
 
 -- 
 0-DAY CI Kernel Test Service
