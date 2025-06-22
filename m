@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57153A937
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Jun 2025 12:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33958199920
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Jun 2025 14:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750595986; cv=none; b=UB96RGl3Jsj65lqLsRlaOE4O0X+6mVsStn5D629x3Ku9MwtqXg4ImqhZeucuX4FqQT9VQTcLo49ydKbJdz1/b/3Y/tAzRlM5wH8SCBUTAo69KOJnSiLo9GVpW5+MFmWk+vFiMMtnx8ItbbVd9YOuYBDzJbNbZzkdtkAWihVEr+w=
+	t=1750604039; cv=none; b=sVSCNQZ5jMt7kw9zjfD7wU8eGd/sY8IhlSEcER/7hxzHypJIaGe9nEPXuYDxG49BFTqZbQkn/jE2DACWTP1SLBGQv8eRZI9mhx1fVoNN6oDQAoXAeuE3L0qiPj+0p7pokzXL/uDHzVWaG5EXtatE+w0+QVICNewHVxNj/SVQ3jY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750595986; c=relaxed/simple;
-	bh=0oLPHYzT3jYMWXl5Bq70D4f5jc7ostxrVobS0DCpl/A=;
+	s=arc-20240116; t=1750604039; c=relaxed/simple;
+	bh=Z49bI35dDxEpllIfAhKkjU6vUPjG08uEyATDEvheTsI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AfWc98T8o5PSTcHp9NI0+a+XZKz5rDwqoG95ph32HSjQkyRqcmLOmag+8NQesK5UWGXg5yug+Cth58tzjmUkSPGNWYTDwA/nCGGhXmCU8CIzDIWdmXn5eUohKi92bu718M/PME1M8oB6XKIVmASqJVV3jkDf4dDxllrn16ZJpGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CM9auhA1; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=lqckOXwtjPMH0Ew5s4vOjA/llauYGaJ3T9eLV6lWhxyAKlEqol0jH1se+ue6aovdoGFbdsKm664Ka0KfXiOidmXnTTRo9qlvEsmeRe78oS4A/6JohhKwF+5IZ3yWUJ6XUIgBYqA6S9YQC3ypjH4+uOjrfkgHXDfXe18O/h7gzEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hwc4xAKl; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CM9auhA1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hwc4xAKl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750595984; x=1782131984;
+  t=1750604037; x=1782140037;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0oLPHYzT3jYMWXl5Bq70D4f5jc7ostxrVobS0DCpl/A=;
-  b=CM9auhA1hTg/OlKOaT033clfmvQY577Y6zom0KqNtefJGIP7vK5En6lN
-   TIWrpbtAx6SshPQlAEEBbobkOIOqjn4XQ9If2B+wKtVfBsoi11IILn6oY
-   IG5RezInb8hvoiSCXRPgY38q45OcP1Kk2rEuOXJFOGzu1Ugui8/tGmVCg
-   Za3880IxKsi4fqil5WQ1QPD2J9sCzkO8B+oprYMZjAAFe8iUK1vT8SVh6
-   JifQx0OG5zhRqjdtKSsUozb6iDHzhuENPbLyLzg6vTF8MFqTkP3a75YAa
-   JiEettK0A7XGe7bo11NtwXzkJydz4PrwT2Fk6UHDENMXOuBPEzIjuUPpN
+  bh=Z49bI35dDxEpllIfAhKkjU6vUPjG08uEyATDEvheTsI=;
+  b=hwc4xAKlbpjDMTNcJxpwHa2W5wN8GSR1LaKOy9iPUQ8ZhwdlqOFbRzyQ
+   5AHzWkVWx/6vaA/f5YS5P2OE2MIprgrM+qE3Oztz/opCz+toE2dtZcelj
+   n9UrtHAAfCAUEU6EgW1xvRXCfKUA3WvV6RnBLlGYoJrifC+DjP8s7zjWG
+   ldykE8/EKW2fXBMmCKF4/AOX7cfJgSZ83OVLulbc3vvpHIQU3ussvNsSr
+   WCwDhg9KbCqe0KCfZvrxiucJ+d7qjxRqGcR0Jitu6j3c8DuvrScdtbgxr
+   PVm00GDcLFsWwno+38ePucuzSGv6v54fFq5hUqF5MHsYBF/Kms2wQOlnq
    Q==;
-X-CSE-ConnectionGUID: UQyfIhFiSA2DTHiarSamkg==
-X-CSE-MsgGUID: rOcRgR/7RM2P3DVr8vtlqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52952451"
+X-CSE-ConnectionGUID: +ZWkDa0jQiS5Dx3Z7cERow==
+X-CSE-MsgGUID: Ah+jGTm0QTOU62OAkPV9MQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="63494861"
 X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
-   d="scan'208";a="52952451"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 05:39:43 -0700
-X-CSE-ConnectionGUID: cSwlJQdcTZWj1v4UXt8ZUw==
-X-CSE-MsgGUID: gJeCCRplQg2c5xQrUGevDg==
+   d="scan'208";a="63494861"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 07:53:56 -0700
+X-CSE-ConnectionGUID: UmHofSWgR56iSladR3BclA==
+X-CSE-MsgGUID: xvIkfoJRRpqQczhXIsIT9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
-   d="scan'208";a="182372020"
+   d="scan'208";a="151574736"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 22 Jun 2025 05:39:42 -0700
+  by orviesa007.jf.intel.com with ESMTP; 22 Jun 2025 07:53:55 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTJz2-000NGz-1G;
-	Sun, 22 Jun 2025 12:39:40 +0000
-Date: Sun, 22 Jun 2025 20:39:06 +0800
+	id 1uTM4u-000NLy-2k;
+	Sun, 22 Jun 2025 14:53:52 +0000
+Date: Sun, 22 Jun 2025 22:53:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [rockchip:v6.17-armsoc/dts64 27/34]
- arch/arm64/boot/dts/rockchip/rk3528-radxa-e20c.dtb:
- /soc/power-management@ff600000: failed to match any schema with compatible:
- ['rockchip,rk3528-pmu', 'syscon', 'simple-mfd']
-Message-ID: <202506222031.kAqSmDQF-lkp@intel.com>
+Subject: Re: [PATCH 2/2] ARM: dts: aspeed: clemente: add Meta Clemente BMC
+Message-ID: <202506222213.cFftMr8q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,30 +67,73 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250618-add-support-for-meta-clemente-bmc-v1-2-e5ca669ee47b@fii-foxconn.com>
+References: <20250618-add-support-for-meta-clemente-bmc-v1-2-e5ca669ee47b@fii-foxconn.com>
+TO: Leo Wang <leo.jt.wang@gmail.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Joel Stanley <joel@jms.id.au>
+TO: Andrew Jeffery <andrew@codeconstruct.com.au>
+TO: Kees Cook <kees@kernel.org>
+TO: Tony Luck <tony.luck@intel.com>
+TO: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+TO: Geert Uytterhoeven <geert+renesas@glider.be>
+TO: Magnus Damm <magnus.damm@gmail.com>
+CC: devicetree@vger.kernel.org
 CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-TO: Jonas Karlman <jonas@kwiboo.se>
-CC: Heiko Stuebner <heiko@sntech.de>
+CC: linux-aspeed@lists.ozlabs.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-hardening@vger.kernel.org
+CC: linux-renesas-soc@vger.kernel.org
+CC: bruce.jy.hung@fii-foxconn.com
+CC: george.kw.lee@fii-foxconn.com
+CC: Leo Wang <leo.jt.wang@fii-foxconn.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.17-armsoc/dts64
-head:   7f9509791507bd2aa89281d999cf0c8ad659f93d
-commit: 654df8e74dbc19ba0625051079e6889e6999d16e [27/34] arm64: dts: rockchip: Add power controller for RK3528
-:::::: branch date: 18 hours ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-052-20250622 (https://download.01.org/0day-ci/archive/20250622/202506222031.kAqSmDQF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+Hi Leo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 52da431bf03b5506203bca27fe14a97895c80faf]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Leo-Wang/Documentation-devicetree-bindings-arm-aspeed-aspeed-yaml/20250618-174140
+base:   52da431bf03b5506203bca27fe14a97895c80faf
+patch link:    https://lore.kernel.org/r/20250618-add-support-for-meta-clemente-bmc-v1-2-e5ca669ee47b%40fii-foxconn.com
+patch subject: [PATCH 2/2] ARM: dts: aspeed: clemente: add Meta Clemente BMC
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm-randconfig-052-20250619 (https://download.01.org/0day-ci/archive/20250622/202506222213.cFftMr8q-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
 dtschema version: 2025.6.1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506222031.kAqSmDQF-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506222213.cFftMr8q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506222031.kAqSmDQF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506222213.cFftMr8q-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/rockchip/rk3528.dtsi:205.6-1029.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/rockchip/rk3528-radxa-e20c.dtb: /soc/power-management@ff600000: failed to match any schema with compatible: ['rockchip,rk3528-pmu', 'syscon', 'simple-mfd']
->> arch/arm64/boot/dts/rockchip/rk3528-radxa-e20c.dtb: /soc/power-management@ff600000/power-controller: failed to match any schema with compatible: ['rockchip,rk3528-power-controller']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@24 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
