@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3E3219E0
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Jun 2025 21:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650394414
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Jun 2025 22:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750712721; cv=none; b=LHdso9fYAa4D3utq43bOSiHNMboq554c+Ak8DjtN+GE5MGqbZ047pYGAlYU0sKA6L/y5sCAeGzJxRR9Ny1RpX+EC8iZ52ohR45qqDzQ16dv4lWlF5EeYCUCd+8gTb+8lSjaFl50s47X8wXcCTF6oofiw3s9CvhNva8PVGY4EQx0=
+	t=1750719525; cv=none; b=Uv/F60yat+qTzHZ1qc0Ywh+aLjWhPjTElwMGZ5DeC4GgIPgpF0WdLu1IHhMVhnI638dJsBtdp22JtB/Mld79civx409zqz1bKu8gEqtaXlsy0E9DalM/+k6NESSuketgPHhjiINQcquLr4Xkg+050RAmIb2YonQ9SklCZNDdKOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750712721; c=relaxed/simple;
-	bh=DH6mTscSo+d2eFYgE3I0zneFKAcvKm9GLrcRJ63daUw=;
+	s=arc-20240116; t=1750719525; c=relaxed/simple;
+	bh=uIdSx+aGhWqYV6KbzsoiYRpoBbIFQuO3KRSnK3F9DXw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Xx9gJzcCbZN8575rLsrM1keiduW+ZZ5hC4CrVez6v+3/q+weXqjylg3+gM/ZGDxbOEFzADmN1IkiE3hokDfm5RE4hCQiO0MxI+nbpCSHnCCwf0F8sRz5JPlk1nRa+F8OMlY/xlIhCQUAMuWvpOUjE4VueT7riEWqmTYjZK+kq10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fsZWpkxd; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=qSQ6j6A/ZFW8rj02ACVgZbe0cOzZEKbtHZqqG1Ik+6QEcO1TRydHBtc+/h9wEeLA9UM6XOcvjQMVQ2xJCCz/PoycM0AJ09qLDh0j+pRSRLF3kMyFyPkNo2hNabNtgqduqc15IfvayXdfBdhDObxAI5MfSCFgysOWXLO4tPAudCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UcvUVqRN; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fsZWpkxd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UcvUVqRN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750712719; x=1782248719;
+  t=1750719523; x=1782255523;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DH6mTscSo+d2eFYgE3I0zneFKAcvKm9GLrcRJ63daUw=;
-  b=fsZWpkxdLG7WDjsTOKhY7Td4HOHhEs7rlTTJd2XuXQBNYSgqSJF9WNZO
-   VXvcj5NvtYviPNyBp2a+os/0SvgvVnuOX6XHg7wq/4MfXy+fqgQRuBerD
-   VXxEhWlqyO9X/rPDncAWDIONMacqLE0cGG3HlgvxJCQ3hicdtKp4Jg5kB
-   rOdeM5vC7pDJ4qjTOXt77qNNWy2512uho794/tQmaeTEaIQGJqWL2JEB1
-   Ff8e6MVxK5gbYzZufyffmYBoblE8ASi0twD/sm/HIQa+kpSQkWowhmDjb
-   1PMcMdD1SGuen9LoHINJ6qzsPeW+EUKicxNYdytHYX1+vRd3T8Jl2KYZt
-   A==;
-X-CSE-ConnectionGUID: gLopuvTDTH++T9g2Mq63/g==
-X-CSE-MsgGUID: X6OW2klmTHencwvjzyk80A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="53025852"
-X-IronPort-AV: E=Sophos;i="6.16,259,1744095600"; 
-   d="scan'208";a="53025852"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 14:05:19 -0700
-X-CSE-ConnectionGUID: L9nDIHS4QZKD+cmSlrh5JA==
-X-CSE-MsgGUID: s8YBUSdwTI2xwax1SUeHTA==
+  bh=uIdSx+aGhWqYV6KbzsoiYRpoBbIFQuO3KRSnK3F9DXw=;
+  b=UcvUVqRNQ6lwoECJYpEfvRk9e1NyFElk2u5At8gRZoPWWT0ndi/fjJg8
+   8T0D8/wznDQrhL8kqR7mnWfZfQ93JqqwFeU1HMLUkKBxkD1cZJB5KPyVD
+   R+F7Pv17Dpi7e1rzkgczQ7V+cE+bYZedj4G8vf0dRhN+4834GMugzt3cx
+   5hKOddYQQpf1jxgHknYUzm/y0zebpb7nUIv04CTXu/fg2A4FoXAsPU+81
+   /K7dHENPTWwuBlMH4b2B4DqnfQGRW5ShIWVqgn/b1VkNYNdKBlUBnBk47
+   8e6mIfsTJ/eIWptC0XvqeWosjzNGajVDwUldaoAcA+AyV6YgBcxSd0CJG
+   g==;
+X-CSE-ConnectionGUID: yVRJqHl5TIKo4+VJf7znAg==
+X-CSE-MsgGUID: W4ZrtG50Q6i8JQwvDmGprg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="52061276"
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
+   d="scan'208";a="52061276"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 15:58:42 -0700
+X-CSE-ConnectionGUID: daB25SbXR5SWGYvqgUdeiw==
+X-CSE-MsgGUID: MjudwPpgT5e/KF6mS7cW5Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,259,1744095600"; 
-   d="scan'208";a="175318802"
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
+   d="scan'208";a="155739938"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Jun 2025 14:05:18 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 23 Jun 2025 15:58:41 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uToLr-000PL0-2m;
-	Mon, 23 Jun 2025 21:05:15 +0000
-Date: Tue, 24 Jun 2025 05:05:02 +0800
+	id 1uTq7b-000RUR-1z;
+	Mon, 23 Jun 2025 22:58:39 +0000
+Date: Tue, 24 Jun 2025 06:58:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [conor:syscon-rework-4 7/9]
- arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: syscon@20002000
- (microchip,mpfs-mss-top-sysreg): compatible:
- ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
-Message-ID: <202506240534.RyNIJXHn-lkp@intel.com>
+Subject: Re: [PATCH v5] dt-bindings: memory-controllers: Convert Altera SDRAM
+ EDAC .txt to YAML
+Message-ID: <202506240643.0A7RTyWE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,41 +68,72 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Conor Dooley <conor+lkp@kernel.org>
+In-Reply-To: <20250620091429.388981-1-shankari.ak0208@gmail.com>
+References: <20250620091429.388981-1-shankari.ak0208@gmail.com>
+TO: Shankari Anand <shankari.ak0208@gmail.com>
+TO: devicetree@vger.kernel.org
+CC: robh@kernel.org
+CC: krzk+dt@kernel.org
+CC: conor+dt@kernel.org
+CC: matthew.gerlach@altera.com
+CC: Shankari Anand <shankari.ak0208@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git syscon-rework-4
-head:   a881e712b79fbe72261980bc18b030bbb5c121b2
-commit: e4aaaea614f2563c3416cf2c180bd72c7a4765ad [7/9] riscv: dts: microchip: convert clock and reset to use syscon
-:::::: branch date: 8 hours ago
-:::::: commit date: 3 days ago
-config: riscv-randconfig-052-20250621 (https://download.01.org/0day-ci/archive/20250624/202506240534.RyNIJXHn-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+Hi Shankari,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk-mem-ctrl/for-next linus/master v6.16-rc3 next-20250623]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shankari-Anand/dt-bindings-memory-controllers-Convert-Altera-SDRAM-EDAC-txt-to-YAML/20250620-171643
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250620091429.388981-1-shankari.ak0208%40gmail.com
+patch subject: [PATCH v5] dt-bindings: memory-controllers: Convert Altera SDRAM EDAC .txt to YAML
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm64-randconfig-052-20250621 (https://download.01.org/0day-ci/archive/20250624/202506240643.0A7RTyWE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
 dtschema version: 2025.6.1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506240534.RyNIJXHn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506240643.0A7RTyWE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506240534.RyNIJXHn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506240643.0A7RTyWE-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+   arch/arm64/boot/dts/intel/socfpga_agilex_socdk_nand.dtb: clock-controller@ffd10000 (intel,agilex-clkmgr): 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/intel,agilex.yaml#
+   arch/arm64/boot/dts/intel/socfpga_agilex_socdk_nand.dtb: /soc@0/ethernet@ff800000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.74a', 'snps,dwmac']
+   arch/arm64/boot/dts/intel/socfpga_agilex_socdk_nand.dtb: /soc@0/ethernet@ff800000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.74a', 'snps,dwmac']
+   arch/arm64/boot/dts/intel/socfpga_agilex_socdk_nand.dtb: /soc@0/ethernet@ff802000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.74a', 'snps,dwmac']
+   arch/arm64/boot/dts/intel/socfpga_agilex_socdk_nand.dtb: /soc@0/ethernet@ff802000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.74a', 'snps,dwmac']
+   arch/arm64/boot/dts/intel/socfpga_agilex_socdk_nand.dtb: /soc@0/ethernet@ff804000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.74a', 'snps,dwmac']
+   arch/arm64/boot/dts/intel/socfpga_agilex_socdk_nand.dtb: /soc@0/ethernet@ff804000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.74a', 'snps,dwmac']
+   arch/arm64/boot/dts/intel/socfpga_agilex_socdk_nand.dtb: nand-controller@ffb90000 (altr,socfpga-denali-nand): Unevaluated properties are not allowed ('flash@0' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/denali,nand.yaml#
+>> arch/arm64/boot/dts/intel/socfpga_agilex_socdk_nand.dtb: sdramedac (altr,sdram-edac-s10): interrupts: [[16, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/altr,sdram-edac.yaml#
+   arch/arm64/boot/dts/intel/socfpga_agilex_socdk_nand.dtb: sdramedac (altr,sdram-edac-s10): 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/altr,sdram-edac.yaml#
 --
->> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
---
->> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
---
->> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
---
->> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
---
->> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+   arch/arm64/boot/dts/intel/socfpga_n5x_socdk.dtb: f2s-free-clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+   arch/arm64/boot/dts/intel/socfpga_n5x_socdk.dtb: clock-controller@ffd10000 (intel,easic-n5x-clkmgr): 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/intel,easic-n5x.yaml#
+   arch/arm64/boot/dts/intel/socfpga_n5x_socdk.dtb: /soc@0/ethernet@ff800000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.74a', 'snps,dwmac']
+   arch/arm64/boot/dts/intel/socfpga_n5x_socdk.dtb: /soc@0/ethernet@ff800000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.74a', 'snps,dwmac']
+   arch/arm64/boot/dts/intel/socfpga_n5x_socdk.dtb: /soc@0/ethernet@ff802000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.74a', 'snps,dwmac']
+   arch/arm64/boot/dts/intel/socfpga_n5x_socdk.dtb: /soc@0/ethernet@ff802000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.74a', 'snps,dwmac']
+   arch/arm64/boot/dts/intel/socfpga_n5x_socdk.dtb: /soc@0/ethernet@ff804000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.74a', 'snps,dwmac']
+   arch/arm64/boot/dts/intel/socfpga_n5x_socdk.dtb: /soc@0/ethernet@ff804000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.74a', 'snps,dwmac']
+>> arch/arm64/boot/dts/intel/socfpga_n5x_socdk.dtb: sdramedac (altr,sdram-edac-s10): interrupts: [[16, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/altr,sdram-edac.yaml#
+   arch/arm64/boot/dts/intel/socfpga_n5x_socdk.dtb: sdramedac (altr,sdram-edac-s10): 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/altr,sdram-edac.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
