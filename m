@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1BD231C8D
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Jun 2025 09:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962F41FE471
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Jun 2025 13:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750669648; cv=none; b=kwWYx+ooJ49/pdbWPMVVxJk9UWwV+QzLNZ+q+2gUzgacjXGSW2EBSlsQ+e3hPZqGwpKfl/jFsFe/3pxRcipsS3pxuEE8ykmPeFhGPH3VNIAw54QFcZUA0KbaaAKv/x6DwyJuBFKHh196cuRZ2Lh5jmyLXeWEtOnUtHB1zUSf6Uo=
+	t=1750683781; cv=none; b=Kr0BpPnCNDFVi51bDgDHFu9+Ae4d1n2Ua2GEUROwwWQyNTKq7gaq0/7Uu2hIl8/bOkTXwgsBkMpFxUHKGHFwNsYSmpRMoKKK59TuLZalxAiR0tpEMyr+Iejfm2+Wjv44lwcMTD3Q+L7uMFKKa73T2hSgajntNELCsPfb0SEIp+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750669648; c=relaxed/simple;
-	bh=lIlSQO77iQO0FjnbItctn1ou5OsPg9MLorQRmtpvJLU=;
+	s=arc-20240116; t=1750683781; c=relaxed/simple;
+	bh=IIRlP4YWhgFloezhoj1nwBgrH2uGpilqDQVRzB9rW0g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UcBt3uXSFGJ5qfTIZ7F2je2XkLXY7aRsfa1d2TDcTNc7HEcc75HyxOpQM9kGo9ryEiL7aqQ5oGRgpLCnQHqmadKVbeCNTosBsgx00xEGnwQVsRDcY2ZWa0Ua+Tao/sji7j/AyS2nlTWKH/RwQ9lgYQMy1Q6OFCKddi49UkZPIsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PhC1QD5F; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=RKSVqHytOK9cpH5bEzM+6htbfVDDV/pe33dMm+mtvBFXfVQwdUK9NQLYLOaEEqv02fe6mreenqrXeYtqpT4CmfUDWvmhHtfMsgyqjFaGwnpZv4KLXyWYCPjQ0QQhd27y6OG856Hn42aL2rFZ0O7EYqGQ8K3hkdKiwq3nG04p91I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M1ceKHmA; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PhC1QD5F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M1ceKHmA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750669647; x=1782205647;
+  t=1750683779; x=1782219779;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lIlSQO77iQO0FjnbItctn1ou5OsPg9MLorQRmtpvJLU=;
-  b=PhC1QD5FynBAhv1mdf7WS0nTBbiuTI3Zi6t3xrjkbn2mxAX8RnzuTsgY
-   nMHwgr3njp1+nWC/X7//p/NLTnTtvftgTcpf9WoE/vj5z4WJ6X56jN922
-   izI2YATeKCCR0kHuc8doVMGBjIlPIZTzM7iy+1meyzzdYGednxRNwUXnX
-   3T+5rRNr3AeTV8z8VKiQBoS/PpbJEXSpI4TJ3nO/Ho1Z1b/v+vwzyfsM8
-   ALPvqncGit95qwvpEX+seWZ9ZPo6fHHhQCluXUqoinBi4Rtqa5E2clC7P
-   Ld99fD0ed2Jd8BM7wjwBp62ILUejD4A4J/yGRLCDjh14R0VxBUzxmHxoK
-   w==;
-X-CSE-ConnectionGUID: aAgmgQffSq6OVBZPPdtvmQ==
-X-CSE-MsgGUID: CouIOIVCQyKkbdNki13J8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52837334"
+  bh=IIRlP4YWhgFloezhoj1nwBgrH2uGpilqDQVRzB9rW0g=;
+  b=M1ceKHmAvwhqVY1PxFg50H6S44RdKws9QQll8UcROp2lNfAHP3eAeRm1
+   56dHFQel0YClj9v0X9zUJiZYQLjcgsYCxGwyyUKPebV/0eLDDg3CsGssh
+   o8rdFpcA3muZDDlzbnHHc4VeQiX+UwSE7Ol8F80a2prrejleUzRKTwK34
+   4T9ob77Eaza81ZEePdbPvI+2lT8ZNONc214T41uiNsGAdXKo3zFfrSztf
+   2RBAcvT5Z15rYZSrhfs5z/yNQhW1mHHHd3YkCJzBN1UjZQe5G2b5H2AKN
+   I8gDaNsI8HWx3iR73gxGlOuCzYLni7pxaZSSYdf+JQl03nTRMMcd0GY3j
+   Q==;
+X-CSE-ConnectionGUID: AxpkDLjLSQSaIG+cwuTEFw==
+X-CSE-MsgGUID: nKa6nRWNRiSq00NEEcHEXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="40500259"
 X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="52837334"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 02:07:24 -0700
-X-CSE-ConnectionGUID: 3w47lJvFRmGGXMxiRSpU6g==
-X-CSE-MsgGUID: n1Y/OLVvSu2o7JquNKpnAA==
+   d="scan'208";a="40500259"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 06:02:59 -0700
+X-CSE-ConnectionGUID: DOSclr+UQTWdaMOt7XTBwg==
+X-CSE-MsgGUID: Y6uVfNfUQ8evBIHvFXeTXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="152215267"
+   d="scan'208";a="156151826"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Jun 2025 02:07:22 -0700
+  by orviesa004.jf.intel.com with ESMTP; 23 Jun 2025 06:02:56 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTd96-000Nt0-3A;
-	Mon, 23 Jun 2025 09:07:20 +0000
-Date: Mon, 23 Jun 2025 17:06:58 +0800
+	id 1uTgp4-000O8g-1S;
+	Mon, 23 Jun 2025 13:02:54 +0000
+Date: Mon, 23 Jun 2025 21:02:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: net: convert socfpga-dwmac.txt to DT schema
-Message-ID: <202506231622.5Az9zCyL-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: crypto/testmgr.c:1847 test_hash_vs_generic_impl() warn: we never
+ enter this loop
+Message-ID: <202506232013.U8GW5Tnv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,109 +62,172 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250621034401.586780-1-dinguyen@kernel.org>
-References: <20250621034401.586780-1-dinguyen@kernel.org>
-TO: Dinh Nguyen <dinguyen@kernel.org>
-TO: robh+dt@kernel.org
-TO: krzysztof.kozlowskii+dt@linaro.org
-TO: conor+dt@kernel.org
-CC: dinguyen@kernel.org
-CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+TO: Eric Biggers <ebiggers@google.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
 
-Hi Dinh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.16-rc3 next-20250623]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dinh-Nguyen/dt-bindings-net-convert-socfpga-dwmac-txt-to-DT-schema/20250621-114611
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250621034401.586780-1-dinguyen%40kernel.org
-patch subject: [PATCH] dt-bindings: net: convert socfpga-dwmac.txt to DT schema
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: riscv-randconfig-051-20250621 (https://download.01.org/0day-ci/archive/20250623/202506231622.5Az9zCyL-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.3.0
-dtschema version: 2025.6.1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250623/202506231622.5Az9zCyL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   86731a2a651e58953fc949573895f2fa6d456841
+commit: ac90aad0e9bf7c37e706fdc08ce763a553890bdf crypto: testmgr - reinstate kconfig control over full self-tests
+date:   10 days ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 10 days ago
+config: nios2-randconfig-r072-20250623 (https://download.01.org/0day-ci/archive/20250623/202506232013.U8GW5Tnv-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506231622.5Az9zCyL-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202506232013.U8GW5Tnv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: ethernet@10020000 (starfive,jh7100-dwmac): 'max-frame-size', 'mdio', 'phy-handle', 'snps,axi-config', 'snps,fixed-burst', 'snps,force_thresh_dma_mode', 'snps,perfect-filter-entries', 'starfive,syscon', 'stmmac-axi-config' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: ethernet@10020000 (starfive,jh7100-dwmac): clock-names: ['stmmaceth', 'pclk', 'ptp_ref', 'tx', 'gtx'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: ethernet@10020000 (starfive,jh7100-dwmac): clocks: [[8, 121], [8, 120], [8, 122], [8, 127], [8, 123]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: ethernet@10020000 (starfive,jh7100-dwmac): compatible:0: 'starfive,jh7100-dwmac' is not one of ['altr,socfpga-stmmac', 'altr,socfpga-stmmac-a10-s10']
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: ethernet@10020000 (starfive,jh7100-dwmac): interrupt-names: ['macirq', 'eth_wake_irq'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: ethernet@10020000 (starfive,jh7100-dwmac): interrupts: [[6], [7]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: ethernet@10020000 (starfive,jh7100-dwmac): phy-mode:0: 'rgmii-id' is not one of ['rgmii', 'gmii', 'mii']
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
---
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: ethernet@10020000 (starfive,jh7100-dwmac): 'max-frame-size', 'mdio', 'phy-handle', 'snps,axi-config', 'snps,fixed-burst', 'snps,force_thresh_dma_mode', 'snps,perfect-filter-entries', 'starfive,syscon', 'stmmac-axi-config' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: ethernet@10020000 (starfive,jh7100-dwmac): clock-names: ['stmmaceth', 'pclk', 'ptp_ref', 'tx', 'gtx'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: ethernet@10020000 (starfive,jh7100-dwmac): clocks: [[8, 121], [8, 120], [8, 122], [8, 127], [8, 123]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: ethernet@10020000 (starfive,jh7100-dwmac): compatible:0: 'starfive,jh7100-dwmac' is not one of ['altr,socfpga-stmmac', 'altr,socfpga-stmmac-a10-s10']
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: ethernet@10020000 (starfive,jh7100-dwmac): interrupt-names: ['macirq', 'eth_wake_irq'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: ethernet@10020000 (starfive,jh7100-dwmac): interrupts: [[6], [7]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: ethernet@10020000 (starfive,jh7100-dwmac): phy-mode:0: 'rgmii-id' is not one of ['rgmii', 'gmii', 'mii']
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
---
->> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7060000 (thead,th1520-gmac): 'mdio', 'phy-handle', 'reg-names', 'snps,axi-config', 'snps,fixed-burst', 'snps,pbl', 'snps,perfect-filter-entries' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7060000 (thead,th1520-gmac): compatible:0: 'thead,th1520-gmac' is not one of ['altr,socfpga-stmmac', 'altr,socfpga-stmmac-a10-s10']
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7060000 (thead,th1520-gmac): phy-mode:0: 'rgmii-id' is not one of ['rgmii', 'gmii', 'mii']
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7060000 (thead,th1520-gmac): reg: [[255, 3875930112, 0, 8192], [255, 3959439360, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7070000 (thead,th1520-gmac): 'mdio', 'phy-handle', 'reg-names', 'snps,axi-config', 'snps,fixed-burst', 'snps,pbl', 'snps,perfect-filter-entries' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7070000 (thead,th1520-gmac): compatible:0: 'thead,th1520-gmac' is not one of ['altr,socfpga-stmmac', 'altr,socfpga-stmmac-a10-s10']
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7070000 (thead,th1520-gmac): phy-mode:0: 'rgmii-id' is not one of ['rgmii', 'gmii', 'mii']
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: ethernet@ffe7070000 (thead,th1520-gmac): reg: [[255, 3875995648, 0, 8192], [255, 3959435264, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
---
->> arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7060000 (thead,th1520-gmac): 'mdio', 'reg-names', 'snps,axi-config', 'snps,fixed-burst', 'snps,pbl', 'snps,perfect-filter-entries' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7060000 (thead,th1520-gmac): compatible:0: 'thead,th1520-gmac' is not one of ['altr,socfpga-stmmac', 'altr,socfpga-stmmac-a10-s10']
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7060000 (thead,th1520-gmac): reg: [[255, 3875930112, 0, 8192], [255, 3959439360, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7070000 (thead,th1520-gmac): 'mdio', 'phy-handle', 'reg-names', 'snps,axi-config', 'snps,fixed-burst', 'snps,pbl', 'snps,perfect-filter-entries' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7070000 (thead,th1520-gmac): compatible:0: 'thead,th1520-gmac' is not one of ['altr,socfpga-stmmac', 'altr,socfpga-stmmac-a10-s10']
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7070000 (thead,th1520-gmac): phy-mode:0: 'rgmii-id' is not one of ['rgmii', 'gmii', 'mii']
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
->> arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: ethernet@ffe7070000 (thead,th1520-gmac): reg: [[255, 3875995648, 0, 8192], [255, 3959435264, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
+smatch warnings:
+crypto/testmgr.c:1847 test_hash_vs_generic_impl() warn: we never enter this loop
+crypto/testmgr.c:1847 test_hash_vs_generic_impl() warn: unsigned 'i' is never less than zero.
+crypto/testmgr.c:1847 test_hash_vs_generic_impl() warn: unsigned 'i' is never less than zero.
+crypto/testmgr.c:2462 test_aead_inauthentic_inputs() warn: we never enter this loop
+crypto/testmgr.c:2462 test_aead_inauthentic_inputs() warn: unsigned 'i' is never less than zero.
+crypto/testmgr.c:2462 test_aead_inauthentic_inputs() warn: unsigned 'i' is never less than zero.
+crypto/testmgr.c:2564 test_aead_vs_generic_impl() warn: we never enter this loop
+crypto/testmgr.c:2564 test_aead_vs_generic_impl() warn: unsigned 'i' is never less than zero.
+crypto/testmgr.c:2564 test_aead_vs_generic_impl() warn: unsigned 'i' is never less than zero.
+crypto/testmgr.c:3175 test_skcipher_vs_generic_impl() warn: we never enter this loop
+crypto/testmgr.c:3175 test_skcipher_vs_generic_impl() warn: unsigned 'i' is never less than zero.
+crypto/testmgr.c:3175 test_skcipher_vs_generic_impl() warn: unsigned 'i' is never less than zero.
+
+vim +1847 crypto/testmgr.c
+
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1748  
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1749  /*
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1750   * Test the hash algorithm represented by @req against the corresponding generic
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1751   * implementation, if one is available.
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1752   */
+79cafe9a8b16f7 Eric Biggers  2020-10-26  1753  static int test_hash_vs_generic_impl(const char *generic_driver,
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1754  				     unsigned int maxkeysize,
+9764d5b0cd0ea4 Herbert Xu    2025-03-30  1755  				     struct ahash_request *req,
+d8ea98aa3cd464 Eric Biggers  2019-05-28  1756  				     struct shash_desc *desc,
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1757  				     struct test_sglist *tsgl,
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1758  				     u8 *hashstate)
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1759  {
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1760  	struct crypto_ahash *tfm = crypto_ahash_reqtfm(req);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1761  	const unsigned int digestsize = crypto_ahash_digestsize(tfm);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1762  	const unsigned int blocksize = crypto_ahash_blocksize(tfm);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1763  	const unsigned int maxdatasize = (2 * PAGE_SIZE) - TESTMGR_POISON_LEN;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1764  	const char *algname = crypto_hash_alg_common(tfm)->base.cra_name;
+79cafe9a8b16f7 Eric Biggers  2020-10-26  1765  	const char *driver = crypto_ahash_driver_name(tfm);
+f900fde2888360 Eric Biggers  2023-02-27  1766  	struct rnd_state rng;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1767  	char _generic_driver[CRYPTO_MAX_ALG_NAME];
+c2a813545ed481 Herbert Xu    2025-05-15  1768  	struct ahash_request *generic_req = NULL;
+c2a813545ed481 Herbert Xu    2025-05-15  1769  	struct crypto_ahash *generic_tfm = NULL;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1770  	unsigned int i;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1771  	struct hash_testvec vec = { 0 };
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1772  	char vec_name[64];
+6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1773  	struct testvec_config *cfg;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1774  	char cfgname[TESTVEC_CONFIG_NAMELEN];
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1775  	int err;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1776  
+42e45119efba92 Eric Biggers  2025-05-05  1777  	if (noslowtests)
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1778  		return 0;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1779  
+f900fde2888360 Eric Biggers  2023-02-27  1780  	init_rnd_state(&rng);
+f900fde2888360 Eric Biggers  2023-02-27  1781  
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1782  	if (!generic_driver) { /* Use default naming convention? */
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1783  		err = build_generic_driver_name(algname, _generic_driver);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1784  		if (err)
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1785  			return err;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1786  		generic_driver = _generic_driver;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1787  	}
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1788  
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1789  	if (strcmp(generic_driver, driver) == 0) /* Already the generic impl? */
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1790  		return 0;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1791  
+c2a813545ed481 Herbert Xu    2025-05-15  1792  	generic_tfm = crypto_alloc_ahash(generic_driver, 0, 0);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1793  	if (IS_ERR(generic_tfm)) {
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1794  		err = PTR_ERR(generic_tfm);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1795  		if (err == -ENOENT) {
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1796  			pr_warn("alg: hash: skipping comparison tests for %s because %s is unavailable\n",
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1797  				driver, generic_driver);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1798  			return 0;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1799  		}
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1800  		pr_err("alg: hash: error allocating %s (generic impl of %s): %d\n",
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1801  		       generic_driver, algname, err);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1802  		return err;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1803  	}
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1804  
+6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1805  	cfg = kzalloc(sizeof(*cfg), GFP_KERNEL);
+6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1806  	if (!cfg) {
+6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1807  		err = -ENOMEM;
+6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1808  		goto out;
+6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1809  	}
+6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1810  
+c2a813545ed481 Herbert Xu    2025-05-15  1811  	generic_req = ahash_request_alloc(generic_tfm, GFP_KERNEL);
+c2a813545ed481 Herbert Xu    2025-05-15  1812  	if (!generic_req) {
+149c4e6ef7788d Arnd Bergmann 2019-06-18  1813  		err = -ENOMEM;
+149c4e6ef7788d Arnd Bergmann 2019-06-18  1814  		goto out;
+149c4e6ef7788d Arnd Bergmann 2019-06-18  1815  	}
+149c4e6ef7788d Arnd Bergmann 2019-06-18  1816  
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1817  	/* Check the algorithm properties for consistency. */
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1818  
+c2a813545ed481 Herbert Xu    2025-05-15  1819  	if (digestsize != crypto_ahash_digestsize(generic_tfm)) {
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1820  		pr_err("alg: hash: digestsize for %s (%u) doesn't match generic impl (%u)\n",
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1821  		       driver, digestsize,
+c2a813545ed481 Herbert Xu    2025-05-15  1822  		       crypto_ahash_digestsize(generic_tfm));
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1823  		err = -EINVAL;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1824  		goto out;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1825  	}
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1826  
+c2a813545ed481 Herbert Xu    2025-05-15  1827  	if (blocksize != crypto_ahash_blocksize(generic_tfm)) {
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1828  		pr_err("alg: hash: blocksize for %s (%u) doesn't match generic impl (%u)\n",
+c2a813545ed481 Herbert Xu    2025-05-15  1829  		       driver, blocksize, crypto_ahash_blocksize(generic_tfm));
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1830  		err = -EINVAL;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1831  		goto out;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1832  	}
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1833  
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1834  	/*
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1835  	 * Now generate test vectors using the generic implementation, and test
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1836  	 * the other implementation against them.
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1837  	 */
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1838  
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1839  	vec.key = kmalloc(maxkeysize, GFP_KERNEL);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1840  	vec.plaintext = kmalloc(maxdatasize, GFP_KERNEL);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1841  	vec.digest = kmalloc(digestsize, GFP_KERNEL);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1842  	if (!vec.key || !vec.plaintext || !vec.digest) {
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1843  		err = -ENOMEM;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1844  		goto out;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1845  	}
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1846  
+9a8a6b3f0950c0 Eric Biggers  2019-04-11 @1847  	for (i = 0; i < fuzz_iterations * 8; i++) {
+c2a813545ed481 Herbert Xu    2025-05-15  1848  		generate_random_hash_testvec(&rng, generic_req, &vec,
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1849  					     maxkeysize, maxdatasize,
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1850  					     vec_name, sizeof(vec_name));
+f900fde2888360 Eric Biggers  2023-02-27  1851  		generate_random_testvec_config(&rng, cfg, cfgname,
+f900fde2888360 Eric Biggers  2023-02-27  1852  					       sizeof(cfgname));
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1853  
+79cafe9a8b16f7 Eric Biggers  2020-10-26  1854  		err = test_hash_vec_cfg(&vec, vec_name, cfg,
+9764d5b0cd0ea4 Herbert Xu    2025-03-30  1855  					req, desc, tsgl, hashstate);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1856  		if (err)
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1857  			goto out;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1858  		cond_resched();
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1859  	}
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1860  	err = 0;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1861  out:
+6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1862  	kfree(cfg);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1863  	kfree(vec.key);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1864  	kfree(vec.plaintext);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1865  	kfree(vec.digest);
+c2a813545ed481 Herbert Xu    2025-05-15  1866  	ahash_request_free(generic_req);
+c2a813545ed481 Herbert Xu    2025-05-15  1867  	crypto_free_ahash(generic_tfm);
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1868  	return err;
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1869  }
+9a8a6b3f0950c0 Eric Biggers  2019-04-11  1870  
+
+:::::: The code at line 1847 was first introduced by commit
+:::::: 9a8a6b3f0950c0df220b684b686c26a902cfcf1a crypto: testmgr - fuzz hashes against their generic implementation
+
+:::::: TO: Eric Biggers <ebiggers@google.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
