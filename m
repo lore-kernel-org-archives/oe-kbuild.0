@@ -1,57 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583821F1522
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Jun 2025 13:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF100291C36
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Jun 2025 15:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750684442; cv=none; b=d4kXT1w0p5XVEDG7hyXBmWXq1wyed4HtQMygBFniX7Wz3WMYLf9FvKWZCb28BGAUqqiqHQUWyq0ewgzQJy6r1rJkgNn+W7QKpgT3sYuG2lrmOzy2KL0JvuAhFxcRZZiRa1Zf6FcjWewSYN0V4lgc7rpMnkwjPEAbtnzIq2psaQE=
+	t=1750691737; cv=none; b=Hmz0dG8fCaNH38iH+8zC6xxnrRFIYsiwGw93HE+elPSbPb/1H+g3MYuwWn7BYuphMNr7ZhGpMpQpEOdkHAAa3YkrIdvrctlcufDOEsY64+gXAMgOvEN+7yeCCKjo2/WJydazAe8T4B/wGWX47uoxKe0lWwld1WLyO0e7w1RoprI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750684442; c=relaxed/simple;
-	bh=7RQhtX0LA3Cvka3Vrk/6uzvlvKJL1eJVJPy0RRsJZCM=;
+	s=arc-20240116; t=1750691737; c=relaxed/simple;
+	bh=q7sSNzk+8LCHnagqmsvgJBrzj6qoB7yCu0hjujvAPWU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=elsDjNy9QElrEbA/7CG4yzFgKd7KV5iUoIvsVLYjL/qy/e65K9VNREpWGIeLmn3N8xAxeyddSy0rvenMJYOuhvXn5prRCuW6Ah6L6NiPjMpIJMt3Qy3ZajNzHdjqhfsL56EPWfC9HY0lWISMR59bmEKQ/DCJlGpRM5JBHqfFN8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lFEVdqb+; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=qLxYBLc/VbA18OvIqwLdtGXIwV/UZbtNdLmnTJb8K/RCdFpB7zz9jcjpAYSUleMfV+7cUer+lm38yZWWSavfYX5ZPWuDbnb8uFm6LadZxK2a6gkKrH8rn2kgDIpBBGWV6B2sMSnOKEkiyWm1SEESqIuMpFlwaKh4mSnEwnFvOsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fawF5Aa3; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFEVdqb+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750684440; x=1782220440;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7RQhtX0LA3Cvka3Vrk/6uzvlvKJL1eJVJPy0RRsJZCM=;
-  b=lFEVdqb+/zBm1HKqmPrR0gaeVbwJhbYW+qsWBWDwkWC0cGAiAjI3N+6e
-   5OvoQSyqBH2JAgGJ/hNt/Py4huQMYvoPgoeqrkuZhsOPttISoh2t0qqML
-   uWBxCb/EigQl1GG9zaiSAOXjc4A5pUxcJ1i4ygMQauLt0YM3wLZEf7yWr
-   tWa6D7vLNIT7UuMuja53inOfZod5g1NHQ09iUlXDAnSlJbrGc4PAp44j2
-   yn/VZu+OTTy5ngUl2S01E+WQo2dQiO2xmISdq6z8Muwh4uqmki1MvofRe
-   8sUVX0vcW7wWrtfWGGWQpXo7/xGYILjXLwHgZ9q1cDj56ZUiPnb1yByIj
-   A==;
-X-CSE-ConnectionGUID: JV/hrUVlRC65I0DEpBsjnQ==
-X-CSE-MsgGUID: bPVTiOFOQdmxWUTqByp9HA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="70317749"
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="70317749"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 06:14:00 -0700
-X-CSE-ConnectionGUID: Ljv0k18zRkGiiASzyFZDsw==
-X-CSE-MsgGUID: 8j2naCH3TaKiXyaR+Xg+ow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="188809423"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 23 Jun 2025 06:13:59 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uTgzk-000OAk-01;
-	Mon, 23 Jun 2025 13:13:56 +0000
-Date: Mon, 23 Jun 2025 21:13:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fawF5Aa3"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-73a8d0e3822so2196008a34.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 23 Jun 2025 08:15:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750691734; x=1751296534; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hTfj4nts57jcFtJZ+F9J6L0zMoCmBvm/T2xwE+cda6U=;
+        b=fawF5Aa3HKh27pa7joKo1FaXysIaWKqXN18F0fUW9V1D+LnuDuQvPzj3ZubKFlPSru
+         ekNreAjawoSfDIHcZvYGXEyNdqYZKM/5KbNiS5orBWoV6Y7xeRcxUNDFaEGFNKWlZ06/
+         cOvA/2OjzBbNFTUKU2gcy07X2vggzHX1V+WX8bA04KgKZQ9iR8qjLiWW3m/5pnKwMZK9
+         lTlewS5GKKOstxc4H9006UbU4ySuvLc8iTo1bFdWSmN5yD5n9xUm4Ta59LYGMFvc7YMR
+         yWZR7U9+kGyIukwf5TjejAAP7ec47sSagfeQ0aMlLfIZI2IKN2f0HEtdHp4r5iNg8Tfe
+         o+kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750691734; x=1751296534;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hTfj4nts57jcFtJZ+F9J6L0zMoCmBvm/T2xwE+cda6U=;
+        b=A03qItuf3UkpVDHEDToP8+aI9wC9skQfyC8GnjkGT1FUg+FYqHc4SqKgoUueTJZzYT
+         6ELND4X2wGOnPK6X91GfxOklINk7HB9ld0PEhbVFH0zuv2JZ1ih7w0LPU+13TV9sOU8e
+         z2mIsdZsFkcebIfJd5sLJ8/nlpE9m1Fh6B0r9sJsPd/aWI3FG69kgbnjDnuBHk/e0GjO
+         0Nij/qg8nMbiJpwAvTrf1O16tdrowGPmkHf+1YvNjtlarnSvyI0IcYyLnkIyCjQjNuSy
+         gIXkVywjyfZuNMKcZNLaGzuYHkcbAsYJbciFnVkjoJCZIhRoqyzlgtWZ/DvCMSFyKQ0u
+         Li7Q==
+X-Gm-Message-State: AOJu0YxRlYXcdtaKUNIcrSxpAoaX76oElxImhzVM0ojBedMXVTlvEyaS
+	0/NkSp2dEs3fWaiqM22xyywE+YYX8KGaKas56SlGxaA7kpt1rxowbXSZ8YORbgsI7g8jNQ6jA2n
+	7aE0j
+X-Gm-Gg: ASbGnctz/K0kNTSgjK1BrGx5rCIaZNuZVBRAIL9C4NrdGNIiR6n+8/CxD1JU89l9gCO
+	AUJ9id52tQ5GNR4VYZ+fFH5OqhR/Ciavbf0194VaTb5YeT0AggU9+hdo3a2rT2OQi97gbRVuQXL
+	ieNZG5NL6gNh3c4gGZZkvpix8WlmpkU04gMcJXMRozi3eCFEb/7P2u1D7ARhw06XFTUu02QVsO8
+	bH1c/plQF4BlmGGH5eZdtOl0Uiv9k+j90kg9G/bNG3ih8vRFIe0yGAgGdwu1k24j2U4ZI0C83ca
+	6MUxiKzfrwu6crobMk6tjihX49dFwQxDzLBE7FMUkltfsV84J2Kx8fwsgEaORxUjhYNV/Q==
+X-Google-Smtp-Source: AGHT+IFGOPmtqg7Lp4Kn7CgrXA9DtIsCo3jYjnY5DNjx5Ly5+LKVsGIHILNSrXEzujvikHfdjfdH3Q==
+X-Received: by 2002:a05:6830:8208:b0:73a:8a8a:5159 with SMTP id 46e09a7af769-73a91c05183mr8709264a34.5.1750691734010;
+        Mon, 23 Jun 2025 08:15:34 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:8c3f:8b5f:5c74:76a9])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a90b1b7b0sm1485988a34.21.2025.06.23.08.15.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jun 2025 08:15:33 -0700 (PDT)
+Date: Mon, 23 Jun 2025 18:15:31 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Inki Dae <inki.dae@samsung.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Raphael Gallais-Pou <rgallaispou@gmail.com>,
+	Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v2 12/16] drm/drm_of: Keep up with refcounting
-Message-ID: <202506232158.z2O78kPL-lkp@intel.com>
+Message-ID: <adc32694-69f9-487e-a83f-e1f284a54904@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,62 +97,23 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20250619-b4-of_drm_find_panel_part1-v2-12-0df94aecc43d@redhat.com>
-References: <20250619-b4-of_drm_find_panel_part1-v2-12-0df94aecc43d@redhat.com>
-TO: Anusha Srivatsa <asrivats@redhat.com>
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-TO: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: David Airlie <airlied@gmail.com>
-TO: Simona Vetter <simona@ffwll.ch>
-TO: Inki Dae <inki.dae@samsung.com>
-TO: Jagan Teki <jagan@amarulasolutions.com>
-TO: Marek Szyprowski <m.szyprowski@samsung.com>
-TO: Andrzej Hajda <andrzej.hajda@intel.com>
-TO: Robert Foss <rfoss@kernel.org>
-TO: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-TO: Jonas Karlman <jonas@kwiboo.se>
-TO: Jernej Skrabec <jernej.skrabec@gmail.com>
-TO: "Chen-Yu Tsai" <wens@csie.org>
-TO: Samuel Holland <samuel@sholland.org>
-TO: "Seung-Woo Kim" <sw0312.kim@samsung.com>
-TO: Kyungmin Park <kyungmin.park@samsung.com>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Alim Akhtar <alim.akhtar@samsung.com>
-TO: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-TO: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-TO: Geert Uytterhoeven <geert+renesas@glider.be>
-TO: Magnus Damm <magnus.damm@gmail.com>
-TO: Biju Das <biju.das.jz@bp.renesas.com>
-TO: Alain Volmat <alain.volmat@foss.st.com>
-TO: "Raphael Gallais-Pou" <rgallaispou@gmail.com>
-TO: Stefan Agner <stefan@agner.ch>
-TO: Alison Wang <alison.wang@nxp.com>
 
 Hi Anusha,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 60ba94338047bb5410a3626ced3380afe9285ed8]
-
 url:    https://github.com/intel-lab-lkp/linux/commits/Anusha-Srivatsa/drm-panel-get-put-panel-reference-in-drm_panel_add-remove/20250620-032045
 base:   60ba94338047bb5410a3626ced3380afe9285ed8
 patch link:    https://lore.kernel.org/r/20250619-b4-of_drm_find_panel_part1-v2-12-0df94aecc43d%40redhat.com
 patch subject: [PATCH v2 12/16] drm/drm_of: Keep up with refcounting
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
 config: arm-randconfig-r073-20250623 (https://download.01.org/0day-ci/archive/20250623/202506232158.z2O78kPL-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202506232158.z2O78kPL-lkp@intel.com/
 
 smatch warnings:
@@ -123,7 +121,6 @@ drivers/gpu/drm/drm_of.c:283 drm_of_find_panel_or_bridge() error: we previously 
 
 vim +/panel +283 drivers/gpu/drm/drm_of.c
 
-1f2db3034c9f16 Rob Herring       2017-03-22  219  
 3fbdfe99f7523a Simona Vetter     2019-01-11  220  /**
 1f2db3034c9f16 Rob Herring       2017-03-22  221   * drm_of_find_panel_or_bridge - return connected panel or bridge device
 1f2db3034c9f16 Rob Herring       2017-03-22  222   * @np: device tree node containing encoder output ports
@@ -135,6 +132,9 @@ vim +/panel +283 drivers/gpu/drm/drm_of.c
 1f2db3034c9f16 Rob Herring       2017-03-22  228   * Given a DT node's port and endpoint number, find the connected node and
 1f2db3034c9f16 Rob Herring       2017-03-22  229   * return either the associated struct drm_panel or drm_bridge device. Either
 1f2db3034c9f16 Rob Herring       2017-03-22  230   * @panel or @bridge must not be NULL.
+
+panel can be NULL.
+
 1f2db3034c9f16 Rob Herring       2017-03-22  231   *
 87ea95808d53e5 Maxime Ripard     2021-09-10  232   * This function is deprecated and should not be used in new drivers. Use
 87ea95808d53e5 Maxime Ripard     2021-09-10  233   * devm_drm_of_get_bridge() instead.
@@ -168,6 +168,9 @@ vim +/panel +283 drivers/gpu/drm/drm_of.c
 169466d4e59ca2 Bjorn Andersson   2022-04-20  261  		return -ENODEV;
 169466d4e59ca2 Bjorn Andersson   2022-04-20  262  
 169466d4e59ca2 Bjorn Andersson   2022-04-20 @263  	if (panel) {
+                                                            ^^^^^
+This code assumes panel can be NULL.
+
 169466d4e59ca2 Bjorn Andersson   2022-04-20  264  		*panel = of_drm_find_panel(remote);
 169466d4e59ca2 Bjorn Andersson   2022-04-20  265  		if (!IS_ERR(*panel))
 169466d4e59ca2 Bjorn Andersson   2022-04-20  266  			ret = 0;
@@ -188,13 +191,15 @@ vim +/panel +283 drivers/gpu/drm/drm_of.c
 169466d4e59ca2 Bjorn Andersson   2022-04-20  281  	}
 169466d4e59ca2 Bjorn Andersson   2022-04-20  282  
 28d4456c6f3538 Anusha Srivatsa   2025-06-19 @283  	drm_panel_put(*panel);
+                                                                      ^^^^^^
+Unchecked dereference.
+
 28d4456c6f3538 Anusha Srivatsa   2025-06-19  284  
 169466d4e59ca2 Bjorn Andersson   2022-04-20  285  	of_node_put(remote);
 169466d4e59ca2 Bjorn Andersson   2022-04-20  286  	return ret;
 1f2db3034c9f16 Rob Herring       2017-03-22  287  }
-1f2db3034c9f16 Rob Herring       2017-03-22  288  EXPORT_SYMBOL_GPL(drm_of_find_panel_or_bridge);
-6529007522ded0 Fabrizio Castro   2019-12-17  289  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
