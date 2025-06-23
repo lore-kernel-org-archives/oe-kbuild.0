@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962F41FE471
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Jun 2025 13:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583821F1522
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Jun 2025 13:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750683781; cv=none; b=Kr0BpPnCNDFVi51bDgDHFu9+Ae4d1n2Ua2GEUROwwWQyNTKq7gaq0/7Uu2hIl8/bOkTXwgsBkMpFxUHKGHFwNsYSmpRMoKKK59TuLZalxAiR0tpEMyr+Iejfm2+Wjv44lwcMTD3Q+L7uMFKKa73T2hSgajntNELCsPfb0SEIp+U=
+	t=1750684442; cv=none; b=d4kXT1w0p5XVEDG7hyXBmWXq1wyed4HtQMygBFniX7Wz3WMYLf9FvKWZCb28BGAUqqiqHQUWyq0ewgzQJy6r1rJkgNn+W7QKpgT3sYuG2lrmOzy2KL0JvuAhFxcRZZiRa1Zf6FcjWewSYN0V4lgc7rpMnkwjPEAbtnzIq2psaQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750683781; c=relaxed/simple;
-	bh=IIRlP4YWhgFloezhoj1nwBgrH2uGpilqDQVRzB9rW0g=;
+	s=arc-20240116; t=1750684442; c=relaxed/simple;
+	bh=7RQhtX0LA3Cvka3Vrk/6uzvlvKJL1eJVJPy0RRsJZCM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RKSVqHytOK9cpH5bEzM+6htbfVDDV/pe33dMm+mtvBFXfVQwdUK9NQLYLOaEEqv02fe6mreenqrXeYtqpT4CmfUDWvmhHtfMsgyqjFaGwnpZv4KLXyWYCPjQ0QQhd27y6OG856Hn42aL2rFZ0O7EYqGQ8K3hkdKiwq3nG04p91I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M1ceKHmA; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=elsDjNy9QElrEbA/7CG4yzFgKd7KV5iUoIvsVLYjL/qy/e65K9VNREpWGIeLmn3N8xAxeyddSy0rvenMJYOuhvXn5prRCuW6Ah6L6NiPjMpIJMt3Qy3ZajNzHdjqhfsL56EPWfC9HY0lWISMR59bmEKQ/DCJlGpRM5JBHqfFN8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lFEVdqb+; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M1ceKHmA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFEVdqb+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750683779; x=1782219779;
+  t=1750684440; x=1782220440;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IIRlP4YWhgFloezhoj1nwBgrH2uGpilqDQVRzB9rW0g=;
-  b=M1ceKHmAvwhqVY1PxFg50H6S44RdKws9QQll8UcROp2lNfAHP3eAeRm1
-   56dHFQel0YClj9v0X9zUJiZYQLjcgsYCxGwyyUKPebV/0eLDDg3CsGssh
-   o8rdFpcA3muZDDlzbnHHc4VeQiX+UwSE7Ol8F80a2prrejleUzRKTwK34
-   4T9ob77Eaza81ZEePdbPvI+2lT8ZNONc214T41uiNsGAdXKo3zFfrSztf
-   2RBAcvT5Z15rYZSrhfs5z/yNQhW1mHHHd3YkCJzBN1UjZQe5G2b5H2AKN
-   I8gDaNsI8HWx3iR73gxGlOuCzYLni7pxaZSSYdf+JQl03nTRMMcd0GY3j
-   Q==;
-X-CSE-ConnectionGUID: AxpkDLjLSQSaIG+cwuTEFw==
-X-CSE-MsgGUID: nKa6nRWNRiSq00NEEcHEXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="40500259"
+  bh=7RQhtX0LA3Cvka3Vrk/6uzvlvKJL1eJVJPy0RRsJZCM=;
+  b=lFEVdqb+/zBm1HKqmPrR0gaeVbwJhbYW+qsWBWDwkWC0cGAiAjI3N+6e
+   5OvoQSyqBH2JAgGJ/hNt/Py4huQMYvoPgoeqrkuZhsOPttISoh2t0qqML
+   uWBxCb/EigQl1GG9zaiSAOXjc4A5pUxcJ1i4ygMQauLt0YM3wLZEf7yWr
+   tWa6D7vLNIT7UuMuja53inOfZod5g1NHQ09iUlXDAnSlJbrGc4PAp44j2
+   yn/VZu+OTTy5ngUl2S01E+WQo2dQiO2xmISdq6z8Muwh4uqmki1MvofRe
+   8sUVX0vcW7wWrtfWGGWQpXo7/xGYILjXLwHgZ9q1cDj56ZUiPnb1yByIj
+   A==;
+X-CSE-ConnectionGUID: JV/hrUVlRC65I0DEpBsjnQ==
+X-CSE-MsgGUID: bPVTiOFOQdmxWUTqByp9HA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="70317749"
 X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="40500259"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 06:02:59 -0700
-X-CSE-ConnectionGUID: DOSclr+UQTWdaMOt7XTBwg==
-X-CSE-MsgGUID: Y6uVfNfUQ8evBIHvFXeTXw==
+   d="scan'208";a="70317749"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 06:14:00 -0700
+X-CSE-ConnectionGUID: Ljv0k18zRkGiiASzyFZDsw==
+X-CSE-MsgGUID: 8j2naCH3TaKiXyaR+Xg+ow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="156151826"
+   d="scan'208";a="188809423"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 23 Jun 2025 06:02:56 -0700
+  by orviesa001.jf.intel.com with ESMTP; 23 Jun 2025 06:13:59 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTgp4-000O8g-1S;
-	Mon, 23 Jun 2025 13:02:54 +0000
-Date: Mon, 23 Jun 2025 21:02:14 +0800
+	id 1uTgzk-000OAk-01;
+	Mon, 23 Jun 2025 13:13:56 +0000
+Date: Mon, 23 Jun 2025 21:13:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: crypto/testmgr.c:1847 test_hash_vs_generic_impl() warn: we never
- enter this loop
-Message-ID: <202506232013.U8GW5Tnv-lkp@intel.com>
+Subject: Re: [PATCH v2 12/16] drm/drm_of: Keep up with refcounting
+Message-ID: <202506232158.z2O78kPL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,170 +63,137 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Eric Biggers <ebiggers@google.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
+In-Reply-To: <20250619-b4-of_drm_find_panel_part1-v2-12-0df94aecc43d@redhat.com>
+References: <20250619-b4-of_drm_find_panel_part1-v2-12-0df94aecc43d@redhat.com>
+TO: Anusha Srivatsa <asrivats@redhat.com>
+TO: Neil Armstrong <neil.armstrong@linaro.org>
+TO: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+TO: Maxime Ripard <mripard@kernel.org>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+TO: David Airlie <airlied@gmail.com>
+TO: Simona Vetter <simona@ffwll.ch>
+TO: Inki Dae <inki.dae@samsung.com>
+TO: Jagan Teki <jagan@amarulasolutions.com>
+TO: Marek Szyprowski <m.szyprowski@samsung.com>
+TO: Andrzej Hajda <andrzej.hajda@intel.com>
+TO: Robert Foss <rfoss@kernel.org>
+TO: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+TO: Jonas Karlman <jonas@kwiboo.se>
+TO: Jernej Skrabec <jernej.skrabec@gmail.com>
+TO: "Chen-Yu Tsai" <wens@csie.org>
+TO: Samuel Holland <samuel@sholland.org>
+TO: "Seung-Woo Kim" <sw0312.kim@samsung.com>
+TO: Kyungmin Park <kyungmin.park@samsung.com>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Alim Akhtar <alim.akhtar@samsung.com>
+TO: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+TO: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+TO: Geert Uytterhoeven <geert+renesas@glider.be>
+TO: Magnus Damm <magnus.damm@gmail.com>
+TO: Biju Das <biju.das.jz@bp.renesas.com>
+TO: Alain Volmat <alain.volmat@foss.st.com>
+TO: "Raphael Gallais-Pou" <rgallaispou@gmail.com>
+TO: Stefan Agner <stefan@agner.ch>
+TO: Alison Wang <alison.wang@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   86731a2a651e58953fc949573895f2fa6d456841
-commit: ac90aad0e9bf7c37e706fdc08ce763a553890bdf crypto: testmgr - reinstate kconfig control over full self-tests
-date:   10 days ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 10 days ago
-config: nios2-randconfig-r072-20250623 (https://download.01.org/0day-ci/archive/20250623/202506232013.U8GW5Tnv-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
+Hi Anusha,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 60ba94338047bb5410a3626ced3380afe9285ed8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anusha-Srivatsa/drm-panel-get-put-panel-reference-in-drm_panel_add-remove/20250620-032045
+base:   60ba94338047bb5410a3626ced3380afe9285ed8
+patch link:    https://lore.kernel.org/r/20250619-b4-of_drm_find_panel_part1-v2-12-0df94aecc43d%40redhat.com
+patch subject: [PATCH v2 12/16] drm/drm_of: Keep up with refcounting
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm-randconfig-r073-20250623 (https://download.01.org/0day-ci/archive/20250623/202506232158.z2O78kPL-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202506232013.U8GW5Tnv-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506232158.z2O78kPL-lkp@intel.com/
 
 smatch warnings:
-crypto/testmgr.c:1847 test_hash_vs_generic_impl() warn: we never enter this loop
-crypto/testmgr.c:1847 test_hash_vs_generic_impl() warn: unsigned 'i' is never less than zero.
-crypto/testmgr.c:1847 test_hash_vs_generic_impl() warn: unsigned 'i' is never less than zero.
-crypto/testmgr.c:2462 test_aead_inauthentic_inputs() warn: we never enter this loop
-crypto/testmgr.c:2462 test_aead_inauthentic_inputs() warn: unsigned 'i' is never less than zero.
-crypto/testmgr.c:2462 test_aead_inauthentic_inputs() warn: unsigned 'i' is never less than zero.
-crypto/testmgr.c:2564 test_aead_vs_generic_impl() warn: we never enter this loop
-crypto/testmgr.c:2564 test_aead_vs_generic_impl() warn: unsigned 'i' is never less than zero.
-crypto/testmgr.c:2564 test_aead_vs_generic_impl() warn: unsigned 'i' is never less than zero.
-crypto/testmgr.c:3175 test_skcipher_vs_generic_impl() warn: we never enter this loop
-crypto/testmgr.c:3175 test_skcipher_vs_generic_impl() warn: unsigned 'i' is never less than zero.
-crypto/testmgr.c:3175 test_skcipher_vs_generic_impl() warn: unsigned 'i' is never less than zero.
+drivers/gpu/drm/drm_of.c:283 drm_of_find_panel_or_bridge() error: we previously assumed 'panel' could be null (see line 263)
 
-vim +1847 crypto/testmgr.c
+vim +/panel +283 drivers/gpu/drm/drm_of.c
 
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1748  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1749  /*
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1750   * Test the hash algorithm represented by @req against the corresponding generic
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1751   * implementation, if one is available.
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1752   */
-79cafe9a8b16f7 Eric Biggers  2020-10-26  1753  static int test_hash_vs_generic_impl(const char *generic_driver,
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1754  				     unsigned int maxkeysize,
-9764d5b0cd0ea4 Herbert Xu    2025-03-30  1755  				     struct ahash_request *req,
-d8ea98aa3cd464 Eric Biggers  2019-05-28  1756  				     struct shash_desc *desc,
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1757  				     struct test_sglist *tsgl,
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1758  				     u8 *hashstate)
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1759  {
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1760  	struct crypto_ahash *tfm = crypto_ahash_reqtfm(req);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1761  	const unsigned int digestsize = crypto_ahash_digestsize(tfm);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1762  	const unsigned int blocksize = crypto_ahash_blocksize(tfm);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1763  	const unsigned int maxdatasize = (2 * PAGE_SIZE) - TESTMGR_POISON_LEN;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1764  	const char *algname = crypto_hash_alg_common(tfm)->base.cra_name;
-79cafe9a8b16f7 Eric Biggers  2020-10-26  1765  	const char *driver = crypto_ahash_driver_name(tfm);
-f900fde2888360 Eric Biggers  2023-02-27  1766  	struct rnd_state rng;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1767  	char _generic_driver[CRYPTO_MAX_ALG_NAME];
-c2a813545ed481 Herbert Xu    2025-05-15  1768  	struct ahash_request *generic_req = NULL;
-c2a813545ed481 Herbert Xu    2025-05-15  1769  	struct crypto_ahash *generic_tfm = NULL;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1770  	unsigned int i;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1771  	struct hash_testvec vec = { 0 };
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1772  	char vec_name[64];
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1773  	struct testvec_config *cfg;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1774  	char cfgname[TESTVEC_CONFIG_NAMELEN];
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1775  	int err;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1776  
-42e45119efba92 Eric Biggers  2025-05-05  1777  	if (noslowtests)
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1778  		return 0;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1779  
-f900fde2888360 Eric Biggers  2023-02-27  1780  	init_rnd_state(&rng);
-f900fde2888360 Eric Biggers  2023-02-27  1781  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1782  	if (!generic_driver) { /* Use default naming convention? */
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1783  		err = build_generic_driver_name(algname, _generic_driver);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1784  		if (err)
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1785  			return err;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1786  		generic_driver = _generic_driver;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1787  	}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1788  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1789  	if (strcmp(generic_driver, driver) == 0) /* Already the generic impl? */
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1790  		return 0;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1791  
-c2a813545ed481 Herbert Xu    2025-05-15  1792  	generic_tfm = crypto_alloc_ahash(generic_driver, 0, 0);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1793  	if (IS_ERR(generic_tfm)) {
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1794  		err = PTR_ERR(generic_tfm);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1795  		if (err == -ENOENT) {
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1796  			pr_warn("alg: hash: skipping comparison tests for %s because %s is unavailable\n",
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1797  				driver, generic_driver);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1798  			return 0;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1799  		}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1800  		pr_err("alg: hash: error allocating %s (generic impl of %s): %d\n",
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1801  		       generic_driver, algname, err);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1802  		return err;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1803  	}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1804  
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1805  	cfg = kzalloc(sizeof(*cfg), GFP_KERNEL);
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1806  	if (!cfg) {
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1807  		err = -ENOMEM;
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1808  		goto out;
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1809  	}
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1810  
-c2a813545ed481 Herbert Xu    2025-05-15  1811  	generic_req = ahash_request_alloc(generic_tfm, GFP_KERNEL);
-c2a813545ed481 Herbert Xu    2025-05-15  1812  	if (!generic_req) {
-149c4e6ef7788d Arnd Bergmann 2019-06-18  1813  		err = -ENOMEM;
-149c4e6ef7788d Arnd Bergmann 2019-06-18  1814  		goto out;
-149c4e6ef7788d Arnd Bergmann 2019-06-18  1815  	}
-149c4e6ef7788d Arnd Bergmann 2019-06-18  1816  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1817  	/* Check the algorithm properties for consistency. */
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1818  
-c2a813545ed481 Herbert Xu    2025-05-15  1819  	if (digestsize != crypto_ahash_digestsize(generic_tfm)) {
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1820  		pr_err("alg: hash: digestsize for %s (%u) doesn't match generic impl (%u)\n",
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1821  		       driver, digestsize,
-c2a813545ed481 Herbert Xu    2025-05-15  1822  		       crypto_ahash_digestsize(generic_tfm));
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1823  		err = -EINVAL;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1824  		goto out;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1825  	}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1826  
-c2a813545ed481 Herbert Xu    2025-05-15  1827  	if (blocksize != crypto_ahash_blocksize(generic_tfm)) {
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1828  		pr_err("alg: hash: blocksize for %s (%u) doesn't match generic impl (%u)\n",
-c2a813545ed481 Herbert Xu    2025-05-15  1829  		       driver, blocksize, crypto_ahash_blocksize(generic_tfm));
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1830  		err = -EINVAL;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1831  		goto out;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1832  	}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1833  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1834  	/*
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1835  	 * Now generate test vectors using the generic implementation, and test
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1836  	 * the other implementation against them.
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1837  	 */
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1838  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1839  	vec.key = kmalloc(maxkeysize, GFP_KERNEL);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1840  	vec.plaintext = kmalloc(maxdatasize, GFP_KERNEL);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1841  	vec.digest = kmalloc(digestsize, GFP_KERNEL);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1842  	if (!vec.key || !vec.plaintext || !vec.digest) {
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1843  		err = -ENOMEM;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1844  		goto out;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1845  	}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1846  
-9a8a6b3f0950c0 Eric Biggers  2019-04-11 @1847  	for (i = 0; i < fuzz_iterations * 8; i++) {
-c2a813545ed481 Herbert Xu    2025-05-15  1848  		generate_random_hash_testvec(&rng, generic_req, &vec,
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1849  					     maxkeysize, maxdatasize,
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1850  					     vec_name, sizeof(vec_name));
-f900fde2888360 Eric Biggers  2023-02-27  1851  		generate_random_testvec_config(&rng, cfg, cfgname,
-f900fde2888360 Eric Biggers  2023-02-27  1852  					       sizeof(cfgname));
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1853  
-79cafe9a8b16f7 Eric Biggers  2020-10-26  1854  		err = test_hash_vec_cfg(&vec, vec_name, cfg,
-9764d5b0cd0ea4 Herbert Xu    2025-03-30  1855  					req, desc, tsgl, hashstate);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1856  		if (err)
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1857  			goto out;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1858  		cond_resched();
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1859  	}
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1860  	err = 0;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1861  out:
-6b5ca646ca9d99 Arnd Bergmann 2019-06-18  1862  	kfree(cfg);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1863  	kfree(vec.key);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1864  	kfree(vec.plaintext);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1865  	kfree(vec.digest);
-c2a813545ed481 Herbert Xu    2025-05-15  1866  	ahash_request_free(generic_req);
-c2a813545ed481 Herbert Xu    2025-05-15  1867  	crypto_free_ahash(generic_tfm);
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1868  	return err;
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1869  }
-9a8a6b3f0950c0 Eric Biggers  2019-04-11  1870  
-
-:::::: The code at line 1847 was first introduced by commit
-:::::: 9a8a6b3f0950c0df220b684b686c26a902cfcf1a crypto: testmgr - fuzz hashes against their generic implementation
-
-:::::: TO: Eric Biggers <ebiggers@google.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+1f2db3034c9f16 Rob Herring       2017-03-22  219  
+3fbdfe99f7523a Simona Vetter     2019-01-11  220  /**
+1f2db3034c9f16 Rob Herring       2017-03-22  221   * drm_of_find_panel_or_bridge - return connected panel or bridge device
+1f2db3034c9f16 Rob Herring       2017-03-22  222   * @np: device tree node containing encoder output ports
+3fbdfe99f7523a Simona Vetter     2019-01-11  223   * @port: port in the device tree node
+3fbdfe99f7523a Simona Vetter     2019-01-11  224   * @endpoint: endpoint in the device tree node
+1f2db3034c9f16 Rob Herring       2017-03-22  225   * @panel: pointer to hold returned drm_panel
+1f2db3034c9f16 Rob Herring       2017-03-22  226   * @bridge: pointer to hold returned drm_bridge
+1f2db3034c9f16 Rob Herring       2017-03-22  227   *
+1f2db3034c9f16 Rob Herring       2017-03-22  228   * Given a DT node's port and endpoint number, find the connected node and
+1f2db3034c9f16 Rob Herring       2017-03-22  229   * return either the associated struct drm_panel or drm_bridge device. Either
+1f2db3034c9f16 Rob Herring       2017-03-22  230   * @panel or @bridge must not be NULL.
+1f2db3034c9f16 Rob Herring       2017-03-22  231   *
+87ea95808d53e5 Maxime Ripard     2021-09-10  232   * This function is deprecated and should not be used in new drivers. Use
+87ea95808d53e5 Maxime Ripard     2021-09-10  233   * devm_drm_of_get_bridge() instead.
+87ea95808d53e5 Maxime Ripard     2021-09-10  234   *
+1f2db3034c9f16 Rob Herring       2017-03-22  235   * Returns zero if successful, or one of the standard error codes if it fails.
+1f2db3034c9f16 Rob Herring       2017-03-22  236   */
+1f2db3034c9f16 Rob Herring       2017-03-22  237  int drm_of_find_panel_or_bridge(const struct device_node *np,
+1f2db3034c9f16 Rob Herring       2017-03-22  238  				int port, int endpoint,
+1f2db3034c9f16 Rob Herring       2017-03-22  239  				struct drm_panel **panel,
+1f2db3034c9f16 Rob Herring       2017-03-22  240  				struct drm_bridge **bridge)
+1f2db3034c9f16 Rob Herring       2017-03-22  241  {
+169466d4e59ca2 Bjorn Andersson   2022-04-20  242  	int ret = -EPROBE_DEFER;
+169466d4e59ca2 Bjorn Andersson   2022-04-20  243  	struct device_node *remote;
+1f2db3034c9f16 Rob Herring       2017-03-22  244  
+1f2db3034c9f16 Rob Herring       2017-03-22  245  	if (!panel && !bridge)
+1f2db3034c9f16 Rob Herring       2017-03-22  246  		return -EINVAL;
+320e421ea303b1 Dan Carpenter     2017-09-25  247  	if (panel)
+320e421ea303b1 Dan Carpenter     2017-09-25  248  		*panel = NULL;
+1f2db3034c9f16 Rob Herring       2017-03-22  249  
+169466d4e59ca2 Bjorn Andersson   2022-04-20  250  	/*
+169466d4e59ca2 Bjorn Andersson   2022-04-20  251  	 * of_graph_get_remote_node() produces a noisy error message if port
+169466d4e59ca2 Bjorn Andersson   2022-04-20  252  	 * node isn't found and the absence of the port is a legit case here,
+169466d4e59ca2 Bjorn Andersson   2022-04-20  253  	 * so at first we silently check whether graph presents in the
+169466d4e59ca2 Bjorn Andersson   2022-04-20  254  	 * device-tree node.
+169466d4e59ca2 Bjorn Andersson   2022-04-20  255  	 */
+169466d4e59ca2 Bjorn Andersson   2022-04-20  256  	if (!of_graph_is_present(np))
+169466d4e59ca2 Bjorn Andersson   2022-04-20  257  		return -ENODEV;
+67bae5f28c895f Paul Kocialkowski 2022-03-29  258  
+169466d4e59ca2 Bjorn Andersson   2022-04-20  259  	remote = of_graph_get_remote_node(np, port, endpoint);
+169466d4e59ca2 Bjorn Andersson   2022-04-20  260  	if (!remote)
+169466d4e59ca2 Bjorn Andersson   2022-04-20  261  		return -ENODEV;
+169466d4e59ca2 Bjorn Andersson   2022-04-20  262  
+169466d4e59ca2 Bjorn Andersson   2022-04-20 @263  	if (panel) {
+169466d4e59ca2 Bjorn Andersson   2022-04-20  264  		*panel = of_drm_find_panel(remote);
+169466d4e59ca2 Bjorn Andersson   2022-04-20  265  		if (!IS_ERR(*panel))
+169466d4e59ca2 Bjorn Andersson   2022-04-20  266  			ret = 0;
+169466d4e59ca2 Bjorn Andersson   2022-04-20  267  		else
+169466d4e59ca2 Bjorn Andersson   2022-04-20  268  			*panel = NULL;
+1f2db3034c9f16 Rob Herring       2017-03-22  269  	}
+1f2db3034c9f16 Rob Herring       2017-03-22  270  
+169466d4e59ca2 Bjorn Andersson   2022-04-20  271  	if (bridge) {
+169466d4e59ca2 Bjorn Andersson   2022-04-20  272  		if (ret) {
+9d60cf4e8cf7c4 Luca Ceresoli     2025-02-14  273  			/* No panel found yet, check for a bridge next. */
+169466d4e59ca2 Bjorn Andersson   2022-04-20  274  			*bridge = of_drm_find_bridge(remote);
+169466d4e59ca2 Bjorn Andersson   2022-04-20  275  			if (*bridge)
+169466d4e59ca2 Bjorn Andersson   2022-04-20  276  				ret = 0;
+169466d4e59ca2 Bjorn Andersson   2022-04-20  277  		} else {
+169466d4e59ca2 Bjorn Andersson   2022-04-20  278  			*bridge = NULL;
+169466d4e59ca2 Bjorn Andersson   2022-04-20  279  		}
+169466d4e59ca2 Bjorn Andersson   2022-04-20  280  
+169466d4e59ca2 Bjorn Andersson   2022-04-20  281  	}
+169466d4e59ca2 Bjorn Andersson   2022-04-20  282  
+28d4456c6f3538 Anusha Srivatsa   2025-06-19 @283  	drm_panel_put(*panel);
+28d4456c6f3538 Anusha Srivatsa   2025-06-19  284  
+169466d4e59ca2 Bjorn Andersson   2022-04-20  285  	of_node_put(remote);
+169466d4e59ca2 Bjorn Andersson   2022-04-20  286  	return ret;
+1f2db3034c9f16 Rob Herring       2017-03-22  287  }
+1f2db3034c9f16 Rob Herring       2017-03-22  288  EXPORT_SYMBOL_GPL(drm_of_find_panel_or_bridge);
+6529007522ded0 Fabrizio Castro   2019-12-17  289  
 
 -- 
 0-DAY CI Kernel Test Service
