@@ -1,241 +1,216 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588131CAA4
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Jun 2025 07:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FC417A31C
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Jun 2025 09:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750748567; cv=none; b=SfjIMB5VKwGCH4sXZ6jwLCdEjcMq/6OFGqrJrvRmPeuVYZLLwzhz8N/L8pXMdITZpDslj6Ve+aIUwSvF7WTTzeDlA3A9UOUKxdh6frej1hEK/Y/FvV/TrDcDWjNey2WUfgfYiNcrcjnJeYcCevA7sDv6VE2Cbh2YkX1N12sTxzo=
+	t=1750757461; cv=none; b=G60RU8VftE3GbX4VrQmHKmlQR3AQWnJv7agrHk+4sxmTKgwUFQq9FxzGAgtzlsVgDehMybjSEpRfRrS0PK70M2+r/GSlvqDM4hVnW/yaA6Ml2eMvk40c5fKm39uk47mZEgnMbpxVIB3JObPHaw2qkHEgouBko+rOGHAP+Efm60Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750748567; c=relaxed/simple;
-	bh=XdCTBakorPNRibioJHXUCqewsx2b7AmNQIKX3bZH6wE=;
+	s=arc-20240116; t=1750757461; c=relaxed/simple;
+	bh=4zRRalBzzw1Esmp/i1SOwTQt/GHle5JEbmYpk4Y5bnk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EitfauKrGzMpCQgc5PjRtSxTaziwcD3FELFeElQ5bfJGsCfGPfhtbdx91liC0rAIlNBm1GhNmlPWMZQ9ZwehmkROfhfww4UGKzdQqQC8QJFI5PGiXyFBsaTrAntS/aXjpHZxqTohIpNTn1UfUfXm3MqXZLs/bHLr98bVdPCw1kA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lu+HLPr4; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=JB/MtSIehnMTe5uxuGfR0EGwsvlQWtLEHRD5GsIzSLHyIZkVcF+0ACYVr3N04IO+DzJvATxPg2THCZdWANf118AqqjCOWgDSNKcWeejiEr3KOiW0mTTC3pKWrkUexYSfODBz63IREKCB3tHmORITL4vpnqLq2ej/rnlLminhYOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AIvoQzKW; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lu+HLPr4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AIvoQzKW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750748565; x=1782284565;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XdCTBakorPNRibioJHXUCqewsx2b7AmNQIKX3bZH6wE=;
-  b=Lu+HLPr4FdXRkAZ3+Etbw1d914kPPUMzjArw5wMzD8u9MJpcKI1qytzk
-   WYFEYau8TkBu4/vRaLG7BqQOeLlzsLbl3wnYKRMnO+W4UcsDfdA/rXKJB
-   5hM8zorsCHjSj76Kv4T4YdlZjt4ume1FPcRcrBXiweuwCHd8CUVtJTMDC
-   gi8vyEyToGq3maLieOqbGGSC/Ujy5jOedUktb6MgFrzdNs6LhfAcnNKdn
-   cL+viFyFIJvxsgepan7S9a0V5mplSm5IC04kJytKfcE9PTKPKuACHGcrY
-   CBA/s1g/1leivB7utVNXutru/N5D0BdJlahbPri6c6omExe1AceLh5/WK
-   w==;
-X-CSE-ConnectionGUID: KG902kixRfe9Y64DQeYQBA==
-X-CSE-MsgGUID: lsQic2UjT52RvPBSgPacDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="70398677"
+  t=1750757459; x=1782293459;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4zRRalBzzw1Esmp/i1SOwTQt/GHle5JEbmYpk4Y5bnk=;
+  b=AIvoQzKWLsZthC52F4Hdx/JNlkrDTHa9aRgIoUx9PZ+/nJzzoyiy95XF
+   YSBI9GpumUgp3cfyMaDBnEaxwem8meFsEVo0sWHFnnNnf/bLxE26LX9q5
+   /IhdT9t9/0FQ2y/qSj7xelfaIfMIV7BDEIYB7iWQ8OUTNX12QgZT1I2/w
+   BIzAB5/8cp+NsUgk2mEoB86QouLac6W30RBlqqVT8H/gquoJGQwfrvVXB
+   lE9w+DbCExQ5ZR3Ed/ash4wfMEmi89SgeazVhO3Cc0sMn9R7BVqU+wzcH
+   5feGSsNXyIdQ2T1B8/j0DbCj2bEMoilF9rVDMRx2cP1YATDQcese+4Dr1
+   A==;
+X-CSE-ConnectionGUID: pWtlaJpQQW2oGuPNQ22kag==
+X-CSE-MsgGUID: ug+4V5WEQKC3SRSS7eeEvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="55618887"
 X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="70398677"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 00:02:44 -0700
-X-CSE-ConnectionGUID: mj5TEs09R8ahYkTPdWEViQ==
-X-CSE-MsgGUID: dOT6rllmR+mZYPPSeN+KvQ==
+   d="scan'208";a="55618887"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 02:30:58 -0700
+X-CSE-ConnectionGUID: QfSCS51zSCi4sZWOPK8g7g==
+X-CSE-MsgGUID: sT7D7ItqSSelN7Bni46YoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="152534231"
+   d="scan'208";a="151996942"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Jun 2025 00:02:43 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 24 Jun 2025 02:30:58 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTxg0-000Rqo-2s;
-	Tue, 24 Jun 2025 07:02:40 +0000
-Date: Tue, 24 Jun 2025 15:02:16 +0800
+	id 1uTzzS-000Ryo-2k;
+	Tue, 24 Jun 2025 09:30:54 +0000
+Date: Tue, 24 Jun 2025 17:30:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v3 09/10] drm/xe/xe_late_bind_fw: Extract and print
- version info
-Message-ID: <202506241449.WdiucfJp-lkp@intel.com>
+Subject: Re: [PATCH v5 net-next 4/9] vhost-net: allow configuring extended
+ features
+Message-ID: <202506241710.pvHQGmeZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250618190007.2932322-10-badal.nilawar@intel.com>
-References: <20250618190007.2932322-10-badal.nilawar@intel.com>
-TO: Badal Nilawar <badal.nilawar@intel.com>
-TO: intel-xe@lists.freedesktop.org
-TO: dri-devel@lists.freedesktop.org
-TO: linux-kernel@vger.kernel.org
-CC: anshuman.gupta@intel.com
-CC: rodrigo.vivi@intel.com
-CC: alexander.usyskin@intel.com
-CC: gregkh@linuxfoundation.org
-CC: daniele.ceraolospurio@intel.com
-CC: jgg@nvidia.com
+In-Reply-To: <e195567cf1f705143477f6eee7b528ee15918873.1750436464.git.pabeni@redhat.com>
+References: <e195567cf1f705143477f6eee7b528ee15918873.1750436464.git.pabeni@redhat.com>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: netdev@vger.kernel.org
+CC: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+CC: Jason Wang <jasowang@redhat.com>
+CC: Andrew Lunn <andrew+netdev@lunn.ch>
+CC: Eric Dumazet <edumazet@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: "Michael S. Tsirkin" <mst@redhat.com>
+CC: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+CC: "Eugenio Pérez" <eperezma@redhat.com>
+CC: Yuri Benditovich <yuri.benditovich@daynix.com>
+CC: Akihiko Odaki <akihiko.odaki@daynix.com>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: kvm@vger.kernel.org
 
-Hi Badal,
+Hi Paolo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-xe/drm-xe-next]
-[also build test WARNING on drm-i915/for-linux-next next-20250623]
-[cannot apply to char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus drm-i915/for-linux-next-fixes linus/master v6.16-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Badal-Nilawar/mei-bus-add-mei_cldev_mtu-interface/20250619-025825
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250618190007.2932322-10-badal.nilawar%40intel.com
-patch subject: [PATCH v3 09/10] drm/xe/xe_late_bind_fw: Extract and print version info
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: i386-randconfig-141-20250623 (https://download.01.org/0day-ci/archive/20250624/202506241449.WdiucfJp-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/scripts-kernel_doc-py-properly-handle-VIRTIO_DECLARE_FEATURES/20250621-014409
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/e195567cf1f705143477f6eee7b528ee15918873.1750436464.git.pabeni%40redhat.com
+patch subject: [PATCH v5 net-next 4/9] vhost-net: allow configuring extended features
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-141-20250623 (https://download.01.org/0day-ci/archive/20250624/202506241710.pvHQGmeZ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202506241449.WdiucfJp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506241710.pvHQGmeZ-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/drm/xe/xe_late_bind_fw.c:90 parse_cpd_header() error: uninitialized symbol 'offset'.
-drivers/gpu/drm/xe/xe_late_bind_fw.c:155 parse_lb_layout() error: uninitialized symbol 'offset'.
+drivers/vhost/net.c:1724 vhost_net_ioctl() warn: check for integer overflow 'count'
 
 Old smatch warnings:
-drivers/gpu/drm/xe/xe_late_bind_fw.c:195 xe_late_bind_wait_for_worker_completion() warn: inconsistent indenting
+drivers/vhost/net.c:1081 get_rx_bufs() error: uninitialized symbol 'len'.
 
-vim +/offset +90 drivers/gpu/drm/xe/xe_late_bind_fw.c
+vim +/count +1724 drivers/vhost/net.c
 
-6b9a6463429b8ee Badal Nilawar 2025-06-19   47  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   48  /* Refer to the "Late Bind based Firmware Layout" documentation entry for details */
-f9ea24fb9528adc Badal Nilawar 2025-06-19   49  static int parse_cpd_header(struct xe_late_bind *late_bind, u32 fw_id,
-f9ea24fb9528adc Badal Nilawar 2025-06-19   50  			    const void *data, size_t size, const char *manifest_entry)
-f9ea24fb9528adc Badal Nilawar 2025-06-19   51  {
-f9ea24fb9528adc Badal Nilawar 2025-06-19   52  	struct xe_device *xe = late_bind_to_xe(late_bind);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   53  	const struct gsc_cpd_header_v2 *header = data;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   54  	const struct gsc_manifest_header *manifest;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   55  	const struct gsc_cpd_entry *entry;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   56  	size_t min_size = sizeof(*header);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   57  	struct xe_late_bind_fw *lb_fw;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   58  	u32 offset;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   59  	int i;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   60  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   61  	if (fw_id >= MAX_FW_ID)
-f9ea24fb9528adc Badal Nilawar 2025-06-19   62  		return -EINVAL;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   63  	lb_fw = &late_bind->late_bind_fw[fw_id];
-f9ea24fb9528adc Badal Nilawar 2025-06-19   64  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   65  	/* manifest_entry is mandatory */
-f9ea24fb9528adc Badal Nilawar 2025-06-19   66  	xe_assert(xe, manifest_entry);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   67  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   68  	if (size < min_size || header->header_marker != GSC_CPD_HEADER_MARKER)
-f9ea24fb9528adc Badal Nilawar 2025-06-19   69  		return -ENOENT;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   70  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   71  	if (header->header_length < sizeof(struct gsc_cpd_header_v2)) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19   72  		drm_err(&xe->drm, "%s late binding fw: Invalid CPD header length %u!\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19   73  			fw_id_to_name[lb_fw->id], header->header_length);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   74  		return -EINVAL;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   75  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19   76  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   77  	min_size = header->header_length + sizeof(struct gsc_cpd_entry) * header->num_of_entries;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   78  	if (size < min_size) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19   79  		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19   80  			fw_id_to_name[lb_fw->id], size, min_size);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   81  		return -ENODATA;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   82  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19   83  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   84  	/* Look for the manifest first */
-f9ea24fb9528adc Badal Nilawar 2025-06-19   85  	entry = (void *)header + header->header_length;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   86  	for (i = 0; i < header->num_of_entries; i++, entry++)
-f9ea24fb9528adc Badal Nilawar 2025-06-19   87  		if (strcmp(entry->name, manifest_entry) == 0)
-f9ea24fb9528adc Badal Nilawar 2025-06-19   88  			offset = entry->offset & GSC_CPD_ENTRY_OFFSET_MASK;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   89  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  @90  	if (!offset) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19   91  		drm_err(&xe->drm, "%s late binding fw: Failed to find manifest_entry\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19   92  			fw_id_to_name[lb_fw->id]);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   93  		return -ENODATA;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   94  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19   95  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   96  	min_size = offset + sizeof(struct gsc_manifest_header);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   97  	if (size < min_size) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19   98  		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19   99  			fw_id_to_name[lb_fw->id], size, min_size);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  100  		return -ENODATA;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  101  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19  102  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  103  	manifest = data + offset;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  104  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  105  	lb_fw->version.major = manifest->fw_version.major;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  106  	lb_fw->version.minor = manifest->fw_version.minor;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  107  	lb_fw->version.hotfix = manifest->fw_version.hotfix;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  108  	lb_fw->version.build = manifest->fw_version.build;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  109  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  110  	return 0;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  111  }
-f9ea24fb9528adc Badal Nilawar 2025-06-19  112  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  113  /* Refer to the "Late Bind based Firmware Layout" documentation entry for details */
-f9ea24fb9528adc Badal Nilawar 2025-06-19  114  static int parse_lb_layout(struct xe_late_bind *late_bind, u32 fw_id,
-f9ea24fb9528adc Badal Nilawar 2025-06-19  115  			   const void *data, size_t size, const char *fpt_entry)
-f9ea24fb9528adc Badal Nilawar 2025-06-19  116  {
-f9ea24fb9528adc Badal Nilawar 2025-06-19  117  	struct xe_device *xe = late_bind_to_xe(late_bind);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  118  	const struct csc_fpt_header *header = data;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  119  	const struct csc_fpt_entry *entry;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  120  	size_t min_size = sizeof(*header);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  121  	struct xe_late_bind_fw *lb_fw;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  122  	u32 offset;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  123  	int i;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  124  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  125  	if (fw_id >= MAX_FW_ID)
-f9ea24fb9528adc Badal Nilawar 2025-06-19  126  		return -EINVAL;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  127  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  128  	lb_fw = &late_bind->late_bind_fw[fw_id];
-f9ea24fb9528adc Badal Nilawar 2025-06-19  129  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  130  	/* fpt_entry is mandatory */
-f9ea24fb9528adc Badal Nilawar 2025-06-19  131  	xe_assert(xe, fpt_entry);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  132  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  133  	if (size < min_size || header->header_marker != CSC_FPT_HEADER_MARKER)
-f9ea24fb9528adc Badal Nilawar 2025-06-19  134  		return -ENOENT;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  135  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  136  	if (header->header_length < sizeof(struct csc_fpt_header)) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19  137  		drm_err(&xe->drm, "%s late binding fw: Invalid FPT header length %u!\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19  138  			fw_id_to_name[lb_fw->id], header->header_length);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  139  		return -EINVAL;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  140  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19  141  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  142  	min_size = header->header_length + sizeof(struct csc_fpt_entry) * header->num_of_entries;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  143  	if (size < min_size) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19  144  		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19  145  			fw_id_to_name[lb_fw->id], size, min_size);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  146  		return -ENODATA;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  147  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19  148  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  149  	/* Look for the manifest first */
-f9ea24fb9528adc Badal Nilawar 2025-06-19  150  	entry = (void *)header + header->header_length;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  151  	for (i = 0; i < header->num_of_entries; i++, entry++)
-f9ea24fb9528adc Badal Nilawar 2025-06-19  152  		if (strcmp(entry->name, fpt_entry) == 0)
-f9ea24fb9528adc Badal Nilawar 2025-06-19  153  			offset = entry->offset;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  154  
-f9ea24fb9528adc Badal Nilawar 2025-06-19 @155  	if (!offset) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19  156  		drm_err(&xe->drm, "%s late binding fw: Failed to find fpt_entry\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19  157  			fw_id_to_name[lb_fw->id]);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  158  		return -ENODATA;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  159  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19  160  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  161  	min_size = offset + sizeof(struct gsc_cpd_header_v2);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  162  	if (size < min_size) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19  163  		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19  164  			fw_id_to_name[lb_fw->id], size, min_size);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  165  		return -ENODATA;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  166  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19  167  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  168  	return parse_cpd_header(late_bind, fw_id, data + offset, size - offset, "LTES.man");
-f9ea24fb9528adc Badal Nilawar 2025-06-19  169  }
-f9ea24fb9528adc Badal Nilawar 2025-06-19  170  
+b1ad8496c9f47d Asias He           2013-05-06  1682  
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1683  static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1684  			    unsigned long arg)
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1685  {
+059c23697448c5 Paolo Abeni        2025-06-20  1686  	u64 all_features[VIRTIO_FEATURES_DWORDS];
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1687  	struct vhost_net *n = f->private_data;
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1688  	void __user *argp = (void __user *)arg;
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1689  	u64 __user *featurep = argp;
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1690  	struct vhost_vring_file backend;
+059c23697448c5 Paolo Abeni        2025-06-20  1691  	u64 features, count, copied;
+059c23697448c5 Paolo Abeni        2025-06-20  1692  	int r, i;
+d47effe1be0c4f Krishna Kumar      2011-03-01  1693  
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1694  	switch (ioctl) {
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1695  	case VHOST_NET_SET_BACKEND:
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1696  		if (copy_from_user(&backend, argp, sizeof backend))
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1697  			return -EFAULT;
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1698  		return vhost_net_set_backend(n, backend.index, backend.fd);
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1699  	case VHOST_GET_FEATURES:
+059c23697448c5 Paolo Abeni        2025-06-20  1700  		features = vhost_net_features[0];
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1701  		if (copy_to_user(featurep, &features, sizeof features))
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1702  			return -EFAULT;
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1703  		return 0;
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1704  	case VHOST_SET_FEATURES:
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1705  		if (copy_from_user(&features, featurep, sizeof features))
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1706  			return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1707  		if (features & ~vhost_net_features[0])
+059c23697448c5 Paolo Abeni        2025-06-20  1708  			return -EOPNOTSUPP;
+059c23697448c5 Paolo Abeni        2025-06-20  1709  
+059c23697448c5 Paolo Abeni        2025-06-20  1710  		virtio_features_from_u64(all_features, features);
+059c23697448c5 Paolo Abeni        2025-06-20  1711  		return vhost_net_set_features(n, all_features);
+059c23697448c5 Paolo Abeni        2025-06-20  1712  	case VHOST_GET_FEATURES_ARRAY:
+059c23697448c5 Paolo Abeni        2025-06-20  1713  		if (get_user(count, featurep))
+059c23697448c5 Paolo Abeni        2025-06-20  1714  			return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1715  
+059c23697448c5 Paolo Abeni        2025-06-20  1716  		/* Copy the net features, up to the user-provided buffer size */
+059c23697448c5 Paolo Abeni        2025-06-20  1717  		argp += sizeof(u64);
+059c23697448c5 Paolo Abeni        2025-06-20  1718  		copied = min(count, VIRTIO_FEATURES_DWORDS);
+059c23697448c5 Paolo Abeni        2025-06-20  1719  		if (copy_to_user(argp, vhost_net_features,
+059c23697448c5 Paolo Abeni        2025-06-20  1720  				 copied * sizeof(u64)))
+059c23697448c5 Paolo Abeni        2025-06-20  1721  			return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1722  
+059c23697448c5 Paolo Abeni        2025-06-20  1723  		/* Zero the trailing space provided by user-space, if any */
+059c23697448c5 Paolo Abeni        2025-06-20 @1724  		if (clear_user(argp, (count - copied) * sizeof(u64)))
+059c23697448c5 Paolo Abeni        2025-06-20  1725  			return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1726  		return 0;
+059c23697448c5 Paolo Abeni        2025-06-20  1727  	case VHOST_SET_FEATURES_ARRAY:
+059c23697448c5 Paolo Abeni        2025-06-20  1728  		if (get_user(count, featurep))
+059c23697448c5 Paolo Abeni        2025-06-20  1729  			return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1730  
+059c23697448c5 Paolo Abeni        2025-06-20  1731  		virtio_features_zero(all_features);
+059c23697448c5 Paolo Abeni        2025-06-20  1732  		argp += sizeof(u64);
+059c23697448c5 Paolo Abeni        2025-06-20  1733  		copied = min(count, VIRTIO_FEATURES_DWORDS);
+059c23697448c5 Paolo Abeni        2025-06-20  1734  		if (copy_from_user(all_features, argp, copied * sizeof(u64)))
+059c23697448c5 Paolo Abeni        2025-06-20  1735  			return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1736  
+059c23697448c5 Paolo Abeni        2025-06-20  1737  		/*
+059c23697448c5 Paolo Abeni        2025-06-20  1738  		 * Any feature specified by user-space above
+059c23697448c5 Paolo Abeni        2025-06-20  1739  		 * VIRTIO_FEATURES_MAX is not supported by definition.
+059c23697448c5 Paolo Abeni        2025-06-20  1740  		 */
+059c23697448c5 Paolo Abeni        2025-06-20  1741  		for (i = copied; i < count; ++i) {
+059c23697448c5 Paolo Abeni        2025-06-20  1742  			if (get_user(features, featurep + 1 + i))
+059c23697448c5 Paolo Abeni        2025-06-20  1743  				return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1744  			if (features)
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1745  				return -EOPNOTSUPP;
+059c23697448c5 Paolo Abeni        2025-06-20  1746  		}
+059c23697448c5 Paolo Abeni        2025-06-20  1747  
+059c23697448c5 Paolo Abeni        2025-06-20  1748  		for (i = 0; i < VIRTIO_FEATURES_DWORDS; i++)
+059c23697448c5 Paolo Abeni        2025-06-20  1749  			if (all_features[i] & ~vhost_net_features[i])
+059c23697448c5 Paolo Abeni        2025-06-20  1750  				return -EOPNOTSUPP;
+059c23697448c5 Paolo Abeni        2025-06-20  1751  
+059c23697448c5 Paolo Abeni        2025-06-20  1752  		return vhost_net_set_features(n, all_features);
+429711aec282c4 Jason Wang         2018-08-06  1753  	case VHOST_GET_BACKEND_FEATURES:
+429711aec282c4 Jason Wang         2018-08-06  1754  		features = VHOST_NET_BACKEND_FEATURES;
+429711aec282c4 Jason Wang         2018-08-06  1755  		if (copy_to_user(featurep, &features, sizeof(features)))
+429711aec282c4 Jason Wang         2018-08-06  1756  			return -EFAULT;
+429711aec282c4 Jason Wang         2018-08-06  1757  		return 0;
+429711aec282c4 Jason Wang         2018-08-06  1758  	case VHOST_SET_BACKEND_FEATURES:
+429711aec282c4 Jason Wang         2018-08-06  1759  		if (copy_from_user(&features, featurep, sizeof(features)))
+429711aec282c4 Jason Wang         2018-08-06  1760  			return -EFAULT;
+429711aec282c4 Jason Wang         2018-08-06  1761  		if (features & ~VHOST_NET_BACKEND_FEATURES)
+429711aec282c4 Jason Wang         2018-08-06  1762  			return -EOPNOTSUPP;
+460f7ce19f50e6 Jason Wang         2020-08-04  1763  		vhost_set_backend_features(&n->dev, features);
+460f7ce19f50e6 Jason Wang         2020-08-04  1764  		return 0;
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1765  	case VHOST_RESET_OWNER:
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1766  		return vhost_net_reset_owner(n);
+b1ad8496c9f47d Asias He           2013-05-06  1767  	case VHOST_SET_OWNER:
+b1ad8496c9f47d Asias He           2013-05-06  1768  		return vhost_net_set_owner(n);
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1769  	default:
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1770  		mutex_lock(&n->dev.mutex);
+935cdee7ee1595 Michael S. Tsirkin 2012-12-06  1771  		r = vhost_dev_ioctl(&n->dev, ioctl, argp);
+935cdee7ee1595 Michael S. Tsirkin 2012-12-06  1772  		if (r == -ENOIOCTLCMD)
+935cdee7ee1595 Michael S. Tsirkin 2012-12-06  1773  			r = vhost_vring_ioctl(&n->dev, ioctl, argp);
+935cdee7ee1595 Michael S. Tsirkin 2012-12-06  1774  		else
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1775  			vhost_net_flush(n);
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1776  		mutex_unlock(&n->dev.mutex);
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1777  		return r;
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1778  	}
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1779  }
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1780  
 
 -- 
 0-DAY CI Kernel Test Service
