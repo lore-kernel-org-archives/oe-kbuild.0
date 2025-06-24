@@ -1,74 +1,80 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03CE2C1598
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Jun 2025 13:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAAF2DECA6
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Jun 2025 14:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750772481; cv=none; b=GxqrzxRsneEnUP6kG5RnA/SIsn+s/dG+b/Dt9NkG+ThiPLLCWTLNvf1S03KxJdIdFLZyjcSYqtDnLCAVH4D4ujlKnpbBgsGIoa9o3e7Ch4+9a+JaTCOApw4De1s0xsOG19wYlSAs0O9DX6mV2/FNZNWgtn9WI+WFwLVo1gGmmOI=
+	t=1750776055; cv=none; b=QGIvvjqt0HwaYPYd6745ZYA7NgglxkIJH8oKI+HH016mX9eNOxdkEVfRi+Wy5nRaaph7+/swbDVv602YBw/XYW7UBwkHde003j2SK5xxUsX4ZfkXpd4qsJLcmLoSwJm43hmyr1fRwm8xlvsw3cH/k0N7ux+4P3ZguMydSEyQTGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750772481; c=relaxed/simple;
-	bh=jmFpIMRpxsSLGoUiR8GyCNXZX+mlzOk8oXjCkCEDPXY=;
+	s=arc-20240116; t=1750776055; c=relaxed/simple;
+	bh=Ly14UqA/2FkDU/lX5EZaSjFKnh+VRCEQaDdKgQWZ+4s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=BzMK6MBOKZUZXZpm9fKY+cnOWHT6sgF7AHtsDktt807Ipt4iW0wpehOPVagw3lyqoZAO5YfU3NSBk4uThU808ZnEhqYR1m5d+bKhIrfnEJ87awAHta7kaqKLxp44yNtg1ue/kKIt49ECIJ7Igi+Jh1QyKGDLRSAvDkVbHboy11A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xzrfBtT/; arc=none smtp.client-ip=209.85.161.51
+	 Content-Disposition:In-Reply-To; b=nFZwxAJ9rmzwSFNhS9CBwBuAt6HNKY64/OQPCivuWFMaoEJcYwOILGUVNHTYVmMysPYo2sddmq2hudH8tfg+jwh87I151VXynQEUnXIXnlORr6wt8aNYzyPMYhkz1a5pZ+0IbebshZXZJyu6hLs4ZZvIC5Bb51Wh8p+Ujnl3t+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=j01p+wev; arc=none smtp.client-ip=209.85.210.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xzrfBtT/"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-6060a70ba80so2817215eaf.2
-        for <oe-kbuild@lists.linux.dev>; Tue, 24 Jun 2025 06:41:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j01p+wev"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7382ffcb373so349507a34.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 24 Jun 2025 07:40:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750772477; x=1751377277; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1750776052; x=1751380852; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9hpwa0JDrScKcOzTuCWX6BzMr27AQ60ja08V3b6kazw=;
-        b=xzrfBtT/uPQ2HMfcnZtJWR8u0/aFYGPoNhnPGhKb8ikZ+/FP9qLX4o+AKVTHwJ/CKo
-         h/U1PrMWs4X5NfmjY8iSFhPzkzwk0T2SvyBdEM2n4b8Q8U8UmwfRbv3SkizVwmby69RL
-         5VmdrkWkMbQHCyc11docYKo0ZxirfSz1Lq7EP5MLYHlQnR8iDgHzLr1nT0CqPylLXDRq
-         ep0k7sBp+WUGwhJnnaw14M5pXzyIiMC65X+r7lniqepmvDyD0PtIQgAmmDMFcRz93e44
-         79LdFPyZXfGlJ2578k4wzCWIulxS9snsb3ncj+E5P2YYtKIr1BXB2ZGuuV6y8UNvH67L
-         QHSA==
+        bh=wZbeeLBzYw2J68dkHLzQTlRrqE4md3QIGHGi5VxEd00=;
+        b=j01p+wevkjzbcBPAw2/xvMsyCseST/sep0CFaOhotym0sSEaBLWJbYva19dYsEVZCZ
+         dDMtLur4MtnlSuRrYPofYnmkzqbeF87inFXZ/sm7piDoXD2rPldjj8qvssHnlBQ8foMv
+         AULBdpDSS6m+czfisfkXhhn1XxFfFtVEGonshG6eOoxMpdy9ADZj/Ln1xStZ2mqf9KXY
+         1ZImoK0YRsZOk0DzpRMtcu9QrutmeJLxDMfKKwJb4bevzldXhGJryNItzXEP+HexSwfw
+         c/f4ExXzgKMgRzuwmzzH9OXt6co5NSIFh9PWQ8SU4TONGaThAvbFM5gL8DnNyHBtQK/W
+         dOpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750772477; x=1751377277;
+        d=1e100.net; s=20230601; t=1750776052; x=1751380852;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9hpwa0JDrScKcOzTuCWX6BzMr27AQ60ja08V3b6kazw=;
-        b=kql2l+D3XmZh62otG81kOXz6+60w61WWO563R0YWGkCMQSJDCINIosS0+gI53+Lwhk
-         560Fc1IiVrNYHeDJSBgAzunSdKNqseuNjMDBQOVHHvRgFC8snKxUULwZQY//3On5y4cX
-         LXcE+znbdYkq1KYIsvF2qu1AHMxDopI3NLeGMLa2nvTM5lblHmFbELy5a30hRjRkx1+b
-         5QgoA/gnFgDJf/PZdUPPVvn/h214SBODFS+89b9RsyU6dYB6dKflydXltsxMsINzXYOr
-         e2n4oozEB6DUqmQnLGljMZAtd5k17V8/UJw1eff8KPVsqau8PLnFCMVht2j0kF5CPZ/P
-         HrBQ==
-X-Gm-Message-State: AOJu0YwyvO9eCcHgYD4/CnZusjr3l7t9WTnL/YZU/+TkeT/+1IQGqZXz
-	43VeqPEI76Y4vcCZxdubGQ0GLS9RqK6ZeNPUktKJgN9RVxW80lOZu+YLNdXqR6yheCNPdpMa0+H
-	0a15k
-X-Gm-Gg: ASbGncvekMRu33wH/NmB565JghDmriG5ybTYU7cO5/GiPWrCPiX13uR5g4FIE+riaat
-	hD6FmZ7i+1QQeAdauUWT5dWquxjozJAtGurNJYwyED83Yv3D8ZfYRjBG3ksiGSLy3wbAXM/FQsS
-	8l0sJPXgn68l49AtyqLF+1Wv+peJ7qqxA2/pvmQuJ2jygjchUuCsgZ+NsRdN+7imRLhTopnK4Vm
-	DfKJXSJxHOPu4VhZz7tuTZr/bg/KdHtnFGlDWUGyNDSl5kr63wqy2D6K3kO7ceGJi2isgdxhu+p
-	zPjva2TPcCAn+5CyQICgkY+yFGWgP6EIpb9uS5CjiJ7RfjNxprs01SWYM7agUH2i64/YlCYyJLl
-	n6OP/
-X-Google-Smtp-Source: AGHT+IEiuhdW8/sSiJzR1DxhRU/+og+q0UhK5YrSTANwnnO94EH7OfmpA0IaX4cQg+vq2e5zOFcNyQ==
-X-Received: by 2002:a05:6870:179c:b0:2e9:8ed9:16fc with SMTP id 586e51a60fabf-2eedba8115cmr10962084fac.11.1750772477122;
-        Tue, 24 Jun 2025 06:41:17 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:8c3f:8b5f:5c74:76a9])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2eead8e17c1sm2067862fac.44.2025.06.24.06.41.14
+        bh=wZbeeLBzYw2J68dkHLzQTlRrqE4md3QIGHGi5VxEd00=;
+        b=WtxNZXJE+x8mMCvy7sm53/GcfH+vpDKskX2Yyr0Xp4A9YItAJTiTmU2Bwbtowa/rsD
+         8EybuoxPHgfOIldvongqEweKWiHNr5W7USBqGWlw8N/FiivGdzEEtfgtqR5d5AqQmC4+
+         giSIv2mCY4ibnd0Z4Ija6otc9PYrxtB5IsZOeE0+m7GTyAeVZghKDKd+rUSFBMzZ0Lic
+         NTDN6HtC+cCdO0vryxMrmFs8V2gpJQoDl1Tct0zivPcLxtNIhKGcd9dcEBTq/jU36NDy
+         HFtEHpNDPGe+bfOiQwuieY7hNSZn6sZUDZ5u08WiEvhX/B1V8P1b2DvpDc2yV4h/sKec
+         Ht3w==
+X-Gm-Message-State: AOJu0Yzc+lxw8I3ZA6rAu3mdBRlrPihuSratezWs8bnE4IVJv5Gs7MMS
+	HB3SwZwQHK4yQ9dSIloshe+HxBQcBQuYnbJ1FXORxNV9cT0T1t2/OGGF0zGN97cdn3hlZU6Q8+m
+	xrQYZ
+X-Gm-Gg: ASbGnct80gEgNibGCSpd4d3EohFVLbAo5MNf/7Wsp4/Ew/u4KRglMKOfDmFco9oLxtG
+	9P91ZKbju8ZzMwVLk6O6hhxP0UwgJpeCuN56ssdyVQkQmXKQhtipspHKbRGnC1iQBRXdgIvpZ2W
+	0feSZHVp9EiReAja5eVmfvb5mIA9HifXJ7KkWjVmFtMquJKWgmC1IgYlWoQ3pPC7XcbfP4ixhft
+	ORWJcoXHA5MCYYsIZN+8tPiadGDFFCSwObaoml/jk1YlB4PZNScNBXFb3kT5QXpaTL4C2xsC3GM
+	hrmOhtmYOxhYwK+3ykqNqF7uTXBA9lCEgLSWekjenz/SIU484tnJbI0IYjC4sI9QwWwTRA==
+X-Google-Smtp-Source: AGHT+IHEJALXMoWMJJfwyl85aW1TfU0u/0HKeioz8AHf36+ZEvj7mCBj3LsxpYhW/267ja4dcJ4+aA==
+X-Received: by 2002:a05:6830:3c09:b0:72b:8889:8224 with SMTP id 46e09a7af769-73ad7bb8ff1mr117599a34.10.1750776052609;
+        Tue, 24 Jun 2025 07:40:52 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:22c9:dcd3:f442:dd1d])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a90aee7f7sm1871806a34.8.2025.06.24.07.40.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 06:41:15 -0700 (PDT)
-Date: Tue, 24 Jun 2025 16:41:13 +0300
+        Tue, 24 Jun 2025 07:40:52 -0700 (PDT)
+Date: Tue, 24 Jun 2025 17:40:50 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Badal Nilawar <badal.nilawar@intel.com>,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, anshuman.gupta@intel.com,
-	rodrigo.vivi@intel.com, alexander.usyskin@intel.com,
-	gregkh@linuxfoundation.org, daniele.ceraolospurio@intel.com,
-	jgg@nvidia.com
-Subject: Re: [PATCH v3 09/10] drm/xe/xe_late_bind_fw: Extract and print
- version info
-Message-ID: <aa407944-588c-4514-9523-6f13a989f4ae@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Yuri Benditovich <yuri.benditovich@daynix.com>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>,
+	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org
+Subject: Re: [PATCH v5 net-next 4/9] vhost-net: allow configuring extended
+ features
+Message-ID: <80948a1d-270a-4859-bb54-07039b385d73@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -77,171 +83,103 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618190007.2932322-10-badal.nilawar@intel.com>
+In-Reply-To: <e195567cf1f705143477f6eee7b528ee15918873.1750436464.git.pabeni@redhat.com>
 
-Hi Badal,
+Hi Paolo,
 
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Badal-Nilawar/mei-bus-add-mei_cldev_mtu-interface/20250619-025825
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250618190007.2932322-10-badal.nilawar%40intel.com
-patch subject: [PATCH v3 09/10] drm/xe/xe_late_bind_fw: Extract and print version info
-config: i386-randconfig-141-20250623 (https://download.01.org/0day-ci/archive/20250624/202506241449.WdiucfJp-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/scripts-kernel_doc-py-properly-handle-VIRTIO_DECLARE_FEATURES/20250621-014409
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/e195567cf1f705143477f6eee7b528ee15918873.1750436464.git.pabeni%40redhat.com
+patch subject: [PATCH v5 net-next 4/9] vhost-net: allow configuring extended features
+config: i386-randconfig-141-20250623 (https://download.01.org/0day-ci/archive/20250624/202506241710.pvHQGmeZ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506241449.WdiucfJp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506241710.pvHQGmeZ-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/drm/xe/xe_late_bind_fw.c:90 parse_cpd_header() error: uninitialized symbol 'offset'.
-drivers/gpu/drm/xe/xe_late_bind_fw.c:155 parse_lb_layout() error: uninitialized symbol 'offset'.
+drivers/vhost/net.c:1724 vhost_net_ioctl() warn: check for integer overflow 'count'
 
-Old smatch warnings:
-drivers/gpu/drm/xe/xe_late_bind_fw.c:195 xe_late_bind_wait_for_worker_completion() warn: inconsistent indenting
+vim +/count +1724 drivers/vhost/net.c
 
-vim +/offset +90 drivers/gpu/drm/xe/xe_late_bind_fw.c
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1683  static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1684  			    unsigned long arg)
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1685  {
+059c23697448c5 Paolo Abeni        2025-06-20  1686  	u64 all_features[VIRTIO_FEATURES_DWORDS];
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1687  	struct vhost_net *n = f->private_data;
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1688  	void __user *argp = (void __user *)arg;
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1689  	u64 __user *featurep = argp;
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1690  	struct vhost_vring_file backend;
+059c23697448c5 Paolo Abeni        2025-06-20  1691  	u64 features, count, copied;
+059c23697448c5 Paolo Abeni        2025-06-20  1692  	int r, i;
+d47effe1be0c4f Krishna Kumar      2011-03-01  1693  
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1694  	switch (ioctl) {
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1695  	case VHOST_NET_SET_BACKEND:
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1696  		if (copy_from_user(&backend, argp, sizeof backend))
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1697  			return -EFAULT;
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1698  		return vhost_net_set_backend(n, backend.index, backend.fd);
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1699  	case VHOST_GET_FEATURES:
+059c23697448c5 Paolo Abeni        2025-06-20  1700  		features = vhost_net_features[0];
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1701  		if (copy_to_user(featurep, &features, sizeof features))
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1702  			return -EFAULT;
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1703  		return 0;
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1704  	case VHOST_SET_FEATURES:
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1705  		if (copy_from_user(&features, featurep, sizeof features))
+d3553a52490dca Takuya Yoshikawa   2010-05-27  1706  			return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1707  		if (features & ~vhost_net_features[0])
+059c23697448c5 Paolo Abeni        2025-06-20  1708  			return -EOPNOTSUPP;
+059c23697448c5 Paolo Abeni        2025-06-20  1709  
+059c23697448c5 Paolo Abeni        2025-06-20  1710  		virtio_features_from_u64(all_features, features);
+059c23697448c5 Paolo Abeni        2025-06-20  1711  		return vhost_net_set_features(n, all_features);
+059c23697448c5 Paolo Abeni        2025-06-20  1712  	case VHOST_GET_FEATURES_ARRAY:
+059c23697448c5 Paolo Abeni        2025-06-20  1713  		if (get_user(count, featurep))
+059c23697448c5 Paolo Abeni        2025-06-20  1714  			return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1715  
+059c23697448c5 Paolo Abeni        2025-06-20  1716  		/* Copy the net features, up to the user-provided buffer size */
+059c23697448c5 Paolo Abeni        2025-06-20  1717  		argp += sizeof(u64);
+059c23697448c5 Paolo Abeni        2025-06-20  1718  		copied = min(count, VIRTIO_FEATURES_DWORDS);
+059c23697448c5 Paolo Abeni        2025-06-20  1719  		if (copy_to_user(argp, vhost_net_features,
+059c23697448c5 Paolo Abeni        2025-06-20  1720  				 copied * sizeof(u64)))
+059c23697448c5 Paolo Abeni        2025-06-20  1721  			return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1722  
+059c23697448c5 Paolo Abeni        2025-06-20  1723  		/* Zero the trailing space provided by user-space, if any */
+059c23697448c5 Paolo Abeni        2025-06-20 @1724  		if (clear_user(argp, (count - copied) * sizeof(u64)))
 
-f9ea24fb9528adc Badal Nilawar 2025-06-19   49  static int parse_cpd_header(struct xe_late_bind *late_bind, u32 fw_id,
-f9ea24fb9528adc Badal Nilawar 2025-06-19   50  			    const void *data, size_t size, const char *manifest_entry)
-f9ea24fb9528adc Badal Nilawar 2025-06-19   51  {
-f9ea24fb9528adc Badal Nilawar 2025-06-19   52  	struct xe_device *xe = late_bind_to_xe(late_bind);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   53  	const struct gsc_cpd_header_v2 *header = data;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   54  	const struct gsc_manifest_header *manifest;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   55  	const struct gsc_cpd_entry *entry;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   56  	size_t min_size = sizeof(*header);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   57  	struct xe_late_bind_fw *lb_fw;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   58  	u32 offset;
-                                                ^^^^^^^^^^^
+This can have an integer overflow.  Which is fine.  Except that we're
+eventually going to add tooling to complain when there is math like
+this where a sizeof() or any size_t multiplication leads to an integer
+overflow.  (Unless it's part of an integer overflow check or it's
+annotated.  There are several different ways where an integer overlow
+is idiomatic and those are allowed).
 
-f9ea24fb9528adc Badal Nilawar 2025-06-19   59  	int i;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   60  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   61  	if (fw_id >= MAX_FW_ID)
-f9ea24fb9528adc Badal Nilawar 2025-06-19   62  		return -EINVAL;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   63  	lb_fw = &late_bind->late_bind_fw[fw_id];
-f9ea24fb9528adc Badal Nilawar 2025-06-19   64  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   65  	/* manifest_entry is mandatory */
-f9ea24fb9528adc Badal Nilawar 2025-06-19   66  	xe_assert(xe, manifest_entry);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   67  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   68  	if (size < min_size || header->header_marker != GSC_CPD_HEADER_MARKER)
-f9ea24fb9528adc Badal Nilawar 2025-06-19   69  		return -ENOENT;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   70  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   71  	if (header->header_length < sizeof(struct gsc_cpd_header_v2)) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19   72  		drm_err(&xe->drm, "%s late binding fw: Invalid CPD header length %u!\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19   73  			fw_id_to_name[lb_fw->id], header->header_length);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   74  		return -EINVAL;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   75  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19   76  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   77  	min_size = header->header_length + sizeof(struct gsc_cpd_entry) * header->num_of_entries;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   78  	if (size < min_size) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19   79  		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19   80  			fw_id_to_name[lb_fw->id], size, min_size);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   81  		return -ENODATA;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   82  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19   83  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   84  	/* Look for the manifest first */
-f9ea24fb9528adc Badal Nilawar 2025-06-19   85  	entry = (void *)header + header->header_length;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   86  	for (i = 0; i < header->num_of_entries; i++, entry++)
-f9ea24fb9528adc Badal Nilawar 2025-06-19   87  		if (strcmp(entry->name, manifest_entry) == 0)
-f9ea24fb9528adc Badal Nilawar 2025-06-19   88  			offset = entry->offset & GSC_CPD_ENTRY_OFFSET_MASK;
-                                                                ^^^^^^^^
-Only initialized if found.
-
-f9ea24fb9528adc Badal Nilawar 2025-06-19   89  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  @90  	if (!offset) {
-                                                     ^^^^^^
-Uninitialized.
-
-It's a good idea for developers to set CONFIG_INIT_STACK_ALL_PATTERN=y
-in their testing.
-
-f9ea24fb9528adc Badal Nilawar 2025-06-19   91  		drm_err(&xe->drm, "%s late binding fw: Failed to find manifest_entry\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19   92  			fw_id_to_name[lb_fw->id]);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   93  		return -ENODATA;
-f9ea24fb9528adc Badal Nilawar 2025-06-19   94  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19   95  
-f9ea24fb9528adc Badal Nilawar 2025-06-19   96  	min_size = offset + sizeof(struct gsc_manifest_header);
-f9ea24fb9528adc Badal Nilawar 2025-06-19   97  	if (size < min_size) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19   98  		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19   99  			fw_id_to_name[lb_fw->id], size, min_size);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  100  		return -ENODATA;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  101  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19  102  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  103  	manifest = data + offset;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  104  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  105  	lb_fw->version.major = manifest->fw_version.major;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  106  	lb_fw->version.minor = manifest->fw_version.minor;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  107  	lb_fw->version.hotfix = manifest->fw_version.hotfix;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  108  	lb_fw->version.build = manifest->fw_version.build;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  109  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  110  	return 0;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  111  }
-f9ea24fb9528adc Badal Nilawar 2025-06-19  112  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  113  /* Refer to the "Late Bind based Firmware Layout" documentation entry for details */
-f9ea24fb9528adc Badal Nilawar 2025-06-19  114  static int parse_lb_layout(struct xe_late_bind *late_bind, u32 fw_id,
-f9ea24fb9528adc Badal Nilawar 2025-06-19  115  			   const void *data, size_t size, const char *fpt_entry)
-f9ea24fb9528adc Badal Nilawar 2025-06-19  116  {
-f9ea24fb9528adc Badal Nilawar 2025-06-19  117  	struct xe_device *xe = late_bind_to_xe(late_bind);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  118  	const struct csc_fpt_header *header = data;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  119  	const struct csc_fpt_entry *entry;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  120  	size_t min_size = sizeof(*header);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  121  	struct xe_late_bind_fw *lb_fw;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  122  	u32 offset;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  123  	int i;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  124  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  125  	if (fw_id >= MAX_FW_ID)
-f9ea24fb9528adc Badal Nilawar 2025-06-19  126  		return -EINVAL;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  127  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  128  	lb_fw = &late_bind->late_bind_fw[fw_id];
-f9ea24fb9528adc Badal Nilawar 2025-06-19  129  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  130  	/* fpt_entry is mandatory */
-f9ea24fb9528adc Badal Nilawar 2025-06-19  131  	xe_assert(xe, fpt_entry);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  132  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  133  	if (size < min_size || header->header_marker != CSC_FPT_HEADER_MARKER)
-f9ea24fb9528adc Badal Nilawar 2025-06-19  134  		return -ENOENT;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  135  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  136  	if (header->header_length < sizeof(struct csc_fpt_header)) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19  137  		drm_err(&xe->drm, "%s late binding fw: Invalid FPT header length %u!\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19  138  			fw_id_to_name[lb_fw->id], header->header_length);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  139  		return -EINVAL;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  140  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19  141  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  142  	min_size = header->header_length + sizeof(struct csc_fpt_entry) * header->num_of_entries;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  143  	if (size < min_size) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19  144  		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19  145  			fw_id_to_name[lb_fw->id], size, min_size);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  146  		return -ENODATA;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  147  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19  148  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  149  	/* Look for the manifest first */
-f9ea24fb9528adc Badal Nilawar 2025-06-19  150  	entry = (void *)header + header->header_length;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  151  	for (i = 0; i < header->num_of_entries; i++, entry++)
-f9ea24fb9528adc Badal Nilawar 2025-06-19  152  		if (strcmp(entry->name, fpt_entry) == 0)
-f9ea24fb9528adc Badal Nilawar 2025-06-19  153  			offset = entry->offset;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  154  
-f9ea24fb9528adc Badal Nilawar 2025-06-19 @155  	if (!offset) {
-
-Same.
-
-f9ea24fb9528adc Badal Nilawar 2025-06-19  156  		drm_err(&xe->drm, "%s late binding fw: Failed to find fpt_entry\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19  157  			fw_id_to_name[lb_fw->id]);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  158  		return -ENODATA;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  159  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19  160  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  161  	min_size = offset + sizeof(struct gsc_cpd_header_v2);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  162  	if (size < min_size) {
-f9ea24fb9528adc Badal Nilawar 2025-06-19  163  		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
-f9ea24fb9528adc Badal Nilawar 2025-06-19  164  			fw_id_to_name[lb_fw->id], size, min_size);
-f9ea24fb9528adc Badal Nilawar 2025-06-19  165  		return -ENODATA;
-f9ea24fb9528adc Badal Nilawar 2025-06-19  166  	}
-f9ea24fb9528adc Badal Nilawar 2025-06-19  167  
-f9ea24fb9528adc Badal Nilawar 2025-06-19  168  	return parse_cpd_header(late_bind, fw_id, data + offset, size - offset, "LTES.man");
-f9ea24fb9528adc Badal Nilawar 2025-06-19  169  }
+059c23697448c5 Paolo Abeni        2025-06-20  1725  			return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1726  		return 0;
+059c23697448c5 Paolo Abeni        2025-06-20  1727  	case VHOST_SET_FEATURES_ARRAY:
+059c23697448c5 Paolo Abeni        2025-06-20  1728  		if (get_user(count, featurep))
+059c23697448c5 Paolo Abeni        2025-06-20  1729  			return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1730  
+059c23697448c5 Paolo Abeni        2025-06-20  1731  		virtio_features_zero(all_features);
+059c23697448c5 Paolo Abeni        2025-06-20  1732  		argp += sizeof(u64);
+059c23697448c5 Paolo Abeni        2025-06-20  1733  		copied = min(count, VIRTIO_FEATURES_DWORDS);
+059c23697448c5 Paolo Abeni        2025-06-20  1734  		if (copy_from_user(all_features, argp, copied * sizeof(u64)))
+059c23697448c5 Paolo Abeni        2025-06-20  1735  			return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1736  
+059c23697448c5 Paolo Abeni        2025-06-20  1737  		/*
+059c23697448c5 Paolo Abeni        2025-06-20  1738  		 * Any feature specified by user-space above
+059c23697448c5 Paolo Abeni        2025-06-20  1739  		 * VIRTIO_FEATURES_MAX is not supported by definition.
+059c23697448c5 Paolo Abeni        2025-06-20  1740  		 */
+059c23697448c5 Paolo Abeni        2025-06-20  1741  		for (i = copied; i < count; ++i) {
+059c23697448c5 Paolo Abeni        2025-06-20  1742  			if (get_user(features, featurep + 1 + i))
+059c23697448c5 Paolo Abeni        2025-06-20  1743  				return -EFAULT;
+059c23697448c5 Paolo Abeni        2025-06-20  1744  			if (features)
+3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1745  				return -EOPNOTSUPP;
+059c23697448c5 Paolo Abeni        2025-06-20  1746  		}
+059c23697448c5 Paolo Abeni        2025-06-20  1747  
 
 -- 
 0-DAY CI Kernel Test Service
