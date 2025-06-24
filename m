@@ -1,68 +1,74 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB322C15A6
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Jun 2025 14:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C332D23B8
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Jun 2025 14:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750776331; cv=none; b=BnwN0DxAGX118L7W/uMdDI3Cqkv8xfRI/NHqkHVpmlk4WnknNc3Ic0rfdbIqdVZk0u1mkkw6Yae1rsvJJawo8rk+MR0vBQRnMe5pF1KKlzs/a+Un16uQoPxUQo8mrBEovbk4Cae9Np02mFTszTnEdWA5s+6wnU+La66dbBvosyw=
+	t=1750776441; cv=none; b=LFCZk/LzS/XtHI4h4LFe1I2GnS0zYSBANac9tZ5zJMyHxkhmBJt9ER1/oChVzuOeQpNgYQnSgIb7RRph7LyfuVPeA36eP10kagBQYjuBFfFahCcBAIunMMSLudxbSTemxeem3EJwTOfP9yVrg0HbEOM0J0RBvFAmDfLLvQ5XLlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750776331; c=relaxed/simple;
-	bh=A6ghZ5VcaQY3lcCylUHVqFjyxuVtg1KD3orA/c7GO7U=;
+	s=arc-20240116; t=1750776441; c=relaxed/simple;
+	bh=8ndPHen9gVkkJ8keDVpzacmHbP27NW7V1US5clTByPU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=UKbvo5p+qMvw0Z/8/Mh2wPsiQsuRz+s48b+AZXRCl2IxZYLOcgubooZjqmIP4qiA+E+P+r1Zqf4eRu7BJ9qTHiwW7uhGzaTkI+t98rOFZ3J+nrZ0mC20rO1dEMOxyqkNxFWNzi6t0m/WAKRnAKzlGaOjaepTTmPCg/ACgfxNre4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FbkTAIC8; arc=none smtp.client-ip=209.85.167.176
+	 Content-Disposition:In-Reply-To; b=i26V1XRgf41D71JLCeixQPyH5mfxBtXFtzLYajfX+U0FhsITxaW5B4MJv7oyGQEA8YICqRncLSV4kLdJHSeB64Byd4cI/EFzzOOavyIgemHCi9yRzywlvMgDaCPLJlsocH267OIYAR8gqPPGBlyD226Ls5CAHJwBicV3YFh46Z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U7BfidS7; arc=none smtp.client-ip=209.85.160.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FbkTAIC8"
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-40669fd81b5so3884657b6e.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 24 Jun 2025 07:45:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U7BfidS7"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2d0920ce388so230815fac.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 24 Jun 2025 07:47:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750776328; x=1751381128; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1750776438; x=1751381238; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6wbRj9TkPQ20XGWiSk4YSlkPAtJFmTPKLMPw0k3ac3M=;
-        b=FbkTAIC8+j87/ld4LtVxp4M495a3/ruyuop4thIQGFHP1C50Vc4f/GwWVbVb+pXtPQ
-         v9Xy9cuNEGGGdi8AOFywMgnu1Q9nNjQIc8Gpb2MWY8yXsvobvFDtfIFbsCDpDbPKNK7k
-         HrxeD0OkYomveTCsWx6JQlIwEqfYXZmUql4bpYeWltryIXAl+Hv6tevrWByeeG+f1wwM
-         cut+e7SMeemPhNcaG9npbLQIp1BiWngl9J2CUCqvKO4fjCpH/Hd0b2Bl8TALBGsw0swz
-         l5LT9oByB850vS/EmqKaXawK2WRCvhxqrlWylWOmVieZM2xAOuBfqGhaQehqxqt/hYUB
-         hKoA==
+        bh=6uA5wqktVLlF/6ye0p0dHnC0cgi9tO2Q4YJtZShQkDM=;
+        b=U7BfidS7jp6xxwHRrvNEMFRVwuW4RrPkzAlcOW327VL80THoyMoLLx7vwPtLwGOhi1
+         T6dS7iRD/00FCmUvXmllhsg2OBI4Fh7yCLa6oK7y4WF09jg8ODQKejUW1+nyiZytI9v0
+         yIUpYwNwrZcbcSpPfeyWnaUGLfl2vQYl25UADQ3TqNvzlih8gaHpKMPvQps9WX+vLgro
+         apy0OOv1MrXCFDdhj4Bug+dSsHdFwwSz0EmMhbUT9eC6UTmgL/0kPrRnt66oteAPIPaH
+         0JtiAeDA4tkb7QeZ5GD2zBJXA7ZfVzuZ+SGb+Wwx9wLUDaCuyKEuT0gznauGAqO4pqqn
+         xKow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750776328; x=1751381128;
+        d=1e100.net; s=20230601; t=1750776438; x=1751381238;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6wbRj9TkPQ20XGWiSk4YSlkPAtJFmTPKLMPw0k3ac3M=;
-        b=jFt5sYn0uGcV0KmEH0STDAGxdjVyUhNdJNTDHgwzUniPpSq9KdfCyKwhcq33wCJSRF
-         HaNEpERDBxjg0NtTcvb9CAdoD3tM0XX8J3r15a2PgzfYoTNqn+xKheCeE8OFTpelZgSS
-         qLhVN1Fbrq2vAbOADBMj/BXXIMBuTh7m3z7zZSzSFovQIW/g2y5wuvMzVoVcyTu3LX+P
-         I8PEwnKB5iXtCv4Z+enhjlfJbgzH3daz58gu89scVmRv0Fg8ALbb3k2jYUi5238rsMm+
-         tM2n8jzv3rm6uCNysMXmc6s1TyGnXICXRsJCX6QC+08ITWj/s4nZVliNh1sL+ltAeLmT
-         P+XQ==
-X-Gm-Message-State: AOJu0Yy9k/VL3Mw/MbTO1f9Yv4XJH3dm1B+vy1gb8LyX2yiOAUCuusRl
-	bThVRhzLEl70wgSi0RsQ5cYCWpHNwf7jG3mwNe/tdrTYysqlgxK6OT9nKn7XtDeCvh24Z34TSLk
-	jHFNf
-X-Gm-Gg: ASbGncvA+6/MZwV3eq9mqtNNRlxiiHny1nA/viSPSjdX5TQiIclyQ+jFpe65NDb+r0v
-	GQaVd3OPtu8L7O48O+uekxp+fRXwXEWhFKYejJrWG5UIfDyr18Jx8KyccTgRM7JGgto1VesRGuw
-	hsWikbPCKrfQYrjiAlokzxhz+QxX2sM4CuLBdWryg3cfWUFh8L28G3E3ukQjLUWkaHIScK2r7Qe
-	W5uWhCiZsBUnl3Iq/+39CEfarEEEkIBvGiV58+FlJKkqSx6s3tbyfabeuKd0GJzBJgx8Z36Hncl
-	2eig9JYnQIEG5v4n/Re4Q/1FDxno2Wu7brCOahK3bm3GJk9Mshe42xjAkVSK0nq1hvgPMA==
-X-Google-Smtp-Source: AGHT+IFpS8g6Vaqx3fZzd3FMvQvmqC0h1tgXNlttTp7lZtKJbB6VTC5+xsTlx9pRv9afV8Mn/19XRw==
-X-Received: by 2002:a05:6808:1453:b0:3f7:d16c:e293 with SMTP id 5614622812f47-40ac6f52873mr14807487b6e.2.1750776328010;
-        Tue, 24 Jun 2025 07:45:28 -0700 (PDT)
+        bh=6uA5wqktVLlF/6ye0p0dHnC0cgi9tO2Q4YJtZShQkDM=;
+        b=GhR20IS1YrlhDRHN1HuuFzae7QdJgrprHpQ6PGlMI8lY7ovVRWpDPpo5hem3ziiF5q
+         wkBl+AOo+XssQBkEsUsRTp9SfYiiNz2adJDF0d9XFzINdXsveS+WJqRMlk4cv2vJtSRA
+         B9nm+H0wDK+2cMs7VjUEF6a2RIhz4q8Rsnm6uNZzw/xgvsn9Q/+fR58ydqAgHNPwkM6q
+         Js9cYJ2MPPD5elZd5fkXEtRbCNh4KUy1jKxuf1opfdTYKvUmfdU3Un3vXAcSvLI+4nlf
+         jqAUBOqR54u9g7KXYcu6JxzmWotBaP9mxCfNkfpa4ofYnQsLjkMzq83stSI+GZALR/1G
+         8KHw==
+X-Gm-Message-State: AOJu0YxX8Y1OAWFfmqitPtgUMHpaxhkxQT1HGGtkUnMJ/unMR8XzPu+h
+	GbUHdLBRby94/oJLmMh+vScWotLSxi7Sij2Q5NyGmBJyA9qCtffvt6QmUzwFE8r+GF2lTmIwehs
+	CV1Fs
+X-Gm-Gg: ASbGncvbgxGc3tmjPZwHP4COS7jgHDhqbEX7s9jHiskVG40lggYCfst9EyAKWTXX/bt
+	rs8TYem8Mm9ZakS/EXzZMTr1jPGOj48GPwrC3LOonpBNqCsgWLZhIIfn4sgWIqlIXBZ8KvQB8k0
+	oO15Xy6iX7uiHCd1MCFQj5ZtYv8BkecURuZksbwV1SV2KRV2/ujuVCBICAodq/8ID2Tg7FJt4Es
+	4B2dEwzYvdk94jCLxctT6XD07lQwqbf/wUNVBwi/1CUtpHJC+X04ee4Bc6pehoNEPqAgHfMQIXG
+	aSCGadeCBdUPJ8x3lDr2/t3P1h9gxkzzHHNt5w2FQBh75kAXyIR4OBOFGxqqE4zQ4vWuNg==
+X-Google-Smtp-Source: AGHT+IGt8ie5ZbF0x4WPTsVM6n791kVfLV7Ad3NJEmRPz2hPk2XoNedp9cCuBS6gbjfhNJu6obKMeQ==
+X-Received: by 2002:a05:6870:2487:b0:2c2:b9cc:afb8 with SMTP id 586e51a60fabf-2eeda4e389cmr9736316fac.7.1750776438135;
+        Tue, 24 Jun 2025 07:47:18 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:22c9:dcd3:f442:dd1d])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-40ac6c30454sm1805823b6e.14.2025.06.24.07.45.26
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ee6655a39asm2104434fac.15.2025.06.24.07.47.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 07:45:27 -0700 (PDT)
-Date: Tue, 24 Jun 2025 17:45:25 +0300
+        Tue, 24 Jun 2025 07:47:16 -0700 (PDT)
+Date: Tue, 24 Jun 2025 17:47:14 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Xi Pardee <xi.pardee@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 4/5] platform/x86:intel/pmc: Show substate requirement
- for S0ix blockers
-Message-ID: <a0500c45-993d-4daa-b35f-48c9ff4cf50b@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, Zhongkun He <hezhongkun.hzk@bytedance.com>,
+	akpm@linux-foundation.org, tytso@mit.edu, jack@suse.com,
+	hannes@cmpxchg.org, mhocko@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, muchun.song@linux.dev,
+	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, cgroups@vger.kernel.org,
+	Zhongkun He <hezhongkun.hzk@bytedance.com>,
+	Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH 1/2] mm: memcg: introduce PF_MEMALLOC_ACCOUNTFORCE to
+ postpone reclaim to return-to-userland path
+Message-ID: <400e2b89-1ad7-4626-9ee0-e45a9e5b5227@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,126 +77,82 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250621210529.237964-5-xi.pardee@linux.intel.com>
+In-Reply-To: <71a4bbc284048ceb38eaac53dfa1031f92ac52b7.1750234270.git.hezhongkun.hzk@bytedance.com>
 
-Hi Xi,
+Hi Zhongkun,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xi-Pardee/platform-x86-intel-pmc-Enable-SSRAM-support-for-Lunar-Lake/20250622-050804
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250621210529.237964-5-xi.pardee%40linux.intel.com
-patch subject: [PATCH v1 4/5] platform/x86:intel/pmc: Show substate requirement for S0ix blockers
-config: i386-randconfig-141-20250623 (https://download.01.org/0day-ci/archive/20250624/202506241840.0POVt4tf-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhongkun-He/mm-memcg-introduce-PF_MEMALLOC_ACCOUNTFORCE-to-postpone-reclaim-to-return-to-userland-path/20250618-194101
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/71a4bbc284048ceb38eaac53dfa1031f92ac52b7.1750234270.git.hezhongkun.hzk%40bytedance.com
+patch subject: [PATCH 1/2] mm: memcg: introduce PF_MEMALLOC_ACCOUNTFORCE to postpone reclaim to return-to-userland path
+config: i386-randconfig-141-20250619 (https://download.01.org/0day-ci/archive/20250624/202506242032.uShv7ASV-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506241840.0POVt4tf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506242032.uShv7ASV-lkp@intel.com/
 
-New smatch warnings:
-drivers/platform/x86/intel/pmc/core.c:1525 pmc_core_pmt_get_blk_sub_req() error: uninitialized symbol 'ret'.
-drivers/platform/x86/intel/pmc/core.c:1559 pmc_core_get_telem_info() error: uninitialized symbol 'ret'.
+smatch warnings:
+mm/memcontrol.c:2341 mem_cgroup_handle_over_max() warn: use 'gfp_mask' here instead of GFP_KERNEL?
 
-vim +/ret +1525 drivers/platform/x86/intel/pmc/core.c
+vim +/gfp_mask +2341 mm/memcontrol.c
 
-f3435ca196060d Xi Pardee 2025-06-21  1497  static int pmc_core_pmt_get_blk_sub_req(struct pmc_dev *pmcdev, struct pmc *pmc,
-f3435ca196060d Xi Pardee 2025-06-21  1498  					struct telem_endpoint *ep)
-f3435ca196060d Xi Pardee 2025-06-21  1499  {
-f3435ca196060d Xi Pardee 2025-06-21  1500  	u32 num_blocker, sample_id;
-f3435ca196060d Xi Pardee 2025-06-21  1501  	unsigned int index;
-f3435ca196060d Xi Pardee 2025-06-21  1502  	u32 *req_offset;
-f3435ca196060d Xi Pardee 2025-06-21  1503  	int ret;
-f3435ca196060d Xi Pardee 2025-06-21  1504  
-f3435ca196060d Xi Pardee 2025-06-21  1505  	num_blocker = pmc->map->num_s0ix_blocker;
-f3435ca196060d Xi Pardee 2025-06-21  1506  	sample_id = pmc->map->blocker_req_offset;
-f3435ca196060d Xi Pardee 2025-06-21  1507  
-f3435ca196060d Xi Pardee 2025-06-21  1508  	pmc->blk_sub_req_regs = devm_kzalloc(&pmcdev->pdev->dev,
-f3435ca196060d Xi Pardee 2025-06-21  1509  					 num_blocker * sizeof(u32),
+b5db553cc19549 Zhongkun He 2025-06-18  2320  void mem_cgroup_handle_over_max(gfp_t gfp_mask)
+                                                                                   ^^^^^^^^
+b5db553cc19549 Zhongkun He 2025-06-18  2321  {
+b5db553cc19549 Zhongkun He 2025-06-18  2322  	unsigned long nr_reclaimed = 0;
+b5db553cc19549 Zhongkun He 2025-06-18  2323  	unsigned int nr_pages = current->memcg_nr_pages_over_max;
+b5db553cc19549 Zhongkun He 2025-06-18  2324  	int nr_retries = MAX_RECLAIM_RETRIES;
+b5db553cc19549 Zhongkun He 2025-06-18  2325  	struct mem_cgroup *memcg, *mem_over_limit;
+b5db553cc19549 Zhongkun He 2025-06-18  2326  
+b5db553cc19549 Zhongkun He 2025-06-18  2327  	if (likely(!nr_pages))
+b5db553cc19549 Zhongkun He 2025-06-18  2328  		return;
+b5db553cc19549 Zhongkun He 2025-06-18  2329  
+b5db553cc19549 Zhongkun He 2025-06-18  2330  	memcg = get_mem_cgroup_from_mm(current->mm);
+b5db553cc19549 Zhongkun He 2025-06-18  2331  	current->memcg_nr_pages_over_max = 0;
+b5db553cc19549 Zhongkun He 2025-06-18  2332  
+b5db553cc19549 Zhongkun He 2025-06-18  2333  retry:
+b5db553cc19549 Zhongkun He 2025-06-18  2334  	mem_over_limit = get_over_limit_memcg(memcg);
+b5db553cc19549 Zhongkun He 2025-06-18  2335  	if (!mem_over_limit)
+b5db553cc19549 Zhongkun He 2025-06-18  2336  		goto out;
+b5db553cc19549 Zhongkun He 2025-06-18  2337  
+b5db553cc19549 Zhongkun He 2025-06-18  2338  	while (nr_reclaimed < nr_pages) {
+b5db553cc19549 Zhongkun He 2025-06-18  2339  		unsigned long reclaimed;
+b5db553cc19549 Zhongkun He 2025-06-18  2340  
+b5db553cc19549 Zhongkun He 2025-06-18 @2341  		reclaimed = try_to_free_mem_cgroup_pages(mem_over_limit,
+b5db553cc19549 Zhongkun He 2025-06-18  2342  					nr_pages, GFP_KERNEL,
 
-Use devm_kcalloc() so we don't have to check if num_blocker can be
-greater than UINT_MAX / 4 on 32bit systems.
+I guess GFP_KERNEL is fine.  The gfp_mask is used below.  Don't worry
+about this one if the GFP_KERNEL is intended.  Just ignore the warning
+message.
 
-f3435ca196060d Xi Pardee 2025-06-21  1510  					 GFP_KERNEL);
-f3435ca196060d Xi Pardee 2025-06-21  1511  	if (!pmc->blk_sub_req_regs)
-f3435ca196060d Xi Pardee 2025-06-21  1512  		ret = -ENOMEM;
-
-s/ret = /return /.  Otherwise it leads to a NULL pointer dereference.
-
-f3435ca196060d Xi Pardee 2025-06-21  1513  
-f3435ca196060d Xi Pardee 2025-06-21  1514  	req_offset = pmc->blk_sub_req_regs;
-f3435ca196060d Xi Pardee 2025-06-21  1515  	for (index = 0; index < num_blocker; index++) {
-
-smatch doesn't know if num_blocker can be zero.
-
-f3435ca196060d Xi Pardee 2025-06-21  1516  		ret = pmt_telem_read32(ep, sample_id, req_offset, 1);
-f3435ca196060d Xi Pardee 2025-06-21  1517  		if (ret) {
-f3435ca196060d Xi Pardee 2025-06-21  1518  			dev_err(&pmcdev->pdev->dev,
-f3435ca196060d Xi Pardee 2025-06-21  1519  				"couldn't read Low Power Mode requirements: %d\n", ret);
-f3435ca196060d Xi Pardee 2025-06-21  1520  			return ret;
-f3435ca196060d Xi Pardee 2025-06-21  1521  		}
-f3435ca196060d Xi Pardee 2025-06-21  1522  		sample_id++;
-f3435ca196060d Xi Pardee 2025-06-21  1523  		req_offset++;
-f3435ca196060d Xi Pardee 2025-06-21  1524  	}
-f3435ca196060d Xi Pardee 2025-06-21 @1525  	return ret;
-f3435ca196060d Xi Pardee 2025-06-21  1526  }
-f3435ca196060d Xi Pardee 2025-06-21  1527  
-f3435ca196060d Xi Pardee 2025-06-21  1528  static int pmc_core_get_telem_info(struct pmc_dev *pmcdev, int func, unsigned int telem_info)
-78a7491d5cba8b Xi Pardee 2025-04-09  1529  {
-b5d46539626833 Xi Pardee 2025-04-25  1530  	struct pci_dev *pcidev __free(pci_dev_put) = NULL;
-d7bc7e19147769 Xi Pardee 2025-06-21  1531  	struct telem_endpoint *ep;
-052fabddeaa70b Xi Pardee 2025-04-09  1532  	unsigned int i;
-d7bc7e19147769 Xi Pardee 2025-06-21  1533  	u32 guid;
-052fabddeaa70b Xi Pardee 2025-04-09  1534  	int ret;
-78a7491d5cba8b Xi Pardee 2025-04-09  1535  
-b5d46539626833 Xi Pardee 2025-04-25  1536  	pcidev = pci_get_domain_bus_and_slot(0, 0, PCI_DEVFN(20, func));
-b5d46539626833 Xi Pardee 2025-04-25  1537  	if (!pcidev)
-78a7491d5cba8b Xi Pardee 2025-04-09  1538  		return -ENODEV;
-78a7491d5cba8b Xi Pardee 2025-04-09  1539  
-78a7491d5cba8b Xi Pardee 2025-04-09  1540  	for (i = 0; i < ARRAY_SIZE(pmcdev->pmcs); ++i) {
-d7bc7e19147769 Xi Pardee 2025-06-21  1541  		struct pmc *pmc;
-d7bc7e19147769 Xi Pardee 2025-06-21  1542  
-d7bc7e19147769 Xi Pardee 2025-06-21  1543  		pmc = pmcdev->pmcs[i];
-d7bc7e19147769 Xi Pardee 2025-06-21  1544  		if (!pmc)
-78a7491d5cba8b Xi Pardee 2025-04-09  1545  			continue;
-78a7491d5cba8b Xi Pardee 2025-04-09  1546  
-d7bc7e19147769 Xi Pardee 2025-06-21  1547  		guid = pmc_core_find_guid(pmcdev->regmap_list, pmc->map);
-d7bc7e19147769 Xi Pardee 2025-06-21  1548  		if (!guid)
-d7bc7e19147769 Xi Pardee 2025-06-21  1549  			return -ENXIO;
-d7bc7e19147769 Xi Pardee 2025-06-21  1550  
-d7bc7e19147769 Xi Pardee 2025-06-21  1551  		ep = pmt_telem_find_and_register_endpoint(pcidev, guid, 0);
-d7bc7e19147769 Xi Pardee 2025-06-21  1552  		if (IS_ERR(ep)) {
-d7bc7e19147769 Xi Pardee 2025-06-21  1553  			dev_dbg(&pmcdev->pdev->dev, "couldn't get telem endpoint %pe", ep);
-d7bc7e19147769 Xi Pardee 2025-06-21  1554  			return -EPROBE_DEFER;
-d7bc7e19147769 Xi Pardee 2025-06-21  1555  		}
-d7bc7e19147769 Xi Pardee 2025-06-21  1556  
-f3435ca196060d Xi Pardee 2025-06-21  1557  		if (telem_info & SUB_REQ_LPM)
-d7bc7e19147769 Xi Pardee 2025-06-21  1558  			ret = pmc_core_pmt_get_lpm_req(pmcdev, pmc, ep);
-
-ret is uninitialized on else path.  I generally encourage developers
-to set CONFIG_INIT_STACK_ALL_PATTERN=y for their testing.
-
-78a7491d5cba8b Xi Pardee 2025-04-09 @1559  		if (ret)
-f3435ca196060d Xi Pardee 2025-06-21  1560  			goto unregister_ep;
-f3435ca196060d Xi Pardee 2025-06-21  1561  
-f3435ca196060d Xi Pardee 2025-06-21  1562  		if (telem_info & SUB_REQ_BLK)
-f3435ca196060d Xi Pardee 2025-06-21  1563  			ret = pmc_core_pmt_get_blk_sub_req(pmcdev, pmc, ep);
-f3435ca196060d Xi Pardee 2025-06-21  1564  		if (ret)
-f3435ca196060d Xi Pardee 2025-06-21  1565  			goto unregister_ep;
-f3435ca196060d Xi Pardee 2025-06-21  1566  
-f3435ca196060d Xi Pardee 2025-06-21  1567  		pmt_telem_unregister_endpoint(ep);
-78a7491d5cba8b Xi Pardee 2025-04-09  1568  	}
-78a7491d5cba8b Xi Pardee 2025-04-09  1569  
-78a7491d5cba8b Xi Pardee 2025-04-09  1570  	return 0;
-f3435ca196060d Xi Pardee 2025-06-21  1571  
-f3435ca196060d Xi Pardee 2025-06-21  1572  unregister_ep:
-f3435ca196060d Xi Pardee 2025-06-21  1573  	pmt_telem_unregister_endpoint(ep);
-f3435ca196060d Xi Pardee 2025-06-21  1574  	return ret;
-78a7491d5cba8b Xi Pardee 2025-04-09  1575  }
+b5db553cc19549 Zhongkun He 2025-06-18  2343  					MEMCG_RECLAIM_MAY_SWAP,
+b5db553cc19549 Zhongkun He 2025-06-18  2344  					NULL);
+b5db553cc19549 Zhongkun He 2025-06-18  2345  
+b5db553cc19549 Zhongkun He 2025-06-18  2346  		if (!reclaimed && !nr_retries--)
+b5db553cc19549 Zhongkun He 2025-06-18  2347  			break;
+b5db553cc19549 Zhongkun He 2025-06-18  2348  
+b5db553cc19549 Zhongkun He 2025-06-18  2349  		nr_reclaimed += reclaimed;
+b5db553cc19549 Zhongkun He 2025-06-18  2350  	}
+b5db553cc19549 Zhongkun He 2025-06-18  2351  
+b5db553cc19549 Zhongkun He 2025-06-18  2352  	if ((nr_reclaimed < nr_pages) &&
+b5db553cc19549 Zhongkun He 2025-06-18  2353  	    (page_counter_read(&mem_over_limit->memory) >
+b5db553cc19549 Zhongkun He 2025-06-18  2354  	    READ_ONCE(mem_over_limit->memory.max)) &&
+b5db553cc19549 Zhongkun He 2025-06-18  2355  	    mem_cgroup_oom(mem_over_limit, gfp_mask,
+b5db553cc19549 Zhongkun He 2025-06-18  2356  			  get_order((nr_pages - nr_reclaimed)  * PAGE_SIZE))) {
+b5db553cc19549 Zhongkun He 2025-06-18  2357  		nr_retries = MAX_RECLAIM_RETRIES;
+b5db553cc19549 Zhongkun He 2025-06-18  2358  		goto retry;
+b5db553cc19549 Zhongkun He 2025-06-18  2359  	}
+b5db553cc19549 Zhongkun He 2025-06-18  2360  
+b5db553cc19549 Zhongkun He 2025-06-18  2361  out:
+b5db553cc19549 Zhongkun He 2025-06-18  2362  	css_put(&memcg->css);
+b5db553cc19549 Zhongkun He 2025-06-18  2363  }
 
 -- 
 0-DAY CI Kernel Test Service
