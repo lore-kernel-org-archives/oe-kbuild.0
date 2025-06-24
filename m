@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E782C158C
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Jun 2025 13:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972A3286D42
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Jun 2025 13:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750771798; cv=none; b=CjUbBAW+9YSyj7QgAu0kK0vwa1n8QaIj1HvqNIr18ANhPG5XBjqYvZuyT/bBQpoRc9Ex2SsKKkuM1UeJRmOK2Un7Eh9PwJ+tiUcKolr0Iorx8NcefylpXn1mhXfGFL9KUjzZtJIN3NGVhUFImIOWIeOyu5x2zNOBwmaBf4Beoms=
+	t=1750772264; cv=none; b=O6YVZwfTDPo0yeJy6GNkAwbws9awrzBSI9AL6OUxUv6uBDef+47Qv8gdOZpDptZ+zOwXiq/geAyiGefmiEEvIsdBhjyfUHABiK90QQEVzPNb2mnC26tFvgP/QBcUNoXhE0cIOsWP8rVnKQCuhVilC2nr5yEzR8iX5eSGQ/dkblQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750771798; c=relaxed/simple;
-	bh=c4AcaY23rGJqNLnIqF2DXoQhTQw38wj0IvJqe7hwUpQ=;
+	s=arc-20240116; t=1750772264; c=relaxed/simple;
+	bh=zOB5AlMqj9KmwU0E0756V4dbbBGTNkAVB/Tcxft+kGc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=c2l4Uyb1Cn81iEP9zy4Ad5QYeLPGCsI8tfa5vFFXPEd5C9rDxOCHYrHg3SlgvTv5x0B0rZ4tyWvybXN1aifdNppX3nymSRWMJxO294dVU2S35Ftp/IbfwENCyTEHfBfXU5aoHq+nRppcFJxmiHZf8uveKq+L/H3bhsxbRbW5z4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eNtEqEBS; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=W5rq5b46fVUHL3H5khXkRIxH+mrF++ec8qaC7XUS0xGv8q4uyw5vVxPqSf3A+yknfF6ab4WgGg8Y/aSBeHFtCgkeXzpR7gqg01FRPrkpzi+7yvHRbB70ee4CSoVuOcfcjXfChYkn+bz7d2PII8ibTjB61C+VNBUWiFErIws377Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mKZESJPk; arc=none smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eNtEqEBS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750771796; x=1782307796;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c4AcaY23rGJqNLnIqF2DXoQhTQw38wj0IvJqe7hwUpQ=;
-  b=eNtEqEBSxFTsfkIav85GUmnrKa2Sfyg5/SatCGB+Upm3bu2oLg5IgC1q
-   ykkuy7PanDTmfkKzbWTUJuTBrOwI8CEH1rjdJ2FaQz1hAAhaiqYxD+hYd
-   3jnVAAfns1jhP7RX6cKe/tPHOAkiDBwVkyS0F3KpJ1Z2f9z0xXVt/S62V
-   sSrPK9BXOtNLrf4zwEY10XRS7WwVM/zFGm0RTRHBpTwnoBjsqZC4hgUqo
-   Ke65zbxR7UJmwAjFZfyZ8K08S2pqmXQVGTQQJSYZZQGWTU8w4Z9V2dVUH
-   QbD9p2xe/Ud/8sG3KzLwRXploGwO9eSeAfeWuQ7fdPW7hInxLyVlbOz8B
-   g==;
-X-CSE-ConnectionGUID: ug1syyyGRbu/fFi+CSp91A==
-X-CSE-MsgGUID: +SSXh9CUT8WqQhfKw1Txwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="64365916"
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="64365916"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 06:28:22 -0700
-X-CSE-ConnectionGUID: Iw25CZFUTu6zVFZ2RI12yg==
-X-CSE-MsgGUID: I83DhEnFQR6d2iC6ZLqjhg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="152084453"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 24 Jun 2025 06:28:21 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uU3hC-000SA2-2p;
-	Tue, 24 Jun 2025 13:28:18 +0000
-Date: Tue, 24 Jun 2025 21:27:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 11/11] ARM: dts: mediatek: add basic support for Lenovo
- A369i board
-Message-ID: <202506242338.0yhy5VZa-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mKZESJPk"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-73ac5680bb0so112625a34.3
+        for <oe-kbuild@lists.linux.dev>; Tue, 24 Jun 2025 06:37:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750772261; x=1751377061; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wpNGwNorSJRHHGcPXLQ8fs2LYNu4R8xKyEQ7qynXL3M=;
+        b=mKZESJPkd+imfI9PY1tn/4NlEjMolNLbD4xavPnUCkuq752JZDfVUMi4EbX5aJUpNO
+         qGRBtGFFR87dU0wZHVsVqYgGwd8YHUATtvjEuXkdvbYlaNxlQmX+J+AMmRG1ujkiSVur
+         251r48E7wJfJ/eIDq6lC/6eb7TmUDb2ti3N8LrdgchnjD93CqDZ0OFEHKUEtn0fuWMrW
+         3PMNaeYLVVLP34eD24+aU8Shl+v9B2ZrUaCb2huJkGboRtaxRUWfUU3X3xlHJFgan2Z5
+         hp3MRNL9uRwQUg8f1CC0+rVbkD0WgWnTK2/lsHw9HCt8Wbm+7WiuVVE5x33DCmGMOFAx
+         YFwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750772261; x=1751377061;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wpNGwNorSJRHHGcPXLQ8fs2LYNu4R8xKyEQ7qynXL3M=;
+        b=KiQ6DNNjQ+lzRqEywIFyDeMSf62eqKaCOsuC487roBDEprISrSczmAWrfvSq8CgRni
+         dyuUHAXBwhsB9cRysKat+9FECuXpHjgR/rYxopBRfIrRsdma5U48xygQ0p0XADtCYmVG
+         lqCfU48qPKMlrVXMRg6nNAQFkYI5OiaUa0BxZp1Wg1GlmAovjLpIeBSikJwQsKfBDG8X
+         RtysgwIvgIftEcDyJFBnfE2Ds5kfgNDy+9vzFDmr7VqchzG+xrdh6BXOjkBnycZGZdW2
+         fibUigd2GbBVSbTiCf15warZIaL4iAICSa6S+yTSZNecBSZXjGQ7uKGbDQo/NJnh3Ysn
+         DMlw==
+X-Gm-Message-State: AOJu0YxbS1W/QnGbSRxXp6LSDa9g8O1KGAhGmmu1EQoXRk+Tza3biVtK
+	RClVGGG+aMXCTwIo7rEr4iSgmPFNHtT7bsIHMYipRszGVSPlobNp+IuUGpTYBMcLRD+N5Un6WsH
+	O1fsB
+X-Gm-Gg: ASbGncuTvfssC/ClN/pRONOA+TYVmwoPN/2qPISjARVtTCaYuuW/s04klX86NDH2zZS
+	k1q79AAVaUg105XoRgcdXurVkLR+JV0JFUOxPHF2mzUq3vmkCy32X3+sX78CgkORrWpYVlIAw4r
+	Q7U3iLDCIrdOKKXj25G+uXxu3kNfsmGKK8tx2c6x+4cUx54ve5/kI3/gcE24TpxwE95Vc0gUuig
+	/MKAkX33h4qZ3oQnDMR4MepRlKw5uZzZmF6YNc/BEold44Q7ND9mduYnCH5v7FWR2TdLbFdl+SF
+	fnrEusOX0fG6aMxJvGj0t/mqNCG+RK+xZPYX4ii1HoQGWkDqiz437Vf6bKG/4dtAVlzrHQ==
+X-Google-Smtp-Source: AGHT+IGP56xPtHiCZXhQKN8Uu2rZMFi/qagY8sczFmEtrJpJ17nQfRRSLKweF5R/GISgkaBHUgpwwg==
+X-Received: by 2002:a05:6830:840d:b0:734:f5e2:8cbc with SMTP id 46e09a7af769-73a91d24190mr7043470a34.18.1750772261285;
+        Tue, 24 Jun 2025 06:37:41 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:8c3f:8b5f:5c74:76a9])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a908bc982sm1849930a34.0.2025.06.24.06.37.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jun 2025 06:37:40 -0700 (PDT)
+Date: Tue, 24 Jun 2025 16:37:38 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Badal Nilawar <badal.nilawar@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 02/10] mei: late_bind: add late binding component
+ driver
+Message-ID: <b92f6d9d-974f-4309-8d83-e6d737e1c41b@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,116 +71,69 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250618190007.2932322-3-badal.nilawar@intel.com>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250620-mt6572-v1-11-e2d47820f042@proton.me>
-References: <20250620-mt6572-v1-11-e2d47820f042@proton.me>
-TO: Max Shevchenko via B4 Relay <devnull+wctrl.proton.me@kernel.org>
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-TO: Jiri Slaby <jirislaby@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Matthias Brugger <matthias.bgg@gmail.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-TO: Thomas Gleixner <tglx@linutronix.de>
-TO: Daniel Lezcano <daniel.lezcano@linaro.org>
-TO: Wim Van Sebroeck <wim@linux-watchdog.org>
-TO: Guenter Roeck <linux@roeck-us.net>
-TO: Sean Wang <sean.wang@mediatek.com>
-TO: Russell King <linux@armlinux.org.uk>
-CC: linux-kernel@vger.kernel.org
-CC: linux-serial@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-mediatek@lists.infradead.org
-CC: linux-watchdog@vger.kernel.org
-CC: Max Shevchenko <wctrl@proton.me>
-
-Hi Max,
+Hi Badal,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 0ff41df1cb268fc69e703a08a57ee14ae967d0ca]
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Max-Shevchenko-via-B4-Relay/dt-bindings-serial-mediatek-uart-add-MT6572/20250620-234721
-base:   0ff41df1cb268fc69e703a08a57ee14ae967d0ca
-patch link:    https://lore.kernel.org/r/20250620-mt6572-v1-11-e2d47820f042%40proton.me
-patch subject: [PATCH 11/11] ARM: dts: mediatek: add basic support for Lenovo A369i board
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm-randconfig-051-20250621 (https://download.01.org/0day-ci/archive/20250624/202506242338.0yhy5VZa-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema version: 2025.6.1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506242338.0yhy5VZa-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Badal-Nilawar/mei-bus-add-mei_cldev_mtu-interface/20250619-025825
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250618190007.2932322-3-badal.nilawar%40intel.com
+patch subject: [PATCH v3 02/10] mei: late_bind: add late binding component driver
+config: i386-randconfig-141-20250623 (https://download.01.org/0day-ci/archive/20250624/202506241103.XiG3WA7g-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506242338.0yhy5VZa-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202506241103.XiG3WA7g-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/mediatek/mt6572-lenovo-a369i.dts:22.37-30.5: Warning (unit_address_vs_reg): /chosen/framebuffer@9fa00000: node has a unit name, but no reg or ranges property
->> arch/arm/boot/dts/mediatek/mt6572-lenovo-a369i.dts:33.9-36.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
->> arch/arm/boot/dts/mediatek/mt6572-lenovo-a369i.dts:17.9-31.4: Warning (avoid_unnecessary_addr_size): /chosen: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm/boot/dts/mediatek/mt6572-lenovo-a369i.dtb: / (lenovo,a369i): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[2147483648, 536870912]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+smatch warnings:
+drivers/misc/mei/late_bind/mei_late_bind.c:203 mei_late_bind_component_match() warn: was && intended here instead of ||?
 
-vim +22 arch/arm/boot/dts/mediatek/mt6572-lenovo-a369i.dts
+vim +203 drivers/misc/mei/late_bind/mei_late_bind.c
 
-e710ca083692cb Max Shevchenko 2025-06-20   8  
-e710ca083692cb Max Shevchenko 2025-06-20   9  / {
-e710ca083692cb Max Shevchenko 2025-06-20  10  	model = "Lenovo A369i";
-e710ca083692cb Max Shevchenko 2025-06-20  11  	compatible = "lenovo,a369i", "mediatek,mt6572";
-e710ca083692cb Max Shevchenko 2025-06-20  12  
-e710ca083692cb Max Shevchenko 2025-06-20  13  	aliases {
-e710ca083692cb Max Shevchenko 2025-06-20  14  		serial0 = &uart0;
-e710ca083692cb Max Shevchenko 2025-06-20  15  	};
-e710ca083692cb Max Shevchenko 2025-06-20  16  
-e710ca083692cb Max Shevchenko 2025-06-20 @17  	chosen {
-e710ca083692cb Max Shevchenko 2025-06-20  18  		#address-cells = <1>;
-e710ca083692cb Max Shevchenko 2025-06-20  19  		#size-cells = <1>;
-e710ca083692cb Max Shevchenko 2025-06-20  20  		stdout-path = "serial0:921600n8";
-e710ca083692cb Max Shevchenko 2025-06-20  21  
-e710ca083692cb Max Shevchenko 2025-06-20 @22  		framebuffer: framebuffer@9fa00000 {
-e710ca083692cb Max Shevchenko 2025-06-20  23  			compatible = "simple-framebuffer";
-e710ca083692cb Max Shevchenko 2025-06-20  24  			memory-region = <&framebuffer_reserved>;
-e710ca083692cb Max Shevchenko 2025-06-20  25  			width = <480>;
-e710ca083692cb Max Shevchenko 2025-06-20  26  			height = <800>;
-e710ca083692cb Max Shevchenko 2025-06-20  27  			stride = <(480 * 2)>;
-e710ca083692cb Max Shevchenko 2025-06-20  28  			format = "r5g6b5";
-e710ca083692cb Max Shevchenko 2025-06-20  29  			status = "okay";
-e710ca083692cb Max Shevchenko 2025-06-20  30  		};
-e710ca083692cb Max Shevchenko 2025-06-20  31  	};
-e710ca083692cb Max Shevchenko 2025-06-20  32  
-e710ca083692cb Max Shevchenko 2025-06-20 @33  	memory {
-e710ca083692cb Max Shevchenko 2025-06-20  34  		device_type = "memory";
-e710ca083692cb Max Shevchenko 2025-06-20  35  		reg = <0x80000000 0x20000000>;
-e710ca083692cb Max Shevchenko 2025-06-20  36  	};
-e710ca083692cb Max Shevchenko 2025-06-20  37  
-e710ca083692cb Max Shevchenko 2025-06-20  38  	reserved-memory {
-e710ca083692cb Max Shevchenko 2025-06-20  39  		#address-cells = <1>;
-e710ca083692cb Max Shevchenko 2025-06-20  40  		#size-cells = <1>;
-e710ca083692cb Max Shevchenko 2025-06-20  41  		ranges;
-e710ca083692cb Max Shevchenko 2025-06-20  42  
-e710ca083692cb Max Shevchenko 2025-06-20  43  		connsys@80000000 {
-e710ca083692cb Max Shevchenko 2025-06-20  44  			reg = <0x80000000 0x100000>;
-e710ca083692cb Max Shevchenko 2025-06-20  45  			no-map;
-e710ca083692cb Max Shevchenko 2025-06-20  46  		};
-e710ca083692cb Max Shevchenko 2025-06-20  47  
-e710ca083692cb Max Shevchenko 2025-06-20  48  		framebuffer_reserved: framebuffer@9fa00000 {
-e710ca083692cb Max Shevchenko 2025-06-20  49  			reg = <0x9fa00000 0x600000>;
-e710ca083692cb Max Shevchenko 2025-06-20  50  			no-map;
-e710ca083692cb Max Shevchenko 2025-06-20  51  		};
-e710ca083692cb Max Shevchenko 2025-06-20  52  	};
-e710ca083692cb Max Shevchenko 2025-06-20  53  };
-e710ca083692cb Max Shevchenko 2025-06-20  54  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  186  static int mei_late_bind_component_match(struct device *dev, int subcomponent,
+b4fe758cb831cd Alexander Usyskin 2025-06-19  187  					 void *data)
+b4fe758cb831cd Alexander Usyskin 2025-06-19  188  {
+b4fe758cb831cd Alexander Usyskin 2025-06-19  189  	struct device *base = data;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  190  	struct pci_dev *pdev;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  191  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  192  	if (!dev)
+b4fe758cb831cd Alexander Usyskin 2025-06-19  193  		return 0;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  194  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  195  	if (!dev_is_pci(dev))
+b4fe758cb831cd Alexander Usyskin 2025-06-19  196  		return 0;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  197  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  198  	pdev = to_pci_dev(dev);
+b4fe758cb831cd Alexander Usyskin 2025-06-19  199  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  200  	if (pdev->vendor != PCI_VENDOR_ID_INTEL)
+b4fe758cb831cd Alexander Usyskin 2025-06-19  201  		return 0;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  202  
+b4fe758cb831cd Alexander Usyskin 2025-06-19 @203  	if (pdev->class != (PCI_CLASS_DISPLAY_VGA << 8) ||
+
+This || should be &&.  Currently the function will always return 0.
+
+b4fe758cb831cd Alexander Usyskin 2025-06-19  204  	    pdev->class != (PCI_CLASS_DISPLAY_OTHER << 8))
+b4fe758cb831cd Alexander Usyskin 2025-06-19  205  		return 0;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  206  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  207  	if (subcomponent != I915_COMPONENT_LATE_BIND)
+b4fe758cb831cd Alexander Usyskin 2025-06-19  208  		return 0;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  209  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  210  	base = base->parent;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  211  	if (!base) /* mei device */
+b4fe758cb831cd Alexander Usyskin 2025-06-19  212  		return 0;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  213  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  214  	base = base->parent; /* pci device */
+b4fe758cb831cd Alexander Usyskin 2025-06-19  215  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  216  	return !!base && dev == base;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  217  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
