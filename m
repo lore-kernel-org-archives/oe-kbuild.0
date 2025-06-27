@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16361C84C6
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Jun 2025 18:28:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E492BAF9
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Jun 2025 19:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751048916; cv=none; b=p0v4MqtLT4ptQ9Mlbebw26GhhaZYXkRdW1CgKO0tpBjPX97jOKxmMqmLxW+ggt42OBv+cr+vmN5uS+tJLEE2YIq414ABiJtR1xBA+DiCThuutqOIsc/VE5r91D6/alO0gxcZA7OY9Nhev8ukKLyn63lc/psZ9JjjXCrr1SeaTGE=
+	t=1751050841; cv=none; b=csg5EOUlh2dJSAYitdiF4xlMcWDvb9yZjDAuJMGapM5grwaETomokhexcFSK+pwl7IsINLQAGR3OJfawvwrTvd3QYdnHGZVVamTmE3av2Z+gECSeRW3OEduNyEnZQfV/gcvUzxhSeJSZKsm7yhAFy4GIJF8Jlihb0Rxvqqk4aec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751048916; c=relaxed/simple;
-	bh=WfSI3hncEVOd1gNms0kgP2Ci8OJKGNeguav5i656bdc=;
+	s=arc-20240116; t=1751050841; c=relaxed/simple;
+	bh=yW4GlbWMeO1GeMZkgaW+8LZ8S5xhHkFo37210fDj9F4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jKKKOVZwPBZqht2InmrxZPq7JPatTSoanDoBot34N33SBdlrdDESiN/ajYiztF9bGj7e+5hTqzoOYB2CfZbnQV2p7c+EoQD7TE2pjI+x3T3p4Krz97vleHQlA6/ywZ/i9E8rHrKWBu2cD5MAs8VyBl4GWKhkI3SjpVdMxmRD6l4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQOT+Yru; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=YTUWwRqsmujwf/4nEomPqq2fckzBRoVAzneSzyBbsufrx/He8qVI7Sdkc2F5i75ibTk4iHRVtDL4YevYFy5iZroD6Gt/M7kfcnDVmBzy4WBPWGy1P8APryDXuGnRvvsPqLG2mJtA6VjWbPnAQ/jQOHBXkucNLG8reMom8yhMhFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpTJKD5M; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQOT+Yru"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpTJKD5M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751048915; x=1782584915;
+  t=1751050840; x=1782586840;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WfSI3hncEVOd1gNms0kgP2Ci8OJKGNeguav5i656bdc=;
-  b=VQOT+YruAVSC+lSn50ebs3Qt58WpgvOdU2nNy1PybNKotey70+X2RPVG
-   TSghO1FbYJacqvO/d/OQ9DC1gYi/NWCroQ+cGYy8AXhRO4ZIa3PYlo4Kb
-   eZQVYpymWrnGeHi8x+zYsXAUOftoHKMjind+PoGtE2QBOh8BtjwEbtxFJ
-   Ob+HttTEI3EfgRJwvFW3WrAbEKCBEDA5smrg/c+FyqeAXXxSyt0bctkma
-   rAo00xtf4p+pt+iI/6y4nLJj89iqpKjI08E6SS/9W4MTUf3Vrv0miXe3o
-   sLdhTwpa3bjT9loUfFmisvrBfEjW1gzQLTJpYKt0Qd+Q7CuSv1as6GHzb
-   g==;
-X-CSE-ConnectionGUID: Xa+cDIvISDaakL4WNS92rw==
-X-CSE-MsgGUID: JZ2pZhWcSNW/ng7MC6wFcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="57152715"
+  bh=yW4GlbWMeO1GeMZkgaW+8LZ8S5xhHkFo37210fDj9F4=;
+  b=hpTJKD5Mi4diU2+/s2g/n52yVLavjIJoAcrKbXyRh+tXyeHaLkdCJiTR
+   oN9Kc2onLkH4UKtuSDpffxxfFk3sL+Bxef738dnceO+BCLS149G3lXvvN
+   QaqlraQTz7UGAFlt/RITXXAZMR6b7AlhpS4RBUh1xk5gZ/pzp4/+Kr45S
+   Lm9ft4erm7q6WrXjk1i3HagzzS6k3Chv/S5v2ObstJPhJ8WHQVEkVjeYC
+   bA/LDNS0HBy0XoPjwV/HOZwDE+ZriLZj1gixQhy52D5QoW+g1uhUp7/vQ
+   LXoVd6ADB3vZlLMlBgt07+kwpHn2ESwHjqQ93Byi4NmPLzWe3tSU41RaI
+   w==;
+X-CSE-ConnectionGUID: ILiT05CTRCWbMAgCO4zOXg==
+X-CSE-MsgGUID: UUbwKIaLSG6JYv8DFbjXTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="64724153"
 X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
-   d="scan'208";a="57152715"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 11:28:35 -0700
-X-CSE-ConnectionGUID: quoFCSN9Qj6sLUwAcmRjRg==
-X-CSE-MsgGUID: cSFjT0UYSfSrn9dUx1q/ew==
+   d="scan'208";a="64724153"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 12:00:37 -0700
+X-CSE-ConnectionGUID: AKaJHkJRQE+Pa2NhOwwhIw==
+X-CSE-MsgGUID: nnj/LvsCQ2Wq9pdOW0Lz1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
-   d="scan'208";a="190055040"
+   d="scan'208";a="158611669"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 27 Jun 2025 11:28:33 -0700
+  by orviesa005.jf.intel.com with ESMTP; 27 Jun 2025 12:00:36 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVDoM-000WSk-1p;
-	Fri, 27 Jun 2025 18:28:30 +0000
-Date: Sat, 28 Jun 2025 02:27:55 +0800
+	id 1uVEJM-000WTW-2b;
+	Fri, 27 Jun 2025 19:00:32 +0000
+Date: Sat, 28 Jun 2025 02:59:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 5459/5998] fs/bcachefs/btree_update.c:371
- __btree_trans_update_by_path() error: uninitialized symbol 'cmp'.
-Message-ID: <202506280217.Pq2Hur19-lkp@intel.com>
+Subject: Re: [PATCH v2 4/6] regulator: Add support for MediaTek MT6363 SPMI
+ PMIC Regulators
+Message-ID: <202506280258.somyWWgp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,79 +64,113 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+In-Reply-To: <20250624073548.29732-5-angelogioacchino.delregno@collabora.com>
+References: <20250624073548.29732-5-angelogioacchino.delregno@collabora.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: broonie@kernel.org
+CC: lgirdwood@gmail.com
+CC: robh@kernel.org
+CC: krzk+dt@kernel.org
+CC: conor+dt@kernel.org
+CC: matthias.bgg@gmail.com
+CC: angelogioacchino.delregno@collabora.com
+CC: linux-kernel@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-mediatek@lists.infradead.org
+CC: kernel@collabora.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2aeda9592360c200085898a258c4754bfe879921
-commit: d8dbafa23ed3dc07924ec45c78e866eecfbded7e [5459/5998] bcachefs: Evict/bypass key cache when deleting
-:::::: branch date: 9 hours ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20250627 (https://download.01.org/0day-ci/archive/20250628/202506280217.Pq2Hur19-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+Hi AngeloGioacchino,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-regulator/for-next]
+[also build test WARNING on linus/master v6.16-rc3 next-20250627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-regulator-Document-MediaTek-MT6316-PMIC-Regulators/20250624-154048
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20250624073548.29732-5-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v2 4/6] regulator: Add support for MediaTek MT6363 SPMI PMIC Regulators
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-161-20250627 (https://download.01.org/0day-ci/archive/20250628/202506280258.somyWWgp-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202506280217.Pq2Hur19-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506280258.somyWWgp-lkp@intel.com/
 
-smatch warnings:
-fs/bcachefs/btree_update.c:371 __btree_trans_update_by_path() error: uninitialized symbol 'cmp'.
+New smatch warnings:
+drivers/regulator/mt6363-regulator.c:351 mt6363_regulator_set_mode() error: uninitialized symbol 'regmap'.
+drivers/regulator/mt6363-regulator.c:388 mt6363_regulator_set_mode() error: uninitialized symbol 'ret'.
 
-vim +/cmp +371 fs/bcachefs/btree_update.c
+Old smatch warnings:
+drivers/regulator/mt6363-regulator.c:367 mt6363_regulator_set_mode() error: uninitialized symbol 'regmap'.
+drivers/regulator/mt6363-regulator.c:376 mt6363_regulator_set_mode() error: uninitialized symbol 'regmap'.
+drivers/regulator/mt6363-regulator.c:382 mt6363_regulator_set_mode() error: uninitialized symbol 'regmap'.
 
-8079aab085f220 Kent Overstreet 2023-08-05  360  
-8079aab085f220 Kent Overstreet 2023-08-05  361  	/*
-8079aab085f220 Kent Overstreet 2023-08-05  362  	 * Pending updates are kept sorted: first, find position of new update,
-8079aab085f220 Kent Overstreet 2023-08-05  363  	 * then delete/trim any updates the new update overwrites:
-8079aab085f220 Kent Overstreet 2023-08-05  364  	 */
-559e6c23367f4c Kent Overstreet 2023-12-16  365  	for (i = trans->updates; i < trans->updates + trans->nr_updates; i++) {
-8079aab085f220 Kent Overstreet 2023-08-05  366  		cmp = btree_insert_entry_cmp(&n, i);
-8079aab085f220 Kent Overstreet 2023-08-05  367  		if (cmp <= 0)
-8079aab085f220 Kent Overstreet 2023-08-05  368  			break;
-8079aab085f220 Kent Overstreet 2023-08-05  369  	}
-8079aab085f220 Kent Overstreet 2023-08-05  370  
-32ed4a620c5405 Kent Overstreet 2022-08-10 @371  	bool overwrite = !cmp && i < trans->updates + trans->nr_updates;
-32ed4a620c5405 Kent Overstreet 2022-08-10  372  
-32ed4a620c5405 Kent Overstreet 2022-08-10  373  	if (overwrite) {
-8079aab085f220 Kent Overstreet 2023-08-05  374  		EBUG_ON(i->insert_trigger_run || i->overwrite_trigger_run);
-8079aab085f220 Kent Overstreet 2023-08-05  375  
-7f9821a7c10bca Kent Overstreet 2023-12-10  376  		bch2_path_put(trans, i->path, true);
-8079aab085f220 Kent Overstreet 2023-08-05  377  		i->flags	= n.flags;
-8079aab085f220 Kent Overstreet 2023-08-05  378  		i->cached	= n.cached;
-8079aab085f220 Kent Overstreet 2023-08-05  379  		i->k		= n.k;
-8079aab085f220 Kent Overstreet 2023-08-05  380  		i->path		= n.path;
-8079aab085f220 Kent Overstreet 2023-08-05  381  		i->ip_allocated	= n.ip_allocated;
-8079aab085f220 Kent Overstreet 2023-08-05  382  	} else {
-8079aab085f220 Kent Overstreet 2023-08-05  383  		array_insert_item(trans->updates, trans->nr_updates,
-8079aab085f220 Kent Overstreet 2023-08-05  384  				  i - trans->updates, n);
-8079aab085f220 Kent Overstreet 2023-08-05  385  
-8079aab085f220 Kent Overstreet 2023-08-05  386  		i->old_v = bch2_btree_path_peek_slot_exact(path, &i->old_k).v;
-8079aab085f220 Kent Overstreet 2023-08-05  387  		i->old_btree_u64s = !bkey_deleted(&i->old_k) ? i->old_k.u64s : 0;
-8079aab085f220 Kent Overstreet 2023-08-05  388  
-8079aab085f220 Kent Overstreet 2023-08-05  389  		if (unlikely(trans->journal_replay_not_finished)) {
-8079aab085f220 Kent Overstreet 2023-08-05  390  			struct bkey_i *j_k =
-8079aab085f220 Kent Overstreet 2023-08-05  391  				bch2_journal_keys_peek_slot(c, n.btree_id, n.level, k->k.p);
-8079aab085f220 Kent Overstreet 2023-08-05  392  
-8079aab085f220 Kent Overstreet 2023-08-05  393  			if (j_k) {
-8079aab085f220 Kent Overstreet 2023-08-05  394  				i->old_k = j_k->k;
-8079aab085f220 Kent Overstreet 2023-08-05  395  				i->old_v = &j_k->v;
-8079aab085f220 Kent Overstreet 2023-08-05  396  			}
-8079aab085f220 Kent Overstreet 2023-08-05  397  		}
-8079aab085f220 Kent Overstreet 2023-08-05  398  	}
-8079aab085f220 Kent Overstreet 2023-08-05  399  
-abbfc4db50e27a Kent Overstreet 2024-07-16  400  	__btree_path_get(trans, trans->paths + i->path, true);
-8079aab085f220 Kent Overstreet 2023-08-05  401  
-32ed4a620c5405 Kent Overstreet 2022-08-10  402  	trace_update_by_path(trans, path, i, overwrite);
-d8dbafa23ed3dc Kent Overstreet 2025-06-24  403  	return i;
-d8dbafa23ed3dc Kent Overstreet 2025-06-24  404  }
-d8dbafa23ed3dc Kent Overstreet 2025-06-24  405  
+vim +/regmap +351 drivers/regulator/mt6363-regulator.c
 
-:::::: The code at line 371 was first introduced by commit
-:::::: 32ed4a620c5405be73a59c6407bd2c6dae9d50c3 bcachefs: Btree path tracepoints
-
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  341  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  342  static int mt6363_regulator_set_mode(struct regulator_dev *rdev,
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  343  				     unsigned int mode)
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  344  {
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  345  	struct mt6363_regulator_info *info = rdev_get_drvdata(rdev);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  346  	struct regmap *regmap;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  347  	int cur_mode, ret;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  348  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  349  	switch (mode) {
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  350  	case REGULATOR_MODE_FAST:
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24 @351  		ret = mt6363_buck_unlock(regmap, true);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  352  		if (ret)
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  353  			break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  354  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  355  		ret = regmap_set_bits(regmap, info->modeset_reg, info->modeset_mask);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  356  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  357  		mt6363_buck_unlock(regmap, false);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  358  		break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  359  	case REGULATOR_MODE_NORMAL:
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  360  		cur_mode = mt6363_regulator_get_mode(rdev);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  361  		if (cur_mode < 0) {
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  362  			ret = cur_mode;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  363  			break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  364  		}
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  365  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  366  		if (cur_mode == REGULATOR_MODE_FAST) {
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  367  			ret = mt6363_buck_unlock(regmap, true);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  368  			if (ret)
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  369  				break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  370  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  371  			ret = regmap_clear_bits(regmap, info->modeset_reg, info->modeset_mask);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  372  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  373  			mt6363_buck_unlock(regmap, false);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  374  			break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  375  		} else if (cur_mode == REGULATOR_MODE_IDLE) {
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  376  			ret = regmap_clear_bits(regmap, info->lp_mode_reg, info->lp_mode_mask);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  377  			if (ret == 0)
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  378  				usleep_range(100, 200);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  379  		}
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  380  		break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  381  	case REGULATOR_MODE_IDLE:
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  382  		ret = regmap_set_bits(regmap, info->lp_mode_reg, info->lp_mode_mask);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  383  		break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  384  	default:
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  385  		ret = -EINVAL;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  386  	}
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  387  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24 @388  	if (ret) {
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  389  		dev_err(&rdev->dev, "Failed to set mode %u: %d\n", mode, ret);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  390  		return ret;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  391  	}
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  392  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  393  	return 0;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  394  }
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  395  
 
 -- 
 0-DAY CI Kernel Test Service
