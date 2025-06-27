@@ -1,67 +1,57 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B9928A1EE
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Jun 2025 21:41:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62292CCA9
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Jun 2025 23:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751060504; cv=none; b=i4Xq1AqZlwp/JP1b0Rz/SLe9zJGzVDB+1rNx/9wC/2ZTEI3Thb0V6wIY3odHSHDMVO+YacLk2AqrRpHOY1KXvtAOCfg7jNn2dmMUMWwU64d7OVc6hORNDfyxTlqLlcw0rLKNKPl/IXD+NOrkMtw1Pt+C8bzxNb2r+KR+yDIti/I=
+	t=1751065439; cv=none; b=iBOpk20hI8kJFZKmwEJ5zpHsfzSV7bHAzxJaILWaCntn9BiVp3YYxa2AtmvT+ko4YuRzGvE3uCOQ0c8gI+f8BpwcS6n5CyYScHvzHNpbctp/49nWRSAUxz+KE6gnLySJgELasSq/ZKPs4aWz4rTIOdDdjrsj3DmM50OgSCOBXBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751060504; c=relaxed/simple;
-	bh=NYtk8M39yXKnfiu1ICE4qoVuCladpZZV45cFgl6dXlE=;
+	s=arc-20240116; t=1751065439; c=relaxed/simple;
+	bh=d8D2gP9JflA+Z179sGsKppXZNYpt4BsRPrPc6vPsVco=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Vb2Uj3Zc6C17pu17IlLWpRrKErFL0fPjshNNV/6u/BerGCetZrXTbAD23vImqAh8oJHvnq1+Lxi5FFyqlk48q69MjYzVTGmJ6rfV390LLryyuzsSTS0CYHzLmUmV9ihNPVsBG2nUy7hqv2onrERNP2ggouY/FWJKp00zUmahZUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oDkfVd6o; arc=none smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=J747TLkxaOUMl7q5PQlY2b4KsZW2nj2gLOsdW5aV8CGaJNBAfv+LpvzyVxjZBT0HuF1jXjHbj+AI+Qj9AgazsEA1SriPNpTRgzr93nRIz0mUE+5Q1XpwTexDbN432hXrT+/1kXfwCdOywv0/zn7GjonQTduXFqk9DANxoHcXv94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hr6V+MEV; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oDkfVd6o"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-60d666804ebso1891556eaf.1
-        for <oe-kbuild@lists.linux.dev>; Fri, 27 Jun 2025 14:41:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751060500; x=1751665300; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=J1fXy6FRhTbbi+8IsBVYmrkApFTU+grleJe/y7M2JmI=;
-        b=oDkfVd6oVYvsqq57EJf31h9CyQNuCEMAyZzZZarhfTde6aCkw0fG9DfCydDWfm5r09
-         khE2rU+9WTMLfAnNUmkSSTbOrYovgBkSyUlUVEmxWksqrWDva4jBPKFyLTILsSEMtHSx
-         mS62Us9jkO+vB88YT7PIJD0JMEXszspbshbsfWyCPyRBiTZE27ZgqL04V8f/Vg9zmNwI
-         590ZyKAA+4kLJya8EYL86EfOephCwxDJuXhsZxq3gJce6AMcz/0yu3LHjcP7M1hGQZfx
-         J+8SAdPNpiega2Qu3W98C2WUg6+3L8aEMDHDqsdqFIqWu7HvjTPE+jwwG4pnte5Nbory
-         YRNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751060500; x=1751665300;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J1fXy6FRhTbbi+8IsBVYmrkApFTU+grleJe/y7M2JmI=;
-        b=nJFpGtVE9JlQQI9NsjM3v0/5Wzq3pLvnJVEto0jW6KMzxTmyAf+px8gPIg0rUjYcco
-         sXr3Djx7X7W643kqndIjIqXiAPmiqLaHPSTrZQGcGb5p4xFT/MQ4ftt53cfTOeQgJFe7
-         xjjjVad/s19wqAjxTetPr/TkZu+Q0taAmNSfz4uH2tQP7QcjV5TMwEumR7OV15nm1y3l
-         o8YQuUHLrH3eUX4PKiDK+EJ2nXjK1Kf8xODRnwl2w41QEBrHmK75J0340zxDgKNHIa6j
-         MVpD5H3WxHAUr3hKvgLZZtwcoYtCIH1ffVKv64bxPBPfh6s010oQHDagg2buHYdiIuut
-         7zaw==
-X-Gm-Message-State: AOJu0YyfA9L+EoJuGc0rWo8S086ShZxOpCjlHjRD9eDJBoz50bmtHrDi
-	EH1WLjs8Ogp96yOPACDZTXpgRLInkt3SGIbis8+8FMcLNMKwT8H3sgtNTcqGRwWyuWTRK8V2myc
-	gDBPM9DE=
-X-Gm-Gg: ASbGncslDcQTxJ1W9XIP+5XeJcMLW3aCmvWsgRFbWU1rThD2W7GEyv80IKK7WyKcW2y
-	D52tjhuYF/pwewiybit79q/0xGIGCnXBoy1i4HVW4LAEMDft/R+eodAWQ4BDQaaoaRtFTOJNkUf
-	IijqFN6Aln+aC9EREaJ7tZ/fTkk0M56KQ/lwEQm9gVo3ZfS3mLic3JPx5UXU8QB4JaKypKSN2K8
-	H1dCFg9/OSnQF6MLEGC1i7PxQdkJtgs0zglUK60dehr9aaTuI5agL8U2Nyz8gSb+/lV8WqP/GHS
-	NvBC4zkatBEz4L+4MzWssXH1ymDHMaHR/vc5qNqd01HlQFhaSoGebs5boqOu0qar70Xz7Q==
-X-Google-Smtp-Source: AGHT+IGm9VN0jQzOnPNshOP1xXBcfWTM+rCNUm1jZDI7araoiPvZx0sPQo2pmdZdBLXePTf9ULNRtg==
-X-Received: by 2002:a05:6871:5207:b0:2e9:5d01:effc with SMTP id 586e51a60fabf-2efcedefd56mr6125495fac.2.1751060499975;
-        Fri, 27 Jun 2025 14:41:39 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:f3a4:7b11:3bf4:5d7b])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2efd50b1a53sm1086207fac.31.2025.06.27.14.41.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 14:41:38 -0700 (PDT)
-Date: Sat, 28 Jun 2025 00:41:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] tpm: Cleanup class for tpm_buf
-Message-ID: <f5a3cddf-39a3-48ed-98ed-dbbdccac5cff@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hr6V+MEV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751065436; x=1782601436;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=d8D2gP9JflA+Z179sGsKppXZNYpt4BsRPrPc6vPsVco=;
+  b=Hr6V+MEV8oTOYwFPwCsVSo4j6W3EhTPQrKATlnbhfuowdN89c77M92TN
+   GhRaNC0p9+tIvFSL5xGdjiSZdZOLDQNOAF5t5N4v0YrZsx+QMgnbugxFy
+   mpbyrpoHOvoxZfvT5SvfeEcFYiGbG0cFA9bkfTyqedt0xaW1Lf0dwrfgq
+   5JV4ljKkIvlkB5Xn/p3W/2JiLPoIKQNZGj9gYZEpcFSy9VOdZUyzEGgIi
+   PAKMUKAtaWB/xOjVXos0wNKqRhBJKwxtEWrWzUNZv3Psm8vLoEcgSpm1m
+   U3tQ3JANS94/0vSOcKmUPrPFWEj5SGoSxYccinWSp1t3iSmjWw0fbiQq0
+   Q==;
+X-CSE-ConnectionGUID: MJoVXnUWTgGjfxdu2mdmUA==
+X-CSE-MsgGUID: Ely/XuPhR0ilJk/04sz8Qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="52502992"
+X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
+   d="scan'208";a="52502992"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 16:03:56 -0700
+X-CSE-ConnectionGUID: IN16vspaQCOgmrRCABs5yw==
+X-CSE-MsgGUID: 5bSLLDNARtOpwlyRdCvOYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
+   d="scan'208";a="152654087"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 27 Jun 2025 16:03:55 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uVI6q-000WbK-0Q;
+	Fri, 27 Jun 2025 23:03:52 +0000
+Date: Sat, 28 Jun 2025 07:03:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2] cxl/memdev: automate cleanup with __free()
+Message-ID: <202506280653.WmzTbwEN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,109 +60,160 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250626101935.1007898-1-jarkko@kernel.org>
 
-Hi Jarkko,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250623083841.364002-1-pranav.tyagi03@gmail.com>
+References: <20250623083841.364002-1-pranav.tyagi03@gmail.com>
+TO: Pranav Tyagi <pranav.tyagi03@gmail.com>
+TO: dave@stgolabs.net
+TO: jonathan.cameron@huawei.com
+TO: dave.jiang@intel.com
+TO: alison.schofield@intel.com
+TO: vishal.l.verma@intel.com
+TO: ira.weiny@intel.com
+TO: dan.j.williams@intel.com
+TO: linux-cxl@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: ming.li@zohomail.com
+CC: rrichter@amd.com
+CC: peterz@infradead.org
+CC: skhan@linuxfoundation.org
+CC: linux-kernel-mentees@lists.linux.dev
+CC: Pranav Tyagi <pranav.tyagi03@gmail.com>
+
+Hi Pranav,
 
 kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on cxl/next]
+[also build test WARNING on linus/master v6.16-rc3 next-20250627]
+[cannot apply to cxl/pending]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/tpm-Cleanup-class-for-tpm_buf/20250626-182148
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20250626101935.1007898-1-jarkko%40kernel.org
-patch subject: [PATCH v2] tpm: Cleanup class for tpm_buf
-config: x86_64-randconfig-161-20250627 (https://download.01.org/0day-ci/archive/20250628/202506280550.7lqjVBcB-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Pranav-Tyagi/cxl-memdev-automate-cleanup-with-__free/20250623-164014
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
+patch link:    https://lore.kernel.org/r/20250623083841.364002-1-pranav.tyagi03%40gmail.com
+patch subject: [PATCH v2] cxl/memdev: automate cleanup with __free()
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: x86_64-randconfig-161-20250627 (https://download.01.org/0day-ci/archive/20250628/202506280653.WmzTbwEN-lkp@intel.com/config)
 compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506280550.7lqjVBcB-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202506280653.WmzTbwEN-lkp@intel.com/
 
 smatch warnings:
-drivers/char/tpm/tpm2-cmd.c:575 tpm2_get_pcr_allocation() warn: iterator 'i' not incremented
+drivers/cxl/core/memdev.c:881 cxl_fw_write() error: uninitialized symbol 'transfer'.
+drivers/cxl/core/memdev.c:881 cxl_fw_write() error: uninitialized symbol 'transfer'.
 
-vim +/i +575 drivers/char/tpm/tpm2-cmd.c
+vim +/transfer +881 drivers/cxl/core/memdev.c
 
-fa4f99c05320eb2 Nayna Jain      2019-07-11  562  ssize_t tpm2_get_pcr_allocation(struct tpm_chip *chip)
-1db15344f874f65 Nayna Jain      2017-01-30  563  {
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  564  	CLASS_TPM_BUF(buf, PAGE_SIZE);
-1db15344f874f65 Nayna Jain      2017-01-30  565  	struct tpm2_pcr_selection pcr_selection;
-1db15344f874f65 Nayna Jain      2017-01-30  566  	void *marker;
-1db15344f874f65 Nayna Jain      2017-01-30  567  	void *end;
-1db15344f874f65 Nayna Jain      2017-01-30  568  	void *pcr_select_offset;
-1db15344f874f65 Nayna Jain      2017-01-30  569  	u32 sizeof_pcr_selection;
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  570  	u32 nr_possible_banks;
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  571  	u32 nr_alloc_banks = 0;
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  572  	u16 hash_alg;
-1db15344f874f65 Nayna Jain      2017-01-30  573  	u32 rsp_len;
-1db15344f874f65 Nayna Jain      2017-01-30  574  	int rc;
-1db15344f874f65 Nayna Jain      2017-01-30 @575  	int i = 0;
-1db15344f874f65 Nayna Jain      2017-01-30  576  
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  577  	if (!buf)
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  578  		return -ENOMEM;
-1db15344f874f65 Nayna Jain      2017-01-30  579  
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  580  	tpm_buf_reset(buf, TPM2_ST_NO_SESSIONS, TPM2_CC_GET_CAPABILITY);
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  581  	tpm_buf_append_u32(buf, TPM2_CAP_PCRS);
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  582  	tpm_buf_append_u32(buf, 0);
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  583  	tpm_buf_append_u32(buf, 1);
-1db15344f874f65 Nayna Jain      2017-01-30  584  
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  585  	rc = tpm_transmit_cmd(chip, buf, 9, "get tpm pcr allocation");
-1db15344f874f65 Nayna Jain      2017-01-30  586  	if (rc)
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  587  		return rc;
-1db15344f874f65 Nayna Jain      2017-01-30  588  
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  589  	nr_possible_banks = be32_to_cpup(
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  590  		(__be32 *)&buf->data[TPM_HEADER_SIZE + 5]);
-1db15344f874f65 Nayna Jain      2017-01-30  591  
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  592  	chip->allocated_banks = kcalloc(nr_possible_banks,
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  593  					sizeof(*chip->allocated_banks),
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  594  					GFP_KERNEL);
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  595  	if (!chip->allocated_banks)
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  596  		return -ENOMEM;
-1db15344f874f65 Nayna Jain      2017-01-30  597  
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  598  	marker = &buf->data[TPM_HEADER_SIZE + 9];
-1db15344f874f65 Nayna Jain      2017-01-30  599  
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  600  	rsp_len = be32_to_cpup((__be32 *)&buf->data[2]);
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  601  	end = &buf->data[rsp_len];
-1db15344f874f65 Nayna Jain      2017-01-30  602  
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  603  	return rc;
-                                                        ^^^^^^^^^^
-Presumably this was not intentional?
-
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  604  	for (i = 0; i < nr_possible_banks; i++) {
-1db15344f874f65 Nayna Jain      2017-01-30  605  		pcr_select_offset = marker +
-1db15344f874f65 Nayna Jain      2017-01-30  606  			offsetof(struct tpm2_pcr_selection, size_of_select);
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  607  		if (pcr_select_offset >= end)
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  608  			return -EFAULT;
-1db15344f874f65 Nayna Jain      2017-01-30  609  
-1db15344f874f65 Nayna Jain      2017-01-30  610  		memcpy(&pcr_selection, marker, sizeof(pcr_selection));
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  611  		hash_alg = be16_to_cpu(pcr_selection.hash_alg);
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  612  
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  613  		pcr_select_offset = memchr_inv(pcr_selection.pcr_select, 0,
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  614  					       pcr_selection.size_of_select);
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  615  		if (pcr_select_offset) {
-879b589210a9a0c Roberto Sassu   2019-02-06  616  			chip->allocated_banks[nr_alloc_banks].alg_id = hash_alg;
-879b589210a9a0c Roberto Sassu   2019-02-06  617  
-879b589210a9a0c Roberto Sassu   2019-02-06  618  			rc = tpm2_init_bank_info(chip, nr_alloc_banks);
-879b589210a9a0c Roberto Sassu   2019-02-06  619  			if (rc < 0)
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  620  				return rc;
-879b589210a9a0c Roberto Sassu   2019-02-06  621  
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  622  			nr_alloc_banks++;
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  623  		}
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  624  
-1db15344f874f65 Nayna Jain      2017-01-30  625  		sizeof_pcr_selection = sizeof(pcr_selection.hash_alg) +
-1db15344f874f65 Nayna Jain      2017-01-30  626  			sizeof(pcr_selection.size_of_select) +
-1db15344f874f65 Nayna Jain      2017-01-30  627  			pcr_selection.size_of_select;
-1db15344f874f65 Nayna Jain      2017-01-30  628  		marker = marker + sizeof_pcr_selection;
-1db15344f874f65 Nayna Jain      2017-01-30  629  	}
-1db15344f874f65 Nayna Jain      2017-01-30  630  
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  631  	chip->nr_allocated_banks = nr_alloc_banks;
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  632  	return 0;
-1db15344f874f65 Nayna Jain      2017-01-30  633  }
+9521875bbe0055 Vishal Verma 2023-06-14  873  
+9521875bbe0055 Vishal Verma 2023-06-14  874  static enum fw_upload_err cxl_fw_write(struct fw_upload *fwl, const u8 *data,
+9521875bbe0055 Vishal Verma 2023-06-14  875  				       u32 offset, u32 size, u32 *written)
+9521875bbe0055 Vishal Verma 2023-06-14  876  {
+aeaefabc59ec3c Dan Williams 2023-06-25  877  	struct cxl_memdev_state *mds = fwl->dd_handle;
+aeaefabc59ec3c Dan Williams 2023-06-25  878  	struct cxl_dev_state *cxlds = &mds->cxlds;
+8d8081cecfb994 Dave Jiang   2024-09-05  879  	struct cxl_mailbox *cxl_mbox = &cxlds->cxl_mbox;
+9521875bbe0055 Vishal Verma 2023-06-14  880  	struct cxl_memdev *cxlmd = cxlds->cxlmd;
+f76a702ca63e85 Pranav Tyagi 2025-06-23 @881  	struct cxl_mbox_transfer_fw *transfer __free(kfree);
+9521875bbe0055 Vishal Verma 2023-06-14  882  	struct cxl_mbox_cmd mbox_cmd;
+9521875bbe0055 Vishal Verma 2023-06-14  883  	u32 cur_size, remaining;
+9521875bbe0055 Vishal Verma 2023-06-14  884  	size_t size_in;
+9521875bbe0055 Vishal Verma 2023-06-14  885  	int rc;
+9521875bbe0055 Vishal Verma 2023-06-14  886  
+9521875bbe0055 Vishal Verma 2023-06-14  887  	*written = 0;
+9521875bbe0055 Vishal Verma 2023-06-14  888  
+9521875bbe0055 Vishal Verma 2023-06-14  889  	/* Offset has to be aligned to 128B (CXL-3.0 8.2.9.3.2 Table 8-57) */
+9521875bbe0055 Vishal Verma 2023-06-14  890  	if (!IS_ALIGNED(offset, CXL_FW_TRANSFER_ALIGNMENT)) {
+9521875bbe0055 Vishal Verma 2023-06-14  891  		dev_err(&cxlmd->dev,
+9521875bbe0055 Vishal Verma 2023-06-14  892  			"misaligned offset for FW transfer slice (%u)\n",
+9521875bbe0055 Vishal Verma 2023-06-14  893  			offset);
+9521875bbe0055 Vishal Verma 2023-06-14  894  		return FW_UPLOAD_ERR_RW_ERROR;
+9521875bbe0055 Vishal Verma 2023-06-14  895  	}
+9521875bbe0055 Vishal Verma 2023-06-14  896  
+9521875bbe0055 Vishal Verma 2023-06-14  897  	/*
+aeaefabc59ec3c Dan Williams 2023-06-25  898  	 * Pick transfer size based on mds->payload_size @size must bw 128-byte
+aeaefabc59ec3c Dan Williams 2023-06-25  899  	 * aligned, ->payload_size is a power of 2 starting at 256 bytes, and
+aeaefabc59ec3c Dan Williams 2023-06-25  900  	 * sizeof(*transfer) is 128.  These constraints imply that @cur_size
+aeaefabc59ec3c Dan Williams 2023-06-25  901  	 * will always be 128b aligned.
+9521875bbe0055 Vishal Verma 2023-06-14  902  	 */
+8d8081cecfb994 Dave Jiang   2024-09-05  903  	cur_size = min_t(size_t, size, cxl_mbox->payload_size - sizeof(*transfer));
+9521875bbe0055 Vishal Verma 2023-06-14  904  
+9521875bbe0055 Vishal Verma 2023-06-14  905  	remaining = size - cur_size;
+9521875bbe0055 Vishal Verma 2023-06-14  906  	size_in = struct_size(transfer, data, cur_size);
+9521875bbe0055 Vishal Verma 2023-06-14  907  
+aeaefabc59ec3c Dan Williams 2023-06-25  908  	if (test_and_clear_bit(CXL_FW_CANCEL, mds->fw.state))
+9521875bbe0055 Vishal Verma 2023-06-14  909  		return cxl_fw_do_cancel(fwl);
+9521875bbe0055 Vishal Verma 2023-06-14  910  
+9521875bbe0055 Vishal Verma 2023-06-14  911  	/*
+9521875bbe0055 Vishal Verma 2023-06-14  912  	 * Slot numbers are 1-indexed
+9521875bbe0055 Vishal Verma 2023-06-14  913  	 * cur_slot is the 0-indexed next_slot (i.e. 'cur_slot - 1 + 1')
+9521875bbe0055 Vishal Verma 2023-06-14  914  	 * Check for rollover using modulo, and 1-index it by adding 1
+9521875bbe0055 Vishal Verma 2023-06-14  915  	 */
+aeaefabc59ec3c Dan Williams 2023-06-25  916  	mds->fw.next_slot = (mds->fw.cur_slot % mds->fw.num_slots) + 1;
+9521875bbe0055 Vishal Verma 2023-06-14  917  
+9521875bbe0055 Vishal Verma 2023-06-14  918  	/* Do the transfer via mailbox cmd */
+9521875bbe0055 Vishal Verma 2023-06-14  919  	transfer = kzalloc(size_in, GFP_KERNEL);
+9521875bbe0055 Vishal Verma 2023-06-14  920  	if (!transfer)
+9521875bbe0055 Vishal Verma 2023-06-14  921  		return FW_UPLOAD_ERR_RW_ERROR;
+9521875bbe0055 Vishal Verma 2023-06-14  922  
+9521875bbe0055 Vishal Verma 2023-06-14  923  	transfer->offset = cpu_to_le32(offset / CXL_FW_TRANSFER_ALIGNMENT);
+9521875bbe0055 Vishal Verma 2023-06-14  924  	memcpy(transfer->data, data + offset, cur_size);
+aeaefabc59ec3c Dan Williams 2023-06-25  925  	if (mds->fw.oneshot) {
+9521875bbe0055 Vishal Verma 2023-06-14  926  		transfer->action = CXL_FW_TRANSFER_ACTION_FULL;
+aeaefabc59ec3c Dan Williams 2023-06-25  927  		transfer->slot = mds->fw.next_slot;
+9521875bbe0055 Vishal Verma 2023-06-14  928  	} else {
+9521875bbe0055 Vishal Verma 2023-06-14  929  		if (offset == 0) {
+9521875bbe0055 Vishal Verma 2023-06-14  930  			transfer->action = CXL_FW_TRANSFER_ACTION_INITIATE;
+9521875bbe0055 Vishal Verma 2023-06-14  931  		} else if (remaining == 0) {
+9521875bbe0055 Vishal Verma 2023-06-14  932  			transfer->action = CXL_FW_TRANSFER_ACTION_END;
+aeaefabc59ec3c Dan Williams 2023-06-25  933  			transfer->slot = mds->fw.next_slot;
+9521875bbe0055 Vishal Verma 2023-06-14  934  		} else {
+9521875bbe0055 Vishal Verma 2023-06-14  935  			transfer->action = CXL_FW_TRANSFER_ACTION_CONTINUE;
+9521875bbe0055 Vishal Verma 2023-06-14  936  		}
+9521875bbe0055 Vishal Verma 2023-06-14  937  	}
+9521875bbe0055 Vishal Verma 2023-06-14  938  
+9521875bbe0055 Vishal Verma 2023-06-14  939  	mbox_cmd = (struct cxl_mbox_cmd) {
+9521875bbe0055 Vishal Verma 2023-06-14  940  		.opcode = CXL_MBOX_OP_TRANSFER_FW,
+9521875bbe0055 Vishal Verma 2023-06-14  941  		.size_in = size_in,
+9521875bbe0055 Vishal Verma 2023-06-14  942  		.payload_in = transfer,
+9521875bbe0055 Vishal Verma 2023-06-14  943  		.poll_interval_ms = 1000,
+9521875bbe0055 Vishal Verma 2023-06-14  944  		.poll_count = 30,
+9521875bbe0055 Vishal Verma 2023-06-14  945  	};
+9521875bbe0055 Vishal Verma 2023-06-14  946  
+b5209da36b19b5 Dave Jiang   2024-09-05  947  	rc = cxl_internal_send_cmd(cxl_mbox, &mbox_cmd);
+9521875bbe0055 Vishal Verma 2023-06-14  948  	if (rc < 0) {
+9521875bbe0055 Vishal Verma 2023-06-14  949  		rc = FW_UPLOAD_ERR_RW_ERROR;
+f76a702ca63e85 Pranav Tyagi 2025-06-23  950  		return rc;
+9521875bbe0055 Vishal Verma 2023-06-14  951  	}
+9521875bbe0055 Vishal Verma 2023-06-14  952  
+9521875bbe0055 Vishal Verma 2023-06-14  953  	*written = cur_size;
+9521875bbe0055 Vishal Verma 2023-06-14  954  
+9521875bbe0055 Vishal Verma 2023-06-14  955  	/* Activate FW if oneshot or if the last slice was written */
+aeaefabc59ec3c Dan Williams 2023-06-25  956  	if (mds->fw.oneshot || remaining == 0) {
+9521875bbe0055 Vishal Verma 2023-06-14  957  		dev_dbg(&cxlmd->dev, "Activating firmware slot: %d\n",
+aeaefabc59ec3c Dan Williams 2023-06-25  958  			mds->fw.next_slot);
+aeaefabc59ec3c Dan Williams 2023-06-25  959  		rc = cxl_mem_activate_fw(mds, mds->fw.next_slot);
+9521875bbe0055 Vishal Verma 2023-06-14  960  		if (rc < 0) {
+9521875bbe0055 Vishal Verma 2023-06-14  961  			dev_err(&cxlmd->dev, "Error activating firmware: %d\n",
+9521875bbe0055 Vishal Verma 2023-06-14  962  				rc);
+9521875bbe0055 Vishal Verma 2023-06-14  963  			rc = FW_UPLOAD_ERR_HW_ERROR;
+f76a702ca63e85 Pranav Tyagi 2025-06-23  964  			return rc;
+9521875bbe0055 Vishal Verma 2023-06-14  965  		}
+9521875bbe0055 Vishal Verma 2023-06-14  966  	}
+9521875bbe0055 Vishal Verma 2023-06-14  967  
+9521875bbe0055 Vishal Verma 2023-06-14  968  	rc = FW_UPLOAD_ERR_NONE;
+9521875bbe0055 Vishal Verma 2023-06-14  969  	return rc;
+9521875bbe0055 Vishal Verma 2023-06-14  970  }
+9521875bbe0055 Vishal Verma 2023-06-14  971  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
