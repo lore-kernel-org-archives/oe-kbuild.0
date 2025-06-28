@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA311C549F
-	for <oe-kbuild@lists.linux.dev>; Sat, 28 Jun 2025 02:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5DC43AA1
+	for <oe-kbuild@lists.linux.dev>; Sat, 28 Jun 2025 02:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751078293; cv=none; b=LMqQ+pbp+d218nBpHXQeo9gWbXOX/MHTmgyivDVIC6vg+QYVudTmqtXDvSw7N81FDfkW5TYOM1fr6Ai4zlvKPJTp7SccHMzYwCY8WlWJ68aqk1nef/GdEduEZJz7tUYlEMkC3cfQIrnb4PsWFd6J4flTMyB1Wx1RKtR0iPlyV9Q=
+	t=1751079555; cv=none; b=MG9mXXPz5YCEU8hDqrwUHXt/VM3e/vPnFHhZCFB69yVuxtNGrB36NFgmQUu0BHM9SAnVhE9KaCGLggzQ+XDnDLsq25UWokwhP12ZXqRztFwmzy28vQwo1oGIYKvtQXdMQcXe6OKtZhi9PBi7yTJQ9TDIsTlE5lpjuy+k7oAoWKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751078293; c=relaxed/simple;
-	bh=/zrSTTEX5JMQ71RJXJPw6knukNei3uoUKFwcLsoYJiY=;
+	s=arc-20240116; t=1751079555; c=relaxed/simple;
+	bh=jU44crN9C8WimyXYgrgJqSfJ82KFlqhH2JwGqOyJQ9E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C9/w9sqMIBKphM+U8kX9CyPynHn1tjDEUgcvHsFJLXp8TBwbI+eFojvZPOgZxkPdi43vthQw427+mGAe4jFIDqZuZDlrJF8xdkvECeOJe2TAIDWUvx0REtXY6kh5VmsJt/Lmjs/HfmVfH0nYh6EEBUiltbgf4b+fPOCnLGcZEcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P6AhQfbw; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=cHfiinmd2BEfZ2QzRL+itL1AyCiF20Yk+26/R0nC7svdPr5hsQA3xuEI9u59lIc4akiowC1iPMjLUo1dw/j3zAoHpksxWohXuuOYfSTIKC0JwolQ8bgbj0y23XCRf176gIVVG0kReqP8wIsfz3XJLL+5DhH7RqcLxwqcHnKPuVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MQ+/PsKF; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P6AhQfbw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MQ+/PsKF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751078291; x=1782614291;
+  t=1751079553; x=1782615553;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/zrSTTEX5JMQ71RJXJPw6knukNei3uoUKFwcLsoYJiY=;
-  b=P6AhQfbwK4Sx7oXzozwNqQ4CvyNVxW1tESJRf9e9pIo7XsMZLnNEt6R4
-   2QU1vRLvhMBLVrgKuLzQ7y0UgNbuInQhcQkM0sscvtyNWNEYZgG6dt72J
-   fll+77OVAB/hFsHZ7WFZ/Prb7ommRlFPOlIBph2p7XAf0e7RFOVMiDIBN
-   /tC51eu1XnG5eH+nGOW2m+nryjd/htmxEj9t/F5dgILIuaTECl/AIGNuj
-   bjjSMIptNkTSCKu04iDq6fYX2NI8AEWl4rAOS3eszkeDG+C62+HWsm/V5
-   BilxRxlnLUBQ/bglmRpVniBYqjh6utZ4ApJnQnM8XWeNn7tSxrChnuYJz
-   Q==;
-X-CSE-ConnectionGUID: NNIb8aptRfO5/Q/TDMaZCQ==
-X-CSE-MsgGUID: BlJ7hVtkRBuPMkMlKs5qJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="63649431"
+  bh=jU44crN9C8WimyXYgrgJqSfJ82KFlqhH2JwGqOyJQ9E=;
+  b=MQ+/PsKFEsK7IYTiD6nZ6ZkwCkYlRex43p62LLcmw7vudRHm3FTA9ene
+   gE7fz3Yro/b0Xl89vCamEYnhpMcuTZv8bfCiSDaLCXLwweguUhxMd5VgL
+   f6nKQyg4qxCWvy5ME0oRMN/J/CuBsXAgKtsr/EskHuWM33Whs7tb+4jmY
+   aeBOd/XG4DSrEKtQwHKBwLdvKJh/qndD0h1BqBWgGMiLTUqPLZTf2z24l
+   Pu3S+UbpPhFeRlUzfnFtl/1KdTsRjw+tNigZHrmbKiGizWtPw4bItFmP/
+   8EEX6TUUq8Vu5nWN5atloXv7LOcC7Dr4QNkswJ9QpRBMaaxwL42PO+YRX
+   A==;
+X-CSE-ConnectionGUID: VEjESNw+SiKsvBzDjFGMwg==
+X-CSE-MsgGUID: BWvIoODQS5CUjhNP7TCLNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="64840227"
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="63649431"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 19:38:10 -0700
-X-CSE-ConnectionGUID: H37GRql3T6GEfM1P46bW0Q==
-X-CSE-MsgGUID: UcVEVWsvRXGqJw39Hr8/9A==
+   d="scan'208";a="64840227"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 19:59:12 -0700
+X-CSE-ConnectionGUID: 2D4vCO2XSgurTLRgRXkELQ==
+X-CSE-MsgGUID: Acywv0ecS6qfb3wYj4JZQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="176637402"
+   d="scan'208";a="153050947"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Jun 2025 19:38:09 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 27 Jun 2025 19:59:10 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVLSB-000WgE-0d;
-	Sat, 28 Jun 2025 02:38:07 +0000
-Date: Sat, 28 Jun 2025 10:37:24 +0800
+	id 1uVLmW-000Wga-1m;
+	Sat, 28 Jun 2025 02:59:08 +0000
+Date: Sat, 28 Jun 2025 10:59:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 02/12] ovl: Call ovl_create_temp() and ovl_create_index()
- without lock held.
-Message-ID: <202506281017.jeQF1pnr-lkp@intel.com>
+Subject: [linux-next:master 4169/4739]
+ arch/powerpc/mm/book3s64/hugetlbpage.c:77 __hash_page_huge() warn: bitwise
+ AND condition is false here
+Message-ID: <202506281041.f8nWX9Nt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,129 +65,153 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250624230636.3233059-3-neil@brown.name>
-References: <20250624230636.3233059-3-neil@brown.name>
-TO: NeilBrown <neil@brown.name>
-TO: Miklos Szeredi <miklos@szeredi.hu>
-TO: Amir Goldstein <amir73il@gmail.com>
-CC: linux-unionfs@vger.kernel.org
-CC: Alexander Viro <viro@zeniv.linux.org.uk>
-CC: Christian Brauner <brauner@kernel.org>
-CC: Jan Kara <jack@suse.cz>
-CC: linux-fsdevel@vger.kernel.org
+TO: Alistair Popple <apopple@nvidia.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Jason Gunthorpe <jgg@nvidia.com>
 
-Hi NeilBrown,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.16-rc3 next-20250627]
-[cannot apply to mszeredi-vfs/overlayfs-next mszeredi-vfs/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/ovl-use-is_subdir-for-testing-if-one-thing-is-a-subdir-of-another/20250625-070919
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250624230636.3233059-3-neil%40brown.name
-patch subject: [PATCH 02/12] ovl: Call ovl_create_temp() and ovl_create_index() without lock held.
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-161-20250627 (https://download.01.org/0day-ci/archive/20250628/202506281017.jeQF1pnr-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2aeda9592360c200085898a258c4754bfe879921
+commit: 9c8667518ca8e6d8bf752edb9d8131c284295a7e [4169/4739] powerpc: remove checks for devmap pages and PMDs/PUDs
+:::::: branch date: 18 hours ago
+:::::: commit date: 5 days ago
+config: powerpc64-randconfig-r072-20250627 (https://download.01.org/0day-ci/archive/20250628/202506281041.f8nWX9Nt-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202506281017.jeQF1pnr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506281041.f8nWX9Nt-lkp@intel.com/
 
 New smatch warnings:
-fs/overlayfs/dir.c:427 ovl_clear_empty() warn: passing zero to 'ERR_PTR'
+arch/powerpc/mm/book3s64/hugetlbpage.c:77 __hash_page_huge() warn: bitwise AND condition is false here
 
 Old smatch warnings:
-fs/overlayfs/dir.c:58 ovl_cleanup_unlocked() error: uninitialized symbol 'err'.
+arch/powerpc/include/asm/mmu.h:223 early_mmu_has_feature() warn: bitwise AND condition is false here
 
-vim +/ERR_PTR +427 fs/overlayfs/dir.c
+vim +77 arch/powerpc/mm/book3s64/hugetlbpage.c
 
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  352  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  353  static struct dentry *ovl_clear_empty(struct dentry *dentry,
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  354  				      struct list_head *list)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  355  {
-576bb263450bbb Christian Brauner 2022-04-04  356  	struct ovl_fs *ofs = OVL_FS(dentry->d_sb);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  357  	struct dentry *workdir = ovl_workdir(dentry);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  358  	struct inode *wdir = workdir->d_inode;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  359  	struct dentry *upperdir = ovl_dentry_upper(dentry->d_parent);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  360  	struct inode *udir = upperdir->d_inode;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  361  	struct path upperpath;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  362  	struct dentry *upper;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  363  	struct dentry *opaquedir;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  364  	struct kstat stat;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  365  	int err;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  366  
-cc6f67bcafcb6b Miklos Szeredi    2015-05-19  367  	if (WARN_ON(!workdir))
-cc6f67bcafcb6b Miklos Szeredi    2015-05-19  368  		return ERR_PTR(-EROFS);
-cc6f67bcafcb6b Miklos Szeredi    2015-05-19  369  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  370  	ovl_path_upper(dentry, &upperpath);
-a528d35e8bfcc5 David Howells     2017-01-31  371  	err = vfs_getattr(&upperpath, &stat,
-a528d35e8bfcc5 David Howells     2017-01-31  372  			  STATX_BASIC_STATS, AT_STATX_SYNC_AS_STAT);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  373  	if (err)
-fb1b87daadb6ed NeilBrown         2025-06-25  374  		goto out;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  375  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  376  	err = -ESTALE;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  377  	if (!S_ISDIR(stat.mode))
-fb1b87daadb6ed NeilBrown         2025-06-25  378  		goto out;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  379  	upper = upperpath.dentry;
-fb1b87daadb6ed NeilBrown         2025-06-25  380  	/* This test is racey but we re-test under the lock */
-fb1b87daadb6ed NeilBrown         2025-06-25  381  	if (upper->d_parent != upperdir)
-fb1b87daadb6ed NeilBrown         2025-06-25  382  		goto out;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  383  
-576bb263450bbb Christian Brauner 2022-04-04  384  	opaquedir = ovl_create_temp(ofs, workdir, OVL_CATTR(stat.mode));
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  385  	err = PTR_ERR(opaquedir);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  386  	if (IS_ERR(opaquedir))
-fb1b87daadb6ed NeilBrown         2025-06-25  387  		/* workdir was unlocked, no upperdir */
-fb1b87daadb6ed NeilBrown         2025-06-25  388  		goto out;
-fb1b87daadb6ed NeilBrown         2025-06-25  389  	err = ovl_lock_rename_workdir(workdir, upperdir);
-fb1b87daadb6ed NeilBrown         2025-06-25  390  	if (err)
-fb1b87daadb6ed NeilBrown         2025-06-25  391  		goto out_cleanup_unlocked;
-fb1b87daadb6ed NeilBrown         2025-06-25  392  	if (upper->d_parent->d_inode != udir)
-fb1b87daadb6ed NeilBrown         2025-06-25  393  		goto out_cleanup;
-dad7017a840d8d Christian Brauner 2022-04-04  394  	err = ovl_copy_xattr(dentry->d_sb, &upperpath, opaquedir);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  395  	if (err)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  396  		goto out_cleanup;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  397  
-5cf5b477f0ca33 Miklos Szeredi    2016-12-16  398  	err = ovl_set_opaque(dentry, opaquedir);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  399  	if (err)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  400  		goto out_cleanup;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  401  
-5955102c9984fa Al Viro           2016-01-22  402  	inode_lock(opaquedir->d_inode);
-5272eaf3a56827 Christian Brauner 2022-04-04  403  	err = ovl_set_attr(ofs, opaquedir, &stat);
-5955102c9984fa Al Viro           2016-01-22  404  	inode_unlock(opaquedir->d_inode);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  405  	if (err)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  406  		goto out_cleanup;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  407  
-bc9241367aac08 NeilBrown         2025-06-13  408  	err = ovl_do_rename(ofs, workdir, opaquedir, upperdir, upper, RENAME_EXCHANGE);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  409  	if (err)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  410  		goto out_cleanup;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  411  
-576bb263450bbb Christian Brauner 2022-04-04  412  	ovl_cleanup_whiteouts(ofs, upper, list);
-576bb263450bbb Christian Brauner 2022-04-04  413  	ovl_cleanup(ofs, wdir, upper);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  414  	unlock_rename(workdir, upperdir);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  415  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  416  	/* dentry's upper doesn't match now, get rid of it */
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  417  	d_drop(dentry);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  418  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  419  	return opaquedir;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  420  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  421  out_cleanup:
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  422  	unlock_rename(workdir, upperdir);
-fb1b87daadb6ed NeilBrown         2025-06-25  423  out_cleanup_unlocked:
-fb1b87daadb6ed NeilBrown         2025-06-25  424  	ovl_cleanup_unlocked(ofs, workdir, opaquedir);
-fb1b87daadb6ed NeilBrown         2025-06-25  425  	dput(opaquedir);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  426  out:
-e9be9d5e76e348 Miklos Szeredi    2014-10-24 @427  	return ERR_PTR(err);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  428  }
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  429  
+c5710cd2073503 arch/powerpc/mm/book3s64/hash_hugetlbpage.c Christophe Leroy       2019-04-26   18  
+387e220a2e5e63 arch/powerpc/mm/book3s64/hugetlbpage.c      Nicholas Piggin        2021-12-02   19  #ifdef CONFIG_PPC_64S_HASH_MMU
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   20  int __hash_page_huge(unsigned long ea, unsigned long access, unsigned long vsid,
+aefa5688c07072 arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2014-12-04   21  		     pte_t *ptep, unsigned long trap, unsigned long flags,
+aefa5688c07072 arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2014-12-04   22  		     int ssize, unsigned int shift, unsigned int mmu_psize)
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   23  {
+bf9a95f9a6481b arch/powerpc/mm/hugetlbpage-hash64.c        Ram Pai                2017-11-06   24  	real_pte_t rpte;
+5524a27d39b687 arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2012-09-10   25  	unsigned long vpn;
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   26  	unsigned long old_pte, new_pte;
+8132cf115efc3b arch/powerpc/mm/hugetlbpage-hash64.c        Qian Cai               2019-02-27   27  	unsigned long rflags, pa;
+ff31e105464d8c arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2018-02-11   28  	long slot, offset;
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   29  
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   30  	BUG_ON(shift != mmu_psize_defs[mmu_psize].shift);
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   31  
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   32  	/* Search the Linux page table for a match with va */
+5524a27d39b687 arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2012-09-10   33  	vpn = hpt_vpn(ea, vsid, ssize);
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   34  
+47d99948eee48a arch/powerpc/mm/book3s64/hash_hugetlbpage.c Christophe Leroy       2019-03-29   35  	/*
+47d99948eee48a arch/powerpc/mm/book3s64/hash_hugetlbpage.c Christophe Leroy       2019-03-29   36  	 * At this point, we have a pte (old_pte) which can be used to build
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   37  	 * or update an HPTE. There are 2 cases:
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   38  	 *
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   39  	 * 1. There is a valid (present) pte with no associated HPTE (this is
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   40  	 *	the most common case)
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   41  	 * 2. There is a valid (present) pte with an associated HPTE. The
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   42  	 *	current values of the pp bits in the HPTE prevent access
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   43  	 *	because we are doing software DIRTY bit management and the
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   44  	 *	page is currently not DIRTY.
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   45  	 */
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   46  
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   47  
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   48  	do {
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   49  		old_pte = pte_val(*ptep);
+171aa2caaad16e arch/powerpc/mm/hugetlbpage-hash64.c        Benjamin Herrenschmidt 2010-07-23   50  		/* If PTE busy, retry the access */
+945537df7a107e arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2016-04-29   51  		if (unlikely(old_pte & H_PAGE_BUSY))
+171aa2caaad16e arch/powerpc/mm/hugetlbpage-hash64.c        Benjamin Herrenschmidt 2010-07-23   52  			return 0;
+171aa2caaad16e arch/powerpc/mm/hugetlbpage-hash64.c        Benjamin Herrenschmidt 2010-07-23   53  		/* If PTE permissions don't match, take page fault */
+ac29c64089b74d arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2016-04-29   54  		if (unlikely(!check_pte_access(access, old_pte)))
+171aa2caaad16e arch/powerpc/mm/hugetlbpage-hash64.c        Benjamin Herrenschmidt 2010-07-23   55  			return 1;
+57fb15c32f4f6a arch/powerpc/mm/book3s64/hugetlbpage.c      Christophe Leroy       2024-07-02   56  		/*
+57fb15c32f4f6a arch/powerpc/mm/book3s64/hugetlbpage.c      Christophe Leroy       2024-07-02   57  		 * If hash-4k, hugepages use seeral contiguous PxD entries
+57fb15c32f4f6a arch/powerpc/mm/book3s64/hugetlbpage.c      Christophe Leroy       2024-07-02   58  		 * so bail out and let mm make the page young or dirty
+57fb15c32f4f6a arch/powerpc/mm/book3s64/hugetlbpage.c      Christophe Leroy       2024-07-02   59  		 */
+57fb15c32f4f6a arch/powerpc/mm/book3s64/hugetlbpage.c      Christophe Leroy       2024-07-02   60  		if (IS_ENABLED(CONFIG_PPC_4K_PAGES)) {
+57fb15c32f4f6a arch/powerpc/mm/book3s64/hugetlbpage.c      Christophe Leroy       2024-07-02   61  			if (!(old_pte & _PAGE_ACCESSED))
+57fb15c32f4f6a arch/powerpc/mm/book3s64/hugetlbpage.c      Christophe Leroy       2024-07-02   62  				return 1;
+57fb15c32f4f6a arch/powerpc/mm/book3s64/hugetlbpage.c      Christophe Leroy       2024-07-02   63  			if ((access & _PAGE_WRITE) && !(old_pte & _PAGE_DIRTY))
+57fb15c32f4f6a arch/powerpc/mm/book3s64/hugetlbpage.c      Christophe Leroy       2024-07-02   64  				return 1;
+57fb15c32f4f6a arch/powerpc/mm/book3s64/hugetlbpage.c      Christophe Leroy       2024-07-02   65  		}
+ac29c64089b74d arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2016-04-29   66  
+47d99948eee48a arch/powerpc/mm/book3s64/hash_hugetlbpage.c Christophe Leroy       2019-03-29   67  		/*
+47d99948eee48a arch/powerpc/mm/book3s64/hash_hugetlbpage.c Christophe Leroy       2019-03-29   68  		 * Try to lock the PTE, add ACCESSED and DIRTY if it was
+47d99948eee48a arch/powerpc/mm/book3s64/hash_hugetlbpage.c Christophe Leroy       2019-03-29   69  		 * a write access
+47d99948eee48a arch/powerpc/mm/book3s64/hash_hugetlbpage.c Christophe Leroy       2019-03-29   70  		 */
+945537df7a107e arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2016-04-29   71  		new_pte = old_pte | H_PAGE_BUSY | _PAGE_ACCESSED;
+c7d54842deb1fa arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2016-04-29   72  		if (access & _PAGE_WRITE)
+171aa2caaad16e arch/powerpc/mm/hugetlbpage-hash64.c        Benjamin Herrenschmidt 2010-07-23   73  			new_pte |= _PAGE_DIRTY;
+3910a7f485e122 arch/powerpc/mm/hugetlbpage-hash64.c        Michael Ellerman       2016-04-29   74  	} while(!pte_xchg(ptep, __pte(old_pte), __pte(new_pte)));
+3910a7f485e122 arch/powerpc/mm/hugetlbpage-hash64.c        Michael Ellerman       2016-04-29   75  
+75646c480fdeff arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2018-09-20   76  	/* Make sure this is a hugetlb entry */
+9c8667518ca8e6 arch/powerpc/mm/book3s64/hugetlbpage.c      Alistair Popple        2025-06-19  @77  	if (old_pte & H_PAGE_THP_HUGE)
+75646c480fdeff arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2018-09-20   78  		return 0;
+75646c480fdeff arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2018-09-20   79  
+d94b827e89dc3f arch/powerpc/mm/book3s64/hash_hugetlbpage.c Aneesh Kumar K.V       2020-11-27   80  	rflags = htab_convert_pte_flags(new_pte, flags);
+ff31e105464d8c arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2018-02-11   81  	if (unlikely(mmu_psize == MMU_PAGE_16G))
+ff31e105464d8c arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2018-02-11   82  		offset = PTRS_PER_PUD;
+ff31e105464d8c arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2018-02-11   83  	else
+ff31e105464d8c arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2018-02-11   84  		offset = PTRS_PER_PMD;
+ff31e105464d8c arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2018-02-11   85  	rpte = __real_pte(__pte(old_pte), ptep, offset);
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   86  
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   87  	if (!cpu_has_feature(CPU_FTR_COHERENT_ICACHE))
+47d99948eee48a arch/powerpc/mm/book3s64/hash_hugetlbpage.c Christophe Leroy       2019-03-29   88  		/*
+47d99948eee48a arch/powerpc/mm/book3s64/hash_hugetlbpage.c Christophe Leroy       2019-03-29   89  		 * No CPU has hugepages but lacks no execute, so we
+47d99948eee48a arch/powerpc/mm/book3s64/hash_hugetlbpage.c Christophe Leroy       2019-03-29   90  		 * don't need to worry about that case
+47d99948eee48a arch/powerpc/mm/book3s64/hash_hugetlbpage.c Christophe Leroy       2019-03-29   91  		 */
+0895ecda79428d arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   92  		rflags = hash_page_do_lazy_icache(rflags, __pte(old_pte), trap);
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   93  
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   94  	/* Check if pte already has an hpte (case 2) */
+945537df7a107e arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2016-04-29   95  	if (unlikely(old_pte & H_PAGE_HASHPTE)) {
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   96  		/* There MIGHT be an HPTE for this pte */
+bf9a95f9a6481b arch/powerpc/mm/hugetlbpage-hash64.c        Ram Pai                2017-11-06   97  		unsigned long gslot;
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26   98  
+bf9a95f9a6481b arch/powerpc/mm/hugetlbpage-hash64.c        Ram Pai                2017-11-06   99  		gslot = pte_get_hash_gslot(vpn, shift, ssize, rpte, 0);
+bf9a95f9a6481b arch/powerpc/mm/hugetlbpage-hash64.c        Ram Pai                2017-11-06  100  		if (mmu_hash_ops.hpte_updatepp(gslot, rflags, vpn, mmu_psize,
+aefa5688c07072 arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2014-12-04  101  					       mmu_psize, ssize, flags) == -1)
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  102  			old_pte &= ~_PAGE_HPTEFLAGS;
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  103  	}
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  104  
+945537df7a107e arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2016-04-29  105  	if (likely(!(old_pte & H_PAGE_HASHPTE))) {
+5524a27d39b687 arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2012-09-10  106  		unsigned long hash = hpt_hash(vpn, shift, ssize);
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  107  
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  108  		pa = pte_pfn(__pte(old_pte)) << PAGE_SHIFT;
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  109  
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  110  		/* clear HPTE slot informations in new PTE */
+945537df7a107e arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2016-04-29  111  		new_pte = (new_pte & ~_PAGE_HPTEFLAGS) | H_PAGE_HASHPTE;
+bf680d51605662 arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2015-12-01  112  
+b170bd3de6a7f6 arch/powerpc/mm/hugetlbpage-hash64.c        Li Zhong               2013-04-15  113  		slot = hpte_insert_repeating(hash, vpn, pa, rflags, 0,
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  114  					     mmu_psize, ssize);
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  115  
+b1623e7eb280f8 arch/powerpc/mm/hugetlbpage-hash64.c        Anton Blanchard        2010-07-14  116  		/*
+b1623e7eb280f8 arch/powerpc/mm/hugetlbpage-hash64.c        Anton Blanchard        2010-07-14  117  		 * Hypervisor failure. Restore old pte and return -1
+b1623e7eb280f8 arch/powerpc/mm/hugetlbpage-hash64.c        Anton Blanchard        2010-07-14  118  		 * similar to __hash_page_*
+b1623e7eb280f8 arch/powerpc/mm/hugetlbpage-hash64.c        Anton Blanchard        2010-07-14  119  		 */
+b1623e7eb280f8 arch/powerpc/mm/hugetlbpage-hash64.c        Anton Blanchard        2010-07-14  120  		if (unlikely(slot == -2)) {
+b1623e7eb280f8 arch/powerpc/mm/hugetlbpage-hash64.c        Anton Blanchard        2010-07-14  121  			*ptep = __pte(old_pte);
+4b8692c022a4b1 arch/powerpc/mm/hugetlbpage-hash64.c        Benjamin Herrenschmidt 2010-07-23  122  			hash_failure_debug(ea, access, vsid, trap, ssize,
+d8139ebf8596a1 arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2013-04-28  123  					   mmu_psize, mmu_psize, old_pte);
+171aa2caaad16e arch/powerpc/mm/hugetlbpage-hash64.c        Benjamin Herrenschmidt 2010-07-23  124  			return -1;
+b1623e7eb280f8 arch/powerpc/mm/hugetlbpage-hash64.c        Anton Blanchard        2010-07-14  125  		}
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  126  
+ff31e105464d8c arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2018-02-11  127  		new_pte |= pte_set_hidx(ptep, rpte, 0, slot, offset);
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  128  	}
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  129  
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  130  	/*
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  131  	 * No need to use ldarx/stdcx here
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  132  	 */
+945537df7a107e arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2016-04-29  133  	*ptep = __pte(new_pte & ~H_PAGE_BUSY);
+171aa2caaad16e arch/powerpc/mm/hugetlbpage-hash64.c        Benjamin Herrenschmidt 2010-07-23  134  	return 0;
+883a3e523672eb arch/powerpc/mm/hugetlbpage-hash64.c        David Gibson           2009-10-26  135  }
+387e220a2e5e63 arch/powerpc/mm/book3s64/hugetlbpage.c      Nicholas Piggin        2021-12-02  136  #endif
+8ef5cbde6dafce arch/powerpc/mm/hugetlbpage-hash64.c        Aneesh Kumar K.V       2019-03-05  137  
 
 -- 
 0-DAY CI Kernel Test Service
