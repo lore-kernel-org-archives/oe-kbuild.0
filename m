@@ -1,68 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7D11A8F6D
-	for <oe-kbuild@lists.linux.dev>; Sat, 28 Jun 2025 06:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E25D43AA1
+	for <oe-kbuild@lists.linux.dev>; Sat, 28 Jun 2025 08:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751093434; cv=none; b=NAXyHATgQ/IrmVUNecHRxaRoOCNkMbD/UodFjlTDSgnOX0WkYCcPbGfm0FpPPZobVYb9joGmGVlXa+FYT55ZT+XEkxy+59OpD6YNFcYp8lBevq0YB9YGKis9EUBNioKU4L+a525llbV1lQh+TDf9HbOpHLaohvsuGejkNT7OSj8=
+	t=1751098420; cv=none; b=lqSA8x19cQDGw1U2ba8rAPEDe5Q7kzBdsGQG7v2QDpysBQqnGiHVHZLPpe9NOOfjMOG/dXiYGLxovpORCsoO1ZNZzO6mPH8dhNhUW7TJ5d5oAfFBVH7lJ2ZvQcZU5CJjtPrYA5mRoYuBkKPPYNQGSft+QUWN31oFYhNO1zPBexs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751093434; c=relaxed/simple;
-	bh=7tUi+igrCIrb1jBZvPNQNFgYb3H3WF912mxClpLaygg=;
+	s=arc-20240116; t=1751098420; c=relaxed/simple;
+	bh=Mazi4pZ5ZRxhbIpLZNIOFcvw/xY3o+zGLO9h5cUsHHE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Jxi4Bsy5mpWaMlh0vmc5FfnmKMSq3/d3JYvKKnR6U2yOjPhgivoTnT+YErnKmGj/shRO2nESLFefoE5ttuIRvlKTALxw3FLBgMu1wA5hRfPOgrE3nRcaHjyUobrozYWhP4g9GoPUEkuffIfFLaM0QEA2OtCZatRkVkHdcQsB0dI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h6+dqTMV; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=sDC4tzYHt9iUGwqRpb3EwHiOg293vi2DFqPBdnYoMwlO3h91Qagp/WsXrTHExUB5OupI+HUdYSWOvHIlyI4pJ83Ux07s3u4ZsRZgL5etcDcSWw7Kp+UHFyTLl739KSuSyq3il2APXgXkIiNEEHuQyPeiVxzqyAEIzTe4ei2HXq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fw23dDp7; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h6+dqTMV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fw23dDp7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751093432; x=1782629432;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=7tUi+igrCIrb1jBZvPNQNFgYb3H3WF912mxClpLaygg=;
-  b=h6+dqTMVpbxRVJ1Qjf++2anUkAsWhgkTzw4BnX8kYNbt+TqsCWnKTe6k
-   FOhXUbpKwFoyyOTEs3BDnfjz0N7qiagrYPaH21gltp3Q53Ci1jcBR3BM1
-   978W6+Aj8zTDfaZfRw51Ht1R/iD683uNXx6Tw6JWt6IpqPB2kkjPWwnr6
-   CbjM3HaS/yZGbFFOjXrNXiF/XNvXz4HtOMcWII+ans2Z9fiVXbZehxpIJ
-   i6K1WApGlKveGrkLXfkYTXT8JumlSjybovdeAeT1ngzsXmQ4ShGcHnI1b
-   zLr6C4LOg/sE+ANP6zTfc3ACLeSyqqKdgKq29s9nd59Uxg49JPtRJSn9r
-   A==;
-X-CSE-ConnectionGUID: V15NKp/QRU+OmAYAtDOm9Q==
-X-CSE-MsgGUID: E0DEgtUqRMa4itA8THpijA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53489329"
+  t=1751098419; x=1782634419;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Mazi4pZ5ZRxhbIpLZNIOFcvw/xY3o+zGLO9h5cUsHHE=;
+  b=fw23dDp7ZRsK9roXNIJQtJh5I8cyW+0C9ftgBJrdxEPAO83b1SIIok6C
+   /uVao0ZMBDKw44PTQHm77XsUVLv0DqJLP6CRoqTlELVCFNdtgDcrHtr0D
+   Dwyy1j/tjsgeBy2XJNuemqMcQt8r+7cRqA5Y50PTBx2ibHJf/jbsK9u61
+   NsZTe4fg/LKPQn4umwGC8U90ymBfcYPOW5slqv/ay9S3ej3ImbpcC6J3O
+   Smw1Z9nfPZ/q9SeyBQmj1v4XB2j+AOXCtvG8I1SKO7t0LH/SyfOaIJdJE
+   eJGPEs7mpwL058Fb4yVkK7CpZJ3u52B0EoUbeQZiLuJ2qeatL5voLWncj
+   Q==;
+X-CSE-ConnectionGUID: HBlOyqniQFSicV//fRdHMQ==
+X-CSE-MsgGUID: BHHqtjeySHWebKEMXoOKkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="57180132"
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="53489329"
+   d="scan'208";a="57180132"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 23:50:31 -0700
-X-CSE-ConnectionGUID: KmA4x/E+Q1udsTWmGPL1Gw==
-X-CSE-MsgGUID: dXoMNTAGQrq/4mwVGzFMBQ==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 01:13:38 -0700
+X-CSE-ConnectionGUID: XDTQgm7ETGKLHtZ2exlnxw==
+X-CSE-MsgGUID: M9suHhpLS6eZvyfh7jA1Pg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="153693534"
+   d="scan'208";a="153704464"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Jun 2025 23:50:31 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 28 Jun 2025 01:13:38 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVPOO-000WsM-3C;
-	Sat, 28 Jun 2025 06:50:28 +0000
-Date: Sat, 28 Jun 2025 14:50:08 +0800
+	id 1uVQgo-000Wv2-35;
+	Sat, 28 Jun 2025 08:13:34 +0000
+Date: Sat, 28 Jun 2025 16:12:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 02/13] dt-bindings: stm32: stm32mp25: add
- `access-controller-cell` property
-Message-ID: <202506281445.XgdgAU9b-lkp@intel.com>
+Subject: [arm-integrator:b4/genexis-xg6846b-v6.16-rc1 8/10]
+ arch/arm/boot/dts/broadcom/bcm6846-genexis-xg6846b.dtb: switch@0
+ (marvell,mv88e6085): Unevaluated properties are not allowed
+ ('#address-cells', '#size-cells' were unexpected)
+Message-ID: <202506281659.nzPRieVO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
@@ -70,56 +70,27 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250623-ddrperfm-upstream-v1-2-7dffff168090@foss.st.com>
-References: <20250623-ddrperfm-upstream-v1-2-7dffff168090@foss.st.com>
-TO: "Clément Le Goffic" <clement.legoffic@foss.st.com>
-TO: Will Deacon <will@kernel.org>
-TO: Mark Rutland <mark.rutland@arm.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-TO: Alexandre Torgue <alexandre.torgue@foss.st.com>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
-TO: Jonathan Corbet <corbet@lwn.net>
-TO: Gatien Chevallier <gatien.chevallier@foss.st.com>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Gabriel Fernandez <gabriel.fernandez@foss.st.com>
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-perf-users@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-stm32@st-md-mailman.stormreply.com
-CC: linux-kernel@vger.kernel.org
-CC: linux-doc@vger.kernel.org
-CC: linux-clk@vger.kernel.org
-CC: "Clément Le Goffic" <clement.legoffic@foss.st.com>
+TO: Linus Walleij <linus.walleij@linaro.org>
 
-Hi Clément,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 86731a2a651e58953fc949573895f2fa6d456841]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-Le-Goffic/bus-firewall-move-stm32_firewall-header-file-in-include-folder/20250623-173554
-base:   86731a2a651e58953fc949573895f2fa6d456841
-patch link:    https://lore.kernel.org/r/20250623-ddrperfm-upstream-v1-2-7dffff168090%40foss.st.com
-patch subject: [PATCH 02/13] dt-bindings: stm32: stm32mp25: add `access-controller-cell` property
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-051-20250627 (https://download.01.org/0day-ci/archive/20250628/202506281445.XgdgAU9b-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/genexis-xg6846b-v6.16-rc1
+head:   5420b6e9c9c247c32861570d0332ec5376c283a8
+commit: a58c76fa47514e22d425dac1995032f23556606a [8/10] ARM: dts: bcm6846: Add Marvell switch and SFP
+:::::: branch date: 9 days ago
+:::::: commit date: 10 days ago
+config: arm-randconfig-051-20250627 (https://download.01.org/0day-ci/archive/20250628/202506281659.nzPRieVO-lkp@intel.com/config)
 compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
 dtschema version: 2025.6.1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506281445.XgdgAU9b-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506281659.nzPRieVO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506281445.XgdgAU9b-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506281659.nzPRieVO-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/st/stm32mp235f-dk.dtb: clock-controller@44200000 (st,stm32mp25-rcc): '#access-controller-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/st,stm32mp25-rcc.yaml#
+   arch/arm/boot/dts/broadcom/bcm6846-genexis-xg6846b.dts:236.20-300.4: Warning (avoid_unnecessary_addr_size): /bus@ff800000/mdio@2060/switch@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm/boot/dts/broadcom/bcm6846-genexis-xg6846b.dtb: switch@0 (marvell,mv88e6085): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/marvell,mv88e6xxx.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
