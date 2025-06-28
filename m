@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF1F12E7E
-	for <oe-kbuild@lists.linux.dev>; Sat, 28 Jun 2025 04:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0AA1854
+	for <oe-kbuild@lists.linux.dev>; Sat, 28 Jun 2025 06:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751086045; cv=none; b=K7DSj9RJ9AVzaX/fruhkeKWzJ9yMiMvmIeZH6HWPiPYuHzgKvCb4c3/p7Q3+Kcj0C+4u41OD3ERnz4PqvGpat0vy24fq6pQ609ZlrHYZbpJKppqABH5Yxubm1EXNMMIM+SfZ0fHcij74gYwRPgWgzVuWFr43WGX83hcUnIhwQG4=
+	t=1751092233; cv=none; b=rzJ02gwQOJ26jp+iIscbEsx2E/MiwTHb2VmQKnWG6qz2QPbKKymBmK/DBWCb511VaKVDcmTU2C9c35DOzs6sC9Zgtz3Ftf0g2ROHyfsxjAhWCnbt6mRf03nAmLNGGzr5Mcch8hX4qx53Ghd1eO+0ExcaeE4vvUDkQMPmAR4ETws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751086045; c=relaxed/simple;
-	bh=DZqsCFWju5f1qtU5+SfcWkKlF96d+ZBrRXz4ZMYAZ9A=;
+	s=arc-20240116; t=1751092233; c=relaxed/simple;
+	bh=PlFIZNv8Mj08op776cfHjHgRMyqhf6GIrUVfljeU3eM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oLlxoH9FsJjiR9QBZXGgsHYJP60fk5ZfOlkvHQonXkgx1pCvPk1NcnQX56dhF0vNLm6z+UQPccwMCOiCrE8NbdRjMqgT7Sud+m2cjPaC1I8aHjZ+yHtbuss6UXr1IQN2wTZivv42gOBJiA2yNX433TTeVLcsXT0d0Y3c4lE+yMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Anqp4A5U; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=exNPOdwzxgf/tAf0iOm5yt9fqUu5TRaBSPf5wW3WIKnNBaMEpjJUrdACSIrREpn+TgNLxJQqXcsLeopgGicDoRmhmJlIiXppWAg9xbQXyx1ae57Dqi5e7yDmVP5ifrq8dzXcpSu0DhP4cfKa+iLOeUMSPE/Yh/Z3UxQI2mM7z/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cAaCIeKn; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Anqp4A5U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cAaCIeKn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751086043; x=1782622043;
+  t=1751092231; x=1782628231;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DZqsCFWju5f1qtU5+SfcWkKlF96d+ZBrRXz4ZMYAZ9A=;
-  b=Anqp4A5UdnJ0+Qy3naTqBWU3j9eEo/mzJA2lyN0sRIvxb4rIlLqSeuvo
-   6VsBtosbWf/0VQhwvGf6lGRkPhSnQOGK1HUXqb+XyVivN2UKSNm4qhbb0
-   2Rj+8MdBfqeAXpa+hSfr1izmYchv6h3NJ1EyCpKrBIrdg022zaoOQ3RZv
-   S/UjpD2A+GfwRaf6a3ZtZgk3nYLOr140spIpie0q/GJtb0vWvag4uNuOM
-   3Kcq9ATOauODq2eJJMVit9ecIDi0chgS85gvYOMFHdYila3MgotA73M33
-   BrFsgaF4nw6Hn1a/YbpI26YRqw5BVT+AF7OpGvDY3G6w/Qes4P3MH0/t8
-   Q==;
-X-CSE-ConnectionGUID: HFxZFpIMQOqnlsQecmrOPA==
-X-CSE-MsgGUID: GDCAQ8qGSDSalM3y936eeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53550278"
+  bh=PlFIZNv8Mj08op776cfHjHgRMyqhf6GIrUVfljeU3eM=;
+  b=cAaCIeKnsChdAp+aTCAPTdfACPZtTo1BAVwqJXzrznYtmW8XqF0tI7U7
+   tZdqFbbZe3t4nUxQ1GEE7NEL0gXx6wd4JleejLhDa85U3P/cKPYKW27XD
+   RdhB79Run62DhTaRCujfhCYOfz8gQqSINT5gzqdU+k+7cM+eOcPnCSRwj
+   2CTAWtOKc07MlFRmIkfVNmAFAXFqv7HuI+4ZtFKCgngidnWFvLvp1TmMe
+   Fgt+miVZo5IRsmQqES4YLV6k41pSc1OQUw8uO1s3xHzijmId6w/ol1diT
+   S35diBtCJOyX7j5hf9NvR4aAU1i0aYoNfbIxVF9+fIA1FxiqLhpMAFFa+
+   A==;
+X-CSE-ConnectionGUID: KZDR2yvlRdybhVOIkm9CjA==
+X-CSE-MsgGUID: HuqOaLBKRCS3qd+wpbeDsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53339363"
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="53550278"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 21:47:22 -0700
-X-CSE-ConnectionGUID: A3r6bKOAQTWIaFMXqlx87Q==
-X-CSE-MsgGUID: msfbluVMRqKo6q9BVJjRBg==
+   d="scan'208";a="53339363"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 23:30:31 -0700
+X-CSE-ConnectionGUID: 6QgINUsZTRefg1HUt+p0wg==
+X-CSE-MsgGUID: SXJ0Ch04TPuXCUG3f4JN7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="183892191"
+   d="scan'208";a="158484892"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Jun 2025 21:47:21 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 27 Jun 2025 23:30:29 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVNTD-000WnG-1O;
-	Sat, 28 Jun 2025 04:47:19 +0000
-Date: Sat, 28 Jun 2025 12:47:01 +0800
+	id 1uVP51-000WrG-1R;
+	Sat, 28 Jun 2025 06:30:27 +0000
+Date: Sat, 28 Jun 2025 14:29:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 09/12] ovl: whiteout locking changes
-Message-ID: <202506281246.X6htntN7-lkp@intel.com>
+Subject: [linux-next:master 4213/4739] lib/test_objagg.c:923
+ test_hints_case2() error: uninitialized symbol 'errmsg'.
+Message-ID: <202506281403.DsuyHFTZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,102 +64,87 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250624230636.3233059-10-neil@brown.name>
-References: <20250624230636.3233059-10-neil@brown.name>
-TO: NeilBrown <neil@brown.name>
-TO: Miklos Szeredi <miklos@szeredi.hu>
-TO: Amir Goldstein <amir73il@gmail.com>
-CC: linux-unionfs@vger.kernel.org
-CC: Alexander Viro <viro@zeniv.linux.org.uk>
-CC: Christian Brauner <brauner@kernel.org>
-CC: Jan Kara <jack@suse.cz>
-CC: linux-fsdevel@vger.kernel.org
+TO: Arnd Bergmann <arnd@arndb.de>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi NeilBrown,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on next-20250627]
-[cannot apply to mszeredi-vfs/overlayfs-next mszeredi-vfs/next linus/master v6.16-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/ovl-use-is_subdir-for-testing-if-one-thing-is-a-subdir-of-another/20250625-070919
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250624230636.3233059-10-neil%40brown.name
-patch subject: [PATCH 09/12] ovl: whiteout locking changes
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-161-20250627 (https://download.01.org/0day-ci/archive/20250628/202506281246.X6htntN7-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2aeda9592360c200085898a258c4754bfe879921
+commit: 8c8f1e89eb88d49b5bf26eca8185505c18bbbcdf [4213/4739] lib: test_objagg: split test_hints_case() into two functions
+:::::: branch date: 21 hours ago
+:::::: commit date: 5 days ago
+config: powerpc64-randconfig-r072-20250627 (https://download.01.org/0day-ci/archive/20250628/202506281403.DsuyHFTZ-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202506281246.X6htntN7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506281403.DsuyHFTZ-lkp@intel.com/
 
-New smatch warnings:
-fs/overlayfs/dir.c:118 ovl_whiteout() error: uninitialized symbol 'err'.
+smatch warnings:
+lib/test_objagg.c:923 test_hints_case2() error: uninitialized symbol 'errmsg'.
 
-Old smatch warnings:
-fs/overlayfs/dir.c:58 ovl_cleanup_unlocked() error: uninitialized symbol 'err'.
-fs/overlayfs/dir.c:437 ovl_clear_empty() warn: passing zero to 'ERR_PTR'
+vim +/errmsg +923 lib/test_objagg.c
 
-vim +/err +118 fs/overlayfs/dir.c
+9069a3817d82b0 Jiri Pirko    2019-02-07  908  
+8c8f1e89eb88d4 Arnd Bergmann 2025-06-20  909  static int test_hints_case2(const struct hints_case *hints_case,
+8c8f1e89eb88d4 Arnd Bergmann 2025-06-20  910  			    struct objagg_hints *hints, struct objagg *objagg)
+9069a3817d82b0 Jiri Pirko    2019-02-07  911  {
+9069a3817d82b0 Jiri Pirko    2019-02-07  912  	struct objagg_obj *objagg_obj;
+9069a3817d82b0 Jiri Pirko    2019-02-07  913  	struct world world2 = {};
+9069a3817d82b0 Jiri Pirko    2019-02-07  914  	struct objagg *objagg2;
+9069a3817d82b0 Jiri Pirko    2019-02-07  915  	const char *errmsg;
+9069a3817d82b0 Jiri Pirko    2019-02-07  916  	int i;
+9069a3817d82b0 Jiri Pirko    2019-02-07  917  	int err;
+9069a3817d82b0 Jiri Pirko    2019-02-07  918  
+9069a3817d82b0 Jiri Pirko    2019-02-07  919  	pr_debug_hints_stats(hints);
+9069a3817d82b0 Jiri Pirko    2019-02-07  920  	err = check_expect_hints_stats(hints, &hints_case->expect_stats_hints,
+9069a3817d82b0 Jiri Pirko    2019-02-07  921  				       &errmsg);
+9069a3817d82b0 Jiri Pirko    2019-02-07  922  	if (err) {
+9069a3817d82b0 Jiri Pirko    2019-02-07 @923  		pr_err("Hints stats: %s\n", errmsg);
+8c8f1e89eb88d4 Arnd Bergmann 2025-06-20  924  		return err;
+9069a3817d82b0 Jiri Pirko    2019-02-07  925  	}
+9069a3817d82b0 Jiri Pirko    2019-02-07  926  
+9069a3817d82b0 Jiri Pirko    2019-02-07  927  	objagg2 = objagg_create(&delta_ops, hints, &world2);
+951d3d6fcd72f1 Dan Carpenter 2019-02-13  928  	if (IS_ERR(objagg2))
+951d3d6fcd72f1 Dan Carpenter 2019-02-13  929  		return PTR_ERR(objagg2);
+9069a3817d82b0 Jiri Pirko    2019-02-07  930  
+9069a3817d82b0 Jiri Pirko    2019-02-07  931  	for (i = 0; i < hints_case->key_ids_count; i++) {
+9069a3817d82b0 Jiri Pirko    2019-02-07  932  		objagg_obj = world_obj_get(&world2, objagg2,
+9069a3817d82b0 Jiri Pirko    2019-02-07  933  					   hints_case->key_ids[i]);
+9069a3817d82b0 Jiri Pirko    2019-02-07  934  		if (IS_ERR(objagg_obj)) {
+9069a3817d82b0 Jiri Pirko    2019-02-07  935  			err = PTR_ERR(objagg_obj);
+9069a3817d82b0 Jiri Pirko    2019-02-07  936  			goto err_world2_obj_get;
+9069a3817d82b0 Jiri Pirko    2019-02-07  937  		}
+9069a3817d82b0 Jiri Pirko    2019-02-07  938  	}
+9069a3817d82b0 Jiri Pirko    2019-02-07  939  
+9069a3817d82b0 Jiri Pirko    2019-02-07  940  	pr_debug_stats(objagg2);
+9069a3817d82b0 Jiri Pirko    2019-02-07  941  	err = check_expect_stats(objagg2, &hints_case->expect_stats_hints,
+9069a3817d82b0 Jiri Pirko    2019-02-07  942  				 &errmsg);
+9069a3817d82b0 Jiri Pirko    2019-02-07  943  	if (err) {
+9069a3817d82b0 Jiri Pirko    2019-02-07  944  		pr_err("Stats2: %s\n", errmsg);
+9069a3817d82b0 Jiri Pirko    2019-02-07  945  		goto err_check_expect_stats2;
+9069a3817d82b0 Jiri Pirko    2019-02-07  946  	}
+9069a3817d82b0 Jiri Pirko    2019-02-07  947  
+9069a3817d82b0 Jiri Pirko    2019-02-07  948  	err = 0;
+9069a3817d82b0 Jiri Pirko    2019-02-07  949  
+9069a3817d82b0 Jiri Pirko    2019-02-07  950  err_check_expect_stats2:
+9069a3817d82b0 Jiri Pirko    2019-02-07  951  err_world2_obj_get:
+9069a3817d82b0 Jiri Pirko    2019-02-07  952  	for (i--; i >= 0; i--)
+9069a3817d82b0 Jiri Pirko    2019-02-07  953  		world_obj_put(&world2, objagg, hints_case->key_ids[i]);
+9069a3817d82b0 Jiri Pirko    2019-02-07  954  	i = hints_case->key_ids_count;
+a6379f0ad6375a Aditya Pakki  2020-06-12  955  	objagg_destroy(objagg2);
+8c8f1e89eb88d4 Arnd Bergmann 2025-06-20  956  
+8c8f1e89eb88d4 Arnd Bergmann 2025-06-20  957  	return err;
+8c8f1e89eb88d4 Arnd Bergmann 2025-06-20  958  }
+8c8f1e89eb88d4 Arnd Bergmann 2025-06-20  959  
 
-e9be9d5e76e348 Miklos Szeredi    2014-10-24   79  
-c21c839b8448dd Chengguang Xu     2020-04-24   80  static struct dentry *ovl_whiteout(struct ovl_fs *ofs)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24   81  {
-e9be9d5e76e348 Miklos Szeredi    2014-10-24   82  	int err;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24   83  	struct dentry *whiteout;
-c21c839b8448dd Chengguang Xu     2020-04-24   84  	struct dentry *workdir = ofs->workdir;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24   85  	struct inode *wdir = workdir->d_inode;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24   86  
-a33c6f65a2ab05 NeilBrown         2025-06-25   87  	mutex_lock(&ofs->whiteout_lock);
-c21c839b8448dd Chengguang Xu     2020-04-24   88  	if (!ofs->whiteout) {
-a33c6f65a2ab05 NeilBrown         2025-06-25   89  		inode_lock(wdir);
-576bb263450bbb Christian Brauner 2022-04-04   90  		whiteout = ovl_lookup_temp(ofs, workdir);
-a33c6f65a2ab05 NeilBrown         2025-06-25   91  		if (!IS_ERR(whiteout)) {
-576bb263450bbb Christian Brauner 2022-04-04   92  			err = ovl_do_whiteout(ofs, wdir, whiteout);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24   93  			if (err) {
-e9be9d5e76e348 Miklos Szeredi    2014-10-24   94  				dput(whiteout);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24   95  				whiteout = ERR_PTR(err);
-c21c839b8448dd Chengguang Xu     2020-04-24   96  			}
-a33c6f65a2ab05 NeilBrown         2025-06-25   97  		}
-a33c6f65a2ab05 NeilBrown         2025-06-25   98  		inode_unlock(wdir);
-a33c6f65a2ab05 NeilBrown         2025-06-25   99  		if (IS_ERR(whiteout))
-a33c6f65a2ab05 NeilBrown         2025-06-25  100  			goto out;
-c21c839b8448dd Chengguang Xu     2020-04-24  101  		ofs->whiteout = whiteout;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  102  	}
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  103  
-e4599d4b1aeff0 Amir Goldstein    2023-06-17  104  	if (!ofs->no_shared_whiteout) {
-a33c6f65a2ab05 NeilBrown         2025-06-25  105  		inode_lock(wdir);
-576bb263450bbb Christian Brauner 2022-04-04  106  		whiteout = ovl_lookup_temp(ofs, workdir);
-a33c6f65a2ab05 NeilBrown         2025-06-25  107  		if (!IS_ERR(whiteout)) {
-576bb263450bbb Christian Brauner 2022-04-04  108  			err = ovl_do_link(ofs, ofs->whiteout, wdir, whiteout);
-a33c6f65a2ab05 NeilBrown         2025-06-25  109  			if (err) {
-a33c6f65a2ab05 NeilBrown         2025-06-25  110  				dput(whiteout);
-a33c6f65a2ab05 NeilBrown         2025-06-25  111  				whiteout = ERR_PTR(err);
-a33c6f65a2ab05 NeilBrown         2025-06-25  112  			}
-a33c6f65a2ab05 NeilBrown         2025-06-25  113  		}
-a33c6f65a2ab05 NeilBrown         2025-06-25  114  		inode_unlock(wdir);
-a33c6f65a2ab05 NeilBrown         2025-06-25  115  		if (!IS_ERR(whiteout) || PTR_ERR(whiteout) != -EMLINK)
-c21c839b8448dd Chengguang Xu     2020-04-24  116  			goto out;
-c21c839b8448dd Chengguang Xu     2020-04-24  117  
-c21c839b8448dd Chengguang Xu     2020-04-24 @118  		pr_warn("Failed to link whiteout - disabling whiteout inode sharing(nlink=%u, err=%i)\n",
-c21c839b8448dd Chengguang Xu     2020-04-24  119  			ofs->whiteout->d_inode->i_nlink, err);
-e4599d4b1aeff0 Amir Goldstein    2023-06-17  120  		ofs->no_shared_whiteout = true;
-c21c839b8448dd Chengguang Xu     2020-04-24  121  	}
-c21c839b8448dd Chengguang Xu     2020-04-24  122  	whiteout = ofs->whiteout;
-c21c839b8448dd Chengguang Xu     2020-04-24  123  	ofs->whiteout = NULL;
-c21c839b8448dd Chengguang Xu     2020-04-24  124  out:
-a33c6f65a2ab05 NeilBrown         2025-06-25  125  	mutex_unlock(&ofs->whiteout_lock);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  126  	return whiteout;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  127  }
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  128  
+:::::: The code at line 923 was first introduced by commit
+:::::: 9069a3817d82b01b3a55da382c774e3575946130 lib: objagg: implement optimization hints assembly and use hints for object creation
+
+:::::: TO: Jiri Pirko <jiri@mellanox.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
