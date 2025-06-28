@@ -1,74 +1,57 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81F91A83F7
-	for <oe-kbuild@lists.linux.dev>; Sat, 28 Jun 2025 03:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF1F12E7E
+	for <oe-kbuild@lists.linux.dev>; Sat, 28 Jun 2025 04:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751080096; cv=none; b=UNnK9a5aoHDji2A5ay858eRKZQ9ofd3iy0mhSPO+VnkK8DZHWlvFesH3lB0rSdgjy6q3iaiBz+AFJ5J8EhlLdS0fXS+yKASgy2SIWPLBF0HgXjTKAcf/mStDcATLWJshrqjPgvZq1xUZwwWYJGujN2ovWPuPpyilNb+UycyoU1U=
+	t=1751086045; cv=none; b=K7DSj9RJ9AVzaX/fruhkeKWzJ9yMiMvmIeZH6HWPiPYuHzgKvCb4c3/p7Q3+Kcj0C+4u41OD3ERnz4PqvGpat0vy24fq6pQ609ZlrHYZbpJKppqABH5Yxubm1EXNMMIM+SfZ0fHcij74gYwRPgWgzVuWFr43WGX83hcUnIhwQG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751080096; c=relaxed/simple;
-	bh=F4jRPYPK3HZQp41xTMVS090WqXhuuPrEtD6Fu72Rs8M=;
+	s=arc-20240116; t=1751086045; c=relaxed/simple;
+	bh=DZqsCFWju5f1qtU5+SfcWkKlF96d+ZBrRXz4ZMYAZ9A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=JzzUf0nLmiHw3I90Pmdm0AgOiyny7rD38DtH7EUX9aUO+ALi2MAa39MvK4c4o3l6JEUsdnh7ajHaZtdXIRTuAVzUyiPPDlWdR9p5n9PiDYeCravbU2S4UjixiFprlt4N4p3R4szOzcGlFHmC+9Nhk0X74gLix7F22fgILMvVp8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Mw8QK1wy; arc=none smtp.client-ip=209.85.167.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=oLlxoH9FsJjiR9QBZXGgsHYJP60fk5ZfOlkvHQonXkgx1pCvPk1NcnQX56dhF0vNLm6z+UQPccwMCOiCrE8NbdRjMqgT7Sud+m2cjPaC1I8aHjZ+yHtbuss6UXr1IQN2wTZivv42gOBJiA2yNX433TTeVLcsXT0d0Y3c4lE+yMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Anqp4A5U; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Mw8QK1wy"
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-4080548891fso1123432b6e.3
-        for <oe-kbuild@lists.linux.dev>; Fri, 27 Jun 2025 20:08:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751080093; x=1751684893; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R5C7wDOCk564OEWFH7M2aZZ1aNq6jn/MMfPLPriA7Zg=;
-        b=Mw8QK1wyNpILC7W/OMf5nLSt83LXmik95UVdy65rrrBCvfh8lEGHUcp4nOxtci2f1s
-         Qe6Flri56fgouUAMLkp5W2MYJ7iQXjDLD8c97o/+C7qr8I0LABO0LYfRxyyI1XOl6fD9
-         h+vKcVXVCJ+hZ4WQEX/sEgKbME2LyUIeZgF0T2d/0MCm0/RkR1jQlFam5vAASAG2HQCZ
-         csnTJJ7n+T3ujK5TnDuZuGT0VkUn30YjHG6OH4sKrqiJgIMD9EndAOb+w5Re4G6XbKzD
-         KsSBoU43/kOEcv0HPWg3ehF40zUYo184/MKFE/p5/uHciNaDRnrrBSWob9Tseq7+v1SX
-         D5UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751080093; x=1751684893;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=R5C7wDOCk564OEWFH7M2aZZ1aNq6jn/MMfPLPriA7Zg=;
-        b=dNMpoNR97d3pSlbft8sXB763UfT+dZ5SrhA+XO1ok5Cz8Bq2hiucHVXuP4F57NDWjt
-         2VsJhOCB0oP7NMmOqrlVamVyWXsZvTHv7CKjGRBRsmbovgDHclUoVfJ5d19pepxRCsnZ
-         1jWcRA7lvLVrDQj7AO7a8NAWuJwnDdgL9xuwyAaatzyXi8PHRYrAd8rev6OQYhC9yWa0
-         9JYrwz/SamiY+XdfqUN8aBMPe7wdiAYdzaa7i/wFydyexjGFZl2MpSbO7uf2NipYxhBI
-         PwEiCWlR36yhPC3YLO0OTk9x1cX3Bjpo1blPf0ST665+3V1BEhnC4k9eYICs870mG+Ud
-         hwIQ==
-X-Gm-Message-State: AOJu0Yz9E4khqxr8CHPO7UNmGd9JJylwDHWfArU6cfXdE3mRJqQgW61a
-	iGI4CT/bthXe205t5LSEzAUc/PiYp2JlPK4ojb6nNH/OEKuTRevT7Gs+K79Y+BPNT9ewHROmA6Q
-	U3rgkqxo=
-X-Gm-Gg: ASbGncukkTmZiqI8XcASuv5q9osccuxfasn07YB0B4eWQg8QXkDwaWkoZW+MUJzp2um
-	fsquxRUrSiIgT2C84jaAVspE2td00vuvYYXvPhitjpOr2tVtfArJs4KrO/l14Qqfny2n1A3nku/
-	fmjSehnc7OqcuoMDlb/6JggYr2MkJwIziArQCVm+yqClDMF+c9G18+fDhs0PAc13r/dPdej9Ldv
-	qiJ4DH7xjwYdRMKg/TDybW71Bs3tVt7UsZT0qqAarnhMh1LBtBcUBGg4F90DimsyZ3Uvbsf73x8
-	Vw8nBnYHcxbcE7EcMeDRINpJ1Cgmb4IYUBvujPHj+rus4jiErxKHsqM2zqAZfb9kNkoH7Q==
-X-Google-Smtp-Source: AGHT+IE9p/mIcciNCswT4RuAtH/FPSvIxBlffkNmLxu9P9Tp83tKg9+5M+mI2y7FVTOhrZhMjnCp2g==
-X-Received: by 2002:a05:6808:318f:b0:3fe:b1fd:527f with SMTP id 5614622812f47-40b33c18540mr4463308b6e.1.1751080093399;
-        Fri, 27 Jun 2025 20:08:13 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:f3a4:7b11:3bf4:5d7b])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73afb006480sm631924a34.21.2025.06.27.20.08.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 20:08:12 -0700 (PDT)
-Date: Sat, 28 Jun 2025 06:08:10 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, NeilBrown <neil@brown.name>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-unionfs@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 02/12] ovl: Call ovl_create_temp() and ovl_create_index()
- without lock held.
-Message-ID: <98d78667-cd7d-40d8-b5d8-7f5973d012e7@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Anqp4A5U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751086043; x=1782622043;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DZqsCFWju5f1qtU5+SfcWkKlF96d+ZBrRXz4ZMYAZ9A=;
+  b=Anqp4A5UdnJ0+Qy3naTqBWU3j9eEo/mzJA2lyN0sRIvxb4rIlLqSeuvo
+   6VsBtosbWf/0VQhwvGf6lGRkPhSnQOGK1HUXqb+XyVivN2UKSNm4qhbb0
+   2Rj+8MdBfqeAXpa+hSfr1izmYchv6h3NJ1EyCpKrBIrdg022zaoOQ3RZv
+   S/UjpD2A+GfwRaf6a3ZtZgk3nYLOr140spIpie0q/GJtb0vWvag4uNuOM
+   3Kcq9ATOauODq2eJJMVit9ecIDi0chgS85gvYOMFHdYila3MgotA73M33
+   BrFsgaF4nw6Hn1a/YbpI26YRqw5BVT+AF7OpGvDY3G6w/Qes4P3MH0/t8
+   Q==;
+X-CSE-ConnectionGUID: HFxZFpIMQOqnlsQecmrOPA==
+X-CSE-MsgGUID: GDCAQ8qGSDSalM3y936eeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53550278"
+X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
+   d="scan'208";a="53550278"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 21:47:22 -0700
+X-CSE-ConnectionGUID: A3r6bKOAQTWIaFMXqlx87Q==
+X-CSE-MsgGUID: msfbluVMRqKo6q9BVJjRBg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
+   d="scan'208";a="183892191"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 27 Jun 2025 21:47:21 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uVNTD-000WnG-1O;
+	Sat, 28 Jun 2025 04:47:19 +0000
+Date: Sat, 28 Jun 2025 12:47:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 09/12] ovl: whiteout locking changes
+Message-ID: <202506281246.X6htntN7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -77,113 +60,106 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624230636.3233059-3-neil@brown.name>
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250624230636.3233059-10-neil@brown.name>
+References: <20250624230636.3233059-10-neil@brown.name>
+TO: NeilBrown <neil@brown.name>
+TO: Miklos Szeredi <miklos@szeredi.hu>
+TO: Amir Goldstein <amir73il@gmail.com>
+CC: linux-unionfs@vger.kernel.org
+CC: Alexander Viro <viro@zeniv.linux.org.uk>
+CC: Christian Brauner <brauner@kernel.org>
+CC: Jan Kara <jack@suse.cz>
+CC: linux-fsdevel@vger.kernel.org
 
 Hi NeilBrown,
 
 kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on next-20250627]
+[cannot apply to mszeredi-vfs/overlayfs-next mszeredi-vfs/next linus/master v6.16-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/ovl-use-is_subdir-for-testing-if-one-thing-is-a-subdir-of-another/20250625-070919
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250624230636.3233059-3-neil%40brown.name
-patch subject: [PATCH 02/12] ovl: Call ovl_create_temp() and ovl_create_index() without lock held.
-config: x86_64-randconfig-161-20250627 (https://download.01.org/0day-ci/archive/20250628/202506281017.jeQF1pnr-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/20250624230636.3233059-10-neil%40brown.name
+patch subject: [PATCH 09/12] ovl: whiteout locking changes
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-161-20250627 (https://download.01.org/0day-ci/archive/20250628/202506281246.X6htntN7-lkp@intel.com/config)
 compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506281017.jeQF1pnr-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202506281246.X6htntN7-lkp@intel.com/
 
 New smatch warnings:
-fs/overlayfs/dir.c:427 ovl_clear_empty() warn: passing zero to 'ERR_PTR'
+fs/overlayfs/dir.c:118 ovl_whiteout() error: uninitialized symbol 'err'.
 
-vim +/ERR_PTR +427 fs/overlayfs/dir.c
+Old smatch warnings:
+fs/overlayfs/dir.c:58 ovl_cleanup_unlocked() error: uninitialized symbol 'err'.
+fs/overlayfs/dir.c:437 ovl_clear_empty() warn: passing zero to 'ERR_PTR'
 
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  353  static struct dentry *ovl_clear_empty(struct dentry *dentry,
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  354  				      struct list_head *list)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  355  {
-576bb263450bbb Christian Brauner 2022-04-04  356  	struct ovl_fs *ofs = OVL_FS(dentry->d_sb);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  357  	struct dentry *workdir = ovl_workdir(dentry);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  358  	struct inode *wdir = workdir->d_inode;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  359  	struct dentry *upperdir = ovl_dentry_upper(dentry->d_parent);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  360  	struct inode *udir = upperdir->d_inode;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  361  	struct path upperpath;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  362  	struct dentry *upper;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  363  	struct dentry *opaquedir;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  364  	struct kstat stat;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  365  	int err;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  366  
-cc6f67bcafcb6b Miklos Szeredi    2015-05-19  367  	if (WARN_ON(!workdir))
-cc6f67bcafcb6b Miklos Szeredi    2015-05-19  368  		return ERR_PTR(-EROFS);
-cc6f67bcafcb6b Miklos Szeredi    2015-05-19  369  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  370  	ovl_path_upper(dentry, &upperpath);
-a528d35e8bfcc5 David Howells     2017-01-31  371  	err = vfs_getattr(&upperpath, &stat,
-a528d35e8bfcc5 David Howells     2017-01-31  372  			  STATX_BASIC_STATS, AT_STATX_SYNC_AS_STAT);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  373  	if (err)
-fb1b87daadb6ed NeilBrown         2025-06-25  374  		goto out;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  375  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  376  	err = -ESTALE;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  377  	if (!S_ISDIR(stat.mode))
-fb1b87daadb6ed NeilBrown         2025-06-25  378  		goto out;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  379  	upper = upperpath.dentry;
-fb1b87daadb6ed NeilBrown         2025-06-25  380  	/* This test is racey but we re-test under the lock */
-fb1b87daadb6ed NeilBrown         2025-06-25  381  	if (upper->d_parent != upperdir)
-fb1b87daadb6ed NeilBrown         2025-06-25  382  		goto out;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  383  
-576bb263450bbb Christian Brauner 2022-04-04  384  	opaquedir = ovl_create_temp(ofs, workdir, OVL_CATTR(stat.mode));
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  385  	err = PTR_ERR(opaquedir);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  386  	if (IS_ERR(opaquedir))
-fb1b87daadb6ed NeilBrown         2025-06-25  387  		/* workdir was unlocked, no upperdir */
-fb1b87daadb6ed NeilBrown         2025-06-25  388  		goto out;
-fb1b87daadb6ed NeilBrown         2025-06-25  389  	err = ovl_lock_rename_workdir(workdir, upperdir);
-fb1b87daadb6ed NeilBrown         2025-06-25  390  	if (err)
-fb1b87daadb6ed NeilBrown         2025-06-25  391  		goto out_cleanup_unlocked;
-fb1b87daadb6ed NeilBrown         2025-06-25  392  	if (upper->d_parent->d_inode != udir)
-fb1b87daadb6ed NeilBrown         2025-06-25  393  		goto out_cleanup;
+vim +/err +118 fs/overlayfs/dir.c
 
-Should there be an error code for this?
-
-dad7017a840d8d Christian Brauner 2022-04-04  394  	err = ovl_copy_xattr(dentry->d_sb, &upperpath, opaquedir);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  395  	if (err)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  396  		goto out_cleanup;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  397  
-5cf5b477f0ca33 Miklos Szeredi    2016-12-16  398  	err = ovl_set_opaque(dentry, opaquedir);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  399  	if (err)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  400  		goto out_cleanup;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  401  
-5955102c9984fa Al Viro           2016-01-22  402  	inode_lock(opaquedir->d_inode);
-5272eaf3a56827 Christian Brauner 2022-04-04  403  	err = ovl_set_attr(ofs, opaquedir, &stat);
-5955102c9984fa Al Viro           2016-01-22  404  	inode_unlock(opaquedir->d_inode);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  405  	if (err)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  406  		goto out_cleanup;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  407  
-bc9241367aac08 NeilBrown         2025-06-13  408  	err = ovl_do_rename(ofs, workdir, opaquedir, upperdir, upper, RENAME_EXCHANGE);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  409  	if (err)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  410  		goto out_cleanup;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  411  
-576bb263450bbb Christian Brauner 2022-04-04  412  	ovl_cleanup_whiteouts(ofs, upper, list);
-576bb263450bbb Christian Brauner 2022-04-04  413  	ovl_cleanup(ofs, wdir, upper);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  414  	unlock_rename(workdir, upperdir);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  415  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  416  	/* dentry's upper doesn't match now, get rid of it */
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  417  	d_drop(dentry);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  418  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  419  	return opaquedir;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  420  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  421  out_cleanup:
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  422  	unlock_rename(workdir, upperdir);
-fb1b87daadb6ed NeilBrown         2025-06-25  423  out_cleanup_unlocked:
-fb1b87daadb6ed NeilBrown         2025-06-25  424  	ovl_cleanup_unlocked(ofs, workdir, opaquedir);
-fb1b87daadb6ed NeilBrown         2025-06-25  425  	dput(opaquedir);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  426  out:
-e9be9d5e76e348 Miklos Szeredi    2014-10-24 @427  	return ERR_PTR(err);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  428  }
+e9be9d5e76e348 Miklos Szeredi    2014-10-24   79  
+c21c839b8448dd Chengguang Xu     2020-04-24   80  static struct dentry *ovl_whiteout(struct ovl_fs *ofs)
+e9be9d5e76e348 Miklos Szeredi    2014-10-24   81  {
+e9be9d5e76e348 Miklos Szeredi    2014-10-24   82  	int err;
+e9be9d5e76e348 Miklos Szeredi    2014-10-24   83  	struct dentry *whiteout;
+c21c839b8448dd Chengguang Xu     2020-04-24   84  	struct dentry *workdir = ofs->workdir;
+e9be9d5e76e348 Miklos Szeredi    2014-10-24   85  	struct inode *wdir = workdir->d_inode;
+e9be9d5e76e348 Miklos Szeredi    2014-10-24   86  
+a33c6f65a2ab05 NeilBrown         2025-06-25   87  	mutex_lock(&ofs->whiteout_lock);
+c21c839b8448dd Chengguang Xu     2020-04-24   88  	if (!ofs->whiteout) {
+a33c6f65a2ab05 NeilBrown         2025-06-25   89  		inode_lock(wdir);
+576bb263450bbb Christian Brauner 2022-04-04   90  		whiteout = ovl_lookup_temp(ofs, workdir);
+a33c6f65a2ab05 NeilBrown         2025-06-25   91  		if (!IS_ERR(whiteout)) {
+576bb263450bbb Christian Brauner 2022-04-04   92  			err = ovl_do_whiteout(ofs, wdir, whiteout);
+e9be9d5e76e348 Miklos Szeredi    2014-10-24   93  			if (err) {
+e9be9d5e76e348 Miklos Szeredi    2014-10-24   94  				dput(whiteout);
+e9be9d5e76e348 Miklos Szeredi    2014-10-24   95  				whiteout = ERR_PTR(err);
+c21c839b8448dd Chengguang Xu     2020-04-24   96  			}
+a33c6f65a2ab05 NeilBrown         2025-06-25   97  		}
+a33c6f65a2ab05 NeilBrown         2025-06-25   98  		inode_unlock(wdir);
+a33c6f65a2ab05 NeilBrown         2025-06-25   99  		if (IS_ERR(whiteout))
+a33c6f65a2ab05 NeilBrown         2025-06-25  100  			goto out;
+c21c839b8448dd Chengguang Xu     2020-04-24  101  		ofs->whiteout = whiteout;
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  102  	}
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  103  
+e4599d4b1aeff0 Amir Goldstein    2023-06-17  104  	if (!ofs->no_shared_whiteout) {
+a33c6f65a2ab05 NeilBrown         2025-06-25  105  		inode_lock(wdir);
+576bb263450bbb Christian Brauner 2022-04-04  106  		whiteout = ovl_lookup_temp(ofs, workdir);
+a33c6f65a2ab05 NeilBrown         2025-06-25  107  		if (!IS_ERR(whiteout)) {
+576bb263450bbb Christian Brauner 2022-04-04  108  			err = ovl_do_link(ofs, ofs->whiteout, wdir, whiteout);
+a33c6f65a2ab05 NeilBrown         2025-06-25  109  			if (err) {
+a33c6f65a2ab05 NeilBrown         2025-06-25  110  				dput(whiteout);
+a33c6f65a2ab05 NeilBrown         2025-06-25  111  				whiteout = ERR_PTR(err);
+a33c6f65a2ab05 NeilBrown         2025-06-25  112  			}
+a33c6f65a2ab05 NeilBrown         2025-06-25  113  		}
+a33c6f65a2ab05 NeilBrown         2025-06-25  114  		inode_unlock(wdir);
+a33c6f65a2ab05 NeilBrown         2025-06-25  115  		if (!IS_ERR(whiteout) || PTR_ERR(whiteout) != -EMLINK)
+c21c839b8448dd Chengguang Xu     2020-04-24  116  			goto out;
+c21c839b8448dd Chengguang Xu     2020-04-24  117  
+c21c839b8448dd Chengguang Xu     2020-04-24 @118  		pr_warn("Failed to link whiteout - disabling whiteout inode sharing(nlink=%u, err=%i)\n",
+c21c839b8448dd Chengguang Xu     2020-04-24  119  			ofs->whiteout->d_inode->i_nlink, err);
+e4599d4b1aeff0 Amir Goldstein    2023-06-17  120  		ofs->no_shared_whiteout = true;
+c21c839b8448dd Chengguang Xu     2020-04-24  121  	}
+c21c839b8448dd Chengguang Xu     2020-04-24  122  	whiteout = ofs->whiteout;
+c21c839b8448dd Chengguang Xu     2020-04-24  123  	ofs->whiteout = NULL;
+c21c839b8448dd Chengguang Xu     2020-04-24  124  out:
+a33c6f65a2ab05 NeilBrown         2025-06-25  125  	mutex_unlock(&ofs->whiteout_lock);
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  126  	return whiteout;
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  127  }
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  128  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
