@@ -1,68 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306422D613
-	for <oe-kbuild@lists.linux.dev>; Sun, 29 Jun 2025 01:56:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DDD51754B
+	for <oe-kbuild@lists.linux.dev>; Sun, 29 Jun 2025 04:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751162195; cv=none; b=cGQ9CqOUcOu9d0/2Qvpb64i8TDCVJ+k7iD9shJJFA/zey0pO8rcYP2aNyQkUON+ELY9zlyiDD5EtHAxNT9NAaAjTvq4UBnWyl4UDlrrUa1+0OJ/h6bpIVH1Yir2TTKx4bxmwFgnXjyob6GzMrVZuZzycakVHifYP5tVPu+hmKv4=
+	t=1751170788; cv=none; b=P/E7f5GKNM0N5LKKKtxw4zgQRSRisp5I2NNcFpurkOmcF8PQ9N2QslCjOcYfigVubxZFNPX9s1FOIjIH1lZk5gG/eJhbvarpBLjpcE1EK3DLuwMzxUthPmnmKEVxFTLB7ilMrnpFtKtRgBicWj41KkDpZIU93jaWMvHva4Bqc84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751162195; c=relaxed/simple;
-	bh=G8c/zYXexG+vV9N+oz7RggumAu3c1u+cGHcgBUbqXBI=;
+	s=arc-20240116; t=1751170788; c=relaxed/simple;
+	bh=P9z+BoS6utNUYoIe4EACVRMU99y4RMyF4TvTQ6ib8e4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SUQQPsNsvdFF8t63ikBcKX2wgwDd7YQpGe2a0JbLGwDqy535cgMNqy4HfiIx6esTo41TCPZC2jcc0nVdAuwe8dMxKIZn/tuLDuNpZhqXnGxDGZIz4hwRq8y8IEFXFMhLcbdjy55PdaPTwDMUrAAJgepFF0Q9km58h2FAliwDypk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qb786XY1; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=WPjrXbbwadsGTreG0FRICJlq9o1qrcLRERgPqRvoPD3Tk6OXzI27n5oWlcEPNvMLFSjRK5wqtuxbKj2rfKx7E7g9xJ5bcD1LDlwEoYaPck1wXjW17fhuYv+HIREhsai+Eb/1bLP9DPE8tDJqR4+DcHB+EOjvVlT1TxyqrCnIfmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KgM0ez2d; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qb786XY1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KgM0ez2d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751162193; x=1782698193;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=G8c/zYXexG+vV9N+oz7RggumAu3c1u+cGHcgBUbqXBI=;
-  b=Qb786XY1IW/Bj/8X8VOt+XH62HllQeVJC1JrCen/TBzDCspX/9ykYvMe
-   EChKUrQOAo8W4IxDlZT0OOIOeJ+54DhHtwlQJipCc+lDJIdNy8TDwnUxJ
-   hjiguKarqeHtrIE91+emBmjRcG1uSByLxVinz8OfZN5UtLIIJQ6Ez0dO9
-   iv213RBbXeg6LK2JVqzoTVhkEEDRNrBBt8TTlBsBZYlDvHO9sD1w4VajY
-   HjY8z1PfD+YWd42VTPH+O1sSp4D4s+9lX3jjFoEaCE7M4FMc3f1Av81UV
-   lXs7kBbnc19MvFN75qMwR8JbVWWTNJoHGl5epVoBSobVBBj+preog3lv0
-   A==;
-X-CSE-ConnectionGUID: BYp3YdoKQealTj020LH5cA==
-X-CSE-MsgGUID: tQB6vLEaSmKOCNoDQ+x9+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="57204082"
+  t=1751170784; x=1782706784;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=P9z+BoS6utNUYoIe4EACVRMU99y4RMyF4TvTQ6ib8e4=;
+  b=KgM0ez2dnzgX6qByvK4F8kiOSMhnGVIF3gK/5eXJkMefyVOp9JcMX1MJ
+   lQHET2PsVYoD8/ieV1cHJfHtP4fNdlTF+bWde7rtx+lKKhE93dyjwtXYc
+   zHD1vWwZsp1uIOOW2PnKlGDECX2XUGptMwF5AzUIUKfxU+1K7V56Iw/gN
+   HM1OCGpR62U+OU8n6VP88jCk+Yz8zFOOYMe/qCQ5GvfwPjn+TGh1OZdJ7
+   VDons+Rzm1PQddb9dCdNBfof4ZYtnhzGoEb0mbCQNV/HiAUzgnOvdNZeH
+   j9J8sVuM+a1StwaerMeAIZW8mp+t0B6s1BXfxmGhDswhXDorHAByj6BZo
+   Q==;
+X-CSE-ConnectionGUID: zkLqFCsqRPmF7SffrP+xRQ==
+X-CSE-MsgGUID: R2L4sNJ4QrGhuNCnQT39jg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="53298065"
 X-IronPort-AV: E=Sophos;i="6.16,274,1744095600"; 
-   d="scan'208";a="57204082"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 18:56:33 -0700
-X-CSE-ConnectionGUID: AUa5Hew4R6aqH7OmjeJm+A==
-X-CSE-MsgGUID: fVyNC9aVSIGOc9koh70NAQ==
+   d="scan'208";a="53298065"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 21:19:44 -0700
+X-CSE-ConnectionGUID: IkFuZfFBSSqgcTDtA77Lbg==
+X-CSE-MsgGUID: 6tyX7KQRTBeeqvAgSYtPWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,274,1744095600"; 
-   d="scan'208";a="153427568"
+   d="scan'208";a="184064602"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 28 Jun 2025 18:56:31 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 28 Jun 2025 21:19:42 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVhHR-000XZy-1P;
-	Sun, 29 Jun 2025 01:56:29 +0000
-Date: Sun, 29 Jun 2025 09:56:23 +0800
+	id 1uVjW0-000Xec-2I;
+	Sun, 29 Jun 2025 04:19:40 +0000
+Date: Sun, 29 Jun 2025 12:19:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 02/13] dt-bindings: stm32: stm32mp25: add
- `access-controller-cell` property
-Message-ID: <202506290937.5pWpVttE-lkp@intel.com>
+Subject: Re: [PATCHv4] dt-bindings: net: convert socfpga-dwmac.txt to DT
+ schema
+Message-ID: <202506291142.5nkvkiSd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
@@ -70,56 +68,69 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250623-ddrperfm-upstream-v1-2-7dffff168090@foss.st.com>
-References: <20250623-ddrperfm-upstream-v1-2-7dffff168090@foss.st.com>
-TO: "Clément Le Goffic" <clement.legoffic@foss.st.com>
-TO: Will Deacon <will@kernel.org>
-TO: Mark Rutland <mark.rutland@arm.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-TO: Alexandre Torgue <alexandre.torgue@foss.st.com>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
-TO: Jonathan Corbet <corbet@lwn.net>
-TO: Gatien Chevallier <gatien.chevallier@foss.st.com>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Gabriel Fernandez <gabriel.fernandez@foss.st.com>
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-perf-users@vger.kernel.org
+In-Reply-To: <20250624191549.474686-1-dinguyen@kernel.org>
+References: <20250624191549.474686-1-dinguyen@kernel.org>
+TO: Dinh Nguyen <dinguyen@kernel.org>
+TO: robh+dt@kernel.org
+TO: krzysztof.kozlowskii+dt@linaro.org
+TO: conor+dt@kernel.org
+CC: dinguyen@kernel.org
 CC: devicetree@vger.kernel.org
-CC: linux-stm32@st-md-mailman.stormreply.com
-CC: linux-kernel@vger.kernel.org
-CC: linux-doc@vger.kernel.org
-CC: linux-clk@vger.kernel.org
-CC: "Clément Le Goffic" <clement.legoffic@foss.st.com>
 
-Hi Clément,
+Hi Dinh,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 86731a2a651e58953fc949573895f2fa6d456841]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.16-rc3 next-20250627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-Le-Goffic/bus-firewall-move-stm32_firewall-header-file-in-include-folder/20250623-173554
-base:   86731a2a651e58953fc949573895f2fa6d456841
-patch link:    https://lore.kernel.org/r/20250623-ddrperfm-upstream-v1-2-7dffff168090%40foss.st.com
-patch subject: [PATCH 02/13] dt-bindings: stm32: stm32mp25: add `access-controller-cell` property
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm64-randconfig-051-20250627 (https://download.01.org/0day-ci/archive/20250629/202506290937.5pWpVttE-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dinh-Nguyen/dt-bindings-net-convert-socfpga-dwmac-txt-to-DT-schema/20250625-031749
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250624191549.474686-1-dinguyen%40kernel.org
+patch subject: [PATCHv4] dt-bindings: net: convert socfpga-dwmac.txt to DT schema
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm64-randconfig-051-20250627 (https://download.01.org/0day-ci/archive/20250629/202506291142.5nkvkiSd-lkp@intel.com/config)
 compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
 dtschema version: 2025.6.1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250629/202506290937.5pWpVttE-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250629/202506291142.5nkvkiSd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506290937.5pWpVttE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506291142.5nkvkiSd-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/st/stm32mp235f-dk.dtb: clock-controller@44200000 (st,stm32mp25-rcc): '#access-controller-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/st,stm32mp25-rcc.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi:581.10-630.5: Warning (simple_bus_reg): /soc@0/eccmgr: missing or empty reg/ranges property
+   arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dtb: cb-intosc-hs-div2-clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dtb: cb-intosc-ls-clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dtb: f2s-free-clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+>> arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('mdio0' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dtb: rstmgr@ffd11000 (altr,stratix10-rst-mgr): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['altr,stratix10-rst-mgr'] is too short
+   	'altr,rst-mgr' was expected
+   	from schema $id: http://devicetree.org/schemas/reset/altr,rst-mgr.yaml#
+--
+   arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi:581.10-630.5: Warning (simple_bus_reg): /soc@0/eccmgr: missing or empty reg/ranges property
+   arch/arm64/boot/dts/altera/socfpga_stratix10_socdk_nand.dtb: cb-intosc-hs-div2-clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10_socdk_nand.dtb: cb-intosc-ls-clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10_socdk_nand.dtb: f2s-free-clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+>> arch/arm64/boot/dts/altera/socfpga_stratix10_socdk_nand.dtb: ethernet@ff804000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('mdio0' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/altr,dwmac-socfpga.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10_socdk_nand.dtb: rstmgr@ffd11000 (altr,stratix10-rst-mgr): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['altr,stratix10-rst-mgr'] is too short
+   	'altr,rst-mgr' was expected
+   	from schema $id: http://devicetree.org/schemas/reset/altr,rst-mgr.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
