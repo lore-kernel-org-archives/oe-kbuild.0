@@ -1,185 +1,144 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B81225D8F0
-	for <oe-kbuild@lists.linux.dev>; Mon, 30 Jun 2025 16:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA6528D8EB
+	for <oe-kbuild@lists.linux.dev>; Mon, 30 Jun 2025 16:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751299867; cv=none; b=NC29SGQmO4f9hCTPw1Mbbh/cPSL0CkrbS06ExvIjfPmEJQm6O+ttoga1yAUVnXHmLirc5dZggga2wEMVOqH8PNoha+2DlwFLfTGOpqFuYKEjxkrvFn5CJGJ5nugJidvlTYqI8MSdbwjxvIKKw6CGfWEycI8YNAGf1iqwkV/NDsk=
+	t=1751299972; cv=none; b=QBOLGYrUHmhrI0GzCiZX9b+DCBO9rK/B8Xt1PgThHlMCGqrgjKjdRW43vB06K20ZceSgH+WzGI6qVe8jnKcnXb2WM2xDce1/6JlEkCxRdWKeQApFp0Y/hiQY+RVsaBAnRF6BDKs+EGvaXXpmCSGARMoe+0+0BS7Riw5C3IoNmcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751299867; c=relaxed/simple;
-	bh=AX8qgl2cffMEVWaTwnrr3LcqdLFK3uG4nHHa1AZSDbk=;
+	s=arc-20240116; t=1751299972; c=relaxed/simple;
+	bh=q4VIj35HGYUMrlmf/wPQyD4fjoYIUJIrYvqyNvRayR4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ibAijhluzRNKDY7AyfulUCdYh0W9HikJqGccWykqOP8YETz/XJD1QUb5sniIlYZUo3CA8guXVzjTm9dhFrmhvCXO/t0/H1voGbIO2KjGdGvNX+KPG+EaUHtlV615Bxzq6JR07y8u1Qy73h6IqYquGyDgBIa7Ra2Vt4v3pmP+cQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BriQ676u; arc=none smtp.client-ip=209.85.160.44
+	 Content-Disposition:In-Reply-To; b=qVyJSLn0fGGce5eTvktpqgDruXxcf+U/fLiiO8VrMNEPt19nIvKPKXTHf1Ntc5N13ByOf4SZshoPbIkzYfTAt4pQSWEdNVPq/vqpSkj3xrkLC9IXTLDz+pLcmZxEnXYDKVT1ZZV8uJ59XyWpSltNYv4DnUc6oty1bmE/ijHAjxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xaaFbdS8; arc=none smtp.client-ip=209.85.210.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BriQ676u"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2d09d495c6cso833262fac.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 30 Jun 2025 09:11:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xaaFbdS8"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-73b1fbe64a6so277752a34.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 30 Jun 2025 09:12:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751299865; x=1751904665; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4uHB6h21m6dOEITRK2ywET9pNdNRkHfbkgrdjpub1gk=;
-        b=BriQ676u8PlyMlz2nns2yLRA7Z+I3xWuv/Lf2+7smBSKnhiwUS3/iEODVOYdvh46WG
-         NqRmBD6GlZUOo/vcjzdC4y+UAVadFfDPw7OA3DhgHArxIYfTl0Pyq5hrpjJ30CjAH4Iz
-         gXVn1Hvc5Z+OT6ryllw+jH8Ud4+AK/vtGQaSjRgLzEMFbs8mCPg5n7RPfpo04QYxySRK
-         nO4tzk3BEFmsvnYYdgGkAEEMD3iyMhga6B/RCjGAf7GmABwIMJdCos25JoMf16GDLl75
-         SfaGGGALmLMqKNzWfb/x+l6yJ+RNsvZFrlsZxlvuPWSc1CitU45dfUZdGtqHz3ri1i5h
-         aukA==
+        d=linaro.org; s=google; t=1751299969; x=1751904769; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pdpheBuXy6YZBSAAaSyOQsX5JfXKwGuw8lus8OBrp2Y=;
+        b=xaaFbdS8hesIxaE3iSQaWo9vjRL2+E0hRmcCYinq5I4xmnz2vXEcex8M7JAjE1PN0A
+         e7W2p2E2KxFsduLIvcowNsddZDCJk6rhPjAT3G3pU8FpgKCzmeQW+DEJYnVuJ8ybcJfU
+         yb1CuBuyKDyDMTLxiqJqyRMrPcZholH26ECRVtVlkxf5Fw1B6ZlmfjtEBfC0eJ8uqAuM
+         K24nIKa0J14D4WZ1jLVzfZhFq9faaAJ825fDJ4VCdjICmmOVtyjDRn8KJIVfvKeF/jl7
+         6XvOITAkjKQ0Y9Tb1fadnptmh9K7OVTw1apFEfVvkUMFA/wWgN3aDDkRjvPT+jTw+e/2
+         8jgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751299865; x=1751904665;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4uHB6h21m6dOEITRK2ywET9pNdNRkHfbkgrdjpub1gk=;
-        b=ufEeUqrcSn22hg93jcQRgEMK5UH4Sm0wg/0DFCup+vFlEHMWnMM3bJND0TrHLVezbd
-         50vi6++CN6DPiYBPzaWfvJKVaq/24aTmCr//zgO8rbVk7Ydbbgbs2WoLzrQVsLkgBhnO
-         wHl2SEPMxwaSqk2jP2Yew9LPaXiLNuhW43PfRdXRJXMXnQ+L0Emg56/yXXMvh7Bhj/mU
-         per/NbhwULynJ30ZMF1+15g6WL8a2q1Efep73LVUS6uZw0hvcSyIYR87Fb+i0Q336lgW
-         6eibwHFaenWHNwGeYe+f6/iAVQ5PR+pC8xoVodNGEruKzWrjpndLKDe5VcCj5r02CHYC
-         IcBA==
-X-Gm-Message-State: AOJu0YxEMg+qhTg5j4yVwPyuB63tv4SYr+jnMXcQyq+qHuRFS6e1fusb
-	B03cJjmbGuSryGr0Mtx7jbIas/GMa95o2CiuXYtAHc23/7S/POtwScJ0IcVhS4YASgss1j+cKH1
-	ubfl4Vkc=
-X-Gm-Gg: ASbGncteB/lwQEdiGcsKHZfX03cD3ooPovz1NXJ5dzZxxIa2tj7HDlQN4vQv5NGda7Z
-	3BhfYFkphTdGNXnsroh37/fiI7HFJx01eEtu5xE09pP7CDKU+nCtK6EBJz1u/vm+/27/LuUlk1v
-	cEUFwtv5XjH6gCh4howFd5HaoytrcWh7Qn8vhekuDTExbtscrLiYdmzFsvfK3+MxeqfhXwfZ31T
-	BKEZY0TA/+o4vJGwFXQ6sw2hMCKs4xvsg/pr9ZweTTxif4owuiMwrQr8lb2/9yRa2hAYcwTy9w9
-	QRGAJ8AH6uncutcY32A4S0E5TG+1WURe6vqKNVU93OgsyrT1bPPkfa912cUlsuzoZxZe
-X-Google-Smtp-Source: AGHT+IGwq1koJ5VoxQg+dfxfpf0Fak1N3LEBXOYqiT1HPw0p3HRWsHnb4G6GXhOzFg/7aIprVPPi4Q==
-X-Received: by 2002:a05:6870:d92:b0:2ea:70ad:4517 with SMTP id 586e51a60fabf-2efed4f4f3emr8639800fac.15.1751299864345;
-        Mon, 30 Jun 2025 09:11:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751299969; x=1751904769;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pdpheBuXy6YZBSAAaSyOQsX5JfXKwGuw8lus8OBrp2Y=;
+        b=obCS2yFnPxNWd15wK7woBU2RSElndHH4vOmuwbZZlJ8/BJCyFba6yCgcQW7VWdinld
+         U0v/1dHB93gJfd2w+T4xx7PEwb3F60T9l5tOm/SGBW7bp+gzXsvoNkiO9ag2fiKesF/F
+         N5G8rbAleGvMZdHk+gU1hHjr2tY4natjImYe7Kpw+YtJSLSGBMXYXHsX2kydfvbcg9aw
+         A31BNgc6sulIFzhxSB8NNdT5mOHlxfFNoMy1Nuy+U/xpgxuMsJ0iKngayn2udXhoQt24
+         I3RklOpQYbV82Ibm+eT8hzFUdns8hiGHe9A2nsiHHDoCoJZxbHIV8HUKeuEr4E9ib0Fq
+         geiQ==
+X-Gm-Message-State: AOJu0YxXAq1da7d2v8gnPZvy8BpftexzIh/oYpv6wu04pnUSJcv2jWlA
+	DB7Aq6olSdAUXuITkSlHcpEqgJOVFbjoFvQpvfDp+NHWPAyGZp3TBAjFvYxZBfhU3T1BClbFSb+
+	jBSFA1Kg=
+X-Gm-Gg: ASbGncsbUIFzjVTzwJ0ZQ+f/RYGiP4aG7qswbU9uHgcaBSFb7oWbaPiZCq1+qYOT0HG
+	ED3jKyR4rmcMptN3YhCXhbVhjLpa+YwHOgIkG6YuTo/Uv0VtpdOV+PaKJ0y2f0wChe5Mv16rQBy
+	HoCNQ21l6lFtv1JTlN/gYnSlg0YzIFfkcbjiL+4VHXy71AWGXD+a1/U5Ho0NVyM46J8f/62U6uN
+	gc2jYnNcHqDburDZUyXM8gcDTK8vGwiU8wEeYqpydGjfbi+W87JJyFsYMPKKpNrdlvQQ7wIplbl
+	n3NlmXykGmAeDpe5f+gEYaXMO/xA0GNVFGCoQukr95gmToSVjFNC7Xtw5JcO3Ivk0D3STe+QN+P
+	NOGc=
+X-Google-Smtp-Source: AGHT+IE+3YuCeYJGJwDn+sNWhMGj764qlZlwHp5410p/o2A5QqpknTmv1v4Do0ZjuVRqdyPgQ/jIbQ==
+X-Received: by 2002:a05:6830:2c0a:b0:72b:a9f0:50 with SMTP id 46e09a7af769-73afc57dacdmr7936452a34.6.1751299967924;
+        Mon, 30 Jun 2025 09:12:47 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:fb67:363d:328:e253])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2efd4c35a57sm2784843fac.0.2025.06.30.09.11.02
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73afb0e47f8sm1717811a34.43.2025.06.30.09.12.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 09:11:03 -0700 (PDT)
-Date: Mon, 30 Jun 2025 19:11:00 +0300
+        Mon, 30 Jun 2025 09:12:47 -0700 (PDT)
+Date: Mon, 30 Jun 2025 19:12:45 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Florian Fainelli <f.fainelli@gmail.com>
+To: oe-kbuild@lists.linux.dev, Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jakub Kicinski <kuba@kernel.org>,
-	=?iso-8859-1?Q?=C1lvaro_Fern=E1ndez?= Rojas <noltari@gmail.com>
-Subject: [linux-next:master 2617/5998] drivers/net/dsa/b53/b53_common.c:1885
- b53_arl_op() error: uninitialized symbol 'fwd_entry'.
-Message-ID: <3119b2fe-0d72-4217-ac1d-1d8665e17baa@suswa.mountain>
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	jacopo.mondi@ideasonboard.com,
+	Daniel Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v2 2/3] media: mc: Add media jobs framework
+Message-ID: <24a14a22-9798-420e-b515-87183e898137@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250624-media-jobs-v2-2-8e649b069a96@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2aeda9592360c200085898a258c4754bfe879921
-commit: c45655386e532c85ff1d679fc2aa40b3aaff9916 [2617/5998] net: dsa: b53: add support for FDB operations on 5325/5365
-config: powerpc64-randconfig-r072-20250627 (https://download.01.org/0day-ci/archive/20250628/202506281631.qxLRO5eu-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
+Hi Daniel,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/media-mc-entity-Add-pipeline_started-stopped-ops/20250624-160120
+base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+patch link:    https://lore.kernel.org/r/20250624-media-jobs-v2-2-8e649b069a96%40ideasonboard.com
+patch subject: [PATCH v2 2/3] media: mc: Add media jobs framework
+config: nios2-randconfig-r073-20250627 (https://download.01.org/0day-ci/archive/20250628/202506282351.uufwOAwG-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506281631.qxLRO5eu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506282351.uufwOAwG-lkp@intel.com/
 
-smatch warnings:
-drivers/net/dsa/b53/b53_common.c:1885 b53_arl_op() error: uninitialized symbol 'fwd_entry'.
+New smatch warnings:
+drivers/media/mc/mc-jobs.c:285 __media_jobs_run_jobs() error: we previously assumed 'step->run_step' could be null (see line 281)
 
-vim +/fwd_entry +1885 drivers/net/dsa/b53/b53_common.c
+vim +285 drivers/media/mc/mc-jobs.c
 
-1da6df85c6fbed Florian Fainelli       2016-06-09  1806  static int b53_arl_op(struct b53_device *dev, int op, int port,
-1da6df85c6fbed Florian Fainelli       2016-06-09  1807  		      const unsigned char *addr, u16 vid, bool is_valid)
-1da6df85c6fbed Florian Fainelli       2016-06-09  1808  {
-1da6df85c6fbed Florian Fainelli       2016-06-09  1809  	struct b53_arl_entry ent;
-1da6df85c6fbed Florian Fainelli       2016-06-09  1810  	u32 fwd_entry;
-1da6df85c6fbed Florian Fainelli       2016-06-09  1811  	u64 mac, mac_vid = 0;
-1da6df85c6fbed Florian Fainelli       2016-06-09  1812  	u8 idx = 0;
-1da6df85c6fbed Florian Fainelli       2016-06-09  1813  	int ret;
-1da6df85c6fbed Florian Fainelli       2016-06-09  1814  
-1da6df85c6fbed Florian Fainelli       2016-06-09  1815  	/* Convert the array into a 64-bit MAC */
-4b92ea81cca38e Florian Fainelli       2017-01-05  1816  	mac = ether_addr_to_u64(addr);
-1da6df85c6fbed Florian Fainelli       2016-06-09  1817  
-1da6df85c6fbed Florian Fainelli       2016-06-09  1818  	/* Perform a read for the given MAC and VID */
-1da6df85c6fbed Florian Fainelli       2016-06-09  1819  	b53_write48(dev, B53_ARLIO_PAGE, B53_MAC_ADDR_IDX, mac);
-0cbec9aef5a861 Álvaro Fernández Rojas 2025-06-14  1820  	if (!is5325m(dev))
-1da6df85c6fbed Florian Fainelli       2016-06-09  1821  		b53_write16(dev, B53_ARLIO_PAGE, B53_VLAN_ID_IDX, vid);
-1da6df85c6fbed Florian Fainelli       2016-06-09  1822  
-1da6df85c6fbed Florian Fainelli       2016-06-09  1823  	/* Issue a read operation for this MAC */
-1da6df85c6fbed Florian Fainelli       2016-06-09  1824  	ret = b53_arl_rw_op(dev, 1);
-1da6df85c6fbed Florian Fainelli       2016-06-09  1825  	if (ret)
-1da6df85c6fbed Florian Fainelli       2016-06-09  1826  		return ret;
-1da6df85c6fbed Florian Fainelli       2016-06-09  1827  
-c45655386e532c Florian Fainelli       2025-06-14  1828  	if (is5325(dev) || is5365(dev))
-c45655386e532c Florian Fainelli       2025-06-14  1829  		ret = b53_arl_read_25(dev, mac, vid, &ent, &idx);
-c45655386e532c Florian Fainelli       2025-06-14  1830  	else
-ef2a0bd99b1549 Florian Fainelli       2020-04-30  1831  		ret = b53_arl_read(dev, mac, vid, &ent, &idx);
-ef2a0bd99b1549 Florian Fainelli       2020-04-30  1832  
-1da6df85c6fbed Florian Fainelli       2016-06-09  1833  	/* If this is a read, just finish now */
-1da6df85c6fbed Florian Fainelli       2016-06-09  1834  	if (op)
-1da6df85c6fbed Florian Fainelli       2016-06-09  1835  		return ret;
-1da6df85c6fbed Florian Fainelli       2016-06-09  1836  
-6344dbde6a27d1 Florian Fainelli       2020-04-20  1837  	switch (ret) {
-774d977abfd024 Tom Rix                2020-08-21  1838  	case -ETIMEDOUT:
-774d977abfd024 Tom Rix                2020-08-21  1839  		return ret;
-6344dbde6a27d1 Florian Fainelli       2020-04-20  1840  	case -ENOSPC:
-6344dbde6a27d1 Florian Fainelli       2020-04-20  1841  		dev_dbg(dev->dev, "{%pM,%.4d} no space left in ARL\n",
-6344dbde6a27d1 Florian Fainelli       2020-04-20  1842  			addr, vid);
-6344dbde6a27d1 Florian Fainelli       2020-04-20  1843  		return is_valid ? ret : 0;
-6344dbde6a27d1 Florian Fainelli       2020-04-20  1844  	case -ENOENT:
-1da6df85c6fbed Florian Fainelli       2016-06-09  1845  		/* We could not find a matching MAC, so reset to a new entry */
-6344dbde6a27d1 Florian Fainelli       2020-04-20  1846  		dev_dbg(dev->dev, "{%pM,%.4d} not found, using idx: %d\n",
-6344dbde6a27d1 Florian Fainelli       2020-04-20  1847  			addr, vid, idx);
-1da6df85c6fbed Florian Fainelli       2016-06-09  1848  		fwd_entry = 0;
+4be0a59bfc044b0 Daniel Scally 2025-06-24  257  static void __media_jobs_run_jobs(struct work_struct *work)
+4be0a59bfc044b0 Daniel Scally 2025-06-24  258  {
+4be0a59bfc044b0 Daniel Scally 2025-06-24  259  	struct media_job_scheduler *sched = container_of(work,
+4be0a59bfc044b0 Daniel Scally 2025-06-24  260  							 struct media_job_scheduler,
+4be0a59bfc044b0 Daniel Scally 2025-06-24  261  							 work);
+4be0a59bfc044b0 Daniel Scally 2025-06-24  262  	struct media_job_step *step;
+4be0a59bfc044b0 Daniel Scally 2025-06-24  263  	struct media_job *job;
+4be0a59bfc044b0 Daniel Scally 2025-06-24  264  
+4be0a59bfc044b0 Daniel Scally 2025-06-24  265  	while (true) {
+4be0a59bfc044b0 Daniel Scally 2025-06-24  266  		scoped_guard(spinlock, &sched->lock) {
+4be0a59bfc044b0 Daniel Scally 2025-06-24  267  			if (list_empty(&sched->queue))
+4be0a59bfc044b0 Daniel Scally 2025-06-24  268  				return;
+4be0a59bfc044b0 Daniel Scally 2025-06-24  269  
+4be0a59bfc044b0 Daniel Scally 2025-06-24  270  			job = list_first_entry(&sched->queue, struct media_job,
+4be0a59bfc044b0 Daniel Scally 2025-06-24  271  					       list);
+4be0a59bfc044b0 Daniel Scally 2025-06-24  272  
+4be0a59bfc044b0 Daniel Scally 2025-06-24  273  			list_del(&job->list);
+4be0a59bfc044b0 Daniel Scally 2025-06-24  274  		}
+4be0a59bfc044b0 Daniel Scally 2025-06-24  275  
+4be0a59bfc044b0 Daniel Scally 2025-06-24  276  		list_for_each_entry(step, &job->steps, list) {
+4be0a59bfc044b0 Daniel Scally 2025-06-24  277  			/*
+4be0a59bfc044b0 Daniel Scally 2025-06-24  278  			 * Theoretically impossible as this should have been
+4be0a59bfc044b0 Daniel Scally 2025-06-24  279  			 * validated in media_jobs_add_job_step()
+4be0a59bfc044b0 Daniel Scally 2025-06-24  280  			 */
+4be0a59bfc044b0 Daniel Scally 2025-06-24 @281  			if (!step->run_step)
+4be0a59bfc044b0 Daniel Scally 2025-06-24  282  				WARN_ONCE(1, "%s(): No .run_step() operation\n",
+4be0a59bfc044b0 Daniel Scally 2025-06-24  283  					  __func__);
 
-This warning is a false positive.  But you could delete
-this "fwd_entry = 0;" assignment since nothing uses it.
+We print a warning and then crash...  The NULL dereference
+will have the same stack trace that the WARN_ONCE() does.
 
-6344dbde6a27d1 Florian Fainelli       2020-04-20  1849  		break;
-6344dbde6a27d1 Florian Fainelli       2020-04-20  1850  	default:
-6344dbde6a27d1 Florian Fainelli       2020-04-20  1851  		dev_dbg(dev->dev, "{%pM,%.4d} found, using idx: %d\n",
-6344dbde6a27d1 Florian Fainelli       2020-04-20  1852  			addr, vid, idx);
-6344dbde6a27d1 Florian Fainelli       2020-04-20  1853  		break;
-1da6df85c6fbed Florian Fainelli       2016-06-09  1854  	}
-1da6df85c6fbed Florian Fainelli       2016-06-09  1855  
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1856  	/* For multicast address, the port is a bitmask and the validity
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1857  	 * is determined by having at least one port being still active
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1858  	 */
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1859  	if (!is_multicast_ether_addr(addr)) {
-1da6df85c6fbed Florian Fainelli       2016-06-09  1860  		ent.port = port;
-1da6df85c6fbed Florian Fainelli       2016-06-09  1861  		ent.is_valid = is_valid;
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1862  	} else {
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1863  		if (is_valid)
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1864  			ent.port |= BIT(port);
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1865  		else
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1866  			ent.port &= ~BIT(port);
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1867  
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1868  		ent.is_valid = !!(ent.port);
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1869  	}
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1870  
-1da6df85c6fbed Florian Fainelli       2016-06-09  1871  	ent.vid = vid;
-1da6df85c6fbed Florian Fainelli       2016-06-09  1872  	ent.is_static = true;
-5d65b64a3d9701 Florian Fainelli       2019-10-24  1873  	ent.is_age = false;
-1da6df85c6fbed Florian Fainelli       2016-06-09  1874  	memcpy(ent.mac, addr, ETH_ALEN);
-c45655386e532c Florian Fainelli       2025-06-14  1875  	if (is5325(dev) || is5365(dev))
-c45655386e532c Florian Fainelli       2025-06-14  1876  		b53_arl_from_entry_25(&mac_vid, &ent);
-c45655386e532c Florian Fainelli       2025-06-14  1877  	else
-1da6df85c6fbed Florian Fainelli       2016-06-09  1878  		b53_arl_from_entry(&mac_vid, &fwd_entry, &ent);
-1da6df85c6fbed Florian Fainelli       2016-06-09  1879  
-1da6df85c6fbed Florian Fainelli       2016-06-09  1880  	b53_write64(dev, B53_ARLIO_PAGE,
-1da6df85c6fbed Florian Fainelli       2016-06-09  1881  		    B53_ARLTBL_MAC_VID_ENTRY(idx), mac_vid);
-c45655386e532c Florian Fainelli       2025-06-14  1882  
-c45655386e532c Florian Fainelli       2025-06-14  1883  	if (!is5325(dev) && !is5365(dev))
-1da6df85c6fbed Florian Fainelli       2016-06-09  1884  		b53_write32(dev, B53_ARLIO_PAGE,
-1da6df85c6fbed Florian Fainelli       2016-06-09 @1885  			    B53_ARLTBL_DATA_ENTRY(idx), fwd_entry);
-1da6df85c6fbed Florian Fainelli       2016-06-09  1886  
-1da6df85c6fbed Florian Fainelli       2016-06-09  1887  	return b53_arl_rw_op(dev, 0);
-1da6df85c6fbed Florian Fainelli       2016-06-09  1888  }
+4be0a59bfc044b0 Daniel Scally 2025-06-24  284  
+4be0a59bfc044b0 Daniel Scally 2025-06-24 @285  			step->run_step(step->data);
+4be0a59bfc044b0 Daniel Scally 2025-06-24  286  		}
+4be0a59bfc044b0 Daniel Scally 2025-06-24  287  
+4be0a59bfc044b0 Daniel Scally 2025-06-24  288  		media_jobs_free_job(job);
+4be0a59bfc044b0 Daniel Scally 2025-06-24  289  	}
+4be0a59bfc044b0 Daniel Scally 2025-06-24  290  }
 
 -- 
 0-DAY CI Kernel Test Service
