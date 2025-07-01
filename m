@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E11B2777E8
-	for <oe-kbuild@lists.linux.dev>; Tue,  1 Jul 2025 14:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8A4277C9F
+	for <oe-kbuild@lists.linux.dev>; Tue,  1 Jul 2025 15:13:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751379652; cv=none; b=docr23ttZG2BSlE9NYSV73ua/asXhQkwR8c6iVDsCUfpGzGOb+jhCkimXFcDdtZ5BMkKmk5m4xPsEH1orrp6DMUW6M8HtHjlM+jjNtEFHcZm6JLLogn+VhXy8fTV03yJpksd0LilsKexrVqJiLe1KWukxBpLDF8tL9arsVFLsiw=
+	t=1751382834; cv=none; b=J+LgpbQAcQZeU0kuFIK+osZief2r7slncv2XjTIz8s9UKX0cBQTDZuRd7fjNJLNGtKPGbuoDvoRkvBY2PW95lhnqFwBChAx4ZD2Yu2q3HpUlvUG6lkc1U0GJqO5QU9rOYT3APw+fG0FdvsfRnYzMGMwubl5zU7DY0yIJjOJ6xSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751379652; c=relaxed/simple;
-	bh=n8LZEZ7k/3QX0Nfb61jSNzx9kZi3eeyL3M89MRsJMn0=;
+	s=arc-20240116; t=1751382834; c=relaxed/simple;
+	bh=HPo7QCNoEEJ13sZJ01R85iXwqntONuCGXnepF4AYQyU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N7VhhQriZ14nRcwpJ9Imj5zv2eGt3JlntFNkHaGI45SFzQftPPVPzV0/gPUVramlBg0Tpj+xVuT/t5zo1crjaOU20yTcUniha8+0GLR2edDVNuky4URrcuBeOzUYi5k8JX3tb5+j5D/c+frM8Fffg0hhvEkwdiRL+wuhqqhlZtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RHtt9J1m; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=EnNkgjlyHzlTATq9VyvO8t8PAe/mrxKSeojysD3gA3Zq4oPla5w81xESVh34w+z0LHoEVe8VU95fMhbqtZDFNe2TwFxzBWDL+m4EpljLG88Zoyng+kPN6P+7YfPFxLW0MHlHuDgFu8I4aK7q2F8d0FYpreNgy/4VspzdGcZHdVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xLNrfVfe; arc=none smtp.client-ip=209.85.167.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RHtt9J1m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751379650; x=1782915650;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n8LZEZ7k/3QX0Nfb61jSNzx9kZi3eeyL3M89MRsJMn0=;
-  b=RHtt9J1mE0y8jbaY80Pu2QHuUZ9+d6S491dH1ioStp3OQ59HkivTkabg
-   SNbJEXQ+W+y1SjsEYXjeNLwx9bzAX+v/V1ifT0usJ+gXjKC9KjvPgeyu1
-   HCQK9ZkcQsgtu7uw7Mc90DRJQbrBuvFaokBTTNLeUVX390eVMT8zOLW+Z
-   L8xuP2BLyDg7HlonffM8Le2w8V4+ZND9OETrbhZkYBK7JbxBxwlAtfqfM
-   FuDZI3p5zzG1Gcz1loT4SVlv65l1eD/LaUOLNxTXyiW+P1eNBJpy1cnIM
-   +rbVIqOcb4v19+8dviL29e1os2UJqkMDKYx6WePgdjONe+P2m+KUi/4eh
-   g==;
-X-CSE-ConnectionGUID: CnaLOzlLS1S+rkFG8ehHnQ==
-X-CSE-MsgGUID: W4x46Ja5TlO/FkVyCcs3tA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="53518753"
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="53518753"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 07:20:50 -0700
-X-CSE-ConnectionGUID: sa+YXA0TQfO40+Z+OkLuGA==
-X-CSE-MsgGUID: FpxQZTl0R0CiIIfP8gA+ig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="154319273"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 01 Jul 2025 07:20:48 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uWbqo-000aHS-0Y;
-	Tue, 01 Jul 2025 14:20:46 +0000
-Date: Tue, 1 Jul 2025 22:19:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xLNrfVfe"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-40af40aef06so3869806b6e.3
+        for <oe-kbuild@lists.linux.dev>; Tue, 01 Jul 2025 08:13:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751382831; x=1751987631; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TvP17ZAflRavUKpY4Mp29tAsw2hWI3TIGZ5ksOhmyEs=;
+        b=xLNrfVfefuJ+97c1iJSUIizufxGHhRd2sTo+DDdVs+NdPMEF1LhHaAUMfcXPMai5nL
+         h/MV4WxdS9iUU9sWfUxZa+rK85cbe5J9VCP3CAsyMxTrxLLm9YGwNVrI3fkdNOkjLsZ8
+         TgRzrfC8cqjLwTn5NCDb3rRX9VEgAgI9FAIk35anuqdvKOMNUkyrKAAGTvLOU8sXKeX7
+         JD/AVJ8CCQD3XF+XDWw5jZ3Cm927VB/VxJWc/hFPwQw97PNuGdxanAiL6E/ZvJqW3vpl
+         y2USiGJVDpqWkzOItqEm29Ynq10CoEu2LK+MYnugzOC87X4I1IJVCtxk06QSVCO4LlH7
+         2RWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751382831; x=1751987631;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TvP17ZAflRavUKpY4Mp29tAsw2hWI3TIGZ5ksOhmyEs=;
+        b=q/BQmlhm9WAbNts8MNUAATN5nxoz9WIgtnmwTmM2ilaBP3YxmjUJSWwZNoQGuDqgXM
+         qU+k6D3t8gvHdbz2x7xSQYS9Tu1QFwoSJegyabYr042MWhdNYFjJEJ2TthM4BZ9Ll88V
+         nd99WBaoxfWXnI7mVhBCnzydEShnDslRB8dwaqpIhZu0vJfZX4Cgnqn8XXxfbrlYizWe
+         CInuMPdn+LUSzQepWAGCZtRS3vjyevWGornTlN4vROZB/ZasprctgLb54xRooJD1VY7b
+         NJkOqzE2r0RRf2ixF6yea1d2PS3EPvp1yzclLHPF61ty6WM+FhLzp5tZZNq0SODyftjN
+         Xf2g==
+X-Gm-Message-State: AOJu0YzyG1iafG7UJxFNECB5aGEMlfQ78CRGS29tiBvpFvU39xN8sa+c
+	8TACgxXpC8xu8SicuRAlWnZMLFR+w35s+bGVNek5pKR5N9jHh56y8eKtcbss2TwyF8uyEUn17xg
+	9jbQ7
+X-Gm-Gg: ASbGnctoQUp9fsGdUAkBfSINqQAT1XzNquPx+t8OpkeCsejnNp3M59RNT5q7bmHSsI3
+	52gCRr44Uxh/GQjLU9iLIVxy34erdR7jUtP5s1UP/owpPg6a/bhH5/vdB6t6spKwgbKoQPQb9F9
+	xLIovXGMwZ+rJwUpy2x/zlqnM/EuoySr4kNYkqbYgA3VLaFvbHNPf/JRyffVZ1RCBGgVqnTLDO7
+	WIJ3N7IdH8jQv/Q5q0BGLt1Isbx+WI2OM5WrdPkoTXXB8wQrp7MmVzejo8jQpWVrq+S55V4BRfu
+	8Nl8LfEN1ZBk63qfnDk9KAb/gbM5aPajx5gQRgZGOR3tRtXuw56o9FiKP5j0WEm/rkV7zA==
+X-Google-Smtp-Source: AGHT+IFJyOyZ9nfKb3i1H1MJC801oKnQyWDHcHeJnLO22Qd4qWC9o3hGGlNb7DDyU/ra7yb+3+Gg3w==
+X-Received: by 2002:a05:6808:1692:b0:406:39b4:2232 with SMTP id 5614622812f47-40b33c48e52mr11763271b6e.3.1751382830670;
+        Tue, 01 Jul 2025 08:13:50 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:8ebc:82eb:65f7:565e])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-40b441e2ef4sm1795136b6e.26.2025.07.01.08.13.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jul 2025 08:13:50 -0700 (PDT)
+Date: Tue, 1 Jul 2025 18:13:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, lizhe.67@bytedance.com,
+	alex.williamson@redhat.com, jgg@ziepe.ca, david@redhat.com,
+	peterx@redhat.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, lizhe.67@bytedance.com
 Subject: Re: [PATCH 3/4] vfio/type1: introduce a new member has_rsvd for
  struct vfio_dma
-Message-ID: <202507012121.wkDLcDXn-lkp@intel.com>
+Message-ID: <c209cfd6-05b1-4491-91ce-c672414d718c@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,43 +74,25 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20250630072518.31846-4-lizhe.67@bytedance.com>
-References: <20250630072518.31846-4-lizhe.67@bytedance.com>
-TO: lizhe.67@bytedance.com
-TO: alex.williamson@redhat.com
-TO: jgg@ziepe.ca
-TO: david@redhat.com
-TO: peterx@redhat.com
-CC: kvm@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: lizhe.67@bytedance.com
 
 Hi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on awilliam-vfio/next]
-[also build test WARNING on awilliam-vfio/for-linus linus/master v6.16-rc4 next-20250630]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/lizhe-67-bytedance-com/vfio-type1-optimize-vfio_pin_pages_remote-for-large-folios/20250630-152849
 base:   https://github.com/awilliam/linux-vfio.git next
 patch link:    https://lore.kernel.org/r/20250630072518.31846-4-lizhe.67%40bytedance.com
 patch subject: [PATCH 3/4] vfio/type1: introduce a new member has_rsvd for struct vfio_dma
-:::::: branch date: 31 hours ago
-:::::: commit date: 31 hours ago
 config: x86_64-randconfig-161-20250701 (https://download.01.org/0day-ci/archive/20250701/202507012121.wkDLcDXn-lkp@intel.com/config)
 compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202507012121.wkDLcDXn-lkp@intel.com/
 
 New smatch warnings:
@@ -108,12 +103,6 @@ drivers/vfio/vfio_iommu_type1.c:2376 vfio_iommu_type1_attach_group() warn: '&gro
 
 vim +/rsvd +788 drivers/vfio/vfio_iommu_type1.c
 
-6a2d9b72168041 Li Zhe          2025-06-30  678  
-166fd7d94afdac Alex Williamson 2013-06-21  679  /*
-166fd7d94afdac Alex Williamson 2013-06-21  680   * Attempt to pin pages.  We really don't want to track all the pfns and
-166fd7d94afdac Alex Williamson 2013-06-21  681   * the iommu can only map chunks of consecutive pfns anyway, so get the
-166fd7d94afdac Alex Williamson 2013-06-21  682   * first page and all consecutive pages with the same locking.
-166fd7d94afdac Alex Williamson 2013-06-21  683   */
 8f0d5bb95f763c Kirti Wankhede  2016-11-17  684  static long vfio_pin_pages_remote(struct vfio_dma *dma, unsigned long vaddr,
 0635559233434a Alex Williamson 2025-02-18  685  				  unsigned long npage, unsigned long *pfn_base,
 4b6c33b3229678 Daniel Jordan   2021-02-19  686  				  unsigned long limit, struct vfio_batch *batch)
@@ -152,11 +141,17 @@ be16c1fd99f41a Daniel Jordan   2021-02-19  715  			if (ret < 0)
 4d83de6da265cd Daniel Jordan   2021-02-19  719  				*pfn_base = pfn;
 4d83de6da265cd Daniel Jordan   2021-02-19  720  				rsvd = is_invalid_reserved_pfn(*pfn_base);
 4d83de6da265cd Daniel Jordan   2021-02-19  721  			}
+
+If "*pfn_base" is true then "rsvd" is uninitialized.
+
 eb996eec783c1e Alex Williamson 2025-02-18  722  
 eb996eec783c1e Alex Williamson 2025-02-18  723  			/* Handle pfnmap */
 eb996eec783c1e Alex Williamson 2025-02-18  724  			if (!batch->size) {
 eb996eec783c1e Alex Williamson 2025-02-18  725  				if (pfn != *pfn_base + pinned || !rsvd)
 eb996eec783c1e Alex Williamson 2025-02-18  726  					goto out;
+
+goto out;
+
 eb996eec783c1e Alex Williamson 2025-02-18  727  
 eb996eec783c1e Alex Williamson 2025-02-18  728  				pinned += ret;
 eb996eec783c1e Alex Williamson 2025-02-18  729  				npage -= ret;
@@ -219,6 +214,8 @@ a54eb55045ae9b Kirti Wankhede  2016-11-17  785  	}
 166fd7d94afdac Alex Williamson 2013-06-21  786  
 6c38c055cc4c0a Alex Williamson 2016-12-30  787  out:
 20448310d6b71d Li Zhe          2025-06-30 @788  	dma->has_rsvd |= rsvd;
+                                                                         ^^^^
+
 48d8476b41eed6 Alex Williamson 2018-05-11  789  	ret = vfio_lock_acct(dma, lock_acct, false);
 0cfef2b7410b64 Alex Williamson 2017-04-13  790  
 0cfef2b7410b64 Alex Williamson 2017-04-13  791  unpin_out:
@@ -234,8 +231,8 @@ be16c1fd99f41a Daniel Jordan   2021-02-19  792  	if (ret < 0) {
 166fd7d94afdac Alex Williamson 2013-06-21  801  
 6c38c055cc4c0a Alex Williamson 2016-12-30  802  	return pinned;
 73fa0d10d077d9 Alex Williamson 2012-07-31  803  }
-73fa0d10d077d9 Alex Williamson 2012-07-31  804  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
