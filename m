@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5471F3B98
-	for <oe-kbuild@lists.linux.dev>; Tue,  1 Jul 2025 18:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2AB823B60B
+	for <oe-kbuild@lists.linux.dev>; Tue,  1 Jul 2025 18:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751393205; cv=none; b=fsDZ+HH/RBKl93Wr6VDgSZqUNwpm5oeOfXyI5bdc+9X4+kYTuGpN6xo7xaeMt2y22bYmcN9PCRH3L13NTuAd3eimzqkAa1Z8SNgqfP1cGs3D77siQbUP3Kh3ALONdQ6JdIC8dtAHYc7aJU5HnQjHatzOdThKZqAIL7gmnDB2ycQ=
+	t=1751395059; cv=none; b=Chai7HbBNyP8/Hyg3sPLcnCtlUelub31zLf4d0qYmyV/BSmfYrePZGrOtid4BTx0znJn93mQeR35G+aioXAz/inR/Rx7a1On1Oo/8zg1iqahGWyOQhsJSzSC6hyUayMa246IGmUl4JyrB5zTPF7AvoIYlb0wxu3PJ9311GHU4W0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751393205; c=relaxed/simple;
-	bh=BHNjiZ9+qJMckv9yMZ+HdDXcKDBwkiM3dy+Q0TOwdg4=;
+	s=arc-20240116; t=1751395059; c=relaxed/simple;
+	bh=WrQOB4eYe6KtfQalqeNy5t37VT4/PMkrfEXqVW93SFo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VvCO3n4xT6IQO7gviVv2QRoW5MpnEQqYxgn/KsfzhsOOb+D22DAnske6zXUDsTH8PghRghRNpF8mMbocz7U7TS+C6WWGeINgk3ArJ010s03KFVjKKCWTQnLVI7xtty6UBkaLAMsxMyhb4maKremmM2ZtSVifFyr2/eZnEj2kJHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DRDoQDsm; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=Jws+WuzUnReFf1L6HtBi53rZtmntIOuqdIUEolXyRzDAPBqjSbIHm++nTzpqLKGzAyR0gLOfvYYaJ90h0/tDPXfZItexGbWvxDllu1Oxe8c/F0oE+BEYgey9kYS+25MmbY5PuwqC8ZG52Kbugf7cYmOJ9UxTw1yF1VyLQNQt4zI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i0OHFM/2; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DRDoQDsm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i0OHFM/2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751393203; x=1782929203;
+  t=1751395058; x=1782931058;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BHNjiZ9+qJMckv9yMZ+HdDXcKDBwkiM3dy+Q0TOwdg4=;
-  b=DRDoQDsm7zmWaa0lKbMemL8FfAsJUXSRQ8fQB+oBbvUoyCH7zF9OwY5O
-   JNgRzY1dsaMZ/gvVPVe6kbthchFKIugx9lHndzPLG+o+h6vOJFgbkUsTG
-   6QzsPbY3T6zfFZvD/1LGph+In4t+ok5YZV+aZ+ddWafvSlETOzue6+IWo
-   ojyAl4nv2amnSs73fGKI0hrShZx3SmV3vNEz9y0djX0q0k4Xm1PUFdhqn
-   NbCvA6L4AXjkdxG2F+tfXqr6u4vBHqD0nUN7c/Hhb60GTV44qvn52TO0l
-   P+5j3/zkYzR4mc7reXcpF6OjyFIrxQP0s2XxEbdJVDnkgYX6QB5KDjASo
-   w==;
-X-CSE-ConnectionGUID: 2cTfz6P1TZqkYwE80u775A==
-X-CSE-MsgGUID: +7XnmzfzQ76MpFqSocW5hA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="76221233"
+  bh=WrQOB4eYe6KtfQalqeNy5t37VT4/PMkrfEXqVW93SFo=;
+  b=i0OHFM/2Ml1lLANmsor9hpCNHfgxpmNlWkGRNO+IPEddrmZh2EBMBiGt
+   v0vVfnlzPS6Ryik1zmn4EG8pnx1pByREeWIRPOdCfHV7R/2VBq+T6XapE
+   xZoEwSFJ/GbfmAJLBFmxRowupeLP/Ng9/6lilf30MqFl0BJs0PhKQ+T01
+   eHww+vOSI7ZZjJgIV0PydMwmewi6GBKJ5YKDpFzrwBFrSU4CZPFHAvMFU
+   JfleDjk462gB6dkAJUpXqGCnrxfNoBGNvLgfLUVPkWGRv0CmEcsDYV9Yw
+   cuhgXoFVY2tBqRiS3NFCG40FFCdfBgqlMRND5Wjgu9DK85WeXRi/SRaAH
+   Q==;
+X-CSE-ConnectionGUID: 6Br+8KaoR9+BwIa22uV9pA==
+X-CSE-MsgGUID: 9Eanp0LcSpKGPvCl3NL8bw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="53538155"
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="76221233"
+   d="scan'208";a="53538155"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 11:06:42 -0700
-X-CSE-ConnectionGUID: xnsRvFZtSmq9YWgFo6hBmQ==
-X-CSE-MsgGUID: vwWeHDGhRoewGJWtablg/Q==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 11:37:36 -0700
+X-CSE-ConnectionGUID: fVa5GuUUStek9xJLIQLA1A==
+X-CSE-MsgGUID: ml/aqPQrTuqnyr3p4ccsTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="154569430"
+   d="scan'208";a="154575903"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 01 Jul 2025 11:06:41 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 01 Jul 2025 11:37:34 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWfNP-000aW2-0q;
-	Tue, 01 Jul 2025 18:06:39 +0000
-Date: Wed, 2 Jul 2025 02:06:27 +0800
+	id 1uWfrI-000aXm-0U;
+	Tue, 01 Jul 2025 18:37:32 +0000
+Date: Wed, 2 Jul 2025 02:37:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH net] virtio-net: fix a rtnl_lock() deadlock during probing
-Message-ID: <202507020158.2hoKFZXE-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH] dt-bindings: clock: Convert nvidia,tegra124-dfll to DT
+ schema
+Message-ID: <202507020248.uv7t3oSt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,87 +62,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250630095109.214013-1-zuozhijie@bytedance.com>
-References: <20250630095109.214013-1-zuozhijie@bytedance.com>
-TO: Zigit Zo <zuozhijie@bytedance.com>
-TO: mst@redhat.com
-TO: jasowang@redhat.com
-TO: xuanzhuo@linux.alibaba.com
-TO: eperezma@redhat.com
-CC: zuozhijie@bytedance.com
-CC: virtualization@lists.linux.dev
-CC: netdev@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+In-Reply-To: <20250630232632.3700405-1-robh@kernel.org>
+References: <20250630232632.3700405-1-robh@kernel.org>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
 
-Hi Zigit,
+Hi Rob,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 2def09ead4ad5907988b655d1e1454003aaf8297]
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on linus/master v6.16-rc4 next-20250701]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zigit-Zo/virtio-net-fix-a-rtnl_lock-deadlock-during-probing/20250630-175257
-base:   2def09ead4ad5907988b655d1e1454003aaf8297
-patch link:    https://lore.kernel.org/r/20250630095109.214013-1-zuozhijie%40bytedance.com
-patch subject: [PATCH net] virtio-net: fix a rtnl_lock() deadlock during probing
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-config: x86_64-randconfig-161-20250701 (https://download.01.org/0day-ci/archive/20250702/202507020158.2hoKFZXE-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-clock-Convert-nvidia-tegra124-dfll-to-DT-schema/20250701-072838
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20250630232632.3700405-1-robh%40kernel.org
+patch subject: [PATCH] dt-bindings: clock: Convert nvidia,tegra124-dfll to DT schema
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: arm64-randconfig-051-20250701 (https://download.01.org/0day-ci/archive/20250702/202507020248.uv7t3oSt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.6.1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507020248.uv7t3oSt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507020158.2hoKFZXE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507020248.uv7t3oSt-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/virtio_net.c:6221 __virtnet_config_changed_work() error: uninitialized symbol 'virtio_cread_v'.
-drivers/net/virtio_net.c:6225 __virtnet_config_changed_work() error: uninitialized symbol 'v'.
-
-Old smatch warnings:
-drivers/net/virtio_net.c:2108 build_skb_from_xdp_buff() error: uninitialized symbol 'nr_frags'.
-drivers/net/virtio_net.c:2190 virtnet_build_xdp_buff_mrg() error: uninitialized symbol 'shinfo'.
-drivers/net/virtio_net.c:3122 virtnet_update_settings() error: uninitialized symbol 'virtio_cread_v'.
-
-vim +/virtio_cread_v +6221 drivers/net/virtio_net.c
-
-76288b4e573e06 Stephen Hemminger  2009-01-06  6213  
-d72ba54248be27 Zigit Zo           2025-06-30  6214  static void __virtnet_config_changed_work(struct work_struct *work,
-d72ba54248be27 Zigit Zo           2025-06-30  6215  					  bool check_announce)
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6216  {
-586d17c5a01bf1 Jason Wang         2012-04-11  6217  	struct virtnet_info *vi =
-586d17c5a01bf1 Jason Wang         2012-04-11  6218  		container_of(work, struct virtnet_info, config_work);
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6219  	u16 v;
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6220  
-855e0c5288177b Rusty Russell      2013-10-14 @6221  	if (virtio_cread_feature(vi->vdev, VIRTIO_NET_F_STATUS,
-855e0c5288177b Rusty Russell      2013-10-14  6222  				 struct virtio_net_config, status, &v) < 0)
-507613bf31f4bc Michael S. Tsirkin 2014-10-15  6223  		return;
-586d17c5a01bf1 Jason Wang         2012-04-11  6224  
-d72ba54248be27 Zigit Zo           2025-06-30 @6225  	if (check_announce && (v & VIRTIO_NET_S_ANNOUNCE)) {
-ee89bab14e8576 Amerigo Wang       2012-08-09  6226  		netdev_notify_peers(vi->dev);
-586d17c5a01bf1 Jason Wang         2012-04-11  6227  		virtnet_ack_link_announce(vi);
-586d17c5a01bf1 Jason Wang         2012-04-11  6228  	}
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6229  
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6230  	/* Ignore unknown (future) status bits */
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6231  	v &= VIRTIO_NET_S_LINK_UP;
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6232  
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6233  	if (vi->status == v)
-507613bf31f4bc Michael S. Tsirkin 2014-10-15  6234  		return;
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6235  
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6236  	vi->status = v;
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6237  
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6238  	if (vi->status & VIRTIO_NET_S_LINK_UP) {
-faa9b39f0e9ddf Jason Baron        2018-01-05  6239  		virtnet_update_settings(vi);
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6240  		netif_carrier_on(vi->dev);
-986a4f4d452dec Jason Wang         2012-12-07  6241  		netif_tx_wake_all_queues(vi->dev);
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6242  	} else {
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6243  		netif_carrier_off(vi->dev);
-986a4f4d452dec Jason Wang         2012-12-07  6244  		netif_tx_stop_all_queues(vi->dev);
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6245  	}
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6246  }
-9f4d26d0f3016c Mark McLoughlin    2009-01-19  6247  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /i2c@7000d000/pmic@3c: failed to match any schema with compatible: ['maxim,max77620']
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra210-mc']
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: external-memory-controller@7001b000 (nvidia,tegra210-emc): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra210-emc.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: clock@70110000 (nvidia,tegra210-dfll): 'vdd-cpu-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/nvidia,tegra124-dfll.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: usb-phy@7d000000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /usb-phy@7d000000: failed to match any schema with compatible: ['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy']
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: usb-phy@7d004000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
+--
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /i2c@7000d000/pmic@3c: failed to match any schema with compatible: ['maxim,max77620']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra210-mc']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: external-memory-controller@7001b000 (nvidia,tegra210-emc): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra210-emc.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: clock@70110000 (nvidia,tegra210-dfll): 'vdd-cpu-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/nvidia,tegra124-dfll.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: usb-phy@7d000000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /usb-phy@7d000000: failed to match any schema with compatible: ['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: usb-phy@7d004000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
 
 -- 
 0-DAY CI Kernel Test Service
