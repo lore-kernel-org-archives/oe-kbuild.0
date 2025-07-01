@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB08A1C3306
-	for <oe-kbuild@lists.linux.dev>; Tue,  1 Jul 2025 16:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5471F3B98
+	for <oe-kbuild@lists.linux.dev>; Tue,  1 Jul 2025 18:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751388953; cv=none; b=sKJ9u0QrJbSSLMq2JpyJQ9Uw2vZ6D62uo/VvcpDOuRQTwVVwJy84PullzQi5wn8p+m8sWYMJZz8s//jWsWDXvvWIEf+LD80fU6RYu/TFvCyVp0sjiuV/EUE7QoYjt7FEevM/+/FFI45kdOpNd621qs/A4xGvEf8JA3gpVRM5nQI=
+	t=1751393205; cv=none; b=fsDZ+HH/RBKl93Wr6VDgSZqUNwpm5oeOfXyI5bdc+9X4+kYTuGpN6xo7xaeMt2y22bYmcN9PCRH3L13NTuAd3eimzqkAa1Z8SNgqfP1cGs3D77siQbUP3Kh3ALONdQ6JdIC8dtAHYc7aJU5HnQjHatzOdThKZqAIL7gmnDB2ycQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751388953; c=relaxed/simple;
-	bh=MoTFeNN4ReVkT1yBvADOfmOd2Wi3jsyUwSoHT0Mh2sw=;
+	s=arc-20240116; t=1751393205; c=relaxed/simple;
+	bh=BHNjiZ9+qJMckv9yMZ+HdDXcKDBwkiM3dy+Q0TOwdg4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PHDYrytCM4x8LExR4BhDsH6CpdLyb5NArxphTj+LE9DpiIkc1FAPDvuBi5uKZfOLe/pumw2OsDuw6F0qnb+MfA2TGjVJZGYIh/f6TuSZt1EyFwrV9ZsRJ8rHBTyDnOvbYIGeb4FhF8mas2ya5MMR3j01HruS2NGGp7MZ/8kP9l8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oGXD28zs; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=VvCO3n4xT6IQO7gviVv2QRoW5MpnEQqYxgn/KsfzhsOOb+D22DAnske6zXUDsTH8PghRghRNpF8mMbocz7U7TS+C6WWGeINgk3ArJ010s03KFVjKKCWTQnLVI7xtty6UBkaLAMsxMyhb4maKremmM2ZtSVifFyr2/eZnEj2kJHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DRDoQDsm; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oGXD28zs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DRDoQDsm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751388952; x=1782924952;
+  t=1751393203; x=1782929203;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MoTFeNN4ReVkT1yBvADOfmOd2Wi3jsyUwSoHT0Mh2sw=;
-  b=oGXD28zscc1RIKXWxxlNgJ/xyMBfnn+SIBfhJu54sbKfqlwdEZmGE8KL
-   HS2rZ4L3efPAWpFn1Fjx7adPfZf7aNzA0AyjTd27NBFnsFpcpXdeQdTRC
-   bKuSLw1u+i5RvalBUlDGW8VQ39KXtU0FqHPKzh8TgvZjnl8berisdR9Ow
-   +sWoq80+wfzyUta84MbThZ1gE8nqPbEFj/a/SNbjDYzlcw68bb6p/D4kN
-   +pTrvyf/i443g8ffbA4ugbcopMEE2KIseCDjSj/NQNl8KzKa4BqfLa8rS
-   YSsoccr3lvst4i1uUDEBCJclxJyIo/kEpV2T+V7ZYqDGFmGtztzAvVFaL
-   A==;
-X-CSE-ConnectionGUID: bH2hwfHTRYCJ0DZoT0Ytwg==
-X-CSE-MsgGUID: NKtCFdBrTMC0/hfeTobFKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="41297975"
+  bh=BHNjiZ9+qJMckv9yMZ+HdDXcKDBwkiM3dy+Q0TOwdg4=;
+  b=DRDoQDsm7zmWaa0lKbMemL8FfAsJUXSRQ8fQB+oBbvUoyCH7zF9OwY5O
+   JNgRzY1dsaMZ/gvVPVe6kbthchFKIugx9lHndzPLG+o+h6vOJFgbkUsTG
+   6QzsPbY3T6zfFZvD/1LGph+In4t+ok5YZV+aZ+ddWafvSlETOzue6+IWo
+   ojyAl4nv2amnSs73fGKI0hrShZx3SmV3vNEz9y0djX0q0k4Xm1PUFdhqn
+   NbCvA6L4AXjkdxG2F+tfXqr6u4vBHqD0nUN7c/Hhb60GTV44qvn52TO0l
+   P+5j3/zkYzR4mc7reXcpF6OjyFIrxQP0s2XxEbdJVDnkgYX6QB5KDjASo
+   w==;
+X-CSE-ConnectionGUID: 2cTfz6P1TZqkYwE80u775A==
+X-CSE-MsgGUID: +7XnmzfzQ76MpFqSocW5hA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="76221233"
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="41297975"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 09:55:51 -0700
-X-CSE-ConnectionGUID: upJuazyHSKOKADbcE15Ujw==
-X-CSE-MsgGUID: chdhLkiWS3O4D/uoeLYqog==
+   d="scan'208";a="76221233"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 11:06:42 -0700
+X-CSE-ConnectionGUID: xnsRvFZtSmq9YWgFo6hBmQ==
+X-CSE-MsgGUID: vwWeHDGhRoewGJWtablg/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="153596299"
+   d="scan'208";a="154569430"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 01 Jul 2025 09:55:50 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 01 Jul 2025 11:06:41 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWeGp-000aSA-2L;
-	Tue, 01 Jul 2025 16:55:47 +0000
-Date: Wed, 2 Jul 2025 00:55:29 +0800
+	id 1uWfNP-000aW2-0q;
+	Tue, 01 Jul 2025 18:06:39 +0000
+Date: Wed, 2 Jul 2025 02:06:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [arm-integrator:b4/genexis-xg6846b-v6.16-rc1 10/10]
- arch/arm/boot/dts/broadcom/bcm6846-genexis-xg6846b.dtb:
- /bus@ff800000/i2c@2100: failed to match any schema with compatible:
- ['brcm,bcmbca-i2c']
-Message-ID: <202507020024.l5jGwI7S-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH net] virtio-net: fix a rtnl_lock() deadlock during probing
+Message-ID: <202507020158.2hoKFZXE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,36 +61,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Linus Walleij <linus.walleij@linaro.org>
+In-Reply-To: <20250630095109.214013-1-zuozhijie@bytedance.com>
+References: <20250630095109.214013-1-zuozhijie@bytedance.com>
+TO: Zigit Zo <zuozhijie@bytedance.com>
+TO: mst@redhat.com
+TO: jasowang@redhat.com
+TO: xuanzhuo@linux.alibaba.com
+TO: eperezma@redhat.com
+CC: zuozhijie@bytedance.com
+CC: virtualization@lists.linux.dev
+CC: netdev@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/genexis-xg6846b-v6.16-rc1
-head:   5420b6e9c9c247c32861570d0332ec5376c283a8
-commit: 5420b6e9c9c247c32861570d0332ec5376c283a8 [10/10] fix to dtsi for I2C
-:::::: branch date: 13 days ago
-:::::: commit date: 13 days ago
-config: arm-randconfig-051-20250627 (https://download.01.org/0day-ci/archive/20250702/202507020024.l5jGwI7S-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
-dtschema version: 2025.6.1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507020024.l5jGwI7S-lkp@intel.com/reproduce)
+Hi Zigit,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 2def09ead4ad5907988b655d1e1454003aaf8297]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zigit-Zo/virtio-net-fix-a-rtnl_lock-deadlock-during-probing/20250630-175257
+base:   2def09ead4ad5907988b655d1e1454003aaf8297
+patch link:    https://lore.kernel.org/r/20250630095109.214013-1-zuozhijie%40bytedance.com
+patch subject: [PATCH net] virtio-net: fix a rtnl_lock() deadlock during probing
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
+config: x86_64-randconfig-161-20250701 (https://download.01.org/0day-ci/archive/20250702/202507020158.2hoKFZXE-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507020024.l5jGwI7S-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507020158.2hoKFZXE-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/broadcom/bcm6846-genexis-xg6846b.dts:236.20-300.4: Warning (avoid_unnecessary_addr_size): /bus@ff800000/mdio@2060/switch@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm/boot/dts/broadcom/bcm6846-genexis-xg6846b.dtb: switch@0 (marvell,mv88e6085): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/marvell,mv88e6xxx.yaml#
->> arch/arm/boot/dts/broadcom/bcm6846-genexis-xg6846b.dtb: /bus@ff800000/i2c@2100: failed to match any schema with compatible: ['brcm,bcmbca-i2c']
---
->> arch/arm/boot/dts/broadcom/bcm96846.dtb: /bus@ff800000/i2c@2100: failed to match any schema with compatible: ['brcm,bcmbca-i2c']
+New smatch warnings:
+drivers/net/virtio_net.c:6221 __virtnet_config_changed_work() error: uninitialized symbol 'virtio_cread_v'.
+drivers/net/virtio_net.c:6225 __virtnet_config_changed_work() error: uninitialized symbol 'v'.
+
+Old smatch warnings:
+drivers/net/virtio_net.c:2108 build_skb_from_xdp_buff() error: uninitialized symbol 'nr_frags'.
+drivers/net/virtio_net.c:2190 virtnet_build_xdp_buff_mrg() error: uninitialized symbol 'shinfo'.
+drivers/net/virtio_net.c:3122 virtnet_update_settings() error: uninitialized symbol 'virtio_cread_v'.
+
+vim +/virtio_cread_v +6221 drivers/net/virtio_net.c
+
+76288b4e573e06 Stephen Hemminger  2009-01-06  6213  
+d72ba54248be27 Zigit Zo           2025-06-30  6214  static void __virtnet_config_changed_work(struct work_struct *work,
+d72ba54248be27 Zigit Zo           2025-06-30  6215  					  bool check_announce)
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6216  {
+586d17c5a01bf1 Jason Wang         2012-04-11  6217  	struct virtnet_info *vi =
+586d17c5a01bf1 Jason Wang         2012-04-11  6218  		container_of(work, struct virtnet_info, config_work);
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6219  	u16 v;
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6220  
+855e0c5288177b Rusty Russell      2013-10-14 @6221  	if (virtio_cread_feature(vi->vdev, VIRTIO_NET_F_STATUS,
+855e0c5288177b Rusty Russell      2013-10-14  6222  				 struct virtio_net_config, status, &v) < 0)
+507613bf31f4bc Michael S. Tsirkin 2014-10-15  6223  		return;
+586d17c5a01bf1 Jason Wang         2012-04-11  6224  
+d72ba54248be27 Zigit Zo           2025-06-30 @6225  	if (check_announce && (v & VIRTIO_NET_S_ANNOUNCE)) {
+ee89bab14e8576 Amerigo Wang       2012-08-09  6226  		netdev_notify_peers(vi->dev);
+586d17c5a01bf1 Jason Wang         2012-04-11  6227  		virtnet_ack_link_announce(vi);
+586d17c5a01bf1 Jason Wang         2012-04-11  6228  	}
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6229  
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6230  	/* Ignore unknown (future) status bits */
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6231  	v &= VIRTIO_NET_S_LINK_UP;
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6232  
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6233  	if (vi->status == v)
+507613bf31f4bc Michael S. Tsirkin 2014-10-15  6234  		return;
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6235  
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6236  	vi->status = v;
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6237  
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6238  	if (vi->status & VIRTIO_NET_S_LINK_UP) {
+faa9b39f0e9ddf Jason Baron        2018-01-05  6239  		virtnet_update_settings(vi);
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6240  		netif_carrier_on(vi->dev);
+986a4f4d452dec Jason Wang         2012-12-07  6241  		netif_tx_wake_all_queues(vi->dev);
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6242  	} else {
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6243  		netif_carrier_off(vi->dev);
+986a4f4d452dec Jason Wang         2012-12-07  6244  		netif_tx_stop_all_queues(vi->dev);
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6245  	}
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6246  }
+9f4d26d0f3016c Mark McLoughlin    2009-01-19  6247  
 
 -- 
 0-DAY CI Kernel Test Service
