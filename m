@@ -1,313 +1,214 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81DF22D63EB
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Jul 2025 20:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3946223D282
+	for <oe-kbuild@lists.linux.dev>; Wed,  2 Jul 2025 22:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751488754; cv=none; b=a8D7eLBPuSrfjr5DTMEzDxkeYNS5nG38FWEKom3WG3BvtIeH3zgRYBkqH7wcJXnZFeLZTXJgTG3Cwod+aR7QTXFajFjH9v9FCrcrB1zr1Zxt6tcBCb2H/jN2FH0M9y+Vd9y1sJXDoTbpsjKKGhGuL4BLcAc3LFqBbVg0J/dyqjI=
+	t=1751494949; cv=none; b=Gq6SopUfjSlA2sCSpIdkjqEMlUfmJvC3T5+PxWEOr62EFiJ0pqbczlSZC1wjPvxxX32voKKK0bSakcn4/3uqpnKucSbiZmlAc+Vl+pwpXjBBHCBcc4YEPT+hzip+NR96zWKuDU/VFqhbeIJXHpAEBTgu9McGdO437xW5HIHZ7dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751488754; c=relaxed/simple;
-	bh=/oc/p81P5wa2yvAQfZN8snLvxBoc+8kxt1ZXwtC/WAc=;
+	s=arc-20240116; t=1751494949; c=relaxed/simple;
+	bh=U8ylXVw3a8/FMtNmnA4kfEGqkeGuVV2oeOUkEcPkRn0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dZK9FqkSoKfKXwuKjX4WbxpU/Whg2IPiMrpHe45kHkmIIGmYF5tIc/mWGmEr0LYZr0vHlb57oa9KKtp251hsRzxOgmev3dsfKbzz/WlQtGWd6NDWrEqY+Mp/xfwNstgBBgT/epqYIaJYpr4w0M1ePOPacoMnHSGr8MwYvZpB6R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lVXjolCr; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=ktMQtCp0oRQmuphfn1RAmzpicob2jaAi6389LAy6J0eTtzWR/Ywkm23vCGjW3kJiUjj8RUkuxkv/S4DIYugPbn4uVPV8t+S2rl+7IMJJ1yrq5N4dQQjJucLrPxXfB9yutDK3Z7z3AHgS9VkBfs6xqaSsvCr5ugk4CFj53whlGPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AMKveaVQ; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lVXjolCr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMKveaVQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751488750; x=1783024750;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/oc/p81P5wa2yvAQfZN8snLvxBoc+8kxt1ZXwtC/WAc=;
-  b=lVXjolCrruGBEvou/O4WAvp3C/ZuDUTt3pQmj8iOQFo/gO9W1YWnHYeV
-   9s9mRFFiVDhhd1LODllYA1dklc52Uh0Rtk8fCIFjESoZrNSkBtpsu25r2
-   IadXF8wcX6t1Qwhdn+NHBcgJ5ySYv6CwMKKkAHWkPBU2SpTU27MpW+B0Z
-   JhwyxpR/8gpEFhGA0S3IFP1VqiETmeyk5aqhr4MGdNcHwKKT1Xa83iCP6
-   XR7CL9wdymmjGR1hX0f0FbTmY6w+rdth8F52/uZUH02z8Ys9UmFDBZdZP
-   Co+Q+SG2W6Cu0NHRo4T4hwUdXQgJON4/FJGxmCOzz2sqPcT2IXwG/qFTD
+  t=1751494947; x=1783030947;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=U8ylXVw3a8/FMtNmnA4kfEGqkeGuVV2oeOUkEcPkRn0=;
+  b=AMKveaVQlyb8jNbIC5YIdgOSOBtRQMzvHerKtG83olNDW8/isgWc2z3u
+   2dwzwfa9AXYya7QUuqkXpL5RkJOpN1RzQLv7AJ0opOBv3KTqZk7+RODaw
+   1/iLu6RyRpt82HpPLQU6flhuGtSo7DlslKzO3dNcF9ikpExWNfxhBLwyH
+   dg+EE/PKahx4qxvEYtdLbqys2OxrtEWJMEiCuS9JnYCHycpCQdXDmiPj2
+   XMtzS4eTkVXtcwbNMa45ZFGwbWVHFhxzMoruKLzHaHPIej2fqRhaRXSee
+   YTqthMjtx5hp3+UDlNeMLZUmzfosfy8o/5UYpv0gkHTKLZiPEvtDsMQNV
    A==;
-X-CSE-ConnectionGUID: yUKaFDGfS5m17fNaVZA4wg==
-X-CSE-MsgGUID: FitnpxZdTqGfYC4Xs76tZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="41429138"
+X-CSE-ConnectionGUID: v++viHjyQ0urOjhl+5LHcQ==
+X-CSE-MsgGUID: dmG9ACKaQyqth7/8zr4c9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="56432081"
 X-IronPort-AV: E=Sophos;i="6.16,282,1744095600"; 
-   d="scan'208";a="41429138"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 13:39:09 -0700
-X-CSE-ConnectionGUID: YhTfj9ewSvOu47iiNaubog==
-X-CSE-MsgGUID: zOv7dwTqR02atVkl/pQaMw==
+   d="scan'208";a="56432081"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 15:22:27 -0700
+X-CSE-ConnectionGUID: EMlR4rmKRRuEDp9pxAjckA==
+X-CSE-MsgGUID: vIZXptbmQNmP/qo8GQlCvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,282,1744095600"; 
-   d="scan'208";a="153627384"
+   d="scan'208";a="154692112"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 02 Jul 2025 13:39:09 -0700
+  by orviesa008.jf.intel.com with ESMTP; 02 Jul 2025 15:22:26 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uX4ET-00013r-37;
-	Wed, 02 Jul 2025 20:39:05 +0000
-Date: Thu, 3 Jul 2025 04:38:26 +0800
+	id 1uX5qQ-000189-2q;
+	Wed, 02 Jul 2025 22:22:22 +0000
+Date: Thu, 3 Jul 2025 06:21:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: gpio: Create a trivial GPIO schema
-Message-ID: <202507030303.nJNF4yHZ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [openeuler:openEuler-1.0-LTS 1568/1568]
+ block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+Message-ID: <202507030630.vbiciLpo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250701225355.2977294-1-robh@kernel.org>
-References: <20250701225355.2977294-1-robh@kernel.org>
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-TO: Linus Walleij <linus.walleij@linaro.org>
-TO: Bartosz Golaszewski <brgl@bgdev.pl>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: "Marek Behún" <kabel@kernel.org>
-TO: Keguang Zhang <keguang.zhang@gmail.com>
-TO: Heiko Stuebner <heiko@sntech.de>
-TO: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-CC: linux-gpio@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-mips@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
+TO: kernel@openeuler.org
+TO: Yang Yingliang <yangyingliang@huawei.com>
 
-Hi Rob,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on linus/master v6.16-rc4 next-20250702]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-gpio-Create-a-trivial-GPIO-schema/20250702-065536
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20250701225355.2977294-1-robh%40kernel.org
-patch subject: [PATCH] dt-bindings: gpio: Create a trivial GPIO schema
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
-config: arm64-randconfig-051-20250702 (https://download.01.org/0day-ci/archive/20250703/202507030303.nJNF4yHZ-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f1a4bb62452d88a0edd9340b3ca7c9b11ad9193f)
-dtschema version: 2025.6.1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250703/202507030303.nJNF4yHZ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   d96cd567c8d8d584405abe92c2576bf58202fa6e
+commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1568/1568] blk-throttle: Set BIO_THROTTLED when bio has been throttled
+:::::: branch date: 19 hours ago
+:::::: commit date: 3 years, 4 months ago
+config: x86_64-randconfig-102-20250408 (https://download.01.org/0day-ci/archive/20250703/202507030630.vbiciLpo-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507030303.nJNF4yHZ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202507030630.vbiciLpo-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
->> arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupt-parent', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
->> arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: pmic@3c (maxim,max77620): reg: False schema does not allow [[60]]
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra210-mc']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: external-memory-controller@7001b000 (nvidia,tegra210-emc): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra210-emc.yaml#
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra210-dfll']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: usb-phy@7d000000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
-   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
-   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
-   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml#
---
-   	'nvidia,p3701-0008' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/tegra.yaml#
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /: failed to match any schema with compatible: ['nvidia,p3450-0000', 'nvidia,tegra210']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
->> arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupt-parent', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
->> arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: pmic@3c (maxim,max77620): reg: False schema does not allow [[60]]
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra210-mc']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: external-memory-controller@7001b000 (nvidia,tegra210-emc): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra210-emc.yaml#
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra210-dfll']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: usb-phy@7d000000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
-   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
-   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
-   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml#
---
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /: failed to match any schema with compatible: ['google,smaug-rev8', 'google,smaug-rev7', 'google,smaug-rev6', 'google,smaug-rev5', 'google,smaug-rev4', 'google,smaug-rev3', 'google,smaug-rev2', 'google,smaug-rev1', 'google,smaug', 'nvidia,tegra210']
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /: failed to match any schema with compatible: ['google,smaug-rev8', 'google,smaug-rev7', 'google,smaug-rev6', 'google,smaug-rev5', 'google,smaug-rev4', 'google,smaug-rev3', 'google,smaug-rev2', 'google,smaug-rev1', 'google,smaug', 'nvidia,tegra210']
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /: failed to match any schema with compatible: ['google,smaug-rev8', 'google,smaug-rev7', 'google,smaug-rev6', 'google,smaug-rev5', 'google,smaug-rev4', 'google,smaug-rev3', 'google,smaug-rev2', 'google,smaug-rev1', 'google,smaug', 'nvidia,tegra210']
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
->> arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
->> arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: pmic@3c (maxim,max77620): reg: False schema does not allow [[60]]
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra210-mc']
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: external-memory-controller@7001b000 (nvidia,tegra210-emc): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra210-emc.yaml#
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra210-dfll']
-   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: usb-phy@7d000000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
-   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
-   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
-   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml#
---
-   	'google,nyan-big-rev8' was expected
-   	'google,nyan-big-rev5' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/tegra.yaml#
-   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
-   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
-   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
-   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
-   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
->> arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
->> arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: pmic@3c (maxim,max77620): reg: False schema does not allow [[60]]
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
-   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra210-mc']
-   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: external-memory-controller@7001b000 (nvidia,tegra210-emc): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra210-emc.yaml#
-   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra210-dfll']
-   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: usb-phy@7d000000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
-   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
-   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
-   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml#
---
-   arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dtb: /ethernet@2490000: failed to match any schema with compatible: ['nvidia,tegra186-eqos', 'snps,dwc-qos-ethernet-4.10']
-   arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dtb: /ethernet@2490000: failed to match any schema with compatible: ['nvidia,tegra186-eqos', 'snps,dwc-qos-ethernet-4.10']
-   arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dtb: /pcie@10003000: failed to match any schema with compatible: ['nvidia,tegra186-pcie']
-   arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dtb: /gpu@17000000: failed to match any schema with compatible: ['nvidia,gp10b']
->> arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupt-parent', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
->> arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dtb: pmic@3c (maxim,max77620): reg: False schema does not allow [[60]]
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
---
-   arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: /ethernet@2490000: failed to match any schema with compatible: ['nvidia,tegra186-eqos', 'snps,dwc-qos-ethernet-4.10']
-   arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: /ethernet@2490000: failed to match any schema with compatible: ['nvidia,tegra186-eqos', 'snps,dwc-qos-ethernet-4.10']
-   arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: /pcie@10003000: failed to match any schema with compatible: ['nvidia,tegra186-pcie']
-   arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: /gpu@17000000: failed to match any schema with compatible: ['nvidia,gp10b']
->> arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupt-parent', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
->> arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: pmic@3c (maxim,max77620): reg: False schema does not allow [[60]]
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
-   arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: thermal-zones: cpu-thermal:cooling-maps: 'cpu-active', 'cpu-critical', 'cpu-hot', 'cpu-passive' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:733.17-741.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: {'compatible': ['rockchip,rk3328-grf-gpio'], 'gpio-controller': True, '#gpio-cells': 2} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"}
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
->> arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: Unevaluated properties are not allowed ('#gpio-cells', 'compatible', 'gpio-controller' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
-   arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: ethernet@ff550000 (rockchip,rk3328-gmac): Unevaluated properties are not allowed ('assigned-clock-rate' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:733.17-741.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: {'compatible': ['rockchip,rk3328-grf-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'phandle': 69} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"}
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: Unevaluated properties are not allowed ('#gpio-cells', 'compatible', 'gpio-controller' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:733.17-741.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3328-evb.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: {'compatible': ['rockchip,rk3328-grf-gpio'], 'gpio-controller': True, '#gpio-cells': 2} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"}
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-evb.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: Unevaluated properties are not allowed ('#gpio-cells', 'compatible', 'gpio-controller' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
-   arch/arm64/boot/dts/rockchip/rk3328-evb.dtb: ethernet@ff550000 (rockchip,rk3328-gmac): Unevaluated properties are not allowed ('assigned-clock-rate' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:733.17-741.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: {'compatible': ['rockchip,rk3328-grf-gpio'], 'gpio-controller': True, '#gpio-cells': 2} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"}
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: Unevaluated properties are not allowed ('#gpio-cells', 'compatible', 'gpio-controller' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:733.17-741.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c-plus.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: {'compatible': ['rockchip,rk3328-grf-gpio'], 'gpio-controller': True, '#gpio-cells': 2} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"}
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c-plus.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: Unevaluated properties are not allowed ('#gpio-cells', 'compatible', 'gpio-controller' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:733.17-741.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: {'compatible': ['rockchip,rk3328-grf-gpio'], 'gpio-controller': True, '#gpio-cells': 2} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"}
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: Unevaluated properties are not allowed ('#gpio-cells', 'compatible', 'gpio-controller' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:733.17-741.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s-plus.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: {'compatible': ['rockchip,rk3328-grf-gpio'], 'gpio-controller': True, '#gpio-cells': 2} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"}
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s-plus.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: Unevaluated properties are not allowed ('#gpio-cells', 'compatible', 'gpio-controller' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:733.17-741.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: {'compatible': ['rockchip,rk3328-grf-gpio'], 'gpio-controller': True, '#gpio-cells': 2} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"}
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: Unevaluated properties are not allowed ('#gpio-cells', 'compatible', 'gpio-controller' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:733.17-741.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus-lts.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: {'compatible': ['rockchip,rk3328-grf-gpio'], 'gpio-controller': True, '#gpio-cells': 2} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"}
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus-lts.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: Unevaluated properties are not allowed ('#gpio-cells', 'compatible', 'gpio-controller' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:733.17-741.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: {'compatible': ['rockchip,rk3328-grf-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'phandle': 69} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"}
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: Unevaluated properties are not allowed ('#gpio-cells', 'compatible', 'gpio-controller' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:733.17-741.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3328-rock-pi-e.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: {'compatible': ['rockchip,rk3328-grf-gpio'], 'gpio-controller': True, '#gpio-cells': 2} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"}
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-rock-pi-e.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: Unevaluated properties are not allowed ('#gpio-cells', 'compatible', 'gpio-controller' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:733.17-741.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: {'compatible': ['rockchip,rk3328-grf-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'phandle': 101} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"}
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: Unevaluated properties are not allowed ('#gpio-cells', 'compatible', 'gpio-controller' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3328.dtsi:733.17-741.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: {'compatible': ['rockchip,rk3328-grf-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'phandle': 70} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/rockchip,rk3328-grf-gpio.yaml#"}
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
->> arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: syscon@ff100000 (rockchip,rk3328-grf): gpio: Unevaluated properties are not allowed ('#gpio-cells', 'compatible', 'gpio-controller' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
+cocci warnings: (new ones prefixed by >>)
+>> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+
+vim +2306 block/blk-throttle.c
+
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
+ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
+ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
+e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
+c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
+ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
+73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
+0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
+e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
+e43473b7f223ec Vivek Goyal   2010-09-15  2203  
+ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
+ae118896361111 Tejun Heo     2015-08-18  2205  
+2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
+e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
+e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
+bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
+e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2211  
+e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
+c9589f03e49095 Tejun Heo     2015-08-18  2213  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
+c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
+e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
+f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
+9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
+9e234eeafbe17e Shaohua Li    2017-03-27  2221  
+73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
+73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
+c79892c5576163 Shaohua Li    2017-03-27  2224  again:
+9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
+3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
+3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
+fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
+9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
+c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
+3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
+c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
+c79892c5576163 Shaohua Li    2017-03-27  2240  			}
+9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
+c79892c5576163 Shaohua Li    2017-03-27  2242  		}
+de701c74a34005 Vivek Goyal   2011-03-07  2243  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
+e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
+04521db04e9a11 Vivek Goyal   2011-03-22  2246  
+04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
+04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
+04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
+04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
+04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
+04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
+04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
+04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
+04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
+04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
+04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
+0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
+9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
+9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
+c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
+9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
+e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
+e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2271  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
+fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
+8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
+9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
+9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
+9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
+73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
+e43473b7f223ec Vivek Goyal   2010-09-15  2279  
+3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2281  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
+c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
+e43473b7f223ec Vivek Goyal   2010-09-15  2285  
+7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
+7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
+7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
+7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
+7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
+7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
+77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
+7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
+e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2296  
+bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
+111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
+5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
+e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
+e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
+bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
+e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
+e43473b7f223ec Vivek Goyal   2010-09-15  2308  
+
+:::::: The code at line 2306 was first introduced by commit
+:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
+
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
