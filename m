@@ -1,225 +1,96 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD1926ACC
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Jul 2025 03:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE00B14D2A0
+	for <oe-kbuild@lists.linux.dev>; Wed,  2 Jul 2025 05:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751428050; cv=none; b=RII5o28fm/pMUXzvvlCBgfIg8CdnIm+kB1CaBh/u55gqgFs4A4Cvj+eFB4FffbgRfClMvUI8Rtd7ivTYuaoKOMCcNqrTSBLXG7bwA5Q0k7m9DkMV3ugw32g7u9zqA0gpzMMlI9wzTatKLUkFai3lXtDun8LQyE41yzjTlZ2UAUE=
+	t=1751433683; cv=none; b=ml1XdKUY6LINJMIaFzfelD948pxBDrRGwJeVQlWnVGzjokTG7Dl3qNm2b46lVrI/i5830N/d3yjquQc8AkTd7MUoq9bt57rV2frqSudSCAUCXFzA7xg5uJlHqgXbIk/F7SWQd29ZEFY/0fozS0jNlH7ljEOaHU0q9gNBt4O4gPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751428050; c=relaxed/simple;
-	bh=UvasDVD1l8IAV6VDhCrREMXxQz6oobsXtjpYcXI2+vA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=or1/4xVm2cwDYyk70zQ5Dmwp4V8GGUXdbKs6XSfYSDKcoM67EUIJI9/3lF2bchCHZwaGubO9rm0x891UcMRcMOXjhYEFzBiOUmUqUq96Yhh+cJMsMirzw0xZRZ2Kz0K2sGqNLySRJ19w1MtueTkhjsFl9vfM8CP5Mj97HeEkfp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Rj5fHgIk; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1751433683; c=relaxed/simple;
+	bh=ug9ERWAO923dBbuTmYLjTr+m1OUwoUExROZzmkN9HVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ozFPG4djtc2PM/74sIoGl+SSNFQReb0kF4P8mUBbjFC8k2bJe5LSojky8hLAgP0caOWOV7TYoZVfZiigbozuzJbLpaBSmEcSs4Hj4E3wYs2GAbG+Ys60uU6yQ0v+klghzwwH1zZabeygVbg77c1X8uN9fHV+HgYg93uBfKr1j0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a0i9V5NB; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Rj5fHgIk"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-22c33677183so54498945ad.2
-        for <oe-kbuild@lists.linux.dev>; Tue, 01 Jul 2025 20:47:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1751428048; x=1752032848; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kexqqmx3bPtand0ohHNJ0SqRsuizuyI7ooeqf8i3LGA=;
-        b=Rj5fHgIkNgmKTA+KCMKvPytG5fTGm84DxiJHQq0Kdbefykiv1nwDvxfPblc+eu7Sk+
-         SgbsWPCdpaefzBavOD7TDEdmVNXB0RKWsFhHyGY5GExTl6A1QxKplYdkAMjtPA312bQG
-         /JOHVBgCzBmMmH7WNrAI3L7sUBWY2LEHjFEsZ0RNulycSEy5b8qtk1qI6yTME4uvaVB6
-         rUp8lrKxYarc3VNvMlHxbfISuM/LTl+dBU/tj21NPOWZtCOkGnuTRqR8r8+n28m6pO2l
-         QbAP+wbOsqsRnn3jhN64EJYYvCl6kH17mv+jBelDK5VhTqfEW+SL4PS2MD6evSQaC6nI
-         KO7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751428048; x=1752032848;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Kexqqmx3bPtand0ohHNJ0SqRsuizuyI7ooeqf8i3LGA=;
-        b=lIh8XMZEDUshXWs7IcjHhR+CmHJInzn+9JnNI+9/2oh6WujWq6BwbxYLohFCSzLYer
-         ukVQK6FKzp7s6JB11aQjwd0l8n00PGfGUtzSF3tIAIPUxEb2RYj2WgC8GZT5eXTapTmF
-         RKFJZrGMyYQdP8chT1E0VfmKVLRB2a47AEgk6OAR76xwALUbwE8KQ9Vnss5U14HX6Rd1
-         zvMfaRPX67GgMpNrur2W1ezswa+4QOSEVKnbTSAaTblYTmpTNpZ2lhdyxN9OnL4iEO0f
-         Cqi0TgCiz0P/S6izxycTMwenH/qzA0gxddbr+utDH7da62/oA/jbEdo2l+ajC4iSe45u
-         Y4Pg==
-X-Forwarded-Encrypted: i=1; AJvYcCUb2K8g5sRV52BPscQHaN8Gi27Z8/+4JB0EhWTpKwGJLF+8NB/ZSDHmuUbPOAml0BvfMsOOdlnVDVw=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx6xtawnlNjIPcJuNfugiGGzRojXhOLwVDjtu6wrmfX3zppuk7s
-	zcfpQXoPIJ9S040AF4v7TIJfJcbV9LdbreqjOTUtAoIC/6svbiGh1RhZHqhcJ3RHgGw=
-X-Gm-Gg: ASbGncv6vzJqjxEKnvabtDRFvn3vjjV6kmQ/94/vUx80GrRX5ofKjnDkjNEecN8Kbpb
-	iPm5fR/WUfh/+wnNnI455nhGy6jPYreT1hggB3BhfzrBnJCIDX9zPbjpMxQ7otSfAdQsis26Bk/
-	Gomf4YBlvX9NYETHNa67F1Z0hSukgdUKgMGJUKH32efhxvHtkfA4CfqVbdPCXj//MfOrL5oVvA3
-	zcAttiqNmbUREC74HEi9J/Fdk5Wc2Gj5TRY89Q556+VpFx+LNnzbR3gl3IVbLm5yIjm2HQCPM7C
-	UeFhbVD5w/skIqWbmztLADIkBqwiBiKdWzf4DnR3agAHkQMrH8tFR4E7IB2RvWZzpLtBV1sQxJV
-	lq/HK+HPrfue6dQ==
-X-Google-Smtp-Source: AGHT+IG5k/sGS6ZTbC1NnWIrkklDYe/239zASpSpq/5gVtSrILKpH7fBevk4fAKdNzplcIqjDd8i+g==
-X-Received: by 2002:a17:902:db05:b0:235:2403:779f with SMTP id d9443c01a7336-23c6e5f4c50mr16191305ad.29.1751428048147;
-        Tue, 01 Jul 2025 20:47:28 -0700 (PDT)
-Received: from localhost.localdomain ([203.208.189.14])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3acbf5sm117298665ad.144.2025.07.01.20.47.23
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 01 Jul 2025 20:47:27 -0700 (PDT)
-From: lizhe.67@bytedance.com
-To: dan.carpenter@linaro.org
-Cc: alex.williamson@redhat.com,
-	david@redhat.com,
-	jgg@ziepe.ca,
-	kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lizhe.67@bytedance.com,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	oe-kbuild@lists.linux.dev,
-	peterx@redhat.com
-Subject: Re: [PATCH 3/4] vfio/type1: introduce a new member has_rsvd for struct vfio_dma
-Date: Wed,  2 Jul 2025 11:47:20 +0800
-Message-ID: <20250702034720.53574-1-lizhe.67@bytedance.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <c209cfd6-05b1-4491-91ce-c672414d718c@suswa.mountain>
-References: <c209cfd6-05b1-4491-91ce-c672414d718c@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a0i9V5NB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751433682; x=1782969682;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ug9ERWAO923dBbuTmYLjTr+m1OUwoUExROZzmkN9HVo=;
+  b=a0i9V5NBvwY0RjQK/2aF2ANfA6a2NAy6kQUAdwiCYAzNXXV20zZyl8DJ
+   cYj2BtdmMTVsVjUzXBUZT7vMAduCJy/oOv3eIn8rJSLREpt84pypEvxsy
+   Dy3eQre4lINvgLUJ9bPCD17PFKvM4tkxQxKnLlOQ3TatmDdnA4B63cD0H
+   clLGaKlWEZc/ydKlkjcdFS/+HL4d/tmZt/l/+uh5DkUxvpW7x8EmWQdQt
+   PuY4jbeapqqJp4Zy4g7zxANfeUQad7gHCR1AA5vUKQdOX4VhoI35hLNGU
+   HD48FB8JQJ2Fu+HvNi0vjPEULUtE07LTqTF01ocJ8nIyI6t2wb5eWxWNP
+   A==;
+X-CSE-ConnectionGUID: 5F+G7MXcSwqCto7G/0y3vg==
+X-CSE-MsgGUID: ZNwyV96cSR6tgaQhIN39sQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="53676366"
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
+   d="scan'208";a="53676366"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 22:21:21 -0700
+X-CSE-ConnectionGUID: usKcKvD4RNufKqXJwHsddg==
+X-CSE-MsgGUID: 5alyicdSS2K/25CJ/z/Xvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
+   d="scan'208";a="154297855"
+Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 01 Jul 2025 22:21:20 -0700
+Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uWpuI-0000D7-0T;
+	Wed, 02 Jul 2025 05:21:18 +0000
+Date: Wed, 2 Jul 2025 13:20:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: ld.lld: error: unrecognized instruction for 6_X relocation: 0x4000
+Message-ID: <202507021345.YPA17Mfu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 1 Jul 2025 18:13:48 +0300, dan.carpenter@linaro.org wrote:
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
 
-> New smatch warnings:
-> drivers/vfio/vfio_iommu_type1.c:788 vfio_pin_pages_remote() error: uninitialized symbol 'rsvd'.
-> 
-> Old smatch warnings:
-> drivers/vfio/vfio_iommu_type1.c:2376 vfio_iommu_type1_attach_group() warn: '&group->next' not removed from list
-> 
-> vim +/rsvd +788 drivers/vfio/vfio_iommu_type1.c
-> 
-> 8f0d5bb95f763c Kirti Wankhede  2016-11-17  684  static long vfio_pin_pages_remote(struct vfio_dma *dma, unsigned long vaddr,
-> 0635559233434a Alex Williamson 2025-02-18  685  				  unsigned long npage, unsigned long *pfn_base,
-> 4b6c33b3229678 Daniel Jordan   2021-02-19  686  				  unsigned long limit, struct vfio_batch *batch)
-> 73fa0d10d077d9 Alex Williamson 2012-07-31  687  {
-> 4d83de6da265cd Daniel Jordan   2021-02-19  688  	unsigned long pfn;
-> 4d83de6da265cd Daniel Jordan   2021-02-19  689  	struct mm_struct *mm = current->mm;
-> 6c38c055cc4c0a Alex Williamson 2016-12-30  690  	long ret, pinned = 0, lock_acct = 0;
-> 89c29def6b0101 Alex Williamson 2018-06-02  691  	bool rsvd;
-> a54eb55045ae9b Kirti Wankhede  2016-11-17  692  	dma_addr_t iova = vaddr - dma->vaddr + dma->iova;
-> 166fd7d94afdac Alex Williamson 2013-06-21  693  
-> 6c38c055cc4c0a Alex Williamson 2016-12-30  694  	/* This code path is only user initiated */
-> 4d83de6da265cd Daniel Jordan   2021-02-19  695  	if (!mm)
-> 166fd7d94afdac Alex Williamson 2013-06-21  696  		return -ENODEV;
-> 73fa0d10d077d9 Alex Williamson 2012-07-31  697  
-> 4d83de6da265cd Daniel Jordan   2021-02-19  698  	if (batch->size) {
-> 4d83de6da265cd Daniel Jordan   2021-02-19  699  		/* Leftover pages in batch from an earlier call. */
-> 4d83de6da265cd Daniel Jordan   2021-02-19  700  		*pfn_base = page_to_pfn(batch->pages[batch->offset]);
-> 4d83de6da265cd Daniel Jordan   2021-02-19  701  		pfn = *pfn_base;
-> 89c29def6b0101 Alex Williamson 2018-06-02  702  		rsvd = is_invalid_reserved_pfn(*pfn_base);
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Nathan Chancellor <nathan@kernel.org>
 
-When batch->size is not zero, we initialize rsvd here.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   66701750d5565c574af42bef0b789ce0203e3071
+commit: 84ffc79bfbf70c779e60218563f2f3ad45288671 kbuild: Add '-fno-builtin-wcslen'
+date:   3 months ago
+:::::: branch date: 30 hours ago
+:::::: commit date: 3 months ago
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250702/202507021345.YPA17Mfu-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507021345.YPA17Mfu-lkp@intel.com/reproduce)
 
-> 4d83de6da265cd Daniel Jordan   2021-02-19  703  	} else {
-> 4d83de6da265cd Daniel Jordan   2021-02-19  704  		*pfn_base = 0;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202507021345.YPA17Mfu-lkp@intel.com/
 
-When the value of batch->size is zero, we set the value of *pfn_base
-to zero and do not initialize rsvd for the time being.
+All errors (new ones prefixed by >>):
 
-> 5c6c2b21ecc9ad Alex Williamson 2013-06-21  705  	}
-> 5c6c2b21ecc9ad Alex Williamson 2013-06-21  706  
-> eb996eec783c1e Alex Williamson 2025-02-18  707  	if (unlikely(disable_hugepages))
-> eb996eec783c1e Alex Williamson 2025-02-18  708  		npage = 1;
-> eb996eec783c1e Alex Williamson 2025-02-18  709  
-> 4d83de6da265cd Daniel Jordan   2021-02-19  710  	while (npage) {
-> 4d83de6da265cd Daniel Jordan   2021-02-19  711  		if (!batch->size) {
-> 4d83de6da265cd Daniel Jordan   2021-02-19  712  			/* Empty batch, so refill it. */
-> eb996eec783c1e Alex Williamson 2025-02-18  713  			ret = vaddr_get_pfns(mm, vaddr, npage, dma->prot,
-> eb996eec783c1e Alex Williamson 2025-02-18  714  					     &pfn, batch);
-> be16c1fd99f41a Daniel Jordan   2021-02-19  715  			if (ret < 0)
-> 4d83de6da265cd Daniel Jordan   2021-02-19  716  				goto unpin_out;
-> 166fd7d94afdac Alex Williamson 2013-06-21  717  
-> 4d83de6da265cd Daniel Jordan   2021-02-19  718  			if (!*pfn_base) {
-> 4d83de6da265cd Daniel Jordan   2021-02-19  719  				*pfn_base = pfn;
-> 4d83de6da265cd Daniel Jordan   2021-02-19  720  				rsvd = is_invalid_reserved_pfn(*pfn_base);
+>> ld.lld: error: unrecognized instruction for 6_X relocation: 0x4000
+>> ld.lld: error: unrecognized instruction for 6_X relocation: 0x4000
 
-Therefore, for the first loop, when batch->size is zero, *pfn_base must
-be zero, which will then lead to the initialization of rsvd.
-
-> 4d83de6da265cd Daniel Jordan   2021-02-19  721  			}
-> 
-> If "*pfn_base" is true then "rsvd" is uninitialized.
-> 
-> eb996eec783c1e Alex Williamson 2025-02-18  722  
-> eb996eec783c1e Alex Williamson 2025-02-18  723  			/* Handle pfnmap */
-> eb996eec783c1e Alex Williamson 2025-02-18  724  			if (!batch->size) {
-> eb996eec783c1e Alex Williamson 2025-02-18  725  				if (pfn != *pfn_base + pinned || !rsvd)
-> eb996eec783c1e Alex Williamson 2025-02-18  726  					goto out;
-> 
-> goto out;
-> 
-> eb996eec783c1e Alex Williamson 2025-02-18  727  
-> eb996eec783c1e Alex Williamson 2025-02-18  728  				pinned += ret;
-> eb996eec783c1e Alex Williamson 2025-02-18  729  				npage -= ret;
-> eb996eec783c1e Alex Williamson 2025-02-18  730  				vaddr += (PAGE_SIZE * ret);
-> eb996eec783c1e Alex Williamson 2025-02-18  731  				iova += (PAGE_SIZE * ret);
-> eb996eec783c1e Alex Williamson 2025-02-18  732  				continue;
-> eb996eec783c1e Alex Williamson 2025-02-18  733  			}
-> 166fd7d94afdac Alex Williamson 2013-06-21  734  		}
-> 166fd7d94afdac Alex Williamson 2013-06-21  735  
-> 4d83de6da265cd Daniel Jordan   2021-02-19  736  		/*
-> eb996eec783c1e Alex Williamson 2025-02-18  737  		 * pfn is preset for the first iteration of this inner loop
-> eb996eec783c1e Alex Williamson 2025-02-18  738  		 * due to the fact that vaddr_get_pfns() needs to provide the
-> eb996eec783c1e Alex Williamson 2025-02-18  739  		 * initial pfn for pfnmaps.  Therefore to reduce redundancy,
-> eb996eec783c1e Alex Williamson 2025-02-18  740  		 * the next pfn is fetched at the end of the loop.
-> eb996eec783c1e Alex Williamson 2025-02-18  741  		 * A PageReserved() page could still qualify as page backed
-> eb996eec783c1e Alex Williamson 2025-02-18  742  		 * and rsvd here, and therefore continues to use the batch.
-> 4d83de6da265cd Daniel Jordan   2021-02-19  743  		 */
-> 4d83de6da265cd Daniel Jordan   2021-02-19  744  		while (true) {
-> 6a2d9b72168041 Li Zhe          2025-06-30  745  			long nr_pages, acct_pages = 0;
-> 6a2d9b72168041 Li Zhe          2025-06-30  746  
-> 4d83de6da265cd Daniel Jordan   2021-02-19  747  			if (pfn != *pfn_base + pinned ||
-> 4d83de6da265cd Daniel Jordan   2021-02-19  748  			    rsvd != is_invalid_reserved_pfn(pfn))
-> 4d83de6da265cd Daniel Jordan   2021-02-19  749  				goto out;
-> 4d83de6da265cd Daniel Jordan   2021-02-19  750  
-> 6a2d9b72168041 Li Zhe          2025-06-30  751  			nr_pages = contig_pages(dma, batch, iova);
-> 6a2d9b72168041 Li Zhe          2025-06-30  752  			if (!rsvd) {
-> 6a2d9b72168041 Li Zhe          2025-06-30  753  				acct_pages = nr_pages;
-> 6a2d9b72168041 Li Zhe          2025-06-30  754  				acct_pages -= vpfn_pages(dma, iova, nr_pages);
-> 6a2d9b72168041 Li Zhe          2025-06-30  755  			}
-> 6a2d9b72168041 Li Zhe          2025-06-30  756  
-> 4d83de6da265cd Daniel Jordan   2021-02-19  757  			/*
-> 4d83de6da265cd Daniel Jordan   2021-02-19  758  			 * Reserved pages aren't counted against the user,
-> 4d83de6da265cd Daniel Jordan   2021-02-19  759  			 * externally pinned pages are already counted against
-> 4d83de6da265cd Daniel Jordan   2021-02-19  760  			 * the user.
-> 4d83de6da265cd Daniel Jordan   2021-02-19  761  			 */
-> 6a2d9b72168041 Li Zhe          2025-06-30  762  			if (acct_pages) {
-> 48d8476b41eed6 Alex Williamson 2018-05-11  763  				if (!dma->lock_cap &&
-> 6a2d9b72168041 Li Zhe          2025-06-30  764  						mm->locked_vm + lock_acct + acct_pages > limit) {
-> 6c38c055cc4c0a Alex Williamson 2016-12-30  765  					pr_warn("%s: RLIMIT_MEMLOCK (%ld) exceeded\n",
-> 6c38c055cc4c0a Alex Williamson 2016-12-30  766  						__func__, limit << PAGE_SHIFT);
-> 0cfef2b7410b64 Alex Williamson 2017-04-13  767  					ret = -ENOMEM;
-> 0cfef2b7410b64 Alex Williamson 2017-04-13  768  					goto unpin_out;
-> 166fd7d94afdac Alex Williamson 2013-06-21  769  				}
-> 6a2d9b72168041 Li Zhe          2025-06-30  770  				lock_acct += acct_pages;
-> a54eb55045ae9b Kirti Wankhede  2016-11-17  771  			}
-> 4d83de6da265cd Daniel Jordan   2021-02-19  772  
-> 6a2d9b72168041 Li Zhe          2025-06-30  773  			pinned += nr_pages;
-> 6a2d9b72168041 Li Zhe          2025-06-30  774  			npage -= nr_pages;
-> 6a2d9b72168041 Li Zhe          2025-06-30  775  			vaddr += PAGE_SIZE * nr_pages;
-> 6a2d9b72168041 Li Zhe          2025-06-30  776  			iova += PAGE_SIZE * nr_pages;
-> 6a2d9b72168041 Li Zhe          2025-06-30  777  			batch->offset += nr_pages;
-> 6a2d9b72168041 Li Zhe          2025-06-30  778  			batch->size -= nr_pages;
-> 4d83de6da265cd Daniel Jordan   2021-02-19  779  
-> 4d83de6da265cd Daniel Jordan   2021-02-19  780  			if (!batch->size)
-> 4d83de6da265cd Daniel Jordan   2021-02-19  781  				break;
-> 4d83de6da265cd Daniel Jordan   2021-02-19  782  
-> 4d83de6da265cd Daniel Jordan   2021-02-19  783  			pfn = page_to_pfn(batch->pages[batch->offset]);
-> 4d83de6da265cd Daniel Jordan   2021-02-19  784  		}
-> a54eb55045ae9b Kirti Wankhede  2016-11-17  785  	}
-> 166fd7d94afdac Alex Williamson 2013-06-21  786  
-> 6c38c055cc4c0a Alex Williamson 2016-12-30  787  out:
-> 20448310d6b71d Li Zhe          2025-06-30 @788  	dma->has_rsvd |= rsvd;
->                                                                        ^^^^
-
-In summary, it is likely to be a false alarm.
-Please correct me if I am wrong.
-
-Thanks,
-Zhe
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
