@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A881876
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Jul 2025 04:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2655A2C375F
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Jul 2025 11:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751601971; cv=none; b=GjO8fxWYLM7h9xyAVASKvyGGEkZ4hWg1kRoc2kHv3CDAbiyOqMWXlHX2sv74pDaFKn4F9eVvKJ9/3VeiPjEhxRpowXMEmyjR57WsaM0T8DtrIqPUNRWW/zm2dnJ4hU+g38f5gqIxGEWOEQ9K7LLf/VvVB94yzJfljYZWytWoOtE=
+	t=1751628888; cv=none; b=ThNb1kvocbaYmQo5NJ7wJPQHTzzGh3SbWrMOQUqzaNxDIBMxXn8LZbeCoVs8Vi4NwQtZDhbA7BJRMMHmrwJ69RNTJ3eA/zMRmgToYFK9nc7kai+C7mWQXaqMcnrUb74UDXniCmaHsfmtktjE/5zN6/iZczppvgTkR04h+/OiBvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751601971; c=relaxed/simple;
-	bh=Vw/gX4jVkV1r8j/JLVXe/s5UOipG0gBjqYKrmHCeI+U=;
+	s=arc-20240116; t=1751628888; c=relaxed/simple;
+	bh=xkuoqRBAMaszJogfwOZMOF36fqeCEjsZFhUcygllJHY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LR+KzXDe0HlEdTsO5iR6fdZA1ka75r8FbgvV354PA9P3MbaVJzB5fw8GTnm1DqIAaGsKZQ5rFGzKgcOQ3Tquuv11/dC8FTX7rpilzhst1F8VqnJkDXofk1SCo2dFU3V8ja4vLq8tldlkATXxanoLRK1N01Whtxo0YJN1ICysTCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mKT5ERwF; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=rO9hP2N088eXi6n+QE45vZXnjPGfAvdV24AWSW8S//+ftv315t9WJItxp1AWx0OjzB+EdiJ2gkxbUjTeQBSO3S6UtY2sniG2xk9MFeDsmHpQmFuD8RcaBrPv9BXNRJGpOgLMBbbXwkr6B6k+Dr8+IEeoffSmzx3cAqda5JZCYr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mvJ5bBRd; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mKT5ERwF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvJ5bBRd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751601968; x=1783137968;
+  t=1751628886; x=1783164886;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vw/gX4jVkV1r8j/JLVXe/s5UOipG0gBjqYKrmHCeI+U=;
-  b=mKT5ERwFx8sYOUZaw/mGMrTNNtYOQxSMN0wbuRUIaFI+bfCZcm2oZtGw
-   5sXfy6TZp29g5E8rMktIwWYfjqobgiyKujQBfW9BmGOwc9YajswlbmaPb
-   saTEZzgaWGvjlZO3HJYjgGOBp6pt9zezseT679V/Oq1b3/YpCZjiEObHo
-   xVRL0qAZDwvjNdb+hv933H7uqWoYqJP767xjn6TKiAl8IzUtee966j1Mi
-   09/VGYzR8pommHcnRdKN+wFcxIp9d6x8N8LC6+82gP66fQqSLot1nOaGX
-   PjJnu6S77l39ugE52dvperRFS0BBL39fMdAJvnMLn+auF8Nv4ZK1P0YS+
-   g==;
-X-CSE-ConnectionGUID: 9sca/kg1QQ2X/N/CDLSTtA==
-X-CSE-MsgGUID: qWhNZpokQkyuZa5HJpfjnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="54053417"
-X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="54053417"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 21:06:04 -0700
-X-CSE-ConnectionGUID: 6xHTNW02QSeZ24fTeinSTQ==
-X-CSE-MsgGUID: xdVnHZetRDOHd42NRzqzzg==
+  bh=xkuoqRBAMaszJogfwOZMOF36fqeCEjsZFhUcygllJHY=;
+  b=mvJ5bBRdzYsKIc3aUoQyQ1KIphSK44iO5UVxhZkDeibVca/GfgVhS4nX
+   CRC8UBXJ5TK4a5hN9RKVdHPi34kQgdMEMPDYvpCnJX274aCFXDMMxuS9g
+   fNIRA3CCQsKz8yHGXou6eRqbwA77MEk9AexP/S4dfDcnb/ynVcC7wOsjX
+   g7+fDyvVKlhV4QMTEZa7jJ5EboZ3CJh9P8s83hROGtB1mSBVreh0ZN5Te
+   Vt93wa+g1r324dM0y6kk5uYchZhhCBCYxrMchU/TduyFGpXcRDPUi2OqL
+   Y6N2MnH9y1pQXl1oTjS4Xivbq323YYy/updW4OxTJJOBkSRIL6tHKlsTG
+   A==;
+X-CSE-ConnectionGUID: FDJ/SkYuSOSWL95GGz7eVA==
+X-CSE-MsgGUID: OEUxt0siS1ys6HoOqHooFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53095356"
+X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
+   d="scan'208";a="53095356"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 04:34:46 -0700
+X-CSE-ConnectionGUID: R/JKXGFPS+auIUgBNZCoIg==
+X-CSE-MsgGUID: A38TiWioRoyNkdW1p0jA7w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="160056060"
+X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
+   d="scan'208";a="155204187"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Jul 2025 21:06:02 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 04 Jul 2025 04:34:44 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXXgW-0003JT-2k;
-	Fri, 04 Jul 2025 04:06:00 +0000
-Date: Fri, 4 Jul 2025 12:05:28 +0800
+	id 1uXegk-0003eH-2J;
+	Fri, 04 Jul 2025 11:34:42 +0000
+Date: Fri, 4 Jul 2025 19:33:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 2/2] arm64: dts: mediatek: add thermal sensor support
- on mt7981
-Message-ID: <202507041132.71D618If-lkp@intel.com>
+Subject: drivers/iio/light/opt4001.c:215:9: error: call to
+ '__compiletime_assert_604' declared with 'error' attribute: FIELD_PREP:
+ value too large for the field
+Message-ID: <202507041903.TeW18RtM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,93 +64,83 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "__compiletime_assert_NNN"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250702214830.255898-3-olek2@wp.pl>
-References: <20250702214830.255898-3-olek2@wp.pl>
-TO: Aleksander Jan Bajkowski <olek2@wp.pl>
-TO: jic23@kernel.org
-TO: dlechner@baylibre.com
-TO: nuno.sa@analog.com
-TO: andy@kernel.org
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: matthias.bgg@gmail.com
-TO: angelogioacchino.delregno@collabora.com
-TO: olek2@wp.pl
-TO: zhiyong.tao@mediatek.com
-TO: linux-iio@vger.kernel.org
-TO: devicetree@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-arm-kernel@lists.infradead.org
-TO: linux-mediatek@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+TO: Kees Cook <kees@kernel.org>
+CC: Justin Stitt <justinstitt@google.com>
 
-Hi Aleksander,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v6.16-rc4 next-20250703]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aleksander-Jan-Bajkowski/dt-bindings-iio-adc-Add-support-for-MT7981/20250703-054942
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250702214830.255898-3-olek2%40wp.pl
-patch subject: [PATCH v2 2/2] arm64: dts: mediatek: add thermal sensor support on mt7981
-:::::: branch date: 30 hours ago
-:::::: commit date: 30 hours ago
-config: arm64-randconfig-052-20250703 (https://download.01.org/0day-ci/archive/20250704/202507041132.71D618If-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041132.71D618If-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4c06e63b92038fadb566b652ec3ec04e228931e8
+commit: 47f4af43e7c0cf702d6a6321542f0c0d9c4216e3 ubsan/overflow: Enable ignorelist parsing and add type filter
+date:   4 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 4 months ago
+config: s390-randconfig-r051-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041903.TeW18RtM-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041903.TeW18RtM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507041132.71D618If-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507041903.TeW18RtM-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt7981b-cudy-wr3000-v1.dtb: thermal@1100c800 (mediatek,mt7981-thermal): compatible: ['mediatek,mt7981-thermal', 'mediatek,mt7986-thermal'] is too long
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
->> arch/arm64/boot/dts/mediatek/mt7981b-cudy-wr3000-v1.dtb: thermal@1100c800 (mediatek,mt7981-thermal): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
->> arch/arm64/boot/dts/mediatek/mt7981b-cudy-wr3000-v1.dtb: adc@1100d000 (mediatek,mt7981-auxadc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7981-auxadc', 'mediatek,mt7986-auxadc', 'mediatek,mt7622-auxadc'] is too long
-   	'mediatek,mt7981-auxadc' is not one of ['mediatek,mt7623-auxadc']
-   	'mediatek,mt7981-auxadc' is not one of ['mediatek,mt6893-auxadc', 'mediatek,mt8183-auxadc', 'mediatek,mt8186-auxadc', 'mediatek,mt8188-auxadc', 'mediatek,mt8195-auxadc', 'mediatek,mt8516-auxadc']
-   	'mediatek,mt2701-auxadc' was expected
-   	'mediatek,mt8173-auxadc' was expected
-   	from schema $id: http://devicetree.org/schemas/iio/adc/mediatek,mt2701-auxadc.yaml#
---
->> arch/arm64/boot/dts/mediatek/mt7981b-openwrt-one.dtb: thermal@1100c800 (mediatek,mt7981-thermal): compatible: ['mediatek,mt7981-thermal', 'mediatek,mt7986-thermal'] is too long
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
->> arch/arm64/boot/dts/mediatek/mt7981b-openwrt-one.dtb: thermal@1100c800 (mediatek,mt7981-thermal): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
->> arch/arm64/boot/dts/mediatek/mt7981b-openwrt-one.dtb: adc@1100d000 (mediatek,mt7981-auxadc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7981-auxadc', 'mediatek,mt7986-auxadc', 'mediatek,mt7622-auxadc'] is too long
-   	'mediatek,mt7981-auxadc' is not one of ['mediatek,mt7623-auxadc']
-   	'mediatek,mt7981-auxadc' is not one of ['mediatek,mt6893-auxadc', 'mediatek,mt8183-auxadc', 'mediatek,mt8186-auxadc', 'mediatek,mt8188-auxadc', 'mediatek,mt8195-auxadc', 'mediatek,mt8516-auxadc']
-   	'mediatek,mt2701-auxadc' was expected
-   	'mediatek,mt8173-auxadc' was expected
-   	from schema $id: http://devicetree.org/schemas/iio/adc/mediatek,mt2701-auxadc.yaml#
---
->> arch/arm64/boot/dts/mediatek/mt7981b-xiaomi-ax3000t.dtb: thermal@1100c800 (mediatek,mt7981-thermal): compatible: ['mediatek,mt7981-thermal', 'mediatek,mt7986-thermal'] is too long
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
->> arch/arm64/boot/dts/mediatek/mt7981b-xiaomi-ax3000t.dtb: thermal@1100c800 (mediatek,mt7981-thermal): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
->> arch/arm64/boot/dts/mediatek/mt7981b-xiaomi-ax3000t.dtb: adc@1100d000 (mediatek,mt7981-auxadc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7981-auxadc', 'mediatek,mt7986-auxadc', 'mediatek,mt7622-auxadc'] is too long
-   	'mediatek,mt7981-auxadc' is not one of ['mediatek,mt7623-auxadc']
-   	'mediatek,mt7981-auxadc' is not one of ['mediatek,mt6893-auxadc', 'mediatek,mt8183-auxadc', 'mediatek,mt8186-auxadc', 'mediatek,mt8188-auxadc', 'mediatek,mt8195-auxadc', 'mediatek,mt8516-auxadc']
-   	'mediatek,mt2701-auxadc' was expected
-   	'mediatek,mt8173-auxadc' was expected
-   	from schema $id: http://devicetree.org/schemas/iio/adc/mediatek,mt2701-auxadc.yaml#
+All errors (new ones prefixed by >>):
+
+>> drivers/iio/light/opt4001.c:215:9: error: call to '__compiletime_assert_604' declared with 'error' attribute: FIELD_PREP: value too large for the field
+     215 |         reg |= FIELD_PREP(OPT4001_CTRL_CONV_TIME_MASK, chip->int_time);
+         |                ^
+   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
+     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^
+   include/linux/bitfield.h:68:3: note: expanded from macro '__BF_FIELD_CHECK'
+      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
+         |                 ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:533:2: note: expanded from macro '_compiletime_assert'
+     533 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:526:4: note: expanded from macro '__compiletime_assert'
+     526 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:36:1: note: expanded from here
+      36 | __compiletime_assert_604
+         | ^
+   1 error generated.
+
+
+vim +215 drivers/iio/light/opt4001.c
+
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  207  
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  208  static int opt4001_set_conf(struct opt4001_chip *chip)
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  209  {
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  210  	struct device *dev = &chip->client->dev;
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  211  	u16 reg;
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  212  	int ret;
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  213  
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  214  	reg = FIELD_PREP(OPT4001_CTRL_RANGE_MASK, OPT4001_CTRL_LIGHT_SCALE_AUTO);
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26 @215  	reg |= FIELD_PREP(OPT4001_CTRL_CONV_TIME_MASK, chip->int_time);
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  216  	reg |= FIELD_PREP(OPT4001_CTRL_OPER_MODE_MASK, OPT4001_CTRL_OPER_MODE_CONTINUOUS);
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  217  
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  218  	ret = regmap_write(chip->regmap, OPT4001_CTRL, reg);
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  219  	if (ret)
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  220  		dev_err(dev, "Failed to set configuration\n");
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  221  
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  222  	return ret;
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  223  }
+9a9608418292bb Stefan Windfeldt-Prytz 2023-04-26  224  
+
+:::::: The code at line 215 was first introduced by commit
+:::::: 9a9608418292bb8733805c3f3123dfe0454fadac iio: light: Add support for TI OPT4001 light sensor
+
+:::::: TO: Stefan Windfeldt-Prytz <stefan.windfeldt-prytz@axis.com>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
