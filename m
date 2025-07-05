@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884DB2E3701
-	for <oe-kbuild@lists.linux.dev>; Sat,  5 Jul 2025 12:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3E62E3706
+	for <oe-kbuild@lists.linux.dev>; Sat,  5 Jul 2025 12:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751716915; cv=none; b=h6+APTp5Z84TxEdOfM2gMnat7XXtGo4U2O76Cxecv0IOKB4UF+tlC4DXUGLnoGRBszN66hMraX+DwuaVGm7z4+7a99yOSnvubDbeFIi6hABZ8i/VTtll3G02lcW3+6JG4uD6yfWxB6juDPHFRFqkfmjwOGkVjX32wjAwe7Ef3CQ=
+	t=1751720039; cv=none; b=X31r9OFrX1FgVREGfUi8ZGhtqjahofwiiLfkTqd9mW/SXUrEq6FMmdF22WTG4x6JDot/lZ1Uj8gFEbh9dhJ7KhrTqmo7I35mbLP38aMOwFG/5hZLs7tCDmNiD98STIyrs7vGSDZ+4AZOi+2CFfKr7M5/p0GulBjPEq0iJf0otzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751716915; c=relaxed/simple;
-	bh=U+BDvUKC7wTr571xVRfRVgPU0ZP73ySzCm78xmDR8L8=;
+	s=arc-20240116; t=1751720039; c=relaxed/simple;
+	bh=sz9DC5yuMFB0s+wD68MUygz+VwCPiqEu5phVUjgPf+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HpAJfq5CLuIZ/4ddVqbYK/HRrYsdY2VykVaoSWmORSOBSIqq2yK1N6dtSGoB0c+cj5xZMzyxdBCU+ZYoz5suog+PeFQUjcY07e1o2H5KNKVXH+BE7mX+g+dfFm09xmxSuRhMfVBcPpBGPfcWzQCALsw0wuSUsHGS+mu1vVLaquY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mX2F1YBy; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=bVEiCcKL4ejrudLk2qBarWzvUbKYjx6hUI7rhL9w71EZ+OYopNCsaMqmuh2EWOzHBY8sRnkhlN3t5W1ytG+78GY7kxd5F5poDrEJUA80bAglnhG2b0AuAYGpl6g0InmHHT2yqM6ItQN9QzljbENCdGdBg9w/frN7osdD8+0Mbww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cHQR29YO; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mX2F1YBy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cHQR29YO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751716914; x=1783252914;
+  t=1751720037; x=1783256037;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U+BDvUKC7wTr571xVRfRVgPU0ZP73ySzCm78xmDR8L8=;
-  b=mX2F1YByRAbY5I6ZD4QAQoOunD3Hy711Yk1O8GqVog50Zd7nVEbXGgTw
-   TtRgoYlo5PG6CzaSIB190NnIkpVhbdr0s8NARXx4uksCrpZCzEoYgg2id
-   C87q7lQKKqQ2+3z7Lz+GtEQh4XNhNbiB0WpQRvF6MQ0ibVVEwkBB7Dv8e
-   xE4pETKrzlVaKSvDXkiH0wOgN3a3Cr0WGec/Olkk6wVIWeHxPZSEtmjVe
-   wT3FcEtBfW+qJe8Amn9QnTaf74O5RwgpJQpS+oC8c/5nH0sj1tqySIoNb
-   ENinHLaHVAyEm2oR2wEKpH8Pikt+QfKbBTmY25a5cpVF21yj0zLOX7YMH
+  bh=sz9DC5yuMFB0s+wD68MUygz+VwCPiqEu5phVUjgPf+E=;
+  b=cHQR29YOep6GBUxVi7S3iH6MByXG6XRc1N/PqqkBP7SibXQqWLdfdH0E
+   MSLjN+IUIB41dXpnkRJRzyraVMWXjOckHaQwcfqF237MbWckuMadsaLN0
+   0BfO52R63FwyvjtNegfUDqpfAbR4Yt7dvo66aPgvnvlmQzp3/QTCM7BP9
+   p0tmoKvyBH2w6X1Cr4yXNHaj4DSlf7NBC+ESn1cD+KsPQbWqjomjsTvs+
+   4+hitX4CKKzlS8NDJ9obw2sc31PpRYRGhX5vwwirG89VtI0bw5taAaBAw
+   otVysceBHLc6dZzWiHb6x8Nf/weMth+IGMyLOmwcztwb8SvP/htY9Kz5O
    A==;
-X-CSE-ConnectionGUID: Gs4wZ8FtTIWQE5n2JPv+pw==
-X-CSE-MsgGUID: loENMjQ/RL+R6hAlrOuo6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="57816326"
+X-CSE-ConnectionGUID: qZUvtgzYRtGESBope8MREw==
+X-CSE-MsgGUID: vWx3cDmDTfWG3K01TO77ZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="65360606"
 X-IronPort-AV: E=Sophos;i="6.16,290,1744095600"; 
-   d="scan'208";a="57816326"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 05:01:53 -0700
-X-CSE-ConnectionGUID: jeF6QZY6RgOvQqiR+RR99g==
-X-CSE-MsgGUID: byEzPftgR6WoEp8O/CslGw==
+   d="scan'208";a="65360606"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 05:53:56 -0700
+X-CSE-ConnectionGUID: I2oY8noVTtq0LI85gO55Fg==
+X-CSE-MsgGUID: V+G0JnOGTTe5LwPtOi8KXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,290,1744095600"; 
-   d="scan'208";a="154559140"
+   d="scan'208";a="154239105"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Jul 2025 05:01:52 -0700
+  by orviesa006.jf.intel.com with ESMTP; 05 Jul 2025 05:53:55 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uY1aX-0004U3-1O;
-	Sat, 05 Jul 2025 12:01:49 +0000
-Date: Sat, 5 Jul 2025 20:01:24 +0800
+	id 1uY2Ou-0004Ul-2A;
+	Sat, 05 Jul 2025 12:53:52 +0000
+Date: Sat, 5 Jul 2025 20:53:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [arm-perf:for-next/perf 6/7] drivers/perf/arm-cmn.c:2248:35: sparse:
- sparse: duplicate [noderef]
-Message-ID: <202507051925.uicPEC8T-lkp@intel.com>
+Subject: Re: [PATCH 5/5] ARM: dts: aspeed: Add Facebook Darwin (AST2600) BMC
+Message-ID: <202507052013.eBxBQ13Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,297 +62,114 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/perf/arm-cmn.c:2248:35: sparse: sparse: duplicate [noderef]"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Robin Murphy <robin.murphy@arm.com>
-CC: Will Deacon <will@kernel.org>
+In-Reply-To: <20250702050421.13729-6-rentao.bupt@gmail.com>
+References: <20250702050421.13729-6-rentao.bupt@gmail.com>
+TO: rentao.bupt@gmail.com
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Joel Stanley <joel@jms.id.au>
+TO: Andrew Jeffery <andrew@codeconstruct.com.au>
+TO: devicetree@vger.kernel.org
+TO: linux-arm-kernel@lists.infradead.org
+TO: linux-aspeed@lists.ozlabs.org
+TO: linux-kernel@vger.kernel.org
+TO: Tao Ren <taoren@meta.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git for-next/perf
-head:   860a831de138a7ad6bc86019adaf10eb84c02655
-commit: a7bfae21457c3e46d16868c0bc923e509b4a83e2 [6/7] perf/arm-cmn: Reduce stack usage during discovery
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: loongarch-randconfig-r122-20250705 (https://download.01.org/0day-ci/archive/20250705/202507051925.uicPEC8T-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce: (https://download.01.org/0day-ci/archive/20250705/202507051925.uicPEC8T-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.16-rc4 next-20250703]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/rentao-bupt-gmail-com/ARM-dts-aspeed-Expand-data0-partition-in-facebook-bmc-flash-layout-128-dtsi/20250702-130721
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250702050421.13729-6-rentao.bupt%40gmail.com
+patch subject: [PATCH 5/5] ARM: dts: aspeed: Add Facebook Darwin (AST2600) BMC
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm-randconfig-052-20250702 (https://download.01.org/0day-ci/archive/20250705/202507052013.eBxBQ13Y-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f1a4bb62452d88a0edd9340b3ca7c9b11ad9193f)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250705/202507052013.eBxBQ13Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507051925.uicPEC8T-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507052013.eBxBQ13Y-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/perf/arm-cmn.c:2248:35: sparse: sparse: duplicate [noderef]
->> drivers/perf/arm-cmn.c:2248:35: sparse: sparse: multiple address spaces given: __iomem & __iomem
-
-vim +2248 drivers/perf/arm-cmn.c
-
-8e504d93acb647 Robin Murphy   2022-04-18  2245  
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2246  static int arm_cmn_discover(struct arm_cmn *cmn, unsigned int rgn_offset)
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2247  {
-a7bfae21457c3e Robin Murphy   2025-06-27 @2248  	void __iomem *cfg_region, __iomem *xp_region;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2249  	struct arm_cmn_node cfg, *dn;
-0947c80aba2397 Robin Murphy   2021-12-03  2250  	struct arm_cmn_dtm *dtm;
-7819e05a0dceac Robin Murphy   2023-06-12  2251  	enum cmn_part part;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2252  	u16 child_count, child_poff;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2253  	u64 reg;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2254  	int i, j;
-da5f7d2c8019c9 Robin Murphy   2021-12-03  2255  	size_t sz;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2256  
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2257  	arm_cmn_init_node_info(cmn, rgn_offset, &cfg);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2258  	if (cfg.type != CMN_TYPE_CFG)
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2259  		return -ENODEV;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2260  
-61ec1d87581204 Robin Murphy   2021-12-03  2261  	cfg_region = cmn->base + rgn_offset;
-7819e05a0dceac Robin Murphy   2023-06-12  2262  
-7819e05a0dceac Robin Murphy   2023-06-12  2263  	reg = readq_relaxed(cfg_region + CMN_CFGM_PERIPH_ID_01);
-7819e05a0dceac Robin Murphy   2023-06-12  2264  	part = FIELD_GET(CMN_CFGM_PID0_PART_0, reg);
-7819e05a0dceac Robin Murphy   2023-06-12  2265  	part |= FIELD_GET(CMN_CFGM_PID1_PART_1, reg) << 8;
-7819e05a0dceac Robin Murphy   2023-06-12  2266  	if (cmn->part && cmn->part != part)
-7819e05a0dceac Robin Murphy   2023-06-12  2267  		dev_warn(cmn->dev,
-7819e05a0dceac Robin Murphy   2023-06-12  2268  			 "Firmware binding mismatch: expected part number 0x%x, found 0x%x\n",
-7819e05a0dceac Robin Murphy   2023-06-12  2269  			 cmn->part, part);
-7819e05a0dceac Robin Murphy   2023-06-12  2270  	cmn->part = part;
-7819e05a0dceac Robin Murphy   2023-06-12  2271  	if (!arm_cmn_model(cmn))
-7819e05a0dceac Robin Murphy   2023-06-12  2272  		dev_warn(cmn->dev, "Unknown part number: 0x%x\n", part);
-7819e05a0dceac Robin Murphy   2023-06-12  2273  
-7819e05a0dceac Robin Murphy   2023-06-12  2274  	reg = readl_relaxed(cfg_region + CMN_CFGM_PERIPH_ID_23);
-61ec1d87581204 Robin Murphy   2021-12-03  2275  	cmn->rev = FIELD_GET(CMN_CFGM_PID2_REVISION, reg);
-61ec1d87581204 Robin Murphy   2021-12-03  2276  
-0dc2f4963f7ef1 Robin Murphy   2024-09-02  2277  	/*
-0dc2f4963f7ef1 Robin Murphy   2024-09-02  2278  	 * With the device isolation feature, if firmware has neglected to enable
-0dc2f4963f7ef1 Robin Murphy   2024-09-02  2279  	 * an XP port then we risk locking up if we try to access anything behind
-0dc2f4963f7ef1 Robin Murphy   2024-09-02  2280  	 * it; however we also have no way to tell from Non-Secure whether any
-0dc2f4963f7ef1 Robin Murphy   2024-09-02  2281  	 * given port is disabled or not, so the only way to win is not to play...
-0dc2f4963f7ef1 Robin Murphy   2024-09-02  2282  	 */
-60d1504070c22c Robin Murphy   2021-12-03  2283  	reg = readq_relaxed(cfg_region + CMN_CFGM_INFO_GLOBAL);
-0dc2f4963f7ef1 Robin Murphy   2024-09-02  2284  	if (reg & CMN_INFO_DEVICE_ISO_ENABLE) {
-0dc2f4963f7ef1 Robin Murphy   2024-09-02  2285  		dev_err(cmn->dev, "Device isolation enabled, not continuing due to risk of lockup\n");
-0dc2f4963f7ef1 Robin Murphy   2024-09-02  2286  		return -ENODEV;
-0dc2f4963f7ef1 Robin Murphy   2024-09-02  2287  	}
-60d1504070c22c Robin Murphy   2021-12-03  2288  	cmn->multi_dtm = reg & CMN_INFO_MULTIPLE_DTM_EN;
-60d1504070c22c Robin Murphy   2021-12-03  2289  	cmn->rsp_vc_num = FIELD_GET(CMN_INFO_RSP_VC_NUM, reg);
-60d1504070c22c Robin Murphy   2021-12-03  2290  	cmn->dat_vc_num = FIELD_GET(CMN_INFO_DAT_VC_NUM, reg);
-60d1504070c22c Robin Murphy   2021-12-03  2291  
-23760a0144173e Robin Murphy   2022-04-18  2292  	reg = readq_relaxed(cfg_region + CMN_CFGM_INFO_GLOBAL_1);
-23760a0144173e Robin Murphy   2022-04-18  2293  	cmn->snp_vc_num = FIELD_GET(CMN_INFO_SNP_VC_NUM, reg);
-23760a0144173e Robin Murphy   2022-04-18  2294  	cmn->req_vc_num = FIELD_GET(CMN_INFO_REQ_VC_NUM, reg);
-23760a0144173e Robin Murphy   2022-04-18  2295  
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2296  	reg = readq_relaxed(cfg_region + CMN_CHILD_INFO);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2297  	child_count = FIELD_GET(CMN_CI_CHILD_COUNT, reg);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2298  	child_poff = FIELD_GET(CMN_CI_CHILD_PTR_OFFSET, reg);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2299  
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2300  	cmn->num_xps = child_count;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2301  	cmn->num_dns = cmn->num_xps;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2302  
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2303  	/* Pass 1: visit the XPs, enumerate their children */
-a7bfae21457c3e Robin Murphy   2025-06-27  2304  	cfg_region += child_poff;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2305  	for (i = 0; i < cmn->num_xps; i++) {
-a7bfae21457c3e Robin Murphy   2025-06-27  2306  		reg = readq_relaxed(cfg_region + i * 8);
-a7bfae21457c3e Robin Murphy   2025-06-27  2307  		xp_region = cmn->base + (reg & CMN_CHILD_NODE_ADDR);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2308  
-a7bfae21457c3e Robin Murphy   2025-06-27  2309  		reg = readq_relaxed(xp_region + CMN_CHILD_INFO);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2310  		cmn->num_dns += FIELD_GET(CMN_CI_CHILD_COUNT, reg);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2311  	}
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2312  
-8e504d93acb647 Robin Murphy   2022-04-18  2313  	/*
-8e504d93acb647 Robin Murphy   2022-04-18  2314  	 * Some nodes effectively have two separate types, which we'll handle
-8e504d93acb647 Robin Murphy   2022-04-18  2315  	 * by creating one of each internally. For a (very) safe initial upper
-8e504d93acb647 Robin Murphy   2022-04-18  2316  	 * bound, account for double the number of non-XP nodes.
-8e504d93acb647 Robin Murphy   2022-04-18  2317  	 */
-8e504d93acb647 Robin Murphy   2022-04-18  2318  	dn = devm_kcalloc(cmn->dev, cmn->num_dns * 2 - cmn->num_xps,
-8e504d93acb647 Robin Murphy   2022-04-18  2319  			  sizeof(*dn), GFP_KERNEL);
-da5f7d2c8019c9 Robin Murphy   2021-12-03  2320  	if (!dn)
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2321  		return -ENOMEM;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2322  
-60d1504070c22c Robin Murphy   2021-12-03  2323  	/* Initial safe upper bound on DTMs for any possible mesh layout */
-60d1504070c22c Robin Murphy   2021-12-03  2324  	i = cmn->num_xps;
-60d1504070c22c Robin Murphy   2021-12-03  2325  	if (cmn->multi_dtm)
-60d1504070c22c Robin Murphy   2021-12-03  2326  		i += cmn->num_xps + 1;
-60d1504070c22c Robin Murphy   2021-12-03  2327  	dtm = devm_kcalloc(cmn->dev, i, sizeof(*dtm), GFP_KERNEL);
-0947c80aba2397 Robin Murphy   2021-12-03  2328  	if (!dtm)
-0947c80aba2397 Robin Murphy   2021-12-03  2329  		return -ENOMEM;
-0947c80aba2397 Robin Murphy   2021-12-03  2330  
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2331  	/* Pass 2: now we can actually populate the nodes */
-da5f7d2c8019c9 Robin Murphy   2021-12-03  2332  	cmn->dns = dn;
-0947c80aba2397 Robin Murphy   2021-12-03  2333  	cmn->dtms = dtm;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2334  	for (i = 0; i < cmn->num_xps; i++) {
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2335  		struct arm_cmn_node *xp = dn++;
-60d1504070c22c Robin Murphy   2021-12-03  2336  		unsigned int xp_ports = 0;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2337  
-a7bfae21457c3e Robin Murphy   2025-06-27  2338  		reg = readq_relaxed(cfg_region + i * 8);
-a7bfae21457c3e Robin Murphy   2025-06-27  2339  		xp_region = cmn->base + (reg & CMN_CHILD_NODE_ADDR);
-a7bfae21457c3e Robin Murphy   2025-06-27  2340  		arm_cmn_init_node_info(cmn, reg & CMN_CHILD_NODE_ADDR, xp);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2341  		/*
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2342  		 * Thanks to the order in which XP logical IDs seem to be
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2343  		 * assigned, we can handily infer the mesh X dimension by
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2344  		 * looking out for the XP at (0,1) without needing to know
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2345  		 * the exact node ID format, which we can later derive.
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2346  		 */
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2347  		if (xp->id == (1 << 3))
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2348  			cmn->mesh_x = xp->logid;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2349  
-7819e05a0dceac Robin Murphy   2023-06-12  2350  		if (cmn->part == PART_CMN600)
-7633ec2c262fab Robin Murphy   2023-10-20  2351  			xp->dtc = -1;
-60d1504070c22c Robin Murphy   2021-12-03  2352  		else
-7633ec2c262fab Robin Murphy   2023-10-20  2353  			xp->dtc = arm_cmn_dtc_domain(cmn, xp_region);
-60d1504070c22c Robin Murphy   2021-12-03  2354  
-0947c80aba2397 Robin Murphy   2021-12-03  2355  		xp->dtm = dtm - cmn->dtms;
-60d1504070c22c Robin Murphy   2021-12-03  2356  		arm_cmn_init_dtm(dtm++, xp, 0);
-60d1504070c22c Robin Murphy   2021-12-03  2357  		/*
-60d1504070c22c Robin Murphy   2021-12-03  2358  		 * Keeping track of connected ports will let us filter out
-e79634b53e3989 Robin Murphy   2024-09-02  2359  		 * unnecessary XP events easily, and also infer the per-XP
-e79634b53e3989 Robin Murphy   2024-09-02  2360  		 * part of the node ID format.
-60d1504070c22c Robin Murphy   2021-12-03  2361  		 */
-2ad91e44e6b0c7 Robin Murphy   2023-04-12  2362  		for (int p = 0; p < CMN_MAX_PORTS; p++)
-2ad91e44e6b0c7 Robin Murphy   2023-04-12  2363  			if (arm_cmn_device_connect_info(cmn, xp, p))
-2ad91e44e6b0c7 Robin Murphy   2023-04-12  2364  				xp_ports |= BIT(p);
-60d1504070c22c Robin Murphy   2021-12-03  2365  
-e79634b53e3989 Robin Murphy   2024-09-02  2366  		if (cmn->num_xps == 1) {
-e79634b53e3989 Robin Murphy   2024-09-02  2367  			xp->portid_bits = 3;
-e79634b53e3989 Robin Murphy   2024-09-02  2368  			xp->deviceid_bits = 2;
-e79634b53e3989 Robin Murphy   2024-09-02  2369  		} else if (xp_ports > 0x3) {
-e79634b53e3989 Robin Murphy   2024-09-02  2370  			xp->portid_bits = 2;
-e79634b53e3989 Robin Murphy   2024-09-02  2371  			xp->deviceid_bits = 1;
-e79634b53e3989 Robin Murphy   2024-09-02  2372  		} else {
-e79634b53e3989 Robin Murphy   2024-09-02  2373  			xp->portid_bits = 1;
-e79634b53e3989 Robin Murphy   2024-09-02  2374  			xp->deviceid_bits = 2;
-e79634b53e3989 Robin Murphy   2024-09-02  2375  		}
-e79634b53e3989 Robin Murphy   2024-09-02  2376  
-e79634b53e3989 Robin Murphy   2024-09-02  2377  		if (cmn->multi_dtm && (xp_ports > 0x3))
-60d1504070c22c Robin Murphy   2021-12-03  2378  			arm_cmn_init_dtm(dtm++, xp, 1);
-e79634b53e3989 Robin Murphy   2024-09-02  2379  		if (cmn->multi_dtm && (xp_ports > 0xf))
-60d1504070c22c Robin Murphy   2021-12-03  2380  			arm_cmn_init_dtm(dtm++, xp, 2);
-60d1504070c22c Robin Murphy   2021-12-03  2381  
-60d1504070c22c Robin Murphy   2021-12-03  2382  		cmn->ports_used |= xp_ports;
-0947c80aba2397 Robin Murphy   2021-12-03  2383  
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2384  		reg = readq_relaxed(xp_region + CMN_CHILD_INFO);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2385  		child_count = FIELD_GET(CMN_CI_CHILD_COUNT, reg);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2386  		child_poff = FIELD_GET(CMN_CI_CHILD_PTR_OFFSET, reg);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2387  
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2388  		for (j = 0; j < child_count; j++) {
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2389  			reg = readq_relaxed(xp_region + child_poff + j * 8);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2390  			/*
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2391  			 * Don't even try to touch anything external, since in general
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2392  			 * we haven't a clue how to power up arbitrary CHI requesters.
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2393  			 * As of CMN-600r1 these could only be RN-SAMs or CXLAs,
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2394  			 * neither of which have any PMU events anyway.
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2395  			 * (Actually, CXLAs do seem to have grown some events in r1p2,
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2396  			 * but they don't go to regular XP DTMs, and they depend on
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2397  			 * secure configuration which we can't easily deal with)
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2398  			 */
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2399  			if (reg & CMN_CHILD_NODE_EXTERNAL) {
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2400  				dev_dbg(cmn->dev, "ignoring external node %llx\n", reg);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2401  				continue;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2402  			}
-50572064ec7109 Ilkka Koskinen 2024-02-09  2403  			/*
-50572064ec7109 Ilkka Koskinen 2024-02-09  2404  			 * AmpereOneX erratum AC04_MESH_1 makes some XPs report a bogus
-50572064ec7109 Ilkka Koskinen 2024-02-09  2405  			 * child count larger than the number of valid child pointers.
-50572064ec7109 Ilkka Koskinen 2024-02-09  2406  			 * A child offset of 0 can only occur on CMN-600; otherwise it
-50572064ec7109 Ilkka Koskinen 2024-02-09  2407  			 * would imply the root node being its own grandchild, which
-50572064ec7109 Ilkka Koskinen 2024-02-09  2408  			 * we can safely dismiss in general.
-50572064ec7109 Ilkka Koskinen 2024-02-09  2409  			 */
-50572064ec7109 Ilkka Koskinen 2024-02-09  2410  			if (reg == 0 && cmn->part != PART_CMN600) {
-50572064ec7109 Ilkka Koskinen 2024-02-09  2411  				dev_dbg(cmn->dev, "bogus child pointer?\n");
-50572064ec7109 Ilkka Koskinen 2024-02-09  2412  				continue;
-50572064ec7109 Ilkka Koskinen 2024-02-09  2413  			}
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2414  
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2415  			arm_cmn_init_node_info(cmn, reg & CMN_CHILD_NODE_ADDR, dn);
-dfdf714fed559c Namhyung Kim   2024-11-20  2416  			dn->portid_bits = xp->portid_bits;
-dfdf714fed559c Namhyung Kim   2024-11-20  2417  			dn->deviceid_bits = xp->deviceid_bits;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2418  
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2419  			switch (dn->type) {
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2420  			case CMN_TYPE_DTC:
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2421  				cmn->num_dtcs++;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2422  				dn++;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2423  				break;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2424  			/* These guys have PMU events */
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2425  			case CMN_TYPE_DVM:
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2426  			case CMN_TYPE_HNI:
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2427  			case CMN_TYPE_HNF:
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2428  			case CMN_TYPE_SBSX:
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2429  			case CMN_TYPE_RNI:
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2430  			case CMN_TYPE_RND:
-60d1504070c22c Robin Murphy   2021-12-03  2431  			case CMN_TYPE_MTSX:
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2432  			case CMN_TYPE_CXRA:
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2433  			case CMN_TYPE_CXHA:
-23760a0144173e Robin Murphy   2022-04-18  2434  			case CMN_TYPE_CCRA:
-23760a0144173e Robin Murphy   2022-04-18  2435  			case CMN_TYPE_CCHA:
-ac18ea1a893592 Robin Murphy   2023-07-07  2436  			case CMN_TYPE_HNS:
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2437  				dn++;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2438  				break;
-88b63a82c84ed9 Robin Murphy   2024-09-02  2439  			case CMN_TYPE_CCLA:
-88b63a82c84ed9 Robin Murphy   2024-09-02  2440  				dn->pmu_base += CMN_CCLA_PMU_EVENT_SEL;
-88b63a82c84ed9 Robin Murphy   2024-09-02  2441  				dn++;
-88b63a82c84ed9 Robin Murphy   2024-09-02  2442  				break;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2443  			/* Nothing to see here */
-60d1504070c22c Robin Murphy   2021-12-03  2444  			case CMN_TYPE_MPAM_S:
-60d1504070c22c Robin Murphy   2021-12-03  2445  			case CMN_TYPE_MPAM_NS:
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2446  			case CMN_TYPE_RNSAM:
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2447  			case CMN_TYPE_CXLA:
-ac18ea1a893592 Robin Murphy   2023-07-07  2448  			case CMN_TYPE_HNS_MPAM_S:
-ac18ea1a893592 Robin Murphy   2023-07-07  2449  			case CMN_TYPE_HNS_MPAM_NS:
-0dc2f4963f7ef1 Robin Murphy   2024-09-02  2450  			case CMN_TYPE_APB:
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2451  				break;
-8e504d93acb647 Robin Murphy   2022-04-18  2452  			/*
-8e504d93acb647 Robin Murphy   2022-04-18  2453  			 * Split "optimised" combination nodes into separate
-8e504d93acb647 Robin Murphy   2022-04-18  2454  			 * types for the different event sets. Offsetting the
-8e504d93acb647 Robin Murphy   2022-04-18  2455  			 * base address lets us handle the second pmu_event_sel
-8e504d93acb647 Robin Murphy   2022-04-18  2456  			 * register via the normal mechanism later.
-8e504d93acb647 Robin Murphy   2022-04-18  2457  			 */
-8e504d93acb647 Robin Murphy   2022-04-18  2458  			case CMN_TYPE_HNP:
-23760a0144173e Robin Murphy   2022-04-18  2459  			case CMN_TYPE_CCLA_RNI:
-8e504d93acb647 Robin Murphy   2022-04-18  2460  				dn[1] = dn[0];
-88b63a82c84ed9 Robin Murphy   2024-09-02  2461  				dn[0].pmu_base += CMN_CCLA_PMU_EVENT_SEL;
-8e504d93acb647 Robin Murphy   2022-04-18  2462  				dn[1].type = arm_cmn_subtype(dn->type);
-8e504d93acb647 Robin Murphy   2022-04-18  2463  				dn += 2;
-8e504d93acb647 Robin Murphy   2022-04-18  2464  				break;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2465  			/* Something has gone horribly wrong */
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2466  			default:
-887e2cff0f8dc4 Will Deacon    2020-10-01  2467  				dev_err(cmn->dev, "invalid device node type: 0x%x\n", dn->type);
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2468  				return -ENODEV;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2469  			}
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2470  		}
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2471  	}
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2472  
-8e504d93acb647 Robin Murphy   2022-04-18  2473  	/* Correct for any nodes we added or skipped */
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2474  	cmn->num_dns = dn - cmn->dns;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2475  
-8e504d93acb647 Robin Murphy   2022-04-18  2476  	/* Cheeky +1 to help terminate pointer-based iteration later */
-da5f7d2c8019c9 Robin Murphy   2021-12-03  2477  	sz = (void *)(dn + 1) - (void *)cmn->dns;
-da5f7d2c8019c9 Robin Murphy   2021-12-03  2478  	dn = devm_krealloc(cmn->dev, cmn->dns, sz, GFP_KERNEL);
-da5f7d2c8019c9 Robin Murphy   2021-12-03  2479  	if (dn)
-da5f7d2c8019c9 Robin Murphy   2021-12-03  2480  		cmn->dns = dn;
-da5f7d2c8019c9 Robin Murphy   2021-12-03  2481  
-60d1504070c22c Robin Murphy   2021-12-03  2482  	sz = (void *)dtm - (void *)cmn->dtms;
-60d1504070c22c Robin Murphy   2021-12-03  2483  	dtm = devm_krealloc(cmn->dev, cmn->dtms, sz, GFP_KERNEL);
-60d1504070c22c Robin Murphy   2021-12-03  2484  	if (dtm)
-60d1504070c22c Robin Murphy   2021-12-03  2485  		cmn->dtms = dtm;
-60d1504070c22c Robin Murphy   2021-12-03  2486  
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2487  	/*
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2488  	 * If mesh_x wasn't set during discovery then we never saw
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2489  	 * an XP at (0,1), thus we must have an Nx1 configuration.
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2490  	 */
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2491  	if (!cmn->mesh_x)
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2492  		cmn->mesh_x = cmn->num_xps;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2493  	cmn->mesh_y = cmn->num_xps / cmn->mesh_x;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2494  
-60d1504070c22c Robin Murphy   2021-12-03  2495  	/* 1x1 config plays havoc with XP event encodings */
-60d1504070c22c Robin Murphy   2021-12-03  2496  	if (cmn->num_xps == 1)
-60d1504070c22c Robin Murphy   2021-12-03  2497  		dev_warn(cmn->dev, "1x1 config not fully supported, translate XP events manually\n");
-60d1504070c22c Robin Murphy   2021-12-03  2498  
-7819e05a0dceac Robin Murphy   2023-06-12  2499  	dev_dbg(cmn->dev, "periph_id part 0x%03x revision %d\n", cmn->part, cmn->rev);
-60d1504070c22c Robin Murphy   2021-12-03  2500  	reg = cmn->ports_used;
-60d1504070c22c Robin Murphy   2021-12-03  2501  	dev_dbg(cmn->dev, "mesh %dx%d, ID width %d, ports %6pbl%s\n",
-60d1504070c22c Robin Murphy   2021-12-03  2502  		cmn->mesh_x, cmn->mesh_y, arm_cmn_xyidbits(cmn), &reg,
-60d1504070c22c Robin Murphy   2021-12-03  2503  		cmn->multi_dtm ? ", multi-DTM" : "");
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2504  
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2505  	return 0;
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2506  }
-0ba64770a2f2e5 Robin Murphy   2020-09-18  2507  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/aspeed/facebook-bmc-flash-layout-128.dtsi:12.11-15.4: Warning (unique_unit_address_if_enabled): /ahb/spi@1e620000/flash@0/partitions/u-boot@0: duplicate unit-address (also used in node /ahb/spi@1e620000/flash@0/partitions/flash0@0)
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: / (facebook,darwin-bmc): compatible: 'oneOf' conditional failed, one must be fixed:
+   	'facebook,darwin-bmc' is not one of ['delta,ahe50dc-bmc', 'facebook,galaxy100-bmc', 'facebook,wedge100-bmc', 'facebook,wedge40-bmc', 'microsoft,olympus-bmc', 'quanta,q71l-bmc', 'tyan,palmetto-bmc', 'yadro,vesnin-bmc']
+   	'facebook,darwin-bmc' is not one of ['amd,daytonax-bmc', 'amd,ethanolx-bmc', 'ampere,mtjade-bmc', 'aspeed,ast2500-evb', 'asrock,e3c246d4i-bmc', 'asrock,e3c256d4i-bmc', 'asrock,romed8hm3-bmc', 'asrock,spc621d8hm3-bmc', 'asrock,x570d4u-bmc', 'bytedance,g220a-bmc', 'facebook,cmm-bmc', 'facebook,minipack-bmc', 'facebook,tiogapass-bmc', 'facebook,yamp-bmc', 'facebook,yosemitev2-bmc', 'facebook,wedge400-bmc', 'hxt,stardragon4800-rep2-bmc', 'ibm,mihawk-bmc', 'ibm,mowgli-bmc', 'ibm,romulus-bmc', 'ibm,swift-bmc', 'ibm,witherspoon-bmc', 'ingrasys,zaius-bmc', 'inspur,fp5280g2-bmc', 'inspur,nf5280m6-bmc', 'inspur,on5263m5-bmc', 'intel,s2600wf-bmc', 'inventec,lanyang-bmc', 'lenovo,hr630-bmc', 'lenovo,hr855xg2-bmc', 'portwell,neptune-bmc', 'qcom,centriq2400-rep-bmc', 'supermicro,x11spi-bmc', 'tyan,s7106-bmc', 'tyan,s8036-bmc', 'yadro,nicole-bmc', 'yadro,vegman-n110-bmc', 'yadro,vegman-rx20-bmc', 'yadro,vegman-sx20-bmc']
+   	'facebook,darwin-bmc' is not one of ['ampere,mtjefferson-bmc', 'ampere,mtmitchell-bmc', 'aspeed,ast2600-evb', 'aspeed,ast2600-evb-a1', 'asus,x4tf-bmc', 'facebook,bletchley-bmc', 'facebook,catalina-bmc', 'facebook,cloudripper-bmc', 'facebook,elbert-bmc', 'facebook,fuji-bmc', 'facebook,greatlakes-bmc', 'facebook,harma-bmc', 'facebook,minerva-cmc', 'facebook,yosemite4-bmc', 'ibm,blueridge-bmc', 'ibm,everest-bmc', 'ibm,fuji-bmc', 'ibm,rainier-bmc', 'ibm,sbp1-bmc', 'ibm,system1-bmc', 'ibm,tacoma-bmc', 'inventec,starscream-bmc', 'inventec,transformer-bmc', 'jabil,rbp-bmc', 'qcom,dc-scm-v1-bmc', 'quanta,s6q-bmc', 'ufispace,ncplite-bmc']
+   	'aspeed,ast2400' was expected
+   	'aspeed,ast2500' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/aspeed/aspeed.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /: failed to match any schema with compatible: ['facebook,darwin-bmc', 'aspeed,ast2600']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts', 'ref_voltage' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts', 'ref_voltage' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: kcs@24 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: fsi@1e79b000 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: fsi@1e79b100 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: spi (spi-gpio): gpio-miso: False schema does not allow [64, 189, 0]
+   	from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: spi (spi-gpio): gpio-mosi: False schema does not allow [64, 188, 0]
+   	from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: spi (spi-gpio): gpio-sck: False schema does not allow [64, 187, 0]
+   	from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: spi (spi-gpio): 'sck-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: spi (spi-gpio): Unevaluated properties are not allowed ('gpio-miso', 'gpio-mosi', 'gpio-sck' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
