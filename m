@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D161B202963
-	for <oe-kbuild@lists.linux.dev>; Sat,  5 Jul 2025 11:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884DB2E3701
+	for <oe-kbuild@lists.linux.dev>; Sat,  5 Jul 2025 12:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751716315; cv=none; b=SKE1kpMRZkghO5mPuts0uVX1ggszls3j54Y9KkuCMWnKWUB0tkQYMkq6+/MkXBTeBUMlR9LY0sXcJMgH2oH7LOJJynv/8ITg9ACubaR0O002sLS7Q9RT1oYuBtGwcPUYwkTas4mLK1MfiIrbVe6v5W0Aen/fWM1d/Ym0tIUgZFE=
+	t=1751716915; cv=none; b=h6+APTp5Z84TxEdOfM2gMnat7XXtGo4U2O76Cxecv0IOKB4UF+tlC4DXUGLnoGRBszN66hMraX+DwuaVGm7z4+7a99yOSnvubDbeFIi6hABZ8i/VTtll3G02lcW3+6JG4uD6yfWxB6juDPHFRFqkfmjwOGkVjX32wjAwe7Ef3CQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751716315; c=relaxed/simple;
-	bh=AOgvXTHz39bu+KWFnQ6IUFuVaB88+L6bq+mxzXn8ZMc=;
+	s=arc-20240116; t=1751716915; c=relaxed/simple;
+	bh=U+BDvUKC7wTr571xVRfRVgPU0ZP73ySzCm78xmDR8L8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hEuT4uvRErEOe4IpSSBZ7NpamCHzMhi9Is/7q4bpR9BALsjpN3oFwDJ7rpLzAD886E8HcpXUIVWkaIoKK+LumVndeah12h3pYQ08l7ayVnOdjZ08gbiKYMxcRu31lBve91R5SaMBLvvVM/Y4vKNIR8EjyBHLwnvla8c620sbc54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Geic6+c5; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=HpAJfq5CLuIZ/4ddVqbYK/HRrYsdY2VykVaoSWmORSOBSIqq2yK1N6dtSGoB0c+cj5xZMzyxdBCU+ZYoz5suog+PeFQUjcY07e1o2H5KNKVXH+BE7mX+g+dfFm09xmxSuRhMfVBcPpBGPfcWzQCALsw0wuSUsHGS+mu1vVLaquY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mX2F1YBy; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Geic6+c5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mX2F1YBy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751716312; x=1783252312;
+  t=1751716914; x=1783252914;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AOgvXTHz39bu+KWFnQ6IUFuVaB88+L6bq+mxzXn8ZMc=;
-  b=Geic6+c5YqkKKV7eTXr21HABszUi3/v9JNNVdZFmDW4XHnqx6T9pwP+m
-   IXP56RozZlLAo4hRpMwumWIF+GRTP4cVWCTJVBrsELvpV0xNE/UumiTL8
-   0DpcEIfvGZbbZU/S813PsAjNLW38+nwt4gmsmceP95Zu1IciT3eHToF91
-   LLE+ugBVqEhRQvz3icIzkdN3NBN7gdCIwXCeKOuiKoQf//J7owvEihrr7
-   hahpoV40/7SduHq5n4QKM8K0FnPbTXatEaJNpOeM5XiiLUC5Nu+olQiWc
-   H5J8n6lNzaVv6GHg3SdJM+2VZu4CbG9e8Fpg+pWii5ZbyfX+KSP5gPbGh
-   Q==;
-X-CSE-ConnectionGUID: /dDs8KCNRP6nwBMJqUDPlA==
-X-CSE-MsgGUID: 9GXKXzT3TgGVJBH2HkPNMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="53936270"
+  bh=U+BDvUKC7wTr571xVRfRVgPU0ZP73ySzCm78xmDR8L8=;
+  b=mX2F1YByRAbY5I6ZD4QAQoOunD3Hy711Yk1O8GqVog50Zd7nVEbXGgTw
+   TtRgoYlo5PG6CzaSIB190NnIkpVhbdr0s8NARXx4uksCrpZCzEoYgg2id
+   C87q7lQKKqQ2+3z7Lz+GtEQh4XNhNbiB0WpQRvF6MQ0ibVVEwkBB7Dv8e
+   xE4pETKrzlVaKSvDXkiH0wOgN3a3Cr0WGec/Olkk6wVIWeHxPZSEtmjVe
+   wT3FcEtBfW+qJe8Amn9QnTaf74O5RwgpJQpS+oC8c/5nH0sj1tqySIoNb
+   ENinHLaHVAyEm2oR2wEKpH8Pikt+QfKbBTmY25a5cpVF21yj0zLOX7YMH
+   A==;
+X-CSE-ConnectionGUID: Gs4wZ8FtTIWQE5n2JPv+pw==
+X-CSE-MsgGUID: loENMjQ/RL+R6hAlrOuo6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="57816326"
 X-IronPort-AV: E=Sophos;i="6.16,290,1744095600"; 
-   d="scan'208";a="53936270"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 04:51:52 -0700
-X-CSE-ConnectionGUID: BP2/SDTiSTye/prDIeoD9Q==
-X-CSE-MsgGUID: blw+czJeRMqUEUzm9iqmGg==
+   d="scan'208";a="57816326"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 05:01:53 -0700
+X-CSE-ConnectionGUID: jeF6QZY6RgOvQqiR+RR99g==
+X-CSE-MsgGUID: byEzPftgR6WoEp8O/CslGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,290,1744095600"; 
-   d="scan'208";a="155292292"
+   d="scan'208";a="154559140"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 05 Jul 2025 04:51:51 -0700
+  by orviesa009.jf.intel.com with ESMTP; 05 Jul 2025 05:01:52 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uY1Qq-0004Tc-21;
-	Sat, 05 Jul 2025 11:51:48 +0000
-Date: Sat, 5 Jul 2025 19:51:05 +0800
+	id 1uY1aX-0004U3-1O;
+	Sat, 05 Jul 2025 12:01:49 +0000
+Date: Sat, 5 Jul 2025 20:01:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/page_vma_mapped.c:316 page_vma_mapped_walk() error: uninitialized
- symbol 'pmde'.
-Message-ID: <202507051905.g7Y0y59Z-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [arm-perf:for-next/perf 6/7] drivers/perf/arm-cmn.c:2248:35: sparse:
+ sparse: duplicate [noderef]
+Message-ID: <202507051925.uicPEC8T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,213 +62,298 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/perf/arm-cmn.c:2248:35: sparse: sparse: duplicate [noderef]"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Heiko Carstens <hca@linux.ibm.com>
-CC: Vasily Gorbik <gor@linux.ibm.com>
-CC: Alexander Gordeev <agordeev@linux.ibm.com>
+TO: Robin Murphy <robin.murphy@arm.com>
+CC: Will Deacon <will@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a79a588fc1761dc12a3064fc2f648ae66cea3c5a
-commit: 03544866df1bc78fe740fc9d17816874ba7bde5a s390/mm: Add configurable STRICT_MM_TYPECHECKS
-date:   4 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 4 months ago
-config: s390-randconfig-r072-20250705 (https://download.01.org/0day-ci/archive/20250705/202507051905.g7Y0y59Z-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git for-next/perf
+head:   860a831de138a7ad6bc86019adaf10eb84c02655
+commit: a7bfae21457c3e46d16868c0bc923e509b4a83e2 [6/7] perf/arm-cmn: Reduce stack usage during discovery
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: loongarch-randconfig-r122-20250705 (https://download.01.org/0day-ci/archive/20250705/202507051925.uicPEC8T-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce: (https://download.01.org/0day-ci/archive/20250705/202507051925.uicPEC8T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507051905.g7Y0y59Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507051925.uicPEC8T-lkp@intel.com/
 
-smatch warnings:
-mm/page_vma_mapped.c:316 page_vma_mapped_walk() error: uninitialized symbol 'pmde'.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/perf/arm-cmn.c:2248:35: sparse: sparse: duplicate [noderef]
+>> drivers/perf/arm-cmn.c:2248:35: sparse: sparse: multiple address spaces given: __iomem & __iomem
 
-vim +/pmde +316 mm/page_vma_mapped.c
+vim +2248 drivers/perf/arm-cmn.c
 
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  155  
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  156  /**
-2aff7a4755bed28 Matthew Wilcox (Oracle  2022-02-03  157)  * page_vma_mapped_walk - check if @pvmw->pfn is mapped in @pvmw->vma at
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  158   * @pvmw->address
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  159   * @pvmw: pointer to struct page_vma_mapped_walk. page, vma, address and flags
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  160   * must be set. pmd, pte and ptl must be NULL.
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  161   *
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  162   * Returns true if the page is mapped in the vma. @pvmw->pmd and @pvmw->pte point
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  163   * to relevant page table entries. @pvmw->ptl is locked. @pvmw->address is
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  164   * adjusted if needed (for PTE-mapped THPs).
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  165   *
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  166   * If @pvmw->pmd is set but @pvmw->pte is not, you have found PMD-mapped page
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  167   * (usually THP). For PTE-mapped THP, you should run page_vma_mapped_walk() in
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  168   * a loop to find all PTEs that map the THP.
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  169   *
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  170   * For HugeTLB pages, @pvmw->pte is set to the relevant page table entry
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  171   * regardless of which page table level the page is mapped at. @pvmw->pmd is
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  172   * NULL.
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  173   *
-baf2f90ba416cd8 Lu Jialin               2021-05-06  174   * Returns false if there are no more page table entries for the page in
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  175   * the vma. @pvmw->ptl is unlocked and @pvmw->pte is unmapped.
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  176   *
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  177   * If you need to stop the walk before page_vma_mapped_walk() returned false,
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  178   * use page_vma_mapped_walk_done(). It will do the housekeeping.
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  179   */
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  180  bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  181  {
-2aff7a4755bed28 Matthew Wilcox (Oracle  2022-02-03  182) 	struct vm_area_struct *vma = pvmw->vma;
-2aff7a4755bed28 Matthew Wilcox (Oracle  2022-02-03  183) 	struct mm_struct *mm = vma->vm_mm;
-474466301dfd8b3 Hugh Dickins            2021-06-24  184  	unsigned long end;
-2798bbe75b9c275 Hugh Dickins            2023-06-08  185  	spinlock_t *ptl;
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  186  	pgd_t *pgd;
-c2febafc67734a6 Kirill A. Shutemov      2017-03-09  187  	p4d_t *p4d;
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  188  	pud_t *pud;
-a7b100953aa33a5 Will Deacon             2017-10-13  189  	pmd_t pmde;
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  190  
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  191  	/* The only possible pmd mapping has been handled on last iteration */
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  192  	if (pvmw->pmd && !pvmw->pte)
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  193  		return not_found(pvmw);
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  194  
-2aff7a4755bed28 Matthew Wilcox (Oracle  2022-02-03  195) 	if (unlikely(is_vm_hugetlb_page(vma))) {
-98ea02597b9967c zhenwei pi              2022-04-07  196  		struct hstate *hstate = hstate_vma(vma);
-98ea02597b9967c zhenwei pi              2022-04-07  197  		unsigned long size = huge_page_size(hstate);
-6d0fd5987657cb0 Hugh Dickins            2021-06-24  198  		/* The only possible mapping was handled on last iteration */
-d75450ff40df019 Hugh Dickins            2017-04-07  199  		if (pvmw->pte)
-6d0fd5987657cb0 Hugh Dickins            2021-06-24  200  			return not_found(pvmw);
-9c67a20704e763f Peter Xu                2022-12-16  201  		/*
-9c67a20704e763f Peter Xu                2022-12-16  202  		 * All callers that get here will already hold the
-9c67a20704e763f Peter Xu                2022-12-16  203  		 * i_mmap_rwsem.  Therefore, no additional locks need to be
-9c67a20704e763f Peter Xu                2022-12-16  204  		 * taken before calling hugetlb_walk().
-9c67a20704e763f Peter Xu                2022-12-16  205  		 */
-9c67a20704e763f Peter Xu                2022-12-16  206  		pvmw->pte = hugetlb_walk(vma, pvmw->address, size);
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  207  		if (!pvmw->pte)
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  208  			return false;
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  209  
-8f0b747d7dde47e Miaohe Lin              2022-07-09  210  		pvmw->ptl = huge_pte_lock(hstate, mm, pvmw->pte);
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  211  		if (!check_pte(pvmw))
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  212  			return not_found(pvmw);
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  213  		return true;
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  214  	}
-6d0fd5987657cb0 Hugh Dickins            2021-06-24  215  
-2aff7a4755bed28 Matthew Wilcox (Oracle  2022-02-03  216) 	end = vma_address_end(pvmw);
-6d0fd5987657cb0 Hugh Dickins            2021-06-24  217  	if (pvmw->pte)
-6d0fd5987657cb0 Hugh Dickins            2021-06-24  218  		goto next_pte;
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  219  restart:
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  220  	do {
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  221  		pgd = pgd_offset(mm, pvmw->address);
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  222  		if (!pgd_present(*pgd)) {
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  223  			step_forward(pvmw, PGDIR_SIZE);
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  224  			continue;
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  225  		}
-c2febafc67734a6 Kirill A. Shutemov      2017-03-09  226  		p4d = p4d_offset(pgd, pvmw->address);
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  227  		if (!p4d_present(*p4d)) {
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  228  			step_forward(pvmw, P4D_SIZE);
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  229  			continue;
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  230  		}
-c2febafc67734a6 Kirill A. Shutemov      2017-03-09  231  		pud = pud_offset(p4d, pvmw->address);
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  232  		if (!pud_present(*pud)) {
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  233  			step_forward(pvmw, PUD_SIZE);
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  234  			continue;
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  235  		}
-b3807a91aca7d21 Hugh Dickins            2021-06-24  236  
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  237  		pvmw->pmd = pmd_offset(pud, pvmw->address);
-a7b100953aa33a5 Will Deacon             2017-10-13  238  		/*
-a7b100953aa33a5 Will Deacon             2017-10-13  239  		 * Make sure the pmd value isn't cached in a register by the
-a7b100953aa33a5 Will Deacon             2017-10-13  240  		 * compiler and used as a stale value after we've observed a
-a7b100953aa33a5 Will Deacon             2017-10-13  241  		 * subsequent update.
-a7b100953aa33a5 Will Deacon             2017-10-13  242  		 */
-26e1a0c3277d7f4 Hugh Dickins            2023-06-08  243  		pmde = pmdp_get_lockless(pvmw->pmd);
-b3807a91aca7d21 Hugh Dickins            2021-06-24  244  
-6472f6d2f7d90c0 Muchun Song             2022-04-28  245  		if (pmd_trans_huge(pmde) || is_pmd_migration_entry(pmde) ||
-6472f6d2f7d90c0 Muchun Song             2022-04-28  246  		    (pmd_present(pmde) && pmd_devmap(pmde))) {
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  247  			pvmw->ptl = pmd_lock(mm, pvmw->pmd);
-3306d3119ceacc4 Hugh Dickins            2021-06-24  248  			pmde = *pvmw->pmd;
-e2e1d4076c77b36 Hugh Dickins            2021-06-24  249  			if (!pmd_present(pmde)) {
-e2e1d4076c77b36 Hugh Dickins            2021-06-24  250  				swp_entry_t entry;
-616b8371539a6c4 Zi Yan                  2017-09-08  251  
-e2e1d4076c77b36 Hugh Dickins            2021-06-24  252  				if (!thp_migration_supported() ||
-e2e1d4076c77b36 Hugh Dickins            2021-06-24  253  				    !(pvmw->flags & PVMW_MIGRATION))
-e2e1d4076c77b36 Hugh Dickins            2021-06-24  254  					return not_found(pvmw);
-e2e1d4076c77b36 Hugh Dickins            2021-06-24  255  				entry = pmd_to_swp_entry(pmde);
-e2e1d4076c77b36 Hugh Dickins            2021-06-24  256  				if (!is_migration_entry(entry) ||
-0d206b5d2e0d7d7 Peter Xu                2022-08-11  257  				    !check_pmd(swp_offset_pfn(entry), pvmw))
-616b8371539a6c4 Zi Yan                  2017-09-08  258  					return not_found(pvmw);
-616b8371539a6c4 Zi Yan                  2017-09-08  259  				return true;
-616b8371539a6c4 Zi Yan                  2017-09-08  260  			}
-6472f6d2f7d90c0 Muchun Song             2022-04-28  261  			if (likely(pmd_trans_huge(pmde) || pmd_devmap(pmde))) {
-6472f6d2f7d90c0 Muchun Song             2022-04-28  262  				if (pvmw->flags & PVMW_MIGRATION)
-6472f6d2f7d90c0 Muchun Song             2022-04-28  263  					return not_found(pvmw);
-6472f6d2f7d90c0 Muchun Song             2022-04-28  264  				if (!check_pmd(pmd_pfn(pmde), pvmw))
-6472f6d2f7d90c0 Muchun Song             2022-04-28  265  					return not_found(pvmw);
-6472f6d2f7d90c0 Muchun Song             2022-04-28  266  				return true;
-6472f6d2f7d90c0 Muchun Song             2022-04-28  267  			}
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  268  			/* THP pmd was split under us: handle on pte level */
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  269  			spin_unlock(pvmw->ptl);
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  270  			pvmw->ptl = NULL;
-a7b100953aa33a5 Will Deacon             2017-10-13  271  		} else if (!pmd_present(pmde)) {
-732ed55823fc3ad Hugh Dickins            2021-06-15  272  			/*
-732ed55823fc3ad Hugh Dickins            2021-06-15  273  			 * If PVMW_SYNC, take and drop THP pmd lock so that we
-732ed55823fc3ad Hugh Dickins            2021-06-15  274  			 * cannot return prematurely, while zap_huge_pmd() has
-732ed55823fc3ad Hugh Dickins            2021-06-15  275  			 * cleared *pmd but not decremented compound_mapcount().
-732ed55823fc3ad Hugh Dickins            2021-06-15  276  			 */
-b3807a91aca7d21 Hugh Dickins            2021-06-24  277  			if ((pvmw->flags & PVMW_SYNC) &&
-3485b88390b0af9 Ryan Roberts            2023-12-07  278  			    thp_vma_suitable_order(vma, pvmw->address,
-3485b88390b0af9 Ryan Roberts            2023-12-07  279  						   PMD_ORDER) &&
-2aff7a4755bed28 Matthew Wilcox (Oracle  2022-02-03  280) 			    (pvmw->nr_pages >= HPAGE_PMD_NR)) {
-732ed55823fc3ad Hugh Dickins            2021-06-15  281  				spinlock_t *ptl = pmd_lock(mm, pvmw->pmd);
-732ed55823fc3ad Hugh Dickins            2021-06-15  282  
-732ed55823fc3ad Hugh Dickins            2021-06-15  283  				spin_unlock(ptl);
-732ed55823fc3ad Hugh Dickins            2021-06-15  284  			}
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  285  			step_forward(pvmw, PMD_SIZE);
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  286  			continue;
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  287  		}
-04965da7a4af790 Qi Zheng                2024-09-26  288  		if (!map_pte(pvmw, &pmde, &ptl)) {
-2798bbe75b9c275 Hugh Dickins            2023-06-08  289  			if (!pvmw->pte)
-2798bbe75b9c275 Hugh Dickins            2023-06-08  290  				goto restart;
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  291  			goto next_pte;
-2798bbe75b9c275 Hugh Dickins            2023-06-08  292  		}
-474466301dfd8b3 Hugh Dickins            2021-06-24  293  this_pte:
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  294  		if (check_pte(pvmw))
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  295  			return true;
-d75450ff40df019 Hugh Dickins            2017-04-07  296  next_pte:
-d75450ff40df019 Hugh Dickins            2017-04-07  297  		do {
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  298  			pvmw->address += PAGE_SIZE;
-494334e43c16d63 Hugh Dickins            2021-06-15  299  			if (pvmw->address >= end)
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  300  				return not_found(pvmw);
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  301  			/* Did we cross page table boundary? */
-448282487483d6f Hugh Dickins            2021-06-24  302  			if ((pvmw->address & (PMD_SIZE - PAGE_SIZE)) == 0) {
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  303  				if (pvmw->ptl) {
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  304  					spin_unlock(pvmw->ptl);
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  305  					pvmw->ptl = NULL;
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  306  				}
-448282487483d6f Hugh Dickins            2021-06-24  307  				pte_unmap(pvmw->pte);
-448282487483d6f Hugh Dickins            2021-06-24  308  				pvmw->pte = NULL;
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  309  				goto restart;
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  310  			}
-448282487483d6f Hugh Dickins            2021-06-24  311  			pvmw->pte++;
-c33c794828f2121 Ryan Roberts            2023-06-12  312  		} while (pte_none(ptep_get(pvmw->pte)));
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  313  
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  314  		if (!pvmw->ptl) {
-04965da7a4af790 Qi Zheng                2024-09-26  315  			spin_lock(ptl);
-04965da7a4af790 Qi Zheng                2024-09-26 @316  			if (unlikely(!pmd_same(pmde, pmdp_get_lockless(pvmw->pmd)))) {
-04965da7a4af790 Qi Zheng                2024-09-26  317  				pte_unmap_unlock(pvmw->pte, ptl);
-04965da7a4af790 Qi Zheng                2024-09-26  318  				pvmw->pte = NULL;
-04965da7a4af790 Qi Zheng                2024-09-26  319  				goto restart;
-04965da7a4af790 Qi Zheng                2024-09-26  320  			}
-2798bbe75b9c275 Hugh Dickins            2023-06-08  321  			pvmw->ptl = ptl;
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  322  		}
-474466301dfd8b3 Hugh Dickins            2021-06-24  323  		goto this_pte;
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  324  	} while (pvmw->address < end);
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  325  
-a9a7504d9beaf39 Hugh Dickins            2021-06-24  326  	return false;
-ace71a19cec5eb4 Kirill A. Shutemov      2017-02-24  327  }
-6a328a626f98bb8 Kirill A. Shutemov      2017-02-24  328  
-
-:::::: The code at line 316 was first introduced by commit
-:::::: 04965da7a4af790d99c360e79b00bd1f93f80eb1 mm: page_vma_mapped_walk: map_pte() use pte_offset_map_rw_nolock()
-
-:::::: TO: Qi Zheng <zhengqi.arch@bytedance.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+8e504d93acb647 Robin Murphy   2022-04-18  2245  
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2246  static int arm_cmn_discover(struct arm_cmn *cmn, unsigned int rgn_offset)
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2247  {
+a7bfae21457c3e Robin Murphy   2025-06-27 @2248  	void __iomem *cfg_region, __iomem *xp_region;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2249  	struct arm_cmn_node cfg, *dn;
+0947c80aba2397 Robin Murphy   2021-12-03  2250  	struct arm_cmn_dtm *dtm;
+7819e05a0dceac Robin Murphy   2023-06-12  2251  	enum cmn_part part;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2252  	u16 child_count, child_poff;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2253  	u64 reg;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2254  	int i, j;
+da5f7d2c8019c9 Robin Murphy   2021-12-03  2255  	size_t sz;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2256  
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2257  	arm_cmn_init_node_info(cmn, rgn_offset, &cfg);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2258  	if (cfg.type != CMN_TYPE_CFG)
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2259  		return -ENODEV;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2260  
+61ec1d87581204 Robin Murphy   2021-12-03  2261  	cfg_region = cmn->base + rgn_offset;
+7819e05a0dceac Robin Murphy   2023-06-12  2262  
+7819e05a0dceac Robin Murphy   2023-06-12  2263  	reg = readq_relaxed(cfg_region + CMN_CFGM_PERIPH_ID_01);
+7819e05a0dceac Robin Murphy   2023-06-12  2264  	part = FIELD_GET(CMN_CFGM_PID0_PART_0, reg);
+7819e05a0dceac Robin Murphy   2023-06-12  2265  	part |= FIELD_GET(CMN_CFGM_PID1_PART_1, reg) << 8;
+7819e05a0dceac Robin Murphy   2023-06-12  2266  	if (cmn->part && cmn->part != part)
+7819e05a0dceac Robin Murphy   2023-06-12  2267  		dev_warn(cmn->dev,
+7819e05a0dceac Robin Murphy   2023-06-12  2268  			 "Firmware binding mismatch: expected part number 0x%x, found 0x%x\n",
+7819e05a0dceac Robin Murphy   2023-06-12  2269  			 cmn->part, part);
+7819e05a0dceac Robin Murphy   2023-06-12  2270  	cmn->part = part;
+7819e05a0dceac Robin Murphy   2023-06-12  2271  	if (!arm_cmn_model(cmn))
+7819e05a0dceac Robin Murphy   2023-06-12  2272  		dev_warn(cmn->dev, "Unknown part number: 0x%x\n", part);
+7819e05a0dceac Robin Murphy   2023-06-12  2273  
+7819e05a0dceac Robin Murphy   2023-06-12  2274  	reg = readl_relaxed(cfg_region + CMN_CFGM_PERIPH_ID_23);
+61ec1d87581204 Robin Murphy   2021-12-03  2275  	cmn->rev = FIELD_GET(CMN_CFGM_PID2_REVISION, reg);
+61ec1d87581204 Robin Murphy   2021-12-03  2276  
+0dc2f4963f7ef1 Robin Murphy   2024-09-02  2277  	/*
+0dc2f4963f7ef1 Robin Murphy   2024-09-02  2278  	 * With the device isolation feature, if firmware has neglected to enable
+0dc2f4963f7ef1 Robin Murphy   2024-09-02  2279  	 * an XP port then we risk locking up if we try to access anything behind
+0dc2f4963f7ef1 Robin Murphy   2024-09-02  2280  	 * it; however we also have no way to tell from Non-Secure whether any
+0dc2f4963f7ef1 Robin Murphy   2024-09-02  2281  	 * given port is disabled or not, so the only way to win is not to play...
+0dc2f4963f7ef1 Robin Murphy   2024-09-02  2282  	 */
+60d1504070c22c Robin Murphy   2021-12-03  2283  	reg = readq_relaxed(cfg_region + CMN_CFGM_INFO_GLOBAL);
+0dc2f4963f7ef1 Robin Murphy   2024-09-02  2284  	if (reg & CMN_INFO_DEVICE_ISO_ENABLE) {
+0dc2f4963f7ef1 Robin Murphy   2024-09-02  2285  		dev_err(cmn->dev, "Device isolation enabled, not continuing due to risk of lockup\n");
+0dc2f4963f7ef1 Robin Murphy   2024-09-02  2286  		return -ENODEV;
+0dc2f4963f7ef1 Robin Murphy   2024-09-02  2287  	}
+60d1504070c22c Robin Murphy   2021-12-03  2288  	cmn->multi_dtm = reg & CMN_INFO_MULTIPLE_DTM_EN;
+60d1504070c22c Robin Murphy   2021-12-03  2289  	cmn->rsp_vc_num = FIELD_GET(CMN_INFO_RSP_VC_NUM, reg);
+60d1504070c22c Robin Murphy   2021-12-03  2290  	cmn->dat_vc_num = FIELD_GET(CMN_INFO_DAT_VC_NUM, reg);
+60d1504070c22c Robin Murphy   2021-12-03  2291  
+23760a0144173e Robin Murphy   2022-04-18  2292  	reg = readq_relaxed(cfg_region + CMN_CFGM_INFO_GLOBAL_1);
+23760a0144173e Robin Murphy   2022-04-18  2293  	cmn->snp_vc_num = FIELD_GET(CMN_INFO_SNP_VC_NUM, reg);
+23760a0144173e Robin Murphy   2022-04-18  2294  	cmn->req_vc_num = FIELD_GET(CMN_INFO_REQ_VC_NUM, reg);
+23760a0144173e Robin Murphy   2022-04-18  2295  
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2296  	reg = readq_relaxed(cfg_region + CMN_CHILD_INFO);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2297  	child_count = FIELD_GET(CMN_CI_CHILD_COUNT, reg);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2298  	child_poff = FIELD_GET(CMN_CI_CHILD_PTR_OFFSET, reg);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2299  
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2300  	cmn->num_xps = child_count;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2301  	cmn->num_dns = cmn->num_xps;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2302  
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2303  	/* Pass 1: visit the XPs, enumerate their children */
+a7bfae21457c3e Robin Murphy   2025-06-27  2304  	cfg_region += child_poff;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2305  	for (i = 0; i < cmn->num_xps; i++) {
+a7bfae21457c3e Robin Murphy   2025-06-27  2306  		reg = readq_relaxed(cfg_region + i * 8);
+a7bfae21457c3e Robin Murphy   2025-06-27  2307  		xp_region = cmn->base + (reg & CMN_CHILD_NODE_ADDR);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2308  
+a7bfae21457c3e Robin Murphy   2025-06-27  2309  		reg = readq_relaxed(xp_region + CMN_CHILD_INFO);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2310  		cmn->num_dns += FIELD_GET(CMN_CI_CHILD_COUNT, reg);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2311  	}
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2312  
+8e504d93acb647 Robin Murphy   2022-04-18  2313  	/*
+8e504d93acb647 Robin Murphy   2022-04-18  2314  	 * Some nodes effectively have two separate types, which we'll handle
+8e504d93acb647 Robin Murphy   2022-04-18  2315  	 * by creating one of each internally. For a (very) safe initial upper
+8e504d93acb647 Robin Murphy   2022-04-18  2316  	 * bound, account for double the number of non-XP nodes.
+8e504d93acb647 Robin Murphy   2022-04-18  2317  	 */
+8e504d93acb647 Robin Murphy   2022-04-18  2318  	dn = devm_kcalloc(cmn->dev, cmn->num_dns * 2 - cmn->num_xps,
+8e504d93acb647 Robin Murphy   2022-04-18  2319  			  sizeof(*dn), GFP_KERNEL);
+da5f7d2c8019c9 Robin Murphy   2021-12-03  2320  	if (!dn)
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2321  		return -ENOMEM;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2322  
+60d1504070c22c Robin Murphy   2021-12-03  2323  	/* Initial safe upper bound on DTMs for any possible mesh layout */
+60d1504070c22c Robin Murphy   2021-12-03  2324  	i = cmn->num_xps;
+60d1504070c22c Robin Murphy   2021-12-03  2325  	if (cmn->multi_dtm)
+60d1504070c22c Robin Murphy   2021-12-03  2326  		i += cmn->num_xps + 1;
+60d1504070c22c Robin Murphy   2021-12-03  2327  	dtm = devm_kcalloc(cmn->dev, i, sizeof(*dtm), GFP_KERNEL);
+0947c80aba2397 Robin Murphy   2021-12-03  2328  	if (!dtm)
+0947c80aba2397 Robin Murphy   2021-12-03  2329  		return -ENOMEM;
+0947c80aba2397 Robin Murphy   2021-12-03  2330  
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2331  	/* Pass 2: now we can actually populate the nodes */
+da5f7d2c8019c9 Robin Murphy   2021-12-03  2332  	cmn->dns = dn;
+0947c80aba2397 Robin Murphy   2021-12-03  2333  	cmn->dtms = dtm;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2334  	for (i = 0; i < cmn->num_xps; i++) {
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2335  		struct arm_cmn_node *xp = dn++;
+60d1504070c22c Robin Murphy   2021-12-03  2336  		unsigned int xp_ports = 0;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2337  
+a7bfae21457c3e Robin Murphy   2025-06-27  2338  		reg = readq_relaxed(cfg_region + i * 8);
+a7bfae21457c3e Robin Murphy   2025-06-27  2339  		xp_region = cmn->base + (reg & CMN_CHILD_NODE_ADDR);
+a7bfae21457c3e Robin Murphy   2025-06-27  2340  		arm_cmn_init_node_info(cmn, reg & CMN_CHILD_NODE_ADDR, xp);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2341  		/*
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2342  		 * Thanks to the order in which XP logical IDs seem to be
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2343  		 * assigned, we can handily infer the mesh X dimension by
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2344  		 * looking out for the XP at (0,1) without needing to know
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2345  		 * the exact node ID format, which we can later derive.
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2346  		 */
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2347  		if (xp->id == (1 << 3))
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2348  			cmn->mesh_x = xp->logid;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2349  
+7819e05a0dceac Robin Murphy   2023-06-12  2350  		if (cmn->part == PART_CMN600)
+7633ec2c262fab Robin Murphy   2023-10-20  2351  			xp->dtc = -1;
+60d1504070c22c Robin Murphy   2021-12-03  2352  		else
+7633ec2c262fab Robin Murphy   2023-10-20  2353  			xp->dtc = arm_cmn_dtc_domain(cmn, xp_region);
+60d1504070c22c Robin Murphy   2021-12-03  2354  
+0947c80aba2397 Robin Murphy   2021-12-03  2355  		xp->dtm = dtm - cmn->dtms;
+60d1504070c22c Robin Murphy   2021-12-03  2356  		arm_cmn_init_dtm(dtm++, xp, 0);
+60d1504070c22c Robin Murphy   2021-12-03  2357  		/*
+60d1504070c22c Robin Murphy   2021-12-03  2358  		 * Keeping track of connected ports will let us filter out
+e79634b53e3989 Robin Murphy   2024-09-02  2359  		 * unnecessary XP events easily, and also infer the per-XP
+e79634b53e3989 Robin Murphy   2024-09-02  2360  		 * part of the node ID format.
+60d1504070c22c Robin Murphy   2021-12-03  2361  		 */
+2ad91e44e6b0c7 Robin Murphy   2023-04-12  2362  		for (int p = 0; p < CMN_MAX_PORTS; p++)
+2ad91e44e6b0c7 Robin Murphy   2023-04-12  2363  			if (arm_cmn_device_connect_info(cmn, xp, p))
+2ad91e44e6b0c7 Robin Murphy   2023-04-12  2364  				xp_ports |= BIT(p);
+60d1504070c22c Robin Murphy   2021-12-03  2365  
+e79634b53e3989 Robin Murphy   2024-09-02  2366  		if (cmn->num_xps == 1) {
+e79634b53e3989 Robin Murphy   2024-09-02  2367  			xp->portid_bits = 3;
+e79634b53e3989 Robin Murphy   2024-09-02  2368  			xp->deviceid_bits = 2;
+e79634b53e3989 Robin Murphy   2024-09-02  2369  		} else if (xp_ports > 0x3) {
+e79634b53e3989 Robin Murphy   2024-09-02  2370  			xp->portid_bits = 2;
+e79634b53e3989 Robin Murphy   2024-09-02  2371  			xp->deviceid_bits = 1;
+e79634b53e3989 Robin Murphy   2024-09-02  2372  		} else {
+e79634b53e3989 Robin Murphy   2024-09-02  2373  			xp->portid_bits = 1;
+e79634b53e3989 Robin Murphy   2024-09-02  2374  			xp->deviceid_bits = 2;
+e79634b53e3989 Robin Murphy   2024-09-02  2375  		}
+e79634b53e3989 Robin Murphy   2024-09-02  2376  
+e79634b53e3989 Robin Murphy   2024-09-02  2377  		if (cmn->multi_dtm && (xp_ports > 0x3))
+60d1504070c22c Robin Murphy   2021-12-03  2378  			arm_cmn_init_dtm(dtm++, xp, 1);
+e79634b53e3989 Robin Murphy   2024-09-02  2379  		if (cmn->multi_dtm && (xp_ports > 0xf))
+60d1504070c22c Robin Murphy   2021-12-03  2380  			arm_cmn_init_dtm(dtm++, xp, 2);
+60d1504070c22c Robin Murphy   2021-12-03  2381  
+60d1504070c22c Robin Murphy   2021-12-03  2382  		cmn->ports_used |= xp_ports;
+0947c80aba2397 Robin Murphy   2021-12-03  2383  
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2384  		reg = readq_relaxed(xp_region + CMN_CHILD_INFO);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2385  		child_count = FIELD_GET(CMN_CI_CHILD_COUNT, reg);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2386  		child_poff = FIELD_GET(CMN_CI_CHILD_PTR_OFFSET, reg);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2387  
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2388  		for (j = 0; j < child_count; j++) {
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2389  			reg = readq_relaxed(xp_region + child_poff + j * 8);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2390  			/*
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2391  			 * Don't even try to touch anything external, since in general
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2392  			 * we haven't a clue how to power up arbitrary CHI requesters.
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2393  			 * As of CMN-600r1 these could only be RN-SAMs or CXLAs,
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2394  			 * neither of which have any PMU events anyway.
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2395  			 * (Actually, CXLAs do seem to have grown some events in r1p2,
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2396  			 * but they don't go to regular XP DTMs, and they depend on
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2397  			 * secure configuration which we can't easily deal with)
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2398  			 */
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2399  			if (reg & CMN_CHILD_NODE_EXTERNAL) {
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2400  				dev_dbg(cmn->dev, "ignoring external node %llx\n", reg);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2401  				continue;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2402  			}
+50572064ec7109 Ilkka Koskinen 2024-02-09  2403  			/*
+50572064ec7109 Ilkka Koskinen 2024-02-09  2404  			 * AmpereOneX erratum AC04_MESH_1 makes some XPs report a bogus
+50572064ec7109 Ilkka Koskinen 2024-02-09  2405  			 * child count larger than the number of valid child pointers.
+50572064ec7109 Ilkka Koskinen 2024-02-09  2406  			 * A child offset of 0 can only occur on CMN-600; otherwise it
+50572064ec7109 Ilkka Koskinen 2024-02-09  2407  			 * would imply the root node being its own grandchild, which
+50572064ec7109 Ilkka Koskinen 2024-02-09  2408  			 * we can safely dismiss in general.
+50572064ec7109 Ilkka Koskinen 2024-02-09  2409  			 */
+50572064ec7109 Ilkka Koskinen 2024-02-09  2410  			if (reg == 0 && cmn->part != PART_CMN600) {
+50572064ec7109 Ilkka Koskinen 2024-02-09  2411  				dev_dbg(cmn->dev, "bogus child pointer?\n");
+50572064ec7109 Ilkka Koskinen 2024-02-09  2412  				continue;
+50572064ec7109 Ilkka Koskinen 2024-02-09  2413  			}
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2414  
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2415  			arm_cmn_init_node_info(cmn, reg & CMN_CHILD_NODE_ADDR, dn);
+dfdf714fed559c Namhyung Kim   2024-11-20  2416  			dn->portid_bits = xp->portid_bits;
+dfdf714fed559c Namhyung Kim   2024-11-20  2417  			dn->deviceid_bits = xp->deviceid_bits;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2418  
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2419  			switch (dn->type) {
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2420  			case CMN_TYPE_DTC:
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2421  				cmn->num_dtcs++;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2422  				dn++;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2423  				break;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2424  			/* These guys have PMU events */
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2425  			case CMN_TYPE_DVM:
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2426  			case CMN_TYPE_HNI:
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2427  			case CMN_TYPE_HNF:
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2428  			case CMN_TYPE_SBSX:
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2429  			case CMN_TYPE_RNI:
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2430  			case CMN_TYPE_RND:
+60d1504070c22c Robin Murphy   2021-12-03  2431  			case CMN_TYPE_MTSX:
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2432  			case CMN_TYPE_CXRA:
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2433  			case CMN_TYPE_CXHA:
+23760a0144173e Robin Murphy   2022-04-18  2434  			case CMN_TYPE_CCRA:
+23760a0144173e Robin Murphy   2022-04-18  2435  			case CMN_TYPE_CCHA:
+ac18ea1a893592 Robin Murphy   2023-07-07  2436  			case CMN_TYPE_HNS:
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2437  				dn++;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2438  				break;
+88b63a82c84ed9 Robin Murphy   2024-09-02  2439  			case CMN_TYPE_CCLA:
+88b63a82c84ed9 Robin Murphy   2024-09-02  2440  				dn->pmu_base += CMN_CCLA_PMU_EVENT_SEL;
+88b63a82c84ed9 Robin Murphy   2024-09-02  2441  				dn++;
+88b63a82c84ed9 Robin Murphy   2024-09-02  2442  				break;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2443  			/* Nothing to see here */
+60d1504070c22c Robin Murphy   2021-12-03  2444  			case CMN_TYPE_MPAM_S:
+60d1504070c22c Robin Murphy   2021-12-03  2445  			case CMN_TYPE_MPAM_NS:
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2446  			case CMN_TYPE_RNSAM:
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2447  			case CMN_TYPE_CXLA:
+ac18ea1a893592 Robin Murphy   2023-07-07  2448  			case CMN_TYPE_HNS_MPAM_S:
+ac18ea1a893592 Robin Murphy   2023-07-07  2449  			case CMN_TYPE_HNS_MPAM_NS:
+0dc2f4963f7ef1 Robin Murphy   2024-09-02  2450  			case CMN_TYPE_APB:
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2451  				break;
+8e504d93acb647 Robin Murphy   2022-04-18  2452  			/*
+8e504d93acb647 Robin Murphy   2022-04-18  2453  			 * Split "optimised" combination nodes into separate
+8e504d93acb647 Robin Murphy   2022-04-18  2454  			 * types for the different event sets. Offsetting the
+8e504d93acb647 Robin Murphy   2022-04-18  2455  			 * base address lets us handle the second pmu_event_sel
+8e504d93acb647 Robin Murphy   2022-04-18  2456  			 * register via the normal mechanism later.
+8e504d93acb647 Robin Murphy   2022-04-18  2457  			 */
+8e504d93acb647 Robin Murphy   2022-04-18  2458  			case CMN_TYPE_HNP:
+23760a0144173e Robin Murphy   2022-04-18  2459  			case CMN_TYPE_CCLA_RNI:
+8e504d93acb647 Robin Murphy   2022-04-18  2460  				dn[1] = dn[0];
+88b63a82c84ed9 Robin Murphy   2024-09-02  2461  				dn[0].pmu_base += CMN_CCLA_PMU_EVENT_SEL;
+8e504d93acb647 Robin Murphy   2022-04-18  2462  				dn[1].type = arm_cmn_subtype(dn->type);
+8e504d93acb647 Robin Murphy   2022-04-18  2463  				dn += 2;
+8e504d93acb647 Robin Murphy   2022-04-18  2464  				break;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2465  			/* Something has gone horribly wrong */
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2466  			default:
+887e2cff0f8dc4 Will Deacon    2020-10-01  2467  				dev_err(cmn->dev, "invalid device node type: 0x%x\n", dn->type);
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2468  				return -ENODEV;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2469  			}
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2470  		}
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2471  	}
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2472  
+8e504d93acb647 Robin Murphy   2022-04-18  2473  	/* Correct for any nodes we added or skipped */
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2474  	cmn->num_dns = dn - cmn->dns;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2475  
+8e504d93acb647 Robin Murphy   2022-04-18  2476  	/* Cheeky +1 to help terminate pointer-based iteration later */
+da5f7d2c8019c9 Robin Murphy   2021-12-03  2477  	sz = (void *)(dn + 1) - (void *)cmn->dns;
+da5f7d2c8019c9 Robin Murphy   2021-12-03  2478  	dn = devm_krealloc(cmn->dev, cmn->dns, sz, GFP_KERNEL);
+da5f7d2c8019c9 Robin Murphy   2021-12-03  2479  	if (dn)
+da5f7d2c8019c9 Robin Murphy   2021-12-03  2480  		cmn->dns = dn;
+da5f7d2c8019c9 Robin Murphy   2021-12-03  2481  
+60d1504070c22c Robin Murphy   2021-12-03  2482  	sz = (void *)dtm - (void *)cmn->dtms;
+60d1504070c22c Robin Murphy   2021-12-03  2483  	dtm = devm_krealloc(cmn->dev, cmn->dtms, sz, GFP_KERNEL);
+60d1504070c22c Robin Murphy   2021-12-03  2484  	if (dtm)
+60d1504070c22c Robin Murphy   2021-12-03  2485  		cmn->dtms = dtm;
+60d1504070c22c Robin Murphy   2021-12-03  2486  
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2487  	/*
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2488  	 * If mesh_x wasn't set during discovery then we never saw
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2489  	 * an XP at (0,1), thus we must have an Nx1 configuration.
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2490  	 */
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2491  	if (!cmn->mesh_x)
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2492  		cmn->mesh_x = cmn->num_xps;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2493  	cmn->mesh_y = cmn->num_xps / cmn->mesh_x;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2494  
+60d1504070c22c Robin Murphy   2021-12-03  2495  	/* 1x1 config plays havoc with XP event encodings */
+60d1504070c22c Robin Murphy   2021-12-03  2496  	if (cmn->num_xps == 1)
+60d1504070c22c Robin Murphy   2021-12-03  2497  		dev_warn(cmn->dev, "1x1 config not fully supported, translate XP events manually\n");
+60d1504070c22c Robin Murphy   2021-12-03  2498  
+7819e05a0dceac Robin Murphy   2023-06-12  2499  	dev_dbg(cmn->dev, "periph_id part 0x%03x revision %d\n", cmn->part, cmn->rev);
+60d1504070c22c Robin Murphy   2021-12-03  2500  	reg = cmn->ports_used;
+60d1504070c22c Robin Murphy   2021-12-03  2501  	dev_dbg(cmn->dev, "mesh %dx%d, ID width %d, ports %6pbl%s\n",
+60d1504070c22c Robin Murphy   2021-12-03  2502  		cmn->mesh_x, cmn->mesh_y, arm_cmn_xyidbits(cmn), &reg,
+60d1504070c22c Robin Murphy   2021-12-03  2503  		cmn->multi_dtm ? ", multi-DTM" : "");
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2504  
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2505  	return 0;
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2506  }
+0ba64770a2f2e5 Robin Murphy   2020-09-18  2507  
 
 -- 
 0-DAY CI Kernel Test Service
