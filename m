@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E9D28A1CB
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Jul 2025 07:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64745202965
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Jul 2025 12:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751875043; cv=none; b=HX8EjdXD4w1/P8E8qVIc/tXmDQufoWoi60Gju6hCcSWAzgil1mRFAruV9sdpJYu8aJAHeEu6z062HQoT3nDKX5tpSjVGBrpD+FeRD/fyAaFpMU3VS5xlAGzYvQqL+s3izJLI/L4zLejBzJl3tig2odQxc54pUyUbGYYCk0vm08c=
+	t=1751890964; cv=none; b=SdR+Df+YGmFzi1hXXMtBDyfdYIMoSeRAJLdjqDXA25VR9AAKGY8Zwl0KlKmBRUXVDZ+zYdECC4uwWh86nv+TLdhSxU84MnO4G8pGIeyHJZ6q65pPZdYiBMONQy6IUQDh/IICw/KFRBAP25ddEXRd7i7dByxRqgV5NNDvsIogTlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751875043; c=relaxed/simple;
-	bh=mdt7FBdGMpdC1H+iYE6xlkGh6j/z33Qjti/JswfVIRw=;
+	s=arc-20240116; t=1751890964; c=relaxed/simple;
+	bh=iiivt+5kB1nUsaidww1xUZJ2asouzEqA5HvOALCwLBc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pr76R3lsus3kLvX9uy22ErOvOpbjZ/ihFs5ITHkWfjVyeOMaVSSN3tE3I2Jkm8niMtHA8gYxE1JE9vRPlSkS2yKd73/QNxvApV3Wy5+BXw1jckVgw32JZ3gNKWVKMZ+J8QsVBa6C5w6v3oFs5xWWXBFk0qRQDBbUIcfAL/viHuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RygILUxU; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=HJzoD1/aKs1PuGfp1ibgQcmopAbjpl5aUDYqMkAq0gnssCruiw67Y+tSx04C+5AE8u3NcAYpMqtkg1wtrOIv+iN16QNkVUq2x1hYWeYEQJnX8150oyjbUWbjSX4pYNRAvoz4FkpLy9Bm6JRzT1vW9H0GI+VYti0gOhC7KgEXx24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PephP9VW; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RygILUxU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PephP9VW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751875041; x=1783411041;
+  t=1751890963; x=1783426963;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mdt7FBdGMpdC1H+iYE6xlkGh6j/z33Qjti/JswfVIRw=;
-  b=RygILUxU2V6GAtmBaRXHYzIuB0WNdky/us8TPjQ3QQ36S0K/IrEybhm8
-   pJiurqgON9j7P6oVEwkutOgunY4FpjgXshUrSTavG1BOd6tdg1Hcankkm
-   99SdJsGGaUjN2OZuLCK2zuPL0gMWe0P5E3JL9manM0cfQJcX0Yj+c3J3r
-   E4CEyiD10XoFDDqNtSZ7POiUooW4vt7EDRQXwIEeuFkhBpZVSEe9QUuI8
-   Di0Yvfa9JGGIvOgErEuRottPcNj947WDq9e7eOKpSWjMW//vFK0hRWcGR
-   uOKc82C22RyY18cRqW06KCM1ETw14VA6sDyDPMN1vCsddCrou0DFoXlOw
-   w==;
-X-CSE-ConnectionGUID: tXzh9N9mQwGNjnYaVoiBFQ==
-X-CSE-MsgGUID: DVd22lE3S0OwglkJi0oc6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11486"; a="65151076"
-X-IronPort-AV: E=Sophos;i="6.16,293,1744095600"; 
-   d="scan'208";a="65151076"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 00:57:20 -0700
-X-CSE-ConnectionGUID: XueInVxWTkGsuX3qBFxScQ==
-X-CSE-MsgGUID: 1nwnppPcQCuyyyHclxZ/wA==
+  bh=iiivt+5kB1nUsaidww1xUZJ2asouzEqA5HvOALCwLBc=;
+  b=PephP9VWX2IRXXGCcPevXEfs3prtiDhlm/WDTYk57QOknQoFmk4H4t29
+   zptg1aOVfEIaLsMMvRRPsDTAG2WGf7hiDsGPDb0rqKXIVym6MOk5K/A0l
+   7aaNFCwbuYUR3g79cev7BbbWWQyGJuZ+6Cqfe1Rz4AaEdDcDg2epVhikQ
+   5OCTxFan6pjsqW4HLEHvO6IFoJZfPRrfZ2Xrwi2/3+WqHhNUtLY32DzgE
+   pbwhHZd4UYxzGrPHuJ9exM52Sgro+nuSqAhizyt6bmpZs2Z3Lx0zxmAdU
+   O0FMrhr02+O+0PnJV2S4jCylswFqrZ9NPNiWG4vza8voaa3JCs9FEv4/L
+   Q==;
+X-CSE-ConnectionGUID: yC03SrieSpiTovR3DkB4TQ==
+X-CSE-MsgGUID: DLiwk9xkSuKNDRAd4ehwGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="53825703"
+X-IronPort-AV: E=Sophos;i="6.16,294,1744095600"; 
+   d="scan'208";a="53825703"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 05:22:42 -0700
+X-CSE-ConnectionGUID: U5SYzeyIS/SzFPvyXUcz5A==
+X-CSE-MsgGUID: /lj7o7ZORKOU1a6GahYqrA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,293,1744095600"; 
-   d="scan'208";a="155625889"
+X-IronPort-AV: E=Sophos;i="6.16,294,1744095600"; 
+   d="scan'208";a="178865669"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 07 Jul 2025 00:57:20 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 07 Jul 2025 05:22:40 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYgiz-0000Fh-0z;
-	Mon, 07 Jul 2025 07:57:17 +0000
-Date: Mon, 7 Jul 2025 15:56:59 +0800
+	id 1uYkrm-0000Ot-1L;
+	Mon, 07 Jul 2025 12:22:38 +0000
+Date: Mon, 7 Jul 2025 20:22:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [akpm-mm:mm-new 299/305] mm/damon/core.c:2023 damos_trace_esz()
- error: uninitialized symbol 'sidx'.
-Message-ID: <202507071516.2lfN4pDL-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: mm/kasan/kasan_test_c.c:1515:1-4: ERROR: reference preceded by free
+ on line 1507
+Message-ID: <202507072023.oJvi9bg5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,99 +64,90 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: SeongJae Park <sj@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-kernel@vger.kernel.org
+TO: Matthew Maurer <mmaurer@google.com>
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Andrey Konovalov <andreyknvl@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   15faa166415229365c95213d236c96d189b0153e
-commit: ae4dc5a31d0f5191fe51cd8d4c76c7dd99c15a10 [299/305] mm/damon: add trace event for effective size quota
-:::::: branch date: 34 hours ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20250706 (https://download.01.org/0day-ci/archive/20250707/202507071516.2lfN4pDL-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+Hi Matthew,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d7b8f8e20813f0179d8ef519541a3527e7661d3a
+commit: a2f11547052001bd448ccec81dd1e68409078fbb kasan: rust: Add KASAN smoke test via UAF
+date:   10 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-104-20250707 (https://download.01.org/0day-ci/archive/20250707/202507072023.oJvi9bg5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507071516.2lfN4pDL-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202507072023.oJvi9bg5-lkp@intel.com/
 
-smatch warnings:
-mm/damon/core.c:2023 damos_trace_esz() error: uninitialized symbol 'sidx'.
-mm/damon/core.c:2050 damos_adjust_quota() error: uninitialized symbol 'cached_esz'.
+cocci warnings: (new ones prefixed by >>)
+>> mm/kasan/kasan_test_c.c:1515:1-4: ERROR: reference preceded by free on line 1507
+   mm/kasan/kasan_test_c.c:788:47-50: ERROR: reference preceded by free on line 787
+   mm/kasan/kasan_test_c.c:262:49-52: ERROR: reference preceded by free on line 260
+   mm/kasan/kasan_test_c.c:625:49-52: ERROR: reference preceded by free on line 624
+   mm/kasan/kasan_test_c.c:672:49-53: ERROR: reference preceded by free on line 658
+   mm/kasan/kasan_test_c.c:698:49-53: ERROR: reference preceded by free on line 692
+   mm/kasan/kasan_test_c.c:472:40-44: ERROR: reference preceded by free on line 470
+   mm/kasan/kasan_test_c.c:645:38-41: ERROR: reference preceded by free on line 644
+   mm/kasan/kasan_test_c.c:427:47-51: ERROR: reference preceded by free on line 425
+   mm/kasan/kasan_test_c.c:832:20-23: ERROR: reference preceded by free on line 830
+   mm/kasan/kasan_test_c.c:857:36-38: ERROR: reference preceded by free on line 856
+--
+>> mm/kasan/kasan_test_c.c:1835:11-12: WARNING kmalloc is used to allocate this memory at line 1809
 
-vim +/sidx +2023 mm/damon/core.c
+vim +1515 mm/kasan/kasan_test_c.c
 
-1cd2430300594a SeongJae Park 2021-11-05  2013  
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2014  static void damos_trace_esz(struct damon_ctx *c, struct damos *s,
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2015  		struct damos_quota *quota)
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2016  {
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2017  	unsigned int cidx = 0, sidx;
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2018  	struct damos *siter;
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2019  
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2020  	damon_for_each_scheme(siter, c) {
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2021  		if (siter == s)
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2022  			break;
-ae4dc5a31d0f51 SeongJae Park 2025-07-04 @2023  		sidx++;
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2024  	}
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2025  	trace_damos_esz(cidx, sidx, quota->esz, true);
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2026  }
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2027  
-898810e5ca5469 SeongJae Park 2022-10-26  2028  static void damos_adjust_quota(struct damon_ctx *c, struct damos *s)
-1f366e421c8f69 SeongJae Park 2021-11-05  2029  {
-2b8a248d587334 SeongJae Park 2021-11-05  2030  	struct damos_quota *quota = &s->quota;
-898810e5ca5469 SeongJae Park 2022-10-26  2031  	struct damon_target *t;
-898810e5ca5469 SeongJae Park 2022-10-26  2032  	struct damon_region *r;
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2033  	unsigned long cumulated_sz, cached_esz;
-38683e003153f7 SeongJae Park 2021-11-05  2034  	unsigned int score, max_score = 0;
-2b8a248d587334 SeongJae Park 2021-11-05  2035  
-89d347a545a704 SeongJae Park 2024-02-19  2036  	if (!quota->ms && !quota->sz && list_empty(&quota->goals))
-898810e5ca5469 SeongJae Park 2022-10-26  2037  		return;
-2b8a248d587334 SeongJae Park 2021-11-05  2038  
-2b8a248d587334 SeongJae Park 2021-11-05  2039  	/* New charge window starts */
-2b8a248d587334 SeongJae Park 2021-11-05  2040  	if (time_after_eq(jiffies, quota->charged_from +
-898810e5ca5469 SeongJae Park 2022-10-26  2041  				msecs_to_jiffies(quota->reset_interval))) {
-6268eac34ca30a SeongJae Park 2022-01-14  2042  		if (quota->esz && quota->charged_sz >= quota->esz)
-6268eac34ca30a SeongJae Park 2022-01-14  2043  			s->stat.qt_exceeds++;
-1cd2430300594a SeongJae Park 2021-11-05  2044  		quota->total_charged_sz += quota->charged_sz;
-2b8a248d587334 SeongJae Park 2021-11-05  2045  		quota->charged_from = jiffies;
-2b8a248d587334 SeongJae Park 2021-11-05  2046  		quota->charged_sz = 0;
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2047  		if (trace_damos_esz_enabled())
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2048  			cached_esz = quota->esz;
-1cd2430300594a SeongJae Park 2021-11-05  2049  		damos_set_effective_quota(quota);
-ae4dc5a31d0f51 SeongJae Park 2025-07-04 @2050  		if (trace_damos_esz_enabled() && quota->esz != cached_esz)
-ae4dc5a31d0f51 SeongJae Park 2025-07-04  2051  			damos_trace_esz(c, s, quota);
-2b8a248d587334 SeongJae Park 2021-11-05  2052  	}
-38683e003153f7 SeongJae Park 2021-11-05  2053  
-f7d911c39cbbb8 SeongJae Park 2022-03-22  2054  	if (!c->ops.get_scheme_score)
-898810e5ca5469 SeongJae Park 2022-10-26  2055  		return;
-38683e003153f7 SeongJae Park 2021-11-05  2056  
-38683e003153f7 SeongJae Park 2021-11-05  2057  	/* Fill up the score histogram */
-304b95847f2852 SeongJae Park 2024-08-25  2058  	memset(c->regions_score_histogram, 0,
-304b95847f2852 SeongJae Park 2024-08-25  2059  			sizeof(*c->regions_score_histogram) *
-304b95847f2852 SeongJae Park 2024-08-25  2060  			(DAMOS_MAX_SCORE + 1));
-38683e003153f7 SeongJae Park 2021-11-05  2061  	damon_for_each_target(t, c) {
-38683e003153f7 SeongJae Park 2021-11-05  2062  		damon_for_each_region(r, t) {
-38683e003153f7 SeongJae Park 2021-11-05  2063  			if (!__damos_valid_target(r, s))
-38683e003153f7 SeongJae Park 2021-11-05  2064  				continue;
-898810e5ca5469 SeongJae Park 2022-10-26  2065  			score = c->ops.get_scheme_score(c, t, r, s);
-304b95847f2852 SeongJae Park 2024-08-25  2066  			c->regions_score_histogram[score] +=
-304b95847f2852 SeongJae Park 2024-08-25  2067  				damon_sz_region(r);
-38683e003153f7 SeongJae Park 2021-11-05  2068  			if (score > max_score)
-38683e003153f7 SeongJae Park 2021-11-05  2069  				max_score = score;
-38683e003153f7 SeongJae Park 2021-11-05  2070  		}
-38683e003153f7 SeongJae Park 2021-11-05  2071  	}
-38683e003153f7 SeongJae Park 2021-11-05  2072  
-38683e003153f7 SeongJae Park 2021-11-05  2073  	/* Set the min score limit */
-38683e003153f7 SeongJae Park 2021-11-05  2074  	for (cumulated_sz = 0, score = max_score; ; score--) {
-304b95847f2852 SeongJae Park 2024-08-25  2075  		cumulated_sz += c->regions_score_histogram[score];
-38683e003153f7 SeongJae Park 2021-11-05  2076  		if (cumulated_sz >= quota->esz || !score)
-38683e003153f7 SeongJae Park 2021-11-05  2077  			break;
-38683e003153f7 SeongJae Park 2021-11-05  2078  	}
-38683e003153f7 SeongJae Park 2021-11-05  2079  	quota->min_score = score;
-2b8a248d587334 SeongJae Park 2021-11-05  2080  }
-1f366e421c8f69 SeongJae Park 2021-11-05  2081  
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1492  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1493  static void kasan_strings(struct kunit *test)
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1494  {
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1495  	char *ptr;
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1496  	size_t size = 24;
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1497  
+0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  1498  	/*
+0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  1499  	 * str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT.
+0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  1500  	 * See https://bugzilla.kernel.org/show_bug.cgi?id=206337 for details.
+0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  1501  	 */
+da17e377723f50 lib/test_kasan.c Andrey Konovalov 2021-02-24  1502  	KASAN_TEST_NEEDS_CONFIG_OFF(test, CONFIG_AMD_MEM_ENCRYPT);
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1503  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1504  	ptr = kmalloc(size, GFP_KERNEL | __GFP_ZERO);
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1505  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1506  
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26 @1507  	kfree(ptr);
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1508  
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1509  	/*
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1510  	 * Try to cause only 1 invalid access (less spam in dmesg).
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1511  	 * For that we need ptr to point to zeroed byte.
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1512  	 * Skip metadata that could be stored in freed object so ptr
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1513  	 * will likely point to zeroed byte.
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1514  	 */
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26 @1515  	ptr += 16;
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1516  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_ptr_result = strchr(ptr, '1'));
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1517  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1518  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_ptr_result = strrchr(ptr, '1'));
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1519  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1520  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strcmp(ptr, "2"));
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1521  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1522  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strncmp(ptr, "2", 1));
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1523  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1524  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strlen(ptr));
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1525  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1526  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strnlen(ptr, 1));
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1527  }
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1528  
+
+:::::: The code at line 1515 was first introduced by commit
+:::::: 0c96350a2d2f64fe777b444c995f6bb633c5d069 lib/test_kasan.c: add tests for several string/memory API functions
+
+:::::: TO: Andrey Ryabinin <aryabinin@virtuozzo.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
