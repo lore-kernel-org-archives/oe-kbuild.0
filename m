@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5F1186A
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Jul 2025 22:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910DC21A428
+	for <oe-kbuild@lists.linux.dev>; Tue,  8 Jul 2025 03:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751927321; cv=none; b=NH1oZZLd9NTPVBCqlNh5BiT8Sfz0TGndW6ooJQwLhtrXNzxWK6UZZHG0XEkh+nlPZjz7b8RG1a0vGEic0fktaiac+lQAuq/Ohunj4ae2qJqX6sJCsp59lIaVTJSQx/4agbvt5GzTcd0Dov2WlrvalCd8zRrlmsHYX3FY5xkO3dI=
+	t=1751944687; cv=none; b=FpmHpMaRZdRtkCIbue0H5a/b5qejnOhIKe5ENGAhpKAO36oxbnWml+1PAcgQ6BK6ugHgLvYtYw1donnJbqwXxKjb+Cmq8Ex0VbZf2KiQYHn/7ZapkRURkE1xMAjtz0c87ZUQtxp+2WI0CcOy8EPrTCTRh8jnuusUOsxSWmVb9XI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751927321; c=relaxed/simple;
-	bh=3KQ9rJTmCdRVJ6ggg+D6aQ4FoT6njunGPWVRjTIJPww=;
+	s=arc-20240116; t=1751944687; c=relaxed/simple;
+	bh=qxIWuj68OeK5vk6DmLsFBpQlwM0K4FVkQseGi/wf3eA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C9QQ+NwWQnt1+gO5fasZ06BG2mZne2/FhW71totT7vsDQukCZPoPeoTMoV1e8SO5oCc/GCDGd4m8QkKpxl3fsq//J94914RAww3lvqomn6l/tsElx72efUJ0gUWrmAgm3korgOJpS9QnpYZC3NgmcEqZo9pKpyzGmecCg8bFUrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oE1i3aJ7; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=nIWtMQYQHvQNnZVz0fZEYYWeHRn6GIQf4/QeFlSnyPK4LQYsuf9vWKXMjD3Y9HjuIC0QnaEwS5QRkHfse42exeybd4eIDxQGr1oR62cOI3KEHMXWlJIeNbF3V/KWUhTyKWJxBa0SwUlJ5sarB2uFL5c1oALdH2gqo5ea0SUkKA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jh179mm/; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oE1i3aJ7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jh179mm/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751927318; x=1783463318;
+  t=1751944686; x=1783480686;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3KQ9rJTmCdRVJ6ggg+D6aQ4FoT6njunGPWVRjTIJPww=;
-  b=oE1i3aJ7Y9gwlbH7Fk9AUxaWglhZqidAztOvEgYzbuGlKLJ4rWzSwQX6
-   oCoIR0Oh/P4BefClqIo8kqB7+3cmMDeL1tUtNbWiCindZ1aoMB03cAre4
-   IBYY00CEWfVvqttuJE0DRag2ayzr4/7YF41lgkxIEv2ZSyEqjKoRAaJC0
-   DDuUIy/OA+aTD7MASm/M3bRXt+5Rml/vSFqrNHaaXU7mCvxtOzciHnPHQ
-   bOc4YpLNEeNaOL46lGhPX/3Cs49+y+E3W9v9yXbbVNBDXfIFnSbUg8o4d
-   iSLGR51/kcNYcLgYZ3aWiKWrB0+FbdiO3u7RUxCb0Uw6svASm5w+n9pYi
+  bh=qxIWuj68OeK5vk6DmLsFBpQlwM0K4FVkQseGi/wf3eA=;
+  b=jh179mm/my8biUReGyUagW8gg2O0Haxt2TFm44HAiG4M91EpONk0YEVw
+   cSLFVinjn3gxF0Y5Y/AsKnAPvpROib/el29sRZhMAus2t/q+UJmaMrvPI
+   1/hZZp2hFRMvonO+W+LG5SR8l+3evUlriMcBZxMYWceeUUQBEOHLQ3gk7
+   bYiHfxSxXp0cK38WsljEjHB/7pxmVox5PbRRbliZ1NnkXBZGv2jQQcGaQ
+   x0uyTURDL/nvY8aWW+EFxyljcBNpLZTz32d9SnQEX/UnFYLLk47E2+0Zd
+   JDKLO5WCIgGpBV4LzkKChvLT6ItEYKFSDC6XhFq/VLbBKKUwqxZtTMqL9
    g==;
-X-CSE-ConnectionGUID: qXRB0KhRSZGzqb16P8uVQg==
-X-CSE-MsgGUID: Pue2qsOdR+iojJTIZiz1WQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="64748690"
-X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; 
-   d="scan'208";a="64748690"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 15:28:38 -0700
-X-CSE-ConnectionGUID: p++058rLSI26S9CYwAAOZA==
-X-CSE-MsgGUID: 8Ez+ShjvQZCLGnIeGKoAYw==
+X-CSE-ConnectionGUID: jaTnt1KHQEazsWXx5yfttg==
+X-CSE-MsgGUID: Myj6m1wQSySFG6ivHou47Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="65631229"
+X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
+   d="scan'208";a="65631229"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 20:18:06 -0700
+X-CSE-ConnectionGUID: 8yKLA4f3TTC0PXGqwttdhg==
+X-CSE-MsgGUID: jQ4pM6dgRQWmo8AC8h9/Aw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; 
-   d="scan'208";a="155683025"
+X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
+   d="scan'208";a="160928152"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Jul 2025 15:28:37 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 07 Jul 2025 20:18:03 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYuKB-0000mx-1e;
-	Mon, 07 Jul 2025 22:28:35 +0000
-Date: Tue, 8 Jul 2025 06:28:10 +0800
+	id 1uYyqH-0000wx-1w;
+	Tue, 08 Jul 2025 03:18:01 +0000
+Date: Tue, 8 Jul 2025 11:17:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 8/8] arm64: dts: allwinner: A523: Add thermal sensors
- and zones
-Message-ID: <202507080619.kvChYdbj-lkp@intel.com>
+Subject: Re: [PATCH v1 6/7] ARM: dts: sunxi: add support for NetCube Systems
+ Nagami Basic Carrier
+Message-ID: <202507081055.HbWELO82-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,81 +68,56 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250703151132.2642378-9-iuncuim@gmail.com>
-References: <20250703151132.2642378-9-iuncuim@gmail.com>
-TO: iuncuim <iuncuim@gmail.com>
-TO: Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <20250705213900.3614963-7-lukas.schmid@netcube.li>
+References: <20250705213900.3614963-7-lukas.schmid@netcube.li>
+TO: Lukas Schmid <lukas.schmid@netcube.li>
 TO: Rob Herring <robh@kernel.org>
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 TO: Conor Dooley <conor+dt@kernel.org>
 TO: "Chen-Yu Tsai" <wens@csie.org>
 TO: Jernej Skrabec <jernej.skrabec@gmail.com>
 TO: Samuel Holland <samuel@sholland.org>
-TO: Vasily Khoruzhick <anarsoul@gmail.com>
-TO: Yangtao Li <tiny.windzz@gmail.com>
-TO: "Rafael J . Wysocki" <rafael@kernel.org>
-TO: Daniel Lezcano <daniel.lezcano@linaro.org>
-TO: Zhang Rui <rui.zhang@intel.com>
-TO: Lukasz Luba <lukasz.luba@arm.com>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
+TO: Paul Walmsley <paul.walmsley@sifive.com>
+TO: Palmer Dabbelt <palmer@dabbelt.com>
+TO: Albert Ou <aou@eecs.berkeley.edu>
+TO: Alexandre Ghiti <alex@ghiti.fr>
 TO: Maxime Ripard <mripard@kernel.org>
-TO: devicetree@vger.kernel.org
-TO: linux-arm-kernel@lists.infradead.org
-TO: linux-sunxi@lists.linux.dev
-TO: linux-kernel@vger.kernel.org
-TO: linux-pm@vger.kernel.org
+CC: Lukas Schmid <lukas.schmid@netcube.li>
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-sunxi@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: linux-riscv@lists.infradead.org
 
-Hi iuncuim,
+Hi Lukas,
 
 kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on sunxi/sunxi/for-next]
-[also build test WARNING on robh/for-next linus/master v6.16-rc5 next-20250704]
-[cannot apply to rafael-pm/thermal]
+[also build test WARNING on robh/for-next krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.16-rc5 next-20250704]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/iuncuim/dt-bindings-nvmem-SID-Add-binding-for-A523-SID-controller/20250703-232411
+url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Schmid/dt-bindings-arm-sunxi-Add-NetCube-Systems-Nagami-SoM/20250706-054253
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/20250703151132.2642378-9-iuncuim%40gmail.com
-patch subject: [PATCH v2 8/8] arm64: dts: allwinner: A523: Add thermal sensors and zones
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm64-randconfig-051-20250707 (https://download.01.org/0day-ci/archive/20250708/202507080619.kvChYdbj-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+patch link:    https://lore.kernel.org/r/20250705213900.3614963-7-lukas.schmid%40netcube.li
+patch subject: [PATCH v1 6/7] ARM: dts: sunxi: add support for NetCube Systems Nagami Basic Carrier
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-054-20250706 (https://download.01.org/0day-ci/archive/20250708/202507081055.HbWELO82-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507080619.kvChYdbj-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507081055.HbWELO82-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507080619.kvChYdbj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507081055.HbWELO82-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:112.6-689.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: thermal-sensor@2009400 (allwinner,sun55i-a523-ths1): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
->> arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: thermal-sensor@200a000 (allwinner,sun55i-a523-ths0): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
->> arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
---
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:112.6-689.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: thermal-sensor@2009400 (allwinner,sun55i-a523-ths1): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
->> arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: thermal-sensor@200a000 (allwinner,sun55i-a523-ths0): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
->> arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
---
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:112.6-689.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: thermal-sensor@2009400 (allwinner,sun55i-a523-ths1): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
->> arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: thermal-sensor@200a000 (allwinner,sun55i-a523-ths0): clock-names:1: 'mod' was expected
-   	from schema $id: http://devicetree.org/schemas/thermal/allwinner,sun8i-a83t-ths.yaml#
->> arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dtb: thermal-zones: gpu-thermal: 'gpu-trips' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+>> arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-basic-carrier.dtb: dcxo-clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
