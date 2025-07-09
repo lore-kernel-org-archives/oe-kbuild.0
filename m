@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F35D8633F
-	for <oe-kbuild@lists.linux.dev>; Wed,  9 Jul 2025 23:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F49526B74A
+	for <oe-kbuild@lists.linux.dev>; Wed,  9 Jul 2025 23:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752102637; cv=none; b=LuqQ+8TDpEuJ/2fHmq6wNdRrU9wV1hnoVEzgF/n3oeO+3hKScH3ndbySvt0eXUlnVkF9edU91zSlpD3ff7UsXhMeXb31DlgS7chnG0KzWMBqCV9iyk16kTQFRRE0C2AJKnsp5bc2zajCzLICWzZf4vi6jDJURBEqdYsbUXG7FX0=
+	t=1752103298; cv=none; b=RJyoHlZnNRyqdH8vshmr5MWzj4l8zbdDAJaPFGIjaHl49p51mhNZX9bvhJn6tuUVM36rbRK/UaIqKky5N+zFBRpxl3oRsjh7YjgE/TCZUi6dLbbPMcXxT5XDTL1wBtbrzeb2kDGEMfXYDwAZhLTeV86+8X/jHSE4fsqAJqv1EBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752102637; c=relaxed/simple;
-	bh=DuapvlAMDCbwXOQ453H0UTV+dksZ0UenvHXmT60xQcM=;
+	s=arc-20240116; t=1752103298; c=relaxed/simple;
+	bh=T6skmbV5REXvYSk3Fg4mzm8Etu4a6e//4us6ExU1oFc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IAdjWW5rDqcO0vgSJgldtdqVIiM0HomLUjrDeliB1lhAGVIVdUdEVQM3Sd0JdEuukx2cOIvzmfujpejweHZYmePGt3TxwZZX07baLYH++Le9A4xETz18DFedqrwgKhWTWIvmHqaZXZaBKUaQmQG5j/EIijnlPe8NJk3y1e1YAD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kr6r9x4+; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=snOOkl3UWA/xx0VZY/yyH1zw32cuByxfRUe66fm60tHjh+zWMq6st4fw1tFdWXeTeiT12TtuevvcAooeE4F06gwiKP6qcKFZJ+3qdGfdLimwX2Z8kI43ojnn6pd6uQSTNsKu6PtVrbmfzt4nA0pbMeNN3h8d2hirwVks+cyFvHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q/r5frt+; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kr6r9x4+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q/r5frt+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752102634; x=1783638634;
+  t=1752103296; x=1783639296;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DuapvlAMDCbwXOQ453H0UTV+dksZ0UenvHXmT60xQcM=;
-  b=kr6r9x4+7dGLoKioUbcjcVJivocH4ONZfaUTjbYr3SfRpQdeebfjzM6O
-   DNX0TyOVWWsL4xPmc9geLxWvvicytekswrZE273Bv+/Ih7IBkoERieNbQ
-   4aSjIXhUHVRrcgPQZN3jYGKoPr8TCmxa+xex6XBuNVzOEu6QQfOYHmFCa
-   xFzZRrW7JHeX4nT7dbZr95/UWPl3DFq/Fok6vaw7zmpKVWyyD27ciVRxZ
-   UHErss17QLCFLASUKU/OEXGjAHGcWlJirmr0tjhGnaBKpMRXZy45zR9ag
-   8PhWqZwYXse1i6lxQZa1XK4b9IAL3KrwVZ3vcVIpP+QzrPOGG0gpQC/jD
+  bh=T6skmbV5REXvYSk3Fg4mzm8Etu4a6e//4us6ExU1oFc=;
+  b=Q/r5frt+/xV4Ylx7hxe9Tu8hD4Qe6KyAlm8P58ROAYnlKscODfHl314m
+   kg8696XVgxSqeapXmWH02J19fslDJtpvffLyoowd800MYknrHsIB5fsti
+   BFmwIFoh/vvfidJ7Vm6l5LBw7Yid2wxSWaOHc4z8PNWoSc6j6E3tdqiPW
+   0I31KMsA3ZWsylCwN80u0PT6uBWapGd7snyFGmxgWp3ecNPmX8WQ5/jnK
+   czL5QguJmKrJoVspH0n/14kvyjrjqKI4wnuBN4fDOiNOEmPt4UsRtEkJR
+   2NMc8PO2YiYV06dWqktEnCIbgYwQXHoW/J2ay87UhHF7WgVCADBrhfEKn
    w==;
-X-CSE-ConnectionGUID: yA+DQgHaS1GHNYaf+i3m3w==
-X-CSE-MsgGUID: 23X2UrtjSraakFCMeyDMtQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54504044"
+X-CSE-ConnectionGUID: 0+1pacccSx6nG/6Wm2nX8Q==
+X-CSE-MsgGUID: SEZex6bORIKZtPPNCq824w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="65074197"
 X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="54504044"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 16:10:34 -0700
-X-CSE-ConnectionGUID: ptmuKmnCTMiT5v/0uZSc7g==
-X-CSE-MsgGUID: 41sv3pynQS2zFQ3Y86cCYg==
+   d="scan'208";a="65074197"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 16:21:35 -0700
+X-CSE-ConnectionGUID: 8vrIn0YEQxuSVbacgvlCYA==
+X-CSE-MsgGUID: QjdHV6SPQRq9P6mdG0vBew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="160451313"
+   d="scan'208";a="161464651"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Jul 2025 16:10:33 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 09 Jul 2025 16:21:34 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZdvq-0004BD-2m;
-	Wed, 09 Jul 2025 23:10:30 +0000
-Date: Thu, 10 Jul 2025 07:10:21 +0800
+	id 1uZe6W-0004C7-0V;
+	Wed, 09 Jul 2025 23:21:32 +0000
+Date: Thu, 10 Jul 2025 07:20:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 9/9] ARM: dts: aspeed: Add Facebook Darwin (AST2600)
- BMC
-Message-ID: <202507100623.iCoBOtVE-lkp@intel.com>
+Subject: Re: [PATCH] arm64: dts: exynos: add abox generic for ExynosAutov920
+Message-ID: <202507100751.tuzqyGqR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,71 +67,51 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250706042404.138128-10-rentao.bupt@gmail.com>
-References: <20250706042404.138128-10-rentao.bupt@gmail.com>
-TO: rentao.bupt@gmail.com
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Joel Stanley <joel@jms.id.au>
-TO: Andrew Jeffery <andrew@codeconstruct.com.au>
-TO: devicetree@vger.kernel.org
-TO: linux-arm-kernel@lists.infradead.org
-TO: linux-aspeed@lists.ozlabs.org
-TO: linux-kernel@vger.kernel.org
-TO: Andrew Lunn <andrew@lunn.ch>
-TO: Tao Ren <taoren@meta.com>
+In-Reply-To: <20250709001210.379418-1-ew.kim@samsung.com>
+References: <20250709001210.379418-1-ew.kim@samsung.com>
+TO: ew kim <ew.kim@samsung.com>
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+CC: alim.akhtar@samsung.com
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-samsung-soc@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: ew kim <ew.kim@samsung.com>
 
-Hi,
+Hi ew,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.16-rc5 next-20250708]
+[auto build test WARNING on krzk/for-next]
+[also build test WARNING on linus/master v6.16-rc5 next-20250709]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/rentao-bupt-gmail-com/ARM-dts-aspeed-wedge400-Fix-DTB-warnings/20250706-122729
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250706042404.138128-10-rentao.bupt%40gmail.com
-patch subject: [PATCH v2 9/9] ARM: dts: aspeed: Add Facebook Darwin (AST2600) BMC
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm-randconfig-052-20250706 (https://download.01.org/0day-ci/archive/20250710/202507100623.iCoBOtVE-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 61529d9e36fa86782a2458e6bdeedf7f376ef4b5)
+url:    https://github.com/intel-lab-lkp/linux/commits/ew-kim/arm64-dts-exynos-add-abox-generic-for-ExynosAutov920/20250709-082511
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250709001210.379418-1-ew.kim%40samsung.com
+patch subject: [PATCH] arm64: dts: exynos: add abox generic for ExynosAutov920
+:::::: branch date: 23 hours ago
+:::::: commit date: 23 hours ago
+config: arm64-randconfig-051-20250709 (https://download.01.org/0day-ci/archive/20250710/202507100751.tuzqyGqR-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507100623.iCoBOtVE-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507100751.tuzqyGqR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507100623.iCoBOtVE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507100751.tuzqyGqR-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/aspeed/facebook-bmc-flash-layout-128.dtsi:12.11-15.4: Warning (unique_unit_address_if_enabled): /ahb/spi@1e620000/flash@0/partitions/u-boot@0: duplicate unit-address (also used in node /ahb/spi@1e620000/flash@0/partitions/flash0@0)
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: kcs@24 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm64/boot/dts/exynos/exynosautov920-audio.dtsi:18.3-10: Warning (ranges_format): /abox_generic@generic:ranges: empty "ranges" property but its #size-cells (1) differs from / (2)
+   arch/arm64/boot/dts/exynos/exynosautov920-audio.dtsi:10.37-19.4: Warning (unit_address_vs_reg): /abox_generic@generic: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/exynos/exynosautov920-sadk.dtb: / (samsung,exynosautov920-sadk): 'abox_generic@generic' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/exynos/exynosautov920-sadk.dtb: /abox_generic@generic: failed to match any schema with compatible: ['samsung,abox_generic']
 
 -- 
 0-DAY CI Kernel Test Service
