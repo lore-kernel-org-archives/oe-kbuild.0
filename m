@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DF521FF3C
-	for <oe-kbuild@lists.linux.dev>; Wed,  9 Jul 2025 20:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F35D8633F
+	for <oe-kbuild@lists.linux.dev>; Wed,  9 Jul 2025 23:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752092720; cv=none; b=hK70Ymi1LavUqosnbSrFZqU1VDeZnwwk0hzKGAqF1HiZARTspmu68pDHYVadFOGUjP7rei1MV/PS5X+fNiAa2388rkjTwlklM+rt6A9QFbiE5ZKAMYp2N71eiTeEbo4jz1D5WGFJmGTYOekdbD3efs9ZOeLa8LDTsWHb8KmVeXs=
+	t=1752102637; cv=none; b=LuqQ+8TDpEuJ/2fHmq6wNdRrU9wV1hnoVEzgF/n3oeO+3hKScH3ndbySvt0eXUlnVkF9edU91zSlpD3ff7UsXhMeXb31DlgS7chnG0KzWMBqCV9iyk16kTQFRRE0C2AJKnsp5bc2zajCzLICWzZf4vi6jDJURBEqdYsbUXG7FX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752092720; c=relaxed/simple;
-	bh=VzTu4P7mSOK4JQn3mk4QiLG115YYxO1GsjExJqNr+xw=;
+	s=arc-20240116; t=1752102637; c=relaxed/simple;
+	bh=DuapvlAMDCbwXOQ453H0UTV+dksZ0UenvHXmT60xQcM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KSN3grxtPoFV6S43hzrZCXID4Tk3FCCBN+2MOY6KdVOT2taPOIPKvZlL1HU0bSw+wUFRXvUWCuau4XBe42c3tXR7+n6YOaVPQJM6RBox0BzJ+Al03OXFwu+B+nmggcsRplx8ckQ0kOT15q3t/uP9RlbprWzSp5SbDIZga7yCq80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GUdlkI+k; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=IAdjWW5rDqcO0vgSJgldtdqVIiM0HomLUjrDeliB1lhAGVIVdUdEVQM3Sd0JdEuukx2cOIvzmfujpejweHZYmePGt3TxwZZX07baLYH++Le9A4xETz18DFedqrwgKhWTWIvmHqaZXZaBKUaQmQG5j/EIijnlPe8NJk3y1e1YAD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kr6r9x4+; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GUdlkI+k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kr6r9x4+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752092718; x=1783628718;
+  t=1752102634; x=1783638634;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VzTu4P7mSOK4JQn3mk4QiLG115YYxO1GsjExJqNr+xw=;
-  b=GUdlkI+kD+u5ZNE5a7+EA7qjTelGWHGrFx/X6BiDzEdU+VKXdxFgG86e
-   CQUDqXP0VFbPmRH2GQ32v5HK1wRRKue8GplToxJu4E3gQaoQinwIaGX6Y
-   b1Kon15ge+gf810oW6vtn6QB0qFlBGBKdtkzh8VsX8K9JgGUSLF4OTeig
-   wNYENtYjgtJuS8QeQV8jkmTbGA8URu2kA7UyFr0lIR0loHnUGkCjEIDCk
-   Fg/qVPIGtHJDNEEcLMdmLtSAcOufVbdygKRabMe6eWfhD0y3XvT/q2X39
-   TIAnUHMLYCqnNMc+1W9LOrqfJA8HmKrTjMcb7J+rc4MhJUMsmZKmcmuox
-   A==;
-X-CSE-ConnectionGUID: acmGaUzbTyK+CV3nchjhww==
-X-CSE-MsgGUID: c+PpM3mORcKHqVEThj7nsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="79801849"
-X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="79801849"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 13:25:18 -0700
-X-CSE-ConnectionGUID: /asnaaRUTL6BKTU7X2eJrg==
-X-CSE-MsgGUID: Jfp7NfCpQyew48EtkBkZZA==
+  bh=DuapvlAMDCbwXOQ453H0UTV+dksZ0UenvHXmT60xQcM=;
+  b=kr6r9x4+7dGLoKioUbcjcVJivocH4ONZfaUTjbYr3SfRpQdeebfjzM6O
+   DNX0TyOVWWsL4xPmc9geLxWvvicytekswrZE273Bv+/Ih7IBkoERieNbQ
+   4aSjIXhUHVRrcgPQZN3jYGKoPr8TCmxa+xex6XBuNVzOEu6QQfOYHmFCa
+   xFzZRrW7JHeX4nT7dbZr95/UWPl3DFq/Fok6vaw7zmpKVWyyD27ciVRxZ
+   UHErss17QLCFLASUKU/OEXGjAHGcWlJirmr0tjhGnaBKpMRXZy45zR9ag
+   8PhWqZwYXse1i6lxQZa1XK4b9IAL3KrwVZ3vcVIpP+QzrPOGG0gpQC/jD
+   w==;
+X-CSE-ConnectionGUID: yA+DQgHaS1GHNYaf+i3m3w==
+X-CSE-MsgGUID: 23X2UrtjSraakFCMeyDMtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54504044"
+X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
+   d="scan'208";a="54504044"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 16:10:34 -0700
+X-CSE-ConnectionGUID: ptmuKmnCTMiT5v/0uZSc7g==
+X-CSE-MsgGUID: 41sv3pynQS2zFQ3Y86cCYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="156009947"
+   d="scan'208";a="160451313"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 Jul 2025 13:25:16 -0700
+  by orviesa004.jf.intel.com with ESMTP; 09 Jul 2025 16:10:33 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZbLu-00042Z-0i;
-	Wed, 09 Jul 2025 20:25:14 +0000
-Date: Thu, 10 Jul 2025 04:25:03 +0800
+	id 1uZdvq-0004BD-2m;
+	Wed, 09 Jul 2025 23:10:30 +0000
+Date: Thu, 10 Jul 2025 07:10:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android15-6.6 6/6] kernel/fork.c:2318
- copy_dmabuf_info() warn: sleeping in atomic context
-Message-ID: <202507100414.f3Yyuj82-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 9/9] ARM: dts: aspeed: Add Facebook Darwin (AST2600)
+ BMC
+Message-ID: <202507100623.iCoBOtVE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,82 +62,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20250706042404.138128-10-rentao.bupt@gmail.com>
+References: <20250706042404.138128-10-rentao.bupt@gmail.com>
+TO: rentao.bupt@gmail.com
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Joel Stanley <joel@jms.id.au>
+TO: Andrew Jeffery <andrew@codeconstruct.com.au>
+TO: devicetree@vger.kernel.org
+TO: linux-arm-kernel@lists.infradead.org
+TO: linux-aspeed@lists.ozlabs.org
+TO: linux-kernel@vger.kernel.org
+TO: Andrew Lunn <andrew@lunn.ch>
+TO: Tao Ren <taoren@meta.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   a9597c7b32ec09bdaf13909f77b203e77b4fbb69
-commit: f44d593749dcbd4e1013121fa615ecca412d1cb3 [6/6] ANDROID: Track per-process dmabuf RSS
-:::::: branch date: 12 hours ago
-:::::: commit date: 21 hours ago
-config: i386-randconfig-141-20250709 (https://download.01.org/0day-ci/archive/20250710/202507100414.f3Yyuj82-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.16-rc5 next-20250708]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/rentao-bupt-gmail-com/ARM-dts-aspeed-wedge400-Fix-DTB-warnings/20250706-122729
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250706042404.138128-10-rentao.bupt%40gmail.com
+patch subject: [PATCH v2 9/9] ARM: dts: aspeed: Add Facebook Darwin (AST2600) BMC
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm-randconfig-052-20250706 (https://download.01.org/0day-ci/archive/20250710/202507100623.iCoBOtVE-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 61529d9e36fa86782a2458e6bdeedf7f376ef4b5)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507100623.iCoBOtVE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507100414.f3Yyuj82-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507100623.iCoBOtVE-lkp@intel.com/
 
-smatch warnings:
-kernel/fork.c:2318 copy_dmabuf_info() warn: sleeping in atomic context
-
-vim +2318 kernel/fork.c
-
-792575348ff70e Daniel Bristot de Oliveira 2022-07-29  2291  
-f44d593749dcbd T.J. Mercier               2025-06-25  2292  static int copy_dmabuf_info(u64 clone_flags, struct task_struct *p)
-f44d593749dcbd T.J. Mercier               2025-06-25  2293  {
-f44d593749dcbd T.J. Mercier               2025-06-25  2294  	struct task_dma_buf_record *rec, *copy;
-f44d593749dcbd T.J. Mercier               2025-06-25  2295  
-f44d593749dcbd T.J. Mercier               2025-06-25  2296  	if (current->dmabuf_info && (clone_flags & (CLONE_VM | CLONE_FILES))
-f44d593749dcbd T.J. Mercier               2025-06-25  2297  						== (CLONE_VM | CLONE_FILES)) {
-f44d593749dcbd T.J. Mercier               2025-06-25  2298  		/*
-f44d593749dcbd T.J. Mercier               2025-06-25  2299  		 * Both MM and FD references to dmabufs are shared with the parent, so
-f44d593749dcbd T.J. Mercier               2025-06-25  2300  		 * we can share a RSS counter with the parent.
-f44d593749dcbd T.J. Mercier               2025-06-25  2301  		 */
-f44d593749dcbd T.J. Mercier               2025-06-25  2302  		refcount_inc(&current->dmabuf_info->refcnt);
-f44d593749dcbd T.J. Mercier               2025-06-25  2303  		p->dmabuf_info = current->dmabuf_info;
-f44d593749dcbd T.J. Mercier               2025-06-25  2304  		return 0;
-f44d593749dcbd T.J. Mercier               2025-06-25  2305  	}
-f44d593749dcbd T.J. Mercier               2025-06-25  2306  
-f44d593749dcbd T.J. Mercier               2025-06-25  2307  	p->dmabuf_info = kmalloc(sizeof(*p->dmabuf_info), GFP_KERNEL);
-f44d593749dcbd T.J. Mercier               2025-06-25  2308  	if (!p->dmabuf_info)
-f44d593749dcbd T.J. Mercier               2025-06-25  2309  		return -ENOMEM;
-f44d593749dcbd T.J. Mercier               2025-06-25  2310  
-f44d593749dcbd T.J. Mercier               2025-06-25  2311  	refcount_set(&p->dmabuf_info->refcnt, 1);
-f44d593749dcbd T.J. Mercier               2025-06-25  2312  	spin_lock_init(&p->dmabuf_info->lock);
-f44d593749dcbd T.J. Mercier               2025-06-25  2313  	INIT_LIST_HEAD(&p->dmabuf_info->dmabufs);
-f44d593749dcbd T.J. Mercier               2025-06-25  2314  	if (current->dmabuf_info) {
-f44d593749dcbd T.J. Mercier               2025-06-25  2315  		spin_lock(&current->dmabuf_info->lock);
-f44d593749dcbd T.J. Mercier               2025-06-25  2316  		p->dmabuf_info->rss = current->dmabuf_info->rss;
-f44d593749dcbd T.J. Mercier               2025-06-25  2317  		list_for_each_entry(rec, &current->dmabuf_info->dmabufs, node) {
-f44d593749dcbd T.J. Mercier               2025-06-25 @2318  			copy = kmalloc(sizeof(*copy), GFP_KERNEL);
-f44d593749dcbd T.J. Mercier               2025-06-25  2319  			if (!copy) {
-f44d593749dcbd T.J. Mercier               2025-06-25  2320  				spin_unlock(&current->dmabuf_info->lock);
-f44d593749dcbd T.J. Mercier               2025-06-25  2321  				goto err_list_copy;
-f44d593749dcbd T.J. Mercier               2025-06-25  2322  			}
-f44d593749dcbd T.J. Mercier               2025-06-25  2323  
-f44d593749dcbd T.J. Mercier               2025-06-25  2324  			copy->dmabuf = rec->dmabuf;
-f44d593749dcbd T.J. Mercier               2025-06-25  2325  			copy->refcnt = rec->refcnt;
-f44d593749dcbd T.J. Mercier               2025-06-25  2326  			list_add(&copy->node, &p->dmabuf_info->dmabufs);
-f44d593749dcbd T.J. Mercier               2025-06-25  2327  		}
-f44d593749dcbd T.J. Mercier               2025-06-25  2328  		spin_unlock(&current->dmabuf_info->lock);
-f44d593749dcbd T.J. Mercier               2025-06-25  2329  	} else {
-f44d593749dcbd T.J. Mercier               2025-06-25  2330  		p->dmabuf_info->rss = 0;
-f44d593749dcbd T.J. Mercier               2025-06-25  2331  	}
-f44d593749dcbd T.J. Mercier               2025-06-25  2332  
-f44d593749dcbd T.J. Mercier               2025-06-25  2333  	return 0;
-f44d593749dcbd T.J. Mercier               2025-06-25  2334  
-f44d593749dcbd T.J. Mercier               2025-06-25  2335  err_list_copy:
-f44d593749dcbd T.J. Mercier               2025-06-25  2336  	list_for_each_entry_safe(rec, copy, &p->dmabuf_info->dmabufs, node) {
-f44d593749dcbd T.J. Mercier               2025-06-25  2337  		list_del(&rec->node);
-f44d593749dcbd T.J. Mercier               2025-06-25  2338  		kfree(rec);
-f44d593749dcbd T.J. Mercier               2025-06-25  2339  	}
-f44d593749dcbd T.J. Mercier               2025-06-25  2340  	kfree(p->dmabuf_info);
-f44d593749dcbd T.J. Mercier               2025-06-25  2341  	return -ENOMEM;
-f44d593749dcbd T.J. Mercier               2025-06-25  2342  }
-f44d593749dcbd T.J. Mercier               2025-06-25  2343  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/aspeed/facebook-bmc-flash-layout-128.dtsi:12.11-15.4: Warning (unique_unit_address_if_enabled): /ahb/spi@1e620000/flash@0/partitions/u-boot@0: duplicate unit-address (also used in node /ahb/spi@1e620000/flash@0/partitions/flash0@0)
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-darwin.dtb: kcs@24 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
