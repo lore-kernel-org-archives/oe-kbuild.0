@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2912C204C3B
-	for <oe-kbuild@lists.linux.dev>; Wed,  9 Jul 2025 16:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665CD22126A
+	for <oe-kbuild@lists.linux.dev>; Wed,  9 Jul 2025 17:42:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752080396; cv=none; b=RwEJmQC2y9JidOKwYN9cFwmp8kRGtKAhcDXnF3AV7qQxJnCS91klDa7kffII8DbDp/U1ZhyFkQBgSlz+B8+a0qih0mEp8UpWACHgTxavL4d59lIfmMqPXZDDv9jycvOGRp9C5TnTr+5aHd1/rL9jBi4w1hdyvKP0pInF6B1DYfw=
+	t=1752082922; cv=none; b=iJzsgcUECtWRr/VcmCUHTDv9b7EWQP0uXe2r5hU9o2tBEuarL/GfwY2tHG09ecPPgd0dofKbn4NrHGYEeBPtOwDJBAlGiJ0TYErgg1IpY42FdonQMkckMan6V6n6SUOXIO32SS9aGmNh3WOMgUoY7ZBCsK12PIS81GZz5bxA6D4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752080396; c=relaxed/simple;
-	bh=oo1mgxGIhiySMgXWm+dJ2Bc5CyeVoBcv+o2EPUFrKWg=;
+	s=arc-20240116; t=1752082922; c=relaxed/simple;
+	bh=axeLH8f0c2BgYYOi1NsohpyHxzqvrvH6c7YMv9oU5K0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lNd2aDMIXOV2lkH3kiXVkW3qgfJ9jGQ86Urk8jKIjQLmOYEM5bSGp/ZlxmLfKJGzlGw2Jsv77iRfi5iUrYakBzTCWbAzYJmrCtFWE5rWQy7OQqyW4uV0wE7UsijqgoU/XUN3uHrmBlAScPjUXC0cYZQKpz3zhyuuq7G9YI9SjVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ibz3DC2c; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=cSuqH0U8mphmmMREL7GMxBAMgeXwjfUkshMAljZ5vo0vGC5ucWlViXR+SHylPb/4XqwlYMKkUu2oyoxyohLEEB79Wgvj74ak2IHPuKIMK2UDRX5Sd2f6GhYxqdHzHYGF8l29xUOUOpdPeecg6RJUC8f3iToegrcC81vZefQUYqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LR1ENhIi; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ibz3DC2c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LR1ENhIi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752080395; x=1783616395;
+  t=1752082920; x=1783618920;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oo1mgxGIhiySMgXWm+dJ2Bc5CyeVoBcv+o2EPUFrKWg=;
-  b=Ibz3DC2c05aLlQVrmVF/51cWMkOcxIPc4UPTKU0gB9zzK4rJz/OHKkFu
-   ks3LB0nrdQqPB/Xtr6nupLirhuuluEk9UtlYlMQx39IcNLGZ+ObRY2XbA
-   4BvlH0pjZs5ch7gjXMsR1NmdGlJhanUXeCS+TR2Ikf8vpTGHhR87Dz7iZ
-   exfDcsbmP9CNNq4nRFoQkvDP1RQbmv4lpuPb/VMJgguayUNMznpqELcD3
-   LIzuf+umEqtKkPP8GG/c1AKz289QNh1FNrHKSvIbfJuJB5X1e59bgFRxU
-   9AjgON7OLOWNZnrd0tqivgT4NhG4DdXuv+EcsuR03oSRXonO5GWcxkyBS
+  bh=axeLH8f0c2BgYYOi1NsohpyHxzqvrvH6c7YMv9oU5K0=;
+  b=LR1ENhIiryf05x+LFPIXnUpnzxcACMAGp9VUcWV7dhAgBmS32jZOk0pe
+   GVVZAYIK6RUiI70sB3fn+PdOJ7mcXGRfRnD6bpETAtTViR7YX69UGr7Qb
+   gh2IZp0IfmJ1HF2rv1IptphRfAlrKZ9P0x+0SaqTnvqOTlwg8Cx30kXAg
+   iCxvW3dXl64U3xrtDa3gf+QbiCLw5V8DwU/q1vjh8sxSQr230SrDCGhzd
+   ZaEuepKVOqaWlP/xzbUoM1tbvZ2ndyP9h79jjuBxQ9VXQxuRDGzR2EUw8
+   5WSai7GTp/BsePG86I6Tt0mwR98iTWa4LVbjuqMTltv1LF2Rxxz6tKc4v
    Q==;
-X-CSE-ConnectionGUID: ox8NoWAVS8+7mTFl2p6/8g==
-X-CSE-MsgGUID: 70yBKq/YQzmM/bqwVCYadA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54277240"
+X-CSE-ConnectionGUID: iSzEMVhvTmqla0j7hWesWQ==
+X-CSE-MsgGUID: Fbtc2zxcTf2d8uEscon6NQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="64609567"
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="54277240"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 09:59:54 -0700
-X-CSE-ConnectionGUID: iFL+wSEOTP64nXW9Z/8mbg==
-X-CSE-MsgGUID: 8I12zCPpQT2gcDR5EcZ8NQ==
+   d="scan'208";a="64609567"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 10:42:00 -0700
+X-CSE-ConnectionGUID: +NtwN5O/TfG4VJlIzTK4tg==
+X-CSE-MsgGUID: WOi3qmgwQk+5jAGV7+wkHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="155470025"
+   d="scan'208";a="160369551"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 09 Jul 2025 09:59:53 -0700
+  by orviesa004.jf.intel.com with ESMTP; 09 Jul 2025 10:41:59 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZY99-0003mx-1X;
-	Wed, 09 Jul 2025 16:59:51 +0000
-Date: Thu, 10 Jul 2025 00:59:06 +0800
+	id 1uZYns-0003qR-1H;
+	Wed, 09 Jul 2025 17:41:56 +0000
+Date: Thu, 10 Jul 2025 01:41:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [android-common:android15-6.6 6/6]
- drivers/dma-buf/dma-buf.c:185:29-39: ERROR: function new_task_dmabuf_record
- called on line 226 inside lock on line 223 but uses GFP_KERNEL
-Message-ID: <202507100047.7nSTFziq-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v1 7/7] ARM: dts: sunxi: add support for NetCube Systems
+ Nagami Keypad Carrier
+Message-ID: <202507100101.1oZvFQvE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,85 +62,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20250705213900.3614963-8-lukas.schmid@netcube.li>
+References: <20250705213900.3614963-8-lukas.schmid@netcube.li>
+TO: Lukas Schmid <lukas.schmid@netcube.li>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: "Chen-Yu Tsai" <wens@csie.org>
+TO: Jernej Skrabec <jernej.skrabec@gmail.com>
+TO: Samuel Holland <samuel@sholland.org>
+TO: Paul Walmsley <paul.walmsley@sifive.com>
+TO: Palmer Dabbelt <palmer@dabbelt.com>
+TO: Albert Ou <aou@eecs.berkeley.edu>
+TO: Alexandre Ghiti <alex@ghiti.fr>
+TO: Maxime Ripard <mripard@kernel.org>
+CC: Lukas Schmid <lukas.schmid@netcube.li>
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-sunxi@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: linux-riscv@lists.infradead.org
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   c8fdc081cfa165aaa5bd87979d33b419499574cf
-commit: f44d593749dcbd4e1013121fa615ecca412d1cb3 [6/6] ANDROID: Track per-process dmabuf RSS
-:::::: branch date: 17 hours ago
-:::::: commit date: 17 hours ago
-config: x86_64-randconfig-r053-20250709 (https://download.01.org/0day-ci/archive/20250710/202507100047.7nSTFziq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+Hi Lukas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on sunxi/sunxi/for-next]
+[also build test WARNING on robh/for-next krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.16-rc5 next-20250704]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Schmid/dt-bindings-arm-sunxi-Add-NetCube-Systems-Nagami-SoM/20250706-054253
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20250705213900.3614963-8-lukas.schmid%40netcube.li
+patch subject: [PATCH v1 7/7] ARM: dts: sunxi: add support for NetCube Systems Nagami Keypad Carrier
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm-randconfig-054-20250706 (https://download.01.org/0day-ci/archive/20250710/202507100101.1oZvFQvE-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507100101.1oZvFQvE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202507100047.7nSTFziq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507100101.1oZvFQvE-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/dma-buf/dma-buf.c:185:29-39: ERROR: function new_task_dmabuf_record called on line 226 inside lock on line 223 but uses GFP_KERNEL
-
-vim +185 drivers/dma-buf/dma-buf.c
-
-f44d593749dcbd T.J. Mercier 2025-06-25  178  
-f44d593749dcbd T.J. Mercier 2025-06-25  179  static int new_task_dmabuf_record(struct task_struct *task, struct dma_buf *dmabuf)
-f44d593749dcbd T.J. Mercier 2025-06-25  180  {
-f44d593749dcbd T.J. Mercier 2025-06-25  181  	struct task_dma_buf_record *rec;
-f44d593749dcbd T.J. Mercier 2025-06-25  182  
-f44d593749dcbd T.J. Mercier 2025-06-25  183  	lockdep_assert_held(&task->dmabuf_info->lock);
-f44d593749dcbd T.J. Mercier 2025-06-25  184  
-f44d593749dcbd T.J. Mercier 2025-06-25 @185  	rec = kmalloc(sizeof(*rec), GFP_KERNEL);
-f44d593749dcbd T.J. Mercier 2025-06-25  186  	if (!rec)
-f44d593749dcbd T.J. Mercier 2025-06-25  187  		return -ENOMEM;
-f44d593749dcbd T.J. Mercier 2025-06-25  188  
-f44d593749dcbd T.J. Mercier 2025-06-25  189  	task->dmabuf_info->rss += dmabuf->size;
-f44d593749dcbd T.J. Mercier 2025-06-25  190  	rec->dmabuf = dmabuf;
-f44d593749dcbd T.J. Mercier 2025-06-25  191  	rec->refcnt = 1;
-f44d593749dcbd T.J. Mercier 2025-06-25  192  	list_add(&rec->node, &task->dmabuf_info->dmabufs);
-f44d593749dcbd T.J. Mercier 2025-06-25  193  
-f44d593749dcbd T.J. Mercier 2025-06-25  194  	return 0;
-f44d593749dcbd T.J. Mercier 2025-06-25  195  }
-f44d593749dcbd T.J. Mercier 2025-06-25  196  
-f44d593749dcbd T.J. Mercier 2025-06-25  197  /**
-f44d593749dcbd T.J. Mercier 2025-06-25  198   * dma_buf_account_task - Account a dmabuf to a task
-f44d593749dcbd T.J. Mercier 2025-06-25  199   * @dmabuf:	[in]	pointer to dma_buf
-f44d593749dcbd T.J. Mercier 2025-06-25  200   * @task:	[in]	pointer to task_struct
-f44d593749dcbd T.J. Mercier 2025-06-25  201   *
-f44d593749dcbd T.J. Mercier 2025-06-25  202   * When a process obtains a dmabuf file descriptor, or maps a dmabuf, this
-f44d593749dcbd T.J. Mercier 2025-06-25  203   * function attributes the provided @dmabuf to the @task. The first time @dmabuf
-f44d593749dcbd T.J. Mercier 2025-06-25  204   * is attributed to @task, the buffer's size is added to the @task's dmabuf RSS.
-f44d593749dcbd T.J. Mercier 2025-06-25  205   *
-f44d593749dcbd T.J. Mercier 2025-06-25  206   * Return:
-f44d593749dcbd T.J. Mercier 2025-06-25  207   * * 0 on success
-f44d593749dcbd T.J. Mercier 2025-06-25  208   * * A negative error code upon error
-f44d593749dcbd T.J. Mercier 2025-06-25  209   */
-f44d593749dcbd T.J. Mercier 2025-06-25  210  int dma_buf_account_task(struct dma_buf *dmabuf, struct task_struct *task)
-f44d593749dcbd T.J. Mercier 2025-06-25  211  {
-f44d593749dcbd T.J. Mercier 2025-06-25  212  	struct task_dma_buf_record *rec;
-f44d593749dcbd T.J. Mercier 2025-06-25  213  	int ret = 0;
-f44d593749dcbd T.J. Mercier 2025-06-25  214  
-f44d593749dcbd T.J. Mercier 2025-06-25  215  	if (!dmabuf || !task)
-f44d593749dcbd T.J. Mercier 2025-06-25  216  		return -EINVAL;
-f44d593749dcbd T.J. Mercier 2025-06-25  217  
-f44d593749dcbd T.J. Mercier 2025-06-25  218  	if (!task->dmabuf_info) {
-f44d593749dcbd T.J. Mercier 2025-06-25  219  	    pr_err("%s dmabuf accounting record was not allocated\n", __func__);
-f44d593749dcbd T.J. Mercier 2025-06-25  220  	    return -ENOMEM;
-f44d593749dcbd T.J. Mercier 2025-06-25  221  	}
-f44d593749dcbd T.J. Mercier 2025-06-25  222  
-f44d593749dcbd T.J. Mercier 2025-06-25 @223  	spin_lock(&task->dmabuf_info->lock);
-f44d593749dcbd T.J. Mercier 2025-06-25  224  	rec = find_task_dmabuf_record(task, dmabuf);
-f44d593749dcbd T.J. Mercier 2025-06-25  225  	if (!rec)
-f44d593749dcbd T.J. Mercier 2025-06-25 @226  		ret = new_task_dmabuf_record(task, dmabuf);
-f44d593749dcbd T.J. Mercier 2025-06-25  227  	else
-f44d593749dcbd T.J. Mercier 2025-06-25  228  		++rec->refcnt;
-f44d593749dcbd T.J. Mercier 2025-06-25  229  	spin_unlock(&task->dmabuf_info->lock);
-f44d593749dcbd T.J. Mercier 2025-06-25  230  
-f44d593749dcbd T.J. Mercier 2025-06-25  231  	return ret;
-f44d593749dcbd T.J. Mercier 2025-06-25  232  }
-f44d593749dcbd T.J. Mercier 2025-06-25  233  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: dcxo-clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+>> arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: gpio@20 (microchip,mcp23008): Unevaluated properties are not allowed ('interrupt-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pinctrl/microchip,mcp23s08.yaml#
+>> arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: usb@4100000 (allwinner,sun20i-d1-musb): dr_mode:0: 'device' is not one of ['host', 'otg', 'peripheral']
+   	from schema $id: http://devicetree.org/schemas/usb/allwinner,sun4i-a10-musb.yaml#
+>> arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: status-led (leds-group-multicolor): $nodename:0: 'status-led' does not match '^multi-led(@[0-9a-f])?$'
+   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
+>> arch/arm/boot/dts/allwinner/sun8i-t113s-netcube-nagami-keypad-carrier.dtb: status-led (leds-group-multicolor): Unevaluated properties are not allowed ('color', 'function' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
