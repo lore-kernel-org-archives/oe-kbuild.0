@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B657156F4A
-	for <oe-kbuild@lists.linux.dev>; Thu, 10 Jul 2025 08:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D439EA920
+	for <oe-kbuild@lists.linux.dev>; Thu, 10 Jul 2025 10:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752137568; cv=none; b=lF/SmjlMOoechr/vaLX3FJ31nU70S0UB+DqDfmnOBNKlS9yE9lHJacjYRoXhshDukipYTX14hLtObvCmoxcKfZ3Y/oydWOdPF3w6bFRbVDwog3m0a/Tu6mCgc0fu0imMUVbZG9sTSQ63b+KuQ/CRxQRXt35hzUe36mpZiyibUmw=
+	t=1752143817; cv=none; b=HbOcaqqWdOah/63Tnyj9ilw7OVBszVj44E2td/oTMcSFZwus3IdN1wur6qeKWp8PDDmXattdwLHFuSvXmuAxaBwXCqUNSXoFj242Z+UyRntQpnzJeC0A2Z+R6bWSPjYpCro7thiDHqhXjgG08zxK2luZbsuD5IpyMiEuqnFOK0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752137568; c=relaxed/simple;
-	bh=+8DZP3fisi7qcFnDEImzNj2yQG0V1kQazKXJZEhzmvc=;
+	s=arc-20240116; t=1752143817; c=relaxed/simple;
+	bh=LySiqQxseYJVo1bKjA5IfSEPsifFtC7UQyqc88KLpMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uZgMMlnTlHFRgF9S2oRxNTA+Y0ckAvBEHjwjx5uRhg0eZhGzB45nscEHOUriXZUCecAv5kX4ESifbk1tV+OtIxJtjoUG0auNK84SjtXSSd8VvBFiTa/A5KO0+J2oGviIL3tP9Xgzob/muaeBx4NDOtPB5tuuh/uI1j3Wjm/lNDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N3VrAbtv; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=mbtk4Uk9KJrKttBbo9ri4Gqo8tHm0HwTcNUeYoheUziwtjtMAm7gYmpJV6LoExdUm8ntv9PLR0Rb7sD+irYirdVHW18kEL3hW1xq719bCvd/ecBsndW7gv1miobYv4kperIkjIc75eVsuxnHMX384yCJITDFNIU0xPNvuumGBsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B5/34QOw; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N3VrAbtv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B5/34QOw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752137567; x=1783673567;
+  t=1752143816; x=1783679816;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+8DZP3fisi7qcFnDEImzNj2yQG0V1kQazKXJZEhzmvc=;
-  b=N3VrAbtvJfkfi891JIR7hksSUJOrQzY6l4bmNthhpaBtPPpvRerwZIIt
-   Rm1FB3bbIgSYsoMrRGm5XnbHepjAf1tRKuIbXe99Xix6jMeJm4McoGej2
-   nK7z/yLQX/ETXL+pTuug6GgmwoXtPHjOhPUJpQa2p9bOjKn3JTmf9Cr/1
-   NVqcOVwQZayfsDEjhxFOcsZOB04Sp+UsUi7S7Sh05HVBAGrMic2CRjh1O
-   wLDjyAm61XMTcyFsnRJr0a27O9lko1/f17mf79Habulg7GYuYHU7Ap5Fu
-   rzJEDha/+AmfEGh/AUeIx1dI+ykYY7jnEcdSeETlmeKRIfOq6sAtl/vnw
-   w==;
-X-CSE-ConnectionGUID: Cjz2nTEZQCmCjn1zN2Q+yw==
-X-CSE-MsgGUID: PItpS0Y2QLaRtLMR8FEkCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="64669742"
+  bh=LySiqQxseYJVo1bKjA5IfSEPsifFtC7UQyqc88KLpMY=;
+  b=B5/34QOwc+2fJ9sHOEMGZc8D57i10YLME1wihNy5dwmiHdaq5I9i90Y7
+   Qo4QGFXk/hvYd0uCU30somen/KkhJqvwXx3kl+F8UYj1QX6blV+li61ps
+   3917HsrYfGvW4ipNeq6dSOdn+5UbdL9TirxCwapzsnhuBaR7dva9HBu6q
+   E2gwE03CfZitADtAEZc8+7srMB8Sf/Ep9UMGpY667bCNcNzc5HJW+/O/H
+   XjctuoP02hrd6c91dHCajYRUutyOCeZQh2SkX11e6mTt64GntwWvosOB5
+   R1cyyiyMFNUsCuYEbp6zlaURR6/YtVmjgQg6HxeLbzhsvLX8FA9T89Ffl
+   A==;
+X-CSE-ConnectionGUID: nCzqYfRPTc6JhuLEnQ8wOQ==
+X-CSE-MsgGUID: dtvEEjJcQ5KfjgOQdSm3Hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="71868778"
 X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="64669742"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 01:52:46 -0700
-X-CSE-ConnectionGUID: Zei7Jkk7R0WgyR535quVew==
-X-CSE-MsgGUID: pAOW7KIUSNCOj6u5gYVEsw==
+   d="scan'208";a="71868778"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 03:36:55 -0700
+X-CSE-ConnectionGUID: voBRBPTiRaW3Zimj0O8mhQ==
+X-CSE-MsgGUID: XC4tbDQvTbu6/R1pcb2x8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="155781989"
+   d="scan'208";a="160358427"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Jul 2025 01:52:45 -0700
+  by orviesa003.jf.intel.com with ESMTP; 10 Jul 2025 03:36:54 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZn1G-0004pb-0h;
-	Thu, 10 Jul 2025 08:52:42 +0000
-Date: Thu, 10 Jul 2025 16:52:36 +0800
+	id 1uZoe3-0004vT-1c;
+	Thu, 10 Jul 2025 10:36:51 +0000
+Date: Thu, 10 Jul 2025 18:36:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] arm64: dts: exynos: add abox generic for ExynosAutov920
-Message-ID: <202507101616.sBizGfFY-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH net-next 2/2] vhost_net: basic in_order support
+Message-ID: <202507101801.ziCi2SjQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,66 +61,142 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250709001210.379418-1-ew.kim@samsung.com>
-References: <20250709001210.379418-1-ew.kim@samsung.com>
-TO: ew kim <ew.kim@samsung.com>
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-CC: alim.akhtar@samsung.com
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-samsung-soc@vger.kernel.org
+In-Reply-To: <20250708064819.35282-3-jasowang@redhat.com>
+References: <20250708064819.35282-3-jasowang@redhat.com>
+TO: Jason Wang <jasowang@redhat.com>
+TO: mst@redhat.com
+TO: jasowang@redhat.com
+TO: eperezma@redhat.com
+CC: kvm@vger.kernel.org
+CC: virtualization@lists.linux.dev
+CC: netdev@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: ew kim <ew.kim@samsung.com>
+CC: jonah.palmer@oracle.com
 
-Hi ew,
+Hi Jason,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on krzk/for-next]
-[also build test WARNING on linus/master v6.16-rc5 next-20250709]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ew-kim/arm64-dts-exynos-add-abox-generic-for-ExynosAutov920/20250709-082511
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250709001210.379418-1-ew.kim%40samsung.com
-patch subject: [PATCH] arm64: dts: exynos: add abox generic for ExynosAutov920
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-config: arm64-randconfig-001-20250709 (https://download.01.org/0day-ci/archive/20250710/202507101616.sBizGfFY-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507101616.sBizGfFY-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Wang/vhost-basic-in-order-support/20250708-145402
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250708064819.35282-3-jasowang%40redhat.com
+patch subject: [PATCH net-next 2/2] vhost_net: basic in_order support
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20250710 (https://download.01.org/0day-ci/archive/20250710/202507101801.ziCi2SjQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507101616.sBizGfFY-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507101801.ziCi2SjQ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/exynos/exynosautov920-audio.dtsi:18.3-10: Warning (ranges_format): /abox_generic@generic:ranges: empty "ranges" property but its #size-cells (1) differs from / (2)
->> arch/arm64/boot/dts/exynos/exynosautov920-audio.dtsi:10.37-19.4: Warning (unit_address_vs_reg): /abox_generic@generic: node has a unit name, but no reg or ranges property
+New smatch warnings:
+drivers/vhost/net.c:1111 get_rx_bufs() error: uninitialized symbol 'd'.
 
-vim +/ranges +18 arch/arm64/boot/dts/exynos/exynosautov920-audio.dtsi
+Old smatch warnings:
+drivers/vhost/net.c:1108 get_rx_bufs() error: uninitialized symbol 'len'.
+drivers/vhost/net.c:1110 get_rx_bufs() error: uninitialized symbol 'len'.
 
-f0da8a74de3aba ew kim 2025-07-09 @10  	abox_generic: abox_generic@generic {
-f0da8a74de3aba ew kim 2025-07-09  11  		compatible = "samsung,abox_generic";
-f0da8a74de3aba ew kim 2025-07-09  12  		samsung,num-of-pcm_playback = <32>;
-f0da8a74de3aba ew kim 2025-07-09  13  		samsung,num-of-pcm_capture = <32>;
-f0da8a74de3aba ew kim 2025-07-09  14  		samsung,num-of-i2s-dummy-backend = <5>;
-f0da8a74de3aba ew kim 2025-07-09  15  		status = "disabled";
-f0da8a74de3aba ew kim 2025-07-09  16  		#address-cells = <2>;
-f0da8a74de3aba ew kim 2025-07-09  17  		#size-cells = <1>;
-f0da8a74de3aba ew kim 2025-07-09 @18  		ranges;
+vim +/d +1111 drivers/vhost/net.c
+
+03088137246065 Jason Wang         2016-03-04  1029  
+8dd014adfea6f1 David Stevens      2010-07-27  1030  /* This is a multi-buffer version of vhost_get_desc, that works if
+8dd014adfea6f1 David Stevens      2010-07-27  1031   *	vq has read descriptors only.
+bf0f609d5ad14a Jason Wang         2025-07-08  1032   * @nvq		- the relevant vhost_net virtqueue
+8dd014adfea6f1 David Stevens      2010-07-27  1033   * @datalen	- data length we'll be reading
+8dd014adfea6f1 David Stevens      2010-07-27  1034   * @iovcount	- returned count of io vectors we fill
+8dd014adfea6f1 David Stevens      2010-07-27  1035   * @log		- vhost log
+8dd014adfea6f1 David Stevens      2010-07-27  1036   * @log_num	- log offset
+94249369e99302 Jason Wang         2011-01-17  1037   * @quota       - headcount quota, 1 for big buffer
+8dd014adfea6f1 David Stevens      2010-07-27  1038   *	returns number of buffer heads allocated, negative on error
+8dd014adfea6f1 David Stevens      2010-07-27  1039   */
+bf0f609d5ad14a Jason Wang         2025-07-08  1040  static int get_rx_bufs(struct vhost_net_virtqueue *nvq,
+8dd014adfea6f1 David Stevens      2010-07-27  1041  		       struct vring_used_elem *heads,
+bf0f609d5ad14a Jason Wang         2025-07-08  1042  		       u16 *nheads,
+8dd014adfea6f1 David Stevens      2010-07-27  1043  		       int datalen,
+8dd014adfea6f1 David Stevens      2010-07-27  1044  		       unsigned *iovcount,
+8dd014adfea6f1 David Stevens      2010-07-27  1045  		       struct vhost_log *log,
+94249369e99302 Jason Wang         2011-01-17  1046  		       unsigned *log_num,
+94249369e99302 Jason Wang         2011-01-17  1047  		       unsigned int quota)
+8dd014adfea6f1 David Stevens      2010-07-27  1048  {
+bf0f609d5ad14a Jason Wang         2025-07-08  1049  	struct vhost_virtqueue *vq = &nvq->vq;
+bf0f609d5ad14a Jason Wang         2025-07-08  1050  	bool in_order = vhost_has_feature(vq, VIRTIO_F_IN_ORDER);
+8dd014adfea6f1 David Stevens      2010-07-27  1051  	unsigned int out, in;
+8dd014adfea6f1 David Stevens      2010-07-27  1052  	int seg = 0;
+8dd014adfea6f1 David Stevens      2010-07-27  1053  	int headcount = 0;
+8dd014adfea6f1 David Stevens      2010-07-27  1054  	unsigned d;
+8dd014adfea6f1 David Stevens      2010-07-27  1055  	int r, nlogs = 0;
+8b38694a2dc8b1 Michael S. Tsirkin 2014-10-24  1056  	/* len is always initialized before use since we are always called with
+8b38694a2dc8b1 Michael S. Tsirkin 2014-10-24  1057  	 * datalen > 0.
+8b38694a2dc8b1 Michael S. Tsirkin 2014-10-24  1058  	 */
+3f649ab728cda8 Kees Cook          2020-06-03  1059  	u32 len;
+8dd014adfea6f1 David Stevens      2010-07-27  1060  
+94249369e99302 Jason Wang         2011-01-17  1061  	while (datalen > 0 && headcount < quota) {
+e0e9b406470b8d Jason Wang         2010-09-14  1062  		if (unlikely(seg >= UIO_MAXIOV)) {
+8dd014adfea6f1 David Stevens      2010-07-27  1063  			r = -ENOBUFS;
+8dd014adfea6f1 David Stevens      2010-07-27  1064  			goto err;
+8dd014adfea6f1 David Stevens      2010-07-27  1065  		}
+47283bef7ed356 Michael S. Tsirkin 2014-06-05  1066  		r = vhost_get_vq_desc(vq, vq->iov + seg,
+8dd014adfea6f1 David Stevens      2010-07-27  1067  				      ARRAY_SIZE(vq->iov) - seg, &out,
+8dd014adfea6f1 David Stevens      2010-07-27  1068  				      &in, log, log_num);
+a39ee449f96a2c Michael S. Tsirkin 2014-03-27  1069  		if (unlikely(r < 0))
+a39ee449f96a2c Michael S. Tsirkin 2014-03-27  1070  			goto err;
+a39ee449f96a2c Michael S. Tsirkin 2014-03-27  1071  
+a39ee449f96a2c Michael S. Tsirkin 2014-03-27  1072  		d = r;
+8dd014adfea6f1 David Stevens      2010-07-27  1073  		if (d == vq->num) {
+8dd014adfea6f1 David Stevens      2010-07-27  1074  			r = 0;
+8dd014adfea6f1 David Stevens      2010-07-27  1075  			goto err;
+8dd014adfea6f1 David Stevens      2010-07-27  1076  		}
+8dd014adfea6f1 David Stevens      2010-07-27  1077  		if (unlikely(out || in <= 0)) {
+8dd014adfea6f1 David Stevens      2010-07-27  1078  			vq_err(vq, "unexpected descriptor format for RX: "
+8dd014adfea6f1 David Stevens      2010-07-27  1079  				"out %d, in %d\n", out, in);
+8dd014adfea6f1 David Stevens      2010-07-27  1080  			r = -EINVAL;
+8dd014adfea6f1 David Stevens      2010-07-27  1081  			goto err;
+8dd014adfea6f1 David Stevens      2010-07-27  1082  		}
+8dd014adfea6f1 David Stevens      2010-07-27  1083  		if (unlikely(log)) {
+8dd014adfea6f1 David Stevens      2010-07-27  1084  			nlogs += *log_num;
+8dd014adfea6f1 David Stevens      2010-07-27  1085  			log += *log_num;
+8dd014adfea6f1 David Stevens      2010-07-27  1086  		}
+8b38694a2dc8b1 Michael S. Tsirkin 2014-10-24  1087  		len = iov_length(vq->iov + seg, in);
+bf0f609d5ad14a Jason Wang         2025-07-08  1088  		if (!in_order) {
+bf0f609d5ad14a Jason Wang         2025-07-08  1089  			heads[headcount].id = cpu_to_vhost32(vq, d);
+8b38694a2dc8b1 Michael S. Tsirkin 2014-10-24  1090  			heads[headcount].len = cpu_to_vhost32(vq, len);
+bf0f609d5ad14a Jason Wang         2025-07-08  1091  		}
+8dd014adfea6f1 David Stevens      2010-07-27  1092  		++headcount;
+bf0f609d5ad14a Jason Wang         2025-07-08  1093  		datalen -= len;
+8dd014adfea6f1 David Stevens      2010-07-27  1094  		seg += in;
+8dd014adfea6f1 David Stevens      2010-07-27  1095  	}
+bf0f609d5ad14a Jason Wang         2025-07-08  1096  
+8dd014adfea6f1 David Stevens      2010-07-27  1097  	*iovcount = seg;
+8dd014adfea6f1 David Stevens      2010-07-27  1098  	if (unlikely(log))
+8dd014adfea6f1 David Stevens      2010-07-27  1099  		*log_num = nlogs;
+d8316f3991d207 Michael S. Tsirkin 2014-03-27  1100  
+d8316f3991d207 Michael S. Tsirkin 2014-03-27  1101  	/* Detect overrun */
+d8316f3991d207 Michael S. Tsirkin 2014-03-27  1102  	if (unlikely(datalen > 0)) {
+d8316f3991d207 Michael S. Tsirkin 2014-03-27  1103  		r = UIO_MAXIOV + 1;
+d8316f3991d207 Michael S. Tsirkin 2014-03-27  1104  		goto err;
+d8316f3991d207 Michael S. Tsirkin 2014-03-27  1105  	}
+bf0f609d5ad14a Jason Wang         2025-07-08  1106  
+bf0f609d5ad14a Jason Wang         2025-07-08  1107  	if (!in_order)
+bf0f609d5ad14a Jason Wang         2025-07-08  1108  		heads[headcount - 1].len = cpu_to_vhost32(vq, len + datalen);
+bf0f609d5ad14a Jason Wang         2025-07-08  1109  	else {
+bf0f609d5ad14a Jason Wang         2025-07-08  1110  		heads[0].len = cpu_to_vhost32(vq, len + datalen);
+bf0f609d5ad14a Jason Wang         2025-07-08 @1111  		heads[0].id = cpu_to_vhost32(vq, d);
+bf0f609d5ad14a Jason Wang         2025-07-08  1112  		nheads[0] = headcount;
+bf0f609d5ad14a Jason Wang         2025-07-08  1113  	}
+bf0f609d5ad14a Jason Wang         2025-07-08  1114  
+8dd014adfea6f1 David Stevens      2010-07-27  1115  	return headcount;
+8dd014adfea6f1 David Stevens      2010-07-27  1116  err:
+8dd014adfea6f1 David Stevens      2010-07-27  1117  	vhost_discard_vq_desc(vq, headcount);
+8dd014adfea6f1 David Stevens      2010-07-27  1118  	return r;
+8dd014adfea6f1 David Stevens      2010-07-27  1119  }
+8dd014adfea6f1 David Stevens      2010-07-27  1120  
 
 -- 
 0-DAY CI Kernel Test Service
