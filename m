@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE9625A354
-	for <oe-kbuild@lists.linux.dev>; Thu, 10 Jul 2025 12:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258502877E8
+	for <oe-kbuild@lists.linux.dev>; Thu, 10 Jul 2025 19:19:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752151930; cv=none; b=NkIP+WpQgBtfXIMni6lcBX7r310giP8RLZhubf53iHGz1Uk/rSvGpIENE0xyv2QNa7e6+dHtWqG/yYLUmSZZD4DZeXKI7+qMvQRfoA9DvW9+eBELPw2xTCKVKUgsp7ao6c8o4KdqVA5cpQ8+5vX1+4sg8IHDprBqTAur73VxUes=
+	t=1752175194; cv=none; b=Kht8iEmmKh2qNTtmPMg83qP86lXPbJ12gwXkQTnGsqK7PHZz9oag2KKaqALBCNKJrTtpzjuSxNSsYjEYeHHPy5aKYz+2cqHLa2Hv6bNorBZ0/fg9kXAbSx60ZawL38uW3XUH9J4R7zc33tByDryvSofYqYhbIWhqeVQ2uKZMRH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752151930; c=relaxed/simple;
-	bh=hJI6Y1ISmjEvsKF4M5oiBZUc3OElPeNizWb31zXpyfs=;
+	s=arc-20240116; t=1752175194; c=relaxed/simple;
+	bh=aaR3ig2qCgcCKmlRr+XjQo4m6JJd3i5mO/MuWEs13oM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o6ajUg4Tj99z145U88Mh+HGyFIemWHJl8JDyiVqWsUAvibAFqwxTlnYigOSq5XpD4jo6z9WBQLQHQkSFOCqb+9nIAI8NcrUlQoCjgCYE845jyxIC3Sk3t2hXQ9tqTHOuG6/kmNLdB4tY1KLMvirOBWwcrWXiIaE/cwonTQ2p/k8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UoDDmfM9; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=c6lOxp8u0kK4J2WI04WYMN0XAG0v99d+cseZlBeMcf0ZI33Spm8OY2S+yx0QTQAV2L/OT6/VWmnSgsTts9fXhA2Z3D+wTAb0p0HjaY87kaBE0wL2p6gKF0WptRMY9cM9HtUQjRK7sRNvs9292QJGanNKNuDkSbMJvl1sSAZxRbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mNib/+cc; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UoDDmfM9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mNib/+cc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752151928; x=1783687928;
+  t=1752175192; x=1783711192;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hJI6Y1ISmjEvsKF4M5oiBZUc3OElPeNizWb31zXpyfs=;
-  b=UoDDmfM9lC53SfJwGGh6eF6YO9RBf4sRXnnybbSp1DAnOl5oa7NG5i03
-   JIMNNlCX+wT+dWB1rikbCfNtTJ7IB4C56GHeVZoPrNQK8MZd+B3Bm/C/2
-   05U0mkcGxGS48U+18/BBL5zKo9/QZlDMsycXNJgKtDrHSqX1HVzPrSFZE
-   sSWfJyith0jH2KZlAL0bhHMNIAmUhhjpFYgPRJc7GuaCFCJ6Kox0xARkY
-   75D2p0v5ZOwtGYsfDE75HoU1dPKDQqW9IzxNKNHFn9oSqdr9LNEdM8FoU
-   yjrK+6/Tmx1U4suenUFOMywWiCzVR2weDcB10femAl24t8QuYqIOKcD/k
+  bh=aaR3ig2qCgcCKmlRr+XjQo4m6JJd3i5mO/MuWEs13oM=;
+  b=mNib/+cclTRoHKWMYjqWNyLwTEkLf+xzFx5i941hMV0n8v7zSyFEdq6V
+   0VeP+0fTqMe0vfxVujE7w1gnWmQAaABQoDTOxspxM2otmwke5rfiahRFZ
+   Z5uynmBnVfZQIZZqTgcjnjqZdQ6BlI0UKhKhFyQ/yd9Rwm6e9Y3Qh8xEf
+   bTKQbd068o+XaCyi015QmG2cAlNSqt2AMIkESyoWcjwAT1fMtktg+RGGy
+   2pn9UtQ4m5RjHGXHMjEj+67GXTEUbLkuDSBDpIinXziUkoBSW5CbX1SWM
+   /J82TPQY+R26/f46wXGhYCRd9lNcb0+SCDwGJBN814QQyX90Au175QEb9
    Q==;
-X-CSE-ConnectionGUID: WMzvlwWuQACnm6QeiGiydg==
-X-CSE-MsgGUID: eFVXLTkHSqmdHoqMIycL9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54306516"
-X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="54306516"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 05:52:08 -0700
-X-CSE-ConnectionGUID: J4dWWXzYSbuLFrgTL0P8ZQ==
-X-CSE-MsgGUID: Oi7RA6HCTTiN1pN8S9yxZw==
+X-CSE-ConnectionGUID: 995t3aJIRpqdR1HCOp+H3g==
+X-CSE-MsgGUID: AtqrS2C6TraYXPkuk0/xjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="65167882"
+X-IronPort-AV: E=Sophos;i="6.16,301,1744095600"; 
+   d="scan'208";a="65167882"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 12:19:49 -0700
+X-CSE-ConnectionGUID: e/IQ59w0QIGmlbxeLZ0q1A==
+X-CSE-MsgGUID: qTuJh2HvSLGZuSg2qqX+Xg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="156552233"
+X-IronPort-AV: E=Sophos;i="6.16,301,1744095600"; 
+   d="scan'208";a="193385637"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 10 Jul 2025 05:52:05 -0700
+  by orviesa001.jf.intel.com with ESMTP; 10 Jul 2025 12:19:48 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZqks-00052N-2z;
-	Thu, 10 Jul 2025 12:52:02 +0000
-Date: Thu, 10 Jul 2025 20:51:14 +0800
+	id 1uZwo5-0005Od-1i;
+	Thu, 10 Jul 2025 19:19:45 +0000
+Date: Fri, 11 Jul 2025 03:19:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH for-next v2 1/3] RDMA/uverbs: Add a common way to create
- CQ with umem
-Message-ID: <202507102045.cmQITbYo-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3 2/3] dt-bindings: thermal: mediatek: add falback
+ compatible string for MT7981 and MT8516
+Message-ID: <202507110312.fqxhzml5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,207 +62,152 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250708202308.24783-2-mrgolin@amazon.com>
-References: <20250708202308.24783-2-mrgolin@amazon.com>
-TO: Michael Margolin <mrgolin@amazon.com>
-TO: jgg@nvidia.com
-TO: leon@kernel.org
-TO: linux-rdma@vger.kernel.org
-CC: sleybo@amazon.com
-CC: matua@amazon.com
-CC: gal.pressman@linux.dev
+In-Reply-To: <20250708220405.1072393-3-olek2@wp.pl>
+References: <20250708220405.1072393-3-olek2@wp.pl>
+TO: Aleksander Jan Bajkowski <olek2@wp.pl>
+TO: rafael@kernel.org
+TO: daniel.lezcano@linaro.org
+TO: rui.zhang@intel.com
+TO: lukasz.luba@arm.com
+TO: jic23@kernel.org
+TO: dlechner@baylibre.com
+TO: nuno.sa@analog.com
+TO: andy@kernel.org
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+TO: matthias.bgg@gmail.com
+TO: angelogioacchino.delregno@collabora.com
+TO: s.hauer@pengutronix.de
+TO: olek2@wp.pl
+TO: zhiyong.tao@mediatek.com
+TO: linux-pm@vger.kernel.org
+TO: linux-iio@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: linux-arm-kernel@lists.infradead.org
+TO: linux-mediatek@lists.infradead.org
 
-Hi Michael,
+Hi Aleksander,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on rdma/for-next]
-[also build test WARNING on linus/master v6.16-rc5 next-20250710]
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on rafael-pm/thermal robh/for-next linus/master v6.16-rc5 next-20250709]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Margolin/RDMA-uverbs-Add-a-common-way-to-create-CQ-with-umem/20250709-042457
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/20250708202308.24783-2-mrgolin%40amazon.com
-patch subject: [PATCH for-next v2 1/3] RDMA/uverbs: Add a common way to create CQ with umem
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksander-Jan-Bajkowski/dt-bindings-iio-adc-Add-support-for-MT7981/20250709-060616
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250708220405.1072393-3-olek2%40wp.pl
+patch subject: [PATCH v3 2/3] dt-bindings: thermal: mediatek: add falback compatible string for MT7981 and MT8516
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20250710 (https://download.01.org/0day-ci/archive/20250710/202507102045.cmQITbYo-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+config: arm-randconfig-053-20250709 (https://download.01.org/0day-ci/archive/20250711/202507110312.fqxhzml5-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110312.fqxhzml5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507102045.cmQITbYo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507110312.fqxhzml5-lkp@intel.com/
 
-smatch warnings:
-drivers/infiniband/core/uverbs_std_types_cq.c:195 ib_uverbs_handler_UVERBS_METHOD_CQ_CREATE() error: we previously assumed 'ib_dev->ops.create_cq' could be null (see line 81)
-
-vim +195 drivers/infiniband/core/uverbs_std_types_cq.c
-
-41b2a71fc848e2 Matan Barak      2018-03-19   60  
-e83f0ecdc40f2c Jason Gunthorpe  2018-07-25   61  static int UVERBS_HANDLER(UVERBS_METHOD_CQ_CREATE)(
-15a1b4becba886 Jason Gunthorpe  2018-11-25   62  	struct uverbs_attr_bundle *attrs)
-41b2a71fc848e2 Matan Barak      2018-03-19   63  {
-e83f0ecdc40f2c Jason Gunthorpe  2018-07-25   64  	struct ib_ucq_object *obj = container_of(
-e83f0ecdc40f2c Jason Gunthorpe  2018-07-25   65  		uverbs_attr_get_uobject(attrs, UVERBS_ATTR_CREATE_CQ_HANDLE),
-4ec1dcfcdf3756 Jason Gunthorpe  2020-01-08   66  		typeof(*obj), uevent.uobject);
-982a89ae42c92d Michael Margolin 2025-07-08   67  	struct ib_uverbs_completion_event_file *ev_file = NULL;
-feec576a6af299 Jason Gunthorpe  2019-04-01   68  	struct ib_device *ib_dev = attrs->context->device;
-982a89ae42c92d Michael Margolin 2025-07-08   69  	struct ib_umem_dmabuf *umem_dmabuf;
-41b2a71fc848e2 Matan Barak      2018-03-19   70  	struct ib_cq_init_attr attr = {};
-41b2a71fc848e2 Matan Barak      2018-03-19   71  	struct ib_uobject *ev_file_uobj;
-982a89ae42c92d Michael Margolin 2025-07-08   72  	struct ib_umem *umem = NULL;
-982a89ae42c92d Michael Margolin 2025-07-08   73  	u64 buffer_length;
-982a89ae42c92d Michael Margolin 2025-07-08   74  	u64 buffer_offset;
-982a89ae42c92d Michael Margolin 2025-07-08   75  	struct ib_cq *cq;
-982a89ae42c92d Michael Margolin 2025-07-08   76  	u64 user_handle;
-982a89ae42c92d Michael Margolin 2025-07-08   77  	u64 buffer_va;
-982a89ae42c92d Michael Margolin 2025-07-08   78  	int buffer_fd;
-982a89ae42c92d Michael Margolin 2025-07-08   79  	int ret;
-41b2a71fc848e2 Matan Barak      2018-03-19   80  
-982a89ae42c92d Michael Margolin 2025-07-08  @81  	if ((!ib_dev->ops.create_cq && !ib_dev->ops.create_cq_umem) || !ib_dev->ops.destroy_cq)
-41b2a71fc848e2 Matan Barak      2018-03-19   82  		return -EOPNOTSUPP;
-41b2a71fc848e2 Matan Barak      2018-03-19   83  
-41b2a71fc848e2 Matan Barak      2018-03-19   84  	ret = uverbs_copy_from(&attr.comp_vector, attrs,
-41b2a71fc848e2 Matan Barak      2018-03-19   85  			       UVERBS_ATTR_CREATE_CQ_COMP_VECTOR);
-41b2a71fc848e2 Matan Barak      2018-03-19   86  	if (!ret)
-41b2a71fc848e2 Matan Barak      2018-03-19   87  		ret = uverbs_copy_from(&attr.cqe, attrs,
-41b2a71fc848e2 Matan Barak      2018-03-19   88  				       UVERBS_ATTR_CREATE_CQ_CQE);
-41b2a71fc848e2 Matan Barak      2018-03-19   89  	if (!ret)
-41b2a71fc848e2 Matan Barak      2018-03-19   90  		ret = uverbs_copy_from(&user_handle, attrs,
-41b2a71fc848e2 Matan Barak      2018-03-19   91  				       UVERBS_ATTR_CREATE_CQ_USER_HANDLE);
-41b2a71fc848e2 Matan Barak      2018-03-19   92  	if (ret)
-41b2a71fc848e2 Matan Barak      2018-03-19   93  		return ret;
-41b2a71fc848e2 Matan Barak      2018-03-19   94  
-bccd06223f2165 Jason Gunthorpe  2018-07-26   95  	ret = uverbs_get_flags32(&attr.flags, attrs,
-bccd06223f2165 Jason Gunthorpe  2018-07-26   96  				 UVERBS_ATTR_CREATE_CQ_FLAGS,
-bccd06223f2165 Jason Gunthorpe  2018-07-26   97  				 IB_UVERBS_CQ_FLAGS_TIMESTAMP_COMPLETION |
-bccd06223f2165 Jason Gunthorpe  2018-07-26   98  					 IB_UVERBS_CQ_FLAGS_IGNORE_OVERRUN);
-bccd06223f2165 Jason Gunthorpe  2018-07-26   99  	if (ret)
-bccd06223f2165 Jason Gunthorpe  2018-07-26  100  		return ret;
-41b2a71fc848e2 Matan Barak      2018-03-19  101  
-3efa38125b81fb Matan Barak      2018-05-31  102  	ev_file_uobj = uverbs_attr_get_uobject(attrs, UVERBS_ATTR_CREATE_CQ_COMP_CHANNEL);
-3efa38125b81fb Matan Barak      2018-05-31  103  	if (!IS_ERR(ev_file_uobj)) {
-41b2a71fc848e2 Matan Barak      2018-03-19  104  		ev_file = container_of(ev_file_uobj,
-41b2a71fc848e2 Matan Barak      2018-03-19  105  				       struct ib_uverbs_completion_event_file,
-d0259e82e7d214 Jason Gunthorpe  2018-07-04  106  				       uobj);
-41b2a71fc848e2 Matan Barak      2018-03-19  107  		uverbs_uobject_get(ev_file_uobj);
-41b2a71fc848e2 Matan Barak      2018-03-19  108  	}
-41b2a71fc848e2 Matan Barak      2018-03-19  109  
-cda9ee494248b8 Yishai Hadas     2020-05-19  110  	obj->uevent.event_file = ib_uverbs_get_async_event(
-cda9ee494248b8 Yishai Hadas     2020-05-19  111  		attrs, UVERBS_ATTR_CREATE_CQ_EVENT_FD);
-98a8890f734894 Yishai Hadas     2020-05-19  112  
-15a1b4becba886 Jason Gunthorpe  2018-11-25  113  	if (attr.comp_vector >= attrs->ufile->device->num_comp_vectors) {
-41b2a71fc848e2 Matan Barak      2018-03-19  114  		ret = -EINVAL;
-41b2a71fc848e2 Matan Barak      2018-03-19  115  		goto err_event_file;
-41b2a71fc848e2 Matan Barak      2018-03-19  116  	}
-41b2a71fc848e2 Matan Barak      2018-03-19  117  
-41b2a71fc848e2 Matan Barak      2018-03-19  118  	INIT_LIST_HEAD(&obj->comp_list);
-4ec1dcfcdf3756 Jason Gunthorpe  2020-01-08  119  	INIT_LIST_HEAD(&obj->uevent.event_list);
-41b2a71fc848e2 Matan Barak      2018-03-19  120  
-982a89ae42c92d Michael Margolin 2025-07-08  121  	if (uverbs_attr_is_valid(attrs, UVERBS_ATTR_CREATE_CQ_BUFFER_VA)) {
-982a89ae42c92d Michael Margolin 2025-07-08  122  
-982a89ae42c92d Michael Margolin 2025-07-08  123  		ret = uverbs_copy_from(&buffer_va, attrs, UVERBS_ATTR_CREATE_CQ_BUFFER_VA);
-982a89ae42c92d Michael Margolin 2025-07-08  124  		if (ret)
-982a89ae42c92d Michael Margolin 2025-07-08  125  			goto err_event_file;
-982a89ae42c92d Michael Margolin 2025-07-08  126  
-982a89ae42c92d Michael Margolin 2025-07-08  127  		ret = uverbs_copy_from(&buffer_length, attrs, UVERBS_ATTR_CREATE_CQ_BUFFER_LENGTH);
-982a89ae42c92d Michael Margolin 2025-07-08  128  		if (ret)
-982a89ae42c92d Michael Margolin 2025-07-08  129  			goto err_event_file;
-982a89ae42c92d Michael Margolin 2025-07-08  130  
-982a89ae42c92d Michael Margolin 2025-07-08  131  		if (uverbs_attr_is_valid(attrs, UVERBS_ATTR_CREATE_CQ_BUFFER_FD) ||
-982a89ae42c92d Michael Margolin 2025-07-08  132  		    uverbs_attr_is_valid(attrs, UVERBS_ATTR_CREATE_CQ_BUFFER_OFFSET) ||
-982a89ae42c92d Michael Margolin 2025-07-08  133  		    !ib_dev->ops.create_cq_umem) {
-982a89ae42c92d Michael Margolin 2025-07-08  134  			ret = -EINVAL;
-982a89ae42c92d Michael Margolin 2025-07-08  135  			goto err_event_file;
-982a89ae42c92d Michael Margolin 2025-07-08  136  		}
-982a89ae42c92d Michael Margolin 2025-07-08  137  
-982a89ae42c92d Michael Margolin 2025-07-08  138  		umem = ib_umem_get(ib_dev, buffer_va, buffer_length, IB_ACCESS_LOCAL_WRITE);
-982a89ae42c92d Michael Margolin 2025-07-08  139  		if (IS_ERR(umem)) {
-982a89ae42c92d Michael Margolin 2025-07-08  140  			ret = PTR_ERR(umem);
-982a89ae42c92d Michael Margolin 2025-07-08  141  			goto err_event_file;
-982a89ae42c92d Michael Margolin 2025-07-08  142  		}
-982a89ae42c92d Michael Margolin 2025-07-08  143  	} else if (uverbs_attr_is_valid(attrs, UVERBS_ATTR_CREATE_CQ_BUFFER_FD)) {
-982a89ae42c92d Michael Margolin 2025-07-08  144  
-982a89ae42c92d Michael Margolin 2025-07-08  145  		ret = uverbs_get_raw_fd(&buffer_fd, attrs, UVERBS_ATTR_CREATE_CQ_BUFFER_FD);
-982a89ae42c92d Michael Margolin 2025-07-08  146  		if (ret)
-982a89ae42c92d Michael Margolin 2025-07-08  147  			goto err_event_file;
-982a89ae42c92d Michael Margolin 2025-07-08  148  
-982a89ae42c92d Michael Margolin 2025-07-08  149  		ret = uverbs_copy_from(&buffer_offset, attrs, UVERBS_ATTR_CREATE_CQ_BUFFER_OFFSET);
-982a89ae42c92d Michael Margolin 2025-07-08  150  		if (ret)
-982a89ae42c92d Michael Margolin 2025-07-08  151  			goto err_event_file;
-982a89ae42c92d Michael Margolin 2025-07-08  152  
-982a89ae42c92d Michael Margolin 2025-07-08  153  		ret = uverbs_copy_from(&buffer_length, attrs, UVERBS_ATTR_CREATE_CQ_BUFFER_LENGTH);
-982a89ae42c92d Michael Margolin 2025-07-08  154  		if (ret)
-982a89ae42c92d Michael Margolin 2025-07-08  155  			goto err_event_file;
-982a89ae42c92d Michael Margolin 2025-07-08  156  
-982a89ae42c92d Michael Margolin 2025-07-08  157  		if (uverbs_attr_is_valid(attrs, UVERBS_ATTR_CREATE_CQ_BUFFER_VA) ||
-982a89ae42c92d Michael Margolin 2025-07-08  158  		    !ib_dev->ops.create_cq_umem) {
-982a89ae42c92d Michael Margolin 2025-07-08  159  			ret = -EINVAL;
-982a89ae42c92d Michael Margolin 2025-07-08  160  			goto err_event_file;
-982a89ae42c92d Michael Margolin 2025-07-08  161  		}
-982a89ae42c92d Michael Margolin 2025-07-08  162  
-982a89ae42c92d Michael Margolin 2025-07-08  163  		umem_dmabuf = ib_umem_dmabuf_get_pinned(ib_dev, buffer_offset, buffer_length,
-982a89ae42c92d Michael Margolin 2025-07-08  164  							buffer_fd, IB_ACCESS_LOCAL_WRITE);
-982a89ae42c92d Michael Margolin 2025-07-08  165  		if (IS_ERR(umem_dmabuf)) {
-982a89ae42c92d Michael Margolin 2025-07-08  166  			ret = PTR_ERR(umem_dmabuf);
-982a89ae42c92d Michael Margolin 2025-07-08  167  			goto err_event_file;
-982a89ae42c92d Michael Margolin 2025-07-08  168  		}
-982a89ae42c92d Michael Margolin 2025-07-08  169  		umem = &umem_dmabuf->umem;
-982a89ae42c92d Michael Margolin 2025-07-08  170  	} else if (uverbs_attr_is_valid(attrs, UVERBS_ATTR_CREATE_CQ_BUFFER_OFFSET) ||
-982a89ae42c92d Michael Margolin 2025-07-08  171  		   uverbs_attr_is_valid(attrs, UVERBS_ATTR_CREATE_CQ_BUFFER_LENGTH) ||
-982a89ae42c92d Michael Margolin 2025-07-08  172  		   !ib_dev->ops.create_cq) {
-982a89ae42c92d Michael Margolin 2025-07-08  173  		ret = -EINVAL;
-982a89ae42c92d Michael Margolin 2025-07-08  174  		goto err_event_file;
-982a89ae42c92d Michael Margolin 2025-07-08  175  	}
-982a89ae42c92d Michael Margolin 2025-07-08  176  
-e39afe3d6dbd90 Leon Romanovsky  2019-05-28  177  	cq = rdma_zalloc_drv_obj(ib_dev, ib_cq);
-e39afe3d6dbd90 Leon Romanovsky  2019-05-28  178  	if (!cq) {
-e39afe3d6dbd90 Leon Romanovsky  2019-05-28  179  		ret = -ENOMEM;
-982a89ae42c92d Michael Margolin 2025-07-08  180  		ib_umem_release(umem);
-41b2a71fc848e2 Matan Barak      2018-03-19  181  		goto err_event_file;
-41b2a71fc848e2 Matan Barak      2018-03-19  182  	}
-41b2a71fc848e2 Matan Barak      2018-03-19  183  
-41b2a71fc848e2 Matan Barak      2018-03-19  184  	cq->device        = ib_dev;
-5bd48c18c8cea0 Jason Gunthorpe  2020-01-08  185  	cq->uobject       = obj;
-41b2a71fc848e2 Matan Barak      2018-03-19  186  	cq->comp_handler  = ib_uverbs_comp_handler;
-41b2a71fc848e2 Matan Barak      2018-03-19  187  	cq->event_handler = ib_uverbs_cq_event_handler;
-41b2a71fc848e2 Matan Barak      2018-03-19  188  	cq->cq_context    = ev_file ? &ev_file->ev_queue : NULL;
-41b2a71fc848e2 Matan Barak      2018-03-19  189  	atomic_set(&cq->usecnt, 0);
-e39afe3d6dbd90 Leon Romanovsky  2019-05-28  190  
-13ef5539def732 Leon Romanovsky  2020-09-22  191  	rdma_restrack_new(&cq->res, RDMA_RESTRACK_CQ);
-b09c4d70122091 Leon Romanovsky  2020-09-22  192  	rdma_restrack_set_name(&cq->res, NULL);
-b09c4d70122091 Leon Romanovsky  2020-09-22  193  
-982a89ae42c92d Michael Margolin 2025-07-08  194  	ret = umem ? ib_dev->ops.create_cq_umem(cq, &attr, umem, attrs) :
-982a89ae42c92d Michael Margolin 2025-07-08 @195  		ib_dev->ops.create_cq(cq, &attr, attrs);
-e39afe3d6dbd90 Leon Romanovsky  2019-05-28  196  	if (ret)
-e39afe3d6dbd90 Leon Romanovsky  2019-05-28  197  		goto err_free;
-e39afe3d6dbd90 Leon Romanovsky  2019-05-28  198  
-4ec1dcfcdf3756 Jason Gunthorpe  2020-01-08  199  	obj->uevent.uobject.object = cq;
-4ec1dcfcdf3756 Jason Gunthorpe  2020-01-08  200  	obj->uevent.uobject.user_handle = user_handle;
-b09c4d70122091 Leon Romanovsky  2020-09-22  201  	rdma_restrack_add(&cq->res);
-0ac8903cbbe618 Jason Gunthorpe  2020-05-19  202  	uverbs_finalize_uobj_create(attrs, UVERBS_ATTR_CREATE_CQ_HANDLE);
-41b2a71fc848e2 Matan Barak      2018-03-19  203  
-41b2a71fc848e2 Matan Barak      2018-03-19  204  	ret = uverbs_copy_to(attrs, UVERBS_ATTR_CREATE_CQ_RESP_CQE, &cq->cqe,
-41b2a71fc848e2 Matan Barak      2018-03-19  205  			     sizeof(cq->cqe));
-0ac8903cbbe618 Jason Gunthorpe  2020-05-19  206  	return ret;
-41b2a71fc848e2 Matan Barak      2018-03-19  207  
-e39afe3d6dbd90 Leon Romanovsky  2019-05-28  208  err_free:
-13ef5539def732 Leon Romanovsky  2020-09-22  209  	rdma_restrack_put(&cq->res);
-e39afe3d6dbd90 Leon Romanovsky  2019-05-28  210  	kfree(cq);
-41b2a71fc848e2 Matan Barak      2018-03-19  211  err_event_file:
-98a8890f734894 Yishai Hadas     2020-05-19  212  	if (obj->uevent.event_file)
-98a8890f734894 Yishai Hadas     2020-05-19  213  		uverbs_uobject_put(&obj->uevent.event_file->uobj);
-41b2a71fc848e2 Matan Barak      2018-03-19  214  	if (ev_file)
-41b2a71fc848e2 Matan Barak      2018-03-19  215  		uverbs_uobject_put(ev_file_uobj);
-41b2a71fc848e2 Matan Barak      2018-03-19  216  	return ret;
-41b2a71fc848e2 Matan Barak      2018-03-19  217  };
-41b2a71fc848e2 Matan Barak      2018-03-19  218  
+dtcheck warnings: (new ones prefixed by >>)
+   	'mediatek,mt7623-spi' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
+   	'mediatek,mt7623-spi' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
+   	'mediatek,mt7622-spi' was expected
+   	'mediatek,mt2712-spi' was expected
+   	'mediatek,mt6765-spi' was expected
+   	'mediatek,spi-ipm' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: spi@1100a000 (mediatek,mt7623-spi): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: /spi@1100a000: failed to match any schema with compatible: ['mediatek,mt7623-spi', 'mediatek,mt2701-spi']
+>> arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: thermal@1100b000 (mediatek,mt7623-thermal): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt7623-thermal', 'mediatek,mt2701-thermal'] is too long
+   	'mediatek,mt7623-thermal' is not one of ['mediatek,mt2701-thermal', 'mediatek,mt2712-thermal', 'mediatek,mt7622-thermal', 'mediatek,mt7986-thermal', 'mediatek,mt8173-thermal', 'mediatek,mt8183-thermal', 'mediatek,mt8365-thermal']
+   	'mediatek,mt7623-thermal' is not one of ['mediatek,mt7981-thermal']
+   	'mediatek,mt7623-thermal' is not one of ['mediatek,mt8516-thermal']
+   	'mediatek,mt7986-thermal' was expected
+   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: thermal@1100b000 (mediatek,mt7623-thermal): Unevaluated properties are not allowed ('compatible', 'reset-names' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: /thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt7623-thermal', 'mediatek,mt2701-thermal']
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: serial@1100c000 (mediatek,mt7623-btif): clock-names:0: 'core' was expected
+--
+   	'mediatek,mt7623-spi' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
+   	'mediatek,mt7623-spi' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
+   	'mediatek,mt7622-spi' was expected
+   	'mediatek,mt2712-spi' was expected
+   	'mediatek,mt6765-spi' was expected
+   	'mediatek,spi-ipm' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: spi@1100a000 (mediatek,mt7623-spi): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: /spi@1100a000: failed to match any schema with compatible: ['mediatek,mt7623-spi', 'mediatek,mt2701-spi']
+>> arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: thermal@1100b000 (mediatek,mt7623-thermal): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt7623-thermal', 'mediatek,mt2701-thermal'] is too long
+   	'mediatek,mt7623-thermal' is not one of ['mediatek,mt2701-thermal', 'mediatek,mt2712-thermal', 'mediatek,mt7622-thermal', 'mediatek,mt7986-thermal', 'mediatek,mt8173-thermal', 'mediatek,mt8183-thermal', 'mediatek,mt8365-thermal']
+   	'mediatek,mt7623-thermal' is not one of ['mediatek,mt7981-thermal']
+   	'mediatek,mt7623-thermal' is not one of ['mediatek,mt8516-thermal']
+   	'mediatek,mt7986-thermal' was expected
+   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: thermal@1100b000 (mediatek,mt7623-thermal): Unevaluated properties are not allowed ('compatible', 'reset-names' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: /thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt7623-thermal', 'mediatek,mt2701-thermal']
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: serial@1100c000 (mediatek,mt7623-btif): clock-names:0: 'core' was expected
+--
+   	'mediatek,mt7623-spi' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
+   	'mediatek,mt7623-spi' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
+   	'mediatek,mt7622-spi' was expected
+   	'mediatek,mt2712-spi' was expected
+   	'mediatek,mt6765-spi' was expected
+   	'mediatek,spi-ipm' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: spi@1100a000 (mediatek,mt7623-spi): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: /spi@1100a000: failed to match any schema with compatible: ['mediatek,mt7623-spi', 'mediatek,mt2701-spi']
+>> arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: thermal@1100b000 (mediatek,mt7623-thermal): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt7623-thermal', 'mediatek,mt2701-thermal'] is too long
+   	'mediatek,mt7623-thermal' is not one of ['mediatek,mt2701-thermal', 'mediatek,mt2712-thermal', 'mediatek,mt7622-thermal', 'mediatek,mt7986-thermal', 'mediatek,mt8173-thermal', 'mediatek,mt8183-thermal', 'mediatek,mt8365-thermal']
+   	'mediatek,mt7623-thermal' is not one of ['mediatek,mt7981-thermal']
+   	'mediatek,mt7623-thermal' is not one of ['mediatek,mt8516-thermal']
+   	'mediatek,mt7986-thermal' was expected
+   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: thermal@1100b000 (mediatek,mt7623-thermal): Unevaluated properties are not allowed ('compatible', 'reset-names' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: /thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt7623-thermal', 'mediatek,mt2701-thermal']
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: serial@1100c000 (mediatek,mt7623-btif): clock-names:0: 'core' was expected
+--
+   	'mediatek,mt7623-spi' is not one of ['mediatek,mt7981-spi-ipm', 'mediatek,mt7986-spi-ipm', 'mediatek,mt7988-spi-quad', 'mediatek,mt7988-spi-single', 'mediatek,mt8188-spi-ipm']
+   	'mediatek,mt7623-spi' is not one of ['mediatek,mt2701-spi', 'mediatek,mt2712-spi', 'mediatek,mt6589-spi', 'mediatek,mt6765-spi', 'mediatek,mt6893-spi', 'mediatek,mt7622-spi', 'mediatek,mt8135-spi', 'mediatek,mt8173-spi', 'mediatek,mt8183-spi']
+   	'mediatek,mt7622-spi' was expected
+   	'mediatek,mt2712-spi' was expected
+   	'mediatek,mt6765-spi' was expected
+   	'mediatek,spi-ipm' was expected
+   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: spi@1100a000 (mediatek,mt7623-spi): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: /spi@1100a000: failed to match any schema with compatible: ['mediatek,mt7623-spi', 'mediatek,mt2701-spi']
+>> arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: thermal@1100b000 (mediatek,mt7623-thermal): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt7623-thermal', 'mediatek,mt2701-thermal'] is too long
+   	'mediatek,mt7623-thermal' is not one of ['mediatek,mt2701-thermal', 'mediatek,mt2712-thermal', 'mediatek,mt7622-thermal', 'mediatek,mt7986-thermal', 'mediatek,mt8173-thermal', 'mediatek,mt8183-thermal', 'mediatek,mt8365-thermal']
+   	'mediatek,mt7623-thermal' is not one of ['mediatek,mt7981-thermal']
+   	'mediatek,mt7623-thermal' is not one of ['mediatek,mt8516-thermal']
+   	'mediatek,mt7986-thermal' was expected
+   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: thermal@1100b000 (mediatek,mt7623-thermal): Unevaluated properties are not allowed ('compatible', 'reset-names' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: /thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt7623-thermal', 'mediatek,mt2701-thermal']
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: serial@1100c000 (mediatek,mt7623-btif): clock-names:0: 'core' was expected
 
 -- 
 0-DAY CI Kernel Test Service
