@@ -1,155 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7374213B590
-	for <oe-kbuild@lists.linux.dev>; Fri, 11 Jul 2025 22:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2386BFCE
+	for <oe-kbuild@lists.linux.dev>; Fri, 11 Jul 2025 22:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752272066; cv=none; b=T/f6YETMtHOrEB2s3xT59EWqIMNODnmaG8QXLV4Fe7Jpu8EaJFgILzBl6JnoDD3Z3w88/JeV1EVoIBmmCCgtHh+S/g8x1E4TOhr7uGD6NoHpee202o8gDdyJ0ZMf6tA+re6Ip8He7/O8FTpLUi0XWJJje+/Rr8vNH//CEN2hrqU=
+	t=1752273929; cv=none; b=G/Qpr3+mu85rsTRqVxsLAsbDtmSUgH2tU1/2KD9JBAe1m79jChplELaGaq0dj5uWcUBhDpDTzgtDJxRvebX13DZKUGa2PJLT35uSXaeN6xQD9XJ1dPY7yhHSDFTn7a7ZewFaA5kXmvYAQVbds7OBoDHgElH5UIcmMIsNSHYLMZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752272066; c=relaxed/simple;
-	bh=BVJEex1mHkR6VLJWTEa7IL8D+9sJWQvMWwFxruFuLUM=;
+	s=arc-20240116; t=1752273929; c=relaxed/simple;
+	bh=xto4VkAg6jyhQDEWIRf9Wpn7r391Utc6aLiRXpPJyC4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A6ZOXuGjXyNHhfXRLJvC9P7NPQw81ONpDjuIh5X9xl6W5QxBrpAlzNQC91iirpyR1W8Gi7c3lxK0Xfoe3/bAXXHBqfiTx+XvVIAMvSJbpiuxQ94xSZeni3seCcA2nrGBND21H4JkJP5J0W6r1h/Ra5QBuEkJ+9yUV8OGYF8VTFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R6GxxRkr; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=AInkVkiZd1pkbtEJqqG7RMaJtY3Un5xVQN4TaTuKT+F9hVBWG7gbVj1yIJpnr5rph0XM/fnxPwNMVTqNxuGk4K6ixcQmcZcubnvp8J/oYWQwOEdynY4+PKMNrAezp6qdZE5GKKwOqAe1RF8RrSy4gHyE24+MSza6sLocPuoj9so=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K4OwnAo3; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R6GxxRkr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K4OwnAo3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752272064; x=1783808064;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BVJEex1mHkR6VLJWTEa7IL8D+9sJWQvMWwFxruFuLUM=;
-  b=R6GxxRkr2k7TUbrQiRdjsGsT442cv4YFNzxTm4Sdti3Mq7fWlygmJy6q
-   /Dib+8dCe51CLWWx7thxoNHSHRUab1+dFck1DfABZrMYexc0yOJJo7y6f
-   oiP2MGxngLgTXX/a5S3NN86iZ63ptW/UsHjdpJ9K1QzBYM0A3Ke7iXKIg
-   4tH0VxMs20Ol/596kT1Jf3ca76OpWmhc6R7piBJ4uQIlBEHoOFY+a5UvS
-   8CJvnBW4HcjHMNwHShFLCrYBdTIwJTiGtnkcAHOWbx8Qd8gFTzzaqm9KZ
-   /AavQ5SxVOes0Wn45hrKsuWSn4x7NY1Z0+BjZE8ZeneZWU9HeuGtph8YV
-   A==;
-X-CSE-ConnectionGUID: 64CCdpx8QBWtwGncRF5EqQ==
-X-CSE-MsgGUID: lWq9WGudQ5GvuAhkoaL8LA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54660353"
+  t=1752273928; x=1783809928;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=xto4VkAg6jyhQDEWIRf9Wpn7r391Utc6aLiRXpPJyC4=;
+  b=K4OwnAo3gznq92djW7FCDlgNuCztFe+xbSxpvrXcYqaezvuPlxPZNALu
+   3dNVAuzh7iGDodx80B/o/KxLoNO8SB/60IDIr1Xb5Is36BQHuMqjwdcfb
+   B+kOO8TZ7iBGUwSVpJG8nNyGh0D0TK+ATrysaICWUVMF/dCFfbkdSuyqn
+   kUVcoiX2vD9ogJo9FAfIUE0PVI/FvZC0Z1tnGYtIkPR/JJ0CKfZtfAKVU
+   phTnCSgu4okz24shuFr2xoWMhLa1qlSkJglDrmaHqoDdfhcedlBPl6OFa
+   5GwWiuXqB5I4+NrbMjmHDqOblSJj0T+b7PqoTM4Pxaxs3WB8wWQBo0tCQ
+   g==;
+X-CSE-ConnectionGUID: bMVOd20dTre9dRkLVFEnnA==
+X-CSE-MsgGUID: EJNGCqQJTdexDzTtFZW1xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54445545"
 X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
-   d="scan'208";a="54660353"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 15:14:24 -0700
-X-CSE-ConnectionGUID: CH3VAezrRIivUKLje+yvxw==
-X-CSE-MsgGUID: dTKlokYZTDqUqBQSP1uizA==
+   d="scan'208";a="54445545"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 15:45:27 -0700
+X-CSE-ConnectionGUID: gNA+xwYoQ5+bpZ9/78OI8g==
+X-CSE-MsgGUID: rnpF2IXoQKyRwdr0c8bF/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
-   d="scan'208";a="162037529"
+   d="scan'208";a="187463828"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Jul 2025 15:14:22 -0700
+  by orviesa002.jf.intel.com with ESMTP; 11 Jul 2025 15:45:25 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uaM0a-0006qN-2J;
-	Fri, 11 Jul 2025 22:14:20 +0000
-Date: Sat, 12 Jul 2025 06:13:39 +0800
+	id 1uaMUd-0006rj-1b;
+	Fri, 11 Jul 2025 22:45:23 +0000
+Date: Sat, 12 Jul 2025 06:45:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH net-next v22 1/2] mailbox/pcc: support mailbox management
- of the shared buffer
-Message-ID: <202507120609.Myazax08-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH] dt-bindings: PCI: Convert apm,xgene-pcie to DT schema
+Message-ID: <202507120648.NsLN9DvQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250710191209.737167-2-admiyo@os.amperecomputing.com>
-References: <20250710191209.737167-2-admiyo@os.amperecomputing.com>
-TO: admiyo@os.amperecomputing.com
-TO: Sudeep Holla <sudeep.holla@arm.com>
-TO: Jassi Brar <jassisinghbrar@gmail.com>
-TO: Robert Moore <robert.moore@intel.com>
-TO: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-TO: Len Brown <lenb@kernel.org>
-CC: netdev@vger.kernel.org
+In-Reply-To: <20250710180749.2970379-1-robh@kernel.org>
+References: <20250710180749.2970379-1-robh@kernel.org>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+TO: Toan Le <toan@os.amperecomputing.com>
+TO: Bjorn Helgaas <helgaas@kernel.org>
+TO: Lorenzo Pieralisi <lpieralisi@kernel.org>
+TO: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+TO: Manivannan Sadhasivam <mani@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: linux-pci@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: Jeremy Kerr <jk@codeconstruct.com.au>
-CC: Matt Johnston <matt@codeconstruct.com.au>
-CC: "David S . Miller" <davem@davemloft.net>
-CC: Eric Dumazet <edumazet@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Huisong Li <lihuisong@huawei.com>
 
-Hi,
+Hi Rob,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.16-rc5 next-20250711]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mailbox-pcc-support-mailbox-management-of-the-shared-buffer/20250711-031525
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250710191209.737167-2-admiyo%40os.amperecomputing.com
-patch subject: [PATCH net-next v22 1/2] mailbox/pcc: support mailbox management of the shared buffer
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-config: x86_64-randconfig-161-20250711 (https://download.01.org/0day-ci/archive/20250712/202507120609.Myazax08-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-PCI-Convert-apm-xgene-pcie-to-DT-schema/20250711-021058
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250710180749.2970379-1-robh%40kernel.org
+patch subject: [PATCH] dt-bindings: PCI: Convert apm,xgene-pcie to DT schema
+:::::: branch date: 29 hours ago
+:::::: commit date: 29 hours ago
+config: arm64-randconfig-051-20250711 (https://download.01.org/0day-ci/archive/20250712/202507120648.NsLN9DvQ-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250712/202507120648.NsLN9DvQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507120609.Myazax08-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507120648.NsLN9DvQ-lkp@intel.com/
 
-smatch warnings:
-drivers/mailbox/pcc.c:498 pcc_send_data() error: uninitialized symbol 'ret'.
-
-vim +/ret +498 drivers/mailbox/pcc.c
-
-e332edef98ddac Adam Young         2025-07-10  476  
-e332edef98ddac Adam Young         2025-07-10  477  
-86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  478  /**
-33350e6b1833b1 Ashwin Chaugule    2015-01-27  479   * pcc_send_data - Called from Mailbox Controller code. Used
-33350e6b1833b1 Ashwin Chaugule    2015-01-27  480   *		here only to ring the channel doorbell. The PCC client
-33350e6b1833b1 Ashwin Chaugule    2015-01-27  481   *		specific read/write is done in the client driver in
-33350e6b1833b1 Ashwin Chaugule    2015-01-27  482   *		order to maintain atomicity over PCC channel once
-33350e6b1833b1 Ashwin Chaugule    2015-01-27  483   *		OS has control over it. See above for flow of operations.
-86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  484   * @chan: Pointer to Mailbox channel over which to send data.
-33350e6b1833b1 Ashwin Chaugule    2015-01-27  485   * @data: Client specific data written over channel. Used here
-33350e6b1833b1 Ashwin Chaugule    2015-01-27  486   *		only for debug after PCC transaction completes.
-86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  487   *
-86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  488   * Return: Err if something failed else 0 for success.
-86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  489   */
-86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  490  static int pcc_send_data(struct mbox_chan *chan, void *data)
-86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  491  {
-c45ded7e11352d Sudeep Holla       2021-09-17  492  	int ret;
-bf18123e78f4d1 Sudeep Holla       2021-09-17  493  	struct pcc_chan_info *pchan = chan->con_priv;
-e332edef98ddac Adam Young         2025-07-10  494  	struct acpi_pcct_ext_pcc_shared_memory __iomem *pcc_hdr;
-e332edef98ddac Adam Young         2025-07-10  495  
-e332edef98ddac Adam Young         2025-07-10  496  	if (pchan->chan.rx_alloc)
-e332edef98ddac Adam Young         2025-07-10  497  		ret = pcc_write_to_buffer(chan, data);
-e332edef98ddac Adam Young         2025-07-10 @498  	if (ret)
-e332edef98ddac Adam Young         2025-07-10  499  		return ret;
-8b0f57889843af Prakash, Prashanth 2016-02-17  500  
-c45ded7e11352d Sudeep Holla       2021-09-17  501  	ret = pcc_chan_reg_read_modify_write(&pchan->cmd_update);
-c45ded7e11352d Sudeep Holla       2021-09-17  502  	if (ret)
-c45ded7e11352d Sudeep Holla       2021-09-17  503  		return ret;
-c45ded7e11352d Sudeep Holla       2021-09-17  504  
-e332edef98ddac Adam Young         2025-07-10  505  	pcc_hdr = pchan->chan.shmem;
-e332edef98ddac Adam Young         2025-07-10  506  	if (ioread32(&pcc_hdr->flags) & PCC_CMD_COMPLETION_NOTIFY)
-e332edef98ddac Adam Young         2025-07-10  507  		pchan->chan.irq_ack = true;
-e332edef98ddac Adam Young         2025-07-10  508  
-3db174e478cb0b Huisong Li         2023-08-01  509  	ret = pcc_chan_reg_read_modify_write(&pchan->db);
-e332edef98ddac Adam Young         2025-07-10  510  
-3db174e478cb0b Huisong Li         2023-08-01  511  	if (!ret && pchan->plat_irq > 0)
-3db174e478cb0b Huisong Li         2023-08-01  512  		pchan->chan_in_use = true;
-3db174e478cb0b Huisong Li         2023-08-01  513  
-3db174e478cb0b Huisong Li         2023-08-01  514  	return ret;
-86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  515  }
-86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  516  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/pmu@78810000/pmuiob@7e940000: failed to match any schema with compatible: ['apm,xgene-pmu-iob']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/pmu@78810000/pmucmcb@7e710000: failed to match any schema with compatible: ['apm,xgene-pmu-mcb']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/pmu@78810000/pmucmcb@7e730000: failed to match any schema with compatible: ['apm,xgene-pmu-mcb']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/pmu@78810000/pmucmc@7e810000: failed to match any schema with compatible: ['apm,xgene-pmu-mc']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/pmu@78810000/pmucmc@7e850000: failed to match any schema with compatible: ['apm,xgene-pmu-mc']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/pmu@78810000/pmucmc@7e890000: failed to match any schema with compatible: ['apm,xgene-pmu-mc']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/pmu@78810000/pmucmc@7e8d0000: failed to match any schema with compatible: ['apm,xgene-pmu-mc']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/mailbox@10540000: failed to match any schema with compatible: ['apm,xgene-slimpro-mbox']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/i2cslimpro: failed to match any schema with compatible: ['apm,xgene-slimpro-i2c']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/hwmonslimpro: failed to match any schema with compatible: ['apm,xgene-slimpro-hwmon']
+>> arch/arm64/boot/dts/apm/apm-merlin.dtb: pcie@1f2b0000 (apm,xgene-pcie): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apm,xgene-pcie', 'apm,xgene2-pcie'] is too long
+   	'apm,xgene-storm-pcie' was expected
+   	'apm,xgene-pcie' was expected
+   	from schema $id: http://devicetree.org/schemas/pci/apm,xgene-pcie.yaml#
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/pcie@1f2b0000: failed to match any schema with compatible: ['apm,xgene-pcie', 'apm,xgene2-pcie']
+>> arch/arm64/boot/dts/apm/apm-merlin.dtb: pcie@1f2c0000 (apm,xgene-pcie): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['apm,xgene-pcie', 'apm,xgene2-pcie'] is too long
+   	'apm,xgene-storm-pcie' was expected
+   	'apm,xgene-pcie' was expected
+   	from schema $id: http://devicetree.org/schemas/pci/apm,xgene-pcie.yaml#
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/pcie@1f2c0000: failed to match any schema with compatible: ['apm,xgene-pcie', 'apm,xgene2-pcie']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/sata@1a000000: failed to match any schema with compatible: ['apm,xgene-ahci-v2']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/sata@1a200000: failed to match any schema with compatible: ['apm,xgene-ahci-v2']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/sata@1a400000: failed to match any schema with compatible: ['apm,xgene-ahci-v2']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: mmc@1c000000 (arasan,sdhci-4.9a): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
