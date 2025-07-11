@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF63625
-	for <oe-kbuild@lists.linux.dev>; Fri, 11 Jul 2025 03:21:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEC7198E8C
+	for <oe-kbuild@lists.linux.dev>; Fri, 11 Jul 2025 03:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752204095; cv=none; b=R7VNJUi2XG7RLOfLApCGGJ+Azw+w1qjyBVASAL1q92H3DRVUk3MdgM39kycZfTaGFUTq/3HRIQ8AENOxAEp8eo9Du2uHoPVsIwj82n0lAVHwpR2E+5VcVWOCa00zgg/CFw4CHmm9fOI4v8OR597CNk8dieLNfSbRCmeAmrFxIpM=
+	t=1752205357; cv=none; b=A8Vc2ZgNFFY9fF29d/pg8KkK7Py06eijQWHqwRZ0ENs7ATlyelXFn+wPvQW/HMWGj4pfaYquhXKrTBvsrlOTbPr9YTVa6OhZ6BOwLiTXce3+DwHlSa/BE+hI0BI7ZBcSRiMUpE/Loq9iGLgpDcYNs3+6vOJ1SCh7scSpZNrqdDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752204095; c=relaxed/simple;
-	bh=0TsEy1wY1vAH+q2lKzmXEHKlV9sbIPd5JoTYQS2/jb4=;
+	s=arc-20240116; t=1752205357; c=relaxed/simple;
+	bh=z1idD4R34Nh9QVtJivlkFdtb8J3nOPfgheYSJmrK+o8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RM2onhdjt5EQvH1jCjDFrQ0f5wsco78h66nVa1PkrV98PApGvqdFrpqI4d9R0Bb5YzbWaPXLeTZIlLml6sf5N6/RE8BOoKtKxbrWuN+6ibUG2V4+/UHDiJIZjjd7dLBBXNKhn+wzsr77y3H/VqNFgfk+WbQj89gOyK6SeDbvHkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RQ4xQqnY; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=aU18i6CJFVcr+l1d/NcdndGkUQsUbZoHLDIJmgbjtbK4AAhhqA25F6961fT50MhE8EITKZdHERk7hHiB5iaG3F+Ty3QOC9IdySwmWotB8tsTYhuWIJmmy4xaKNm41x5E9CwxrCFm0qAuxpL1tJCdDkyfgJiKR8q642mi/7rFU+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUAGY396; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RQ4xQqnY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUAGY396"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752204094; x=1783740094;
+  t=1752205356; x=1783741356;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0TsEy1wY1vAH+q2lKzmXEHKlV9sbIPd5JoTYQS2/jb4=;
-  b=RQ4xQqnY/y84+/LJkVB/K+FLlRScIoMPhaflvhYCOHZgiUhetom3WT53
-   s99IcwWP4MGf4ewjnuFTS6zxed2zpEAl3N/ItTJ3po4Ymtz5TWTSQBgbG
-   o4p09P+hA6LyoMP/9P5+ihEII2skX+ugdA1Dyt3pCSYAlbWTZLqnzDeIq
-   4NggVOR6kgVeh6RH7KjfnrryqREAMYVEsor3XUdasucT2TGwzomysB0Ht
-   zi9dC2pL1hI82fWTi8E3T/S7C+w9qkSiBy4B6c4X5tNOYrtLUbwGrX0cN
-   1Hp39mB5sSp69OjghBVU1RafXKy4Y3x7lHZVeTpJL7BkRC+CBE9cvPj78
-   A==;
-X-CSE-ConnectionGUID: yNneNVqfQVGgRzrxuKIeIQ==
-X-CSE-MsgGUID: 7uadUaijS924+oH1gdZ/Fw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="42130727"
+  bh=z1idD4R34Nh9QVtJivlkFdtb8J3nOPfgheYSJmrK+o8=;
+  b=lUAGY396a4Qpt7tBI+ZU3bH0A1KKz6g4SzKendeee0Gvug4Wh7p3eope
+   rNt8mm6uDyiRb9K/Pig4sPbKLS4FiecCnQE3Rbmd6z8Ixc4r37JZ1Pz/F
+   uUEBV+bYcvxQcC8mlqL2hKY2rOgdtLDuSfHnANnlG+41UFeXaoChsS2kT
+   pmvJY7vyiTZSm3I0w/FZTCsTOyJnZutGYXA4z4RpmhvUQEM/7MC1s5U3z
+   SWpm7Lzok7D8KFYi0zMTYUmhTw3tL0hul2k0ANF0DNaP7a/Pkx5YcT0pp
+   CpbQJQsOYBtBYzOOHwG7rQpVoRwxu09IfFd09gtq48JWJZHzbXN9rg3tb
+   w==;
+X-CSE-ConnectionGUID: rQToeN8AQhCuvS7ExhSCYQ==
+X-CSE-MsgGUID: UiQPA3mcTtKD39qe2WnI+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="65948401"
 X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="42130727"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 20:21:34 -0700
-X-CSE-ConnectionGUID: N0sZpngHQo+wFbnpHIBrSg==
-X-CSE-MsgGUID: pDANmRmHRzSekN1RVRKPCw==
+   d="scan'208";a="65948401"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 20:42:35 -0700
+X-CSE-ConnectionGUID: 2bjpcO+7SDmK6/qR7mOZ3w==
+X-CSE-MsgGUID: 62h81evrRNu1+t1sExKAoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="155678183"
+   d="scan'208";a="160566956"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 10 Jul 2025 20:21:32 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 10 Jul 2025 20:42:34 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ua4KH-0005o7-0x;
-	Fri, 11 Jul 2025 03:21:29 +0000
-Date: Fri, 11 Jul 2025 11:20:43 +0800
+	id 1ua4ed-0005qP-2Q;
+	Fri, 11 Jul 2025 03:42:31 +0000
+Date: Fri, 11 Jul 2025 11:42:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 4/4] arm64: dts: allwinner: a523: Add power controller
- device nodes
-Message-ID: <202507111143.btqojKRy-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v5 5/8] mm/shmem, swap: never use swap cache and
+ readahead for SWP_SYNCHRONOUS_IO
+Message-ID: <202507111152.CvHfG444-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,81 +62,126 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250709155343.3765227-5-wens@kernel.org>
-References: <20250709155343.3765227-5-wens@kernel.org>
-TO: "Chen-Yu Tsai" <wens@kernel.org>
-TO: "Chen-Yu Tsai" <wens@csie.org>
-TO: Jernej Skrabec <jernej@kernel.org>
-TO: Samuel Holland <samuel@sholland.org>
-TO: Ulf Hansson <ulf.hansson@linaro.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: linux-sunxi@lists.linux.dev
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-pm@vger.kernel.org
-CC: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20250710033706.71042-6-ryncsn@gmail.com>
+References: <20250710033706.71042-6-ryncsn@gmail.com>
+TO: Kairui Song <ryncsn@gmail.com>
 
-Hi Chen-Yu,
+Hi Kairui,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on sunxi/sunxi/for-next]
-[also build test ERROR on robh/for-next linus/master v6.16-rc5 next-20250710]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/dt-bindings-power-Add-A523-PPU-and-PCK600-power-controllers/20250709-235554
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/20250709155343.3765227-5-wens%40kernel.org
-patch subject: [PATCH v2 4/4] arm64: dts: allwinner: a523: Add power controller device nodes
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
-config: arm64-randconfig-003-20250711 (https://download.01.org/0day-ci/archive/20250711/202507111143.btqojKRy-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507111143.btqojKRy-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/mm-shmem-swap-improve-cached-mTHP-handling-and-fix-potential-hung/20250710-114401
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250710033706.71042-6-ryncsn%40gmail.com
+patch subject: [PATCH v5 5/8] mm/shmem, swap: never use swap cache and readahead for SWP_SYNCHRONOUS_IO
+:::::: branch date: 24 hours ago
+:::::: commit date: 24 hours ago
+config: i386-randconfig-141-20250711 (https://download.01.org/0day-ci/archive/20250711/202507111152.CvHfG444-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507111143.btqojKRy-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507111152.CvHfG444-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+mm/shmem.c:2057 shmem_swap_alloc_folio() error: uninitialized symbol 'new'.
 
-   In file included from arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts:8:
->> arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:11:10: fatal error: dt-bindings/power/allwinner,sun55i-a523-pck600.h: No such file or directory
-      11 | #include <dt-bindings/power/allwinner,sun55i-a523-pck600.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+vim +/new +2057 mm/shmem.c
 
-dtcheck warnings: (new ones prefixed by >>)
->> In file included from arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts:8:
-   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:11:10: fatal error: dt-bindings/power/allwinner,sun55i-a523-pck600.h: No such file or directory
-      11 | #include <dt-bindings/power/allwinner,sun55i-a523-pck600.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
-
-vim +11 arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-
-35ac96f79664934 Andre Przywara 2025-03-07   3  
-35ac96f79664934 Andre Przywara 2025-03-07   4  #include <dt-bindings/interrupt-controller/arm-gic.h>
-35ac96f79664934 Andre Przywara 2025-03-07   5  #include <dt-bindings/clock/sun6i-rtc.h>
-35ac96f79664934 Andre Przywara 2025-03-07   6  #include <dt-bindings/clock/sun55i-a523-ccu.h>
-35ac96f79664934 Andre Przywara 2025-03-07   7  #include <dt-bindings/clock/sun55i-a523-r-ccu.h>
-35ac96f79664934 Andre Przywara 2025-03-07   8  #include <dt-bindings/reset/sun55i-a523-ccu.h>
-35ac96f79664934 Andre Przywara 2025-03-07   9  #include <dt-bindings/reset/sun55i-a523-r-ccu.h>
-18c9bae1ae810c6 Chen-Yu Tsai   2025-07-09  10  #include <dt-bindings/power/allwinner,sun55i-a523-ppu.h>
-18c9bae1ae810c6 Chen-Yu Tsai   2025-07-09 @11  #include <dt-bindings/power/allwinner,sun55i-a523-pck600.h>
-35ac96f79664934 Andre Przywara 2025-03-07  12  
+71fe804b6d56d6 Lee Schermerhorn 2008-04-28  1977  
+1dd44c0af4fa1e Baolin Wang      2025-01-08  1978  static struct folio *shmem_swap_alloc_folio(struct inode *inode,
+1dd44c0af4fa1e Baolin Wang      2025-01-08  1979  		struct vm_area_struct *vma, pgoff_t index,
+1dd44c0af4fa1e Baolin Wang      2025-01-08  1980  		swp_entry_t entry, int order, gfp_t gfp)
+1dd44c0af4fa1e Baolin Wang      2025-01-08  1981  {
+1dd44c0af4fa1e Baolin Wang      2025-01-08  1982  	struct shmem_inode_info *info = SHMEM_I(inode);
+f76a88a3a78d9c Kairui Song      2025-07-10  1983  	int nr_pages = 1 << order;
+1dd44c0af4fa1e Baolin Wang      2025-01-08  1984  	struct folio *new;
+e04738282a444e Kairui Song      2025-07-10  1985  	gfp_t alloc_gfp;
+1dd44c0af4fa1e Baolin Wang      2025-01-08  1986  	void *shadow;
+1dd44c0af4fa1e Baolin Wang      2025-01-08  1987  
+1dd44c0af4fa1e Baolin Wang      2025-01-08  1988  	/*
+1dd44c0af4fa1e Baolin Wang      2025-01-08  1989  	 * We have arrived here because our zones are constrained, so don't
+1dd44c0af4fa1e Baolin Wang      2025-01-08  1990  	 * limit chance of success with further cpuset and node constraints.
+1dd44c0af4fa1e Baolin Wang      2025-01-08  1991  	 */
+1dd44c0af4fa1e Baolin Wang      2025-01-08  1992  	gfp &= ~GFP_CONSTRAINT_MASK;
+e04738282a444e Kairui Song      2025-07-10  1993  	alloc_gfp = gfp;
+f76a88a3a78d9c Kairui Song      2025-07-10  1994  	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
+f76a88a3a78d9c Kairui Song      2025-07-10  1995  		if (WARN_ON_ONCE(order))
+f76a88a3a78d9c Kairui Song      2025-07-10  1996  			return ERR_PTR(-EINVAL);
+f76a88a3a78d9c Kairui Song      2025-07-10  1997  	} else if (order) {
+f76a88a3a78d9c Kairui Song      2025-07-10  1998  		/*
+f76a88a3a78d9c Kairui Song      2025-07-10  1999  		 * If uffd is active for the vma, we need per-page fault
+f76a88a3a78d9c Kairui Song      2025-07-10  2000  		 * fidelity to maintain the uffd semantics, then fallback
+f76a88a3a78d9c Kairui Song      2025-07-10  2001  		 * to swapin order-0 folio, as well as for zswap case.
+f76a88a3a78d9c Kairui Song      2025-07-10  2002  		 * Any existing sub folio in the swap cache also blocks
+f76a88a3a78d9c Kairui Song      2025-07-10  2003  		 * mTHP swapin.
+f76a88a3a78d9c Kairui Song      2025-07-10  2004  		 */
+f76a88a3a78d9c Kairui Song      2025-07-10  2005  		if ((vma && unlikely(userfaultfd_armed(vma))) ||
+f76a88a3a78d9c Kairui Song      2025-07-10  2006  		     !zswap_never_enabled() ||
+f76a88a3a78d9c Kairui Song      2025-07-10  2007  		     non_swapcache_batch(entry, nr_pages) != nr_pages)
+e04738282a444e Kairui Song      2025-07-10  2008  			goto fallback;
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2009  
+e04738282a444e Kairui Song      2025-07-10  2010  		alloc_gfp = limit_gfp_mask(vma_thp_gfp_mask(vma), gfp);
+e04738282a444e Kairui Song      2025-07-10  2011  	}
+e04738282a444e Kairui Song      2025-07-10  2012  retry:
+e04738282a444e Kairui Song      2025-07-10  2013  	new = shmem_alloc_folio(alloc_gfp, order, info, index);
+e04738282a444e Kairui Song      2025-07-10  2014  	if (!new) {
+e04738282a444e Kairui Song      2025-07-10  2015  		new = ERR_PTR(-ENOMEM);
+e04738282a444e Kairui Song      2025-07-10  2016  		goto fallback;
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2017  	}
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2018  
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2019  	if (mem_cgroup_swapin_charge_folio(new, vma ? vma->vm_mm : NULL,
+e04738282a444e Kairui Song      2025-07-10  2020  					   alloc_gfp, entry)) {
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2021  		folio_put(new);
+e04738282a444e Kairui Song      2025-07-10  2022  		new = ERR_PTR(-ENOMEM);
+e04738282a444e Kairui Song      2025-07-10  2023  		goto fallback;
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2024  	}
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2025  
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2026  	/*
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2027  	 * Prevent parallel swapin from proceeding with the swap cache flag.
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2028  	 *
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2029  	 * Of course there is another possible concurrent scenario as well,
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2030  	 * that is to say, the swap cache flag of a large folio has already
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2031  	 * been set by swapcache_prepare(), while another thread may have
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2032  	 * already split the large swap entry stored in the shmem mapping.
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2033  	 * In this case, shmem_add_to_page_cache() will help identify the
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2034  	 * concurrent swapin and return -EEXIST.
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2035  	 */
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2036  	if (swapcache_prepare(entry, nr_pages)) {
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2037  		folio_put(new);
+e04738282a444e Kairui Song      2025-07-10  2038  		new = ERR_PTR(-EEXIST);
+e04738282a444e Kairui Song      2025-07-10  2039  		/* Try smaller folio to avoid cache conflict */
+e04738282a444e Kairui Song      2025-07-10  2040  		goto fallback;
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2041  	}
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2042  
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2043  	__folio_set_locked(new);
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2044  	__folio_set_swapbacked(new);
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2045  	new->swap = entry;
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2046  
+89ce924f0bd447 Johannes Weiner  2025-01-24  2047  	memcg1_swapin(entry, nr_pages);
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2048  	shadow = get_shadow_from_swap_cache(entry);
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2049  	if (shadow)
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2050  		workingset_refault(new, shadow);
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2051  	folio_add_lru(new);
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2052  	swap_read_folio(new, NULL);
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2053  	return new;
+e04738282a444e Kairui Song      2025-07-10  2054  fallback:
+e04738282a444e Kairui Song      2025-07-10  2055  	/* Order 0 swapin failed, nothing to fallback to, abort */
+e04738282a444e Kairui Song      2025-07-10  2056  	if (!order)
+e04738282a444e Kairui Song      2025-07-10 @2057  		return new;
+e04738282a444e Kairui Song      2025-07-10  2058  	entry.val += index - round_down(index, nr_pages);
+e04738282a444e Kairui Song      2025-07-10  2059  	alloc_gfp = gfp;
+e04738282a444e Kairui Song      2025-07-10  2060  	nr_pages = 1;
+e04738282a444e Kairui Song      2025-07-10  2061  	order = 0;
+e04738282a444e Kairui Song      2025-07-10  2062  	goto retry;
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2063  }
+1dd44c0af4fa1e Baolin Wang      2025-01-08  2064  
 
 -- 
 0-DAY CI Kernel Test Service
