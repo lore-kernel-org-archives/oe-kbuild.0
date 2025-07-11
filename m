@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F761B3939
-	for <oe-kbuild@lists.linux.dev>; Fri, 11 Jul 2025 20:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7374213B590
+	for <oe-kbuild@lists.linux.dev>; Fri, 11 Jul 2025 22:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752265757; cv=none; b=JPTr+xSeALiI7Ogon+5ohcW6c5F05LMQTKfkbVNULTiUvlFhMeOBqYCdfQ5fh5fUoqakF752qHM75a7CR/N0ZX0ryMlXmSv9nNlBeSRtkvVvitoMatMbtaN2LnsGA4y+/bPjfOt7w7h/xW2BkB2SEynHvw42X/yDWvPhI9Mkq/U=
+	t=1752272066; cv=none; b=T/f6YETMtHOrEB2s3xT59EWqIMNODnmaG8QXLV4Fe7Jpu8EaJFgILzBl6JnoDD3Z3w88/JeV1EVoIBmmCCgtHh+S/g8x1E4TOhr7uGD6NoHpee202o8gDdyJ0ZMf6tA+re6Ip8He7/O8FTpLUi0XWJJje+/Rr8vNH//CEN2hrqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752265757; c=relaxed/simple;
-	bh=tNVC9KLVJ/AmTJ1m2eTfsbE9eFyyM37iSMVI3Aa4TZ4=;
+	s=arc-20240116; t=1752272066; c=relaxed/simple;
+	bh=BVJEex1mHkR6VLJWTEa7IL8D+9sJWQvMWwFxruFuLUM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hs1E9znVZLd5IyLLBeJ8QmCUNlhnEz19sTJxoMgZ2Cziys2wGWVFnnxJuiuuH8VdLrSNfWK6DPldBYoxlRAcwvaqFl+LvgUbshfEUo099XLw0w3gZv/S1JzuwVtG5+UVbeznsHTU8hVPbIIcV6E/4L6s0RD1wIKT4vdj0EpMaiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tc+IFTGY; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=A6ZOXuGjXyNHhfXRLJvC9P7NPQw81ONpDjuIh5X9xl6W5QxBrpAlzNQC91iirpyR1W8Gi7c3lxK0Xfoe3/bAXXHBqfiTx+XvVIAMvSJbpiuxQ94xSZeni3seCcA2nrGBND21H4JkJP5J0W6r1h/Ra5QBuEkJ+9yUV8OGYF8VTFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R6GxxRkr; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tc+IFTGY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R6GxxRkr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752265756; x=1783801756;
+  t=1752272064; x=1783808064;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tNVC9KLVJ/AmTJ1m2eTfsbE9eFyyM37iSMVI3Aa4TZ4=;
-  b=Tc+IFTGY5dkKaHJCDVo+wcLeDXlbgG/Wb4PbzqNhad/1SciuU3fViuhQ
-   qkxpo9DSqSOS91gqvU/MCvCW1drqyYZe6jnriWAw7Cn6Fn0yiK4pJQG1d
-   6XU+ej7Z45n0GX+mBAo0H4hlpLibvvoVITRR7dFW8yovC7Up2cY6DAkFP
-   yD93npKoZ/MaIUsslRTKloKr1a/lb5aG0TSz5SFkOyjIvIiAKo/dWdIH6
-   EW28WlFNfy+1xuIhHah84I/x5lJStiKaZYAntvVWTr8JdiF2TRd5yXEZB
-   nH0au+Be+PKC/niEFg/JPffKnPASvadUbFScZW92jnf8DWvQxVVa4yYTH
-   Q==;
-X-CSE-ConnectionGUID: /He/u3kaS9akJaYVcinhyw==
-X-CSE-MsgGUID: H+QTHau5SimuvycbVuFHDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="53788901"
+  bh=BVJEex1mHkR6VLJWTEa7IL8D+9sJWQvMWwFxruFuLUM=;
+  b=R6GxxRkr2k7TUbrQiRdjsGsT442cv4YFNzxTm4Sdti3Mq7fWlygmJy6q
+   /Dib+8dCe51CLWWx7thxoNHSHRUab1+dFck1DfABZrMYexc0yOJJo7y6f
+   oiP2MGxngLgTXX/a5S3NN86iZ63ptW/UsHjdpJ9K1QzBYM0A3Ke7iXKIg
+   4tH0VxMs20Ol/596kT1Jf3ca76OpWmhc6R7piBJ4uQIlBEHoOFY+a5UvS
+   8CJvnBW4HcjHMNwHShFLCrYBdTIwJTiGtnkcAHOWbx8Qd8gFTzzaqm9KZ
+   /AavQ5SxVOes0Wn45hrKsuWSn4x7NY1Z0+BjZE8ZeneZWU9HeuGtph8YV
+   A==;
+X-CSE-ConnectionGUID: 64CCdpx8QBWtwGncRF5EqQ==
+X-CSE-MsgGUID: lWq9WGudQ5GvuAhkoaL8LA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54660353"
 X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
-   d="scan'208";a="53788901"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 13:29:15 -0700
-X-CSE-ConnectionGUID: J6W5DaPZSO2QmfN7zZwgqw==
-X-CSE-MsgGUID: T1wd4cUdToq7GhDfAId4NQ==
+   d="scan'208";a="54660353"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 15:14:24 -0700
+X-CSE-ConnectionGUID: CH3VAezrRIivUKLje+yvxw==
+X-CSE-MsgGUID: dTKlokYZTDqUqBQSP1uizA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
-   d="scan'208";a="156936139"
+   d="scan'208";a="162037529"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 11 Jul 2025 13:29:13 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 11 Jul 2025 15:14:22 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uaKMp-0006lr-22;
-	Fri, 11 Jul 2025 20:29:11 +0000
-Date: Sat, 12 Jul 2025 04:28:54 +0800
+	id 1uaM0a-0006qN-2J;
+	Fri, 11 Jul 2025 22:14:20 +0000
+Date: Sat, 12 Jul 2025 06:13:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [akpm-mm:mm-new 203/214] mm/mremap.c:1829 remap_move() error:
- uninitialized symbol 'last_end'.
-Message-ID: <202507120401.DCzwzjow-lkp@intel.com>
+Subject: Re: [PATCH net-next v22 1/2] mailbox/pcc: support mailbox management
+ of the shared buffer
+Message-ID: <202507120609.Myazax08-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,108 +64,92 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+In-Reply-To: <20250710191209.737167-2-admiyo@os.amperecomputing.com>
+References: <20250710191209.737167-2-admiyo@os.amperecomputing.com>
+TO: admiyo@os.amperecomputing.com
+TO: Sudeep Holla <sudeep.holla@arm.com>
+TO: Jassi Brar <jassisinghbrar@gmail.com>
+TO: Robert Moore <robert.moore@intel.com>
+TO: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+TO: Len Brown <lenb@kernel.org>
+CC: netdev@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Jeremy Kerr <jk@codeconstruct.com.au>
+CC: Matt Johnston <matt@codeconstruct.com.au>
+CC: "David S . Miller" <davem@davemloft.net>
+CC: Eric Dumazet <edumazet@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Paolo Abeni <pabeni@redhat.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Huisong Li <lihuisong@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   9911a6d0676c211ea4df7eb8fe82ee6a0bb64fb4
-commit: f1d4bfd28bb6e2e82f5fc58c7a0e17b7e15bba29 [203/214] mm/mremap: permit mremap() move of multiple VMAs
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: x86_64-randconfig-161-20250711 (https://download.01.org/0day-ci/archive/20250712/202507120401.DCzwzjow-lkp@intel.com/config)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mailbox-pcc-support-mailbox-management-of-the-shared-buffer/20250711-031525
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250710191209.737167-2-admiyo%40os.amperecomputing.com
+patch subject: [PATCH net-next v22 1/2] mailbox/pcc: support mailbox management of the shared buffer
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: x86_64-randconfig-161-20250711 (https://download.01.org/0day-ci/archive/20250712/202507120609.Myazax08-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507120401.DCzwzjow-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507120609.Myazax08-lkp@intel.com/
 
 smatch warnings:
-mm/mremap.c:1829 remap_move() error: uninitialized symbol 'last_end'.
+drivers/mailbox/pcc.c:498 pcc_send_data() error: uninitialized symbol 'ret'.
 
-vim +/last_end +1829 mm/mremap.c
+vim +/ret +498 drivers/mailbox/pcc.c
 
-97f50f9adaa533 Lorenzo Stoakes 2025-07-10  1784  
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1785  static unsigned long remap_move(struct vma_remap_struct *vrm)
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1786  {
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1787  	struct vm_area_struct *vma;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1788  	unsigned long start = vrm->addr;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1789  	unsigned long end = vrm->addr + vrm->old_len;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1790  	unsigned long new_addr = vrm->new_addr;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1791  	unsigned long prev_addr = start;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1792  	VMA_ITERATOR(vmi, current->mm, start);
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1793  	unsigned long res = -EFAULT;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1794  	unsigned long last_end;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1795  
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1796  	/*
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1797  	 * When moving VMAs we allow for batched moves across multiple VMAs,
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1798  	 * with all VMAs in the input range [addr, addr + old_len) being moved
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1799  	 * (and split as necessary).
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1800  	 */
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1801  	for_each_vma_range(vmi, vma, end) {
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1802  		/* Account for start, end not aligned with VMA start, end. */
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1803  		unsigned long addr = max(vma->vm_start, start);
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1804  		unsigned long len = min(end, vma->vm_end) - addr;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1805  		unsigned long offset, res_vma;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1806  
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1807  		/* Merged with self, move on. */
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1808  		if (vrm->multi_vma && prev_addr == addr)
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1809  			continue;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1810  
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1811  		/*
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1812  		 * To sensibly move multiple VMAs, accounting for the fact that
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1813  		 * get_unmapped_area() may align even MAP_FIXED moves, we simply
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1814  		 * attempt to move such that the gaps between source VMAs remain
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1815  		 * consistent in destination VMAs, e.g.:
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1816  		 *
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1817  		 *           X        Y                       X        Y
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1818  		 *         <--->     <->                    <--->     <->
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1819  		 * |-------|   |-----| |-----|      |-------|   |-----| |-----|
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1820  		 * |   A   |   |  B  | |  C  | ---> |   A'  |   |  B' | |  C' |
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1821  		 * |-------|   |-----| |-----|      |-------|   |-----| |-----|
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1822  		 *                               new_addr
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1823  		 *
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1824  		 * Now, new_addr may be altered even with MREMAP_FIXED set, due
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1825  		 * to e.g. alignment changes from get_unmapped_area().
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1826  		 *
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1827  		 * So we map B' at A'->vm_end + X, and C' at B'->vm_end + Y.
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1828  		 */
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10 @1829  		offset = vrm->multi_vma ? vma->vm_start - last_end : 0;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1830  		last_end = vma->vm_end;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1831  
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1832  		vrm->vma = vma;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1833  		vrm->addr = addr;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1834  		vrm->new_addr = new_addr + offset;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1835  		vrm->old_len = vrm->new_len = len;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1836  
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1837  		res_vma = check_prep_vma(vrm);
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1838  		if (!res_vma)
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1839  			res_vma = mremap_to(vrm);
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1840  		if (IS_ERR_VALUE(res_vma))
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1841  			return res_vma;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1842  
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1843  		/* mmap lock is only dropped on shrink. */
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1844  		VM_WARN_ON_ONCE(!vrm->mmap_locked);
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1845  		/* This is a move, no expand should occur. */
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1846  		VM_WARN_ON_ONCE(vrm->populate_expand);
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1847  
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1848  		if (!vrm->multi_vma)
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1849  			res = res_vma;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1850  
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1851  		if (vrm->vmi_needs_reset) {
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1852  			vma_iter_reset(&vmi);
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1853  			vrm->vmi_needs_reset = false;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1854  		}
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1855  		vrm->multi_vma = true;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1856  		prev_addr = addr;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1857  		new_addr = res_vma + vrm->new_len;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1858  	}
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1859  
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1860  	return res;
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1861  }
-f1d4bfd28bb6e2 Lorenzo Stoakes 2025-07-10  1862  
+e332edef98ddac Adam Young         2025-07-10  476  
+e332edef98ddac Adam Young         2025-07-10  477  
+86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  478  /**
+33350e6b1833b1 Ashwin Chaugule    2015-01-27  479   * pcc_send_data - Called from Mailbox Controller code. Used
+33350e6b1833b1 Ashwin Chaugule    2015-01-27  480   *		here only to ring the channel doorbell. The PCC client
+33350e6b1833b1 Ashwin Chaugule    2015-01-27  481   *		specific read/write is done in the client driver in
+33350e6b1833b1 Ashwin Chaugule    2015-01-27  482   *		order to maintain atomicity over PCC channel once
+33350e6b1833b1 Ashwin Chaugule    2015-01-27  483   *		OS has control over it. See above for flow of operations.
+86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  484   * @chan: Pointer to Mailbox channel over which to send data.
+33350e6b1833b1 Ashwin Chaugule    2015-01-27  485   * @data: Client specific data written over channel. Used here
+33350e6b1833b1 Ashwin Chaugule    2015-01-27  486   *		only for debug after PCC transaction completes.
+86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  487   *
+86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  488   * Return: Err if something failed else 0 for success.
+86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  489   */
+86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  490  static int pcc_send_data(struct mbox_chan *chan, void *data)
+86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  491  {
+c45ded7e11352d Sudeep Holla       2021-09-17  492  	int ret;
+bf18123e78f4d1 Sudeep Holla       2021-09-17  493  	struct pcc_chan_info *pchan = chan->con_priv;
+e332edef98ddac Adam Young         2025-07-10  494  	struct acpi_pcct_ext_pcc_shared_memory __iomem *pcc_hdr;
+e332edef98ddac Adam Young         2025-07-10  495  
+e332edef98ddac Adam Young         2025-07-10  496  	if (pchan->chan.rx_alloc)
+e332edef98ddac Adam Young         2025-07-10  497  		ret = pcc_write_to_buffer(chan, data);
+e332edef98ddac Adam Young         2025-07-10 @498  	if (ret)
+e332edef98ddac Adam Young         2025-07-10  499  		return ret;
+8b0f57889843af Prakash, Prashanth 2016-02-17  500  
+c45ded7e11352d Sudeep Holla       2021-09-17  501  	ret = pcc_chan_reg_read_modify_write(&pchan->cmd_update);
+c45ded7e11352d Sudeep Holla       2021-09-17  502  	if (ret)
+c45ded7e11352d Sudeep Holla       2021-09-17  503  		return ret;
+c45ded7e11352d Sudeep Holla       2021-09-17  504  
+e332edef98ddac Adam Young         2025-07-10  505  	pcc_hdr = pchan->chan.shmem;
+e332edef98ddac Adam Young         2025-07-10  506  	if (ioread32(&pcc_hdr->flags) & PCC_CMD_COMPLETION_NOTIFY)
+e332edef98ddac Adam Young         2025-07-10  507  		pchan->chan.irq_ack = true;
+e332edef98ddac Adam Young         2025-07-10  508  
+3db174e478cb0b Huisong Li         2023-08-01  509  	ret = pcc_chan_reg_read_modify_write(&pchan->db);
+e332edef98ddac Adam Young         2025-07-10  510  
+3db174e478cb0b Huisong Li         2023-08-01  511  	if (!ret && pchan->plat_irq > 0)
+3db174e478cb0b Huisong Li         2023-08-01  512  		pchan->chan_in_use = true;
+3db174e478cb0b Huisong Li         2023-08-01  513  
+3db174e478cb0b Huisong Li         2023-08-01  514  	return ret;
+86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  515  }
+86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  516  
 
 -- 
 0-DAY CI Kernel Test Service
