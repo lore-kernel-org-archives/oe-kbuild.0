@@ -1,68 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EE118DB02
-	for <oe-kbuild@lists.linux.dev>; Mon, 14 Jul 2025 00:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4101E487
+	for <oe-kbuild@lists.linux.dev>; Mon, 14 Jul 2025 05:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752454304; cv=none; b=czp9+hlKmFLckjTIsuyWyTDGVJZhPuNvLzYMz2FAjYZ/8TePlj3DAUMcZjp1/9kfZOwdzUS0yQ5Y2WVXFXgEsUSUGKU5SsGNKwObFJD55Bfx+o9maueq19u8hHjjNOxzCBTgpEZjycMTgrzcId52Uri/2LWo9+9JIS4onlnTIqo=
+	t=1752470232; cv=none; b=HWgMvr5D4etM1uZtXyW/vcW4sWuZAQzxnyxNBIPrSvKiLbcYE1cxrFYIy7j0dSxmkhmUSNhO0js7hkDfPoaISngQmQj4xk2zq7RBkviwmeSrZ/lP2kghaeQQwaU6UtQLeAiO/8KhLUWuO/HvhWEVisjqSh9QHXgQlT7jgL+9QCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752454304; c=relaxed/simple;
-	bh=mfYHsOcLz6ZyyfgcLLOaxjAQcNIuHATs5V+78kxWo+A=;
+	s=arc-20240116; t=1752470232; c=relaxed/simple;
+	bh=9K9USRMurtlinpUKejy4nfM3poxKvwxtaM58WaCFQk8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Vl2g8PTUn5UdJG/Eb7fBBWu1weanYq37dN+eWT50SSIjnJm/PzTNf7iVwzHSGH3doWRVfDQqtzDaWTzgYrnF/CXlBw9HYwKkn7OYu9GNud4KdRgtBbYC5YWQYE9+tDvVnkQdceiffd+Mq7I8J8hPNYR3E8GnjoWpxXpiwgAl79M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J0LRtY+b; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=aXYyJBfagh7op/jYEfN1TqelJZM/m0EXIawwGayz1C+6uPvgbT03I3MjUJ61MF5mLr959KNAxcxXAEqwcruUcaOQ/csB6bOC5uwzg7G98VYDqoascOI8lyfS/Q9RPokyXMabxzePnlKSRcvz/35Y46ehUQ4sJU/VezKR4ymiYZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CAJ51znw; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J0LRtY+b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CAJ51znw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752454302; x=1783990302;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mfYHsOcLz6ZyyfgcLLOaxjAQcNIuHATs5V+78kxWo+A=;
-  b=J0LRtY+buBOwccRBNx5KZEMwcEte7bp7u19huUfOTIm+1BuXsJO1r/ws
-   9qhZFQjTJ86s25par6bvAuKfRz27S9aBa03u7ic5AKBYI42ysD3OidK4g
-   hf+xdQkqV7kV91eHZ64UArBhEjW5M6inZu5Ajzit85gi53YHkGaawDnOH
-   hBAAWF8h9pwkQd/RERK6AMqbg5DuQDd3maY0tGFlY9rEIEI6bqs/kX8AD
-   OzNVzHa+mbTsI9GSfDvrhp8W+BW00zzemCoeRZMFJ9HNvDooyDIxJqqm9
-   RwH/YHWEE3Cso82c2KiHOGToGS0Xm/QRicbYDpl/vi+ids7+uWyQPu9AV
-   Q==;
-X-CSE-ConnectionGUID: MEN5d3HKS7q4IDanWoehfg==
-X-CSE-MsgGUID: XDhzFSxmRQOrv4yErxrcEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54613450"
-X-IronPort-AV: E=Sophos;i="6.16,309,1744095600"; 
-   d="scan'208";a="54613450"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2025 17:51:41 -0700
-X-CSE-ConnectionGUID: gH9kYJeiSYG8loTtQtEkTg==
-X-CSE-MsgGUID: g7bCGBWSQ1SXGjMG9aAgFg==
+  t=1752470230; x=1784006230;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9K9USRMurtlinpUKejy4nfM3poxKvwxtaM58WaCFQk8=;
+  b=CAJ51znwy1zmqAVloRBZFHs1UKqMAkdqReVxH2FqUAOGwiuoNjHNy60r
+   YD+J9GPpYblsY2CxYVUksqmxcaw8+kzL6n45LbIprr4yW+SqVJ2VFFhQE
+   PyeBXvXR78KN9AnaZkqPZ5XDbre4+iSMztV6iQ/+cHcXRfhkzPulrcYkK
+   aww8Ls4NHcDuVZCuItGniCtDdKNf2HEt9HCuUk0f31psTbnz87nmfW5kT
+   OuJKMF3JZAP9w8hrVK8gVBV4vfWMYuC992b1T8ku06mTfipleaNhjp7eJ
+   EdfoDO7OZl5aaDthRgrr+gYwmoe1AEQxV9SCq977cTIHNlA5qcgyYJ/t7
+   g==;
+X-CSE-ConnectionGUID: gx7F5P70TSSaO8Y7IDMuEw==
+X-CSE-MsgGUID: EazXc0v1TY2ksOLgbHcZsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66100516"
+X-IronPort-AV: E=Sophos;i="6.16,310,1744095600"; 
+   d="scan'208";a="66100516"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2025 22:17:09 -0700
+X-CSE-ConnectionGUID: vvaxKHHITTy+MBQp6idqhg==
+X-CSE-MsgGUID: 8ARUmnOtQt+R08qRgUsarQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,309,1744095600"; 
-   d="scan'208";a="187802379"
+X-IronPort-AV: E=Sophos;i="6.16,310,1744095600"; 
+   d="scan'208";a="180525556"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Jul 2025 17:51:40 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 13 Jul 2025 22:17:06 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ub7Pu-0008OA-1E;
-	Mon, 14 Jul 2025 00:51:38 +0000
-Date: Mon, 14 Jul 2025 08:51:31 +0800
+	id 1ubBYm-0008V1-0q;
+	Mon, 14 Jul 2025 05:17:04 +0000
+Date: Mon, 14 Jul 2025 13:16:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [shawnguo:imx/dt64 85/85]
- arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: crypto@31400000
- (fsl,imx8qm-caam): 'power-domains' does not match any of the regexes:
- '^jr@[0-9a-f]+$', '^pinctrl-[0-9]+$', '^rtic@[0-9a-f]+$'
-Message-ID: <202507140827.eiLYoXzQ-lkp@intel.com>
+Subject: Re: [PATCH v16 1/5] dt-bindings: mmc: sdhci-pxa: restrict pinctrl to
+ pxav1
+Message-ID: <202507141143.vha0FsU1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
@@ -70,187 +70,252 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-TO: Frank Li <Frank.Li@nxp.com>
-CC: Shawn Guo <shawnguo@kernel.org>
+In-Reply-To: <20250708-pxa1908-lkml-v16-1-b4392c484180@dujemihanovic.xyz>
+References: <20250708-pxa1908-lkml-v16-1-b4392c484180@dujemihanovic.xyz>
+TO: "Duje Mihanović" <duje@dujemihanovic.xyz>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git imx/dt64
-head:   4f25d7f1439f12233768dce853260b8302424d16
-commit: 4f25d7f1439f12233768dce853260b8302424d16 [85/85] arm64: dts: imx8q: add camera ov5640 support for imx8qm-mek and imx8qxp-mek
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: arm64-randconfig-051-20250713 (https://download.01.org/0day-ci/archive/20250714/202507140827.eiLYoXzQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+Hi Duje,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on d7b8f8e20813f0179d8ef519541a3527e7661d3a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Duje-Mihanovi/dt-bindings-mmc-sdhci-pxa-restrict-pinctrl-to-pxav1/20250709-011510
+base:   d7b8f8e20813f0179d8ef519541a3527e7661d3a
+patch link:    https://lore.kernel.org/r/20250708-pxa1908-lkml-v16-1-b4392c484180%40dujemihanovic.xyz
+patch subject: [PATCH v16 1/5] dt-bindings: mmc: sdhci-pxa: restrict pinctrl to pxav1
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm-randconfig-053-20250709 (https://download.01.org/0day-ci/archive/20250714/202507141143.vha0FsU1-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507140827.eiLYoXzQ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507141143.vha0FsU1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507140827.eiLYoXzQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507141143.vha0FsU1-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: crypto@31400000 (fsl,imx8qm-caam): 'power-domains' does not match any of the regexes: '^jr@[0-9a-f]+$', '^pinctrl-[0-9]+$', '^rtic@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: crypto@31400000 (fsl,imx8qm-caam): jr@30000: 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: crypto@31400000 (fsl,imx8qm-caam): jr@30000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring'] is too short
-   	['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring'] is too long
-   	'fsl,sec-v6.0-job-ring' was expected
-   	'fsl,sec-v5.4-job-ring' was expected
-   	'fsl,sec-v5.0-job-ring' was expected
-   	'fsl,sec-v4.0-job-ring' was expected
-   	'fsl,sec-v5.2-job-ring' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: crypto@31400000 (fsl,imx8qm-caam): jr@40000: 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: crypto@31400000 (fsl,imx8qm-caam): jr@40000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring'] is too short
-   	['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring'] is too long
-   	'fsl,sec-v6.0-job-ring' was expected
-   	'fsl,sec-v5.4-job-ring' was expected
-   	'fsl,sec-v5.0-job-ring' was expected
-   	'fsl,sec-v4.0-job-ring' was expected
-   	'fsl,sec-v5.2-job-ring' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: crypto@31400000 (fsl,imx8qm-caam): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-caam', 'fsl,sec-v4.0'] is too short
-   	['fsl,imx8qm-caam', 'fsl,sec-v4.0'] is too long
-   	'fsl,imx8qm-caam' is not one of ['fsl,sec-v5.4', 'fsl,sec-v6.0']
-   	'fsl,imx8qm-caam' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
-   	'fsl,sec-v4.0' was expected
-   	'fsl,sec-v5.0' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: /bus@31400000/crypto@31400000: failed to match any schema with compatible: ['fsl,imx8qm-caam', 'fsl,sec-v4.0']
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: /bus@31400000/crypto@31400000/jr@30000: failed to match any schema with compatible: ['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring']
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: /bus@31400000/crypto@31400000/jr@40000: failed to match any schema with compatible: ['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring']
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: /bus@58000000/isi@58100000: failed to match any schema with compatible: ['fsl,imx8qm-isi']
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: /bus@58000000/csi@58227000: failed to match any schema with compatible: ['fsl,imx8qm-mipi-csi2', 'fsl,imx8qxp-mipi-csi2']
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: /bus@58000000/csi@58227000: failed to match any schema with compatible: ['fsl,imx8qm-mipi-csi2', 'fsl,imx8qxp-mipi-csi2']
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: /bus@58000000/csi@58247000: failed to match any schema with compatible: ['fsl,imx8qm-mipi-csi2', 'fsl,imx8qxp-mipi-csi2']
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: /bus@58000000/csi@58247000: failed to match any schema with compatible: ['fsl,imx8qm-mipi-csi2', 'fsl,imx8qxp-mipi-csi2']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/xor@60900: failed to match any schema with compatible: ['marvell,armada-380-xor', 'marvell,orion-xor']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/bm@c8000: failed to match any schema with compatible: ['marvell,armada-380-neta-bm']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/clock@e4250: failed to match any schema with compatible: ['marvell,armada-380-corediv-clock']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+>> arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'no-1-8-v', 'non-removable', 'vmmc', 'wp-inverted' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['marvell,armada-380-xhci'] is too short
+   	'generic-xhci' was expected
+   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
+   	'marvell,armada-380-xhci' is not one of ['brcm,xhci-brcm-v2', 'brcm,bcm7445-xhci']
+   	'xhci-platform' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: usb3@f0000 (marvell,armada-380-xhci): reg: [[983040, 16384], [999424, 16384]] is too long
 --
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: crypto@31400000 (fsl,imx8qm-caam): 'power-domains' does not match any of the regexes: '^jr@[0-9a-f]+$', '^pinctrl-[0-9]+$', '^rtic@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: crypto@31400000 (fsl,imx8qm-caam): jr@30000: 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: crypto@31400000 (fsl,imx8qm-caam): jr@30000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring'] is too short
-   	['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring'] is too long
-   	'fsl,sec-v6.0-job-ring' was expected
-   	'fsl,sec-v5.4-job-ring' was expected
-   	'fsl,sec-v5.0-job-ring' was expected
-   	'fsl,sec-v4.0-job-ring' was expected
-   	'fsl,sec-v5.2-job-ring' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: crypto@31400000 (fsl,imx8qm-caam): jr@40000: 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: crypto@31400000 (fsl,imx8qm-caam): jr@40000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring'] is too short
-   	['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring'] is too long
-   	'fsl,sec-v6.0-job-ring' was expected
-   	'fsl,sec-v5.4-job-ring' was expected
-   	'fsl,sec-v5.0-job-ring' was expected
-   	'fsl,sec-v4.0-job-ring' was expected
-   	'fsl,sec-v5.2-job-ring' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: crypto@31400000 (fsl,imx8qm-caam): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-caam', 'fsl,sec-v4.0'] is too short
-   	['fsl,imx8qm-caam', 'fsl,sec-v4.0'] is too long
-   	'fsl,imx8qm-caam' is not one of ['fsl,sec-v5.4', 'fsl,sec-v6.0']
-   	'fsl,imx8qm-caam' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
-   	'fsl,sec-v4.0' was expected
-   	'fsl,sec-v5.0' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: /bus@31400000/crypto@31400000: failed to match any schema with compatible: ['fsl,imx8qm-caam', 'fsl,sec-v4.0']
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: /bus@31400000/crypto@31400000/jr@30000: failed to match any schema with compatible: ['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring']
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: /bus@31400000/crypto@31400000/jr@40000: failed to match any schema with compatible: ['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring']
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: /bus@58000000/isi@58100000: failed to match any schema with compatible: ['fsl,imx8qm-isi']
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: /bus@58000000/csi@58227000: failed to match any schema with compatible: ['fsl,imx8qm-mipi-csi2', 'fsl,imx8qxp-mipi-csi2']
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: /bus@58000000/csi@58227000: failed to match any schema with compatible: ['fsl,imx8qm-mipi-csi2', 'fsl,imx8qxp-mipi-csi2']
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: /bus@58000000/csi@58247000: failed to match any schema with compatible: ['fsl,imx8qm-mipi-csi2', 'fsl,imx8qxp-mipi-csi2']
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: /bus@58000000/csi@58247000: failed to match any schema with compatible: ['fsl,imx8qm-mipi-csi2', 'fsl,imx8qxp-mipi-csi2']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/xor@60900: failed to match any schema with compatible: ['marvell,armada-380-xor', 'marvell,orion-xor']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/bm@c8000: failed to match any schema with compatible: ['marvell,armada-380-neta-bm']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/clock@e4250: failed to match any schema with compatible: ['marvell,armada-380-corediv-clock']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+>> arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'no-1-8-v', 'non-removable', 'vmmc', 'wp-inverted' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['marvell,armada-380-xhci'] is too short
+   	'generic-xhci' was expected
+   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
+   	'marvell,armada-380-xhci' is not one of ['brcm,xhci-brcm-v2', 'brcm,bcm7445-xhci']
+   	'xhci-platform' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: usb3@f0000 (marvell,armada-380-xhci): reg: [[983040, 16384], [999424, 16384]] is too long
 --
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: crypto@31400000 (fsl,imx8qm-caam): 'power-domains' does not match any of the regexes: '^jr@[0-9a-f]+$', '^pinctrl-[0-9]+$', '^rtic@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: crypto@31400000 (fsl,imx8qm-caam): jr@30000: 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: crypto@31400000 (fsl,imx8qm-caam): jr@30000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring'] is too short
-   	['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring'] is too long
-   	'fsl,sec-v6.0-job-ring' was expected
-   	'fsl,sec-v5.4-job-ring' was expected
-   	'fsl,sec-v5.0-job-ring' was expected
-   	'fsl,sec-v4.0-job-ring' was expected
-   	'fsl,sec-v5.2-job-ring' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: crypto@31400000 (fsl,imx8qm-caam): jr@40000: 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: crypto@31400000 (fsl,imx8qm-caam): jr@40000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring'] is too short
-   	['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring'] is too long
-   	'fsl,sec-v6.0-job-ring' was expected
-   	'fsl,sec-v5.4-job-ring' was expected
-   	'fsl,sec-v5.0-job-ring' was expected
-   	'fsl,sec-v4.0-job-ring' was expected
-   	'fsl,sec-v5.2-job-ring' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: crypto@31400000 (fsl,imx8qm-caam): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-caam', 'fsl,sec-v4.0'] is too short
-   	['fsl,imx8qm-caam', 'fsl,sec-v4.0'] is too long
-   	'fsl,imx8qm-caam' is not one of ['fsl,sec-v5.4', 'fsl,sec-v6.0']
-   	'fsl,imx8qm-caam' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
-   	'fsl,sec-v4.0' was expected
-   	'fsl,sec-v5.0' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: /bus@31400000/crypto@31400000: failed to match any schema with compatible: ['fsl,imx8qm-caam', 'fsl,sec-v4.0']
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: /bus@31400000/crypto@31400000/jr@30000: failed to match any schema with compatible: ['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring']
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: /bus@31400000/crypto@31400000/jr@40000: failed to match any schema with compatible: ['fsl,imx8qm-job-ring', 'fsl,sec-v4.0-job-ring']
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: /bus@58000000/isi@58100000: failed to match any schema with compatible: ['fsl,imx8qm-isi']
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: /bus@58000000/csi@58227000: failed to match any schema with compatible: ['fsl,imx8qm-mipi-csi2', 'fsl,imx8qxp-mipi-csi2']
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: /bus@58000000/csi@58227000: failed to match any schema with compatible: ['fsl,imx8qm-mipi-csi2', 'fsl,imx8qxp-mipi-csi2']
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: /bus@58000000/csi@58247000: failed to match any schema with compatible: ['fsl,imx8qm-mipi-csi2', 'fsl,imx8qxp-mipi-csi2']
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: /bus@58000000/csi@58247000: failed to match any schema with compatible: ['fsl,imx8qm-mipi-csi2', 'fsl,imx8qxp-mipi-csi2']
+   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/xor@60900: failed to match any schema with compatible: ['marvell,armada-380-xor', 'marvell,orion-xor']
+   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/bm@c8000: failed to match any schema with compatible: ['marvell,armada-380-neta-bm']
+   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/clock@e4250: failed to match any schema with compatible: ['marvell,armada-380-corediv-clock']
+   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
+   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+>> arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'no-1-8-v', 'non-removable', 'wp-inverted' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
+   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['marvell,armada-380-xhci'] is too short
+   	'generic-xhci' was expected
+   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
+   	'marvell,armada-380-xhci' is not one of ['brcm,xhci-brcm-v2', 'brcm,bcm7445-xhci']
+   	'xhci-platform' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: usb3@f0000 (marvell,armada-380-xhci): reg: [[983040, 16384], [999424, 16384]] is too long
 --
->> arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: /bus@58000000/isi@58100000: failed to match any schema with compatible: ['fsl,imx8qxp-isi']
->> arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: /bus@58000000/csi@58227000: failed to match any schema with compatible: ['fsl,imx8qxp-mipi-csi2']
-   arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: /bus@58000000/csi@58247000: failed to match any schema with compatible: ['fsl,imx8qxp-mipi-csi2']
->> arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: crypto@31400000 (fsl,imx8qxp-caam): 'power-domains' does not match any of the regexes: '^jr@[0-9a-f]+$', '^pinctrl-[0-9]+$', '^rtic@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: crypto@31400000 (fsl,imx8qxp-caam): jr@30000: 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: crypto@31400000 (fsl,imx8qxp-caam): jr@30000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qxp-job-ring', 'fsl,sec-v4.0-job-ring'] is too short
-   	['fsl,imx8qxp-job-ring', 'fsl,sec-v4.0-job-ring'] is too long
-   	'fsl,sec-v6.0-job-ring' was expected
-   	'fsl,sec-v5.4-job-ring' was expected
-   	'fsl,sec-v5.0-job-ring' was expected
-   	'fsl,sec-v4.0-job-ring' was expected
-   	'fsl,sec-v5.2-job-ring' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: crypto@31400000 (fsl,imx8qxp-caam): jr@40000: 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: crypto@31400000 (fsl,imx8qxp-caam): jr@40000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qxp-job-ring', 'fsl,sec-v4.0-job-ring'] is too short
-   	['fsl,imx8qxp-job-ring', 'fsl,sec-v4.0-job-ring'] is too long
-   	'fsl,sec-v6.0-job-ring' was expected
-   	'fsl,sec-v5.4-job-ring' was expected
-   	'fsl,sec-v5.0-job-ring' was expected
-   	'fsl,sec-v4.0-job-ring' was expected
-   	'fsl,sec-v5.2-job-ring' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: crypto@31400000 (fsl,imx8qxp-caam): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qxp-caam', 'fsl,sec-v4.0'] is too short
-   	['fsl,imx8qxp-caam', 'fsl,sec-v4.0'] is too long
-   	'fsl,imx8qxp-caam' is not one of ['fsl,sec-v5.4', 'fsl,sec-v6.0']
-   	'fsl,imx8qxp-caam' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
-   	'fsl,sec-v4.0' was expected
-   	'fsl,sec-v5.0' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
->> arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: /bus@31400000/crypto@31400000: failed to match any schema with compatible: ['fsl,imx8qxp-caam', 'fsl,sec-v4.0']
->> arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: /bus@31400000/crypto@31400000/jr@30000: failed to match any schema with compatible: ['fsl,imx8qxp-job-ring', 'fsl,sec-v4.0-job-ring']
-   arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: /bus@31400000/crypto@31400000/jr@40000: failed to match any schema with compatible: ['fsl,imx8qxp-job-ring', 'fsl,sec-v4.0-job-ring']
+   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/xor@60900: failed to match any schema with compatible: ['marvell,armada-380-xor', 'marvell,orion-xor']
+   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/bm@c8000: failed to match any schema with compatible: ['marvell,armada-380-neta-bm']
+   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/clock@e4250: failed to match any schema with compatible: ['marvell,armada-380-corediv-clock']
+   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
+   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+>> arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'no-1-8-v', 'non-removable' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
+   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['marvell,armada-380-xhci'] is too short
+   	'generic-xhci' was expected
+   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
+   	'marvell,armada-380-xhci' is not one of ['brcm,xhci-brcm-v2', 'brcm,bcm7445-xhci']
+   	'xhci-platform' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: usb3@f0000 (marvell,armada-380-xhci): reg: [[983040, 16384], [999424, 16384]] is too long
+--
+   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/xor@60900: failed to match any schema with compatible: ['marvell,armada-380-xor', 'marvell,orion-xor']
+   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/bm@c8000: failed to match any schema with compatible: ['marvell,armada-380-neta-bm']
+   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/clock@e4250: failed to match any schema with compatible: ['marvell,armada-380-corediv-clock']
+   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
+   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+>> arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'cd-gpios', 'no-1-8-v', 'vmmc-supply', 'wp-inverted' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
+   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['marvell,armada-380-xhci'] is too short
+   	'generic-xhci' was expected
+   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
+   	'marvell,armada-380-xhci' is not one of ['brcm,xhci-brcm-v2', 'brcm,bcm7445-xhci']
+   	'xhci-platform' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: usb3@f0000 (marvell,armada-380-xhci): reg: [[983040, 16384], [999424, 16384]] is too long
+--
+   arch/arm/boot/dts/marvell/armada-388-clearfog-base.dtb: /soc/internal-regs/xor@60900: failed to match any schema with compatible: ['marvell,armada-380-xor', 'marvell,orion-xor']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-base.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-base.dtb: /soc/internal-regs/bm@c8000: failed to match any schema with compatible: ['marvell,armada-380-neta-bm']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-base.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-base.dtb: /soc/internal-regs/clock@e4250: failed to match any schema with compatible: ['marvell,armada-380-corediv-clock']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-base.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-base.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-388-clearfog-base.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+>> arch/arm/boot/dts/marvell/armada-388-clearfog-base.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'cd-gpios', 'no-1-8-v', 'vmmc-supply', 'wp-inverted' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-388-clearfog-base.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-base.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['marvell,armada-380-xhci'] is too short
+   	'generic-xhci' was expected
+   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
+   	'marvell,armada-380-xhci' is not one of ['brcm,xhci-brcm-v2', 'brcm,bcm7445-xhci']
+   	'xhci-platform' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm/boot/dts/marvell/armada-388-clearfog-base.dtb: usb3@f0000 (marvell,armada-380-xhci): reg: [[983040, 16384], [999424, 16384]] is too long
+--
+   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/xor@60900: failed to match any schema with compatible: ['marvell,armada-380-xor', 'marvell,orion-xor']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/bm@c8000: failed to match any schema with compatible: ['marvell,armada-380-neta-bm']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/clock@e4250: failed to match any schema with compatible: ['marvell,armada-380-corediv-clock']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+>> arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'cd-gpios', 'no-1-8-v', 'vmmc-supply', 'wp-inverted' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
+   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['marvell,armada-380-xhci'] is too short
+   	'generic-xhci' was expected
+   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
+   	'marvell,armada-380-xhci' is not one of ['brcm,xhci-brcm-v2', 'brcm,bcm7445-xhci']
+   	'xhci-platform' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: usb3@f0000 (marvell,armada-380-xhci): reg: [[983040, 16384], [999424, 16384]] is too long
+--
+   arch/arm/boot/dts/marvell/armada-388-gp.dtb: /soc/internal-regs/xor@60900: failed to match any schema with compatible: ['marvell,armada-380-xor', 'marvell,orion-xor']
+   arch/arm/boot/dts/marvell/armada-388-gp.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-gp.dtb: /soc/internal-regs/bm@c8000: failed to match any schema with compatible: ['marvell,armada-380-neta-bm']
+   arch/arm/boot/dts/marvell/armada-388-gp.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-gp.dtb: /soc/internal-regs/clock@e4250: failed to match any schema with compatible: ['marvell,armada-380-corediv-clock']
+   arch/arm/boot/dts/marvell/armada-388-gp.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
+   arch/arm/boot/dts/marvell/armada-388-gp.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-388-gp.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+>> arch/arm/boot/dts/marvell/armada-388-gp.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'no-1-8-v', 'wp-inverted' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-388-gp.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
+   arch/arm/boot/dts/marvell/armada-388-gp.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['marvell,armada-380-xhci'] is too short
+   	'generic-xhci' was expected
+   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
+   	'marvell,armada-380-xhci' is not one of ['brcm,xhci-brcm-v2', 'brcm,bcm7445-xhci']
+   	'xhci-platform' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm/boot/dts/marvell/armada-388-gp.dtb: usb3@f0000 (marvell,armada-380-xhci): reg: [[983040, 16384], [999424, 16384]] is too long
+--
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/xor@60900: failed to match any schema with compatible: ['marvell,armada-380-xor', 'marvell,orion-xor']
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/bm@c8000: failed to match any schema with compatible: ['marvell,armada-380-neta-bm']
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/clock@e4250: failed to match any schema with compatible: ['marvell,armada-380-corediv-clock']
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+>> arch/arm/boot/dts/marvell/armada-388-helios4.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'cd-gpios', 'no-1-8-v', 'vmmc', 'wp-inverted' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['marvell,armada-380-xhci'] is too short
+   	'generic-xhci' was expected
+   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
+   	'marvell,armada-380-xhci' is not one of ['brcm,xhci-brcm-v2', 'brcm,bcm7445-xhci']
+   	'xhci-platform' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm/boot/dts/marvell/armada-388-helios4.dtb: usb3@f0000 (marvell,armada-380-xhci): reg: [[983040, 16384], [999424, 16384]] is too long
+--
+   arch/arm/boot/dts/marvell/armada-388-rd.dtb: /soc/internal-regs/xor@60900: failed to match any schema with compatible: ['marvell,armada-380-xor', 'marvell,orion-xor']
+   arch/arm/boot/dts/marvell/armada-388-rd.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-rd.dtb: /soc/internal-regs/bm@c8000: failed to match any schema with compatible: ['marvell,armada-380-neta-bm']
+   arch/arm/boot/dts/marvell/armada-388-rd.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
+   arch/arm/boot/dts/marvell/armada-388-rd.dtb: /soc/internal-regs/clock@e4250: failed to match any schema with compatible: ['marvell,armada-380-corediv-clock']
+   arch/arm/boot/dts/marvell/armada-388-rd.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
+   arch/arm/boot/dts/marvell/armada-388-rd.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-388-rd.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+>> arch/arm/boot/dts/marvell/armada-388-rd.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'no-1-8-v', 'wp-inverted' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/armada-388-rd.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
+   arch/arm/boot/dts/marvell/armada-388-rd.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['marvell,armada-380-xhci'] is too short
+   	'generic-xhci' was expected
+   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
+   	'marvell,armada-380-xhci' is not one of ['brcm,xhci-brcm-v2', 'brcm,bcm7445-xhci']
+   	'xhci-platform' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm/boot/dts/marvell/armada-388-rd.dtb: usb3@f0000 (marvell,armada-380-xhci): reg: [[983040, 16384], [999424, 16384]] is too long
 
 -- 
 0-DAY CI Kernel Test Service
