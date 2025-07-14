@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531CB238171
-	for <oe-kbuild@lists.linux.dev>; Mon, 14 Jul 2025 06:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006E7944F
+	for <oe-kbuild@lists.linux.dev>; Mon, 14 Jul 2025 07:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752473896; cv=none; b=JRuihdGryl+wZAnSJs2qZFywiDPUJGYLZsCnWnzPIezRnxNFeCe69MVDX/TOaOtZiGsDWWM9uLLq8+iaatIsIxTiQKvWvpFNK0dsl2YyYPqXmjQnWVCdKZicAyxv/8lYTgbNsx1Kk1eJyZrUCwVAvyq3Bd4HEuxTJ8PgoRE0h2U=
+	t=1752478885; cv=none; b=bJjBtWXUfZLprq44x10j9y5DMDnJUhwdkv9NnBbVOhFDMDK6Wk1mMG0XaGSmeN4Tp+xiPRir0IMznTb5wR8U9T4b2eGqYRx+XJT/saBZvwJSaMWJ3GAmE2utbznNJBKNXRZZsm5A2PM354zZmgfBzkYrYBduiViaqRp5UpurF/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752473896; c=relaxed/simple;
-	bh=4gs0nkHtPMeAGmHNnjZoih6AF0g3lQzVXkEVVD2Ikvc=;
+	s=arc-20240116; t=1752478885; c=relaxed/simple;
+	bh=aVM/tHIwQvjGaZCPvz5/E2RlFjifvhkYMwasKHi7vWE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iLW6iQ9q8FmV9EJqvY0iFXwzn2brEaCR/HEpNvuxgYIIjbPFeetK7sknzECw2hIbBbCaSWVeaiizNfqI1fgl6PqkF/spJnHV12G5Rs0Ky35my1KzEscFvUrEY1Wo7ets+oU/z9n9Q6IIIduUMz2SScr2NS7YqFnnTkuYOFLIk10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yp6wHcKW; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=EPRRA6NwcTy+zx+siBVGRPVadiA9Lm0qNsgfAFLlZMU3iYUr/u0Vlxar/jrIvC0UAQVxWcxS683IJRqYT4L+OIla2B1ipGf0zoJzoDHj0AFDAutbe2O7l2Ut2bxtirgKUcZRYSa/PwiPIq5t3TXpoLXnoCxV4zRbzr+UV5C4isI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dJIC/WFe; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yp6wHcKW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dJIC/WFe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752473894; x=1784009894;
+  t=1752478884; x=1784014884;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4gs0nkHtPMeAGmHNnjZoih6AF0g3lQzVXkEVVD2Ikvc=;
-  b=Yp6wHcKW/WofbvrRogrFOJifNvY31ZDk9PEoZDoAfm1PbN59d3F7TC2S
-   +ImPqJoKkECe61LTXR/Eq2x0Au0cHDR9E4SrzpQeZvB9pxa7ExDe9vGmt
-   TfpMny8E5jRwy6PDjeGpk/rEPfBagJgqjAOvY+awO5MZVEHLNOS0c5YAq
-   oS9Gp5ZVDri0PCkG7bdZC1BndSSUQWTkm8n0NQWqHh40aFAlEfh7CjflT
-   u90LzBkVlMoLS5i1rCmoMWCfATNC3QSNOoSDK+C83gKQEXd/FK2djvYv7
-   mmLYJXcLb8K7+SX69oG0U8rtB7TvNHb8Y8quRGahQrkTeRn5XHv9vvq4U
-   g==;
-X-CSE-ConnectionGUID: 3nzE83vpRdi/RQoppJJnwA==
-X-CSE-MsgGUID: ASaOIXhwTO2hf82LABogIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="64916267"
+  bh=aVM/tHIwQvjGaZCPvz5/E2RlFjifvhkYMwasKHi7vWE=;
+  b=dJIC/WFeg/URWrCgeKCIIjJfZI8Bu2ps+ZZkHhGcNYkMQjmIeguEaenE
+   Bsa/YPe3xzVBP9Syotw0YAwOFQqXLlFskI8VWuCKUprMOxq65uYobOzYn
+   tApW4W/tZYK+gx8Yhv75blKVTtJvfiWPJ2vmM80594MChgEVJc0ulmE79
+   AV5oEyduDcRjluRJQnBf98eUdmyVukwCPnuPWVytK2+nanVuC3zPx22tm
+   V1V1gWFNfvoOL2/hEAjQKesOEZJ/3Nu6Nb+DOTKp1qJE3feAQP6OyxeFw
+   UfiEcQ75vmyp+5dY/MdJgaHPdC9TTSjNHmkVlv1AKZrSXe3RBN8Nxd9SR
+   Q==;
+X-CSE-ConnectionGUID: qFTcGdnJQTyPsZKaCHrTHw==
+X-CSE-MsgGUID: ZClueYPmTYCPDjobUfAP1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="57274062"
 X-IronPort-AV: E=Sophos;i="6.16,310,1744095600"; 
-   d="scan'208";a="64916267"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2025 23:18:13 -0700
-X-CSE-ConnectionGUID: pQN5fHe0T4CsyWI2tDdRUQ==
-X-CSE-MsgGUID: UriNg+g3Rw+QGgwlxvrgvA==
+   d="scan'208";a="57274062"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 00:41:23 -0700
+X-CSE-ConnectionGUID: fsHTFCGgQS6KVIW1k8PRCg==
+X-CSE-MsgGUID: 6zxt2k0+QTSZIK4tfl5qdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,310,1744095600"; 
-   d="scan'208";a="187852382"
+   d="scan'208";a="156496996"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Jul 2025 23:18:13 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 14 Jul 2025 00:41:21 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubCVu-0008Wg-0G;
-	Mon, 14 Jul 2025 06:18:10 +0000
-Date: Mon, 14 Jul 2025 14:17:28 +0800
+	id 1ubDoO-0008eP-0o;
+	Mon, 14 Jul 2025 07:41:20 +0000
+Date: Mon, 14 Jul 2025 15:40:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 4504/9053]
- arch/s390/crypto/phmac_s390.c:318:17-18: WARNING: Unsigned expression
- compared with zero: k > 0
-Message-ID: <202507141415.H677CuC5-lkp@intel.com>
+Subject: [brgl:gpio/for-next 45/46] drivers/gpio/gpio-viperboard.c:385:2-8:
+ preceding lock on line 380
+Message-ID: <202507141754.Jhvrzv5i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,145 +64,51 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Harald Freudenberger <freude@linux.ibm.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Holger Dengler <dengler@linux.ibm.com>
+CC: linux-gpio@vger.kernel.org
+TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a62b7a37e6fcf4a675b1548e7c168b96ec836442
-commit: cbbc675506cc4cd93e6f895e7c1f693156f9a95c [4504/9053] crypto: s390 - New s390 specific protected key hash phmac
-:::::: branch date: 3 days ago
-:::::: commit date: 3 weeks ago
-config: s390-randconfig-r054-20250714 (https://download.01.org/0day-ci/archive/20250714/202507141415.H677CuC5-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+head:   e502df58b5e3767c00e887744b6eff43b7fde3ea
+commit: 55e2d1eec110f1278324882714b64465e4e58ced [45/46] gpio: viperboard: use new GPIO line value setter callbacks
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
+config: i386-randconfig-051-20250714 (https://download.01.org/0day-ci/archive/20250714/202507141754.Jhvrzv5i-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202507141415.H677CuC5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507141754.Jhvrzv5i-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> arch/s390/crypto/phmac_s390.c:318:17-18: WARNING: Unsigned expression compared with zero: k > 0
-   arch/s390/crypto/phmac_s390.c:355:14-15: WARNING: Unsigned expression compared with zero: k > 0
-   arch/s390/crypto/phmac_s390.c:416:15-16: WARNING: Unsigned expression compared with zero: k > 0
+>> drivers/gpio/gpio-viperboard.c:385:2-8: preceding lock on line 380
 
-vim +318 arch/s390/crypto/phmac_s390.c
+vim +385 drivers/gpio/gpio-viperboard.c
 
-cbbc675506cc4c Harald Freudenberger 2025-06-17  284  
-cbbc675506cc4c Harald Freudenberger 2025-06-17  285  static int phmac_kmac_update(struct ahash_request *req, bool maysleep)
-cbbc675506cc4c Harald Freudenberger 2025-06-17  286  {
-cbbc675506cc4c Harald Freudenberger 2025-06-17  287  	struct crypto_ahash *tfm = crypto_ahash_reqtfm(req);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  288  	struct phmac_tfm_ctx *tfm_ctx = crypto_ahash_ctx(tfm);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  289  	struct phmac_req_ctx *req_ctx = ahash_request_ctx(req);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  290  	struct kmac_sha2_ctx *ctx = &req_ctx->kmac_ctx;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  291  	struct hash_walk_helper *hwh = &req_ctx->hwh;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  292  	unsigned int bs = crypto_ahash_blocksize(tfm);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  293  	unsigned int offset, k, n;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  294  	int rc = 0;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  295  
-cbbc675506cc4c Harald Freudenberger 2025-06-17  296  	/*
-cbbc675506cc4c Harald Freudenberger 2025-06-17  297  	 * The walk is always mapped when this function is called.
-cbbc675506cc4c Harald Freudenberger 2025-06-17  298  	 * Note that in case of partial processing or failure the walk
-cbbc675506cc4c Harald Freudenberger 2025-06-17  299  	 * is NOT unmapped here. So a follow up task may reuse the walk
-cbbc675506cc4c Harald Freudenberger 2025-06-17  300  	 * or in case of unrecoverable failure needs to unmap it.
-cbbc675506cc4c Harald Freudenberger 2025-06-17  301  	 */
-cbbc675506cc4c Harald Freudenberger 2025-06-17  302  
-cbbc675506cc4c Harald Freudenberger 2025-06-17  303  	while (hwh->walkbytes > 0) {
-cbbc675506cc4c Harald Freudenberger 2025-06-17  304  		/* check sha2 context buffer */
-cbbc675506cc4c Harald Freudenberger 2025-06-17  305  		offset = ctx->buflen[0] % bs;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  306  		if (offset + hwh->walkbytes < bs)
-cbbc675506cc4c Harald Freudenberger 2025-06-17  307  			goto store;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  308  
-cbbc675506cc4c Harald Freudenberger 2025-06-17  309  		if (offset) {
-cbbc675506cc4c Harald Freudenberger 2025-06-17  310  			/* fill ctx buffer up to blocksize and process this block */
-cbbc675506cc4c Harald Freudenberger 2025-06-17  311  			n = bs - offset;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  312  			memcpy(ctx->buf + offset, hwh->walkaddr, n);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  313  			ctx->gr0.iimp = 1;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  314  			for (;;) {
-cbbc675506cc4c Harald Freudenberger 2025-06-17  315  				k = _cpacf_kmac(&ctx->gr0.reg, ctx->param, ctx->buf, bs);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  316  				if (likely(k == bs))
-cbbc675506cc4c Harald Freudenberger 2025-06-17  317  					break;
-cbbc675506cc4c Harald Freudenberger 2025-06-17 @318  				if (unlikely(k > 0)) {
-cbbc675506cc4c Harald Freudenberger 2025-06-17  319  					/*
-cbbc675506cc4c Harald Freudenberger 2025-06-17  320  					 * Can't deal with hunks smaller than blocksize.
-cbbc675506cc4c Harald Freudenberger 2025-06-17  321  					 * And kmac should always return the nr of
-cbbc675506cc4c Harald Freudenberger 2025-06-17  322  					 * processed bytes as 0 or a multiple of the
-cbbc675506cc4c Harald Freudenberger 2025-06-17  323  					 * blocksize.
-cbbc675506cc4c Harald Freudenberger 2025-06-17  324  					 */
-cbbc675506cc4c Harald Freudenberger 2025-06-17  325  					rc = -EIO;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  326  					goto out;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  327  				}
-cbbc675506cc4c Harald Freudenberger 2025-06-17  328  				/* protected key is invalid and needs re-conversion */
-cbbc675506cc4c Harald Freudenberger 2025-06-17  329  				if (!maysleep) {
-cbbc675506cc4c Harald Freudenberger 2025-06-17  330  					rc = -EKEYEXPIRED;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  331  					goto out;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  332  				}
-cbbc675506cc4c Harald Freudenberger 2025-06-17  333  				rc = phmac_convert_key(tfm_ctx);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  334  				if (rc)
-cbbc675506cc4c Harald Freudenberger 2025-06-17  335  					goto out;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  336  				spin_lock_bh(&tfm_ctx->pk_lock);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  337  				memcpy(ctx->param + SHA2_KEY_OFFSET(bs),
-cbbc675506cc4c Harald Freudenberger 2025-06-17  338  				       tfm_ctx->pk.protkey, tfm_ctx->pk.len);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  339  				spin_unlock_bh(&tfm_ctx->pk_lock);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  340  			}
-cbbc675506cc4c Harald Freudenberger 2025-06-17  341  			ctx->buflen[0] += n;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  342  			if (ctx->buflen[0] < n)
-cbbc675506cc4c Harald Freudenberger 2025-06-17  343  				ctx->buflen[1]++;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  344  			rc = hwh_advance(hwh, n);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  345  			if (unlikely(rc))
-cbbc675506cc4c Harald Freudenberger 2025-06-17  346  				goto out;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  347  			offset = 0;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  348  		}
-cbbc675506cc4c Harald Freudenberger 2025-06-17  349  
-cbbc675506cc4c Harald Freudenberger 2025-06-17  350  		/* process as many blocks as possible from the walk */
-cbbc675506cc4c Harald Freudenberger 2025-06-17  351  		while (hwh->walkbytes >= bs) {
-cbbc675506cc4c Harald Freudenberger 2025-06-17  352  			n = (hwh->walkbytes / bs) * bs;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  353  			ctx->gr0.iimp = 1;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  354  			k = _cpacf_kmac(&ctx->gr0.reg, ctx->param, hwh->walkaddr, n);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  355  			if (likely(k > 0)) {
-cbbc675506cc4c Harald Freudenberger 2025-06-17  356  				ctx->buflen[0] += k;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  357  				if (ctx->buflen[0] < k)
-cbbc675506cc4c Harald Freudenberger 2025-06-17  358  					ctx->buflen[1]++;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  359  				rc = hwh_advance(hwh, k);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  360  				if (unlikely(rc))
-cbbc675506cc4c Harald Freudenberger 2025-06-17  361  					goto out;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  362  			}
-cbbc675506cc4c Harald Freudenberger 2025-06-17  363  			if (unlikely(k < n)) {
-cbbc675506cc4c Harald Freudenberger 2025-06-17  364  				/* protected key is invalid and needs re-conversion */
-cbbc675506cc4c Harald Freudenberger 2025-06-17  365  				if (!maysleep) {
-cbbc675506cc4c Harald Freudenberger 2025-06-17  366  					rc = -EKEYEXPIRED;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  367  					goto out;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  368  				}
-cbbc675506cc4c Harald Freudenberger 2025-06-17  369  				rc = phmac_convert_key(tfm_ctx);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  370  				if (rc)
-cbbc675506cc4c Harald Freudenberger 2025-06-17  371  					goto out;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  372  				spin_lock_bh(&tfm_ctx->pk_lock);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  373  				memcpy(ctx->param + SHA2_KEY_OFFSET(bs),
-cbbc675506cc4c Harald Freudenberger 2025-06-17  374  				       tfm_ctx->pk.protkey, tfm_ctx->pk.len);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  375  				spin_unlock_bh(&tfm_ctx->pk_lock);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  376  			}
-cbbc675506cc4c Harald Freudenberger 2025-06-17  377  		}
-cbbc675506cc4c Harald Freudenberger 2025-06-17  378  
-cbbc675506cc4c Harald Freudenberger 2025-06-17  379  store:
-cbbc675506cc4c Harald Freudenberger 2025-06-17  380  		/* store incomplete block in context buffer */
-cbbc675506cc4c Harald Freudenberger 2025-06-17  381  		if (hwh->walkbytes) {
-cbbc675506cc4c Harald Freudenberger 2025-06-17  382  			memcpy(ctx->buf + offset, hwh->walkaddr, hwh->walkbytes);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  383  			ctx->buflen[0] += hwh->walkbytes;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  384  			if (ctx->buflen[0] < hwh->walkbytes)
-cbbc675506cc4c Harald Freudenberger 2025-06-17  385  				ctx->buflen[1]++;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  386  			rc = hwh_advance(hwh, hwh->walkbytes);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  387  			if (unlikely(rc))
-cbbc675506cc4c Harald Freudenberger 2025-06-17  388  				goto out;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  389  		}
-cbbc675506cc4c Harald Freudenberger 2025-06-17  390  
-cbbc675506cc4c Harald Freudenberger 2025-06-17  391  	} /* end of while (hwh->walkbytes > 0) */
-cbbc675506cc4c Harald Freudenberger 2025-06-17  392  
-cbbc675506cc4c Harald Freudenberger 2025-06-17  393  out:
-cbbc675506cc4c Harald Freudenberger 2025-06-17  394  	pr_debug("rc=%d\n", rc);
-cbbc675506cc4c Harald Freudenberger 2025-06-17  395  	return rc;
-cbbc675506cc4c Harald Freudenberger 2025-06-17  396  }
-cbbc675506cc4c Harald Freudenberger 2025-06-17  397  
+9d5b72de0d1627 Lars Poeschel       2012-11-05  370  
+9d5b72de0d1627 Lars Poeschel       2012-11-05  371  static int vprbrd_gpiob_direction_output(struct gpio_chip *chip,
+d111e7a387d71b Hennie Muller       2019-07-21  372  			unsigned int offset, int value)
+9d5b72de0d1627 Lars Poeschel       2012-11-05  373  {
+9d5b72de0d1627 Lars Poeschel       2012-11-05  374  	int ret;
+2a873c8d623023 Linus Walleij       2015-12-07  375  	struct vprbrd_gpio *gpio = gpiochip_get_data(chip);
+9d5b72de0d1627 Lars Poeschel       2012-11-05  376  	struct vprbrd *vb = gpio->vb;
+9d5b72de0d1627 Lars Poeschel       2012-11-05  377  
+9d5b72de0d1627 Lars Poeschel       2012-11-05  378  	gpio->gpiob_out |= (1 << offset);
+9d5b72de0d1627 Lars Poeschel       2012-11-05  379  
+9d5b72de0d1627 Lars Poeschel       2012-11-05 @380  	mutex_lock(&vb->lock);
+9d5b72de0d1627 Lars Poeschel       2012-11-05  381  
+9d5b72de0d1627 Lars Poeschel       2012-11-05  382  	ret = vprbrd_gpiob_setdir(vb, offset, 1);
+55e2d1eec110f1 Bartosz Golaszewski 2025-07-07  383  	if (ret) {
+58383c78425e4e Linus Walleij       2015-11-04  384  		dev_err(chip->parent, "usb error setting pin to output\n");
+55e2d1eec110f1 Bartosz Golaszewski 2025-07-07 @385  		return ret;
+55e2d1eec110f1 Bartosz Golaszewski 2025-07-07  386  	}
+9d5b72de0d1627 Lars Poeschel       2012-11-05  387  
+9d5b72de0d1627 Lars Poeschel       2012-11-05  388  	mutex_unlock(&vb->lock);
+9d5b72de0d1627 Lars Poeschel       2012-11-05  389  
+55e2d1eec110f1 Bartosz Golaszewski 2025-07-07  390  	return vprbrd_gpiob_set(chip, offset, value);
+9d5b72de0d1627 Lars Poeschel       2012-11-05  391  }
+9d5b72de0d1627 Lars Poeschel       2012-11-05  392  
 
 -- 
 0-DAY CI Kernel Test Service
