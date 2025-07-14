@@ -1,545 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475C623AB87
-	for <oe-kbuild@lists.linux.dev>; Mon, 14 Jul 2025 21:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17261D9A70
+	for <oe-kbuild@lists.linux.dev>; Mon, 14 Jul 2025 21:15:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752527185; cv=none; b=Z9Z6vfLNXTtLlVeftgumHZeITjuWG55I2fEIjoPhog6aUwBn09xRk7eyr18yiiubUSAyZaPKIabY/yYQwvOzl06pzblDJhMT4O7/ICbLI0MisWkIVTU7OzmeHFIFjZg3t5rJtKB3JrVpN3skSzaGVg6T2Y6C62ky7x1MHA0YTio=
+	t=1752527755; cv=none; b=PjnEv88pAxy4ynw6AUUCHk4t53hHxDbAzohvTyJFjaGlantvREP4Y3tg5eqABBJ7Hh+bN2fiZLVrjR6sDovqYl/i/ejPAb1S1IBWiCNvIuMglIuPdLdjiCuv2mkrOHGR+5FHlir/uxZK6cX2ACEVzCgZxQH87PrANLLbr2a9dYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752527185; c=relaxed/simple;
-	bh=Y3L1lweMcjP98sWQTaCgV/uCDV6j+Db5D5c6sDc+uhA=;
+	s=arc-20240116; t=1752527755; c=relaxed/simple;
+	bh=R9p7UV54O+YxuDqFB4foeUJ1VoBveKklzCE3WyracXc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qako2ygksu9mdvELwNoOONf2Xpam3kv530Eh/k4ds2Z0gIWKWLecdoAkX8LeB64Sfv3s/AhNEoUL0R854Y5AfDACFQt0PLG6JkgZ1f5g8ML675TTw92fFfK08ZrTvVyM6l5o9eWXbCU+UG7DabwftCc5VCvCAPF67xDcAUo9hFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hXbI31CR; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=M7ByGWvhWZGXdJ1A8JqKNogXwaxPVgu2UUwyOG8nBG/2ZNKunDq6ST9x3LgL9kORTm1COjhny8uPji8ie96HBQ2oJsFloCbDedH/1xR3iltjmDInGgbt0DEW0iD9amZ96BchZokFAQgSbw7nO2NXvmGTNNJPywCeDC0WgRCnjPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QqActMjC; arc=none smtp.client-ip=209.85.167.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hXbI31CR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752527183; x=1784063183;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Y3L1lweMcjP98sWQTaCgV/uCDV6j+Db5D5c6sDc+uhA=;
-  b=hXbI31CRJ4XNrlU+2oVykVwJKh4jzBlntlQ3oDWlA08A0N/lPCAkxmyM
-   HqlOhnX2fvPtKXfuD3gHFg7KI056sGXTR+WsoaZLHx1sinbw9qg5WOkCD
-   pvJABnAWn5pQXflj+TuTJXqZ/W4s3Gh1BPXTCefX3v3axAbN1LYJliqVG
-   j+xC6Wsf6N4VIjc2tzEumzFmPBAHcLfO6GvfF23tGOwhb6j2d+EF6iKOH
-   i2sEIYR5bjv+eFMxd0zArpCdW3+7Ve3nQ+c4m0p11jIkC2Dq1lOReLy4j
-   VXztpAUvG3MZO4oGiZAULir4maF5C81tx3kJL7fq4i9nyZliYOejZv9JM
-   g==;
-X-CSE-ConnectionGUID: n8mOgb/HQayYnZeht1ZxRg==
-X-CSE-MsgGUID: S0hCYJyjTlmWgRu6TVx3bQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66089953"
-X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="66089953"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 14:06:20 -0700
-X-CSE-ConnectionGUID: qxyoJQf9RxmfF3I9/mOCsQ==
-X-CSE-MsgGUID: rJWx8F6FRGWhR1pph33VJA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="157132707"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 14 Jul 2025 14:06:18 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubQNL-0009LX-01;
-	Mon, 14 Jul 2025 21:06:15 +0000
-Date: Tue, 15 Jul 2025 05:05:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/memory.c:4510 do_swap_page() error: uninitialized symbol
- 'nr_pages'.
-Message-ID: <202507150438.oRheOdNy-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QqActMjC"
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-40a4bf1eb0dso2187438b6e.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 14 Jul 2025 14:15:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752527752; x=1753132552; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=q/nmQOAJsGsmgSqDUNufXUQtWakea13dbkLKk0nG1Kg=;
+        b=QqActMjCvdgAQWZkd3rKp6eOE3pqyJwWinGrHemi8tMYwKy3/GPzRf/jqoTz05/3Mm
+         aUO03VxiPcX0G6kHg4IrK9hpQn78XSqPpo9d7OOIxWH+QdI8gLVAjbdCRzUTbB0Tqc4L
+         He10E5+9Zmx3k0s5/rZqOVMbwtBO2yoBqhdXtBSK0hKgHeHiNzuXKckaC3E7yBbRe+zA
+         paNeTUV74AOcfQrtBizXAiZ3r75fR09+oRMKZCklaSZmXNzGLJTa85O8/rjASFVgWGwZ
+         vEKjoehPqznc9dTAMeb1QyfHWi/zM0hE0qH2nnGC0iX73EINUk30DrGv9QRVweeoKoXg
+         dJRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752527752; x=1753132552;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q/nmQOAJsGsmgSqDUNufXUQtWakea13dbkLKk0nG1Kg=;
+        b=B9QZ/W+wk9uIeALU+WJn3TrX9d7Ygt/3Fc3RzyGJ0spzZjApfzQ6ZHK9vo7VsJ7/Bd
+         TzO8RZqRuCNE5XZpZrmqEZmJ6tBnMrtEjm0AgbkMcq2C0WVNkxoTQzAhOReHF3eo67Ph
+         BtYdOQKi8QuSJDeV6aArsf/bhOnZ21TXfZA/H3RXpE3r3rfWDy9O1G0nkskQIzIzf3q+
+         jymZNe3FTv37iMZbq/ADo/3s3EuaMyKPT04KU9WdSMBkWN2+SW3PMETcOVKLjxlPItf3
+         Kjzgd58BOOK8mUnW5jgq41v/3qRRWInBQI2vzGbFhkN3v4L+3AzVzscf93cy1gw4+1yV
+         vswA==
+X-Gm-Message-State: AOJu0Yyoo/SGvX35r9ioWzKINWsWNwc2fzxJUo+az7E3amN9/He8XdWC
+	l2NecnLH8F0mvodYWrUXqjgauKPw9JlsZ8nnX2rHWuO+YArza1zi8/Hh1gY6YAdnEEl8g5vvC6H
+	wJgmk
+X-Gm-Gg: ASbGncsHk5tGgosfTcnljL8KmbcbqgnE1gnTY2qyvyPaBdZnTULoW4TG6Q6Zby7pCuq
+	Cufjcp8+r57DfJ0sKBiTvCmQdJM7LWBXz7yGG5Q2Eh9pmlR2N2hF2l/Ru/q/so4JoLxXE7f5MCj
+	vhpDXzBhtEhfpl33Pot8dsfQt+Nf6czN1UTsKxCFvBVusg/mJagcmvOHWI0VTeqIZRushbKGAZ/
+	00nL53fA/kVewIKzYa95hFs6ZW4NG2/zNk9IlfCOlF6kAS0/3+Qz0IWVSFX86vTi8a6fMJ7h8Zi
+	FIhhTkQr7QIUWwaF7HZO4bbX0TWtkowV3Y8jWvDayuBMHoPZWadIj92d0I18ems9re6sokc3QGC
+	DrbCcJl9rx+0NoII0HKteb1JGDor4lA==
+X-Google-Smtp-Source: AGHT+IG6ZqKKW6X2cjYwVUocRluB9GL2PUhiSHkNNDoLEWvTb/N2hJ64XycDmKqkYQ2LQqZ6pvxt9g==
+X-Received: by 2002:a05:6808:1183:b0:40a:5839:71c5 with SMTP id 5614622812f47-41537566f52mr9653313b6e.8.1752527752279;
+        Mon, 14 Jul 2025 14:15:52 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:6bb2:d90f:e5da:befc])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4141c58febcsm1629365b6e.41.2025.07.14.14.15.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jul 2025 14:15:51 -0700 (PDT)
+Date: Tue, 15 Jul 2025 00:15:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>, Arnd Bergmann <arnd@arndb.de>
+Subject: [broonie-ci:v2_20250711_ckeepax_update_sdca_kconfig 12/13]
+ sound/soc/sdca/sdca_interrupts.c:278 sdca_irq_request() error: buffer
+ overflow 'info->irqs' 31 <= 31
+Message-ID: <a96e0a94-a71c-4067-a264-9c98ecf1c9e8@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Chuanhua Han <hanchuanhua@oppo.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Barry Song <v-songbaohua@oppo.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   347e9f5043c89695b01e66b3ed111755afcf1911
-commit: 242d12c98174584a18965cfab95778893872d650 mm: support large folios swap-in for sync io devices
-date:   10 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 10 months ago
-config: i386-randconfig-141-20250714 (https://download.01.org/0day-ci/archive/20250715/202507150438.oRheOdNy-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v2_20250711_ckeepax_update_sdca_kconfig
+head:   5030abcb0aa3304bf91497844ffa9607a2d4ad5d
+commit: 6894e49b7b62cdb0edbcaaa23ea0218edb3b02dd [12/13] ASoC: SDCA: Kconfig/Makefile fixups
+config: i386-randconfig-141-20250714 (https://download.01.org/0day-ci/archive/20250715/202507150415.M1tCgi3p-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507150438.oRheOdNy-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202507150415.M1tCgi3p-lkp@intel.com/
 
 smatch warnings:
-mm/memory.c:4510 do_swap_page() error: uninitialized symbol 'nr_pages'.
+sound/soc/sdca/sdca_interrupts.c:278 sdca_irq_request() error: buffer overflow 'info->irqs' 31 <= 31
+sound/soc/sdca/sdca_interrupts.c:387 sdca_irq_populate() error: uninitialized symbol 'name'.
 
-vim +/nr_pages +4510 mm/memory.c
+vim +278 sound/soc/sdca/sdca_interrupts.c
 
-242d12c9817458 Chuanhua Han            2024-09-09  4179  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4180  /*
-c1e8d7c6a7a682 Michel Lespinasse       2020-06-08  4181   * We enter with non-exclusive mmap_lock (to exclude vma changes,
-8f4e2101fd7df9 Hugh Dickins            2005-10-29  4182   * but allow concurrent faults), and pte mapped but not yet locked.
-9a95f3cf7b33d6 Paul Cassella           2014-08-06  4183   * We return with pte unmapped and unlocked.
-9a95f3cf7b33d6 Paul Cassella           2014-08-06  4184   *
-c1e8d7c6a7a682 Michel Lespinasse       2020-06-08  4185   * We return with the mmap_lock locked or unlocked in the same cases
-9a95f3cf7b33d6 Paul Cassella           2014-08-06  4186   * as does filemap_fault().
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4187   */
-2b7403035459c7 Souptick Joarder        2018-08-23  4188  vm_fault_t do_swap_page(struct vm_fault *vmf)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4189  {
-82b0f8c39a3869 Jan Kara                2016-12-14  4190  	struct vm_area_struct *vma = vmf->vma;
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4191) 	struct folio *swapcache, *folio = NULL;
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4192) 	struct page *page;
-2799e77529c2a2 Miaohe Lin              2021-06-28  4193  	struct swap_info_struct *si = NULL;
-14f9135d547060 David Hildenbrand       2022-05-09  4194  	rmap_t rmap_flags = RMAP_NONE;
-13ddaf26be324a Kairui Song             2024-02-07  4195  	bool need_clear_cache = false;
-1493a1913e34b0 David Hildenbrand       2022-05-09  4196  	bool exclusive = false;
-65500d234e74fc Hugh Dickins            2005-10-29  4197  	swp_entry_t entry;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4198  	pte_t pte;
-2b7403035459c7 Souptick Joarder        2018-08-23  4199  	vm_fault_t ret = 0;
-aae466b0052e18 Joonsoo Kim             2020-08-11  4200  	void *shadow = NULL;
-508758960b8d89 Chuanhua Han            2024-05-29  4201  	int nr_pages;
-508758960b8d89 Chuanhua Han            2024-05-29  4202  	unsigned long page_idx;
-508758960b8d89 Chuanhua Han            2024-05-29  4203  	unsigned long address;
-508758960b8d89 Chuanhua Han            2024-05-29  4204  	pte_t *ptep;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4205  
-2ca99358671ad3 Peter Xu                2021-11-05  4206  	if (!pte_unmap_same(vmf))
-8f4e2101fd7df9 Hugh Dickins            2005-10-29  4207  		goto out;
-65500d234e74fc Hugh Dickins            2005-10-29  4208  
-2994302bc8a171 Jan Kara                2016-12-14  4209  	entry = pte_to_swp_entry(vmf->orig_pte);
-d1737fdbec7f90 Andi Kleen              2009-09-16  4210  	if (unlikely(non_swap_entry(entry))) {
-0697212a411c1d Christoph Lameter       2006-06-23  4211  		if (is_migration_entry(entry)) {
-82b0f8c39a3869 Jan Kara                2016-12-14  4212  			migration_entry_wait(vma->vm_mm, vmf->pmd,
-82b0f8c39a3869 Jan Kara                2016-12-14  4213  					     vmf->address);
-b756a3b5e7ead8 Alistair Popple         2021-06-30  4214  		} else if (is_device_exclusive_entry(entry)) {
-b756a3b5e7ead8 Alistair Popple         2021-06-30  4215  			vmf->page = pfn_swap_entry_to_page(entry);
-b756a3b5e7ead8 Alistair Popple         2021-06-30  4216  			ret = remove_device_exclusive_entry(vmf);
-5042db43cc26f5 Jérôme Glisse           2017-09-08  4217  		} else if (is_device_private_entry(entry)) {
-1235ccd05b6dd6 Suren Baghdasaryan      2023-06-30  4218  			if (vmf->flags & FAULT_FLAG_VMA_LOCK) {
-1235ccd05b6dd6 Suren Baghdasaryan      2023-06-30  4219  				/*
-1235ccd05b6dd6 Suren Baghdasaryan      2023-06-30  4220  				 * migrate_to_ram is not yet ready to operate
-1235ccd05b6dd6 Suren Baghdasaryan      2023-06-30  4221  				 * under VMA lock.
-1235ccd05b6dd6 Suren Baghdasaryan      2023-06-30  4222  				 */
-1235ccd05b6dd6 Suren Baghdasaryan      2023-06-30  4223  				vma_end_read(vma);
-1235ccd05b6dd6 Suren Baghdasaryan      2023-06-30  4224  				ret = VM_FAULT_RETRY;
-1235ccd05b6dd6 Suren Baghdasaryan      2023-06-30  4225  				goto out;
-1235ccd05b6dd6 Suren Baghdasaryan      2023-06-30  4226  			}
-1235ccd05b6dd6 Suren Baghdasaryan      2023-06-30  4227  
-af5cdaf82238fb Alistair Popple         2021-06-30  4228  			vmf->page = pfn_swap_entry_to_page(entry);
-16ce101db85db6 Alistair Popple         2022-09-28  4229  			vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd,
-16ce101db85db6 Alistair Popple         2022-09-28  4230  					vmf->address, &vmf->ptl);
-3db82b9374ca92 Hugh Dickins            2023-06-08  4231  			if (unlikely(!vmf->pte ||
-c33c794828f212 Ryan Roberts            2023-06-12  4232  				     !pte_same(ptep_get(vmf->pte),
-c33c794828f212 Ryan Roberts            2023-06-12  4233  							vmf->orig_pte)))
-3b65f437d9e8dd Ryan Roberts            2023-06-02  4234  				goto unlock;
-16ce101db85db6 Alistair Popple         2022-09-28  4235  
-16ce101db85db6 Alistair Popple         2022-09-28  4236  			/*
-16ce101db85db6 Alistair Popple         2022-09-28  4237  			 * Get a page reference while we know the page can't be
-16ce101db85db6 Alistair Popple         2022-09-28  4238  			 * freed.
-16ce101db85db6 Alistair Popple         2022-09-28  4239  			 */
-16ce101db85db6 Alistair Popple         2022-09-28  4240  			get_page(vmf->page);
-16ce101db85db6 Alistair Popple         2022-09-28  4241  			pte_unmap_unlock(vmf->pte, vmf->ptl);
-4a955bed882e73 Alistair Popple         2022-11-14  4242  			ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
-16ce101db85db6 Alistair Popple         2022-09-28  4243  			put_page(vmf->page);
-d1737fdbec7f90 Andi Kleen              2009-09-16  4244  		} else if (is_hwpoison_entry(entry)) {
-d1737fdbec7f90 Andi Kleen              2009-09-16  4245  			ret = VM_FAULT_HWPOISON;
-5c041f5d1f23d3 Peter Xu                2022-05-12  4246  		} else if (is_pte_marker_entry(entry)) {
-5c041f5d1f23d3 Peter Xu                2022-05-12  4247  			ret = handle_pte_marker(vmf);
-d1737fdbec7f90 Andi Kleen              2009-09-16  4248  		} else {
-2994302bc8a171 Jan Kara                2016-12-14  4249  			print_bad_pte(vma, vmf->address, vmf->orig_pte, NULL);
-d99be1a8ecf377 Hugh Dickins            2009-12-14  4250  			ret = VM_FAULT_SIGBUS;
-d1737fdbec7f90 Andi Kleen              2009-09-16  4251  		}
-0697212a411c1d Christoph Lameter       2006-06-23  4252  		goto out;
-0697212a411c1d Christoph Lameter       2006-06-23  4253  	}
-0bcac06f27d752 Minchan Kim             2017-11-15  4254  
-2799e77529c2a2 Miaohe Lin              2021-06-28  4255  	/* Prevent swapoff from happening to us. */
-2799e77529c2a2 Miaohe Lin              2021-06-28  4256  	si = get_swap_device(entry);
-2799e77529c2a2 Miaohe Lin              2021-06-28  4257  	if (unlikely(!si))
-2799e77529c2a2 Miaohe Lin              2021-06-28  4258  		goto out;
-0bcac06f27d752 Minchan Kim             2017-11-15  4259  
-5a423081b2465d Matthew Wilcox (Oracle  2022-09-02  4260) 	folio = swap_cache_get_folio(entry, vma, vmf->address);
-5a423081b2465d Matthew Wilcox (Oracle  2022-09-02  4261) 	if (folio)
-5a423081b2465d Matthew Wilcox (Oracle  2022-09-02  4262) 		page = folio_file_page(folio, swp_offset(entry));
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4263) 	swapcache = folio;
-f80207727aaca3 Minchan Kim             2018-01-18  4264  
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4265) 	if (!folio) {
-a449bf58e45abf Qian Cai                2020-08-14  4266  		if (data_race(si->flags & SWP_SYNCHRONOUS_IO) &&
-eb085574a7526c Huang Ying              2019-07-11  4267  		    __swap_count(entry) == 1) {
-0bcac06f27d752 Minchan Kim             2017-11-15  4268  			/* skip swapcache */
-242d12c9817458 Chuanhua Han            2024-09-09  4269  			folio = alloc_swap_folio(vmf);
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4270) 			if (folio) {
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4271) 				__folio_set_locked(folio);
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4272) 				__folio_set_swapbacked(folio);
-4c6355b25e8bb8 Johannes Weiner         2020-06-03  4273  
-242d12c9817458 Chuanhua Han            2024-09-09  4274  				nr_pages = folio_nr_pages(folio);
-242d12c9817458 Chuanhua Han            2024-09-09  4275  				if (folio_test_large(folio))
-242d12c9817458 Chuanhua Han            2024-09-09  4276  					entry.val = ALIGN_DOWN(entry.val, nr_pages);
-242d12c9817458 Chuanhua Han            2024-09-09  4277  				/*
-242d12c9817458 Chuanhua Han            2024-09-09  4278  				 * Prevent parallel swapin from proceeding with
-242d12c9817458 Chuanhua Han            2024-09-09  4279  				 * the cache flag. Otherwise, another thread
-242d12c9817458 Chuanhua Han            2024-09-09  4280  				 * may finish swapin first, free the entry, and
-242d12c9817458 Chuanhua Han            2024-09-09  4281  				 * swapout reusing the same entry. It's
-242d12c9817458 Chuanhua Han            2024-09-09  4282  				 * undetectable as pte_same() returns true due
-242d12c9817458 Chuanhua Han            2024-09-09  4283  				 * to entry reuse.
-242d12c9817458 Chuanhua Han            2024-09-09  4284  				 */
-242d12c9817458 Chuanhua Han            2024-09-09  4285  				if (swapcache_prepare(entry, nr_pages)) {
-242d12c9817458 Chuanhua Han            2024-09-09  4286  					/*
-242d12c9817458 Chuanhua Han            2024-09-09  4287  					 * Relax a bit to prevent rapid
-242d12c9817458 Chuanhua Han            2024-09-09  4288  					 * repeated page faults.
-242d12c9817458 Chuanhua Han            2024-09-09  4289  					 */
-242d12c9817458 Chuanhua Han            2024-09-09  4290  					schedule_timeout_uninterruptible(1);
-4c6355b25e8bb8 Johannes Weiner         2020-06-03  4291  					goto out_page;
-545b1b077ca6b3 Michal Hocko            2020-06-25  4292  				}
-242d12c9817458 Chuanhua Han            2024-09-09  4293  				need_clear_cache = true;
-242d12c9817458 Chuanhua Han            2024-09-09  4294  
-242d12c9817458 Chuanhua Han            2024-09-09  4295  				mem_cgroup_swapin_uncharge_swap(entry, nr_pages);
-4c6355b25e8bb8 Johannes Weiner         2020-06-03  4296  
-aae466b0052e18 Joonsoo Kim             2020-08-11  4297  				shadow = get_shadow_from_swap_cache(entry);
-aae466b0052e18 Joonsoo Kim             2020-08-11  4298  				if (shadow)
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4299) 					workingset_refault(folio, shadow);
-0076f029cb2906 Joonsoo Kim             2020-06-25  4300  
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4301) 				folio_add_lru(folio);
-0add0c77a9bd0c Shakeel Butt            2021-04-29  4302  
-c9bdf768dd9319 Matthew Wilcox (Oracle  2023-12-13  4303) 				/* To provide entry to swap_read_folio() */
-3d2c9087688777 David Hildenbrand       2023-08-21  4304  				folio->swap = entry;
-b2d1f38b524121 Yosry Ahmed             2024-06-07  4305  				swap_read_folio(folio, NULL);
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4306) 				folio->private = NULL;
-0bcac06f27d752 Minchan Kim             2017-11-15  4307  			}
-aa8d22a11da933 Minchan Kim             2017-11-15  4308  		} else {
-94dc8bffd8b7fe Matthew Wilcox (Oracle  2024-08-07  4309) 			folio = swapin_readahead(entry, GFP_HIGHUSER_MOVABLE,
-e9e9b7ecee4a13 Minchan Kim             2018-04-05  4310  						vmf);
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4311) 			swapcache = folio;
-0bcac06f27d752 Minchan Kim             2017-11-15  4312  		}
-0bcac06f27d752 Minchan Kim             2017-11-15  4313  
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4314) 		if (!folio) {
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4315  			/*
-8f4e2101fd7df9 Hugh Dickins            2005-10-29  4316  			 * Back out if somebody else faulted in this pte
-8f4e2101fd7df9 Hugh Dickins            2005-10-29  4317  			 * while we released the pte lock.
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4318  			 */
-82b0f8c39a3869 Jan Kara                2016-12-14  4319  			vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd,
-82b0f8c39a3869 Jan Kara                2016-12-14  4320  					vmf->address, &vmf->ptl);
-c33c794828f212 Ryan Roberts            2023-06-12  4321  			if (likely(vmf->pte &&
-c33c794828f212 Ryan Roberts            2023-06-12  4322  				   pte_same(ptep_get(vmf->pte), vmf->orig_pte)))
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4323  				ret = VM_FAULT_OOM;
-65500d234e74fc Hugh Dickins            2005-10-29  4324  			goto unlock;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4325  		}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4326  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4327  		/* Had to read the page from swap area: Major fault */
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4328  		ret = VM_FAULT_MAJOR;
-f8891e5e1f93a1 Christoph Lameter       2006-06-30  4329  		count_vm_event(PGMAJFAULT);
-2262185c5b287f Roman Gushchin          2017-07-06  4330  		count_memcg_event_mm(vma->vm_mm, PGMAJFAULT);
-94dc8bffd8b7fe Matthew Wilcox (Oracle  2024-08-07  4331) 		page = folio_file_page(folio, swp_offset(entry));
-d1737fdbec7f90 Andi Kleen              2009-09-16  4332  	} else if (PageHWPoison(page)) {
-71f72525dfaaec Wu Fengguang            2009-12-16  4333  		/*
-71f72525dfaaec Wu Fengguang            2009-12-16  4334  		 * hwpoisoned dirty swapcache pages are kept for killing
-71f72525dfaaec Wu Fengguang            2009-12-16  4335  		 * owner processes (which may be unknown at hwpoison time)
-71f72525dfaaec Wu Fengguang            2009-12-16  4336  		 */
-d1737fdbec7f90 Andi Kleen              2009-09-16  4337  		ret = VM_FAULT_HWPOISON;
-4779cb31c0ee3b Andi Kleen              2009-10-14  4338  		goto out_release;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4339  	}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4340  
-fdc724d6aa44ef Suren Baghdasaryan      2023-06-30  4341  	ret |= folio_lock_or_retry(folio, vmf);
-fdc724d6aa44ef Suren Baghdasaryan      2023-06-30  4342  	if (ret & VM_FAULT_RETRY)
-d065bd810b6deb Michel Lespinasse       2010-10-26  4343  		goto out_release;
-073e587ec2cc37 KAMEZAWA Hiroyuki       2008-10-18  4344  
-84d60fdd3733fb David Hildenbrand       2022-03-24  4345  	if (swapcache) {
-4969c1192d15af Andrea Arcangeli        2010-09-09  4346  		/*
-3b344157c0c15b Matthew Wilcox (Oracle  2022-09-02  4347) 		 * Make sure folio_free_swap() or swapoff did not release the
-84d60fdd3733fb David Hildenbrand       2022-03-24  4348  		 * swapcache from under us.  The page pin, and pte_same test
-84d60fdd3733fb David Hildenbrand       2022-03-24  4349  		 * below, are not enough to exclude that.  Even if it is still
-84d60fdd3733fb David Hildenbrand       2022-03-24  4350  		 * swapcache, we need to check that the page's swap has not
-84d60fdd3733fb David Hildenbrand       2022-03-24  4351  		 * changed.
-4969c1192d15af Andrea Arcangeli        2010-09-09  4352  		 */
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4353) 		if (unlikely(!folio_test_swapcache(folio) ||
-cfeed8ffe55b37 David Hildenbrand       2023-08-21  4354  			     page_swap_entry(page).val != entry.val))
-4969c1192d15af Andrea Arcangeli        2010-09-09  4355  			goto out_page;
-4969c1192d15af Andrea Arcangeli        2010-09-09  4356  
-84d60fdd3733fb David Hildenbrand       2022-03-24  4357  		/*
-84d60fdd3733fb David Hildenbrand       2022-03-24  4358  		 * KSM sometimes has to copy on read faults, for example, if
-84d60fdd3733fb David Hildenbrand       2022-03-24  4359  		 * page->index of !PageKSM() pages would be nonlinear inside the
-84d60fdd3733fb David Hildenbrand       2022-03-24  4360  		 * anon VMA -- PageKSM() is lost on actual swapout.
-84d60fdd3733fb David Hildenbrand       2022-03-24  4361  		 */
-96db66d9c8f3c1 Matthew Wilcox (Oracle  2023-12-11  4362) 		folio = ksm_might_need_to_copy(folio, vma, vmf->address);
-96db66d9c8f3c1 Matthew Wilcox (Oracle  2023-12-11  4363) 		if (unlikely(!folio)) {
-5ad6468801d28c Hugh Dickins            2009-12-14  4364  			ret = VM_FAULT_OOM;
-96db66d9c8f3c1 Matthew Wilcox (Oracle  2023-12-11  4365) 			folio = swapcache;
-4969c1192d15af Andrea Arcangeli        2010-09-09  4366  			goto out_page;
-96db66d9c8f3c1 Matthew Wilcox (Oracle  2023-12-11  4367) 		} else if (unlikely(folio == ERR_PTR(-EHWPOISON))) {
-6b970599e807ea Kefeng Wang             2022-12-09  4368  			ret = VM_FAULT_HWPOISON;
-96db66d9c8f3c1 Matthew Wilcox (Oracle  2023-12-11  4369) 			folio = swapcache;
-6b970599e807ea Kefeng Wang             2022-12-09  4370  			goto out_page;
-4969c1192d15af Andrea Arcangeli        2010-09-09  4371  		}
-96db66d9c8f3c1 Matthew Wilcox (Oracle  2023-12-11  4372) 		if (folio != swapcache)
-96db66d9c8f3c1 Matthew Wilcox (Oracle  2023-12-11  4373) 			page = folio_page(folio, 0);
-c145e0b47c77eb David Hildenbrand       2022-03-24  4374  
-c145e0b47c77eb David Hildenbrand       2022-03-24  4375  		/*
-c145e0b47c77eb David Hildenbrand       2022-03-24  4376  		 * If we want to map a page that's in the swapcache writable, we
-c145e0b47c77eb David Hildenbrand       2022-03-24  4377  		 * have to detect via the refcount if we're really the exclusive
-c145e0b47c77eb David Hildenbrand       2022-03-24  4378  		 * owner. Try removing the extra reference from the local LRU
-1fec6890bf2247 Matthew Wilcox (Oracle  2023-06-21  4379) 		 * caches if required.
-c145e0b47c77eb David Hildenbrand       2022-03-24  4380  		 */
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4381) 		if ((vmf->flags & FAULT_FLAG_WRITE) && folio == swapcache &&
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4382) 		    !folio_test_ksm(folio) && !folio_test_lru(folio))
-c145e0b47c77eb David Hildenbrand       2022-03-24  4383  			lru_add_drain();
-84d60fdd3733fb David Hildenbrand       2022-03-24  4384  	}
-5ad6468801d28c Hugh Dickins            2009-12-14  4385  
-4231f8425833b1 Kefeng Wang             2023-03-02  4386  	folio_throttle_swaprate(folio, GFP_KERNEL);
-8a9f3ccd24741b Balbir Singh            2008-02-07  4387  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4388  	/*
-8f4e2101fd7df9 Hugh Dickins            2005-10-29  4389  	 * Back out if somebody else already faulted in this pte.
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4390  	 */
-82b0f8c39a3869 Jan Kara                2016-12-14  4391  	vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, vmf->address,
-82b0f8c39a3869 Jan Kara                2016-12-14  4392  			&vmf->ptl);
-c33c794828f212 Ryan Roberts            2023-06-12  4393  	if (unlikely(!vmf->pte || !pte_same(ptep_get(vmf->pte), vmf->orig_pte)))
-b81074800b98ac Kirill Korotaev         2005-05-16  4394  		goto out_nomap;
-b81074800b98ac Kirill Korotaev         2005-05-16  4395  
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4396) 	if (unlikely(!folio_test_uptodate(folio))) {
-b81074800b98ac Kirill Korotaev         2005-05-16  4397  		ret = VM_FAULT_SIGBUS;
-b81074800b98ac Kirill Korotaev         2005-05-16  4398  		goto out_nomap;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4399  	}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4400  
-242d12c9817458 Chuanhua Han            2024-09-09  4401  	/* allocated large folios for SWP_SYNCHRONOUS_IO */
-242d12c9817458 Chuanhua Han            2024-09-09  4402  	if (folio_test_large(folio) && !folio_test_swapcache(folio)) {
-242d12c9817458 Chuanhua Han            2024-09-09  4403  		unsigned long nr = folio_nr_pages(folio);
-242d12c9817458 Chuanhua Han            2024-09-09  4404  		unsigned long folio_start = ALIGN_DOWN(vmf->address, nr * PAGE_SIZE);
-242d12c9817458 Chuanhua Han            2024-09-09  4405  		unsigned long idx = (vmf->address - folio_start) / PAGE_SIZE;
-242d12c9817458 Chuanhua Han            2024-09-09  4406  		pte_t *folio_ptep = vmf->pte - idx;
-242d12c9817458 Chuanhua Han            2024-09-09  4407  		pte_t folio_pte = ptep_get(folio_ptep);
-242d12c9817458 Chuanhua Han            2024-09-09  4408  
-242d12c9817458 Chuanhua Han            2024-09-09  4409  		if (!pte_same(folio_pte, pte_move_swp_offset(vmf->orig_pte, -idx)) ||
-242d12c9817458 Chuanhua Han            2024-09-09  4410  		    swap_pte_batch(folio_ptep, nr, folio_pte) != nr)
-242d12c9817458 Chuanhua Han            2024-09-09  4411  			goto out_nomap;
-242d12c9817458 Chuanhua Han            2024-09-09  4412  
-242d12c9817458 Chuanhua Han            2024-09-09  4413  		page_idx = idx;
-242d12c9817458 Chuanhua Han            2024-09-09  4414  		address = folio_start;
-242d12c9817458 Chuanhua Han            2024-09-09  4415  		ptep = folio_ptep;
-242d12c9817458 Chuanhua Han            2024-09-09  4416  		goto check_folio;
-242d12c9817458 Chuanhua Han            2024-09-09  4417  	}
-242d12c9817458 Chuanhua Han            2024-09-09  4418  
-508758960b8d89 Chuanhua Han            2024-05-29  4419  	nr_pages = 1;
-508758960b8d89 Chuanhua Han            2024-05-29  4420  	page_idx = 0;
-508758960b8d89 Chuanhua Han            2024-05-29  4421  	address = vmf->address;
-508758960b8d89 Chuanhua Han            2024-05-29  4422  	ptep = vmf->pte;
-508758960b8d89 Chuanhua Han            2024-05-29  4423  	if (folio_test_large(folio) && folio_test_swapcache(folio)) {
-508758960b8d89 Chuanhua Han            2024-05-29  4424  		int nr = folio_nr_pages(folio);
-508758960b8d89 Chuanhua Han            2024-05-29  4425  		unsigned long idx = folio_page_idx(folio, page);
-508758960b8d89 Chuanhua Han            2024-05-29  4426  		unsigned long folio_start = address - idx * PAGE_SIZE;
-508758960b8d89 Chuanhua Han            2024-05-29  4427  		unsigned long folio_end = folio_start + nr * PAGE_SIZE;
-508758960b8d89 Chuanhua Han            2024-05-29  4428  		pte_t *folio_ptep;
-508758960b8d89 Chuanhua Han            2024-05-29  4429  		pte_t folio_pte;
-508758960b8d89 Chuanhua Han            2024-05-29  4430  
-508758960b8d89 Chuanhua Han            2024-05-29  4431  		if (unlikely(folio_start < max(address & PMD_MASK, vma->vm_start)))
-508758960b8d89 Chuanhua Han            2024-05-29  4432  			goto check_folio;
-508758960b8d89 Chuanhua Han            2024-05-29  4433  		if (unlikely(folio_end > pmd_addr_end(address, vma->vm_end)))
-508758960b8d89 Chuanhua Han            2024-05-29  4434  			goto check_folio;
-508758960b8d89 Chuanhua Han            2024-05-29  4435  
-508758960b8d89 Chuanhua Han            2024-05-29  4436  		folio_ptep = vmf->pte - idx;
-508758960b8d89 Chuanhua Han            2024-05-29  4437  		folio_pte = ptep_get(folio_ptep);
-508758960b8d89 Chuanhua Han            2024-05-29  4438  		if (!pte_same(folio_pte, pte_move_swp_offset(vmf->orig_pte, -idx)) ||
-508758960b8d89 Chuanhua Han            2024-05-29  4439  		    swap_pte_batch(folio_ptep, nr, folio_pte) != nr)
-508758960b8d89 Chuanhua Han            2024-05-29  4440  			goto check_folio;
-508758960b8d89 Chuanhua Han            2024-05-29  4441  
-508758960b8d89 Chuanhua Han            2024-05-29  4442  		page_idx = idx;
-508758960b8d89 Chuanhua Han            2024-05-29  4443  		address = folio_start;
-508758960b8d89 Chuanhua Han            2024-05-29  4444  		ptep = folio_ptep;
-508758960b8d89 Chuanhua Han            2024-05-29  4445  		nr_pages = nr;
-508758960b8d89 Chuanhua Han            2024-05-29  4446  		entry = folio->swap;
-508758960b8d89 Chuanhua Han            2024-05-29  4447  		page = &folio->page;
-508758960b8d89 Chuanhua Han            2024-05-29  4448  	}
-508758960b8d89 Chuanhua Han            2024-05-29  4449  
-508758960b8d89 Chuanhua Han            2024-05-29  4450  check_folio:
-78fbe906cc900b David Hildenbrand       2022-05-09  4451  	/*
-78fbe906cc900b David Hildenbrand       2022-05-09  4452  	 * PG_anon_exclusive reuses PG_mappedtodisk for anon pages. A swap pte
-78fbe906cc900b David Hildenbrand       2022-05-09  4453  	 * must never point at an anonymous page in the swapcache that is
-78fbe906cc900b David Hildenbrand       2022-05-09  4454  	 * PG_anon_exclusive. Sanity check that this holds and especially, that
-78fbe906cc900b David Hildenbrand       2022-05-09  4455  	 * no filesystem set PG_mappedtodisk on a page in the swapcache. Sanity
-78fbe906cc900b David Hildenbrand       2022-05-09  4456  	 * check after taking the PT lock and making sure that nobody
-78fbe906cc900b David Hildenbrand       2022-05-09  4457  	 * concurrently faulted in this page and set PG_anon_exclusive.
-78fbe906cc900b David Hildenbrand       2022-05-09  4458  	 */
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4459) 	BUG_ON(!folio_test_anon(folio) && folio_test_mappedtodisk(folio));
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4460) 	BUG_ON(folio_test_anon(folio) && PageAnonExclusive(page));
-78fbe906cc900b David Hildenbrand       2022-05-09  4461  
-1493a1913e34b0 David Hildenbrand       2022-05-09  4462  	/*
-1493a1913e34b0 David Hildenbrand       2022-05-09  4463  	 * Check under PT lock (to protect against concurrent fork() sharing
-1493a1913e34b0 David Hildenbrand       2022-05-09  4464  	 * the swap entry concurrently) for certainly exclusive pages.
-1493a1913e34b0 David Hildenbrand       2022-05-09  4465  	 */
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4466) 	if (!folio_test_ksm(folio)) {
-1493a1913e34b0 David Hildenbrand       2022-05-09  4467  		exclusive = pte_swp_exclusive(vmf->orig_pte);
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4468) 		if (folio != swapcache) {
-1493a1913e34b0 David Hildenbrand       2022-05-09  4469  			/*
-1493a1913e34b0 David Hildenbrand       2022-05-09  4470  			 * We have a fresh page that is not exposed to the
-1493a1913e34b0 David Hildenbrand       2022-05-09  4471  			 * swapcache -> certainly exclusive.
-1493a1913e34b0 David Hildenbrand       2022-05-09  4472  			 */
-1493a1913e34b0 David Hildenbrand       2022-05-09  4473  			exclusive = true;
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4474) 		} else if (exclusive && folio_test_writeback(folio) &&
-eacde32757c756 Miaohe Lin              2022-05-19  4475  			  data_race(si->flags & SWP_STABLE_WRITES)) {
-1493a1913e34b0 David Hildenbrand       2022-05-09  4476  			/*
-1493a1913e34b0 David Hildenbrand       2022-05-09  4477  			 * This is tricky: not all swap backends support
-1493a1913e34b0 David Hildenbrand       2022-05-09  4478  			 * concurrent page modifications while under writeback.
-1493a1913e34b0 David Hildenbrand       2022-05-09  4479  			 *
-1493a1913e34b0 David Hildenbrand       2022-05-09  4480  			 * So if we stumble over such a page in the swapcache
-1493a1913e34b0 David Hildenbrand       2022-05-09  4481  			 * we must not set the page exclusive, otherwise we can
-1493a1913e34b0 David Hildenbrand       2022-05-09  4482  			 * map it writable without further checks and modify it
-1493a1913e34b0 David Hildenbrand       2022-05-09  4483  			 * while still under writeback.
-1493a1913e34b0 David Hildenbrand       2022-05-09  4484  			 *
-1493a1913e34b0 David Hildenbrand       2022-05-09  4485  			 * For these problematic swap backends, simply drop the
-1493a1913e34b0 David Hildenbrand       2022-05-09  4486  			 * exclusive marker: this is perfectly fine as we start
-1493a1913e34b0 David Hildenbrand       2022-05-09  4487  			 * writeback only if we fully unmapped the page and
-1493a1913e34b0 David Hildenbrand       2022-05-09  4488  			 * there are no unexpected references on the page after
-1493a1913e34b0 David Hildenbrand       2022-05-09  4489  			 * unmapping succeeded. After fully unmapped, no
-1493a1913e34b0 David Hildenbrand       2022-05-09  4490  			 * further GUP references (FOLL_GET and FOLL_PIN) can
-1493a1913e34b0 David Hildenbrand       2022-05-09  4491  			 * appear, so dropping the exclusive marker and mapping
-1493a1913e34b0 David Hildenbrand       2022-05-09  4492  			 * it only R/O is fine.
-1493a1913e34b0 David Hildenbrand       2022-05-09  4493  			 */
-1493a1913e34b0 David Hildenbrand       2022-05-09  4494  			exclusive = false;
-1493a1913e34b0 David Hildenbrand       2022-05-09  4495  		}
-1493a1913e34b0 David Hildenbrand       2022-05-09  4496  	}
-1493a1913e34b0 David Hildenbrand       2022-05-09  4497  
-6dca4ac6fc91fd Peter Collingbourne     2023-05-22  4498  	/*
-6dca4ac6fc91fd Peter Collingbourne     2023-05-22  4499  	 * Some architectures may have to restore extra metadata to the page
-6dca4ac6fc91fd Peter Collingbourne     2023-05-22  4500  	 * when reading from swap. This metadata may be indexed by swap entry
-6dca4ac6fc91fd Peter Collingbourne     2023-05-22  4501  	 * so this must be called before swap_free().
-6dca4ac6fc91fd Peter Collingbourne     2023-05-22  4502  	 */
-f238b8c33c6738 Barry Song              2024-03-23  4503  	arch_swap_restore(folio_swap(entry, folio), folio);
-6dca4ac6fc91fd Peter Collingbourne     2023-05-22  4504  
-8c7c6e34a1256a KAMEZAWA Hiroyuki       2009-01-07  4505  	/*
-c145e0b47c77eb David Hildenbrand       2022-03-24  4506  	 * Remove the swap entry and conditionally try to free up the swapcache.
-c145e0b47c77eb David Hildenbrand       2022-03-24  4507  	 * We're already holding a reference on the page but haven't mapped it
-c145e0b47c77eb David Hildenbrand       2022-03-24  4508  	 * yet.
-8c7c6e34a1256a KAMEZAWA Hiroyuki       2009-01-07  4509  	 */
-508758960b8d89 Chuanhua Han            2024-05-29 @4510  	swap_free_nr(entry, nr_pages);
-a160e5377b55bc Matthew Wilcox (Oracle  2022-09-02  4511) 	if (should_try_to_free_swap(folio, vma, vmf->flags))
-a160e5377b55bc Matthew Wilcox (Oracle  2022-09-02  4512) 		folio_free_swap(folio);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4513  
-508758960b8d89 Chuanhua Han            2024-05-29  4514  	add_mm_counter(vma->vm_mm, MM_ANONPAGES, nr_pages);
-508758960b8d89 Chuanhua Han            2024-05-29  4515  	add_mm_counter(vma->vm_mm, MM_SWAPENTS, -nr_pages);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4516  	pte = mk_pte(page, vma->vm_page_prot);
-c18160dba5ff63 Barry Song              2024-06-02  4517  	if (pte_swp_soft_dirty(vmf->orig_pte))
-c18160dba5ff63 Barry Song              2024-06-02  4518  		pte = pte_mksoft_dirty(pte);
-c18160dba5ff63 Barry Song              2024-06-02  4519  	if (pte_swp_uffd_wp(vmf->orig_pte))
-c18160dba5ff63 Barry Song              2024-06-02  4520  		pte = pte_mkuffd_wp(pte);
-c145e0b47c77eb David Hildenbrand       2022-03-24  4521  
-c145e0b47c77eb David Hildenbrand       2022-03-24  4522  	/*
-1493a1913e34b0 David Hildenbrand       2022-05-09  4523  	 * Same logic as in do_wp_page(); however, optimize for pages that are
-1493a1913e34b0 David Hildenbrand       2022-05-09  4524  	 * certainly not shared either because we just allocated them without
-1493a1913e34b0 David Hildenbrand       2022-05-09  4525  	 * exposing them to the swapcache or because the swap entry indicates
-1493a1913e34b0 David Hildenbrand       2022-05-09  4526  	 * exclusivity.
-c145e0b47c77eb David Hildenbrand       2022-03-24  4527  	 */
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4528) 	if (!folio_test_ksm(folio) &&
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4529) 	    (exclusive || folio_ref_count(folio) == 1)) {
-c18160dba5ff63 Barry Song              2024-06-02  4530  		if ((vma->vm_flags & VM_WRITE) && !userfaultfd_pte_wp(vma, pte) &&
-20dfa5b7adc5a1 Barry Song              2024-06-08  4531  		    !pte_needs_soft_dirty_wp(vma, pte)) {
-c18160dba5ff63 Barry Song              2024-06-02  4532  			pte = pte_mkwrite(pte, vma);
-6c287605fd5646 David Hildenbrand       2022-05-09  4533  			if (vmf->flags & FAULT_FLAG_WRITE) {
-c18160dba5ff63 Barry Song              2024-06-02  4534  				pte = pte_mkdirty(pte);
-82b0f8c39a3869 Jan Kara                2016-12-14  4535  				vmf->flags &= ~FAULT_FLAG_WRITE;
-6c287605fd5646 David Hildenbrand       2022-05-09  4536  			}
-c18160dba5ff63 Barry Song              2024-06-02  4537  		}
-14f9135d547060 David Hildenbrand       2022-05-09  4538  		rmap_flags |= RMAP_EXCLUSIVE;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4539  	}
-508758960b8d89 Chuanhua Han            2024-05-29  4540  	folio_ref_add(folio, nr_pages - 1);
-508758960b8d89 Chuanhua Han            2024-05-29  4541  	flush_icache_pages(vma, page, nr_pages);
-508758960b8d89 Chuanhua Han            2024-05-29  4542  	vmf->orig_pte = pte_advance_pfn(pte, page_idx);
-0bcac06f27d752 Minchan Kim             2017-11-15  4543  
-0bcac06f27d752 Minchan Kim             2017-11-15  4544  	/* ksm created a completely new copy */
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4545) 	if (unlikely(folio != swapcache && swapcache)) {
-15bde4abab734c Barry Song              2024-06-18  4546  		folio_add_new_anon_rmap(folio, vma, address, RMAP_EXCLUSIVE);
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4547) 		folio_add_lru_vma(folio, vma);
-9ae2feacedde16 Barry Song              2024-06-18  4548  	} else if (!folio_test_anon(folio)) {
-9ae2feacedde16 Barry Song              2024-06-18  4549  		/*
-242d12c9817458 Chuanhua Han            2024-09-09  4550  		 * We currently only expect small !anon folios which are either
-242d12c9817458 Chuanhua Han            2024-09-09  4551  		 * fully exclusive or fully shared, or new allocated large
-242d12c9817458 Chuanhua Han            2024-09-09  4552  		 * folios which are fully exclusive. If we ever get large
-242d12c9817458 Chuanhua Han            2024-09-09  4553  		 * folios within swapcache here, we have to be careful.
-9ae2feacedde16 Barry Song              2024-06-18  4554  		 */
-242d12c9817458 Chuanhua Han            2024-09-09  4555  		VM_WARN_ON_ONCE(folio_test_large(folio) && folio_test_swapcache(folio));
-9ae2feacedde16 Barry Song              2024-06-18  4556  		VM_WARN_ON_FOLIO(!folio_test_locked(folio), folio);
-9ae2feacedde16 Barry Song              2024-06-18  4557  		folio_add_new_anon_rmap(folio, vma, address, rmap_flags);
-0bcac06f27d752 Minchan Kim             2017-11-15  4558  	} else {
-508758960b8d89 Chuanhua Han            2024-05-29  4559  		folio_add_anon_rmap_ptes(folio, page, nr_pages, vma, address,
-b832a354d787bf David Hildenbrand       2023-12-20  4560  					rmap_flags);
-00501b531c4723 Johannes Weiner         2014-08-08  4561  	}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4562  
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4563) 	VM_BUG_ON(!folio_test_anon(folio) ||
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4564) 			(pte_write(pte) && !PageAnonExclusive(page)));
-508758960b8d89 Chuanhua Han            2024-05-29  4565  	set_ptes(vma->vm_mm, address, ptep, pte, nr_pages);
-508758960b8d89 Chuanhua Han            2024-05-29  4566  	arch_do_swap_page_nr(vma->vm_mm, vma, address,
-508758960b8d89 Chuanhua Han            2024-05-29  4567  			pte, pte, nr_pages);
-1eba86c096e35e Pasha Tatashin          2022-01-14  4568  
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4569) 	folio_unlock(folio);
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4570) 	if (folio != swapcache && swapcache) {
-4969c1192d15af Andrea Arcangeli        2010-09-09  4571  		/*
-4969c1192d15af Andrea Arcangeli        2010-09-09  4572  		 * Hold the lock to avoid the swap entry to be reused
-4969c1192d15af Andrea Arcangeli        2010-09-09  4573  		 * until we take the PT lock for the pte_same() check
-4969c1192d15af Andrea Arcangeli        2010-09-09  4574  		 * (to avoid false positives from pte_same). For
-4969c1192d15af Andrea Arcangeli        2010-09-09  4575  		 * further safety release the lock after the swap_free
-4969c1192d15af Andrea Arcangeli        2010-09-09  4576  		 * so that the swap count won't change under a
-4969c1192d15af Andrea Arcangeli        2010-09-09  4577  		 * parallel locked swapcache.
-4969c1192d15af Andrea Arcangeli        2010-09-09  4578  		 */
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4579) 		folio_unlock(swapcache);
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4580) 		folio_put(swapcache);
-4969c1192d15af Andrea Arcangeli        2010-09-09  4581  	}
-c475a8ab625d56 Hugh Dickins            2005-06-21  4582  
-82b0f8c39a3869 Jan Kara                2016-12-14  4583  	if (vmf->flags & FAULT_FLAG_WRITE) {
-2994302bc8a171 Jan Kara                2016-12-14  4584  		ret |= do_wp_page(vmf);
-61469f1d51777f Hugh Dickins            2008-03-04  4585  		if (ret & VM_FAULT_ERROR)
-61469f1d51777f Hugh Dickins            2008-03-04  4586  			ret &= VM_FAULT_ERROR;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4587  		goto out;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4588  	}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4589  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4590  	/* No need to invalidate - it was non-present before */
-508758960b8d89 Chuanhua Han            2024-05-29  4591  	update_mmu_cache_range(vmf, vma, address, ptep, nr_pages);
-65500d234e74fc Hugh Dickins            2005-10-29  4592  unlock:
-3db82b9374ca92 Hugh Dickins            2023-06-08  4593  	if (vmf->pte)
-82b0f8c39a3869 Jan Kara                2016-12-14  4594  		pte_unmap_unlock(vmf->pte, vmf->ptl);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4595  out:
-13ddaf26be324a Kairui Song             2024-02-07  4596  	/* Clear the swap cache pin for direct swapin after PTL unlock */
-13ddaf26be324a Kairui Song             2024-02-07  4597  	if (need_clear_cache)
-242d12c9817458 Chuanhua Han            2024-09-09  4598  		swapcache_clear(si, entry, nr_pages);
-2799e77529c2a2 Miaohe Lin              2021-06-28  4599  	if (si)
-2799e77529c2a2 Miaohe Lin              2021-06-28  4600  		put_swap_device(si);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4601  	return ret;
-b81074800b98ac Kirill Korotaev         2005-05-16  4602  out_nomap:
-3db82b9374ca92 Hugh Dickins            2023-06-08  4603  	if (vmf->pte)
-82b0f8c39a3869 Jan Kara                2016-12-14  4604  		pte_unmap_unlock(vmf->pte, vmf->ptl);
-bc43f75cd98158 Johannes Weiner         2009-04-30  4605  out_page:
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4606) 	folio_unlock(folio);
-4779cb31c0ee3b Andi Kleen              2009-10-14  4607  out_release:
-63ad4add382305 Matthew Wilcox (Oracle  2022-09-02  4608) 	folio_put(folio);
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4609) 	if (folio != swapcache && swapcache) {
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4610) 		folio_unlock(swapcache);
-d4f9565ae598bd Matthew Wilcox (Oracle  2022-09-02  4611) 		folio_put(swapcache);
-4969c1192d15af Andrea Arcangeli        2010-09-09  4612  	}
-13ddaf26be324a Kairui Song             2024-02-07  4613  	if (need_clear_cache)
-242d12c9817458 Chuanhua Han            2024-09-09  4614  		swapcache_clear(si, entry, nr_pages);
-2799e77529c2a2 Miaohe Lin              2021-06-28  4615  	if (si)
-2799e77529c2a2 Miaohe Lin              2021-06-28  4616  		put_swap_device(si);
-65500d234e74fc Hugh Dickins            2005-10-29  4617  	return ret;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4618  }
-^1da177e4c3f41 Linus Torvalds          2005-04-16  4619  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  259  int sdca_irq_request(struct device *dev, struct sdca_interrupt_info *info,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  260  		     int sdca_irq, const char *name, irq_handler_t handler,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  261  		     void *data)
+b126394d9ec6f9 Maciej Strozek 2025-06-24  262  {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  263  	int ret;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  264  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  265  	if (sdca_irq < 0 || sdca_irq > SDCA_MAX_INTERRUPTS) {
 
-:::::: The code at line 4510 was first introduced by commit
-:::::: 508758960b8d89fa464abce2f9897973c8e8d4f0 mm: swap: entirely map large folios found in swapcache
+Off by one.  > vs >=.
 
-:::::: TO: Chuanhua Han <hanchuanhua@oppo.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+b126394d9ec6f9 Maciej Strozek 2025-06-24  266  		dev_err(dev, "bad irq request: %d\n", sdca_irq);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  267  		return -EINVAL;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  268  	}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  269  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  270  	guard(mutex)(&info->irq_lock);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  271  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  272  	ret = sdca_irq_request_locked(dev, info, sdca_irq, name, handler, data);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  273  	if (ret) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  274  		dev_err(dev, "failed to request irq %s: %d\n", name, ret);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  275  		return ret;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  276  	}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  277  
+b126394d9ec6f9 Maciej Strozek 2025-06-24 @278  	info->irqs[sdca_irq].externally_requested = true;
+                                                ^^^^^^^^^^^^^^^^^^^^
+
+
+b126394d9ec6f9 Maciej Strozek 2025-06-24  279  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  280  	return 0;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  281  }
+
+[ snip ]
+
+b126394d9ec6f9 Maciej Strozek 2025-06-24  328  int sdca_irq_populate(struct sdca_function_data *function,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  329  		      struct snd_soc_component *component,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  330  		      struct sdca_interrupt_info *info)
+b126394d9ec6f9 Maciej Strozek 2025-06-24  331  {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  332  	struct device *dev = component->dev;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  333  	int i, j;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  334  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  335  	guard(mutex)(&info->irq_lock);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  336  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  337  	for (i = 0; i < function->num_entities; i++) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  338  		struct sdca_entity *entity = &function->entities[i];
+b126394d9ec6f9 Maciej Strozek 2025-06-24  339  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  340  		for (j = 0; j < entity->num_controls; j++) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  341  			struct sdca_control *control = &entity->controls[j];
+b126394d9ec6f9 Maciej Strozek 2025-06-24  342  			int irq = control->interrupt_position;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  343  			struct sdca_interrupt *interrupt;
+b9ab3b61824190 Charles Keepax 2025-06-24  344  			irq_handler_t handler;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  345  			const char *name;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  346  			int ret;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  347  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  348  			if (irq == SDCA_NO_INTERRUPT) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  349  				continue;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  350  			} else if (irq < 0 || irq >= SDCA_MAX_INTERRUPTS) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  351  				dev_err(dev, "bad irq position: %d\n", irq);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  352  				return -EINVAL;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  353  			}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  354  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  355  			interrupt = &info->irqs[irq];
+b126394d9ec6f9 Maciej Strozek 2025-06-24  356  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  357  			if (interrupt->externally_requested) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  358  				dev_dbg(dev,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  359  					"skipping irq %d, externally requested\n",
+b126394d9ec6f9 Maciej Strozek 2025-06-24  360  					irq);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  361  				continue;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  362  			}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  363  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  364  			ret = sdca_irq_data_populate(component, function, entity,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  365  						     control, interrupt);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  366  			if (ret)
+b126394d9ec6f9 Maciej Strozek 2025-06-24  367  				return ret;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  368  
+b9ab3b61824190 Charles Keepax 2025-06-24  369  			handler = base_handler;
+b9ab3b61824190 Charles Keepax 2025-06-24  370  
+b9ab3b61824190 Charles Keepax 2025-06-24  371  			switch (entity->type) {
+b9ab3b61824190 Charles Keepax 2025-06-24  372  			case SDCA_ENTITY_TYPE_ENTITY_0:
+b9ab3b61824190 Charles Keepax 2025-06-24  373  				if (control->sel == SDCA_CTL_ENTITY_0_FUNCTION_STATUS)
+b9ab3b61824190 Charles Keepax 2025-06-24  374  					handler = function_status_handler;
+b9ab3b61824190 Charles Keepax 2025-06-24  375  				break;
+b9ab3b61824190 Charles Keepax 2025-06-24  376  			case SDCA_ENTITY_TYPE_GE:
+b9ab3b61824190 Charles Keepax 2025-06-24  377  				if (control->sel == SDCA_CTL_GE_DETECTED_MODE)
+b9ab3b61824190 Charles Keepax 2025-06-24  378  					handler = detected_mode_handler;
+b9ab3b61824190 Charles Keepax 2025-06-24  379  				break;
+b9ab3b61824190 Charles Keepax 2025-06-24  380  			default:
+b9ab3b61824190 Charles Keepax 2025-06-24  381  				break;
+b9ab3b61824190 Charles Keepax 2025-06-24  382  			}
+b9ab3b61824190 Charles Keepax 2025-06-24  383  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  384  			ret = sdca_irq_request_locked(dev, info, irq, interrupt->name,
+b9ab3b61824190 Charles Keepax 2025-06-24  385  						      handler, interrupt);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  386  			if (ret) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24 @387  				dev_err(dev, "failed to request irq %s: %d\n",
+b126394d9ec6f9 Maciej Strozek 2025-06-24  388  					name, ret);
+
+name is never initialized.
+
+b126394d9ec6f9 Maciej Strozek 2025-06-24  389  				return ret;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  390  			}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  391  		}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  392  	}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  393  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  394  	return 0;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  395  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
