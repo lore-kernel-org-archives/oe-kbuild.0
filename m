@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED1E239E6B
-	for <oe-kbuild@lists.linux.dev>; Mon, 14 Jul 2025 20:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A52223A58B
+	for <oe-kbuild@lists.linux.dev>; Mon, 14 Jul 2025 21:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752526519; cv=none; b=nia9pfUNvq9IWwV/0oZTw4qZe2lnMaKUGMKZpvspJNhrXUOxXdoYRNdcPOOwWIW1x+gKLLYXkXBmcy7M8y4h4ALazsP3qiMs7dze6iAgP3Exvg7YuodkjZrvLPSdfBJlajmphfqZ+MZbHsFxC/JfC+/P55ZJuSV+K3wYV25HLyI=
+	t=1752527182; cv=none; b=WCC7Qf/ChgmNbSrcljOa+cOCn6iApTe9fSa9UMMM/fenBfNbkRtYivp6KFl4rNAbv+eNDUrCPXnRgeMu3WJfa84XJQhzJrQ+zSZuWPoN1GPfbZzJE5Hvj6eDc8R6m7LS9mT8LloDbCMax+FUvC9COvZGny2xOJ9nmiB1lkCvUMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752526519; c=relaxed/simple;
-	bh=kuwjWA1X+o51L/IZy0q2IZYHDYyyvxCDU/FjJjYabeo=;
+	s=arc-20240116; t=1752527182; c=relaxed/simple;
+	bh=90ef4z0opIlQqNvpZ76P9YQ2TgD7bm2QWWvuIMhzXKc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TrWw2XJsEGejy81oMVVJ6ABHuE0RQ3ELHZVCXPjyrwFnW7YupBLPT2jStUbkpYpDqB4UMkVkaqeUCu3kSok2mvtxI6oUdkuz1FArtXQTWD5B4Bdt87tJaHbX17HwkGI+RyFKgxYExhFlDgNjfqvr1dmQ/apdZIT3wyxojfpcH28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YgS0K5NI; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=TRuWJgySxIL81U5wbIY2q6odsVZ+m2DiGVrEmKFbDvrFtAwOx2Bu4P1HDKHmkr/fX0GA0NmIp/e6tg4oZ3RVz4P8ZUO9XnNxve2CcPwk573vp5+YrncUc5fnf/Xw2A2CbHYALFKDMkmlYPBZsGCiIkhEVXQxrGcC73bGn9CEw7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cKC1LDp3; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YgS0K5NI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cKC1LDp3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752526517; x=1784062517;
+  t=1752527180; x=1784063180;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kuwjWA1X+o51L/IZy0q2IZYHDYyyvxCDU/FjJjYabeo=;
-  b=YgS0K5NIhoHF9+PaBq9WBTVNI515lzl6z9aIRo1DHqQXT6EOE33mrCdf
-   xNkIxQ/a5t0RzgLWqlXCt2b+HlhfJXV5BtTuIhT0D7DWdaPbUvKLftB3R
-   NpGFQCjr/736DQhstbjUSJgijq2z/hL7IoPqL6/qak+1knRzeNb5fpb0O
-   pDkuzOxr0CbdF4KWKQEJizfCCm8AZbyZ7aET5xINtdFlrJ0oZ7HfCU6j9
-   fExnxGXpNXGdkZeqwc6UdIzivai3UubNRqNLxyZmuVUORKVPzqL5D/KDE
-   7y2hWCWlK4ssQmScJjZfTeQmL392DttIZ8Lpe5orWJX8SE+yaZOBpKHPW
-   w==;
-X-CSE-ConnectionGUID: HVYkp5RZRRe5jbofaKVewg==
-X-CSE-MsgGUID: 8hbRhMVGQkye8Z07Cusorw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54601644"
+  bh=90ef4z0opIlQqNvpZ76P9YQ2TgD7bm2QWWvuIMhzXKc=;
+  b=cKC1LDp3hbkzt37r1Sz3m6utwLQ5GsOJNd4azX+9izNaqgifoR3aw0Jr
+   6FMrbfF6U7bYaskpYH/XF5oh6F2cdfpq+XW8yQ1z7UEqK1IND9QVsROuA
+   q3TICoDbosA6ML6VFMqHmTTOjqR4juI7QcQdwXs0b0hLv1jHD0X0i92pO
+   Nk5eppIeUNa8i0jPy/yIKUcpQklAY5QJ4lbFRa0mtsyn3Hp59dnT9cXPi
+   Pz+km4B/k8XLWGzgQvl96FL6uxkSNx1AbRigzqBZtUOyTDVCtG5kM4RrM
+   oSlzMVDC8iecTIaeswGHnhHUvNb3hW7nifhz7dYf0yJ2bRh0bjm85aids
+   g==;
+X-CSE-ConnectionGUID: t7wONdCVSDKcyBdyqChjqw==
+X-CSE-MsgGUID: 3RqoQ3HLTS6zb6yfJBx8xg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66089951"
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="54601644"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 13:55:16 -0700
-X-CSE-ConnectionGUID: icTpOw7+TO61kuyDGJ3ZyA==
-X-CSE-MsgGUID: 4VyS1JRjTL6j2s7xe/uNlg==
+   d="scan'208";a="66089951"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 14:06:19 -0700
+X-CSE-ConnectionGUID: +26iPzEWShymDQXOTj13KA==
+X-CSE-MsgGUID: ZB3SNpNzQW6hwyHJpZvAlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="162582686"
+   d="scan'208";a="157132702"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Jul 2025 13:55:14 -0700
+  by orviesa007.jf.intel.com with ESMTP; 14 Jul 2025 14:06:18 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubQCe-0009Kt-2z;
-	Mon, 14 Jul 2025 20:55:12 +0000
-Date: Tue, 15 Jul 2025 04:55:12 +0800
+	id 1ubQNK-0009LT-36;
+	Mon, 14 Jul 2025 21:06:14 +0000
+Date: Tue, 15 Jul 2025 05:05:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tiwai-sound:for-next 114/139] sound/hda/codecs/ca0132.c:2427
- dspio_scp() error: we previously assumed 'reply_len' could be null (see line
- 2390)
-Message-ID: <202507150723.UdvLgOhX-lkp@intel.com>
+Subject: [broonie-ci:v2_20250711_ckeepax_update_sdca_kconfig 12/13]
+ sound/soc/sdca/sdca_interrupts.c:278 sdca_irq_request() error: buffer
+ overflow 'info->irqs' 31 <= 31
+Message-ID: <202507150415.M1tCgi3p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,136 +65,191 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: alsa-devel@alsa-project.org
-TO: Takashi Iwai <tiwai@suse.de>
-CC: Richard Fitzgerald <rf@opensource.cirrus.com>
+TO: Charles Keepax <ckeepax@opensource.cirrus.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Arnd Bergmann <arnd@arndb.de>
 
-Hi Takashi,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-head:   891667cefd16e71cd847c75dbdc272acd996bb68
-commit: 6014e9021b28e634935c776c0271b5cbcabdc5d6 [114/139] ALSA: hda: Move codec drivers into sound/hda/codecs directory
-:::::: branch date: 11 hours ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-141-20250714 (https://download.01.org/0day-ci/archive/20250715/202507150723.UdvLgOhX-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v2_20250711_ckeepax_update_sdca_kconfig
+head:   5030abcb0aa3304bf91497844ffa9607a2d4ad5d
+commit: 6894e49b7b62cdb0edbcaaa23ea0218edb3b02dd [12/13] ASoC: SDCA: Kconfig/Makefile fixups
+:::::: branch date: 23 hours ago
+:::::: commit date: 23 hours ago
+config: i386-randconfig-141-20250714 (https://download.01.org/0day-ci/archive/20250715/202507150415.M1tCgi3p-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507150723.UdvLgOhX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507150415.M1tCgi3p-lkp@intel.com/
 
 smatch warnings:
-sound/hda/codecs/ca0132.c:2427 dspio_scp() error: we previously assumed 'reply_len' could be null (see line 2390)
-sound/hda/codecs/ca0132.c:8618 ca0132_download_dsp_images() error: we previously assumed 'fw_entry' could be null (see line 8611)
-sound/hda/codecs/ca0132.c:8629 ca0132_download_dsp_images() warn: 'fw_entry' from request_firmware() not released on lines: 8615.
-sound/hda/codecs/ca0132.c:8629 ca0132_download_dsp_images() warn: 'fw_entry' from request_firmware() not released on lines: 8615.
+sound/soc/sdca/sdca_interrupts.c:278 sdca_irq_request() error: buffer overflow 'info->irqs' 31 <= 31
+sound/soc/sdca/sdca_interrupts.c:387 sdca_irq_populate() error: uninitialized symbol 'name'.
 
-vim +/reply_len +2427 sound/hda/codecs/ca0132.c
+vim +278 sound/soc/sdca/sdca_interrupts.c
 
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2354  
-d5c21b88e8df070 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2355  /**
-3531ba21f5520d0 sound/pci/hda/patch_ca0132.c Pierre-Louis Bossart 2021-03-01  2356   * dspio_scp - Prepare and send the SCP message to DSP
-d5c21b88e8df070 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2357   * @codec: the HDA codec
-d5c21b88e8df070 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2358   * @mod_id: ID of the DSP module to send the command
-4f5c26534d395bf sound/pci/hda/patch_ca0132.c Pierre-Louis Bossart 2020-01-13  2359   * @src_id: ID of the source
-d5c21b88e8df070 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2360   * @req: ID of request to send to the DSP module
-d5c21b88e8df070 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2361   * @dir: SET or GET
-d5c21b88e8df070 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2362   * @data: pointer to the data to send with the request, request specific
-d5c21b88e8df070 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2363   * @len: length of the data, in bytes
-d5c21b88e8df070 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2364   * @reply: point to the buffer to hold data returned for a reply
-d5c21b88e8df070 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2365   * @reply_len: length of the reply buffer returned from GET
-d5c21b88e8df070 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2366   *
-d5c21b88e8df070 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2367   * Returns zero or a negative error code.
-d5c21b88e8df070 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2368   */
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2369  static int dspio_scp(struct hda_codec *codec,
-447fd8e9a88e466 sound/pci/hda/patch_ca0132.c Connor McAdams       2018-05-08  2370  		int mod_id, int src_id, int req, int dir, const void *data,
-447fd8e9a88e466 sound/pci/hda/patch_ca0132.c Connor McAdams       2018-05-08  2371  		unsigned int len, void *reply, unsigned int *reply_len)
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2372  {
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2373  	int status = 0;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2374  	struct scp_msg scp_send, scp_reply;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2375  	unsigned int ret_bytes, send_size, ret_size;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2376  	unsigned int send_get_flag, reply_resp_flag, reply_error_flag;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2377  	unsigned int reply_data_size;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2378  
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2379  	memset(&scp_send, 0, sizeof(scp_send));
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2380  	memset(&scp_reply, 0, sizeof(scp_reply));
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2381  
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2382  	if ((len != 0 && data == NULL) || (len > SCP_MAX_DATA_WORDS))
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2383  		return -EINVAL;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2384  
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2385  	if (dir == SCP_GET && reply == NULL) {
-4e76a8833fac8dc sound/pci/hda/patch_ca0132.c Takashi Iwai         2014-02-25  2386  		codec_dbg(codec, "dspio_scp get but has no buffer\n");
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2387  		return -EINVAL;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2388  	}
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2389  
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20 @2390  	if (reply != NULL && (reply_len == NULL || (*reply_len == 0))) {
-4e76a8833fac8dc sound/pci/hda/patch_ca0132.c Takashi Iwai         2014-02-25  2391  		codec_dbg(codec, "dspio_scp bad resp buf len parms\n");
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2392  		return -EINVAL;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2393  	}
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2394  
-447fd8e9a88e466 sound/pci/hda/patch_ca0132.c Connor McAdams       2018-05-08  2395  	scp_send.hdr = make_scp_header(mod_id, src_id, (dir == SCP_GET), req,
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2396  				       0, 0, 0, len/sizeof(unsigned int));
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2397  	if (data != NULL && len > 0) {
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2398  		len = min((unsigned int)(sizeof(scp_send.data)), len);
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2399  		memcpy(scp_send.data, data, len);
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2400  	}
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2401  
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2402  	ret_bytes = 0;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2403  	send_size = sizeof(unsigned int) + len;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2404  	status = dspio_send_scp_message(codec, (unsigned char *)&scp_send,
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2405  					send_size, (unsigned char *)&scp_reply,
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2406  					sizeof(scp_reply), &ret_bytes);
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2407  
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2408  	if (status < 0) {
-4e76a8833fac8dc sound/pci/hda/patch_ca0132.c Takashi Iwai         2014-02-25  2409  		codec_dbg(codec, "dspio_scp: send scp msg failed\n");
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2410  		return status;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2411  	}
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2412  
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2413  	/* extract send and reply headers members */
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2414  	extract_scp_header(scp_send.hdr, NULL, NULL, &send_get_flag,
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2415  			   NULL, NULL, NULL, NULL, NULL);
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2416  	extract_scp_header(scp_reply.hdr, NULL, NULL, NULL, NULL, NULL,
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2417  			   &reply_resp_flag, &reply_error_flag,
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2418  			   &reply_data_size);
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2419  
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2420  	if (!send_get_flag)
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2421  		return 0;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2422  
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2423  	if (reply_resp_flag && !reply_error_flag) {
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2424  		ret_size = (ret_bytes - sizeof(scp_reply.hdr))
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2425  					/ sizeof(unsigned int);
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2426  
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20 @2427  		if (*reply_len < ret_size*sizeof(unsigned int)) {
-4e76a8833fac8dc sound/pci/hda/patch_ca0132.c Takashi Iwai         2014-02-25  2428  			codec_dbg(codec, "reply too long for buf\n");
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2429  			return -EINVAL;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2430  		} else if (ret_size != reply_data_size) {
-4e76a8833fac8dc sound/pci/hda/patch_ca0132.c Takashi Iwai         2014-02-25  2431  			codec_dbg(codec, "RetLen and HdrLen .NE.\n");
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2432  			return -EINVAL;
-46a049dae771b95 sound/pci/hda/patch_ca0132.c Arnd Bergmann        2017-01-11  2433  		} else if (!reply) {
-46a049dae771b95 sound/pci/hda/patch_ca0132.c Arnd Bergmann        2017-01-11  2434  			codec_dbg(codec, "NULL reply\n");
-46a049dae771b95 sound/pci/hda/patch_ca0132.c Arnd Bergmann        2017-01-11  2435  			return -EINVAL;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2436  		} else {
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2437  			*reply_len = ret_size*sizeof(unsigned int);
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2438  			memcpy(reply, scp_reply.data, *reply_len);
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2439  		}
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2440  	} else {
-4e76a8833fac8dc sound/pci/hda/patch_ca0132.c Takashi Iwai         2014-02-25  2441  		codec_dbg(codec, "reply ill-formed or errflag set\n");
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2442  		return -EIO;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2443  	}
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2444  
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2445  	return status;
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2446  }
-01ef7dbffb411d9 sound/pci/hda/patch_ca0132.c Ian Minett           2012-09-20  2447  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  243  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  244  /**
+b126394d9ec6f9 Maciej Strozek 2025-06-24  245   * sdca_request_irq - request an individual SDCA interrupt
+b126394d9ec6f9 Maciej Strozek 2025-06-24  246   * @dev: Pointer to the struct device against which things should be allocated.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  247   * @interrupt_info: Pointer to the interrupt information structure.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  248   * @sdca_irq: SDCA interrupt position.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  249   * @name: Name to be given to the IRQ.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  250   * @handler: A callback thread function to be called for the IRQ.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  251   * @data: Private data pointer that will be passed to the handler.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  252   *
+b126394d9ec6f9 Maciej Strozek 2025-06-24  253   * Typically this is handled internally by sdca_irq_populate, however if
+b126394d9ec6f9 Maciej Strozek 2025-06-24  254   * a device requires custom IRQ handling this can be called manually before
+b126394d9ec6f9 Maciej Strozek 2025-06-24  255   * calling sdca_irq_populate, which will then skip that IRQ whilst processing.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  256   *
+b126394d9ec6f9 Maciej Strozek 2025-06-24  257   * Return: Zero on success, and a negative error code on failure.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  258   */
+b126394d9ec6f9 Maciej Strozek 2025-06-24  259  int sdca_irq_request(struct device *dev, struct sdca_interrupt_info *info,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  260  		     int sdca_irq, const char *name, irq_handler_t handler,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  261  		     void *data)
+b126394d9ec6f9 Maciej Strozek 2025-06-24  262  {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  263  	int ret;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  264  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  265  	if (sdca_irq < 0 || sdca_irq > SDCA_MAX_INTERRUPTS) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  266  		dev_err(dev, "bad irq request: %d\n", sdca_irq);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  267  		return -EINVAL;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  268  	}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  269  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  270  	guard(mutex)(&info->irq_lock);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  271  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  272  	ret = sdca_irq_request_locked(dev, info, sdca_irq, name, handler, data);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  273  	if (ret) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  274  		dev_err(dev, "failed to request irq %s: %d\n", name, ret);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  275  		return ret;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  276  	}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  277  
+b126394d9ec6f9 Maciej Strozek 2025-06-24 @278  	info->irqs[sdca_irq].externally_requested = true;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  279  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  280  	return 0;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  281  }
+b126394d9ec6f9 Maciej Strozek 2025-06-24  282  EXPORT_SYMBOL_NS_GPL(sdca_irq_request, "SND_SOC_SDCA_IRQ");
+b126394d9ec6f9 Maciej Strozek 2025-06-24  283  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  284  /**
+b126394d9ec6f9 Maciej Strozek 2025-06-24  285   * sdca_irq_data_populate - Populate common interrupt data
+b126394d9ec6f9 Maciej Strozek 2025-06-24  286   * @component: Pointer to the ASoC component for the Function.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  287   * @function: Pointer to the SDCA Function.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  288   * @entity: Pointer to the SDCA Entity.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  289   * @control: Pointer to the SDCA Control.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  290   * @interrupt: Pointer to the SDCA interrupt for this IRQ.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  291   *
+b126394d9ec6f9 Maciej Strozek 2025-06-24  292   * Return: Zero on success, and a negative error code on failure.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  293   */
+b126394d9ec6f9 Maciej Strozek 2025-06-24  294  int sdca_irq_data_populate(struct snd_soc_component *component,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  295  			   struct sdca_function_data *function,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  296  			   struct sdca_entity *entity,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  297  			   struct sdca_control *control,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  298  			   struct sdca_interrupt *interrupt)
+b126394d9ec6f9 Maciej Strozek 2025-06-24  299  {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  300  	struct device *dev = component->dev;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  301  	const char *name;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  302  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  303  	name = devm_kasprintf(dev, GFP_KERNEL, "%s %s %s", function->desc->name,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  304  			      entity->label, control->label);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  305  	if (!name)
+b126394d9ec6f9 Maciej Strozek 2025-06-24  306  		return -ENOMEM;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  307  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  308  	interrupt->name = name;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  309  	interrupt->component = component;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  310  	interrupt->function = function;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  311  	interrupt->entity = entity;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  312  	interrupt->control = control;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  313  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  314  	return 0;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  315  }
+b126394d9ec6f9 Maciej Strozek 2025-06-24  316  EXPORT_SYMBOL_NS_GPL(sdca_irq_data_populate, "SND_SOC_SDCA_IRQ");
+b126394d9ec6f9 Maciej Strozek 2025-06-24  317  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  318  /**
+b126394d9ec6f9 Maciej Strozek 2025-06-24  319   * sdca_irq_populate - Request all the individual IRQs for an SDCA Function
+b126394d9ec6f9 Maciej Strozek 2025-06-24  320   * @function: Pointer to the SDCA Function.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  321   * @component: Pointer to the ASoC component for the Function.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  322   * @info: Pointer to the SDCA interrupt info for this device.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  323   *
+b126394d9ec6f9 Maciej Strozek 2025-06-24  324   * Typically this would be called from the driver for a single SDCA Function.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  325   *
+b126394d9ec6f9 Maciej Strozek 2025-06-24  326   * Return: Zero on success, and a negative error code on failure.
+b126394d9ec6f9 Maciej Strozek 2025-06-24  327   */
+b126394d9ec6f9 Maciej Strozek 2025-06-24  328  int sdca_irq_populate(struct sdca_function_data *function,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  329  		      struct snd_soc_component *component,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  330  		      struct sdca_interrupt_info *info)
+b126394d9ec6f9 Maciej Strozek 2025-06-24  331  {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  332  	struct device *dev = component->dev;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  333  	int i, j;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  334  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  335  	guard(mutex)(&info->irq_lock);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  336  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  337  	for (i = 0; i < function->num_entities; i++) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  338  		struct sdca_entity *entity = &function->entities[i];
+b126394d9ec6f9 Maciej Strozek 2025-06-24  339  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  340  		for (j = 0; j < entity->num_controls; j++) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  341  			struct sdca_control *control = &entity->controls[j];
+b126394d9ec6f9 Maciej Strozek 2025-06-24  342  			int irq = control->interrupt_position;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  343  			struct sdca_interrupt *interrupt;
+b9ab3b61824190 Charles Keepax 2025-06-24  344  			irq_handler_t handler;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  345  			const char *name;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  346  			int ret;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  347  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  348  			if (irq == SDCA_NO_INTERRUPT) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  349  				continue;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  350  			} else if (irq < 0 || irq >= SDCA_MAX_INTERRUPTS) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  351  				dev_err(dev, "bad irq position: %d\n", irq);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  352  				return -EINVAL;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  353  			}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  354  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  355  			interrupt = &info->irqs[irq];
+b126394d9ec6f9 Maciej Strozek 2025-06-24  356  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  357  			if (interrupt->externally_requested) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24  358  				dev_dbg(dev,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  359  					"skipping irq %d, externally requested\n",
+b126394d9ec6f9 Maciej Strozek 2025-06-24  360  					irq);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  361  				continue;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  362  			}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  363  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  364  			ret = sdca_irq_data_populate(component, function, entity,
+b126394d9ec6f9 Maciej Strozek 2025-06-24  365  						     control, interrupt);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  366  			if (ret)
+b126394d9ec6f9 Maciej Strozek 2025-06-24  367  				return ret;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  368  
+b9ab3b61824190 Charles Keepax 2025-06-24  369  			handler = base_handler;
+b9ab3b61824190 Charles Keepax 2025-06-24  370  
+b9ab3b61824190 Charles Keepax 2025-06-24  371  			switch (entity->type) {
+b9ab3b61824190 Charles Keepax 2025-06-24  372  			case SDCA_ENTITY_TYPE_ENTITY_0:
+b9ab3b61824190 Charles Keepax 2025-06-24  373  				if (control->sel == SDCA_CTL_ENTITY_0_FUNCTION_STATUS)
+b9ab3b61824190 Charles Keepax 2025-06-24  374  					handler = function_status_handler;
+b9ab3b61824190 Charles Keepax 2025-06-24  375  				break;
+b9ab3b61824190 Charles Keepax 2025-06-24  376  			case SDCA_ENTITY_TYPE_GE:
+b9ab3b61824190 Charles Keepax 2025-06-24  377  				if (control->sel == SDCA_CTL_GE_DETECTED_MODE)
+b9ab3b61824190 Charles Keepax 2025-06-24  378  					handler = detected_mode_handler;
+b9ab3b61824190 Charles Keepax 2025-06-24  379  				break;
+b9ab3b61824190 Charles Keepax 2025-06-24  380  			default:
+b9ab3b61824190 Charles Keepax 2025-06-24  381  				break;
+b9ab3b61824190 Charles Keepax 2025-06-24  382  			}
+b9ab3b61824190 Charles Keepax 2025-06-24  383  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  384  			ret = sdca_irq_request_locked(dev, info, irq, interrupt->name,
+b9ab3b61824190 Charles Keepax 2025-06-24  385  						      handler, interrupt);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  386  			if (ret) {
+b126394d9ec6f9 Maciej Strozek 2025-06-24 @387  				dev_err(dev, "failed to request irq %s: %d\n",
+b126394d9ec6f9 Maciej Strozek 2025-06-24  388  					name, ret);
+b126394d9ec6f9 Maciej Strozek 2025-06-24  389  				return ret;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  390  			}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  391  		}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  392  	}
+b126394d9ec6f9 Maciej Strozek 2025-06-24  393  
+b126394d9ec6f9 Maciej Strozek 2025-06-24  394  	return 0;
+b126394d9ec6f9 Maciej Strozek 2025-06-24  395  }
+b126394d9ec6f9 Maciej Strozek 2025-06-24  396  EXPORT_SYMBOL_NS_GPL(sdca_irq_populate, "SND_SOC_SDCA_IRQ");
+b126394d9ec6f9 Maciej Strozek 2025-06-24  397  
 
-:::::: The code at line 2427 was first introduced by commit
-:::::: 01ef7dbffb411d9d78d1150b268d9c757f9f2f93 ALSA: hda - Update CA0132 codec to load DSP firmware binary
+:::::: The code at line 278 was first introduced by commit
+:::::: b126394d9ec6f9d8322cf392ba23d4a5f96faf5a ASoC: SDCA: Generic interrupt support
 
-:::::: TO: Ian Minett <ian_minett@creativelabs.com>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
+:::::: TO: Maciej Strozek <mstrozek@opensource.cirrus.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
