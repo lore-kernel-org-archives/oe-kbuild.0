@@ -1,79 +1,108 @@
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D491919343B;
-	Tue, 15 Jul 2025 01:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C021553A3
+	for <oe-kbuild@lists.linux.dev>; Tue, 15 Jul 2025 01:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752542021; cv=none; b=gRjQtbKlZxedAvdQhshksBXB2sQYJRhNR9wPdoUkjEzUCRB4Esl2bpnnauRydEH0p4bsizh9pZgHisxbztU5KhjDwAkcjyoU2fChk2l8f5K4925y1lio9MpeMOy6leOryGnzjyinaYezthMZKbKlRfYNY72oNG9rT0PVludrh68=
+	t=1752544614; cv=none; b=Su6tyhh01vI+qcSQjZbNUdnfsuHTEqkpHSNN7a4DftI+JizdeCNH3FEZVvN4G5Fa+zdbdEBLvegguUyvXASZVYXYLd69lGd4jhn8Y0JCKW0eB6A+hSY9/8ygeh3hL0j9XrA1csFgknGw9Ro/2foRgyu7/YKO9Yox8r72tU4DgN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752542021; c=relaxed/simple;
-	bh=iZ1Z/x+szc5fyfqygYTkGews5MfagU1nTTw55FEMShs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OIiLmBHIbs2xbYtBetj/ugVWy57Q7gtVH3JwxwhtdU3qsPj+4L62CPcN25/AYKppJiU5erxyHjyzpxhqa4hcPXTbVlfYWwxoh07cws1HzLXqywXvmQlLm5+l2MBWAZ7zlbpfU3/wvGK53JjCc64jQyXMLdprHJ3PZq8SfMDRkas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=bjm0GrI0; arc=none smtp.client-ip=203.29.241.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
+	s=arc-20240116; t=1752544614; c=relaxed/simple;
+	bh=OV3Gd+cnTNQcdON3tSL98Zgn/3WlOn1Sc27dd27TTmw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=en2Sq5FT3/z+xvWua8bazTasEHLbl9XiYj3iihZ/+amB2noTyFIytjs4gsEtG1Lq8CurmRpgANB2usfAqEgNhsmsJMoXcw5eHwen28mlzjpYGRP0SDF5KjGOWNdgOdgi3I67GpShEzwd5HMbAW2YTS012MYJlKkEDMpJKH1r9Is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XoUfRjpK; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="bjm0GrI0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1752542017;
-	bh=OymME5DS5lcuab/W+OvngDG5RR42TaMWIVv4F+W4+vk=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=bjm0GrI0kKeI28NPqCWmilYR1kcRJvaJcgDyKaLCeZZKwMen/odKKQYRzuVSZkbYX
-	 cKZIoxOO2nbUtNe1Py4M7G1YBJD69nhXVYIQEmY7faqAqFzb/96KduLZKfId+M+Jsu
-	 18ydbB+WWRMWYUlKsrs9avbgM5XrOYGFeq7OfopQRjECET2JtQhxNn96hiBodQ/o7A
-	 TTAM9sYAwv4NMUAHzL9Bb16DLYpebKRJ4Vur36QF4y3mJ1k2h3zk34SlEmhPv9rSE6
-	 n25W9JmGrBonsff3LWkiyvTyG7CKsoEoOEmXLZ9Uq4PMbyf9AX79ZjzLDa1m/RFFl3
-	 56AKPkmIlPLKw==
-Received: from [192.168.14.220] (unknown [159.196.94.230])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 52F296B68A;
-	Tue, 15 Jul 2025 09:13:36 +0800 (AWST)
-Message-ID: <13bda0930870d96ca0c27da57c9b1bf144cc89c1.camel@codeconstruct.com.au>
-Subject: Re: [PATCH net-next 5/7] net: mctp: Allow limiting binds to a peer
- address
-From: Matt Johnston <matt@codeconstruct.com.au>
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, 
- Jeremy Kerr <jk@codeconstruct.com.au>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Date: Tue, 15 Jul 2025 09:13:35 +0800
-In-Reply-To: <a51b1a51-8ff6-4607-b783-1944d324359d@suswa.mountain>
-References: <a51b1a51-8ff6-4607-b783-1944d324359d@suswa.mountain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XoUfRjpK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752544613; x=1784080613;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OV3Gd+cnTNQcdON3tSL98Zgn/3WlOn1Sc27dd27TTmw=;
+  b=XoUfRjpKd8AvWzRepeu/697s+f9d1zaFVKFIt5yAyF2YqWql1mObERCH
+   gXJyRF6dx8plQMX0pJ0SK/4rlgKIL8I1Zk/3+7DjuclK2mP/Fj6j+Qy6N
+   /vHLMIWWdzdCFOI1K3l6/e6aYrmzImxTx3mBAk6hmYhorv0zD/oHuvvir
+   dwsOObao6kGFuY/ODxYyQQCGkCyvlB8zD4OB4k0BeE1I0xysJmRNx1WQM
+   GQAHYWjFJOyG+Yoc4zYWvwe8ld9fGneCvyPPn9ZkKQ1WnRKFzNLqnjJA7
+   HF+r8Sr7vE7VkTTyDCuo0rMQUUc6EaSdajHQRc4mmAdsoQgZcILiX4y6/
+   Q==;
+X-CSE-ConnectionGUID: lw49P90nTVu90i+g6ckL9Q==
+X-CSE-MsgGUID: iyfA1gWfRXCN5SA8vEFHKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="72201705"
+X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
+   d="scan'208";a="72201705"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 18:56:52 -0700
+X-CSE-ConnectionGUID: SQXwN3FrQuSfzoWb4qyHNw==
+X-CSE-MsgGUID: +Kc37kcjREC/8tZHyS4iGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
+   d="scan'208";a="157195311"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 14 Jul 2025 18:56:51 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ubUuW-0009XL-1P;
+	Tue, 15 Jul 2025 01:56:48 +0000
+Date: Tue, 15 Jul 2025 09:55:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [krzk-github:b4/sm8750-iris-dts 3/5]
+ arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: clock-controller@aaf0000
+ (qcom,sm8750-videocc): power-domains: [[99, 6]] is too short
+Message-ID: <202507150959.TchR7EJw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-On Mon, 2025-07-14 at 22:16 +0300, Dan Carpenter wrote:
-> patch link:    https://lore.kernel.org/r/20250703-mctp-bind-v1-5-bb7e97c2=
-4613%40codeconstruct.com.au
-> patch subject: [PATCH net-next 5/7] net: mctp: Allow limiting binds to a =
-peer address
-...
-> smatch warnings:
-> net/mctp/af_mctp.c:122 mctp_bind() warn: inconsistent returns 'sk'.
-...
-> d58bad174be0c4b Matt Johnston        2025-07-03   98  	if (msk->bind_peer=
-_set) {
-> d58bad174be0c4b Matt Johnston        2025-07-03   99  		if (msk->bind_typ=
-e !=3D smctp->smctp_type) {
-> d58bad174be0c4b Matt Johnston        2025-07-03  100  			/* Prior connect=
-() had a different type */
-> d58bad174be0c4b Matt Johnston        2025-07-03  101  			return -EINVAL;
->=20
-> goto out_release?
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Krzysztof Kozlowski <krzk@kernel.org>
 
-This was fixed in the v4 series.
+tree:   https://github.com/krzk/linux b4/sm8750-iris-dts
+head:   758baa8ffd437590909ab98026bc94c6c515db6d
+commit: 4a8f97d3a420624cfd72ca8a2f6f5bbb68efa3a3 [3/5] arm64: dts: qcom: sm8750: Add Iris VPU v3.5
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: arm64-randconfig-051-20250715 (https://download.01.org/0day-ci/archive/20250715/202507150959.TchR7EJw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150959.TchR7EJw-lkp@intel.com/reproduce)
 
-Cheers, =20
-Matt
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202507150959.TchR7EJw-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/video-codec@aa00000: failed to match any schema with compatible: ['qcom,sm8750-iris']
+   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: clock-controller@aaf0000 (qcom,sm8750-videocc): 'required-opps' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: clock-controller@aaf0000 (qcom,sm8750-videocc): power-domains: [[99, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: clock-controller@aaf0000 (qcom,sm8750-videocc): Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/video-codec@aa00000: failed to match any schema with compatible: ['qcom,sm8750-iris']
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: clock-controller@aaf0000 (qcom,sm8750-videocc): 'required-opps' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: clock-controller@aaf0000 (qcom,sm8750-videocc): power-domains: [[99, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: clock-controller@aaf0000 (qcom,sm8750-videocc): Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
