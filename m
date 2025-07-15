@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18DDD23CEF8
-	for <oe-kbuild@lists.linux.dev>; Tue, 15 Jul 2025 17:06:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05E424677B
+	for <oe-kbuild@lists.linux.dev>; Tue, 15 Jul 2025 18:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752599184; cv=none; b=rDlAWfitD1DIu4FXfek4ssT2xjXDBG2NwLSJiLg9l6+ICPWHMsxHE+t2lzZWoA9S+8A+o2AAHFaR1VpES/Ss8B1+SKq3nBg5mX4L0kHHEVWbjvGRyqeVCyPf0vHp56sULw33rF1VbjvZ+4jJ2FCqrINTmxnP4u6MwL/oDn21kqw=
+	t=1752604294; cv=none; b=nW8dQYTGVOsuH1sfWAaU9pH8k/xXtrjNNVhlpmVT62Kb5Qj4w4qtU03v2TGiwNUJn24ehNa62fU2NgEuIfR+Ff56iNECUJ/9K8KbiRNRSHADGcdw2g9QwlhhaqIxSYbtniS89CzTM+nEpgnia3P4keSGY20DFNgiwdkwW9dLktw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752599184; c=relaxed/simple;
-	bh=dmprwvIrwMR10YyeeVF8jY4ZjJwz0RO3H2+OVCbLtMU=;
+	s=arc-20240116; t=1752604294; c=relaxed/simple;
+	bh=gz8BJzu2wLOW/lZ9Zr0y7lhpnTbMYowrgJMDO8WCKgI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gUZk2F4nmigP/yGL6gMGOSne7x3QGzyAnkF6pnjK7eZi6+LGoazlMiJqilfDle63yxYoT0ataEIzOoQu7vfmfC1zzHXZPha3hYtDpuX3CPWR43udI7KMs9Z6jDNuora2Ns8T5+fkNyKMM52Ruldj+7DzUU5GWj1sxOhQF71e32E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m/6SYyrt; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=OlBa8hb2GYx3UWPirfAVsUpfFb1nNLyy62UqDdkZqBRwu7+Aax2NqdygQOtGzBBzJ30KzCHGSKrYCX4/g4fnVlyD4GhGAYkuQkoLL5mjVLAxgH3/ZLGRKXkJ+4SbZhgerPhuwOCCbsNt6rwj1Wty+0ZLuKVr1qCiQ2sSB/o/KLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xxoOeF/5; arc=none smtp.client-ip=209.85.210.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/6SYyrt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752599182; x=1784135182;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dmprwvIrwMR10YyeeVF8jY4ZjJwz0RO3H2+OVCbLtMU=;
-  b=m/6SYyrtQwd6TpP2yycP2Eskq/Y6e0m3vf5k5H/sKDMdn9r3X+tFKbpn
-   WqY2O+cAOnCbDVw0k/bB13Y+3641xus06zUbQMOCSaS1TrtPxXV1+8cs+
-   J/pyRpN4kryFwqY8smDBDPBhPlUIwsIRzANX56XyqXgyhkjq5AfOUyVZh
-   MXiOIJuPWLKDKzp+Jle+TN4qOppoG1VUUe58l87hqrOpW/PVabECXN0wT
-   js23r+Fy4bfV8Cx8jo5xQvImpZj1JkNMAsvFYurbFvmQP359E8qW1FiSn
-   +1No2C3Z48LhFkVHo8STiLAYIpke6GWgax8kjrk1K/Tka2aRFY4SuiTjh
-   A==;
-X-CSE-ConnectionGUID: FhbXyOjpShaARdbiv11Wbw==
-X-CSE-MsgGUID: cWaY2kuLSx62zsalXrGrzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54919233"
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="54919233"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 10:06:20 -0700
-X-CSE-ConnectionGUID: nQtRQdyeTh+khW7ZqD4bMg==
-X-CSE-MsgGUID: NEWsI6h/RQWwtYrJKuSXUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="157368473"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Jul 2025 10:06:19 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubj6f-000BN1-14;
-	Tue, 15 Jul 2025 17:06:17 +0000
-Date: Wed, 16 Jul 2025 01:05:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 1/1] mtd: spi-nor: core: Prevent oops during driver
- removal with active read or write operations
-Message-ID: <202507160058.Kvt70tJp-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xxoOeF/5"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-73e650f3c31so24016a34.3
+        for <oe-kbuild@lists.linux.dev>; Tue, 15 Jul 2025 11:31:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752604292; x=1753209092; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QxIp2KPb/X68XS9Rue4+6vDNj1+Lo9Jr1cCgfoMzXtc=;
+        b=xxoOeF/5iMaKzrFoTvDk+O0TEaJzbMQH/kBZ4uFDLzhcCKhs/Xp0lZIMIs3GNWUIkh
+         qUlXm0C0OLzGnDlJArvB2mQ0rDKhXqlnUNpePtaV4H/PTXOWi1T5thIeL+sokMCdYpZG
+         4rRdcYS8x0L47fjLmbL0wnCoHpJwLMUv6NUpsPHKvZ2d5BqmgzCZk53BbbYCcRkj8TYx
+         IVH1nvSYbrsrkytnbTOrxXkL49DTYPn4bLcQRB3YsA5BcWTcbXnoDJhZvTutXYjSmD5e
+         uE6wnLKsDLIoQhK7s1X3LPDwwH2qYiF8KCCdbdq9XGbCmaKfcIDuuOvwC0yka9flwr3T
+         6zJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752604292; x=1753209092;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QxIp2KPb/X68XS9Rue4+6vDNj1+Lo9Jr1cCgfoMzXtc=;
+        b=u8Nd4K4tgkYjLpP0ZNiMM2Hs209Upudzfju8wVOY56Wx9HATKzbzck67khrsoIt5JS
+         +Sgw8iO09FbqB/SDlt0HOj78BVVgdlRhnR/lyE7Pum9ciTMYF+X4N2qrv5bGVZxMMqMY
+         rpk00UgLHmpwmTGTeXHIjDE08GCCB5bjE0weM3WEqQFeMf2Af+v354thT3fH+G/yKpCN
+         +iwYd1y36JzhR9Qpr7MfMxWu3e0PexcSaVcF0TDPfnwgjjVjAqK6l2tnLqG44aJbD5iM
+         gC8DeGMA3VtrnJlVHDbg3YChTPmxUL2YAAbC32dpSytxytj4PUZ5QwrMI7u3atAFHQUv
+         K1mQ==
+X-Gm-Message-State: AOJu0Yx9Qra8C9dVd3+kzh2GqZ2gVJub604akeJet8aptRsIv8tu7T04
+	OjHWrsARX1eHIineY+JrNTaGS9V7oZK+YMVkNc8q/KhrnRe5n13bf++gyI6yW6QRnGCZV3IwItQ
+	hi0Fs
+X-Gm-Gg: ASbGnctAqkMkYOpntIhtdAK8zQqtQp2hEB6VB+sbGwM/H1XdbCz6j5F9jSiQCZ+0NUS
+	GQrhcTGaXHHI6lBfgoQv45zsfTbe0WxoShhSB62iPqmNJoSFervdfu3FM9jUC2PrPKfcf0UFy4v
+	dx64JFI5SNxWQuTQqEWlza69sCuZuZTFMQ26esLkBst5J0GhqU4YtuVcgTmuPybgM+TQE9RoqJx
+	rvldONx+Sh4I6tyFxB2CVMT5hdLRM+pVGnqX9QEY095HmqiFPBrOX2sx5gl5an9v/Xh8J5X2n8A
+	CXRaSISavALtjpiSrqm5JynDppLhBJWp4u8FwIshEAnbp52q7tcEALvzWqPO8OGHf2CoBKxuDP0
+	VCeG3LOIPdEy5ZtOhz1PWq/ZWixnMwQ==
+X-Google-Smtp-Source: AGHT+IFW6SsYQowq8nq/SUuRTt5CC6bjZVIFjE5jGxHKdFy26L6Zm+gNV8L7T52XWaKhTcqtA47Y7w==
+X-Received: by 2002:a05:6808:190c:b0:41c:4dff:414f with SMTP id 5614622812f47-41cedf8a724mr95726b6e.9.1752604291612;
+        Tue, 15 Jul 2025 11:31:31 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:b8f4:caf6:c9f1:614d])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-613d9f1bfb2sm1727397eaf.33.2025.07.15.11.31.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jul 2025 11:31:31 -0700 (PDT)
+Date: Tue, 15 Jul 2025 21:31:29 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, "Rob Herring (Arm)" <robh@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [robh:imx93-ethos-v2 34/40] drivers/accel/ethos/ethos_gem.c:184
+ feat_matrix_length() warn: right shifting more than type allows 16 vs 30
+Message-ID: <ad676383-9eab-4320-a7d8-7daba1544978@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,75 +72,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <d2bba90684f50a66b81ce4d7da3d405783209f95.1752539969.git.khairul.anuar.romli@altera.com>
-References: <d2bba90684f50a66b81ce4d7da3d405783209f95.1752539969.git.khairul.anuar.romli@altera.com>
-TO: khairul.anuar.romli@altera.com
-TO: Tudor Ambarus <tudor.ambarus@linaro.org>
-TO: Pratyush Yadav <pratyush@kernel.org>
-TO: Michael Walle <mwalle@kernel.org>
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
-TO: Richard Weinberger <richard@nod.at>
-TO: Vignesh Raghavendra <vigneshr@ti.com>
-TO: "open list:SPI NOR SUBSYSTEM" <linux-mtd@lists.infradead.org>
-TO: open list <linux-kernel@vger.kernel.org>
-TO: Matthew Gerlach <matthew.gerlach@altera.com>
-TO: Khairul Anuar Romli <khairul.anuar.romli@altera.com>
-
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mtd/spi-nor/next]
-[also build test WARNING on linus/master v6.16-rc6 next-20250715]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/khairul-anuar-romli-altera-com/mtd-spi-nor-core-Prevent-oops-during-driver-removal-with-active-read-or-write-operations/20250715-094504
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git spi-nor/next
-patch link:    https://lore.kernel.org/r/d2bba90684f50a66b81ce4d7da3d405783209f95.1752539969.git.khairul.anuar.romli%40altera.com
-patch subject: [PATCH v2 1/1] mtd: spi-nor: core: Prevent oops during driver removal with active read or write operations
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: openrisc-randconfig-r071-20250715 (https://download.01.org/0day-ci/archive/20250716/202507160058.Kvt70tJp-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git imx93-ethos-v2
+head:   f2fd4883d04c3245bc2fdd061078823b49709c68
+commit: 9ef4a26117efe591b7044a19e5748ce5b23e1b14 [34/40] ethos: Add validation of initial state
+config: x86_64-randconfig-r073-20250714 (https://download.01.org/0day-ci/archive/20250715/202507151211.qVv3eQxO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507160058.Kvt70tJp-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202507151211.qVv3eQxO-lkp@intel.com/
 
-smatch warnings:
-drivers/mtd/spi-nor/core.c:3213 spi_nor_get_device() error: we previously assumed 'dev' could be null (see line 3213)
-drivers/mtd/spi-nor/core.c:3213 spi_nor_get_device() error: we previously assumed 'dev->driver' could be null (see line 3213)
+New smatch warnings:
+drivers/accel/ethos/ethos_gem.c:184 feat_matrix_length() warn: right shifting more than type allows 16 vs 30
 
-vim +/dev +3213 drivers/mtd/spi-nor/core.c
+vim +184 drivers/accel/ethos/ethos_gem.c
 
-d6084fc83c8249 drivers/mtd/spi-nor/spi-nor.c Kamal Dasu 2017-08-22  3201  
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3202  static int spi_nor_get_device(struct mtd_info *mtd)
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3203  {
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3204  	struct mtd_info *master = mtd_get_master(mtd);
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3205  	struct spi_nor *nor = mtd_to_spi_nor(master);
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3206  	struct device *dev;
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3207  
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3208  	if (nor->spimem)
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3209  		dev = nor->spimem->spi->controller->dev.parent;
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3210  	else
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3211  		dev = nor->dev;
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3212  
-d51eaff2c57a38 drivers/mtd/spi-nor/core.c    kromli     2025-07-15 @3213  	if (!dev && !dev->driver && !dev->driver->owner)
-d51eaff2c57a38 drivers/mtd/spi-nor/core.c    kromli     2025-07-15  3214  		return -EINVAL;
-d51eaff2c57a38 drivers/mtd/spi-nor/core.c    kromli     2025-07-15  3215  	
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3216  	if (!try_module_get(dev->driver->owner))
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3217  		return -ENODEV;
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3218  
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3219  	return 0;
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3220  }
-be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3221  
+93463a14b8df63 Rob Herring (Arm  2025-06-24  180) static u64 feat_matrix_length(struct ethos_validated_cmdstream_info *info,
+93463a14b8df63 Rob Herring (Arm  2025-06-24  181) 			      struct feat_matrix *fm,
+93463a14b8df63 Rob Herring (Arm  2025-06-24  182) 			      u32 x, u32 y, u32 c)
+93463a14b8df63 Rob Herring (Arm  2025-06-24  183) {
+9ef4a26117efe5 Rob Herring (Arm  2025-07-07 @184) 	int storage = fm->precision >> 30;
+                                                                      ^^^^^^^^^^^^^
+The warning implies that fm->precision is a u16.
+
+93463a14b8df63 Rob Herring (Arm  2025-06-24  185) 	int tile = 0;
+93463a14b8df63 Rob Herring (Arm  2025-06-24  186) 
+9ef4a26117efe5 Rob Herring (Arm  2025-07-07  187) 	if (fm->region < 0)
+9ef4a26117efe5 Rob Herring (Arm  2025-07-07  188) 		return U64_MAX;
+9ef4a26117efe5 Rob Herring (Arm  2025-07-07  189) 
+93463a14b8df63 Rob Herring (Arm  2025-06-24  190) 	switch (storage) {
+93463a14b8df63 Rob Herring (Arm  2025-06-24  191) 	case 0:
+93463a14b8df63 Rob Herring (Arm  2025-06-24  192) 		if (x >= fm->width0 + 1) {
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
