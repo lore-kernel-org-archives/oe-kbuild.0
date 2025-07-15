@@ -1,329 +1,413 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2042.outbound.protection.outlook.com [40.107.94.42])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778842CCC5;
-	Tue, 15 Jul 2025 00:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752538512; cv=fail; b=KwBhUDR6le/GCQDmHtfAl+hnb/TU0W6CmAjLn0ZY49nHND4SvTFJF09H3SQmmL/dpYkED2xGnW+gAgCrcGJpKJjGFNYSl0n3ZU65zpxZuCXFOVQFYHt5scQdcfClzk/qrIqy9FM+u3+vyc5QZZaLg8o/iIeNr2O1xACzvdNmS4E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752538512; c=relaxed/simple;
-	bh=3ZEXTJc+BJxu8wWIner5EdvdclOMQTx/m4PdMVjNo+s=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Vh7j3y4UNDAEqjAp0I4fIwUA10NF3mbsbIr/DfGJBH/Pjk5ao97Ltpw8DZQNX2yn/ilbdKEj+31XwjSP3q91PpjhHGNE4OS5/mQBLzQQf1ZrhsZ2At+Nhmh3qtwY6wAkyTbuhDX2YX5jkLShZHYvtuOMry0lwrlfB67alWMTqiE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=dkRDyiiR; arc=fail smtp.client-ip=40.107.94.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37EB52A1B2
+	for <oe-kbuild@lists.linux.dev>; Tue, 15 Jul 2025 00:32:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752539567; cv=none; b=aGkoF/294yQS7VUnW0xXXVAL0dnpHw8pzR2z5rVuHXOkE3p11fn/XLXPjaFBCRDkk5PJAJk+p/BXXw/uAtrW4E7r/cNPzVr9TQyHeq2ybUb0UocnXMO/8FhKj3S//FEHFoVav0hh0khDCKLXFm7E0J5yqmIQVYWiBr/0etnGujw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752539567; c=relaxed/simple;
+	bh=M+kulXl5aOpNygYMA6aBEI6M4ZzyqzcNRfBSJPlrwGM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YLjwYiA7VAh3PaZMweTwyGxfhw0rlYJWL5GLv/WsaoHCr4YSQ48fZbh6waI0Wl4sDWyndItl3X6AfGrQ+ds76Zd6l14TrDS5ECw3YoNrPHzoq3ZUxo6owPgSknXd638VgJEcJiOwdbN1CgKbuBI6BacpzNUevzObNtsgC1rlK8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NCtFKu3W; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="dkRDyiiR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ljZhSiCnl1G8KOD4Cf7Dq4KMEGKl1RRzveq5LPaji//NQNWkF+4e2xgT7yU80Ye2/YGNqY5wdyvLt7Q5nL0MSOALOZWOjTMD47Bi4FTh4jSaDfTRZBids1IYCa1/PCUE4n1ZkSMICloS5X6rHrQLESshlVOCNf9BetyOwxkWXEX/+GYQkUwGTeh9oNtGhdYHXktc1Ze2fQzeES6PBNhOJb2yNeqJ3KveaI4HRM8+/fw/ShiNdf5aixkDddoA1673ucKO9DJf5Y/YcmMjffhFEUPTIzR2/9s9xmnt6ic3grOkqgItIdaTpDHGn1ilADLyEFDLwemolCgMBaX2fY0OGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5ENXR/9YlwsjZ8HpbJQqE6VIt/dyRNttMYZB7+yAq6o=;
- b=g7F6IoA1ZkizMkyEEh69LjL3j9dRDhINsualHE1UHDZGqURdOd4GHO+mJjgIsTxIkVNwziHBg8YTI7wLSN1lJ5u9iCEYTjVRwf1IZ8FD4Tt6qVxgOhwO1v8c1CXzNJSWn/N2aY084yeYWbiyINIZGApL/TEaGFSDMtP9u47KP+73chpHzhKcYiMl0nh0gNCCOkyJvSNkkdWtWrzTiQowSlHVEl0oFmJl60lpQHGmNQgIXWsaBemkpq+rl2aqxzDiiI8oWsO1Gdb4LSeLCQMxxW2QPhUdpZ/8N42BSCpjG86clw13DulGZwi5tj4Gy1yEjO++weUzfp/HxTwMXjbeRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
- dkim=pass header.d=altera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5ENXR/9YlwsjZ8HpbJQqE6VIt/dyRNttMYZB7+yAq6o=;
- b=dkRDyiiRtkCHpKUrJSgjrRmhGC5Lh2/npM75mxzg5UfcdUiRgRDCXwKgt5NtoYjwKz1efUOIMIycGEKtcrwo88HJovESecE10PsGptiFVlSKyhDAAKwTHAhodmWbszGs9hRa2SFD4p+pOW+5Rssnze1lr/XMqTfNkRr9+NbIkvMqVPiN7wC95EmdN1akPci3z+yIb1twFP44oXR8SAAVPm6ZLAEjjAZG5IjeMNjmtg/2bJS6I0AUtfbTxoEc9AXymfhs04CQAwPbUzBmjlcF6zBUaycXqe0VkyS8flmOogPHmEYSYdXE4ndWiIWAPuW5x16VWG/5p53TFWC6Ubmu+Q==
-Received: from BY5PR03MB5299.namprd03.prod.outlook.com (2603:10b6:a03:229::12)
- by SJ0PR03MB5790.namprd03.prod.outlook.com (2603:10b6:a03:2dd::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.33; Tue, 15 Jul
- 2025 00:15:06 +0000
-Received: from BY5PR03MB5299.namprd03.prod.outlook.com
- ([fe80::b106:261f:6a67:9615]) by BY5PR03MB5299.namprd03.prod.outlook.com
- ([fe80::b106:261f:6a67:9615%5]) with mapi id 15.20.8922.028; Tue, 15 Jul 2025
- 00:15:06 +0000
-From: "Romli, Khairul Anuar" <khairul.anuar.romli@altera.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, "oe-kbuild@lists.linux.dev"
-	<oe-kbuild@lists.linux.dev>, Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger
-	<richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, "open list:SPI NOR
- SUBSYSTEM" <linux-mtd@lists.infradead.org>, open list
-	<linux-kernel@vger.kernel.org>, "Gerlach, Matthew"
-	<matthew.gerlach@altera.com>
-CC: "lkp@intel.com" <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>
-Subject: RE: [PATCH 1/1] mtd: spi-nor: core: Prevent oops during driver
- removal with active read or write operations
-Thread-Topic: [PATCH 1/1] mtd: spi-nor: core: Prevent oops during driver
- removal with active read or write operations
-Thread-Index: AQHb8HEWd6E44iO/WUekBLL20IMrdbQyCncAgABOzJA=
-Date: Tue, 15 Jul 2025 00:15:06 +0000
-Message-ID:
- <BY5PR03MB5299B38CB5D3A3D14428698AC657A@BY5PR03MB5299.namprd03.prod.outlook.com>
-References:
- <e439e6b85e650a91607a1d02d5d432d096363315.1752024352.git.khairul.anuar.romli@altera.com>
- <2bf9baaa-e66a-40ba-96b3-44b2e5e78550@suswa.mountain>
-In-Reply-To: <2bf9baaa-e66a-40ba-96b3-44b2e5e78550@suswa.mountain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=altera.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR03MB5299:EE_|SJ0PR03MB5790:EE_
-x-ms-office365-filtering-correlation-id: 1d7c5388-131c-48fc-6d4c-08ddc334a6fa
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|7416014|921020|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?66Jy/hptczXBJ0BGE0A8QchTqBu/pI3rIl3Lfk1cnNner+ZLq823r67XQBHW?=
- =?us-ascii?Q?ei/ZZ0tq8jm9Tk9rGmcdjdlyfseH+RKZ0xmXPaExVYFzD8rlibsnt1JhDK7r?=
- =?us-ascii?Q?fQC+OXBVEWXrwaEpJp2M+bntlP020vj1zD6SV21dcybZhBhwbR2L72Nihn4U?=
- =?us-ascii?Q?9M09ajTrpKhLVm5+7AScy7yklB5UWuBuxqCKSErp2GtXo5e1YOqPysT/pW4N?=
- =?us-ascii?Q?gip8X0ydUPogREmYfiMIJHLKcvz4Db486LJiLtrjMZ9J4KUYJM+mPT934EDQ?=
- =?us-ascii?Q?Lb68JdeS10oUM3wFvKe9ryEgMwqkG3fMztwvyvkWpZwJPlgeu3rZkY+AClag?=
- =?us-ascii?Q?vL8gVZU1DIYYUJGWDmsLLobNAH2TgKNX8Z6RZZGpNALX8FsvotS1N40GTpKB?=
- =?us-ascii?Q?GxhItPbIDzumQFkBnyyIrB40SJGUQtf6kJ1vRtJSOXQo3SJdCCo8hyYKFDYN?=
- =?us-ascii?Q?g9KsPP44bBKwqGHajkK1lAdBcteuWlGYZS9DIJf2ae3BVefVJA+ygYo8AZLT?=
- =?us-ascii?Q?SvSV2Uee6BL/T5Ph1WBbD+mzmdHfMVy8HlHJLLSQkopbuGccK0+IQ6kfJDBQ?=
- =?us-ascii?Q?QAHLMcKrfUogd+SNfePZpj0q7Pxlm4Q9UgPJgx1k2so2MGF5g5COSl0JofS3?=
- =?us-ascii?Q?IGzAXCScSdxC2B0WlFynFB7RvVP/fuI9wjtFFUVDIJSyG4u4ox1YLWoxLtQ5?=
- =?us-ascii?Q?FzAcvVDeoKwC/HHrwXKb4pCpDKt9yZ6PxuprI58Xy/eDgVwl26IWaQ85c57z?=
- =?us-ascii?Q?iOvPrtdHMECbHiBM73DFl0/7GST0XTHszRvznqpoQKo47vNTr5jJ+v6F/d4+?=
- =?us-ascii?Q?aLTrJlLSvhV3LtUdjCDeOdbo8/iX4+pAlDdnKgSf4KNLw+zaB5wEMyR1TuFX?=
- =?us-ascii?Q?na/nzXmh3XYwjJzk4gYstRHgDIZtzb+F0z5br4eyBbhD143D2fmlT/gip8JX?=
- =?us-ascii?Q?HnXnuQMq5OIYXxkWIe3IL/uS0IpTxR81bJRqcZ9iQq2/3BizhTkYjryEtRdL?=
- =?us-ascii?Q?CtcDV3Q+SLn7YY2MWeiMabrLxvFDAyTqljB9UYmxzDV3WgsPh2iljfcSNbCX?=
- =?us-ascii?Q?IwNOZSPOuc7Z/xxi28urR2TrK8uC+siCopVytD2RyfD/psKXTd2lvUV0AkiA?=
- =?us-ascii?Q?NEybgaGJZXqWRFUBWlhgFi/Ap36OyrKA49GSM3w/cwUl5UQqxMwscgFju8LF?=
- =?us-ascii?Q?dHgGsgHYT75ViGrgUDDRmyKjHoz4h5+w3aVwY5wa2SfeeBLVOMxFeFgp2nop?=
- =?us-ascii?Q?h1j0su/Y9ZAL2cHpuVcLku5BJFDwQTzPifOcxXySC1MlcNlTOysomTJS9ONT?=
- =?us-ascii?Q?6PEFL4iaxSPJOdUjSgbyAq9eCQlS7iC/lmJnHelkl7SZvaHJ16SRhXBLhY0F?=
- =?us-ascii?Q?4YKY4HmjfzNWaYmh51DFN+N6CaU0DgFm5p3e3QJpnmsExWYVPPv4mHHpBUoz?=
- =?us-ascii?Q?e6x0Z/DQ9ohVX1lhiS1GK5Pq8LQqUeS4?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR03MB5299.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?vejU6IRTjKOQbLg03z1zkPMM/a3JmX2COumMRT3owPh8GbjKAI85s2JyuERv?=
- =?us-ascii?Q?shLK51ikfK4dWDeSOB8jl5HiVJGF4TOfQkFFWfr7U1G2lMdMx26TGhB5ic0L?=
- =?us-ascii?Q?d4KRxhjp6EjbpWg7TIeceQV2Ep110YPNu3Rq1vkYkav87rzQbea3RkOxVnSe?=
- =?us-ascii?Q?D5mXzBn0HKy67bqN+qYXNR1hup8lKdjjkzA9KfOEISYrXKlj/2KGBa+NlqRm?=
- =?us-ascii?Q?bv/XGtp02k2rxoT8qidzW9rTSjmX66ExDeHO7h7AMjq+OcHnwFhIg6V3ml++?=
- =?us-ascii?Q?xCcRnB0FHz+eaK/wG82UMNmTaL4g9UmHLlL+GFFf4dKxJiBVJmGz1WtxFXBw?=
- =?us-ascii?Q?ssF9lrpXTTPfepDpbbtUxI5iEn0bJ2e5Ut4AUW0OPmo+XCk/Yv8rbn4YPVFO?=
- =?us-ascii?Q?OZcJsXbbBJFHF+tpS6HbFjOrDM/ebs4j0QCHUJte23uyeObanKueK488Mahb?=
- =?us-ascii?Q?RXpDUddxcZRcWUwubBz+Uo1HRVMr4J/RW0rmMIlePxI6wp1pAlcK9KGSXc7F?=
- =?us-ascii?Q?PblZ3++vpCN6lNVTg7+ao34M9k696LV90tEtyXgCqibFD36KjxPaB6mJiLIy?=
- =?us-ascii?Q?/pbvzfVh7ELSXGFU0aDGit1oD5lA1tpPnJFL+yoGL1Vlzpcd75PItAoBp3Tv?=
- =?us-ascii?Q?mR0Eoyh3IeQ5uY86osADjOStHjTU01jv1n7XjyzsI9BYnLh5BogOMcT172mL?=
- =?us-ascii?Q?HgLgyRIVr6YPx2dvuGNZVepTgVen3QK6HANwzDwGqiyXAyWJyjIZhiGcmLle?=
- =?us-ascii?Q?Unyi5HzzLVbasrFJG7/fndI1OBdxtQz7njIlMM7J1AdbSBEyftfmhbcleELL?=
- =?us-ascii?Q?tjuu77W6GZbcS4si/zE30P2vlSge3g+urApXj/qG+GCCrvwIMgrBtto3ZXWv?=
- =?us-ascii?Q?BAMZ4o9PY8h1cWRm2SXoW5W18sQ9rdS6aZ1aDiNIVPDteK5ry2B+ns9QQSLf?=
- =?us-ascii?Q?NHai2ynqb9unb+76bzY8j1stdsXIXgEauph/d1GCVpICy0XNNJwc5jP0qnHH?=
- =?us-ascii?Q?lWJXKglwbzONdomB5jsRIb5+Uv+CzHMY6qIhI/xqqi8CsbpZZiGRiv4RcSzd?=
- =?us-ascii?Q?GEeWCk0hzNyrq3oc5iv94F2N2T8OTUH6NrpeVushID5TLAW3DY6k0jDtMA21?=
- =?us-ascii?Q?4P5jP3ZVQ+aiVqLp6Qsx2ARyZe7dZYRd4dEKXmBBbMwU5wywyqprC1+v8Xyi?=
- =?us-ascii?Q?vfkXgHaodGbf7y9ah2RTHyysEgnPRUotOGvqm7Up0lLWsP/Xx7l7QwyL8LXM?=
- =?us-ascii?Q?xTBmZbfxybVZTaSnXoQGFkXmprXmu8wqLrn74avGAjxj6kQXLXzp8nd6Y1ft?=
- =?us-ascii?Q?k/KVXJreE5F2MyGERG2jCmDfdg70cxMN+e1B/osW3C+4cC9DNpOQNXvvJIHP?=
- =?us-ascii?Q?brIzFzJJChHQm67VSy96j3ozcM5sxLrEUjr6rkP2OrXZU5GmLDMSf62+Jr/f?=
- =?us-ascii?Q?/1Pn/z3+9g2VOUAo6TNC8g7clN7XcZ2Jk8hjH5kEwWWuIm+eT+yhnRNrrlxm?=
- =?us-ascii?Q?QDOQkGu6zZKYu4SP6FLGs8GOm7pCDWPiWDpv4J1nIypSNHxYu3IVZAo52nZr?=
- =?us-ascii?Q?ZgFJxUY+eCNz3aXVyqky8s8q7yvZYNlQolf3pcZ0?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NCtFKu3W"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752539564; x=1784075564;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=M+kulXl5aOpNygYMA6aBEI6M4ZzyqzcNRfBSJPlrwGM=;
+  b=NCtFKu3WXEN53FxaXdV+Bs1owVCz7IjPU5m1h6Fw3ZMoL/qLAQX+qlNr
+   bb7gVZhlsIIZRidDClOE9U6X9/qd/T/orBTDlxVY7st1iK5MSx5hKvE08
+   rUpBQHz0iyVmF9TDZzZTc8o1G3q0niBWySV1dN9w3pTqWu1zowTFvoxxn
+   PJT+b6RdczuXLcvHE+7isvrjx1SimTuzTtaa8UMnkq5I8UFcHOatWWHgS
+   HlP0ops9AZzb8xvfoCKYqGmvcVBvnrCVLMrzxIT9DzLyn6ZSRC+SYElSe
+   1LFyOQopFn9nLRoSM3ATp3CoVgDvnY5e624T4s1wd4zcGzBF5qgpKQCRo
+   A==;
+X-CSE-ConnectionGUID: L1k5e/hiQNW8OGS+w6zoAg==
+X-CSE-MsgGUID: ixeqP3DPSxaPzUJWPuTe2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="77283804"
+X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
+   d="scan'208";a="77283804"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 17:32:44 -0700
+X-CSE-ConnectionGUID: fbiUC9A2TmyVTlc0mpavSg==
+X-CSE-MsgGUID: 2X/N6flpRY+9jJQQ0Pl4OQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
+   d="scan'208";a="156716625"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 14 Jul 2025 17:32:42 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ubTb5-0009Tv-31;
+	Tue, 15 Jul 2025 00:32:39 +0000
+Date: Tue, 15 Jul 2025 08:32:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: mm/rmap.c:1696 try_to_unmap_one() error: we previously assumed
+ 'pvmw.pte' could be null (see line 1681)
+Message-ID: <202507150812.6uA6pcHE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: altera.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR03MB5299.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d7c5388-131c-48fc-6d4c-08ddc334a6fa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2025 00:15:06.3437
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: fbd72e03-d4a5-4110-adce-614d51f2077a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: T7l9ozYHxty3WE32K3a3bsnhrI6DD6QaHWqPc0QfW/gciK2tAWOgB9rAdAprsR+hnLTfq/8dopJjykcSFBfdqOIZFNe7mlansy4Az+E6V4c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR03MB5790
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-> From: Dan Carpenter <dan.carpenter@linaro.org>
-> Sent: Tuesday, 15 July, 2025 3:30 AM
-> To: oe-kbuild@lists.linux.dev; Romli, Khairul Anuar
-> <khairul.anuar.romli@altera.com>; Tudor Ambarus
-> <tudor.ambarus@linaro.org>; Pratyush Yadav <pratyush@kernel.org>;
-> Michael Walle <mwalle@kernel.org>; Miquel Raynal
-> <miquel.raynal@bootlin.com>; Richard Weinberger <richard@nod.at>;
-> Vignesh Raghavendra <vigneshr@ti.com>; open list:SPI NOR SUBSYSTEM
-> <linux-mtd@lists.infradead.org>; open list <linux-kernel@vger.kernel.org>=
-;
-> Gerlach, Matthew <matthew.gerlach@altera.com>
-> Cc: lkp@intel.com; oe-kbuild-all@lists.linux.dev
-> Subject: Re: [PATCH 1/1] mtd: spi-nor: core: Prevent oops during driver
-> removal with active read or write operations
->
-> Hi,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-/
-> scm.com%2Fdocs%2Fgit-format-
-> patch%23_base_tree_information&data=3D05%7C02%7Ckhairul.anuar.romli%4
-> 0altera.com%7Cf6c3b8bb5b844138259308ddc30cd2ae%7Cfbd72e03d4a54
-> 110adce614d51f2077a%7C0%7C0%7C638881182091182847%7CUnknow
-> n%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIl
-> AiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sd
-> ata=3DeR42SdwIvE8%2BT3uUpe1WKz%2Fn0V4DNnLHExb1IPi1Gas%3D&reserv
-> ed=3D0]
->
-> url:
-> https://gith/
-> ub.com%2Fintel-lab-lkp%2Flinux%2Fcommits%2Fkhairul-anuar-romli-altera-
-> com%2Fmtd-spi-nor-core-Prevent-oops-during-driver-removal-with-active-
-> read-or-write-operations%2F20250709-
-> 103107&data=3D05%7C02%7Ckhairul.anuar.romli%40altera.com%7Cf6c3b8bb
-> 5b844138259308ddc30cd2ae%7Cfbd72e03d4a54110adce614d51f2077a%
-> 7C0%7C0%7C638881182091208992%7CUnknown%7CTWFpbGZsb3d8eyJF
-> bXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiT
-> WFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DKJm%2FUt2CNwr3J2
-> Gsoxd2oe36gitqmmby3df73UWsZHo%3D&reserved=3D0
-> base:
-> https://git.k/
-> ernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Fmtd%2Flinux.git&dat
-> a=3D05%7C02%7Ckhairul.anuar.romli%40altera.com%7Cf6c3b8bb5b8441382
-> 59308ddc30cd2ae%7Cfbd72e03d4a54110adce614d51f2077a%7C0%7C0%
-> 7C638881182091223786%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hc
-> GkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIld
-> UIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3Du3%2FCugi1Z%2BobMTJu5qWFj
-> 4tkjYr%2FgC4PGVt0NJvAktA%3D&reserved=3D0 spi-nor/next
-> patch link:
-> https://lore/.
-> kernel.org%2Fr%2Fe439e6b85e650a91607a1d02d5d432d096363315.1752
-> 024352.git.khairul.anuar.romli%2540altera.com&data=3D05%7C02%7Ckhairul.
-> anuar.romli%40altera.com%7Cf6c3b8bb5b844138259308ddc30cd2ae%7C
-> fbd72e03d4a54110adce614d51f2077a%7C0%7C0%7C6388811820912375
-> 62%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLj
-> AuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%
-> 7C%7C%7C&sdata=3Dsy%2BIZORvA8IgYI5BZsHEQgoIH9wKyndszhYwQ6N7vzw
-> %3D&reserved=3D0
-> patch subject: [PATCH 1/1] mtd: spi-nor: core: Prevent oops during driver
-> removal with active read or write operations
-> config: i386-randconfig-141-20250711
-> (https://do/
-> wnload.01.org%2F0day-
-> ci%2Farchive%2F20250711%2F202507110922.btkgvYrn-
-> lkp%40intel.com%2Fconfig&data=3D05%7C02%7Ckhairul.anuar.romli%40altera
-> .com%7Cf6c3b8bb5b844138259308ddc30cd2ae%7Cfbd72e03d4a54110ad
-> ce614d51f2077a%7C0%7C0%7C638881182091250946%7CUnknown%7CT
-> WFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJX
-> aW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3Dzvj
-> oJvmjeQnS7dTajwXbAB6GiqNwecZtS3win3Sv7lM%3D&reserved=3D0)
-> compiler: clang version 20.1.8
-> (https://gith/
-> ub.com%2Fllvm%2Fllvm-
-> project&data=3D05%7C02%7Ckhairul.anuar.romli%40altera.com%7Cf6c3b8bb
-> 5b844138259308ddc30cd2ae%7Cfbd72e03d4a54110adce614d51f2077a%
-> 7C0%7C0%7C638881182091264782%7CUnknown%7CTWFpbGZsb3d8eyJF
-> bXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiT
-> WFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DFYcm8fzKMhihgW5At
-> oVRcGTCV56qKYNlx3uJpT%2B4DPo%3D&reserved=3D0
-> 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes:
-> |
-> https://lore/
-> | .kernel.org%2Fr%2F202507110922.btkgvYrn-
-> lkp%40intel.com%2F&data=3D05%7C0
-> |
-> 2%7Ckhairul.anuar.romli%40altera.com%7Cf6c3b8bb5b844138259308ddc3
-> 0cd2a
-> |
-> e%7Cfbd72e03d4a54110adce614d51f2077a%7C0%7C0%7C638881182091
-> 278235%7CUn
-> |
-> known%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAw
-> MCIsIlAiOi
-> |
-> JXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D
-> NMmQgJov
-> | ArDDW9sbKYrmIdl3lTRLvDD2SNq10pYeQ9s%3D&reserved=3D0
->
-> smatch warnings:
-> drivers/mtd/spi-nor/core.c:3216 spi_nor_get_device() warn: variable
-> dereferenced before check 'dev' (see line 3213)
-> drivers/mtd/spi-nor/core.c:3216 spi_nor_get_device() warn: variable
-> dereferenced before check 'dev->driver' (see line 3213)
->
-> vim +/dev +3216 drivers/mtd/spi-nor/core.c
->
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3202
-> static int spi_nor_get_device(struct mtd_info *mtd)
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3203
-> {
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3204
->       struct mtd_info *master =3D mtd_get_master(mtd);
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3205
->       struct spi_nor *nor =3D mtd_to_spi_nor(master);
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3206
->       struct device *dev;
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3207
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3208
->       if (nor->spimem)
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3209
->               dev =3D nor->spimem->spi->controller->dev.parent;
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3210
->       else
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3211
->               dev =3D nor->dev;
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3212
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01
-> @3213         if (!try_module_get(dev->driver->owner))
->                                                                          =
-                           ^^^^^^^^^^^^^^^^^^
-> Dereference
->
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3214
->               return -ENODEV;
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3215
-> 240522762fc4bc drivers/mtd/spi-nor/core.c    kromli     2025-07-09 @3216
->       if (!dev && !dev->driver && !dev->driver->owner)
->
-> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> These checks are done too late.  Also missing module put.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Lance Yang <ioworker0@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-I will send the v2 revision to fix this. I don't think we need module put. =
-Module put
-Will cause the kernel oops if any of the nodes are null.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   347e9f5043c89695b01e66b3ed111755afcf1911
+commit: 29e847d2ade3cdff36afe095fdbeb9b5f71a197a mm/rmap: integrate PMD-mapped folio splitting into pagewalk loop
+date:   1 year ago
+:::::: branch date: 27 hours ago
+:::::: commit date: 1 year ago
+config: x86_64-randconfig-161-20250714 (https://download.01.org/0day-ci/archive/20250715/202507150812.6uA6pcHE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
->
-> 240522762fc4bc drivers/mtd/spi-nor/core.c    kromli     2025-07-09  3217
->               return -EINVAL;
-> 240522762fc4bc drivers/mtd/spi-nor/core.c    kromli     2025-07-09  3218
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3219
->       return 0;
-> be94215be1ab19 drivers/mtd/spi-nor/core.c    Xiang Chen 2021-04-01  3220
-> }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://gith/
-> ub.com%2Fintel%2Flkp-
-> tests%2Fwiki&data=3D05%7C02%7Ckhairul.anuar.romli%40altera.com%7Cf6c3
-> b8bb5b844138259308ddc30cd2ae%7Cfbd72e03d4a54110adce614d51f20
-> 77a%7C0%7C0%7C638881182091292007%7CUnknown%7CTWFpbGZsb3d
-> 8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkF
-> OIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DSSQX73%2Bm
-> m3Eqb6XaYih3tHM7sL5d%2Fuodt3DggYXTBNc%3D&reserved=3D0
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507150812.6uA6pcHE-lkp@intel.com/
 
+smatch warnings:
+mm/rmap.c:1696 try_to_unmap_one() error: we previously assumed 'pvmw.pte' could be null (see line 1681)
+
+vim +1696 mm/rmap.c
+
+b06dc281aa99010 David Hildenbrand          2023-12-20  1619  
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1620  /*
+52629506420ce32 Joonsoo Kim                2014-01-21  1621   * @arg: enum ttu_flags will be passed to this argument
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1622   */
+2f031c6f042cb8a Matthew Wilcox (Oracle     2022-01-29  1623) static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
+52629506420ce32 Joonsoo Kim                2014-01-21  1624  		     unsigned long address, void *arg)
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1625  {
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1626  	struct mm_struct *mm = vma->vm_mm;
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1627) 	DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, address, 0);
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1628  	pte_t pteval;
+c7ab0d2fdc84026 Kirill A. Shutemov         2017-02-24  1629  	struct page *subpage;
+6c287605fd56466 David Hildenbrand          2022-05-09  1630  	bool anon_exclusive, ret = true;
+ac46d4f3c43241f Jérôme Glisse              2018-12-28  1631  	struct mmu_notifier_range range;
+4708f31885a0d3e Palmer Dabbelt             2020-04-06  1632  	enum ttu_flags flags = (enum ttu_flags)(long)arg;
+c33c794828f2121 Ryan Roberts               2023-06-12  1633  	unsigned long pfn;
+935d4f0c6dc8b35 Ryan Roberts               2023-09-22  1634  	unsigned long hsz = 0;
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1635  
+732ed55823fc3ad Hugh Dickins               2021-06-15  1636  	/*
+732ed55823fc3ad Hugh Dickins               2021-06-15  1637  	 * When racing against e.g. zap_pte_range() on another cpu,
+ca1a0746182c3c0 David Hildenbrand          2023-12-20  1638  	 * in between its ptep_get_and_clear_full() and folio_remove_rmap_*(),
+1fb08ac63beedf5 Yang Shi                   2021-06-30  1639  	 * try_to_unmap() may return before page_mapped() has become false,
+732ed55823fc3ad Hugh Dickins               2021-06-15  1640  	 * if page table locking is skipped: use TTU_SYNC to wait for that.
+732ed55823fc3ad Hugh Dickins               2021-06-15  1641  	 */
+732ed55823fc3ad Hugh Dickins               2021-06-15  1642  	if (flags & TTU_SYNC)
+732ed55823fc3ad Hugh Dickins               2021-06-15  1643  		pvmw.flags = PVMW_SYNC;
+732ed55823fc3ad Hugh Dickins               2021-06-15  1644  
+369ea8242c0fb52 Jérôme Glisse              2017-08-31  1645  	/*
+017b1660df89f5f Mike Kravetz               2018-10-05  1646  	 * For THP, we have to assume the worse case ie pmd for invalidation.
+017b1660df89f5f Mike Kravetz               2018-10-05  1647  	 * For hugetlb, it could be much worse if we need to do pud
+017b1660df89f5f Mike Kravetz               2018-10-05  1648  	 * invalidation in the case of pmd sharing.
+017b1660df89f5f Mike Kravetz               2018-10-05  1649  	 *
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1650) 	 * Note that the folio can not be freed in this function as call of
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1651) 	 * try_to_unmap() must hold a reference on the folio.
+369ea8242c0fb52 Jérôme Glisse              2017-08-31  1652  	 */
+2aff7a4755bed28 Matthew Wilcox (Oracle     2022-02-03  1653) 	range.end = vma_address_end(&pvmw);
+7d4a8be0c4b2b7f Alistair Popple            2023-01-10  1654  	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma->vm_mm,
+494334e43c16d63 Hugh Dickins               2021-06-15  1655  				address, range.end);
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1656) 	if (folio_test_hugetlb(folio)) {
+017b1660df89f5f Mike Kravetz               2018-10-05  1657  		/*
+017b1660df89f5f Mike Kravetz               2018-10-05  1658  		 * If sharing is possible, start and end will be adjusted
+017b1660df89f5f Mike Kravetz               2018-10-05  1659  		 * accordingly.
+017b1660df89f5f Mike Kravetz               2018-10-05  1660  		 */
+ac46d4f3c43241f Jérôme Glisse              2018-12-28  1661  		adjust_range_if_pmd_sharing_possible(vma, &range.start,
+ac46d4f3c43241f Jérôme Glisse              2018-12-28  1662  						     &range.end);
+935d4f0c6dc8b35 Ryan Roberts               2023-09-22  1663  
+935d4f0c6dc8b35 Ryan Roberts               2023-09-22  1664  		/* We need the huge page size for set_huge_pte_at() */
+935d4f0c6dc8b35 Ryan Roberts               2023-09-22  1665  		hsz = huge_page_size(hstate_vma(vma));
+017b1660df89f5f Mike Kravetz               2018-10-05  1666  	}
+ac46d4f3c43241f Jérôme Glisse              2018-12-28  1667  	mmu_notifier_invalidate_range_start(&range);
+369ea8242c0fb52 Jérôme Glisse              2017-08-31  1668  
+c7ab0d2fdc84026 Kirill A. Shutemov         2017-02-24  1669  	while (page_vma_mapped_walk(&pvmw)) {
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1670  		/*
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1671) 		 * If the folio is in an mlock()d vma, we must not swap it out.
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1672  		 */
+efdb6720b44b2f0 Hugh Dickins               2021-07-11  1673  		if (!(flags & TTU_IGNORE_MLOCK) &&
+efdb6720b44b2f0 Hugh Dickins               2021-07-11  1674  		    (vma->vm_flags & VM_LOCKED)) {
+cea86fe246b694a Hugh Dickins               2022-02-14  1675  			/* Restore the mlock which got missed */
+1acbc3f936146d1 Yin Fengwei                2023-09-18  1676  			if (!folio_test_large(folio))
+1acbc3f936146d1 Yin Fengwei                2023-09-18  1677  				mlock_vma_folio(folio, vma);
+26d21b18d971c8b Lance Yang                 2024-06-14  1678  			goto walk_abort;
+b87537d9e2feb30 Hugh Dickins               2015-11-05  1679  		}
+c7ab0d2fdc84026 Kirill A. Shutemov         2017-02-24  1680  
+29e847d2ade3cdf Lance Yang                 2024-06-14 @1681  		if (!pvmw.pte && (flags & TTU_SPLIT_HUGE_PMD)) {
+29e847d2ade3cdf Lance Yang                 2024-06-14  1682  			/*
+29e847d2ade3cdf Lance Yang                 2024-06-14  1683  			 * We temporarily have to drop the PTL and start once
+29e847d2ade3cdf Lance Yang                 2024-06-14  1684  			 * again from that now-PTE-mapped page table.
+29e847d2ade3cdf Lance Yang                 2024-06-14  1685  			 */
+29e847d2ade3cdf Lance Yang                 2024-06-14  1686  			split_huge_pmd_locked(vma, pvmw.address, pvmw.pmd,
+29e847d2ade3cdf Lance Yang                 2024-06-14  1687  					      false, folio);
+29e847d2ade3cdf Lance Yang                 2024-06-14  1688  			flags &= ~TTU_SPLIT_HUGE_PMD;
+29e847d2ade3cdf Lance Yang                 2024-06-14  1689  			page_vma_mapped_walk_restart(&pvmw);
+29e847d2ade3cdf Lance Yang                 2024-06-14  1690  			continue;
+29e847d2ade3cdf Lance Yang                 2024-06-14  1691  		}
+29e847d2ade3cdf Lance Yang                 2024-06-14  1692  
+29e847d2ade3cdf Lance Yang                 2024-06-14  1693  		/* Unexpected PMD-mapped THP? */
+29e847d2ade3cdf Lance Yang                 2024-06-14  1694  		VM_BUG_ON_FOLIO(!pvmw.pte, folio);
+29e847d2ade3cdf Lance Yang                 2024-06-14  1695  
+c33c794828f2121 Ryan Roberts               2023-06-12 @1696  		pfn = pte_pfn(ptep_get(pvmw.pte));
+c33c794828f2121 Ryan Roberts               2023-06-12  1697  		subpage = folio_page(folio, pfn - folio_pfn(folio));
+785373b4c38719f Linus Torvalds             2017-08-29  1698  		address = pvmw.address;
+6c287605fd56466 David Hildenbrand          2022-05-09  1699  		anon_exclusive = folio_test_anon(folio) &&
+6c287605fd56466 David Hildenbrand          2022-05-09  1700  				 PageAnonExclusive(subpage);
+785373b4c38719f Linus Torvalds             2017-08-29  1701  
+dfc7ab57560da38 Baolin Wang                2022-05-09  1702  		if (folio_test_hugetlb(folio)) {
+0506c31d0a8443a Baolin Wang                2022-06-20  1703  			bool anon = folio_test_anon(folio);
+0506c31d0a8443a Baolin Wang                2022-06-20  1704  
+a00a875925a418b Baolin Wang                2022-05-13  1705  			/*
+a00a875925a418b Baolin Wang                2022-05-13  1706  			 * The try_to_unmap() is only passed a hugetlb page
+a00a875925a418b Baolin Wang                2022-05-13  1707  			 * in the case where the hugetlb page is poisoned.
+a00a875925a418b Baolin Wang                2022-05-13  1708  			 */
+a00a875925a418b Baolin Wang                2022-05-13  1709  			VM_BUG_ON_PAGE(!PageHWPoison(subpage), subpage);
+017b1660df89f5f Mike Kravetz               2018-10-05  1710  			/*
+54205e9c5425049 Baolin Wang                2022-05-09  1711  			 * huge_pmd_unshare may unmap an entire PMD page.
+54205e9c5425049 Baolin Wang                2022-05-09  1712  			 * There is no way of knowing exactly which PMDs may
+54205e9c5425049 Baolin Wang                2022-05-09  1713  			 * be cached for this mm, so we must flush them all.
+54205e9c5425049 Baolin Wang                2022-05-09  1714  			 * start/end were already adjusted above to cover this
+54205e9c5425049 Baolin Wang                2022-05-09  1715  			 * range.
+017b1660df89f5f Mike Kravetz               2018-10-05  1716  			 */
+ac46d4f3c43241f Jérôme Glisse              2018-12-28  1717  			flush_cache_range(vma, range.start, range.end);
+54205e9c5425049 Baolin Wang                2022-05-09  1718  
+dfc7ab57560da38 Baolin Wang                2022-05-09  1719  			/*
+dfc7ab57560da38 Baolin Wang                2022-05-09  1720  			 * To call huge_pmd_unshare, i_mmap_rwsem must be
+dfc7ab57560da38 Baolin Wang                2022-05-09  1721  			 * held in write mode.  Caller needs to explicitly
+dfc7ab57560da38 Baolin Wang                2022-05-09  1722  			 * do this outside rmap routines.
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1723  			 *
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1724  			 * We also must hold hugetlb vma_lock in write mode.
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1725  			 * Lock order dictates acquiring vma_lock BEFORE
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1726  			 * i_mmap_rwsem.  We can only try lock here and fail
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1727  			 * if unsuccessful.
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1728  			 */
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1729  			if (!anon) {
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1730  				VM_BUG_ON(!(flags & TTU_RMAP_LOCKED));
+26d21b18d971c8b Lance Yang                 2024-06-14  1731  				if (!hugetlb_vma_trylock_write(vma))
+26d21b18d971c8b Lance Yang                 2024-06-14  1732  					goto walk_abort;
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1733  				if (huge_pmd_unshare(mm, vma, address, pvmw.pte)) {
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1734  					hugetlb_vma_unlock_write(vma);
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1735  					flush_tlb_range(vma,
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1736  						range.start, range.end);
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1737  					/*
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1738  					 * The ref count of the PMD page was
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1739  					 * dropped which is part of the way map
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1740  					 * counting is done for shared PMDs.
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1741  					 * Return 'true' here.  When there is
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1742  					 * no other sharing, huge_pmd_unshare
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1743  					 * returns false and we will unmap the
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1744  					 * actual page and drop map count
+017b1660df89f5f Mike Kravetz               2018-10-05  1745  					 * to zero.
+017b1660df89f5f Mike Kravetz               2018-10-05  1746  					 */
+26d21b18d971c8b Lance Yang                 2024-06-14  1747  					goto walk_done;
+017b1660df89f5f Mike Kravetz               2018-10-05  1748  				}
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1749  				hugetlb_vma_unlock_write(vma);
+40549ba8f8e0ed1 Mike Kravetz               2022-09-14  1750  			}
+a00a875925a418b Baolin Wang                2022-05-13  1751  			pteval = huge_ptep_clear_flush(vma, address, pvmw.pte);
+54205e9c5425049 Baolin Wang                2022-05-09  1752  		} else {
+c33c794828f2121 Ryan Roberts               2023-06-12  1753  			flush_cache_page(vma, address, pfn);
+088b8aa537c2c76 David Hildenbrand          2022-09-01  1754  			/* Nuke the page table entry. */
+088b8aa537c2c76 David Hildenbrand          2022-09-01  1755  			if (should_defer_flush(mm, flags)) {
+72b252aed506b8f Mel Gorman                 2015-09-04  1756  				/*
+c7ab0d2fdc84026 Kirill A. Shutemov         2017-02-24  1757  				 * We clear the PTE but do not flush so potentially
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1758) 				 * a remote CPU could still be writing to the folio.
+c7ab0d2fdc84026 Kirill A. Shutemov         2017-02-24  1759  				 * If the entry was previously clean then the
+c7ab0d2fdc84026 Kirill A. Shutemov         2017-02-24  1760  				 * architecture must guarantee that a clear->dirty
+c7ab0d2fdc84026 Kirill A. Shutemov         2017-02-24  1761  				 * transition on a cached TLB entry is written through
+c7ab0d2fdc84026 Kirill A. Shutemov         2017-02-24  1762  				 * and traps if the PTE is unmapped.
+72b252aed506b8f Mel Gorman                 2015-09-04  1763  				 */
+785373b4c38719f Linus Torvalds             2017-08-29  1764  				pteval = ptep_get_and_clear(mm, address, pvmw.pte);
+72b252aed506b8f Mel Gorman                 2015-09-04  1765  
+f73419bb89d606d Barry Song                 2023-07-17  1766  				set_tlb_ubc_flush_pending(mm, pteval, address);
+72b252aed506b8f Mel Gorman                 2015-09-04  1767  			} else {
+785373b4c38719f Linus Torvalds             2017-08-29  1768  				pteval = ptep_clear_flush(vma, address, pvmw.pte);
+72b252aed506b8f Mel Gorman                 2015-09-04  1769  			}
+a00a875925a418b Baolin Wang                2022-05-13  1770  		}
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1771  
+999dad824c39ed1 Peter Xu                   2022-05-12  1772  		/*
+999dad824c39ed1 Peter Xu                   2022-05-12  1773  		 * Now the pte is cleared. If this pte was uffd-wp armed,
+999dad824c39ed1 Peter Xu                   2022-05-12  1774  		 * we may want to replace a none pte with a marker pte if
+999dad824c39ed1 Peter Xu                   2022-05-12  1775  		 * it's file-backed, so we don't lose the tracking info.
+999dad824c39ed1 Peter Xu                   2022-05-12  1776  		 */
+999dad824c39ed1 Peter Xu                   2022-05-12  1777  		pte_install_uffd_wp_if_needed(vma, address, pvmw.pte, pteval);
+999dad824c39ed1 Peter Xu                   2022-05-12  1778  
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1779) 		/* Set the dirty flag on the folio now the pte is gone. */
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1780  		if (pte_dirty(pteval))
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1781) 			folio_mark_dirty(folio);
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1782  
+365e9c87a982c03 Hugh Dickins               2005-10-29  1783  		/* Update high watermark before we lower rss */
+365e9c87a982c03 Hugh Dickins               2005-10-29  1784  		update_hiwater_rss(mm);
+365e9c87a982c03 Hugh Dickins               2005-10-29  1785  
+6da6b1d4a7df8c3 Naoya Horiguchi            2023-02-21  1786  		if (PageHWPoison(subpage) && (flags & TTU_HWPOISON)) {
+5fd27b8e7dbcab0 Punit Agrawal              2017-07-06  1787  			pteval = swp_entry_to_pte(make_hwpoison_entry(subpage));
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1788) 			if (folio_test_hugetlb(folio)) {
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1789) 				hugetlb_count_sub(folio_nr_pages(folio), mm);
+935d4f0c6dc8b35 Ryan Roberts               2023-09-22  1790  				set_huge_pte_at(mm, address, pvmw.pte, pteval,
+935d4f0c6dc8b35 Ryan Roberts               2023-09-22  1791  						hsz);
+5d317b2b6536592 Naoya Horiguchi            2015-11-05  1792  			} else {
+a23f517b0e15544 Kefeng Wang                2024-01-11  1793  				dec_mm_counter(mm, mm_counter(folio));
+785373b4c38719f Linus Torvalds             2017-08-29  1794  				set_pte_at(mm, address, pvmw.pte, pteval);
+5f24ae585be9856 Naoya Horiguchi            2012-12-12  1795  			}
+c7ab0d2fdc84026 Kirill A. Shutemov         2017-02-24  1796  
+bce73e4842390f7 Christian Borntraeger      2018-07-13  1797  		} else if (pte_unused(pteval) && !userfaultfd_armed(vma)) {
+45961722f8e30ce Konstantin Weitz           2013-04-17  1798  			/*
+45961722f8e30ce Konstantin Weitz           2013-04-17  1799  			 * The guest indicated that the page content is of no
+45961722f8e30ce Konstantin Weitz           2013-04-17  1800  			 * interest anymore. Simply discard the pte, vmscan
+45961722f8e30ce Konstantin Weitz           2013-04-17  1801  			 * will take care of the rest.
+bce73e4842390f7 Christian Borntraeger      2018-07-13  1802  			 * A future reference will then fault in a new zero
+bce73e4842390f7 Christian Borntraeger      2018-07-13  1803  			 * page. When userfaultfd is active, we must not drop
+bce73e4842390f7 Christian Borntraeger      2018-07-13  1804  			 * this page though, as its main user (postcopy
+bce73e4842390f7 Christian Borntraeger      2018-07-13  1805  			 * migration) will not expect userfaults on already
+bce73e4842390f7 Christian Borntraeger      2018-07-13  1806  			 * copied pages.
+45961722f8e30ce Konstantin Weitz           2013-04-17  1807  			 */
+a23f517b0e15544 Kefeng Wang                2024-01-11  1808  			dec_mm_counter(mm, mm_counter(folio));
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1809) 		} else if (folio_test_anon(folio)) {
+cfeed8ffe55b37f David Hildenbrand          2023-08-21  1810  			swp_entry_t entry = page_swap_entry(subpage);
+179ef71cbc08525 Cyrill Gorcunov            2013-08-13  1811  			pte_t swp_pte;
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1812  			/*
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1813  			 * Store the swap location in the pte.
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1814  			 * See handle_pte_fault() ...
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1815  			 */
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1816) 			if (unlikely(folio_test_swapbacked(folio) !=
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1817) 					folio_test_swapcache(folio))) {
+eb94a8784427b28 Minchan Kim                2017-05-03  1818  				WARN_ON_ONCE(1);
+26d21b18d971c8b Lance Yang                 2024-06-14  1819  				goto walk_abort;
+eb94a8784427b28 Minchan Kim                2017-05-03  1820  			}
+854e9ed09dedf0c Minchan Kim                2016-01-15  1821  
+802a3a92ad7ac0b Shaohua Li                 2017-05-03  1822  			/* MADV_FREE page check */
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1823) 			if (!folio_test_swapbacked(folio)) {
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1824  				int ref_count, map_count;
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1825  
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1826  				/*
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1827  				 * Synchronize with gup_pte_range():
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1828  				 * - clear PTE; barrier; read refcount
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1829  				 * - inc refcount; barrier; read PTE
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1830  				 */
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1831  				smp_mb();
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1832  
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1833  				ref_count = folio_ref_count(folio);
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1834  				map_count = folio_mapcount(folio);
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1835  
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1836  				/*
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1837  				 * Order reads for page refcount and dirty flag
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1838  				 * (see comments in __remove_mapping()).
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1839  				 */
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1840  				smp_rmb();
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1841  
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1842  				/*
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1843  				 * The only page refs must be one from isolation
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1844  				 * plus the rmap(s) (dropped by discard:).
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1845  				 */
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1846  				if (ref_count == 1 + map_count &&
+6c8e2a256915a22 Mauricio Faria de Oliveira 2022-03-24  1847  				    !folio_test_dirty(folio)) {
+854e9ed09dedf0c Minchan Kim                2016-01-15  1848  					dec_mm_counter(mm, MM_ANONPAGES);
+854e9ed09dedf0c Minchan Kim                2016-01-15  1849  					goto discard;
+854e9ed09dedf0c Minchan Kim                2016-01-15  1850  				}
+854e9ed09dedf0c Minchan Kim                2016-01-15  1851  
+802a3a92ad7ac0b Shaohua Li                 2017-05-03  1852  				/*
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1853) 				 * If the folio was redirtied, it cannot be
+802a3a92ad7ac0b Shaohua Li                 2017-05-03  1854  				 * discarded. Remap the page to page table.
+802a3a92ad7ac0b Shaohua Li                 2017-05-03  1855  				 */
+785373b4c38719f Linus Torvalds             2017-08-29  1856  				set_pte_at(mm, address, pvmw.pte, pteval);
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1857) 				folio_set_swapbacked(folio);
+26d21b18d971c8b Lance Yang                 2024-06-14  1858  				goto walk_abort;
+802a3a92ad7ac0b Shaohua Li                 2017-05-03  1859  			}
+802a3a92ad7ac0b Shaohua Li                 2017-05-03  1860  
+570a335b8e22579 Hugh Dickins               2009-12-14  1861  			if (swap_duplicate(entry) < 0) {
+785373b4c38719f Linus Torvalds             2017-08-29  1862  				set_pte_at(mm, address, pvmw.pte, pteval);
+26d21b18d971c8b Lance Yang                 2024-06-14  1863  				goto walk_abort;
+570a335b8e22579 Hugh Dickins               2009-12-14  1864  			}
+ca827d55ebaa24d Khalid Aziz                2018-02-21  1865  			if (arch_unmap_one(mm, vma, address, pteval) < 0) {
+322842ea3c72649 David Hildenbrand          2022-05-09  1866  				swap_free(entry);
+ca827d55ebaa24d Khalid Aziz                2018-02-21  1867  				set_pte_at(mm, address, pvmw.pte, pteval);
+26d21b18d971c8b Lance Yang                 2024-06-14  1868  				goto walk_abort;
+ca827d55ebaa24d Khalid Aziz                2018-02-21  1869  			}
+088b8aa537c2c76 David Hildenbrand          2022-09-01  1870  
+e3b4b1374f87c71 David Hildenbrand          2023-12-20  1871  			/* See folio_try_share_anon_rmap(): clear PTE first. */
+6c287605fd56466 David Hildenbrand          2022-05-09  1872  			if (anon_exclusive &&
+e3b4b1374f87c71 David Hildenbrand          2023-12-20  1873  			    folio_try_share_anon_rmap_pte(folio, subpage)) {
+6c287605fd56466 David Hildenbrand          2022-05-09  1874  				swap_free(entry);
+6c287605fd56466 David Hildenbrand          2022-05-09  1875  				set_pte_at(mm, address, pvmw.pte, pteval);
+26d21b18d971c8b Lance Yang                 2024-06-14  1876  				goto walk_abort;
+6c287605fd56466 David Hildenbrand          2022-05-09  1877  			}
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1878  			if (list_empty(&mm->mmlist)) {
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1879  				spin_lock(&mmlist_lock);
+f412ac08c9861b4 Hugh Dickins               2005-10-29  1880  				if (list_empty(&mm->mmlist))
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1881  					list_add(&mm->mmlist, &init_mm.mmlist);
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1882  				spin_unlock(&mmlist_lock);
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1883  			}
+d559db086ff5be9 KAMEZAWA Hiroyuki          2010-03-05  1884  			dec_mm_counter(mm, MM_ANONPAGES);
+b084d4353ff99d8 KAMEZAWA Hiroyuki          2010-03-05  1885  			inc_mm_counter(mm, MM_SWAPENTS);
+179ef71cbc08525 Cyrill Gorcunov            2013-08-13  1886  			swp_pte = swp_entry_to_pte(entry);
+1493a1913e34b0a David Hildenbrand          2022-05-09  1887  			if (anon_exclusive)
+1493a1913e34b0a David Hildenbrand          2022-05-09  1888  				swp_pte = pte_swp_mkexclusive(swp_pte);
+179ef71cbc08525 Cyrill Gorcunov            2013-08-13  1889  			if (pte_soft_dirty(pteval))
+179ef71cbc08525 Cyrill Gorcunov            2013-08-13  1890  				swp_pte = pte_swp_mksoft_dirty(swp_pte);
+f45ec5ff16a75f9 Peter Xu                   2020-04-06  1891  			if (pte_uffd_wp(pteval))
+f45ec5ff16a75f9 Peter Xu                   2020-04-06  1892  				swp_pte = pte_swp_mkuffd_wp(swp_pte);
+785373b4c38719f Linus Torvalds             2017-08-29  1893  			set_pte_at(mm, address, pvmw.pte, swp_pte);
+0f10851ea475e08 Jérôme Glisse              2017-11-15  1894  		} else {
+0f10851ea475e08 Jérôme Glisse              2017-11-15  1895  			/*
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1896) 			 * This is a locked file-backed folio,
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1897) 			 * so it cannot be removed from the page
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1898) 			 * cache and replaced by a new folio before
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1899) 			 * mmu_notifier_invalidate_range_end, so no
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1900) 			 * concurrent thread might update its page table
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1901) 			 * to point at a new folio while a device is
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1902) 			 * still using this folio.
+0f10851ea475e08 Jérôme Glisse              2017-11-15  1903  			 *
+ee65728e103bb7d Mike Rapoport              2022-06-27  1904  			 * See Documentation/mm/mmu_notifier.rst
+0f10851ea475e08 Jérôme Glisse              2017-11-15  1905  			 */
+6b27cc6c66abf0f Kefeng Wang                2024-01-11  1906  			dec_mm_counter(mm, mm_counter_file(folio));
+0f10851ea475e08 Jérôme Glisse              2017-11-15  1907  		}
+854e9ed09dedf0c Minchan Kim                2016-01-15  1908  discard:
+e135826b2da0cf2 David Hildenbrand          2023-12-20  1909  		if (unlikely(folio_test_hugetlb(folio)))
+e135826b2da0cf2 David Hildenbrand          2023-12-20  1910  			hugetlb_remove_rmap(folio);
+e135826b2da0cf2 David Hildenbrand          2023-12-20  1911  		else
+ca1a0746182c3c0 David Hildenbrand          2023-12-20  1912  			folio_remove_rmap_pte(folio, subpage, vma);
+b74355078b65542 Hugh Dickins               2022-02-14  1913  		if (vma->vm_flags & VM_LOCKED)
+96f97c438f61ddb Lorenzo Stoakes            2023-01-12  1914  			mlock_drain_local();
+869f7ee6f647734 Matthew Wilcox (Oracle     2022-02-15  1915) 		folio_put(folio);
+26d21b18d971c8b Lance Yang                 2024-06-14  1916  		continue;
+26d21b18d971c8b Lance Yang                 2024-06-14  1917  walk_abort:
+26d21b18d971c8b Lance Yang                 2024-06-14  1918  		ret = false;
+26d21b18d971c8b Lance Yang                 2024-06-14  1919  walk_done:
+26d21b18d971c8b Lance Yang                 2024-06-14  1920  		page_vma_mapped_walk_done(&pvmw);
+26d21b18d971c8b Lance Yang                 2024-06-14  1921  		break;
+c7ab0d2fdc84026 Kirill A. Shutemov         2017-02-24  1922  	}
+369ea8242c0fb52 Jérôme Glisse              2017-08-31  1923  
+ac46d4f3c43241f Jérôme Glisse              2018-12-28  1924  	mmu_notifier_invalidate_range_end(&range);
+369ea8242c0fb52 Jérôme Glisse              2017-08-31  1925  
+caed0f486e582ee KOSAKI Motohiro            2009-12-14  1926  	return ret;
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1927  }
+^1da177e4c3f415 Linus Torvalds             2005-04-16  1928  
+
+:::::: The code at line 1696 was first introduced by commit
+:::::: c33c794828f21217f72ce6fc140e0d34e0d56bff mm: ptep_get() conversion
+
+:::::: TO: Ryan Roberts <ryan.roberts@arm.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
