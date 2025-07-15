@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498AE1C8FBA
-	for <oe-kbuild@lists.linux.dev>; Tue, 15 Jul 2025 04:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F336222FE0A;
+	Tue, 15 Jul 2025 08:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752552610; cv=none; b=eDZr4+4/lMH7c9JUZGablfICDdZbJ5oYtwcId16MXwZH9tM88eGp9fe6Gz+8Ofj6CQHLOR5XMQgoD+XhweYfHenTHtmeptb2mt2/O/vRbA14Cfk8nFTqO24xUCUsULUzapnzqR9DpgF8aqTleK8kqNGPFrI96DPjh80XRKHtFs4=
+	t=1752566959; cv=none; b=o47XLDUEypZJTBjMztqOWEpMNEMbye4I0SEBMlnpwIzv8vHSNkIh6EwWYyGZyBzraQpdlSfX5FRx18kixT4C2hiJQgxAd89F2jG5WwetqGWMCuo1icO8YU7YLrDat1u5HWPKgvhDBDTadv2h1ccWQcoiLsO8N5dTuwwQNYedVhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752552610; c=relaxed/simple;
-	bh=SriJCHgW9+TjXZBx2qJcHK5A78XDgdB739pGfJLuQRE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g187tDvkdvjWtjrSzY9Lo4tz8NpO3q/UBbK6dG+UmXImSk6rMM++6DEBQ38tYA1k0n9DBg4tk1QGmovjyd1pUOrKqWy9rDr1OBk6hZiUoZ2pgAT5xUZ8tE1eahlCBwclsVyDStMISuHryBYJTxFzdIhxWlXKQ/O0jYaQqZYCQlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZXQKNrMI; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1752566959; c=relaxed/simple;
+	bh=uM50ySx9Kjkj0T8Mi2M3p5ShRWkdmqxZHE6SDBMnJoo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AiRoH2o8sX1fsaOQhlPJlxi8Os4+E9Wnedkg4ROb7leVH6kOXhjLXfdM3kucXpDevEpi4Zp3An5WiB77yIRFlyy2Cru/AySTcP6MAlU7hz0ECmJiQy9IE9abEo5m/E27JhGj9BabqR9yyWM7va72wrBUJ9JtoTeqmWLe8g8cpUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iub0AfNx; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZXQKNrMI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iub0AfNx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752552608; x=1784088608;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SriJCHgW9+TjXZBx2qJcHK5A78XDgdB739pGfJLuQRE=;
-  b=ZXQKNrMInuU0FfjrrvO1cZrKU9hScOzMU8v1b2NsZuJ25i8VALgcRh1V
-   BRlXJkgQcK0PdcfSII0HX2FdSupFAYYsxrjidaZO5ZLEMftS6/Hn7rQoK
-   WdODny0xa0CskZWc5ERB6eIfoQxeYtJKhACQawHAo9CtHPCc9Fb98DiWh
-   vkA0e2uXyzfaMWUK4gTEksMvxDRtYAs5WE+uZw1sgcWhnTAIEvry9RL9d
-   sE9+X5s303ldJzEp4O7r/PveTkuGyco8qcN9KkVlPpCeHkQm8JDpPnr4D
-   vBRWbGruYQyEn4XD2UNPaCuW/8RKMDZGgnP1A0SiqR7bAF7uZtmeQoymu
+  t=1752566958; x=1784102958;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uM50ySx9Kjkj0T8Mi2M3p5ShRWkdmqxZHE6SDBMnJoo=;
+  b=iub0AfNxZm6SmF4VBloL2un6RCqObyTuzejf5KWahWaRF/9J8etyZ5wM
+   iF7jD5nkgQBMspUf1c0Rh+nDza7rnh3qabEpRc90iKkjz8WlEO4PA0l3Z
+   hGaAYwAVkziIUSB9NqWTkf5mPBc3osxVUOHvO6aUxDRkcWelksuFxGn5p
+   fP92kCZCr7fi3HPv4ZsctprgIPbhqj6FoqRL+cJ7XdkNVjIkwCeDj9/KV
+   t0q53fWStIqHI9HNspJGC2RTnJ2+XhoAOJSyEvD4Phk9+aR0mYV71+va1
+   gaVMP6477x23Rdl0shNNoI3QdHj+R3YHuxDiyQ6ayv8HVbAi/F21lBw5F
    A==;
-X-CSE-ConnectionGUID: MhwDs5VuT6GFchlJLsFLKw==
-X-CSE-MsgGUID: xoQHGCPsTN6X0NTZ1aCNsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="53979867"
-X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="53979867"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 21:10:07 -0700
-X-CSE-ConnectionGUID: XbXts2pBTmSfF0fyYQ8OXw==
-X-CSE-MsgGUID: byC//tL1SWKVZh8JzIjeeQ==
+X-CSE-ConnectionGUID: ahyrdVM7Seym8HIeAPGSvw==
+X-CSE-MsgGUID: P6rCQBNsTiavQtZRQgXcEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66135166"
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
+   d="scan'208";a="66135166"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 01:09:17 -0700
+X-CSE-ConnectionGUID: QBGt5UhhTJOQEZE4rxikvw==
+X-CSE-MsgGUID: Us1vguXYRJC85Ok8RzRAhQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="194272281"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 14 Jul 2025 21:10:06 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubWzT-0009dD-1f;
-	Tue, 15 Jul 2025 04:10:03 +0000
-Date: Tue, 15 Jul 2025 12:09:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [robh:imx93-ethos-v2 34/40] drivers/accel/ethos/ethos_gem.c:184
- feat_matrix_length() warn: right shifting more than type allows 16 vs 30
-Message-ID: <202507151211.qVv3eQxO-lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
+   d="scan'208";a="161702936"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 01:09:13 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1ubair-0000000Fam8-4B3M;
+	Tue, 15 Jul 2025 11:09:09 +0300
+Date: Tue, 15 Jul 2025 11:09:09 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,
+	Remi Buisson via B4 Relay <devnull+remi.buisson.tdk.com@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	Remi Buisson <remi.buisson@tdk.com>
+Subject: Re: [PATCH v2 5/8] iio: imu: inv_icm45600: add I2C driver for
+ inv_icm45600 driver
+Message-ID: <aHYMpVIXJNuOfE55@smile.fi.intel.com>
+References: <20250710-add_newport_driver-v2-5-bf76d8142ef2@tdk.com>
+ <9d091fe4-3068-4e8b-8a9c-49c25036a216@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,88 +74,49 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <9d091fe4-3068-4e8b-8a9c-49c25036a216@suswa.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: "Rob Herring (Arm)" <robh@kernel.org>
+On Mon, Jul 14, 2025 at 11:21:17PM +0300, Dan Carpenter wrote:
+> Hi Remi,
+> 
+> kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git imx93-ethos-v2
-head:   f2fd4883d04c3245bc2fdd061078823b49709c68
-commit: 9ef4a26117efe591b7044a19e5748ce5b23e1b14 [34/40] ethos: Add validation of initial state
-:::::: branch date: 5 days ago
-:::::: commit date: 7 days ago
-config: x86_64-randconfig-r073-20250714 (https://download.01.org/0day-ci/archive/20250715/202507151211.qVv3eQxO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+It looks like a false positive, but the code is fragile.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507151211.qVv3eQxO-lkp@intel.com/
-
-New smatch warnings:
-drivers/accel/ethos/ethos_gem.c:184 feat_matrix_length() warn: right shifting more than type allows 16 vs 30
-
-Old smatch warnings:
-drivers/accel/ethos/ethos_gem.c:221 feat_matrix_length() warn: statement has no effect 'u32'
-drivers/accel/ethos/ethos_gem.c:342 ethos_gem_cmdstream_copy_and_validate() warn: statement has no effect 'u64'
-drivers/accel/ethos/ethos_gem.c:634 ethos_gem_cmdstream_create() warn: argument 3 to %llx specifier is cast from pointer
-
-vim +184 drivers/accel/ethos/ethos_gem.c
-
-b4e21041a4d0a5 Rob Herring (Arm  2025-06-24  179) 
-93463a14b8df63 Rob Herring (Arm  2025-06-24  180) static u64 feat_matrix_length(struct ethos_validated_cmdstream_info *info,
-93463a14b8df63 Rob Herring (Arm  2025-06-24  181) 			      struct feat_matrix *fm,
-93463a14b8df63 Rob Herring (Arm  2025-06-24  182) 			      u32 x, u32 y, u32 c)
-93463a14b8df63 Rob Herring (Arm  2025-06-24  183) {
-9ef4a26117efe5 Rob Herring (Arm  2025-07-07 @184) 	int storage = fm->precision >> 30;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  185) 	int tile = 0;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  186) 
-9ef4a26117efe5 Rob Herring (Arm  2025-07-07  187) 	if (fm->region < 0)
-9ef4a26117efe5 Rob Herring (Arm  2025-07-07  188) 		return U64_MAX;
-9ef4a26117efe5 Rob Herring (Arm  2025-07-07  189) 
-93463a14b8df63 Rob Herring (Arm  2025-06-24  190) 	switch (storage) {
-93463a14b8df63 Rob Herring (Arm  2025-06-24  191) 	case 0:
-93463a14b8df63 Rob Herring (Arm  2025-06-24  192) 		if (x >= fm->width0 + 1) {
-93463a14b8df63 Rob Herring (Arm  2025-06-24  193) 			x -= fm->width0 + 1;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  194) 			tile += 1;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  195) 		}
-93463a14b8df63 Rob Herring (Arm  2025-06-24  196) 		if (y >= fm->height[tile] + 1) {
-93463a14b8df63 Rob Herring (Arm  2025-06-24  197) 			y -= fm->height[tile] + 1;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  198) 			tile += 2;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  199) 		}
-93463a14b8df63 Rob Herring (Arm  2025-06-24  200) 		break;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  201) 	case 1:
-93463a14b8df63 Rob Herring (Arm  2025-06-24  202) 		if (y >= fm->height[1] + 1) {
-93463a14b8df63 Rob Herring (Arm  2025-06-24  203) 			y -= fm->height[1] + 1;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  204) 			tile = 2;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  205) 		} else if (y >= fm->height[0] + 1) {
-93463a14b8df63 Rob Herring (Arm  2025-06-24  206) 			y -= fm->height[0] + 1;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  207) 			tile = 1;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  208) 		}
-93463a14b8df63 Rob Herring (Arm  2025-06-24  209) 		break;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  210) 	}
-9ef4a26117efe5 Rob Herring (Arm  2025-07-07  211) 	if (fm->base[tile] == U64_MAX)
-9ef4a26117efe5 Rob Herring (Arm  2025-07-07  212) 		return U64_MAX;
-9ef4a26117efe5 Rob Herring (Arm  2025-07-07  213) 
-93463a14b8df63 Rob Herring (Arm  2025-06-24  214) 	u64 addr = fm->base[tile] + y * fm->stride_y;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  215) 
-93463a14b8df63 Rob Herring (Arm  2025-06-24  216) 	switch ((fm->precision >> 6) & 0x3) { // format
-93463a14b8df63 Rob Herring (Arm  2025-06-24  217) 	case 0: //nhwc:
-93463a14b8df63 Rob Herring (Arm  2025-06-24  218) 		addr += x * fm->stride_x + c;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  219) 		break;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  220) 	case 1: //nhcwb16:
-93463a14b8df63 Rob Herring (Arm  2025-06-24  221) 		u32 element_size = BIT((fm->precision >> 1) & 0x3);
-93463a14b8df63 Rob Herring (Arm  2025-06-24  222) 		addr += (c / 16) * fm->stride_c + (16 * x + (c & 0xf)) * element_size;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  223) 		break;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  224) 	}
-93463a14b8df63 Rob Herring (Arm  2025-06-24  225) 
-93463a14b8df63 Rob Herring (Arm  2025-06-24  226) 	info->region_size[fm->region] = max(info->region_size[fm->region], addr + 1);
-93463a14b8df63 Rob Herring (Arm  2025-06-24  227) 
-93463a14b8df63 Rob Herring (Arm  2025-06-24  228) 	return addr;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  229) }
-93463a14b8df63 Rob Herring (Arm  2025-06-24  230) 
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10   99  	unsigned int fifo_en = 0;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  100  	unsigned int sleep;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  101  	int ret;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  102  
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  103  	scoped_guard(mutex, &st->lock) {
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  104  		if (*scan_mask & BIT(INV_ICM45600_GYRO_SCAN_TEMP))
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  105  			fifo_en |= INV_ICM45600_SENSOR_TEMP;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  106  
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  107  		if (*scan_mask & (BIT(INV_ICM45600_GYRO_SCAN_X) |
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  108  				 BIT(INV_ICM45600_GYRO_SCAN_Y) |
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  109  				 BIT(INV_ICM45600_GYRO_SCAN_Z))) {
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  110  			/* enable gyro sensor */
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  111  			conf.mode = gyro_st->power_mode;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  112  			ret = inv_icm45600_set_gyro_conf(st, &conf, &sleep);
+> 
+> sleep isn't necessarily set if nothing changed.
+> 
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  113  			if (ret)
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  114  				return ret;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  115  			fifo_en |= INV_ICM45600_SENSOR_GYRO;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  116  		}
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  117  		/* update data FIFO write */
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  118  		ret = inv_icm45600_buffer_set_fifo_en(st, fifo_en | st->fifo.en);
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  119  	}
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  120  	/* sleep required time */
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10 @121  	if (sleep)
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  122  		msleep(sleep);
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  123  
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  124  	return ret;
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
