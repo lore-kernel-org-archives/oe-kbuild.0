@@ -1,78 +1,70 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF82288C09
-	for <oe-kbuild@lists.linux.dev>; Tue, 15 Jul 2025 22:55:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0D22D1920
+	for <oe-kbuild@lists.linux.dev>; Tue, 15 Jul 2025 22:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752620154; cv=none; b=jh+U/hJH7P2Vq+aueZZQO7Ipt+n9UNVmEVTxPXj15cyXGGLrYskjhIggwAcdZOd4CHzT1D0cZuuRysl+5ihVbTHZLo4PIrGaIGxRJ4oGWL79Dy5G1PKnuOpPf9hw6DQkqnN4O2E1Ikc2x3dOVhxWxe6NZWGep08HIIgCo/zgtEg=
+	t=1752620284; cv=none; b=KB9chmcFaOxAWl93mgNqmejnLXwmOID8SjLWsg2oZZqAXBt4T8lCyro5hW5wSH7SiHPeHMjk7CNwwTLfMqvncChZIY19W07FI0yOVi9bqOYA0i8a0fPLksAH0ZsTgOtA2U2mB2xIeLHT0hCvkoEUn0aVjEtUHBqv7evZATVtSmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752620154; c=relaxed/simple;
-	bh=vEmMpBK5/tPkb9KHvQ0SdOc52MTBa8ee6/BHSUyXBLo=;
+	s=arc-20240116; t=1752620284; c=relaxed/simple;
+	bh=BqE+PG8+N3g9DDIlSYErTLVAsGDHGBL4o6EatQ2TqSY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=JZw6H+rksuNLj2kZqXTtinF8Nv8fUno1LOaOzsA3nug9WViMvu8WvHDewnqdnKl2huqpXGH0USNsf+AvDTE32LMlEwCFA/NnBgeVgQboQldHsF2BI10hAOognLVXSZ57bkL8ORyhimuSi+mtvdodQpNN68m+tWOWOurpVALG1eI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SyaLvmRa; arc=none smtp.client-ip=209.85.160.52
+	 Content-Disposition; b=fgUi2xD2f1G4oJFKXJfbAvUWFeiCw7RjLn70ZoHBynquswGJvZrhW2C8dSdXHZ3fxOHvx0a5j4Kl0wK0Vyp+3Ozs40sX8cXPsfQP9DU7brVFNlnrFl3I2ZC/JKCmZIZCFGjxCwqmh+8k0c8iX4h3xi3ozexhTfLg7QG+oeeEyQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mWwUf6oA; arc=none smtp.client-ip=209.85.161.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SyaLvmRa"
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-2eb6c422828so256466fac.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 15 Jul 2025 15:55:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mWwUf6oA"
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-6159d8a10fbso355891eaf.2
+        for <oe-kbuild@lists.linux.dev>; Tue, 15 Jul 2025 15:58:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752620151; x=1753224951; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oi4TdNlobhflphwjzdK68I/IBj5StICPNqn66i2gNn4=;
-        b=SyaLvmRaZU7zwsmTJJfvKAvcBZ8WDVximDZo/3v4u7bovE8+1WS6N8+YNhhurm1HGB
-         787CYA/qI60GnEtRFFHY8Lmg7x9N02M4lfYLXemFyi4rKbemr+5sIQvFbbG2DmArOZNI
-         LQwNIbZUwiNvgekWPFAISNZwMqJi8VrqntM8YtEMz1kroYa5oMAWsgFrB0ewTbNkdsDH
-         /1f9SCL0Hc/kloWhuc8NlolxbhOZEwDSEmgxoZoZeBpke2GqvcDLxoCYAm7xDlA5pGW4
-         ywYuc34bmaWDKmBVhaCYLMRiv2g3+sLosZUELTame5ef7qLAVzmrPII8zYQz+JMcWXLZ
-         736w==
+        d=linaro.org; s=google; t=1752620281; x=1753225081; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HfY5cBx0k1AHv7x1wZF2fAoel8gONC7WneT/UbmB4Tw=;
+        b=mWwUf6oAtCMKpoHXkMXI5f1QhCi7nFewCwAsybXWO6GaO6VsnM0lebktRMLFvk2+do
+         BebRv5GwAL05zS4nzpKThwYUhxtTP7kXHqdV4DKmgIervWciHI67Gem1imBpzJGcisf5
+         PUM0xW+u2oK0JPhSz1Xj3bnl41JgWOOAAh2B4Neehk+WEDZHJRC4GeuCmUyn7V3lSogM
+         mfZOq9IilRkETqEdOIZerwjXI5LGksU4/fFfSHobM6sRNp/U4ETHbbfLdSqSZQDmk9Oz
+         e2fq8+QrKeXnIXj/UePQj20YFX2xQ0FYvW/6oSlwcR/l0/OiT+cOVf5atmlj/wiuA1AD
+         PPqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752620151; x=1753224951;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oi4TdNlobhflphwjzdK68I/IBj5StICPNqn66i2gNn4=;
-        b=pxtX9+O3YBX5KW36B3qZI3XmkZfs+g5E5u/dTJpqIvPohqusQViU6kWIsSbZUCe34V
-         dwGI9hR/xepovDLYdW0zRmSU5+1IUlAJrMWV+GnXMWbpPhMy981AF8ltCLdMzZa0QFYi
-         CM6srlkcrSqL+O3XF9A06NGtgJ8Ipqa/8z56Hb9nOU79HmnyfzBJ+oe+3tM5XNPr6gSZ
-         tADVMt6iUUtnmf1nLMW8OxlyFKfSPSgD2AJ0SSVRZR9M6XlQAYuzDjmnidH3lJX/g9HA
-         jYWVBKknf9ZzmlynOpF4BjNIDOi8b93mn5WQiIY22QTwQqVbtFMJ6DvkHI6cUWhCnT5c
-         4M8g==
-X-Gm-Message-State: AOJu0Yx7hNVEe08W+5sOnHZEjqWXojcxr2nkZ+7JRuNqEM173mkZTWkk
-	QVngSFiXCO1K6yMwUoBUUvAR0fswCXJTW/l3nDHP1D4UMKxn7RBL6oK5V80IBJkoSp76ivnnZRX
-	Cx6UV
-X-Gm-Gg: ASbGncskXNKlDwEK9tqCkxIC/oCKWGMP9OoAVS7QxLu5Lw8P8vQICsRulABtnSjDYZ0
-	NPahGlSgqPFYDtpVnknN3gMhiLFXRKsOgnUjM12VOz4zNsvfgFUvOHi6vfYHIo07Smcz8odUh+j
-	LFXGliZZZ+HGiisupg9ip13V+DMJ8tAmvo30fiWrbzDvmbN+BMWKXkNLYoo4NqKVAv0hXuV4nBJ
-	/QGGL3xPdIeFTysVBbcVfPFrWz+wexjG91S3BjfzkUwcAj3xFVMnNwLDdjwnarNaLSVZKYScTm5
-	7mExuVrwtatzKnA1mhGwMdQZn73KgChzjO1y33PM4nxiQSiHshE8L6re6+b/nu2VdA3B3io/82c
-	Rq08LhgsBKFvBZ+kk4GcrhlkM8HeHcwxlCv/Sz+Y=
-X-Google-Smtp-Source: AGHT+IF5HaHuyKCM6E4t2p7V295FGoLcL158yabHcCEf0sSmb2eM1U+wbvg4ZE1zb1cHzfegWFEB5Q==
-X-Received: by 2002:a05:6870:3288:b0:2f7:64f7:8d40 with SMTP id 586e51a60fabf-2ffb0bed7efmr740669fac.9.1752620150775;
-        Tue, 15 Jul 2025 15:55:50 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752620281; x=1753225081;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HfY5cBx0k1AHv7x1wZF2fAoel8gONC7WneT/UbmB4Tw=;
+        b=hZ/FEh6GFzZXXnKMbdUjts/yTGR8I2iwGJ9b/4Ogem3/CMF0fkcfgdPY5i3veKS09o
+         cJbEArsNdYG1oa8x7ZviLHFqfXo1NZk/R2Nh5/hlVVZx0wHsAk6CMWlBo8eAYVO4IxZK
+         SgeWp4KmNHAwXogTPnHIgUJZ19gOz9QZT24njV1DW3X1ImaIl/UkhBdLTeazdICr/sbd
+         gAFDpjUcSz9oN9HyZ3ADHmSt+Rww0bu+IseG83Ju3V5eKP05uxJUfbBtGmvX1g42QXRz
+         kvTAJSPBpXZYShIsHKBS+hcmx01COloLL10oRApFP1pDQbC9YmE7a4mteMBP5H+qV8Ks
+         SQBA==
+X-Gm-Message-State: AOJu0YxW7CWsAhYtOEmJz/FWGu6wN0Yx/JZpcDkR1d+ssvItxgFp6w8U
+	1es3IeOAs/3tAnLsxXUJ8L+nT5rnJwMLJeh8gEaJjmKQx/5gHGj0zHCx9u0OCKjub81f5mS3uPt
+	NXGd1
+X-Gm-Gg: ASbGncshmEnJu9MqLwRrjSPQIgsgAJMcBGXELFCdosOHfacwBNTK/DLqm0HHifDP+5a
+	xuCpO2civr63VTXS9QaCPPpCtqhohFUBUKzJQVU8Ik/Qm02D+KSTacBMcC204qmllA6XWSEllMa
+	Gh0uNrel04tBv6H8MY/XhKAd9Lx1VHYcFTO0mEt1AF4lVdy6sTChbtVPVVWGX3Rj174bpY0i1yZ
+	TMN6s+QNPJZaLPBkADJwciH8cv6KFWZEj5W0lBncQxXEQtnixxlfRWtOysnJBOlE+95iWBxIEnv
+	t+rQLOu/Ior5kzOfZ3CAMxxJJ5iF8j8APNU/aVojWulHAg87ArPVxP6+LVUiFmFxo1L8PbZYoie
+	trlqKH2265jH0nTJzPTYgtOcpYBMk
+X-Google-Smtp-Source: AGHT+IFwSEpGsJ7tfHcgSefFVQbmfW7hG6zKm7wTMhA5TSlvA28syu1P7ZiVfRAojLJax9yJU7cu2Q==
+X-Received: by 2002:a4a:ee10:0:b0:615:742d:513b with SMTP id 006d021491bc7-6159ff2eda4mr983765eaf.6.1752620281438;
+        Tue, 15 Jul 2025 15:58:01 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:a172:6205:b5e:43cb])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ff116d22easm2976522fac.33.2025.07.15.15.55.48
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-613d9f0147dsm1913052eaf.26.2025.07.15.15.58.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 15:55:49 -0700 (PDT)
-Date: Wed, 16 Jul 2025 01:55:45 +0300
+        Tue, 15 Jul 2025 15:58:00 -0700 (PDT)
+Date: Wed, 16 Jul 2025 01:57:59 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Brett Creeley <brett.creeley@amd.com>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>, kvm@vger.kernel.org,
-	Longfang Liu <liulongfang@huawei.com>, qat-linux@intel.com,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	virtualization@lists.linux.dev, Xin Zeng <xin.zeng@intel.com>,
-	Yishai Hadas <yishaih@nvidia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, patches@lists.linux.dev
-Subject: Re: [PATCH v3] vfio/pci: Do vf_token checks for
- VFIO_DEVICE_BIND_IOMMUFD
-Message-ID: <76f27eb9-7f56-45e7-813e-e3f595f3b6e9@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, Himanshu Chauhan <hchauhan@ventanamicro.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_trace_support_v1 71/79]
+ drivers/firmware/riscv/riscv_sse.c:721 sse_ghes_handler() error: we
+ previously assumed 'cb' could be null (see line 722)
+Message-ID: <7212b331-7fe4-45e7-8cc6-38fa6a3ef43a@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,123 +73,40 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0-v3-bdd8716e85fe+3978a-vfio_token_jgg@nvidia.com>
 
-Hi Jason,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Gunthorpe/vfio-pci-Do-vf_token-checks-for-VFIO_DEVICE_BIND_IOMMUFD/20250715-001209
-base:   32b2d3a57e26804ca96d82a222667ac0fa226cb7
-patch link:    https://lore.kernel.org/r/0-v3-bdd8716e85fe%2B3978a-vfio_token_jgg%40nvidia.com
-patch subject: [PATCH v3] vfio/pci: Do vf_token checks for VFIO_DEVICE_BIND_IOMMUFD
-config: openrisc-randconfig-r071-20250715 (https://download.01.org/0day-ci/archive/20250716/202507160254.dAjYAz9h-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
+tree:   https://github.com/avpatel/linux.git riscv_trace_support_v1
+head:   bbedafbba85a78dae84bbf5a5844aaab3934e316
+commit: ae56cba8914ba82cf6b3318415e12a3795dcb5c9 [71/79] riscv: Add functions to register ghes having SSE notification
+config: riscv-randconfig-r072-20250715 (https://download.01.org/0day-ci/archive/20250715/202507151955.ROdqPmHz-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202507160254.dAjYAz9h-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507151955.ROdqPmHz-lkp@intel.com/
 
-smatch warnings:
-drivers/vfio/device_cdev.c:126 vfio_df_ioctl_bind_iommufd() warn: missing unwind goto?
-drivers/vfio/device_cdev.c:170 vfio_df_ioctl_bind_iommufd() warn: inconsistent returns '&device->dev_set->lock'.
+New smatch warnings:
+drivers/firmware/riscv/riscv_sse.c:721 sse_ghes_handler() error: we previously assumed 'cb' could be null (see line 722)
 
-vim +126 drivers/vfio/device_cdev.c
+vim +/cb +721 drivers/firmware/riscv/riscv_sse.c
 
-5fcc26969a164e Yi Liu          2023-07-18   83  long vfio_df_ioctl_bind_iommufd(struct vfio_device_file *df,
-5fcc26969a164e Yi Liu          2023-07-18   84  				struct vfio_device_bind_iommufd __user *arg)
-5fcc26969a164e Yi Liu          2023-07-18   85  {
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14   86  	const u32 VALID_FLAGS = VFIO_DEVICE_BIND_FLAG_TOKEN;
-5fcc26969a164e Yi Liu          2023-07-18   87  	struct vfio_device *device = df->device;
-5fcc26969a164e Yi Liu          2023-07-18   88  	struct vfio_device_bind_iommufd bind;
-5fcc26969a164e Yi Liu          2023-07-18   89  	unsigned long minsz;
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14   90  	u32 user_size;
-5fcc26969a164e Yi Liu          2023-07-18   91  	int ret;
-5fcc26969a164e Yi Liu          2023-07-18   92  
-5fcc26969a164e Yi Liu          2023-07-18   93  	static_assert(__same_type(arg->out_devid, df->devid));
-5fcc26969a164e Yi Liu          2023-07-18   94  
-5fcc26969a164e Yi Liu          2023-07-18   95  	minsz = offsetofend(struct vfio_device_bind_iommufd, out_devid);
-5fcc26969a164e Yi Liu          2023-07-18   96  
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14   97  	ret = get_user(user_size, &arg->argsz);
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14   98  	if (ret)
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14   99  		return ret;
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14  100  	if (user_size < minsz)
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14  101  		return -EINVAL;
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14  102  	ret = copy_struct_from_user(&bind, minsz, arg, user_size);
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14  103  	if (ret)
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14  104  		return ret;
-5fcc26969a164e Yi Liu          2023-07-18  105  
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14  106  	if (bind.iommufd < 0 || bind.flags & ~VALID_FLAGS)
-5fcc26969a164e Yi Liu          2023-07-18  107  		return -EINVAL;
-5fcc26969a164e Yi Liu          2023-07-18  108  
-5fcc26969a164e Yi Liu          2023-07-18  109  	/* BIND_IOMMUFD only allowed for cdev fds */
-5fcc26969a164e Yi Liu          2023-07-18  110  	if (df->group)
-5fcc26969a164e Yi Liu          2023-07-18  111  		return -EINVAL;
-5fcc26969a164e Yi Liu          2023-07-18  112  
-5fcc26969a164e Yi Liu          2023-07-18  113  	ret = vfio_device_block_group(device);
-5fcc26969a164e Yi Liu          2023-07-18  114  	if (ret)
-5fcc26969a164e Yi Liu          2023-07-18  115  		return ret;
-5fcc26969a164e Yi Liu          2023-07-18  116  
-5fcc26969a164e Yi Liu          2023-07-18  117  	mutex_lock(&device->dev_set->lock);
-5fcc26969a164e Yi Liu          2023-07-18  118  	/* one device cannot be bound twice */
-5fcc26969a164e Yi Liu          2023-07-18  119  	if (df->access_granted) {
-5fcc26969a164e Yi Liu          2023-07-18  120  		ret = -EINVAL;
-5fcc26969a164e Yi Liu          2023-07-18  121  		goto out_unlock;
-5fcc26969a164e Yi Liu          2023-07-18  122  	}
-5fcc26969a164e Yi Liu          2023-07-18  123  
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14  124  	ret = vfio_df_check_token(device, &bind);
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14  125  	if (ret)
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14 @126  		return ret;
+ae56cba8914ba8 Himanshu Chauhan 2025-02-27  716  static int sse_ghes_handler(u32 event_num, void *arg, struct pt_regs *regs)
+ae56cba8914ba8 Himanshu Chauhan 2025-02-27  717  {
+ae56cba8914ba8 Himanshu Chauhan 2025-02-27  718  	struct sse_ghes_event_data *ev_data = arg;
+ae56cba8914ba8 Himanshu Chauhan 2025-02-27  719  	struct sse_ghes_callback *cb = NULL;
+ae56cba8914ba8 Himanshu Chauhan 2025-02-27  720  
+ae56cba8914ba8 Himanshu Chauhan 2025-02-27 @721  	list_for_each_entry(cb, &ev_data->callback_list, head) {
+ae56cba8914ba8 Himanshu Chauhan 2025-02-27 @722  		if (cb && cb->ghes && cb->callback) {
+                                                                    ^^
+This NULL check can be removed.  The list iterator is never NULL.
 
-This needs to be a goto unlock.
-
-be2e70b96c3e54 Jason Gunthorpe 2025-07-14  127  
-5fcc26969a164e Yi Liu          2023-07-18  128  	df->iommufd = iommufd_ctx_from_fd(bind.iommufd);
-5fcc26969a164e Yi Liu          2023-07-18  129  	if (IS_ERR(df->iommufd)) {
-5fcc26969a164e Yi Liu          2023-07-18  130  		ret = PTR_ERR(df->iommufd);
-5fcc26969a164e Yi Liu          2023-07-18  131  		df->iommufd = NULL;
-5fcc26969a164e Yi Liu          2023-07-18  132  		goto out_unlock;
-5fcc26969a164e Yi Liu          2023-07-18  133  	}
-5fcc26969a164e Yi Liu          2023-07-18  134  
-5fcc26969a164e Yi Liu          2023-07-18  135  	/*
-5fcc26969a164e Yi Liu          2023-07-18  136  	 * Before the device open, get the KVM pointer currently
-5fcc26969a164e Yi Liu          2023-07-18  137  	 * associated with the device file (if there is) and obtain
-5fcc26969a164e Yi Liu          2023-07-18  138  	 * a reference.  This reference is held until device closed.
-5fcc26969a164e Yi Liu          2023-07-18  139  	 * Save the pointer in the device for use by drivers.
-5fcc26969a164e Yi Liu          2023-07-18  140  	 */
-5fcc26969a164e Yi Liu          2023-07-18  141  	vfio_df_get_kvm_safe(df);
-5fcc26969a164e Yi Liu          2023-07-18  142  
-5fcc26969a164e Yi Liu          2023-07-18  143  	ret = vfio_df_open(df);
-5fcc26969a164e Yi Liu          2023-07-18  144  	if (ret)
-5fcc26969a164e Yi Liu          2023-07-18  145  		goto out_put_kvm;
-5fcc26969a164e Yi Liu          2023-07-18  146  
-5fcc26969a164e Yi Liu          2023-07-18  147  	ret = copy_to_user(&arg->out_devid, &df->devid,
-5fcc26969a164e Yi Liu          2023-07-18  148  			   sizeof(df->devid)) ? -EFAULT : 0;
-5fcc26969a164e Yi Liu          2023-07-18  149  	if (ret)
-5fcc26969a164e Yi Liu          2023-07-18  150  		goto out_close_device;
-5fcc26969a164e Yi Liu          2023-07-18  151  
-5fcc26969a164e Yi Liu          2023-07-18  152  	device->cdev_opened = true;
-5fcc26969a164e Yi Liu          2023-07-18  153  	/*
-5fcc26969a164e Yi Liu          2023-07-18  154  	 * Paired with smp_load_acquire() in vfio_device_fops::ioctl/
-5fcc26969a164e Yi Liu          2023-07-18  155  	 * read/write/mmap
-5fcc26969a164e Yi Liu          2023-07-18  156  	 */
-5fcc26969a164e Yi Liu          2023-07-18  157  	smp_store_release(&df->access_granted, true);
-5fcc26969a164e Yi Liu          2023-07-18  158  	mutex_unlock(&device->dev_set->lock);
-5fcc26969a164e Yi Liu          2023-07-18  159  	return 0;
-5fcc26969a164e Yi Liu          2023-07-18  160  
-5fcc26969a164e Yi Liu          2023-07-18  161  out_close_device:
-5fcc26969a164e Yi Liu          2023-07-18  162  	vfio_df_close(df);
-5fcc26969a164e Yi Liu          2023-07-18  163  out_put_kvm:
-5fcc26969a164e Yi Liu          2023-07-18  164  	vfio_device_put_kvm(device);
-5fcc26969a164e Yi Liu          2023-07-18  165  	iommufd_ctx_put(df->iommufd);
-5fcc26969a164e Yi Liu          2023-07-18  166  	df->iommufd = NULL;
-5fcc26969a164e Yi Liu          2023-07-18  167  out_unlock:
-5fcc26969a164e Yi Liu          2023-07-18  168  	mutex_unlock(&device->dev_set->lock);
-5fcc26969a164e Yi Liu          2023-07-18  169  	vfio_device_unblock_group(device);
-5fcc26969a164e Yi Liu          2023-07-18 @170  	return ret;
-5fcc26969a164e Yi Liu          2023-07-18  171  }
+ae56cba8914ba8 Himanshu Chauhan 2025-02-27  723  			cb->callback(ev_data->event_num, cb->ghes, regs);
+ae56cba8914ba8 Himanshu Chauhan 2025-02-27  724  		}
+ae56cba8914ba8 Himanshu Chauhan 2025-02-27  725  	}
+ae56cba8914ba8 Himanshu Chauhan 2025-02-27  726  
+ae56cba8914ba8 Himanshu Chauhan 2025-02-27  727  	return 0;
+ae56cba8914ba8 Himanshu Chauhan 2025-02-27  728  }
 
 -- 
 0-DAY CI Kernel Test Service
