@@ -1,122 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F336222FE0A;
-	Tue, 15 Jul 2025 08:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F84C157493
+	for <oe-kbuild@lists.linux.dev>; Tue, 15 Jul 2025 08:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752566959; cv=none; b=o47XLDUEypZJTBjMztqOWEpMNEMbye4I0SEBMlnpwIzv8vHSNkIh6EwWYyGZyBzraQpdlSfX5FRx18kixT4C2hiJQgxAd89F2jG5WwetqGWMCuo1icO8YU7YLrDat1u5HWPKgvhDBDTadv2h1ccWQcoiLsO8N5dTuwwQNYedVhQ=
+	t=1752568841; cv=none; b=QKkbCt42hvZv07iarkKQuDshptkdMLlgeNYUWdPanIT3P/biOIglpTEhoqdb6wjABPFzUOk1eliOuXn5DfoQ4/nbLoXRWy9w93mtGe7ZA6D8yKEi79dbuUEcHuv9xwlGT3GHqGW8GiYHbJ9qQQyRrbw98X/06WFb822R4ionozs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752566959; c=relaxed/simple;
-	bh=uM50ySx9Kjkj0T8Mi2M3p5ShRWkdmqxZHE6SDBMnJoo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AiRoH2o8sX1fsaOQhlPJlxi8Os4+E9Wnedkg4ROb7leVH6kOXhjLXfdM3kucXpDevEpi4Zp3An5WiB77yIRFlyy2Cru/AySTcP6MAlU7hz0ECmJiQy9IE9abEo5m/E27JhGj9BabqR9yyWM7va72wrBUJ9JtoTeqmWLe8g8cpUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iub0AfNx; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1752568841; c=relaxed/simple;
+	bh=RfP5MZdX3YHXJP+itU1g+iM178JF3CC81q5qHXJyMHk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SZ0W7aEuIECMPYvqx5BPgX+f23k0zHTEIMchpGTEGdp/44vaylUiA9E47sHXXJHUjj91VJSGKgLNwmE4x9NX29xSMip9ePtSS/1aseS7+x3Vc8QyDvwCOA6uLY2mI2gWMIs0XkXXxI/4Bh7JYGdOK+NdySHli9RE68pBu/7JLb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AYydYno/; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iub0AfNx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AYydYno/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752566958; x=1784102958;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uM50ySx9Kjkj0T8Mi2M3p5ShRWkdmqxZHE6SDBMnJoo=;
-  b=iub0AfNxZm6SmF4VBloL2un6RCqObyTuzejf5KWahWaRF/9J8etyZ5wM
-   iF7jD5nkgQBMspUf1c0Rh+nDza7rnh3qabEpRc90iKkjz8WlEO4PA0l3Z
-   hGaAYwAVkziIUSB9NqWTkf5mPBc3osxVUOHvO6aUxDRkcWelksuFxGn5p
-   fP92kCZCr7fi3HPv4ZsctprgIPbhqj6FoqRL+cJ7XdkNVjIkwCeDj9/KV
-   t0q53fWStIqHI9HNspJGC2RTnJ2+XhoAOJSyEvD4Phk9+aR0mYV71+va1
-   gaVMP6477x23Rdl0shNNoI3QdHj+R3YHuxDiyQ6ayv8HVbAi/F21lBw5F
-   A==;
-X-CSE-ConnectionGUID: ahyrdVM7Seym8HIeAPGSvw==
-X-CSE-MsgGUID: P6rCQBNsTiavQtZRQgXcEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66135166"
+  t=1752568840; x=1784104840;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=RfP5MZdX3YHXJP+itU1g+iM178JF3CC81q5qHXJyMHk=;
+  b=AYydYno/u8/QUQnM3O6mHKbA0//rF/8qORt12M3F3SwpT2N+y+1gLTHE
+   nXeKSnKEoPKTELFvABwWnz6kEzLtmS0fzUqARnO/drNKVnQluxwt5lWZM
+   snFP3D3W8WpXDMatSOC9GbMxkZnOJ91L/CFBn9n6pv/VDHToP2M6kcx7p
+   2DBkqzVmIzEfxZe8jbKfWlKP/tvnc8qzC6OgzZxRREdPA/8yL2u9T2AAM
+   z91eSn5HTxu5eBAcUFJ7lFqLDRENBgDr+WVMqUA/hCCL8KQv5Csw6PN4d
+   3G1pDFBR+ZKp36qN/RR/UHh66FGF2/jorNz1wAAUltSclaBFrXdlpGrIK
+   g==;
+X-CSE-ConnectionGUID: n21Fw186QT23Gi6N4R3i5Q==
+X-CSE-MsgGUID: czmvGFgHR0uliHlZMb1dDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54715667"
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="66135166"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 01:09:17 -0700
-X-CSE-ConnectionGUID: QBGt5UhhTJOQEZE4rxikvw==
-X-CSE-MsgGUID: Us1vguXYRJC85Ok8RzRAhQ==
+   d="scan'208";a="54715667"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 01:40:40 -0700
+X-CSE-ConnectionGUID: l7jVj7PMSUmAoJXQAaoA3g==
+X-CSE-MsgGUID: piasA/1WQv+pQzXpX+IQ1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="161702936"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 01:09:13 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1ubair-0000000Fam8-4B3M;
-	Tue, 15 Jul 2025 11:09:09 +0300
-Date: Tue, 15 Jul 2025 11:09:09 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev,
-	Remi Buisson via B4 Relay <devnull+remi.buisson.tdk.com@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	Remi Buisson <remi.buisson@tdk.com>
-Subject: Re: [PATCH v2 5/8] iio: imu: inv_icm45600: add I2C driver for
- inv_icm45600 driver
-Message-ID: <aHYMpVIXJNuOfE55@smile.fi.intel.com>
-References: <20250710-add_newport_driver-v2-5-bf76d8142ef2@tdk.com>
- <9d091fe4-3068-4e8b-8a9c-49c25036a216@suswa.mountain>
+   d="scan'208";a="188170625"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 15 Jul 2025 01:40:38 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ubbDH-0009sB-1W;
+	Tue, 15 Jul 2025 08:40:35 +0000
+Date: Tue, 15 Jul 2025 16:40:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [avpatel:riscv_trace_support_v1 64/79]
+ drivers/firmware/riscv/riscv_sse.c:487 sse_event_register() error:
+ uninitialized symbol 'preferred_hart'.
+Message-ID: <202507151634.frrPBlvN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <9d091fe4-3068-4e8b-8a9c-49c25036a216@suswa.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 14, 2025 at 11:21:17PM +0300, Dan Carpenter wrote:
-> Hi Remi,
-> 
-> kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: "Clément Léger" <cleger@rivosinc.com>
+CC: Anup Patel <anup@brainfault.org>
+CC: Himanshu Chauhan <hchauhan@ventanamicro.com>
 
-It looks like a false positive, but the code is fragile.
+tree:   https://github.com/avpatel/linux.git riscv_trace_support_v1
+head:   bbedafbba85a78dae84bbf5a5844aaab3934e316
+commit: 44353af7140cc6e552ffca749a4e46564f540b51 [64/79] drivers: firmware: add riscv SSE support
+:::::: branch date: 24 hours ago
+:::::: commit date: 26 hours ago
+config: riscv-randconfig-r072-20250715 (https://download.01.org/0day-ci/archive/20250715/202507151634.frrPBlvN-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.4.0
 
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10   99  	unsigned int fifo_en = 0;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  100  	unsigned int sleep;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  101  	int ret;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  102  
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  103  	scoped_guard(mutex, &st->lock) {
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  104  		if (*scan_mask & BIT(INV_ICM45600_GYRO_SCAN_TEMP))
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  105  			fifo_en |= INV_ICM45600_SENSOR_TEMP;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  106  
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  107  		if (*scan_mask & (BIT(INV_ICM45600_GYRO_SCAN_X) |
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  108  				 BIT(INV_ICM45600_GYRO_SCAN_Y) |
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  109  				 BIT(INV_ICM45600_GYRO_SCAN_Z))) {
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  110  			/* enable gyro sensor */
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  111  			conf.mode = gyro_st->power_mode;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  112  			ret = inv_icm45600_set_gyro_conf(st, &conf, &sleep);
-> 
-> sleep isn't necessarily set if nothing changed.
-> 
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  113  			if (ret)
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  114  				return ret;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  115  			fifo_en |= INV_ICM45600_SENSOR_GYRO;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  116  		}
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  117  		/* update data FIFO write */
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  118  		ret = inv_icm45600_buffer_set_fifo_en(st, fifo_en | st->fifo.en);
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  119  	}
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  120  	/* sleep required time */
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10 @121  	if (sleep)
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  122  		msleep(sleep);
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  123  
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  124  	return ret;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507151634.frrPBlvN-lkp@intel.com/
+
+smatch warnings:
+drivers/firmware/riscv/riscv_sse.c:487 sse_event_register() error: uninitialized symbol 'preferred_hart'.
+
+vim +/preferred_hart +487 drivers/firmware/riscv/riscv_sse.c
+
+44353af7140cc6 Clément Léger 2025-05-16  454  
+44353af7140cc6 Clément Léger 2025-05-16  455  struct sse_event *sse_event_register(u32 evt, u32 priority,
+44353af7140cc6 Clément Léger 2025-05-16  456  				     sse_event_handler *handler, void *arg)
+44353af7140cc6 Clément Léger 2025-05-16  457  {
+44353af7140cc6 Clément Léger 2025-05-16  458  	struct sse_per_cpu_evt cpu_evt;
+44353af7140cc6 Clément Léger 2025-05-16  459  	struct sse_event *event;
+44353af7140cc6 Clément Léger 2025-05-16  460  	int ret = 0;
+44353af7140cc6 Clément Léger 2025-05-16  461  
+44353af7140cc6 Clément Léger 2025-05-16  462  	if (!sse_available)
+44353af7140cc6 Clément Léger 2025-05-16  463  		return ERR_PTR(-EOPNOTSUPP);
+44353af7140cc6 Clément Léger 2025-05-16  464  
+44353af7140cc6 Clément Léger 2025-05-16  465  	mutex_lock(&sse_mutex);
+44353af7140cc6 Clément Léger 2025-05-16  466  	if (sse_event_get(evt)) {
+44353af7140cc6 Clément Léger 2025-05-16  467  		pr_debug("Event %x already registered\n", evt);
+44353af7140cc6 Clément Léger 2025-05-16  468  		ret = -EEXIST;
+44353af7140cc6 Clément Léger 2025-05-16  469  		goto out_unlock;
+44353af7140cc6 Clément Léger 2025-05-16  470  	}
+44353af7140cc6 Clément Léger 2025-05-16  471  
+44353af7140cc6 Clément Léger 2025-05-16  472  	event = sse_event_alloc(evt, priority, handler, arg);
+44353af7140cc6 Clément Léger 2025-05-16  473  	if (IS_ERR(event)) {
+44353af7140cc6 Clément Léger 2025-05-16  474  		ret = PTR_ERR(event);
+44353af7140cc6 Clément Léger 2025-05-16  475  		goto out_unlock;
+44353af7140cc6 Clément Léger 2025-05-16  476  	}
+44353af7140cc6 Clément Léger 2025-05-16  477  
+44353af7140cc6 Clément Léger 2025-05-16  478  	cpus_read_lock();
+44353af7140cc6 Clément Léger 2025-05-16  479  	if (sse_event_is_global(evt)) {
+44353af7140cc6 Clément Léger 2025-05-16  480  		unsigned long preferred_hart;
+44353af7140cc6 Clément Léger 2025-05-16  481  
+44353af7140cc6 Clément Léger 2025-05-16  482  		ret = sse_event_attr_get_no_lock(event->global,
+44353af7140cc6 Clément Léger 2025-05-16  483  						 SBI_SSE_ATTR_PREFERRED_HART,
+44353af7140cc6 Clément Léger 2025-05-16  484  						 &preferred_hart);
+44353af7140cc6 Clément Léger 2025-05-16  485  		if (ret)
+44353af7140cc6 Clément Léger 2025-05-16  486  			goto err_event_free;
+44353af7140cc6 Clément Léger 2025-05-16 @487  		event->cpu = riscv_hartid_to_cpuid(preferred_hart);
+44353af7140cc6 Clément Léger 2025-05-16  488  
+44353af7140cc6 Clément Léger 2025-05-16  489  		ret = sse_sbi_register_event(event, event->global);
+44353af7140cc6 Clément Léger 2025-05-16  490  		if (ret)
+44353af7140cc6 Clément Léger 2025-05-16  491  			goto err_event_free;
+44353af7140cc6 Clément Léger 2025-05-16  492  
+44353af7140cc6 Clément Léger 2025-05-16  493  	} else {
+44353af7140cc6 Clément Léger 2025-05-16  494  		cpu_evt.event = event;
+44353af7140cc6 Clément Léger 2025-05-16  495  		atomic_set(&cpu_evt.error, 0);
+44353af7140cc6 Clément Léger 2025-05-16  496  		cpu_evt.func = SBI_SSE_EVENT_REGISTER;
+44353af7140cc6 Clément Léger 2025-05-16  497  		on_each_cpu(sse_event_per_cpu_func, &cpu_evt, 1);
+44353af7140cc6 Clément Léger 2025-05-16  498  		ret = atomic_read(&cpu_evt.error);
+44353af7140cc6 Clément Léger 2025-05-16  499  		if (ret) {
+44353af7140cc6 Clément Léger 2025-05-16  500  			cpu_evt.func = SBI_SSE_EVENT_UNREGISTER;
+44353af7140cc6 Clément Léger 2025-05-16  501  			on_each_cpu(sse_event_per_cpu_func, &cpu_evt, 1);
+44353af7140cc6 Clément Léger 2025-05-16  502  			goto err_event_free;
+44353af7140cc6 Clément Léger 2025-05-16  503  		}
+44353af7140cc6 Clément Léger 2025-05-16  504  	}
+44353af7140cc6 Clément Léger 2025-05-16  505  	cpus_read_unlock();
+44353af7140cc6 Clément Léger 2025-05-16  506  
+44353af7140cc6 Clément Léger 2025-05-16  507  	scoped_guard(spinlock, &events_list_lock)
+44353af7140cc6 Clément Léger 2025-05-16  508  		list_add(&event->list, &events);
+44353af7140cc6 Clément Léger 2025-05-16  509  
+44353af7140cc6 Clément Léger 2025-05-16  510  	mutex_unlock(&sse_mutex);
+44353af7140cc6 Clément Léger 2025-05-16  511  
+44353af7140cc6 Clément Léger 2025-05-16  512  	return event;
+44353af7140cc6 Clément Léger 2025-05-16  513  
+44353af7140cc6 Clément Léger 2025-05-16  514  err_event_free:
+44353af7140cc6 Clément Léger 2025-05-16  515  	cpus_read_unlock();
+44353af7140cc6 Clément Léger 2025-05-16  516  	sse_event_free(event);
+44353af7140cc6 Clément Léger 2025-05-16  517  out_unlock:
+44353af7140cc6 Clément Léger 2025-05-16  518  	mutex_unlock(&sse_mutex);
+44353af7140cc6 Clément Léger 2025-05-16  519  
+44353af7140cc6 Clément Léger 2025-05-16  520  	return ERR_PTR(ret);
+44353af7140cc6 Clément Léger 2025-05-16  521  }
+44353af7140cc6 Clément Léger 2025-05-16  522  
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
