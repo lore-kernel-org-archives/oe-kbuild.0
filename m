@@ -1,150 +1,265 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CC11E520F
-	for <oe-kbuild@lists.linux.dev>; Thu, 17 Jul 2025 15:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358CB28504A
+	for <oe-kbuild@lists.linux.dev>; Thu, 17 Jul 2025 17:43:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752766030; cv=none; b=iCv7FJJ3hWceUp/Z6B/kL/0MQHmD+Q2EUYmH78axzysmfYAr3wNnMP/nD7MsRXOAY0W6o/Hp1FQXdDgIdkJ3yug5fwfsEg88X10MDY1JVdohxDU2ppunkTuBNIoN2pYJzsJiQq5ug7sT+FpeqZ73BjRfq19HzTCtYv4326mAtyI=
+	t=1752774196; cv=none; b=G7bDXgcGK0qiB5xRgU9d/PWAUhus68rCJV0jO9x2EYWTxt9AQ7V/NQV1qexgpQCKMySni5czfimSCvFfFD1hlargapvkcClLJDRMjSxVIC+DfTtmGA+uEFrzdSk2j8iVaoiQu8dpAd5O+wPeRSq/wA5zQknFKMO9Wzuylz2jzYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752766030; c=relaxed/simple;
-	bh=7J8G45oQ4xeHh2ss0tQfrgjUhUJeRkbjYgyqO9ubUeA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a458xG869yIvVlrK4UwLJg/1B0WoKKGYmiSxMwaEdzCzDd9KX9O83yvqamckV2O2pRigR9HAPO1jfIRKhBcl2yQt2/H6+9hW1RLMYgvxJOLXjSgFBqMgkQ4ctdjmAGMCuD1bJQ0R1TtYPmh5+tTwc4m+8CroK2YV9qePY6GObqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xq8sSTHl; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1752774196; c=relaxed/simple;
+	bh=z9pcaMIxmJ5wMqhkc7g204gswSzjlsOXVXIlwd/7npA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=a1jN4tRLS7bbLoaJAugUICWo8uFShDDUkbVJo7+ga7BDbfkOK8cG8s0yGl+DJIJSl372Gvol/hjStQd52t3hQ2qsQn8c+SKjiMrfAmStKMGWRslu5MNxwhaREpSMolftwFx5OaOnv3RfNvoOXqIe4NW/mw5VS/9hM7iwHWLeSNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JtVfe+dh; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xq8sSTHl"
-Date: Thu, 17 Jul 2025 11:27:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1752766023;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9dyCGmJt2sMCnlxw4U6M8uVDnpaSdcG0TbGVGnHlhHY=;
-	b=xq8sSTHloH6O64xc2vwGgurL+uEeiVlwKDu+snmZLqtRQbR1H0AEZjCuDDCyilC6ITfr8l
-	uvKOM7+SynwWJL9K++exzgsExwg5TUti4OPx9TXzECCG6qKwVgakEEp8PSuDX4TccSlMzA
-	A8BIrMTIyOMGogFl+jKidm59HEElaOE=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, linux-bcachefs@vger.kernel.org
-Subject: Re: [linux-next:master 10097/10441]
- fs/bcachefs/journal_reclaim.c:877 journal_flush_done() warn: missing error
- code? 'ret'
-Message-ID: <wdeo6locp7sa2fyuyr2mukq7bg6snlw7nk5atr74kd3yhpnjoq@sy5zecuqoykf>
-References: <3008994f-e84d-4763-a4db-9666555ce33f@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JtVfe+dh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752774195; x=1784310195;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=z9pcaMIxmJ5wMqhkc7g204gswSzjlsOXVXIlwd/7npA=;
+  b=JtVfe+dhBM4fGXkRIXi+Ebk220EIBWbiEReVNN+Q0w1U9IbX6CHGIZDG
+   al+a8UKBI0h72an0ovKEi7gf2kv2ccSUZpNZumKPIXo1yJIw2ay4CSaNE
+   DEs78RaPT+yIyOkZNj5hWeKMwVF7FBwml8nERAtFmqCM55CVjq2m0/Y8S
+   zu7dpzJLe0fYIwHiysaGSI3kvqIQbro3ITwo75VadyjWRe7DRt08Y3bWY
+   LLCpjXmQa4dkeplo7EwpuOyrUIDEQwNeqk59NvDxCFacZGHD/DR+3z5Mp
+   /kA1XEQ14w9+7oCoRAZBwbkC83cDc+SSX4RauL9V3pO7KLQPI+xRlzNzT
+   Q==;
+X-CSE-ConnectionGUID: jlJxOqzRR9acYBJc8SsYwA==
+X-CSE-MsgGUID: n5ER0e2cQsCLMG+teS8wIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="55207236"
+X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
+   d="scan'208";a="55207236"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 10:43:15 -0700
+X-CSE-ConnectionGUID: TBKlyrbFTuGVYkoOhb9Uwg==
+X-CSE-MsgGUID: eptUsffXSdSjL4qMpsEvzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
+   d="scan'208";a="194990280"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 17 Jul 2025 10:43:12 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ucSdR-000DtR-30;
+	Thu, 17 Jul 2025 17:43:09 +0000
+Date: Fri, 18 Jul 2025 01:42:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 13/16] ARM: dts: stm32: add ddrperfm on stm32mp151
+Message-ID: <202507180138.Cgb0SFVW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <3008994f-e84d-4763-a4db-9666555ce33f@suswa.mountain>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 17, 2025 at 05:32:20PM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   e8352908bdcd2d0bcf0aca8c69fae85fd5ea5edb
-> commit: 0e1d28c378988f28b773807c00e7f3be40f49bf3 [10097/10441] bcachefs: convert journal_reclaim.c to CLASS/guards
-> config: i386-randconfig-141-20250716 (https://download.01.org/0day-ci/archive/20250717/202507171850.10rxb3uq-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202507171850.10rxb3uq-lkp@intel.com/
-> 
-> smatch warnings:
-> fs/bcachefs/journal_reclaim.c:877 journal_flush_done() warn: missing error code? 'ret'
-> 
-> vim +/ret +877 fs/bcachefs/journal_reclaim.c
-> 
-> 039fc4c5221f74 Kent Overstreet 2020-05-28  861  static int journal_flush_done(struct journal *j, u64 seq_to_flush,
-> 039fc4c5221f74 Kent Overstreet 2020-05-28  862  			      bool *did_work)
-> 1c6fdbd8f2465d Kent Overstreet 2017-03-16  863  {
-> 35f5197009cae2 Kent Overstreet 2025-01-25  864  	int ret = 0;
-> 1c6fdbd8f2465d Kent Overstreet 2017-03-16  865  
-> 1c6fdbd8f2465d Kent Overstreet 2017-03-16  866  	ret = bch2_journal_error(j);
-> 1c6fdbd8f2465d Kent Overstreet 2017-03-16  867  	if (ret)
-> 1c6fdbd8f2465d Kent Overstreet 2017-03-16  868  		return ret;
-> 1c6fdbd8f2465d Kent Overstreet 2017-03-16  869  
-> 0e1d28c378988f Kent Overstreet 2025-07-14  870  	guard(mutex)(&j->reclaim_lock);
-> 000de45996c4b0 Kent Overstreet 2019-01-14  871  
-> 1e690efa72596a Kent Overstreet 2025-02-10  872  	for (int type = JOURNAL_PIN_TYPE_NR - 1;
-> 1e690efa72596a Kent Overstreet 2025-02-10  873  	     type >= 0;
-> 1e690efa72596a Kent Overstreet 2025-02-10  874  	     --type)
-> 1e690efa72596a Kent Overstreet 2025-02-10  875  		if (journal_flush_pins_or_still_flushing(j, seq_to_flush, BIT(type))) {
-> 35f5197009cae2 Kent Overstreet 2025-01-25  876  			*did_work = true;
-> 0e1d28c378988f Kent Overstreet 2025-07-14 @877  			return ret;
-> 
-> I think ret was intended to be the return value from
-> journal_flush_pins_or_still_flushing()?
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-It is a bit unusual, but not a bug.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250711-ddrperfm-upstream-v2-13-cdece720348f@foss.st.com>
+References: <20250711-ddrperfm-upstream-v2-13-cdece720348f@foss.st.com>
+TO: "Clément Le Goffic" <clement.legoffic@foss.st.com>
+TO: Will Deacon <will@kernel.org>
+TO: Mark Rutland <mark.rutland@arm.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+TO: Alexandre Torgue <alexandre.torgue@foss.st.com>
+TO: Philipp Zabel <p.zabel@pengutronix.de>
+TO: Jonathan Corbet <corbet@lwn.net>
+TO: Gatien Chevallier <gatien.chevallier@foss.st.com>
+TO: Michael Turquette <mturquette@baylibre.com>
+TO: Stephen Boyd <sboyd@kernel.org>
+TO: Gabriel Fernandez <gabriel.fernandez@foss.st.com>
+TO: Le Goffic <legoffic.clement@gmail.com>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-perf-users@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-stm32@st-md-mailman.stormreply.com
+CC: linux-kernel@vger.kernel.org
+CC: linux-doc@vger.kernel.org
+CC: linux-clk@vger.kernel.org
+CC: "Clément Le Goffic" <clement.legoffic@foss.st.com>
 
-If journal_flush_pins_or_still_flushing() returns true, then the flush
-hasn't complete and we must return 0; we want the outer
-closure_wait_event() in journal_flush_pins() to continue.
+Hi Clément,
 
-The early return is there because we don't want to call
-journal_entry_close() until we've finished flushing all outstanding
-journal pins - otherwise seq_to_flush can be U64_MAX, and we'll close a
-bunch of journal entries and write tiny ones completely unnecessarily.
+kernel test robot noticed the following build warnings:
 
-Having the early return be in the loop where we loop over types is
-important, because flushing one journal pin can cause new journal pins
-to be added (even of the same type, btree node writes may generate more
-btree node writes, when updating the parent pointer has a full node and
-has to trigger a split/compact).
+[auto build test WARNING on d7b8f8e20813f0179d8ef519541a3527e7661d3a]
 
-This is part of our shutdown sequence, where order of flushing is
-important in order to make sure that it terminates...
+url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-Le-Goffic/bus-firewall-move-stm32_firewall-header-file-in-include-folder/20250712-030518
+base:   d7b8f8e20813f0179d8ef519541a3527e7661d3a
+patch link:    https://lore.kernel.org/r/20250711-ddrperfm-upstream-v2-13-cdece720348f%40foss.st.com
+patch subject: [PATCH v2 13/16] ARM: dts: stm32: add ddrperfm on stm32mp151
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm-randconfig-051-20250712 (https://download.01.org/0day-ci/archive/20250718/202507180138.Cgb0SFVW-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507180138.Cgb0SFVW-lkp@intel.com/reproduce)
 
-Applying this...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202507180138.Cgb0SFVW-lkp@intel.com/
 
-diff --git a/fs/bcachefs/journal_reclaim.c b/fs/bcachefs/journal_reclaim.c
-index be50455c7f13..f23e5ee9ad75 100644
---- a/fs/bcachefs/journal_reclaim.c
-+++ b/fs/bcachefs/journal_reclaim.c
-@@ -874,7 +874,34 @@ static int journal_flush_done(struct journal *j, u64 seq_to_flush,
- 	     --type)
- 		if (journal_flush_pins_or_still_flushing(j, seq_to_flush, BIT(type))) {
- 			*did_work = true;
--			return ret;
-+
-+			/*
-+			 * Question from Dan Carpenter, on the early return:
-+			 *
-+			 * If journal_flush_pins_or_still_flushing() returns
-+			 * true, then the flush hasn't complete and we must
-+			 * return 0; we want the outer closure_wait_event() in
-+			 * journal_flush_pins() to continue.
-+			 *
-+			 * The early return is there because we don't want to
-+			 * call journal_entry_close() until we've finished
-+			 * flushing all outstanding journal pins - otherwise
-+			 * seq_to_flush can be U64_MAX, and we'll close a bunch
-+			 * of journal entries and write tiny ones completely
-+			 * unnecessarily.
-+			 *
-+			 * Having the early return be in the loop where we loop
-+			 * over types is important, because flushing one journal
-+			 * pin can cause new journal pins to be added (even of
-+			 * the same type, btree node writes may generate more
-+			 * btree node writes, when updating the parent pointer
-+			 * has a full node and has to trigger a split/compact).
-+			 *
-+			 * This is part of our shutdown sequence, where order of
-+			 * flushing is important in order to make sure that it
-+			 * terminates...
-+			 */
-+			return 0;
- 		}
- 
- 	if (seq_to_flush > journal_cur_seq(j))
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1a.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+   arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: switch@0 (nxp,sja1105q): Unevaluated properties are not allowed ('clocks', 'reset-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/nxp,sja1105.yaml#
+   arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: mmc@1 (prt,prtt1c-wfm200): $nodename:0: 'mmc@1' does not match '^wifi(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/silabs,wfx.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1s.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp151a-dhcor-testbench.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp151c-mecio1r0.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp151c-mect1s.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+   arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: audio-controller@44004000 (st,stm32h7-i2s): port:endpoint: Unevaluated properties are not allowed ('format' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/st,stm32-i2s.yaml#
+   arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: audio-controller@44004000 (st,stm32h7-i2s): Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/st,stm32-i2s.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen2.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-dk1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): cts-gpios: False schema does not allow [[31, 15, 1]]
+   	from schema $id: http://devicetree.org/schemas/serial/st,stm32-uart.yaml#
+   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): rts-gpios: False schema does not allow [[32, 0, 1]]
+   	from schema $id: http://devicetree.org/schemas/serial/st,stm32-uart.yaml#
+   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): Unevaluated properties are not allowed ('bluetooth', 'uart-has-rtscts' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/st,stm32-uart.yaml#
+   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): cts-gpios: False schema does not allow [[31, 15, 1]]
+   	from schema $id: http://devicetree.org/schemas/serial/serial.yaml#
+   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): rts-gpios: False schema does not allow [[32, 0, 1]]
+--
+>> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0-of7.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2-of10.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-edimm2.2.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-stinger96.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-dk2.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-ed1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+   arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: m4@10000000 (st,stm32mp1-m4): 'interrupt-names', 'recovery' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/remoteproc/st,stm32-rproc.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+   arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: /soc/bus@5c007000/i2c@40015000/touchscreen@38: failed to match any schema with compatible: ['edt,edt-ft5x06']
+--
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-odyssey.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+   arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: touch@44 (st,stmpe811): touchscreen: Unevaluated properties are not allowed ('st,adc-freq', 'st,mod-12b', 'st,ref-sel', 'st,sample-time' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-ultra-fly-sbc.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
+   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
