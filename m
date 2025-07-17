@@ -1,264 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358CB28504A
-	for <oe-kbuild@lists.linux.dev>; Thu, 17 Jul 2025 17:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101734503B
+	for <oe-kbuild@lists.linux.dev>; Thu, 17 Jul 2025 17:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752774196; cv=none; b=G7bDXgcGK0qiB5xRgU9d/PWAUhus68rCJV0jO9x2EYWTxt9AQ7V/NQV1qexgpQCKMySni5czfimSCvFfFD1hlargapvkcClLJDRMjSxVIC+DfTtmGA+uEFrzdSk2j8iVaoiQu8dpAd5O+wPeRSq/wA5zQknFKMO9Wzuylz2jzYU=
+	t=1752774798; cv=none; b=IN1AhKjutwAbAMnafaoAkiewpxIwJ3o51hUYAZ8jBO7gbVPvQHpgUj+eHWAEsdjpJfvz3D+RzT9Wjogy2vOf7iDtVpp+QPoe3+NROILL54PCPoU84H+SAmr6PrehmeOe/P4UuaK3fmdL+3OPruJksOd6KGjxlzNYQd7HKuqtyaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752774196; c=relaxed/simple;
-	bh=z9pcaMIxmJ5wMqhkc7g204gswSzjlsOXVXIlwd/7npA=;
+	s=arc-20240116; t=1752774798; c=relaxed/simple;
+	bh=2YQgLOgxoW3ocm5w82m1RNpJxtRC7+cCCeJgDaHVSVo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a1jN4tRLS7bbLoaJAugUICWo8uFShDDUkbVJo7+ga7BDbfkOK8cG8s0yGl+DJIJSl372Gvol/hjStQd52t3hQ2qsQn8c+SKjiMrfAmStKMGWRslu5MNxwhaREpSMolftwFx5OaOnv3RfNvoOXqIe4NW/mw5VS/9hM7iwHWLeSNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JtVfe+dh; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=ktB5Bs5IhDbizxSAf5SGPNTmNssCDKO5wVVgVacQ9eYZroYQtn/HSu1eW4d5uUcZZHcLMbQ+hh2NRlRZVgkIQKJFbn97MpibUyPDDGWU4sGBQrHL+osZgiH8Ya1W1hG1ju27deyqQoL2F8OWQUMORU5wDybDgm3vF8Baqs9hd+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fSM9byYY; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JtVfe+dh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fSM9byYY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752774195; x=1784310195;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=z9pcaMIxmJ5wMqhkc7g204gswSzjlsOXVXIlwd/7npA=;
-  b=JtVfe+dhBM4fGXkRIXi+Ebk220EIBWbiEReVNN+Q0w1U9IbX6CHGIZDG
-   al+a8UKBI0h72an0ovKEi7gf2kv2ccSUZpNZumKPIXo1yJIw2ay4CSaNE
-   DEs78RaPT+yIyOkZNj5hWeKMwVF7FBwml8nERAtFmqCM55CVjq2m0/Y8S
-   zu7dpzJLe0fYIwHiysaGSI3kvqIQbro3ITwo75VadyjWRe7DRt08Y3bWY
-   LLCpjXmQa4dkeplo7EwpuOyrUIDEQwNeqk59NvDxCFacZGHD/DR+3z5Mp
-   /kA1XEQ14w9+7oCoRAZBwbkC83cDc+SSX4RauL9V3pO7KLQPI+xRlzNzT
-   Q==;
-X-CSE-ConnectionGUID: jlJxOqzRR9acYBJc8SsYwA==
-X-CSE-MsgGUID: n5ER0e2cQsCLMG+teS8wIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="55207236"
+  t=1752774797; x=1784310797;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2YQgLOgxoW3ocm5w82m1RNpJxtRC7+cCCeJgDaHVSVo=;
+  b=fSM9byYYkyAriW7H+ov9EllkvaM444jIQurJ/+zNXfNc+oxaf0igxEV9
+   UCRVwYbxaLL0Lp4m4dEFt5TVfYqNIIeBvgRBs+FQk0LU3tRDP7huiD6P/
+   OZi1WYtmoFcZFqN8oB3eHtvkfHmaezvSy2yCqT1mOH4qC5ryb13xaYJ1Q
+   xifTEq0deaVW1oSq9r/jwYl8YTFVyyDgoxOQPEgifSYtbq75j8JtdH9gk
+   hMAldRck0HgQnf1XxJOJj6bim25rCOk4TNw3Lxxsm61M7WKpTjbpMilEy
+   s1hin5iF1uylJbo8CZlTEwPoCW560tOQRlkEGGITYNtDQviTb+U0DIXRr
+   g==;
+X-CSE-ConnectionGUID: kuSLebr7REGPXL1vsGVP5g==
+X-CSE-MsgGUID: HoO0Aq8JSAaRFzWgwhhaZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="72517937"
 X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="55207236"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 10:43:15 -0700
-X-CSE-ConnectionGUID: TBKlyrbFTuGVYkoOhb9Uwg==
-X-CSE-MsgGUID: eptUsffXSdSjL4qMpsEvzg==
+   d="scan'208";a="72517937"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 10:53:16 -0700
+X-CSE-ConnectionGUID: hwsnwQ+sQ8qG9KQb4YFA7g==
+X-CSE-MsgGUID: 11LstuacSeeuWGcbQ2YtYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="194990280"
+   d="scan'208";a="181571420"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 17 Jul 2025 10:43:12 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 17 Jul 2025 10:53:14 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucSdR-000DtR-30;
-	Thu, 17 Jul 2025 17:43:09 +0000
-Date: Fri, 18 Jul 2025 01:42:37 +0800
+	id 1ucSnA-000DuR-0I;
+	Thu, 17 Jul 2025 17:53:12 +0000
+Date: Fri, 18 Jul 2025 01:52:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 13/16] ARM: dts: stm32: add ddrperfm on stm32mp151
-Message-ID: <202507180138.Cgb0SFVW-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 8249/10823] sound/hda/codecs/hdmi/hdmi.c:378
+ hdmi_eld_ctl_get() warn: calling memset(x, y, ARRAY_SIZE());
+Message-ID: <202507180118.3tzqvu2y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250711-ddrperfm-upstream-v2-13-cdece720348f@foss.st.com>
-References: <20250711-ddrperfm-upstream-v2-13-cdece720348f@foss.st.com>
-TO: "Clément Le Goffic" <clement.legoffic@foss.st.com>
-TO: Will Deacon <will@kernel.org>
-TO: Mark Rutland <mark.rutland@arm.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-TO: Alexandre Torgue <alexandre.torgue@foss.st.com>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
-TO: Jonathan Corbet <corbet@lwn.net>
-TO: Gatien Chevallier <gatien.chevallier@foss.st.com>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Gabriel Fernandez <gabriel.fernandez@foss.st.com>
-TO: Le Goffic <legoffic.clement@gmail.com>
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-perf-users@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-stm32@st-md-mailman.stormreply.com
-CC: linux-kernel@vger.kernel.org
-CC: linux-doc@vger.kernel.org
-CC: linux-clk@vger.kernel.org
-CC: "Clément Le Goffic" <clement.legoffic@foss.st.com>
+TO: Takashi Iwai <tiwai@suse.de>
+CC: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-Hi Clément,
+Hi Takashi,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on d7b8f8e20813f0179d8ef519541a3527e7661d3a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-Le-Goffic/bus-firewall-move-stm32_firewall-header-file-in-include-folder/20250712-030518
-base:   d7b8f8e20813f0179d8ef519541a3527e7661d3a
-patch link:    https://lore.kernel.org/r/20250711-ddrperfm-upstream-v2-13-cdece720348f%40foss.st.com
-patch subject: [PATCH v2 13/16] ARM: dts: stm32: add ddrperfm on stm32mp151
-:::::: branch date: 6 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
+commit: 6014e9021b28e634935c776c0271b5cbcabdc5d6 [8249/10823] ALSA: hda: Move codec drivers into sound/hda/codecs directory
+:::::: branch date: 8 hours ago
 :::::: commit date: 6 days ago
-config: arm-randconfig-051-20250712 (https://download.01.org/0day-ci/archive/20250718/202507180138.Cgb0SFVW-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507180138.Cgb0SFVW-lkp@intel.com/reproduce)
+config: openrisc-randconfig-r071-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180118.3tzqvu2y-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507180138.Cgb0SFVW-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507180118.3tzqvu2y-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/st/stm32mp151a-prtt1a.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
-   arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: switch@0 (nxp,sja1105q): Unevaluated properties are not allowed ('clocks', 'reset-gpios' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/nxp,sja1105.yaml#
-   arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: mmc@1 (prt,prtt1c-wfm200): $nodename:0: 'mmc@1' does not match '^wifi(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/net/wireless/silabs,wfx.yaml#
---
->> arch/arm/boot/dts/st/stm32mp151a-prtt1s.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp151a-dhcor-testbench.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp151c-mecio1r0.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp151c-mect1s.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
-   arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: audio-controller@44004000 (st,stm32h7-i2s): port:endpoint: Unevaluated properties are not allowed ('format' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/st,stm32-i2s.yaml#
-   arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: audio-controller@44004000 (st,stm32h7-i2s): Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/st,stm32-i2s.yaml#
---
->> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen2.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157a-dk1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
-   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): cts-gpios: False schema does not allow [[31, 15, 1]]
-   	from schema $id: http://devicetree.org/schemas/serial/st,stm32-uart.yaml#
-   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): rts-gpios: False schema does not allow [[32, 0, 1]]
-   	from schema $id: http://devicetree.org/schemas/serial/st,stm32-uart.yaml#
-   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): Unevaluated properties are not allowed ('bluetooth', 'uart-has-rtscts' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/st,stm32-uart.yaml#
-   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): cts-gpios: False schema does not allow [[31, 15, 1]]
-   	from schema $id: http://devicetree.org/schemas/serial/serial.yaml#
-   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): rts-gpios: False schema does not allow [[32, 0, 1]]
---
->> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0-of7.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2-of10.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-edimm2.2.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157a-stinger96.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-dk2.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-ed1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
-   arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: m4@10000000 (st,stm32mp1-m4): 'interrupt-names', 'recovery' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/remoteproc/st,stm32-rproc.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
-   arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: /soc/bus@5c007000/i2c@40015000/touchscreen@38: failed to match any schema with compatible: ['edt,edt-ft5x06']
---
->> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-odyssey.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
-   arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: touch@44 (st,stmpe811): touchscreen: Unevaluated properties are not allowed ('st,adc-freq', 'st,mod-12b', 'st,ref-sel', 'st,sample-time' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-ultra-fly-sbc.dtb: perf@5a007000 (st,stm32mp151-ddr-pmu): compatible: ['st,stm32mp151-ddr-pmu', 'st,stm32mp131-ddr-pmu'] is too long
-   	from schema $id: http://devicetree.org/schemas/perf/st,stm32-ddr-pmu.yaml#
+New smatch warnings:
+sound/hda/codecs/hdmi/hdmi.c:378 hdmi_eld_ctl_get() warn: calling memset(x, y, ARRAY_SIZE());
+
+Old smatch warnings:
+sound/hda/codecs/hdmi/hdmi.c:391 hdmi_eld_ctl_get() warn: calling memset(x, y, ARRAY_SIZE());
+
+vim +378 sound/hda/codecs/hdmi/hdmi.c
+
+14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  362  
+14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  363  static int hdmi_eld_ctl_get(struct snd_kcontrol *kcontrol,
+14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  364  			struct snd_ctl_elem_value *ucontrol)
+14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  365  {
+14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  366  	struct hda_codec *codec = snd_kcontrol_chip(kcontrol);
+68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  367  	struct hdmi_spec *spec = codec->spec;
+a4e9a38b40a0e2 sound/pci/hda/patch_hdmi.c Takashi Iwai         2013-10-17  368  	struct hdmi_spec_per_pin *per_pin;
+68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  369  	struct hdmi_eld *eld;
+fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  370  	int pcm_idx;
+f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  371  	int err = 0;
+14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  372  
+fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  373  	pcm_idx = kcontrol->private_value;
+fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  374  	mutex_lock(&spec->pcm_lock);
+fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  375  	per_pin = pcm_idx_to_pin(spec, pcm_idx);
+fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  376  	if (!per_pin) {
+fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  377  		/* no pin is bound to the pcm */
+fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23 @378  		memset(ucontrol->value.bytes.data, 0,
+fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  379  		       ARRAY_SIZE(ucontrol->value.bytes.data));
+f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  380  		goto unlock;
+fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  381  	}
+68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  382  
+f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  383  	eld = &per_pin->sink_eld;
+360a8245680053 sound/pci/hda/patch_hdmi.c David Henningsson    2016-02-05  384  	if (eld->eld_size > ARRAY_SIZE(ucontrol->value.bytes.data) ||
+360a8245680053 sound/pci/hda/patch_hdmi.c David Henningsson    2016-02-05  385  	    eld->eld_size > ELD_MAX_SIZE) {
+68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  386  		snd_BUG();
+f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  387  		err = -EINVAL;
+f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  388  		goto unlock;
+68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  389  	}
+14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  390  
+68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  391  	memset(ucontrol->value.bytes.data, 0,
+68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  392  	       ARRAY_SIZE(ucontrol->value.bytes.data));
+68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  393  	if (eld->eld_valid)
+68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  394  		memcpy(ucontrol->value.bytes.data, eld->eld_buffer,
+68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  395  		       eld->eld_size);
+14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  396  
+f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  397   unlock:
+f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  398  	mutex_unlock(&spec->pcm_lock);
+f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  399  	return err;
+14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  400  }
+14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  401  
+
+:::::: The code at line 378 was first introduced by commit
+:::::: fb087eaaef72061b2bb4e35b70ab43865f541cad ALSA: hda - hdmi eld control created based on pcm
+
+:::::: TO: Libin Yang <libin.yang@linux.intel.com>
+:::::: CC: Takashi Iwai <tiwai@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
