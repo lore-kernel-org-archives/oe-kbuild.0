@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3112EE5F9
-	for <oe-kbuild@lists.linux.dev>; Wed, 16 Jul 2025 22:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FB41B983F
+	for <oe-kbuild@lists.linux.dev>; Thu, 17 Jul 2025 02:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752705832; cv=none; b=Ye75zHGVQCpplTHL0XCtqGqycX6rwRiBP7oUn9uFnM+ZaCnE510eLqfv1Y9ZrG0/V5NF5TjwdhxZw4B63RIXO2fLOzuqkwmk19XNpMDjntL0zME5lwYuLec/UH0CyIeia1UHY9jXTrXuZcOqwFsjrWlyEjkdj0dFmkdXcjffwcM=
+	t=1752718272; cv=none; b=TTDBMUbE7LUDEelyJI4Vnc7QNUxn1Yc2LhvuaTcTnGDniW0VIWyZqlr9exOkGiMVyyzFoZedr3N5+BpDBVL7y4zKc+/IVy3ID2tuH34cLj9nvovRjc0fXwH9Makg8dzGzNGrn5/hao3jYphRFkdlUb77RO4Fjb/kxYo/7ieEENQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752705832; c=relaxed/simple;
-	bh=8zVkRHs4g6xh6Hlwz4ExnP4Y1Y3ln3hjIu4hM8RqXhg=;
+	s=arc-20240116; t=1752718272; c=relaxed/simple;
+	bh=dT9h3solMZyRNWN/NmPJNihogjSmirmqkrmhunOmS3s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Pw7hP7DiNVQGZ8Yif8IF55hpPnTfzv/HA8EgABYJakP/qTpWgq+K4016DvD2dvdC6tYYH9AYnz393iKpS2JAkU4TKjfxRn1ggRZdFpwYouJ/YpeamNT/7fn5Wr9Uo/QtC+U4WFjKAkm3rb2U2DDjT5o4rxo0+G05zcRMU+J48+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ELQbRjgi; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=HGgWbnaL5rPqiRkScU239Qj2fuk8vVK6N4ityxqQYT0M/LAQYxKIjVRsOK6fCMuavMPofrfu9Zdp+Ry1eu4FrS/FBixfMbSv5t0d8elEFyk4/8Ws108bNiyd5uB9rLd+R39PcvNdZdS9AUsVTVKA0VZq1yOmbCgk2Q+fQJJPmQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j0wkTW6e; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ELQbRjgi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j0wkTW6e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752705831; x=1784241831;
+  t=1752718271; x=1784254271;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8zVkRHs4g6xh6Hlwz4ExnP4Y1Y3ln3hjIu4hM8RqXhg=;
-  b=ELQbRjgiALBSKLavGkt8CGZLrznuZV1xqA3/ow7VMov7sWTx8CJEl9F4
-   vbMbugbjMCgiSAK8MXp4jyKJIvPMx90xPjXZ1mPT7+cyef2su0DNfkQ3C
-   ey+q+HXyKIgaAtX47MX2np7Y0EmbGZxgq1f74aO9OxaFhU17aWs+apGPy
-   0HtKCfflVqP3kBMcatbbTzG2DA5D+DO2E72T5+Aox4gIJ85tCRXt4SxH3
-   B73N4Xv+TxbgIB97msjb9OLlzC7VCM+7kjNpwltXKoKvMrJhJTIW7sZSr
-   KGCaHi3r+QlGPRNNKceVZywxuIE9+a9uyp6Z1+k2tv9n4DeoIf+Vjsxi0
-   g==;
-X-CSE-ConnectionGUID: 07Su8k3ES7WkJ7Ze+/T2UQ==
-X-CSE-MsgGUID: UHKVTbDdR9CTJ+pV+30Q9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="57578846"
-X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
-   d="scan'208";a="57578846"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 15:43:48 -0700
-X-CSE-ConnectionGUID: m+UxskzaSYW0m9xG3t6sng==
-X-CSE-MsgGUID: 2zVcDBshRuCC8WpkeGZp8g==
+  bh=dT9h3solMZyRNWN/NmPJNihogjSmirmqkrmhunOmS3s=;
+  b=j0wkTW6ekFAnEEBCCd4kHk6N7vZ9mfA3/Ku/+a3h12RspU5QzRkJ3NJQ
+   MU5Qh7eWKpuD8Y8beAnr30U9mCk1igwIyjLDVwR1FlUKCMRJdVQHCnBtM
+   lsjBM56wXzuArzPeSRHVCEWqyU544RkDjjSrCiNYrIZ0TBRv4Au6AophJ
+   g5gHXH1krfdruMd/b9Cx1hR66cvvT5KAgt5usw98l+AhhPX17u/Hs/2Lq
+   h7mz2rdWOvnwLpZ/y5UzTxxZGqJXQlZ38hxgjON67iTPeJ7ypgMrBUUSp
+   2ztqjI3WygMuVMInIG35/8o5CGwxpOy0+mQiXHH2cMBjo3pIQ3NKB2eZn
+   A==;
+X-CSE-ConnectionGUID: WZJwNWdFTSeluWrjm5UqmQ==
+X-CSE-MsgGUID: drIdN8/ISY6snF/Uz4pF/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54088397"
+X-IronPort-AV: E=Sophos;i="6.16,317,1744095600"; 
+   d="scan'208";a="54088397"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 19:11:10 -0700
+X-CSE-ConnectionGUID: Ge2T9ow2QwWT+ojL2w75cQ==
+X-CSE-MsgGUID: uwsmx1K4SRakb4c2zSJNcg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
-   d="scan'208";a="157297918"
+X-IronPort-AV: E=Sophos;i="6.16,317,1744095600"; 
+   d="scan'208";a="157735085"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Jul 2025 15:43:46 -0700
+  by orviesa007.jf.intel.com with ESMTP; 16 Jul 2025 19:11:09 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucAqm-000CvE-2f;
-	Wed, 16 Jul 2025 22:43:44 +0000
-Date: Thu, 17 Jul 2025 06:43:24 +0800
+	id 1ucE5S-000D3n-1e;
+	Thu, 17 Jul 2025 02:11:06 +0000
+Date: Thu, 17 Jul 2025 10:10:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [norov:fnb 17/37] mm/cma.c:758:24-29: ERROR: iterator variable bound
- on line 756 cannot be NULL
-Message-ID: <202507170612.Ez09D8cM-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 17/17] arm64: tegra: Add support for NVIDIA Shield TV Pro
+ 2019
+Message-ID: <202507171017.TTPR8EdF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,57 +62,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yury Norov <yury.norov@gmail.com>
+In-Reply-To: <20250714-t210b01-v1-17-e3f5f7de5dce@gmail.com>
+References: <20250714-t210b01-v1-17-e3f5f7de5dce@gmail.com>
+TO: Aaron Kling <webgeek1234@gmail.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Thierry Reding <thierry.reding@gmail.com>
+TO: Jonathan Hunter <jonathanh@nvidia.com>
+TO: Vinod Koul <vkoul@kernel.org>
+TO: Kishon Vijay Abraham I <kishon@kernel.org>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Nagarjuna Kristam <nkristam@nvidia.com>
+TO: JC Kuo <jckuo@nvidia.com>
+TO: "Rafael J. Wysocki" <rafael@kernel.org>
+TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+TO: Zhang Rui <rui.zhang@intel.com>
+TO: Lukasz Luba <lukasz.luba@arm.com>
+TO: Michael Turquette <mturquette@baylibre.com>
+TO: Stephen Boyd <sboyd@kernel.org>
+TO: Mathias Nyman <mathias.nyman@intel.com>
+TO: Peter De Schrijver <pdeschrijver@nvidia.com>
+TO: Prashant Gaikwad <pgaikwad@nvidia.com>
+CC: devicetree@vger.kernel.org
+CC: linux-tegra@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-phy@lists.infradead.org
+CC: linux-usb@vger.kernel.org
+CC: linux-pm@vger.kernel.org
+CC: linux-clk@vger.kernel.org
+CC: Aaron Kling <webgeek1234@gmail.com>
 
-tree:   https://github.com/norov/linux fnb
-head:   a3d32c84f17f6f6ab41ab6c920df8c4e90d236e2
-commit: e838c420a7954feef92be137971f99e20a296f97 [17/37] mm: cma: simplify cma_debug_show_areas()
-:::::: branch date: 7 hours ago
-:::::: commit date: 32 hours ago
-config: x86_64-randconfig-r051-20250716 (https://download.01.org/0day-ci/archive/20250717/202507170612.Ez09D8cM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+Hi Aaron,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 347e9f5043c89695b01e66b3ed111755afcf1911]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Kling/dt-bindings-arm-tegra-pmc-Document-Tegra210B01/20250715-160630
+base:   347e9f5043c89695b01e66b3ed111755afcf1911
+patch link:    https://lore.kernel.org/r/20250714-t210b01-v1-17-e3f5f7de5dce%40gmail.com
+patch subject: [PATCH 17/17] arm64: tegra: Add support for NVIDIA Shield TV Pro 2019
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20250716 (https://download.01.org/0day-ci/archive/20250717/202507171017.TTPR8EdF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507171017.TTPR8EdF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202507170612.Ez09D8cM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507171017.TTPR8EdF-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> mm/cma.c:758:24-29: ERROR: iterator variable bound on line 756 cannot be NULL
-
-vim +758 mm/cma.c
-
-a254129e8686bf Joonsoo Kim          2014-08-06  739  
-dbe43d4d2837da Jaewon Kim           2017-02-24  740  static void cma_debug_show_areas(struct cma *cma)
-dbe43d4d2837da Jaewon Kim           2017-02-24  741  {
-e838c420a7954f Yury Norov           2025-07-07  742  	unsigned long start, end;
-7365ff2c8eef4e Frank van der Linden 2025-02-28  743  	unsigned long nr_part;
-c009da4258f988 Frank van der Linden 2025-02-28  744  	unsigned long nbits;
-c009da4258f988 Frank van der Linden 2025-02-28  745  	int r;
-c009da4258f988 Frank van der Linden 2025-02-28  746  	struct cma_memrange *cmr;
-dbe43d4d2837da Jaewon Kim           2017-02-24  747  
-0ef7dcac998fef Mike Kravetz         2021-05-04  748  	spin_lock_irq(&cma->lock);
-dbe43d4d2837da Jaewon Kim           2017-02-24  749  	pr_info("number of available pages: ");
-c009da4258f988 Frank van der Linden 2025-02-28  750  	for (r = 0; r < cma->nranges; r++) {
-c009da4258f988 Frank van der Linden 2025-02-28  751  		cmr = &cma->ranges[r];
-c009da4258f988 Frank van der Linden 2025-02-28  752  
-c009da4258f988 Frank van der Linden 2025-02-28  753  		nbits = cma_bitmap_maxno(cma, cmr);
-c009da4258f988 Frank van der Linden 2025-02-28  754  
-c009da4258f988 Frank van der Linden 2025-02-28  755  		pr_info("range %d: ", r);
-e838c420a7954f Yury Norov           2025-07-07 @756  		for_each_clear_bitrange(start, end, cmr->bitmap, nbits) {
-e838c420a7954f Yury Norov           2025-07-07  757  			nr_part = (start - end) << cma->order_per_bit;
-e838c420a7954f Yury Norov           2025-07-07 @758  			pr_cont("%s%lu@%lu", start ? "+" : "", nr_part, start);
-dbe43d4d2837da Jaewon Kim           2017-02-24  759  		}
-c009da4258f988 Frank van der Linden 2025-02-28  760  		pr_info("\n");
-c009da4258f988 Frank van der Linden 2025-02-28  761  	}
-7365ff2c8eef4e Frank van der Linden 2025-02-28  762  	pr_cont("=> %lu free of %lu total pages\n", cma->available_count,
-7365ff2c8eef4e Frank van der Linden 2025-02-28  763  			cma->count);
-0ef7dcac998fef Mike Kravetz         2021-05-04  764  	spin_unlock_irq(&cma->lock);
-dbe43d4d2837da Jaewon Kim           2017-02-24  765  }
-dbe43d4d2837da Jaewon Kim           2017-02-24  766  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /bpmp@70016000: failed to match any schema with compatible: ['nvidia,tegra210-bpmp']
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra210-mc']
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: external-memory-controller@7001b000 (nvidia,tegra210-emc): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra210-emc.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra210b01-dfll']
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: usb-phy@7d000000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /usb-phy@7d000000: failed to match any schema with compatible: ['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy']
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: usb-phy@7d004000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
+   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /usb-phy@7d004000: failed to match any schema with compatible: ['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy']
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: cpu@0 (arm,cortex-a57): 'operating-points' is a dependency of 'clock-latency'
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: cpu@0 (arm,cortex-a57): Unevaluated properties are not allowed ('clock-latency' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: thermal-zones: mem-thermal:cooling-maps: 'dram-active', 'dram-passive' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
