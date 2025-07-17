@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101734503B
-	for <oe-kbuild@lists.linux.dev>; Thu, 17 Jul 2025 17:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1F5224AFA
+	for <oe-kbuild@lists.linux.dev>; Thu, 17 Jul 2025 20:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752774798; cv=none; b=IN1AhKjutwAbAMnafaoAkiewpxIwJ3o51hUYAZ8jBO7gbVPvQHpgUj+eHWAEsdjpJfvz3D+RzT9Wjogy2vOf7iDtVpp+QPoe3+NROILL54PCPoU84H+SAmr6PrehmeOe/P4UuaK3fmdL+3OPruJksOd6KGjxlzNYQd7HKuqtyaE=
+	t=1752784174; cv=none; b=kLkyTgT8tplvId1u1AP0tW85ZNr3JBJHsPh232siRYoHnOg04yfrLQEuyAGGK6Jqq4lK0t72w5SSWUW0Smc833GiNRYYQI3OGFQRenAvbfm8ioUw2poG/CPKziRqiFooDsDHL59EPi6tRMrI7WauYIGUqU5yTs3Y05sjoK+46xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752774798; c=relaxed/simple;
-	bh=2YQgLOgxoW3ocm5w82m1RNpJxtRC7+cCCeJgDaHVSVo=;
+	s=arc-20240116; t=1752784174; c=relaxed/simple;
+	bh=UJ5Wx+fcVX5naYGK9btu1aEOrDiX4H3mBs6UIv5EOxI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ktB5Bs5IhDbizxSAf5SGPNTmNssCDKO5wVVgVacQ9eYZroYQtn/HSu1eW4d5uUcZZHcLMbQ+hh2NRlRZVgkIQKJFbn97MpibUyPDDGWU4sGBQrHL+osZgiH8Ya1W1hG1ju27deyqQoL2F8OWQUMORU5wDybDgm3vF8Baqs9hd+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fSM9byYY; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=Ck7OgqvZf5+DpqtYDT+3NsjJ3DNN56o4uAMD7Z/MuGzqcrX5iuZW79p5qfIr0nPnqTVCVQ+b/xcsAcN0LTMFnQfq+GAlN7YGRQ5ilxsaPkj+LuULxjkc8KEpuP9ZpjpCuFFElf97kOb6zXcXxub4bkxBBC3U1DiRp4H7V9Hzjlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FDxRvqMU; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fSM9byYY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FDxRvqMU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752774797; x=1784310797;
+  t=1752784172; x=1784320172;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2YQgLOgxoW3ocm5w82m1RNpJxtRC7+cCCeJgDaHVSVo=;
-  b=fSM9byYYkyAriW7H+ov9EllkvaM444jIQurJ/+zNXfNc+oxaf0igxEV9
-   UCRVwYbxaLL0Lp4m4dEFt5TVfYqNIIeBvgRBs+FQk0LU3tRDP7huiD6P/
-   OZi1WYtmoFcZFqN8oB3eHtvkfHmaezvSy2yCqT1mOH4qC5ryb13xaYJ1Q
-   xifTEq0deaVW1oSq9r/jwYl8YTFVyyDgoxOQPEgifSYtbq75j8JtdH9gk
-   hMAldRck0HgQnf1XxJOJj6bim25rCOk4TNw3Lxxsm61M7WKpTjbpMilEy
-   s1hin5iF1uylJbo8CZlTEwPoCW560tOQRlkEGGITYNtDQviTb+U0DIXRr
-   g==;
-X-CSE-ConnectionGUID: kuSLebr7REGPXL1vsGVP5g==
-X-CSE-MsgGUID: HoO0Aq8JSAaRFzWgwhhaZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="72517937"
+  bh=UJ5Wx+fcVX5naYGK9btu1aEOrDiX4H3mBs6UIv5EOxI=;
+  b=FDxRvqMU+kzucRnhTrTVqdkwx3KrnVRObkd6OYx8adaevRdjrSbDWWY9
+   IecmzBBB7pKc7ZMaYdItHVWtreHheP56uyRV/MsGyq6nj8WjuapYePTN0
+   qoJjXBZr/YU+cziJgt+Zav5YLLx/XgcyLU97vEEuds23UyDrOayOKVHFx
+   qsB3KBLtuAxW+KvAj4pMGn8M2cqJElxc/87jjHQCwuq5rdcL5edrnLYep
+   G8rGEbVsVRDCffNS0wxhOHT2Eh4i4Y+TBhSbl9y5+fYo8zcv0DdQcnTOP
+   +1qGxez9tQXRHsNUFFep3IzZYMVNMnWtQo3K0xhJgOuefzIqvJQ0oiCfe
+   w==;
+X-CSE-ConnectionGUID: 6isJMLw8Ro+RLDPels6ntw==
+X-CSE-MsgGUID: OiU9WmruT9+DL/Brrami5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="55199011"
 X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="72517937"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 10:53:16 -0700
-X-CSE-ConnectionGUID: hwsnwQ+sQ8qG9KQb4YFA7g==
-X-CSE-MsgGUID: 11LstuacSeeuWGcbQ2YtYw==
+   d="scan'208";a="55199011"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 13:29:30 -0700
+X-CSE-ConnectionGUID: FNPsICN+QxC0yItJp2547w==
+X-CSE-MsgGUID: vxrQ2FdKR4uzC0mr7ELmwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="181571420"
+   d="scan'208";a="158583076"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Jul 2025 10:53:14 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 Jul 2025 13:29:28 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucSnA-000DuR-0I;
-	Thu, 17 Jul 2025 17:53:12 +0000
-Date: Fri, 18 Jul 2025 01:52:52 +0800
+	id 1ucVEM-000E05-0w;
+	Thu, 17 Jul 2025 20:29:26 +0000
+Date: Fri, 18 Jul 2025 04:29:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 8249/10823] sound/hda/codecs/hdmi/hdmi.c:378
- hdmi_eld_ctl_get() warn: calling memset(x, y, ARRAY_SIZE());
-Message-ID: <202507180118.3tzqvu2y-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v9 2/2] ARM: dts: aspeed: ventura: add Meta Ventura BMC
+Message-ID: <202507180344.EYoIXU72-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,83 +61,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Takashi Iwai <tiwai@suse.de>
-CC: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20250716094329.1069203-3-pkleequanta@gmail.com>
+References: <20250716094329.1069203-3-pkleequanta@gmail.com>
+TO: "P.K. Lee" <pkleequanta@gmail.com>
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+TO: joel@jms.id.au
+TO: andrew@codeconstruct.com.au
+TO: devicetree@vger.kernel.org
+TO: linux-arm-kernel@lists.infradead.org
+TO: linux-aspeed@lists.ozlabs.org
+TO: linux-kernel@vger.kernel.org
+TO: patrick@stwcx.xyz
+CC: Jerry.Lin@quantatw.com
+CC: Jason-Hsu@quantatw.com
+CC: yang.chen@quantatw.com
+CC: p.k.lee@quantatw.com
 
-Hi Takashi,
+Hi Lee,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
-commit: 6014e9021b28e634935c776c0271b5cbcabdc5d6 [8249/10823] ALSA: hda: Move codec drivers into sound/hda/codecs directory
-:::::: branch date: 8 hours ago
-:::::: commit date: 6 days ago
-config: openrisc-randconfig-r071-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180118.3tzqvu2y-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.3.0
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.16-rc6]
+[cannot apply to next-20250717]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/P-K-Lee/dt-bindings-arm-aspeed-add-Meta-Ventura-board/20250716-174440
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250716094329.1069203-3-pkleequanta%40gmail.com
+patch subject: [PATCH v9 2/2] ARM: dts: aspeed: ventura: add Meta Ventura BMC
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: arm-randconfig-052-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180344.EYoIXU72-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507180344.EYoIXU72-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507180118.3tzqvu2y-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507180344.EYoIXU72-lkp@intel.com/
 
-New smatch warnings:
-sound/hda/codecs/hdmi/hdmi.c:378 hdmi_eld_ctl_get() warn: calling memset(x, y, ARRAY_SIZE());
-
-Old smatch warnings:
-sound/hda/codecs/hdmi/hdmi.c:391 hdmi_eld_ctl_get() warn: calling memset(x, y, ARRAY_SIZE());
-
-vim +378 sound/hda/codecs/hdmi/hdmi.c
-
-14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  362  
-14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  363  static int hdmi_eld_ctl_get(struct snd_kcontrol *kcontrol,
-14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  364  			struct snd_ctl_elem_value *ucontrol)
-14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  365  {
-14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  366  	struct hda_codec *codec = snd_kcontrol_chip(kcontrol);
-68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  367  	struct hdmi_spec *spec = codec->spec;
-a4e9a38b40a0e2 sound/pci/hda/patch_hdmi.c Takashi Iwai         2013-10-17  368  	struct hdmi_spec_per_pin *per_pin;
-68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  369  	struct hdmi_eld *eld;
-fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  370  	int pcm_idx;
-f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  371  	int err = 0;
-14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  372  
-fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  373  	pcm_idx = kcontrol->private_value;
-fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  374  	mutex_lock(&spec->pcm_lock);
-fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  375  	per_pin = pcm_idx_to_pin(spec, pcm_idx);
-fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  376  	if (!per_pin) {
-fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  377  		/* no pin is bound to the pcm */
-fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23 @378  		memset(ucontrol->value.bytes.data, 0,
-fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  379  		       ARRAY_SIZE(ucontrol->value.bytes.data));
-f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  380  		goto unlock;
-fb087eaaef7206 sound/pci/hda/patch_hdmi.c Libin Yang           2016-02-23  381  	}
-68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  382  
-f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  383  	eld = &per_pin->sink_eld;
-360a8245680053 sound/pci/hda/patch_hdmi.c David Henningsson    2016-02-05  384  	if (eld->eld_size > ARRAY_SIZE(ucontrol->value.bytes.data) ||
-360a8245680053 sound/pci/hda/patch_hdmi.c David Henningsson    2016-02-05  385  	    eld->eld_size > ELD_MAX_SIZE) {
-68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  386  		snd_BUG();
-f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  387  		err = -EINVAL;
-f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  388  		goto unlock;
-68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  389  	}
-14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  390  
-68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  391  	memset(ucontrol->value.bytes.data, 0,
-68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  392  	       ARRAY_SIZE(ucontrol->value.bytes.data));
-68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  393  	if (eld->eld_valid)
-68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  394  		memcpy(ucontrol->value.bytes.data, eld->eld_buffer,
-68e03de9850706 sound/pci/hda/patch_hdmi.c David Henningsson    2013-02-19  395  		       eld->eld_size);
-14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  396  
-f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  397   unlock:
-f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  398  	mutex_unlock(&spec->pcm_lock);
-f69548ffafcc49 sound/pci/hda/patch_hdmi.c Takashi Iwai         2018-07-12  399  	return err;
-14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  400  }
-14bc52b8feaae6 sound/pci/hda/patch_hdmi.c Pierre-Louis Bossart 2011-09-30  401  
-
-:::::: The code at line 378 was first introduced by commit
-:::::: fb087eaaef72061b2bb4e35b70ab43865f541cad ALSA: hda - hdmi eld control created based on pcm
-
-:::::: TO: Libin Yang <libin.yang@linux.intel.com>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/bus@1e78a000/i2c@200/i2c-mux@77/i2c@5/pwm@20: failed to match any schema with compatible: ['max31790']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/bus@1e78a000/i2c@400/ipmb@10: failed to match any schema with compatible: ['ipmb-dev']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/bus@1e78a000/i2c@580/power-monitor@69: failed to match any schema with compatible: ['pmbus']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: fsi@1e79b000 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: fsi@1e79b100 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
 
 -- 
 0-DAY CI Kernel Test Service
