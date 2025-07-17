@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FB41B983F
-	for <oe-kbuild@lists.linux.dev>; Thu, 17 Jul 2025 02:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F452BE03E
+	for <oe-kbuild@lists.linux.dev>; Thu, 17 Jul 2025 10:50:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752718272; cv=none; b=TTDBMUbE7LUDEelyJI4Vnc7QNUxn1Yc2LhvuaTcTnGDniW0VIWyZqlr9exOkGiMVyyzFoZedr3N5+BpDBVL7y4zKc+/IVy3ID2tuH34cLj9nvovRjc0fXwH9Makg8dzGzNGrn5/hao3jYphRFkdlUb77RO4Fjb/kxYo/7ieEENQ=
+	t=1752749426; cv=none; b=fIyNq7AAXHtFY8La6nkWjpdGnU019YkwdajtsHrOVr143kBX+aiMb7FzOnnKgNQeWgtarFqNx2XRXvkhDw1Tm9oG4bIaHbM7ySO4PwkPbOT+aJeKBrs64mzrgm9KVyOZKDgqgw87tRWw666dhsjhltUyYv0G1uFQsGYcH+resYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752718272; c=relaxed/simple;
-	bh=dT9h3solMZyRNWN/NmPJNihogjSmirmqkrmhunOmS3s=;
+	s=arc-20240116; t=1752749426; c=relaxed/simple;
+	bh=doKwT1uXCU6J/wPY1jRFKYLebWjIpdJ6slSifOCHRMw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HGgWbnaL5rPqiRkScU239Qj2fuk8vVK6N4ityxqQYT0M/LAQYxKIjVRsOK6fCMuavMPofrfu9Zdp+Ry1eu4FrS/FBixfMbSv5t0d8elEFyk4/8Ws108bNiyd5uB9rLd+R39PcvNdZdS9AUsVTVKA0VZq1yOmbCgk2Q+fQJJPmQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j0wkTW6e; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=Uy1VfEHGf1equTYAANiC9E7qN3VUjXX2DKQAz5uqPEi3aOuvzSeYPSQUHSQiz5KU2XY1diHkbKcPTeoqbpNeLy4PJIR7QUe80v1BtTb7Hgz7E9XdxQOxIo+GqfzqmlyXI+R3XnH2d5LlgV+7C9fCa0gTyRFgzquoHHVNzMVngX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dvZrzSyk; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j0wkTW6e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dvZrzSyk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752718271; x=1784254271;
+  t=1752749424; x=1784285424;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dT9h3solMZyRNWN/NmPJNihogjSmirmqkrmhunOmS3s=;
-  b=j0wkTW6ekFAnEEBCCd4kHk6N7vZ9mfA3/Ku/+a3h12RspU5QzRkJ3NJQ
-   MU5Qh7eWKpuD8Y8beAnr30U9mCk1igwIyjLDVwR1FlUKCMRJdVQHCnBtM
-   lsjBM56wXzuArzPeSRHVCEWqyU544RkDjjSrCiNYrIZ0TBRv4Au6AophJ
-   g5gHXH1krfdruMd/b9Cx1hR66cvvT5KAgt5usw98l+AhhPX17u/Hs/2Lq
-   h7mz2rdWOvnwLpZ/y5UzTxxZGqJXQlZ38hxgjON67iTPeJ7ypgMrBUUSp
-   2ztqjI3WygMuVMInIG35/8o5CGwxpOy0+mQiXHH2cMBjo3pIQ3NKB2eZn
-   A==;
-X-CSE-ConnectionGUID: WZJwNWdFTSeluWrjm5UqmQ==
-X-CSE-MsgGUID: drIdN8/ISY6snF/Uz4pF/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54088397"
-X-IronPort-AV: E=Sophos;i="6.16,317,1744095600"; 
-   d="scan'208";a="54088397"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 19:11:10 -0700
-X-CSE-ConnectionGUID: Ge2T9ow2QwWT+ojL2w75cQ==
-X-CSE-MsgGUID: uwsmx1K4SRakb4c2zSJNcg==
+  bh=doKwT1uXCU6J/wPY1jRFKYLebWjIpdJ6slSifOCHRMw=;
+  b=dvZrzSykpl8wNqb3n2gK1+Fxl2zMDbek2HsHoXT4i0h6NQRVJZ+q5rqb
+   cvCE+wClFNWoKsXE3Tj1V67KrcWWBq3Zazl1Y25RXCrLAywas3ajtJi2n
+   a9OyUoVAvtwHxeVnbZW8LFcwWxZFT7BjOokeF1d4GT0x/41EHHTulZNnX
+   QdlAXHir1aeQUZK1IASFwAb8k/ByDS/y+HxewBcb6g6iLWkoYtXkDVznE
+   QP7UThjArN3AgZ1wtKayGr11CWlNqD4R0ui2Hb/IpKmHmNYwKc9igqSpR
+   inHi/ob8FcOXfCUwNpqgk6yqiEzKznFOH+GfLrq93f1d5W+8yNwa9932m
+   g==;
+X-CSE-ConnectionGUID: KWy9A60KTQCcn2uVs/dGGQ==
+X-CSE-MsgGUID: WvBoDOjkTJ+tNuezx1Nh2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="66088860"
+X-IronPort-AV: E=Sophos;i="6.16,318,1744095600"; 
+   d="scan'208";a="66088860"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 03:50:23 -0700
+X-CSE-ConnectionGUID: aYNsDDNbQi2fgIziVq4BVw==
+X-CSE-MsgGUID: M2QXAbSGSi+4QAHM4qCNGQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,317,1744095600"; 
-   d="scan'208";a="157735085"
+X-IronPort-AV: E=Sophos;i="6.16,318,1744095600"; 
+   d="scan'208";a="157134978"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 16 Jul 2025 19:11:09 -0700
+  by orviesa006.jf.intel.com with ESMTP; 17 Jul 2025 03:50:24 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucE5S-000D3n-1e;
-	Thu, 17 Jul 2025 02:11:06 +0000
-Date: Thu, 17 Jul 2025 10:10:25 +0800
+	id 1ucMBx-000DXl-0Z;
+	Thu, 17 Jul 2025 10:50:21 +0000
+Date: Thu, 17 Jul 2025 18:49:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 17/17] arm64: tegra: Add support for NVIDIA Shield TV Pro
- 2019
-Message-ID: <202507171017.TTPR8EdF-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 10097/10441] fs/bcachefs/journal_reclaim.c:877
+ journal_flush_done() warn: missing error code? 'ret'
+Message-ID: <202507171850.10rxb3uq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,96 +62,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250714-t210b01-v1-17-e3f5f7de5dce@gmail.com>
-References: <20250714-t210b01-v1-17-e3f5f7de5dce@gmail.com>
-TO: Aaron Kling <webgeek1234@gmail.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Thierry Reding <thierry.reding@gmail.com>
-TO: Jonathan Hunter <jonathanh@nvidia.com>
-TO: Vinod Koul <vkoul@kernel.org>
-TO: Kishon Vijay Abraham I <kishon@kernel.org>
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-TO: Nagarjuna Kristam <nkristam@nvidia.com>
-TO: JC Kuo <jckuo@nvidia.com>
-TO: "Rafael J. Wysocki" <rafael@kernel.org>
-TO: Daniel Lezcano <daniel.lezcano@linaro.org>
-TO: Zhang Rui <rui.zhang@intel.com>
-TO: Lukasz Luba <lukasz.luba@arm.com>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Mathias Nyman <mathias.nyman@intel.com>
-TO: Peter De Schrijver <pdeschrijver@nvidia.com>
-TO: Prashant Gaikwad <pgaikwad@nvidia.com>
-CC: devicetree@vger.kernel.org
-CC: linux-tegra@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-phy@lists.infradead.org
-CC: linux-usb@vger.kernel.org
-CC: linux-pm@vger.kernel.org
-CC: linux-clk@vger.kernel.org
-CC: Aaron Kling <webgeek1234@gmail.com>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-Hi Aaron,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 347e9f5043c89695b01e66b3ed111755afcf1911]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Kling/dt-bindings-arm-tegra-pmc-Document-Tegra210B01/20250715-160630
-base:   347e9f5043c89695b01e66b3ed111755afcf1911
-patch link:    https://lore.kernel.org/r/20250714-t210b01-v1-17-e3f5f7de5dce%40gmail.com
-patch subject: [PATCH 17/17] arm64: tegra: Add support for NVIDIA Shield TV Pro 2019
-:::::: branch date: 2 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e8352908bdcd2d0bcf0aca8c69fae85fd5ea5edb
+commit: 0e1d28c378988f28b773807c00e7f3be40f49bf3 [10097/10441] bcachefs: convert journal_reclaim.c to CLASS/guards
+:::::: branch date: 23 hours ago
 :::::: commit date: 2 days ago
-config: arm64-randconfig-051-20250716 (https://download.01.org/0day-ci/archive/20250717/202507171017.TTPR8EdF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507171017.TTPR8EdF-lkp@intel.com/reproduce)
+config: i386-randconfig-141-20250716 (https://download.01.org/0day-ci/archive/20250717/202507171850.10rxb3uq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507171017.TTPR8EdF-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507171850.10rxb3uq-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /bpmp@70016000: failed to match any schema with compatible: ['nvidia,tegra210-bpmp']
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra210-mc']
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: external-memory-controller@7001b000 (nvidia,tegra210-emc): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra210-emc.yaml#
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra210b01-dfll']
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: usb-phy@7d000000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
-   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
-   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
-   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml#
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /usb-phy@7d000000: failed to match any schema with compatible: ['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy']
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: usb-phy@7d004000 (nvidia,tegra210-usb-phy): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy'] is too long
-   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra124-usb-phy', 'nvidia,tegra114-usb-phy']
-   	'nvidia,tegra210-usb-phy' is not one of ['nvidia,tegra30-usb-phy', 'nvidia,tegra20-usb-phy']
-   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra20-usb-phy.yaml#
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: /usb-phy@7d004000: failed to match any schema with compatible: ['nvidia,tegra210-usb-phy', 'nvidia,tegra30-usb-phy']
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: cpu@0 (arm,cortex-a57): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: cpu@0 (arm,cortex-a57): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm64/boot/dts/nvidia/tegra210b01-p2894-0050-a08.dtb: thermal-zones: mem-thermal:cooling-maps: 'dram-active', 'dram-passive' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+smatch warnings:
+fs/bcachefs/journal_reclaim.c:877 journal_flush_done() warn: missing error code? 'ret'
+
+vim +/ret +877 fs/bcachefs/journal_reclaim.c
+
+35f5197009cae2 Kent Overstreet 2025-01-25  860  
+039fc4c5221f74 Kent Overstreet 2020-05-28  861  static int journal_flush_done(struct journal *j, u64 seq_to_flush,
+039fc4c5221f74 Kent Overstreet 2020-05-28  862  			      bool *did_work)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  863  {
+35f5197009cae2 Kent Overstreet 2025-01-25  864  	int ret = 0;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  865  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  866  	ret = bch2_journal_error(j);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  867  	if (ret)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  868  		return ret;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  869  
+0e1d28c378988f Kent Overstreet 2025-07-14  870  	guard(mutex)(&j->reclaim_lock);
+000de45996c4b0 Kent Overstreet 2019-01-14  871  
+1e690efa72596a Kent Overstreet 2025-02-10  872  	for (int type = JOURNAL_PIN_TYPE_NR - 1;
+1e690efa72596a Kent Overstreet 2025-02-10  873  	     type >= 0;
+1e690efa72596a Kent Overstreet 2025-02-10  874  	     --type)
+1e690efa72596a Kent Overstreet 2025-02-10  875  		if (journal_flush_pins_or_still_flushing(j, seq_to_flush, BIT(type))) {
+35f5197009cae2 Kent Overstreet 2025-01-25  876  			*did_work = true;
+0e1d28c378988f Kent Overstreet 2025-07-14 @877  			return ret;
+35f5197009cae2 Kent Overstreet 2025-01-25  878  		}
+000de45996c4b0 Kent Overstreet 2019-01-14  879  
+a66ff26b0f3118 Kent Overstreet 2023-12-10  880  	if (seq_to_flush > journal_cur_seq(j))
+a66ff26b0f3118 Kent Overstreet 2023-12-10  881  		bch2_journal_entry_close(j);
+a66ff26b0f3118 Kent Overstreet 2023-12-10  882  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  883  	/*
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  884  	 * If journal replay hasn't completed, the unreplayed journal entries
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  885  	 * hold refs on their corresponding sequence numbers
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  886  	 */
+0e1d28c378988f Kent Overstreet 2025-07-14  887  	guard(spinlock)(&j->lock);
+b895c70326aa43 Kent Overstreet 2024-04-30  888  	ret = !test_bit(JOURNAL_replay_done, &j->flags) ||
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  889  		journal_last_seq(j) > seq_to_flush ||
+f0a3a2ccabc5ae Kent Overstreet 2022-02-28  890  		!fifo_used(&j->pin);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  891  	return ret;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  892  }
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  893  
 
 -- 
 0-DAY CI Kernel Test Service
