@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1F5224AFA
-	for <oe-kbuild@lists.linux.dev>; Thu, 17 Jul 2025 20:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4BFA94F
+	for <oe-kbuild@lists.linux.dev>; Thu, 17 Jul 2025 22:23:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752784174; cv=none; b=kLkyTgT8tplvId1u1AP0tW85ZNr3JBJHsPh232siRYoHnOg04yfrLQEuyAGGK6Jqq4lK0t72w5SSWUW0Smc833GiNRYYQI3OGFQRenAvbfm8ioUw2poG/CPKziRqiFooDsDHL59EPi6tRMrI7WauYIGUqU5yTs3Y05sjoK+46xc=
+	t=1752791022; cv=none; b=YemhV9+Imqcf6lSOCeznLwPKI5IPN5mawnpb2uz7Bkk7RiocrFgNNSXESHbgUI8ueVrHx7lioJAXJIf2KSfXyu/HWpnywByqyuuG+xWQeFh+TQ1kkz7vs1nlU1E4uE0L1vvEuxpiYIW8yQftXlMuxis0nMdGognjk00SE87erGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752784174; c=relaxed/simple;
-	bh=UJ5Wx+fcVX5naYGK9btu1aEOrDiX4H3mBs6UIv5EOxI=;
+	s=arc-20240116; t=1752791022; c=relaxed/simple;
+	bh=oS4uWs8fBAJM1cDMFdla4No81TliTbljgtKASb7B9fg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ck7OgqvZf5+DpqtYDT+3NsjJ3DNN56o4uAMD7Z/MuGzqcrX5iuZW79p5qfIr0nPnqTVCVQ+b/xcsAcN0LTMFnQfq+GAlN7YGRQ5ilxsaPkj+LuULxjkc8KEpuP9ZpjpCuFFElf97kOb6zXcXxub4bkxBBC3U1DiRp4H7V9Hzjlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FDxRvqMU; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=timGVkN2B5McCIQGOXExmzzLOSNXnSyL1fUvugYzi8o88NVWa0vDhpEPrOHLulysp2dd56Yr6MsxNRmJJW7nXZVnjK2PZEqDq/d/D3lWvEdav5H9fr2cAlNDLjflIPHEkWM+VHmGOha1OsgfFmuzHvmlnsQijAIitY79QqR0oio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hzBZZC06; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FDxRvqMU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hzBZZC06"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752784172; x=1784320172;
+  t=1752791020; x=1784327020;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UJ5Wx+fcVX5naYGK9btu1aEOrDiX4H3mBs6UIv5EOxI=;
-  b=FDxRvqMU+kzucRnhTrTVqdkwx3KrnVRObkd6OYx8adaevRdjrSbDWWY9
-   IecmzBBB7pKc7ZMaYdItHVWtreHheP56uyRV/MsGyq6nj8WjuapYePTN0
-   qoJjXBZr/YU+cziJgt+Zav5YLLx/XgcyLU97vEEuds23UyDrOayOKVHFx
-   qsB3KBLtuAxW+KvAj4pMGn8M2cqJElxc/87jjHQCwuq5rdcL5edrnLYep
-   G8rGEbVsVRDCffNS0wxhOHT2Eh4i4Y+TBhSbl9y5+fYo8zcv0DdQcnTOP
-   +1qGxez9tQXRHsNUFFep3IzZYMVNMnWtQo3K0xhJgOuefzIqvJQ0oiCfe
+  bh=oS4uWs8fBAJM1cDMFdla4No81TliTbljgtKASb7B9fg=;
+  b=hzBZZC06WaHiSgJPVAeMklzoKrw2FpwbhGcwlC8uustqZ6R6A/cftQYw
+   r9KY7Ygd3XR/TaEaNEJzfCX1yt111dbdPx9rbtrUi3tnrKx39BPa9nFf8
+   CAUEJDQXq27/OXAFjYvu6bRtMzJoMMqE71xFOu8kZt22/eXLev6z+Jzgw
+   /hLleZvtHeyGzCBOCuNXDnWrntPw8jdUutNn58l6f+0AbIGxfQ0GY/OrO
+   BxELr6Dk8BJfO4+eW2xGvvrZaQMJiJzTkkE8i+/TCl1Ls1FV1yULw3VpS
+   j8BR1e1aBmRicuArNDlmlCoXNA/KQYJfZSRmubBKHlpvAweyI1m0wBh+D
    w==;
-X-CSE-ConnectionGUID: 6isJMLw8Ro+RLDPels6ntw==
-X-CSE-MsgGUID: OiU9WmruT9+DL/Brrami5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="55199011"
-X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="55199011"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 13:29:30 -0700
-X-CSE-ConnectionGUID: FNPsICN+QxC0yItJp2547w==
-X-CSE-MsgGUID: vxrQ2FdKR4uzC0mr7ELmwg==
+X-CSE-ConnectionGUID: GG1UJk8GTvmOulEhe9zAQA==
+X-CSE-MsgGUID: 0ARm9RkHQ5u6tsKGkKwuOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="54962789"
+X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; 
+   d="scan'208";a="54962789"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 15:23:40 -0700
+X-CSE-ConnectionGUID: wDp1K8pJRt+tszo406v7FQ==
+X-CSE-MsgGUID: IAPLu/4bSZ+dyigGAMM+SA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="158583076"
+X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; 
+   d="scan'208";a="162188042"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Jul 2025 13:29:28 -0700
+  by orviesa003.jf.intel.com with ESMTP; 17 Jul 2025 15:23:39 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucVEM-000E05-0w;
-	Thu, 17 Jul 2025 20:29:26 +0000
-Date: Fri, 18 Jul 2025 04:29:12 +0800
+	id 1ucX0q-000E49-1w;
+	Thu, 17 Jul 2025 22:23:36 +0000
+Date: Fri, 18 Jul 2025 06:22:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v9 2/2] ARM: dts: aspeed: ventura: add Meta Ventura BMC
-Message-ID: <202507180344.EYoIXU72-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 10555/10823] io_uring/zcrx.c:385
+ io_zcrx_free_area() error: we previously assumed 'area->ifq' could be null
+ (see line 380)
+Message-ID: <202507180628.gBxrOgqr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,78 +63,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250716094329.1069203-3-pkleequanta@gmail.com>
-References: <20250716094329.1069203-3-pkleequanta@gmail.com>
-TO: "P.K. Lee" <pkleequanta@gmail.com>
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: joel@jms.id.au
-TO: andrew@codeconstruct.com.au
-TO: devicetree@vger.kernel.org
-TO: linux-arm-kernel@lists.infradead.org
-TO: linux-aspeed@lists.ozlabs.org
-TO: linux-kernel@vger.kernel.org
-TO: patrick@stwcx.xyz
-CC: Jerry.Lin@quantatw.com
-CC: Jason-Hsu@quantatw.com
-CC: yang.chen@quantatw.com
-CC: p.k.lee@quantatw.com
+TO: Pavel Begunkov <asml.silence@gmail.com>
+CC: Jens Axboe <axboe@kernel.dk>
 
-Hi Lee,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.16-rc6]
-[cannot apply to next-20250717]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/P-K-Lee/dt-bindings-arm-aspeed-add-Meta-Ventura-board/20250716-174440
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250716094329.1069203-3-pkleequanta%40gmail.com
-patch subject: [PATCH v9 2/2] ARM: dts: aspeed: ventura: add Meta Ventura BMC
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
-config: arm-randconfig-052-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180344.EYoIXU72-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507180344.EYoIXU72-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
+commit: 262ab205180d2ba3ab6110899a4dbe439c51dfaa [10555/10823] io_uring/zcrx: account area memory
+:::::: branch date: 13 hours ago
+:::::: commit date: 24 hours ago
+config: x86_64-randconfig-161-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180628.gBxrOgqr-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507180344.EYoIXU72-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507180628.gBxrOgqr-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/bus@1e78a000/i2c@200/i2c-mux@77/i2c@5/pwm@20: failed to match any schema with compatible: ['max31790']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/bus@1e78a000/i2c@400/ipmb@10: failed to match any schema with compatible: ['ipmb-dev']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/bus@1e78a000/i2c@580/power-monitor@69: failed to match any schema with compatible: ['pmbus']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: fsi@1e79b000 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: fsi@1e79b100 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
+smatch warnings:
+io_uring/zcrx.c:385 io_zcrx_free_area() error: we previously assumed 'area->ifq' could be null (see line 380)
+
+vim +385 io_uring/zcrx.c
+
+6f377873cb2390 David Wei      2025-02-14  377  
+cf96310c5f9a0d David Wei      2025-02-14  378  static void io_zcrx_free_area(struct io_zcrx_area *area)
+cf96310c5f9a0d David Wei      2025-02-14  379  {
+0ec33c81d9c734 Pavel Begunkov 2025-05-27 @380  	if (area->ifq)
+db070446f5af8c Pavel Begunkov 2025-02-14  381  		io_zcrx_unmap_area(area->ifq, area);
+782dfa329ac9d1 Pavel Begunkov 2025-05-01  382  	io_release_area_mem(&area->mem);
+db070446f5af8c Pavel Begunkov 2025-02-14  383  
+262ab205180d2b Pavel Begunkov 2025-07-16  384  	if (area->mem.account_pages)
+262ab205180d2b Pavel Begunkov 2025-07-16 @385  		io_unaccount_mem(area->ifq->ctx, area->mem.account_pages);
+262ab205180d2b Pavel Begunkov 2025-07-16  386  
+cf96310c5f9a0d David Wei      2025-02-14  387  	kvfree(area->freelist);
+cf96310c5f9a0d David Wei      2025-02-14  388  	kvfree(area->nia.niovs);
+34a3e60821ab9f Pavel Begunkov 2025-02-14  389  	kvfree(area->user_refs);
+cf96310c5f9a0d David Wei      2025-02-14  390  	kfree(area);
+cf96310c5f9a0d David Wei      2025-02-14  391  }
+cf96310c5f9a0d David Wei      2025-02-14  392  
 
 -- 
 0-DAY CI Kernel Test Service
