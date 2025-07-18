@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4BFA94F
-	for <oe-kbuild@lists.linux.dev>; Thu, 17 Jul 2025 22:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F037D515
+	for <oe-kbuild@lists.linux.dev>; Fri, 18 Jul 2025 01:03:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752791022; cv=none; b=YemhV9+Imqcf6lSOCeznLwPKI5IPN5mawnpb2uz7Bkk7RiocrFgNNSXESHbgUI8ueVrHx7lioJAXJIf2KSfXyu/HWpnywByqyuuG+xWQeFh+TQ1kkz7vs1nlU1E4uE0L1vvEuxpiYIW8yQftXlMuxis0nMdGognjk00SE87erGI=
+	t=1752800616; cv=none; b=I6+rWCNaluQCseAFLErCCV1unapKRiRyzKKXqf2UflTUQ/NCFfNtFXJcLJsFimvRa2i+XIqWR4UT5bHB5Hqf66O54kYbhWOsgI7ZcRQek6Oa6QQ+MUxIAcJhUxpvFI8WpSQLETH4tYZW4eR+074s+P1A/GgZ1QMCJi6lU0mUD9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752791022; c=relaxed/simple;
-	bh=oS4uWs8fBAJM1cDMFdla4No81TliTbljgtKASb7B9fg=;
+	s=arc-20240116; t=1752800616; c=relaxed/simple;
+	bh=PtJZ19qHLI4XJbbb1L22dyWSb4oW8BADFErHLgOziWE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=timGVkN2B5McCIQGOXExmzzLOSNXnSyL1fUvugYzi8o88NVWa0vDhpEPrOHLulysp2dd56Yr6MsxNRmJJW7nXZVnjK2PZEqDq/d/D3lWvEdav5H9fr2cAlNDLjflIPHEkWM+VHmGOha1OsgfFmuzHvmlnsQijAIitY79QqR0oio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hzBZZC06; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=YFarqNy51DhZWA2hQhE5X2FKt5xrN/xBKFCI8hKhD4OojjxpwcNLdmAVMN8oCFSoQHcb0HdpOpcPOclGvEBhlAAwwprVO7FKeFf8qDHgpOswkoBpYmqtvelHTSRnX2mSZN6t8K+9pOvRGhx/aoSxqSOxRnF0MV2cU+KoBNaspuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M7eiGpPj; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hzBZZC06"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M7eiGpPj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752791020; x=1784327020;
+  t=1752800614; x=1784336614;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oS4uWs8fBAJM1cDMFdla4No81TliTbljgtKASb7B9fg=;
-  b=hzBZZC06WaHiSgJPVAeMklzoKrw2FpwbhGcwlC8uustqZ6R6A/cftQYw
-   r9KY7Ygd3XR/TaEaNEJzfCX1yt111dbdPx9rbtrUi3tnrKx39BPa9nFf8
-   CAUEJDQXq27/OXAFjYvu6bRtMzJoMMqE71xFOu8kZt22/eXLev6z+Jzgw
-   /hLleZvtHeyGzCBOCuNXDnWrntPw8jdUutNn58l6f+0AbIGxfQ0GY/OrO
-   BxELr6Dk8BJfO4+eW2xGvvrZaQMJiJzTkkE8i+/TCl1Ls1FV1yULw3VpS
-   j8BR1e1aBmRicuArNDlmlCoXNA/KQYJfZSRmubBKHlpvAweyI1m0wBh+D
+  bh=PtJZ19qHLI4XJbbb1L22dyWSb4oW8BADFErHLgOziWE=;
+  b=M7eiGpPjHkU1qCwdduUZrLqrUqPMC2BpnQAE+EyG6O492LCifeu9jqbK
+   /Ti6eFTtJf6nhnvVbVlBxDtlwMX4C/nQCKtSLj4mjU0X1cvk/ZU/T5uzN
+   onaJHHxJwaLfmX7DORmh1jwvMPHW0lleitdcGeOLYHqF1ucLWeNDl8GW7
+   gNsH8+yLP3cDnHuulk+RShYzdfKI3snegIDHdflVHmNMIUKQyXrCuQKi8
+   bVhDhKWajGIudnMEaNreMTf34ftzvVyN63xJ7iQIL7h0J5uC9cEdnVnw7
+   MA4Xi02NFhPMKoEG9lPRkz6Rg6rXG1D7JN2hYQcpMk40cxC6ki2XaK8r0
    w==;
-X-CSE-ConnectionGUID: GG1UJk8GTvmOulEhe9zAQA==
-X-CSE-MsgGUID: 0ARm9RkHQ5u6tsKGkKwuOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="54962789"
+X-CSE-ConnectionGUID: vLygtppGQ5u79YtL1xAFRg==
+X-CSE-MsgGUID: YavEL5YKQn2gEDL1eYOyVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="72544076"
 X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; 
-   d="scan'208";a="54962789"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 15:23:40 -0700
-X-CSE-ConnectionGUID: wDp1K8pJRt+tszo406v7FQ==
-X-CSE-MsgGUID: IAPLu/4bSZ+dyigGAMM+SA==
+   d="scan'208";a="72544076"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 18:03:33 -0700
+X-CSE-ConnectionGUID: rCPq4ZGTSamWWkPAgqnHEw==
+X-CSE-MsgGUID: Z/sENuYxRcyC45TmWHD4zQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; 
-   d="scan'208";a="162188042"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Jul 2025 15:23:39 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+   d="scan'208";a="163569703"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8b57277650df) ([10.91.175.65])
+  by orviesa005.jf.intel.com with ESMTP; 17 Jul 2025 18:03:33 -0700
+Received: from kbuild by 8b57277650df with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucX0q-000E49-1w;
-	Thu, 17 Jul 2025 22:23:36 +0000
-Date: Fri, 18 Jul 2025 06:22:56 +0800
+	id 1ucZVa-0000oX-1L;
+	Fri, 18 Jul 2025 01:03:30 +0000
+Date: Fri, 18 Jul 2025 03:02:41 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 10555/10823] io_uring/zcrx.c:385
- io_zcrx_free_area() error: we previously assumed 'area->ifq' could be null
- (see line 380)
-Message-ID: <202507180628.gBxrOgqr-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [robh:imx93-ethos-v2 1/49]
+ arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dtb: sram@20480000 (mmio-sram):
+ '#size-cells' is a required property
+Message-ID: <202507180325.OnZqDcaN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,46 +63,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Pavel Begunkov <asml.silence@gmail.com>
-CC: Jens Axboe <axboe@kernel.dk>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
-commit: 262ab205180d2ba3ab6110899a4dbe439c51dfaa [10555/10823] io_uring/zcrx: account area memory
-:::::: branch date: 13 hours ago
-:::::: commit date: 24 hours ago
-config: x86_64-randconfig-161-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180628.gBxrOgqr-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git imx93-ethos-v2
+head:   b81e8ee214f77950479c304b6ca560903de46c7c
+commit: 1f35d31a5ed42adab761956e74307404cac1dedb [1/49] arm64: dts: imx93: Add Ethos-U65 NPU node
+:::::: branch date: 2 days ago
+:::::: commit date: 4 weeks ago
+config: arm64-randconfig-2052-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180325.OnZqDcaN-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507180325.OnZqDcaN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507180628.gBxrOgqr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507180325.OnZqDcaN-lkp@intel.com/
 
-smatch warnings:
-io_uring/zcrx.c:385 io_zcrx_free_area() error: we previously assumed 'area->ifq' could be null (see line 380)
-
-vim +385 io_uring/zcrx.c
-
-6f377873cb2390 David Wei      2025-02-14  377  
-cf96310c5f9a0d David Wei      2025-02-14  378  static void io_zcrx_free_area(struct io_zcrx_area *area)
-cf96310c5f9a0d David Wei      2025-02-14  379  {
-0ec33c81d9c734 Pavel Begunkov 2025-05-27 @380  	if (area->ifq)
-db070446f5af8c Pavel Begunkov 2025-02-14  381  		io_zcrx_unmap_area(area->ifq, area);
-782dfa329ac9d1 Pavel Begunkov 2025-05-01  382  	io_release_area_mem(&area->mem);
-db070446f5af8c Pavel Begunkov 2025-02-14  383  
-262ab205180d2b Pavel Begunkov 2025-07-16  384  	if (area->mem.account_pages)
-262ab205180d2b Pavel Begunkov 2025-07-16 @385  		io_unaccount_mem(area->ifq->ctx, area->mem.account_pages);
-262ab205180d2b Pavel Begunkov 2025-07-16  386  
-cf96310c5f9a0d David Wei      2025-02-14  387  	kvfree(area->freelist);
-cf96310c5f9a0d David Wei      2025-02-14  388  	kvfree(area->nia.niovs);
-34a3e60821ab9f Pavel Begunkov 2025-02-14  389  	kvfree(area->user_refs);
-cf96310c5f9a0d David Wei      2025-02-14  390  	kfree(area);
-cf96310c5f9a0d David Wei      2025-02-14  391  }
-cf96310c5f9a0d David Wei      2025-02-14  392  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dts:247.10-258.6: Warning (graph_child_address): /soc@0/bus@44000000/i2c@44340000/tcpc@50/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dtb: sram@20480000 (mmio-sram): '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dtb: sram@20480000 (mmio-sram): '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dtb: sram@20480000 (mmio-sram): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dtb: /soc@0/npu@4a900000: failed to match any schema with compatible: ['arm,ethos-u65']
+--
+   arch/arm64/boot/dts/freescale/imx93-11x11-evk.dts:430.10-441.6: Warning (graph_child_address): /soc@0/bus@42000000/i2c@42530000/tcpc@50/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/freescale/imx93-11x11-evk.dts:463.10-474.6: Warning (graph_child_address): /soc@0/bus@42000000/i2c@42530000/tcpc@51/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/freescale/imx93-11x11-evk.dtb: sram@20480000 (mmio-sram): '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-11x11-evk.dtb: sram@20480000 (mmio-sram): '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-11x11-evk.dtb: sram@20480000 (mmio-sram): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-11x11-evk.dtb: /soc@0/npu@4a900000: failed to match any schema with compatible: ['arm,ethos-u65']
+--
+   arch/arm64/boot/dts/freescale/imx93-14x14-evk.dtb: sram@20480000 (mmio-sram): '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-14x14-evk.dtb: sram@20480000 (mmio-sram): '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-14x14-evk.dtb: sram@20480000 (mmio-sram): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-14x14-evk.dtb: /soc@0/npu@4a900000: failed to match any schema with compatible: ['arm,ethos-u65']
+--
+   arch/arm64/boot/dts/freescale/imx93-kontron-bl-osm-s.dtb: sram@20480000 (mmio-sram): '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-kontron-bl-osm-s.dtb: sram@20480000 (mmio-sram): '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-kontron-bl-osm-s.dtb: sram@20480000 (mmio-sram): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-kontron-bl-osm-s.dtb: /soc@0/npu@4a900000: failed to match any schema with compatible: ['arm,ethos-u65']
+--
+   arch/arm64/boot/dts/freescale/imx93-phyboard-nash.dtb: sram@20480000 (mmio-sram): '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-phyboard-nash.dtb: sram@20480000 (mmio-sram): '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-phyboard-nash.dtb: sram@20480000 (mmio-sram): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-phyboard-nash.dtb: /soc@0/npu@4a900000: failed to match any schema with compatible: ['arm,ethos-u65']
+--
+   arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: sram@20480000 (mmio-sram): '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: sram@20480000 (mmio-sram): '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: sram@20480000 (mmio-sram): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: /soc@0/npu@4a900000: failed to match any schema with compatible: ['arm,ethos-u65']
+--
+>> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca.dtb: sram@20480000 (mmio-sram): '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca.dtb: sram@20480000 (mmio-sram): '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca.dtb: sram@20480000 (mmio-sram): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca.dtb: /soc@0/npu@4a900000: failed to match any schema with compatible: ['arm,ethos-u65']
+--
+   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca.dtb: sram@20480000 (mmio-sram): '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca.dtb: sram@20480000 (mmio-sram): '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca.dtb: sram@20480000 (mmio-sram): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca.dtb: /soc@0/npu@4a900000: failed to match any schema with compatible: ['arm,ethos-u65']
+--
+   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla.dts:458.9-469.5: Warning (graph_child_address): /soc@0/bus@42000000/i2c@426b0000/dp-bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla.dtb: sram@20480000 (mmio-sram): '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla.dtb: sram@20480000 (mmio-sram): '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla.dtb: sram@20480000 (mmio-sram): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla.dtb: /soc@0/npu@4a900000: failed to match any schema with compatible: ['arm,ethos-u65']
+--
+   arch/arm64/boot/dts/freescale/imx93-var-som-symphony.dtb: sram@20480000 (mmio-sram): '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-var-som-symphony.dtb: sram@20480000 (mmio-sram): '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-var-som-symphony.dtb: sram@20480000 (mmio-sram): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-var-som-symphony.dtb: /soc@0/npu@4a900000: failed to match any schema with compatible: ['arm,ethos-u65']
+--
+>> arch/arm64/boot/dts/freescale/imx93-9x9-qsb-i3c.dtb: sram@20480000 (mmio-sram): '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-9x9-qsb-i3c.dtb: sram@20480000 (mmio-sram): '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-i3c.dtb: sram@20480000 (mmio-sram): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-i3c.dtb: /soc@0/npu@4a900000: failed to match any schema with compatible: ['arm,ethos-u65']
 
 -- 
 0-DAY CI Kernel Test Service
