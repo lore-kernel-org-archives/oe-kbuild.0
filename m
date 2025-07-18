@@ -1,70 +1,61 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769C3145A1F
-	for <oe-kbuild@lists.linux.dev>; Fri, 18 Jul 2025 01:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E732BA27
+	for <oe-kbuild@lists.linux.dev>; Fri, 18 Jul 2025 03:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752803788; cv=none; b=okaLgg1/wIYwYqydqHf6hZdlSotV+m/BN4l0JV+LN26eS+WHJqvvVUQ3o1n/byTtl4oY2cx5p5bLxCU/hdQ++ZfdqQ/BybmBzDtSaAEtTheNrJNzEvc7fLrHSuyweIQ1YR5vE3AnlUPoSMohlToDYcbAaM8suXCVS4ZgT5Cl5Lw=
+	t=1752808784; cv=none; b=hKmcG0Ex36b0euEda/AIz4kp1Rq0X70bzUoeWzUW7GomSNkon4Grl1fXE+kkvKuKDmW51KTSuGeWnlYickSvsTkV2vGqitO6ryNQD0ppY+iv8QVGueB+0NPCEuIAw65jkskOaTXl5khR8BbeDo13/cIDqfzZpAThs434Quo9BDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752803788; c=relaxed/simple;
-	bh=quAYO0IslRfjqgKElHOFH14nBNPcPgnK44K4dVwjZOI=;
+	s=arc-20240116; t=1752808784; c=relaxed/simple;
+	bh=P9+0LnGFYuXWXIYTlsW4JtZB+NHMvbI49XjKtWv6CqM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YXBB6Pw6+zOhT5G2kvIML2QQejMra/S3Z7vFLVuvr+hCVbLC+n1LY9dtkID8lg9pJiQiXhO94Hl1SkNzaM1hx0MS4db0hgqmr76HSbBcK+IwjqIveRSoybpewBxB38sG/fkOe5vk/6U0hbS773CoxdCQAnoGI7SkzL3ywWk7dq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=az+ZUDVb; arc=none smtp.client-ip=209.85.161.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Cr9pMRJ5u0hGD+ZAOQW91ncys5KyHG1S8fSqOgV5hkrpsglC8zu6D6/TBN3VyNbObGQghnWJrngGw7VEO66Xww4TXnGe1CypWaAPCI8w5fqAPXvBcyVy2yaGaLpOy88LfBt0mS2quPhSxFxaJFCELI8YWdf+x6PPIgJayYq1N/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TwZN28vO; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="az+ZUDVb"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-61593d5f92bso888425eaf.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 17 Jul 2025 18:56:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752803785; x=1753408585; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fO3BAJqBnEaDNYRieqyNWfhvX+qq7zVCYvlmIioIH+0=;
-        b=az+ZUDVbiraTPL8qQ8JfLPSbQ3yWkt3uHa4pIqd16uNrR+mx0dvzWSIbpx5+9RyKzW
-         CWboAWBi9B3q2VK7WiNdPef8XAJLfe5SyuAvLUQBrunjaDBFZR6bK+ix9GQU4auoFb19
-         SUtB6x+NT4asJudlirSFfga9fCUbdEAOw34OXmBYpKN4z0wf1cUdokp1pm+W032iPGxX
-         kT6WT/t/JQLv+v5mMcvGbazDLgIFA/7QaBYmMTvmn0P+4/3YvrriDDonaAUvpJsM1r36
-         ZU1znEiFMuo1vmuwdDVtoA/y82JUlLB8EYqyoQ819QIF3NH8/W9aH+s/G/1JZ6Pt+K2T
-         SHIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752803785; x=1753408585;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fO3BAJqBnEaDNYRieqyNWfhvX+qq7zVCYvlmIioIH+0=;
-        b=YvJA6lKExra+0kGlJu+Uk7P0cUE/KQWHpJYBVvIpX0sN51LNPpPyTQH0njLXbNCgQk
-         j9F+gjPYOkk60OUOZmc+zSW3aCgk8WQB55rsm+gCrXT0OIBw4XUcaElyhsRRqcaJ9r9w
-         kkNvk24/RiYcj8CPO3CmFcrVd5UZL++S5f/qEy7s1xzM+OSTolfK7v/oK+ffcbL93D2w
-         7xtxsBcGpqYdzxqtQEfrGdPfS5N3pAry+7zmj8tJRPxKtfEJbSQlQMdeaScaICLgOqYx
-         FxjopKiDOcLTefyRZPfkkTomtz7BL+6GfXDmXPAs7DI+iX6IlMvfSTz8C1n3/Vr8AFrK
-         i5yA==
-X-Gm-Message-State: AOJu0YwzwmBylBU11F6dek2qf8nvdUsuXdu1ixszWUVW8AbY0I3Wd86u
-	1DZWEuFdEOm79NR7VqIzGK58XsHK3a6Qg480JAiGfce1UcgbF/onYACgxNI5zJl/glmGIKgOdwj
-	gVQmz
-X-Gm-Gg: ASbGncsVpmF7fX+gWjpJyRNfzkW9fCe1lwcdf/Hd8K4sqj7StSc8tYl+yRfw0/T6bfN
-	TGuZc+sKzRJvn/RqlcDz1SV6dmABU8OFC9+plJVmTEymnQWRaM512oEQYrC0OxL5GtBrtmF21ZN
-	egaBLXD+JD3Kic9V4fWQzGn1Y8CwyOQYvFuXgyWU1NggsY55U8fYRKvoap0FCa+xIHKOYwm+dyc
-	EFngVbAj3FIS6KpCzcbY2pzxF4CxeovkpVZgFAteB0Iw6OLjuI3phr8pX0j7Pw+btGOUbMPDrdj
-	VooxU1u38cQjU0+2uKkoCkHhDndYUFk9aBdyra3SWUcYTzb6lIxGaobvqDEo1scVXRGdG8skOP8
-	a4Vt+uiigkC/0D4rjKSWoDpUAMmr8
-X-Google-Smtp-Source: AGHT+IHdvePjkbGrc4fHsRSW0DkuBczzR5AniNwIbs7HoS/t+xfZWroitDzOx/kPfUw49uOhvzQOOg==
-X-Received: by 2002:a05:6820:2702:b0:611:3e54:8d0a with SMTP id 006d021491bc7-615acc319a6mr3839050eaf.1.1752803784936;
-        Thu, 17 Jul 2025 18:56:24 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:2c38:70d4:43e:b901])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-615bcc8c21fsm88647eaf.18.2025.07.17.18.56.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 18:56:24 -0700 (PDT)
-Date: Fri, 18 Jul 2025 04:56:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>
-Subject: [linux-next:master 10555/10823] io_uring/zcrx.c:385
- io_zcrx_free_area() error: we previously assumed 'area->ifq' could be null
- (see line 380)
-Message-ID: <f07001e5-021c-4695-8116-07b1a71665fb@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TwZN28vO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752808782; x=1784344782;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=P9+0LnGFYuXWXIYTlsW4JtZB+NHMvbI49XjKtWv6CqM=;
+  b=TwZN28vOoOaxn972Quqfm6odkVNzJOjhi68drO3PVSQX9nbON/lRDzJ4
+   conyW50G3FHdmjl8Y5U2I4Ke+sFlIpPh7y5sfsgaMuHPPw4iVUNnZVWiD
+   ByZDUu+l0jIPDMMwttGsF0+CD7sCWWeQYPjcimzmWNIhAvtdWD1ptotRr
+   +XpV0W70nRh8dD/znml6KjBsAmrVdj+uvQ1KZsTNggzKGYVJICvVcb2u2
+   bbyWfacZcYfDgry1Qf29xkiiZWPzfxGgRvhkavJgj0FuP444gszhhNprH
+   vQA3wPW8RRSYXGVx4Yup+ZSB8dceGMgZ+0mhHW+T8XbR/4RCn/vUirzmg
+   A==;
+X-CSE-ConnectionGUID: gSfMbhDdSW2D5ZEAUBRa2Q==
+X-CSE-MsgGUID: VjwEef1QRu2KBxi1cI9Z5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="58910468"
+X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; 
+   d="scan'208";a="58910468"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 20:19:40 -0700
+X-CSE-ConnectionGUID: 228XQa9rR9OR6sPuQi1dwA==
+X-CSE-MsgGUID: CVkOsVEoS52wSzXC6xXkQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; 
+   d="scan'208";a="158072553"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8b57277650df) ([10.91.175.65])
+  by fmviesa006.fm.intel.com with ESMTP; 17 Jul 2025 20:19:40 -0700
+Received: from kbuild by 8b57277650df with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ucbdJ-0000pl-2h;
+	Fri, 18 Jul 2025 03:19:37 +0000
+Date: Fri, 18 Jul 2025 05:18:48 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [robh:imx93-ethos-v2 4/49]
+ arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts:298.10-309.6: Warning
+ (graph_child_address):
+ /soc@0/bus@42000000/i2c@42530000/tcpc@50/connector/ports: graph node has
+ single child node 'port@0', #address-cells/#size-cells are not necessary
+Message-ID: <202507180533.syTvejLp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -74,45 +65,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
-commit: 262ab205180d2ba3ab6110899a4dbe439c51dfaa [10555/10823] io_uring/zcrx: account area memory
-config: x86_64-randconfig-161-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180628.gBxrOgqr-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Fabian Pflug <f.pflug@pengutronix.de>
+CC: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git imx93-ethos-v2
+head:   b81e8ee214f77950479c304b6ca560903de46c7c
+commit: ab8d0290a971b84a8c79e92b987cdb5ceb04d003 [4/49] arm64: dts: freescale: add support for NXP i.MX93 FRDM
+:::::: branch date: 2 days ago
+:::::: commit date: 4 weeks ago
+config: arm64-randconfig-2052-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180533.syTvejLp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507180533.syTvejLp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202507180628.gBxrOgqr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507180533.syTvejLp-lkp@intel.com/
 
-smatch warnings:
-io_uring/zcrx.c:385 io_zcrx_free_area() error: we previously assumed 'area->ifq' could be null (see line 380)
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts:298.10-309.6: Warning (graph_child_address): /soc@0/bus@42000000/i2c@42530000/tcpc@50/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: / (fsl,imx93-11x11-frdm): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx93-11x11-frdm', 'fsl,imx93'] is too short
+>> 	arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: / (fsl,imx93-11x11-frdm): compatible: 'oneOf' conditional failed, one must be fixed:
+   		['fsl,imx93-11x11-frdm', 'fsl,imx93'] is too short
+   		'fsl,imx93-11x11-frdm' is not one of ['tq,imx8dxp-tqma8xdp-mba8xx']
+   		'fsl,imx93-11x11-frdm' is not one of ['tq,imx8qxp-tqma8xqp-mba8xx']
+   		'tq,imx8dxp-tqma8xdp' was expected
+   		'tq,imx8qxp-tqma8xqp' was expected
+>> 	arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: / (fsl,imx93-11x11-frdm): compatible: 'oneOf' conditional failed, one must be fixed:
+   		['fsl,imx93-11x11-frdm', 'fsl,imx93'] is too short
+   		'fsl,imx93-11x11-frdm' is not one of ['tq,imx8qxp-tqma8xqps-mb-smarc-2']
+   		'fsl,imx93-11x11-frdm' is not one of ['tq,imx8dxp-tqma8xdps-mb-smarc-2']
+   		'tq,imx8qxp-tqma8xqps' was expected
+   		'tq,imx8dxp-tqma8xdps' was expected
+   	['fsl,imx93-11x11-frdm', 'fsl,imx93'] is too long
+   	'fsl,imx93-11x11-frdm' is not one of ['armadeus,imx1-apf9328', 'fsl,imx1ads']
+   	'fsl,imx93-11x11-frdm' is not one of ['creative,x-fi3', 'fsl,imx23-evk', 'fsl,stmp378x-devb', 'olimex,imx23-olinuxino', 'sandisk,sansa_fuze_plus']
+   	'fsl,imx93-11x11-frdm' is not one of ['fsl,imx25-pdk', 'karo,imx25-tx25']
+   	'fsl,imx93-11x11-frdm' is not one of ['eukrea,mbimxsd25-baseboard']
+--
+   	'fsl,ls2088a' was expected
+   	'fsl,lx2160a' was expected
+   	'solidrun,lx2160a-cex7' was expected
+   	'solidrun,lx2162a-som' was expected
+   	'tq,lx2160a-tqmlx2160a' was expected
+   	'nxp,s32g2' was expected
+   	'nxp,s32g3' was expected
+   	'fsl,s32v234' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml#
+   arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: /: failed to match any schema with compatible: ['fsl,imx93-11x11-frdm', 'fsl,imx93']
+>> arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: sram@20480000 (mmio-sram): '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: sram@20480000 (mmio-sram): '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: sram@20480000 (mmio-sram): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: /soc@0/npu@4a900000: failed to match any schema with compatible: ['arm,ethos-u65']
 
-vim +385 io_uring/zcrx.c
+vim +298 arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts
 
-cf96310c5f9a0d David Wei      2025-02-14  378  static void io_zcrx_free_area(struct io_zcrx_area *area)
-cf96310c5f9a0d David Wei      2025-02-14  379  {
-0ec33c81d9c734 Pavel Begunkov 2025-05-27 @380  	if (area->ifq)
-                                                    ^^^^^^^^^
-This line assumes that area->ifq can be NULL
-
-db070446f5af8c Pavel Begunkov 2025-02-14  381  		io_zcrx_unmap_area(area->ifq, area);
-782dfa329ac9d1 Pavel Begunkov 2025-05-01  382  	io_release_area_mem(&area->mem);
-db070446f5af8c Pavel Begunkov 2025-02-14  383  
-262ab205180d2b Pavel Begunkov 2025-07-16  384  	if (area->mem.account_pages)
-262ab205180d2b Pavel Begunkov 2025-07-16 @385  		io_unaccount_mem(area->ifq->ctx, area->mem.account_pages);
-                                                                         ^^^^^^^^^^^
-But here it's dereferenced without checking
-
-262ab205180d2b Pavel Begunkov 2025-07-16  386  
-cf96310c5f9a0d David Wei      2025-02-14  387  	kvfree(area->freelist);
-cf96310c5f9a0d David Wei      2025-02-14  388  	kvfree(area->nia.niovs);
-34a3e60821ab9f Pavel Begunkov 2025-02-14  389  	kvfree(area->user_refs);
-cf96310c5f9a0d David Wei      2025-02-14  390  	kfree(area);
-cf96310c5f9a0d David Wei      2025-02-14  391  }
+ab8d0290a971b8 Fabian Pflug 2025-05-26  271  
+ab8d0290a971b8 Fabian Pflug 2025-05-26  272  &lpi2c3 {
+ab8d0290a971b8 Fabian Pflug 2025-05-26  273  	#address-cells = <1>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  274  	#size-cells = <0>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  275  	clock-frequency = <400000>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  276  	pinctrl-0 = <&pinctrl_lpi2c3>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  277  	pinctrl-names = "default";
+ab8d0290a971b8 Fabian Pflug 2025-05-26  278  	status = "okay";
+ab8d0290a971b8 Fabian Pflug 2025-05-26  279  
+ab8d0290a971b8 Fabian Pflug 2025-05-26  280  	ptn5110: tcpc@50 {
+ab8d0290a971b8 Fabian Pflug 2025-05-26  281  		compatible = "nxp,ptn5110", "tcpci";
+ab8d0290a971b8 Fabian Pflug 2025-05-26  282  		reg = <0x50>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  283  		interrupt-parent = <&gpio3>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  284  		interrupts = <27 IRQ_TYPE_LEVEL_LOW>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  285  
+ab8d0290a971b8 Fabian Pflug 2025-05-26  286  		typec1_con: connector {
+ab8d0290a971b8 Fabian Pflug 2025-05-26  287  			compatible = "usb-c-connector";
+ab8d0290a971b8 Fabian Pflug 2025-05-26  288  			data-role = "dual";
+ab8d0290a971b8 Fabian Pflug 2025-05-26  289  			label = "USB-C";
+ab8d0290a971b8 Fabian Pflug 2025-05-26  290  			op-sink-microwatt = <15000000>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  291  			power-role = "dual";
+ab8d0290a971b8 Fabian Pflug 2025-05-26  292  			self-powered;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  293  			sink-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)
+ab8d0290a971b8 Fabian Pflug 2025-05-26  294  				     PDO_VAR(5000, 20000, 3000)>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  295  			source-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  296  			try-power-role = "sink";
+ab8d0290a971b8 Fabian Pflug 2025-05-26  297  
+ab8d0290a971b8 Fabian Pflug 2025-05-26 @298  			ports {
+ab8d0290a971b8 Fabian Pflug 2025-05-26  299  				#address-cells = <1>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  300  				#size-cells = <0>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  301  
+ab8d0290a971b8 Fabian Pflug 2025-05-26  302  				port@0 {
+ab8d0290a971b8 Fabian Pflug 2025-05-26  303  					reg = <0>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  304  
+ab8d0290a971b8 Fabian Pflug 2025-05-26  305  					typec1_dr_sw: endpoint {
+ab8d0290a971b8 Fabian Pflug 2025-05-26  306  						remote-endpoint = <&usb1_drd_sw>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  307  					};
+ab8d0290a971b8 Fabian Pflug 2025-05-26  308  				};
+ab8d0290a971b8 Fabian Pflug 2025-05-26  309  			};
+ab8d0290a971b8 Fabian Pflug 2025-05-26  310  		};
+ab8d0290a971b8 Fabian Pflug 2025-05-26  311  	};
+ab8d0290a971b8 Fabian Pflug 2025-05-26  312  
+ab8d0290a971b8 Fabian Pflug 2025-05-26  313  	pcf2131: rtc@53 {
+ab8d0290a971b8 Fabian Pflug 2025-05-26  314  		compatible = "nxp,pcf2131";
+ab8d0290a971b8 Fabian Pflug 2025-05-26  315  		reg = <0x53>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  316  		interrupt-parent = <&pcal6524>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  317  		interrupts = <1 IRQ_TYPE_EDGE_FALLING>;
+ab8d0290a971b8 Fabian Pflug 2025-05-26  318  	};
+ab8d0290a971b8 Fabian Pflug 2025-05-26  319  };
+ab8d0290a971b8 Fabian Pflug 2025-05-26  320  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
