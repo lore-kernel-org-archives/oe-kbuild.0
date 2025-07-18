@@ -1,119 +1,206 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BB042A82;
-	Fri, 18 Jul 2025 08:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB72B1EEA55
+	for <oe-kbuild@lists.linux.dev>; Fri, 18 Jul 2025 09:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752828919; cv=none; b=hL0gJGah2pbBFAeWqtrPLTauknJ+yOpnED7hShyosgMmy664mVKALa1GNOGI6b9RIkeZoD5ct8KZJ1zz3GT/bqrZ20LgU3yhz2RSiC/SuEORm8ARxTePMpsQAKYusnnY2xMxcVA7I3ljLs61DLi+aPR09b8vdddNvTsJGO2Aw8U=
+	t=1752832492; cv=none; b=BmjaOrCaA86JVZZTjqjZkZRYMzXzRie90LoIFg7R4ynVTl/u0i0g1k+SfGTt//TPAm83X5ZlPW+YfAAst5B/Xf4Qd2DyqW7UKU4Q75Xj+Ca9pr7C/mTuxZdrxJ+B6GHCLZw7aLUlw7CjfNbKRb9e+e5wH15cX7OOE2fEikKNwzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752828919; c=relaxed/simple;
-	bh=hRHAiBxFVfjY2lRKKd3/1EimYY/WbAsY5SdTbUgd83U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VN6Fms9N5cWUZ/M/zKGZ7Wd55BcZ72fjUJz1yaYOq4hoh0pKvyjCMWeCUf7t6O9Pr1Xyppx91/hCQrahlE6rUrXBsNqOALfE1DlXvng6DudNZ4E0Ty5x3BQu2eBtDwBS5h08Mls+xEI0d/wG5QP5kRUaKhEgMg8QHgnMZRIszy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L8KI+9YP; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752832492; c=relaxed/simple;
+	bh=gJQfC94CHqlsb7eqlZO+1VGHFNwyzEyhZy4i9GfE8K4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ihREvZ5/08XLtCfjR4MYheLON21vfwbJXNbWXVDiktiAfQU6qnCZBd41/ez3nhTdO2njCE+9qQO60WfNVcrEO87IoYVSaiCDa0Kba3AmWD5jGGfoI4bApu29OVgxfWgyRLw1Lwxt/K3T2VDBjnGBzZBqrXowlANmfa1TFpLfyaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=as04bO/8; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L8KI+9YP"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-60bf5a08729so3634039a12.0;
-        Fri, 18 Jul 2025 01:55:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752828916; x=1753433716; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cl6NW/VJbC89Zuqkuhe+2EODRlo26sbOTMU5y4bZLUg=;
-        b=L8KI+9YPZsmvUjyp1FDqsI+4V7+v+EvAGtOpDuLDUWDMnnPU13aOPc+cX3GuscQMJ0
-         sXl6H+Ul+tjC7d+p5bPGKFPT2W9lcn32C1hae5eVQChVjtC2YVvMuIDa+7UXfzxYQ3CU
-         rG+ydHnRrXH/Bg6yHxAqeut5IVZ2iJgWjtAFub0JOGVjdKdV0AwBy1Rk0IshbkPY01rT
-         /WNFKtgyUT/O/fPueKuYViET+ERDt6pMEtuL2EtPleCGLne6EzBdNIvPxWEhmKPAkFqE
-         pJXfeQbXUNUSkymJaNcNikO3YITtIAdDjrmfgnIyenzncCPcaorueIcTjEBCzOfNHV4F
-         ERJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752828916; x=1753433716;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cl6NW/VJbC89Zuqkuhe+2EODRlo26sbOTMU5y4bZLUg=;
-        b=GNhi742cQbV6UQ3oFSNoSypf4hA1IWt5zXL75Vh4+gq4Ao1C0pu3+Vf88rMZ3hhkvt
-         1qlyBRCF2EbC0rwsPsVa0KJwUaT8B7r5+DxdOkYIXKARiMCrn8aLL3a+BbWb4+hwjuGv
-         gFukmZcK2Y6rZRM8ydRAUvNk5P8nmrO+3+dk9FIHU6ZERm13D77H1gjGoOnRIVi0yxsh
-         AD7V/pA3q7PLAK9a8VgUCyuQ4pplgxy1+/+S9sG9H8jtBPqMOPoeUhdtzv2yzbG0oRAB
-         Gc2vUTfbPnqH2E8fhUhjRCD3iCZ9R6GwiyTAhn2LOUZtDTtx8WtEV2dCKAfTFgvQifX+
-         FWzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUCOePRT2M5iUH901PdWPxhEtep8cnJZkDmft0O9uzSSDkVAt8teL/FipPxyEipOun9MlrW1Ov5Is0T@lists.linux.dev, AJvYcCWz40AhVNbz8sNaHDodiDgtaLII3gYsgmPrWgr4EEHWhzipRHmZ5Zqi6l5wM1d86Q9Ih+UF84EaXOHYN1an@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+cvoH9Y13UOoVwflkxlXU76GxQEP7R1KBg4P099Pd70sMOvU1
-	Gwz9zXKizz+z+b8kkOASOf2tEB/7vcZwRftSO6BB91f96excU4P6rvuA
-X-Gm-Gg: ASbGncvIieKhaSOZa/70hKGxnPLuvPDymdV5ku4hOV3LEf/0D3o4Fr8mwcm+f/gjTVr
-	OIaCya0WzqBDcq5x9HM0MoqtB0e+JeV1TNa9PCkrWniR6XY2xA3JGPeU0bUGc7uXFdZqXydaIGP
-	Ex4uvGsNeZI7ehRDICkpo1hSAhe3a3LSyZ17fjhc8k7x7KmNeMgPuAv54bw8/lDkPuzb1RWHsrw
-	1a5nt10vUNJmkV3V6Rcd/ZKq2/ONmhChXxGk8FMhiBG+mnF0ISG+TsGeYQKyElG3dx+kx7GqDbw
-	frjlc2VDRfZcqszMw0oB0evFqVzqq7IrskwCDaOAkmXOt70V/HveS2YfPpyyH5iHNYH2Nvi/sjs
-	sgLn/yC03bfC1wYX04HIyPE9tPHP08DAG5dI=
-X-Google-Smtp-Source: AGHT+IFccn/g7YGP4lzEqqBF0FQG0n0gBYALfhzXamFtdTD80h8ih8zn0mKSg81ifNO9n8Vb90qblA==
-X-Received: by 2002:a17:907:971b:b0:aec:4cb3:d10b with SMTP id a640c23a62f3a-aec4cb3ea6fmr570511766b.43.1752828915604;
-        Fri, 18 Jul 2025 01:55:15 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325::1ac? ([2620:10d:c092:600::1:6915])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6c7d7b9csm82332966b.61.2025.07.18.01.55.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Jul 2025 01:55:14 -0700 (PDT)
-Message-ID: <54d5026a-3563-4b49-9395-0c8ee3d71e18@gmail.com>
-Date: Fri, 18 Jul 2025 09:56:45 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="as04bO/8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752832490; x=1784368490;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gJQfC94CHqlsb7eqlZO+1VGHFNwyzEyhZy4i9GfE8K4=;
+  b=as04bO/8d4sYMMWbJVYm/s0UXjgWjwO+uQdazic68hf/hIR3oyewLK1b
+   fjftKtEXhzKAdurgGTeuXeaA3e9I8Clf7rrGdvcAeGiueLWBKZoHS8h8w
+   El1Jiht0AWwXQhdpH2E7ZyIgkyfTtyFP88IEoSRXw5VCq2Xdg5iKAhx+A
+   zSwJtdGVmqqjCbgipZkJ7Eag42PFx5reS6uQ21M5P+n477Phq7TIP4+oq
+   +nXmQiPGs0oEYWsjEjdn4LaQqqEV88bYmsXQmNKSjhczj77x4qw5GRIlL
+   +Vr4yDXalPTcqWi/hAzl9Do7mh+4Bs1lnmoVXTmrHx6esL1Uap8nzVSuO
+   g==;
+X-CSE-ConnectionGUID: G60+k1r0SPGqqiOIs4zKeQ==
+X-CSE-MsgGUID: 3je50aTwTGyj55DcbLgd/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="55246211"
+X-IronPort-AV: E=Sophos;i="6.16,321,1744095600"; 
+   d="scan'208";a="55246211"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 02:54:50 -0700
+X-CSE-ConnectionGUID: dNPb6bNmRsWpZsp5w55NSw==
+X-CSE-MsgGUID: /Vj++4sUTWuS/qbrieYfOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,321,1744095600"; 
+   d="scan'208";a="188975431"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 18 Jul 2025 02:54:49 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uchni-000EWj-1h;
+	Fri, 18 Jul 2025 09:54:46 +0000
+Date: Fri, 18 Jul 2025 17:54:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [xinli-intel-fred-public:next 10/23] arch/x86/kvm/x86.c:1882
+ __kvm_set_msr() warn: statement has no effect 'u64'
+Message-ID: <202507181737.eppxtd87-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 10555/10823] io_uring/zcrx.c:385
- io_zcrx_free_area() error: we previously assumed 'area->ifq' could be null
- (see line 380)
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
-References: <f07001e5-021c-4695-8116-07b1a71665fb@suswa.mountain>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <f07001e5-021c-4695-8116-07b1a71665fb@suswa.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 7/18/25 02:56, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
-> commit: 262ab205180d2ba3ab6110899a4dbe439c51dfaa [10555/10823] io_uring/zcrx: account area memory
-> config: x86_64-randconfig-161-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180628.gBxrOgqr-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202507180628.gBxrOgqr-lkp@intel.com/
-> 
-> smatch warnings:
-> io_uring/zcrx.c:385 io_zcrx_free_area() error: we previously assumed 'area->ifq' could be null (see line 380)
-> 
-> vim +385 io_uring/zcrx.c
-> 
-> cf96310c5f9a0d David Wei      2025-02-14  378  static void io_zcrx_free_area(struct io_zcrx_area *area)
-> cf96310c5f9a0d David Wei      2025-02-14  379  {
-> 0ec33c81d9c734 Pavel Begunkov 2025-05-27 @380  	if (area->ifq)
->                                                      ^^^^^^^^^
-> This line assumes that area->ifq can be NULL
-> 
-> db070446f5af8c Pavel Begunkov 2025-02-14  381  		io_zcrx_unmap_area(area->ifq, area);
-> 782dfa329ac9d1 Pavel Begunkov 2025-05-01  382  	io_release_area_mem(&area->mem);
-> db070446f5af8c Pavel Begunkov 2025-02-14  383
-> 262ab205180d2b Pavel Begunkov 2025-07-16  384  	if (area->mem.account_pages)
-> 262ab205180d2b Pavel Begunkov 2025-07-16 @385  		io_unaccount_mem(area->ifq->ctx, area->mem.account_pages);
->                                                                           ^^^^^^^^^^^
-> But here it's dereferenced without checking
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Xin3 Li <xin3.li@intel.com>
 
-That's fine, the "if (account_pages)" above protects it. Nevertheless,
-can be improved a bit.
+tree:   https://github.com/xinli-intel/linux-fred-public.git next
+head:   783c13faf3d3a6fd683e220f7274aeeffb74a9c1
+commit: 61403c60c43aa3b2a35229de5ed58a52911725ea [10/23] KVM: VMX: Add support for FRED context save/restore
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: i386-randconfig-141-20250718 (https://download.01.org/0day-ci/archive/20250718/202507181737.eppxtd87-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507181737.eppxtd87-lkp@intel.com/
+
+New smatch warnings:
+arch/x86/kvm/x86.c:1882 __kvm_set_msr() warn: statement has no effect 'u64'
+
+Old smatch warnings:
+arch/x86/kvm/x86.c:1277 __kvm_set_xcr() warn: bitwise AND condition is false here
+arch/x86/kvm/x86.c:1278 __kvm_set_xcr() warn: bitwise AND condition is false here
+arch/x86/kvm/x86.c:3107 kvm_end_pvclock_update() warn: iterator 'i' not incremented
+arch/x86/kvm/x86.c:3465 kvmclock_update_fn() warn: iterator 'i' not incremented
+arch/x86/kvm/x86.c:5833 kvm_arch_tsc_set_attr() warn: check for integer overflow 'offset'
+arch/x86/kvm/x86.c:6454 kvm_arch_sync_dirty_log() warn: iterator 'i' not incremented
+arch/x86/kvm/x86.c:6883 kvm_arch_suspend_notifier() warn: iterator 'i' not incremented
+arch/x86/kvm/x86.c:9097 x86_emulate_instruction() warn: missing error code? 'r'
+arch/x86/kvm/x86.c:9477 __kvmclock_cpufreq_notifier() warn: iterator 'i' not incremented
+arch/x86/include/asm/kvm-x86-ops.h:16 kvm_ops_update() warn: inconsistent indenting
+arch/x86/kvm/x86.c:12073 kvm_arch_vcpu_guestdbg_update_apicv_inhibit() warn: iterator 'i' not incremented
+arch/x86/kvm/x86.c:12671 kvm_arch_enable_virtualization_cpu() warn: iterator 'i' not incremented
+arch/x86/kvm/x86.c:13044 kvm_arch_memslots_updated() warn: iterator 'i' not incremented
+
+vim +/u64 +1882 arch/x86/kvm/x86.c
+
+51de8151bd21ba arch/x86/kvm/x86.c Alexander Graf      2020-09-25  1816  
+15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1817  /*
+f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1818   * Write @data into the MSR specified by @index.  Select MSR specific fault
+f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1819   * checks are bypassed if @host_initiated is %true.
+15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1820   * Returns 0 on success, non-0 otherwise.
+15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1821   * Assumes vcpu_load() was already called.
+15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1822   */
+f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1823  static int __kvm_set_msr(struct kvm_vcpu *vcpu, u32 index, u64 data,
+f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1824  			 bool host_initiated)
+15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1825  {
+f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1826  	struct msr_data msr;
+f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1827  
+f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1828  	switch (index) {
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1829  	case MSR_FS_BASE:
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1830  	case MSR_GS_BASE:
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1831  	case MSR_KERNEL_GS_BASE:
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1832  	case MSR_CSTAR:
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1833  	case MSR_LSTAR:
+9245fd6b853149 arch/x86/kvm/x86.c Maxim Levitsky      2024-09-06  1834  		if (is_noncanonical_msr_address(data, vcpu))
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1835  			return 1;
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1836  		break;
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1837  	case MSR_IA32_SYSENTER_EIP:
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1838  	case MSR_IA32_SYSENTER_ESP:
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1839  		/*
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1840  		 * IA32_SYSENTER_ESP and IA32_SYSENTER_EIP cause #GP if
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1841  		 * non-canonical address is written on Intel but not on
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1842  		 * AMD (which ignores the top 32-bits, because it does
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1843  		 * not implement 64-bit SYSENTER).
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1844  		 *
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1845  		 * 64-bit code should hence be able to write a non-canonical
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1846  		 * value on AMD.  Making the address canonical ensures that
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1847  		 * vmentry does not fail on Intel after writing a non-canonical
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1848  		 * value, and that something deterministic happens if the guest
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1849  		 * invokes 64-bit SYSENTER.
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1850  		 */
+9245fd6b853149 arch/x86/kvm/x86.c Maxim Levitsky      2024-09-06  1851  		data = __canonical_address(data, max_host_virt_addr_bits());
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1852  		break;
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1853  	case MSR_TSC_AUX:
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1854  		if (!kvm_is_supported_user_return_msr(MSR_TSC_AUX))
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1855  			return 1;
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1856  
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1857  		if (!host_initiated &&
+8f2a27752e808f arch/x86/kvm/x86.c Sean Christopherson 2024-11-27  1858  		    !guest_cpu_cap_has(vcpu, X86_FEATURE_RDTSCP) &&
+8f2a27752e808f arch/x86/kvm/x86.c Sean Christopherson 2024-11-27  1859  		    !guest_cpu_cap_has(vcpu, X86_FEATURE_RDPID))
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1860  			return 1;
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1861  
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1862  		/*
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1863  		 * Per Intel's SDM, bits 63:32 are reserved, but AMD's APM has
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1864  		 * incomplete and conflicting architectural behavior.  Current
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1865  		 * AMD CPUs completely ignore bits 63:32, i.e. they aren't
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1866  		 * reserved and always read as zeros.  Enforce Intel's reserved
+6463e5e41842c5 arch/x86/kvm/x86.c Sean Christopherson 2024-04-05  1867  		 * bits check if the guest CPU is Intel compatible, otherwise
+6463e5e41842c5 arch/x86/kvm/x86.c Sean Christopherson 2024-04-05  1868  		 * clear the bits.  This ensures cross-vendor migration will
+6463e5e41842c5 arch/x86/kvm/x86.c Sean Christopherson 2024-04-05  1869  		 * provide consistent behavior for the guest.
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1870  		 */
+6463e5e41842c5 arch/x86/kvm/x86.c Sean Christopherson 2024-04-05  1871  		if (guest_cpuid_is_intel_compatible(vcpu) && (data >> 32) != 0)
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1872  			return 1;
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1873  
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1874  		data = (u32)data;
+61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1875  		break;
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1876  	case MSR_IA32_FRED_STKLVLS:
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1877  		if (!guest_cpu_cap_has(vcpu, X86_FEATURE_FRED))
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1878  			return 1;
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1879  		break;
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1880  	case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_RSP3:
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1881  	case MSR_IA32_FRED_SSP1 ... MSR_IA32_FRED_CONFIG:
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15 @1882  		u64 reserved_bits = 0;
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1883  
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1884  		if (!guest_cpu_cap_has(vcpu, X86_FEATURE_FRED))
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1885  			return 1;
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1886  
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1887  		if (is_noncanonical_msr_address(data, vcpu))
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1888  			return 1;
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1889  
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1890  		switch (index) {
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1891  		case MSR_IA32_FRED_CONFIG:
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1892  			reserved_bits = BIT_ULL(11) | GENMASK_ULL(5, 4) | BIT_ULL(2);
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1893  			break;
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1894  		case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_RSP3:
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1895  			reserved_bits = GENMASK_ULL(5, 0);
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1896  			break;
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1897  		case MSR_IA32_FRED_SSP1 ... MSR_IA32_FRED_SSP3:
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1898  			reserved_bits = GENMASK_ULL(2, 0);
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1899  			break;
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1900  		default:
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1901  			WARN_ON_ONCE(1);
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1902  			return 1;
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1903  		}
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1904  		if (data & reserved_bits)
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1905  			return 1;
+61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1906  		break;
+854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1907  	}
+f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1908  
+f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1909  	msr.data = data;
+f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1910  	msr.index = index;
+f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1911  	msr.host_initiated = host_initiated;
+f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1912  
+896046474f8d2e arch/x86/kvm/x86.c Wei Wang            2024-05-07  1913  	return kvm_x86_call(set_msr)(vcpu, &msr);
+15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1914  }
+15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1915  
 
 -- 
-Pavel Begunkov
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
