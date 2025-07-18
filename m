@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB72B1EEA55
-	for <oe-kbuild@lists.linux.dev>; Fri, 18 Jul 2025 09:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1C52BD5BB
+	for <oe-kbuild@lists.linux.dev>; Fri, 18 Jul 2025 10:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752832492; cv=none; b=BmjaOrCaA86JVZZTjqjZkZRYMzXzRie90LoIFg7R4ynVTl/u0i0g1k+SfGTt//TPAm83X5ZlPW+YfAAst5B/Xf4Qd2DyqW7UKU4Q75Xj+Ca9pr7C/mTuxZdrxJ+B6GHCLZw7aLUlw7CjfNbKRb9e+e5wH15cX7OOE2fEikKNwzI=
+	t=1752835617; cv=none; b=SWLav00n7foWx/vr/yzamrNHRZR/SsUpFnWyNzRiAb9RB7qnVpxeNVDXumtxZCmCNI1Pa55SBhM5a/G9WwwApUnCjz03uU4BOTPdCLpOKx4PtqvNGhGB0cuKLg8k78EjmklX/7R4q6Dhk74FBw1dNZwHo/B9XOwPcVCPkuM5VYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752832492; c=relaxed/simple;
-	bh=gJQfC94CHqlsb7eqlZO+1VGHFNwyzEyhZy4i9GfE8K4=;
+	s=arc-20240116; t=1752835617; c=relaxed/simple;
+	bh=MOR36QPQl6H2Chzmio0SkUvqp9LGUvi++Uc5KBaSmbY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ihREvZ5/08XLtCfjR4MYheLON21vfwbJXNbWXVDiktiAfQU6qnCZBd41/ez3nhTdO2njCE+9qQO60WfNVcrEO87IoYVSaiCDa0Kba3AmWD5jGGfoI4bApu29OVgxfWgyRLw1Lwxt/K3T2VDBjnGBzZBqrXowlANmfa1TFpLfyaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=as04bO/8; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=m94XBRkrXrBsQE7aqh0VcuB3s1NpKcbVz2D2VK4IY/qg1uveEz4b4NwXhoF8YG/30Xs1a9SZWufq+wM7Sh3a7maFk6WxRNfJeIv33pSMvyWAH7l83TpUUfbytZ50Zfc/dARzBCwY9Kuf4SQ312sjs79ZnFwiyyuHeZ9hW5CivHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jmRYkvF6; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="as04bO/8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jmRYkvF6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752832490; x=1784368490;
+  t=1752835615; x=1784371615;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gJQfC94CHqlsb7eqlZO+1VGHFNwyzEyhZy4i9GfE8K4=;
-  b=as04bO/8d4sYMMWbJVYm/s0UXjgWjwO+uQdazic68hf/hIR3oyewLK1b
-   fjftKtEXhzKAdurgGTeuXeaA3e9I8Clf7rrGdvcAeGiueLWBKZoHS8h8w
-   El1Jiht0AWwXQhdpH2E7ZyIgkyfTtyFP88IEoSRXw5VCq2Xdg5iKAhx+A
-   zSwJtdGVmqqjCbgipZkJ7Eag42PFx5reS6uQ21M5P+n477Phq7TIP4+oq
-   +nXmQiPGs0oEYWsjEjdn4LaQqqEV88bYmsXQmNKSjhczj77x4qw5GRIlL
-   +Vr4yDXalPTcqWi/hAzl9Do7mh+4Bs1lnmoVXTmrHx6esL1Uap8nzVSuO
-   g==;
-X-CSE-ConnectionGUID: G60+k1r0SPGqqiOIs4zKeQ==
-X-CSE-MsgGUID: 3je50aTwTGyj55DcbLgd/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="55246211"
+  bh=MOR36QPQl6H2Chzmio0SkUvqp9LGUvi++Uc5KBaSmbY=;
+  b=jmRYkvF6xvGSZcNONaAdta7YeZUvRHagT97fVeuzzdoqYA3r0MiwJgGL
+   MN04nUKPP9pwWiyuIJacK2TF2vt7RBj2AL52zffK9LoHX1DNZUkx7fAS8
+   c/e3R1ycb7eursJts+FSn54+zfC4x2LQH4MupZ12ReD3UDuXgX1ZmL8w9
+   qRSeooobMSPcEsosDiV4oCjjtakUSLnd/k9viMuQ7Y2E0DvrAwo91Sxzu
+   nNk/HbAqnE7EX9QgvxaOi2pH3vuMm2I6PXdU62vc0xp7Zy0f4baGfgcr/
+   Yg6A/G/wRPsmwIRZjYp4ry3iYBhmbj5DN9yNxAp5HUimD4jmHGmU/RMKF
+   w==;
+X-CSE-ConnectionGUID: 7GX7M7ppQbCzIMjz9UG/pg==
+X-CSE-MsgGUID: FZljQauATo2YyiJDYKdthw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="55070013"
 X-IronPort-AV: E=Sophos;i="6.16,321,1744095600"; 
-   d="scan'208";a="55246211"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 02:54:50 -0700
-X-CSE-ConnectionGUID: dNPb6bNmRsWpZsp5w55NSw==
-X-CSE-MsgGUID: /Vj++4sUTWuS/qbrieYfOg==
+   d="scan'208";a="55070013"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 03:46:54 -0700
+X-CSE-ConnectionGUID: vbYUL61tS3iMh1+MwUlyHQ==
+X-CSE-MsgGUID: vCHkQahTSAmvde1KRIXGzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,321,1744095600"; 
-   d="scan'208";a="188975431"
+   d="scan'208";a="157415395"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 18 Jul 2025 02:54:49 -0700
+  by orviesa010.jf.intel.com with ESMTP; 18 Jul 2025 03:46:53 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uchni-000EWj-1h;
-	Fri, 18 Jul 2025 09:54:46 +0000
-Date: Fri, 18 Jul 2025 17:54:15 +0800
+	id 1ucic6-000EZ3-2N;
+	Fri, 18 Jul 2025 10:46:50 +0000
+Date: Fri, 18 Jul 2025 18:46:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [xinli-intel-fred-public:next 10/23] arch/x86/kvm/x86.c:1882
- __kvm_set_msr() warn: statement has no effect 'u64'
-Message-ID: <202507181737.eppxtd87-lkp@intel.com>
+Subject: [xinli-intel-fred-public:next 20/23] arch/x86/kvm/vmx/nested.c:3929
+ vmcs12_save_pending_event() warn: bitwise AND condition is false here
+Message-ID: <202507181845.zqDysfM6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,138 +68,100 @@ TO: Xin3 Li <xin3.li@intel.com>
 
 tree:   https://github.com/xinli-intel/linux-fred-public.git next
 head:   783c13faf3d3a6fd683e220f7274aeeffb74a9c1
-commit: 61403c60c43aa3b2a35229de5ed58a52911725ea [10/23] KVM: VMX: Add support for FRED context save/restore
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-config: i386-randconfig-141-20250718 (https://download.01.org/0day-ci/archive/20250718/202507181737.eppxtd87-lkp@intel.com/config)
+commit: 5dc3d02c4af495dc296c70b4222bea5293d517dc [20/23] KVM: nVMX: Add FRED VMCS fields to nested VMX context management
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: i386-randconfig-141-20250718 (https://download.01.org/0day-ci/archive/20250718/202507181845.zqDysfM6-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507181737.eppxtd87-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507181845.zqDysfM6-lkp@intel.com/
 
-New smatch warnings:
-arch/x86/kvm/x86.c:1882 __kvm_set_msr() warn: statement has no effect 'u64'
+smatch warnings:
+arch/x86/kvm/vmx/nested.c:3929 vmcs12_save_pending_event() warn: bitwise AND condition is false here
+arch/x86/kvm/vmx/nested.c:4749 prepare_vmcs12() warn: bitwise AND condition is false here
 
-Old smatch warnings:
-arch/x86/kvm/x86.c:1277 __kvm_set_xcr() warn: bitwise AND condition is false here
-arch/x86/kvm/x86.c:1278 __kvm_set_xcr() warn: bitwise AND condition is false here
-arch/x86/kvm/x86.c:3107 kvm_end_pvclock_update() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:3465 kvmclock_update_fn() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:5833 kvm_arch_tsc_set_attr() warn: check for integer overflow 'offset'
-arch/x86/kvm/x86.c:6454 kvm_arch_sync_dirty_log() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:6883 kvm_arch_suspend_notifier() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:9097 x86_emulate_instruction() warn: missing error code? 'r'
-arch/x86/kvm/x86.c:9477 __kvmclock_cpufreq_notifier() warn: iterator 'i' not incremented
-arch/x86/include/asm/kvm-x86-ops.h:16 kvm_ops_update() warn: inconsistent indenting
-arch/x86/kvm/x86.c:12073 kvm_arch_vcpu_guestdbg_update_apicv_inhibit() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:12671 kvm_arch_enable_virtualization_cpu() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:13044 kvm_arch_memslots_updated() warn: iterator 'i' not incremented
+vim +3929 arch/x86/kvm/vmx/nested.c
 
-vim +/u64 +1882 arch/x86/kvm/x86.c
-
-51de8151bd21ba arch/x86/kvm/x86.c Alexander Graf      2020-09-25  1816  
-15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1817  /*
-f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1818   * Write @data into the MSR specified by @index.  Select MSR specific fault
-f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1819   * checks are bypassed if @host_initiated is %true.
-15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1820   * Returns 0 on success, non-0 otherwise.
-15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1821   * Assumes vcpu_load() was already called.
-15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1822   */
-f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1823  static int __kvm_set_msr(struct kvm_vcpu *vcpu, u32 index, u64 data,
-f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1824  			 bool host_initiated)
-15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1825  {
-f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1826  	struct msr_data msr;
-f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1827  
-f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1828  	switch (index) {
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1829  	case MSR_FS_BASE:
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1830  	case MSR_GS_BASE:
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1831  	case MSR_KERNEL_GS_BASE:
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1832  	case MSR_CSTAR:
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1833  	case MSR_LSTAR:
-9245fd6b853149 arch/x86/kvm/x86.c Maxim Levitsky      2024-09-06  1834  		if (is_noncanonical_msr_address(data, vcpu))
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1835  			return 1;
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1836  		break;
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1837  	case MSR_IA32_SYSENTER_EIP:
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1838  	case MSR_IA32_SYSENTER_ESP:
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1839  		/*
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1840  		 * IA32_SYSENTER_ESP and IA32_SYSENTER_EIP cause #GP if
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1841  		 * non-canonical address is written on Intel but not on
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1842  		 * AMD (which ignores the top 32-bits, because it does
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1843  		 * not implement 64-bit SYSENTER).
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1844  		 *
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1845  		 * 64-bit code should hence be able to write a non-canonical
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1846  		 * value on AMD.  Making the address canonical ensures that
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1847  		 * vmentry does not fail on Intel after writing a non-canonical
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1848  		 * value, and that something deterministic happens if the guest
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1849  		 * invokes 64-bit SYSENTER.
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1850  		 */
-9245fd6b853149 arch/x86/kvm/x86.c Maxim Levitsky      2024-09-06  1851  		data = __canonical_address(data, max_host_virt_addr_bits());
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1852  		break;
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1853  	case MSR_TSC_AUX:
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1854  		if (!kvm_is_supported_user_return_msr(MSR_TSC_AUX))
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1855  			return 1;
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1856  
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1857  		if (!host_initiated &&
-8f2a27752e808f arch/x86/kvm/x86.c Sean Christopherson 2024-11-27  1858  		    !guest_cpu_cap_has(vcpu, X86_FEATURE_RDTSCP) &&
-8f2a27752e808f arch/x86/kvm/x86.c Sean Christopherson 2024-11-27  1859  		    !guest_cpu_cap_has(vcpu, X86_FEATURE_RDPID))
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1860  			return 1;
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1861  
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1862  		/*
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1863  		 * Per Intel's SDM, bits 63:32 are reserved, but AMD's APM has
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1864  		 * incomplete and conflicting architectural behavior.  Current
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1865  		 * AMD CPUs completely ignore bits 63:32, i.e. they aren't
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1866  		 * reserved and always read as zeros.  Enforce Intel's reserved
-6463e5e41842c5 arch/x86/kvm/x86.c Sean Christopherson 2024-04-05  1867  		 * bits check if the guest CPU is Intel compatible, otherwise
-6463e5e41842c5 arch/x86/kvm/x86.c Sean Christopherson 2024-04-05  1868  		 * clear the bits.  This ensures cross-vendor migration will
-6463e5e41842c5 arch/x86/kvm/x86.c Sean Christopherson 2024-04-05  1869  		 * provide consistent behavior for the guest.
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1870  		 */
-6463e5e41842c5 arch/x86/kvm/x86.c Sean Christopherson 2024-04-05  1871  		if (guest_cpuid_is_intel_compatible(vcpu) && (data >> 32) != 0)
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1872  			return 1;
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1873  
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1874  		data = (u32)data;
-61a05d444d2ca8 arch/x86/kvm/x86.c Sean Christopherson 2021-05-04  1875  		break;
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1876  	case MSR_IA32_FRED_STKLVLS:
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1877  		if (!guest_cpu_cap_has(vcpu, X86_FEATURE_FRED))
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1878  			return 1;
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1879  		break;
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1880  	case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_RSP3:
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1881  	case MSR_IA32_FRED_SSP1 ... MSR_IA32_FRED_CONFIG:
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15 @1882  		u64 reserved_bits = 0;
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1883  
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1884  		if (!guest_cpu_cap_has(vcpu, X86_FEATURE_FRED))
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1885  			return 1;
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1886  
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1887  		if (is_noncanonical_msr_address(data, vcpu))
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1888  			return 1;
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1889  
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1890  		switch (index) {
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1891  		case MSR_IA32_FRED_CONFIG:
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1892  			reserved_bits = BIT_ULL(11) | GENMASK_ULL(5, 4) | BIT_ULL(2);
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1893  			break;
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1894  		case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_RSP3:
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1895  			reserved_bits = GENMASK_ULL(5, 0);
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1896  			break;
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1897  		case MSR_IA32_FRED_SSP1 ... MSR_IA32_FRED_SSP3:
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1898  			reserved_bits = GENMASK_ULL(2, 0);
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1899  			break;
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1900  		default:
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1901  			WARN_ON_ONCE(1);
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1902  			return 1;
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1903  		}
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1904  		if (data & reserved_bits)
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1905  			return 1;
-61403c60c43aa3 arch/x86/kvm/x86.c Xin Li              2022-09-15  1906  		break;
-854e8bb1aa06c5 arch/x86/kvm/x86.c Nadav Amit          2014-09-16  1907  	}
-f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1908  
-f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1909  	msr.data = data;
-f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1910  	msr.index = index;
-f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1911  	msr.host_initiated = host_initiated;
-f20935d85a23c3 arch/x86/kvm/x86.c Sean Christopherson 2019-09-05  1912  
-896046474f8d2e arch/x86/kvm/x86.c Wei Wang            2024-05-07  1913  	return kvm_x86_call(set_msr)(vcpu, &msr);
-15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1914  }
-15c4a6406f6c40 drivers/kvm/x86.c  Carsten Otte        2007-10-30  1915  
+55d2375e58a61b Sean Christopherson 2018-12-03  3880  
+55d2375e58a61b Sean Christopherson 2018-12-03  3881  static void vmcs12_save_pending_event(struct kvm_vcpu *vcpu,
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3882  				      struct vmcs12 *vmcs12,
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3883  				      u32 vm_exit_reason, u32 exit_intr_info)
+55d2375e58a61b Sean Christopherson 2018-12-03  3884  {
+55d2375e58a61b Sean Christopherson 2018-12-03  3885  	u32 idt_vectoring;
+55d2375e58a61b Sean Christopherson 2018-12-03  3886  	unsigned int nr;
+55d2375e58a61b Sean Christopherson 2018-12-03  3887  
+5dc3d02c4af495 Xin Li              2022-09-15  3888  	vmcs12->original_event_data = 0;
+5dc3d02c4af495 Xin Li              2022-09-15  3889  
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3890  	/*
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3891  	 * Per the SDM, VM-Exits due to double and triple faults are never
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3892  	 * considered to occur during event delivery, even if the double/triple
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3893  	 * fault is the result of an escalating vectoring issue.
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3894  	 *
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3895  	 * Note, the SDM qualifies the double fault behavior with "The original
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3896  	 * event results in a double-fault exception".  It's unclear why the
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3897  	 * qualification exists since exits due to double fault can occur only
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3898  	 * while vectoring a different exception (injected events are never
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3899  	 * subject to interception), i.e. there's _always_ an original event.
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3900  	 *
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3901  	 * The SDM also uses NMI as a confusing example for the "original event
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3902  	 * causes the VM exit directly" clause.  NMI isn't special in any way,
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3903  	 * the same rule applies to all events that cause an exit directly.
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3904  	 * NMI is an odd choice for the example because NMIs can only occur on
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3905  	 * instruction boundaries, i.e. they _can't_ occur during vectoring.
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3906  	 */
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3907  	if ((u16)vm_exit_reason == EXIT_REASON_TRIPLE_FAULT ||
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3908  	    ((u16)vm_exit_reason == EXIT_REASON_EXCEPTION_NMI &&
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3909  	     is_double_fault(exit_intr_info))) {
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3910  		vmcs12->idt_vectoring_info_field = 0;
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3911  	} else if (vcpu->arch.exception.injected) {
+d4963e319f1f78 Sean Christopherson 2022-08-30  3912  		nr = vcpu->arch.exception.vector;
+55d2375e58a61b Sean Christopherson 2018-12-03  3913  		idt_vectoring = nr | VECTORING_INFO_VALID_MASK;
+55d2375e58a61b Sean Christopherson 2018-12-03  3914  
+55d2375e58a61b Sean Christopherson 2018-12-03  3915  		if (kvm_exception_is_soft(nr)) {
+55d2375e58a61b Sean Christopherson 2018-12-03  3916  			vmcs12->vm_exit_instruction_len =
+55d2375e58a61b Sean Christopherson 2018-12-03  3917  				vcpu->arch.event_exit_inst_len;
+55d2375e58a61b Sean Christopherson 2018-12-03  3918  			idt_vectoring |= INTR_TYPE_SOFT_EXCEPTION;
+55d2375e58a61b Sean Christopherson 2018-12-03  3919  		} else
+55d2375e58a61b Sean Christopherson 2018-12-03  3920  			idt_vectoring |= INTR_TYPE_HARD_EXCEPTION;
+55d2375e58a61b Sean Christopherson 2018-12-03  3921  
+55d2375e58a61b Sean Christopherson 2018-12-03  3922  		if (vcpu->arch.exception.has_error_code) {
+55d2375e58a61b Sean Christopherson 2018-12-03  3923  			idt_vectoring |= VECTORING_INFO_DELIVER_CODE_MASK;
+55d2375e58a61b Sean Christopherson 2018-12-03  3924  			vmcs12->idt_vectoring_error_code =
+55d2375e58a61b Sean Christopherson 2018-12-03  3925  				vcpu->arch.exception.error_code;
+55d2375e58a61b Sean Christopherson 2018-12-03  3926  		}
+55d2375e58a61b Sean Christopherson 2018-12-03  3927  
+5dc3d02c4af495 Xin Li              2022-09-15  3928  		if ((vmcs12->vm_entry_controls & VM_ENTRY_IA32E_MODE) &&
+5dc3d02c4af495 Xin Li              2022-09-15 @3929  		    (vmcs12->guest_cr4 & X86_CR4_FRED) &&
+5dc3d02c4af495 Xin Li              2022-09-15  3930  		    (vcpu->arch.exception.nested))
+5dc3d02c4af495 Xin Li              2022-09-15  3931  			idt_vectoring |= VECTORING_INFO_NESTED_EXCEPTION_MASK;
+5dc3d02c4af495 Xin Li              2022-09-15  3932  
+5dc3d02c4af495 Xin Li              2022-09-15  3933  		vmcs12->original_event_data = vcpu->arch.exception.event_data;
+5dc3d02c4af495 Xin Li              2022-09-15  3934  
+55d2375e58a61b Sean Christopherson 2018-12-03  3935  		vmcs12->idt_vectoring_info_field = idt_vectoring;
+55d2375e58a61b Sean Christopherson 2018-12-03  3936  	} else if (vcpu->arch.nmi_injected) {
+55d2375e58a61b Sean Christopherson 2018-12-03  3937  		vmcs12->idt_vectoring_info_field =
+55d2375e58a61b Sean Christopherson 2018-12-03  3938  			INTR_TYPE_NMI_INTR | INTR_INFO_VALID_MASK | NMI_VECTOR;
+55d2375e58a61b Sean Christopherson 2018-12-03  3939  	} else if (vcpu->arch.interrupt.injected) {
+55d2375e58a61b Sean Christopherson 2018-12-03  3940  		nr = vcpu->arch.interrupt.nr;
+55d2375e58a61b Sean Christopherson 2018-12-03  3941  		idt_vectoring = nr | VECTORING_INFO_VALID_MASK;
+55d2375e58a61b Sean Christopherson 2018-12-03  3942  
+55d2375e58a61b Sean Christopherson 2018-12-03  3943  		if (vcpu->arch.interrupt.soft) {
+55d2375e58a61b Sean Christopherson 2018-12-03  3944  			idt_vectoring |= INTR_TYPE_SOFT_INTR;
+55d2375e58a61b Sean Christopherson 2018-12-03  3945  			vmcs12->vm_entry_instruction_len =
+55d2375e58a61b Sean Christopherson 2018-12-03  3946  				vcpu->arch.event_exit_inst_len;
+55d2375e58a61b Sean Christopherson 2018-12-03  3947  		} else
+55d2375e58a61b Sean Christopherson 2018-12-03  3948  			idt_vectoring |= INTR_TYPE_EXT_INTR;
+55d2375e58a61b Sean Christopherson 2018-12-03  3949  
+55d2375e58a61b Sean Christopherson 2018-12-03  3950  		vmcs12->idt_vectoring_info_field = idt_vectoring;
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3951  	} else {
+9bd1f0efa859b6 Sean Christopherson 2022-04-07  3952  		vmcs12->idt_vectoring_info_field = 0;
+55d2375e58a61b Sean Christopherson 2018-12-03  3953  	}
+55d2375e58a61b Sean Christopherson 2018-12-03  3954  }
+55d2375e58a61b Sean Christopherson 2018-12-03  3955  
 
 -- 
 0-DAY CI Kernel Test Service
