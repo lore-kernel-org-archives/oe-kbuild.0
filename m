@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A7A15D1
-	for <oe-kbuild@lists.linux.dev>; Sat, 19 Jul 2025 07:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB95622AE75
+	for <oe-kbuild@lists.linux.dev>; Sat, 19 Jul 2025 08:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752910368; cv=none; b=MsswnjB7AdRIRQlt2vJfNDfBfjlBkQMTqw0zGez7KtRNcRpuNe8jkE6mYZYSX+mkHNCbX58XECFrqSyUOrF/OgZdc7g4b0Gcnvw0WImRbWp0J2UBw2gNsrROaEis6aMyIWBdX7mvJyUAb59b3BvLQlexfCWSdjuS4TaA2w8toRU=
+	t=1752913493; cv=none; b=puVoMY1hDvoJD49tjeb5vPXIz1H7tuujQIyM/yVLXTblNX9MPVvoFS+f18Ur5lN467gjW0LT84Ixfs8fj/s8kXZXNrTE+Ed+nFMEq8RKFd9g1bzQQzAuSK86G1uje6sZ67nufs+pNUUtVWI5CWY7OAYlSboHxG7o74mjgdIu8tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752910368; c=relaxed/simple;
-	bh=zYfyGF2pEoUbQgRV3sKk7MXEmVT6vDR3JjmH/NlzRoM=;
+	s=arc-20240116; t=1752913493; c=relaxed/simple;
+	bh=2eUaueEp3qjW8Suw+8a4LMlF44Vnf0iwd+uQLGRZq14=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eY32V5z9v3VlBj8jDce+lAyRfu/L9ZEu8mCUjObAH0z7U8MdCBFZe+k3k+kR+LNYyC6t36XjC3xN7BgvQKwoXwUycI9yrcFK2mxrL3wqK6p3mNrHd79gF58kFdlzAAQYDjvOMTG4X6KYLTSYEC29Q3OvWA/tVwXlCuS48GwtiEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IahYckaK; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=O/Hjvngd2SBKWxe1xsJ4kavXT/v/9UyhXI/raue1mnFxkE6fUV420F+H0OjCQhT2zo5JJl0qklgX4YUbFdgE/eGswYOdADiZ1RN5NUoXwquJEf2n0xfvUs7ka2dAdpefcS9mWNPW+L/BiCPONkxVix9n/TbmforPDYzh+u30TU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yxmf51aP; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IahYckaK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yxmf51aP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752910367; x=1784446367;
+  t=1752913490; x=1784449490;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zYfyGF2pEoUbQgRV3sKk7MXEmVT6vDR3JjmH/NlzRoM=;
-  b=IahYckaKQszoGIINtsFvsxQzLqJ+8yB2w0WsnTvNwABZgFnaqezV+s8T
-   J+oqX/Lf89FGlcMPeomfRCIi9t+cDL701VC92kZCM+6E9GY1TDng4XIlV
-   NnPj4aaMT9LSlGGoQUvFc5MyXSmD+5r3X2gI856iGpE09DPdJrs1CMuQD
-   7YcuSnja+BMZu5pvd9lZbQjxE7aUcf+tStOZrjudQqJs27XLhXj7Qp+eT
-   8jDsmHtGZoVWVadjIV1yVvccLBNiqJMvh1zis2sPzvvRS4Xxfwk+QKs4P
-   NpE8htxX3iASZBnxX7ZfWLcOkLUhp7CNPlmi31h9msobDZGO+eDfC5u0P
-   A==;
-X-CSE-ConnectionGUID: VD2k30kBRSWmeV+kE4SQ8A==
-X-CSE-MsgGUID: 6/BQKr2HSUeC8n8mxTGmBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="59010256"
+  bh=2eUaueEp3qjW8Suw+8a4LMlF44Vnf0iwd+uQLGRZq14=;
+  b=Yxmf51aPlN+9MiDpeovkyXCsTzWmN1+o9oTVYr9LkFkpr7n6GBJw8NJc
+   idX86eRVWL0o4iJUD2wVHlkAPxcm8KUBaDEsPL4rBkDRSL1kP0MKTRGB/
+   WQb6grcld8AvTvpxKXeK5wlCyLG9dwjtaTdvwvEbmaEq6Q+3snK2HQb2V
+   f6LeS6n8I3pbuY/B1OmK/MEbv4ObFwPyTlbRblNBGtXFBpntkNByPx783
+   kB20QgHbzy7CwhdPVTzikg1jHcXfkgWPgyCmxS0CWBy6yOIEeVBSsOMtU
+   wb+RAB3vxPikwoXZ81e+Zj4PNulWTFLXZAyPMhC63uYPWiuMGpLdb2tNX
+   g==;
+X-CSE-ConnectionGUID: hkyIq9i9RmCe7mcB5wV2Kg==
+X-CSE-MsgGUID: Ra/ZGLT6StyjpFtVZIfcIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="80644790"
 X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="59010256"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 00:32:46 -0700
-X-CSE-ConnectionGUID: SsVqDmjrQHaFgmXAOYO8qA==
-X-CSE-MsgGUID: oY1C442bRK6gyiSjD89rLg==
+   d="scan'208";a="80644790"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 01:24:50 -0700
+X-CSE-ConnectionGUID: B+PXg0wvQAS5daxoJFDyNw==
+X-CSE-MsgGUID: j1M9r4eZQhGkt8fOvaQuXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="195481926"
+   d="scan'208";a="163920384"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 19 Jul 2025 00:32:44 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 19 Jul 2025 01:24:49 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ud23m-000FJZ-2R;
-	Sat, 19 Jul 2025 07:32:42 +0000
-Date: Sat, 19 Jul 2025 15:32:16 +0800
+	id 1ud2sA-000FLD-2e;
+	Sat, 19 Jul 2025 08:24:46 +0000
+Date: Sat, 19 Jul 2025 16:24:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2] i2c: spacemit: configure ILCR for accurate SCL
- frequency
-Message-ID: <202507191525.xti6Z0zL-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [krzk-github:n/dt-bindings-qcom-naming 7/7]
+ arch/arm/boot/dts/ti/omap/omap4-sdp.dtb:
+ /ocp/interconnect@48000000/segment@0/target-module@98000/spi@0/ethernet@0:
+ failed to match any schema with compatible: ['ks8851']
+Message-ID: <202507191604.qaCyUj2P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,79 +64,117 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250718-k1-i2c-ilcr-v2-1-b4c68f13dcb1@linux.spacemit.com>
-References: <20250718-k1-i2c-ilcr-v2-1-b4c68f13dcb1@linux.spacemit.com>
-TO: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-TO: Andi Shyti <andi.shyti@kernel.org>
-TO: Yixun Lan <dlan@gentoo.org>
-CC: linux-i2c@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-riscv@lists.infradead.org
-CC: spacemit@lists.linux.dev
-CC: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
 
-Hi Troy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 733923397fd95405a48f165c9b1fbc8c4b0a4681]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Troy-Mitchell/i2c-spacemit-configure-ILCR-for-accurate-SCL-frequency/20250718-090843
-base:   733923397fd95405a48f165c9b1fbc8c4b0a4681
-patch link:    https://lore.kernel.org/r/20250718-k1-i2c-ilcr-v2-1-b4c68f13dcb1%40linux.spacemit.com
-patch subject: [PATCH v2] i2c: spacemit: configure ILCR for accurate SCL frequency
-:::::: branch date: 30 hours ago
-:::::: commit date: 30 hours ago
-config: arc-randconfig-r073-20250719 (https://download.01.org/0day-ci/archive/20250719/202507191525.xti6Z0zL-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
+tree:   https://github.com/krzk/linux n/dt-bindings-qcom-naming
+head:   cc9ec12e51d6cceb1dda0566a4bb50057effe437
+commit: cc9ec12e51d6cceb1dda0566a4bb50057effe437 [7/7] ARM: dts: ti: omap4: Use generic "ethernet" as node name
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-052-20250718 (https://download.01.org/0day-ci/archive/20250719/202507191604.qaCyUj2P-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191604.qaCyUj2P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507191525.xti6Z0zL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507191604.qaCyUj2P-lkp@intel.com/
 
-smatch warnings:
-drivers/i2c/busses/i2c-k1.c:180 spacemit_i2c_clk_set_rate() error: uninitialized symbol 'max_lv'.
-drivers/i2c/busses/i2c-k1.c:186 spacemit_i2c_clk_set_rate() error: uninitialized symbol 'mask'.
-drivers/i2c/busses/i2c-k1.c:187 spacemit_i2c_clk_set_rate() error: uninitialized symbol 'shift'.
-
-vim +/max_lv +180 drivers/i2c/busses/i2c-k1.c
-
-dc25e6192792e0 Troy Mitchell 2025-07-18  161  
-dc25e6192792e0 Troy Mitchell 2025-07-18  162  static int spacemit_i2c_clk_set_rate(struct clk_hw *hw, unsigned long rate,
-dc25e6192792e0 Troy Mitchell 2025-07-18  163  				     unsigned long parent_rate)
-dc25e6192792e0 Troy Mitchell 2025-07-18  164  {
-dc25e6192792e0 Troy Mitchell 2025-07-18  165  	struct spacemit_i2c_dev *i2c = container_of(hw, struct spacemit_i2c_dev, scl_clk_hw);
-dc25e6192792e0 Troy Mitchell 2025-07-18  166  	u32 lv, lcr, mask, shift, max_lv;
-dc25e6192792e0 Troy Mitchell 2025-07-18  167  
-dc25e6192792e0 Troy Mitchell 2025-07-18  168  	lv = DIV_ROUND_UP(parent_rate, rate);
-dc25e6192792e0 Troy Mitchell 2025-07-18  169  
-dc25e6192792e0 Troy Mitchell 2025-07-18  170  	if (i2c->mode == SPACEMIT_MODE_STANDARD) {
-dc25e6192792e0 Troy Mitchell 2025-07-18  171  		mask = SPACEMIT_LCR_LV_STANDARD_MASK;
-dc25e6192792e0 Troy Mitchell 2025-07-18  172  		shift = SPACEMIT_LCR_LV_STANDARD_SHIFT;
-dc25e6192792e0 Troy Mitchell 2025-07-18  173  		max_lv = SPACEMIT_LCR_LV_STANDARD_MAX_VALUE;
-dc25e6192792e0 Troy Mitchell 2025-07-18  174  	} else if (i2c->mode == SPACEMIT_MODE_FAST) {
-dc25e6192792e0 Troy Mitchell 2025-07-18  175  		mask = SPACEMIT_LCR_LV_FAST_MASK;
-dc25e6192792e0 Troy Mitchell 2025-07-18  176  		shift = SPACEMIT_LCR_LV_FAST_SHIFT;
-dc25e6192792e0 Troy Mitchell 2025-07-18  177  		max_lv = SPACEMIT_LCR_LV_FAST_MAX_VALUE;
-dc25e6192792e0 Troy Mitchell 2025-07-18  178  	}
-dc25e6192792e0 Troy Mitchell 2025-07-18  179  
-dc25e6192792e0 Troy Mitchell 2025-07-18 @180  	if (!lv || lv > max_lv) {
-dc25e6192792e0 Troy Mitchell 2025-07-18  181  		dev_err(i2c->dev, "set scl clock failed: lv 0x%x", lv);
-dc25e6192792e0 Troy Mitchell 2025-07-18  182  		return -EINVAL;
-dc25e6192792e0 Troy Mitchell 2025-07-18  183  	}
-dc25e6192792e0 Troy Mitchell 2025-07-18  184  
-dc25e6192792e0 Troy Mitchell 2025-07-18  185  	lcr = readl(i2c->base + SPACEMIT_ILCR);
-dc25e6192792e0 Troy Mitchell 2025-07-18 @186  	lcr &= ~mask;
-dc25e6192792e0 Troy Mitchell 2025-07-18 @187  	lcr |= lv << shift;
-dc25e6192792e0 Troy Mitchell 2025-07-18  188  	writel(lcr, i2c->base + SPACEMIT_ILCR);
-dc25e6192792e0 Troy Mitchell 2025-07-18  189  
-dc25e6192792e0 Troy Mitchell 2025-07-18  190  	return 0;
-dc25e6192792e0 Troy Mitchell 2025-07-18  191  }
-dc25e6192792e0 Troy Mitchell 2025-07-18  192  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: segment@0 (simple-pm-bus): $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@48000000/segment@0/target-module@60000/i2c@0/bh1780@29: failed to match any schema with compatible: ['rohm,bh1780']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: twl@48 (ti,twl6030): Unevaluated properties are not allowed ('pwm', 'pwmled', 'usb-comparator' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/usb-comparator: failed to match any schema with compatible: ['ti,twl6030-usb']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwm: failed to match any schema with compatible: ['ti,twl6030-pwm']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwmled: failed to match any schema with compatible: ['ti,twl6030-pwmled']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@4b: failed to match any schema with compatible: ['ti,twl6040']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@48000000/segment@0/target-module@96000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@48000000/segment@0/target-module@98000/spi@0/ethernet@0: failed to match any schema with compatible: ['ks8851']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@48000000/segment@0/target-module@9c000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: des@0 (ti,omap4-des): 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/ti,omap4-des.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: des@0 (ti,omap4-des): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/ti,omap4-des.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@48000000/segment@0/target-module@ad000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@48000000/segment@0/target-module@b2000/1w@0: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@48000000/segment@0/target-module@b4000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@48000000/segment@0/target-module@d1000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@48000000/segment@0/target-module@d5000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+--
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: segment@0 (simple-pm-bus): $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@48000000/segment@0/target-module@60000/i2c@0/bh1780@29: failed to match any schema with compatible: ['rohm,bh1780']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: twl@48 (ti,twl6030): Unevaluated properties are not allowed ('pwm', 'pwmled', 'usb-comparator' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/usb-comparator: failed to match any schema with compatible: ['ti,twl6030-usb']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwm: failed to match any schema with compatible: ['ti,twl6030-pwm']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwmled: failed to match any schema with compatible: ['ti,twl6030-pwmled']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@4b: failed to match any schema with compatible: ['ti,twl6040']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@48000000/segment@0/target-module@96000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@48000000/segment@0/target-module@98000/spi@0/ethernet@0: failed to match any schema with compatible: ['ks8851']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@48000000/segment@0/target-module@9c000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: des@0 (ti,omap4-des): 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/ti,omap4-des.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: des@0 (ti,omap4-des): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/ti,omap4-des.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@48000000/segment@0/target-module@ad000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@48000000/segment@0/target-module@b2000/1w@0: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@48000000/segment@0/target-module@b4000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@48000000/segment@0/target-module@d1000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@48000000/segment@0/target-module@d5000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+--
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: tsc2004@48 (ti,tsc2004): $nodename:0: 'tsc2004@48' does not match '^touchscreen(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2005.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: twl@48 (ti,twl6030): Unevaluated properties are not allowed ('pwm', 'pwmled', 'usb-comparator' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/usb-comparator: failed to match any schema with compatible: ['ti,twl6030-usb']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwm: failed to match any schema with compatible: ['ti,twl6030-pwm']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwmled: failed to match any schema with compatible: ['ti,twl6030-pwmled']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@4b: failed to match any schema with compatible: ['ti,twl6040']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@96000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@98000/spi@0/ethernet@0: failed to match any schema with compatible: ['ks8851']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@9c000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: des@0 (ti,omap4-des): 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/ti,omap4-des.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: des@0 (ti,omap4-des): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/ti,omap4-des.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@ad000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@b2000/1w@0: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@b4000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@d1000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@d5000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+--
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: tsc2004@48 (ti,tsc2004): $nodename:0: 'tsc2004@48' does not match '^touchscreen(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2005.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: twl@48 (ti,twl6030): Unevaluated properties are not allowed ('pwm', 'pwmled', 'usb-comparator' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/usb-comparator: failed to match any schema with compatible: ['ti,twl6030-usb']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwm: failed to match any schema with compatible: ['ti,twl6030-pwm']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwmled: failed to match any schema with compatible: ['ti,twl6030-pwmled']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@4b: failed to match any schema with compatible: ['ti,twl6040']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@96000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@98000/spi@0/ethernet@0: failed to match any schema with compatible: ['ks8851']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@9c000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: des@0 (ti,omap4-des): 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/ti,omap4-des.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: des@0 (ti,omap4-des): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/ti,omap4-des.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@ad000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@b2000/1w@0: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@b4000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@d1000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@48000000/segment@0/target-module@d5000/mmc@0: failed to match any schema with compatible: ['ti,omap4-hsmmc']
 
 -- 
 0-DAY CI Kernel Test Service
