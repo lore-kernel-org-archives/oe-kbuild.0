@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8ED29CEB
-	for <oe-kbuild@lists.linux.dev>; Sat, 19 Jul 2025 14:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F35A1A315C
+	for <oe-kbuild@lists.linux.dev>; Sat, 19 Jul 2025 14:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752934001; cv=none; b=EO3o+X2oVXUZUCXtMpn1eqJtmPQtgV/KIzpXVORvt/Yp1+4aUXyTlrDPluIfDSypJC2CjgQBULAQyHuFJzkzEPBb4s0Gajf7U02DXcxX4bjn0nm/flbUV13WiBK+0juB+7d7ju6BgcuAaPsCmnh2xlxZQJI3we7h3dz6/PVJC68=
+	t=1752936030; cv=none; b=eCc+qBDiIcpA+iKKYcVBHGbjlSOoh9p1k2uOsFu5HEWqagPo5pcaT8graf/qdW3wOx/9xgw7oJf0YPCUzE4KICesk2oKtxt2guhrxnvDDfGub7aqxfCLIkwOKA0qqQbWl9oe7IpM41DY8iH+H5Uy2CCL8M3X0DXI0n+otAJy+Uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752934001; c=relaxed/simple;
-	bh=HQ34az0v8wFVBWGuwm3zyMoKHUtAco+Qd+XojtLqFXE=;
+	s=arc-20240116; t=1752936030; c=relaxed/simple;
+	bh=WWCGIXJgloKG/3wIP+n4CxYBeThruxoFy9QSLw+Rhi4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UdefflEFDaO9khwuy+eKdRmd4le+2OZ9FbEuZyDDZ18koikfF/cJX6zrA9zBnJP4eGIry+hWHey/bqjb/RH5o3D52WfdEBirVdEX7JWh2Wnh6A4RwlaqyeW+QXfBEsV5y3Mke7a12WYVRQgj2qUwlqKj1gK8zNeGuIw+oIe3j8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dD3EEOow; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=kBZh7PwfdqzeznrI4V7SsBTT1wA88BQiWyRVmr98to61mxJCUpfeLbzdR335vXH0fuFzxOqRIXVcRMrpRjX/zDh5eoKtGPDUh1KlDpqV+8Cu4/07JM0IfI2y+6/MKHI1jnj4XalwhF5xS6mlmQpA2X3peHlGetbrZGqL3gh8aAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QIcgt/eC; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dD3EEOow"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QIcgt/eC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752933999; x=1784469999;
+  t=1752936027; x=1784472027;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HQ34az0v8wFVBWGuwm3zyMoKHUtAco+Qd+XojtLqFXE=;
-  b=dD3EEOow5PZABbK5YTtnu6BzWoV7EILUy6chcH8m+++WUFdAOhreN9ou
-   X4aZyNweGsim2dP9GjsYu0zPlCF/n1VmxlD4Qu4/uDJ2KFFs0sJ1W00NH
-   rCfyh0R2EHgStIETyV/LScVxvTtGxz3sS44k5orPHzYZtmyngnlyiMopO
-   ifMViRQapOFlYD+p7ISZAcw430ezsN8Ta2LitZv2go8I220gHUjgv1NxU
-   cMwZ4rgtkozr8l8N2K9tHt95sqlATxFH5/WfUJMmI9QFGxzEOTACx8Gft
-   FnT12xWB2rZut2/qh6a8NLEN6q+8DKCDWXTzQlzhhRI3TG7OGBZV9p506
+  bh=WWCGIXJgloKG/3wIP+n4CxYBeThruxoFy9QSLw+Rhi4=;
+  b=QIcgt/eCqR6Wx8xp8FdbBz4tGDVXnkEmBozpYCQ/CgbOKPjblk4zPm8X
+   +VAelLr6hpWOOrTdZBKhaKcms+K2ChSiKISwoe5q3wLfVZ9T8jiMsuN8b
+   RCLiiU0EhgmlFIKFOQN/Ag9ZkKsTFqWrrbEg4jGRUJ3kMRCDQRSuu8y9t
+   3UUZrTrEL72v0ZZ1vHLzhWk3ZOsFEYJx7FfW96cmZEJON4capZ8CtihKU
+   1a/aIgapCjMjIw3kQi+7aXxy76fjrl7CAjiqVg9Ll9R5GyAtvN0+FtJxl
+   RculkTPi8PMuK2/iOVX8RM5/UQiy+HLscSiCFeSZJybji15EGt0LvnuZb
    w==;
-X-CSE-ConnectionGUID: Nzl5QHNLTMKFdaNUXf3yxA==
-X-CSE-MsgGUID: QO7mftvNTA60em5vTlhQ3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11497"; a="72663401"
+X-CSE-ConnectionGUID: Sg8Pd76xQiGdvO+n/XEflA==
+X-CSE-MsgGUID: fRjeDc5eSqWCw2CVHHJnRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11497"; a="80654541"
 X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
-   d="scan'208";a="72663401"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 07:06:38 -0700
-X-CSE-ConnectionGUID: m3B4mQxQQoC4pii/8IJgOQ==
-X-CSE-MsgGUID: INeNQMMYT1iyp0ygcpXQ2w==
+   d="scan'208";a="80654541"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 07:40:26 -0700
+X-CSE-ConnectionGUID: 96I/8y8fTSGeCVHQlCDwuQ==
+X-CSE-MsgGUID: dIj0yMjXQC+YK0AP2g5CNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
-   d="scan'208";a="189404027"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8b57277650df) ([10.91.175.65])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Jul 2025 07:06:37 -0700
-Received: from kbuild by 8b57277650df with local (Exim 4.96)
+   d="scan'208";a="162750388"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 19 Jul 2025 07:40:26 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ud8Cx-000169-2U;
-	Sat, 19 Jul 2025 14:06:35 +0000
-Date: Sat, 19 Jul 2025 16:06:05 +0200
+	id 1ud8jg-000FYd-1H;
+	Sat, 19 Jul 2025 14:40:24 +0000
+Date: Sat, 19 Jul 2025 22:39:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [robh:imx93-ethos-v2 4/49]
- arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: /: failed to match any
- schema with compatible: ['fsl,imx93-11x11-frdm', 'fsl,imx93']
-Message-ID: <202507191645.CpPNsKy0-lkp@intel.com>
+Subject: Re: [PATCH] dt-bindings: serial: 8250: spacemit: set clocks property
+ as required
+Message-ID: <202507192254.DRwKZ1xf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,43 +68,55 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Fabian Pflug <f.pflug@pengutronix.de>
-CC: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+In-Reply-To: <20250718-01-k1-uart-binding-v1-1-a92e1e14c836@gentoo.org>
+References: <20250718-01-k1-uart-binding-v1-1-a92e1e14c836@gentoo.org>
+TO: Yixun Lan <dlan@gentoo.org>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Jiri Slaby <jirislaby@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Lubomir Rintel <lkundrak@v3.sk>
+TO: devicetree@vger.kernel.org
+TO: Alex Elder <elder@riscstar.com>
+CC: linux-kernel@vger.kernel.org
+CC: linux-serial@vger.kernel.org
+CC: linux-riscv@lists.infradead.org
+CC: spacemit@lists.linux.dev
+CC: Yixun Lan <dlan@gentoo.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git imx93-ethos-v2
-head:   b81e8ee214f77950479c304b6ca560903de46c7c
-commit: ab8d0290a971b84a8c79e92b987cdb5ceb04d003 [4/49] arm64: dts: freescale: add support for NXP i.MX93 FRDM
-:::::: branch date: 4 days ago
-:::::: commit date: 4 weeks ago
-config: arm64-randconfig-2051-20250717 (https://download.01.org/0day-ci/archive/20250719/202507191645.CpPNsKy0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+Hi Yixun,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 19272b37aa4f83ca52bdf9c16d5d81bdd1354494]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yixun-Lan/dt-bindings-serial-8250-spacemit-set-clocks-property-as-required/20250718-230545
+base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+patch link:    https://lore.kernel.org/r/20250718-01-k1-uart-binding-v1-1-a92e1e14c836%40gentoo.org
+patch subject: [PATCH] dt-bindings: serial: 8250: spacemit: set clocks property as required
+:::::: branch date: 23 hours ago
+:::::: commit date: 23 hours ago
+config: riscv-randconfig-052-20250719 (https://download.01.org/0day-ci/archive/20250719/202507192254.DRwKZ1xf-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.3.0
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191645.CpPNsKy0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507192254.DRwKZ1xf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507191645.CpPNsKy0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507192254.DRwKZ1xf-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	'fsl,ls2081a' was expected
-   	'fsl,ls2088a' was expected
-   	'fsl,lx2160a' was expected
-   	'solidrun,lx2160a-cex7' was expected
-   	'solidrun,lx2162a-som' was expected
-   	'tq,lx2160a-tqmlx2160a' was expected
-   	'nxp,s32g2' was expected
-   	'nxp,s32g3' was expected
-   	'fsl,s32v234' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml#
->> arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: /: failed to match any schema with compatible: ['fsl,imx93-11x11-frdm', 'fsl,imx93']
-   arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: sram@20480000 (mmio-sram): '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
->> arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: sram@20480000 (mmio-sram): '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: sram@20480000 (mmio-sram): 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: /soc@0/npu@4a900000: failed to match any schema with compatible: ['arm,ethos-u65']
+>> arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dtb: serial@f0612000 (spacemit,k1-uart): 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dtb: serial@f0612000 (spacemit,k1-uart): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+--
+>> arch/riscv/boot/dts/spacemit/k1-milkv-jupiter.dtb: serial@f0612000 (spacemit,k1-uart): 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/riscv/boot/dts/spacemit/k1-milkv-jupiter.dtb: serial@f0612000 (spacemit,k1-uart): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
