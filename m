@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133D978F3A
-	for <oe-kbuild@lists.linux.dev>; Sat, 19 Jul 2025 05:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7AD1AAC9
+	for <oe-kbuild@lists.linux.dev>; Sat, 19 Jul 2025 06:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752904662; cv=none; b=LZc51oe/KbLt8uTKxTosOpQHbKGeOGGekqBzE0HEjcaZs82NHVPnUdrkETvO6M5Znt6dcEsA5vRSxOGCTcUlxaMXxUYmPodqKoUHFNZofaKAUpJDJku0FjjRUombFF0pZVMdpVMA6flXtNTS0dQmN7LssDjzd0EMdBh9lCnDxyE=
+	t=1752905983; cv=none; b=gd3/rZ0GttBZx0NhmLML0kTBn6Wid4dmotYzkVJQ4JBgWmcXPWhUKwgAgG8U8euI/UQ0Ytk+vBwRsXQ6YanYF3k/inn85WTBqEEri6NMjXyt+6yztUjuFOp91i54oafnuUD3Y6UBco249jNdAI8EuhqYBJJBew24JGPauRjHeoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752904662; c=relaxed/simple;
-	bh=cA65ymtQYcqm2yATDAmJQ9bmb3lup7bAhGZVq+oQfLs=;
+	s=arc-20240116; t=1752905983; c=relaxed/simple;
+	bh=FUQazbfPa8h4dvdItQOuJrSe/yFpf4zRxHCuzzb1ghA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gtmM61hJax7pn8WqkPQ0/lcrhE3VgNOYTvAIJBxgTmT3ufxWJrozf6PDGqqi3cgBLBdoeOjACQfoWpeeanMU3VGf/RFzTO0ta4KfZWnSsiwccsM+KDnvurJmwQjnnS/1a/Nfi3r1bRXcj4GexzD8RQ7Uzi0GuTij9nkg+XZ5RuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nuGW2Wku; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=CB5JVIfdALhVJt/BvB1eEzOuzuP2dLWEmYnkKVBXQ+zAwX3SU3G0/pt3HvQc/V4PvSyO8rm15fLhOWe8LxQMvwZpeh4td/HnJ3v92JZCzSXOYlInGOs2mVCtCFWI1mwZ8GL/oXKOAjWa14TiTKJB4vjX+5iEJKtK5KP4CQYSmso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DNckZhSD; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nuGW2Wku"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DNckZhSD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752904660; x=1784440660;
+  t=1752905981; x=1784441981;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cA65ymtQYcqm2yATDAmJQ9bmb3lup7bAhGZVq+oQfLs=;
-  b=nuGW2Wkuj58rP6Y0QI1cI+/yzPM91hI5ynUkAX0Ts8r4yOptNhWYudiT
-   fuozBRG4UEYa/nwAaX46Gbfj0NB9tAcmAqQm4aBpdj+pFio/htlUHDUHz
-   dXkqfKPfoIZVVNYiSixSJA6xoOc2aKcc41va2DIAWLaGd4z9ydq1N4YvO
-   si4EtF2Fs8XMtaaiUidzUeWcTRPnbo6qRPZAdWjNrFrW5raj5o2pLwvp2
-   eTgPO6uuDD1P4Z75O1mKZmhhzsDX5giw32RPwx33tlcDv205V0t/Mq3uv
-   ip4fUEs/8TmdG8CUJw1NlnBQ3bKqfahcGk/7wmnDizW95XPmicjqAvM0/
-   A==;
-X-CSE-ConnectionGUID: m5YfYlrbQQ2JGHLFhsIAZw==
-X-CSE-MsgGUID: nXz6t/vISqKv7iu54QXVkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="77729857"
+  bh=FUQazbfPa8h4dvdItQOuJrSe/yFpf4zRxHCuzzb1ghA=;
+  b=DNckZhSDSmDcMP+LqHoXZvoj1jyAzs9o7ROW7lNZ0FGvibXXRQgYkSbI
+   8HXIjSwWkXQuzTlqbA1+235aTE/9ddfzVnLjyc3FPpdqECApMGAIQWtLv
+   q1c5vRTtuHYhdLNcoP+pBRNr87deRiZiuzdpw2MRys4A5eYlVySuGsP9l
+   EQQwfcfN583ArhU5ZP44lMcubJRJrHOtzyFrgcLMrjV9qZj6hD2TeOg+5
+   awgkDtDG6gTEi4B6TUVQMZWEfEc8iVJIVNN7JLaYZJgx9HI4t65uAHgDU
+   IciTCwU7ewzjf4iihKi+21hwf8t9WTw9yGY/jL994fEqSEhtLAOT3TTjf
+   Q==;
+X-CSE-ConnectionGUID: lS9Pfa0ZTUasmYZpIdObSw==
+X-CSE-MsgGUID: TkMH4wwyRnO6j9lf9HZY2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="58857307"
 X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="77729857"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 22:57:39 -0700
-X-CSE-ConnectionGUID: ibRvrYaKTLqrwWurp0Yrxg==
-X-CSE-MsgGUID: jgLDtcIjSrWircR7cpu58A==
+   d="scan'208";a="58857307"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 23:19:40 -0700
+X-CSE-ConnectionGUID: sRlPceEkQmizLNawNoGBdQ==
+X-CSE-MsgGUID: 93QukeI1Tu+L+M8GSSUVfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="162427581"
+   d="scan'208";a="195474387"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 18 Jul 2025 22:57:38 -0700
+  by orviesa001.jf.intel.com with ESMTP; 18 Jul 2025 23:19:40 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ud0Zj-000FGx-2i;
-	Sat, 19 Jul 2025 05:57:35 +0000
-Date: Sat, 19 Jul 2025 13:57:26 +0800
+	id 1ud0v3-000FHL-10;
+	Sat, 19 Jul 2025 06:19:37 +0000
+Date: Sat, 19 Jul 2025 14:19:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 2/4] arm64: dts: mediatek: mt8395-genio-1200-evk: Move
- common parts to dtsi
-Message-ID: <202507191343.RpArk3Gv-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [xfs-linux:next-merge 30/40] fs/xfs/xfs_rtalloc.c:1691
+ xfs_rtmount_inodes() error: uninitialized symbol 'error'.
+Message-ID: <202507191441.DGmls6Eq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,83 +62,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250718083202.654568-2-macpaul.lin@mediatek.com>
-References: <20250718083202.654568-2-macpaul.lin@mediatek.com>
-TO: Macpaul Lin <macpaul.lin@mediatek.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Matthias Brugger <matthias.bgg@gmail.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-TO: Catalin Marinas <catalin.marinas@arm.com>
-TO: Will Deacon <will@kernel.org>
-TO: Sean Wang <sean.wang@mediatek.com>
-TO: devicetree@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-arm-kernel@lists.infradead.org
-TO: linux-mediatek@lists.infradead.org
-TO: openembedded-core@lists.openembedded.org
-TO: patches@lists.linux.dev
-TO: stable@vger.kernel.org
-CC: Bear Wang <bear.wang@mediatek.com>
-CC: Pablo Sun <pablo.sun@mediatek.com>
-CC: Ramax Lo <ramax.lo@mediatek.com>
-CC: Macpaul Lin <macpaul.lin@mediatek.com>
-CC: MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>
+CC: linux-xfs@vger.kernel.org
+TO: Christoph Hellwig <hch@lst.de>
+CC: Carlos Maiolino <cem@kernel.org>
+CC: "Darrick J. Wong" <djwong@kernel.org>
 
-Hi Macpaul,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on arm64/for-next/core krzk/for-next linus/master v6.16-rc6]
-[cannot apply to next-20250718]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Macpaul-Lin/arm64-dts-mediatek-mt8395-genio-1200-evk-Move-common-parts-to-dtsi/20250718-163459
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250718083202.654568-2-macpaul.lin%40mediatek.com
-patch subject: [PATCH 2/4] arm64: dts: mediatek: mt8395-genio-1200-evk: Move common parts to dtsi
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: arm64-randconfig-001-20250719 (https://download.01.org/0day-ci/archive/20250719/202507191343.RpArk3Gv-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191343.RpArk3Gv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git next-merge
+head:   414d21d65b8e15f2b45aa6d61fa277c7068a5d81
+commit: e967dc40d5017671e5e278aea858516440aa068a [30/40] xfs: return the allocated transaction from xfs_trans_alloc_empty
+:::::: branch date: 22 hours ago
+:::::: commit date: 2 days ago
+config: arc-randconfig-r073-20250719 (https://download.01.org/0day-ci/archive/20250719/202507191441.DGmls6Eq-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507191343.RpArk3Gv-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507191441.DGmls6Eq-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi:1172.7-1180.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+New smatch warnings:
+fs/xfs/xfs_rtalloc.c:1691 xfs_rtmount_inodes() error: uninitialized symbol 'error'.
 
-vim +1172 arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi
+Old smatch warnings:
+fs/xfs/xfs_rtalloc.c:333 xfs_rtallocate_extent_block() error: uninitialized symbol 'next'.
+arch/arc/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
 
-908b552bbd6311 Macpaul Lin 2025-07-18  1170  
-908b552bbd6311 Macpaul Lin 2025-07-18  1171  &vdosys0 {
-908b552bbd6311 Macpaul Lin 2025-07-18 @1172  	port {
-908b552bbd6311 Macpaul Lin 2025-07-18  1173  		#address-cells = <1>;
-908b552bbd6311 Macpaul Lin 2025-07-18  1174  		#size-cells = <0>;
-908b552bbd6311 Macpaul Lin 2025-07-18  1175  
-908b552bbd6311 Macpaul Lin 2025-07-18  1176  		vdosys0_ep_main: endpoint@0 {
-908b552bbd6311 Macpaul Lin 2025-07-18  1177  			reg = <0>;
-908b552bbd6311 Macpaul Lin 2025-07-18  1178  			remote-endpoint = <&ovl0_in>;
-908b552bbd6311 Macpaul Lin 2025-07-18  1179  		};
-908b552bbd6311 Macpaul Lin 2025-07-18  1180  	};
-908b552bbd6311 Macpaul Lin 2025-07-18  1181  };
-908b552bbd6311 Macpaul Lin 2025-07-18  1182  
+vim +/error +1691 fs/xfs/xfs_rtalloc.c
+
+65b1231b8cea7f Darrick J. Wong   2024-11-03  1660  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1661  /*
+355e3532132b48 Omar Sandoval     2018-12-12  1662   * Get the bitmap and summary inodes and the summary cache into the mount
+355e3532132b48 Omar Sandoval     2018-12-12  1663   * structure at mount time.
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1664   */
+dcf606914334c6 Darrick J. Wong   2024-11-03  1665  int
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1666  xfs_rtmount_inodes(
+dcf606914334c6 Darrick J. Wong   2024-11-03  1667  	struct xfs_mount	*mp)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1668  {
+dcf606914334c6 Darrick J. Wong   2024-11-03  1669  	struct xfs_trans	*tp;
+87fe4c34a383d5 Darrick J. Wong   2024-11-03  1670  	struct xfs_rtgroup	*rtg = NULL;
+dcf606914334c6 Darrick J. Wong   2024-11-03  1671  	int			error;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1672  
+e967dc40d50176 Christoph Hellwig 2025-07-16  1673  	tp = xfs_trans_alloc_empty(mp);
+65b1231b8cea7f Darrick J. Wong   2024-11-03  1674  	if (xfs_has_rtgroups(mp) && mp->m_sb.sb_rgcount > 0) {
+65b1231b8cea7f Darrick J. Wong   2024-11-03  1675  		error = xfs_rtginode_load_parent(tp);
+65b1231b8cea7f Darrick J. Wong   2024-11-03  1676  		if (error)
+e3088ae2dcae3c Christoph Hellwig 2024-11-03  1677  			goto out_cancel;
+65b1231b8cea7f Darrick J. Wong   2024-11-03  1678  	}
+65b1231b8cea7f Darrick J. Wong   2024-11-03  1679  
+65b1231b8cea7f Darrick J. Wong   2024-11-03  1680  	while ((rtg = xfs_rtgroup_next(mp, rtg))) {
+65b1231b8cea7f Darrick J. Wong   2024-11-03  1681  		error = xfs_rtmount_rtg(mp, tp, rtg);
+65b1231b8cea7f Darrick J. Wong   2024-11-03  1682  		if (error) {
+65b1231b8cea7f Darrick J. Wong   2024-11-03  1683  			xfs_rtgroup_rele(rtg);
+e3088ae2dcae3c Christoph Hellwig 2024-11-03  1684  			xfs_rtunmount_inodes(mp);
+e3088ae2dcae3c Christoph Hellwig 2024-11-03  1685  			break;
+65b1231b8cea7f Darrick J. Wong   2024-11-03  1686  		}
+65b1231b8cea7f Darrick J. Wong   2024-11-03  1687  	}
+87fe4c34a383d5 Darrick J. Wong   2024-11-03  1688  
+e3088ae2dcae3c Christoph Hellwig 2024-11-03  1689  out_cancel:
+dcf606914334c6 Darrick J. Wong   2024-11-03  1690  	xfs_trans_cancel(tp);
+9e13975bb0620c Darrick J. Wong   2022-11-06 @1691  	return error;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1692  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1693  
+
+:::::: The code at line 1691 was first introduced by commit
+:::::: 9e13975bb0620c2bfa1a4d2943e7eb8514f7708e xfs: load rtbitmap and rtsummary extent mapping btrees at mount time
+
+:::::: TO: Darrick J. Wong <djwong@kernel.org>
+:::::: CC: Darrick J. Wong <djwong@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
