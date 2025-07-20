@@ -1,75 +1,58 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAEB221267
-	for <oe-kbuild@lists.linux.dev>; Sun, 20 Jul 2025 18:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6793E2B9A9
+	for <oe-kbuild@lists.linux.dev>; Sun, 20 Jul 2025 21:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753034965; cv=none; b=RQWRIypqtK4olHeFxoxAWBzbTya4hYGU1MGLtneyrXP66XM1vfQvRFg7Tvbdr9DeQi+b8+OC9y44NjIU45K/ayVUJi4ILRVdmiwNi7kKPPd60zmc5uUD1GzvdpAGLcSRBD4DMd823zqoPLq0vbWdR6D5+2kOz2Rvb86QI6EN16s=
+	t=1753047055; cv=none; b=Znb5ql+9NMGpVlPgwO28ip7YYpvd8xVDLzMsTgWvuwTfyVFt7yohwvT6r2EEnLclalz3KE8oniRCtugOmQfIS0SeCz+pm1yyP0axzEq7OttHeP+dtx5Ys7xeV/MWHNG5JWrQNfsaWyy+SuJ30hEhrCv4lGV9LBlJ9/4bw+58T1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753034965; c=relaxed/simple;
-	bh=UgZW6E0tLXAqWBAe6bcg+nwvBZBAbFq/jebf70i9ZUo=;
+	s=arc-20240116; t=1753047055; c=relaxed/simple;
+	bh=7qo8q169HpYGyPlYvMRnPlWea28y55F958pWC2Qe/Ds=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=p7jl6bmXhLYYSld2VS/vVYTsZkOzZ63gy3SDAQdZIhkiShTdG+Vi/+JqUwhtSbu/3ettxPmxbtZvh7YaiEV31UwUFngYv1pYkdKzzTcjIk/cmTyqUBsXxKvXr9USffMdNVIotxR9qxzFLf4zSLNqQ6dU9JrIdmVexz3WnGrAeJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qIVNXeX9; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=nzmrOlKffglrnESCvpCkNK2oYnQPZpurNJjP+VSy4E7zoQUx/YO1FaHa4TIMvj74gbN0cR8MOW4YcuoJQkyhDLmYADd6gPO+1Cv4n5q+0nkLLQLYd5IaYvIgxaur6T6A2wiQGrGinqZZke4TBCHjifn5WsJS1HOV6AzVRTLsF2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hHGMsmZA; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qIVNXeX9"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-73e64e87d49so2161914a34.2
-        for <oe-kbuild@lists.linux.dev>; Sun, 20 Jul 2025 11:09:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753034962; x=1753639762; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=I3oeyMWOovcd12lQ3ZXa1ZAZl9gHnEtbWVtsJw7zMa0=;
-        b=qIVNXeX9E0NvEzKfrTPLH5sFjLlRYh1gfXXF26PO50ZRt/HSHxAhFCerQQs1teEJMQ
-         hPDAtQxPMUvOQXqWEOeos9IdeMwp6MMjwcxSEJufPTn6fbLGSZViVPw4v+tH/Dd4LU6U
-         OYIZpM4yExeNTCy2VqmwzoVpGZCkN4HvI2o+aqofiuthiWiP7JkM6BSe2V2xj9+SNTdD
-         z2vuUX/bN6AXQ49B2POy711iVpHOs+7qfS1q41Dy0jM6htg5InupLTGN/AyYYCunXwqD
-         jZa/jL8cy7JQQSb1BqQrt6X/VNfFSc7zyMgW0Z1wgCE8kS1gjJIuuAL8AXUr45fkYYQ1
-         GUOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753034962; x=1753639762;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I3oeyMWOovcd12lQ3ZXa1ZAZl9gHnEtbWVtsJw7zMa0=;
-        b=PDNSuzuh7ok9hmpoDyv34sa9lbw6u6t1x0UKmZzNa47qarERLIwSLcDzKaQqfuz1hi
-         IFpMHPDPfhMZFTi2mw2G3mlVhkSeBAudRVY/Sj0e1bFB8OaBKhJCogzIYsVZBiToZt6P
-         VcCDU06BhtaUNox1pOBRV/K5gaSqupCbQNypunLuoV0akseD4l6Rfox+NwN65OgDZrl3
-         /YIOxcKUcqnm/QKTGb6HlpntCOKlGukAE/DqGERyF4WCQ3Z3A8fQr6Qwp/mOpBNOBiMi
-         boG1VgSKpinIF3/L3YOb+WnlGum5S2FqLFlzd23faIr9KcMGfbwaT/qTxmKs6PXHgdWR
-         /Ctw==
-X-Gm-Message-State: AOJu0YyFAvNmE0bmdvSEE3ZD3f7+xWUb5+AcmX7FTP8W5o+J0QqeFP3O
-	+UOrd+WMGz7wIBj1mcsgoZq0Hr/JmummyArp1D6Zg9hSu/glsqXX91ftnqXRKrnYtB1t1RPK38/
-	GVfcVSsk=
-X-Gm-Gg: ASbGnctG98Ubh2d9nwDx1F0wyIR9gIauvg0ztkQhR1ssP69JAfMARw0jOlL9FXv/Seq
-	apI4sI0DUgqWClp6oGfrM6Sqw5iRME5BVQzUixljsGPuU5WvwQVMKGxCtDMymiQ93y5slTM8sha
-	Hi1ZA3U81KJKWe9wkbwW/KXm6E1oqlfOTMyQnjxxXr+YeUUcs58CDyvM01qbY+VH7nsMwPLhhls
-	6Td/DzObmtyzPiDduZKvcnkMDD+8zaiTqt9ygKP+rqDL5+u8TEKnqSH2e1N6SRNrdNyb+NQ1BAI
-	jLU0XlZCiQwa09pG8Sikc/aL2LOXamRzlQmr1GwQG/y/pL/y8eaItIQfOkIPTIS9P1P2/ivUhjo
-	8PeRVOJIwjPY=
-X-Google-Smtp-Source: AGHT+IHHMh2QyThIYM4S4Cqp/W3F21cycCG2+rVI38EbTeuflkBmq2oUSER3ansMmmQBq36/pIa9XQ==
-X-Received: by 2002:a05:6830:6484:b0:73e:9ee1:3d63 with SMTP id 46e09a7af769-73e9ee144b3mr2213384a34.9.1753034962320;
-        Sun, 20 Jul 2025 11:09:22 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700::17c0])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73e8a7edab2sm1927659a34.40.2025.07.20.11.09.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jul 2025 11:09:21 -0700 (PDT)
-Date: Sun, 20 Jul 2025 21:09:19 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Abid Ali <dev.nuvorolabs@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Abid Ali <dev.nuvorolabs@gmail.com>
-Subject: Re: [PATCH] net: phy: Fix premature resume by a PHY driver
-Message-ID: <47495a5b-a3e5-44da-993d-5a7d3c19bd5c@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hHGMsmZA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753047053; x=1784583053;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7qo8q169HpYGyPlYvMRnPlWea28y55F958pWC2Qe/Ds=;
+  b=hHGMsmZApZoYs9UeHkVtFC+GXK3rDCsDqbL4Mi0kl66TwiWKyD+OdO6G
+   Cuxt/6BgU3EIHGMFuFenmVBwMMhcvolgeZIXpMekhGEbRUsPuOsEq18cW
+   tMLxVTJB/1R3VZfF1w56tJff+/ry0JRUPcoJwWOfGxrjzRt2qXzOsYYd6
+   lrLEGqyfJ7rHapGpNVehtRpcWHXWr/fZsYoMJlJPkeRA5Z3UPB002i3GY
+   Wgb2+lk/vDm9+o7y1QID+Yc2MSd6E/ZL/ndM4cjAstAevAhxclHZf4agC
+   oO+BPgHOObQdrC/G6xBs+rUILy0QpwU3ntCUo0BaL8lze+ryaXUh5cWLC
+   A==;
+X-CSE-ConnectionGUID: 8tPQ1wztSs+OGCWYBR4fmQ==
+X-CSE-MsgGUID: LbPl9y6XRk2WadbH9GyicA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11498"; a="54364900"
+X-IronPort-AV: E=Sophos;i="6.16,327,1744095600"; 
+   d="scan'208";a="54364900"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2025 14:30:53 -0700
+X-CSE-ConnectionGUID: eio/KNiYRPa76/w7rhqN0Q==
+X-CSE-MsgGUID: ylAgvwAEREykxB/pmYMzSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,327,1744095600"; 
+   d="scan'208";a="158330991"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 20 Jul 2025 14:30:52 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1udbcQ-000GK9-01;
+	Sun, 20 Jul 2025 21:30:50 +0000
+Date: Mon, 21 Jul 2025 05:30:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [RFC PATCH] arm64: dts: qcom: sc7280: Flatten primary usb
+ controller node
+Message-ID: <202507210523.dlgqSc2w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -78,57 +61,51 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250718-phy_resume-v1-1-9c6b59580bee@gmail.com>
 
-Hi Abid,
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250720072125.1514823-1-krishna.kurapati@oss.qualcomm.com>
+References: <20250720072125.1514823-1-krishna.kurapati@oss.qualcomm.com>
+TO: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+
+Hi Krishna,
+
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abid-Ali/net-phy-Fix-premature-resume-by-a-PHY-driver/20250718-234858
-base:   347e9f5043c89695b01e66b3ed111755afcf1911
-patch link:    https://lore.kernel.org/r/20250718-phy_resume-v1-1-9c6b59580bee%40gmail.com
-patch subject: [PATCH] net: phy: Fix premature resume by a PHY driver
-config: sparc-randconfig-r071-20250719 (https://download.01.org/0day-ci/archive/20250720/202507200229.iOChX4Rp-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.3.0
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.16-rc6 next-20250718]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Kurapati/arm64-dts-qcom-sc7280-Flatten-primary-usb-controller-node/20250720-152310
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250720072125.1514823-1-krishna.kurapati%40oss.qualcomm.com
+patch subject: [RFC PATCH] arm64: dts: qcom: sc7280: Flatten primary usb controller node
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+config: arm64-randconfig-051-20250721 (https://download.01.org/0day-ci/archive/20250721/202507210523.dlgqSc2w-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250721/202507210523.dlgqSc2w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202507200229.iOChX4Rp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507210523.dlgqSc2w-lkp@intel.com/
 
-smatch warnings:
-drivers/net/phy/phy_device.c:1852 __phy_resume() error: we previously assumed 'phydrv->resume' could be null (see line 1849)
-
-vim +1852 drivers/net/phy/phy_device.c
-
-9c2c2e62df3fa3 Andrew Lunn           2018-02-27  1842  int __phy_resume(struct phy_device *phydev)
-481b5d938b4a60 Sebastian Hesselbarth 2013-12-13  1843  {
-0bd199fd9c19aa Russell King (Oracle  2024-02-02  1844) 	const struct phy_driver *phydrv = phydev->drv;
-8a8f8281e7e7a8 Heiner Kallweit       2020-03-26  1845  	int ret;
-481b5d938b4a60 Sebastian Hesselbarth 2013-12-13  1846  
-e6e918d4eb93f4 Heiner Kallweit       2021-01-06  1847  	lockdep_assert_held(&phydev->lock);
-f5e64032a799d4 Russell King          2017-12-12  1848  
-9421d84b1b3e16 Abid Ali              2025-07-18 @1849  	if (!phydrv || !phydrv->resume && phydev->suspended)
-                                                                       ^^^^^^^^^^^^^^^
-This checks for if the resume pointer is NULL, but if the resume is
-NULL but suspend is also NULL.  I'm surprised that the compiler allows
-us to write that comparison without adding parenthesis.  I thought that
-it would complain about && having higher precedence.
-
-8a8f8281e7e7a8 Heiner Kallweit       2020-03-26  1850  		return 0;
-8a477a6fb6a336 Florian Fainelli      2015-01-26  1851  
-8a8f8281e7e7a8 Heiner Kallweit       2020-03-26 @1852  	ret = phydrv->resume(phydev);
-                                                              ^^^^^^^^^^^^^^
-Then this will crash.
-
-8a8f8281e7e7a8 Heiner Kallweit       2020-03-26  1853  	if (!ret)
-8a477a6fb6a336 Florian Fainelli      2015-01-26  1854  		phydev->suspended = false;
-8a477a6fb6a336 Florian Fainelli      2015-01-26  1855  
-8a477a6fb6a336 Florian Fainelli      2015-01-26  1856  	return ret;
-481b5d938b4a60 Sebastian Hesselbarth 2013-12-13  1857  }
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4802.26-4875.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:154.29-157.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4077.10-4087.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc7280-idp.dtb: usb@8cf8800 (qcom,sc7280-dwc3): 'dr_mode' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
