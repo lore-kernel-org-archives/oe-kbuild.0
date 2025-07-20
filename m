@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C1618A6DF
-	for <oe-kbuild@lists.linux.dev>; Sat, 19 Jul 2025 22:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB963FE4
+	for <oe-kbuild@lists.linux.dev>; Sun, 20 Jul 2025 13:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752964271; cv=none; b=I02moWYidLawI7XsU9lpPkdWzcahTHILf3jwrVQOYho0pmyBGiRcEQ5chovMWStlJh2FdcZoMejFqrTjOq9A+BpqbloFC9fQChtPlUrw6F1Gnyi3l6IGW71KBTXU7LKKuqt7nKIoOfEtWvSCorFNJBF0AldKLYUgiOJM6HYifFM=
+	t=1753019060; cv=none; b=LcUYfIJ+OWCoV4gPn9/xPWjLiZzUHMJ0CDuEsLGJl/hqY7K4Y0nSApKCRsofcy/fTUPJFIwcI0n/+xPItzSyIv7BtWnzXygN1TJkNfImUsfKyjzap5bwAvobF9TLbZix5iVfOnEtaSBhyGLH+tGC6PEwxHLvNaFf9Pqn1ZqMGEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752964271; c=relaxed/simple;
-	bh=nfgrl3ruK3xI2YaiZK1/QCBmGZt815tgH8P5isFjpKk=;
+	s=arc-20240116; t=1753019060; c=relaxed/simple;
+	bh=h2Bi3ntruOoZLwk5kENEROzte3S7HhNJA6ho5P0YOt8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ncNHTLsWmvpvsD3o2Im7HlmqFI5nPTX2Caexn8EHBJA6DCdbSKrHDIvwL2be0GJwntAhx/t16qEmGRH98xO/dTUU+ZJR4HFCi7j7JCVKP0YnLRPODoM7sKCsFl4sx733yiYQPJcEP6Bv4bFV0LYmBWmI8H/bsAym/eLS6dgZYg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TQ+5yQDQ; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=RltUsaJvDHK8yjzIr6DQfQFlMwddAN96X63vyEMRsOOPmvQL85oRmEX1rrQjCPjszufW7/oe/MxFMm6EyZ/EQUNTOHRglJzLI35+ILXSOH89Xb1cIBsgwMbY/JhgCUSygUlcYntefcNUiVdQAY2+fWoJvdzBzZoL/SM6b2Hpigc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bKy16VcJ; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TQ+5yQDQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bKy16VcJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752964269; x=1784500269;
+  t=1753019059; x=1784555059;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nfgrl3ruK3xI2YaiZK1/QCBmGZt815tgH8P5isFjpKk=;
-  b=TQ+5yQDQNS6RdM569KeFz8Mr1YjxrfAFK1a5LgndjbvnDxa6A1Tqur5A
-   jvG/poVjU/NM145HtZkEPRKA1+WPI8qpr8XfUZXCN1SyE8bK0sa7d3vpW
-   NLvSk2+kcCty26mXZRwT7x0eRnXAB3yg1f/ju5qe1SVTF3wGcjDF2YsWd
-   8rlOrO5AOvuP55ITPwe1kETdFZ8LR44Kp6E31YgPGVok86Xw3IMkyg4pt
-   bq3E5uFvs+pTiKO466eYY70C8g6tixp4c5+l7cUoYM3f2RZNyx279Si/I
-   3hd0SzKjO9kSmp8nl3uBC8ePOhuxSZQ7yiFkH3yvk4tzojq5uj+lCXxSD
-   Q==;
-X-CSE-ConnectionGUID: mw3+9tIBQLuyR8ZP1nC0kQ==
-X-CSE-MsgGUID: eAiJ3KkyT9i6bwlODcy7xg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11497"; a="54936370"
-X-IronPort-AV: E=Sophos;i="6.16,325,1744095600"; 
-   d="scan'208";a="54936370"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 15:31:09 -0700
-X-CSE-ConnectionGUID: x551JIyJRNuInnyL53FqMA==
-X-CSE-MsgGUID: W3NQdDSqSgm0AiCxGYyJCw==
+  bh=h2Bi3ntruOoZLwk5kENEROzte3S7HhNJA6ho5P0YOt8=;
+  b=bKy16VcJfSZTQHmV46vEfhDr228I7tjxo78xv8UT6J4TjlPoytymX4T2
+   YYXsmtpc6JgvhpL2825TC7n/0naX71gZjNqn4mJZ6bG1XRyMIPSDrLAEM
+   bKTIeZlXAmsx0tuyAaI2j79GcPQwQ1pLvpaLjX9TMYvd7yLW4OTYkVdt1
+   2cvYVz7gOMLKiJ+RKdLwt5DNv4Nvt/azkp4GDRirye9tBZjktffLqJg3G
+   vt8lpsvYhBeGmXVepaKu3GiQl9vF2ukuhAZjDeljjN+dwSaoBXYKpDHtM
+   HSMn3spSFEMgUgHfpvUGsaaaIrCHhqkMlfm3OX1DM0dKuqLSS4HLMVleA
+   g==;
+X-CSE-ConnectionGUID: WmnTagXqQROH/oetKXJQKA==
+X-CSE-MsgGUID: waSfZHKcRMyQHhD2MdlZ1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11498"; a="55128384"
+X-IronPort-AV: E=Sophos;i="6.16,327,1744095600"; 
+   d="scan'208";a="55128384"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2025 06:44:16 -0700
+X-CSE-ConnectionGUID: 669onYnpSKmpdo3GWBK3Qw==
+X-CSE-MsgGUID: TaFqIR26SEGUdUdH3jwFWQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,325,1744095600"; 
-   d="scan'208";a="159205330"
+X-IronPort-AV: E=Sophos;i="6.16,327,1744095600"; 
+   d="scan'208";a="157934283"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Jul 2025 15:31:07 -0700
+  by orviesa010.jf.intel.com with ESMTP; 20 Jul 2025 06:44:14 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1udG5B-000Fob-1h;
-	Sat, 19 Jul 2025 22:31:05 +0000
-Date: Sun, 20 Jul 2025 06:30:32 +0800
+	id 1udUKq-000G8P-0Y;
+	Sun, 20 Jul 2025 13:44:12 +0000
+Date: Sun, 20 Jul 2025 21:43:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [brgl:gpio/for-next 95/99]
- arch/arm/boot/dts/cirrus/ep7211-edb7211.dtb: gpio@80000000
- (cirrus,ep7209-gpio): reg: [[2147483648, 1], [2147483712, 1]] is too long
-Message-ID: <202507200843.pivebZZ7-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [bcachefs:master 8/212] fs/bcachefs/journal.c:1091
+ __bch2_next_write_buffer_flush_journal_buf() warn: 'ret' is an error pointer
+ or valid
+Message-ID: <202507202116.ELQyRxI3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,54 +63,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-gpio@vger.kernel.org
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-head:   5607f5ed3c5f30f41e72ce09c8e616af0fc0d474
-commit: f03a7f20b23c1abb1066f791806bbca406362324 [95/99] dt-bindings: gpio: Create a trivial GPIO schema
-:::::: branch date: 8 hours ago
+tree:   https://evilpiepirate.org/git/bcachefs.git master
+head:   d156fb9d839cefc9bfff54b421e93c9178afc40f
+commit: a911a076477d96cc41e74e849af6960b2c5694c3 [8/212] bcachefs: Add missing barriers around journal reservations
+:::::: branch date: 10 hours ago
 :::::: commit date: 2 days ago
-config: arm-randconfig-052-20250718 (https://download.01.org/0day-ci/archive/20250720/202507200843.pivebZZ7-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250720/202507200843.pivebZZ7-lkp@intel.com/reproduce)
+config: i386-randconfig-141-20250720 (https://download.01.org/0day-ci/archive/20250720/202507202116.ELQyRxI3-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507200843.pivebZZ7-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507202116.ELQyRxI3-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/cirrus/ep7209.dtsi:44.23-49.5: Warning (unique_unit_address_if_enabled): /soc/clks@80000000: duplicate unit-address (also used in node /soc/gpio@80000000)
-   arch/arm/boot/dts/cirrus/ep7209.dtsi:51.23-56.5: Warning (unique_unit_address_if_enabled): /soc/intc@80000000: duplicate unit-address (also used in node /soc/gpio@80000000)
-   arch/arm/boot/dts/cirrus/ep7211-edb7211.dtb: /: failed to match any schema with compatible: ['cirrus,edb7211', 'cirrus,ep7211', 'cirrus,ep7209']
-   arch/arm/boot/dts/cirrus/ep7211-edb7211.dtb: /: failed to match any schema with compatible: ['cirrus,edb7211', 'cirrus,ep7211', 'cirrus,ep7209']
-   arch/arm/boot/dts/cirrus/ep7211-edb7211.dtb: /: failed to match any schema with compatible: ['cirrus,edb7211', 'cirrus,ep7211', 'cirrus,ep7209']
-   arch/arm/boot/dts/cirrus/ep7211-edb7211.dtb: cpus: #address-cells: 0 is less than the minimum of 1
-   	from schema $id: http://devicetree.org/schemas/cpus.yaml#
-   arch/arm/boot/dts/cirrus/ep7211-edb7211.dtb: cpu (arm,arm720t): 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/cirrus/ep7211-edb7211.dtb: /soc/clks@80000000: failed to match any schema with compatible: ['cirrus,ep7209-clk']
->> arch/arm/boot/dts/cirrus/ep7211-edb7211.dtb: gpio@80000000 (cirrus,ep7209-gpio): reg: [[2147483648, 1], [2147483712, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
-   arch/arm/boot/dts/cirrus/ep7211-edb7211.dtb: gpio@80000001 (cirrus,ep7209-gpio): reg: [[2147483649, 1], [2147483713, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
-   arch/arm/boot/dts/cirrus/ep7211-edb7211.dtb: gpio@80000003 (cirrus,ep7209-gpio): reg: [[2147483651, 1], [2147483715, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
-   arch/arm/boot/dts/cirrus/ep7211-edb7211.dtb: gpio@80000083 (cirrus,ep7209-gpio): reg: [[2147483779, 1], [2147483843, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml#
-   arch/arm/boot/dts/cirrus/ep7211-edb7211.dtb: /soc/bus@80000180: failed to match any schema with compatible: ['cirrus,ep7209-bus', 'simple-bus']
-   arch/arm/boot/dts/cirrus/ep7211-edb7211.dtb: nor@0 (cfi-flash): $nodename:0: 'nor@0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+smatch warnings:
+fs/bcachefs/journal.c:1091 __bch2_next_write_buffer_flush_journal_buf() warn: 'ret' is an error pointer or valid
+
+vim +/ret +1091 fs/bcachefs/journal.c
+
+768ac63924775d Kent Overstreet 2019-02-14  1059  
+0eaac0b44fa93a Kent Overstreet 2024-04-23  1060  static struct journal_buf *__bch2_next_write_buffer_flush_journal_buf(struct journal *j,
+0eaac0b44fa93a Kent Overstreet 2024-04-23  1061  						u64 max_seq, bool *blocked)
+09caeabe1a5daa Kent Overstreet 2023-11-02  1062  {
+09caeabe1a5daa Kent Overstreet 2023-11-02  1063  	struct journal_buf *ret = NULL;
+09caeabe1a5daa Kent Overstreet 2023-11-02  1064  
+72e71bf0298c7e Kent Overstreet 2024-05-06  1065  	/* We're inside wait_event(), but using mutex_lock(: */
+72e71bf0298c7e Kent Overstreet 2024-05-06  1066  	sched_annotate_sleep();
+09caeabe1a5daa Kent Overstreet 2023-11-02  1067  	mutex_lock(&j->buf_lock);
+09caeabe1a5daa Kent Overstreet 2023-11-02  1068  	spin_lock(&j->lock);
+09caeabe1a5daa Kent Overstreet 2023-11-02  1069  	max_seq = min(max_seq, journal_cur_seq(j));
+09caeabe1a5daa Kent Overstreet 2023-11-02  1070  
+09caeabe1a5daa Kent Overstreet 2023-11-02  1071  	for (u64 seq = journal_last_unwritten_seq(j);
+09caeabe1a5daa Kent Overstreet 2023-11-02  1072  	     seq <= max_seq;
+09caeabe1a5daa Kent Overstreet 2023-11-02  1073  	     seq++) {
+09caeabe1a5daa Kent Overstreet 2023-11-02  1074  		unsigned idx = seq & JOURNAL_BUF_MASK;
+09caeabe1a5daa Kent Overstreet 2023-11-02  1075  		struct journal_buf *buf = j->buf + idx;
+09caeabe1a5daa Kent Overstreet 2023-11-02  1076  
+09caeabe1a5daa Kent Overstreet 2023-11-02  1077  		if (buf->need_flush_to_write_buffer) {
+09caeabe1a5daa Kent Overstreet 2023-11-02  1078  			union journal_res_state s;
+09caeabe1a5daa Kent Overstreet 2023-11-02  1079  			s.v = atomic64_read_acquire(&j->reservations.counter);
+09caeabe1a5daa Kent Overstreet 2023-11-02  1080  
+0eaac0b44fa93a Kent Overstreet 2024-04-23  1081  			unsigned open = seq == journal_cur_seq(j) && __journal_entry_is_open(s);
+0eaac0b44fa93a Kent Overstreet 2024-04-23  1082  
+0eaac0b44fa93a Kent Overstreet 2024-04-23  1083  			if (open && !*blocked) {
+0eaac0b44fa93a Kent Overstreet 2024-04-23  1084  				__bch2_journal_block(j);
+0eaac0b44fa93a Kent Overstreet 2024-04-23  1085  				*blocked = true;
+0eaac0b44fa93a Kent Overstreet 2024-04-23  1086  			}
+0eaac0b44fa93a Kent Overstreet 2024-04-23  1087  
+898bda5b72a72a Kent Overstreet 2025-01-23  1088  			ret = journal_state_count(s, idx & JOURNAL_STATE_BUF_MASK) > open
+09caeabe1a5daa Kent Overstreet 2023-11-02  1089  				? ERR_PTR(-EAGAIN)
+09caeabe1a5daa Kent Overstreet 2023-11-02  1090  				: buf;
+a911a076477d96 Kent Overstreet 2025-07-17 @1091  			if (!ret)
+a911a076477d96 Kent Overstreet 2025-07-17  1092  				smp_mb();
+09caeabe1a5daa Kent Overstreet 2023-11-02  1093  			break;
+09caeabe1a5daa Kent Overstreet 2023-11-02  1094  		}
+09caeabe1a5daa Kent Overstreet 2023-11-02  1095  	}
+09caeabe1a5daa Kent Overstreet 2023-11-02  1096  
+09caeabe1a5daa Kent Overstreet 2023-11-02  1097  	spin_unlock(&j->lock);
+09caeabe1a5daa Kent Overstreet 2023-11-02  1098  	if (IS_ERR_OR_NULL(ret))
+09caeabe1a5daa Kent Overstreet 2023-11-02  1099  		mutex_unlock(&j->buf_lock);
+09caeabe1a5daa Kent Overstreet 2023-11-02  1100  	return ret;
+09caeabe1a5daa Kent Overstreet 2023-11-02  1101  }
+09caeabe1a5daa Kent Overstreet 2023-11-02  1102  
 
 -- 
 0-DAY CI Kernel Test Service
