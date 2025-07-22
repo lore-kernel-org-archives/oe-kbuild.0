@@ -1,136 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0438118D643
-	for <oe-kbuild@lists.linux.dev>; Mon, 21 Jul 2025 23:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB372AF19;
+	Tue, 22 Jul 2025 02:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753138912; cv=none; b=mv3Oy+MTWnUUn+dZZYecernbD71ouTiSkF6f+gstUq/PBiZMUpVwu/GDhhITeyfvKWtWfkPnJBR6sty1czwwT4JFNskkLqL3YHK1G5/rx1vslBxPdwskfaEYjepcJjLtkqaCDV0dm8HM044vuVYTb6/jGYqnRxlZmzGn/O7duvk=
+	t=1753152543; cv=none; b=iugSgaL2fsDQYbLynkWGQ5tCi3dp5FBWG77xJF6ft2jDbHiiOZne2xDKneKioPikcMTEwVUeREcVx9q2DfwZyu8ZrvRKxycaw4eBNrTz+ue07Vkt0HnwqU69PQJZI7Zvg2pxiB1M1MVIP5NSHeP62LfUwTiEBkN8nQ1tNeQdVBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753138912; c=relaxed/simple;
-	bh=Hq5yLnSQOfgpoSH1c0k3b2OPfSZqWoFtFepSL2oA6eU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tGTMCeTNtw5KjYOCBSVXIf9lmkGgnnmM+tUk3NiiiZcJGC17ms93XewuXVEvgYQ4RdMa1tnzbYxzl45eqU3SvPwNdGGUJfPqh0pS5snIor7aFTn5zxUB+8PlLeirRq2oPWM7nsXBEr2xFAszAGW77lWsvbqNKwbITLj8gD0Vgxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DFQ29KfB; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DFQ29KfB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753138910; x=1784674910;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Hq5yLnSQOfgpoSH1c0k3b2OPfSZqWoFtFepSL2oA6eU=;
-  b=DFQ29KfBrQxFR1ju6VWPmJSvfPu1R7VjPydbTLZb2XJQ/+AspeEQYWEK
-   I8AZvF1qTBB+zeXWAsI1CVGAQcz6XqtsDbLXCWtcdN4wW/qL7N+bwBqXF
-   sAykqHegy9Hs43GAwxKMoltBDdAR0MPiMzpU2Dho54jnGQExJeVcGmK8a
-   wCUFmNoJTEfRDNnwq40P34laVeNno2JvYkr2cIdo7zqltQF/eL0G0d4Qx
-   opm4VEp0/Cn8V8SAW65t8vspK4Fn3J8ue5/I7ONBmuZcO2UI6mpJ85eWD
-   yP+6YFr6vsWbyy09BvJZMdNXgV38vRe9CGLo9N6GQTJiF/TZmhD0qGX0U
-   w==;
-X-CSE-ConnectionGUID: YaH+u5CDTC2k6xD9aEQIxQ==
-X-CSE-MsgGUID: NKIbAPjfS1i8+s0BzX3Uew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="65636895"
-X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
-   d="scan'208";a="65636895"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 16:01:50 -0700
-X-CSE-ConnectionGUID: BsHgICnySayjQIdPboYu8w==
-X-CSE-MsgGUID: eqcsD6LBRDyb/kKt77HC6A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
-   d="scan'208";a="182685233"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8b57277650df) ([10.91.175.65])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Jul 2025 16:01:48 -0700
-Received: from kbuild by 8b57277650df with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1udzVy-0001RT-0n;
-	Mon, 21 Jul 2025 23:01:46 +0000
-Date: Tue, 22 Jul 2025 01:01:45 +0200
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [soc:renesas/dt64-2 47/48]
- arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb:
- spi@11030000 (renesas,r9a09g056-xspi): Unevaluated properties are not
- allowed ('compatible' was unexpected)
-Message-ID: <202507220128.gwuSNO6n-lkp@intel.com>
+	s=arc-20240116; t=1753152543; c=relaxed/simple;
+	bh=9J99+paIOjgsfN7RjGyOlgJSazMYPFDxkztxwc2Lp20=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=cO1kIBVOAEjsOD7hIs/xUZK8HIYx4WuJJH2FL7CTndX4GeMA0rQgoBMDl+sE9rmOZfNNga1WUKHHwMXGX1gMuTCgQKZN4ZEZwQKyw/5w2WRGBCaqY7H+KRYyYrr9NlOPgiGa+4DISipnk8jPDRve6PC+7+ntAADO2TckfKm6llU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=net-swift.com; spf=pass smtp.mailfrom=net-swift.com; arc=none smtp.client-ip=54.254.200.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=net-swift.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=net-swift.com
+X-QQ-mid: zesmtpsz3t1753152494t57810750
+X-QQ-Originating-IP: puccBWfF/Orvo5AWHvH+Ko9BdKvW8qzebvwg9Fyk7Zs=
+Received: from smtpclient.apple ( [36.24.205.22])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 22 Jul 2025 10:48:12 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 11290490953618489811
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
+Subject: Re: [linux-next:master 7606/11307]
+ drivers/net/ethernet/wangxun/libwx/wx_vf_common.c:99
+ wx_request_msix_irqs_vf() warn: why call request_threaded_irq() with a NULL
+ thread
+From: "mengyuanlou@net-swift.com" <mengyuanlou@net-swift.com>
+In-Reply-To: <ada3c3a9-556f-4860-bff0-af0364a984b8@suswa.mountain>
+Date: Tue, 22 Jul 2025 10:48:00 +0800
+Cc: oe-kbuild@lists.linux.dev,
+ lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev,
+ Jakub Kicinski <kuba@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <C2F07D3D-DB95-4E42-948F-ADE4025FDCB9@net-swift.com>
+References: <ada3c3a9-556f-4860-bff0-af0364a984b8@suswa.mountain>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+X-Mailer: Apple Mail (2.3826.400.131.1.6)
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:net-swift.com:qybglogicsvrsz:qybglogicsvrsz4a-0
+X-QQ-XMAILINFO: N0mS+7D7RQfjlhSJKSbnUOMgXCTAs1zbfUjsRVO2Tq65+RBZepv5nqHO
+	BbKFtQunb3MQbRmwXEdhJZISB29TIv+Srt4KUuNercUoWhq6Bv6InkWQH9eRiTPkiJuHm/q
+	jf/KxujTVWQ/F1tSQeFNK1N/U0jQARQodruil2fuH5YZoapSDaqmXjak6RUCYMOiHi0pmBz
+	wS61YHZ+ZrKKrmh9W/pg9DY+LOT5oABLegQqylbPKWe3s7KleaRiqbGqGW7nE0cQmhOljtw
+	ldgyJ/F7BAS7szpJnHhwhC6Ncn4j49Hl8zSGIqTDXI2c5edhWleZL40Ox4SBjOdAClhS0+O
+	epzG2uCrB7xilVgKp/M3SsdYAl0pH15LDv6uLdvTlpcF3hnKYppYfGk++TeS2KwnBx+HvvE
+	j1pPBtv2M9u5LP3gdXkzpdqXVJc1XqALZYUKOGGAdP5IVPySQp6uXEnWAnhZk3UJJU4rz0a
+	VcrdyZjL5b7xNDvjaC7Pb3G58oMVAt64Z6d9LtRGyR1QMLWbwNO8yU3nu+qoLtUmy01oWyK
+	HQskqLwKq5sjtWd+/ZL3XpNKbltUelHr60Mq/8tEnWV8NwOkWjoxb/F2rH88Tbv/Mu6EXon
+	qOTnTA2MelqY1gd4BjcaiNEpRYWoZ5aIY267GvjV+9XBkY0UbJySgOiAij3E4mXf7qVSybc
+	sHKOqcieE/haQhDRe8wCd2WECWUvHKTM/2k6IN9+04dMeMIzJvfoziF0vNyYgMhNkibe2m+
+	EPqjxGpjsg6wDTlvacJSb4fx5ERJZFNwD3I7Hf2qY+pqUxJz5wScisk+i4t1RoGD52AbMQ3
+	6k+1iMMYgjer8jI2sHcWX0HMLvIcl+PZsV6eVRSVAFmgzc7O9vLeVbyoZotpk7xzQxz+P+z
+	Woz/T+3TO4e0l1XC1Dq5ZACy2vR+51nekz+PD1VOrjTICu5nWIcMGoS2Plb21wzdQjJNFvJ
+	JCg/IeJafeK2tZvGG701AJ7PGH3/sNNuNOKOsCyQLBXOMOPJsCvBmFbl2G4AxmqxuAgRJHV
+	UzM2kPI4OQCTPU0+MlVbF2ZRXTUFc=
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-RECHKSPAM: 0
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: arm@kernel.org
-TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git renesas/dt64-2
-head:   145a2a9e27562926c592645a05d682fe8e1f82e9
-commit: 885bf52d044ad24acab2b7f4d9e7a0d233dc8f13 [47/48] arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Enable serial NOR FLASH
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: arm64-randconfig-2051-20250717 (https://download.01.org/0day-ci/archive/20250722/202507220128.gwuSNO6n-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507220128.gwuSNO6n-lkp@intel.com/reproduce)
+> 2025=E5=B9=B47=E6=9C=8819=E6=97=A5 12:18=EF=BC=8CDan Carpenter =
+<dan.carpenter@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> tree:   =
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git =
+master
+> head:   d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
+> commit: fd0a2e03bf6083354994c2efe2bd12e369c0c830 [7606/11307] net: =
+txgbevf: init interrupts and request irqs
+> config: parisc-randconfig-r071-20250719 =
+(https://download.01.org/0day-ci/archive/20250719/202507191110.FWkwuVJQ-lk=
+p@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 8.5.0
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: =
+https://lore.kernel.org/r/202507191110.FWkwuVJQ-lkp@intel.com/
+>=20
+> smatch warnings:
+> drivers/net/ethernet/wangxun/libwx/wx_vf_common.c:99 =
+wx_request_msix_irqs_vf() warn: why call request_threaded_irq() with a =
+NULL thread
+>=20
+> vim +99 drivers/net/ethernet/wangxun/libwx/wx_vf_common.c
+>=20
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   74  int =
+wx_request_msix_irqs_vf(struct wx *wx)
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   75  {
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   76   struct net_device =
+*netdev =3D wx->netdev;
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   77   int vector, err;
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   78 =20
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   79   for (vector =3D 0; =
+vector < wx->num_q_vectors; vector++) {
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   80   struct wx_q_vector =
+*q_vector =3D wx->q_vector[vector];
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   81   struct msix_entry *entry =
+=3D &wx->msix_q_entries[vector];
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   82 =20
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   83   if (q_vector->tx.ring && =
+q_vector->rx.ring)
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   84   snprintf(q_vector->name, =
+sizeof(q_vector->name) - 1,
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   85   "%s-TxRx-%d", =
+netdev->name, entry->entry);
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   86   else
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   87   /* skip this unused =
+q_vector */
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   88   continue;
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   89 =20
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   90   err =3D =
+request_irq(entry->vector, wx_msix_clean_rings, 0,
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   91    q_vector->name, =
+q_vector);
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   92   if (err) {
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   93   wx_err(wx, "request_irq =
+failed for MSIX interrupt %s Error: %d\n",
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   94         q_vector->name, =
+err);
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   95   goto free_queue_irqs;
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   96   }
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   97   }
+> eb4898fde1de8c Mengyuan Lou 2025-07-04   98 =20
+> fd0a2e03bf6083 Mengyuan Lou 2025-07-04  @99   err =3D =
+request_threaded_irq(wx->msix_entry->vector, wx_msix_misc_vf,
+> fd0a2e03bf6083 Mengyuan Lou 2025-07-04  100     NULL, IRQF_ONESHOT, =
+netdev->name, wx);
+>                                                                        =
+   ^^^^
+> It's not a threaded IRQ if the thread is NULL.  You could just
+> use request_irq().
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507220128.gwuSNO6n-lkp@intel.com/
+Thanks, I got it.
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: spi@11030000 (renesas,r9a09g056-xspi): compatible:0: 'renesas,r9a09g047-xspi' was expected
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: spi@11030000 (renesas,r9a09g056-xspi): compatible: ['renesas,r9a09g056-xspi', 'renesas,r9a09g047-xspi'] is too long
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml#
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: spi@11030000 (renesas,r9a09g056-xspi): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: serial@11c01400 (renesas,scif-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,scif-r9a09g056', 'renesas,scif-r9a09g057'] is too long
-   	['renesas,scif-r9a09g056', 'renesas,scif-r9a09g057'] is too short
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r7s72100']
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r7s9210']
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r8a7778', 'renesas,scif-r8a7779']
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r8a7742', 'renesas,scif-r8a7743', 'renesas,scif-r8a7744', 'renesas,scif-r8a7745', 'renesas,scif-r8a77470', 'renesas,scif-r8a7790', 'renesas,scif-r8a7791', 'renesas,scif-r8a7792', 'renesas,scif-r8a7793', 'renesas,scif-r8a7794']
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r8a774a1', 'renesas,scif-r8a774a3', 'renesas,scif-r8a774b1', 'renesas,scif-r8a774c0', 'renesas,scif-r8a774e1', 'renesas,scif-r8a7795', 'renesas,scif-r8a7796', 'renesas,scif-r8a77961', 'renesas,scif-r8a77965', 'renesas,scif-r8a77970', 'renesas,scif-r8a77980', 'renesas,scif-r8a77990', 'renesas,scif-r8a77995']
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r8a779a0', 'renesas,scif-r8a779f0', 'renesas,scif-r8a779g0', 'renesas,scif-r8a779h0']
---
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: pinctrl@10410000 (renesas,r9a09g056-pinctrl): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: spi@11030000 (renesas,r9a09g056-xspi): compatible:0: 'renesas,r9a09g047-xspi' was expected
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: spi@11030000 (renesas,r9a09g056-xspi): compatible: ['renesas,r9a09g056-xspi', 'renesas,r9a09g047-xspi'] is too long
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml#
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: spi@11030000 (renesas,r9a09g056-xspi): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/renesas,rzg3e-xspi.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: serial@11c01400 (renesas,scif-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,scif-r9a09g056', 'renesas,scif-r9a09g057'] is too long
-   	['renesas,scif-r9a09g056', 'renesas,scif-r9a09g057'] is too short
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r7s72100']
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r7s9210']
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r8a7778', 'renesas,scif-r8a7779']
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r8a7742', 'renesas,scif-r8a7743', 'renesas,scif-r8a7744', 'renesas,scif-r8a7745', 'renesas,scif-r8a77470', 'renesas,scif-r8a7790', 'renesas,scif-r8a7791', 'renesas,scif-r8a7792', 'renesas,scif-r8a7793', 'renesas,scif-r8a7794']
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r8a774a1', 'renesas,scif-r8a774a3', 'renesas,scif-r8a774b1', 'renesas,scif-r8a774c0', 'renesas,scif-r8a774e1', 'renesas,scif-r8a7795', 'renesas,scif-r8a7796', 'renesas,scif-r8a77961', 'renesas,scif-r8a77965', 'renesas,scif-r8a77970', 'renesas,scif-r8a77980', 'renesas,scif-r8a77990', 'renesas,scif-r8a77995']
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r8a779a0', 'renesas,scif-r8a779f0', 'renesas,scif-r8a779g0', 'renesas,scif-r8a779h0']
+Mengyuan Lou
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>=20
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  101   if (err) {
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  102   wx_err(wx, "request_irq =
+for msix_other failed: %d\n", err);
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  103   goto free_queue_irqs;
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  104   }
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  105 =20
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  106   return 0;
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  107 =20
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  108  free_queue_irqs:
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  109   while (vector) {
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  110   vector--;
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  111   =
+free_irq(wx->msix_q_entries[vector].vector,
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  112   wx->q_vector[vector]);
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  113   }
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  114   =
+wx_reset_interrupt_capability(wx);
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  115   return err;
+> eb4898fde1de8c Mengyuan Lou 2025-07-04  116  }
+>=20
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>=20
+>=20
+
