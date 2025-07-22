@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA2C8836
-	for <oe-kbuild@lists.linux.dev>; Tue, 22 Jul 2025 06:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783712EA15D
+	for <oe-kbuild@lists.linux.dev>; Tue, 22 Jul 2025 14:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753165341; cv=none; b=gHr600xQmsS0MBLHAxYSL0/6UUSJ013KOa51RRlk6gscWpzsBVsXeSnZYrbVHydAlaHcmAF1LR4gjyV1pNrOQfPAdUN62+vnirj3uj3+HENRlhLsuFmq5JNG1fT6XWX8bGW6hHdo6ut2JGA7SfK0bOeOOJKwCmgyseP9gEnC+UA=
+	t=1753193930; cv=none; b=aMA/xz1nmp4RNqikHzI8WEveDgiHb/6o63u1yKy0IL+mK8NN+9qqzMHEJw8zWsr3SyR6G24J9G0C0j2R73NDtSXS7pG1eDh6inTKs/hrhYxsvzl/OCZ5qvWzOjTyASR4Y6ut2S3lU/H7upFcRI5TtQi2DWxCUSuRqwmqusip+9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753165341; c=relaxed/simple;
-	bh=nQHnJKkxi9k1Vtmtz95eVD1yFtbzqtt1hqR38wbb2s8=;
+	s=arc-20240116; t=1753193930; c=relaxed/simple;
+	bh=/2dCZsvkAPfBUOzNHr1YgdTw+AnEUkHr5cfkPjcVyDI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n2af0Ox57x2J9aSzwhqxvBvirxf0xQHSJwisC0KNDUqCgNp5sPTvrAc5yNOh5msLDbk6VhkUb5f08e4sN79/cutmDLHMbxG2PJeymciY7btYobLWWHSRiMokdY6CELlZ72vDvPsuAd+DqengTjFGOg4oCf+ZpwR+eTtlMHaauug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fvawu9bz; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=Uj9stPRM6d6jSQgc72Le/ToYbRxACGmdRcocCetC2tchLVT8I+Ic4UgwOvQ/fG5Dl2LVISusN9YAcXXda2W5OrYw5FiHzw4hXklrASlyFvzpC4y2DTz7iNGBTzJDfbmrcdtJYRkbPMxFBY9TY2D18kA6j9v3Ldw0ddJKr/fjuKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G5YCQ13/; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fvawu9bz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G5YCQ13/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753165340; x=1784701340;
+  t=1753193929; x=1784729929;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nQHnJKkxi9k1Vtmtz95eVD1yFtbzqtt1hqR38wbb2s8=;
-  b=fvawu9bzPIBk0na7k1N8/HrfLXZuNtyKRD1DuZxk212CrqYf5PjydNXN
-   Qad3/etyvollaL+KeBEM6WmDFLKyZZkxrREk69XTqco/Spu+kisJfeUIA
-   3ISmDv02V/mAtw9aaGJ6wXiap9wB891nqbq13y6za7/d7Ilh171PU2aCt
-   11B7cso3EyZLsHcHlKZfFRZP3CBiflN4UoCoEjQwhQlAMxaX7hfREGcPJ
-   wrNcEj9NqEFWzXjZACd50M4NjIPamfs4TTtiniLESjBxraulxp2KbpXln
-   6dM5vsLjTZMBkZZY9f/TQ0e/s9BM8mDf2rhjuK4ZVS5L480hV3XaNX1yY
-   g==;
-X-CSE-ConnectionGUID: 9VbQVdAIQHGtAJr9LHting==
-X-CSE-MsgGUID: tstYe8sxSLeGbSWOMMh2gA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="58015248"
-X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
-   d="scan'208";a="58015248"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 23:22:19 -0700
-X-CSE-ConnectionGUID: rwWG8Hg6RRix6C9seYbepg==
-X-CSE-MsgGUID: nRcrSoVsQ9mWFMH9snzi9g==
+  bh=/2dCZsvkAPfBUOzNHr1YgdTw+AnEUkHr5cfkPjcVyDI=;
+  b=G5YCQ13/8eiAfQ3CJOKD1+mR7d7qtx5fILrxKOW0MBpQN80LU7TPrSHk
+   8KTEujWPmxj3jg0EL3023A3C5aXebuUUyTuhLoRqvo0vgI7e6P7mJTW+J
+   59DMFMBQOyu2Cl0GVARys1VwNTxFerD8mHC01I6sjp+2y4u68m37ElTUU
+   w27r5BJQae/irT+eJ8GuTRGHq5L78Z8l1nP058d+Q7uVHZors2AEipanP
+   LEen0UHTNC5WP1LU5Qy12SnRF8FeEtu9y0R8PtgWi3Bm8DfoSvt9yXV71
+   dsD7hikdd/GpXeGotknXia3AhnvpV5NB1Y2xfp4FRztJP2qwm3Vh4ske+
+   A==;
+X-CSE-ConnectionGUID: SZXe3AU8QB2Iz5lCyQwliA==
+X-CSE-MsgGUID: sFZpqCDdQDeZgjbSwwCGLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="55535980"
+X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
+   d="scan'208";a="55535980"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 07:18:45 -0700
+X-CSE-ConnectionGUID: xUJyRgi2RH6mD+TydAJj2g==
+X-CSE-MsgGUID: hk39SsnJTbK6skMesFqUCA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
-   d="scan'208";a="159453544"
+X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
+   d="scan'208";a="159471516"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 21 Jul 2025 23:22:18 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 22 Jul 2025 07:18:43 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ue6OF-000HWR-2h;
-	Tue, 22 Jul 2025 06:22:15 +0000
-Date: Tue, 22 Jul 2025 14:21:37 +0800
+	id 1ueDpJ-000IKK-28;
+	Tue, 22 Jul 2025 14:18:41 +0000
+Date: Tue, 22 Jul 2025 22:18:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] tools/objtool: Fix typo in warning message
-Message-ID: <202507221431.fhyNGiNQ-lkp@intel.com>
+Subject: [soc:mediatek/dt 6/7]
+ arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: timer@10008000
+ (mediatek,mt6572-timer): compatible: 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <202507222222.v5jdcW8J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,69 +65,56 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250721180422.24656-1-praveenrajendran2009@gmail.com>
-References: <20250721180422.24656-1-praveenrajendran2009@gmail.com>
-TO: Praveen Rajendran <praveenrajendran2009@gmail.com>
-TO: jpoimboe@kernel.org
-CC: peterz@infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: Praveen Rajendran <praveenrajendran2009@gmail.com>
+CC: linux-arm-kernel@lists.infradead.org
+CC: arm@kernel.org
+TO: Max Shevchenko <wctrl@proton.me>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Hi Praveen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.16-rc7 next-20250722]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Praveen-Rajendran/tools-objtool-Fix-typo-in-warning-message/20250722-021135
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250721180422.24656-1-praveenrajendran2009%40gmail.com
-patch subject: [PATCH] tools/objtool: Fix typo in warning message
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: x86_64-buildonly-randconfig-002-20250722 (https://download.01.org/0day-ci/archive/20250722/202507221431.fhyNGiNQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507221431.fhyNGiNQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git mediatek/dt
+head:   5a8e7b4eaaa232d747517fe34ba6867139a4cea8
+commit: 7f3f9e565316d4c9c739569d46ae812b8c1e0535 [6/7] ARM: dts: mediatek: add basic support for JTY D101 board
+:::::: branch date: 11 days ago
+:::::: commit date: 11 days ago
+config: arm-randconfig-051-20250722 (https://download.01.org/0day-ci/archive/20250722/202507222222.v5jdcW8J-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507222222.v5jdcW8J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507221431.fhyNGiNQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507222222.v5jdcW8J-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   check.c: In function 'create_return_sites_sections':
->> check.c:770:1: error: 'tools' undeclared (first use in this function)
-     770 | tools/objtool/.check.c.swp              idx++;
-         | ^~~~~
-   check.c:770:1: note: each undeclared identifier is reported only once for each function it appears in
->> check.c:770:7: error: 'objtool' undeclared (first use in this function); did you mean 'bool'?
-     770 | tools/objtool/.check.c.swp              idx++;
-         |       ^~~~~~~
-         |       bool
->> check.c:770:15: error: expected expression before '.' token
-     770 | tools/objtool/.check.c.swp              idx++;
-         |               ^
-   make[5]: *** [tools/build/Makefile.build:85: tools/objtool/check.o] Error 1 shuffle=2554924622
-   make[5]: Target '__build' not remade because of errors.
-   make[4]: *** [Makefile:65: tools/objtool/objtool-in.o] Error 2 shuffle=2554924622
-   make[4]: Target 'all' not remade because of errors.
-   make[3]: *** [Makefile:73: objtool] Error 2 shuffle=2554924622
-   make[2]: *** [Makefile:1443: tools/objtool] Error 2 shuffle=2554924622
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2554924622
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2554924622
-   make: Target 'prepare' not remade because of errors.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/mediatek/mt6572-jty-d101.dts:22.37-29.5: Warning (unit_address_vs_reg): /chosen/framebuffer@bf400000: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/mediatek/mt6572-jty-d101.dts:17.9-30.4: Warning (avoid_unnecessary_addr_size): /chosen: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: timer@10008000 (mediatek,mt6572-timer): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt6572-timer', 'mediatek,mt6577-timer'] is too long
+   	'mediatek,mt6572-timer' is not one of ['mediatek,mt6577-timer', 'mediatek,mt6765-timer', 'mediatek,mt6795-systimer']
+   	'mediatek,mt6572-timer' is not one of ['mediatek,mt2701-timer', 'mediatek,mt6580-timer', 'mediatek,mt6582-timer', 'mediatek,mt6589-timer', 'mediatek,mt7623-timer', 'mediatek,mt8127-timer', 'mediatek,mt8135-timer', 'mediatek,mt8173-timer', 'mediatek,mt8516-timer']
+   	'mediatek,mt6572-timer' is not one of ['mediatek,mt7629-timer', 'mediatek,mt8183-timer', 'mediatek,mt8186-timer', 'mediatek,mt8188-timer', 'mediatek,mt8192-timer', 'mediatek,mt8195-timer', 'mediatek,mt8365-systimer']
+   	'mediatek,mt6765-timer' was expected
+   	from schema $id: http://devicetree.org/schemas/timer/mediatek,timer.yaml#
+>> arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt6572-timer', 'mediatek,mt6577-timer']
+>> arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: serial@11005000 (mediatek,mt6572-uart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt6572-uart', 'mediatek,mt6577-uart'] is too long
+   	'mediatek,mt6577-uart' was expected
+   	'mediatek,mt6572-uart' is not one of ['mediatek,mt2701-uart', 'mediatek,mt2712-uart', 'mediatek,mt6580-uart', 'mediatek,mt6582-uart', 'mediatek,mt6589-uart', 'mediatek,mt6755-uart', 'mediatek,mt6765-uart', 'mediatek,mt6779-uart', 'mediatek,mt6795-uart', 'mediatek,mt6797-uart', 'mediatek,mt6893-uart', 'mediatek,mt7622-uart', 'mediatek,mt7623-uart', 'mediatek,mt7629-uart', 'mediatek,mt7981-uart', 'mediatek,mt7986-uart', 'mediatek,mt7988-uart', 'mediatek,mt8127-uart', 'mediatek,mt8135-uart', 'mediatek,mt8173-uart', 'mediatek,mt8183-uart', 'mediatek,mt8186-uart', 'mediatek,mt8188-uart', 'mediatek,mt8192-uart', 'mediatek,mt8195-uart', 'mediatek,mt8365-uart', 'mediatek,mt8516-uart']
+   	from schema $id: http://devicetree.org/schemas/serial/mediatek,uart.yaml#
+>> arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: serial@11005000 (mediatek,mt6572-uart): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/mediatek,uart.yaml#
+>> arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: /soc/serial@11005000: failed to match any schema with compatible: ['mediatek,mt6572-uart', 'mediatek,mt6577-uart']
+   arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: serial@11006000 (mediatek,mt6572-uart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt6572-uart', 'mediatek,mt6577-uart'] is too long
+   	'mediatek,mt6577-uart' was expected
+   	'mediatek,mt6572-uart' is not one of ['mediatek,mt2701-uart', 'mediatek,mt2712-uart', 'mediatek,mt6580-uart', 'mediatek,mt6582-uart', 'mediatek,mt6589-uart', 'mediatek,mt6755-uart', 'mediatek,mt6765-uart', 'mediatek,mt6779-uart', 'mediatek,mt6795-uart', 'mediatek,mt6797-uart', 'mediatek,mt6893-uart', 'mediatek,mt7622-uart', 'mediatek,mt7623-uart', 'mediatek,mt7629-uart', 'mediatek,mt7981-uart', 'mediatek,mt7986-uart', 'mediatek,mt7988-uart', 'mediatek,mt8127-uart', 'mediatek,mt8135-uart', 'mediatek,mt8173-uart', 'mediatek,mt8183-uart', 'mediatek,mt8186-uart', 'mediatek,mt8188-uart', 'mediatek,mt8192-uart', 'mediatek,mt8195-uart', 'mediatek,mt8365-uart', 'mediatek,mt8516-uart']
+   	from schema $id: http://devicetree.org/schemas/serial/mediatek,uart.yaml#
+   arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: /soc/serial@11006000: failed to match any schema with compatible: ['mediatek,mt6572-uart', 'mediatek,mt6577-uart']
 
 -- 
 0-DAY CI Kernel Test Service
