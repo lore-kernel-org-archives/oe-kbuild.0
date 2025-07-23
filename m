@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB815210F4A
-	for <oe-kbuild@lists.linux.dev>; Wed, 23 Jul 2025 04:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9216374420
+	for <oe-kbuild@lists.linux.dev>; Wed, 23 Jul 2025 04:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753244429; cv=none; b=f6DZ1a52ObXwedZX+caNlwWDZXivzq8TcBe08F2Nl/SUTButebxxc0TkRbR3+Id92HwF8qol6Lo0682W+zov4GmsYagNc+Rx4SssZZKgliERxisdH3QZAeUQZ+0VMEKxRaXKiNCsdezj1fTZATiiiGitE8h72ZpAJAeoqpJL4Y0=
+	t=1753245650; cv=none; b=AFwNJ66JPQNDJBI7uPdCEEzkL4MjeiGeBahxYcNf3peFFS1lSjHBX7CHdGGYg0yunZkMrpwHXyqUgx4vpBQYEsYCGcylZ4KnB1ZdN0Ay8NknIImQKSzkCm2yApAZVLJ4DFav8UWrSlTngbCTmsxj2L9gDJ/gvv9kziwj3c0PGVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753244429; c=relaxed/simple;
-	bh=H9YFDiBphBMLmoUVI3nbn8tx8UIthUST8ANm7arRzZk=;
+	s=arc-20240116; t=1753245650; c=relaxed/simple;
+	bh=8EphLKWNUCRAXrvvGw3WCWSNkzqrAbis2TkTFWyLhcU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZvzfOdRqTnbR7Gma1LxfHlsUWyJ11QzjJd0BEHgDNIfrlm/vQrMeR6rnD0FYS/GjCWUH5Iy9I9vMyJUnU+cgudgVEJKffKlJqBeDZVgCKUNEnfYpf4L/dEMQitvqH5fbr1RnU7+xLVYwYXrPHhsWr3ACaCIYY4n5k8TCObL/h7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OROfqacQ; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=O75utTuRloJ4/KKmDoPpFKm4dCX7koEjrIg2826LmGJTJWZjeKv7w+cKN+NEQA63QJ34K88hGqGP2tfm2gfGqpyjIFIGNwmuu8Xy7Z00bv6tRN3FciApwtuOYGYRl806H5aQoqyLgn9GKeige5xfUVdvo5odanTkrJbsB0XVLWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bj9Wl9Fx; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OROfqacQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bj9Wl9Fx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753244428; x=1784780428;
+  t=1753245648; x=1784781648;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H9YFDiBphBMLmoUVI3nbn8tx8UIthUST8ANm7arRzZk=;
-  b=OROfqacQ0LxINh945CW5F+Hc4Ygz35W7/FMdoAQ7mfB08cxw9CI61IPM
-   /VZLVNliE9XrxuUh8pGjg8HcA1XTxU6z5/awAKgk+Scayab6DAg81RoFT
-   OhWNEh6YMP+La9/R6STKKPjn65VnzzAx9nGuvMWbYkG2ie+Jymu5Vhuj8
-   q7RjzwG4mQ1wpE+GRfrxE2LiUiK7R17LHJh0jbGqal7ppLfJqurfuSeOZ
-   HxOiV0Fpmtou9Y4cKR6PDyECwxyNyRR+FAbU+Pj9AY0OJUeI/j9E5pycd
-   000nOx2jmdIskWCG+whxy5g2Xj5IjUiXeeR1Y6ubqBRt5juTMp/IK2oZb
-   A==;
-X-CSE-ConnectionGUID: 0WWRj+A3TMyuX9ehUF8VwQ==
-X-CSE-MsgGUID: qCBrIdpHR560SH0PzFMJ6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="59314226"
+  bh=8EphLKWNUCRAXrvvGw3WCWSNkzqrAbis2TkTFWyLhcU=;
+  b=bj9Wl9FxsxkzmXYroP2aFLbG54rIuaMsdDSmNh3I5WpGNpSUIzeggLOk
+   cHCLYJ0IYwIfGT+WZt/nOT0Kue+URdg3GOLRe/1dTxVsAakujysTRsb+4
+   EnyGhTVcdOc7QWYp152mIN9NRv869oZmiErS27qB6RTzwmImVJX9nq8bV
+   tysClSBWQcMIfxiyjeiqjF39TnoqmOiPjVn9BnJ+58bQ39QO1DE01/7QB
+   91DAwCMfcxXLOI1SmDfFNVDRl7bd3xnuFr2NaVKstcCjtOW4J1Q57CAXl
+   tY4zD2ZQP0/MvIAZxko0TwlBfQu8sChYeK+SqdZSrrNbcL6v97uwMai/m
+   Q==;
+X-CSE-ConnectionGUID: 4kG7n4QmQU66WNMkIirOHQ==
+X-CSE-MsgGUID: JJGG789xT1abd59/ai9ScQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="55610179"
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="59314226"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 21:20:28 -0700
-X-CSE-ConnectionGUID: iK9xtgfLQD66l9eM70iuDg==
-X-CSE-MsgGUID: eIWfrurmThufFBoK+hgd6Q==
+   d="scan'208";a="55610179"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 21:40:41 -0700
+X-CSE-ConnectionGUID: x6pvrqHYQXCGEGvZLzJaeQ==
+X-CSE-MsgGUID: H4M1MsbRSDON611zN0vnLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="159425592"
+   d="scan'208";a="158625813"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 22 Jul 2025 21:20:27 -0700
+  by orviesa006.jf.intel.com with ESMTP; 22 Jul 2025 21:40:39 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ueQxs-000Ix7-1u;
-	Wed, 23 Jul 2025 04:20:24 +0000
-Date: Wed, 23 Jul 2025 12:19:50 +0800
+	id 1ueRHQ-000Iyt-2x;
+	Wed, 23 Jul 2025 04:40:36 +0000
+Date: Wed, 23 Jul 2025 12:40:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: vmlinux.o: warning: objtool: pqi_pci_probe+0x734: machine_restart()
- missing __noreturn in .c/.h or NORETURN() in noreturns.h
-Message-ID: <202507231254.1nzhKlbv-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 08/13] bpf: Implement signature verification for BPF
+ programs
+Message-ID: <202507231202.8rYZJ8D1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,37 +62,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: Peter Zijlstra <peterz@infradead.org>
+In-Reply-To: <20250721211958.1881379-9-kpsingh@kernel.org>
+References: <20250721211958.1881379-9-kpsingh@kernel.org>
+TO: KP Singh <kpsingh@kernel.org>
+TO: bpf@vger.kernel.org
+TO: linux-security-module@vger.kernel.org
+CC: bboscaccy@linux.microsoft.com
+CC: paul@paul-moore.com
+CC: kys@microsoft.com
+CC: ast@kernel.org
+CC: daniel@iogearbox.net
+CC: andrii@kernel.org
+CC: KP Singh <kpsingh@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   89be9a83ccf1f88522317ce02f854f30d6115c41
-commit: acae6b5bfffedc0440837c52584696dadb2fa334 objtool: Improve __noreturn annotation warning
-date:   4 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 4 months ago
-config: loongarch-randconfig-r053-20250723 (https://download.01.org/0day-ci/archive/20250723/202507231254.1nzhKlbv-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507231254.1nzhKlbv-lkp@intel.com/reproduce)
+Hi KP,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+[cannot apply to bpf-next/net bpf/master herbert-cryptodev-2.6/master linus/master v6.16-rc7 next-20250723]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/KP-Singh/bpf-Update-the-bpf_prog_calc_tag-to-use-SHA256/20250722-052316
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250721211958.1881379-9-kpsingh%40kernel.org
+patch subject: [PATCH v2 08/13] bpf: Implement signature verification for BPF programs
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: m68k-randconfig-r073-20250723 (https://download.01.org/0day-ci/archive/20250723/202507231202.8rYZJ8D1-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507231254.1nzhKlbv-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507231202.8rYZJ8D1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/bpf/syscall.c:2797 bpf_prog_verify_signature() warn: 'sig' is an error pointer or valid
 
-   vmlinux.o: warning: objtool: kernel_entry+0x0: unreachable instruction
-   vmlinux.o: warning: objtool: smpboot_entry+0x0: unreachable instruction
-   vmlinux.o: warning: objtool: kernel_kexec+0x94: machine_kexec() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> vmlinux.o: warning: objtool: pqi_pci_probe+0x734: machine_restart() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+vim +/sig +2797 kernel/bpf/syscall.c
+
+2c78ee898d8f10 Alexei Starovoitov 2020-05-13  2781  
+c83b0ba795b625 KP Singh           2025-07-21  2782  static noinline int bpf_prog_verify_signature(struct bpf_prog *prog,
+c83b0ba795b625 KP Singh           2025-07-21  2783  					      union bpf_attr *attr,
+c83b0ba795b625 KP Singh           2025-07-21  2784  					      bool is_kernel)
+c83b0ba795b625 KP Singh           2025-07-21  2785  {
+c83b0ba795b625 KP Singh           2025-07-21  2786  	bpfptr_t usig = make_bpfptr(attr->signature, is_kernel);
+c83b0ba795b625 KP Singh           2025-07-21  2787  	struct bpf_dynptr_kern sig_ptr, insns_ptr;
+c83b0ba795b625 KP Singh           2025-07-21  2788  	struct bpf_key *key = NULL;
+c83b0ba795b625 KP Singh           2025-07-21  2789  	void *sig;
+c83b0ba795b625 KP Singh           2025-07-21  2790  	int err = 0;
+c83b0ba795b625 KP Singh           2025-07-21  2791  
+c83b0ba795b625 KP Singh           2025-07-21  2792  	key = bpf_lookup_user_key(attr->keyring_id, 0);
+c83b0ba795b625 KP Singh           2025-07-21  2793  	if (!key)
+c83b0ba795b625 KP Singh           2025-07-21  2794  		return -ENOKEY;
+c83b0ba795b625 KP Singh           2025-07-21  2795  
+c83b0ba795b625 KP Singh           2025-07-21  2796  	sig = kvmemdup_bpfptr(usig, attr->signature_size);
+c83b0ba795b625 KP Singh           2025-07-21 @2797  	if (!sig) {
+c83b0ba795b625 KP Singh           2025-07-21  2798  		bpf_key_put(key);
+c83b0ba795b625 KP Singh           2025-07-21  2799  		return -ENOMEM;
+c83b0ba795b625 KP Singh           2025-07-21  2800  	}
+c83b0ba795b625 KP Singh           2025-07-21  2801  
+c83b0ba795b625 KP Singh           2025-07-21  2802  	bpf_dynptr_init(&sig_ptr, sig, BPF_DYNPTR_TYPE_LOCAL, 0,
+c83b0ba795b625 KP Singh           2025-07-21  2803  			attr->signature_size);
+c83b0ba795b625 KP Singh           2025-07-21  2804  	bpf_dynptr_init(&insns_ptr, prog->insnsi, BPF_DYNPTR_TYPE_LOCAL, 0,
+c83b0ba795b625 KP Singh           2025-07-21  2805  			prog->len * sizeof(struct bpf_insn));
+c83b0ba795b625 KP Singh           2025-07-21  2806  
+c83b0ba795b625 KP Singh           2025-07-21  2807  	err = bpf_verify_pkcs7_signature((struct bpf_dynptr *)&insns_ptr,
+c83b0ba795b625 KP Singh           2025-07-21  2808  					 (struct bpf_dynptr *)&sig_ptr, key);
+c83b0ba795b625 KP Singh           2025-07-21  2809  
+c83b0ba795b625 KP Singh           2025-07-21  2810  	bpf_key_put(key);
+c83b0ba795b625 KP Singh           2025-07-21  2811  	kvfree(sig);
+c83b0ba795b625 KP Singh           2025-07-21  2812  	return err;
+c83b0ba795b625 KP Singh           2025-07-21  2813  }
+c83b0ba795b625 KP Singh           2025-07-21  2814  
 
 -- 
 0-DAY CI Kernel Test Service
