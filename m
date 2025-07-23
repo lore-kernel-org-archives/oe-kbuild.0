@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783712EA15D
-	for <oe-kbuild@lists.linux.dev>; Tue, 22 Jul 2025 14:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB815210F4A
+	for <oe-kbuild@lists.linux.dev>; Wed, 23 Jul 2025 04:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753193930; cv=none; b=aMA/xz1nmp4RNqikHzI8WEveDgiHb/6o63u1yKy0IL+mK8NN+9qqzMHEJw8zWsr3SyR6G24J9G0C0j2R73NDtSXS7pG1eDh6inTKs/hrhYxsvzl/OCZ5qvWzOjTyASR4Y6ut2S3lU/H7upFcRI5TtQi2DWxCUSuRqwmqusip+9o=
+	t=1753244429; cv=none; b=f6DZ1a52ObXwedZX+caNlwWDZXivzq8TcBe08F2Nl/SUTButebxxc0TkRbR3+Id92HwF8qol6Lo0682W+zov4GmsYagNc+Rx4SssZZKgliERxisdH3QZAeUQZ+0VMEKxRaXKiNCsdezj1fTZATiiiGitE8h72ZpAJAeoqpJL4Y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753193930; c=relaxed/simple;
-	bh=/2dCZsvkAPfBUOzNHr1YgdTw+AnEUkHr5cfkPjcVyDI=;
+	s=arc-20240116; t=1753244429; c=relaxed/simple;
+	bh=H9YFDiBphBMLmoUVI3nbn8tx8UIthUST8ANm7arRzZk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Uj9stPRM6d6jSQgc72Le/ToYbRxACGmdRcocCetC2tchLVT8I+Ic4UgwOvQ/fG5Dl2LVISusN9YAcXXda2W5OrYw5FiHzw4hXklrASlyFvzpC4y2DTz7iNGBTzJDfbmrcdtJYRkbPMxFBY9TY2D18kA6j9v3Ldw0ddJKr/fjuKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G5YCQ13/; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=ZvzfOdRqTnbR7Gma1LxfHlsUWyJ11QzjJd0BEHgDNIfrlm/vQrMeR6rnD0FYS/GjCWUH5Iy9I9vMyJUnU+cgudgVEJKffKlJqBeDZVgCKUNEnfYpf4L/dEMQitvqH5fbr1RnU7+xLVYwYXrPHhsWr3ACaCIYY4n5k8TCObL/h7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OROfqacQ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G5YCQ13/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OROfqacQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753193929; x=1784729929;
+  t=1753244428; x=1784780428;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/2dCZsvkAPfBUOzNHr1YgdTw+AnEUkHr5cfkPjcVyDI=;
-  b=G5YCQ13/8eiAfQ3CJOKD1+mR7d7qtx5fILrxKOW0MBpQN80LU7TPrSHk
-   8KTEujWPmxj3jg0EL3023A3C5aXebuUUyTuhLoRqvo0vgI7e6P7mJTW+J
-   59DMFMBQOyu2Cl0GVARys1VwNTxFerD8mHC01I6sjp+2y4u68m37ElTUU
-   w27r5BJQae/irT+eJ8GuTRGHq5L78Z8l1nP058d+Q7uVHZors2AEipanP
-   LEen0UHTNC5WP1LU5Qy12SnRF8FeEtu9y0R8PtgWi3Bm8DfoSvt9yXV71
-   dsD7hikdd/GpXeGotknXia3AhnvpV5NB1Y2xfp4FRztJP2qwm3Vh4ske+
+  bh=H9YFDiBphBMLmoUVI3nbn8tx8UIthUST8ANm7arRzZk=;
+  b=OROfqacQ0LxINh945CW5F+Hc4Ygz35W7/FMdoAQ7mfB08cxw9CI61IPM
+   /VZLVNliE9XrxuUh8pGjg8HcA1XTxU6z5/awAKgk+Scayab6DAg81RoFT
+   OhWNEh6YMP+La9/R6STKKPjn65VnzzAx9nGuvMWbYkG2ie+Jymu5Vhuj8
+   q7RjzwG4mQ1wpE+GRfrxE2LiUiK7R17LHJh0jbGqal7ppLfJqurfuSeOZ
+   HxOiV0Fpmtou9Y4cKR6PDyECwxyNyRR+FAbU+Pj9AY0OJUeI/j9E5pycd
+   000nOx2jmdIskWCG+whxy5g2Xj5IjUiXeeR1Y6ubqBRt5juTMp/IK2oZb
    A==;
-X-CSE-ConnectionGUID: SZXe3AU8QB2Iz5lCyQwliA==
-X-CSE-MsgGUID: sFZpqCDdQDeZgjbSwwCGLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="55535980"
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="55535980"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 07:18:45 -0700
-X-CSE-ConnectionGUID: xUJyRgi2RH6mD+TydAJj2g==
-X-CSE-MsgGUID: hk39SsnJTbK6skMesFqUCA==
+X-CSE-ConnectionGUID: 0WWRj+A3TMyuX9ehUF8VwQ==
+X-CSE-MsgGUID: qCBrIdpHR560SH0PzFMJ6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="59314226"
+X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
+   d="scan'208";a="59314226"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 21:20:28 -0700
+X-CSE-ConnectionGUID: iK9xtgfLQD66l9eM70iuDg==
+X-CSE-MsgGUID: eIWfrurmThufFBoK+hgd6Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="159471516"
+X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
+   d="scan'208";a="159425592"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 22 Jul 2025 07:18:43 -0700
+  by orviesa007.jf.intel.com with ESMTP; 22 Jul 2025 21:20:27 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ueDpJ-000IKK-28;
-	Tue, 22 Jul 2025 14:18:41 +0000
-Date: Tue, 22 Jul 2025 22:18:23 +0800
+	id 1ueQxs-000Ix7-1u;
+	Wed, 23 Jul 2025 04:20:24 +0000
+Date: Wed, 23 Jul 2025 12:19:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [soc:mediatek/dt 6/7]
- arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: timer@10008000
- (mediatek,mt6572-timer): compatible: 'oneOf' conditional failed, one must be
- fixed:
-Message-ID: <202507222222.v5jdcW8J-lkp@intel.com>
+Subject: vmlinux.o: warning: objtool: pqi_pci_probe+0x734: machine_restart()
+ missing __noreturn in .c/.h or NORETURN() in noreturns.h
+Message-ID: <202507231254.1nzhKlbv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,56 +63,36 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: arm@kernel.org
-TO: Max Shevchenko <wctrl@proton.me>
-CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: linux-kernel@vger.kernel.org
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git mediatek/dt
-head:   5a8e7b4eaaa232d747517fe34ba6867139a4cea8
-commit: 7f3f9e565316d4c9c739569d46ae812b8c1e0535 [6/7] ARM: dts: mediatek: add basic support for JTY D101 board
-:::::: branch date: 11 days ago
-:::::: commit date: 11 days ago
-config: arm-randconfig-051-20250722 (https://download.01.org/0day-ci/archive/20250722/202507222222.v5jdcW8J-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507222222.v5jdcW8J-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   89be9a83ccf1f88522317ce02f854f30d6115c41
+commit: acae6b5bfffedc0440837c52584696dadb2fa334 objtool: Improve __noreturn annotation warning
+date:   4 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 4 months ago
+config: loongarch-randconfig-r053-20250723 (https://download.01.org/0day-ci/archive/20250723/202507231254.1nzhKlbv-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507231254.1nzhKlbv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507222222.v5jdcW8J-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507231254.1nzhKlbv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/mediatek/mt6572-jty-d101.dts:22.37-29.5: Warning (unit_address_vs_reg): /chosen/framebuffer@bf400000: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/mediatek/mt6572-jty-d101.dts:17.9-30.4: Warning (avoid_unnecessary_addr_size): /chosen: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: timer@10008000 (mediatek,mt6572-timer): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6572-timer', 'mediatek,mt6577-timer'] is too long
-   	'mediatek,mt6572-timer' is not one of ['mediatek,mt6577-timer', 'mediatek,mt6765-timer', 'mediatek,mt6795-systimer']
-   	'mediatek,mt6572-timer' is not one of ['mediatek,mt2701-timer', 'mediatek,mt6580-timer', 'mediatek,mt6582-timer', 'mediatek,mt6589-timer', 'mediatek,mt7623-timer', 'mediatek,mt8127-timer', 'mediatek,mt8135-timer', 'mediatek,mt8173-timer', 'mediatek,mt8516-timer']
-   	'mediatek,mt6572-timer' is not one of ['mediatek,mt7629-timer', 'mediatek,mt8183-timer', 'mediatek,mt8186-timer', 'mediatek,mt8188-timer', 'mediatek,mt8192-timer', 'mediatek,mt8195-timer', 'mediatek,mt8365-systimer']
-   	'mediatek,mt6765-timer' was expected
-   	from schema $id: http://devicetree.org/schemas/timer/mediatek,timer.yaml#
->> arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt6572-timer', 'mediatek,mt6577-timer']
->> arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: serial@11005000 (mediatek,mt6572-uart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6572-uart', 'mediatek,mt6577-uart'] is too long
-   	'mediatek,mt6577-uart' was expected
-   	'mediatek,mt6572-uart' is not one of ['mediatek,mt2701-uart', 'mediatek,mt2712-uart', 'mediatek,mt6580-uart', 'mediatek,mt6582-uart', 'mediatek,mt6589-uart', 'mediatek,mt6755-uart', 'mediatek,mt6765-uart', 'mediatek,mt6779-uart', 'mediatek,mt6795-uart', 'mediatek,mt6797-uart', 'mediatek,mt6893-uart', 'mediatek,mt7622-uart', 'mediatek,mt7623-uart', 'mediatek,mt7629-uart', 'mediatek,mt7981-uart', 'mediatek,mt7986-uart', 'mediatek,mt7988-uart', 'mediatek,mt8127-uart', 'mediatek,mt8135-uart', 'mediatek,mt8173-uart', 'mediatek,mt8183-uart', 'mediatek,mt8186-uart', 'mediatek,mt8188-uart', 'mediatek,mt8192-uart', 'mediatek,mt8195-uart', 'mediatek,mt8365-uart', 'mediatek,mt8516-uart']
-   	from schema $id: http://devicetree.org/schemas/serial/mediatek,uart.yaml#
->> arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: serial@11005000 (mediatek,mt6572-uart): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/mediatek,uart.yaml#
->> arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: /soc/serial@11005000: failed to match any schema with compatible: ['mediatek,mt6572-uart', 'mediatek,mt6577-uart']
-   arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: serial@11006000 (mediatek,mt6572-uart): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6572-uart', 'mediatek,mt6577-uart'] is too long
-   	'mediatek,mt6577-uart' was expected
-   	'mediatek,mt6572-uart' is not one of ['mediatek,mt2701-uart', 'mediatek,mt2712-uart', 'mediatek,mt6580-uart', 'mediatek,mt6582-uart', 'mediatek,mt6589-uart', 'mediatek,mt6755-uart', 'mediatek,mt6765-uart', 'mediatek,mt6779-uart', 'mediatek,mt6795-uart', 'mediatek,mt6797-uart', 'mediatek,mt6893-uart', 'mediatek,mt7622-uart', 'mediatek,mt7623-uart', 'mediatek,mt7629-uart', 'mediatek,mt7981-uart', 'mediatek,mt7986-uart', 'mediatek,mt7988-uart', 'mediatek,mt8127-uart', 'mediatek,mt8135-uart', 'mediatek,mt8173-uart', 'mediatek,mt8183-uart', 'mediatek,mt8186-uart', 'mediatek,mt8188-uart', 'mediatek,mt8192-uart', 'mediatek,mt8195-uart', 'mediatek,mt8365-uart', 'mediatek,mt8516-uart']
-   	from schema $id: http://devicetree.org/schemas/serial/mediatek,uart.yaml#
-   arch/arm/boot/dts/mediatek/mt6572-jty-d101.dtb: /soc/serial@11006000: failed to match any schema with compatible: ['mediatek,mt6572-uart', 'mediatek,mt6577-uart']
+All warnings (new ones prefixed by >>):
+
+   vmlinux.o: warning: objtool: kernel_entry+0x0: unreachable instruction
+   vmlinux.o: warning: objtool: smpboot_entry+0x0: unreachable instruction
+   vmlinux.o: warning: objtool: kernel_kexec+0x94: machine_kexec() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> vmlinux.o: warning: objtool: pqi_pci_probe+0x734: machine_restart() missing __noreturn in .c/.h or NORETURN() in noreturns.h
 
 -- 
 0-DAY CI Kernel Test Service
