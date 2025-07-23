@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D862F4A
-	for <oe-kbuild@lists.linux.dev>; Wed, 23 Jul 2025 05:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF84283CB8
+	for <oe-kbuild@lists.linux.dev>; Wed, 23 Jul 2025 09:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753250150; cv=none; b=PpfCL8MtItxq1pPhWIQExhtEttzUoBku/I5T6cirLJbcAggeCY4z8MmxIBhLQ1Vjlp3SPImxeVAzosYHpWHGSMvyvBsqrIjalnRhiTX1KHhI4Fg3T1zNsZ44pqQdbpPBUQuI2Z/CuoQR0q/0fHG61Qk2hqnQ72gDblFREbYHNMk=
+	t=1753261808; cv=none; b=XQpZ7QHeQBojRl7y+f5SBBYKJr9LdamvnbsuavVAeO1WlmZ0+1phhaH3SDtaghoN503dygIm5RR1XLdDzXNDzowkdk0gJiBSZIUuM9SQYA/OHHOhNRmTE3Epar69/Iw+UeS97AOcNxzKb38i9zibjNFJHS4TEITlYRv+5bj9LHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753250150; c=relaxed/simple;
-	bh=rRBwf0cfoceYZleCwPoaSxaitJp0Tum73+w+OMvxSmc=;
+	s=arc-20240116; t=1753261808; c=relaxed/simple;
+	bh=yjQKHEGRn9o1TM4e7QCOTAzDiETznHY65I7OcnnDNfc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PqETYatJ/E1exG7xDMhybnU/8RV2Uvm1Jxp3rZHcBdKeocfuYOEqoy/UtHw6GsKkuaDL8ZZ29mlUUW4xf/rVJXerYKVWRJ/WTFg429MW5yc/yeA1xq11RxTZR2zL3kx1FfRCfZmHwO6cCfwIX2tMLk7wVTldEXfRK8ug6gbf9OA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QNbkVA9M; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=ck2sGkjdD1wrv9cxbvVUrw250ok0fbYu82Ol6hFVy3Lk+2uwwFJ9odYdQaCefHIJnK0gIUJKlbXIxdI3YFbnGh2ZlDJjSP2TDHGPRzeSmNMa9lgNyYzHVDIhfDq7bm4QykJLfT2Et4gJ6ygIEeVUez1Piok/hnNcdbFkOCUWScY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bdr5zFGZ; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QNbkVA9M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bdr5zFGZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753250148; x=1784786148;
+  t=1753261807; x=1784797807;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rRBwf0cfoceYZleCwPoaSxaitJp0Tum73+w+OMvxSmc=;
-  b=QNbkVA9MqjgPBZxxPYV/EIvtXKHJRJqMeTMiKOMxrkT3jczohnV36Nkk
-   GJfArCtGj5XEYDqEUvs5Dgs6EoD+CqXUQjq9hyTIQRikANCZX1FX/Mjnt
-   bAqfj7nQD23Yv/FKCTKofalVxtogHyE+HYM8jd5wfGMO4miy3hAJRr6Ac
-   O5OU4jIL6LgSPAXmoS9FE0A9Wxa7fQ2dUbHnnF/XRDgbpCOYHzKCbHT5E
-   v8jdZZLcIePwX/pEOIHN6Eo0iu1DtPMo3pn8/e3eKOhqnvL7GLeYOpTIu
-   XA/XybAZKQ2WdH4G54TSULY3xA5oCTthWlFg2UpzKCuuYoxJm9gUA7tGb
-   A==;
-X-CSE-ConnectionGUID: +oxwMc2ZTA6fqcaZY7loRQ==
-X-CSE-MsgGUID: vMimwHfpQfi8GHIN48zKLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="78057289"
+  bh=yjQKHEGRn9o1TM4e7QCOTAzDiETznHY65I7OcnnDNfc=;
+  b=bdr5zFGZD39Uu1TxOvYNkx1ENKo07YAEVxluCIyJRqdSGVd3PvqcUAgr
+   qLrqc7Cel/834L+7C5msJ1JaybyQvis43QMrqtujBI5O6aPLJeh0CQfD7
+   g/Hh4aeOWqL7Vb14v6TYQAiJCJGph3sZSvomOYgrt9xHc259wN6MRLBtK
+   n27w4uJTbPCUyghy9DdGvHmIvgZFzJyH6dWM9c4FoDEDGBguzmw9Fvold
+   Uqig56XbKJH7s6BwoZC8VXa7/IaCpq+v9qHf5HtahgFh0lPVctLxbGJNQ
+   fiqsigNzfpLByUWfKZOtBFVXMB8t72oUeVfVS/w5oof6l7SuZPD9gjjc+
+   Q==;
+X-CSE-ConnectionGUID: RdUuI80zRUCFiWVnuMNaOQ==
+X-CSE-MsgGUID: WYufivoHSFSo7ooTCWbP+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="55479477"
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="78057289"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 22:55:47 -0700
-X-CSE-ConnectionGUID: cWHe9RU7RQyoGSi/IFy3kA==
-X-CSE-MsgGUID: G+zHE4pkTf6uNwXnq1B/Tw==
+   d="scan'208";a="55479477"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 02:10:06 -0700
+X-CSE-ConnectionGUID: QTZ57fXAQZW+Y3G90t3U0g==
+X-CSE-MsgGUID: tfva9iNLQo22T6kzzvmh0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="163383055"
+   d="scan'208";a="159056851"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Jul 2025 22:55:47 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 23 Jul 2025 02:10:05 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ueSS8-000J1T-2j;
-	Wed, 23 Jul 2025 05:55:44 +0000
-Date: Wed, 23 Jul 2025 13:55:32 +0800
+	id 1ueVUB-000JAd-1c;
+	Wed, 23 Jul 2025 09:10:03 +0000
+Date: Wed, 23 Jul 2025 17:09:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 2/2 v2a]: New board support,LinkStar-H68k-1432v1 (RK3568)
-Message-ID: <202507231301.AaYJ5KcF-lkp@intel.com>
+Subject: Re: [PATCH 3/3] dt-bindings: ufs: qcom: Document HS gear and rate
+ limit properties
+Message-ID: <202507231639.CDuz9xs4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,69 +68,55 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250721201714.233962-1-xunil@tahomasoft.com>
-References: <20250721201714.233962-1-xunil@tahomasoft.com>
-TO: Erik Beck <xunil@tahomasoft.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Heiko Stuebner <heiko@sntech.de>
-CC: Erik Beck <xunil@tahomasoft.com>
+In-Reply-To: <20250722161103.3938-4-quic_rdwivedi@quicinc.com>
+References: <20250722161103.3938-4-quic_rdwivedi@quicinc.com>
+TO: Ram Kumar Dwivedi <quic_rdwivedi@quicinc.com>
+TO: mani@kernel.org
+TO: alim.akhtar@samsung.com
+TO: avri.altman@wdc.com
+TO: bvanassche@acm.org
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+TO: andersson@kernel.org
+TO: konradybcio@kernel.org
+TO: James.Bottomley@HansenPartnership.com
+TO: martin.petersen@oracle.com
+TO: agross@kernel.org
+CC: linux-arm-msm@vger.kernel.org
+CC: linux-scsi@vger.kernel.org
 CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
 CC: linux-kernel@vger.kernel.org
 
-Hi Erik,
+Hi Ram,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on linus/master v6.16-rc7 next-20250722]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on mkp-scsi/for-next jejb-scsi/for-next linus/master v6.16-rc7 next-20250723]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Erik-Beck/New-board-support-LinkStar-H68k-1432v1-RK3568/20250722-041929
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20250721201714.233962-1-xunil%40tahomasoft.com
-patch subject: [PATCH 2/2 v2a]: New board support,LinkStar-H68k-1432v1 (RK3568)
-:::::: branch date: 34 hours ago
-:::::: commit date: 34 hours ago
-config: arm64-randconfig-051-20250722 (https://download.01.org/0day-ci/archive/20250723/202507231301.AaYJ5KcF-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ram-Kumar-Dwivedi/ufs-ufs-qcom-Add-support-for-DT-based-gear-and-rate-limiting/20250723-001521
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250722161103.3938-4-quic_rdwivedi%40quicinc.com
+patch subject: [PATCH 3/3] dt-bindings: ufs: qcom: Document HS gear and rate limit properties
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: arc-randconfig-052-20250723 (https://download.01.org/0day-ci/archive/20250723/202507231639.CDuz9xs4-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507231301.AaYJ5KcF-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507231639.CDuz9xs4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507231301.AaYJ5KcF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507231639.CDuz9xs4-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3568-linkstar-h68k-1432v1.dtb: / (seeed,rk3568-linkstar-h68k-1432v1): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['seeed,rk3568-linkstar-h68k-1432v1', 'rockchip,rk3568'] is too short
-   	'vamrs,ficus' was expected
-   	'vamrs,rock960' was expected
-   	'amarula,vyasa-rk3288' was expected
-   	'seeed,rk3568-linkstar-h68k-1432v1' is not one of ['anbernic,rg351m', 'anbernic,rg351v']
-   	'seeed,rk3568-linkstar-h68k-1432v1' is not one of ['anbernic,rg353p', 'anbernic,rg353ps', 'anbernic,rg353v', 'anbernic,rg353vs', 'anbernic,rg503', 'anbernic,rg-arc-d', 'anbernic,rg-arc-s']
-   	'ariaboard,photonicat' was expected
-   	'armsom,sige5' was expected
-   	'armsom,sige7' was expected
-   	'seeed,rk3568-linkstar-h68k-1432v1' is not one of ['armsom,w3']
---
-   	'rockchip,px5' was expected
-   	'rockchip,rk3228' was expected
-   	'rockchip,rk3562' was expected
-   	'rockchip,rk3568' is not one of ['rockchip,rv1126', 'rockchip,rv1109']
-   	'tsd,px30-cobra' was expected
-   	'tsd,px30-pp1516' was expected
-   	'tsd,rk3588-tiger' was expected
-   	'xunlong,orangepi-3b' was expected
-   	'rockchip,rk3318' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/rockchip.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-linkstar-h68k-1432v1.dtb: /: failed to match any schema with compatible: ['seeed,rk3568-linkstar-h68k-1432v1', 'rockchip,rk3568']
+>> Documentation/devicetree/bindings/ufs/qcom,ufs.yaml: limit-hs-gear: missing type definition
+>> Documentation/devicetree/bindings/ufs/qcom,ufs.yaml: limit-rate: missing type definition
 
 -- 
 0-DAY CI Kernel Test Service
