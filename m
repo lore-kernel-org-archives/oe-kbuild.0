@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574B53207
-	for <oe-kbuild@lists.linux.dev>; Thu, 24 Jul 2025 01:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCBCE22083
+	for <oe-kbuild@lists.linux.dev>; Thu, 24 Jul 2025 01:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753321757; cv=none; b=CMfgK+8iOZhh45esCPFVQCA/4Fr+LCyx7qmyxkxc73st/7j+HzjIFvMc2S0f4ORt5J5gMTQ2Vd+71VY5dTN1hZ4/kTOE4Fm4ymChWhBg62TDyoZLpHXY+762qeXNEAI//QlxMEFhjKRPw5dGC61StCoUMKDlapcQbrVnNxJZWa0=
+	t=1753322358; cv=none; b=tDn9SoPlE3pK/fMJ73Fo7os5IOBJ68idZTUvS8imA8BWuAUrMlQOAqy9wYtzQXDFjZZMaBAaGyyBWclK4HQj2mmtYr8IwnU2jp0VUmSFRbZPxQiIVmn2Uyz9nUJvEPSqkz9fAvQGLqWS8aCAulCqw9bVSPpa3QmacBoa7kS/vJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753321757; c=relaxed/simple;
-	bh=MNsc3Rsb+QPLZQV6GAtIrZQ6NRa4cCZo8oQWK7vmsZU=;
+	s=arc-20240116; t=1753322358; c=relaxed/simple;
+	bh=NW0ovnIJywC+HJgjT1q/wYIoWqaDFK8JUWEq+XfSn/c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d6qef91BDa+mQas0jMK8kc10+YdX/tobuY/HSFeRYK4EA8CDRjI7ug4+7bmUoKFXysCYBgHNPsOhT+/kU5Nlz0fYNbMk13kvpiP6S5/02J0Gf0xZEUU3BMMR4t4JYL3NqYajnPJS4u8PKp6uSSrJUD61q2ZDkr6xYwzSSS8Xmtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nwcfAxzg; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=Yyu53so/CdfTgmEFzJOt4IuUqkh9oxxVPFuJkwiF6fQYOi2tBfQEFIs/xdJCvROnF/vXX/aTnjPj5RYLomgHqdGnJhuNiKKZSOdEt1qC+PpQ9+heil4iygDJF2nq2HIAg/5uankMgtxkEXfRxjIGqzZEfPAwHqtFfo1KC+nJmkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gbu5x6l1; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nwcfAxzg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gbu5x6l1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753321757; x=1784857757;
+  t=1753322356; x=1784858356;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MNsc3Rsb+QPLZQV6GAtIrZQ6NRa4cCZo8oQWK7vmsZU=;
-  b=nwcfAxzgstG6YeWc+d0FITjQZliOGjfEiSCBujFczLWqNryPb7A9S1Bm
-   xlpflG2K+aUvidx5OnWah7dU8OkdaW5OPPf7unxCwxx/29v4hsVFdYQM3
-   Mhl90I8j+5i6KODgXf56Qn1WjFLTYoxl0BOR77m4Pe4YHhHr5N9rDiMDH
-   oz/IxDZZdPU9olkN15R5ypfXYvbck1XewWcfOAhCK/+ukQI4mz696TUTw
-   d8DFpEE24YijW0LPq4sptTYvih1jgFcNaRe/l4X8n5tlv7tkR4eN0U9JU
-   VHqPuI0RPsU0mbnsUsNexMz4Hneow8biLCC9qX0QDy6yvWqoXLHavZgCA
-   g==;
-X-CSE-ConnectionGUID: TFJ6Vk0fRROk34Hfj73X3A==
-X-CSE-MsgGUID: J0qz2g50SVKPfMyL1gHDlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="54711886"
+  bh=NW0ovnIJywC+HJgjT1q/wYIoWqaDFK8JUWEq+XfSn/c=;
+  b=Gbu5x6l1smxUrAKaLTQpf7qzDj0dEG4A/bLt35gd9Y9V3a2VMwcq2ftm
+   G2aQTPRlCCgts1qUB82+tuyDbxIiBnxpsO8g9C0KQ1QvYGyRs/7RfrY3O
+   134om6poTim6Ooc9Ebdtx44zr6Kyn4fAo7VQwTTZnwXEJR3AB5Lv26AmN
+   oG3OmNRNZuO7oRd5hZxrL/k5Qh60sRoAakV9H6x7Yinsx1XeNVyoIPVLs
+   lnYCQvVeAKgbsSzapbD1VoJwQPvw8i3PYJ6vsXUqn0n0J1OlPz32lfE84
+   OVpgsqrdD7BFE/4t5KwcRWAUn1PVXjnbAb+ZU/mTqD6O0ToXXDL/0r9ER
+   w==;
+X-CSE-ConnectionGUID: VHRVVVoNTo6v2i3bHPC39w==
+X-CSE-MsgGUID: swviHho3QYG1ixxinjQA0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="66693254"
 X-IronPort-AV: E=Sophos;i="6.16,336,1744095600"; 
-   d="scan'208";a="54711886"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 18:49:16 -0700
-X-CSE-ConnectionGUID: G5D3gt35S/iCaFEIYXQ9HQ==
-X-CSE-MsgGUID: mC7FkRG/Tw2hQdORwFJDRg==
+   d="scan'208";a="66693254"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 18:59:16 -0700
+X-CSE-ConnectionGUID: K19KT2J9Tj+7/2jbZ0y/KA==
+X-CSE-MsgGUID: ipttTk5WTCaEzbGbYsFDTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,336,1744095600"; 
-   d="scan'208";a="165461985"
+   d="scan'208";a="164128631"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 23 Jul 2025 18:49:15 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 23 Jul 2025 18:59:15 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uel56-000Jzj-1o;
-	Thu, 24 Jul 2025 01:49:12 +0000
-Date: Thu, 24 Jul 2025 09:48:23 +0800
+	id 1uelEn-000Jzv-0R;
+	Thu, 24 Jul 2025 01:59:13 +0000
+Date: Thu, 24 Jul 2025 09:59:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/mips/boot/dts/ralink/omega2p.dtb: wmac@10300000
- (mediatek,mt7628-wmac): clocks: [[1, 17]] is too short
-Message-ID: <202507240929.YI3GMpj5-lkp@intel.com>
+Subject: Re: [PATCH bpf-next v13 2/3] cfi: Move BPF CFI types and helpers to
+ generic code
+Message-ID: <202507240958.BwbAkPr0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,57 +63,67 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "low confidence static check warning: kernel/cfi.c:40:1: sparse: sparse: unknown escape sequence: '\%'"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250722205357.3347626-7-samitolvanen@google.com>
+References: <20250722205357.3347626-7-samitolvanen@google.com>
+TO: Sami Tolvanen <samitolvanen@google.com>
+TO: bpf@vger.kernel.org
+TO: Puranjay Mohan <puranjay@kernel.org>
+TO: Alexei Starovoitov <ast@kernel.org>
+TO: Daniel Borkmann <daniel@iogearbox.net>
+CC: Catalin Marinas <catalin.marinas@arm.com>
+CC: Will Deacon <will@kernel.org>
+CC: Andrii Nakryiko <andrii@kernel.org>
+CC: Mark Rutland <mark.rutland@arm.com>
+CC: linux-arm-kernel@lists.infradead.org
 CC: linux-kernel@vger.kernel.org
-TO: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+CC: Maxwell Bland <mbland@motorola.com>
+CC: Sami Tolvanen <samitolvanen@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f9af7b5d9349bf92cc4d0a0baa8a151295f12f4b
-commit: 232085d118ff4695c0e9992ebc7ba4da7a24875e mips: dts: ralink: mt7628a: update system controller node and its consumers
-date:   5 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 5 months ago
-config: mips-randconfig-051-20250724 (https://download.01.org/0day-ci/archive/20250724/202507240929.YI3GMpj5-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507240929.YI3GMpj5-lkp@intel.com/reproduce)
+Hi Sami,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 95993dc3039e29dabb9a50d074145d4cb757b08b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sami-Tolvanen/cfi-add-C-CFI-type-macro/20250723-045632
+base:   95993dc3039e29dabb9a50d074145d4cb757b08b
+patch link:    https://lore.kernel.org/r/20250722205357.3347626-7-samitolvanen%40google.com
+patch subject: [PATCH bpf-next v13 2/3] cfi: Move BPF CFI types and helpers to generic code
+:::::: branch date: 29 hours ago
+:::::: commit date: 29 hours ago
+config: x86_64-randconfig-122-20250723 (https://download.01.org/0day-ci/archive/20250724/202507240958.BwbAkPr0-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507240958.BwbAkPr0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507240929.YI3GMpj5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507240958.BwbAkPr0-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/mips/boot/dts/ralink/omega2p.dtb: uartlite@c00 (ns16550a): Unevaluated properties are not allowed ('reset-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/mips/boot/dts/ralink/omega2p.dtb: uart1@d00 (ns16550a): $nodename:0: 'uart1@d00' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/mips/boot/dts/ralink/omega2p.dtb: uart1@d00 (ns16550a): Unevaluated properties are not allowed ('reset-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/mips/boot/dts/ralink/omega2p.dtb: uart2@e00 (ns16550a): $nodename:0: 'uart2@e00' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/mips/boot/dts/ralink/omega2p.dtb: uart2@e00 (ns16550a): Unevaluated properties are not allowed ('reset-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
->> arch/mips/boot/dts/ralink/omega2p.dtb: wmac@10300000 (mediatek,mt7628-wmac): clocks: [[1, 17]] is too short
-   	from schema $id: http://devicetree.org/schemas/net/wireless/mediatek,mt76.yaml#
---
-   arch/mips/boot/dts/ralink/vocore2.dtb: uartlite@c00 (ns16550a): Unevaluated properties are not allowed ('reset-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/mips/boot/dts/ralink/vocore2.dtb: uart1@d00 (ns16550a): $nodename:0: 'uart1@d00' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/mips/boot/dts/ralink/vocore2.dtb: uart1@d00 (ns16550a): Unevaluated properties are not allowed ('reset-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/mips/boot/dts/ralink/vocore2.dtb: uart2@e00 (ns16550a): $nodename:0: 'uart2@e00' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/mips/boot/dts/ralink/vocore2.dtb: uart2@e00 (ns16550a): Unevaluated properties are not allowed ('reset-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
->> arch/mips/boot/dts/ralink/vocore2.dtb: wmac@10300000 (mediatek,mt7628-wmac): clocks: [[1, 17]] is too short
-   	from schema $id: http://devicetree.org/schemas/net/wireless/mediatek,mt76.yaml#
+sparse warnings: (new ones prefixed by >>)
+>> kernel/cfi.c:40:1: sparse: sparse: unknown escape sequence: '%'
+>> kernel/cfi.c:40:1: sparse: sparse: unknown escape sequence: '%'
+   kernel/cfi.c:43:1: sparse: sparse: unknown escape sequence: '%'
+   kernel/cfi.c:43:1: sparse: sparse: unknown escape sequence: '%'
+
+vim +40 kernel/cfi.c
+
+cf68fffb66d60d9 Sami Tolvanen 2021-04-08  31  
+751cc3ba839275a Sami Tolvanen 2025-07-22  32  /*
+751cc3ba839275a Sami Tolvanen 2025-07-22  33   * Declare two non-existent functions with types that match bpf_func_t and
+751cc3ba839275a Sami Tolvanen 2025-07-22  34   * bpf_callback_t pointers, and use DEFINE_CFI_TYPE to define type hash
+751cc3ba839275a Sami Tolvanen 2025-07-22  35   * variables for each function type. The cfi_bpf_* variables are used by
+751cc3ba839275a Sami Tolvanen 2025-07-22  36   * arch-specific BPF JIT implementations to ensure indirectly callable JIT
+751cc3ba839275a Sami Tolvanen 2025-07-22  37   * code has matching CFI type hashes.
+751cc3ba839275a Sami Tolvanen 2025-07-22  38   */
+751cc3ba839275a Sami Tolvanen 2025-07-22  39  extern typeof(*(bpf_func_t)0) __bpf_prog_runX;
+751cc3ba839275a Sami Tolvanen 2025-07-22 @40  DEFINE_CFI_TYPE(cfi_bpf_hash, __bpf_prog_runX);
+751cc3ba839275a Sami Tolvanen 2025-07-22  41  
 
 -- 
 0-DAY CI Kernel Test Service
