@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0C12264C5
-	for <oe-kbuild@lists.linux.dev>; Sat, 26 Jul 2025 16:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A452273FE
+	for <oe-kbuild@lists.linux.dev>; Sat, 26 Jul 2025 18:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753547343; cv=none; b=BCgR5pQ40EiDhtCsdHvkWnrdOfFUvvkJVDpJ9CwObrlMqPWydEv19yoYYVlnNsGZb9sIBx0VMKE3y3xViQNoFl2lkVSgdVjZeO0pSYccSMlL4DpFqtUNb1GbG5M3r2vpYtIQ2ilqEEULRmeXNDT5jvd3Us3mi6N5KJdWS0sdimo=
+	t=1753555456; cv=none; b=Ch5YK9AAKJ+h2bOGQtmAdGpjPJIVhATmrvQpNc59X4fAAGqoGIV+w9d5tCf5/Yk0n4Dt0oyswA3nPp3ZXu+XxKjuDRiuq8Oc/31bri9XfvrSHC3oWqj1CruWowMWy8fBe/IKeMrHf+dMvduCrWv2BXXniDlaFQo5rCOGZTiK0QU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753547343; c=relaxed/simple;
-	bh=XfWlTl77jUEb37voHMy99MMUupNuLRUQZWOSdEO948k=;
+	s=arc-20240116; t=1753555456; c=relaxed/simple;
+	bh=+di+hihVAY6LbsimS4HCwUaktHuKF4rJhZat/ja2ob4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M+BhhCbjtjd3nkmCNBQ8TUXRavyGE4lvg1/75+c63oiXEW/CbJiPoDYDxXmJ75+NmSHsLPIdwCFhQ1JZq4AwTICIG3xYXCuvb7qozVWc3LqNR2OpQK89fDyp6RyvqJKbEYi3dIYf78pF0lOq2fLrhr1Gof0erMgi3sgOFcryD74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=muVPp+dy; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=MXsJZMHGJaJb03znZjLDea+I2onbDBvib8Krn7KrR0uIF1AEL+cCnTo6BaUEA/rIRg9MJk2n2GC5FTtTh2nJENJ5xQCbKcpqe8NDyUGeE4W+z+PCLaLeCPT6TY7OeDNxewcAWoedAH7rN9rMJtpj54eYo7Wd5VGRRD61AjSVw/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XLimoWcJ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="muVPp+dy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XLimoWcJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753547341; x=1785083341;
+  t=1753555454; x=1785091454;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XfWlTl77jUEb37voHMy99MMUupNuLRUQZWOSdEO948k=;
-  b=muVPp+dySP1+GV8PIGJI1XFPVXgRJVSDm5cyF9Qmf6TN9wzME3mjLETe
-   HfbsKwKn4y8vvsv4Z+ARxeNKgqBJ2dr/iNuTyJLemL15jFfelxUWODR9P
-   fF8/baerViCZ0SLsaUml6+oKRVv4jXK6qmBp2KlB5IkW2zDKAc6dAuKWC
-   1nvuYtRLADDkwTFdMNZESBWm31W4Rlh60sxGz+2UJxjzIFayGrc5vbq19
-   gabJncsdBmFEmPSwCrjHvhdRkDvP6IpyiAv/orRli3Hlqs8jAx+biFNM1
-   gIs1OWOzsCTGz8UMdJDPSurGImjvBfcKP4h1uWOPVPD4f7TemmRwgh0/S
+  bh=+di+hihVAY6LbsimS4HCwUaktHuKF4rJhZat/ja2ob4=;
+  b=XLimoWcJGuzOz1Nij0REnM1K7xwMmSUeliziOc9O8pLoDwwXSbrcZGm/
+   4zi3dix64jm3HlrBTkkTFZJhB2f4HcQL+FKiS/4CFXW0A7VrAUwdfT5PW
+   m5l9TCLwEFIKRqeslx4Dfi/YBtnkmHtukPhinMcGa+KSgf1/x84U+pHjH
+   CSjVoM/VkaIS812uzPTXeQ+NYJBzchm0DBDh3GtVovSyXNKFu0plTk0PC
+   W5RCgukTqrRs67ci52qovgCWmNsirpi/bBagGNudX2eLwn+ggokKr6HTX
+   iYdfbIRvP5YKlmRf+ZkBTUiskQgHzB7hNjs6ndOmQNtq6nVHd1mt0PDyq
    Q==;
-X-CSE-ConnectionGUID: uQtQnTDURHGOicdzk4purA==
-X-CSE-MsgGUID: LswDVXbPTeu52RoNdmKKoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55714696"
+X-CSE-ConnectionGUID: PChEtl4JTdaQLEluTWe9Rg==
+X-CSE-MsgGUID: Ajrt1fOPSGCI03Ke+epz1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="67212449"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="55714696"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 09:29:01 -0700
-X-CSE-ConnectionGUID: W/Ey3iQvSHSKberdvxk/6w==
-X-CSE-MsgGUID: AzXJjGmVS9WOpO150J6QgA==
+   d="scan'208";a="67212449"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 11:44:13 -0700
+X-CSE-ConnectionGUID: T6JAAAkdQ3+Nm86S2kL3Fw==
+X-CSE-MsgGUID: Ya2Z8bWDTNeHFHB8iDqxLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="161748612"
+   d="scan'208";a="165941911"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 26 Jul 2025 09:28:59 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 Jul 2025 11:44:13 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ufhlY-000M6N-2d;
-	Sat, 26 Jul 2025 16:28:56 +0000
-Date: Sun, 27 Jul 2025 00:28:29 +0800
+	id 1ufjsP-000MCB-2p;
+	Sat, 26 Jul 2025 18:44:09 +0000
+Date: Sun, 27 Jul 2025 02:43:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v3 03/11] net: qrtr: fit node ID + port number
- combination into unsigned long
-Message-ID: <202507270040.z4mru6Go-lkp@intel.com>
+Subject: Re: [PATCH v3 04/11] net: qrtr: support identical node ids
+Message-ID: <202507270223.HrqP7hYH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,11 +63,12 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <c60cc5f238873f72ef6f49582fb87ae7122853d5.1753312999.git.ionic@ionic.de>
-References: <c60cc5f238873f72ef6f49582fb87ae7122853d5.1753312999.git.ionic@ionic.de>
+In-Reply-To: <8fc53fad3065a9860e3f44cf8853494dd6eb6b47.1753312999.git.ionic@ionic.de>
+References: <8fc53fad3065a9860e3f44cf8853494dd6eb6b47.1753312999.git.ionic@ionic.de>
 TO: Mihai Moldovan <ionic@ionic.de>
 TO: linux-arm-msm@vger.kernel.org
 TO: Manivannan Sadhasivam <mani@kernel.org>
+CC: Denis Kenzior <denkenz@gmail.com>
 CC: Eric Dumazet <edumazet@google.com>
 CC: Kuniyuki Iwashima <kuniyu@google.com>
 CC: Paolo Abeni <pabeni@redhat.com>
@@ -91,145 +91,159 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Mihai-Moldovan/net-qrtr-ns-validate-msglen-before-ctrl_pkt-use/20250724-073030
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-patch link:    https://lore.kernel.org/r/c60cc5f238873f72ef6f49582fb87ae7122853d5.1753312999.git.ionic%40ionic.de
-patch subject: [PATCH v3 03/11] net: qrtr: fit node ID + port number combination into unsigned long
+patch link:    https://lore.kernel.org/r/8fc53fad3065a9860e3f44cf8853494dd6eb6b47.1753312999.git.ionic%40ionic.de
+patch subject: [PATCH v3 04/11] net: qrtr: support identical node ids
 :::::: branch date: 3 days ago
 :::::: commit date: 3 days ago
-config: x86_64-randconfig-161-20250726 (https://download.01.org/0day-ci/archive/20250727/202507270040.z4mru6Go-lkp@intel.com/config)
+config: x86_64-randconfig-161-20250726 (https://download.01.org/0day-ci/archive/20250727/202507270223.HrqP7hYH-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507270040.z4mru6Go-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507270223.HrqP7hYH-lkp@intel.com/
 
-smatch warnings:
-net/qrtr/af_qrtr.c:301 qrtr_tx_wait() warn: impossible condition '(dest_node < ((-1) - ((((~(0)) >> ((8 * 8) >> 1))) >> 1))) => (s32min-s32max < s32min)'
-net/qrtr/af_qrtr.c:303 qrtr_tx_wait() warn: impossible condition '(dest_port < ((-1) - ((((~(0)) >> ((8 * 8) >> 1))) >> 1))) => (s32min-s32max < s32min)'
-net/qrtr/af_qrtr.c:374 qrtr_tx_flow_failed() warn: impossible condition '(dest_node < ((-1) - ((((~(0)) >> ((8 * 8) >> 1))) >> 1))) => (s32min-s32max < s32min)'
-net/qrtr/af_qrtr.c:376 qrtr_tx_flow_failed() warn: impossible condition '(dest_port < ((-1) - ((((~(0)) >> ((8 * 8) >> 1))) >> 1))) => (s32min-s32max < s32min)'
+New smatch warnings:
+net/qrtr/af_qrtr.c:613 qrtr_endpoint_post() warn: missing error code 'ret'
 
-vim +301 net/qrtr/af_qrtr.c
+Old smatch warnings:
+net/qrtr/af_qrtr.c:302 qrtr_tx_wait() warn: impossible condition '(dest_node < ((-1) - ((((~(0)) >> ((8 * 8) >> 1))) >> 1))) => (s32min-s32max < s32min)'
+net/qrtr/af_qrtr.c:304 qrtr_tx_wait() warn: impossible condition '(dest_port < ((-1) - ((((~(0)) >> ((8 * 8) >> 1))) >> 1))) => (s32min-s32max < s32min)'
+net/qrtr/af_qrtr.c:375 qrtr_tx_flow_failed() warn: impossible condition '(dest_node < ((-1) - ((((~(0)) >> ((8 * 8) >> 1))) >> 1))) => (s32min-s32max < s32min)'
+net/qrtr/af_qrtr.c:377 qrtr_tx_flow_failed() warn: impossible condition '(dest_port < ((-1) - ((((~(0)) >> ((8 * 8) >> 1))) >> 1))) => (s32min-s32max < s32min)'
 
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  277  
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  278  /**
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  279   * qrtr_tx_wait() - flow control for outgoing packets
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  280   * @node:	qrtr_node that the packet is to be send to
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  281   * @dest_node:	node id of the destination
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  282   * @dest_port:	port number of the destination
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  283   * @type:	type of message
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  284   *
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  285   * The flow control scheme is based around the low and high "watermarks". When
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  286   * the low watermark is passed the confirm_rx flag is set on the outgoing
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  287   * message, which will trigger the remote to send a control message of the type
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  288   * QRTR_TYPE_RESUME_TX to reset the counter. If the high watermark is hit
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  289   * further transmision should be paused.
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  290   *
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  291   * Return: 1 if confirm_rx should be set, 0 otherwise or errno failure
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  292   */
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  293  static int qrtr_tx_wait(struct qrtr_node *node, int dest_node, int dest_port,
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  294  			int type)
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  295  {
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  296  	unsigned long key = 0;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  297  	struct qrtr_tx_flow *flow;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  298  	int confirm_rx = 0;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  299  	int ret;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  300  
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24 @301  	if (dest_node < QRTR_INDEX_HALF_SIGNED_MIN ||
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  302  	    dest_node > QRTR_INDEX_HALF_SIGNED_MAX ||
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24 @303  	    dest_port < QRTR_INDEX_HALF_SIGNED_MIN ||
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  304  	    dest_port > QRTR_INDEX_HALF_SIGNED_MAX)
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  305  		return -EINVAL;
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  306  
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  307  	key = ((unsigned long)(dest_node) << QRTR_INDEX_HALF_BITS) |
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  308  	      ((unsigned long)(dest_port) & QRTR_INDEX_HALF_UNSIGNED_MAX);
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  309  
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  310  	/* Never set confirm_rx on non-data packets */
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  311  	if (type != QRTR_TYPE_DATA)
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  312  		return 0;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  313  
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  314  	mutex_lock(&node->qrtr_tx_lock);
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  315  	flow = radix_tree_lookup(&node->qrtr_tx_flow, key);
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  316  	if (!flow) {
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  317  		flow = kzalloc(sizeof(*flow), GFP_KERNEL);
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  318  		if (flow) {
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  319  			init_waitqueue_head(&flow->resume_tx);
-8a03dd925786bd net/qrtr/qrtr.c    Loic Poulain    2021-03-30  320  			if (radix_tree_insert(&node->qrtr_tx_flow, key, flow)) {
-8a03dd925786bd net/qrtr/qrtr.c    Loic Poulain    2021-03-30  321  				kfree(flow);
-8a03dd925786bd net/qrtr/qrtr.c    Loic Poulain    2021-03-30  322  				flow = NULL;
-8a03dd925786bd net/qrtr/qrtr.c    Loic Poulain    2021-03-30  323  			}
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  324  		}
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  325  	}
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  326  	mutex_unlock(&node->qrtr_tx_lock);
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  327  
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  328  	/* Set confirm_rx if we where unable to find and allocate a flow */
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  329  	if (!flow)
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  330  		return 1;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  331  
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  332  	spin_lock_irq(&flow->resume_tx.lock);
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  333  	ret = wait_event_interruptible_locked_irq(flow->resume_tx,
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  334  						  flow->pending < QRTR_TX_FLOW_HIGH ||
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  335  						  flow->tx_failed ||
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  336  						  !node->ep);
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  337  	if (ret < 0) {
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  338  		confirm_rx = ret;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  339  	} else if (!node->ep) {
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  340  		confirm_rx = -EPIPE;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  341  	} else if (flow->tx_failed) {
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  342  		flow->tx_failed = 0;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  343  		confirm_rx = 1;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  344  	} else {
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  345  		flow->pending++;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  346  		confirm_rx = flow->pending == QRTR_TX_FLOW_LOW;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  347  	}
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  348  	spin_unlock_irq(&flow->resume_tx.lock);
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  349  
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  350  	return confirm_rx;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  351  }
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  352  
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  353  /**
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  354   * qrtr_tx_flow_failed() - flag that tx of confirm_rx flagged messages failed
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  355   * @node:	qrtr_node that the packet is to be send to
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  356   * @dest_node:	node id of the destination
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  357   * @dest_port:	port number of the destination
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  358   *
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  359   * Signal that the transmission of a message with confirm_rx flag failed. The
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  360   * flow's "pending" counter will keep incrementing towards QRTR_TX_FLOW_HIGH,
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  361   * at which point transmission would stall forever waiting for the resume TX
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  362   * message associated with the dropped confirm_rx message.
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  363   * Work around this by marking the flow as having a failed transmission and
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  364   * cause the next transmission attempt to be sent with the confirm_rx.
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  365   *
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  366   * Return: 0 on success; negative error code on failure
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  367   */
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  368  static int qrtr_tx_flow_failed(struct qrtr_node *node, int dest_node,
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  369  			       int dest_port)
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  370  {
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  371  	unsigned long key = 0;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  372  	struct qrtr_tx_flow *flow;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  373  
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24 @374  	if (dest_node < QRTR_INDEX_HALF_SIGNED_MIN ||
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  375  	    dest_node > QRTR_INDEX_HALF_SIGNED_MAX ||
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24 @376  	    dest_port < QRTR_INDEX_HALF_SIGNED_MIN ||
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  377  	    dest_port > QRTR_INDEX_HALF_SIGNED_MAX)
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  378  		return -EINVAL;
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  379  
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  380  	key = ((unsigned long)(dest_node) << QRTR_INDEX_HALF_BITS) |
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  381  	      ((unsigned long)(dest_port) & QRTR_INDEX_HALF_UNSIGNED_MAX);
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  382  
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  383  	rcu_read_lock();
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  384  	flow = radix_tree_lookup(&node->qrtr_tx_flow, key);
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  385  	rcu_read_unlock();
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  386  	if (flow) {
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  387  		spin_lock_irq(&flow->resume_tx.lock);
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  388  		flow->tx_failed = 1;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  389  		spin_unlock_irq(&flow->resume_tx.lock);
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  390  	}
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  391  
-e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan  2025-07-24  392  	return 0;
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  393  }
-5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson 2020-01-13  394  
+vim +/ret +613 net/qrtr/af_qrtr.c
+
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  500  
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  501  /**
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  502   * qrtr_endpoint_post() - post incoming data
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  503   * @ep: endpoint handle
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  504   * @data: data pointer
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  505   * @len: size of data in bytes
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  506   *
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  507   * Return: 0 on success; negative error code on failure
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  508   */
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  509  int qrtr_endpoint_post(struct qrtr_endpoint *ep, const void *data, size_t len)
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  510  {
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  511  	struct qrtr_node *node = ep->node;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  512  	const struct qrtr_hdr_v1 *v1;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  513  	const struct qrtr_hdr_v2 *v2;
+e04df98adf7d7d net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13  514  	struct qrtr_sock *ipc;
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  515  	struct sk_buff *skb;
+f507a9b6e63b9f net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  516  	struct qrtr_cb *cb;
+ad9d24c9429e21 net/qrtr/qrtr.c    Pavel Skripkin      2021-06-14  517  	size_t size;
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  518  	unsigned int ver;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  519  	size_t hdrlen;
+e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan      2025-07-24  520  	int ret = -EINVAL;
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  521  
+8ff41cc2171470 net/qrtr/qrtr.c    Dan Carpenter       2020-06-30  522  	if (len == 0 || len & 3)
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  523  		return -EINVAL;
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  524  
+093b036aa94e01 net/qrtr/qrtr.c    Pavel Skripkin      2021-03-01  525  	skb = __netdev_alloc_skb(NULL, len, GFP_ATOMIC | __GFP_NOWARN);
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  526  	if (!skb)
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  527  		return -ENOMEM;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  528  
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  529  	cb = (struct qrtr_cb *)skb->cb;
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  530  
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  531  	/* Version field in v1 is little endian, so this works for both cases */
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  532  	ver = *(u8*)data;
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  533  
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  534  	switch (ver) {
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  535  	case QRTR_PROTO_VER_1:
+8ff41cc2171470 net/qrtr/qrtr.c    Dan Carpenter       2020-06-30  536  		if (len < sizeof(*v1))
+8ff41cc2171470 net/qrtr/qrtr.c    Dan Carpenter       2020-06-30  537  			goto err;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  538  		v1 = data;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  539  		hdrlen = sizeof(*v1);
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  540  
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  541  		cb->type = le32_to_cpu(v1->type);
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  542  		cb->src_node = le32_to_cpu(v1->src_node_id);
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  543  		cb->src_port = le32_to_cpu(v1->src_port_id);
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  544  		cb->confirm_rx = !!v1->confirm_rx;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  545  		cb->dst_node = le32_to_cpu(v1->dst_node_id);
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  546  		cb->dst_port = le32_to_cpu(v1->dst_port_id);
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  547  
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  548  		size = le32_to_cpu(v1->size);
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  549  		break;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  550  	case QRTR_PROTO_VER_2:
+8ff41cc2171470 net/qrtr/qrtr.c    Dan Carpenter       2020-06-30  551  		if (len < sizeof(*v2))
+8ff41cc2171470 net/qrtr/qrtr.c    Dan Carpenter       2020-06-30  552  			goto err;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  553  		v2 = data;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  554  		hdrlen = sizeof(*v2) + v2->optlen;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  555  
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  556  		cb->type = v2->type;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  557  		cb->confirm_rx = !!(v2->flags & QRTR_FLAGS_CONFIRM_RX);
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  558  		cb->src_node = le16_to_cpu(v2->src_node_id);
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  559  		cb->src_port = le16_to_cpu(v2->src_port_id);
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  560  		cb->dst_node = le16_to_cpu(v2->dst_node_id);
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  561  		cb->dst_port = le16_to_cpu(v2->dst_port_id);
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  562  
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  563  		if (cb->src_port == (u16)QRTR_PORT_CTRL)
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  564  			cb->src_port = QRTR_PORT_CTRL;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  565  		if (cb->dst_port == (u16)QRTR_PORT_CTRL)
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  566  			cb->dst_port = QRTR_PORT_CTRL;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  567  
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  568  		size = le32_to_cpu(v2->size);
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  569  		break;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  570  	default:
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  571  		pr_err("qrtr: Invalid version %d\n", ver);
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  572  		goto err;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  573  	}
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  574  
+69940b888e3502 net/qrtr/af_qrtr.c Vignesh Viswanathan 2023-07-14  575  	if (cb->dst_port == QRTR_PORT_CTRL_LEGACY)
+69940b888e3502 net/qrtr/af_qrtr.c Vignesh Viswanathan 2023-07-14  576  		cb->dst_port = QRTR_PORT_CTRL;
+69940b888e3502 net/qrtr/af_qrtr.c Vignesh Viswanathan 2023-07-14  577  
+d2cabd2dc8da78 net/qrtr/qrtr.c    Dan Carpenter       2021-09-02  578  	if (!size || len != ALIGN(size, 4) + hdrlen)
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  579  		goto err;
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  580  
+6417070918de3b net/qrtr/af_qrtr.c Ziyang Xuan         2023-04-10  581  	if ((cb->type == QRTR_TYPE_NEW_SERVER ||
+6417070918de3b net/qrtr/af_qrtr.c Ziyang Xuan         2023-04-10  582  	     cb->type == QRTR_TYPE_RESUME_TX) &&
+6417070918de3b net/qrtr/af_qrtr.c Ziyang Xuan         2023-04-10  583  	    size < sizeof(struct qrtr_ctrl_pkt))
+6417070918de3b net/qrtr/af_qrtr.c Ziyang Xuan         2023-04-10  584  		goto err;
+6417070918de3b net/qrtr/af_qrtr.c Ziyang Xuan         2023-04-10  585  
+5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13  586  	if (cb->dst_port != QRTR_PORT_CTRL && cb->type != QRTR_TYPE_DATA &&
+5fdeb0d372ab33 net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13  587  	    cb->type != QRTR_TYPE_RESUME_TX)
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  588  		goto err;
+f507a9b6e63b9f net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  589  
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  590  	skb_put_data(skb, data + hdrlen, size);
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  591  
+5222378bf30633 net/qrtr/af_qrtr.c Denis Kenzior       2025-07-24  592  	ret = qrtr_node_assign(node, cb->src_node);
+5222378bf30633 net/qrtr/af_qrtr.c Denis Kenzior       2025-07-24  593  	if (ret)
+5222378bf30633 net/qrtr/af_qrtr.c Denis Kenzior       2025-07-24  594  		goto err;
+e04df98adf7d7d net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13  595  
+0baa99ee353c20 net/qrtr/qrtr.c    Loic Poulain        2020-11-06  596  	if (cb->type == QRTR_TYPE_NEW_SERVER) {
+0baa99ee353c20 net/qrtr/qrtr.c    Loic Poulain        2020-11-06  597  		/* Remote node endpoint can bridge other distant nodes */
+aaa8e4922c887f net/qrtr/qrtr.c    Dan Carpenter       2021-08-30  598  		const struct qrtr_ctrl_pkt *pkt;
+0baa99ee353c20 net/qrtr/qrtr.c    Loic Poulain        2020-11-06  599  
+aaa8e4922c887f net/qrtr/qrtr.c    Dan Carpenter       2021-08-30  600  		pkt = data + hdrlen;
+5222378bf30633 net/qrtr/af_qrtr.c Denis Kenzior       2025-07-24  601  		ret = qrtr_node_assign(node, le32_to_cpu(pkt->server.node));
+5222378bf30633 net/qrtr/af_qrtr.c Denis Kenzior       2025-07-24  602  		if (ret)
+5222378bf30633 net/qrtr/af_qrtr.c Denis Kenzior       2025-07-24  603  			goto err;
+0baa99ee353c20 net/qrtr/qrtr.c    Loic Poulain        2020-11-06  604  	}
+0baa99ee353c20 net/qrtr/qrtr.c    Loic Poulain        2020-11-06  605  
+e04df98adf7d7d net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13  606  	if (cb->type == QRTR_TYPE_RESUME_TX) {
+e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan      2025-07-24  607  		ret = qrtr_tx_resume(node, skb);
+e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan      2025-07-24  608  		if (ret)
+e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan      2025-07-24  609  			goto err;
+e04df98adf7d7d net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13  610  	} else {
+e04df98adf7d7d net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13  611  		ipc = qrtr_port_lookup(cb->dst_port);
+e04df98adf7d7d net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13  612  		if (!ipc)
+e04df98adf7d7d net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13 @613  			goto err;
+e04df98adf7d7d net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13  614  
+52f3456a96c067 net/qrtr/qrtr.c    Pavel Skripkin      2021-07-23  615  		if (sock_queue_rcv_skb(&ipc->sk, skb)) {
+52f3456a96c067 net/qrtr/qrtr.c    Pavel Skripkin      2021-07-23  616  			qrtr_port_put(ipc);
+e04df98adf7d7d net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13  617  			goto err;
+52f3456a96c067 net/qrtr/qrtr.c    Pavel Skripkin      2021-07-23  618  		}
+e04df98adf7d7d net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13  619  
+e04df98adf7d7d net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13  620  		qrtr_port_put(ipc);
+e04df98adf7d7d net/qrtr/qrtr.c    Bjorn Andersson     2020-01-13  621  	}
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  622  
+bdabad3e363d82 net/qrtr/qrtr.c    Courtney Cavin      2016-05-06  623  	return 0;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  624  
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  625  err:
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  626  	kfree_skb(skb);
+e92239648a9190 net/qrtr/af_qrtr.c Mihai Moldovan      2025-07-24  627  	return ret;
+194ccc88297ae7 net/qrtr/qrtr.c    Bjorn Andersson     2017-10-10  628  
 
 -- 
 0-DAY CI Kernel Test Service
