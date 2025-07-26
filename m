@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28533595D
-	for <oe-kbuild@lists.linux.dev>; Thu, 24 Jul 2025 22:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FE1184E
+	for <oe-kbuild@lists.linux.dev>; Sat, 26 Jul 2025 08:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753396279; cv=none; b=sfc1dhDR9Ll8HRSEgL8FQlQ3wsCytHK0QE9Hjy3m2HLKcil6gawreb+SFXiY4eZX9zouHBtlCnEvcSu6eDBiA6J9drw+RNXbKRJj7jqXTfMC130eUh8dEJ3TChNSvtIhfTaaImrUwiNW31MuaAQHkDL804vb7NWXjK8umKAUBVE=
+	t=1753518923; cv=none; b=Pm/BH9bYRybIvjdJvRY4kdfDjhDz6DEB4J58j655Pn66l7Rt8pDiUntqPY/aaiENwBWw08PrPf8OJlzpwrLygcn17ZqR0/y35CYhS6NfUvo7eEaOl4EbKNnO1msGPzw/98JHDL5gzSN4Z7nj8sBSBzzjue/yiSJCktS8a5sxtbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753396279; c=relaxed/simple;
-	bh=DWbt/EYmIOsT99C+Ro8IWv6KtobxCqjIzZdCJP1h7NI=;
+	s=arc-20240116; t=1753518923; c=relaxed/simple;
+	bh=JOtSgl3HHrJYrn76SfaNbRR13tesvp4Bnfh9TLQvJX4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HOsaD0gstPf97gASWrI+VJOZ0Q/AbCDg9mJpt+6hpUIhGLQrmgiJH+YtdwUToKWzuLULYRcDpIEXyMfMb1dmclK/g+BzvjyKvQSdgcOqVlpew3NOOD+tol83kVnhFwJdZOJiJ+UMTyaknr+HlJulZjCE2/QnsFqdN9vqQYBFCok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SMJdV8Fq; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=YmEwx8zUH394sZwxxHXwcbf3wf7Kr2D3kImrP2+vxq0fel7RUlGWqvLr5IgXVNqXvbFqahosTN3r/7s9aB9gI7RlUpJISe8wj4fE5kMykHEHAwU/AUI2QXDZuibXRkoOxr/FWM6Ciiu/bpI0/5zR1t+LrOxtujSyRRRm/NQPh9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3o0eHf4; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SMJdV8Fq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3o0eHf4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753396277; x=1784932277;
+  t=1753518923; x=1785054923;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DWbt/EYmIOsT99C+Ro8IWv6KtobxCqjIzZdCJP1h7NI=;
-  b=SMJdV8Fqan2ZMzMNNHqWYxo6t3anYp4JNjDL/X0IxWmHFCc/LZ4osbgf
-   sVGqCPr24VP1pQhi/gbC4be63JwBJJiYm59Ahb4zm6hVId2nU3pK58FBy
-   KBHa/foQUNolMWysTgo7iplxjHCtB+Sg2hOUvOSgxCOBKHYjWWqtt0puC
-   BxJ6z23ZG4ouUpB5d3VHNbvtNnMxbfHTE9qRLuSyWmDagPacEMY5GDB/B
-   3wssHVrDqkJIP/+1fk4IVcsstS91buGKgr9nO/NIdspCAGoUcFWaFfAMK
-   wYetiRtaSLbfL4sDIwiagVfW/ue+9ARejq/ZKcuA79OxIUntJB4d5V2nx
+  bh=JOtSgl3HHrJYrn76SfaNbRR13tesvp4Bnfh9TLQvJX4=;
+  b=I3o0eHf47ofOAO91qqhvq/5jL4IGHNuZx8mkgqa2rzFovjvO/DcY3Iek
+   VNiFBC1k0g6b47ve2HegoBlKI0u55aStUEyqIcsh+KWr/vQPN1s2KEKtP
+   dmMUyQSitprNNGB98qhhrX5anxiAY8v3E035UlyvoEQmYjDlEm93/WxBE
+   zYj5N+ZGqkjLCbmr7NqpytJlTurJPuZ2KAnIwXZqCi9W0elIYAQ+f8dEN
+   PEW7/IWrx0T0ig8LZ3+igA6jvYbBdgtaAyFeBfyvF0J231HhFuf0OCRvs
+   5MCzPI6DFhGmN1LQUTW4RObnIlgRace5O8ecFfNK5MkEP+KIbYaK06GEs
    w==;
-X-CSE-ConnectionGUID: ZmpUrwFMR/uQXHiPdOIy+w==
-X-CSE-MsgGUID: cB7H6gNfQEq4XB77nNmYow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="66293714"
-X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="66293714"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 15:31:16 -0700
-X-CSE-ConnectionGUID: Dl0SGuxzT6q53APPK4T7Ew==
-X-CSE-MsgGUID: jaJyobneTXeFHwCxINknww==
+X-CSE-ConnectionGUID: n0JtIf1LR9ubYJUNwT+/Iw==
+X-CSE-MsgGUID: ocyEQ1H0ST+L6+EJitTBmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="55541980"
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="55541980"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 01:35:22 -0700
+X-CSE-ConnectionGUID: pIYVr4bmTpeF+xLbf7PvkQ==
+X-CSE-MsgGUID: lhXn4VSaSpKnWIdOxkLRvw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="160249966"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 24 Jul 2025 15:31:15 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="165551503"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa003.fm.intel.com with ESMTP; 26 Jul 2025 01:35:21 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uf4T3-000KsR-0A;
-	Thu, 24 Jul 2025 22:31:13 +0000
-Date: Fri, 25 Jul 2025 06:30:52 +0800
+	id 1ufaNC-0000Fj-28;
+	Sat, 26 Jul 2025 08:35:18 +0000
+Date: Sat, 26 Jul 2025 10:35:17 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v1 4/4] riscv: dts: starfive: add Milk-V Mars CM Lite
- system-on-module
-Message-ID: <202507250600.6GgTzkco-lkp@intel.com>
+Subject: vmlinux.o: warning: objtool: shrink_node+0x8fa: sibling call from
+ callable instruction with modified stack frame
+Message-ID: <202507261000.QADqAFWV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,52 +63,45 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250724094912.253723-5-e@freeshell.de>
-References: <20250724094912.253723-5-e@freeshell.de>
-TO: E Shattow <e@freeshell.de>
-TO: Emil Renner Berthing <kernel@esmil.dk>
-TO: Conor Dooley <conor@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Paul Walmsley <paul.walmsley@sifive.com>
-TO: Palmer Dabbelt <palmer@dabbelt.com>
-TO: Albert Ou <aou@eecs.berkeley.edu>
-TO: Alexandre Ghiti <alex@ghiti.fr>
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: E Shattow <e@freeshell.de>
-CC: linux-riscv@lists.infradead.org
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>
 
-Hi Shattow,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 28fa0dcb571ab8f3be4d919f0e20e01d4e44bcb1]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/E-Shattow/dt-bindings-riscv-starfive-add-milkv-marscm-emmc/20250724-175339
-base:   28fa0dcb571ab8f3be4d919f0e20e01d4e44bcb1
-patch link:    https://lore.kernel.org/r/20250724094912.253723-5-e%40freeshell.de
-patch subject: [PATCH v1 4/4] riscv: dts: starfive: add Milk-V Mars CM Lite system-on-module
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5f33ebd2018ced2600b3fad2f8e2052498eb4072
+commit: 3724062ca2b1364f02cf44dbea1a552227844ad1 objtool: Ignore dangling jump table entries
+date:   6 months ago
 :::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: riscv-randconfig-052-20250725 (https://download.01.org/0day-ci/archive/20250725/202507250600.6GgTzkco-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250725/202507250600.6GgTzkco-lkp@intel.com/reproduce)
+:::::: commit date: 6 months ago
+config: x86_64-buildonly-randconfig-2001-20250720 (https://download.01.org/0day-ci/archive/20250726/202507261000.QADqAFWV-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507261000.QADqAFWV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507250600.6GgTzkco-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507261000.QADqAFWV-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/riscv/boot/dts/starfive/jh7110-milkv-marscm-lite.dtb: pinctrl@13040000 (starfive,jh7110-sys-pinctrl): 'wifi-host-wake-irq' does not match any of the regexes: '-[0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/starfive,jh7110-sys-pinctrl.yaml#
+All warnings (new ones prefixed by >>):
+
+   vmlinux.o: warning: objtool: ia32_setup_rt_frame+0x139: call to write_comp_data.llvm.15143929695534535488() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp1+0x11: call to write_comp_data.llvm.15143929695534535488() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp2+0x14: call to write_comp_data.llvm.15143929695534535488() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp4+0x14: call to write_comp_data.llvm.15143929695534535488() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp8+0x13: call to write_comp_data.llvm.15143929695534535488() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp1+0x14: call to write_comp_data.llvm.15143929695534535488() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp2+0x14: call to write_comp_data.llvm.15143929695534535488() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp4+0x14: call to write_comp_data.llvm.15143929695534535488() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp8+0x13: call to write_comp_data.llvm.15143929695534535488() with UACCESS enabled
+   vmlinux.o: warning: objtool: __sanitizer_cov_trace_switch+0x5a: call to write_comp_data.llvm.15143929695534535488() with UACCESS enabled
+   vmlinux.o: warning: objtool: ___bpf_prog_run+0x6d: sibling call from callable instruction with modified stack frame
+>> vmlinux.o: warning: objtool: shrink_node+0x8fa: sibling call from callable instruction with modified stack frame
 
 -- 
 0-DAY CI Kernel Test Service
