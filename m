@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23663274B2A
-	for <oe-kbuild@lists.linux.dev>; Mon, 28 Jul 2025 16:22:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89639249F9
+	for <oe-kbuild@lists.linux.dev>; Mon, 28 Jul 2025 18:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753719760; cv=none; b=K9maL3xJsFoux5ADQ7bUqs/3G+uuc8J2v9HTTtWX+1WDKKSSulwDd36QxpZl3TfVp+0y88yek+I1u4uMN7DZRKApUIjSB1QfGRo73eMgXQ0EIdIK4eKajQijHMtXQ98mf1owy2rD5sRK6LeXk7vZovrU1LMZN7Cxook8TbipJFw=
+	t=1753725927; cv=none; b=UL27UvNz3XdToP18acgG2QbBKWnrUdQYVb4+gfzXF2VQq55S4Q1r9KCCBykgtxga8St9b3NwBoTNNOLrJ/jfpTsbxTNx872wjtAkJGt57fkGA9c6dfO0M5eHVpDCyY1shql1iD3GflimMh4uqf/kYva0SR2If3XDEfwUhFlfjQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753719760; c=relaxed/simple;
-	bh=qEptmLeQC82EbUtnGAV4bMXmPiPRraPp63om6TA5J10=;
+	s=arc-20240116; t=1753725927; c=relaxed/simple;
+	bh=xBDmWOF+oOd7MjxpQnMte1zgOBmamBkVkVy+HZ574ow=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y6TlaBF3ThGAHop+gYKDaJU8kIoSXx8qxID+egwWu330tvS3rBnQJ1GBLp8b6sTHjFLLW5YI/39FNZMhG+u5EGluAEhhpS/OJb6D1Nyuu1qW4SnPoJUcineXgyiJfE5KP/aKIJc3880Kx3wmnpvUVSUePsICA3wCzhZDfu1TEic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bRj/p37P; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=ke+EPLktCE2a3JktcmjVQlhxqoxdLqLM4O419eNu8yE2kgx9HGhpgPAgfYLzOrzYSrznM2oraKkrbGEBOuktfnVvwJ14Xi8Y7IKBxlpLF1lo6R9F8Ac523wZkpZCtgG+mDiIYTOBQnJNyL1yPA8I5FAp5Z/doPMyDj3xBM911lE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ScdY4O58; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bRj/p37P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ScdY4O58"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753719759; x=1785255759;
+  t=1753725925; x=1785261925;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qEptmLeQC82EbUtnGAV4bMXmPiPRraPp63om6TA5J10=;
-  b=bRj/p37PSmBpnbgDbz7aFRR93pzXXU2S+o9j8i2N6ycq91rYXhpmauWB
-   m2U779nnN108LNaBUD6VPxsnaoczO2GqxD7+RbZhv1XdHPTBJWM5oxoq8
-   858Lk+ocsnq0OwMv3b7bsNfYOczD7IxI04MYTGh6qIPSea6H2AcLdFoQV
-   6FoSFoSmFhcPaYqIrbqJE93sar2wb4nB0Dg6Dj2hkXx3q/sv3Jqv0b5DR
-   bfNRsBEIre/A90ZheG8MFubDBmOjv5D8doxSt5dxp6001jAybTkXkxudw
-   ELxPiHkcgaWPIyYgSip0bUtXlxRFr90KAmJTYnFBtYD82H7yaqLOukMa+
-   A==;
-X-CSE-ConnectionGUID: lIw7HdWFQtiKg/OoO2vyjA==
-X-CSE-MsgGUID: qAeYfKCqQJOp0wsI1ikUIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="67328527"
+  bh=xBDmWOF+oOd7MjxpQnMte1zgOBmamBkVkVy+HZ574ow=;
+  b=ScdY4O58187SGy1AyXtWIUox7/lyFuuHobdvK7GyZpqX2T/wo/rEOJh3
+   RiDKXz8aXlKHfdIy7J0+42IvNnA+/mtC0fgVsRoI6bOlAGsJvKymtypyx
+   yjp/OvdiJpXAR+HCJ04RPMjSBNvlMZKv7X3YIZVCp0kYD9dtK02Sf9Al0
+   oO2SMYsNXVxyorncU6UH3n8iqsz8NShi8gNbF6Mp46AHBGPDadlPunV+e
+   XcxTk0CMp+VPXU3nHmOLlZViOAbd2guUPCu0YH/aqSAqrSjFKQxoqgT2U
+   mwfnLr5Np/qEmutxwN2FETDDzlrzhoePmlJJ08/+q8+oG9+9+lW2eDlp2
+   g==;
+X-CSE-ConnectionGUID: /8FpfS8sTy6gtDIIhfPlXw==
+X-CSE-MsgGUID: dD1iOsMvSPq5Y2Yv3YOsIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="73432275"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="67328527"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 09:22:21 -0700
-X-CSE-ConnectionGUID: s9F946m9QjOOl6AjuaOLUg==
-X-CSE-MsgGUID: 0hYx02YVSFCFWvnhYl1pdQ==
+   d="scan'208";a="73432275"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 11:05:25 -0700
+X-CSE-ConnectionGUID: qOJzT5eOQKSdcbt9NCO3vg==
+X-CSE-MsgGUID: Ni9CpLOHQoW0Ks0jBDNOWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="193305421"
+   d="scan'208";a="162192521"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 28 Jul 2025 09:22:15 -0700
+  by orviesa009.jf.intel.com with ESMTP; 28 Jul 2025 11:05:24 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ugQc8-0000Zf-1g;
-	Mon, 28 Jul 2025 16:22:12 +0000
-Date: Tue, 29 Jul 2025 00:21:19 +0800
+	id 1ugSDx-0000ed-1y;
+	Mon, 28 Jul 2025 18:05:21 +0000
+Date: Tue, 29 Jul 2025 02:04:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 4107/12680]
- drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c:3527
- iwl_trans_pcie_dump_monitor() error: we previously assumed
- 'trans->dbg.dest_tlv' could be null (see line 3512)
-Message-ID: <202507290021.SSOS7V6E-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [openeuler:openEuler-1.0-LTS 1739/1739]
+ block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+Message-ID: <202507290215.VEeso4hO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,93 +64,155 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+TO: kernel@openeuler.org
+TO: Yang Yingliang <yangyingliang@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0b90c3b6d76ea512dc3dac8fb30215e175b0019a
-commit: c8a00a6e89ffee419a9190d2af9c75a7afe196d2 [4107/12680] wifi: iwlwifi: pcie: move generation specific files to a folder
+Hi Laibin,
+
+First bad commit (maybe != root cause):
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   2623909c6fdd9e79e3af279f1a8ef6acfbef0b2e
+commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1739/1739] blk-throttle: Set BIO_THROTTLED when bio has been throttled
 :::::: branch date: 11 hours ago
-:::::: commit date: 5 weeks ago
-config: i386-randconfig-141-20250728 (https://download.01.org/0day-ci/archive/20250729/202507290021.SSOS7V6E-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+:::::: commit date: 3 years, 5 months ago
+config: x86_64-randconfig-104-20250728 (https://download.01.org/0day-ci/archive/20250729/202507290215.VEeso4hO-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507290021.SSOS7V6E-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202507290215.VEeso4hO-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c:3527 iwl_trans_pcie_dump_monitor() error: we previously assumed 'trans->dbg.dest_tlv' could be null (see line 3512)
+cocci warnings: (new ones prefixed by >>)
+>> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
 
-vim +3527 drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c
+vim +2306 block/blk-throttle.c
 
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3503  
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3504  static u32
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3505  iwl_trans_pcie_dump_monitor(struct iwl_trans *trans,
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3506  			    struct iwl_fw_error_dump_data **data,
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3507  			    u32 monitor_len)
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3508  {
-69f0e5059b0961 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-07-22  3509  	struct iwl_dram_data *fw_mon = &trans->dbg.fw_mon;
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3510  	u32 len = 0;
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3511  
-91c28b83da2162 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-05-13 @3512  	if (trans->dbg.dest_tlv ||
-69f0e5059b0961 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-07-22  3513  	    (fw_mon->size &&
-c96a36491003d7 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Berg      2025-05-08  3514  	     (trans->mac_cfg->device_family == IWL_DEVICE_FAMILY_7000 ||
-c96a36491003d7 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Berg      2025-05-08  3515  	      trans->mac_cfg->device_family >= IWL_DEVICE_FAMILY_AX210))) {
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3516  		struct iwl_fw_error_dump_fw_mon *fw_mon_data;
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3517  
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3518  		(*data)->type = cpu_to_le32(IWL_FW_ERROR_DUMP_FW_MONITOR);
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3519  		fw_mon_data = (void *)(*data)->data;
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3520  
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3521  		iwl_trans_pcie_dump_pointers(trans, fw_mon_data);
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3522  
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3523  		len += sizeof(**data) + sizeof(*fw_mon_data);
-69f0e5059b0961 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-07-22  3524  		if (fw_mon->size) {
-69f0e5059b0961 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-07-22  3525  			memcpy(fw_mon_data->data, fw_mon->block, fw_mon->size);
-69f0e5059b0961 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-07-22  3526  			monitor_len = fw_mon->size;
-91c28b83da2162 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-05-13 @3527  		} else if (trans->dbg.dest_tlv->monitor_mode == SMEM_MODE) {
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3528  			u32 base = le32_to_cpu(fw_mon_data->fw_mon_base_ptr);
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3529  			/*
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3530  			 * Update pointers to reflect actual values after
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3531  			 * shifting
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3532  			 */
-91c28b83da2162 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-05-13  3533  			if (trans->dbg.dest_tlv->version) {
-fd527eb5d22936 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Golan Ben Ami      2017-08-16  3534  				base = (iwl_read_prph(trans, base) &
-fd527eb5d22936 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Golan Ben Ami      2017-08-16  3535  					IWL_LDBG_M2S_BUF_BA_MSK) <<
-91c28b83da2162 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-05-13  3536  				       trans->dbg.dest_tlv->base_shift;
-fd527eb5d22936 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Golan Ben Ami      2017-08-16  3537  				base *= IWL_M2S_UNIT_SIZE;
-857ecb8524020d drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Berg      2025-05-08  3538  				base += trans->mac_cfg->base->smem_offset;
-fd527eb5d22936 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Golan Ben Ami      2017-08-16  3539  			} else {
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3540  				base = iwl_read_prph(trans, base) <<
-91c28b83da2162 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-05-13  3541  				       trans->dbg.dest_tlv->base_shift;
-fd527eb5d22936 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Golan Ben Ami      2017-08-16  3542  			}
-fd527eb5d22936 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Golan Ben Ami      2017-08-16  3543  
-332fbf871d44cc drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Berg      2025-05-02  3544  			iwl_trans_pcie_read_mem(trans, base, fw_mon_data->data,
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3545  						monitor_len / sizeof(u32));
-91c28b83da2162 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-05-13  3546  		} else if (trans->dbg.dest_tlv->monitor_mode == MARBH_MODE) {
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3547  			monitor_len =
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3548  				iwl_trans_pci_dump_marbh_monitor(trans,
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3549  								 fw_mon_data,
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3550  								 monitor_len);
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3551  		} else {
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3552  			/* Didn't match anything - output no monitor data */
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3553  			monitor_len = 0;
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3554  		}
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3555  
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3556  		len += monitor_len;
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3557  		(*data)->len = cpu_to_le32(monitor_len + sizeof(*fw_mon_data));
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3558  	}
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3559  
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3560  	return len;
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3561  }
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3562  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
+ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
+ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
+e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
+c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
+ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
+73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
+0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
+e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
+e43473b7f223ec Vivek Goyal   2010-09-15  2203  
+ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
+ae118896361111 Tejun Heo     2015-08-18  2205  
+2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
+e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
+e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
+bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
+e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2211  
+e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
+c9589f03e49095 Tejun Heo     2015-08-18  2213  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
+c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
+e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
+f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
+9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
+9e234eeafbe17e Shaohua Li    2017-03-27  2221  
+73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
+73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
+c79892c5576163 Shaohua Li    2017-03-27  2224  again:
+9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
+3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
+3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
+fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
+9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
+c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
+3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
+c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
+c79892c5576163 Shaohua Li    2017-03-27  2240  			}
+9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
+c79892c5576163 Shaohua Li    2017-03-27  2242  		}
+de701c74a34005 Vivek Goyal   2011-03-07  2243  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
+e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
+04521db04e9a11 Vivek Goyal   2011-03-22  2246  
+04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
+04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
+04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
+04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
+04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
+04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
+04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
+04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
+04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
+04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
+04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
+0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
+9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
+9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
+c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
+9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
+e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
+e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2271  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
+fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
+8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
+9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
+9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
+9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
+73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
+e43473b7f223ec Vivek Goyal   2010-09-15  2279  
+3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2281  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
+c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
+e43473b7f223ec Vivek Goyal   2010-09-15  2285  
+7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
+7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
+7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
+7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
+7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
+7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
+77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
+7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
+e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2296  
+bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
+111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
+5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
+e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
+e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
+bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
+e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
+e43473b7f223ec Vivek Goyal   2010-09-15  2308  
 
-:::::: The code at line 3527 was first introduced by commit
-:::::: 91c28b83da21624dabd1ee9e9c35e2747d6a9563 iwlwifi: dbg: move trans debug fields to a separate struct
+:::::: The code at line 2306 was first introduced by commit
+:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
 
-:::::: TO: Shahar S Matityahu <shahar.s.matityahu@intel.com>
-:::::: CC: Luca Coelho <luciano.coelho@intel.com>
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
