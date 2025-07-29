@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2503F2882C3
-	for <oe-kbuild@lists.linux.dev>; Tue, 29 Jul 2025 11:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA15262FDE
+	for <oe-kbuild@lists.linux.dev>; Tue, 29 Jul 2025 13:29:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753786872; cv=none; b=b1d5ugL95DT/xnSeKN/o/zv7YdHiFK4OBgX5ee+T2lHG/IuH6FTR02UWCXJQ3Ls1kp+imBvRv/QLnx1mSf8qMz8fZ8lWKN2FPR98/QZe/ZiAm72geX7i55DtNDKTEeaky762/SaIik/jDhXoSLFvvMCEzmceJj/8m9//DAij3qc=
+	t=1753795774; cv=none; b=cHqNathmtHjexEeH0wgrMp6+1mSeu9mXPYA6NE1DDp9cIOY7/b6Y1HX8nqozyfxMWC46ej1mWiJV+nryoh6EMoVQo6PVNtKi7yvLsYYqy0fF3LW1NxITDI+mbrXOsPlMi7yP8oNj2Xe+zi4LmS7gTb2fTFWbyl4h9oWa9vMXhBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753786872; c=relaxed/simple;
-	bh=RA5joOXgydIrPpMqDc6e0VqGM3FIyeEEyZHLv85kx5M=;
+	s=arc-20240116; t=1753795774; c=relaxed/simple;
+	bh=laRKEoMVEo374pLjhCkjjGZmmGajlIeZuM25NRUZPCA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=guSlfN+4LzZWMee4W+23jWWvAWh3RDo3QvhuSgETVY67BPsD3HxZs7JqxEnnNON/87JuGA/A08OGbJiQhqdGwXjPet7B+KzrRifySUT1wWwXJtiMaBp8GQAV4a9Lt+k99wnu3pXCxx8sNumBx8sYGkWY9FTEM/uBAWHOsmmEvYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P8sFikjq; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=CcMTEEAPRWqfEM05Ljm9qIMRfdeHF5D9hiuCzvr+SpVTXJHabZGuLPTVfVgepBuP3EGFmBQYzrCSLdJZrWRUpgi0roQGRLuIVx8zkmVAYC1A+aVX4IDib6LIZXesE5+hDU4+9ScTIm4vF1cGOYG34PPxVV7VtjCShBlR9O5iNnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NfAmtZAE; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P8sFikjq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NfAmtZAE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753786870; x=1785322870;
+  t=1753795774; x=1785331774;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RA5joOXgydIrPpMqDc6e0VqGM3FIyeEEyZHLv85kx5M=;
-  b=P8sFikjq+85hDTR/wNhNFKY8hR5utegwxrE95ZJFBqXQEedHNg2d0oc1
-   7614VUBqDLIh7O0fkvWoChxXU405MrRnsKQY+mac8qZ8ZRNLHxAnvKs2w
-   86FiZHn6UTRwSyNdjwhVa/IXem9CWS/uSJw9H+WVeH8U0TOVodHIhvrMl
-   /T7XKvmasG/0LpGnnwh36ohHn2C3u/xmQ+lJUO0nCqd0/1i72j5CDmd4E
-   YZ9vW4Om9VYhLploZ4vCnvWaFdKuO7SE5NC5tlSFcllLGI9ppYpQ4/sG2
-   0HbcOH6/JD9Tn9HHPW4KSY4m8I2LtPGmJTCoW+dbT+y0Kxib55Y+pxWkX
-   A==;
-X-CSE-ConnectionGUID: Kxo/xq0WS6+iPmpRTOr+Xw==
-X-CSE-MsgGUID: Gt0zDFNwTR6sCSLiKunQcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="55934189"
-X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="55934189"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 04:01:09 -0700
-X-CSE-ConnectionGUID: 970IWTEwQ42DxhoxbI/GCA==
-X-CSE-MsgGUID: EK7noyasRHqnotpi+GkuoA==
+  bh=laRKEoMVEo374pLjhCkjjGZmmGajlIeZuM25NRUZPCA=;
+  b=NfAmtZAEOwQOUi3DF4GlKqlUq2qQ/p/Day3cJRzq79r+kmSqWpsTDVcE
+   5PPMq16nJS1r+KnHGSUJbZJWo4pJeBs9mgIynhXEikMEnMGhJ1fHwc91G
+   9mhP6VMobIcmyXsB1puctCKMTUAY6i59aDLBntlv7uDxqRpj+smKnzx0O
+   oC+ynp61bIxoQMti4ha8d8k0n2naHAx8TBZ17VRB7oAqx5yIj1cBI1d6o
+   eU9OzzfVbeSs2ykpV5GjRE7VXHrBrI+OdJbAUEPFtDrghn2ytx5OFSow9
+   oYPwPmZMQcTX18QwtXUZlktfq1HF863Xp43nFo1lfDtvm377klMwjbOs0
+   w==;
+X-CSE-ConnectionGUID: YOWmS6XLT52psuYdYamybA==
+X-CSE-MsgGUID: lp28bgr7SNW8wiVT+EZpCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="59869510"
+X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
+   d="scan'208";a="59869510"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 06:29:30 -0700
+X-CSE-ConnectionGUID: neXr7LyySaGrIvI7PGVv/Q==
+X-CSE-MsgGUID: z2xO0KkTTW2vfgUhYAyR5g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="161940933"
+X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
+   d="scan'208";a="193691329"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 29 Jul 2025 04:01:08 -0700
+  by orviesa002.jf.intel.com with ESMTP; 29 Jul 2025 06:29:25 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ugi4w-0001Dd-0E;
-	Tue, 29 Jul 2025 11:01:06 +0000
-Date: Tue, 29 Jul 2025 19:01:01 +0800
+	id 1ugkON-0001Jd-1f;
+	Tue, 29 Jul 2025 13:29:19 +0000
+Date: Tue, 29 Jul 2025 21:28:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/kasan/kasan_test_c.c:472 kmalloc_uaf_16() error: dereferencing
- freed memory 'ptr2' (line 470)
-Message-ID: <202507291823.s0vRF4GT-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [openeuler:openEuler-1.0-LTS 1568/1568]
+ block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+Message-ID: <202507292155.4p73oKoA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,230 +64,151 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Matthew Maurer <mmaurer@google.com>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Andrey Konovalov <andreyknvl@gmail.com>
+TO: kernel@openeuler.org
+TO: Yang Yingliang <yangyingliang@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ae388edd4a8f0226f3ef7b102c34f78220756c3d
-commit: a2f11547052001bd448ccec81dd1e68409078fbb kasan: rust: Add KASAN smoke test via UAF
-date:   11 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-randconfig-161-20250729 (https://download.01.org/0day-ci/archive/20250729/202507291823.s0vRF4GT-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   859de5033e15abefcf19935429e6478be97d889a
+commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1568/1568] blk-throttle: Set BIO_THROTTLED when bio has been throttled
+:::::: branch date: 12 hours ago
+:::::: commit date: 3 years, 5 months ago
+config: x86_64-randconfig-102-20250408 (https://download.01.org/0day-ci/archive/20250729/202507292155.4p73oKoA-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507291823.s0vRF4GT-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202507292155.4p73oKoA-lkp@intel.com/
 
-smatch warnings:
-mm/kasan/kasan_test_c.c:472 kmalloc_uaf_16() error: dereferencing freed memory 'ptr2' (line 470)
-mm/kasan/kasan_test_c.c:645 kmalloc_uaf_memset() warn: passing freed memory 'ptr' (line 644)
+cocci warnings: (new ones prefixed by >>)
+>> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
 
-vim +/ptr2 +472 mm/kasan/kasan_test_c.c
+vim +2306 block/blk-throttle.c
 
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  456  
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  457  static void kmalloc_uaf_16(struct kunit *test)
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  458  {
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  459  	struct {
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  460  		u64 words[2];
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  461  	} *ptr1, *ptr2;
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  462  
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  463  	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  464  
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  465  	ptr1 = kmalloc(sizeof(*ptr1), GFP_KERNEL);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  466  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  467  
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  468  	ptr2 = kmalloc(sizeof(*ptr2), GFP_KERNEL);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  469  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01 @470  	kfree(ptr2);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  471  
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01 @472  	KUNIT_EXPECT_KASAN_FAIL(test, *ptr1 = *ptr2);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  473  	kfree(ptr1);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  474  }
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov    2020-11-01  475  
-555999a009aacd lib/test_kasan.c      Andrey Konovalov    2021-09-02  476  /*
-555999a009aacd lib/test_kasan.c      Andrey Konovalov    2021-09-02  477   * Note: in the memset tests below, the written range touches both valid and
-555999a009aacd lib/test_kasan.c      Andrey Konovalov    2021-09-02  478   * invalid memory. This makes sure that the instrumentation does not only check
-555999a009aacd lib/test_kasan.c      Andrey Konovalov    2021-09-02  479   * the starting address but the whole range.
-555999a009aacd lib/test_kasan.c      Andrey Konovalov    2021-09-02  480   */
-555999a009aacd lib/test_kasan.c      Andrey Konovalov    2021-09-02  481  
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  482  static void kmalloc_oob_memset_2(struct kunit *test)
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  483  {
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  484  	char *ptr;
-555999a009aacd lib/test_kasan.c      Andrey Konovalov    2021-09-02  485  	size_t size = 128 - KASAN_GRANULE_SIZE;
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  486  	size_t memset_size = 2;
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  487  
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  488  	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  489  
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  490  	ptr = kmalloc(size, GFP_KERNEL);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  491  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-f33a01492a24a2 lib/test_kasan.c      Walter Wu           2020-08-06  492  
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  493  	OPTIMIZER_HIDE_VAR(ptr);
-d73dad4eb5ad8c lib/test_kasan.c      Kees Cook           2021-11-05  494  	OPTIMIZER_HIDE_VAR(size);
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  495  	OPTIMIZER_HIDE_VAR(memset_size);
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  496  	KUNIT_EXPECT_KASAN_FAIL(test, memset(ptr + size - 1, 0, memset_size));
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  497  	kfree(ptr);
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  498  }
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  499  
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  500  static void kmalloc_oob_memset_4(struct kunit *test)
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  501  {
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  502  	char *ptr;
-555999a009aacd lib/test_kasan.c      Andrey Konovalov    2021-09-02  503  	size_t size = 128 - KASAN_GRANULE_SIZE;
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  504  	size_t memset_size = 4;
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  505  
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  506  	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  507  
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  508  	ptr = kmalloc(size, GFP_KERNEL);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  509  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-f33a01492a24a2 lib/test_kasan.c      Walter Wu           2020-08-06  510  
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  511  	OPTIMIZER_HIDE_VAR(ptr);
-d73dad4eb5ad8c lib/test_kasan.c      Kees Cook           2021-11-05  512  	OPTIMIZER_HIDE_VAR(size);
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  513  	OPTIMIZER_HIDE_VAR(memset_size);
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  514  	KUNIT_EXPECT_KASAN_FAIL(test, memset(ptr + size - 3, 0, memset_size));
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  515  	kfree(ptr);
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  516  }
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  517  
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  518  static void kmalloc_oob_memset_8(struct kunit *test)
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  519  {
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  520  	char *ptr;
-555999a009aacd lib/test_kasan.c      Andrey Konovalov    2021-09-02  521  	size_t size = 128 - KASAN_GRANULE_SIZE;
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  522  	size_t memset_size = 8;
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  523  
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  524  	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  525  
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  526  	ptr = kmalloc(size, GFP_KERNEL);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  527  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-f33a01492a24a2 lib/test_kasan.c      Walter Wu           2020-08-06  528  
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  529  	OPTIMIZER_HIDE_VAR(ptr);
-d73dad4eb5ad8c lib/test_kasan.c      Kees Cook           2021-11-05  530  	OPTIMIZER_HIDE_VAR(size);
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  531  	OPTIMIZER_HIDE_VAR(memset_size);
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  532  	KUNIT_EXPECT_KASAN_FAIL(test, memset(ptr + size - 7, 0, memset_size));
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  533  	kfree(ptr);
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  534  }
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  535  
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  536  static void kmalloc_oob_memset_16(struct kunit *test)
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  537  {
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  538  	char *ptr;
-555999a009aacd lib/test_kasan.c      Andrey Konovalov    2021-09-02  539  	size_t size = 128 - KASAN_GRANULE_SIZE;
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  540  	size_t memset_size = 16;
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  541  
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  542  	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  543  
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  544  	ptr = kmalloc(size, GFP_KERNEL);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  545  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-f33a01492a24a2 lib/test_kasan.c      Walter Wu           2020-08-06  546  
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  547  	OPTIMIZER_HIDE_VAR(ptr);
-d73dad4eb5ad8c lib/test_kasan.c      Kees Cook           2021-11-05  548  	OPTIMIZER_HIDE_VAR(size);
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  549  	OPTIMIZER_HIDE_VAR(memset_size);
-b2325bf860faa2 mm/kasan/kasan_test.c Nico Pache          2023-12-12  550  	KUNIT_EXPECT_KASAN_FAIL(test, memset(ptr + size - 15, 0, memset_size));
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  551  	kfree(ptr);
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  552  }
-f523e737c08f5d lib/test_kasan.c      Wang Long           2015-11-05  553  
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  554  static void kmalloc_oob_in_memset(struct kunit *test)
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  555  {
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  556  	char *ptr;
-555999a009aacd lib/test_kasan.c      Andrey Konovalov    2021-09-02  557  	size_t size = 128 - KASAN_GRANULE_SIZE;
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  558  
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  559  	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  560  
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  561  	ptr = kmalloc(size, GFP_KERNEL);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  562  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-f33a01492a24a2 lib/test_kasan.c      Walter Wu           2020-08-06  563  
-09c6304e38e440 lib/test_kasan.c      Marco Elver         2022-01-29  564  	OPTIMIZER_HIDE_VAR(ptr);
-d73dad4eb5ad8c lib/test_kasan.c      Kees Cook           2021-11-05  565  	OPTIMIZER_HIDE_VAR(size);
-555999a009aacd lib/test_kasan.c      Andrey Konovalov    2021-09-02  566  	KUNIT_EXPECT_KASAN_FAIL(test,
-555999a009aacd lib/test_kasan.c      Andrey Konovalov    2021-09-02  567  				memset(ptr, 0, size + KASAN_GRANULE_SIZE));
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  568  	kfree(ptr);
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  569  }
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  570  
-758cabae312d3a lib/test_kasan.c      Peter Collingbourne 2021-11-05  571  static void kmalloc_memmove_negative_size(struct kunit *test)
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  572  {
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  573  	char *ptr;
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  574  	size_t size = 64;
-d73dad4eb5ad8c lib/test_kasan.c      Kees Cook           2021-11-05  575  	size_t invalid_size = -2;
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  576  
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  577  	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  578  
-1b0668be62cfa3 lib/test_kasan.c      Andrey Konovalov    2021-09-02  579  	/*
-1b0668be62cfa3 lib/test_kasan.c      Andrey Konovalov    2021-09-02  580  	 * Hardware tag-based mode doesn't check memmove for negative size.
-1b0668be62cfa3 lib/test_kasan.c      Andrey Konovalov    2021-09-02  581  	 * As a result, this test introduces a side-effect memory corruption,
-1b0668be62cfa3 lib/test_kasan.c      Andrey Konovalov    2021-09-02  582  	 * which can result in a crash.
-1b0668be62cfa3 lib/test_kasan.c      Andrey Konovalov    2021-09-02  583  	 */
-1b0668be62cfa3 lib/test_kasan.c      Andrey Konovalov    2021-09-02  584  	KASAN_TEST_NEEDS_CONFIG_OFF(test, CONFIG_KASAN_HW_TAGS);
-1b0668be62cfa3 lib/test_kasan.c      Andrey Konovalov    2021-09-02  585  
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  586  	ptr = kmalloc(size, GFP_KERNEL);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  587  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  588  
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  589  	memset((char *)ptr, 0, 64);
-09c6304e38e440 lib/test_kasan.c      Marco Elver         2022-01-29  590  	OPTIMIZER_HIDE_VAR(ptr);
-d73dad4eb5ad8c lib/test_kasan.c      Kees Cook           2021-11-05  591  	OPTIMIZER_HIDE_VAR(invalid_size);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  592  	KUNIT_EXPECT_KASAN_FAIL(test,
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  593  		memmove((char *)ptr, (char *)ptr + 4, invalid_size));
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  594  	kfree(ptr);
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  595  }
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  596  
-758cabae312d3a lib/test_kasan.c      Peter Collingbourne 2021-11-05  597  static void kmalloc_memmove_invalid_size(struct kunit *test)
-758cabae312d3a lib/test_kasan.c      Peter Collingbourne 2021-11-05  598  {
-758cabae312d3a lib/test_kasan.c      Peter Collingbourne 2021-11-05  599  	char *ptr;
-758cabae312d3a lib/test_kasan.c      Peter Collingbourne 2021-11-05  600  	size_t size = 64;
-d6e5040bd8e533 mm/kasan/kasan_test.c Andrey Konovalov    2022-09-26  601  	size_t invalid_size = size;
-758cabae312d3a lib/test_kasan.c      Peter Collingbourne 2021-11-05  602  
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  603  	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  604  
-758cabae312d3a lib/test_kasan.c      Peter Collingbourne 2021-11-05  605  	ptr = kmalloc(size, GFP_KERNEL);
-758cabae312d3a lib/test_kasan.c      Peter Collingbourne 2021-11-05  606  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-758cabae312d3a lib/test_kasan.c      Peter Collingbourne 2021-11-05  607  
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  608  	memset((char *)ptr, 0, 64);
-09c6304e38e440 lib/test_kasan.c      Marco Elver         2022-01-29  609  	OPTIMIZER_HIDE_VAR(ptr);
-d6e5040bd8e533 mm/kasan/kasan_test.c Andrey Konovalov    2022-09-26  610  	OPTIMIZER_HIDE_VAR(invalid_size);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  611  	KUNIT_EXPECT_KASAN_FAIL(test,
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  612  		memmove((char *)ptr, (char *)ptr + 4, invalid_size));
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  613  	kfree(ptr);
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  614  }
-98f3b56fa62a61 lib/test_kasan.c      Walter Wu           2020-04-01  615  
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  616  static void kmalloc_uaf(struct kunit *test)
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  617  {
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  618  	char *ptr;
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  619  	size_t size = 10;
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  620  
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  621  	ptr = kmalloc(size, GFP_KERNEL);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  622  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  623  
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  624  	kfree(ptr);
-8fbad19bdcb4b9 lib/test_kasan.c      Andrey Konovalov    2021-09-02  625  	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[8]);
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  626  }
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  627  
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  628  static void kmalloc_uaf_memset(struct kunit *test)
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  629  {
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  630  	char *ptr;
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  631  	size_t size = 33;
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  632  
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  633  	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver         2023-02-24  634  
-25b12a58e84845 lib/test_kasan.c      Andrey Konovalov    2021-09-02  635  	/*
-25b12a58e84845 lib/test_kasan.c      Andrey Konovalov    2021-09-02  636  	 * Only generic KASAN uses quarantine, which is required to avoid a
-25b12a58e84845 lib/test_kasan.c      Andrey Konovalov    2021-09-02  637  	 * kernel memory corruption this test causes.
-25b12a58e84845 lib/test_kasan.c      Andrey Konovalov    2021-09-02  638  	 */
-25b12a58e84845 lib/test_kasan.c      Andrey Konovalov    2021-09-02  639  	KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_GENERIC);
-25b12a58e84845 lib/test_kasan.c      Andrey Konovalov    2021-09-02  640  
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  641  	ptr = kmalloc(size, GFP_KERNEL);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13  642  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  643  
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13 @644  	kfree(ptr);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso    2020-10-13 @645  	KUNIT_EXPECT_KASAN_FAIL(test, memset(ptr, 0, size));
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  646  }
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin     2015-02-13  647  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
+ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
+ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
+e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
+c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
+ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
+73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
+0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
+e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
+e43473b7f223ec Vivek Goyal   2010-09-15  2203  
+ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
+ae118896361111 Tejun Heo     2015-08-18  2205  
+2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
+e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
+e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
+bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
+e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2211  
+e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
+c9589f03e49095 Tejun Heo     2015-08-18  2213  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
+c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
+e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
+f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
+9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
+9e234eeafbe17e Shaohua Li    2017-03-27  2221  
+73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
+73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
+c79892c5576163 Shaohua Li    2017-03-27  2224  again:
+9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
+3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
+3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
+fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
+9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
+c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
+3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
+c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
+c79892c5576163 Shaohua Li    2017-03-27  2240  			}
+9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
+c79892c5576163 Shaohua Li    2017-03-27  2242  		}
+de701c74a34005 Vivek Goyal   2011-03-07  2243  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
+e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
+04521db04e9a11 Vivek Goyal   2011-03-22  2246  
+04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
+04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
+04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
+04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
+04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
+04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
+04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
+04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
+04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
+04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
+04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
+0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
+9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
+9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
+c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
+9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
+e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
+e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2271  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
+fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
+8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
+9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
+9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
+9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
+73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
+e43473b7f223ec Vivek Goyal   2010-09-15  2279  
+3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2281  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
+c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
+e43473b7f223ec Vivek Goyal   2010-09-15  2285  
+7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
+7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
+7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
+7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
+7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
+7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
+77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
+7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
+e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2296  
+bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
+111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
+5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
+e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
+e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
+bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
+e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
+e43473b7f223ec Vivek Goyal   2010-09-15  2308  
 
-:::::: The code at line 472 was first introduced by commit
-:::::: 58b999d7a22c59313e1e84832607c7a61640f4e7 kasan: adopt KUNIT tests to SW_TAGS mode
+:::::: The code at line 2306 was first introduced by commit
+:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
 
-:::::: TO: Andrey Konovalov <andreyknvl@google.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
