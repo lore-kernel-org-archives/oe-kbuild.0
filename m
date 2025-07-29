@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76391262FC8
-	for <oe-kbuild@lists.linux.dev>; Tue, 29 Jul 2025 06:59:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02723264618
+	for <oe-kbuild@lists.linux.dev>; Tue, 29 Jul 2025 07:53:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753772390; cv=none; b=aJusnVCVWhHoujUBb8JldGZHeout0EGsJKBt8eLYzzNj5Ph8vifCDrlVA5KU2/enDLCCpUClFfmz/LLQn4BZt6YKNZPpSf4o+IRdTgrkzb+4+ngeg77PulNuIeDYDnSPoKCf6js6Q+bSI90C3FrEwaJmHjXvJH977xsQNdL8dWg=
+	t=1753775635; cv=none; b=aGKVDyuQEGGzcp+U3ID4v7CAQqKEVqQR8QkCcNnD8T6o58n1dQbXMipvip8XtOZRMi5iu0Tj4t0L9k+aGVEh05q5laz9cZ+g2CkVUjUZOQfZURWZCe7Qp1MVape0vouf74dbwDcvL7WuqemruoubSNXNRvXDa+UN+lFbEaDDOEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753772390; c=relaxed/simple;
-	bh=pMWYMSwZEhpofl/wwof+6ZXzk3sRX/BzMO7mz0D+S/8=;
+	s=arc-20240116; t=1753775635; c=relaxed/simple;
+	bh=NA9UgjuuR6JpdH+Mg1UUUgXbiW0Y8Sf1ezNxQGVUD9A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O/F+Ks80Qv7eWXGiKNtZ/QFhjfT+ZUQXkF4Pv0uaBJPtuzGe47xDTQUTfELMBMqbxSJfGd6SXpkjHpxkl/UXXi4MSIrXkfymJL1114avU0PkaMgyZBqf++ai5mIkBCOvt5Izx9GOmvPWR87QqDcJnw0mCKGJGtOLYdczOKaibV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cig8wcz6; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=l3VbUdC1Az9b/64WUr07vRIADJRUed1ZyBlmQ2XoHBezepYSmxehQfqd8YI3AcTwpue8PfKe+a/KlQpuQjIYcIFR4cH/m+7twPSKGlSE3a5i+7Jl6yXBcJ9yhPIMH/QfdaaR8rlEna4w7jgYipMoMLKeoEVNrsPk97IK/8w7C8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K+5UKfN1; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cig8wcz6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K+5UKfN1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753772389; x=1785308389;
+  t=1753775634; x=1785311634;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pMWYMSwZEhpofl/wwof+6ZXzk3sRX/BzMO7mz0D+S/8=;
-  b=cig8wcz66J38yozju6YODGCop1USOZI1vbPfLKdZOAO1tKFP/QqJcgSR
-   ArdgRjHaMuHZn6M7MhtLn48xCg6VBQaS//eHqdul1JFTT0wmblnNCZqbu
-   /YAjM3nErfIjgb0sg6F+FKYGj3zxLjtVWSsO/4+wOBsbFnQEJsv1PjHsm
-   mbg+NoeYLnyipApsBknJH9xlabE51xRTRPJm+CsQi/NW1MOkjpJr/FJqB
-   VBNaXIW788zvUgiZx5UcNe3K9VD4s4W1VqoCwCjhVCB2ps+v7BW8BCgSK
-   9oXP2w7W3Z6CKDtngxkswYi6SBmwmPxKft7lr7ynY0+Y4AZbkDtgq/+26
-   Q==;
-X-CSE-ConnectionGUID: gtTlkIA8SbmtdyFmLzOGBQ==
-X-CSE-MsgGUID: R1V9DePURv20tz6Ta9ZL5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="55239711"
+  bh=NA9UgjuuR6JpdH+Mg1UUUgXbiW0Y8Sf1ezNxQGVUD9A=;
+  b=K+5UKfN1EYWA+uBPwzhvQ3HsgBzTYOLIBBe6YnuUeUiTADx/iSBn2kB0
+   U9Q+6vplYe/ZAQeqEVAInf+gSwn1B32IYwneiSwOj4iI6B/9q7q27LI7P
+   kuI4w3Wemz4z9lPMPM2DrJfWkSqmWlUhIc+y//T9Fv/htxi/fQt5N0kI/
+   bgyPIhBIoIGkIZHHuVhso7NNRPAKrIgwiPCfhdq80XfH8IhHCoCF4LBrp
+   Wg+DSAmlLU+tG87f93eCuLTQxKoA/kyvIkxKKKmzHYG1N4AGEqtqeEvlL
+   cFVY6T46SNplChBaiwq61D6QxXllo5Ht0aj7wmY4aiFFZ8809pvpgKbJ7
+   w==;
+X-CSE-ConnectionGUID: C4Yc34f1Qc2TBW859mFIdw==
+X-CSE-MsgGUID: cIIAJTtnRWiAyHcp0cC/+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="67119788"
 X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="55239711"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 23:59:48 -0700
-X-CSE-ConnectionGUID: 6v2OcRmlRX+XQ5Ock5Yjqw==
-X-CSE-MsgGUID: xGjxcneLQXiR9syv8bYIkw==
+   d="scan'208";a="67119788"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 00:53:53 -0700
+X-CSE-ConnectionGUID: sSxbpScuTmOOY/FCn8O/IQ==
+X-CSE-MsgGUID: OuhczWDXQDCpkf3e2F8MrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="162973113"
+   d="scan'208";a="163076584"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 28 Jul 2025 23:59:47 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 29 Jul 2025 00:53:52 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ugeJM-00014l-0z;
-	Tue, 29 Jul 2025 06:59:44 +0000
-Date: Tue, 29 Jul 2025 14:59:02 +0800
+	id 1ugf9i-00016b-0i;
+	Tue, 29 Jul 2025 07:53:50 +0000
+Date: Tue, 29 Jul 2025 15:53:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 16/38] arm64: dts: mediatek: mt6331: Fix pmic,
- regulators, rtc, keys node names
-Message-ID: <202507291410.oYPY99Xp-lkp@intel.com>
+Subject: clang: error: linker command failed with exit code 1 (use -v to see
+ invocation)
+Message-ID: <202507291508.T5T8jh5f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,95 +63,48 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250724083914.61351-17-angelogioacchino.delregno@collabora.com>
-References: <20250724083914.61351-17-angelogioacchino.delregno@collabora.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-TO: linux-mediatek@lists.infradead.org
-TO: robh@kernel.org
-CC: herbert@gondor.apana.org.au
-CC: davem@davemloft.net
-CC: krzk+dt@kernel.org
-CC: conor+dt@kernel.org
-CC: chunkuang.hu@kernel.org
-CC: p.zabel@pengutronix.de
-CC: airlied@gmail.com
-CC: simona@ffwll.ch
-CC: maarten.lankhorst@linux.intel.com
-CC: mripard@kernel.org
-CC: tzimmermann@suse.de
-CC: jassisinghbrar@gmail.com
-CC: mchehab@kernel.org
-CC: matthias.bgg@gmail.com
-CC: angelogioacchino.delregno@collabora.com
-CC: chunfeng.yun@mediatek.com
-CC: vkoul@kernel.org
-CC: kishon@kernel.org
-CC: sean.wang@kernel.org
-CC: linus.walleij@linaro.org
-CC: lgirdwood@gmail.com
-CC: broonie@kernel.org
-CC: andersson@kernel.org
-CC: mathieu.poirier@linaro.org
-CC: daniel.lezcano@linaro.org
-CC: tglx@linutronix.de
-CC: atenart@kernel.org
-CC: jitao.shi@mediatek.com
+CC: llvm@lists.linux.dev
+BCC: lkp@intel.com
 
-Hi AngeloGioacchino,
+CC: linux-kernel@vger.kernel.org
+TO: Nathan Chancellor <nathan@kernel.org>
+CC: Johannes Berg <johannes.berg@intel.com>
 
-kernel test robot noticed the following build warnings:
+Hi Nathan,
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linusw-pinctrl/devel linusw-pinctrl/for-next broonie-regulator/for-next linus/master v6.16]
-[cannot apply to next-20250728]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI, the error/warning still remains.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-dpi-Allow-specifying-resets/20250724-164429
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250724083914.61351-17-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH 16/38] arm64: dts: mediatek: mt6331: Fix pmic, regulators, rtc, keys node names
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-051-20250728 (https://download.01.org/0day-ci/archive/20250729/202507291410.oYPY99Xp-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250729/202507291410.oYPY99Xp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ae388edd4a8f0226f3ef7b102c34f78220756c3d
+commit: 89350defd1f0eb5a58a7e1155d9e322080f0bf15 um: Fix passing '-n' to linker for stub_exe
+date:   10 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 10 months ago
+config: um-randconfig-002-20250729 (https://download.01.org/0day-ci/archive/20250729/202507291508.T5T8jh5f-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1b4db78d2eaa070b3f364a2d2b2b826a5439b892)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250729/202507291508.T5T8jh5f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507291410.oYPY99Xp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507291508.T5T8jh5f-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: syscon@10006000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pmic (mediatek,mt6331): 'mt6332-led' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pmic (mediatek,mt6331): regulators:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6331-regulator'] is too short
-   	'mediatek,mt6331-regulator' is not one of ['mediatek,mt6323-regulator', 'mediatek,mt6328-regulator', 'mediatek,mt6358-regulator', 'mediatek,mt6359-regulator', 'mediatek,mt6397-regulator']
-   	'mediatek,mt6331-regulator' is not one of ['mediatek,mt6366-regulator']
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: regulators (mediatek,mt6331-regulator): 'ldo-vio28' does not match any of the regexes: '^buck-v(core2|io18|dvfs11|dvfs12|dvfs13|dvfs14)$', '^ldo-(avdd32aud|vauxa32)$', '^ldo-v(dig18|emc33|ibr|mc|mch|mipi|rtc|sim1|sim2|sram|usb10)$', '^ldo-vcam(a|af|d|io)$', '^ldo-vgp[1234]$', '^ldo-vtcxo[12]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6331-regulator.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: regulators (mediatek,mt6331-regulator): ldo-vcamio:regulator-name:0: 'vcam_io' does not match '^vcam(a|_af|d|io)$'
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6331-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: intpol-controller@10200620 (mediatek,mt6795-sysirq): $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: iommu@10205000 (mediatek,mt6795-m4u): 'mediatek,infracfg' is a required property
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11230000 (mediatek,mt6795-mmc): mediatek,latch-ck: 20 is greater than the maximum of 7
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11230000 (mediatek,mt6795-mmc): Unevaluated properties are not allowed ('mediatek,latch-ck' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11240000 (mediatek,mt6795-mmc): 'pinctrl-names' is a required property
+All errors (new ones prefixed by >>):
+
+   clang: warning: argument unused during compilation: '-mno-3dnow' [-Wunused-command-line-argument]
+   /usr/bin/ld: ../lib/LLVMgold.so: cannot open shared object file: No such file or directory
+>> clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 -- 
 0-DAY CI Kernel Test Service
