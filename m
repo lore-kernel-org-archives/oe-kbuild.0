@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1302B1CBEAA
-	for <oe-kbuild@lists.linux.dev>; Wed, 30 Jul 2025 16:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103011DFD96
+	for <oe-kbuild@lists.linux.dev>; Wed, 30 Jul 2025 16:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753892270; cv=none; b=t2VcV5ie7Zb6labH3sIi5CyOw5wgb4xNB9A6k2H5mZLTw2z0kmCoidBVvKgh8Ncxt1HzUuM3UMIujYrJToN+wQ+y1kSTi/UpndS59ZLHRvhJZCIfoTcrLFYUd4AvBxS0bJjFw3v5ICHdjFBFq2DdIhy1bkxm1EWhDBAMLlq8rxI=
+	t=1753892930; cv=none; b=Mmr9fSHsoag8bTJ/HKHrNx9yYWh8SNBva5HLTAM7/dPMJTZb18Ndh5y5h4cWIKk2FvbIWpk/IM+1zxP82tu88kNy3rSL+tWNunQnke8AQiuEXI+HlqayXIeSp2Qj0NA9Opj5SM1cw3N7Cnfgdsq7I7R0RON/Xx0/VA/aHLl2rJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753892270; c=relaxed/simple;
-	bh=mj2GHgnUT3x/4B4CW9RFfZIHF4+DmXuybosfmFGUcUo=;
+	s=arc-20240116; t=1753892930; c=relaxed/simple;
+	bh=Q3dhbTEF4gZNO3s0exwfkt6kZ7kUglm/tEHW79NU8uY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ph0UPUUm8kq6WQN6yWpmrIQyWpo0qnpsuI5N5S3E5VXiTADhfx+ttzbEYuhh0bi3fIFn8bfQOC48gJU+I/Hzwhc84E2ao44gJZ+X1sbiIUKV3IqTqfnyOVxDrbbJCNVa3nuhLxoZYlivQn6QVci+sDI7bRacUAQ/W8WWBcWcxrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CktumAi0; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=Ft23BV0VaC+pQlfy1khgnZyT5SoHjA6F6Fwj3/6C5OARZLwyyIfzQG80qBOSJ8UHJOU1Dt/eths8yPVEDUDkfXnpTHQdDLn59jCJTUIM00LAYTiOtXkUrOQlduxPpGw5L/Kbu9e7JQAnzi45lWj1LXUuMa8oIoXcQQ6MbE3hZo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HE7m9uZH; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CktumAi0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HE7m9uZH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753892267; x=1785428267;
+  t=1753892928; x=1785428928;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mj2GHgnUT3x/4B4CW9RFfZIHF4+DmXuybosfmFGUcUo=;
-  b=CktumAi0++bFqADwmjUuAGMGsHPNbMs7lIo72hsfvrMmWkXP7l+eCmiY
-   EwxdnmqDTLsdHN2Au2ZBWEr0NE6o+FAIeNXcO+aAV/BCkoc+w9arSKCa+
-   XRYjuEcKgWY1cB6F0rLQlR+bpD+md+T3x3Hj0TNxAKDbSefLmMjUVnAT+
-   uAd69v5aYzPnUV0ytG49UjjlffvX1b5x42E4eSRhMvkrzjp3OZBVAeusJ
-   3SzRKz6XnhozuerhVmXOq5RI2UvshmICfYJ6h2OiUNpqpzFh2EIa+tS+w
-   mvDE4A9u/oa1bJBbLgO9tFB6enHOXd3WkfM8Xo7ZI0IW5JHNPz8cup1iZ
-   Q==;
-X-CSE-ConnectionGUID: 3Y3az9B1QnObNdMpa/YACQ==
-X-CSE-MsgGUID: pM9LqO6bRd6LPKwbspCp6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="66473258"
+  bh=Q3dhbTEF4gZNO3s0exwfkt6kZ7kUglm/tEHW79NU8uY=;
+  b=HE7m9uZHXsxXNxTyNoyC8BmrmbpjCVIdL1cFO6UEwA+TrQDsejS2G0dn
+   kPsVDMovXEc+m8A0ZGO9Yag65Wr8LBiJzmlzLnPDVzBcZGOrhgToH/V9Q
+   njJLscjP8G1eILJmC3AV7VhsbR3h2WN3jFdskT7Ed36W9ca0748wMCgAe
+   aEMOqHS8dUBUSInDjZ5OeU4OZEUHelRDQvLNqrj+S3bOxBuuAU4AI9O1l
+   Fc0488Q0vcOUTySckvFcZL4WprCUc1xuIZfM9DmXn+ySs8ymXxg7Ui4L5
+   SXgayWDZVVb7kAgRZoYv+vXZaJYAhCsyeUBfIZzDuvC+8Ipd+wpIs3Ctr
+   g==;
+X-CSE-ConnectionGUID: dQeL5MKoQXq3xYogbcxM/Q==
+X-CSE-MsgGUID: 624rrP+0T1KERn2ulzunjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="56167933"
 X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="66473258"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 09:17:46 -0700
-X-CSE-ConnectionGUID: yymnxrGyR6uhivAtKg42eQ==
-X-CSE-MsgGUID: dOgaKW9/TnKFEc9HbDNHTA==
+   d="scan'208";a="56167933"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 09:28:48 -0700
+X-CSE-ConnectionGUID: q2dyq1S1TtODKlsXNvRgQA==
+X-CSE-MsgGUID: V9PAQgUbTrSwe1gpoyz02Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="162308266"
+   d="scan'208";a="194007912"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 30 Jul 2025 09:17:45 -0700
+  by orviesa002.jf.intel.com with ESMTP; 30 Jul 2025 09:28:47 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uh9Ut-0002vS-0B;
-	Wed, 30 Jul 2025 16:17:43 +0000
-Date: Thu, 31 Jul 2025 00:17:14 +0800
+	id 1uh9fX-0002w0-3B;
+	Wed, 30 Jul 2025 16:28:43 +0000
+Date: Thu, 31 Jul 2025 00:27:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: lib/test_bitmap.c:1278:2: error: call to '__compiletime_assert_331'
- declared with 'error' attribute: BUILD_BUG_ON failed:
- !__builtin_constant_p(~var)
-Message-ID: <202507310059.TvBmsv8s-lkp@intel.com>
+Subject: Re: [PATCH 16/38] arm64: dts: mediatek: mt6331: Fix pmic,
+ regulators, rtc, keys node names
+Message-ID: <202507310007.iKZbHGT6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,132 +63,95 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Johannes Berg <johannes.berg@intel.com>
+In-Reply-To: <20250724083914.61351-17-angelogioacchino.delregno@collabora.com>
+References: <20250724083914.61351-17-angelogioacchino.delregno@collabora.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: linux-mediatek@lists.infradead.org
+TO: robh@kernel.org
+CC: herbert@gondor.apana.org.au
+CC: davem@davemloft.net
+CC: krzk+dt@kernel.org
+CC: conor+dt@kernel.org
+CC: chunkuang.hu@kernel.org
+CC: p.zabel@pengutronix.de
+CC: airlied@gmail.com
+CC: simona@ffwll.ch
+CC: maarten.lankhorst@linux.intel.com
+CC: mripard@kernel.org
+CC: tzimmermann@suse.de
+CC: jassisinghbrar@gmail.com
+CC: mchehab@kernel.org
+CC: matthias.bgg@gmail.com
+CC: angelogioacchino.delregno@collabora.com
+CC: chunfeng.yun@mediatek.com
+CC: vkoul@kernel.org
+CC: kishon@kernel.org
+CC: sean.wang@kernel.org
+CC: linus.walleij@linaro.org
+CC: lgirdwood@gmail.com
+CC: broonie@kernel.org
+CC: andersson@kernel.org
+CC: mathieu.poirier@linaro.org
+CC: daniel.lezcano@linaro.org
+CC: tglx@linutronix.de
+CC: atenart@kernel.org
+CC: jitao.shi@mediatek.com
 
-Hi Johannes,
+Hi AngeloGioacchino,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4b290aae788e06561754b28c6842e4080957d3f7
-commit: 53585f9ea40a9466ab9c1151f15984513eb542f7 um: enable UBSAN
-date:   1 year, 1 month ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20250731/202507310059.TvBmsv8s-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507310059.TvBmsv8s-lkp@intel.com/reproduce)
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linusw-pinctrl/devel linusw-pinctrl/for-next broonie-regulator/for-next v6.16]
+[cannot apply to linus/master next-20250730]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-dpi-Allow-specifying-resets/20250724-164429
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250724083914.61351-17-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH 16/38] arm64: dts: mediatek: mt6331: Fix pmic, regulators, rtc, keys node names
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm64-randconfig-051-20250728 (https://download.01.org/0day-ci/archive/20250731/202507310007.iKZbHGT6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507310007.iKZbHGT6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507310059.TvBmsv8s-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507310007.iKZbHGT6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> lib/test_bitmap.c:1278:2: error: call to '__compiletime_assert_331' declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(~var)
-    1278 |         BUILD_BUG_ON(!__builtin_constant_p(~var));
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:510:2: note: expanded from macro 'compiletime_assert'
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:498:2: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:491:4: note: expanded from macro '__compiletime_assert'
-     491 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:7:1: note: expanded from here
-       7 | __compiletime_assert_331
-         | ^
-   1 error generated.
-
-
-vim +1278 lib/test_bitmap.c
-
-291f93ca339f5b Barry Song        2021-08-06  1227  
-2356d198d2b4dd Yury Norov        2023-07-17  1228  /*
-2356d198d2b4dd Yury Norov        2023-07-17  1229   * FIXME: Clang breaks compile-time evaluations when KASAN and GCOV are enabled.
-2356d198d2b4dd Yury Norov        2023-07-17  1230   * To workaround it, GCOV is force-disabled in Makefile for this configuration.
-2356d198d2b4dd Yury Norov        2023-07-17  1231   */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1232  static void __init test_bitmap_const_eval(void)
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1233  {
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1234  	DECLARE_BITMAP(bitmap, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1235  	unsigned long initvar = BIT(2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1236  	unsigned long bitopvar = 0;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1237  	unsigned long var = 0;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1238  	int res;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1239  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1240  	/*
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1241  	 * Compilers must be able to optimize all of those to compile-time
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1242  	 * constants on any supported optimization level (-O2, -Os) and any
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1243  	 * architecture. Otherwise, trigger a build bug.
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1244  	 * The whole function gets optimized out then, there's nothing to do
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1245  	 * in runtime.
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1246  	 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1247  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1248  	/* Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1249  	bitmap_clear(bitmap, 0, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1250  	if (!test_bit(7, bitmap))
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1251  		bitmap_set(bitmap, 5, 2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1252  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1253  	/* Equals to `unsigned long bitopvar = BIT(20)` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1254  	__change_bit(31, &bitopvar);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1255  	bitmap_shift_right(&bitopvar, &bitopvar, 11, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1256  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1257  	/* Equals to `unsigned long var = BIT(25)` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1258  	var |= BIT(25);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1259  	if (var & BIT(0))
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1260  		var ^= GENMASK(9, 6);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1261  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1262  	/* __const_hweight<32|64>(GENMASK(6, 5)) == 2 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1263  	res = bitmap_weight(bitmap, 20);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1264  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1265  	BUILD_BUG_ON(res != 2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1266  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1267  	/* !(BIT(31) & BIT(18)) == 1 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1268  	res = !test_bit(18, &bitopvar);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1269  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1270  	BUILD_BUG_ON(!res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1271  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1272  	/* BIT(2) & GENMASK(14, 8) == 0 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1273  	res = initvar & GENMASK(14, 8);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1274  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1275  	BUILD_BUG_ON(res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1276  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1277  	/* ~BIT(25) */
-dc34d5036692c6 Alexander Lobakin 2022-06-24 @1278  	BUILD_BUG_ON(!__builtin_constant_p(~var));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1279  	BUILD_BUG_ON(~var != ~BIT(25));
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1280  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1281  	/* ~BIT(25) | BIT(25) == ~0UL */
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1282  	bitmap_complement(&var, &var, BITS_PER_LONG);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1283  	__assign_bit(25, &var, true);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1284  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1285  	/* !(~(~0UL)) == 1 */
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1286  	res = bitmap_full(&var, BITS_PER_LONG);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1287  	BUILD_BUG_ON(!__builtin_constant_p(res));
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1288  	BUILD_BUG_ON(!res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1289  }
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1290  
-
-:::::: The code at line 1278 was first introduced by commit
-:::::: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
-
-:::::: TO: Alexander Lobakin <alexandr.lobakin@intel.com>
-:::::: CC: Yury Norov <yury.norov@gmail.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: syscon@10006000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+>> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pmic (mediatek,mt6331): 'mt6332-led' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+>> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pmic (mediatek,mt6331): regulators:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt6331-regulator'] is too short
+   	'mediatek,mt6331-regulator' is not one of ['mediatek,mt6323-regulator', 'mediatek,mt6328-regulator', 'mediatek,mt6358-regulator', 'mediatek,mt6359-regulator', 'mediatek,mt6397-regulator']
+   	'mediatek,mt6331-regulator' is not one of ['mediatek,mt6366-regulator']
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+>> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: regulators (mediatek,mt6331-regulator): 'ldo-vio28' does not match any of the regexes: '^buck-v(core2|io18|dvfs11|dvfs12|dvfs13|dvfs14)$', '^ldo-(avdd32aud|vauxa32)$', '^ldo-v(dig18|emc33|ibr|mc|mch|mipi|rtc|sim1|sim2|sram|usb10)$', '^ldo-vcam(a|af|d|io)$', '^ldo-vgp[1234]$', '^ldo-vtcxo[12]$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6331-regulator.yaml#
+>> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: regulators (mediatek,mt6331-regulator): ldo-vcamio:regulator-name:0: 'vcam_io' does not match '^vcam(a|_af|d|io)$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6331-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: intpol-controller@10200620 (mediatek,mt6795-sysirq): $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: iommu@10205000 (mediatek,mt6795-m4u): 'mediatek,infracfg' is a required property
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11230000 (mediatek,mt6795-mmc): mediatek,latch-ck: 20 is greater than the maximum of 7
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11230000 (mediatek,mt6795-mmc): Unevaluated properties are not allowed ('mediatek,latch-ck' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11240000 (mediatek,mt6795-mmc): 'pinctrl-names' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
