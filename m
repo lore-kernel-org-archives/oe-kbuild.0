@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103011DFD96
-	for <oe-kbuild@lists.linux.dev>; Wed, 30 Jul 2025 16:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA0F2288F7
+	for <oe-kbuild@lists.linux.dev>; Wed, 30 Jul 2025 22:12:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753892930; cv=none; b=Mmr9fSHsoag8bTJ/HKHrNx9yYWh8SNBva5HLTAM7/dPMJTZb18Ndh5y5h4cWIKk2FvbIWpk/IM+1zxP82tu88kNy3rSL+tWNunQnke8AQiuEXI+HlqayXIeSp2Qj0NA9Opj5SM1cw3N7Cnfgdsq7I7R0RON/Xx0/VA/aHLl2rJw=
+	t=1753913544; cv=none; b=HdYmkxH8jmN+YgTGpm1oS3mQ4yHKrpu/nejuihelBKPkDGOhlIadn9hxiaGX8ck9nuSoVXQP+2UgKdftA3wCAlVUVvD50j8BUcb1E+ZNVsVGo8YnXlDlHTouXlTsvLzeeqfUV0tsF9HJEUaoeL3VvhqhhkOEPxs2JDyRUHNEkz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753892930; c=relaxed/simple;
-	bh=Q3dhbTEF4gZNO3s0exwfkt6kZ7kUglm/tEHW79NU8uY=;
+	s=arc-20240116; t=1753913544; c=relaxed/simple;
+	bh=xQt9XmngRKoh0ZygYO3sZGLoegsgAQ1zf0JY0B2+HeE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ft23BV0VaC+pQlfy1khgnZyT5SoHjA6F6Fwj3/6C5OARZLwyyIfzQG80qBOSJ8UHJOU1Dt/eths8yPVEDUDkfXnpTHQdDLn59jCJTUIM00LAYTiOtXkUrOQlduxPpGw5L/Kbu9e7JQAnzi45lWj1LXUuMa8oIoXcQQ6MbE3hZo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HE7m9uZH; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=cUx6jYrMlpnGYtYzeIJyanvII8KKrBCj/mDGqI3w6QO9rPjAUrqZ35gz8Oz1uyW/XaxMyc/30t9fugZTnnkrBdCp0V6ebh0n6TDEvOcFknkR0khYIPqI0MJvVBmTuqiiWeC4CloGzpZoGAOU6TKyDETT6xJYy84ef0e2EGqQ8c4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sm2LhYPv; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HE7m9uZH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sm2LhYPv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753892928; x=1785428928;
+  t=1753913542; x=1785449542;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Q3dhbTEF4gZNO3s0exwfkt6kZ7kUglm/tEHW79NU8uY=;
-  b=HE7m9uZHXsxXNxTyNoyC8BmrmbpjCVIdL1cFO6UEwA+TrQDsejS2G0dn
-   kPsVDMovXEc+m8A0ZGO9Yag65Wr8LBiJzmlzLnPDVzBcZGOrhgToH/V9Q
-   njJLscjP8G1eILJmC3AV7VhsbR3h2WN3jFdskT7Ed36W9ca0748wMCgAe
-   aEMOqHS8dUBUSInDjZ5OeU4OZEUHelRDQvLNqrj+S3bOxBuuAU4AI9O1l
-   Fc0488Q0vcOUTySckvFcZL4WprCUc1xuIZfM9DmXn+ySs8ymXxg7Ui4L5
-   SXgayWDZVVb7kAgRZoYv+vXZaJYAhCsyeUBfIZzDuvC+8Ipd+wpIs3Ctr
-   g==;
-X-CSE-ConnectionGUID: dQeL5MKoQXq3xYogbcxM/Q==
-X-CSE-MsgGUID: 624rrP+0T1KERn2ulzunjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="56167933"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="56167933"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 09:28:48 -0700
-X-CSE-ConnectionGUID: q2dyq1S1TtODKlsXNvRgQA==
-X-CSE-MsgGUID: V9PAQgUbTrSwe1gpoyz02Q==
+  bh=xQt9XmngRKoh0ZygYO3sZGLoegsgAQ1zf0JY0B2+HeE=;
+  b=Sm2LhYPvlbfHS0AUX/83508HQSVUdEHGfaI39cmbBYyVq9pOwgQ6cmZd
+   Y+X7vCtcXCHNAS3o6WS6sXs71bPSv3ivpjrNtKAHwuK4PbE55Z651E7zX
+   n18mPVSsKefqA/c9LFeSw6HwoN7z9770w+Wdtam/HWn34iutX4Alw1OsG
+   gu6reR7borPHgyo1N/16PicLprNGdut78mgSP7sllLUoQFdneCcIuzQia
+   uwaT5iyf7FUCEtQm+03dMiIg0mWau49xzD3DAS6I6UCiPjuI6POzVSzeH
+   uU+BXGCU5p9BurhBA+yibIlnSk43NqgJfxtcvPuEnBDLcAsW1FrZATpoh
+   Q==;
+X-CSE-ConnectionGUID: Ptfs3qR7TnCJFtDMpx3vxA==
+X-CSE-MsgGUID: rQEeGWEGSuC2NauzqGpJvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="60044001"
+X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
+   d="scan'208";a="60044001"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 15:12:21 -0700
+X-CSE-ConnectionGUID: W0JFZZDnRHy6/tLte0q5HQ==
+X-CSE-MsgGUID: L4TNyPP5QASRZLBEeUlTSw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="194007912"
+X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
+   d="scan'208";a="186790897"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Jul 2025 09:28:47 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 30 Jul 2025 15:12:19 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uh9fX-0002w0-3B;
-	Wed, 30 Jul 2025 16:28:43 +0000
-Date: Thu, 31 Jul 2025 00:27:47 +0800
+	id 1uhF21-0003BI-0D;
+	Wed, 30 Jul 2025 22:12:17 +0000
+Date: Thu, 31 Jul 2025 06:11:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 16/38] arm64: dts: mediatek: mt6331: Fix pmic,
- regulators, rtc, keys node names
-Message-ID: <202507310007.iKZbHGT6-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 4/5] dmaengine: lgm-dma: Added HDMA software mode TX
+ function.
+Message-ID: <202507310524.0JLftLAM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,96 +62,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250724083914.61351-17-angelogioacchino.delregno@collabora.com>
-References: <20250724083914.61351-17-angelogioacchino.delregno@collabora.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-TO: linux-mediatek@lists.infradead.org
-TO: robh@kernel.org
-CC: herbert@gondor.apana.org.au
-CC: davem@davemloft.net
-CC: krzk+dt@kernel.org
-CC: conor+dt@kernel.org
-CC: chunkuang.hu@kernel.org
-CC: p.zabel@pengutronix.de
-CC: airlied@gmail.com
-CC: simona@ffwll.ch
-CC: maarten.lankhorst@linux.intel.com
-CC: mripard@kernel.org
-CC: tzimmermann@suse.de
-CC: jassisinghbrar@gmail.com
-CC: mchehab@kernel.org
-CC: matthias.bgg@gmail.com
-CC: angelogioacchino.delregno@collabora.com
-CC: chunfeng.yun@mediatek.com
-CC: vkoul@kernel.org
-CC: kishon@kernel.org
-CC: sean.wang@kernel.org
-CC: linus.walleij@linaro.org
-CC: lgirdwood@gmail.com
-CC: broonie@kernel.org
-CC: andersson@kernel.org
-CC: mathieu.poirier@linaro.org
-CC: daniel.lezcano@linaro.org
-CC: tglx@linutronix.de
-CC: atenart@kernel.org
-CC: jitao.shi@mediatek.com
+In-Reply-To: <20250730024547.3160871-4-yzhu@maxlinear.com>
+References: <20250730024547.3160871-4-yzhu@maxlinear.com>
+TO: Zhu Yixin <yzhu@maxlinear.com>
+TO: dmaengine@vger.kernel.org
+TO: vkoul@kernel.org
+CC: jchng@maxlinear.com
+CC: sureshnagaraj@maxlinear.com
+CC: Zhu Yixin <yzhu@maxlinear.com>
 
-Hi AngeloGioacchino,
+Hi Zhu,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linusw-pinctrl/devel linusw-pinctrl/for-next broonie-regulator/for-next v6.16]
-[cannot apply to linus/master next-20250730]
+[auto build test WARNING on vkoul-dmaengine/next]
+[also build test WARNING on linus/master v6.16 next-20250730]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-dpi-Allow-specifying-resets/20250724-164429
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250724083914.61351-17-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH 16/38] arm64: dts: mediatek: mt6331: Fix pmic, regulators, rtc, keys node names
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm64-randconfig-051-20250728 (https://download.01.org/0day-ci/archive/20250731/202507310007.iKZbHGT6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507310007.iKZbHGT6-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhu-Yixin/dmaengine-lgm-dma-Correct-ORRC-MAX-counter-value/20250730-105748
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20250730024547.3160871-4-yzhu%40maxlinear.com
+patch subject: [PATCH 4/5] dmaengine: lgm-dma: Added HDMA software mode TX function.
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: i386-randconfig-141-20250731 (https://download.01.org/0day-ci/archive/20250731/202507310524.0JLftLAM-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507310007.iKZbHGT6-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507310524.0JLftLAM-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: syscon@10006000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pmic (mediatek,mt6331): 'mt6332-led' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pmic (mediatek,mt6331): regulators:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6331-regulator'] is too short
-   	'mediatek,mt6331-regulator' is not one of ['mediatek,mt6323-regulator', 'mediatek,mt6328-regulator', 'mediatek,mt6358-regulator', 'mediatek,mt6359-regulator', 'mediatek,mt6397-regulator']
-   	'mediatek,mt6331-regulator' is not one of ['mediatek,mt6366-regulator']
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: regulators (mediatek,mt6331-regulator): 'ldo-vio28' does not match any of the regexes: '^buck-v(core2|io18|dvfs11|dvfs12|dvfs13|dvfs14)$', '^ldo-(avdd32aud|vauxa32)$', '^ldo-v(dig18|emc33|ibr|mc|mch|mipi|rtc|sim1|sim2|sram|usb10)$', '^ldo-vcam(a|af|d|io)$', '^ldo-vgp[1234]$', '^ldo-vtcxo[12]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6331-regulator.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: regulators (mediatek,mt6331-regulator): ldo-vcamio:regulator-name:0: 'vcam_io' does not match '^vcam(a|_af|d|io)$'
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6331-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: intpol-controller@10200620 (mediatek,mt6795-sysirq): $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: iommu@10205000 (mediatek,mt6795-m4u): 'mediatek,infracfg' is a required property
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11230000 (mediatek,mt6795-mmc): mediatek,latch-ck: 20 is greater than the maximum of 7
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11230000 (mediatek,mt6795-mmc): Unevaluated properties are not allowed ('mediatek,latch-ck' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11240000 (mediatek,mt6795-mmc): 'pinctrl-names' is a required property
+smatch warnings:
+drivers/dma/lgm/lgm-dma.c:763 update_client_configs() error: uninitialized symbol 'chan_id'.
+
+vim +/chan_id +763 drivers/dma/lgm/lgm-dma.c
+
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  730  
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  731  static int
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  732  update_client_configs(struct of_dma *ofdma, struct of_phandle_args *spec)
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  733  {
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  734  	struct ldma_dev *d = ofdma->of_dma_data;
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  735  	int i, chan_id, port_id, desc_cnt, burst;
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  736  	struct ldma_chan *c;
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  737  	struct ldma_port *p;
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  738  
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  739  	port_id  = -1;
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  740  	desc_cnt = -1;
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  741  	burst    = -1;
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  742  
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  743  	for (i = spec->args_count - 1; i >= 0; i--) {
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  744  		switch (i) {
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  745  		case DMA_ARG_BURST_SZ:
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  746  			burst = spec->args[i];
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  747  			break;
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  748  
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  749  		case DMA_ARG_PORT_ID:
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  750  			port_id = spec->args[i];
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  751  			break;
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  752  
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  753  		case DMA_ARG_DESC_CNT:
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  754  			desc_cnt = spec->args[i];
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  755  			break;
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  756  
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  757  		case DMA_ARG_CHAN_ID:
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  758  			chan_id = spec->args[i];
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  759  			break;
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  760  		}
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  761  	}
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  762  
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30 @763  	if (chan_id >= d->chan_nrs || chan_id < 0)
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  764  		return -1;
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  765  
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  766  	c = &d->chans[chan_id];
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  767  	if (!ldma_chan_is_hw_desc(c) && desc_cnt > 0)
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  768  		c->desc_cnt = desc_cnt;
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  769  
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  770  	if (port_id < 0 || burst < 0 || port_id > d->port_nrs)
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  771  		return chan_id;
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  772  
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  773  	p = &d->ports[port_id];
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  774  	c->port = p;
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  775  
+71e55b5b80fb51 Zhu Yixin                   2025-07-30  776  	update_burst_len(c, p, burst);
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  777  
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  778  	ldma_port_cfg(p);
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  779  
+7dc2f78b8862a3 Zhu Yixin                   2025-07-30  780  	return chan_id;
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  781  }
+32d31c79a1a4fb Amireddy Mallikarjuna reddy 2020-12-03  782  
 
 -- 
 0-DAY CI Kernel Test Service
