@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD79EEAFA
-	for <oe-kbuild@lists.linux.dev>; Thu, 31 Jul 2025 01:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A7213D52F
+	for <oe-kbuild@lists.linux.dev>; Thu, 31 Jul 2025 06:23:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753924002; cv=none; b=RsbpQKh86MPyVzEKNMzvZVr4xevy+/t54eTwAT8nhjJ3zhXKdCktbPMKcwnJHJuy63JCA+uY/qIDn7W93YxJx/N50di/LNY05HJ8FdxGMqBLnUswaFeD4A3yyLcESBmvd6057t/c3YD2B4x4tRv9blVPdK7dpyfuckHhAb4Euuw=
+	t=1753942988; cv=none; b=XB3Krr9Mo0zlErYRZmdqB9THMeiyRsG6yC1GSvceRCOu0cMrUpFLXHw4yzhAnW4FKBpfSU7pa8bXQ5lhYkvOXIEKMFgVMO8tvolNQEAVv63bj2JMsI3oi5KGTfeGURaygh23BFViY9pLiqcfNDMqsoCccMexPyQbJksagVfxSIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753924002; c=relaxed/simple;
-	bh=j5NEQJxaJfup8ucw4Acr/FFUBwwLfSSUUGBlHyk2l+Q=;
+	s=arc-20240116; t=1753942988; c=relaxed/simple;
+	bh=DVF85O91EejBZL4GuEILS4blUOaW8eJEps7Mxeku3eI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j6XPboQeuVOJKzbF80EN1kupZB1DQA8PSeq7oz4VpmRDPV4Cjo17+o80NrpeEiLDQ717eY7Us1seGq4YIfy7ZVjN7ZvwQb3cjFeY5OujaC+uDEFRf96C9aTW6DIu3xkTOoOv/bYLre78fupB+AVpWlIk2iBkoziFwKyTeG9MBCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=drtEfsJY; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=pnba3/KOZcSnRFgkqHP2ddgb0TB0V2sqH/Lm+t1opknP5f/yXB1du4d3ZTKt7JuGdh5nXXDEpuRx0ieM25KjjxyM56qNSIRnl0TjzIRQ+q9Cs6B+7skTDpeDboXzxDskGVPdeC9Ngc+9vGTuw6VxwKb3SEnjsi4kOqGW/5mxW+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCGB2dSO; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="drtEfsJY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCGB2dSO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753924000; x=1785460000;
+  t=1753942987; x=1785478987;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j5NEQJxaJfup8ucw4Acr/FFUBwwLfSSUUGBlHyk2l+Q=;
-  b=drtEfsJYJyWc3rymBoRJ0bpohGcad8LpVCkZETiO+YoIXC28a67RLzZ3
-   N4Nua9HVA6egMPv1DwIhPdBCGlCKzeJQZwjAU+MFi9AkLjFUnFOKYF6aF
-   0qkU85+FJk5PUGS/kzKFPQZPRtNE8MW9/Tjk+tky/1aLzXs3lYe/nJ6CC
-   l5qZjQPbQE8w1OCWNBpLsQ4tNcETb5dCiP0hLLz3uTpaHq2Id28nTBJlb
-   5uHny+pT/2qcDvyGqCWTXoDVtdpYZlC1O1h5WeJwZqAnVppSBEWo17++v
-   YEW89Lyg/+1J/wsIAQ/N2nVkWD/tLZTbMHWlq36OJ5G3qdcGqFMHHQhA/
-   A==;
-X-CSE-ConnectionGUID: XMZsaovGTQG9I9RIzl2JMg==
-X-CSE-MsgGUID: MVgEDrXGQk2y6/7EWR/1ZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="56105226"
+  bh=DVF85O91EejBZL4GuEILS4blUOaW8eJEps7Mxeku3eI=;
+  b=SCGB2dSO5GgImY8d6r+4r7oG3Scs4NU3oMV4+0cfN0kdcNqJ+LbeMqHA
+   qUrCoJSzz1VQEwyx5nr7RA5/MTx5c0gNy2qrlVfW6QV3RCxJMUxhte4UQ
+   KnEAtSbAZuxFuYznDC/u2dZ17OcFrwCAHGHR1STS9aGy5A7jv9/ieP/ek
+   V3f3wfpGs5XVjLekDxCV9BKKvQs6cObPF0uc6IPW07PYIi4XuIT+uG3ZW
+   ifrEQ16Qw1ne57+tAshi5aY9FGIGp03bYZ/GlNeXaXucnVjS/Gy4b/r/3
+   5PmwWTC/m8mxHySgefIo/PxWmrWKlnddl1Rpe2Smcv8j/tGMsV3ClxkJ/
+   w==;
+X-CSE-ConnectionGUID: 0RCM2il7RcSC/ovs9REbIA==
+X-CSE-MsgGUID: FBrvrgqiT2WXmZZqg2VDiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="78807832"
 X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="56105226"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 18:06:37 -0700
-X-CSE-ConnectionGUID: I5mgF+JpQTy2y2G+ybw8Ig==
-X-CSE-MsgGUID: DCS8mhYPQyqyUsDMwf8FHA==
+   d="scan'208";a="78807832"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 23:23:07 -0700
+X-CSE-ConnectionGUID: 6iXkITYLQ5yQWvohQL1LLA==
+X-CSE-MsgGUID: QlSFwhY9SFuneQQKXBzjzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="162409969"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 30 Jul 2025 18:06:36 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+   d="scan'208";a="163967146"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa010.fm.intel.com with ESMTP; 30 Jul 2025 23:23:05 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uhHkf-0003Ho-2U;
-	Thu, 31 Jul 2025 01:06:33 +0000
-Date: Thu, 31 Jul 2025 09:05:42 +0800
+	id 1uhMgx-0000ud-25;
+	Thu, 31 Jul 2025 06:23:03 +0000
+Date: Thu, 31 Jul 2025 08:22:08 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 6/9] kunit: Enable direct registration of parameter
- arrays to a KUnit test
-Message-ID: <202507310854.pZvIcswn-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/xtensa/boot/dts/xtfpga.dtsi:45.6-119.4: Warning
+ (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit
+ name
+Message-ID: <202507310849.ujgJCuOp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,172 +63,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250729193647.3410634-7-marievic@google.com>
-References: <20250729193647.3410634-7-marievic@google.com>
-TO: Marie Zhussupova <marievic@google.com>
-TO: rmoar@google.com
-TO: davidgow@google.com
-TO: shuah@kernel.org
-TO: brendan.higgins@linux.dev
-CC: elver@google.com
-CC: dvyukov@google.com
-CC: lucas.demarchi@intel.com
-CC: thomas.hellstrom@linux.intel.com
-CC: rodrigo.vivi@intel.com
-CC: linux-kselftest@vger.kernel.org
-CC: kunit-dev@googlegroups.com
-CC: kasan-dev@googlegroups.com
-CC: intel-xe@lists.freedesktop.org
-CC: dri-devel@lists.freedesktop.org
 CC: linux-kernel@vger.kernel.org
-CC: Marie Zhussupova <marievic@google.com>
+TO: Masahiro Yamada <masahiroy@kernel.org>
+CC: Max Filippov <jcmvbkbc@gmail.com>
 
-Hi Marie,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on shuah-kselftest/kunit]
-[also build test WARNING on shuah-kselftest/kunit-fixes drm-xe/drm-xe-next linus/master v6.16 next-20250730]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marie-Zhussupova/kunit-Add-parent-kunit-for-parameterized-test-context/20250730-033818
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit
-patch link:    https://lore.kernel.org/r/20250729193647.3410634-7-marievic%40google.com
-patch subject: [PATCH 6/9] kunit: Enable direct registration of parameter arrays to a KUnit test
-:::::: branch date: 29 hours ago
-:::::: commit date: 29 hours ago
-config: nios2-randconfig-r072-20250731 (https://download.01.org/0day-ci/archive/20250731/202507310854.pZvIcswn-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   260f6f4fda93c8485c8037865c941b42b9cba5d2
+commit: 47812144d39566da3f1dbc7a615f656969f99337 xtensa: migrate to the generic rule for built-in DTB
+date:   5 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 5 months ago
+config: xtensa-xip_kc705_defconfig (https://download.01.org/0day-ci/archive/20250731/202507310849.ujgJCuOp-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507310849.ujgJCuOp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202507310854.pZvIcswn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507310849.ujgJCuOp-lkp@intel.com/
 
-New smatch warnings:
-lib/kunit/test.c:723 kunit_run_tests() error: we previously assumed 'test_case->generate_params' could be null (see line 714)
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/xtensa/boot/dts/xtfpga.dtsi:45.6-119.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/xtensa/boot/dts/xtfpga.dtsi:51.24-55.5: Warning (unit_address_vs_reg): /soc/main-oscillator: node has a reg or ranges property, but no unit name
+>> arch/xtensa/boot/dts/xtfpga.dtsi:51.24-55.5: Warning (simple_bus_reg): /soc/main-oscillator: simple-bus unit address format error, expected "d020004"
+>> arch/xtensa/boot/dts/xtfpga.dtsi:57.28-67.5: Warning (simple_bus_reg): /soc/serial@0d050020: simple-bus unit address format error, expected "d050020"
+>> arch/xtensa/boot/dts/xtfpga.dtsi:69.25-76.5: Warning (simple_bus_reg): /soc/ethoc@0d030000: simple-bus unit address format error, expected "d030000"
+>> arch/xtensa/boot/dts/xtfpga.dtsi:78.29-84.5: Warning (simple_bus_reg): /soc/xtfpga-i2s@0d080000: simple-bus unit address format error, expected "d080000"
+>> arch/xtensa/boot/dts/xtfpga.dtsi:86.29-104.5: Warning (simple_bus_reg): /soc/i2c-master@0d090000: simple-bus unit address format error, expected "d090000"
+>> arch/xtensa/boot/dts/xtfpga.dtsi:106.22-118.5: Warning (simple_bus_reg): /soc/spi@0d0a0000: simple-bus unit address format error, expected "d0a0000"
+>> arch/xtensa/boot/dts/xtfpga-flash-128m.dtsi:4.25-27.5: Warning (simple_bus_reg): /soc/flash@00000000: simple-bus unit address format error, expected "0"
 
-Old smatch warnings:
-arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
+vim +45 arch/xtensa/boot/dts/xtfpga.dtsi
 
-vim +723 lib/kunit/test.c
+08a7bbf624072b Max Filippov 2014-02-23  @45  	soc {
+08a7bbf624072b Max Filippov 2014-02-23   46  		#address-cells = <1>;
+08a7bbf624072b Max Filippov 2014-02-23   47  		#size-cells = <1>;
+08a7bbf624072b Max Filippov 2014-02-23   48  		compatible = "simple-bus";
+08a7bbf624072b Max Filippov 2014-02-23   49  		ranges = <0x00000000 0xf0000000 0x10000000>;
+08a7bbf624072b Max Filippov 2014-02-23   50  
+58c3e3ac7a1daf Max Filippov 2016-07-25  @51  		osc: main-oscillator {
+58c3e3ac7a1daf Max Filippov 2016-07-25   52  			#clock-cells = <0>;
+58c3e3ac7a1daf Max Filippov 2016-07-25   53  			compatible = "cdns,xtfpga-clock";
+58c3e3ac7a1daf Max Filippov 2016-07-25   54  			reg = <0x0d020004 0x4>;
+58c3e3ac7a1daf Max Filippov 2016-07-25   55  		};
+58c3e3ac7a1daf Max Filippov 2016-07-25   56  
+08a7bbf624072b Max Filippov 2014-02-23  @57  		serial0: serial@0d050020 {
+5584b4da7814af Max Filippov 2012-11-03   58  			device_type = "serial";
+5584b4da7814af Max Filippov 2012-11-03   59  			compatible = "ns16550a";
+5584b4da7814af Max Filippov 2012-11-03   60  			no-loopback-test;
+08a7bbf624072b Max Filippov 2014-02-23   61  			reg = <0x0d050020 0x20>;
+5584b4da7814af Max Filippov 2012-11-03   62  			reg-shift = <2>;
+abfbd89595e91d Max Filippov 2015-08-24   63  			reg-io-width = <4>;
+abfbd89595e91d Max Filippov 2015-08-24   64  			native-endian;
+5584b4da7814af Max Filippov 2012-11-03   65  			interrupts = <0 1>; /* external irq 0 */
+cdc9af7ccfc26d Max Filippov 2014-01-29   66  			clocks = <&osc>;
+5584b4da7814af Max Filippov 2012-11-03   67  		};
+5584b4da7814af Max Filippov 2012-11-03   68  
+08a7bbf624072b Max Filippov 2014-02-23  @69  		enet0: ethoc@0d030000 {
+5584b4da7814af Max Filippov 2012-11-03   70  			compatible = "opencores,ethoc";
+08a7bbf624072b Max Filippov 2014-02-23   71  			reg = <0x0d030000 0x4000 0x0d800000 0x4000>;
+d99434e1760b94 Max Filippov 2015-08-25   72  			native-endian;
+5584b4da7814af Max Filippov 2012-11-03   73  			interrupts = <1 1>; /* external irq 1 */
+5584b4da7814af Max Filippov 2012-11-03   74  			local-mac-address = [00 50 c2 13 6f 00];
+2bc2fde6385832 Max Filippov 2014-01-29   75  			clocks = <&osc>;
+5584b4da7814af Max Filippov 2012-11-03   76  		};
+c2c62e61fb8559 Max Filippov 2013-04-19   77  
+c2c62e61fb8559 Max Filippov 2013-04-19  @78  		i2s0: xtfpga-i2s@0d080000 {
+c2c62e61fb8559 Max Filippov 2013-04-19   79  			#sound-dai-cells = <0>;
+c2c62e61fb8559 Max Filippov 2013-04-19   80  			compatible = "cdns,xtfpga-i2s";
+c2c62e61fb8559 Max Filippov 2013-04-19   81  			reg = <0x0d080000 0x40>;
+c2c62e61fb8559 Max Filippov 2013-04-19   82  			interrupts = <2 1>; /* external irq 2 */
+c2c62e61fb8559 Max Filippov 2013-04-19   83  			clocks = <&cdce706 4>;
+c2c62e61fb8559 Max Filippov 2013-04-19   84  		};
+c2c62e61fb8559 Max Filippov 2013-04-19   85  
+c2c62e61fb8559 Max Filippov 2013-04-19  @86  		i2c0: i2c-master@0d090000 {
+c2c62e61fb8559 Max Filippov 2013-04-19   87  			compatible = "opencores,i2c-ocores";
+c2c62e61fb8559 Max Filippov 2013-04-19   88  			#address-cells = <1>;
+c2c62e61fb8559 Max Filippov 2013-04-19   89  			#size-cells = <0>;
+c2c62e61fb8559 Max Filippov 2013-04-19   90  			reg = <0x0d090000 0x20>;
+c2c62e61fb8559 Max Filippov 2013-04-19   91  			reg-shift = <2>;
+bce299ca547357 Max Filippov 2015-08-25   92  			reg-io-width = <4>;
+bce299ca547357 Max Filippov 2015-08-25   93  			native-endian;
+c2c62e61fb8559 Max Filippov 2013-04-19   94  			interrupts = <4 1>;
+c2c62e61fb8559 Max Filippov 2013-04-19   95  			clocks = <&osc>;
+c2c62e61fb8559 Max Filippov 2013-04-19   96  
+c2c62e61fb8559 Max Filippov 2013-04-19   97  			cdce706: clock-synth@69 {
+c2c62e61fb8559 Max Filippov 2013-04-19   98  				compatible = "ti,cdce706";
+c2c62e61fb8559 Max Filippov 2013-04-19   99  				#clock-cells = <1>;
+c2c62e61fb8559 Max Filippov 2013-04-19  100  				reg = <0x69>;
+c2c62e61fb8559 Max Filippov 2013-04-19  101  				clocks = <&clk54>;
+c2c62e61fb8559 Max Filippov 2013-04-19  102  				clock-names = "clk_in0";
+c2c62e61fb8559 Max Filippov 2013-04-19  103  			};
+c2c62e61fb8559 Max Filippov 2013-04-19  104  		};
+c2c62e61fb8559 Max Filippov 2013-04-19  105  
+f37598be4e3896 Max Filippov 2018-12-04 @106  		spi0: spi@0d0a0000 {
 
-03806177fa4cbb Marie Zhussupova    2025-07-29  680  
-914cc63eea6fbe Brendan Higgins     2019-09-23  681  int kunit_run_tests(struct kunit_suite *suite)
-914cc63eea6fbe Brendan Higgins     2019-09-23  682  {
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  683  	char param_desc[KUNIT_PARAM_DESC_SIZE];
-914cc63eea6fbe Brendan Higgins     2019-09-23  684  	struct kunit_case *test_case;
-acd8e8407b8fcc David Gow           2021-08-03  685  	struct kunit_result_stats suite_stats = { 0 };
-acd8e8407b8fcc David Gow           2021-08-03  686  	struct kunit_result_stats total_stats = { 0 };
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  687  	const void *curr_param;
-914cc63eea6fbe Brendan Higgins     2019-09-23  688  
-c272612cb4a2f7 David Gow           2022-07-01  689  	/* Taint the kernel so we know we've run tests. */
-c272612cb4a2f7 David Gow           2022-07-01  690  	add_taint(TAINT_TEST, LOCKDEP_STILL_OK);
-c272612cb4a2f7 David Gow           2022-07-01  691  
-1cdba21db2ca31 Daniel Latypov      2022-04-29  692  	if (suite->suite_init) {
-1cdba21db2ca31 Daniel Latypov      2022-04-29  693  		suite->suite_init_err = suite->suite_init(suite);
-1cdba21db2ca31 Daniel Latypov      2022-04-29  694  		if (suite->suite_init_err) {
-1cdba21db2ca31 Daniel Latypov      2022-04-29  695  			kunit_err(suite, KUNIT_SUBTEST_INDENT
-1cdba21db2ca31 Daniel Latypov      2022-04-29  696  				  "# failed to initialize (%d)", suite->suite_init_err);
-1cdba21db2ca31 Daniel Latypov      2022-04-29  697  			goto suite_end;
-1cdba21db2ca31 Daniel Latypov      2022-04-29  698  		}
-1cdba21db2ca31 Daniel Latypov      2022-04-29  699  	}
-1cdba21db2ca31 Daniel Latypov      2022-04-29  700  
-cae56e1740f559 Daniel Latypov      2022-04-29  701  	kunit_print_suite_start(suite);
-914cc63eea6fbe Brendan Higgins     2019-09-23  702  
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  703  	kunit_suite_for_each_test_case(suite, test_case) {
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  704  		struct kunit test = { .param_value = NULL, .param_index = 0 };
-acd8e8407b8fcc David Gow           2021-08-03  705  		struct kunit_result_stats param_stats = { 0 };
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  706  
-887d85a0736ff3 Rae Moar            2023-03-08  707  		kunit_init_test(&test, test_case->name, test_case->log);
-03806177fa4cbb Marie Zhussupova    2025-07-29  708  		__kunit_init_parent_test(test_case, &test);
-03806177fa4cbb Marie Zhussupova    2025-07-29  709  
-529534e8cba3e6 Rae Moar            2023-07-25  710  		if (test_case->status == KUNIT_SKIPPED) {
-529534e8cba3e6 Rae Moar            2023-07-25  711  			/* Test marked as skip */
-529534e8cba3e6 Rae Moar            2023-07-25  712  			test.status = KUNIT_SKIPPED;
-529534e8cba3e6 Rae Moar            2023-07-25  713  			kunit_update_stats(&param_stats, test.status);
-44c50ed8e59936 Marie Zhussupova    2025-07-29 @714  		} else if (!test_case->generate_params && !test.params_data.params) {
-37dbb4c7c7442d David Gow           2021-11-02  715  			/* Non-parameterised test. */
-529534e8cba3e6 Rae Moar            2023-07-25  716  			test_case->status = KUNIT_SKIPPED;
-37dbb4c7c7442d David Gow           2021-11-02  717  			kunit_run_case_catch_errors(suite, test_case, &test);
-37dbb4c7c7442d David Gow           2021-11-02  718  			kunit_update_stats(&param_stats, test.status);
-03806177fa4cbb Marie Zhussupova    2025-07-29  719  		} else if (test_case->status != KUNIT_FAILURE) {
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  720  			/* Get initial param. */
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  721  			param_desc[0] = '\0';
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  722  			/* TODO: Make generate_params try-catch */
-13ee0c64bd88a3 Marie Zhussupova    2025-07-29 @723  			curr_param = test_case->generate_params(&test, NULL, param_desc);
-529534e8cba3e6 Rae Moar            2023-07-25  724  			test_case->status = KUNIT_SKIPPED;
-6c738b52316c58 Rae Moar            2022-11-23  725  			kunit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
-6c738b52316c58 Rae Moar            2022-11-23  726  				  "KTAP version 1\n");
-44b7da5fcd4c99 David Gow           2021-11-02  727  			kunit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
-44b7da5fcd4c99 David Gow           2021-11-02  728  				  "# Subtest: %s", test_case->name);
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  729  
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  730  			while (curr_param) {
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  731  				struct kunit param_test = {
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  732  					.param_value = curr_param,
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  733  					.param_index = ++test.param_index,
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  734  					.parent = &test,
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  735  				};
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  736  				kunit_init_test(&param_test, test_case->name, test_case->log);
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  737  				kunit_run_case_catch_errors(suite, test_case, &param_test);
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  738  
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  739  				if (param_desc[0] == '\0') {
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  740  					snprintf(param_desc, sizeof(param_desc),
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  741  						 "param-%d", test.param_index);
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  742  				}
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  743  
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  744  				kunit_print_ok_not_ok(&param_test, KUNIT_LEVEL_CASE_PARAM,
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  745  						      param_test.status,
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  746  						      param_test.param_index,
-b1eaa8b2a55c9d Michal Wajdeczko    2023-05-17  747  						      param_desc,
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  748  						      param_test.status_comment);
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  749  
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  750  				kunit_update_stats(&param_stats, param_test.status);
-ee5f8cc2770b2f Michal Wajdeczko    2023-08-31  751  
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  752  				/* Get next param. */
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  753  				param_desc[0] = '\0';
-13ee0c64bd88a3 Marie Zhussupova    2025-07-29  754  				curr_param = test_case->generate_params(&test, curr_param,
-13ee0c64bd88a3 Marie Zhussupova    2025-07-29  755  									param_desc);
-37dbb4c7c7442d David Gow           2021-11-02  756  			}
-37dbb4c7c7442d David Gow           2021-11-02  757  		}
-acd8e8407b8fcc David Gow           2021-08-03  758  
-39e92cb1e4a1f6 Rae Moar            2023-07-25  759  		kunit_print_attr((void *)test_case, true, KUNIT_LEVEL_CASE);
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  760  
-acd8e8407b8fcc David Gow           2021-08-03  761  		kunit_print_test_stats(&test, param_stats);
-acd8e8407b8fcc David Gow           2021-08-03  762  
-b1eaa8b2a55c9d Michal Wajdeczko    2023-05-17  763  		kunit_print_ok_not_ok(&test, KUNIT_LEVEL_CASE, test_case->status,
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  764  				      kunit_test_case_num(suite, test_case),
-6d2426b2f258da David Gow           2021-06-24  765  				      test_case->name,
-6d2426b2f258da David Gow           2021-06-24  766  				      test.status_comment);
-acd8e8407b8fcc David Gow           2021-08-03  767  
-acd8e8407b8fcc David Gow           2021-08-03  768  		kunit_update_stats(&suite_stats, test_case->status);
-acd8e8407b8fcc David Gow           2021-08-03  769  		kunit_accumulate_stats(&total_stats, param_stats);
-03806177fa4cbb Marie Zhussupova    2025-07-29  770  		/*
-03806177fa4cbb Marie Zhussupova    2025-07-29  771  		 * TODO: Put into a try catch. Since we don't need suite->exit
-03806177fa4cbb Marie Zhussupova    2025-07-29  772  		 * for it we can't reuse kunit_try_run_cleanup for this yet.
-03806177fa4cbb Marie Zhussupova    2025-07-29  773  		 */
-03806177fa4cbb Marie Zhussupova    2025-07-29  774  		if (test_case->param_exit)
-03806177fa4cbb Marie Zhussupova    2025-07-29  775  			test_case->param_exit(&test);
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  776  		/* TODO: Put this kunit_cleanup into a try-catch. */
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  777  		kunit_cleanup(&test);
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  778  	}
-914cc63eea6fbe Brendan Higgins     2019-09-23  779  
-1cdba21db2ca31 Daniel Latypov      2022-04-29  780  	if (suite->suite_exit)
-1cdba21db2ca31 Daniel Latypov      2022-04-29  781  		suite->suite_exit(suite);
-1cdba21db2ca31 Daniel Latypov      2022-04-29  782  
-acd8e8407b8fcc David Gow           2021-08-03  783  	kunit_print_suite_stats(suite, suite_stats, total_stats);
-1cdba21db2ca31 Daniel Latypov      2022-04-29  784  suite_end:
-cae56e1740f559 Daniel Latypov      2022-04-29  785  	kunit_print_suite_end(suite);
-914cc63eea6fbe Brendan Higgins     2019-09-23  786  
-914cc63eea6fbe Brendan Higgins     2019-09-23  787  	return 0;
-914cc63eea6fbe Brendan Higgins     2019-09-23  788  }
-c475c77d5b5639 Alan Maguire        2020-01-06  789  EXPORT_SYMBOL_GPL(kunit_run_tests);
-914cc63eea6fbe Brendan Higgins     2019-09-23  790  
+:::::: The code at line 45 was first introduced by commit
+:::::: 08a7bbf624072bed1cb35e5b4db7d538580f731c xtensa: xtfpga: introduce SoC I/O bus
+
+:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
+:::::: CC: Max Filippov <jcmvbkbc@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
