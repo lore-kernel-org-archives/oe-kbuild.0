@@ -1,158 +1,245 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C15D1F7569
-	for <oe-kbuild@lists.linux.dev>; Thu, 31 Jul 2025 19:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DFB1DED5D
+	for <oe-kbuild@lists.linux.dev>; Thu, 31 Jul 2025 20:01:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753991127; cv=none; b=HztKdRFOAJ83g8cgAycayd68KzxlUuEE69HUd+APjQx+6CkzxMubPcMyY3pMwgLHHxJf0TPL5thH2E3FW6Nr2SbkUMb5yPb8ciPf32eVFE0JP10jAlFPY5EqK4/bzZLolecRss6KcRDKdikVIHrXMu42xTq8QKHzPlODsyMly5g=
+	t=1753992081; cv=none; b=o8MUnof4XD9qOUrk2mjSAnZwFX3gWuWN7apkNkWZ+yHPhkulRL7fOWFAMn+hOIZLn8oz6MVfoNFWJrHjkG4MJuwlGnAHfUKvLRmsEttTzLVexeeLisa5VswP9JNeQ/FFtNVvMWZlhZ0I3igsUzg/+aurFOPNMZzDwk/n1rFCvpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753991127; c=relaxed/simple;
-	bh=Br1jieaLxVR2f64tt1DG92eCF9VpB6t31q3GHZ4SKVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=buaXkkJu2RbTIA7c7b7inJm173PK+d+KU6Uzd/c5U5oPuN3KuhCQiBZErPP4eQVC38EeKgWY5Ct3WOzRmyackiYrkjHEkJOc1ZfaXYSedC8JvwlapiG2V1NQIQdZjm7Jxssz3DGOFKIZrtVUwdG/B0Qu5/cxwOUQiv2S61ohjFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SmtcLXM1; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753992081; c=relaxed/simple;
+	bh=71yBeg20uRnzS8L6C9lNUbs7wyCHdJr1/HHNtbXay4U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C9Nz2rolQYXr1iRQFDRPvtDlYZJrAIZPx4cPytLF/lfiOonDB5wbYtJ9PO1asL/45GPWNhJTeRjhQm4EcKYSMj+dev0GxrfQ9gO5fjsY8LIGDBdJhR+yJ7cb9d414aWj1x74uj92uZ2kYrDPI7Li+HEOZe6Mwm4avtPLslyxWX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=H+ouwpV0; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SmtcLXM1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753991126; x=1785527126;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Br1jieaLxVR2f64tt1DG92eCF9VpB6t31q3GHZ4SKVE=;
-  b=SmtcLXM1laHqFrUeIjGd4SnKIuq/iI1eW8n4qwBPF1wM5ojYRmYkvOdG
-   bB73PC9ML/3OujI0FlRs5vSf5anl9VwyUTAo1dLjmCk6fs88UD0b2rkgQ
-   ygL0SHLeDVMJMgg+ffs/shzuVlanurManUfckNhaGh+weO6J8E59FgWQ3
-   yFG9yuT6hl8J+Y+sAFzO4t1Q906mOeEHiASfgfzzCTLwlscW8fhR4p1gt
-   vPAwBzqtJsOgSt4uHe7Og9tzGrygyaeHQmckK9oYumPs3kuscEku48H6y
-   6p7jxvgh946UHr5emvaEzuShP4LPNoM1GyoLydlVIXhsOittbxj9Po6uT
-   A==;
-X-CSE-ConnectionGUID: FVsWhQDiSICiZnkcOLSW0g==
-X-CSE-MsgGUID: lGdlKEiHSI2PEnA2fLwoHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56260644"
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="56260644"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 12:45:25 -0700
-X-CSE-ConnectionGUID: IayHk955TEKl37D6M1N5Jw==
-X-CSE-MsgGUID: JOOdnuq4Tn68u6tLusoh7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="163795083"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 31 Jul 2025 12:45:23 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uhZDN-00042a-2f;
-	Thu, 31 Jul 2025 19:45:21 +0000
-Date: Fri, 1 Aug 2025 03:44:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 16/38] arm64: dts: mediatek: mt6331: Fix pmic,
- regulators, rtc, keys node names
-Message-ID: <202508010303.oHL3M7CF-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H+ouwpV0"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6154c7b3ee7so2717a12.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 31 Jul 2025 13:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1753992077; x=1754596877; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j4B+Gc5g7Q5xkPte+e+rtUPltSMHyDQNEhLddUtHkKo=;
+        b=H+ouwpV0X34xZKLBh9h6wpSgsTsIwPrQFvJSMOxsWgub2Pb/1w3OjeWpW+CembqfGx
+         4OQcl2y+DRwM7ecSaU7fIVnzqlaxQYy0pE0uCLXPq4YNuwSFgqE7FCRfFKUbsdV6M82x
+         KjaEG+6kcHhgLp91mxBojOtKQmCR0twKpqMOyx29nL0iL4IVOlAML2GW236YLLsmQdlB
+         EDXCPS/hmw0N8QkdpjSTGtIMhtz3+cstAvn00QjRIO+vhKL8dqQZ8DG9Abiovc9lkfdo
+         6J2RpJZjGff8tHhxUmf8chRG2d4nMoajZRCu7HVU49yEol1yLwF2KD2Bbi+9X7uDSUhl
+         tHbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753992077; x=1754596877;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j4B+Gc5g7Q5xkPte+e+rtUPltSMHyDQNEhLddUtHkKo=;
+        b=eusmD19oll8P6P7gmum0EEjr+LS8HqWVgY/gthOdVVpUUQELaPy2dA32UJFcUeCK7N
+         EakxXTvJ72TEFsdSilTaKR0D1f1yIlq0V5NdEh4BJXvj5wkXYXzDoaEdk5BrhkF8rhXl
+         9kOIVKpOtKrnAvd6AkeGPsYmFGwYw+uXlvKTjgrJYzHs0rsUFRJVCSg1qy/HJqpbP5iI
+         TwViaQF93q4lCp4CK5yxC0YCXwS7RV7DX7ewSPtUzI6wzI0SpL+XLe8BnhntIDAAZqK4
+         5/rGJ+pZ6yq4DATtnWwUmSHtA52ZYK2jXlCjZcqRIABpA7Mc1ofEXE5jgXqc476pxYxa
+         jJxQ==
+X-Gm-Message-State: AOJu0YxN/CYIvrFf1T/Vczh8hIqya0VG1jSHtcnxWLaQ7KHUSMx9Pe2u
+	fChdp8BGOoyDllBuDsFT6EdEI4Y9qdCq4TOX+x5pSkZfx2OkgqvbE8+5hZ1ReC2fcdNby84CJlU
+	H0dmEuIlvcq2nKwptJNHHlvJTAHHgCdTluQdI7oMjLLLzVWKvawLPnRhkSlM/yA==
+X-Gm-Gg: ASbGncvOR16I4iy6hkXSLfFHKIl6UNslank9peE0splNjwcFuSKwvS2+eCXWMnY/XqL
+	lVb8thxlxJlD7LyS+uUyF57ptJ8OhIC95wnyV1uYPin6Wk7lxsTy8ijS3IIdIKgmtlZChQzI+3r
+	itHSnB8lZg7C7gCv+woFb3Gwk8G8Dao1IlDyjDGHQs2d3dKWzVgZDehbIMyFR8vzqGGKWZCDSre
+	xfAIi63pt5CGvLMvjGHlng2YmQrf4eOT1uRTQ==
+X-Google-Smtp-Source: AGHT+IHGcwHAtHu5K2dQoF6Q1Va8xnfXD6dn1kwEfUjWrGJacU1Z7dtDAziML3bVAL5d/XMASujNYe3MyNDT/TYWX7E=
+X-Received: by 2002:a50:aa8b:0:b0:60e:2e88:13b4 with SMTP id
+ 4fb4d7f45d1cf-615cba4acfbmr10864a12.3.1753992076959; Thu, 31 Jul 2025
+ 13:01:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250729193647.3410634-7-marievic@google.com> <5683507a-dacc-4e46-893f-d1e775d2ef22@suswa.mountain>
+In-Reply-To: <5683507a-dacc-4e46-893f-d1e775d2ef22@suswa.mountain>
+From: Marie Zhussupova <marievic@google.com>
+Date: Thu, 31 Jul 2025 16:01:04 -0400
+X-Gm-Features: Ac12FXzOGGXGhE1duhbD0s56UlVQ0g2I8y9BFv08H051qzMmNgVQAGnFiVjL2Lc
+Message-ID: <CAAkQn5JVPnN_dowQAjexom9O+2vThSOiNiY4woCgRPwGNNmt7w@mail.gmail.com>
+Subject: Re: [PATCH 6/9] kunit: Enable direct registration of parameter arrays
+ to a KUnit test
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, rmoar@google.com, davidgow@google.com, 
+	shuah@kernel.org, brendan.higgins@linux.dev, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, elver@google.com, dvyukov@google.com, 
+	lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, 
+	rodrigo.vivi@intel.com, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, kasan-dev@googlegroups.com, 
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+On Thu, Jul 31, 2025 at 11:58=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
+o.org> wrote:
+>
+> Hi Marie,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Marie-Zhussupova/k=
+unit-Add-parent-kunit-for-parameterized-test-context/20250730-033818
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kself=
+test.git kunit
+> patch link:    https://lore.kernel.org/r/20250729193647.3410634-7-marievi=
+c%40google.com
+> patch subject: [PATCH 6/9] kunit: Enable direct registration of parameter=
+ arrays to a KUnit test
+> config: nios2-randconfig-r072-20250731 (https://download.01.org/0day-ci/a=
+rchive/20250731/202507310854.pZvIcswn-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 8.5.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202507310854.pZvIcswn-lkp@intel.com/
+>
+> New smatch warnings:
+> lib/kunit/test.c:723 kunit_run_tests() error: we previously assumed 'test=
+_case->generate_params' could be null (see line 714)
+>
+> vim +723 lib/kunit/test.c
+>
+> 914cc63eea6fbe Brendan Higgins     2019-09-23  681  int kunit_run_tests(s=
+truct kunit_suite *suite)
+> 914cc63eea6fbe Brendan Higgins     2019-09-23  682  {
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  683      char param_desc[K=
+UNIT_PARAM_DESC_SIZE];
+> 914cc63eea6fbe Brendan Higgins     2019-09-23  684      struct kunit_case=
+ *test_case;
+> acd8e8407b8fcc David Gow           2021-08-03  685      struct kunit_resu=
+lt_stats suite_stats =3D { 0 };
+> acd8e8407b8fcc David Gow           2021-08-03  686      struct kunit_resu=
+lt_stats total_stats =3D { 0 };
+> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  687      const void *curr_=
+param;
+> 914cc63eea6fbe Brendan Higgins     2019-09-23  688
+> c272612cb4a2f7 David Gow           2022-07-01  689      /* Taint the kern=
+el so we know we've run tests. */
+> c272612cb4a2f7 David Gow           2022-07-01  690      add_taint(TAINT_T=
+EST, LOCKDEP_STILL_OK);
+> c272612cb4a2f7 David Gow           2022-07-01  691
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  692      if (suite->suite_=
+init) {
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  693              suite->su=
+ite_init_err =3D suite->suite_init(suite);
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  694              if (suite=
+->suite_init_err) {
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  695                      k=
+unit_err(suite, KUNIT_SUBTEST_INDENT
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  696                       =
+         "# failed to initialize (%d)", suite->suite_init_err);
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  697                      g=
+oto suite_end;
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  698              }
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  699      }
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  700
+> cae56e1740f559 Daniel Latypov      2022-04-29  701      kunit_print_suite=
+_start(suite);
+> 914cc63eea6fbe Brendan Higgins     2019-09-23  702
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  703      kunit_suite_for_e=
+ach_test_case(suite, test_case) {
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  704              struct ku=
+nit test =3D { .param_value =3D NULL, .param_index =3D 0 };
+> acd8e8407b8fcc David Gow           2021-08-03  705              struct ku=
+nit_result_stats param_stats =3D { 0 };
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  706
+> 887d85a0736ff3 Rae Moar            2023-03-08  707              kunit_ini=
+t_test(&test, test_case->name, test_case->log);
+> 03806177fa4cbb Marie Zhussupova    2025-07-29  708              __kunit_i=
+nit_parent_test(test_case, &test);
+> 03806177fa4cbb Marie Zhussupova    2025-07-29  709
+> 529534e8cba3e6 Rae Moar            2023-07-25  710              if (test_=
+case->status =3D=3D KUNIT_SKIPPED) {
+> 529534e8cba3e6 Rae Moar            2023-07-25  711                      /=
+* Test marked as skip */
+> 529534e8cba3e6 Rae Moar            2023-07-25  712                      t=
+est.status =3D KUNIT_SKIPPED;
+> 529534e8cba3e6 Rae Moar            2023-07-25  713                      k=
+unit_update_stats(&param_stats, test.status);
+> 44c50ed8e59936 Marie Zhussupova    2025-07-29 @714              } else if=
+ (!test_case->generate_params && !test.params_data.params) {
+>                                                                          =
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> Imagine ->generate_parms is NULL but test.params_data.params is
+> non-NULL.
+>
+> 37dbb4c7c7442d David Gow           2021-11-02  715                      /=
+* Non-parameterised test. */
+> 529534e8cba3e6 Rae Moar            2023-07-25  716                      t=
+est_case->status =3D KUNIT_SKIPPED;
+> 37dbb4c7c7442d David Gow           2021-11-02  717                      k=
+unit_run_case_catch_errors(suite, test_case, &test);
+> 37dbb4c7c7442d David Gow           2021-11-02  718                      k=
+unit_update_stats(&param_stats, test.status);
+> 03806177fa4cbb Marie Zhussupova    2025-07-29  719              } else if=
+ (test_case->status !=3D KUNIT_FAILURE) {
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  720                      /=
+* Get initial param. */
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  721                      p=
+aram_desc[0] =3D '\0';
+> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  722                      /=
+* TODO: Make generate_params try-catch */
+> 13ee0c64bd88a3 Marie Zhussupova    2025-07-29 @723                      c=
+urr_param =3D test_case->generate_params(&test, NULL, param_desc);
+>                                                                          =
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> Then this could crash.
+>
+> I suspect that this is fine, but I bet that in the previous
+> condition, just testing one would probably have been sufficient
+> or maybe we could have change && to ||.
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250724083914.61351-17-angelogioacchino.delregno@collabora.com>
-References: <20250724083914.61351-17-angelogioacchino.delregno@collabora.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-TO: linux-mediatek@lists.infradead.org
-TO: robh@kernel.org
-CC: herbert@gondor.apana.org.au
-CC: davem@davemloft.net
-CC: krzk+dt@kernel.org
-CC: conor+dt@kernel.org
-CC: chunkuang.hu@kernel.org
-CC: p.zabel@pengutronix.de
-CC: airlied@gmail.com
-CC: simona@ffwll.ch
-CC: maarten.lankhorst@linux.intel.com
-CC: mripard@kernel.org
-CC: tzimmermann@suse.de
-CC: jassisinghbrar@gmail.com
-CC: mchehab@kernel.org
-CC: matthias.bgg@gmail.com
-CC: angelogioacchino.delregno@collabora.com
-CC: chunfeng.yun@mediatek.com
-CC: vkoul@kernel.org
-CC: kishon@kernel.org
-CC: sean.wang@kernel.org
-CC: linus.walleij@linaro.org
-CC: lgirdwood@gmail.com
-CC: broonie@kernel.org
-CC: andersson@kernel.org
-CC: mathieu.poirier@linaro.org
-CC: daniel.lezcano@linaro.org
-CC: tglx@linutronix.de
-CC: atenart@kernel.org
-CC: jitao.shi@mediatek.com
+Hello Dan,
 
-Hi AngeloGioacchino,
+My apologies for the HTML version of this email earlier. Here is the
+plain text version.
 
-kernel test robot noticed the following build warnings:
+As of now, test.params_data.params can only be populated in a param_init
+function, which can only be used if we register the test case with a
+KUNIT_CASE_PARAM_WITH_INIT macro. That macro auto populates
+test_case->generate_params with a function called
+kunit_get_next_param_and_desc()
+(which iterates over the parameter array) if the test user didn't provide t=
+heir
+own generator function. So, there shouldn't be a case where
+test_case->generate_params is NULL but test.params_data.params is NON-NULL.
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linusw-pinctrl/devel linusw-pinctrl/for-next broonie-regulator/for-next v6.16]
-[cannot apply to linus/master next-20250731]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+However, to be robust, we could add a NULL check  before calling
+test_case->generate_params on line 723.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-dpi-Allow-specifying-resets/20250724-164429
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250724083914.61351-17-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH 16/38] arm64: dts: mediatek: mt6331: Fix pmic, regulators, rtc, keys node names
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: arm64-randconfig-051-20250728 (https://download.01.org/0day-ci/archive/20250801/202508010303.oHL3M7CF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508010303.oHL3M7CF-lkp@intel.com/reproduce)
+Thank you!
+-Marie
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508010303.oHL3M7CF-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: syscon@10006000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pmic (mediatek,mt6331): 'mt6332-led' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pmic (mediatek,mt6331): regulators:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6331-regulator'] is too short
-   	'mediatek,mt6331-regulator' is not one of ['mediatek,mt6323-regulator', 'mediatek,mt6328-regulator', 'mediatek,mt6358-regulator', 'mediatek,mt6359-regulator', 'mediatek,mt6397-regulator']
-   	'mediatek,mt6331-regulator' is not one of ['mediatek,mt6366-regulator']
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: regulators (mediatek,mt6331-regulator): 'ldo-vio28' does not match any of the regexes: '^buck-v(core2|io18|dvfs11|dvfs12|dvfs13|dvfs14)$', '^ldo-(avdd32aud|vauxa32)$', '^ldo-v(dig18|emc33|ibr|mc|mch|mipi|rtc|sim1|sim2|sram|usb10)$', '^ldo-vcam(a|af|d|io)$', '^ldo-vgp[1234]$', '^ldo-vtcxo[12]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6331-regulator.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: regulators (mediatek,mt6331-regulator): ldo-vcamio:regulator-name:0: 'vcam_io' does not match '^vcam(a|_af|d|io)$'
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6331-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: intpol-controller@10200620 (mediatek,mt6795-sysirq): $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: iommu@10205000 (mediatek,mt6795-m4u): 'mediatek,infracfg' is a required property
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11230000 (mediatek,mt6795-mmc): mediatek,latch-ck: 20 is greater than the maximum of 7
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11230000 (mediatek,mt6795-mmc): Unevaluated properties are not allowed ('mediatek,latch-ck' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11240000 (mediatek,mt6795-mmc): 'pinctrl-names' is a required property
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> 529534e8cba3e6 Rae Moar            2023-07-25  724                      t=
+est_case->status =3D KUNIT_SKIPPED;
+> 6c738b52316c58 Rae Moar            2022-11-23  725                      k=
+unit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
+> 6c738b52316c58 Rae Moar            2022-11-23  726                       =
+         "KTAP version 1\n");
+> 44b7da5fcd4c99 David Gow           2021-11-02  727                      k=
+unit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
+> 44b7da5fcd4c99 David Gow           2021-11-02  728                       =
+         "# Subtest: %s", test_case->name);
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  729
+> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  730                      w=
+hile (curr_param) {
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
