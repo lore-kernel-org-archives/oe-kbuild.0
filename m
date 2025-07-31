@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A7213D52F
-	for <oe-kbuild@lists.linux.dev>; Thu, 31 Jul 2025 06:23:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D2C2BF00B
+	for <oe-kbuild@lists.linux.dev>; Thu, 31 Jul 2025 11:17:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753942988; cv=none; b=XB3Krr9Mo0zlErYRZmdqB9THMeiyRsG6yC1GSvceRCOu0cMrUpFLXHw4yzhAnW4FKBpfSU7pa8bXQ5lhYkvOXIEKMFgVMO8tvolNQEAVv63bj2JMsI3oi5KGTfeGURaygh23BFViY9pLiqcfNDMqsoCccMexPyQbJksagVfxSIY=
+	t=1753960662; cv=none; b=g2XH/fZqL9Lt2xk9luZjFS/fZK9Yer81J3DTayS2mDu2kt9PO5MzZXu+aJWcPp1bvmFVg62BN2B+FkjcIgrjZPSbTRaKO01ZX+G9ZlDtv7H7zhdDqjlIJ8BbYkUp9KpLBkL35tWlZb7GOJpPjybt8v7+H/7hVw7uFzD3bt7fLIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753942988; c=relaxed/simple;
-	bh=DVF85O91EejBZL4GuEILS4blUOaW8eJEps7Mxeku3eI=;
+	s=arc-20240116; t=1753960662; c=relaxed/simple;
+	bh=ahiQ76Rx9KpnV4BeFR85pK+/hxZVbFdJZf7aMRU6d6Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pnba3/KOZcSnRFgkqHP2ddgb0TB0V2sqH/Lm+t1opknP5f/yXB1du4d3ZTKt7JuGdh5nXXDEpuRx0ieM25KjjxyM56qNSIRnl0TjzIRQ+q9Cs6B+7skTDpeDboXzxDskGVPdeC9Ngc+9vGTuw6VxwKb3SEnjsi4kOqGW/5mxW+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCGB2dSO; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=IoUx5nau8RLAPRcwR5SMhcIv0PlJR4oTarKrL3oxUYgUTZKql5Kw4MBLMbQ4XSdG6sZHWN8kvjNob++gQTx4Orc1dRXhW56zbPPiSLOwSQAQDTHQSjrbERU0Vl1ph0hR0I8VsiF4myffQIJyMtvEZMnRiZXtZRClGFzxo6WEqd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q6hIEXop; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCGB2dSO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q6hIEXop"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753942987; x=1785478987;
+  t=1753960661; x=1785496661;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DVF85O91EejBZL4GuEILS4blUOaW8eJEps7Mxeku3eI=;
-  b=SCGB2dSO5GgImY8d6r+4r7oG3Scs4NU3oMV4+0cfN0kdcNqJ+LbeMqHA
-   qUrCoJSzz1VQEwyx5nr7RA5/MTx5c0gNy2qrlVfW6QV3RCxJMUxhte4UQ
-   KnEAtSbAZuxFuYznDC/u2dZ17OcFrwCAHGHR1STS9aGy5A7jv9/ieP/ek
-   V3f3wfpGs5XVjLekDxCV9BKKvQs6cObPF0uc6IPW07PYIi4XuIT+uG3ZW
-   ifrEQ16Qw1ne57+tAshi5aY9FGIGp03bYZ/GlNeXaXucnVjS/Gy4b/r/3
-   5PmwWTC/m8mxHySgefIo/PxWmrWKlnddl1Rpe2Smcv8j/tGMsV3ClxkJ/
-   w==;
-X-CSE-ConnectionGUID: 0RCM2il7RcSC/ovs9REbIA==
-X-CSE-MsgGUID: FBrvrgqiT2WXmZZqg2VDiw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="78807832"
+  bh=ahiQ76Rx9KpnV4BeFR85pK+/hxZVbFdJZf7aMRU6d6Q=;
+  b=Q6hIEXopLsDHMGOtPPu3d7f5eIMC3sO1vu2S5ZwE1nW2P7cYcv+OCkUC
+   /WQ/1O9iXr2Ij4H9CzI88RKbndfdw7oPdrHYqia8yORlToW8yFYoqN958
+   BlZJsDD7e0NpHCGIp0++2h/27np8rqFYVWrHNc9SDDh/sEOBFD+b2mY7H
+   eoWfPTxFA2X0dNRRSWClnvPATeTpEF2s3tiHg69JDUQcKq8yw2giWbgck
+   r1WwT985SGtPjV127GuidFfJlcxNzbFurcFNQqOr+/7EkSsYmZ6jBBb6A
+   oKzdSO3Zzyka3xApWC/zL7mU23xR0WqQWgyAo6BusfvV5WbFWLidR0C3/
+   g==;
+X-CSE-ConnectionGUID: Hdh2Np66SAiKTUH6I6gEYQ==
+X-CSE-MsgGUID: uqAlq9xFS82QtQfufjqNag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="56146625"
 X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="78807832"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 23:23:07 -0700
-X-CSE-ConnectionGUID: 6iXkITYLQ5yQWvohQL1LLA==
-X-CSE-MsgGUID: QlSFwhY9SFuneQQKXBzjzg==
+   d="scan'208";a="56146625"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 04:17:40 -0700
+X-CSE-ConnectionGUID: Ds9C+c+bRgeIUq9lKP1VmQ==
+X-CSE-MsgGUID: 7qCaqqeUTgSFBNvP9qt6Ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="163967146"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by fmviesa010.fm.intel.com with ESMTP; 30 Jul 2025 23:23:05 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="163258506"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 31 Jul 2025 04:17:39 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uhMgx-0000ud-25;
-	Thu, 31 Jul 2025 06:23:03 +0000
-Date: Thu, 31 Jul 2025 08:22:08 +0200
+	id 1uhRI0-0003iU-1n;
+	Thu, 31 Jul 2025 11:17:36 +0000
+Date: Thu, 31 Jul 2025 19:17:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/xtensa/boot/dts/xtfpga.dtsi:45.6-119.4: Warning
- (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit
- name
-Message-ID: <202507310849.ujgJCuOp-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/irqchip/irq-riscv-imsic-platform.c:317
+ imsic_irqdomain_init() warn: variable dereferenced before check 'imsic' (see
+ line 311)
+Message-ID: <202507311953.NFVZkr0a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,112 +63,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
-CC: Max Filippov <jcmvbkbc@gmail.com>
+TO: Marc Zyngier <maz@kernel.org>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   260f6f4fda93c8485c8037865c941b42b9cba5d2
-commit: 47812144d39566da3f1dbc7a615f656969f99337 xtensa: migrate to the generic rule for built-in DTB
-date:   5 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 5 months ago
-config: xtensa-xip_kc705_defconfig (https://download.01.org/0day-ci/archive/20250731/202507310849.ujgJCuOp-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507310849.ujgJCuOp-lkp@intel.com/reproduce)
+commit: 59422904dd9855f94d00dc66598bef1bd2663894 irqchip/riscv-imsic: Convert to msi_create_parent_irq_domain() helper
+date:   4 weeks ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 4 weeks ago
+config: riscv-randconfig-r073-20250731 (https://download.01.org/0day-ci/archive/20250731/202507311953.NFVZkr0a-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202507310849.ujgJCuOp-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202507311953.NFVZkr0a-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/xtensa/boot/dts/xtfpga.dtsi:45.6-119.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/xtensa/boot/dts/xtfpga.dtsi:51.24-55.5: Warning (unit_address_vs_reg): /soc/main-oscillator: node has a reg or ranges property, but no unit name
->> arch/xtensa/boot/dts/xtfpga.dtsi:51.24-55.5: Warning (simple_bus_reg): /soc/main-oscillator: simple-bus unit address format error, expected "d020004"
->> arch/xtensa/boot/dts/xtfpga.dtsi:57.28-67.5: Warning (simple_bus_reg): /soc/serial@0d050020: simple-bus unit address format error, expected "d050020"
->> arch/xtensa/boot/dts/xtfpga.dtsi:69.25-76.5: Warning (simple_bus_reg): /soc/ethoc@0d030000: simple-bus unit address format error, expected "d030000"
->> arch/xtensa/boot/dts/xtfpga.dtsi:78.29-84.5: Warning (simple_bus_reg): /soc/xtfpga-i2s@0d080000: simple-bus unit address format error, expected "d080000"
->> arch/xtensa/boot/dts/xtfpga.dtsi:86.29-104.5: Warning (simple_bus_reg): /soc/i2c-master@0d090000: simple-bus unit address format error, expected "d090000"
->> arch/xtensa/boot/dts/xtfpga.dtsi:106.22-118.5: Warning (simple_bus_reg): /soc/spi@0d0a0000: simple-bus unit address format error, expected "d0a0000"
->> arch/xtensa/boot/dts/xtfpga-flash-128m.dtsi:4.25-27.5: Warning (simple_bus_reg): /soc/flash@00000000: simple-bus unit address format error, expected "0"
+smatch warnings:
+drivers/irqchip/irq-riscv-imsic-platform.c:317 imsic_irqdomain_init() warn: variable dereferenced before check 'imsic' (see line 311)
 
-vim +45 arch/xtensa/boot/dts/xtfpga.dtsi
+vim +/imsic +317 drivers/irqchip/irq-riscv-imsic-platform.c
 
-08a7bbf624072b Max Filippov 2014-02-23  @45  	soc {
-08a7bbf624072b Max Filippov 2014-02-23   46  		#address-cells = <1>;
-08a7bbf624072b Max Filippov 2014-02-23   47  		#size-cells = <1>;
-08a7bbf624072b Max Filippov 2014-02-23   48  		compatible = "simple-bus";
-08a7bbf624072b Max Filippov 2014-02-23   49  		ranges = <0x00000000 0xf0000000 0x10000000>;
-08a7bbf624072b Max Filippov 2014-02-23   50  
-58c3e3ac7a1daf Max Filippov 2016-07-25  @51  		osc: main-oscillator {
-58c3e3ac7a1daf Max Filippov 2016-07-25   52  			#clock-cells = <0>;
-58c3e3ac7a1daf Max Filippov 2016-07-25   53  			compatible = "cdns,xtfpga-clock";
-58c3e3ac7a1daf Max Filippov 2016-07-25   54  			reg = <0x0d020004 0x4>;
-58c3e3ac7a1daf Max Filippov 2016-07-25   55  		};
-58c3e3ac7a1daf Max Filippov 2016-07-25   56  
-08a7bbf624072b Max Filippov 2014-02-23  @57  		serial0: serial@0d050020 {
-5584b4da7814af Max Filippov 2012-11-03   58  			device_type = "serial";
-5584b4da7814af Max Filippov 2012-11-03   59  			compatible = "ns16550a";
-5584b4da7814af Max Filippov 2012-11-03   60  			no-loopback-test;
-08a7bbf624072b Max Filippov 2014-02-23   61  			reg = <0x0d050020 0x20>;
-5584b4da7814af Max Filippov 2012-11-03   62  			reg-shift = <2>;
-abfbd89595e91d Max Filippov 2015-08-24   63  			reg-io-width = <4>;
-abfbd89595e91d Max Filippov 2015-08-24   64  			native-endian;
-5584b4da7814af Max Filippov 2012-11-03   65  			interrupts = <0 1>; /* external irq 0 */
-cdc9af7ccfc26d Max Filippov 2014-01-29   66  			clocks = <&osc>;
-5584b4da7814af Max Filippov 2012-11-03   67  		};
-5584b4da7814af Max Filippov 2012-11-03   68  
-08a7bbf624072b Max Filippov 2014-02-23  @69  		enet0: ethoc@0d030000 {
-5584b4da7814af Max Filippov 2012-11-03   70  			compatible = "opencores,ethoc";
-08a7bbf624072b Max Filippov 2014-02-23   71  			reg = <0x0d030000 0x4000 0x0d800000 0x4000>;
-d99434e1760b94 Max Filippov 2015-08-25   72  			native-endian;
-5584b4da7814af Max Filippov 2012-11-03   73  			interrupts = <1 1>; /* external irq 1 */
-5584b4da7814af Max Filippov 2012-11-03   74  			local-mac-address = [00 50 c2 13 6f 00];
-2bc2fde6385832 Max Filippov 2014-01-29   75  			clocks = <&osc>;
-5584b4da7814af Max Filippov 2012-11-03   76  		};
-c2c62e61fb8559 Max Filippov 2013-04-19   77  
-c2c62e61fb8559 Max Filippov 2013-04-19  @78  		i2s0: xtfpga-i2s@0d080000 {
-c2c62e61fb8559 Max Filippov 2013-04-19   79  			#sound-dai-cells = <0>;
-c2c62e61fb8559 Max Filippov 2013-04-19   80  			compatible = "cdns,xtfpga-i2s";
-c2c62e61fb8559 Max Filippov 2013-04-19   81  			reg = <0x0d080000 0x40>;
-c2c62e61fb8559 Max Filippov 2013-04-19   82  			interrupts = <2 1>; /* external irq 2 */
-c2c62e61fb8559 Max Filippov 2013-04-19   83  			clocks = <&cdce706 4>;
-c2c62e61fb8559 Max Filippov 2013-04-19   84  		};
-c2c62e61fb8559 Max Filippov 2013-04-19   85  
-c2c62e61fb8559 Max Filippov 2013-04-19  @86  		i2c0: i2c-master@0d090000 {
-c2c62e61fb8559 Max Filippov 2013-04-19   87  			compatible = "opencores,i2c-ocores";
-c2c62e61fb8559 Max Filippov 2013-04-19   88  			#address-cells = <1>;
-c2c62e61fb8559 Max Filippov 2013-04-19   89  			#size-cells = <0>;
-c2c62e61fb8559 Max Filippov 2013-04-19   90  			reg = <0x0d090000 0x20>;
-c2c62e61fb8559 Max Filippov 2013-04-19   91  			reg-shift = <2>;
-bce299ca547357 Max Filippov 2015-08-25   92  			reg-io-width = <4>;
-bce299ca547357 Max Filippov 2015-08-25   93  			native-endian;
-c2c62e61fb8559 Max Filippov 2013-04-19   94  			interrupts = <4 1>;
-c2c62e61fb8559 Max Filippov 2013-04-19   95  			clocks = <&osc>;
-c2c62e61fb8559 Max Filippov 2013-04-19   96  
-c2c62e61fb8559 Max Filippov 2013-04-19   97  			cdce706: clock-synth@69 {
-c2c62e61fb8559 Max Filippov 2013-04-19   98  				compatible = "ti,cdce706";
-c2c62e61fb8559 Max Filippov 2013-04-19   99  				#clock-cells = <1>;
-c2c62e61fb8559 Max Filippov 2013-04-19  100  				reg = <0x69>;
-c2c62e61fb8559 Max Filippov 2013-04-19  101  				clocks = <&clk54>;
-c2c62e61fb8559 Max Filippov 2013-04-19  102  				clock-names = "clk_in0";
-c2c62e61fb8559 Max Filippov 2013-04-19  103  			};
-c2c62e61fb8559 Max Filippov 2013-04-19  104  		};
-c2c62e61fb8559 Max Filippov 2013-04-19  105  
-f37598be4e3896 Max Filippov 2018-12-04 @106  		spi0: spi@0d0a0000 {
+027e125acdbad7 Anup Patel   2024-03-07  307  
+027e125acdbad7 Anup Patel   2024-03-07  308  int imsic_irqdomain_init(void)
+027e125acdbad7 Anup Patel   2024-03-07  309  {
+59422904dd9855 Marc Zyngier 2025-06-26  310  	struct irq_domain_info info = {
+59422904dd9855 Marc Zyngier 2025-06-26 @311  		.fwnode		= imsic->fwnode,
+59422904dd9855 Marc Zyngier 2025-06-26  312  		.ops		= &imsic_base_domain_ops,
+59422904dd9855 Marc Zyngier 2025-06-26  313  		.host_data	= imsic,
+59422904dd9855 Marc Zyngier 2025-06-26  314  	};
+027e125acdbad7 Anup Patel   2024-03-07  315  	struct imsic_global_config *global;
+027e125acdbad7 Anup Patel   2024-03-07  316  
+027e125acdbad7 Anup Patel   2024-03-07 @317  	if (!imsic || !imsic->fwnode) {
+027e125acdbad7 Anup Patel   2024-03-07  318  		pr_err("early driver not probed\n");
+027e125acdbad7 Anup Patel   2024-03-07  319  		return -ENODEV;
+027e125acdbad7 Anup Patel   2024-03-07  320  	}
+027e125acdbad7 Anup Patel   2024-03-07  321  
+027e125acdbad7 Anup Patel   2024-03-07  322  	if (imsic->base_domain) {
+027e125acdbad7 Anup Patel   2024-03-07  323  		pr_err("%pfwP: irq domain already created\n", imsic->fwnode);
+027e125acdbad7 Anup Patel   2024-03-07  324  		return -ENODEV;
+027e125acdbad7 Anup Patel   2024-03-07  325  	}
+027e125acdbad7 Anup Patel   2024-03-07  326  
+027e125acdbad7 Anup Patel   2024-03-07  327  	/* Create Base IRQ domain */
+59422904dd9855 Marc Zyngier 2025-06-26  328  	imsic->base_domain = msi_create_parent_irq_domain(&info, &imsic_msi_parent_ops);
+027e125acdbad7 Anup Patel   2024-03-07  329  	if (!imsic->base_domain) {
+027e125acdbad7 Anup Patel   2024-03-07  330  		pr_err("%pfwP: failed to create IMSIC base domain\n", imsic->fwnode);
+027e125acdbad7 Anup Patel   2024-03-07  331  		return -ENOMEM;
+027e125acdbad7 Anup Patel   2024-03-07  332  	}
+027e125acdbad7 Anup Patel   2024-03-07  333  
+027e125acdbad7 Anup Patel   2024-03-07  334  	global = &imsic->global;
+027e125acdbad7 Anup Patel   2024-03-07  335  	pr_info("%pfwP:  hart-index-bits: %d,  guest-index-bits: %d\n",
+027e125acdbad7 Anup Patel   2024-03-07  336  		imsic->fwnode, global->hart_index_bits, global->guest_index_bits);
+027e125acdbad7 Anup Patel   2024-03-07  337  	pr_info("%pfwP: group-index-bits: %d, group-index-shift: %d\n",
+027e125acdbad7 Anup Patel   2024-03-07  338  		imsic->fwnode, global->group_index_bits, global->group_index_shift);
+4a1361e9a5c5db Andrew Jones 2024-09-09  339  	pr_info("%pfwP: per-CPU IDs %d at base address %pa\n",
+027e125acdbad7 Anup Patel   2024-03-07  340  		imsic->fwnode, global->nr_ids, &global->base_addr);
+027e125acdbad7 Anup Patel   2024-03-07  341  	pr_info("%pfwP: total %d interrupts available\n",
+027e125acdbad7 Anup Patel   2024-03-07  342  		imsic->fwnode, num_possible_cpus() * (global->nr_ids - 1));
+027e125acdbad7 Anup Patel   2024-03-07  343  
+027e125acdbad7 Anup Patel   2024-03-07  344  	return 0;
+027e125acdbad7 Anup Patel   2024-03-07  345  }
+027e125acdbad7 Anup Patel   2024-03-07  346  
 
-:::::: The code at line 45 was first introduced by commit
-:::::: 08a7bbf624072bed1cb35e5b4db7d538580f731c xtensa: xtfpga: introduce SoC I/O bus
+:::::: The code at line 317 was first introduced by commit
+:::::: 027e125acdbad79e9a7274940e8bf92299b208af irqchip/riscv-imsic: Add device MSI domain support for platform devices
 
-:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
-:::::: CC: Max Filippov <jcmvbkbc@gmail.com>
+:::::: TO: Anup Patel <apatel@ventanamicro.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
