@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB258F49
-	for <oe-kbuild@lists.linux.dev>; Fri,  1 Aug 2025 13:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356E4248F5E
+	for <oe-kbuild@lists.linux.dev>; Fri,  1 Aug 2025 14:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754055961; cv=none; b=kSv/asPUTYT8OZyUwunYm5k+kUdYSNPQ3Wfl3OY31unkljJ+eBybujU93OB8Xbnagbux7k86J/e/HV6sErpHUQzG1nF5ImAIr/L7/uwwTqHWU6EhGSkt8LMCVNz8qzbdWL4ReZqPTy4Z4pb2E5tbJv5LsZsELpsXHA7B7BVhG8U=
+	t=1754058710; cv=none; b=LX76KJGQb0ZDsZTfvpRV7RoxHMWHVJyfql+RcJpJ2ASpRqEKGivjs3zea6KI3yndpxeCnjfYiID1jMYrJNaW3BqEVKm2XUyrs+pdhxIfxyN0S9p5+VdOYYMkH0bCGHGDyfa4GP2dvgshNB3XNiq5HPejnmCmRBlEH1fkG9mWHO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754055961; c=relaxed/simple;
-	bh=kVWcYgHwjf7z4HGb4sgp84hCLXYADJXy7tC/3UCmRvA=;
+	s=arc-20240116; t=1754058710; c=relaxed/simple;
+	bh=FK0vyelFnv1mUU8CyGh29LkgK4hFNqWbgWNw58bAiUY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VsPagggrkmYtIbyxXXEwzxG8nPTMBnLKEPWg8dYnX6SfopqU+PGKBT4G14re+dgb2bVzOi44RWSWBE+lVjHhEKEZSnLB7zNQtYU+erFazAesD/NdIXLcf7NDiZJHb6CQlYKsoA+rg6OnbzAs/F/fSTIe0A48taMflBJ/HxYwyMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hCm8WmVB; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=QA2KOxRI2fKM536zz/tud1XZNkCwU/7vYiNtpmNDA6cRLJWPLfspWWxZ10uBnl6KymtE5Lo5UPRIpTc6HlpjjqgfYpnTCQZeSLvYR7hlvUy8UEex43Ywyo6avY11JbT2JGMVSqciPu001D1A+fFO9is8+CBmnf4cykgKtosL5MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x2NMSZ5P; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hCm8WmVB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754055960; x=1785591960;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kVWcYgHwjf7z4HGb4sgp84hCLXYADJXy7tC/3UCmRvA=;
-  b=hCm8WmVBBm1J3WrBtYOZNS7z7U8dJnprd8eeC58MP+MVPdYeUZYd4E1q
-   58/xSw+KvPN9ckyv4NHnwpjlcA/A1dB/EPUwoC/nCUQGcFkJh6p7l1g+7
-   zsOKchx7vdobfA219UxrTv57RdJWPpb0x0uLI3Jz1rI0PxydEW0J3JTPN
-   JjdUb3qctvSgg71XfQXtGO9dDJ253l2iOyf9vGiXPEGEvF9i5dWb96LX5
-   oUx2TS9rd7DDtDJb3VoT4xBbGBTKKUujIQpXbtzF/9ORfvP8nmXfvCGkL
-   2pCnzL/Lrvr9dYembeLDHz0kJ+2sBx9DytIYiedcArWnpHzROtj65PHMp
-   w==;
-X-CSE-ConnectionGUID: W94EnwxPS1C5tQ+qpsPqhQ==
-X-CSE-MsgGUID: pdOjrArYRAasz4FOJRQCaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56269376"
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="56269376"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 06:45:59 -0700
-X-CSE-ConnectionGUID: k062+K87Q6WZtFLznPUnVQ==
-X-CSE-MsgGUID: 6qez6SJ4RcmPyyPrypo0tQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="200726458"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa001.jf.intel.com with ESMTP; 01 Aug 2025 06:45:57 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uhq55-0001Er-0n;
-	Fri, 01 Aug 2025 13:45:55 +0000
-Date: Fri, 1 Aug 2025 15:45:19 +0200
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arc/boot/dts/abilis_tb10x.dtsi:40.9-242.4: Warning
- (unit_address_vs_reg): /soc100: node has a reg or ranges property, but no
- unit name
-Message-ID: <202508011559.ZnEeL8Sh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x2NMSZ5P"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a54700a46eso1323254f8f.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 01 Aug 2025 07:31:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1754058705; x=1754663505; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AieFr6QqT2maFLAJIA2s1XsjLSFuKHyndgzoToJrS2E=;
+        b=x2NMSZ5PBbLjlDcdqOgUE54cfZ0SR7XS1mlR6rw8s6slAgPn+BOMQGLFDwODt4PiiV
+         hpzQaPvAhsCjDqo2rLUKmTw63kwc3Ml4HEoxms7I21TBr3/nmMMTbSoaRj8sPZRIzpui
+         PU5CwfDcD9H3MvvCH/TLcZ5NaAXsFeuSjLCR7T610UYPVsk7JFKvw6E+5Bm4AieQL4C4
+         w0d2HNLtV1WdkKvew+oKUFIEm1wVSL3Stg/Q636+VgLN33fXar/Llv/yrUKgxg0iS0PE
+         P4hC/57KGpO+QxUro8mzgEXXENJsayCLgrFsnI7PYGZvCcNv4nHikXupRdZJrwiLjUAU
+         qbzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754058705; x=1754663505;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AieFr6QqT2maFLAJIA2s1XsjLSFuKHyndgzoToJrS2E=;
+        b=g+nWH5wmjqwl2CyeiRVOpZCn455lGOjfKnELn6/7f64LYbZQCbmiDNVrSm2Hi46vC4
+         mQRpUDDfhLrRmfcSFGB/YEaV+QpQtGIjDmnr1TyTT8aIVgKCHGNgro9ELXaBbknMyN75
+         ayLelDtgi13B4jVThSVkzrIIsBPqlIbU7H3yvxD5pYetxm0DF20FIUjpJu4yIgss7mYD
+         nzTpH6BMFfiJa5EixcwYcU4R1BuC6CMq25pZXrf9ewzr1XEQ7Fstyd4MJbkMyB6a6+/X
+         8X5B9CwxrZ0JuYweNGDC+Qj5vgUrVi+dwyg0V9QzWeu0bYDsuDOjcTXJxzsGkBQpjIo2
+         sh5A==
+X-Gm-Message-State: AOJu0Yyorqzmh8maIgw88wQYzb+cr8DRXwPqUrmOafSprfXP07NZMHf4
+	4hBK8Z/Jyy26XIzTjhbI2LEzJwyRBiCRHhMv4UKn8D1qIrdZkFzS6YddCpqMLDRr+6qF3T4L7OR
+	7ryxF
+X-Gm-Gg: ASbGncvl0zD1FpSMmgNTTV5DVOaUDuGj2MVxA+4ucykBJgwRmvV5dWaQIrZgoeDsR80
+	r6oLFVsfPKA+eFXzD518+gjEKmxV5om1cSKqnYv+QGJaYO4ryvNpvIL3xpszPuy+2Uh3qhjbc0H
+	6aa5wXlPZQLoo6ruW45OGfyL2+XqK54D0j6p0jnMfi6gjMKLsbSsoQw1wFzjekAoe9wqnUM8WAK
+	nAWJ5NqaZJXlVRvgLHTSXKnjqT/Kb/vrqewelcqRyrbDC70vBprMSYlg7jlKQukR/75jaF8HkK8
+	UZLtEMCOh79zM1x68ZqG0TUob2C823oQuzS1QdQA6M0syjaRMCxdg4By8ggqMvuXHLlsv86um6V
+	DDHLw1uLRectJ24ghJUO2VgehOlPIxvf/qa6GIQ==
+X-Google-Smtp-Source: AGHT+IFsFT3WFtGw9qAky7zYLbRwPgM0Lo6AQ8+E1AcAZECTEtITCALi3O2SmSLsaNNNGaGdYR0uiQ==
+X-Received: by 2002:adf:e047:0:b0:3b7:9c28:f856 with SMTP id ffacd0b85a97d-3b79c28f954mr4079994f8f.48.1754058705140;
+        Fri, 01 Aug 2025 07:31:45 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c48a05bsm6129217f8f.69.2025.08.01.07.31.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Aug 2025 07:31:44 -0700 (PDT)
+Date: Fri, 1 Aug 2025 17:31:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Weitao Wang <WeitaoWang-oc@zhaoxin.com>,
+	gregkh@linuxfoundation.org, mathias.nyman@intel.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, WeitaoWang@zhaoxin.com,
+	wwt8723@163.com, CobeChen@zhaoxin.com, stable@vger.kernel.org
+Subject: Re: [PATCH v3] usb:xhci:Fix slot_id resource race conflict
+Message-ID: <b5ab0f46-0fde-420e-97a2-136d3074b59c@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,214 +74,96 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250730152715.8368-1-WeitaoWang-oc@zhaoxin.com>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
+Hi Weitao,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
-CC: linux-snps-arc@lists.infradead.org
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   89748acdf226fd1a8775ff6fa2703f8412b286c8
-commit: 3b7f793acc13b6108452271b306d4aa94a3c4940 ARC: migrate to the generic rule for built-in DTB
-date:   7 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 7 months ago
-config: arc-tb10x_defconfig (https://download.01.org/0day-ci/archive/20250801/202508011559.ZnEeL8Sh-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508011559.ZnEeL8Sh-lkp@intel.com/reproduce)
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Weitao-Wang/usb-xhci-Fix-slot_id-resource-race-conflict/20250730-183802
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20250730152715.8368-1-WeitaoWang-oc%40zhaoxin.com
+patch subject: [PATCH v3] usb:xhci:Fix slot_id resource race conflict
+config: x86_64-randconfig-161-20250801 (https://download.01.org/0day-ci/archive/20250801/202508010850.Bqd6wf47-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508011559.ZnEeL8Sh-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508010850.Bqd6wf47-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arc/boot/dts/abilis_tb10x.dtsi:40.9-242.4: Warning (unit_address_vs_reg): /soc100: node has a reg or ranges property, but no unit name
->> arch/arc/boot/dts/abilis_tb10x.dtsi:201.40-216.5: Warning (unit_address_vs_reg): /soc100/tb10x-stream-proc: node has a reg or ranges property, but no unit name
->> arch/arc/boot/dts/abilis_tb100_dvk.dts:22.9-25.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
->> arch/arc/boot/dts/abilis_tb10x.dtsi:48.20-52.5: Warning (simple_bus_reg): /soc100/oscillator: missing or empty reg/ranges property
->> arch/arc/boot/dts/abilis_tb10x.dtsi:53.23-58.5: Warning (simple_bus_reg): /soc100/clkdiv_cpu: missing or empty reg/ranges property
->> arch/arc/boot/dts/abilis_tb10x.dtsi:59.23-64.5: Warning (simple_bus_reg): /soc100/clkdiv_ahb: missing or empty reg/ranges property
->> arch/arc/boot/dts/abilis_tb10x.dtsi:72.30-76.5: Warning (simple_bus_reg): /soc100/interrupt-controller: missing or empty reg/ranges property
->> arch/arc/boot/dts/abilis_tb10x.dtsi:201.40-216.5: Warning (simple_bus_reg): /soc100/tb10x-stream-proc: simple-bus unit address format error, expected "fff00000"
->> arch/arc/boot/dts/abilis_tb100_dvk.dts:52.8-114.5: Warning (simple_bus_reg): /soc100/leds: missing or empty reg/ranges property
+New smatch warnings:
+drivers/usb/host/xhci-mem.c:913 xhci_free_virt_device() warn: variable dereferenced before check 'dev->out_ctx' (see line 878)
 
-vim +40 arch/arc/boot/dts/abilis_tb10x.dtsi
+vim +913 drivers/usb/host/xhci-mem.c
 
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  @40  	soc100 {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   41  		#address-cells	= <1>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   42  		#size-cells	= <1>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   43  		device_type	= "soc";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   44  		ranges		= <0xfe000000 0xfe000000 0x02000000
-ef4c54c340de47 Alexey Brodkin    2019-01-24   45  				0x000f0000 0x000f0000 0x00010000>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   46  		compatible	= "abilis,tb10x", "simple-bus";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   47  
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  @48  		pll0: oscillator {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   49  			compatible = "fixed-clock";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   50  			#clock-cells = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   51  			clock-output-names = "pll0";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   52  		};
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  @53  		cpu_clk: clkdiv_cpu {
-0dfad77d0a03ea Christian Ruppert 2013-04-12   54  			compatible = "fixed-factor-clock";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   55  			#clock-cells = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   56  			clocks = <&pll0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   57  			clock-output-names = "cpu_clk";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   58  		};
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  @59  		ahb_clk: clkdiv_ahb {
-0dfad77d0a03ea Christian Ruppert 2013-04-12   60  			compatible = "fixed-factor-clock";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   61  			#clock-cells = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   62  			clocks = <&pll0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   63  			clock-output-names = "ahb_clk";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   64  		};
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   65  
-ef4c54c340de47 Alexey Brodkin    2019-01-24   66  		iomux: iomux@ff10601c {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   67  			compatible = "abilis,tb10x-iomux";
-9c8e612d9d622d Christian Ruppert 2013-10-31   68  			#gpio-range-cells = <3>;
-ef4c54c340de47 Alexey Brodkin    2019-01-24   69  			reg = <0xff10601c 0x4>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   70  		};
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   71  
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  @72  		intc: interrupt-controller {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   73  			compatible = "snps,arc700-intc";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   74  			interrupt-controller;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   75  			#interrupt-cells = <1>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   76  		};
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   77  		tb10x_ictl: pic@fe002000 {
-723e2b801d8030 Christian Ruppert 2013-06-26   78  			compatible = "abilis,tb10x-ictl";
-ef4c54c340de47 Alexey Brodkin    2019-01-24   79  			reg = <0xfe002000 0x20>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   80  			interrupt-controller;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   81  			#interrupt-cells = <2>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   82  			interrupt-parent = <&intc>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   83  			interrupts = <5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   84  					20 21 22 23 24 25 26 27 28 29 30 31>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   85  		};
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   86  
-ef4c54c340de47 Alexey Brodkin    2019-01-24   87  		uart@ff100000 {
-7d19273cd0408f Christian Ruppert 2013-05-10   88  			compatible = "snps,dw-apb-uart";
-ef4c54c340de47 Alexey Brodkin    2019-01-24   89  			reg = <0xff100000 0x100>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   90  			clock-frequency = <166666666>;
-723e2b801d8030 Christian Ruppert 2013-06-26   91  			interrupts = <25 8>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   92  			reg-shift = <2>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   93  			reg-io-width = <4>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   94  			interrupt-parent = <&tb10x_ictl>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   95  		};
-ef4c54c340de47 Alexey Brodkin    2019-01-24   96  		ethernet@fe100000 {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   97  			compatible = "snps,dwmac-3.70a","snps,dwmac";
-ef4c54c340de47 Alexey Brodkin    2019-01-24   98  			reg = <0xfe100000 0x1058>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11   99  			interrupt-parent = <&tb10x_ictl>;
-723e2b801d8030 Christian Ruppert 2013-06-26  100  			interrupts = <6 8>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  101  			interrupt-names = "macirq";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  102  			clocks = <&ahb_clk>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  103  			clock-names = "stmmaceth";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  104  		};
-ef4c54c340de47 Alexey Brodkin    2019-01-24  105  		dma@fe000000 {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  106  			compatible = "snps,dma-spear1340";
-ef4c54c340de47 Alexey Brodkin    2019-01-24  107  			reg = <0xfe000000 0x400>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  108  			interrupt-parent = <&tb10x_ictl>;
-723e2b801d8030 Christian Ruppert 2013-06-26  109  			interrupts = <14 8>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  110  			dma-channels = <6>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  111  			dma-requests = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  112  			dma-masters = <1>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  113  			#dma-cells = <3>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  114  			chan_allocation_order = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  115  			chan_priority = <1>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  116  			block_size = <0x7ff>;
-2e65060e803e04 Andy Shevchenko   2016-04-27  117  			data-width = <4>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  118  			clocks = <&ahb_clk>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  119  			clock-names = "hclk";
-bd2c6636cc59c4 Eugeniy Paltsev   2016-11-25  120  			multi-block = <1 1 1 1 1 1>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  121  		};
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  122  
-ef4c54c340de47 Alexey Brodkin    2019-01-24  123  		i2c0: i2c@ff120000 {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  124  			#address-cells = <1>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  125  			#size-cells = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  126  			compatible = "snps,designware-i2c";
-ef4c54c340de47 Alexey Brodkin    2019-01-24  127  			reg = <0xff120000 0x1000>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  128  			interrupt-parent = <&tb10x_ictl>;
-723e2b801d8030 Christian Ruppert 2013-06-26  129  			interrupts = <12 8>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  130  			clocks = <&ahb_clk>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  131  		};
-ef4c54c340de47 Alexey Brodkin    2019-01-24  132  		i2c1: i2c@ff121000 {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  133  			#address-cells = <1>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  134  			#size-cells = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  135  			compatible = "snps,designware-i2c";
-ef4c54c340de47 Alexey Brodkin    2019-01-24  136  			reg = <0xff121000 0x1000>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  137  			interrupt-parent = <&tb10x_ictl>;
-723e2b801d8030 Christian Ruppert 2013-06-26  138  			interrupts = <12 8>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  139  			clocks = <&ahb_clk>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  140  		};
-ef4c54c340de47 Alexey Brodkin    2019-01-24  141  		i2c2: i2c@ff122000 {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  142  			#address-cells = <1>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  143  			#size-cells = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  144  			compatible = "snps,designware-i2c";
-ef4c54c340de47 Alexey Brodkin    2019-01-24  145  			reg = <0xff122000 0x1000>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  146  			interrupt-parent = <&tb10x_ictl>;
-723e2b801d8030 Christian Ruppert 2013-06-26  147  			interrupts = <12 8>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  148  			clocks = <&ahb_clk>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  149  		};
-ef4c54c340de47 Alexey Brodkin    2019-01-24  150  		i2c3: i2c@ff123000 {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  151  			#address-cells = <1>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  152  			#size-cells = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  153  			compatible = "snps,designware-i2c";
-ef4c54c340de47 Alexey Brodkin    2019-01-24  154  			reg = <0xff123000 0x1000>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  155  			interrupt-parent = <&tb10x_ictl>;
-723e2b801d8030 Christian Ruppert 2013-06-26  156  			interrupts = <12 8>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  157  			clocks = <&ahb_clk>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  158  		};
-ef4c54c340de47 Alexey Brodkin    2019-01-24  159  		i2c4: i2c@ff124000 {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  160  			#address-cells = <1>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  161  			#size-cells = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  162  			compatible = "snps,designware-i2c";
-ef4c54c340de47 Alexey Brodkin    2019-01-24  163  			reg = <0xff124000 0x1000>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  164  			interrupt-parent = <&tb10x_ictl>;
-723e2b801d8030 Christian Ruppert 2013-06-26  165  			interrupts = <12 8>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  166  			clocks = <&ahb_clk>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  167  		};
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  168  
-ef4c54c340de47 Alexey Brodkin    2019-01-24  169  		spi0: spi@fe010000 {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  170  			#address-cells = <1>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  171  			#size-cells = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  172  			cell-index = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  173  			compatible = "abilis,tb100-spi";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  174  			num-cs = <1>;
-ef4c54c340de47 Alexey Brodkin    2019-01-24  175  			reg = <0xfe010000 0x20>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  176  			interrupt-parent = <&tb10x_ictl>;
-723e2b801d8030 Christian Ruppert 2013-06-26  177  			interrupts = <26 8>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  178  			clocks = <&ahb_clk>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  179  		};
-ef4c54c340de47 Alexey Brodkin    2019-01-24  180  		spi1: spi@fe011000 {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  181  			#address-cells = <1>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  182  			#size-cells = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  183  			cell-index = <1>;
-7d19273cd0408f Christian Ruppert 2013-05-10  184  			compatible = "abilis,tb100-spi";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  185  			num-cs = <2>;
-ef4c54c340de47 Alexey Brodkin    2019-01-24  186  			reg = <0xfe011000 0x20>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  187  			interrupt-parent = <&tb10x_ictl>;
-723e2b801d8030 Christian Ruppert 2013-06-26  188  			interrupts = <10 8>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  189  			clocks = <&ahb_clk>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  190  		};
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  191  
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  192  		tb10x_tsm: tb10x-tsm@ff316000 {
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  193  			compatible = "abilis,tb100-tsm";
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  194  			reg = <0xff316000 0x400>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  195  			interrupt-parent = <&tb10x_ictl>;
-723e2b801d8030 Christian Ruppert 2013-06-26  196  			interrupts = <17 8>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  197  			output-clkdiv = <4>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  198  			global-packet-delay = <0x21>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  199  			port-packet-delay = <0>;
-2eb9504bcc1f16 Christian Ruppert 2013-04-11  200  		};
-2eb9504bcc1f16 Christian Ruppert 2013-04-11 @201  		tb10x_stream_proc: tb10x-stream-proc {
+0b5ed80150eb59 Weitao Wang    2025-07-30  868  void xhci_free_virt_device(struct xhci_hcd *xhci, struct xhci_virt_device *dev,
+0b5ed80150eb59 Weitao Wang    2025-07-30  869  		int slot_id)
+3ffbba9511b414 Sarah Sharp    2009-04-27  870  {
+3ffbba9511b414 Sarah Sharp    2009-04-27  871  	int i;
+2e27980e6eb781 Sarah Sharp    2011-09-02  872  	int old_active_eps = 0;
+3ffbba9511b414 Sarah Sharp    2009-04-27  873  
+3ffbba9511b414 Sarah Sharp    2009-04-27  874  	/* Slot ID 0 is reserved */
+0b5ed80150eb59 Weitao Wang    2025-07-30  875  	if (slot_id == 0 || !dev)
+3ffbba9511b414 Sarah Sharp    2009-04-27  876  		return;
+3ffbba9511b414 Sarah Sharp    2009-04-27  877  
+0b5ed80150eb59 Weitao Wang    2025-07-30 @878  	if (xhci->dcbaa->dev_context_ptrs[slot_id] == cpu_to_le64(dev->out_ctx->dma))
+                                                                                                          ^^^^^^^^^^^^
+dev->out_ctx dereferenced without checking for NULL
 
-:::::: The code at line 40 was first introduced by commit
-:::::: 2eb9504bcc1f164ac137cd12c5deeb1e21cc6b1b ARC: [TB10x] Device tree of TB100 and TB101 Development Kits
+8e595a5d30a5ee Sarah Sharp    2009-07-27  879  		xhci->dcbaa->dev_context_ptrs[slot_id] = 0;
+3ffbba9511b414 Sarah Sharp    2009-04-27  880  
+d850c1658328e7 Zhengjun Xing  2018-06-21  881  	trace_xhci_free_virt_device(dev);
+d850c1658328e7 Zhengjun Xing  2018-06-21  882  
+2e27980e6eb781 Sarah Sharp    2011-09-02  883  	if (dev->tt_info)
+2e27980e6eb781 Sarah Sharp    2011-09-02  884  		old_active_eps = dev->tt_info->active_eps;
+2e27980e6eb781 Sarah Sharp    2011-09-02  885  
+98871e9470a50c Felipe Balbi   2017-01-23  886  	for (i = 0; i < 31; i++) {
+63a0d9abd18cdc Sarah Sharp    2009-09-04  887  		if (dev->eps[i].ring)
+63a0d9abd18cdc Sarah Sharp    2009-09-04  888  			xhci_ring_free(xhci, dev->eps[i].ring);
+8df75f42f8e67e Sarah Sharp    2010-04-02  889  		if (dev->eps[i].stream_info)
+8df75f42f8e67e Sarah Sharp    2010-04-02  890  			xhci_free_stream_info(xhci,
+8df75f42f8e67e Sarah Sharp    2010-04-02  891  					dev->eps[i].stream_info);
+5aed5b7c2430ce Mathias Nyman  2022-10-24  892  		/*
+5aed5b7c2430ce Mathias Nyman  2022-10-24  893  		 * Endpoints are normally deleted from the bandwidth list when
+5aed5b7c2430ce Mathias Nyman  2022-10-24  894  		 * endpoints are dropped, before device is freed.
+5aed5b7c2430ce Mathias Nyman  2022-10-24  895  		 * If host is dying or being removed then endpoints aren't
+5aed5b7c2430ce Mathias Nyman  2022-10-24  896  		 * dropped cleanly, so delete the endpoint from list here.
+5aed5b7c2430ce Mathias Nyman  2022-10-24  897  		 * Only applicable for hosts with software bandwidth checking.
+2e27980e6eb781 Sarah Sharp    2011-09-02  898  		 */
+5aed5b7c2430ce Mathias Nyman  2022-10-24  899  
+5aed5b7c2430ce Mathias Nyman  2022-10-24  900  		if (!list_empty(&dev->eps[i].bw_endpoint_list)) {
+5aed5b7c2430ce Mathias Nyman  2022-10-24  901  			list_del_init(&dev->eps[i].bw_endpoint_list);
+5aed5b7c2430ce Mathias Nyman  2022-10-24  902  			xhci_dbg(xhci, "Slot %u endpoint %u not removed from BW list!\n",
+2e27980e6eb781 Sarah Sharp    2011-09-02  903  				 slot_id, i);
+8df75f42f8e67e Sarah Sharp    2010-04-02  904  		}
+5aed5b7c2430ce Mathias Nyman  2022-10-24  905  	}
+839c817ce67178 Sarah Sharp    2011-09-02  906  	/* If this is a hub, free the TT(s) from the TT list */
+839c817ce67178 Sarah Sharp    2011-09-02  907  	xhci_free_tt_info(xhci, dev, slot_id);
+2e27980e6eb781 Sarah Sharp    2011-09-02  908  	/* If necessary, update the number of active TTs on this root port */
+2e27980e6eb781 Sarah Sharp    2011-09-02  909  	xhci_update_tt_active_eps(xhci, dev, old_active_eps);
+3ffbba9511b414 Sarah Sharp    2009-04-27  910  
+3ffbba9511b414 Sarah Sharp    2009-04-27  911  	if (dev->in_ctx)
+d115b04818e57b John Youn      2009-07-27  912  		xhci_free_container_ctx(xhci, dev->in_ctx);
+3ffbba9511b414 Sarah Sharp    2009-04-27 @913  	if (dev->out_ctx)
+                                                    ^^^^^^^^^^^^
+Can dev->out_ctx be NULL?
 
-:::::: TO: Christian Ruppert <christian.ruppert@abilis.com>
-:::::: CC: Vineet Gupta <vgupta@synopsys.com>
+d115b04818e57b John Youn      2009-07-27  914  		xhci_free_container_ctx(xhci, dev->out_ctx);
+d115b04818e57b John Youn      2009-07-27  915  
+a400efe455f7b6 Mathias Nyman  2018-03-16  916  	if (dev->udev && dev->udev->slot_id)
+a400efe455f7b6 Mathias Nyman  2018-03-16  917  		dev->udev->slot_id = 0;
+74151b5349266b Niklas Neronin 2024-02-29  918  	if (dev->rhub_port && dev->rhub_port->slot_id == slot_id)
+74151b5349266b Niklas Neronin 2024-02-29  919  		dev->rhub_port->slot_id = 0;
+0b5ed80150eb59 Weitao Wang    2025-07-30  920  	if (xhci->devs[slot_id] == dev)
+326b4810cc9952 Randy Dunlap   2010-04-19  921  		xhci->devs[slot_id] = NULL;
+0b5ed80150eb59 Weitao Wang    2025-07-30  922  	kfree(dev);
+3ffbba9511b414 Sarah Sharp    2009-04-27  923  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
