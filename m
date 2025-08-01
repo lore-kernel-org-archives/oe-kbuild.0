@@ -1,71 +1,58 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356E4248F5E
-	for <oe-kbuild@lists.linux.dev>; Fri,  1 Aug 2025 14:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BA228C5C0
+	for <oe-kbuild@lists.linux.dev>; Fri,  1 Aug 2025 16:20:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754058710; cv=none; b=LX76KJGQb0ZDsZTfvpRV7RoxHMWHVJyfql+RcJpJ2ASpRqEKGivjs3zea6KI3yndpxeCnjfYiID1jMYrJNaW3BqEVKm2XUyrs+pdhxIfxyN0S9p5+VdOYYMkH0bCGHGDyfa4GP2dvgshNB3XNiq5HPejnmCmRBlEH1fkG9mWHO8=
+	t=1754065227; cv=none; b=nkA6LJCL78tUUz6Iyl1lewSO3Ac/asQ2QPE+ctNj3ERQxXlb/hpPDX3IEfHMzm/KZ1wOk6iqbJdc2swvKskSlgaPf3D5wL92/wB90H9Qg5XuPdQpKQT3Ashqg0h8XgEVegnDqlj3LTOw68I28m2jg9YqEaEI0Xfp+tvC2k1y/YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754058710; c=relaxed/simple;
-	bh=FK0vyelFnv1mUU8CyGh29LkgK4hFNqWbgWNw58bAiUY=;
+	s=arc-20240116; t=1754065227; c=relaxed/simple;
+	bh=eQTgZeABu+l9FtJ8gLJ4LfYnJXhuNins9oX26oNvDdw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=QA2KOxRI2fKM536zz/tud1XZNkCwU/7vYiNtpmNDA6cRLJWPLfspWWxZ10uBnl6KymtE5Lo5UPRIpTc6HlpjjqgfYpnTCQZeSLvYR7hlvUy8UEex43Ywyo6avY11JbT2JGMVSqciPu001D1A+fFO9is8+CBmnf4cykgKtosL5MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x2NMSZ5P; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Yc4bq3OA8mJDfj+fNKNIfS3fdJj4EywmfbW6NtQSyD2/qRxuFwcUbTWsHeeZnGdnzWoeV13BAjq7BhkRkF1aLQWN4ySiLHeyjX+FcnWbkB7/2SfRDmkWkRhrDqJGP2E5dez8M8CrdhipvA6MVj8JQo7XwZUFbqcY5Uc3cxttJT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I5t1opwq; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x2NMSZ5P"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a54700a46eso1323254f8f.1
-        for <oe-kbuild@lists.linux.dev>; Fri, 01 Aug 2025 07:31:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754058705; x=1754663505; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AieFr6QqT2maFLAJIA2s1XsjLSFuKHyndgzoToJrS2E=;
-        b=x2NMSZ5PBbLjlDcdqOgUE54cfZ0SR7XS1mlR6rw8s6slAgPn+BOMQGLFDwODt4PiiV
-         hpzQaPvAhsCjDqo2rLUKmTw63kwc3Ml4HEoxms7I21TBr3/nmMMTbSoaRj8sPZRIzpui
-         PU5CwfDcD9H3MvvCH/TLcZ5NaAXsFeuSjLCR7T610UYPVsk7JFKvw6E+5Bm4AieQL4C4
-         w0d2HNLtV1WdkKvew+oKUFIEm1wVSL3Stg/Q636+VgLN33fXar/Llv/yrUKgxg0iS0PE
-         P4hC/57KGpO+QxUro8mzgEXXENJsayCLgrFsnI7PYGZvCcNv4nHikXupRdZJrwiLjUAU
-         qbzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754058705; x=1754663505;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AieFr6QqT2maFLAJIA2s1XsjLSFuKHyndgzoToJrS2E=;
-        b=g+nWH5wmjqwl2CyeiRVOpZCn455lGOjfKnELn6/7f64LYbZQCbmiDNVrSm2Hi46vC4
-         mQRpUDDfhLrRmfcSFGB/YEaV+QpQtGIjDmnr1TyTT8aIVgKCHGNgro9ELXaBbknMyN75
-         ayLelDtgi13B4jVThSVkzrIIsBPqlIbU7H3yvxD5pYetxm0DF20FIUjpJu4yIgss7mYD
-         nzTpH6BMFfiJa5EixcwYcU4R1BuC6CMq25pZXrf9ewzr1XEQ7Fstyd4MJbkMyB6a6+/X
-         8X5B9CwxrZ0JuYweNGDC+Qj5vgUrVi+dwyg0V9QzWeu0bYDsuDOjcTXJxzsGkBQpjIo2
-         sh5A==
-X-Gm-Message-State: AOJu0Yyorqzmh8maIgw88wQYzb+cr8DRXwPqUrmOafSprfXP07NZMHf4
-	4hBK8Z/Jyy26XIzTjhbI2LEzJwyRBiCRHhMv4UKn8D1qIrdZkFzS6YddCpqMLDRr+6qF3T4L7OR
-	7ryxF
-X-Gm-Gg: ASbGncvl0zD1FpSMmgNTTV5DVOaUDuGj2MVxA+4ucykBJgwRmvV5dWaQIrZgoeDsR80
-	r6oLFVsfPKA+eFXzD518+gjEKmxV5om1cSKqnYv+QGJaYO4ryvNpvIL3xpszPuy+2Uh3qhjbc0H
-	6aa5wXlPZQLoo6ruW45OGfyL2+XqK54D0j6p0jnMfi6gjMKLsbSsoQw1wFzjekAoe9wqnUM8WAK
-	nAWJ5NqaZJXlVRvgLHTSXKnjqT/Kb/vrqewelcqRyrbDC70vBprMSYlg7jlKQukR/75jaF8HkK8
-	UZLtEMCOh79zM1x68ZqG0TUob2C823oQuzS1QdQA6M0syjaRMCxdg4By8ggqMvuXHLlsv86um6V
-	DDHLw1uLRectJ24ghJUO2VgehOlPIxvf/qa6GIQ==
-X-Google-Smtp-Source: AGHT+IFsFT3WFtGw9qAky7zYLbRwPgM0Lo6AQ8+E1AcAZECTEtITCALi3O2SmSLsaNNNGaGdYR0uiQ==
-X-Received: by 2002:adf:e047:0:b0:3b7:9c28:f856 with SMTP id ffacd0b85a97d-3b79c28f954mr4079994f8f.48.1754058705140;
-        Fri, 01 Aug 2025 07:31:45 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c48a05bsm6129217f8f.69.2025.08.01.07.31.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Aug 2025 07:31:44 -0700 (PDT)
-Date: Fri, 1 Aug 2025 17:31:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Weitao Wang <WeitaoWang-oc@zhaoxin.com>,
-	gregkh@linuxfoundation.org, mathias.nyman@intel.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, WeitaoWang@zhaoxin.com,
-	wwt8723@163.com, CobeChen@zhaoxin.com, stable@vger.kernel.org
-Subject: Re: [PATCH v3] usb:xhci:Fix slot_id resource race conflict
-Message-ID: <b5ab0f46-0fde-420e-97a2-136d3074b59c@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I5t1opwq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754065225; x=1785601225;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eQTgZeABu+l9FtJ8gLJ4LfYnJXhuNins9oX26oNvDdw=;
+  b=I5t1opwq+PNdEDRGkZUjmvz8XgJ5CdWqyP8DbUxPSQHA8c/Ap7HK8e3u
+   qlWl8s7NM6m4wJ6m/Q38UUkJRtGkSOHfSn7lcSjPaKTOQhoJ6wLbomrDT
+   J2zLF1J4ClA1JQj/fbXaLy308+GtZsYid2OvzmLiUcBIuv5kd0Yt8TSRT
+   agixo9l3u9PPUAN/QL6QI7K4FlMhWC1GyzyZj66FVH5l3ESbJIoX7jvTV
+   trmtvoAqbViF/gs4vkrU0yBP1cMf6m1SbLpKF+5kQcWluP+7Cfp+YKh71
+   Enr9T5hPto35my43F4hehxpeJU5vNmu0B8wTxiZH42nkRvHxXuZQQB/h2
+   A==;
+X-CSE-ConnectionGUID: /7fOo01FR/+bPQdVrJMZ4g==
+X-CSE-MsgGUID: axPqJkMISFSght1YD7ndvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="59038820"
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="59038820"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 09:20:25 -0700
+X-CSE-ConnectionGUID: 7g9YmhKzRaeO5/f8ZDiZ6w==
+X-CSE-MsgGUID: idyoU8N9Q9aapGm0ibr+rA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="167784986"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 01 Aug 2025 09:20:23 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uhsUX-0004kC-0d;
+	Fri, 01 Aug 2025 16:20:21 +0000
+Date: Sat, 2 Aug 2025 00:20:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [bcachefs:master 214/239] fs/bcachefs/namei.c:711
+ __bch2_inum_to_path() warn: missing error code 'ret'
+Message-ID: <202508020051.jtP9RM21-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -74,96 +61,119 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250730152715.8368-1-WeitaoWang-oc@zhaoxin.com>
 
-Hi Weitao,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Weitao-Wang/usb-xhci-Fix-slot_id-resource-race-conflict/20250730-183802
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20250730152715.8368-1-WeitaoWang-oc%40zhaoxin.com
-patch subject: [PATCH v3] usb:xhci:Fix slot_id resource race conflict
-config: x86_64-randconfig-161-20250801 (https://download.01.org/0day-ci/archive/20250801/202508010850.Bqd6wf47-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+tree:   https://evilpiepirate.org/git/bcachefs.git master
+head:   06e1afcade290ef4790187563371c63d4a3d5bc2
+commit: 986cef178c949afda68367503d8cbce3da879aa3 [214/239] bcachefs: inum_to_path() now prints inum when disconnected
+:::::: branch date: 83 minutes ago
+:::::: commit date: 34 hours ago
+config: parisc-randconfig-r071-20250801 (https://download.01.org/0day-ci/archive/20250802/202508020051.jtP9RM21-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508010850.Bqd6wf47-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202508020051.jtP9RM21-lkp@intel.com/
 
-New smatch warnings:
-drivers/usb/host/xhci-mem.c:913 xhci_free_virt_device() warn: variable dereferenced before check 'dev->out_ctx' (see line 878)
+smatch warnings:
+fs/bcachefs/namei.c:711 __bch2_inum_to_path() warn: missing error code 'ret'
 
-vim +913 drivers/usb/host/xhci-mem.c
+vim +/ret +711 fs/bcachefs/namei.c
 
-0b5ed80150eb59 Weitao Wang    2025-07-30  868  void xhci_free_virt_device(struct xhci_hcd *xhci, struct xhci_virt_device *dev,
-0b5ed80150eb59 Weitao Wang    2025-07-30  869  		int slot_id)
-3ffbba9511b414 Sarah Sharp    2009-04-27  870  {
-3ffbba9511b414 Sarah Sharp    2009-04-27  871  	int i;
-2e27980e6eb781 Sarah Sharp    2011-09-02  872  	int old_active_eps = 0;
-3ffbba9511b414 Sarah Sharp    2009-04-27  873  
-3ffbba9511b414 Sarah Sharp    2009-04-27  874  	/* Slot ID 0 is reserved */
-0b5ed80150eb59 Weitao Wang    2025-07-30  875  	if (slot_id == 0 || !dev)
-3ffbba9511b414 Sarah Sharp    2009-04-27  876  		return;
-3ffbba9511b414 Sarah Sharp    2009-04-27  877  
-0b5ed80150eb59 Weitao Wang    2025-07-30 @878  	if (xhci->dcbaa->dev_context_ptrs[slot_id] == cpu_to_le64(dev->out_ctx->dma))
-                                                                                                          ^^^^^^^^^^^^
-dev->out_ctx dereferenced without checking for NULL
-
-8e595a5d30a5ee Sarah Sharp    2009-07-27  879  		xhci->dcbaa->dev_context_ptrs[slot_id] = 0;
-3ffbba9511b414 Sarah Sharp    2009-04-27  880  
-d850c1658328e7 Zhengjun Xing  2018-06-21  881  	trace_xhci_free_virt_device(dev);
-d850c1658328e7 Zhengjun Xing  2018-06-21  882  
-2e27980e6eb781 Sarah Sharp    2011-09-02  883  	if (dev->tt_info)
-2e27980e6eb781 Sarah Sharp    2011-09-02  884  		old_active_eps = dev->tt_info->active_eps;
-2e27980e6eb781 Sarah Sharp    2011-09-02  885  
-98871e9470a50c Felipe Balbi   2017-01-23  886  	for (i = 0; i < 31; i++) {
-63a0d9abd18cdc Sarah Sharp    2009-09-04  887  		if (dev->eps[i].ring)
-63a0d9abd18cdc Sarah Sharp    2009-09-04  888  			xhci_ring_free(xhci, dev->eps[i].ring);
-8df75f42f8e67e Sarah Sharp    2010-04-02  889  		if (dev->eps[i].stream_info)
-8df75f42f8e67e Sarah Sharp    2010-04-02  890  			xhci_free_stream_info(xhci,
-8df75f42f8e67e Sarah Sharp    2010-04-02  891  					dev->eps[i].stream_info);
-5aed5b7c2430ce Mathias Nyman  2022-10-24  892  		/*
-5aed5b7c2430ce Mathias Nyman  2022-10-24  893  		 * Endpoints are normally deleted from the bandwidth list when
-5aed5b7c2430ce Mathias Nyman  2022-10-24  894  		 * endpoints are dropped, before device is freed.
-5aed5b7c2430ce Mathias Nyman  2022-10-24  895  		 * If host is dying or being removed then endpoints aren't
-5aed5b7c2430ce Mathias Nyman  2022-10-24  896  		 * dropped cleanly, so delete the endpoint from list here.
-5aed5b7c2430ce Mathias Nyman  2022-10-24  897  		 * Only applicable for hosts with software bandwidth checking.
-2e27980e6eb781 Sarah Sharp    2011-09-02  898  		 */
-5aed5b7c2430ce Mathias Nyman  2022-10-24  899  
-5aed5b7c2430ce Mathias Nyman  2022-10-24  900  		if (!list_empty(&dev->eps[i].bw_endpoint_list)) {
-5aed5b7c2430ce Mathias Nyman  2022-10-24  901  			list_del_init(&dev->eps[i].bw_endpoint_list);
-5aed5b7c2430ce Mathias Nyman  2022-10-24  902  			xhci_dbg(xhci, "Slot %u endpoint %u not removed from BW list!\n",
-2e27980e6eb781 Sarah Sharp    2011-09-02  903  				 slot_id, i);
-8df75f42f8e67e Sarah Sharp    2010-04-02  904  		}
-5aed5b7c2430ce Mathias Nyman  2022-10-24  905  	}
-839c817ce67178 Sarah Sharp    2011-09-02  906  	/* If this is a hub, free the TT(s) from the TT list */
-839c817ce67178 Sarah Sharp    2011-09-02  907  	xhci_free_tt_info(xhci, dev, slot_id);
-2e27980e6eb781 Sarah Sharp    2011-09-02  908  	/* If necessary, update the number of active TTs on this root port */
-2e27980e6eb781 Sarah Sharp    2011-09-02  909  	xhci_update_tt_active_eps(xhci, dev, old_active_eps);
-3ffbba9511b414 Sarah Sharp    2009-04-27  910  
-3ffbba9511b414 Sarah Sharp    2009-04-27  911  	if (dev->in_ctx)
-d115b04818e57b John Youn      2009-07-27  912  		xhci_free_container_ctx(xhci, dev->in_ctx);
-3ffbba9511b414 Sarah Sharp    2009-04-27 @913  	if (dev->out_ctx)
-                                                    ^^^^^^^^^^^^
-Can dev->out_ctx be NULL?
-
-d115b04818e57b John Youn      2009-07-27  914  		xhci_free_container_ctx(xhci, dev->out_ctx);
-d115b04818e57b John Youn      2009-07-27  915  
-a400efe455f7b6 Mathias Nyman  2018-03-16  916  	if (dev->udev && dev->udev->slot_id)
-a400efe455f7b6 Mathias Nyman  2018-03-16  917  		dev->udev->slot_id = 0;
-74151b5349266b Niklas Neronin 2024-02-29  918  	if (dev->rhub_port && dev->rhub_port->slot_id == slot_id)
-74151b5349266b Niklas Neronin 2024-02-29  919  		dev->rhub_port->slot_id = 0;
-0b5ed80150eb59 Weitao Wang    2025-07-30  920  	if (xhci->devs[slot_id] == dev)
-326b4810cc9952 Randy Dunlap   2010-04-19  921  		xhci->devs[slot_id] = NULL;
-0b5ed80150eb59 Weitao Wang    2025-07-30  922  	kfree(dev);
-3ffbba9511b414 Sarah Sharp    2009-04-27  923  }
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  641  
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  642  static int __bch2_inum_to_path(struct btree_trans *trans,
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  643  			       u32 subvol, u64 inum, u32 snapshot,
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  644  			       struct printbuf *path)
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  645  {
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  646  	unsigned orig_pos = path->pos;
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  647  	int ret = 0;
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  648  	DARRAY(subvol_inum) inums = {};
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  649  
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  650  	if (!snapshot) {
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  651  		ret = bch2_subvolume_get_snapshot(trans, subvol, &snapshot);
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  652  		if (ret)
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  653  			goto disconnected;
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  654  	}
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  655  
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  656  	while (true) {
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  657  		subvol_inum n = (subvol_inum) { subvol ?: snapshot, inum };
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  658  
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  659  		if (darray_find_p(inums, i, i->subvol == n.subvol && i->inum == n.inum)) {
+986cef178c949a fs/bcachefs/namei.c     Kent Overstreet 2025-07-30  660  			prt_printf_reversed(path, "(loop at %llu:%u)", inum, snapshot);
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  661  			break;
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  662  		}
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  663  
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  664  		ret = darray_push(&inums, n);
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  665  		if (ret)
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  666  			goto err;
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  667  
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  668  		struct bch_inode_unpacked inode;
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  669  		ret = bch2_inode_find_by_inum_snapshot(trans, inum, snapshot, &inode, 0);
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  670  		if (ret)
+ce9a21713bfd97 fs/bcachefs/fs-common.c Kent Overstreet 2024-12-24  671  			goto disconnected;
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  672  
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  673  		if (inode.bi_subvol == BCACHEFS_ROOT_SUBVOL &&
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  674  		    inode.bi_inum == BCACHEFS_ROOT_INO)
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  675  			break;
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  676  
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  677  		if (!inode.bi_dir && !inode.bi_dir_offset) {
+09b9c72bd4b77a fs/bcachefs/namei.c     Kent Overstreet 2025-05-28  678  			ret = bch_err_throw(trans->c, ENOENT_inode_no_backpointer);
+ce9a21713bfd97 fs/bcachefs/fs-common.c Kent Overstreet 2024-12-24  679  			goto disconnected;
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  680  		}
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  681  
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  682  		inum = inode.bi_dir;
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  683  		if (inode.bi_parent_subvol) {
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  684  			subvol = inode.bi_parent_subvol;
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  685  			ret = bch2_subvolume_get_snapshot(trans, inode.bi_parent_subvol, &snapshot);
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  686  			if (ret)
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  687  				goto disconnected;
+f638b84224348d fs/bcachefs/namei.c     Kent Overstreet 2025-05-20  688  		}
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  689  
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  690  		struct btree_iter d_iter;
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  691  		struct bkey_s_c_dirent d = bch2_bkey_get_iter_typed(trans, &d_iter,
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  692  				BTREE_ID_dirents, SPOS(inode.bi_dir, inode.bi_dir_offset, snapshot),
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  693  				0, dirent);
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  694  		ret = bkey_err(d.s_c);
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  695  		if (ret)
+ce9a21713bfd97 fs/bcachefs/fs-common.c Kent Overstreet 2024-12-24  696  			goto disconnected;
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  697  
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  698  		struct qstr dirent_name = bch2_dirent_get_name(d);
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  699  
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  700  		prt_bytes_reversed(path, dirent_name.name, dirent_name.len);
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  701  
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  702  		prt_char(path, '/');
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  703  
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  704  		bch2_trans_iter_exit(trans, &d_iter);
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  705  	}
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  706  
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  707  	if (orig_pos == path->pos)
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  708  		prt_char(path, '/');
+ce9a21713bfd97 fs/bcachefs/fs-common.c Kent Overstreet 2024-12-24  709  out:
+986cef178c949a fs/bcachefs/namei.c     Kent Overstreet 2025-07-30  710  	if (bch2_err_matches(ret, BCH_ERR_transaction_restart))
+986cef178c949a fs/bcachefs/namei.c     Kent Overstreet 2025-07-30 @711  		goto err;
+986cef178c949a fs/bcachefs/namei.c     Kent Overstreet 2025-07-30  712  
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  713  	ret = path->allocation_failure ? -ENOMEM : 0;
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  714  	if (ret)
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  715  		goto err;
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  716  
+986cef178c949a fs/bcachefs/namei.c     Kent Overstreet 2025-07-30  717  	printbuf_reverse_from(path, orig_pos);
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  718  	darray_exit(&inums);
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  719  	return 0;
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  720  err:
+9ba6930ef8e0e0 fs/bcachefs/namei.c     Kent Overstreet 2025-06-16  721  	darray_exit(&inums);
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  722  	return ret;
+ce9a21713bfd97 fs/bcachefs/fs-common.c Kent Overstreet 2024-12-24  723  disconnected:
+986cef178c949a fs/bcachefs/namei.c     Kent Overstreet 2025-07-30  724  	prt_printf_reversed(path, "(disconnected at %llu.%u)", inum, snapshot);
+ce9a21713bfd97 fs/bcachefs/fs-common.c Kent Overstreet 2024-12-24  725  	goto out;
+f7727a6767277a fs/bcachefs/fs-common.c Kent Overstreet 2024-09-28  726  }
+758ea4ff812b4d fs/bcachefs/namei.c     Kent Overstreet 2025-03-20  727  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
