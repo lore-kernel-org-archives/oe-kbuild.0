@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55ACB18C332
-	for <oe-kbuild@lists.linux.dev>; Fri,  1 Aug 2025 03:02:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0BA2C9A
+	for <oe-kbuild@lists.linux.dev>; Fri,  1 Aug 2025 03:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754017340; cv=none; b=TuD9vsRQaaUAE4n/PCpF3awgO7aQPyiXHhyaR78APWKRC5W7yPOuFZQP5mJMMuKSx/6S5m6ropSjRE0SI+mYdGrPfc1ZrW4PLEiycMFR1R7g+dkX3ZqJsPbrosIjvbL6XCciQjazaEPU9Nct8LqYiFW2lvmQiq60pxbWDDz94d8=
+	t=1754020229; cv=none; b=pIMpA+SCQbOHiQmxmrz00rMuRBkg7dXJs5l2gz8RTaz4+JBByGWF7iXKYEOyvTwgHALKF5nh/sRHDrlD+qoGC9xzG72+zZQNKTeCsHuII7lUQH4gpj3KPb/+pRz8Gq0OiE5CEikGRI9LYT4o+cOkPJBTKL4WXrF+jgIi+fTSTHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754017340; c=relaxed/simple;
-	bh=gafUJ/QqfSKFVw0MjHF7qak0scCUiGKqXYOgJWtHhcE=;
+	s=arc-20240116; t=1754020229; c=relaxed/simple;
+	bh=nMuMmYE0U22FB7Z1m+uxe2cv96WnIHQgAca5VWegvjM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O7I82d303QZgq2Et+NpiwRe2d8u4nMrSIpKT44F6s3DRa+BPkhQf9a6LFnSUtvBTC7nnuC0pNJ5Y/fyouZXf2gWBETAVlZkux6z0KI0wMS+J3sWbqZYZ9A1sxlqGx7KEtq2dTwxanVgsaJ1C04kzF1AOVTbovZj+mxFZXcDRIKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TDoK0WIp; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=lGoupubSPPgHGK0KSsAIW9Z53ohWKSoPzB8OQ7hcAsxUQqjsoR9Dik1gFTxdyEEAiqsciIFaIBE7TNY2h5rmOxww0o6MRdDFZmjY6HFx5z1T0/jGlHQhB5UrQgYNbPL+RmtNe+J50RqPxZR2VyGbJvU9lF0/q3xqT/e4crdsRVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iZHDyVq6; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TDoK0WIp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iZHDyVq6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754017337; x=1785553337;
+  t=1754020228; x=1785556228;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gafUJ/QqfSKFVw0MjHF7qak0scCUiGKqXYOgJWtHhcE=;
-  b=TDoK0WIpZOXT0TMqMy3JsqYg/rHXjyDiDDQXhtxEuSgfJ9dTz2VEksU2
-   YhjeTlWpVg2Z24zE95bZ8mTWjfRRv+0G9Y7TyiSVNPmx7NXVjuwvleptx
-   UBGZVWrTkMuWKfc3ARvF0VRf/SQ7ALyNvP29fKvNI3H31rKWNZolc/Rt1
-   9dA+nQ/sKqnAVSfoXFcwL9M3Un2VaAferREf6uyfL6yxBvzIjHH5vLxRg
-   vrt2ExWj4f0PhmNvGU+spCmPa+J3ddn1muLBV607PL5ycR816TF+qHhwg
-   cJjhg5A5nnsQtM3Mr2JgAIc+lRPr9CeJpiGEZ9AmTumaNJQXO0vuWDbYU
-   w==;
-X-CSE-ConnectionGUID: x8YvCoWrTriSs2emHqmgOQ==
-X-CSE-MsgGUID: LNH9BS71TJ27W23USH4EmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="60001927"
+  bh=nMuMmYE0U22FB7Z1m+uxe2cv96WnIHQgAca5VWegvjM=;
+  b=iZHDyVq6zTEFbW3AbniAmFJAOtqdIANXNO7lG2umaxUSbG4nsXGgygvz
+   I5VEpVHNo4NExKxeJwUVIhmWexvr67Q9GgGQMxewL53FSRR1t7AI+twxG
+   UXHAw3nKQun3pDtdNxJCs6uwm1GmV4hcTduwBGVsWNF8IKbBrXzHGkUud
+   papMgvSopgXqz7EjYUy8e0+jDWz7/ud/BU+ixs3viM3x1sSybTNWKt9Wy
+   DHMbfp158u7DpLWPfCa9KKZM9zJdV1DjOE6zxYGPh34JgRsSQD+meoUhT
+   iQozSe0GSn48HnZccQXmmHF7Pe3bP5LAb4IOOb1c75lNkaDF4BlECajj6
+   Q==;
+X-CSE-ConnectionGUID: MmlNbpadQOyj3UUWPl8SUg==
+X-CSE-MsgGUID: LoKtqt9+QLOSFobgcKliUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56227249"
 X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="60001927"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 20:02:17 -0700
-X-CSE-ConnectionGUID: el9eCdzfQHONk7HbDxsc1g==
-X-CSE-MsgGUID: p1o4pAHAThynGEYf74YobA==
+   d="scan'208";a="56227249"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 20:50:23 -0700
+X-CSE-ConnectionGUID: r/1Jc4bwQk+JaihvcWsExA==
+X-CSE-MsgGUID: CzVQA6uiQwmwCyxQ8QzwKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="194411023"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 31 Jul 2025 20:02:15 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+   d="scan'208";a="194276971"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa001.fm.intel.com with ESMTP; 31 Jul 2025 20:50:22 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uhg28-0004Jo-28;
-	Fri, 01 Aug 2025 03:02:12 +0000
-Date: Fri, 1 Aug 2025 11:01:31 +0800
+	id 1uhgmh-00018V-1M;
+	Fri, 01 Aug 2025 03:50:19 +0000
+Date: Fri, 1 Aug 2025 05:50:14 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [krzk-github:track/x1e-t14s 31/35]
- arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: phy@aec2a00 (qcom,sc7280-edp-phy):
- clock-names: ['aux', 'cfg_ahb'] is too short
-Message-ID: <202508011040.UbLKCZ5r-lkp@intel.com>
+Subject: arch/xtensa/boot/dts/virt.dts:48.6-71.4: Warning
+ (unit_address_vs_reg): /pci: node has a reg or ranges property, but no unit
+ name
+Message-ID: <202508010555.VHB3uhTJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,432 +64,87 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Abel Vesa <abel.vesa@linaro.org>
+CC: linux-kernel@vger.kernel.org
+TO: Masahiro Yamada <masahiroy@kernel.org>
+CC: Max Filippov <jcmvbkbc@gmail.com>
 
-tree:   https://github.com/krzk/linux track/x1e-t14s
-head:   2b6d3151b160e8ae3b58d1a9e47746b45f77b31e
-commit: 3d8d62d238113b4b72a5e30852cf52633128371e [31/35] dt-bindings: phy: qcom-edp: Add missing clock for X Elite
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: arm64-randconfig-052-20250731 (https://download.01.org/0day-ci/archive/20250801/202508011040.UbLKCZ5r-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508011040.UbLKCZ5r-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f2d282e1dfb3d8cb95b5ccdea43f2411f27201db
+commit: 47812144d39566da3f1dbc7a615f656969f99337 xtensa: migrate to the generic rule for built-in DTB
+date:   5 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 5 months ago
+config: xtensa-virt_defconfig (https://download.01.org/0day-ci/archive/20250801/202508010555.VHB3uhTJ-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508010555.VHB3uhTJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508011040.UbLKCZ5r-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508010555.VHB3uhTJ-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4077.10-4087.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: phy@aec2a00 (qcom,sc7280-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4809.26-4882.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4077.10-4087.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: phy@aec2a00 (qcom,sc7280-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: pmic@2 (qcom,pm8350c): pwm:nvmem: [[355, 356]] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: pwm (qcom,pm8350c-pwm): nvmem: [[355, 356]] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/leds-qcom-lpg.yaml#
---
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
---
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
---
-   arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: phy@8909a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: phy@890ca00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: phy@aec2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: phy@aec5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: phy@220c2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: phy@220c5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: phy@8909a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: phy@890ca00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: phy@aec2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: phy@aec5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: phy@220c2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: phy@220c5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlcx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
---
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlcx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: phy@aec5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4809.26-4882.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:154.29-157.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4077.10-4087.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-crd-pro.dtb: phy@aec2a00 (qcom,sc7280-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4809.26-4882.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:154.29-157.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4077.10-4087.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker.dtb: phy@aec2a00 (qcom,sc7280-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4809.26-4882.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:154.29-157.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4077.10-4087.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r0.dtb: phy@aec2a00 (qcom,sc7280-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4809.26-4882.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:154.29-157.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4077.10-4087.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r1-lte.dtb: phy@aec2a00 (qcom,sc7280-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4809.26-4882.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:154.29-157.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4077.10-4087.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-lte.dtb: phy@aec2a00 (qcom,sc7280-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4809.26-4882.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:154.29-157.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4077.10-4087.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme-lte.dtb: phy@aec2a00 (qcom,sc7280-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4809.26-4882.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:154.29-157.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4077.10-4087.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-idp2.dtb: phy@aec2a00 (qcom,sc7280-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc8180x.dtsi:2641.31-2686.5: Warning (simple_bus_reg): /soc@0/phy@88ee000: simple-bus unit address format error, expected "88ed000"
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/mdss@ae00000: failed to match any schema with compatible: ['qcom,sc8180x-mdss']
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/mdss@ae00000/mdp@ae01000: failed to match any schema with compatible: ['qcom,sc8180x-dpu']
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: panel (edp-panel): 'power-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-edp.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: phy@aec2a00 (qcom,sc8180x-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
->> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: phy@8909a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: phy@890ca00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: phy@aec2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: phy@aec5a00 (qcom,sc8280xp-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: phy@220c2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: phy@220c5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: phy@8909a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: phy@890ca00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: phy@aec2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: phy@aec5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: phy@220c2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: phy@220c5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc8280xp.dtsi:4259.12-4263.7: Warning (graph_child_address): /soc@0/camss@ac5a000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: phy@8909a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: phy@890ca00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: phy@aec2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: phy@aec5a00 (qcom,sc8280xp-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: phy@220c2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: phy@220c5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddpcie0p9-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddpcie1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: phy@8909a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: phy@890ca00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: phy@aec2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: phy@aec5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: phy@220c2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: phy@220c5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: phy@8909a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: phy@890ca00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: phy@aec2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: phy@aec5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: phy@220c2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: phy@220c5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4077.10-4087.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sm7325-nothing-spacewar.dtb: phy@aec2a00 (qcom,sc7280-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4873.11-4883.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dtb: phy@aec2a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dtb: phy@aec5a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4873.11-4883.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@aec2a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@aec5a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4873.11-4883.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/x1e80100-hp-elitebook-ultra-g1q.dtb: phy@aec2a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-hp-elitebook-ultra-g1q.dtb: phy@aec5a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4873.11-4883.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@aec2a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@aec5a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4873.11-4883.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@aec2a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@aec5a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4873.11-4883.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/x1p42100-crd.dtb: phy@aec2a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1p42100-crd.dtb: phy@aec5a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
->> arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: phy@8909a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: phy@890ca00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: phy@aec2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: phy@aec5a00 (qcom,sc8280xp-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: phy@220c2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: phy@220c5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: phy@8909a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: phy@890ca00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: phy@aec2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: phy@aec5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: phy@220c2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: phy@220c5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
->> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: phy@8909a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: phy@890ca00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: phy@aec2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: phy@aec5a00 (qcom,sc8280xp-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: phy@220c2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: phy@220c5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa0p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddpcie0p9-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddpcie1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: phy@8909a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: phy@890ca00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: phy@aec2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: phy@aec5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: phy@220c2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: phy@220c5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: phy@8909a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: phy@890ca00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: phy@aec2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: phy@aec5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: phy@220c2a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: phy@220c5a00 (qcom,sc8280xp-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
->> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15-el2.dtb: phy@aec2a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15-el2.dtb: phy@aec5a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
->> arch/arm64/boot/dts/qcom/x1e80100-crd-el2.dtb: phy@aec2a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd-el2.dtb: phy@aec5a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
->> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled-el2.dtb: phy@aec2a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled-el2.dtb: phy@aec5a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15-el2.dtb: phy@aec2a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15-el2.dtb: phy@aec5a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
->> arch/arm64/boot/dts/qcom/x1p42100-crd-el2.dtb: phy@aec2a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1p42100-crd-el2.dtb: phy@aec5a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
---
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x-el2.dtb: wifi@0 (pci17cb,1107): 'vddrfa0p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x-el2.dtb: wifi@0 (pci17cb,1107): 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x-el2.dtb: wifi@0 (pci17cb,1107): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x-el2.dtb: wifi@0 (pci17cb,1107): 'vddpcie0p9-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x-el2.dtb: wifi@0 (pci17cb,1107): 'vddpcie1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x-el2.dtb: phy@aec2a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x-el2.dtb: phy@aec5a00 (qcom,x1e80100-dp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
+>> arch/xtensa/boot/dts/virt.dts:48.6-71.4: Warning (unit_address_vs_reg): /pci: node has a reg or ranges property, but no unit name
+
+vim +48 arch/xtensa/boot/dts/virt.dts
+
+775f1f7eacede5 Max Filippov 2018-11-05   3  
+775f1f7eacede5 Max Filippov 2018-11-05   4  / {
+775f1f7eacede5 Max Filippov 2018-11-05   5  	compatible = "cdns,xtensa-iss";
+775f1f7eacede5 Max Filippov 2018-11-05   6  	#address-cells = <1>;
+775f1f7eacede5 Max Filippov 2018-11-05   7  	#size-cells = <1>;
+775f1f7eacede5 Max Filippov 2018-11-05   8  	interrupt-parent = <&pic>;
+775f1f7eacede5 Max Filippov 2018-11-05   9  
+775f1f7eacede5 Max Filippov 2018-11-05  10  	chosen {
+775f1f7eacede5 Max Filippov 2018-11-05  11  		bootargs = "console=ttyS0,115200n8 debug";
+775f1f7eacede5 Max Filippov 2018-11-05  12  	};
+775f1f7eacede5 Max Filippov 2018-11-05  13  
+775f1f7eacede5 Max Filippov 2018-11-05  14  	memory@0 {
+775f1f7eacede5 Max Filippov 2018-11-05  15  		device_type = "memory";
+775f1f7eacede5 Max Filippov 2018-11-05  16  		reg = <0x00000000 0x80000000>;
+775f1f7eacede5 Max Filippov 2018-11-05  17  	};
+775f1f7eacede5 Max Filippov 2018-11-05  18  
+775f1f7eacede5 Max Filippov 2018-11-05  19  	cpus {
+775f1f7eacede5 Max Filippov 2018-11-05  20  		#address-cells = <1>;
+775f1f7eacede5 Max Filippov 2018-11-05  21  		#size-cells = <0>;
+775f1f7eacede5 Max Filippov 2018-11-05  22  		cpu@0 {
+775f1f7eacede5 Max Filippov 2018-11-05  23  			compatible = "cdns,xtensa-cpu";
+775f1f7eacede5 Max Filippov 2018-11-05  24  			reg = <0>;
+775f1f7eacede5 Max Filippov 2018-11-05  25  			clocks = <&osc>;
+775f1f7eacede5 Max Filippov 2018-11-05  26  		};
+775f1f7eacede5 Max Filippov 2018-11-05  27  	};
+775f1f7eacede5 Max Filippov 2018-11-05  28  
+775f1f7eacede5 Max Filippov 2018-11-05  29  	clocks {
+775f1f7eacede5 Max Filippov 2018-11-05  30  		osc: osc {
+775f1f7eacede5 Max Filippov 2018-11-05  31  			#clock-cells = <0>;
+775f1f7eacede5 Max Filippov 2018-11-05  32  			compatible = "fixed-clock";
+775f1f7eacede5 Max Filippov 2018-11-05  33  			clock-frequency = <40000000>;
+775f1f7eacede5 Max Filippov 2018-11-05  34  		};
+775f1f7eacede5 Max Filippov 2018-11-05  35  	};
+775f1f7eacede5 Max Filippov 2018-11-05  36  
+775f1f7eacede5 Max Filippov 2018-11-05  37  	pic: pic {
+775f1f7eacede5 Max Filippov 2018-11-05  38  		compatible = "cdns,xtensa-pic";
+775f1f7eacede5 Max Filippov 2018-11-05  39  		/* one cell: internal irq number,
+775f1f7eacede5 Max Filippov 2018-11-05  40  		 * two cells: second cell == 0: internal irq number
+775f1f7eacede5 Max Filippov 2018-11-05  41  		 *            second cell == 1: external irq number
+775f1f7eacede5 Max Filippov 2018-11-05  42  		 */
+775f1f7eacede5 Max Filippov 2018-11-05  43  		#address-cells = <0>;
+775f1f7eacede5 Max Filippov 2018-11-05  44  		#interrupt-cells = <2>;
+775f1f7eacede5 Max Filippov 2018-11-05  45  		interrupt-controller;
+775f1f7eacede5 Max Filippov 2018-11-05  46  	};
+775f1f7eacede5 Max Filippov 2018-11-05  47  
+775f1f7eacede5 Max Filippov 2018-11-05 @48  	pci {
+
+:::::: The code at line 48 was first introduced by commit
+:::::: 775f1f7eacede583ec25ed56e58c4483f2b29265 xtensa: virt: add defconfig and DTS
+
+:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
+:::::: CC: Max Filippov <jcmvbkbc@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
