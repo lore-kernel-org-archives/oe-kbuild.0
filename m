@@ -1,68 +1,58 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C777E1EF0B0
-	for <oe-kbuild@lists.linux.dev>; Sat,  2 Aug 2025 07:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B9CE571
+	for <oe-kbuild@lists.linux.dev>; Sat,  2 Aug 2025 09:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754119806; cv=none; b=BPanMafLtepDWQroQaoIt7KGGbTOhehigZLpudXSymRqwBRTgc4KK9Dd1VDHZ7GFn+pRtw8XKyQsWkI8GpYDEGAtISeWk70FKdJov3cq0phumHWevzta8zILpH/sDS4mwA3AwMSCxdLVvp6OuXB97Nm+2jHFiQb8+iW/CPyD7uk=
+	t=1754126213; cv=none; b=ONxuuWyGRjGdGlaX67vJ9cbXQnpHmBnMwBw8G7xAwTK4fzOAW4euURd311Rfar3WI7wjy0zfAKUM0c/Ia5VyDBilt1IrynRAQUMOc6GMwRAzsU6kOYlZWIXSF9D2An/tbS4jZgT/FTYnNdmSAy855yeOZJblquJ2L3IOUhE3iNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754119806; c=relaxed/simple;
-	bh=DIDcBZIkPuJkd9g00xqreI+Dc8V8g6RIIzkmuu9nZ7o=;
+	s=arc-20240116; t=1754126213; c=relaxed/simple;
+	bh=YtROcjI1AaiqlbKnVPx3FtSG29QLgyMn5k2xD1MySnQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RhmfnI0Zdazj0Gj5w5Fmn4ctmfEp/bXjcrMI1KWdUEj/pWaC7O2EDT0RfYGuRGmOCMfjfMRPMblni8ZskKJwb53o57JtS95yzhOPH1wQFVPyaN2qM0xhtvxWtdpv45IFkkWWP9Zziu8yGO2eVGJg1vIesF77+seHgm+QvlN4Ffg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pZ62GHga; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=H6sKptlshp+dhWxrbndHc9FmO6e7kz4TpFWxXjao56QlRcyt38063lvAR/HSknuULSj4c4L9G4mfNm5CqR92C6wjVCHQnV4EXXmFZg5cumVgn22ipRKR1vxqWGDGBLC/HK/UvTfO8LUj0j8owgG9rtXmWyvxiC56VwGw49AxQuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K7AXj7zd; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pZ62GHga"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-458bece40fcso166905e9.3
-        for <oe-kbuild@lists.linux.dev>; Sat, 02 Aug 2025 00:30:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754119801; x=1754724601; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sVqkSmfmXqQYH9ngeJMeDZTbZMYNuXLAMBadZ9U6AGc=;
-        b=pZ62GHgaD+6zQrbF2towG0sZBWLj0WXsGHDPfQztIGsQKowHHNKv6pnVQyStZSIaB1
-         hWl4wXBkci8rraFArTxDybe8j40G/IgMGuLGzUpBDdrviubyYea/wSzv85uLN4/Zt9qP
-         GCLOquiy3zmbijqqT7fjM6Ne+zPltcbveVMIjXO7xQ0h+ClchxDEXJe+XSqpNTN4Acv7
-         Xyo+mNIhvxlfgZHjeGNOc5Wr6S7oulqkACVRBCkQdTYINSk0ocr05yG2ru6FneUYzV73
-         Qvs3jVFrWwfwET1gjAXPk6hBONQn0H3W8wU05ykZ4mFkff+yx4w4Ini/FdkiTcmABVey
-         73MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754119801; x=1754724601;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sVqkSmfmXqQYH9ngeJMeDZTbZMYNuXLAMBadZ9U6AGc=;
-        b=inQMHfAkX3BvJmcBbGP4sfZ6UI4MsKNH4Pz4n5lW8Oi45mg5yn8zOScMzmc6U6Nm7f
-         YvNLqOqk0tTjQntUSXMnizrqqNXyjmTbFHcYPKfoxg2JPSBM7v3UkNDwZIgkt7ZHyJ/3
-         AMF9aEr+oAsXLkHV0Upegpx+JfuoEyj5q+2lkWweR0CJStKxjEkXdQhXJJKk7Os7p8Ug
-         MRqJX6BnAZjZOx79QjeahlifCPinzeOEAl+KfAFKZaM4elxz8hVHZScFCzqM1fpkx4Az
-         Dq7c0lq9QmRyfEl4J826Fz7qSGRrf6LhyRUxIPzv1FhfeNqCUndZtJs6XqQumAYnZAN9
-         2htQ==
-X-Gm-Message-State: AOJu0YyO8gpGJ91WmFvJoXSw9pyLHNRzKAR8tUbuAwb64Wzo68OwNBW4
-	ExOVx/CABys71z5kAh11/9gnJhRewxgnE8aoS0ydKKWx8Cy5867Oo/7ZI9sH3K8h1k4rEQa+LSc
-	jKpzL
-X-Gm-Gg: ASbGncsFC19IrKsj1On1cV35Z9TnuLAVHnFN05Jn/hdDfilN+SSt2+ihnkByQQhluPA
-	/CNLu8+bafQXAFS8TkFhN0GBG0EOMYx5ZlqHpFXSBTrNOAjwI/I0TccDUx+iDtgyShRMoC8xp6Q
-	BrreCq5C9XrG9Fo4wuyWwzmpE/SvoG5vxhXwvUAVXAFPybhVShRYB0tlIpBu4TQGZxhWfm/9amn
-	YLVVxE1ix8ab4hTFaVb53mM0ULsas0z9t2OzOCFK6Lzek2yZ5YLDntiy597ECTGGjRiEn9U4h6p
-	tK9SOP2IrIliYmC7Cj6meVMN0b0RH9PkCNrLjrBLjD1RloYr9dEg3MIxbIzRFjfcz6mnU3DydIj
-	7RIoJt927te62UPKfy5+AWwBzxao=
-X-Google-Smtp-Source: AGHT+IF8KvCsCjeTEyKbXPId3ohQmFPUY38d88zx4FQsCO/4ZoZFs0jr0FAKcWT1QAALg5TjCmnVhA==
-X-Received: by 2002:a05:600c:4692:b0:456:1a69:94fa with SMTP id 5b1f17b1804b1-458b69dd831mr13148315e9.13.1754119800883;
-        Sat, 02 Aug 2025 00:30:00 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c47ca5fsm8119453f8f.63.2025.08.02.00.29.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Aug 2025 00:30:00 -0700 (PDT)
-Date: Sat, 2 Aug 2025 10:29:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Kent Overstreet <kent.overstreet@linux.dev>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 12911/13054] fs/bcachefs/snapshot.c:1149
- bch2_snapshot_node_delete() warn: missing error code? 'ret'
-Message-ID: <8dc19809-7a3a-427f-be4e-bec7a76b4bfd@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K7AXj7zd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754126211; x=1785662211;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YtROcjI1AaiqlbKnVPx3FtSG29QLgyMn5k2xD1MySnQ=;
+  b=K7AXj7zdoZncWm57bYn0Wxuia24/pHR7+QTa7rZpSKMeDpESc+6R2Wka
+   pKRXW+15d2FoI38u/INxvAWARwnY9WjH8kzPpFmGokm7J5ZnQ8D4SQoZs
+   Opxj9zmtFZJDq0y8IGK4WzAAkkwZuPYgy3lY54Tor1+gUee+hPVpgEAST
+   mMHp4815MaAIfJYd06gfF0elQ6eYPD5dhaJLfdN/605/I2DKL1raNH5k7
+   N2bmr7Op5QRoWe80cWVoOfGA3SATwMq/3GL3gHJ/9SN3Y7mvPByEIXNn2
+   9yVCV8g5lIoeSFZPX8ygcSn4l1LT0/WPsrtrZBuWRdjFYqO41ruR8Z7f/
+   A==;
+X-CSE-ConnectionGUID: 7V88sjIvSIm/VuQAA9evCA==
+X-CSE-MsgGUID: ptveEJ4RQyqop76EjBVZ4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="79012411"
+X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
+   d="scan'208";a="79012411"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 02:16:50 -0700
+X-CSE-ConnectionGUID: DpboV0RTT82DTa+bPKwaFA==
+X-CSE-MsgGUID: XZt/l9hwT8Wo/GG5C+C5pA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
+   d="scan'208";a="167944093"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 02 Aug 2025 02:16:49 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ui8MB-0005HU-08;
+	Sat, 02 Aug 2025 09:16:47 +0000
+Date: Sat, 2 Aug 2025 17:15:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/amd/amdgpu/isp_v4_1_1.c:126 isp_genpd_add_device()
+ warn: can 'pdev' even be NULL?
+Message-ID: <202508021712.RXyDnVIn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,87 +62,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b9ddaa95fd283bce7041550ddbbe7e764c477110
-commit: 24c5e7ab4066da2073d1c50e82308c8bc0ec4ec3 [12911/13054] bcachefs: Convert bch2_bkey_get_mut() to CLASS(btree_iter)
-config: parisc-randconfig-r071-20250801 (https://download.01.org/0day-ci/archive/20250802/202508020434.RgnHwchO-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.1.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Pratap Nirujogi <pratap.nirujogi@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Bin Du <bin.du@amd.com>
+CC: Mario Limonciello <mario.limonciello@amd.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a6923c06a3b2e2c534ae28c53a7531e76cc95cfa
+commit: fd14786071021bb63b0ab32b95257a594e46f8d4 drm/amd/amdgpu: Add ISP Generic PM Domain (genpd) support
+date:   6 weeks ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 6 weeks ago
+config: x86_64-randconfig-161-20250802 (https://download.01.org/0day-ci/archive/20250802/202508021712.RXyDnVIn-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508020434.RgnHwchO-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202508021712.RXyDnVIn-lkp@intel.com/
 
 smatch warnings:
-fs/bcachefs/snapshot.c:1149 bch2_snapshot_node_delete() warn: missing error code? 'ret'
+drivers/gpu/drm/amd/amdgpu/isp_v4_1_1.c:126 isp_genpd_add_device() warn: can 'pdev' even be NULL?
+drivers/gpu/drm/amd/amdgpu/isp_v4_1_1.c:159 isp_genpd_remove_device() warn: can 'pdev' even be NULL?
 
-vim +/ret +1149 fs/bcachefs/snapshot.c
+vim +/pdev +126 drivers/gpu/drm/amd/amdgpu/isp_v4_1_1.c
 
-96dea3d599dbc3 Kent Overstreet 2023-09-12  1110  static int bch2_snapshot_node_delete(struct btree_trans *trans, u32 id)
-8e877caaad8185 Kent Overstreet 2023-08-16  1111  {
-8e877caaad8185 Kent Overstreet 2023-08-16  1112  	struct bch_fs *c = trans->c;
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1113  	u32 parent_id, child_id;
-8e877caaad8185 Kent Overstreet 2023-08-16  1114  	unsigned i;
-8e877caaad8185 Kent Overstreet 2023-08-16  1115  
-e9756dd29f33ed Kent Overstreet 2025-05-02  1116  	struct bkey_i_snapshot *s =
-24c5e7ab4066da Kent Overstreet 2025-07-31  1117  		bch2_bkey_get_mut_typed(trans, BTREE_ID_snapshots, POS(0, id), 0, snapshot);
-24c5e7ab4066da Kent Overstreet 2025-07-31  1118  	int ret = PTR_ERR_OR_ZERO(s);
-8e877caaad8185 Kent Overstreet 2023-08-16  1119  	bch2_fs_inconsistent_on(bch2_err_matches(ret, ENOENT), c,
-8e877caaad8185 Kent Overstreet 2023-08-16  1120  				"missing snapshot %u", id);
-8e877caaad8185 Kent Overstreet 2023-08-16  1121  
-8e877caaad8185 Kent Overstreet 2023-08-16  1122  	if (ret)
-24c5e7ab4066da Kent Overstreet 2025-07-31  1123  		return ret;
-8e877caaad8185 Kent Overstreet 2023-08-16  1124  
-e9756dd29f33ed Kent Overstreet 2025-05-02  1125  	BUG_ON(BCH_SNAPSHOT_DELETED(&s->v));
-e9756dd29f33ed Kent Overstreet 2025-05-02  1126  	BUG_ON(s->v.children[1]);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1127  
-e9756dd29f33ed Kent Overstreet 2025-05-02  1128  	parent_id = le32_to_cpu(s->v.parent);
-e9756dd29f33ed Kent Overstreet 2025-05-02  1129  	child_id = le32_to_cpu(s->v.children[0]);
-8e877caaad8185 Kent Overstreet 2023-08-16  1130  
-8e877caaad8185 Kent Overstreet 2023-08-16  1131  	if (parent_id) {
-24c5e7ab4066da Kent Overstreet 2025-07-31  1132  		struct bkey_i_snapshot *parent =
-24c5e7ab4066da Kent Overstreet 2025-07-31  1133  			bch2_bkey_get_mut_typed(trans, BTREE_ID_snapshots, POS(0, parent_id),
-8e877caaad8185 Kent Overstreet 2023-08-16  1134  						0, snapshot);
-8e877caaad8185 Kent Overstreet 2023-08-16  1135  		ret = PTR_ERR_OR_ZERO(parent);
-8e877caaad8185 Kent Overstreet 2023-08-16  1136  		bch2_fs_inconsistent_on(bch2_err_matches(ret, ENOENT), c,
-8e877caaad8185 Kent Overstreet 2023-08-16  1137  					"missing snapshot %u", parent_id);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1138  		if (unlikely(ret))
-24c5e7ab4066da Kent Overstreet 2025-07-31  1139  			return ret;
-8e877caaad8185 Kent Overstreet 2023-08-16  1140  
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1141  		/* find entry in parent->children for node being deleted */
-8e877caaad8185 Kent Overstreet 2023-08-16  1142  		for (i = 0; i < 2; i++)
-8e877caaad8185 Kent Overstreet 2023-08-16  1143  			if (le32_to_cpu(parent->v.children[i]) == id)
-8e877caaad8185 Kent Overstreet 2023-08-16  1144  				break;
-8e877caaad8185 Kent Overstreet 2023-08-16  1145  
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1146  		if (bch2_fs_inconsistent_on(i == 2, c,
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1147  					"snapshot %u missing child pointer to %u",
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1148  					parent_id, id))
-24c5e7ab4066da Kent Overstreet 2025-07-31 @1149  			return ret;
-
-This returns success but it looks like the intention was to return an
-error code.
-
-8e877caaad8185 Kent Overstreet 2023-08-16  1150  
-0a11adfb7aceb6 Kent Overstreet 2023-11-11  1151  		parent->v.children[i] = cpu_to_le32(child_id);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1152  
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1153  		normalize_snapshot_child_pointers(&parent->v);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1154  	}
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1155  
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1156  	if (child_id) {
-24c5e7ab4066da Kent Overstreet 2025-07-31  1157  		struct bkey_i_snapshot *child =
-24c5e7ab4066da Kent Overstreet 2025-07-31  1158  			bch2_bkey_get_mut_typed(trans, BTREE_ID_snapshots, POS(0, child_id),
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1159  						0, snapshot);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1160  		ret = PTR_ERR_OR_ZERO(child);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1161  		bch2_fs_inconsistent_on(bch2_err_matches(ret, ENOENT), c,
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1162  					"missing snapshot %u", child_id);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1163  		if (unlikely(ret))
-24c5e7ab4066da Kent Overstreet 2025-07-31  1164  			return ret;
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1165  
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1166  		child->v.parent = cpu_to_le32(parent_id);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1167  
+fd14786071021b Pratap Nirujogi 2025-05-29  117  
+fd14786071021b Pratap Nirujogi 2025-05-29  118  static int isp_genpd_add_device(struct device *dev, void *data)
+fd14786071021b Pratap Nirujogi 2025-05-29  119  {
+fd14786071021b Pratap Nirujogi 2025-05-29  120  	struct generic_pm_domain *gpd = data;
+fd14786071021b Pratap Nirujogi 2025-05-29  121  	struct platform_device *pdev = container_of(dev, struct platform_device, dev);
+fd14786071021b Pratap Nirujogi 2025-05-29  122  	struct amdgpu_isp *isp = container_of(gpd, struct amdgpu_isp, ispgpd);
+fd14786071021b Pratap Nirujogi 2025-05-29  123  	struct amdgpu_device *adev = isp->adev;
+fd14786071021b Pratap Nirujogi 2025-05-29  124  	int ret;
+fd14786071021b Pratap Nirujogi 2025-05-29  125  
+fd14786071021b Pratap Nirujogi 2025-05-29 @126  	if (!pdev)
+fd14786071021b Pratap Nirujogi 2025-05-29  127  		return -EINVAL;
+fd14786071021b Pratap Nirujogi 2025-05-29  128  
+fd14786071021b Pratap Nirujogi 2025-05-29  129  	if (!dev->type->name) {
+fd14786071021b Pratap Nirujogi 2025-05-29  130  		drm_dbg(&adev->ddev, "Invalid device type to add\n");
+fd14786071021b Pratap Nirujogi 2025-05-29  131  		goto exit;
+fd14786071021b Pratap Nirujogi 2025-05-29  132  	}
+fd14786071021b Pratap Nirujogi 2025-05-29  133  
+fd14786071021b Pratap Nirujogi 2025-05-29  134  	if (strcmp(dev->type->name, "mfd_device")) {
+fd14786071021b Pratap Nirujogi 2025-05-29  135  		drm_dbg(&adev->ddev, "Invalid isp mfd device %s to add\n", pdev->mfd_cell->name);
+fd14786071021b Pratap Nirujogi 2025-05-29  136  		goto exit;
+fd14786071021b Pratap Nirujogi 2025-05-29  137  	}
+fd14786071021b Pratap Nirujogi 2025-05-29  138  
+fd14786071021b Pratap Nirujogi 2025-05-29  139  	ret = pm_genpd_add_device(gpd, dev);
+fd14786071021b Pratap Nirujogi 2025-05-29  140  	if (ret) {
+fd14786071021b Pratap Nirujogi 2025-05-29  141  		drm_err(&adev->ddev, "Failed to add dev %s to genpd %d\n",
+fd14786071021b Pratap Nirujogi 2025-05-29  142  			pdev->mfd_cell->name, ret);
+fd14786071021b Pratap Nirujogi 2025-05-29  143  		return -ENODEV;
+fd14786071021b Pratap Nirujogi 2025-05-29  144  	}
+fd14786071021b Pratap Nirujogi 2025-05-29  145  
+fd14786071021b Pratap Nirujogi 2025-05-29  146  exit:
+fd14786071021b Pratap Nirujogi 2025-05-29  147  	/* Continue to add */
+fd14786071021b Pratap Nirujogi 2025-05-29  148  	return 0;
+fd14786071021b Pratap Nirujogi 2025-05-29  149  }
+fd14786071021b Pratap Nirujogi 2025-05-29  150  
+fd14786071021b Pratap Nirujogi 2025-05-29  151  static int isp_genpd_remove_device(struct device *dev, void *data)
+fd14786071021b Pratap Nirujogi 2025-05-29  152  {
+fd14786071021b Pratap Nirujogi 2025-05-29  153  	struct generic_pm_domain *gpd = data;
+fd14786071021b Pratap Nirujogi 2025-05-29  154  	struct platform_device *pdev = container_of(dev, struct platform_device, dev);
+fd14786071021b Pratap Nirujogi 2025-05-29  155  	struct amdgpu_isp *isp = container_of(gpd, struct amdgpu_isp, ispgpd);
+fd14786071021b Pratap Nirujogi 2025-05-29  156  	struct amdgpu_device *adev = isp->adev;
+fd14786071021b Pratap Nirujogi 2025-05-29  157  	int ret;
+fd14786071021b Pratap Nirujogi 2025-05-29  158  
+fd14786071021b Pratap Nirujogi 2025-05-29 @159  	if (!pdev)
+fd14786071021b Pratap Nirujogi 2025-05-29  160  		return -EINVAL;
+fd14786071021b Pratap Nirujogi 2025-05-29  161  
+fd14786071021b Pratap Nirujogi 2025-05-29  162  	if (!dev->type->name) {
+fd14786071021b Pratap Nirujogi 2025-05-29  163  		drm_dbg(&adev->ddev, "Invalid device type to remove\n");
+fd14786071021b Pratap Nirujogi 2025-05-29  164  		goto exit;
+fd14786071021b Pratap Nirujogi 2025-05-29  165  	}
+fd14786071021b Pratap Nirujogi 2025-05-29  166  
+fd14786071021b Pratap Nirujogi 2025-05-29  167  	if (strcmp(dev->type->name, "mfd_device")) {
+fd14786071021b Pratap Nirujogi 2025-05-29  168  		drm_dbg(&adev->ddev, "Invalid isp mfd device %s to remove\n",
+fd14786071021b Pratap Nirujogi 2025-05-29  169  			pdev->mfd_cell->name);
+fd14786071021b Pratap Nirujogi 2025-05-29  170  		goto exit;
+fd14786071021b Pratap Nirujogi 2025-05-29  171  	}
+fd14786071021b Pratap Nirujogi 2025-05-29  172  
+fd14786071021b Pratap Nirujogi 2025-05-29  173  	ret = pm_genpd_remove_device(dev);
+fd14786071021b Pratap Nirujogi 2025-05-29  174  	if (ret) {
+fd14786071021b Pratap Nirujogi 2025-05-29  175  		drm_err(&adev->ddev, "Failed to remove dev from genpd %d\n", ret);
+fd14786071021b Pratap Nirujogi 2025-05-29  176  		return -ENODEV;
+fd14786071021b Pratap Nirujogi 2025-05-29  177  	}
+fd14786071021b Pratap Nirujogi 2025-05-29  178  
+fd14786071021b Pratap Nirujogi 2025-05-29  179  exit:
+fd14786071021b Pratap Nirujogi 2025-05-29  180  	/* Continue to remove */
+fd14786071021b Pratap Nirujogi 2025-05-29  181  	return 0;
+fd14786071021b Pratap Nirujogi 2025-05-29  182  }
+fd14786071021b Pratap Nirujogi 2025-05-29  183  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
