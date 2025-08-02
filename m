@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F7218991E
-	for <oe-kbuild@lists.linux.dev>; Sat,  2 Aug 2025 06:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A944518991E
+	for <oe-kbuild@lists.linux.dev>; Sat,  2 Aug 2025 06:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754114999; cv=none; b=mqsrYOVV3LeiRBwFlQE1cE/7RPqcpe0DlAI1WA4qnw0xfN31GavJSLjC73nv97DBcWIj2LULFInG99P0j8LpNVgUbesklE4bBGMecuS0mMrFzdbwjprpMNICdiq4tSpTriwH8iuL/h90K9AnRcSjrvpowTrWdb9Rrmu8QXrcjG8=
+	t=1754115100; cv=none; b=qspYRCW6YuZDgDEgqaXrpNtfiuRXGQkWxTKUcdivifwMrsq7pCh0/AJVvjcMSY1Anx/ETFD61vhBK9bZASbA/SYv4ZQZkU9U055N8LBclqjfeXTqYfR994YcuVxE5NLOAYpyNmlBAOSaPRxzgp3/l4Zw2VjOCGJnvRjhisApyxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754114999; c=relaxed/simple;
-	bh=I6JXLpoJTPzQA72rFKmDMUOcByXR9G5i4+q7xjfDJXs=;
+	s=arc-20240116; t=1754115100; c=relaxed/simple;
+	bh=S7JKL4bYKs1ty2MTBLly9da85YFwDMKvBuAEOtO98lk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BbPm2u37iGXkStUG+E9HV4TJT5YjfaAJuWpWNzvtyRyKPLcJPcXlgM7MJX3Q3rFmqUtmzUX3By2EWYjNHn74/5rG7XPHC8RridFquA/V2kxOc0gmXife8E292Uv0quBjZrFsP0zk0csOV/NUC3egcGJ+SxrJwSqJtLSvjeb4y+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bv+zem4K; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=hAv9oMrFRzFr0UFNr/ecayqZYssQfRz+Gk5FB2rrjgsuRzyLPrNT5WydxXFpuzaKFoMxC5zm4Fgkyu70xGRNhX49PO/lILju1F04te7XbA46NGr3ocuZh3S8SmlR8ixOACdl67OrZrgqBzthLctL+Xeexxggb6CZAXE2NeHEFas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EB+DBrfT; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bv+zem4K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EB+DBrfT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754114997; x=1785650997;
+  t=1754115099; x=1785651099;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I6JXLpoJTPzQA72rFKmDMUOcByXR9G5i4+q7xjfDJXs=;
-  b=Bv+zem4K+zWzR1hDpJPfz325dc++G9utOjpFZzVvZkZzFq0fNU2lDQmH
-   8PtZ/KxnoMtEUYA9pSAqpfFUrmOBgp4OtgkQxGep7kbL0Bsa2yqzuhsqS
-   90xHsp7D8KNILJvnBzzM50u0seoAJr8aJKf7bVuOfW8BM0GzsO7vDmCaT
-   x4ZUOuQ66srC+C6yN1k7e4XXuCdP32a3TnHQVEDdfLRefW9y9FHkqph75
-   pNOwt4xOkTnMPp0j2luW1jnkTjjMuFC4cUfX4Ki5iZ6pX/I5hZtH2ED4t
-   ODE21UQ/Rd2BxSIk69vqcx0kim5B7ZTc/QG4hLXRGE0KZwKwP9u9Ql834
-   A==;
-X-CSE-ConnectionGUID: r12KWt5RSMq8phozrIHAUA==
-X-CSE-MsgGUID: hzVG7CrIQdStdpvlBDqkKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56348847"
+  bh=S7JKL4bYKs1ty2MTBLly9da85YFwDMKvBuAEOtO98lk=;
+  b=EB+DBrfTlwZZgyrZeroJeyHc3ht9Py1gPzSzvUMCYswbg7JNAUUAWK+V
+   GiALzkJXj9P7zroGZldMaYz3bZbz4ATIQHEsxfY5gCRLLzVeudRPaK4xR
+   pvw9OSSZGKRqgXLtspV7Q8soO0AJyBIHYZBkF6vc03XxFZ3tnfV4xSxp4
+   6UJJ0yVpobAq8Xv70eyG/R6blODbZgaQSxsHH4Qerp2JKW0GQyBHUNhgV
+   FqCbWYldX9r7DNqcMi/EOvCMsl9jlFmHJRhB8WErTMy5di2JumOjgJO04
+   OYaN4BFNLaZE1FiufG1DYzTo8YfNNRGYAhBF4HngthlUHQ4S8LtT2Em3w
+   g==;
+X-CSE-ConnectionGUID: +fy7Rc9xQdCuStRjOWktxA==
+X-CSE-MsgGUID: JDAcGpFEQWugY+G9Fmgwng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56537913"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="56348847"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 23:09:57 -0700
-X-CSE-ConnectionGUID: DneK6Qd2S5aIOgs3PeXlFw==
-X-CSE-MsgGUID: Yv0AWo7WQgGreT5RrDZl/Q==
+   d="scan'208";a="56537913"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 23:11:37 -0700
+X-CSE-ConnectionGUID: tfVrgJ2uQf6ighZ3xLQMeQ==
+X-CSE-MsgGUID: xw8jknhNRRiazO2DHmimww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="163656481"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by fmviesa006.fm.intel.com with ESMTP; 01 Aug 2025 23:09:55 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="169113616"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 01 Aug 2025 23:11:35 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ui5RJ-0001Nb-24;
-	Sat, 02 Aug 2025 06:09:53 +0000
-Date: Sat, 2 Aug 2025 08:09:40 +0200
+	id 1ui5Sv-0005DA-0W;
+	Sat, 02 Aug 2025 06:11:33 +0000
+Date: Sat, 2 Aug 2025 14:11:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arc/boot/dts/vdk_axc003.dtsi:17.11-47.4: Warning
- (unit_address_vs_reg): /cpu_card: node has a reg or ranges property, but no
- unit name
-Message-ID: <202508020859.ZzDH3jMO-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [sean-jc:x86/mediated_pmu 3/61] arch/x86/kvm/irq.c:218
+ __kvm_irq_delivery_to_apic() warn: iterator 'i' not incremented
+Message-ID: <202508021408.3Yi6hiLr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,71 +62,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
-CC: linux-snps-arc@lists.infradead.org
+TO: Sean Christopherson <seanjc@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a6923c06a3b2e2c534ae28c53a7531e76cc95cfa
-commit: 3b7f793acc13b6108452271b306d4aa94a3c4940 ARC: migrate to the generic rule for built-in DTB
-date:   7 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 7 months ago
-config: arc-vdk_hs38_defconfig (https://download.01.org/0day-ci/archive/20250802/202508020859.ZzDH3jMO-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508020859.ZzDH3jMO-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/mediated_pmu
+head:   b18322b780176f1931200b1f513b8f7eb536b39b
+commit: edac8bea406a1708de388489983c9f6e28625b77 [3/61] KVM: x86: Add a wrapper to handle common case of IRQ delivery without dest_map
+:::::: branch date: 8 hours ago
+:::::: commit date: 35 hours ago
+config: x86_64-randconfig-r071-20250802 (https://download.01.org/0day-ci/archive/20250802/202508021408.3Yi6hiLr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508020859.ZzDH3jMO-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202508021408.3Yi6hiLr-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arc/boot/dts/skeleton_hs.dtsi:45.9-48.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
->> arch/arc/boot/dts/vdk_axc003.dtsi:17.11-47.4: Warning (unit_address_vs_reg): /cpu_card: node has a reg or ranges property, but no unit name
->> arch/arc/boot/dts/vdk_axc003.dtsi:30.29-34.5: Warning (unit_address_vs_reg): /cpu_card/archs-intc@cpu: node has a unit name, but no reg or ranges property
->> arch/arc/boot/dts/vdk_axs10x_mb.dtsi:9.16-111.4: Warning (unit_address_vs_reg): /axs10x_mb_vdk: node has a reg or ranges property, but no unit name
->> arch/arc/boot/dts/vdk_axc003.dtsi:24.22-28.5: Warning (simple_bus_reg): /cpu_card/core_clk: missing or empty reg/ranges property
->> arch/arc/boot/dts/vdk_axc003.dtsi:30.29-34.5: Warning (simple_bus_reg): /cpu_card/archs-intc@cpu: missing or empty reg/ranges property
->> arch/arc/boot/dts/vdk_axs10x_mb.dtsi:16.10-34.5: Warning (simple_bus_reg): /axs10x_mb_vdk/clocks: missing or empty reg/ranges property
->> arch/arc/boot/dts/vdk_axs10x_mb.dtsi:94.21-99.5: Warning (simple_bus_reg): /axs10x_mb_vdk/ps2@e0017400: simple-bus unit address format error, expected "17400"
->> arch/arc/boot/dts/vdk_axs10x_mb.dtsi:36.18-47.5: Warning (interrupt_provider): /axs10x_mb_vdk/ethernet@18000: '#interrupt-cells' found, but node is not an interrupt provider
->> arch/arc/boot/dts/vdk_hs38.dtb: Warning (interrupt_map): Failed prerequisite 'interrupt_provider'
+New smatch warnings:
+arch/x86/kvm/irq.c:218 __kvm_irq_delivery_to_apic() warn: iterator 'i' not incremented
 
-vim +17 arch/arc/boot/dts/vdk_axc003.dtsi
+Old smatch warnings:
+arch/x86/kvm/irq.c:425 kvm_intr_is_single_vcpu() warn: iterator 'i' not incremented
 
-2e8cd93877b2f9 Vineet Gupta 2016-01-19  11  
-2924cd18c434c7 Ruud Derwig  2014-12-03  12  / {
-2924cd18c434c7 Ruud Derwig  2014-12-03  13  	compatible = "snps,arc";
-2924cd18c434c7 Ruud Derwig  2014-12-03  14  	#address-cells = <1>;
-2924cd18c434c7 Ruud Derwig  2014-12-03  15  	#size-cells = <1>;
-2924cd18c434c7 Ruud Derwig  2014-12-03  16  
-2924cd18c434c7 Ruud Derwig  2014-12-03 @17  	cpu_card {
-2924cd18c434c7 Ruud Derwig  2014-12-03  18  		compatible = "simple-bus";
-2924cd18c434c7 Ruud Derwig  2014-12-03  19  		#address-cells = <1>;
-2924cd18c434c7 Ruud Derwig  2014-12-03  20  		#size-cells = <1>;
-2924cd18c434c7 Ruud Derwig  2014-12-03  21  
-2924cd18c434c7 Ruud Derwig  2014-12-03  22  		ranges = <0x00000000 0xf0000000 0x10000000>;
-2924cd18c434c7 Ruud Derwig  2014-12-03  23  
-b3d6aba8bd92c2 Vineet Gupta 2016-01-01 @24  		core_clk: core_clk {
-b3d6aba8bd92c2 Vineet Gupta 2016-01-01  25  			#clock-cells = <0>;
-b3d6aba8bd92c2 Vineet Gupta 2016-01-01  26  			compatible = "fixed-clock";
-b3d6aba8bd92c2 Vineet Gupta 2016-01-01  27  			clock-frequency = <50000000>;
-b3d6aba8bd92c2 Vineet Gupta 2016-01-01  28  		};
-b3d6aba8bd92c2 Vineet Gupta 2016-01-01  29  
-9ba7648cc9b363 Vineet Gupta 2016-01-28 @30  		core_intc: archs-intc@cpu {
+vim +/i +218 arch/x86/kvm/irq.c
 
-:::::: The code at line 17 was first introduced by commit
-:::::: 2924cd18c434c79ee777dc63616a8505045d7509 ARCv2: [vdk] dts files and defconfig for HS38 VDK
+b771b1616ff89d Sean Christopherson 2025-06-11  197  
+edac8bea406a17 Sean Christopherson 2025-07-31  198  int __kvm_irq_delivery_to_apic(struct kvm *kvm, struct kvm_lapic *src,
+edac8bea406a17 Sean Christopherson 2025-07-31  199  			       struct kvm_lapic_irq *irq,
+edac8bea406a17 Sean Christopherson 2025-07-31  200  			       struct dest_map *dest_map)
+e76c274513f24d Sean Christopherson 2025-06-11  201  {
+e76c274513f24d Sean Christopherson 2025-06-11  202  	int r = -1;
+e76c274513f24d Sean Christopherson 2025-06-11  203  	struct kvm_vcpu *vcpu, *lowest = NULL;
+e76c274513f24d Sean Christopherson 2025-06-11  204  	unsigned long i, dest_vcpu_bitmap[BITS_TO_LONGS(KVM_MAX_VCPUS)];
+e76c274513f24d Sean Christopherson 2025-06-11  205  	unsigned int dest_vcpus = 0;
+e76c274513f24d Sean Christopherson 2025-06-11  206  
+e76c274513f24d Sean Christopherson 2025-06-11  207  	if (kvm_irq_delivery_to_apic_fast(kvm, src, irq, &r, dest_map))
+e76c274513f24d Sean Christopherson 2025-06-11  208  		return r;
+e76c274513f24d Sean Christopherson 2025-06-11  209  
+e76c274513f24d Sean Christopherson 2025-06-11  210  	if (irq->dest_mode == APIC_DEST_PHYSICAL &&
+e76c274513f24d Sean Christopherson 2025-06-11  211  	    irq->dest_id == 0xff && kvm_lowest_prio_delivery(irq)) {
+e76c274513f24d Sean Christopherson 2025-06-11  212  		pr_info("apic: phys broadcast and lowest prio\n");
+e76c274513f24d Sean Christopherson 2025-06-11  213  		irq->delivery_mode = APIC_DM_FIXED;
+e76c274513f24d Sean Christopherson 2025-06-11  214  	}
+e76c274513f24d Sean Christopherson 2025-06-11  215  
+e76c274513f24d Sean Christopherson 2025-06-11  216  	memset(dest_vcpu_bitmap, 0, sizeof(dest_vcpu_bitmap));
+e76c274513f24d Sean Christopherson 2025-06-11  217  
+e76c274513f24d Sean Christopherson 2025-06-11 @218  	kvm_for_each_vcpu(i, vcpu, kvm) {
+e76c274513f24d Sean Christopherson 2025-06-11  219  		if (!kvm_apic_present(vcpu))
+e76c274513f24d Sean Christopherson 2025-06-11  220  			continue;
+e76c274513f24d Sean Christopherson 2025-06-11  221  
+e76c274513f24d Sean Christopherson 2025-06-11  222  		if (!kvm_apic_match_dest(vcpu, src, irq->shorthand,
+e76c274513f24d Sean Christopherson 2025-06-11  223  					irq->dest_id, irq->dest_mode))
+e76c274513f24d Sean Christopherson 2025-06-11  224  			continue;
+e76c274513f24d Sean Christopherson 2025-06-11  225  
+e76c274513f24d Sean Christopherson 2025-06-11  226  		if (!kvm_lowest_prio_delivery(irq)) {
+e76c274513f24d Sean Christopherson 2025-06-11  227  			if (r < 0)
+e76c274513f24d Sean Christopherson 2025-06-11  228  				r = 0;
+e76c274513f24d Sean Christopherson 2025-06-11  229  			r += kvm_apic_set_irq(vcpu, irq, dest_map);
+e76c274513f24d Sean Christopherson 2025-06-11  230  		} else if (kvm_apic_sw_enabled(vcpu->arch.apic)) {
+e76c274513f24d Sean Christopherson 2025-06-11  231  			if (!kvm_vector_hashing_enabled()) {
+e76c274513f24d Sean Christopherson 2025-06-11  232  				if (!lowest)
+e76c274513f24d Sean Christopherson 2025-06-11  233  					lowest = vcpu;
+e76c274513f24d Sean Christopherson 2025-06-11  234  				else if (kvm_apic_compare_prio(vcpu, lowest) < 0)
+e76c274513f24d Sean Christopherson 2025-06-11  235  					lowest = vcpu;
+e76c274513f24d Sean Christopherson 2025-06-11  236  			} else {
+e76c274513f24d Sean Christopherson 2025-06-11  237  				__set_bit(i, dest_vcpu_bitmap);
+e76c274513f24d Sean Christopherson 2025-06-11  238  				dest_vcpus++;
+e76c274513f24d Sean Christopherson 2025-06-11  239  			}
+e76c274513f24d Sean Christopherson 2025-06-11  240  		}
+e76c274513f24d Sean Christopherson 2025-06-11  241  	}
+e76c274513f24d Sean Christopherson 2025-06-11  242  
+e76c274513f24d Sean Christopherson 2025-06-11  243  	if (dest_vcpus != 0) {
+e76c274513f24d Sean Christopherson 2025-06-11  244  		int idx = kvm_vector_to_index(irq->vector, dest_vcpus,
+e76c274513f24d Sean Christopherson 2025-06-11  245  					dest_vcpu_bitmap, KVM_MAX_VCPUS);
+e76c274513f24d Sean Christopherson 2025-06-11  246  
+e76c274513f24d Sean Christopherson 2025-06-11  247  		lowest = kvm_get_vcpu(kvm, idx);
+e76c274513f24d Sean Christopherson 2025-06-11  248  	}
+e76c274513f24d Sean Christopherson 2025-06-11  249  
+e76c274513f24d Sean Christopherson 2025-06-11  250  	if (lowest)
+e76c274513f24d Sean Christopherson 2025-06-11  251  		r = kvm_apic_set_irq(lowest, irq, dest_map);
+e76c274513f24d Sean Christopherson 2025-06-11  252  
+e76c274513f24d Sean Christopherson 2025-06-11  253  	return r;
+e76c274513f24d Sean Christopherson 2025-06-11  254  }
+e76c274513f24d Sean Christopherson 2025-06-11  255  
 
-:::::: TO: Ruud Derwig <rderwig@synopsys.com>
-:::::: CC: Vineet Gupta <vgupta@synopsys.com>
+:::::: The code at line 218 was first introduced by commit
+:::::: e76c274513f24d92074e36e40f799b44aeb7a0fb KVM: x86: Fold irq_comm.c into irq.c
+
+:::::: TO: Sean Christopherson <seanjc@google.com>
+:::::: CC: Sean Christopherson <seanjc@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
