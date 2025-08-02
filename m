@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4070372
-	for <oe-kbuild@lists.linux.dev>; Sat,  2 Aug 2025 02:38:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFD5139D1B
+	for <oe-kbuild@lists.linux.dev>; Sat,  2 Aug 2025 02:38:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754102300; cv=none; b=QxF+l3R55xVurihSj96+OvdPe6WlF0VNwSFEEId/z3N6YyezRRwtF00/yqP4M6MUv6X8ZLYDNatjjHepMJXTEH5NK13sXm9tkIp9KHNVyGMsKs/jmUCPk2KZ3s0WgiXI0YyKACAQnaUXe+jM6aMwLJ3xYePugFmqGcwyL4M2xEA=
+	t=1754102302; cv=none; b=lRW3XcCI+zzWw2jZIpEJPm+kX1lmlHSvpy13733P/tq4UHl4nuHOiBPvC3U4LCmgLlwU0qpCZqY4i63mz2bm6k/zmqYO7XsMR3H9KUuEgainx8m0rXieSuS5NJfDPByjoHI7y4VCPJCKgurW1tZEWI5Ifc4+KcNF56nyZ5whUnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754102300; c=relaxed/simple;
-	bh=NgD52P07/SzXovb9YzzCh75Qrspw+HDz5hBh7rd+GG0=;
+	s=arc-20240116; t=1754102302; c=relaxed/simple;
+	bh=lQGTbmLCX8I5in7NjxG39ICnPt1Q/wQoAE2sRkTQeA4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LLJNEYAafPz3c58U7L0YEZXhCns3pNlbgwKdzuwfbcnYspNk6nwyxzq9vv9VzgYcJZyRHi4V6jqKuoEr/EC8/2gnTgeKzjWlq7dJ+0AK8oJI0R2l+OzrAC19qFuMC5RxxUjAJMFYOhzthGvORLssLEGptW933u/YG/VKkOYGnJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bYwuttrj; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=njU3ED//Lzs8iVD7XiK0kDqX7/aNkAahxcDvBCYUky9VK1gqkRtee3SgYfFWCuOy/Og0pu4S12PxNtCl1w+HPUJl0utH3rz6KNKBE4DNqmWWExTbP2Wc6Ja7HbM60PuIZmxPpmfgVN0iR3df06iyB+SJ2J9q9y6MGrEj3Augs4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jy+MOjvF; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bYwuttrj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jy+MOjvF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754102298; x=1785638298;
+  t=1754102300; x=1785638300;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NgD52P07/SzXovb9YzzCh75Qrspw+HDz5hBh7rd+GG0=;
-  b=bYwuttrjAg6WSVkD3P2PGODjAgraPtD+jfwHOzXDR+HvcotRAd/IlcIK
-   4/cHczA6PqbHPtD7qjDGJl91Quzj9BaGNz5RZI+L1o6Jspa8b54i3q17M
-   ULjWVti5Yj53b7aPJF62YVlDgQS0HBXDUL5Win7Hb5eg2DfG+Ha9wfEHS
-   8GRD2cqTbmwNpZ6Un2Rnl6nTa/6q51VUB6al73rI4metO/5bzvHI86I0I
-   /Yrg/wxdxT8Bu2bIz5ymyOGz0cko3T6LS7hdWuFZnmsQAc2GWOSDzMkSH
-   0ZhR1rdxB7aI9kegI4FH0YG9h1add9gEjH+7UHepiaD8pPLEHiOpxzecJ
-   Q==;
-X-CSE-ConnectionGUID: v3ceSxohStuL7sQhMKroNA==
-X-CSE-MsgGUID: hwKiXwfmTOy5LckTwgpOkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56589960"
+  bh=lQGTbmLCX8I5in7NjxG39ICnPt1Q/wQoAE2sRkTQeA4=;
+  b=Jy+MOjvFatTt3QcTS7m3oSOFL1XlsytzuS62ZzsSdhfF7am/enSVrdrh
+   UGqiyNS3Qr8kt5CdTv175eJ0vYJYFcirQgXA05kE4VsxR7aW11Aj6atJM
+   oUWIwE6j+dy7bA6is5275qkRxp/XVdFkFs5c4iKwU9ajyg6vPu5YjSIp+
+   E79WS02lIAFZORfB2MmVFlMp6AQqsm/5dhYQb+YaVMGtNcNThVPItJZip
+   XuuC9NqHfhzxDeK8kkT8ruQ2KFYkiR/hMzLU9bMJs/axEOfwZGvwSggId
+   NBNVSK/UYsfinEaYmYjpyzAdywC3Crkhmxx9/uvFbiPHb95BWOLfxrBlR
+   w==;
+X-CSE-ConnectionGUID: ZyKYt2SzQliUX6oibAKDzg==
+X-CSE-MsgGUID: +ZaXWTqYRPKknAcWLfPhlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56589961"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="56589960"
+   d="scan'208";a="56589961"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 19:38:18 -0700
-X-CSE-ConnectionGUID: caXDiF/YTteTg4nkowXmKA==
-X-CSE-MsgGUID: R5Zk1WaYTn2Z5+MNRrQ95A==
+X-CSE-ConnectionGUID: GWwgf0xQQKihS5vhYp5fbQ==
+X-CSE-MsgGUID: MNvl1T6gQyGoq3xWtQwR5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="162991222"
+   d="scan'208";a="162991224"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 01 Aug 2025 19:38:17 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ui28U-00056m-23;
+	id 1ui28U-00056s-2F;
 	Sat, 02 Aug 2025 02:38:14 +0000
-Date: Sat, 2 Aug 2025 10:37:18 +0800
+Date: Sat, 2 Aug 2025 10:37:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] arm64: dts: renesas: rzg2lc-smarc: Fix typo for deleting
- node
-Message-ID: <202508021004.ITT3mtc4-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/parisc/lib/memcpy.c:44 raw_copy_from_user() warn: if statement
+ not indented
+Message-ID: <202508021047.Mp1T16dT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,61 +62,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250731125109.147422-1-biju.das.jz@bp.renesas.com>
-References: <20250731125109.147422-1-biju.das.jz@bp.renesas.com>
-TO: Biju <biju.das.au@gmail.com>
-TO: Geert Uytterhoeven <geert+renesas@glider.be>
-TO: Magnus Damm <magnus.damm@gmail.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: Biju Das <biju.das.jz@bp.renesas.com>
-CC: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: linux-renesas-soc@vger.kernel.org
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
+TO: John David Anglin <dave.anglin@bell.net>
+CC: Helge Deller <deller@gmx.de>
 
-Hi Biju,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on geert-renesas-devel/next]
-[also build test WARNING on linus/master v6.16 next-20250801]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Biju/arm64-dts-renesas-rzg2lc-smarc-Fix-typo-for-deleting-node/20250731-205310
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-patch link:    https://lore.kernel.org/r/20250731125109.147422-1-biju.das.jz%40bp.renesas.com
-patch subject: [PATCH] arm64: dts: renesas: rzg2lc-smarc: Fix typo for deleting node
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-051-20250801 (https://download.01.org/0day-ci/archive/20250802/202508021004.ITT3mtc4-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508021004.ITT3mtc4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a6923c06a3b2e2c534ae28c53a7531e76cc95cfa
+commit: 91428ca9320edbab1211851d82429d33b9cd73ef parisc: Check region is readable by user in raw_copy_from_user()
+date:   7 days ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 7 days ago
+config: parisc-randconfig-r071-20250801 (https://download.01.org/0day-ci/archive/20250802/202508021047.Mp1T16dT-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508021004.ITT3mtc4-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202508021047.Mp1T16dT-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:827.12-835.7: Warning (graph_child_address): /soc/video@10830000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:837.12-846.7: Warning (graph_child_address): /soc/video@10830000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:872.12-881.7: Warning (graph_child_address): /soc/csi2@10830400/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: can@10050000 (renesas,r9a07g044-canfd): 'channel0' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/can/renesas,rcar-canfd.yaml#
---
->> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc-cru-csi-ov5645.dtb: can@10050000 (renesas,r9a07g044-canfd): 'channel0' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/can/renesas,rcar-canfd.yaml#
+smatch warnings:
+arch/parisc/lib/memcpy.c:44 raw_copy_from_user() warn: if statement not indented
+
+vim +44 arch/parisc/lib/memcpy.c
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16  32  
+f64fd180ec2c0b Al Viro           2017-03-24  33  unsigned long raw_copy_from_user(void *dst, const void __user *src,
+9e91db6b4abecd Helge Deller      2016-10-06  34  			       unsigned long len)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  35  {
+91428ca9320edb John David Anglin 2025-07-21  36  	unsigned long start = (unsigned long) src;
+91428ca9320edb John David Anglin 2025-07-21  37  	unsigned long end = start + len;
+91428ca9320edb John David Anglin 2025-07-21  38  	unsigned long newlen = len;
+91428ca9320edb John David Anglin 2025-07-21  39  
+360bd6c658076f Helge Deller      2022-02-17  40  	mtsp(get_user_space(), SR_TEMP1);
+360bd6c658076f Helge Deller      2022-02-17  41  	mtsp(get_kernel_space(), SR_TEMP2);
+91428ca9320edb John David Anglin 2025-07-21  42  
+91428ca9320edb John David Anglin 2025-07-21  43  	/* Check region is user accessible */
+91428ca9320edb John David Anglin 2025-07-21 @44  	if (start)
+91428ca9320edb John David Anglin 2025-07-21  45  	while (start < end) {
+91428ca9320edb John David Anglin 2025-07-21  46  		if (!prober_user(SR_TEMP1, start)) {
+91428ca9320edb John David Anglin 2025-07-21  47  			newlen = (start - (unsigned long) src);
+91428ca9320edb John David Anglin 2025-07-21  48  			break;
+91428ca9320edb John David Anglin 2025-07-21  49  		}
+91428ca9320edb John David Anglin 2025-07-21  50  		start += PAGE_SIZE;
+91428ca9320edb John David Anglin 2025-07-21  51  		/* align to page boundry which may have different permission */
+91428ca9320edb John David Anglin 2025-07-21  52  		start = PAGE_ALIGN_DOWN(start);
+91428ca9320edb John David Anglin 2025-07-21  53  	}
+91428ca9320edb John David Anglin 2025-07-21  54  	return len - newlen + pa_memcpy(dst, (void __force *)src, newlen);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  55  }
+f64fd180ec2c0b Al Viro           2017-03-24  56  EXPORT_SYMBOL(raw_copy_from_user);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  57  
 
 -- 
 0-DAY CI Kernel Test Service
