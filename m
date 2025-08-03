@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C581917FB
-	for <oe-kbuild@lists.linux.dev>; Sun,  3 Aug 2025 22:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F281A256B
+	for <oe-kbuild@lists.linux.dev>; Sun,  3 Aug 2025 23:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754261669; cv=none; b=cUv9YVM3F80iNDtDDs6s40gnsVPMvWG/5t4xjMW2VOQeIKEhekv6l/YfIdnPLfzQhkZK78iPSheRip6mlB7/lWJNBfc6oA4C0NoGbErAml8Oklg5rLMN9Fuw/UIRceHNj4mkMx6ia0sciyit9HxRo2wPlRZnRvqk9fSqWrGnY7w=
+	t=1754262333; cv=none; b=kcA0ldeVNk+AweeEjoKrsMeDmvXbvfqZTerkV6oRw4YccT/CsrRz/JmPZADf5kgDMAUc4gAEzZMXPVxV/Sx9Ee7bwC2JF33fvA9dI6U2LN2UCtATPbVFvNz208syr17RBq4vl6MUFEtbUqjGt9vE5A87aQx0M034/VjhEofxeW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754261669; c=relaxed/simple;
-	bh=9it4lxgFgJDMzBCztkzUVYT2rh4J+/TYTAYCAbg4PqY=;
+	s=arc-20240116; t=1754262333; c=relaxed/simple;
+	bh=vKPhsYvtXNYIEwQlQoEggi3nO9k5nIiUPcUEO64JKlg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iOEipawJWPCpy/JFHVWbeEXDauxbnY/UvwWmxrLR7MN0wq2d4nvgErL+Qgjw2i4bPwlKqJtuDEW+pYKVxiMv6h/0Wu02C4jwshSjS628vF9nLuNb5CYLqkPRZGBnmIYpmfQQAoIsPYUIoQp73FGG2ZXszfCs2wIYmHgBIKHCv0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aKByJm4z; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=JddW/mjPNCcmPzmz/oJu1+ZClq+/gZyKRoKjG3FlPNDgWBHlkbVAV2prNbEFM42/IYHxCFoCXPwFvSCvU15eaIpB0dPGEDjG54cnDy3ntHObEE76Rem1PCh3aVE79DHnnDCi0koSl0Bm3ub3xjUgmS5AY6rbv6PBU80T58Oh7u0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jiyz0MVj; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aKByJm4z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jiyz0MVj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754261667; x=1785797667;
+  t=1754262332; x=1785798332;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9it4lxgFgJDMzBCztkzUVYT2rh4J+/TYTAYCAbg4PqY=;
-  b=aKByJm4zYJaf46hq2rx3n28o6T2HDezNrtfoe2ROTm0Yckukljnv3cWQ
-   iZ+0L+KTYfVPpMZC/IAiqV7CmNlzfgFqlEoFWrc7Me7X9j1v2uPCMRt6i
-   B4iTdM1lPyJZTP9utqE1YmMg65Xo7kRShVTdTA5B8voV4vlT87M9nAJJk
-   +4bH4nwp/L+OZTbxfLDuseQrzC7QpO9tsvRu8wsD/m+Lrl8TuqcS4FTMb
-   bkdGVBlkVH1ujdud0/9hXkJ4Z16AgCExY81kj6vG47T/yr0ymIBuLpNUK
-   WtUB4y6MElUTRbNxRlW2s2eyNTCnB43ltq1yqsNYmoL7fafNg/WfVA36p
+  bh=vKPhsYvtXNYIEwQlQoEggi3nO9k5nIiUPcUEO64JKlg=;
+  b=Jiyz0MVjg7/RUGz5J+pt5eUKaD3/WKfdBMvh7HCy8X4/3PpKKI8LJiCe
+   Qq/fxOHL6IEeA8i3WorkC60sXo61H8rfmocIej0dp6mrn1K004vcQMGXt
+   R7WvVs9eXjIG2coNA8XeSMAnk8IifTWl2sWyEyMvCECSdQeZctU0kA6hX
+   BSuWWGcHMzH6A20xRdfvO4rYBIKpMN0xstqsT4Hb5h0VCFe+NGEBDyb2j
+   MZSIfRa7G/UJgQWG2tUjEqhHQs/GQrT4qkqQwqleJtr/aCvwXrctsDYQT
+   uSP9mVNIxk693PqW+6JyP/m0/7l2aCjY6Jbb3lsxQdZx4hUNgTHxuc7mM
    A==;
-X-CSE-ConnectionGUID: jeh0Nbb1S/WVjepk74EmDA==
-X-CSE-MsgGUID: gicym1utQUul+yT9hS2Lvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11511"; a="79071396"
+X-CSE-ConnectionGUID: 9CwtGYFGQKydW5/El+yR0Q==
+X-CSE-MsgGUID: 9yr4nC4lSja5L/TJvNX3IQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11511"; a="56657175"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="79071396"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2025 15:54:27 -0700
-X-CSE-ConnectionGUID: ErNDOhCPR0OozW0AS4618Q==
-X-CSE-MsgGUID: TC7XXJQgQ6q3nDvAMBpRYg==
+   d="scan'208";a="56657175"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2025 16:05:31 -0700
+X-CSE-ConnectionGUID: RwNUWnKSRjeG9Jkmj/upzA==
+X-CSE-MsgGUID: ssQIs5LzQv2Y8JD/0u+FQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="168260468"
+   d="scan'208";a="194837812"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Aug 2025 15:54:26 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 03 Aug 2025 16:05:29 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uihax-0006fE-2Z;
-	Sun, 03 Aug 2025 22:54:23 +0000
-Date: Mon, 4 Aug 2025 06:54:18 +0800
+	id 1uihlf-0006fS-30;
+	Sun, 03 Aug 2025 23:05:27 +0000
+Date: Mon, 4 Aug 2025 07:04:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [android-common:android15-6.6 1/1] mm/userfaultfd.c:868:13-14:
- WARNING opportunity for swap()
-Message-ID: <202508040656.TwUsZNm2-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/wireless/intel/iwlwifi/mld/mac80211.c:2093
+ iwl_mld_set_key_add() error: we previously assumed 'mld_sta' could be null
+ (see line 2076)
+Message-ID: <202508040601.9AKetTt8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,50 +65,119 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+CC: Johannes Berg <johannes.berg@intel.com>
+CC: Avraham Stern <avraham.stern@intel.com>
+CC: Daniel Gabay <daniel.gabay@intel.com>
+CC: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+CC: Anjaneyulu <pagadala.yesu.anjaneyulu@intel.com>
+CC: Yedidya Benshimol <yedidya.ben.shimol@intel.com>
+CC: Benjamin Berg <benjamin.berg@intel.com>
+CC: Shaul Triebitz <shaul.triebitz@intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   c1a4113af4ffd59599729ba53e1fdc4b44429bc7
-commit: ddc00d71198b5e0027c3b1f881ea90428ef321a4 [1/1] BACKPORT: userfaultfd: UFFDIO_MOVE uABI
-:::::: branch date: 10 hours ago
-:::::: commit date: 1 year, 3 months ago
-config: x86_64-randconfig-101-20250804 (https://download.01.org/0day-ci/archive/20250804/202508040656.TwUsZNm2-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   186f3edfdd41f2ae87fc40a9ccba52a3bf930994
+commit: d1e879ec600f9b3bdd253167533959facfefb17b wifi: iwlwifi: add iwlmld sub-driver
+date:   5 months ago
+:::::: branch date: 28 hours ago
+:::::: commit date: 5 months ago
+config: i386-randconfig-141-20250803 (https://download.01.org/0day-ci/archive/20250804/202508040601.9AKetTt8-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202508040656.TwUsZNm2-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202508040601.9AKetTt8-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> mm/userfaultfd.c:868:13-14: WARNING opportunity for swap()
+smatch warnings:
+drivers/net/wireless/intel/iwlwifi/mld/mac80211.c:2093 iwl_mld_set_key_add() error: we previously assumed 'mld_sta' could be null (see line 2076)
+drivers/net/wireless/intel/iwlwifi/mld/scan.c:1124 iwl_mld_scan_cmd_set_chan_params() warn: assigning (-128) to unsigned variable 'cfg->v5.psd_20'
+drivers/net/wireless/intel/iwlwifi/mld/ptp.c:298 iwl_mld_ptp_init() warn: passing zero to 'PTR_ERR'
 
-vim +868 mm/userfaultfd.c
+vim +/mld_sta +2093 drivers/net/wireless/intel/iwlwifi/mld/mac80211.c
 
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  856  
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  857  
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  858  void double_pt_lock(spinlock_t *ptl1,
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  859  		    spinlock_t *ptl2)
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  860  	__acquires(ptl1)
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  861  	__acquires(ptl2)
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  862  {
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  863  	spinlock_t *ptl_tmp;
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  864  
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  865  	if (ptl1 > ptl2) {
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  866  		/* exchange ptl1 and ptl2 */
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  867  		ptl_tmp = ptl1;
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06 @868  		ptl1 = ptl2;
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  869  		ptl2 = ptl_tmp;
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  870  	}
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  871  	/* lock in virtual address order to avoid lock inversion */
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  872  	spin_lock(ptl1);
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  873  	if (ptl1 != ptl2)
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  874  		spin_lock_nested(ptl2, SINGLE_DEPTH_NESTING);
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  875  	else
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  876  		__acquire(ptl2);
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  877  }
-ddc00d71198b5e0 Andrea Arcangeli 2023-12-06  878  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2023  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2024  static int iwl_mld_set_key_add(struct iwl_mld *mld,
+d1e879ec600f9b Miri Korenblit 2025-02-16  2025  			       struct ieee80211_vif *vif,
+d1e879ec600f9b Miri Korenblit 2025-02-16  2026  			       struct ieee80211_sta *sta,
+d1e879ec600f9b Miri Korenblit 2025-02-16  2027  			       struct ieee80211_key_conf *key)
+d1e879ec600f9b Miri Korenblit 2025-02-16  2028  {
+d1e879ec600f9b Miri Korenblit 2025-02-16  2029  	struct iwl_mld_vif *mld_vif = iwl_mld_vif_from_mac80211(vif);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2030  	struct iwl_mld_sta *mld_sta =
+d1e879ec600f9b Miri Korenblit 2025-02-16  2031  		sta ? iwl_mld_sta_from_mac80211(sta) : NULL;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2032  	struct iwl_mld_ptk_pn *ptk_pn = NULL;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2033  	int keyidx = key->keyidx;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2034  	int ret;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2035  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2036  	/* Will be set to 0 if added successfully */
+d1e879ec600f9b Miri Korenblit 2025-02-16  2037  	key->hw_key_idx = STA_KEY_IDX_INVALID;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2038  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2039  	switch (key->cipher) {
+d1e879ec600f9b Miri Korenblit 2025-02-16  2040  	case WLAN_CIPHER_SUITE_WEP40:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2041  	case WLAN_CIPHER_SUITE_WEP104:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2042  		IWL_DEBUG_MAC80211(mld, "Use SW encryption for WEP\n");
+d1e879ec600f9b Miri Korenblit 2025-02-16  2043  		return -EOPNOTSUPP;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2044  	case WLAN_CIPHER_SUITE_TKIP:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2045  		if (vif->type == NL80211_IFTYPE_STATION) {
+d1e879ec600f9b Miri Korenblit 2025-02-16  2046  			key->flags |= IEEE80211_KEY_FLAG_PUT_MIC_SPACE;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2047  			break;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2048  		}
+d1e879ec600f9b Miri Korenblit 2025-02-16  2049  		IWL_DEBUG_MAC80211(mld, "Use SW encryption for TKIP\n");
+d1e879ec600f9b Miri Korenblit 2025-02-16  2050  		return -EOPNOTSUPP;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2051  	case WLAN_CIPHER_SUITE_CCMP:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2052  	case WLAN_CIPHER_SUITE_GCMP:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2053  	case WLAN_CIPHER_SUITE_GCMP_256:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2054  	case WLAN_CIPHER_SUITE_AES_CMAC:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2055  	case WLAN_CIPHER_SUITE_BIP_GMAC_128:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2056  	case WLAN_CIPHER_SUITE_BIP_GMAC_256:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2057  		break;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2058  	default:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2059  		return -EOPNOTSUPP;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2060  	}
+d1e879ec600f9b Miri Korenblit 2025-02-16  2061  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2062  	if (vif->type == NL80211_IFTYPE_STATION &&
+d1e879ec600f9b Miri Korenblit 2025-02-16  2063  	    (keyidx == 6 || keyidx == 7))
+d1e879ec600f9b Miri Korenblit 2025-02-16  2064  		rcu_assign_pointer(mld_vif->bigtks[keyidx - 6], key);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2065  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2066  	/* After exiting from RFKILL, hostapd configures GTK/ITGK before the
+d1e879ec600f9b Miri Korenblit 2025-02-16  2067  	 * AP is started, but those keys can't be sent to the FW before the
+d1e879ec600f9b Miri Korenblit 2025-02-16  2068  	 * MCAST/BCAST STAs are added to it (which happens upon AP start).
+d1e879ec600f9b Miri Korenblit 2025-02-16  2069  	 * Store it here to be sent later when the AP is started.
+d1e879ec600f9b Miri Korenblit 2025-02-16  2070  	 */
+d1e879ec600f9b Miri Korenblit 2025-02-16  2071  	if ((vif->type == NL80211_IFTYPE_ADHOC ||
+d1e879ec600f9b Miri Korenblit 2025-02-16  2072  	     vif->type == NL80211_IFTYPE_AP) && !sta &&
+d1e879ec600f9b Miri Korenblit 2025-02-16  2073  	     !mld_vif->ap_ibss_active)
+d1e879ec600f9b Miri Korenblit 2025-02-16  2074  		return iwl_mld_store_ap_early_key(mld, key, mld_vif);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2075  
+d1e879ec600f9b Miri Korenblit 2025-02-16 @2076  	if (!mld->fw_status.in_hw_restart && mld_sta &&
+d1e879ec600f9b Miri Korenblit 2025-02-16  2077  	    key->flags & IEEE80211_KEY_FLAG_PAIRWISE &&
+d1e879ec600f9b Miri Korenblit 2025-02-16  2078  	    (key->cipher == WLAN_CIPHER_SUITE_CCMP ||
+d1e879ec600f9b Miri Korenblit 2025-02-16  2079  	     key->cipher == WLAN_CIPHER_SUITE_GCMP ||
+d1e879ec600f9b Miri Korenblit 2025-02-16  2080  	     key->cipher == WLAN_CIPHER_SUITE_GCMP_256)) {
+d1e879ec600f9b Miri Korenblit 2025-02-16  2081  		ret = iwl_mld_alloc_ptk_pn(mld, mld_sta, key, &ptk_pn);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2082  		if (ret)
+d1e879ec600f9b Miri Korenblit 2025-02-16  2083  			return ret;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2084  	}
+d1e879ec600f9b Miri Korenblit 2025-02-16  2085  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2086  	IWL_DEBUG_MAC80211(mld, "set hwcrypto key (sta:%pM, id:%d)\n",
+d1e879ec600f9b Miri Korenblit 2025-02-16  2087  			   sta ? sta->addr : NULL, keyidx);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2088  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2089  	ret = iwl_mld_add_key(mld, vif, sta, key);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2090  	if (ret) {
+d1e879ec600f9b Miri Korenblit 2025-02-16  2091  		IWL_WARN(mld, "set key failed (%d)\n", ret);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2092  		if (ptk_pn) {
+d1e879ec600f9b Miri Korenblit 2025-02-16 @2093  			RCU_INIT_POINTER(mld_sta->ptk_pn[keyidx], NULL);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2094  			kfree(ptk_pn);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2095  		}
+d1e879ec600f9b Miri Korenblit 2025-02-16  2096  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2097  		return -EOPNOTSUPP;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2098  	}
+d1e879ec600f9b Miri Korenblit 2025-02-16  2099  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2100  	return 0;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2101  }
+d1e879ec600f9b Miri Korenblit 2025-02-16  2102  
 
 -- 
 0-DAY CI Kernel Test Service
