@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87D312E7F
-	for <oe-kbuild@lists.linux.dev>; Sun,  3 Aug 2025 23:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B129163
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 Aug 2025 00:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754264741; cv=none; b=p4hXuvibe9EL3HBomxtTm7TxyADOwRyIvmcSb3xA923TKYzOtilehuZNlVav2YKHpoJwe25VtD+RZRMWYu77m0BQ3PkI0QmcMMRtTtME/eq2HzZgT0hU04Lutc+xjWQ+mA0Fr4l1mrn36/L4AnlBZ7ZHavVGxOK2XxcJrostqpo=
+	t=1754266527; cv=none; b=WrROGtvXn8EFgS+pkrBqLINCZpPtGuQ2ct/SXsnQp3gmMOwLFklDr/EWzrFWRu3XWZrKb4XIUtyIB3ZHhFvQuH7QRNH6XBa0P+zwkaGYYthDP6SoszQ0sMvoxO7APBEmfsc94mz4DHKfov/d77elD2LYgFGph++TdDmvptMmokA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754264741; c=relaxed/simple;
-	bh=Jz7e9t2aofvf0mEQJOu/oBVsA/PYKWLOvVP3iH+0AW4=;
+	s=arc-20240116; t=1754266527; c=relaxed/simple;
+	bh=N7EGFH82pNS4fuC5QcmPeRSgG3SRVNZyYWPJJ51Secs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B13tOHKe8U5vbhHSFEPlv/2c9cR1zr8HF3tuf6Qwx/AhXVN80g2mEqMoPYC5c+yk54lhnd/XjG/64hlXOH3baCaju5cvyOdL0zdeGYFXjOtflceKDS82yz7DHDC+GUTDSH86nyAZx9zfXIQhj5MnKPsRLYvoM6gMLXCX3Xs84zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XpJOAz40; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Q14eMmyKFgbpNT/GVt59CyaiQhHsVo9o3MOIO13EYfNcpuhJ3LpSgC2grpYibuoSPEd3mucuFddE/v/klndxODG9okFiohy/Qc61FNPtd5fyU+SatkuRExtlDRBlY9gL5xhfPB+hPMXAAr1n61ADQ38xM/bkUr4WsNEp+0mJq38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WXwgl+CU; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XpJOAz40"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WXwgl+CU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754264739; x=1785800739;
+  t=1754266525; x=1785802525;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jz7e9t2aofvf0mEQJOu/oBVsA/PYKWLOvVP3iH+0AW4=;
-  b=XpJOAz408ovUf9aHj+eUbvihNLPUX3BNXYj4A5/tCdGxokyZZnMzRSta
-   +Zq/GE7I+rOTXHrHKo8HDes26F71M66qdCPvoKh7lDnzrrwvINWQ7zetR
-   Avg79j0nCzdjs3WAs3GjDWT/xNlWmIOTYgYbWl04cJCDWiTOhBMFf5Gsi
-   q793HctHIT0ezTpQrZx4YL+rfVUrBlWWJ28eUs4xLEPgeEVdyejhn02xv
-   3T6OIEHkc54qMh0G8FZ0tIE4f7u3mluZYhEyHIB32kaKrOQlqpB9Ro8r4
-   W2T+Dze9Q8PIvNuckWMCkbKJrQw612KE+W6rlP/IeX/XBvfWOlS+t+89Q
+  bh=N7EGFH82pNS4fuC5QcmPeRSgG3SRVNZyYWPJJ51Secs=;
+  b=WXwgl+CUU5sK7q/UytZhF+7ncqC3fZ11C2cdoxRmCxdTQwb52SP8s7W0
+   5KU1Hi7MZn8k7ZLph6Lua68vSwRLPbJ7BQObCVPfwsmwdnT7hVE2Db942
+   oZd5AHkFGEAQSa29wvlkAmiwsCnLxVB0OnlJ+ammOV8TXVP21rfphNqOr
+   ln6zcf6VyAOxEcwJYTHRNCvNxXkiTqBpTSKxJ7q3qGX/YB9wZAEGEGmGE
+   +XOxfo2F/RIGnB61hnrMyQTeGZVqWzvALteRuwo3XtkoXncuI4ZIgAwxL
+   Y3hm/lmR12Qj0DN6rBJ8DdPmknzEGPEZnF47p2hWHK1SgvpZkqXoklbzx
    Q==;
-X-CSE-ConnectionGUID: onoPd2cRQMKKadjf+pXnow==
-X-CSE-MsgGUID: 7LC8xOkBTqWbhvkYQqnJKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11511"; a="56223150"
+X-CSE-ConnectionGUID: hUwzBTN6SAmgNAwjLVwBSQ==
+X-CSE-MsgGUID: J+7Cc1AnTkGN1Y7T4ABfbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11511"; a="79073201"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="56223150"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2025 16:45:37 -0700
-X-CSE-ConnectionGUID: 3hlUZYDRQWmY9l3XDlRf/Q==
-X-CSE-MsgGUID: w0HUD0yMTNOAaBSC4ZY96g==
+   d="scan'208";a="79073201"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2025 17:15:25 -0700
+X-CSE-ConnectionGUID: vHffoZwFTvaP0PHPklYkgw==
+X-CSE-MsgGUID: AoqcXaz8SC2ZW/2VUsywYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="168217939"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 03 Aug 2025 16:45:36 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+   d="scan'208";a="187710900"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa002.fm.intel.com with ESMTP; 03 Aug 2025 17:15:24 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uiiOT-0006gS-02;
-	Sun, 03 Aug 2025 23:45:33 +0000
-Date: Mon, 4 Aug 2025 07:45:16 +0800
+	id 1uiirK-0001hr-0I;
+	Mon, 04 Aug 2025 00:15:22 +0000
+Date: Mon, 4 Aug 2025 02:14:49 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 27/38] arm64: dts: mediatek: mt7988a: Fix PCI-Express
- T-PHY node address
-Message-ID: <202508040745.ZlihAsOD-lkp@intel.com>
+Subject: [mripard:drm/tidss/field-api 11/60]
+ arch/arm64/boot/dts/ti/k3-am625-sk-microtips-mf101hie-panel.dtb: display
+ (microtips,mf-101hiebcaf0): compatible: ['microtips,mf-101hiebcaf0',
+ 'panel-simple'] is too long
+Message-ID: <202508040228.P16ykczr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,73 +70,32 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250724083914.61351-28-angelogioacchino.delregno@collabora.com>
-References: <20250724083914.61351-28-angelogioacchino.delregno@collabora.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-TO: linux-mediatek@lists.infradead.org
-TO: robh@kernel.org
-CC: herbert@gondor.apana.org.au
-CC: davem@davemloft.net
-CC: krzk+dt@kernel.org
-CC: conor+dt@kernel.org
-CC: chunkuang.hu@kernel.org
-CC: p.zabel@pengutronix.de
-CC: airlied@gmail.com
-CC: simona@ffwll.ch
-CC: maarten.lankhorst@linux.intel.com
-CC: mripard@kernel.org
-CC: tzimmermann@suse.de
-CC: jassisinghbrar@gmail.com
-CC: mchehab@kernel.org
-CC: matthias.bgg@gmail.com
-CC: angelogioacchino.delregno@collabora.com
-CC: chunfeng.yun@mediatek.com
-CC: vkoul@kernel.org
-CC: kishon@kernel.org
-CC: sean.wang@kernel.org
-CC: linus.walleij@linaro.org
-CC: lgirdwood@gmail.com
-CC: broonie@kernel.org
-CC: andersson@kernel.org
-CC: mathieu.poirier@linaro.org
-CC: daniel.lezcano@linaro.org
-CC: tglx@linutronix.de
-CC: atenart@kernel.org
-CC: jitao.shi@mediatek.com
+TO: Aradhya Bhatia <a-bhatia1@ti.com>
+CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Hi AngeloGioacchino,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linusw-pinctrl/devel linusw-pinctrl/for-next broonie-regulator/for-next v6.16]
-[cannot apply to linus/master next-20250801]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-dpi-Allow-specifying-resets/20250724-164429
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250724083914.61351-28-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH 27/38] arm64: dts: mediatek: mt7988a: Fix PCI-Express T-PHY node address
-:::::: branch date: 11 days ago
-:::::: commit date: 11 days ago
-config: arm64-randconfig-051-20250728 (https://download.01.org/0day-ci/archive/20250804/202508040745.ZlihAsOD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mripard/linux.git drm/tidss/field-api
+head:   8e7aa9647fd4168ea2115bb34ca99eade5b0c751
+commit: 8e43509c0c4dec12fbbc332cd4a3230caa5eb656 [11/60] arm64: dts: ti: Add Microtips OLDI SK-LCD1 Overlay for AM625-SK
+:::::: branch date: 5 days ago
+:::::: commit date: 2 weeks ago
+config: arm64-randconfig-2052-20250802 (https://download.01.org/0day-ci/archive/20250804/202508040228.P16ykczr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250804/202508040745.ZlihAsOD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250804/202508040228.P16ykczr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508040745.ZlihAsOD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508040228.P16ykczr-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: t-phy@11c50000 (mediatek,mt7986-tphy): usb-phy@700:reg: [[0, 1792], [0, 2304]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: t-phy@11c50000 (mediatek,mt7986-tphy): usb-phy@700:reg: [[0, 1792], [0, 2304]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
+>> arch/arm64/boot/dts/ti/k3-am625-sk-microtips-mf101hie-panel.dtb: display (microtips,mf-101hiebcaf0): compatible: ['microtips,mf-101hiebcaf0', 'panel-simple'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple-lvds-dual-ports.yaml#
+   arch/arm64/boot/dts/ti/k3-am625-sk-microtips-mf101hie-panel.dtb: display (microtips,mf-101hiebcaf0): 'power-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple-lvds-dual-ports.yaml#
+>> arch/arm64/boot/dts/ti/k3-am625-sk-microtips-mf101hie-panel.dtb: display (microtips,mf-101hiebcaf0): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple-lvds-dual-ports.yaml#
+   arch/arm64/boot/dts/ti/k3-am625-sk-microtips-mf101hie-panel.dtb: /display: failed to match any schema with compatible: ['microtips,mf-101hiebcaf0', 'panel-simple']
 
 -- 
 0-DAY CI Kernel Test Service
