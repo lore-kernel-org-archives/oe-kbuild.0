@@ -1,72 +1,79 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F8122CBE6
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 Aug 2025 06:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D781D217734
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 Aug 2025 06:37:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754288524; cv=none; b=hniOu/W5HQ1jKok1Bz3HJFAflpSOLjojtpJgwMUACuorDn2znTkPAfdYx576UfGGdgdkU6YYLeD1FsayNopbohc4XOvHUqP/mllRCUbqgg9uo272O+5KriwJcizijj588iFvgqvOm3J+rLK7Jawt9LVqgcHkyjpvC9TH4d0lEBE=
+	t=1754289426; cv=none; b=Q8XU1fB7sByYUYoAjlW3zdUZ+YqCKgQyQUWj46oBlZhOJ1Tv8QYn08drd1xPKeQOgQ9wTsr0qWuG3dQys9VCqVxgF7T+oIdN9pqidiI8/hgoih12UYk+cSjjhr+8mx0/ID2MTat1rKZ2SVGVoVpzO1NXp6FqVL7ivsclpjySHl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754288524; c=relaxed/simple;
-	bh=ZVTBW5jom+wDo14xqU/nVDagKZZ7c7CrXYvPIvLZROc=;
+	s=arc-20240116; t=1754289426; c=relaxed/simple;
+	bh=cWo+1+KQavKfFSEibhqQKO3SVD0lpoErOf3vNT7vPCo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=H2S7UyIV45P2Ioeb1ek2AFY2GGiI2NcbPYkv3z4afuSkehkTXB3+qGL3PJ7eHGge1Cr9nnj69C3Y1SP4GGHdvw+/JRUxBw56+advIc3A3m/UXBxHcezaNdb0++eam4W0STUl4JLBxygQ/3najLsu2tQoxTj5/TQ/l87z5SwJRJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fFkp5aI3; arc=none smtp.client-ip=209.85.128.44
+	 Content-Disposition; b=Onr8MEiZKi023fqqVDEjnSx/BL8KvzgPTrmwS43Is7HQBQot5dmweYJA8GCABin9o58li8orSuWlqavIKt6RzD1avb74MkX6HMyh2959Av3Rph7tmIWQgqMJLnG6cJXh+y+XjXQStHubdGA8D55/bMEMJ+WoF5ICFp3o3Y2y+b8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PHfyz+uO; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fFkp5aI3"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-459d7726ee6so4590735e9.2
-        for <oe-kbuild@lists.linux.dev>; Sun, 03 Aug 2025 23:22:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PHfyz+uO"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-459d40d16bdso6461885e9.0
+        for <oe-kbuild@lists.linux.dev>; Sun, 03 Aug 2025 23:37:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754288521; x=1754893321; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YeEcVaPruyFJjHGwTwns3V0T483/MZqGWdfOA8z6Bjg=;
-        b=fFkp5aI3vYY+IkcoVGs+PRj3L3XlBCQF8oGepwwfjyzUrGhF3ntS3J5wGfR5AbXIEx
-         V+YeUD3jsRtmQN0u88/9jw48CHS8Qfn3LHDecbIOBl5+A669viJTXHfHJsKGbTXIPO9Q
-         Adled6YS38tqq5vzWrx2Et4oEu8uNrWjxVCjMKGPG0BCUEpOv0JUh2u25WoSxFIbua3+
-         obcK4WYTH2IIp7b8A/KnK5JypurE7WY4c+f5HRep041WG7tXGmT8Ea0foX0KZ1Yby9fZ
-         fYKyUvRBOnkqk6iFdYmNlKAsmXTruxrFVH6s59UCKVTnNKtBuYPbjrPb09Vo37ywrKlT
-         uklg==
+        d=linaro.org; s=google; t=1754289423; x=1754894223; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YMqOordL6fYAlMra8g6TRkHlEFJWMTo9GYxxpxwalRg=;
+        b=PHfyz+uOEd/M4EBTDBdwsS9P0lJX9fffGbx+n7UWjMNRH+oG4BUEvCF5vIBH+hAYwS
+         VEuHBQMx528u6+DiD4hEaLt4eAwgtbVw9y02lb9S7D8/jdrtKh2o7MOsMHiiU9GVaR6g
+         q0v1LL8KWI/dnSyPCrG6X5JRROfi9JH5A6+onPJI7/D9XGLL+6Qpb97Wjvj3a61vRRNp
+         uY4I3aR7oFYC3ZwnSt+BL1aDCp0qUBnmWZY25D80LGux7rkuzcyb3px6pnBMnGpEgcgD
+         7zCJESOodfhoTyn0pN6hIgp839E7r3QLH7+MRyiSBj3X0ppH0zsm2w3Q9Zauot5O5PZj
+         HhIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754288521; x=1754893321;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YeEcVaPruyFJjHGwTwns3V0T483/MZqGWdfOA8z6Bjg=;
-        b=REDtunsksi7UUkLu1e3xXg4hPLDaO1B2Z34R6U8My2xIp9IR8wUaV5k7Hyj30a+ygC
-         bu3cFOybN8JuL1wxYFkganxBNx+Vsd9o9NaKVrKE0JhKyisXxQqj4R+4wgFE15029E6j
-         2X7BLLMGmSFQbye7ffkIs9224g5Wbv8tGwVTWqS84qjkOQ0lHhZ68CpJAgBaR/yVU8oQ
-         KRYu1DmB0KOk+6ADEndjhtonN97l3xTTx6fMbnIGUpeX7bJoXIGyROVCrxMfBmUohhrQ
-         o/hWJhdqpeZaMwhzwPzHbLe7iMqzEduPXmO9XMfNwhVLnUhSv2zod+CITvKzbTj0NdL0
-         iVAg==
-X-Gm-Message-State: AOJu0YxKLNPHVKd77K08viigC7ltwyG16plz1FPL48/Hbiht3vjFpa2b
-	NqLTn+LbQ9q5+ir6djRdKBjiA9m99klPYwqQCwpKaUkIipl4e9Y4f/SDQkfLXvXEzijCDyzA/7I
-	YijXj
-X-Gm-Gg: ASbGncul2KZlMRL+srPP8yttFAqHSBb0qXmPN4uC6Pssib2Iq/fD4l7PMGanQMv94wF
-	gHGL20cpApOMlFG8ZynZDlomVjYBRrvwEhO2qt4hBTGKHIDIT4hk0NRtaSu5cM5nWIUmBEIR5AJ
-	YRf1ezl3B+kbF9tdzv4FOS5favba+WphCfMIAklG96oyV0gU+FIoHdjiIUeKgW29UHIzfXdgZrQ
-	+BKgBchSGqVOjH1O5UTNx4SKSNcE+J+bSKRignAsHo4AROu8PZUdM2dhrxvekgq3NPw5xJ7ulJw
-	sUyWXd0KNN4W7FeZaCJNlNLnj+6yMkCaDeAnKf+AsLPF24YW4iWVWm0cO8e/OqQkB32vxBDZKcr
-	Gi8uZnOonrP1o841ZWU7i9I9MZNs=
-X-Google-Smtp-Source: AGHT+IH2T/8BuRm1IuYQ8ZzUxeJrK/gX8hiqAWQjPLCDcfQbPMq9lk1U66LzhxKbxgNFFI75QhHvNg==
-X-Received: by 2002:a05:600c:4692:b0:456:133f:a02d with SMTP id 5b1f17b1804b1-458b6b312d9mr64383135e9.17.1754288520939;
-        Sun, 03 Aug 2025 23:22:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754289423; x=1754894223;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YMqOordL6fYAlMra8g6TRkHlEFJWMTo9GYxxpxwalRg=;
+        b=aCJ9cst3v6zWZj7Eb7hlwNgchI46FQfpIx9pfe58XmVx9BtuxEHJJxyEE9mxT+DJOt
+         IkyGlJk9j5IFajCDkHTOUSp+LA6kkSoMfNFHFIJOqvYKWKHhzmozhqkH5L9d6j2RIH1W
+         /1yZz9N7LcTMHu+bsZImLZ8ajwgIn+zZiyKhh8FU2cRrX3ZwKoqYP8hfYeATKQc2oEqX
+         fy+eHg3g5UQExtaI5NK8+uS+5T0LrqzStU4TKHmqfkMkkauIE9647wp7DGZN7I+G52rn
+         w8XidiZL0Utvwu5viheeY7NRrKGx5p7cePAhsigHarsNZOfGYlUU1i2CO0YXICMWewcb
+         CYTg==
+X-Gm-Message-State: AOJu0Yw3atbjao65BlM7V4Jd7y6+gmO+/AAQ56Ug0anB4bnMihR9ImAT
+	dmwOQIp4ewlXNRg7iB8ovHAqbwPg8Sjecr2JtPccyXeHeAXVW9/02E18QwyW+YCyfOc+tKrrvEm
+	ozrn2
+X-Gm-Gg: ASbGnct9hwknhbGvNAGpQHfNQQy8yD2MLZrXAoKtA3nmrSVKi5eKKhnabiKGHxQ/xlx
+	dUxZy7bJG4+DRIoib9+55ESykZlULZsnjibSeL+0ZoN921eB6BFz2135xXZ8tH+fwR4KPEaZXQe
+	dq5JCLE0y/nhjZcYx+TZk1ynPXnT7OiVgTuqd421tHJQTj+600tNICTiR+RJojPkr0P4rbNYRDo
+	yaQAXXBIy6RCsZodzeBkY27liEVloXMQyhnKCbChai+e+tM/Hm5UT4QtOno0o4+fZBlobHd/uJj
+	AenKWx6sHsdBFE17O3WDT0E1j4JvDFKo7qfX/rF97B3cT1cflvZQXDhCuls8X1cD08k/EXxylJK
+	opW/tmgR+n1dD5BdRLVkNzGDvRHQ=
+X-Google-Smtp-Source: AGHT+IGEvRyryD7ili35wNADk5uvsbVaFZNVwOw1rvSQfa0XkjNQ7ywk15aPbVYA/1Mh9Vh+0rwX2Q==
+X-Received: by 2002:a05:600c:1554:b0:456:1611:cea5 with SMTP id 5b1f17b1804b1-458b6b58472mr67261065e9.18.1754289422884;
+        Sun, 03 Aug 2025 23:37:02 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459db3048bdsm21955145e9.29.2025.08.03.23.21.59
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458bb04c612sm76259555e9.0.2025.08.03.23.37.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Aug 2025 23:22:00 -0700 (PDT)
-Date: Mon, 4 Aug 2025 09:21:56 +0300
+        Sun, 03 Aug 2025 23:37:02 -0700 (PDT)
+Date: Mon, 4 Aug 2025 09:36:49 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	bpf@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Roberto Sassu <roberto.sassu@huawei.com>
-Subject: Re: [PATCH v2 3/3] bpf: eliminate the allocation of an intermediate
- struct bpf_key
-Message-ID: <df5a917b-fa24-42b7-8d71-b70e5156528e@suswa.mountain>
+	linux-kernel@vger.kernel.org,
+	Johannes Berg <johannes.berg@intel.com>,
+	Avraham Stern <avraham.stern@intel.com>,
+	Daniel Gabay <daniel.gabay@intel.com>,
+	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+	Anjaneyulu <pagadala.yesu.anjaneyulu@intel.com>,
+	Yedidya Benshimol <yedidya.ben.shimol@intel.com>,
+	Benjamin Berg <benjamin.berg@intel.com>,
+	Shaul Triebitz <shaul.triebitz@intel.com>
+Subject: drivers/net/wireless/intel/iwlwifi/mld/mac80211.c:2093
+ iwl_mld_set_key_add() error: we previously assumed 'mld_sta' could be null
+ (see line 2076)
+Message-ID: <8bf5e723-f70f-4767-8d8e-476143c962c3@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,73 +82,115 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250730172745.8480-4-James.Bottomley@HansenPartnership.com>
 
-Hi James,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/bpf-make-bpf_key-an-opaque-type/20250731-013040
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250730172745.8480-4-James.Bottomley%40HansenPartnership.com
-patch subject: [PATCH v2 3/3] bpf: eliminate the allocation of an intermediate struct bpf_key
-config: i386-randconfig-141-20250803 (https://download.01.org/0day-ci/archive/20250804/202508040803.nwExqJWe-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   186f3edfdd41f2ae87fc40a9ccba52a3bf930994
+commit: d1e879ec600f9b3bdd253167533959facfefb17b wifi: iwlwifi: add iwlmld sub-driver
+config: i386-randconfig-141-20250803 (https://download.01.org/0day-ci/archive/20250803/202508031151.K87baMm4-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508040803.nwExqJWe-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508031151.K87baMm4-lkp@intel.com/
 
 smatch warnings:
-kernel/trace/bpf_trace.c:1364 bpf_verify_pkcs7_signature() warn: impossible condition '(key == BUILTIN_KEY) => (0-u32max == u64max)'
+drivers/net/wireless/intel/iwlwifi/mld/mac80211.c:2093 iwl_mld_set_key_add() error: we previously assumed 'mld_sta' could be null (see line 2076)
+drivers/net/wireless/intel/iwlwifi/mld/scan.c:1124 iwl_mld_scan_cmd_set_chan_params() warn: assigning (-128) to unsigned variable 'cfg->v5.psd_20'
+drivers/net/wireless/intel/iwlwifi/mld/ptp.c:298 iwl_mld_ptp_init() warn: passing zero to 'PTR_ERR'
+   The IS_ERR_OR_NULL() check should be changed to IS_ERR().  See
+   https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+   for more details.
 
-vim +1364 kernel/trace/bpf_trace.c
+vim +/mld_sta +2093 drivers/net/wireless/intel/iwlwifi/mld/mac80211.c
 
-cce4c40b960673 Daniel Xu       2024-06-12  1353  __bpf_kfunc int bpf_verify_pkcs7_signature(struct bpf_dynptr *data_p,
-cce4c40b960673 Daniel Xu       2024-06-12  1354  			       struct bpf_dynptr *sig_p,
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1355  			       struct bpf_key *trusted_keyring)
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1356  {
-cce4c40b960673 Daniel Xu       2024-06-12  1357  	struct bpf_dynptr_kern *data_ptr = (struct bpf_dynptr_kern *)data_p;
-cce4c40b960673 Daniel Xu       2024-06-12  1358  	struct bpf_dynptr_kern *sig_ptr = (struct bpf_dynptr_kern *)sig_p;
-9cc2aa8d6b5c93 James Bottomley 2025-07-30  1359  	struct key *key = (struct key *)trusted_keyring;
-74523c06ae20b8 Song Liu        2023-11-06  1360  	const void *data, *sig;
-74523c06ae20b8 Song Liu        2023-11-06  1361  	u32 data_len, sig_len;
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1362  	int ret;
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1363  
-9cc2aa8d6b5c93 James Bottomley 2025-07-30 @1364  	if ((unsigned long)key == BUILTIN_KEY)
+d1e879ec600f9b Miri Korenblit 2025-02-16  2024  static int iwl_mld_set_key_add(struct iwl_mld *mld,
+d1e879ec600f9b Miri Korenblit 2025-02-16  2025  			       struct ieee80211_vif *vif,
+d1e879ec600f9b Miri Korenblit 2025-02-16  2026  			       struct ieee80211_sta *sta,
+d1e879ec600f9b Miri Korenblit 2025-02-16  2027  			       struct ieee80211_key_conf *key)
+d1e879ec600f9b Miri Korenblit 2025-02-16  2028  {
+d1e879ec600f9b Miri Korenblit 2025-02-16  2029  	struct iwl_mld_vif *mld_vif = iwl_mld_vif_from_mac80211(vif);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2030  	struct iwl_mld_sta *mld_sta =
+d1e879ec600f9b Miri Korenblit 2025-02-16  2031  		sta ? iwl_mld_sta_from_mac80211(sta) : NULL;
+                                                                                                       ^^^^
 
-BUILTIN_KEY should be changed to -1L so that this works on 32bit
-systems.
+d1e879ec600f9b Miri Korenblit 2025-02-16  2032  	struct iwl_mld_ptk_pn *ptk_pn = NULL;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2033  	int keyidx = key->keyidx;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2034  	int ret;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2035  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2036  	/* Will be set to 0 if added successfully */
+d1e879ec600f9b Miri Korenblit 2025-02-16  2037  	key->hw_key_idx = STA_KEY_IDX_INVALID;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2038  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2039  	switch (key->cipher) {
+d1e879ec600f9b Miri Korenblit 2025-02-16  2040  	case WLAN_CIPHER_SUITE_WEP40:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2041  	case WLAN_CIPHER_SUITE_WEP104:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2042  		IWL_DEBUG_MAC80211(mld, "Use SW encryption for WEP\n");
+d1e879ec600f9b Miri Korenblit 2025-02-16  2043  		return -EOPNOTSUPP;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2044  	case WLAN_CIPHER_SUITE_TKIP:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2045  		if (vif->type == NL80211_IFTYPE_STATION) {
+d1e879ec600f9b Miri Korenblit 2025-02-16  2046  			key->flags |= IEEE80211_KEY_FLAG_PUT_MIC_SPACE;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2047  			break;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2048  		}
+d1e879ec600f9b Miri Korenblit 2025-02-16  2049  		IWL_DEBUG_MAC80211(mld, "Use SW encryption for TKIP\n");
+d1e879ec600f9b Miri Korenblit 2025-02-16  2050  		return -EOPNOTSUPP;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2051  	case WLAN_CIPHER_SUITE_CCMP:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2052  	case WLAN_CIPHER_SUITE_GCMP:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2053  	case WLAN_CIPHER_SUITE_GCMP_256:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2054  	case WLAN_CIPHER_SUITE_AES_CMAC:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2055  	case WLAN_CIPHER_SUITE_BIP_GMAC_128:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2056  	case WLAN_CIPHER_SUITE_BIP_GMAC_256:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2057  		break;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2058  	default:
+d1e879ec600f9b Miri Korenblit 2025-02-16  2059  		return -EOPNOTSUPP;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2060  	}
+d1e879ec600f9b Miri Korenblit 2025-02-16  2061  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2062  	if (vif->type == NL80211_IFTYPE_STATION &&
+d1e879ec600f9b Miri Korenblit 2025-02-16  2063  	    (keyidx == 6 || keyidx == 7))
+d1e879ec600f9b Miri Korenblit 2025-02-16  2064  		rcu_assign_pointer(mld_vif->bigtks[keyidx - 6], key);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2065  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2066  	/* After exiting from RFKILL, hostapd configures GTK/ITGK before the
+d1e879ec600f9b Miri Korenblit 2025-02-16  2067  	 * AP is started, but those keys can't be sent to the FW before the
+d1e879ec600f9b Miri Korenblit 2025-02-16  2068  	 * MCAST/BCAST STAs are added to it (which happens upon AP start).
+d1e879ec600f9b Miri Korenblit 2025-02-16  2069  	 * Store it here to be sent later when the AP is started.
+d1e879ec600f9b Miri Korenblit 2025-02-16  2070  	 */
+d1e879ec600f9b Miri Korenblit 2025-02-16  2071  	if ((vif->type == NL80211_IFTYPE_ADHOC ||
+d1e879ec600f9b Miri Korenblit 2025-02-16  2072  	     vif->type == NL80211_IFTYPE_AP) && !sta &&
+d1e879ec600f9b Miri Korenblit 2025-02-16  2073  	     !mld_vif->ap_ibss_active)
+d1e879ec600f9b Miri Korenblit 2025-02-16  2074  		return iwl_mld_store_ap_early_key(mld, key, mld_vif);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2075  
+d1e879ec600f9b Miri Korenblit 2025-02-16 @2076  	if (!mld->fw_status.in_hw_restart && mld_sta &&
+                                                                                             ^^^^^^^
+This code assumes that mld_sta can be NULL
 
-9cc2aa8d6b5c93 James Bottomley 2025-07-30  1365  		key = NULL;
-9cc2aa8d6b5c93 James Bottomley 2025-07-30  1366  
-9cc2aa8d6b5c93 James Bottomley 2025-07-30  1367  	if (system_keyring_id_check((unsigned long)key) < 0) {
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1368  		/*
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1369  		 * Do the permission check deferred in bpf_lookup_user_key().
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1370  		 * See bpf_lookup_user_key() for more details.
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1371  		 *
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1372  		 * A call to key_task_permission() here would be redundant, as
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1373  		 * it is already done by keyring_search() called by
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1374  		 * find_asymmetric_key().
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1375  		 */
-9cc2aa8d6b5c93 James Bottomley 2025-07-30  1376  		ret = key_validate(key);
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1377  		if (ret < 0)
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1378  			return ret;
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1379  	}
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1380  
-74523c06ae20b8 Song Liu        2023-11-06  1381  	data_len = __bpf_dynptr_size(data_ptr);
-74523c06ae20b8 Song Liu        2023-11-06  1382  	data = __bpf_dynptr_data(data_ptr, data_len);
-74523c06ae20b8 Song Liu        2023-11-06  1383  	sig_len = __bpf_dynptr_size(sig_ptr);
-74523c06ae20b8 Song Liu        2023-11-06  1384  	sig = __bpf_dynptr_data(sig_ptr, sig_len);
-74523c06ae20b8 Song Liu        2023-11-06  1385  
-9cc2aa8d6b5c93 James Bottomley 2025-07-30  1386  	return verify_pkcs7_signature(data, data_len, sig, sig_len, key,
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1387  				      VERIFYING_UNSPECIFIED_SIGNATURE, NULL,
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1388  				      NULL);
-865b0566d8f1a0 Roberto Sassu   2022-09-20  1389  }
+d1e879ec600f9b Miri Korenblit 2025-02-16  2077  	    key->flags & IEEE80211_KEY_FLAG_PAIRWISE &&
+d1e879ec600f9b Miri Korenblit 2025-02-16  2078  	    (key->cipher == WLAN_CIPHER_SUITE_CCMP ||
+d1e879ec600f9b Miri Korenblit 2025-02-16  2079  	     key->cipher == WLAN_CIPHER_SUITE_GCMP ||
+d1e879ec600f9b Miri Korenblit 2025-02-16  2080  	     key->cipher == WLAN_CIPHER_SUITE_GCMP_256)) {
+d1e879ec600f9b Miri Korenblit 2025-02-16  2081  		ret = iwl_mld_alloc_ptk_pn(mld, mld_sta, key, &ptk_pn);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2082  		if (ret)
+d1e879ec600f9b Miri Korenblit 2025-02-16  2083  			return ret;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2084  	}
+d1e879ec600f9b Miri Korenblit 2025-02-16  2085  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2086  	IWL_DEBUG_MAC80211(mld, "set hwcrypto key (sta:%pM, id:%d)\n",
+d1e879ec600f9b Miri Korenblit 2025-02-16  2087  			   sta ? sta->addr : NULL, keyidx);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2088  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2089  	ret = iwl_mld_add_key(mld, vif, sta, key);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2090  	if (ret) {
+d1e879ec600f9b Miri Korenblit 2025-02-16  2091  		IWL_WARN(mld, "set key failed (%d)\n", ret);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2092  		if (ptk_pn) {
+d1e879ec600f9b Miri Korenblit 2025-02-16 @2093  			RCU_INIT_POINTER(mld_sta->ptk_pn[keyidx], NULL);
+                                                                                         ^^^^^^^^^
+But here it's dereferenced without checking.
+
+d1e879ec600f9b Miri Korenblit 2025-02-16  2094  			kfree(ptk_pn);
+d1e879ec600f9b Miri Korenblit 2025-02-16  2095  		}
+d1e879ec600f9b Miri Korenblit 2025-02-16  2096  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2097  		return -EOPNOTSUPP;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2098  	}
+d1e879ec600f9b Miri Korenblit 2025-02-16  2099  
+d1e879ec600f9b Miri Korenblit 2025-02-16  2100  	return 0;
+d1e879ec600f9b Miri Korenblit 2025-02-16  2101  }
 
 -- 
 0-DAY CI Kernel Test Service
