@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BE5111AD
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Aug 2025 00:39:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D7217BA9
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Aug 2025 00:39:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754354369; cv=none; b=uFGnGJ9mUI/zs3+qtZSgl1urzjMEIQsaY0/GD9RsEu+KmDZk27ctK3i5dmAt5PZ6CCY0iHVxpJ60xV8TfdQM1UPvk7AOwB2qtlJm1X9RMMUwtOiUZ6G6q23nmVAZNdALDRkJGJqyNlkB11Tqumx8hWj9aHhUH68zAlYmnN4IYU0=
+	t=1754354369; cv=none; b=aQHLGS0nXpkx15aOuz7Fd+D6RYpv4sHGLAh72fdmQTE8T3Hpvy4vxJtDUfen+xoxdKMYq7WncpgAYO1fQqUAI/iNa27OnbshyEUcLw4XLOGChOzc3v3hKPgoa3854loTu05sVskSLA1e0fhLrcilTf55WZhUS1wOJMQqe2TeJlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1754354369; c=relaxed/simple;
-	bh=ncBqzeaucV/V0hHyLs3g/nc1FfskOYqrzMQB9ATihEY=;
+	bh=mOEcIG7Bq4O0dCydZCWl0GfvvUsBpSD5Dx2pNEZrv9Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Jry5V+uBpV0wnRxV/Ap+yLKdybyAc086rdFJQRBUz4GjRpA0JTCl0v7DqEAqOAYQqRYs/9+HccvRX1N9SVtq56tDlree8b/yVL6x8y7R6L+MRrK+gP3OLguxJfx2b83HDJ8hi0O9VQG0iN9G73CQSMUgj2MWGAT1AkE7KK9N17w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DooVxAt0; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=Q00/UACSGeGQf0khdoS2d9eYMnoLG5w5DQ3vUDfpwk3X6ySkXkm9cEMUj/QR5n+EHwttOZCXODIPjvcQOQhntyxLuv+DxTT25OTmvBhY9wEn6qNtZE6DGUBEHx5Eb1uXuVw7mBgNnyWDFcTuQMGqDcL1YpL7rIMbeJ3GcWnCboY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IvQP7Xjk; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DooVxAt0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IvQP7Xjk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754354368; x=1785890368;
+  t=1754354367; x=1785890367;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ncBqzeaucV/V0hHyLs3g/nc1FfskOYqrzMQB9ATihEY=;
-  b=DooVxAt0EQxjM4wP4bdRmgk2iPZjOcswXZp2tQUR+GRPwjCBGHiaPlmI
-   BvWS1T6gkeO/5xe6Cdpq4l2VLYlibWF//BAi6YirtJnVstkqmHGG1Q+QG
-   NcvDrnOkD/PqVHcCuKrthD504dt8j1ODOtWpie3I1AMqJIjaYh6w0zBAp
-   y5ongzdLzgl+SgJdaIi30m7oAE5h40ECZxYCMiS59Xoo+32vWn0o6DFhX
-   NjGLOgQ1uRbnAZk7VroT40Z7CZipuh0IyKkOzsghLXJzmBOZzZBHyte/6
-   MQaRUKgctuapfDi7y1RImmAZCcjpngZZ51eeDxndQ0OZcQfJLQJKYKR3T
-   w==;
-X-CSE-ConnectionGUID: aXecHEgqToClE9nWY60eQA==
-X-CSE-MsgGUID: nIMrzdghTMqZzbQ9AZejGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="56522615"
+  bh=mOEcIG7Bq4O0dCydZCWl0GfvvUsBpSD5Dx2pNEZrv9Q=;
+  b=IvQP7XjkG+JME4DYSX5d32iTGsy3ZdXAfPv2LESBIWEYwohe1RxDyuN2
+   6kCn889jvxzugwSWbW3MzPG44zFNXpLXHuy8NdHsYC+tKm7WxAHMiE3rK
+   Vp3n/EyG5JpyFpTWHlDFULZkP03pzsZpSwdvQ7vQsqYEJO1Pg7NYgeQbZ
+   oWo1xTlkTekpSY/m2XUEWxa7Nrq6rCsJUFRrGXg76/8ePkUKvtg0Z3ayM
+   yWp5xV6RnOJewj2w9pr7cTGJbm63OAf9NgXT2VLV34NVtqfR2xwxb+aZO
+   Uf8ohqaFrOJiKsBM5hnaKCxDF5TU0YdOQMZOGAhoPmYAyEF+4UjkXEfXR
+   Q==;
+X-CSE-ConnectionGUID: FpQYJEXfQvCtjb3qgDnS7Q==
+X-CSE-MsgGUID: 9ElJbZ5PS3G064ScHnl4og==
+X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="60465824"
 X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; 
-   d="scan'208";a="56522615"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2025 17:39:27 -0700
-X-CSE-ConnectionGUID: CnQ9XMKxSJOGWo+nYGAbkA==
-X-CSE-MsgGUID: kliUoNhiSP+1o+Ynkrd5cw==
+   d="scan'208";a="60465824"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2025 17:39:27 -0700
+X-CSE-ConnectionGUID: CGRxRK4LQAWvbv5Dm0tTRg==
+X-CSE-MsgGUID: 1XszfG27TyS51deS5BJStw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; 
-   d="scan'208";a="169604042"
+   d="scan'208";a="164609317"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 04 Aug 2025 17:39:25 -0700
+  by orviesa008.jf.intel.com with ESMTP; 04 Aug 2025 17:39:25 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uj5i7-0000LJ-0l;
+	id 1uj5i7-0000LH-0h;
 	Tue, 05 Aug 2025 00:39:23 +0000
-Date: Tue, 5 Aug 2025 08:39:16 +0800
+Date: Tue, 5 Aug 2025 08:39:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [melver:cap-analysis/dev 23/34] drivers/tty/serial/uartlite.c:523
- ulite_console_write() error: uninitialized symbol 'flags'.
-Message-ID: <202508050813.ouRV08aN-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [asahilinux:asahi-wip 10/208]
+ arch/arm64/boot/dts/apple/t8103-j274.dtb: usb@382280000 (apple,t8103-dwc3):
+ iommus: [[95, 0], [96, 1]] is too long
+Message-ID: <202508050808.m7UkmGni-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,65 +63,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: elver@google.com
+TO: Hector Martin <marcan@marcan.st>
+CC: Janne Grunau <j@jannau.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis/dev
-head:   84b025a0f61636d7599b175d0a8186de719087e4
-commit: 6d0c29522d626fe956a6abdb892b99baeaff211e [23/34] compiler-capability-analysis: Remove __cond_lock() function-like helper
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: x86_64-randconfig-161-20250805 (https://download.01.org/0day-ci/archive/20250805/202508050813.ouRV08aN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+tree:   https://github.com/AsahiLinux/linux asahi-wip
+head:   0fcda52c969c6fe276e3f63f02438233ca592077
+commit: 0563b4983f50f44397547463ee88ee94a4e362c6 [10/208] arm64: dts: apple: Add SMC node to t8103/t6001 devicetrees
+:::::: branch date: 29 hours ago
+:::::: commit date: 8 days ago
+config: arm64-randconfig-052-20250804 (https://download.01.org/0day-ci/archive/20250805/202508050808.m7UkmGni-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250805/202508050808.m7UkmGni-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508050813.ouRV08aN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508050808.m7UkmGni-lkp@intel.com/
 
-smatch warnings:
-drivers/tty/serial/uartlite.c:523 ulite_console_write() error: uninitialized symbol 'flags'.
-
-vim +/flags +523 drivers/tty/serial/uartlite.c
-
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  496  
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  497  static void ulite_console_write(struct console *co, const char *s,
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  498  				unsigned int count)
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  499  {
-deeb33e8fdd834 drivers/tty/serial/uartlite.c Shubhrajyoti Datta 2018-08-06  500  	struct uart_port *port = console_port;
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  501  	unsigned long flags;
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  502  	unsigned int ier;
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  503  	int locked = 1;
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  504  
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  505  	if (oops_in_progress) {
-de71068b6a0678 drivers/tty/serial/uartlite.c Thomas Gleixner    2023-09-14  506  		locked = uart_port_trylock_irqsave(port, &flags);
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  507  	} else
-de71068b6a0678 drivers/tty/serial/uartlite.c Thomas Gleixner    2023-09-14  508  		uart_port_lock_irqsave(port, &flags);
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  509  
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  510  	/* save and disable interrupt */
-6d53c3b71d32da drivers/tty/serial/uartlite.c Michal Simek       2013-02-11  511  	ier = uart_in32(ULITE_STATUS, port) & ULITE_STATUS_IE;
-6d53c3b71d32da drivers/tty/serial/uartlite.c Michal Simek       2013-02-11  512  	uart_out32(0, ULITE_CONTROL, port);
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  513  
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  514  	uart_console_write(port, s, count, ulite_console_putchar);
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  515  
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  516  	ulite_console_wait_tx(port);
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  517  
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  518  	/* restore interrupt state */
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  519  	if (ier)
-6d53c3b71d32da drivers/tty/serial/uartlite.c Michal Simek       2013-02-11  520  		uart_out32(ULITE_CONTROL_IE, ULITE_CONTROL, port);
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  521  
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  522  	if (locked)
-de71068b6a0678 drivers/tty/serial/uartlite.c Thomas Gleixner    2023-09-14 @523  		uart_port_unlock_irqrestore(port, flags);
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  524  }
-238b8721a554a3 drivers/serial/uartlite.c     Peter Korsgaard    2006-12-06  525  
-
-:::::: The code at line 523 was first introduced by commit
-:::::: de71068b6a06788dd179136f43d2d873e6fd14a9 serial: uartlite: Use port lock wrappers
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t8103.dtsi:762.46-765.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmic@f/nvmem-layout/boot-error-count@9f02: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmic@f/nvmem-layout/panic-count@9f02)
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.25-423.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:62.10-71.6: Warning (graph_child_address): /soc/i2c@235010000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:87.10-96.6: Warning (graph_child_address): /soc/i2c@235010000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: usb@382280000 (apple,t8103-dwc3): iommus: [[95, 0], [96, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: usb@382280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: usb@502280000 (apple,t8103-dwc3): iommus: [[99, 0], [100, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: usb@502280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.25-423.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103.dtsi:425.26-429.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:62.10-71.6: Warning (graph_child_address): /soc/i2c@235010000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:87.10-96.6: Warning (graph_child_address): /soc/i2c@235010000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/spi@23510c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: usb@382280000 (apple,t8103-dwc3): iommus: [[97, 0], [98, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: usb@382280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: usb@502280000 (apple,t8103-dwc3): iommus: [[101, 0], [102, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: usb@502280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:762.46-765.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmic@f/nvmem-layout/boot-error-count@9f02: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmic@f/nvmem-layout/panic-count@9f02)
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.25-423.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:62.10-71.6: Warning (graph_child_address): /soc/i2c@235010000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:87.10-96.6: Warning (graph_child_address): /soc/i2c@235010000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/spi@23510c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: usb@382280000 (apple,t8103-dwc3): iommus: [[95, 0], [96, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: usb@382280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: usb@502280000 (apple,t8103-dwc3): iommus: [[99, 0], [100, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: usb@502280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:762.46-765.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmic@f/nvmem-layout/boot-error-count@9f02: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmic@f/nvmem-layout/panic-count@9f02)
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.25-423.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:62.10-71.6: Warning (graph_child_address): /soc/i2c@235010000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:87.10-96.6: Warning (graph_child_address): /soc/i2c@235010000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: usb@382280000 (apple,t8103-dwc3): iommus: [[95, 0], [96, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: usb@382280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: usb@502280000 (apple,t8103-dwc3): iommus: [[99, 0], [100, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: usb@502280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:762.46-765.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmic@f/nvmem-layout/boot-error-count@9f02: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmic@f/nvmem-layout/panic-count@9f02)
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.25-423.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:62.10-71.6: Warning (graph_child_address): /soc/i2c@235010000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi:87.10-96.6: Warning (graph_child_address): /soc/i2c@235010000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: usb@382280000 (apple,t8103-dwc3): iommus: [[95, 0], [96, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: usb@382280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: usb@502280000 (apple,t8103-dwc3): iommus: [[99, 0], [100, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: usb@502280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
 
 -- 
 0-DAY CI Kernel Test Service
