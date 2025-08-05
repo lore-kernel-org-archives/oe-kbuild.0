@@ -1,151 +1,95 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E378274B22
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Aug 2025 14:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7BA2749D3
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Aug 2025 14:33:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754404153; cv=none; b=m58av6YOqX1DIht9DLwWXBxIXxfL+9g3BQ8ojGxiEzoY3CP5hALQTD6z6RHm6RfTrvF0O+OFqReLWNxI2F9XZBIXHZm+QNeKF4v6RfIfRaO+4/myNa4IiIXTi/56hA0S1VB56dL957qo1ylgOogJl5qQVPCowo4vBaev2y+Vtpc=
+	t=1754404422; cv=none; b=NQSAzyMP9q6n2NBOiXVTnqtYovRZKaq2vB95bL54rzdi+4TgwIPGnOuLV/0fbOO3qn0f2gLWSKH6WPXIIZpvicbhnuR3yut3fGvAYiPZ7rcywLHTsMdo/vCu3pvAZCCl/GwCk3DGdpyN8i6/4cZLaJADKoB1upEwyKWJlNecVK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754404153; c=relaxed/simple;
-	bh=iS13Lj7PqhDVLVMyWJYzPGwnNU2Ta7rfL8u52Yw2AcY=;
+	s=arc-20240116; t=1754404422; c=relaxed/simple;
+	bh=QTXIr6x6JFfoPsEUuH6BRX94PkMKXqTV4XOgu1J+2Ko=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ao9a5VimavjptDa3slMo1mkmoW/H/SbraAnbMNUh5+d16OVz+xJ9yaaA2+UDL+SLlntsTkiy8Q/2/YtX/zC7i0XByp8FqTBguTvfS1RHWYKKt5PCGNsjskmzufqaROaoMpxVhb/SODwQ5UE6HdKh3NMWDspkLj0Fp/h4BhoO8EE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jdkv1P6U; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=PuVHmL4wkMYsNA8ldZbrqc/ruCl2ENhUhEDbytLBYQH14lzvnLV6B9GUjnb15/i6uHY0e0cFo2BpzT5vNRwQghQ0W3na7qPwBOjFao7T0FScWDEceGMd+a08c7vggbYTafsTISGO7YNQ4ayvf2IkEReD9Qw4Q0TPUGmbzaEeqpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UtyqDuR1; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jdkv1P6U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UtyqDuR1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754404151; x=1785940151;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=iS13Lj7PqhDVLVMyWJYzPGwnNU2Ta7rfL8u52Yw2AcY=;
-  b=Jdkv1P6UIO6q/JLejeIkH8Ebo3DB0wtapc9wqrtOYSpvdNiwuQVpwnb3
-   zzVylL7Iu9x08Cljn+4fcKJs5EfNs/hA1mo3kBUsWU3Lu4jav8RRgy/mG
-   JEU7JAbpSeExQS4AjRJ+tFB34satXHDjnRqVpZwo1/wJ0uY1fS17xFd7X
-   6xSU/Ymn05LzJiwVF7P7KZfUzrkbgC7x2tMOqHyIEk4aTr8Uexntm9FCM
-   IgnNXiBYVVsLSe8ZUHLkQkPTKg66bKKpSSjLnEXzvB6yrMCcge2+x24sh
-   /1jqtqaOF0imV2b/qmJv5XdiFr3O74Tna+viX8i6KcCSQxhUA6t5xvuPC
+  t=1754404421; x=1785940421;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QTXIr6x6JFfoPsEUuH6BRX94PkMKXqTV4XOgu1J+2Ko=;
+  b=UtyqDuR14qz2gD7tWj6bM8zFiMh7NBobAdD0IXzY+MsNt65Vo5QJ0RpC
+   7grp8kJSZUU9jXwsK22ULm45z40viNr7HdIkBGZgF5g13wt16P1JS1cIu
+   F/6D4eVaZu+nPNmM/xZEbmRO3wWFcGXSkfCNmV6RZHuqdaVGsd8Lkrohj
+   2wrA9xGXTsQAjeC/I88I4XW0SIom+ZGtfqqPuQLtu7ar9902C+OhI34JM
+   7BTzr4MmRyqYYcIQCZfK1qMdxo9aySQd+Heya+LcU5ewofnnPNRwI2wA2
+   SLtsC9AYp7osrnsyt8d7vnREhjrTp7nDcsSdAKaWYTLee7r10LZumpoES
    g==;
-X-CSE-ConnectionGUID: VXoQD1nbRI2e8cZRjpPPQg==
-X-CSE-MsgGUID: oght9umvRiqyjk4smJtT1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="68153378"
+X-CSE-ConnectionGUID: PfQi357cRqiaGhd4ieU/0w==
+X-CSE-MsgGUID: nCR0+peiQCScP5hu3psHew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="68154388"
 X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; 
-   d="scan'208";a="68153378"
+   d="scan'208";a="68154388"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 07:29:11 -0700
-X-CSE-ConnectionGUID: FK4B73vmSAWDY5i01ynT2Q==
-X-CSE-MsgGUID: Is3X0jS6SR6CdFDyZuB6xQ==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 07:33:40 -0700
+X-CSE-ConnectionGUID: dfZsJJkIRoKQt6ucmPLiCQ==
+X-CSE-MsgGUID: zlJhl80aRtS4LOKCgjVEQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; 
-   d="scan'208";a="168687417"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 05 Aug 2025 07:29:10 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="168688791"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by orviesa003.jf.intel.com with ESMTP; 05 Aug 2025 07:33:40 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujIf5-0000co-28;
-	Tue, 05 Aug 2025 14:29:07 +0000
-Date: Tue, 5 Aug 2025 22:29:06 +0800
+	id 1ujIjR-00020t-0E;
+	Tue, 05 Aug 2025 14:33:37 +0000
+Date: Tue, 5 Aug 2025 16:33:18 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:asahi-wip 4/208]
- arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3b (ti,sn012776):
- compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-Message-ID: <202508052206.UNqG3YUW-lkp@intel.com>
+Subject: [linux-next:master 11988/13293] /usr/bin/ld: warning:
+ vmlinux.unstripped has a LOAD segment with RWX permissions
+Message-ID: <202508051600.JORbJraJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Martin Povišer" <povik+lin@cutebit.org>
-CC: Janne Grunau <j@jannau.net>
+TO: Masahiro Yamada <masahiroy@kernel.org>
 
-tree:   https://github.com/AsahiLinux/linux asahi-wip
-head:   0fcda52c969c6fe276e3f63f02438233ca592077
-commit: 42d39ba8c339379b508a1b43f759e0b5ca32bcb0 [4/208] arm64: dts: apple: t8112*: Put in audio nodes
-:::::: branch date: 2 days ago
-:::::: commit date: 8 days ago
-config: arm64-randconfig-052-20250804 (https://download.01.org/0day-ci/archive/20250805/202508052206.UNqG3YUW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250805/202508052206.UNqG3YUW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   afec768a6a8fe7fb02a08ffce5f2f556f51d4b52
+commit: 6cba15e9daa2a0714c9159a46fd021947745eea0 [11988/13293] kbuild: always create intermediate vmlinux.unstripped
+:::::: branch date: 11 hours ago
+:::::: commit date: 10 days ago
+config: um-randconfig-2005-20250805 (https://download.01.org/0day-ci/archive/20250805/202508051600.JORbJraJ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project faa4c4c2dc804c31845d8f036345fac00e016f2d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250805/202508051600.JORbJraJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508052206.UNqG3YUW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508051600.JORbJraJ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t8112.dtsi:810.46-813.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d714000/pmic@e/nvmem-layout/boot-error-count@f702: duplicate unit-address (also used in node /soc/spmi@23d714000/pmic@e/nvmem-layout/panic-count@f702)
-   arch/arm64/boot/dts/apple/t8112.dtsi:429.25-438.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@39 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3b (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3b (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3c (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3c (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /sound: failed to match any schema with compatible: ['apple,j413-macaudio', 'apple,macaudio']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /sound: failed to match any schema with compatible: ['apple,j413-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t8112-j473.dts:103.14-112.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112-j473.dts:114.14-123.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112.dtsi:810.46-813.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d714000/pmic@e/nvmem-layout/boot-error-count@f702: duplicate unit-address (also used in node /soc/spmi@23d714000/pmic@e/nvmem-layout/panic-count@f702)
-   arch/arm64/boot/dts/apple/t8112.dtsi:429.25-438.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: codec@4b (cirrus,cs42l84): 'cirrus,ts-inv', 'sound-name-prefix' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /sound: failed to match any schema with compatible: ['apple,j473-macaudio', 'apple,macaudio']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /sound: failed to match any schema with compatible: ['apple,j473-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t8112-j493.dts:188.14-207.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112-j493.dts:209.14-218.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112.dtsi:810.46-813.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d714000/pmic@e/nvmem-layout/boot-error-count@f702: duplicate unit-address (also used in node /soc/spmi@23d714000/pmic@e/nvmem-layout/panic-count@f702)
-   arch/arm64/boot/dts/apple/t8112.dtsi:429.25-438.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112.dtsi:440.26-444.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@39 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3b (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3b (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
+All warnings (new ones prefixed by >>):
+
+   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   /usr/bin/ld: warning: .tmp_vmlinux2 has a LOAD segment with RWX permissions
+>> /usr/bin/ld: warning: vmlinux.unstripped has a LOAD segment with RWX permissions
 
 -- 
 0-DAY CI Kernel Test Service
