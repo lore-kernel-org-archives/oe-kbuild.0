@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3993A926
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 Aug 2025 19:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BDE220F29
+	for <oe-kbuild@lists.linux.dev>; Wed,  6 Aug 2025 21:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754508844; cv=none; b=XWmhXgkM2oSiz8VE2aVOaCziYZryqfVGqh9s5TRwPQ6AB31jDaBbFPskx2MJF2CwaicfCo/VVYI5bGVxtuWeDS86/CWHAB6c+sQdf/jv3zvSpvn18kE1RhEIeq+2eRpxvzI/hgpMZdtJumzrBnOSTgDaqWQ8WdpT2Fuf1si133E=
+	t=1754514313; cv=none; b=EU8R2nP1gzseCuKFvzGrNMSQ/RpttQhSxF42nlFIX7M6sWO1XV42M+0HWodqrDy64fN5Kffz2S8Cp1lM28KoDC16ZCqu2V1VIK3reVaVg6utligT/jn8C4MWFpUhUbs81tYFT2naQLtPq9R1UJWN8pX3igRFs923k/3+jWlGNj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754508844; c=relaxed/simple;
-	bh=fUWh4a57UbjOQel+MMmOy5hS8hWdo142G7FH+e9gNjM=;
+	s=arc-20240116; t=1754514313; c=relaxed/simple;
+	bh=KdvqO4p6fa7phbwpotSZc5lyGifusc7eZKAqmF1n2r8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J+DY0FNTuT+fNk4U5gtJIC1C5HzY2xB99i47OuOxVKZ7hEOkzbZKNlwdyQ5PO14ugaWmladLhz6vQYzZ4xEOqmMaN3rom72EESIYIZ5UBSHvz+iTgQso6J2GD/2Qky31OYc1ILSjQYmFRESRnW5/2imUjZXkYzqTwBRTSW1iC4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XzJB8QL6; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=dPGe388mDH6CzEhVH7nj7uikQuKBV2lrOf80bXI6C/2bgi+6SmH285Z4fAomWqBobdhEIsLR8NGQPkzf9GXcwTao7fqtOFSTtpJN1MbI3WzUsEaOaaQrv5OdTapuBR/MC6Ce86Evt8jh0ZJdIw7DKQatQFfsE/YvmVW/l3kQ8DI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R6zLZMnK; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XzJB8QL6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R6zLZMnK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754508844; x=1786044844;
+  t=1754514312; x=1786050312;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fUWh4a57UbjOQel+MMmOy5hS8hWdo142G7FH+e9gNjM=;
-  b=XzJB8QL6wdTN4QaWx1PwPV3TR8jDZdbr063Ck1Ci9aMlXfattva0/O1N
-   R1kJbVPzoVqnr+dIU4afLIqaFKcJp7lR7LYRdbDHEA34JVr2kdLk3wLp/
-   LD+rBM8bKk8z1qIyjxUqH3Q5/mUczUzul5MaBpdFlWFvj0a2OTAZQIKCK
-   l1vhnFHrvjE8xGk9hEOvAd3J8mTBfHDvODcP/JVEjHYCKdHzRbCOLi2Ry
-   QOm+QxQlWJWaLqHzdyZruUGtU7tC91/PMtvC6l2MdAeF8sidC6Ix5FTVa
-   iZ+sG4mo+TxC1miLlRLDkk0f0Z/RlD17gdTEGrnA3Am0OlXZO1WTdBOk0
-   w==;
-X-CSE-ConnectionGUID: uM99zRofRLm/4rSVQ1yYbQ==
-X-CSE-MsgGUID: /w1yZaNiRgiYpZCJkVEYyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="60468477"
+  bh=KdvqO4p6fa7phbwpotSZc5lyGifusc7eZKAqmF1n2r8=;
+  b=R6zLZMnKBG1nMJickswLFsQOkyKxv65jPw0RpShdWw97rSe1WcODAij1
+   fcCHNu1FTfltXZxWPrUUlReoVKaJAqRdcplfKC2DEG932R0u1xi/1SlLU
+   e14+WpPcTWwWT/2bX6WxLi375oECF0FyeGRWHEb817cKPg9ixUtoKiMSM
+   u+Vl6BD1H8g44QbNY87zcdi/bEOY8xiPguCDGXlvn+n/80Kb1NoGyKs2n
+   AN98M36j/uXYybhscbAqcCZSa7GkF7t8Se3rj2P9BfMQLBZn3953MmQoa
+   tR7Bk1iqSu7tgjhUlLgzUcW0wQSM7CLhW7UOg5xjW1UtzJP1ZjNYqKn5w
+   Q==;
+X-CSE-ConnectionGUID: KnDnhU6uQX29cmqrHXsGbA==
+X-CSE-MsgGUID: mMOf3/MfSOe7B/KPkggGQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="79392248"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="60468477"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 12:34:03 -0700
-X-CSE-ConnectionGUID: tSYHpl7pQGyCDch4c9eV2g==
-X-CSE-MsgGUID: +UiB8WeKQO+G2SANKvI6nA==
+   d="scan'208";a="79392248"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 14:05:11 -0700
+X-CSE-ConnectionGUID: b59BfBtKTeuBwqH9ZUepYw==
+X-CSE-MsgGUID: 031bwzCXQFed+xTRZ5wQ9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="169294471"
+   d="scan'208";a="169126857"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 06 Aug 2025 12:34:02 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 06 Aug 2025 14:05:10 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujjtf-00021i-2Q;
-	Wed, 06 Aug 2025 19:33:59 +0000
-Date: Thu, 7 Aug 2025 03:33:39 +0800
+	id 1ujlJf-00026m-2m;
+	Wed, 06 Aug 2025 21:04:58 +0000
+Date: Thu, 7 Aug 2025 05:03:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 2/2] hwmon: (ina780) Add driver for TI INA780
-Message-ID: <202508070329.wHfhXUNK-lkp@intel.com>
+Subject: [asahilinux:asahi-wip 20/208]
+ arch/arm64/boot/dts/apple/t6001-j316c.dtb: network@0,1 (pci14e4,5f71):
+ $nodename:0: 'network@0,1' does not match '^bluetooth(@.*)?$'
+Message-ID: <202508070529.YLLpXz6f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,110 +64,88 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250806005127.542298-2-chris.packham@alliedtelesis.co.nz>
-References: <20250806005127.542298-2-chris.packham@alliedtelesis.co.nz>
-TO: Chris Packham <chris.packham@alliedtelesis.co.nz>
-TO: jdelvare@suse.com
-TO: linux@roeck-us.net
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-CC: linux-hwmon@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Chris Packham <chris.packham@alliedtelesis.co.nz>
+TO: Hector Martin <marcan@marcan.st>
+CC: Janne Grunau <j@jannau.net>
 
-Hi Chris,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.16 next-20250806]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Packham/hwmon-ina780-Add-driver-for-TI-INA780/20250806-115131
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20250806005127.542298-2-chris.packham%40alliedtelesis.co.nz
-patch subject: [PATCH 2/2] hwmon: (ina780) Add driver for TI INA780
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: i386-randconfig-013-20250807 (https://download.01.org/0day-ci/archive/20250807/202508070329.wHfhXUNK-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070329.wHfhXUNK-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux asahi-wip
+head:   0fcda52c969c6fe276e3f63f02438233ca592077
+commit: ceb71d91cf1d661936202257e99853580c063652 [20/208] arm64: dts: apple: t600x: Add bluetooth device trees
+:::::: branch date: 3 days ago
+:::::: commit date: 10 days ago
+config: arm64-randconfig-052-20250804 (https://download.01.org/0day-ci/archive/20250807/202508070529.YLLpXz6f-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070529.YLLpXz6f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508070329.wHfhXUNK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508070529.YLLpXz6f-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
->> drivers/hwmon/ina780.c:282:27: warning: implicit conversion from 'long long' to 'typeof (val)' (aka 'long') changes value from 8052940800 to -536993792 [-Wconstant-conversion]
-     282 |                 val = clamp_val(val, 0, 8052940800);
-         |                       ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-   include/linux/minmax.h:231:70: note: expanded from macro 'clamp_val'
-     231 | #define clamp_val(val, lo, hi) __careful_clamp(typeof(val), val, lo, hi)
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/minmax.h:195:30: note: expanded from macro '__careful_clamp'
-     195 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
-         |                                     ^~                                    ~~~~~~~~~~~~~~~
-   include/linux/minmax.h:187:14: note: expanded from macro '__clamp_once'
-     187 |         type uhi = (hi);                                                        \
-         |              ~~~    ^~
-   drivers/hwmon/ina780.c:293:11: warning: variable 'mask' set but not used [-Wunused-but-set-variable]
-     293 |         int reg, mask;
-         |                  ^
->> drivers/hwmon/ina780.c:282:9: error: call to '__compiletime_assert_531' declared with 'error' attribute: clamp() low limit 0 greater than high limit 8052940800
-     282 |                 val = clamp_val(val, 0, 8052940800);
-         |                       ^
-   include/linux/minmax.h:231:32: note: expanded from macro 'clamp_val'
-     231 | #define clamp_val(val, lo, hi) __careful_clamp(typeof(val), val, lo, hi)
-         |                                ^
-   include/linux/minmax.h:195:2: note: expanded from macro '__careful_clamp'
-     195 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
-         |         ^
-   include/linux/minmax.h:188:2: note: expanded from macro '__clamp_once'
-     188 |         BUILD_BUG_ON_MSG(statically_true(ulo > uhi),                            \
-         |         ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:556:2: note: expanded from macro '_compiletime_assert'
-     556 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:549:4: note: expanded from macro '__compiletime_assert'
-     549 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:112:1: note: expanded from here
-     112 | __compiletime_assert_531
-         | ^
-   2 warnings and 1 error generated.
-
-
-vim +282 drivers/hwmon/ina780.c
-
-9f62cec21205c9 Chris Packham 2025-08-06  274  
-9f62cec21205c9 Chris Packham 2025-08-06  275  static int ina780_write_power(struct device *dev, u32 attr, long val)
-9f62cec21205c9 Chris Packham 2025-08-06  276  {
-9f62cec21205c9 Chris Packham 2025-08-06  277  	struct ina780_data *data = dev_get_drvdata(dev);
-9f62cec21205c9 Chris Packham 2025-08-06  278  	int regval;
-9f62cec21205c9 Chris Packham 2025-08-06  279  
-9f62cec21205c9 Chris Packham 2025-08-06  280  	switch (attr) {
-9f62cec21205c9 Chris Packham 2025-08-06  281  	case hwmon_power_max:
-9f62cec21205c9 Chris Packham 2025-08-06 @282  		val = clamp_val(val, 0, 8052940800);
-9f62cec21205c9 Chris Packham 2025-08-06  283  		regval = div_u64(val * 1000ULL, INA780_PWR_LIMIT_LSB);
-9f62cec21205c9 Chris Packham 2025-08-06  284  		return regmap_write(data->regmap, INA780_PWR_LIMIT, regval);
-9f62cec21205c9 Chris Packham 2025-08-06  285  	default:
-9f62cec21205c9 Chris Packham 2025-08-06  286  		return -EOPNOTSUPP;
-9f62cec21205c9 Chris Packham 2025-08-06  287  	}
-9f62cec21205c9 Chris Packham 2025-08-06  288  }
-9f62cec21205c9 Chris Packham 2025-08-06  289  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t600x-die0.dtsi:113.45-116.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmic@f/nvmem-layout/boot-error-count@6002: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmic@f/nvmem-layout/panic-count@6002)
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:73.10-82.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:99.10-108.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:125.10-134.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3b/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
+>> arch/arm64/boot/dts/apple/t6001-j316c.dtb: network@0,1 (pci14e4,5f71): $nodename:0: 'network@0,1' does not match '^bluetooth(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/brcm,bcm4377-bluetooth.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[146, 0], [147, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@b02280000 (apple,t6000-dwc3): iommus: [[150, 0], [151, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@b02280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+--
+   arch/arm64/boot/dts/apple/t600x-die0.dtsi:113.45-116.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmic@f/nvmem-layout/boot-error-count@6002: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmic@f/nvmem-layout/panic-count@6002)
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:59.10-68.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:85.10-94.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:111.10-120.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3b/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:137.10-146.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3c/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
+>> arch/arm64/boot/dts/apple/t6001-j375c.dtb: network@0,1 (pci14e4,5f71): $nodename:0: 'network@0,1' does not match '^bluetooth(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/brcm,bcm4377-bluetooth.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[147, 0], [148, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@b02280000 (apple,t6000-dwc3): iommus: [[151, 0], [152, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@b02280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+--
+   arch/arm64/boot/dts/apple/t600x-die0.dtsi:113.45-116.7: Warning (unique_unit_address_if_enabled): /soc@200000000/spmi@2920a1300/pmic@f/nvmem-layout/boot-error-count@6002: duplicate unit-address (also used in node /soc@200000000/spmi@2920a1300/pmic@f/nvmem-layout/panic-count@6002)
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:59.10-68.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:85.10-94.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:111.10-120.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@3b/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:137.10-146.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@3c/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t6002-j375d.dts:36.10-45.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@39/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t6002-j375d.dts:63.10-72.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@3a/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
+>> arch/arm64/boot/dts/apple/t6002-j375d.dtb: network@0,1 (pci14e4,5f71): $nodename:0: 'network@0,1' does not match '^bluetooth(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/brcm,bcm4377-bluetooth.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[166, 0], [167, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@b02280000 (apple,t6000-dwc3): iommus: [[170, 0], [171, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@b02280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
 
 -- 
 0-DAY CI Kernel Test Service
