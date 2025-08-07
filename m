@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DCD276054
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 Aug 2025 23:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE8418BBB9
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Aug 2025 03:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754523064; cv=none; b=WgHVnnVXGUTn3HMk/mU0aLKrUxiR3IDMIw8xe8AjaKKWmBJRrghE330Ym8n4JXIyZCAYgndiA7+fPIWwyIYXxMfubg1ZeFzMaKB9T9NXsEdG2zYOtZ5nYL/6a7GY2CxddctzOcamY25sV2WBydmq+aJ7lK1x8ZqvHi/G70uZdNI=
+	t=1754537381; cv=none; b=N92kY+HxPZwSRMGyobLSUeduQ6gbAiKdFm1KDvMSJALB8pYY1DkURaRn6VCQjo74RfHg0LgAPooKDMKmbWpoQxsTuXCs+VTfgH1g1+DIERteBi+cmHPDM5EM0PEXPlZHiiwzsKWpecNVV824640Z/ZPHn5igEi4KpcM8Wqzw9aQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754523064; c=relaxed/simple;
-	bh=s6I5UKNfsQ5+o2fbYkJsUFP7HL5sBmvtWpVMG6esvCU=;
+	s=arc-20240116; t=1754537381; c=relaxed/simple;
+	bh=t9s+cP5VaMXiG238zRAmS4ukgT3R6SqgABEtOGg5rB4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iLUckU/pyaWbKhZwq7MybML5Vhw15buU3kObEuYSp769hI4X4NSjJBYGVdXiRk+mgPf9zFILf5S999PoO+OqrmK8UIavWvshZS0RJkJPgAEXv8sdctEIGUk5DeAlywwi/ir0fiSEWOkrEdtrZFh3EcGPKRY6uedHDxTjUgpuS8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bgxj4ypb; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Z+W3qALoQ3Pg15921P9QAWKtReCFn+GGr5ToJdK4w1+X2ElI5HYMzqz6bI1Lopihc9NOqFHhdkHSyerH+Jb11OUz2DGQOuacrYzJtQrH83wi1B6n9Eyyfnit2AC5jOSS9/Ri0OgYw47hVhPIQOS/B4lgdtUvI9V1EMO6f+M+rD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iT8UhByA; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bgxj4ypb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iT8UhByA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754523062; x=1786059062;
+  t=1754537380; x=1786073380;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s6I5UKNfsQ5+o2fbYkJsUFP7HL5sBmvtWpVMG6esvCU=;
-  b=Bgxj4ypbURTK4ZTwvMSVHyHN+uPsykkKrWTFEWGzg6PVGWiarCFysc5O
-   6R4sswLLLZ9gJITBOIYF5v1rS1vkqtitNtpIujgiRWSlzNPCjA2Batq5W
-   SaEkmkH5/00qEYd/weBTCfldlCAUbVl4oF3AM30a0ZCpvUzrxY2I+k/VV
-   A/kUqla8YHtDmIlWoVA2G7t/HfrgymVPeHD/dCGn1M+QVIeF53ScrWK+V
-   389OE0WP6gzCo1V+4lNUPreDG5RNe2MXBCYv/wUOUt6WmgQqCVmptk/QK
-   M+aAG2V+aWsLTe7yZbOtLKyKSGw8nw97v8DZHRUPeHr4jdT1BKpX7qR5w
-   g==;
-X-CSE-ConnectionGUID: 1dXgwBupRSai0egl+IZRxQ==
-X-CSE-MsgGUID: VgBMwuulRXaOHIJ+eYdSwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="60690653"
+  bh=t9s+cP5VaMXiG238zRAmS4ukgT3R6SqgABEtOGg5rB4=;
+  b=iT8UhByAMenUtqEVPxTfp7BUHxF1iF7v6j1G1bPkP6w5Jgg96v/tctzq
+   SItioKmSOvExJQI21Nt8oxKBvqB2TUZgoXduSaiHswwlKUM5WCNOLcy9X
+   jeAeb/ETzmHnqWs6ywfgQlCVRj8nTdb0hQrooDwMA3/MG+5aWWgf7/PH+
+   cDcjzCDhNay+fxVgDnbYFM9rfdSGPRbL6z77fSK1LkvUB3ZHg1xQm5FjK
+   YOBOHMXob1GnWNM1+KVSN8o77iu0pFGC9TMQYzApIyoqKadF6W5mqjpqa
+   RfrwgLMgnP2w1Vu46Mv2RWlCmANGLPNqH6wSsvbiB7RexSoO+BbJ8SRwd
+   Q==;
+X-CSE-ConnectionGUID: mEHCY+zCSTGAOk4BRKsxUQ==
+X-CSE-MsgGUID: uWL10kPrRG2LGuuDldS29g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56941611"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="60690653"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 16:31:01 -0700
-X-CSE-ConnectionGUID: Z2Gn5aR0TbuU9Np5g5/cGw==
-X-CSE-MsgGUID: FcrAsffgQKSNKgJkdzmBPQ==
+   d="scan'208";a="56941611"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 20:29:39 -0700
+X-CSE-ConnectionGUID: wr5/vfkDSSuUMf335dn2zg==
+X-CSE-MsgGUID: 0PXqWxBERoisM5V1mXv7zA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="165238258"
+   d="scan'208";a="195926447"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 06 Aug 2025 16:31:00 -0700
+  by orviesa002.jf.intel.com with ESMTP; 06 Aug 2025 20:29:38 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujnb0-0002BO-1q;
-	Wed, 06 Aug 2025 23:30:58 +0000
-Date: Thu, 7 Aug 2025 07:30:42 +0800
+	id 1ujrJv-0002Ks-30;
+	Thu, 07 Aug 2025 03:29:35 +0000
+Date: Thu, 7 Aug 2025 11:29:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] arm64: dts: st: Add memory-region-names property for
- stm32mp257f-ev1
-Message-ID: <202508070700.XIyzqmd0-lkp@intel.com>
+Subject: [esmil:vsrv 3/7] arch/riscv/boot/dts/vlsi/vsrvse01-catboard.dtb:
+ /soc/ethernet@17000000: failed to match any schema with compatible:
+ ['vlsi,vsrves01-mac']
+Message-ID: <202508071101.du9Z4BDe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,46 +69,26 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250806-upstream_fix_dts_omm-v1-1-e68c15ed422d@foss.st.com>
-References: <20250806-upstream_fix_dts_omm-v1-1-e68c15ed422d@foss.st.com>
-TO: Patrice Chotard <patrice.chotard@foss.st.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-TO: Alexandre Torgue <alexandre.torgue@foss.st.com>
-CC: devicetree@vger.kernel.org
-CC: linux-stm32@st-md-mailman.stormreply.com
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: stable@vger.kernel.org
-CC: Patrice Chotard <patrice.chotard@foss.st.com>
+TO: Emil Renner Berthing <kernel@esmil.dk>
 
-Hi Patrice,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 038d61fd642278bab63ee8ef722c50d10ab01e8f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Patrice-Chotard/arm64-dts-st-Add-memory-region-names-property-for-stm32mp257f-ev1/20250806-161245
-base:   038d61fd642278bab63ee8ef722c50d10ab01e8f
-patch link:    https://lore.kernel.org/r/20250806-upstream_fix_dts_omm-v1-1-e68c15ed422d%40foss.st.com
-patch subject: [PATCH] arm64: dts: st: Add memory-region-names property for stm32mp257f-ev1
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: arm64-randconfig-051-20250807 (https://download.01.org/0day-ci/archive/20250807/202508070700.XIyzqmd0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
+tree:   https://github.com/esmil/linux vsrv
+head:   667b581295c8391a1198783c5473eec7cc9c564a
+commit: 9a23110a7f2a221521e6c8b176cad7af3c7442db [3/7] riscv: Add VLSI CAT Board device tree
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+config: riscv-randconfig-052-20250807 (https://download.01.org/0day-ci/archive/20250807/202508071101.du9Z4BDe-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070700.XIyzqmd0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508071101.du9Z4BDe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508070700.XIyzqmd0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508071101.du9Z4BDe-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/st/stm32mp257f-ev1.dtb: ommanager@40500000 (st,stm32mp25-omm): memory-region-names:0: 'mm_ospi1' is not one of ['ospi1', 'ospi2']
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/st,stm32mp25-omm.yaml#
+   arch/riscv/boot/dts/vlsi/vsrvse01-catboard.dtb: /soc/interrupt-controller@10000000: failed to match any schema with compatible: ['xlnx,xps-intc-1.00.a']
+>> arch/riscv/boot/dts/vlsi/vsrvse01-catboard.dtb: /soc/ethernet@17000000: failed to match any schema with compatible: ['vlsi,vsrves01-mac']
 
 -- 
 0-DAY CI Kernel Test Service
