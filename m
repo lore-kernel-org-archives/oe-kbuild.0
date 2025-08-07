@@ -1,69 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960032356D9
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Aug 2025 12:22:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2BA252287
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Aug 2025 12:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754569374; cv=none; b=i2ZtnWCdTbR68TSRHn+Iy446c8LJODitnD5iZ1UF5ztljaRb5rkP6+eJOzhZTicfg7Ya2yVfouBgZDS5mQjtm/oojF2ZtWiE1wFUvfuKYNu0x/YCYGgvLtI+5fwjkxdAMH+Om6asxlS6ztWmDEM9U70JE3agFuQvw+/Xoqtyiek=
+	t=1754571314; cv=none; b=b4w07Sil671lmrvrW4HJLvgxp2G7X/soSLxlOBuCzl44odYturADMTVoy/rfKChovxPef1NFyIsqzu9BmABcjKFhyuZ3jsAgzXvSs/cZTJ3sazVyRXjeZ2l0Wk3v2TeJ20ya3NTq+eW5wHBHV6Y8VW57K2vTmiyuJccnncABw7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754569374; c=relaxed/simple;
-	bh=SLLzXs01fYd1qN3Irpo72Hw9eVeLiuIH8YG/WXxQdRg=;
+	s=arc-20240116; t=1754571314; c=relaxed/simple;
+	bh=vu0uZp5bOjxrskIckemG+7k+ifHtgLWm7ON+oPAI8q4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IhKVv2c/03iXCqQZnsphBFQxisE6cCMnVetm5W0oINpuqsVDwB96yr0JJi9TvESGXFvopaIeNLbPCRduVxsGP80nLY0Ake4DZsgiq+VhPEctJ7vYRD73G3M+FhXGd4yX5PSSzaetVJuBRx9RjaRRpx8F3VVnw43aDvSZtSWeIG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O0rZyie8; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=ThaUJPHIrsO0GMCXGQi7jKKbCBWa3wCjZOEnCIHkfgqA1imDV6RRNK17lcCN3oSg8HZDVYgJMPfkirpLfKfzwrijecyntPjgeB8Jy1wCcF50GEK6hOOml4Bdf/AnBaM4JMT6d0xgjN7A81glwdlDel6JitloE8vzX8kHngjnIOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g59TF7yl; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0rZyie8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g59TF7yl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754569373; x=1786105373;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=SLLzXs01fYd1qN3Irpo72Hw9eVeLiuIH8YG/WXxQdRg=;
-  b=O0rZyie8VfSqqrJ2RDPTszn3pnbv/W48MC5DxZdQPIqSwmcpg3fkbX4+
-   hrNpZxvFzuPjoC5AWNbbw3D9DVZ6b0aMjNB/cXY5233OrqNbaJU4x6Wxd
-   JXw5BwSJ0dNQgijZXZleq4DGvt0b99bs1toEXNPR+C+bSuwiLSfs9c4LI
-   /CD9zsuZ7JeD5GrN3kZcBg0+OygTvTiXqef2JnD8cLW+FSwFlLfAtXJ8s
-   ISC/4+u1Euwz0O68U7b89FvomUGE1g5XEl4Uu+WS7QPKx1V8R845ZNkky
-   t9S5a0HZUFBmkkHcPSyKadp8SsHYA35hbSiNdaa/oUC1ekBUIrc+42w3Q
-   g==;
-X-CSE-ConnectionGUID: 28WMdUwNS76LutD5HsSBqQ==
-X-CSE-MsgGUID: AEr10/VnTiWeMfZFNdKU5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="44492855"
+  t=1754571313; x=1786107313;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vu0uZp5bOjxrskIckemG+7k+ifHtgLWm7ON+oPAI8q4=;
+  b=g59TF7yl2BA1gy2VLuHuEeAsi353wt0KbbqV935UaNLWcjJTpkWgROUd
+   CNJ3/9Sru2pUMYWUw/4TiKKPnlVF+lv6c8rdb4DQdWin9ivKoJ43Q9YHk
+   xPL8qahVII4c01jinS8iLoDCSdL5jqaRGN/6PDPdLQAF4Ov5TPHOw/6Pr
+   M/bSi8sIUkqLGnmmXxMVOhCPJsqyXqyDt5/Fo0Q3c+g5huQg30zaYTqsd
+   FbHksG/fdvaFi+nTCDcKkO1mMRf3B8sw/Vt1eq86LBrXs3JjOTHZJAPnG
+   EWUlJOHV6FOOtPtYJ/rOHNom4/gpMbzLzP/omf9p37O5jhPeF5utFMUyK
+   w==;
+X-CSE-ConnectionGUID: dWQCWf6FSg+UKIueCrHcDA==
+X-CSE-MsgGUID: BMhBC8k2S1Cn6epgAkZn9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67982080"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="44492855"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 05:22:52 -0700
-X-CSE-ConnectionGUID: gpmb2adYS4SIKNSXasIwHg==
-X-CSE-MsgGUID: 1uGXfQbNTB+hMWYEXYMEhw==
+   d="scan'208";a="67982080"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 05:55:12 -0700
+X-CSE-ConnectionGUID: DKDtzYLNRtKUKKYGQWjP/g==
+X-CSE-MsgGUID: HjACKnmrSvuXfADyU1u8Iw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="169514167"
+   d="scan'208";a="165063074"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 07 Aug 2025 05:22:50 -0700
+  by orviesa007.jf.intel.com with ESMTP; 07 Aug 2025 05:55:11 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujzdv-0002lw-37;
-	Thu, 07 Aug 2025 12:22:47 +0000
-Date: Thu, 7 Aug 2025 20:22:21 +0800
+	id 1uk09E-0002ne-1n;
+	Thu, 07 Aug 2025 12:55:08 +0000
+Date: Thu, 7 Aug 2025 20:54:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:asahi-wip 22/208]
- arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@38 (ti,sn012776):
- compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-Message-ID: <202508072014.Dkwt8XB2-lkp@intel.com>
+Subject: [robh:dt-convert 246/801]
+ Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: isel:
+ missing type definition
+Message-ID: <202508072049.a0wTM4mt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
@@ -71,219 +69,40 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Martin Povišer" <povik+lin@cutebit.org>
-CC: Janne Grunau <j@jannau.net>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: linux-doc@vger.kernel.org
 
-tree:   https://github.com/AsahiLinux/linux asahi-wip
-head:   0fcda52c969c6fe276e3f63f02438233ca592077
-commit: 0cbef7730138be89f0ce4e82f1b26eb7a0790ec1 [22/208] arm64: dts: apple: t600x-jxxx: Put in audio nodes
-:::::: branch date: 4 days ago
-:::::: commit date: 10 days ago
-config: arm64-randconfig-052-20250804 (https://download.01.org/0day-ci/archive/20250807/202508072014.Dkwt8XB2-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
+commit: ae2d1cc58b85d709605f59650042c53be180139e [246/801] dt-bindings: leds: Convert backlight/ti,tps65217 to DT schema
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: arc-randconfig-052-20250807 (https://download.01.org/0day-ci/archive/20250807/202508072049.a0wTM4mt-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508072014.Dkwt8XB2-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508072049.a0wTM4mt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508072014.Dkwt8XB2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508072049.a0wTM4mt-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:113.45-116.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmic@f/nvmem-layout/boot-error-count@6002: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmic@f/nvmem-layout/panic-count@6002)
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:73.10-82.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:99.10-108.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:125.10-134.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3b/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@39 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3d (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3d (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3b (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3b (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3c (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3c (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: network@0,1 (pci14e4,5f71): $nodename:0: 'network@0,1' does not match '^bluetooth(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/brcm,bcm4377-bluetooth.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[132, 0], [133, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
---
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:327.14-350.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:352.14-361.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:113.45-116.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmic@f/nvmem-layout/boot-error-count@6002: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmic@f/nvmem-layout/panic-count@6002)
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:73.10-82.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:99.10-108.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:125.10-134.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3b/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3a (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@39 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3d (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3d (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3b (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3b (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3c (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3c (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: network@0,1 (pci14e4,5f71): $nodename:0: 'network@0,1' does not match '^bluetooth(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/brcm,bcm4377-bluetooth.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[146, 0], [147, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
---
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:113.45-116.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmic@f/nvmem-layout/boot-error-count@6002: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmic@f/nvmem-layout/panic-count@6002)
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:73.10-82.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:99.10-108.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:125.10-134.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3b/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3a (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@39 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3d (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3d (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3b (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3b (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3c (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3c (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: network@0,1 (pci14e4,5f71): $nodename:0: 'network@0,1' does not match '^bluetooth(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/brcm,bcm4377-bluetooth.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[132, 0], [133, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
---
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@39 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@39 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3d (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3d (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3b (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3b (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3c (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
---
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:217.14-233.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:235.14-244.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:113.45-116.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmic@f/nvmem-layout/boot-error-count@6002: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmic@f/nvmem-layout/panic-count@6002)
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:59.10-68.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:85.10-94.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:111.10-120.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3b/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:137.10-146.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3c/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: network@0,1 (pci14e4,5f71): $nodename:0: 'network@0,1' does not match '^bluetooth(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/brcm,bcm4377-bluetooth.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[147, 0], [148, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@b02280000 (apple,t6000-dwc3): iommus: [[151, 0], [152, 1]] is too long
---
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:235.14-244.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:113.45-116.7: Warning (unique_unit_address_if_enabled): /soc@200000000/spmi@2920a1300/pmic@f/nvmem-layout/boot-error-count@6002: duplicate unit-address (also used in node /soc@200000000/spmi@2920a1300/pmic@f/nvmem-layout/panic-count@6002)
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:59.10-68.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:85.10-94.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:111.10-120.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@3b/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:137.10-146.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@3c/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t6002-j375d.dts:41.10-50.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@39/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t6002-j375d.dts:68.10-77.6: Warning (graph_child_address): /soc@200000000/i2c@39b040000/usb-pd@3a/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: codec@4b (cirrus,cs42l84): 'sound-name-prefix' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: network@0,1 (pci14e4,5f71): $nodename:0: 'network@0,1' does not match '^bluetooth(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/brcm,bcm4377-bluetooth.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[166, 0], [167, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@b02280000 (apple,t6000-dwc3): iommus: [[170, 0], [171, 1]] is too long
+   Documentation/devicetree/bindings/iommu/nvidia,tegra30-smmu.yaml: ignoring, error parsing file
+   Documentation/devicetree/bindings/dma/ti,edma3-tpcc.yaml: ti,tptcs: missing type definition
+   Documentation/devicetree/bindings/dma/ti,edma3-tpcc.yaml: ti,edma-reserved-slot-ranges: missing type definition
+>> Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: isel: missing type definition
+>> Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: fdim: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,short-detection-threshold-volt: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,current-limit-mA: missing type definition
+   Documentation/devicetree/bindings/display/smi-sm501.yaml: edid: missing type definition
+   Documentation/devicetree/bindings/cpufreq/operating-points-v2.yaml: opp-supported-hw: multiple incompatible types: uint32-array
+   Documentation/devicetree/bindings/opp/opp-v2-base.yaml: opp-supported-hw: multiple incompatible types: uint32-matrix
+   Documentation/devicetree/bindings/arm/vexpress-config.yaml: arm,vexpress-sysreg,func: multiple incompatible types: uint32-array
+   Documentation/devicetree/bindings/hwmon/vexpress.yaml: arm,vexpress-sysreg,func: multiple incompatible types: phandle-array
+   Warning: Duplicate compatible "operating-points-v2" found in schemas matching "$id":
+   	http://devicetree.org/schemas/cpufreq/operating-points-v2.yaml#
+   	http://devicetree.org/schemas/opp/opp-v2.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
