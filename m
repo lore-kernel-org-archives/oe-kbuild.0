@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC8423E324
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Aug 2025 07:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8592A1D7995
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Aug 2025 08:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754551715; cv=none; b=GtfdGNsTSb9ePgqXpS/t6EqwJM6+MettVwQSVBL5z8GaTTdvZrLVKNTspbbVE36ahz7d6clO/W9a1p4Xn1Px6xqsreCv40k+JPAmFMlxIjAZs5by3OgNNxri4DxLjfCt/UcrHH3h+YkynGn5Q/h0vj1HKMTCF3xIi6GnGd4xaA4=
+	t=1754555851; cv=none; b=TUtvzKrTjGanWCre6ZsVYdzloI4c99MNO7KY0gmdKcOH8pvzD6e3+SN0zCFETiR49faHow7Q9O+3YkAGXVWU8KIhmcqRhR0FmtYKbJJ2mrEZEr5EqBukqczjqKGp85r+LhVgeEcfEsO+liaL7peh4FdO2H/2bniTHL0lzucjt18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754551715; c=relaxed/simple;
-	bh=v0M2PgFYJ9XeCPcsfK1Pbb2rBGQGvon859PO8uxwE8E=;
+	s=arc-20240116; t=1754555851; c=relaxed/simple;
+	bh=hqJUwODAl9mxmZ9862W4lSGaL28rI5udWkZp8cN7Y8M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hScTNedFMADBONGlopyS8ndLVAaYd2vU0nzytfJWlLMJQsNdHCOT6cbrbabNODRkQa11FEgvpDw1+EKhhv9BA8MT38kOJPLN1PaXLVOAUpiqa2URrCfz3Vh0fO+KLia7jIXAI1EBaqhGajI6VLDRg//sah9cuirjDLzTCkCT4k8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bpDXnkqD; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=sbq6FkCZBSUOvIXWjIhXcM3FlliBuMsi4rhHazSgHRbTVTmxaFhhaiiMGITxbpjSsssk8yIoGnSLIbAUIL3EmCXmi6CIEck9TpP/ggp4elgPbd9bz7EqUrnUTvvIee6sqqMc9hNy9DpCqsIfaXAk5fufXKGnnMadETw9T18Np7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S1MVPHfv; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bpDXnkqD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S1MVPHfv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754551713; x=1786087713;
+  t=1754555850; x=1786091850;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v0M2PgFYJ9XeCPcsfK1Pbb2rBGQGvon859PO8uxwE8E=;
-  b=bpDXnkqDuvIF3e2b/6Ykbq701RXiewQqEMmN7aQ6IPn1K0ZeH+ro6Bjo
-   V68IvCWokcmU0zwsxVozJFu5whc3uVnXLm+ny93lbmxUfs3Ip1X3CfvDX
-   b3tl8Cl1ELJRvdg5qGNHSjiPA/3p0fYTy5/5S/V9HQ6k36q+33SbLkk26
-   pGZAB6HzQ7iBEatbdEAHb4aQpd7diMs3Zgza/Aps/rzUATOKIFi3EXmSv
-   NZUFiqlu7k0LuiORLDXpnQpJ/Pbs9p6KQYwDzzIanwahhsM8s95FCq5j4
-   vW7KQlGn/a00c+KI2LyjQ2fn8vFWbboGEM2rAze19z+3lxUX3BmWLJSk0
-   g==;
-X-CSE-ConnectionGUID: gBsbX0TpRd6ePg1ahUzkZg==
-X-CSE-MsgGUID: lUrKJqTVT1qOQIlEAl/l+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="74338212"
+  bh=hqJUwODAl9mxmZ9862W4lSGaL28rI5udWkZp8cN7Y8M=;
+  b=S1MVPHfvQfjCQfxKDhD42QRSsR0XBBZl2eAuN8CqEU/evcfTAEBkRUmk
+   Jg+aGykOYHzefhQvMbUkzcA3xbE7oeEbfTD5CZQQ+AYfbadjeXDFQPRDn
+   hHZIBUHR1Mm8kIvV/Y64XIqD7U8oGNc4av0H48UawrP++tFwX7mKS6N+e
+   G3Ty2SCTHKQKAtgofXofem0JSDe1WnVkp11aTZX+nOxA+cdhQSjgDjdoA
+   00FrigCiQ2Kbqf0bKRmpYlQ93aJ7COosTe/nIYNVQxTlnhfPRvcXMo/cF
+   UzzY1blgnERf9/wB/LeOyRUrXiYXcIt1dUQoW8MejhuzLlt9nHC31usjZ
+   Q==;
+X-CSE-ConnectionGUID: M72L/3PBQnibQGJJXKIJWA==
+X-CSE-MsgGUID: 795rH3e+S5KW0J58FeEfjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56782385"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="74338212"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 00:28:33 -0700
-X-CSE-ConnectionGUID: Vg/fdBc9QCq3Cg0kqNlD9Q==
-X-CSE-MsgGUID: D/SQpfh0QzS7f27VvVYE8Q==
+   d="scan'208";a="56782385"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 01:37:29 -0700
+X-CSE-ConnectionGUID: Oc5zzuabTaaPXqHhxleGmA==
+X-CSE-MsgGUID: MpTg7QYqTOSSe2OiSqbHgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="164993550"
+   d="scan'208";a="169462564"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 07 Aug 2025 00:28:32 -0700
+  by orviesa004.jf.intel.com with ESMTP; 07 Aug 2025 01:37:27 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujv29-0002VI-1N;
-	Thu, 07 Aug 2025 07:28:01 +0000
-Date: Thu, 7 Aug 2025 15:25:19 +0800
+	id 1ujw7A-0002a4-2C;
+	Thu, 07 Aug 2025 08:37:03 +0000
+Date: Thu, 7 Aug 2025 16:35:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [robh:dt-convert 121/801] arch/arc/boot/dts/axs101.dtb: pgu@17000
- (snps,arcpgu): 'memory-region' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202508071511.TW2NUOP5-lkp@intel.com>
+Subject: [robh:dt-convert 122/801] arch/powerpc/boot/dts/fsl/p1025twr.dtb:
+ display@2,0 (solomon,ssd1289fb): reg: [[2, 0, 4]] is too short
+Message-ID: <202508071601.gL3NwjeK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,145 +72,41 @@ TO: "Rob Herring (Arm)" <robh@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
 head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
-commit: 14d97e62d2b884d2edcb691f681fa9d15d7b18d1 [121/801] dt-bindings: display: Convert snps,arcpgu to DT schema
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: arc-randconfig-052-20250807 (https://download.01.org/0day-ci/archive/20250807/202508071511.TW2NUOP5-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 13.4.0
+commit: 94fd0465aefaf6dceef0489b73b03ce57e044acd [122/801] dt-bindings: display: Convert solomon,ssd1289fb to DT schema
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: powerpc-randconfig-052-20250807 (https://download.01.org/0day-ci/archive/20250807/202508071601.gL3NwjeK-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.3.0
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508071511.TW2NUOP5-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508071601.gL3NwjeK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508071511.TW2NUOP5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508071601.gL3NwjeK-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arc/boot/dts/axs101.dtb: adv7511@39 (adi,adv7511): 'avdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
-   arch/arc/boot/dts/axs101.dtb: adv7511@39 (adi,adv7511): 'dvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
-   arch/arc/boot/dts/axs101.dtb: adv7511@39 (adi,adv7511): 'pvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
-   arch/arc/boot/dts/axs101.dtb: adv7511@39 (adi,adv7511): 'dvdd-3v-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
-   arch/arc/boot/dts/axs101.dtb: adv7511@39 (adi,adv7511): 'bgvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
->> arch/arc/boot/dts/axs101.dtb: pgu@17000 (snps,arcpgu): 'memory-region' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/snps,arcpgu.yaml#
---
-   arch/arc/boot/dts/axs103.dtb: adv7511@39 (adi,adv7511): 'avdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
-   arch/arc/boot/dts/axs103.dtb: adv7511@39 (adi,adv7511): 'dvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
-   arch/arc/boot/dts/axs103.dtb: adv7511@39 (adi,adv7511): 'pvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
-   arch/arc/boot/dts/axs103.dtb: adv7511@39 (adi,adv7511): 'dvdd-3v-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
-   arch/arc/boot/dts/axs103.dtb: adv7511@39 (adi,adv7511): 'bgvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
->> arch/arc/boot/dts/axs103.dtb: pgu@17000 (snps,arcpgu): 'memory-region' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/snps,arcpgu.yaml#
---
-   arch/arc/boot/dts/axs103_idu.dtb: adv7511@39 (adi,adv7511): 'avdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
-   arch/arc/boot/dts/axs103_idu.dtb: adv7511@39 (adi,adv7511): 'dvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
-   arch/arc/boot/dts/axs103_idu.dtb: adv7511@39 (adi,adv7511): 'pvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
-   arch/arc/boot/dts/axs103_idu.dtb: adv7511@39 (adi,adv7511): 'dvdd-3v-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
-   arch/arc/boot/dts/axs103_idu.dtb: adv7511@39 (adi,adv7511): 'bgvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
->> arch/arc/boot/dts/axs103_idu.dtb: pgu@17000 (snps,arcpgu): 'memory-region' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/snps,arcpgu.yaml#
---
-   arch/arc/boot/dts/nsimosci.dtb: fpga (simple-bus): core_clk: 'ranges' is a required property
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: localbus@ffe05000 (fsl,p1021-elbc): nor@0,0: 'ranges' is a required property
    	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/nsimosci.dtb: fpga (simple-bus): pguclk: 'ranges' is a required property
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: localbus@ffe05000 (fsl,p1021-elbc): display@2,0: 'ranges' is a required property
    	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/nsimosci.dtb: fpga (simple-bus): $nodename:0: 'fpga' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/nsimosci.dtb: serial@f0000000 (ns8250): no-loopback-test: 1 is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/arc/boot/dts/nsimosci.dtb: serial@f0000000 (ns8250): Unevaluated properties are not allowed ('baud', 'no-loopback-test' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
->> arch/arc/boot/dts/nsimosci.dtb: pgu@f9000000 (snps,arcpgu): 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/snps,arcpgu.yaml#
-   arch/arc/boot/dts/nsimosci.dtb: /fpga/ps2@f9001000: failed to match any schema with compatible: ['snps,arc_ps2']
-   arch/arc/boot/dts/nsimosci.dtb: /fpga/ethernet@f0003000: failed to match any schema with compatible: ['ezchip,nps-mgt-enet']
---
-   arch/arc/boot/dts/nsimosci_hs.dtb: fpga (simple-bus): $nodename:0: 'fpga' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/nsimosci_hs.dtb: core-interrupt-controller (snps,archs-intc): 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/snps,archs-intc.yaml#
-   arch/arc/boot/dts/nsimosci_hs.dtb: serial@f0000000 (ns8250): no-loopback-test: 1 is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/arc/boot/dts/nsimosci_hs.dtb: serial@f0000000 (ns8250): Unevaluated properties are not allowed ('baud', 'no-loopback-test' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
->> arch/arc/boot/dts/nsimosci_hs.dtb: pgu@f9000000 (snps,arcpgu): 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/snps,arcpgu.yaml#
-   arch/arc/boot/dts/nsimosci_hs.dtb: /fpga/ps2@f9001000: failed to match any schema with compatible: ['snps,arc_ps2']
-   arch/arc/boot/dts/nsimosci_hs.dtb: /fpga/ethernet@f0003000: failed to match any schema with compatible: ['ezchip,nps-mgt-enet']
-   arch/arc/boot/dts/nsimosci_hs.dtb: pct (snps,archs-pct): '#interrupt-cells', 'interrupts' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arc/snps,archs-pct.yaml#
-   arch/arc/boot/dts/nsimosci_hs.dtb: pct (snps,archs-pct): 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/arc/snps,archs-pct.yaml#
-   arch/arc/boot/dts/nsimosci_hs.dtb: pct (snps,archs-pct): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/arc/snps,archs-pct.yaml#
---
-   arch/arc/boot/dts/nsimosci_hs_idu.dtb: fpga (simple-bus): $nodename:0: 'fpga' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arc/boot/dts/nsimosci_hs_idu.dtb: core-interrupt-controller (snps,archs-intc): 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/snps,archs-intc.yaml#
-   arch/arc/boot/dts/nsimosci_hs_idu.dtb: serial@f0000000 (ns8250): no-loopback-test: 1 is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/arc/boot/dts/nsimosci_hs_idu.dtb: serial@f0000000 (ns8250): Unevaluated properties are not allowed ('baud', 'no-loopback-test' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
->> arch/arc/boot/dts/nsimosci_hs_idu.dtb: pgu@f9000000 (snps,arcpgu): 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/snps,arcpgu.yaml#
-   arch/arc/boot/dts/nsimosci_hs_idu.dtb: /fpga/ps2@f9001000: failed to match any schema with compatible: ['snps,arc_ps2']
-   arch/arc/boot/dts/nsimosci_hs_idu.dtb: /fpga/ethernet@f0003000: failed to match any schema with compatible: ['ezchip,nps-mgt-enet']
-   arch/arc/boot/dts/nsimosci_hs_idu.dtb: pct (snps,archs-pct): '#interrupt-cells', 'interrupts' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arc/snps,archs-pct.yaml#
-   arch/arc/boot/dts/nsimosci_hs_idu.dtb: pct (snps,archs-pct): 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/arc/snps,archs-pct.yaml#
-   arch/arc/boot/dts/nsimosci_hs_idu.dtb: pct (snps,archs-pct): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/arc/snps,archs-pct.yaml#
---
-   arch/arc/boot/dts/vdk_hs38.dtb: uart@20000 (snps,dw-apb-uart): Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38.dtb: uart@21000 (snps,dw-apb-uart): $nodename:0: 'uart@21000' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38.dtb: uart@21000 (snps,dw-apb-uart): Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38.dtb: uart@22000 (snps,dw-apb-uart): $nodename:0: 'uart@22000' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38.dtb: uart@22000 (snps,dw-apb-uart): Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
->> arch/arc/boot/dts/vdk_hs38.dtb: pgu@17000 (snps,arcpgu): 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/snps,arcpgu.yaml#
-   arch/arc/boot/dts/vdk_hs38.dtb: /axs10x_mb_vdk/ps2@e0017400: failed to match any schema with compatible: ['snps,arc_ps2']
-   arch/arc/boot/dts/vdk_hs38.dtb: /uio@d0000000: failed to match any schema with compatible: ['generic-uio']
---
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: uart@20000 (snps,dw-apb-uart): Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: uart@21000 (snps,dw-apb-uart): $nodename:0: 'uart@21000' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: uart@21000 (snps,dw-apb-uart): Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: uart@22000 (snps,dw-apb-uart): $nodename:0: 'uart@22000' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: uart@22000 (snps,dw-apb-uart): Unevaluated properties are not allowed ('baud' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
->> arch/arc/boot/dts/vdk_hs38_smp.dtb: pgu@17000 (snps,arcpgu): 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/snps,arcpgu.yaml#
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: /axs10x_mb_vdk/ps2@e0017400: failed to match any schema with compatible: ['snps,arc_ps2']
-   arch/arc/boot/dts/vdk_hs38_smp.dtb: /uio@d0000000: failed to match any schema with compatible: ['generic-uio']
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /localbus@ffe05000: failed to match any schema with compatible: ['fsl,p1021-elbc', 'fsl,elbc', 'simple-bus']
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /localbus@ffe05000: failed to match any schema with compatible: ['fsl,p1021-elbc', 'fsl,elbc', 'simple-bus']
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: nor@0,0 (cfi-flash): $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: nor@0,0 (cfi-flash): Unevaluated properties are not allowed ('partition@0', 'partition@40000', 'partition@400000', 'partition@80000', 'partition@ec0000', 'partition@f00000' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+>> arch/powerpc/boot/dts/fsl/p1025twr.dtb: display@2,0 (solomon,ssd1289fb): reg: [[2, 0, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/solomon,ssd1289fb.yaml#
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000: failed to match any schema with compatible: ['fsl,p1021-immr', 'simple-bus']
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: usb@22000 (fsl-usb2-dr-v1.6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
+   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
+   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: usb@22000 (fsl-usb2-dr-v1.6): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
 
 -- 
 0-DAY CI Kernel Test Service
