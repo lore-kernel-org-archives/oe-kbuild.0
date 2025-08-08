@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E262817AE11
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 Aug 2025 07:04:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD1822A804
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 Aug 2025 07:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754636686; cv=none; b=G6b5KQqM3fDY0KIo46FDZAC2hfrHYBDsz+m+Ip1yYetBNN1hU8d7ZLwpIooSv5xuQKhClFC/ctGduSi1+nD/H9bp/nF7vMvVycNLzDmdQsl8EsoyuCICM+EIpOZjZTEPwqKwMuuNRWDHX4QFJPJely15+jz4A+ZVajPH7IouZ+Q=
+	t=1754637555; cv=none; b=i8tPB1PiZPdq9iIA7Jr/rz06dSNo55DQaHYzZdsKBjWvBn3P2LyDOoIN0k+RTwhV7lYTXLpE4teWgZyHZINFtW2qiKaTNBXmYm383BtiRK4DdIyDQfnv1cXC8QPjtqFkBGozVHDUJrLnWCLDwMGGtzu/yduSHB2sm0a9oFCBVZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754636686; c=relaxed/simple;
-	bh=tbkV/anag9xAc951qBXxTAiYWYOBVWe2Sh0mS77ag6Y=;
+	s=arc-20240116; t=1754637555; c=relaxed/simple;
+	bh=bAHy74hwFILkGGeZPVwrNwQujCk41vVDxarWthWUdvs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dGmFtBBllot3Ja8f4wC70GQH6l+T/rcWC2puQcu66z04lWYNsi4O+VfTOLBFn4UkdDfgQfIrD+k5Kznl61LCpFmCaEJxrzVZPAy6/mWPSauDAU5yPboNMA9MhyIEJLTAcRgPudZ6Zjl1e1w7eP6aMZkDs/zl8Y794XYhdYpSOVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HBpxFtEB; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=SypgR7/z9UnyqLZyiU2W3OZU08NwWiMELrZMyBD261Cnhc50m80qvr8YGkURz+Veia8Ef09u4B9wGV/IJutvEbE4c14C/lJCiwOt1jq+FHLpLlu4k6sfaJuRGST1Xmsyflvjaqrg6SD9JE9NRocyL+oHSqqbyOhiFTv2IvAjOjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DxsUB/RK; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HBpxFtEB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DxsUB/RK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754636684; x=1786172684;
+  t=1754637554; x=1786173554;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tbkV/anag9xAc951qBXxTAiYWYOBVWe2Sh0mS77ag6Y=;
-  b=HBpxFtEBN0/SQMqKhBfFhq9J0d/vNK72N8SD6oSHr1WtjafCvWgPMbhz
-   a53ZGtzJovWm/zocqU5LyPfO7z8K+N//rc+mJ21deu9Pz8vhU75q8dokL
-   8hZ5+TuTu0E0u2niSY3gGsXcN4Zeswv8ZbCKXSHC9xzFmXLcheQsRDKLt
-   F4sp3G29IplHw1PDEBtMc1C7awrSkNs5aqk03p9Z/XPfB/4FEW+oZKOTk
-   x716m2itmZ/N9jOIAUX8wS6SqjO01CUT7Br3yvcnVEZ0cY7jdkqVIGX7Z
-   6RmaBsv7V7uHTrM7Jh5q8Yhe+YCGxrEz8yVxjNiRkJSsUMeI/iygdXwhl
-   g==;
-X-CSE-ConnectionGUID: tOAYBPWoQsKoz8M86zx6YA==
-X-CSE-MsgGUID: RKVlL7v7SYmziv4M6Qx9YA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56903735"
+  bh=bAHy74hwFILkGGeZPVwrNwQujCk41vVDxarWthWUdvs=;
+  b=DxsUB/RK9jIsBssvei5hcA9VSUMcGbHsv3yavw9trtp3z3F6n3r/CZ+D
+   pwwgM2QO1DtsPFik0w41HnPyO6FhKVBG69sDhXMqkRs8140LubEO3bLJ4
+   dSdcmnmAq0IuQLiCRZFcsmkcZ9qWzpHodvyOqWKqkWqImf1LiUlu2T3Sw
+   c8+HeYNWp+vgO7hiu6aQIB2RxcGAg86xkZIMnB9yVwgXa18Nx6RX6RVoj
+   mzTvDTJIiuNDuaUcXyluRZEcj9r75sWWG5iFDuBqALJsVxjdvy9f0qN3L
+   vEpWLV9znWe8PkTG6aZf/KIEQu/qdsoM9ipXYYx9QIA2rwaYRQthyMOhS
+   w==;
+X-CSE-ConnectionGUID: UFkpPSnATG2np+ssNsmh5g==
+X-CSE-MsgGUID: b0mNr7yDT1qxv2TsNOTrSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="82427100"
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="56903735"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 00:04:43 -0700
-X-CSE-ConnectionGUID: OZyHCO1SSheB7wjrPs9TUA==
-X-CSE-MsgGUID: Ut3tNI5STrCZx9MsO+mxTw==
+   d="scan'208";a="82427100"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 00:19:13 -0700
+X-CSE-ConnectionGUID: YQZzwLbJSKeeqsJeTsMtaQ==
+X-CSE-MsgGUID: 3pTklf66Rma7kfWpF/6OEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="196088391"
+   d="scan'208";a="164780036"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 08 Aug 2025 00:04:41 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 08 Aug 2025 00:19:12 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukH9b-0003c6-19;
-	Fri, 08 Aug 2025 07:04:39 +0000
-Date: Fri, 8 Aug 2025 15:03:52 +0800
+	id 1ukHN8-0003cq-0X;
+	Fri, 08 Aug 2025 07:18:53 +0000
+Date: Fri, 8 Aug 2025 15:14:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [robh:dt-convert 364/801]
- arch/powerpc/boot/dts/tqm8548-bigflash.dtb: upm@3,0 (tqc,tqm8548-upm-nand):
- '#address-cells', '#size-cells', 'nand@0' do not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202508081514.v5P9AH5s-lkp@intel.com>
+Subject: [asahilinux:asahi-wip 28/208]
+ arch/arm64/boot/dts/apple/t6000-j316s.dtb: soc (simple-bus):
+ display-subsystem: 'ranges' is a required property
+Message-ID: <202508081551.WMCSlWms-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,61 +69,65 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Rob Herring (Arm)" <robh@kernel.org>
+TO: Janne Grunau <j@jannau.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
-commit: 374f3be56d0af360e1fb13720942e2bdb56bf5be [364/801] dt-bindings: mtd: Convert fsl,upm-nand to DT schema
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: powerpc-randconfig-052-20250807 (https://download.01.org/0day-ci/archive/20250808/202508081514.v5P9AH5s-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.3.0
+tree:   https://github.com/AsahiLinux/linux asahi-wip
+head:   0fcda52c969c6fe276e3f63f02438233ca592077
+commit: aca0e4516c528fee4b8d9730757f962a358c2780 [28/208] arch: arm64: apple: t600x: Add display controller related device tree nodes
+:::::: branch date: 5 days ago
+:::::: commit date: 11 days ago
+config: arm64-randconfig-052-20250804 (https://download.01.org/0day-ci/archive/20250808/202508081551.WMCSlWms-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508081514.v5P9AH5s-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508081551.WMCSlWms-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508081514.v5P9AH5s-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508081551.WMCSlWms-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/tqm8548-bigflash.dtb: localbus@a0005000 (fsl,mpc8548-localbus): upm@3,0: 'ranges' is a required property
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:337.14-360.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:362.14-371.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t600x-die0.dtsi:215.29-220.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+   arch/arm64/boot/dts/apple/t600x-die0.dtsi:188.21-213.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@38bc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t600x-die0.dtsi:119.45-122.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmic@f/nvmem-layout/boot-error-count@6002: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmic@f/nvmem-layout/panic-count@6002)
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:15.10-22.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:83.10-92.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:109.10-118.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi:135.10-144.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3b/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t6000-j316s.dtb: soc (simple-bus): display-subsystem: 'ranges' is a required property
    	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/tqm8548-bigflash.dtb: localbus@a0005000 (fsl,mpc8548-localbus): can@2,100: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/tqm8548-bigflash.dtb: localbus@a0005000 (fsl,mpc8548-localbus): can@2,0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/tqm8548-bigflash.dtb: /localbus@a0005000: failed to match any schema with compatible: ['fsl,mpc8548-localbus', 'fsl,pq3-localbus', 'simple-bus']
-   arch/powerpc/boot/dts/tqm8548-bigflash.dtb: /localbus@a0005000: failed to match any schema with compatible: ['fsl,mpc8548-localbus', 'fsl,pq3-localbus', 'simple-bus']
-   arch/powerpc/boot/dts/tqm8548-bigflash.dtb: /localbus@a0005000/can@2,0: failed to match any schema with compatible: ['bosch,cc770']
-   arch/powerpc/boot/dts/tqm8548-bigflash.dtb: /localbus@a0005000/can@2,100: failed to match any schema with compatible: ['bosch,cc770']
->> arch/powerpc/boot/dts/tqm8548-bigflash.dtb: upm@3,0 (tqc,tqm8548-upm-nand): '#address-cells', '#size-cells', 'nand@0' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,upm-nand.yaml#
->> arch/powerpc/boot/dts/tqm8548-bigflash.dtb: upm@3,0 (tqc,tqm8548-upm-nand): reg: [[3, 0, 2048]] is too short
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,upm-nand.yaml#
-   arch/powerpc/boot/dts/tqm8548-bigflash.dtb: nand@0: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/mtd/raw-nand-chip.yaml#
-   arch/powerpc/boot/dts/tqm8548-bigflash.dtb: nand@0: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/mtd/raw-nand-chip.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3a (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3a (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
 --
-   arch/powerpc/boot/dts/tqm8548.dtb: localbus@e0005000 (fsl,mpc8548-localbus): can@2,100: 'ranges' is a required property
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:245.14-254.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t600x-die0.dtsi:215.29-220.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
+   arch/arm64/boot/dts/apple/t600x-die0.dtsi:188.21-213.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@38bc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t600x-die0.dtsi:119.45-122.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmic@f/nvmem-layout/boot-error-count@6002: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmic@f/nvmem-layout/panic-count@6002)
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:13.10-20.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:69.10-78.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@38/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:95.10-104.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:121.10-130.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3b/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t600x-j375.dtsi:147.10-156.6: Warning (graph_child_address): /soc/i2c@39b040000/usb-pd@3c/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t6001-j375c.dtb: soc (simple-bus): display-subsystem: 'ranges' is a required property
    	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/tqm8548.dtb: localbus@e0005000 (fsl,mpc8548-localbus): upm@3,0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/tqm8548.dtb: localbus@e0005000 (fsl,mpc8548-localbus): flash@1,0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/tqm8548.dtb: /localbus@e0005000: failed to match any schema with compatible: ['fsl,mpc8548-localbus', 'fsl,pq3-localbus', 'simple-bus']
-   arch/powerpc/boot/dts/tqm8548.dtb: /localbus@e0005000: failed to match any schema with compatible: ['fsl,mpc8548-localbus', 'fsl,pq3-localbus', 'simple-bus']
-   arch/powerpc/boot/dts/tqm8548.dtb: /localbus@e0005000/can@2,0: failed to match any schema with compatible: ['bosch,cc770']
-   arch/powerpc/boot/dts/tqm8548.dtb: /localbus@e0005000/can@2,100: failed to match any schema with compatible: ['bosch,cc770']
->> arch/powerpc/boot/dts/tqm8548.dtb: upm@3,0 (tqc,tqm8548-upm-nand): '#address-cells', '#size-cells', 'nand@0' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,upm-nand.yaml#
->> arch/powerpc/boot/dts/tqm8548.dtb: upm@3,0 (tqc,tqm8548-upm-nand): reg: [[3, 0, 2048]] is too short
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,upm-nand.yaml#
-   arch/powerpc/boot/dts/tqm8548.dtb: nand@0: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/mtd/raw-nand-chip.yaml#
-   arch/powerpc/boot/dts/tqm8548.dtb: nand@0: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/mtd/raw-nand-chip.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: codec@38 (ti,sn012776): compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: codec@38 (ti,sn012776): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
