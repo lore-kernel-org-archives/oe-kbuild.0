@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36F221CC5D
-	for <oe-kbuild@lists.linux.dev>; Sat,  9 Aug 2025 00:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA64D238C3F
+	for <oe-kbuild@lists.linux.dev>; Sat,  9 Aug 2025 00:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754699261; cv=none; b=tKtAYgJcb81rtjiMFUOx65t9hvUrjfqE29xdN2pV8T12r24Coy/cwzSsfE8F6XvminCNsT+xQfCHgIhc3aHYwKBGkbjq1xMDFVOc51RegvmFVel/4etLDeZJm2i3n8ZS8mh7FxUugQH3idyNMJxxw6Xd8bD0Ke50m0cGLskrB60=
+	t=1754699877; cv=none; b=TO+q14mhDTadW5TD/ozg8vrOGTX88Q/DTydK3JRwvJbGEEaeixgxsEr5JP3nkQzhTJpCKb2ZRWTQ7r/qFOXT7PtE5gilojwwLrBQ6k8hq5U9pGCUjahsLdsFo5Yb5900qCJnC2HXDWEv8DypFY69TAJqaqC7gGcCoBf11a/Q/UY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754699261; c=relaxed/simple;
-	bh=xCX5ovczwixd8RbrbR+pGH79KAQeCGwm5X4pm5neqFc=;
+	s=arc-20240116; t=1754699877; c=relaxed/simple;
+	bh=ezYV/u6Qqks3hZxzvn6kxYuC33VSLwlS+z1/cK1EmkU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j+dCNqnZsPQ4QwhuDuuvukLS8OgMiPOdPUctnHJN+ZJZgQVjkDat1KxxN86K9ijbl0aPGk7r3zleP3IemyDOESdM+/VubUIe6HsXOW8MdoTq2FdFIF1SV7bOH2sYeycPgmwaQjt+JG47NgM+W3TyhO0O+1y0mfOHM9DatnDdvKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S3rimR1u; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=OI1D1urt4PXqL2REBfE7MW+viTK/vN/UvKPxJUYTthb7fj2VnkR/M8FnqxuDNL4/MdIe1ZGCWYyWaMWdxemSBtkPkzPBTj8wkozyZmNfuiK1Y9n6mWviHdAxoeQi+oAemZw6m6DSD6tUDw16lK1F5vO2w0wcYT9UKwAnE6tCV+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SO9dVwiX; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S3rimR1u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SO9dVwiX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754699260; x=1786235260;
+  t=1754699875; x=1786235875;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xCX5ovczwixd8RbrbR+pGH79KAQeCGwm5X4pm5neqFc=;
-  b=S3rimR1u/gKVGnZN3i67U2Q6nEoHph6pCxxZnNVNtvXZt5gSZAVrTgkN
-   NsZGYRifBqCvdGhwDTHCvFXIbRZVojhXQet3zpcVNqnIrWNv7NEPJei72
-   UL+2m8FhCq1PKPjCJebcW4gcGsIjSKS2eoR87fYDVjVG7hfmaq8R8OrwJ
-   vhdWv4KPSOr2tWYLT6MlYOh8EZY72RWZYVqf4rBoGE4rOOTzVelFn/KSx
-   ivuqAbc2Ji5zFGBGW2HZJnV9Nv6jKw3Z8VTmj9eQLx2aoYiO4LMnPYqg+
-   N9rx4EO5v6ZjLrBdS0lx9Op6iMHk73F9Iys4QcDZDsjMgu2au6bkZ1V8w
-   Q==;
-X-CSE-ConnectionGUID: CFjFO1PySjmPMSHN9DnpHw==
-X-CSE-MsgGUID: gZV/qW2vT/OZ2EO9Bx0U9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="57129014"
+  bh=ezYV/u6Qqks3hZxzvn6kxYuC33VSLwlS+z1/cK1EmkU=;
+  b=SO9dVwiXBZAs80s8HAfduvIm9X0xeQ05mru+OxI0yN+/yvNbhQk3WdTc
+   XfA2+z/b7amAQRXZpJxAbg6ZvvhADKJ4qzB6+vLy3Sz/7NbAP7ZFIXi6Z
+   Re+pQ3pOFjAw6IKObf+JM2N5uN4y+dSMkOpQaSroILzZV3JrLCygiOSTE
+   oTPHmCOu1twPn5/9A+0FqE6pjXMbur4R4+efSkpsfYJ8tvBoY4hf3WNQQ
+   S5E2aGjr0YxXvIHCLFBnxyIC6q8RjesS+tJveDbq5Wd66hTMnrTMCa4x9
+   QhmsZI+2cR5N+Pczb17YzP51EcSDg1KHCOTaCtiSSFEHFqZPof2evndkP
+   g==;
+X-CSE-ConnectionGUID: PM9NOUndQJuUzyiO0uz8eA==
+X-CSE-MsgGUID: lkc1JFP8RhuB9KgNKsXj0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="56950558"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="57129014"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 17:27:39 -0700
-X-CSE-ConnectionGUID: jsYi3/o9QRu1Uf0evvsQRA==
-X-CSE-MsgGUID: iCEB5tKlT+mG7gHbrOEyuQ==
+   d="scan'208";a="56950558"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 17:37:55 -0700
+X-CSE-ConnectionGUID: iGkYYOz1SEGfnrCLq99jUw==
+X-CSE-MsgGUID: tbKkyMbbThGWH0lfY4+Vuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="165770022"
+   d="scan'208";a="196427495"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 08 Aug 2025 17:27:36 -0700
+  by orviesa002.jf.intel.com with ESMTP; 08 Aug 2025 17:37:52 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukXQs-0004QO-0s;
-	Sat, 09 Aug 2025 00:27:34 +0000
-Date: Sat, 9 Aug 2025 08:26:44 +0800
+	id 1ukXag-0004QW-2C;
+	Sat, 09 Aug 2025 00:37:46 +0000
+Date: Sat, 9 Aug 2025 08:36:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/2] media: xc2028: hold the device if firmware loading
- is in progress
-Message-ID: <202508090831.5eRXcWv2-lkp@intel.com>
+Subject: mm/kasan/kasan_test_c.c:262 kmalloc_large_uaf() error: dereferencing
+ freed memory 'ptr' (line 260)
+Message-ID: <202508090848.N5tsZIb2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,71 +64,54 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250806075409.210489-2-dmantipov@yandex.ru>
-References: <20250806075409.210489-2-dmantipov@yandex.ru>
-TO: Dmitry Antipov <dmantipov@yandex.ru>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-CC: Chi Zhiling <chizhiling@kylinos.cn>
-CC: Hans Verkuil <hverkuil@xs4all.nl>
-CC: Dmitry Antipov <dmantipov@yandex.ru>
-CC: syzbot+db4326df1b9af04f68fc@syzkaller.appspotmail.com
+CC: linux-kernel@vger.kernel.org
+TO: Matthew Maurer <mmaurer@google.com>
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Andrey Konovalov <andreyknvl@gmail.com>
 
-Hi Dmitry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linuxtv-media-pending/master]
-[also build test WARNING on linus/master v6.16 next-20250808]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Antipov/media-xc2028-hold-the-device-if-firmware-loading-is-in-progress/20250806-160542
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20250806075409.210489-2-dmantipov%40yandex.ru
-patch subject: [PATCH 2/2] media: xc2028: hold the device if firmware loading is in progress
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: sparc-randconfig-r073-20250809 (https://download.01.org/0day-ci/archive/20250809/202508090831.5eRXcWv2-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   37816488247ddddbc3de113c78c83572274b1e2e
+commit: a2f11547052001bd448ccec81dd1e68409078fbb kasan: rust: Add KASAN smoke test via UAF
+date:   11 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 11 months ago
+config: x86_64-randconfig-161-20250809 (https://download.01.org/0day-ci/archive/20250809/202508090848.N5tsZIb2-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508090831.5eRXcWv2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508090848.N5tsZIb2-lkp@intel.com/
 
 smatch warnings:
-drivers/media/tuners/xc2028.c:1342 xc2028_dvb_release() warn: variable dereferenced before check 'priv' (see line 1335)
+mm/kasan/kasan_test_c.c:262 kmalloc_large_uaf() error: dereferencing freed memory 'ptr' (line 260)
+mm/kasan/kasan_test_c.c:625 kmalloc_uaf() error: dereferencing freed memory 'ptr' (line 624)
+mm/kasan/kasan_test_c.c:672 kmalloc_uaf2() error: dereferencing freed memory 'ptr1' (line 658)
+mm/kasan/kasan_test_c.c:857 rcu_uaf_reclaim() warn: statement has no effect 'fp->i'
+mm/kasan/kasan_test_c.c:895 workqueue_uaf() warn: statement has no effect 'work->data'
 
-vim +/priv +1342 drivers/media/tuners/xc2028.c
+vim +/ptr +262 mm/kasan/kasan_test_c.c
 
-45819c381fc4fb3 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  1325  
-194ced7a5a99b30 drivers/media/tuners/tuner-xc2028.c        Max Kellermann        2016-08-09  1326  static void xc2028_dvb_release(struct dvb_frontend *fe)
-701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1327  {
-215b95baf969c6f drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-23  1328  	struct xc2028_data *priv = fe->tuner_priv;
-701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1329  
-7e28adb2497f6b8 drivers/media/video/tuner-xc2028.c         Harvey Harrison       2008-04-08  1330  	tuner_dbg("%s called\n", __func__);
-701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1331  
-aa501be989f5df5 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  1332  	mutex_lock(&xc2028_list_mutex);
-aa501be989f5df5 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  1333  
-01c647c99112a50 drivers/media/tuners/xc2028.c              Dmitry Antipov        2025-08-06  1334  	/* wait for request_firmware_nowait() if scheduled */
-01c647c99112a50 drivers/media/tuners/xc2028.c              Dmitry Antipov        2025-08-06 @1335  	if (priv->state == XC2028_WAITING_FIRMWARE)
-01c647c99112a50 drivers/media/tuners/xc2028.c              Dmitry Antipov        2025-08-06  1336  		wait_for_completion(&priv->fwload);
-01c647c99112a50 drivers/media/tuners/xc2028.c              Dmitry Antipov        2025-08-06  1337  
-c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18  1338  	/* only perform final cleanup if this is the last instance */
-22a1e7783e173ab drivers/media/tuners/tuner-xc2028.c        Takashi Iwai          2016-11-17  1339  	if (hybrid_tuner_report_instance_count(priv) == 1)
-de3fe21ba2fdc07 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-24  1340  		free_firmware(priv);
-701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1341  
-c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18 @1342  	if (priv)
-c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18  1343  		hybrid_tuner_release_state(priv);
-c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18  1344  
-aa501be989f5df5 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  1345  	mutex_unlock(&xc2028_list_mutex);
-aa501be989f5df5 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  1346  
-c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18  1347  	fe->tuner_priv = NULL;
-701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1348  }
-701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1349  
+47adccce3e8a31 lib/test_kasan.c      Dmitry Vyukov    2018-02-06  252  
+0f18ea6ea44cde mm/kasan/kasan_test.c Andrey Konovalov 2023-12-19  253  static void kmalloc_large_uaf(struct kunit *test)
+47adccce3e8a31 lib/test_kasan.c      Dmitry Vyukov    2018-02-06  254  {
+47adccce3e8a31 lib/test_kasan.c      Dmitry Vyukov    2018-02-06  255  	char *ptr;
+47adccce3e8a31 lib/test_kasan.c      Dmitry Vyukov    2018-02-06  256  	size_t size = KMALLOC_MAX_CACHE_SIZE + 10;
+47adccce3e8a31 lib/test_kasan.c      Dmitry Vyukov    2018-02-06  257  
+73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  258  	ptr = kmalloc(size, GFP_KERNEL);
+73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  259  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
+47adccce3e8a31 lib/test_kasan.c      Dmitry Vyukov    2018-02-06 @260  	kfree(ptr);
+858bdeb046f6dc lib/test_kasan.c      Andrey Konovalov 2021-02-24  261  
+8fbad19bdcb4b9 lib/test_kasan.c      Andrey Konovalov 2021-09-02 @262  	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[0]);
+47adccce3e8a31 lib/test_kasan.c      Dmitry Vyukov    2018-02-06  263  }
+47adccce3e8a31 lib/test_kasan.c      Dmitry Vyukov    2018-02-06  264  
+
+:::::: The code at line 262 was first introduced by commit
+:::::: 8fbad19bdcb4b9be8131536e5bb9616ab2e4eeb3 kasan: test: avoid writing invalid memory
+
+:::::: TO: Andrey Konovalov <andreyknvl@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
