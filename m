@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D859E298CBC
-	for <oe-kbuild@lists.linux.dev>; Sat,  9 Aug 2025 12:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FB422172D
+	for <oe-kbuild@lists.linux.dev>; Sat,  9 Aug 2025 12:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754742332; cv=none; b=pE/+MsXAooQKexJX+YHvPYZZia79g2Q/tYCISjHY6FGOraBLjtZzkqAiQ9rk4RtFFJGux/mi7DvNeeZMt1Dhpy/DHMqpZN7sjqHO8VrGfMCJ+lzAw/BJoiotW8uysuAGGI68qCi2EbEnZDkGQi9RAQBds/Z/f+V5tQcH0zvFRZA=
+	t=1754742796; cv=none; b=UuxRKqF/NXV8GCgJ3DDs92qurOIuqjAcdIR+ftQ0S0/TFN1Y3NOq4/N+8XXYGAd9q5DCV0OiUqVKF9+PcWa3gH+eWop9PyG+yQNho7m3jN+3PvdLggDiroTs6I2seOE0QRCBgSWQAkBdDjEMs4Z3l2H8xLlsLwjSJkfabPN2K6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754742332; c=relaxed/simple;
-	bh=IM/ydVWd9y/SYJmF9poKZBjwJ4n9dAd1bt5Hb9Wqvc0=;
+	s=arc-20240116; t=1754742796; c=relaxed/simple;
+	bh=lVghsRw7ZQp8khrLKWbF3IKfFc2vl2UjNOUJN6tYrBw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bikHoUK2LTHw+GpmtJTwtkS+nEacv2O5dhOnMfmmSlTbUmuYqVt+Lc1iAOl2qyGx7BD/Q/hXYLg1U4KDiqpDs7t9jDhd7dm+c1jEfA3cycThm0tSY+wYXt+KTl1GmkKEX7KqWpaMK1xec8d5ciu9wZGVpSXcXa4HrA62JJ/sSn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qf4aVj/I; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=npPlBLNPkbpjP80xob+7yJlj8FviiTn2f3LKmnQ+Hs/bGgxzFbm74yC0D2/8OK2McwVxOoFne+ERZIwO69Qi2u4gVZeo8kKpDnRcSxTqDSxYwTkCS9FxbklnMPmn/Zvt1/M8qYQ/x4dkR2E/C0ooqqKimWUNK/h3hQsyVY/yD+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YAhXSXsg; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qf4aVj/I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YAhXSXsg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754742331; x=1786278331;
+  t=1754742795; x=1786278795;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IM/ydVWd9y/SYJmF9poKZBjwJ4n9dAd1bt5Hb9Wqvc0=;
-  b=Qf4aVj/IZxbagv1ZLy2RqGX9VbWmOYSkUffeB9UUaBkMUWtYyfo42Ndv
-   gHFegiAE/1KqS8huFu+zY9OjycXcQlL3gk+Tmcq4LwUdZejH3/A7QMcNE
-   j8KV452ByQ7JoWdhpd2J3mgoS2NmWzWUNjvJhmKJw/Ccq4uVeTqJcah7c
-   eHZeWCpXmhUqEOobrCbGzEisMB1wpDIN01C8N68KatZJjmW4kp5WBSXbZ
-   +NNrEEL5MQlnCz+7/ni00ih4G3QKiBZrcmAEX0kQvO++kEIOPXtwjzsv5
-   72Fj9afqjsWqgl7saPm4PifQuSdBMWyp/kBUxQVabUthfDRdnzSIKtioG
+  bh=lVghsRw7ZQp8khrLKWbF3IKfFc2vl2UjNOUJN6tYrBw=;
+  b=YAhXSXsgi0HKPHYA16rjbDkeEHDADrNhb7Ed3vEVJz4np61BfuexYeHo
+   O1HMMb7MK7Ok7/GVYcqmPhh0bLRh7d8BMtXRCyLwNx2yjaOcs+gSLitIp
+   5PeX5FRgpiXUe/+szArZW4ajGZUG5miCfx4jYxIT7GH6f6x1TKR4dJ2/I
+   6a26pa27xXH2pyGHm1NDk5ruYBjJN+PYHZgdaNeTvFmYeMcQ0z2ZTtb1G
+   odV1Eb821qN3vZs3cybrbKjNigFE0NHeddAR3mZ9jPzbLTkea2CisO5Fl
+   n0Rp0dPjUIiZUUH3det+AMFCokl6XvFETXxRFsnW5a9rzvCxyimLDds4o
    Q==;
-X-CSE-ConnectionGUID: zFZAQYIVTKCdO7yVoW2/SA==
-X-CSE-MsgGUID: G7uYzaoQR76E60qG8sIkfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="56994414"
+X-CSE-ConnectionGUID: Riqm6uvNQPKGoSAZ3WmTOg==
+X-CSE-MsgGUID: 0poTIAEhRaauvdGeRuGqxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="59680203"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="56994414"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 05:25:30 -0700
-X-CSE-ConnectionGUID: UURyvTxkT/O7a7qbEDPWnw==
-X-CSE-MsgGUID: ElGotF2SQRqYi1H0qJn84w==
+   d="scan'208";a="59680203"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 05:33:14 -0700
+X-CSE-ConnectionGUID: 2xF90yVBSz2I5/G4+pCRvw==
+X-CSE-MsgGUID: 8Os2FeM6QuunczK7drtxGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="169972672"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 09 Aug 2025 05:25:29 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="196354247"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa001.fm.intel.com with ESMTP; 09 Aug 2025 05:33:13 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukidb-0004mW-0D;
-	Sat, 09 Aug 2025 12:25:27 +0000
-Date: Sat, 9 Aug 2025 20:25:26 +0800
+	id 1ukil5-0002oJ-2H;
+	Sat, 09 Aug 2025 12:33:11 +0000
+Date: Sat, 9 Aug 2025 14:32:18 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [robh:dt-convert 33/801] arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb:
- scm@2000 (ti,omap2-scm): '#address-cells', '#pinctrl-cells', '#size-cells',
- 'pinmux@30', 'ranges', 'scm_conf@270' do not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202508092024.JDWlwVRE-lkp@intel.com>
+Subject: arch/arc/boot/dts/nsimosci_hs_idu.dts:33.22-37.5: Warning
+ (simple_bus_reg): /fpga/core_clk: missing or empty reg/ranges property
+Message-ID: <202508091456.jwCbHigL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,50 +63,134 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Masahiro Yamada <masahiroy@kernel.org>
+CC: linux-snps-arc@lists.infradead.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
-commit: b11d5507388c2461b10703954d9a9d36814f5413 [33/801] dt-bindings: arm: Convert omap/ti,am3-scm to DT schema
-:::::: branch date: 3 days ago
-:::::: commit date: 4 days ago
-config: arm-randconfig-052-20250807 (https://download.01.org/0day-ci/archive/20250809/202508092024.JDWlwVRE-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508092024.JDWlwVRE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c30a13538d9f8b2a60b2f6b26abe046dea10aa12
+commit: 3b7f793acc13b6108452271b306d4aa94a3c4940 ARC: migrate to the generic rule for built-in DTB
+date:   7 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 7 months ago
+config: arc-nsimosci_hs_smp_defconfig (https://download.01.org/0day-ci/archive/20250809/202508091456.jwCbHigL-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508091456.jwCbHigL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508092024.JDWlwVRE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508091456.jwCbHigL-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clocks/apll96_ck@500: failed to match any schema with compatible: ['ti,omap2-apll-clock']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clocks/apll54_ck@500: failed to match any schema with compatible: ['ti,omap2-apll-clock']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clocks/usb_l4_gate_ick@214: failed to match any schema with compatible: ['ti,composite-interface-clock']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clocks/mdm_gate_ick@c10: failed to match any schema with compatible: ['ti,composite-interface-clock']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clockdomains/gfx_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clockdomains/core_l3_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clockdomains/wkup_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clockdomains/dss_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clockdomains/core_l4_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clockdomains/mdm_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
->> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: scm@2000 (ti,omap2-scm): '#address-cells', '#pinctrl-cells', '#size-cells', 'pinmux@30', 'ranges', 'scm_conf@270' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/omap/ti,am3-scm.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: scm@2000 (ti,omap2-scm): clockdomains: {} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/arm/omap/ti,am3-scm.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: scm@2000 (ti,omap2-scm): compatible: ['ti,omap2-scm', 'simple-bus'] is too long
-   	from schema $id: http://devicetree.org/schemas/arm/omap/ti,am3-scm.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: scm_conf@270 (syscon): clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: scm_conf@270 (syscon): $nodename:0: 'scm_conf@270' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/scm@2000/scm_conf@270/pbias_regulator@230: failed to match any schema with compatible: ['ti,pbias-omap2', 'ti,pbias-omap']
+   arch/arc/boot/dts/skeleton_hs_idu.dtsi:57.9-60.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+>> arch/arc/boot/dts/nsimosci_hs_idu.dts:33.22-37.5: Warning (simple_bus_reg): /fpga/core_clk: missing or empty reg/ranges property
+>> arch/arc/boot/dts/nsimosci_hs_idu.dts:39.40-43.5: Warning (simple_bus_reg): /fpga/core-interrupt-controller: missing or empty reg/ranges property
+>> arch/arc/boot/dts/nsimosci_hs_idu.dts:45.38-50.5: Warning (simple_bus_reg): /fpga/idu-interrupt-controller: missing or empty reg/ranges property
+>> arch/arc/boot/dts/nsimosci_hs_idu.dts:64.18-68.5: Warning (simple_bus_reg): /fpga/pguclk: missing or empty reg/ranges property
+>> arch/arc/boot/dts/nsimosci_hs_idu.dts:77.21-83.5: Warning (simple_bus_reg): /fpga/ps2@f9001000: simple-bus unit address format error, expected "f9000400"
+>> arch/arc/boot/dts/nsimosci_hs_idu.dts:92.16-96.5: Warning (simple_bus_reg): /fpga/pct: missing or empty reg/ranges property
+>> arch/arc/boot/dts/nsimosci_hs_idu.dts:92.16-96.5: Warning (interrupt_provider): /fpga/pct: '#interrupt-cells' found, but node is not an interrupt provider
+>> arch/arc/boot/dts/nsimosci_hs_idu.dtb: Warning (interrupt_map): Failed prerequisite 'interrupt_provider'
+
+vim +33 arch/arc/boot/dts/nsimosci_hs_idu.dts
+
+a12ebe16a5cea6 Vineet Gupta   2015-03-09   8  
+a12ebe16a5cea6 Vineet Gupta   2015-03-09   9  / {
+618a9cd06dd471 Alexey Brodkin 2016-08-16  10  	model = "snps,nsimosci_hs-smp";
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  11  	compatible = "snps,nsimosci_hs";
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  12  	#address-cells = <1>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  13  	#size-cells = <1>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  14  	interrupt-parent = <&core_intc>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  15  
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  16  	chosen {
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  17  		/* this is for console on serial */
+8ff3afc159f26e Alexey Brodkin 2018-01-18  18  		bootargs = "earlycon=uart8250,mmio32,0xf0000000,115200n8 console=tty0 console=ttyS0,115200n8 consoleblan=0 debug video=640x480-24 print-fatal-signals=1";
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  19  	};
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  20  
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  21  	aliases {
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  22  		serial0 = &uart0;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  23  	};
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  24  
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  25  	fpga {
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  26  		compatible = "simple-bus";
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  27  		#address-cells = <1>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  28  		#size-cells = <1>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  29  
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  30  		/* child and parent address space 1:1 mapped */
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  31  		ranges;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  32  
+b3d6aba8bd92c2 Vineet Gupta   2016-01-01 @33  		core_clk: core_clk {
+b3d6aba8bd92c2 Vineet Gupta   2016-01-01  34  			#clock-cells = <0>;
+b3d6aba8bd92c2 Vineet Gupta   2016-01-01  35  			compatible = "fixed-clock";
+b3d6aba8bd92c2 Vineet Gupta   2016-01-01  36  			clock-frequency = <5000000>;
+b3d6aba8bd92c2 Vineet Gupta   2016-01-01  37  		};
+b3d6aba8bd92c2 Vineet Gupta   2016-01-01  38  
+a12ebe16a5cea6 Vineet Gupta   2015-03-09 @39  		core_intc: core-interrupt-controller {
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  40  			compatible = "snps,archs-intc";
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  41  			interrupt-controller;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  42  			#interrupt-cells = <1>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  43  		};
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  44  
+a12ebe16a5cea6 Vineet Gupta   2015-03-09 @45  		idu_intc: idu-interrupt-controller {
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  46  			compatible = "snps,archs-idu-intc";
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  47  			interrupt-controller;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  48  			interrupt-parent = <&core_intc>;
+ec69b269d87c12 Yuriy Kolerov  2017-02-02  49  			#interrupt-cells = <1>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  50  		};
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  51  
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  52  		uart0: serial@f0000000 {
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  53  			compatible = "ns8250";
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  54  			reg = <0xf0000000 0x2000>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  55  			interrupt-parent = <&idu_intc>;
+ec69b269d87c12 Yuriy Kolerov  2017-02-02  56  			interrupts = <0>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  57  			clock-frequency = <3686400>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  58  			baud = <115200>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  59  			reg-shift = <2>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  60  			reg-io-width = <4>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  61  			no-loopback-test = <1>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  62  		};
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  63  
+830c6578481e3b Alexey Brodkin 2016-06-06 @64  		pguclk: pguclk {
+830c6578481e3b Alexey Brodkin 2016-06-06  65  			#clock-cells = <0>;
+830c6578481e3b Alexey Brodkin 2016-06-06  66  			compatible = "fixed-clock";
+830c6578481e3b Alexey Brodkin 2016-06-06  67  			clock-frequency = <25175000>;
+830c6578481e3b Alexey Brodkin 2016-06-06  68  		};
+830c6578481e3b Alexey Brodkin 2016-06-06  69  
+830c6578481e3b Alexey Brodkin 2016-06-06  70  		pgu@f9000000 {
+830c6578481e3b Alexey Brodkin 2016-06-06  71  			compatible = "snps,arcpgu";
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  72  			reg = <0xf9000000 0x400>;
+830c6578481e3b Alexey Brodkin 2016-06-06  73  			clocks = <&pguclk>;
+830c6578481e3b Alexey Brodkin 2016-06-06  74  			clock-names = "pxlclk";
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  75  		};
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  76  
+a12ebe16a5cea6 Vineet Gupta   2015-03-09 @77  		ps2: ps2@f9001000 {
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  78  			compatible = "snps,arc_ps2";
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  79  			reg = <0xf9000400 0x14>;
+ec69b269d87c12 Yuriy Kolerov  2017-02-02  80  			interrupts = <3>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  81  			interrupt-parent = <&idu_intc>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  82  			interrupt-names = "arc_ps2_irq";
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  83  		};
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  84  
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  85  		eth0: ethernet@f0003000 {
+df420fd68811c9 Lada Trimasova 2016-03-14  86  			compatible = "ezchip,nps-mgt-enet";
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  87  			reg = <0xf0003000 0x44>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  88  			interrupt-parent = <&idu_intc>;
+ec69b269d87c12 Yuriy Kolerov  2017-02-02  89  			interrupts = <1>;
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  90  		};
+a12ebe16a5cea6 Vineet Gupta   2015-03-09  91  
+a12ebe16a5cea6 Vineet Gupta   2015-03-09 @92  		arcpct0: pct {
+
+:::::: The code at line 33 was first introduced by commit
+:::::: b3d6aba8bd92c20b7748ccd82b6fab8ea5081066 ARC: [dts] Add clk feeding into timers to DTs
+
+:::::: TO: Vineet Gupta <vgupta@synopsys.com>
+:::::: CC: Vineet Gupta <vgupta@synopsys.com>
 
 -- 
 0-DAY CI Kernel Test Service
