@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DE31F5435
-	for <oe-kbuild@lists.linux.dev>; Sat,  9 Aug 2025 09:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E4717578
+	for <oe-kbuild@lists.linux.dev>; Sat,  9 Aug 2025 09:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754730027; cv=none; b=d3BrFhJtzmC9RPSWPJVy8TAt6zQuS09LkVSol8E8H0dB/8IGPnC3mBFBx4Z8GU7/sCFZ39zX9ehcsXz9MVhFFIS9j5bnl3KCZx77sVrIta6pruP8wZafMiHKyubcjkFvk+Ht4o0A06mr4jpIPqdJs4dWTH+2mICtG3FvdCKzx7I=
+	t=1754732528; cv=none; b=jNlBO5XKanCTwN6oiO8jpaUOjI7UOYKXFfsHe+8I1X4hbzl7LifJMHMlisTImLZmG/KCLmt9Zqokn4KP1uX87ODQ5k03OverloOZIFY3Iq0wCosibCRqARrfFyf0PDFx5NNqkUMr/s8UO8+JM7Jh1r4S6LX3at1NDVJcwnAHpwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754730027; c=relaxed/simple;
-	bh=Q7Korg3jtQfF2yTOKrm7spkAM4Tka0WhYzfSjRRCLNY=;
+	s=arc-20240116; t=1754732528; c=relaxed/simple;
+	bh=7vSoQxV1KO2yzLwME7CLSJViWnu1rszVydFQefmxHqI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bNWo70QzS9tASnzBvsH6iCEQkj5h8jhmKP9NRvJxmyC9v4sFGYr99MEJ80H1OacTlXiefS0rfIW3c8gZBMK1J6NmfltNe7p5oi1u73aRNrbMDQPfPdlahNkesOvj2SErokqBWKg4rPfcG2iK0t4iIuC7MJCTkvQkLacyhlv8iww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=getH/WGw; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=P418mB10h8kX5+1E+0Ywnp913v3MtMrnz2mAuKjRF0P5XvbPrDDW61VDZmG5CmFk4Y0X+msnBqD0c5Kj8hSt/xc/p8aB0Cg/bJ3lhruhBG2onUYjdqpM7U6rXLIbxNEkkH2TuiSMENnHY14gg14W9eWGOLmc7UYMZrdp0zT10bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gdyHzc3D; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="getH/WGw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gdyHzc3D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754730026; x=1786266026;
+  t=1754732527; x=1786268527;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Q7Korg3jtQfF2yTOKrm7spkAM4Tka0WhYzfSjRRCLNY=;
-  b=getH/WGwLPKMawTPQF5HPT1X2jjqZirVE4cYde8mTXbIZJZtvPwcFUgV
-   BZ+V955xeU9S48bxQeToy/CAMTv8bpT4aXsE+JrG7LB8M2XZLJ4qGA4F1
-   pBvwQ74qK2fDlzbeYpTnq6vFOZCQR364tyuOjiJ9rDZ1F6a7ipHIWXxZE
-   xP8Bi8+WYq+kV8QzE5CdrZkQifyC2n/oIEa7Wn548AiaMEbGyvYcc40rh
-   NVin6NHZS/o28evT7FrxWrnQRB7iT/dQluRrt0Kb7KyEr8LZvJAQrfbls
-   gI1cpVD3tCx2GXFzE2As+utvEWP3qUxk5ynP6IyQWZeNNFstuzpyDvlXI
-   Q==;
-X-CSE-ConnectionGUID: y7kCqNNsSzSMfJymSieDvg==
-X-CSE-MsgGUID: dXQgLxBER8aaQaIFWtvlsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="57210163"
+  bh=7vSoQxV1KO2yzLwME7CLSJViWnu1rszVydFQefmxHqI=;
+  b=gdyHzc3D9PaqeSlkry2krRaEGI7rEP5BqL3fmZMF1G+bNJIMu3cUQ6zS
+   hjULsYfAEqu45FsK9dmOXBl6kcjj68SncSvqxZCSyNXvEVF71O42vcDmJ
+   SwhP0IDEfRD3c5DBhpts/JRY1iLeXY0hJolW95VBTcz798GRz5SkavSQ9
+   3zAN/pzMeZhBM9PbB0AaJjRd8ZQ3G1LW8jk6YxTd9YjMqDldWEQ+Ha6hv
+   SB83RRa4/li9z7MtQ8Gb3dTD0FG23liKEk3tlh6zd9vgXWUylZiqA5P31
+   6KHNAtxvXZAzx1ax6bzn/LM87qvyMzYfgad8Zl6eXifV92eN6u/mTNkG1
+   g==;
+X-CSE-ConnectionGUID: WN93kVFrTa63j7xY/UVzRw==
+X-CSE-MsgGUID: Kjq+rZGgTgiFI6YrRxPh/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="56939330"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="57210163"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 02:00:26 -0700
-X-CSE-ConnectionGUID: aYR+wTK9T0q9WfKn7RDPIg==
-X-CSE-MsgGUID: 2HbDa09ATbmsEm0Srjj7rg==
+   d="scan'208";a="56939330"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 02:42:06 -0700
+X-CSE-ConnectionGUID: 2pHgz4cfSVm4EH0/1UOkyA==
+X-CSE-MsgGUID: 2TSz9uoRTIexhOyayHI5PQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="169621500"
+   d="scan'208";a="165506498"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 09 Aug 2025 02:00:21 -0700
+  by orviesa007.jf.intel.com with ESMTP; 09 Aug 2025 02:42:04 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukfQe-0004iC-1D;
-	Sat, 09 Aug 2025 09:00:01 +0000
-Date: Sat, 9 Aug 2025 16:59:05 +0800
+	id 1ukg51-0004jk-28;
+	Sat, 09 Aug 2025 09:41:50 +0000
+Date: Sat, 9 Aug 2025 17:41:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 1/2] rtc: pcf85363: add support for timestamp and watchdog
-Message-ID: <202508091608.EsTWdAA7-lkp@intel.com>
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: sa8775p: Add clocks for QoS
+ configuration
+Message-ID: <202508091749.SwkM7Dvd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,49 +68,77 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250808112246.4169280-1-lakshay.piplani@nxp.com>
-References: <20250808112246.4169280-1-lakshay.piplani@nxp.com>
-TO: Lakshay Piplani <lakshay.piplani@nxp.com>
-TO: alexandre.belloni@bootlin.com
-TO: linux-rtc@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: devicetree@vger.kernel.org
-CC: vikash.bansal@nxp.com
-CC: priyanka.jain@nxp.com
-CC: shashank.rebbapragada@nxp.com
-CC: Lakshay Piplani <lakshay.piplani@nxp.com>
+In-Reply-To: <20250808140300.14784-4-odelu.kukatla@oss.qualcomm.com>
+References: <20250808140300.14784-4-odelu.kukatla@oss.qualcomm.com>
+TO: Odelu Kukatla <odelu.kukatla@oss.qualcomm.com>
+TO: Georgi Djakov <djakov@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Konrad Dybcio <konradybcio@kernel.org>
+CC: Raviteja Laggyshetty <quic_rlaggysh@quicinc.com>
+CC: Odelu Kukatla <odelu.kukatla@oss.qualcomm.com>
+CC: Dmitry Baryshkov <lumag@kernel.org>
+CC: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+CC: linux-arm-msm@vger.kernel.org
+CC: linux-pm@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Mike Tipton <mike.tipton@oss.qualcomm.com>
 
-Hi Lakshay,
+Hi Odelu,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on abelloni/rtc-next]
+[auto build test WARNING on robh/for-next]
 [also build test WARNING on linus/master v6.16 next-20250808]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lakshay-Piplani/rtc-pcf85363-add-support-for-additional-features/20250808-192449
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20250808112246.4169280-1-lakshay.piplani%40nxp.com
-patch subject: [PATCH 1/2] rtc: pcf85363: add support for timestamp and watchdog
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: csky-randconfig-052-20250809 (https://download.01.org/0day-ci/archive/20250809/202508091608.EsTWdAA7-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 9.5.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Odelu-Kukatla/dt-bindings-interconnect-add-clocks-property-to-enable-QoS-on-sa8775p/20250808-220708
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250808140300.14784-4-odelu.kukatla%40oss.qualcomm.com
+patch subject: [PATCH 3/3] arm64: dts: qcom: sa8775p: Add clocks for QoS configuration
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: arm64-randconfig-051-20250809 (https://download.01.org/0day-ci/archive/20250809/202508091749.SwkM7Dvd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508091608.EsTWdAA7-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508091749.SwkM7Dvd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508091608.EsTWdAA7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508091749.SwkM7Dvd-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/rtc/nxp,pcf85363.yaml: nxp,timestamp-mode: missing type definition
+   arch/arm64/boot/dts/qcom/sa8775p.dtsi:2400.37-2405.5: Warning (simple_bus_reg): /soc@0/interconnect@01680000: simple-bus unit address format error, expected "1680000"
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: soc@0 (simple-bus): interconnect@01680000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
+--
+   arch/arm64/boot/dts/qcom/sa8775p.dtsi:2400.37-2405.5: Warning (simple_bus_reg): /soc@0/interconnect@01680000: simple-bus unit address format error, expected "1680000"
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: soc@0 (simple-bus): interconnect@01680000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
 
 -- 
 0-DAY CI Kernel Test Service
