@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843A97E0E8
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Aug 2025 01:54:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD288528E
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Aug 2025 03:36:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754790853; cv=none; b=VD9txcExd0PAeerWZR8j7fYPrnc6UtzYKXNeIGCoN0GQoCtdaSH+vxzmkiAyfZeJ73RYgTd+dVN41sky39GitFgxE8nyxaHWXbY5TNcPRLiV0CeGykfnJ7ds4Im5/PVcAauMb/MrgZhKTVHQ3LL/i/GZKLUu5CkuIdARXc0Hf6I=
+	t=1754796988; cv=none; b=ZIvdhkjRNQZFR+3E9dJmAkEzXoo2bsbcxz2gpNKdYguQBXoEUNSlusn4GDiDcImeKpWKUGo6X+N7iaY24JhjrGC1qaJThm7dNf5BPLuSnUtdvvaICjEUUXVMlTMIwOwRZGsQNnL2ITCWdq5wVwjfIzu6GMXy2aHjVv8WH4uaRdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754790853; c=relaxed/simple;
-	bh=yfapUs4abwh3T+zp6js8NSkHnrvmxWhd5e3YUDUi7Ao=;
+	s=arc-20240116; t=1754796988; c=relaxed/simple;
+	bh=VYFT+989n/Gc875aR5wGPXgrgLnkorS8w1FH/H639bg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UXm0HNHXnMNG7PVbYBzRdg1cFSJCdqzLaf6HOOKIzSGmRx0wlDbcWnvd/YlJ3PhMhWT/WeY945wISXAN3BN+z1HXfK+MytBa3jpkUhPa/Fae90xeHEqZYBDjnC53eWNIsZQ9e8uTOcQvf/2HAHJFSUiTui8Huj+jSeujB3ALwrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Thdeoe1A; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=HlMTAxDMvE2o4Hm0XSooJg1AjgES31W4eryq9xsQ9OiujTkDMMe/KFiepafCD3n46lBptLNOccpGOF6lb+vhrUR+R0lPWrKvsuiDkngJ2XQO4gtM3nKW8rIeU+9NqnZ2ryTsaQwHokebh2/SnXRv4ybhgpqICf7uIMmq78WPxn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ThE9GDxP; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Thdeoe1A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ThE9GDxP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754790851; x=1786326851;
+  t=1754796986; x=1786332986;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yfapUs4abwh3T+zp6js8NSkHnrvmxWhd5e3YUDUi7Ao=;
-  b=Thdeoe1AVh1Mt6tcYBChznNwy+AQFNT69cV3glYDxHjbdKNDXU+rDqt6
-   n16RfcbBJNIGUbdZhu7AEaXfsULYfUXJTQgkDug42rf4xUivds6bOweRZ
-   8eMgXo/jgRVtZ5gWwtO6II/sLU9OFPKkG+EvnDZkjMdCr/34i/rL6dADF
-   trDID1iTsFrS/fffiDkrhbpwfv8gvkJH1p7YxHI7+8rg65nxtH/BOSdYn
-   uJWz/sn4AzrJcyz7SFp+Q0Js3rktr2MIqnM2plLcKk6Z8S9+h5YxvPzmu
-   PxPr4pO/7r/ZqP58Js0d/9Fl/LkTOrYmdtBVcTcPpEi4jJITsplnv6/9n
-   Q==;
-X-CSE-ConnectionGUID: 5XqzQmsoTAaP+5T+UDUPrQ==
-X-CSE-MsgGUID: yUcZIbYVTk636D25GbVMZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="57216765"
+  bh=VYFT+989n/Gc875aR5wGPXgrgLnkorS8w1FH/H639bg=;
+  b=ThE9GDxPQehgirf582Rf1VdPz7ieBKr2ZjcAIkCgJ/K0NVRzgeVI+CxY
+   2vwMYoYyrv7E9MCL1QBaPuULyEaJUVrgOYroZSd17u3UrUAk89NUXdGSD
+   A+ajIriYjUuSvGJAX71YbormPGG8+iCGLmg15C8Q//+WyfMjJ/iBk5cQR
+   NTfH8ZPOjrhw/Q98MyeBbrEPvUhgSnDK7k8dcuDYDn/ryObduvQUXI2uK
+   lFt8LufCi1ZRDyQNcVCppxfnU+a5bXFvaI3ZJQjOg0F7XwLIVU/7FDjFv
+   9ulnrUkpgP//JtguRhc1KJfBVublzqi47PUvC8rN9AsYnS12S0IYwx2RL
+   g==;
+X-CSE-ConnectionGUID: WlyftIpoT2WPw5HGhHBs0A==
+X-CSE-MsgGUID: +4jHZevoQqS7vRATQXDXqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="57219425"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="57216765"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 18:54:10 -0700
-X-CSE-ConnectionGUID: qSnoJgvhSMKfioPYAJ0Kew==
-X-CSE-MsgGUID: Ed0P/NJLQZOin5vvgNZBHg==
+   d="scan'208";a="57219425"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 20:36:25 -0700
+X-CSE-ConnectionGUID: yVrnSUtmRqil23gOOHsYSg==
+X-CSE-MsgGUID: 7Vdo351cSbmIDVMj4j4zTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="196600039"
+   d="scan'208";a="165624176"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 09 Aug 2025 18:54:08 -0700
+  by orviesa007.jf.intel.com with ESMTP; 09 Aug 2025 20:36:24 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukvGA-00057M-1Z;
-	Sun, 10 Aug 2025 01:54:06 +0000
-Date: Sun, 10 Aug 2025 09:53:41 +0800
+	id 1ukwr7-00058e-2Q;
+	Sun, 10 Aug 2025 03:36:21 +0000
+Date: Sun, 10 Aug 2025 11:35:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [robh:dt-convert 383/801]
- arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@40049000
- (fsl,vf610-gpio): #gpio-cells: 2 was expected
-Message-ID: <202508100909.vEcQymz9-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [sj:damon/next 69/96] mm/damon/paddr.c:289 damon_pa_de_activate()
+ error: uninitialized symbol 'folio'.
+Message-ID: <202508101131.zr1b8yNi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,179 +62,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Rob Herring (Arm)" <robh@kernel.org>
+TO: SeongJae Park <sj@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
-commit: a92832e2ff52e63d0c65935767a13aaa487625e1 [383/801] dt-bindings: mux: Convert adi,adgs1408 to DT schema
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-randconfig-054-20250807 (https://download.01.org/0day-ci/archive/20250810/202508100909.vEcQymz9-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250810/202508100909.vEcQymz9-lkp@intel.com/reproduce)
+Hi SeongJae,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   a77caf2f2daf977b2c3caf5b10c0088eb56de234
+commit: 3e4cadcb04f8c79115a786c2d03df3960e3b1cc1 [69/96] mm/damon/paddr: activate DAMOS_LRU_PRIO targets instead of marking accessed
+:::::: branch date: 7 hours ago
+:::::: commit date: 35 hours ago
+config: x86_64-randconfig-161-20250810 (https://download.01.org/0day-ci/archive/20250810/202508101131.zr1b8yNi-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508100909.vEcQymz9-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202508101131.zr1b8yNi-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: interrupt-controller@e000e100 (arm,armv7m-nvic): 'arm,num-irq-priority-bits' is a required property
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm,nvic.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: iomuxc@40048000 (fsl,vf610-iomuxc): $nodename:0: 'iomuxc@40048000' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/fsl,vf610-iomuxc.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@40049000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@40049000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@40049000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@4004a000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@4004a000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@4004a000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@4004b000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@4004b000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@4004b000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@4004c000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@4004c000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@4004c000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@4004d000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@4004d000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: gpio@4004d000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
---
-   arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: iomuxc@40048000 (fsl,vf610-iomuxc): $nodename:0: 'iomuxc@40048000' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/fsl,vf610-iomuxc.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@40049000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@40049000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@40049000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@4004a000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@4004a000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@4004a000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@4004b000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@4004b000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@4004b000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@4004c000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@4004c000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@4004c000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@4004d000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@4004d000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: gpio@4004d000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
---
-   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: interrupt-controller@e000e100 (arm,armv7m-nvic): 'arm,num-irq-priority-bits' is a required property
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/arm,nvic.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: iomuxc@40048000 (fsl,vf610-iomuxc): $nodename:0: 'iomuxc@40048000' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/fsl,vf610-iomuxc.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@40049000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@40049000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@40049000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@4004a000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@4004a000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@4004a000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@4004b000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@4004b000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@4004b000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@4004c000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@4004c000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@4004c000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@4004d000 (fsl,vf610-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@4004d000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: gpio@4004d000 (fsl,vf610-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
---
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: scm_conf@270 (syscon): clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: scm_conf@270 (syscon): $nodename:0: 'scm_conf@270' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/scm@2000/scm_conf@270/pbias_regulator@230: failed to match any schema with compatible: ['ti,pbias-omap2', 'ti,pbias-omap']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/scm@2000/scm_conf@270/pbias_regulator@230: failed to match any schema with compatible: ['ti,pbias-omap2', 'ti,pbias-omap']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: counter@0 (ti,omap-counter32k): reg: [[0, 32]] is too short
-   	from schema $id: http://devicetree.org/schemas/ti,omap-counter32k.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: counter@0 (ti,omap-counter32k): 'ti,hwmods' is a required property
-   	from schema $id: http://devicetree.org/schemas/ti,omap-counter32k.yaml#
->> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@4900c000 (ti,omap2-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/ti,omap-gpio.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@4900c000 (ti,omap2-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@4900c000 (ti,omap2-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@4900e000 (ti,omap2-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/ti,omap-gpio.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@4900e000 (ti,omap2-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@4900e000 (ti,omap2-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@49010000 (ti,omap2-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/ti,omap-gpio.yaml#
->> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@49010000 (ti,omap2-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@49010000 (ti,omap2-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@49012000 (ti,omap2-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/ti,omap-gpio.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@49012000 (ti,omap2-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@49012000 (ti,omap2-gpio): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@480b6000 (ti,omap2-gpio): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/ti,omap-gpio.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@480b6000 (ti,omap2-gpio): #gpio-cells: [2] is not of type 'integer'
+smatch warnings:
+mm/damon/paddr.c:289 damon_pa_de_activate() error: uninitialized symbol 'folio'.
+
+vim +/folio +289 mm/damon/paddr.c
+
+57223ac295845b SeongJae Park         2021-11-05  259  
+3e4cadcb04f8c7 SeongJae Park         2025-06-14  260  static inline unsigned long damon_pa_de_activate(
+3e4cadcb04f8c7 SeongJae Park         2025-06-14  261  		struct damon_region *r, struct damos *s, bool activate,
+96f1971dabca71 SeongJae Park         2025-01-06  262  		unsigned long *sz_filter_passed)
+8cdcc532268df0 SeongJae Park         2022-06-13  263  {
+8cdcc532268df0 SeongJae Park         2022-06-13  264  	unsigned long addr, applied = 0;
+94ba17adaba0f6 SeongJae Park         2025-02-07  265  	struct folio *folio;
+8cdcc532268df0 SeongJae Park         2022-06-13  266  
+3a06696305e757 Usama Arif            2025-02-07  267  	addr = r->ar.start;
+3a06696305e757 Usama Arif            2025-02-07  268  	while (addr < r->ar.end) {
+94ba17adaba0f6 SeongJae Park         2025-02-07  269  		folio = damon_get_folio(PHYS_PFN(addr));
+94ba17adaba0f6 SeongJae Park         2025-02-07  270  		if (damon_pa_invalid_damos_folio(folio, s)) {
+3a06696305e757 Usama Arif            2025-02-07  271  			addr += PAGE_SIZE;
+8cdcc532268df0 SeongJae Park         2022-06-13  272  			continue;
+3a06696305e757 Usama Arif            2025-02-07  273  		}
+18250e78f9c759 SeongJae Park         2022-12-05  274  
+b6993be23601c8 Kefeng Wang           2023-03-08  275  		if (damos_pa_filter_out(s, folio))
+b6993be23601c8 Kefeng Wang           2023-03-08  276  			goto put_folio;
+96f1971dabca71 SeongJae Park         2025-01-06  277  		else
+96f1971dabca71 SeongJae Park         2025-01-06  278  			*sz_filter_passed += folio_size(folio);
+18250e78f9c759 SeongJae Park         2022-12-05  279  
+3e4cadcb04f8c7 SeongJae Park         2025-06-14  280  		if (activate)
+3e4cadcb04f8c7 SeongJae Park         2025-06-14  281  			folio_activate(folio);
+8193321ac90d52 SeongJae Park         2022-09-13  282  		else
+5a9e34747c9f73 Vishal Moola (Oracle  2022-12-21  283) 			folio_deactivate(folio);
+f70da5ee8fe15b Vishal Moola (Oracle  2022-12-21  284) 		applied += folio_nr_pages(folio);
+b6993be23601c8 Kefeng Wang           2023-03-08  285  put_folio:
+3a06696305e757 Usama Arif            2025-02-07  286  		addr += folio_size(folio);
+dd52a61da0dd8b SeongJae Park         2023-03-04  287  		folio_put(folio);
+8cdcc532268df0 SeongJae Park         2022-06-13  288  	}
+94ba17adaba0f6 SeongJae Park         2025-02-07 @289  	s->last_applied = folio;
+8cdcc532268df0 SeongJae Park         2022-06-13  290  	return applied * PAGE_SIZE;
+8cdcc532268df0 SeongJae Park         2022-06-13  291  }
+8cdcc532268df0 SeongJae Park         2022-06-13  292  
+
+:::::: The code at line 289 was first introduced by commit
+:::::: 94ba17adaba0f651fdcf745c8891a88e2e028cfa mm/damon: avoid applying DAMOS action to same entity multiple times
+
+:::::: TO: SeongJae Park <sj@kernel.org>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
