@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B711D5ADC
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Aug 2025 10:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F151C267733
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Aug 2025 15:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754820688; cv=none; b=hrkx52qO7P/oo1jRH/lJZEhuub6ynYvofZGAwLA2H6nCwdIVyP77EVxBcETcK9yd/+T0cYQbv/p4J86dNWkoEvGSmxkrIEkcrXdDZqZgebfHUKFieEBTkRxD1zTkSpSl70XMViJSN4987vdf5p52XDJ9s8Z09PWqGu92E+96h9c=
+	t=1754841470; cv=none; b=ECod7luId4TISMcUDQqbewDWwmCiV1/9mRXWBn+mER+ADb1HTYKp9+rBQFUGNKGKFycYm1IpXC83ILW9hGFsWklIut54HqxNUJ+RX0xLHjQnHzX7kr8Xd2fEdN3HWHCdZcPDb+luRmkyu1GzdRo2L6YVQ0QD5r658BxsOf1OwbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754820688; c=relaxed/simple;
-	bh=44AioxwArIgZEowvZFYGytWwM+ZEsBZq7lcnRXUUkps=;
+	s=arc-20240116; t=1754841470; c=relaxed/simple;
+	bh=6BUvClKk5v9U4qr88aaq8azhgH6RrliJipTvuWj7qro=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jCXbTVaEG2ee94gKQvWaYvI0I+Sh796OaR0YE6LiCUq2p8Djqo0ur4aK6MsQ+FTvEFRpOG0SOGN5Pus9abY6Oose7xdLXEd4w4Athd9Mkg0GRKtOAyaKg8aJnkcbVHmjqLNNb6NkBw1IHkiZOiMEw08h4a/Y/V46wkDHjAeP5Bc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=msLZbSAX; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=eFR8hmmhdFwR3Ji3OKUF4uEZKdhS/GOOXWcZPoGDxTdqV0l5NU5olO+GEwIdb+rBTkYcDEQfq0WxRGiRJC9tPMDLqu/skZfriY634zA+l3uJtCegx7Y929w4Idl3vfLDggVgzEwdNJ3cUUglOsDsVhXHnVq/w2rYr4Agan7ReSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IkI4oCr2; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="msLZbSAX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IkI4oCr2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754820686; x=1786356686;
+  t=1754841468; x=1786377468;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=44AioxwArIgZEowvZFYGytWwM+ZEsBZq7lcnRXUUkps=;
-  b=msLZbSAXtIs5B/HsXv3P3mL0jjf2DlWTkhqXCErFpzG+KH+ImyIaByr5
-   mgOdEpQuT27AZS0g0g8aYy2MceBOD9r4La2aZqjW0Rr6m2CH5f6zAJtyV
-   IIAVgbbcYxQGa9E254LniXp9osSIUYPKSSTleEJtE3Zn1PrxIvval8qCh
-   rVluoN9tdU76EmnLGP0OYx6qcA0LPhirdOdWzNc8fwlKNJIVqWoiyHhrP
-   a5WOjPAK3aW0pNw1y2zdaqx0ZrrpyBTK8ZFQrK82H73+ERoFSPYxWP6qo
-   6fgv7ODy9ICj0jtEzvSW54r7qn3f4TDXq6hcXuiUYF2NRYys9gO298p7l
-   A==;
-X-CSE-ConnectionGUID: pzPUkm7LSE+rMJaao5Xdag==
-X-CSE-MsgGUID: AXqY9Ot3QE6SQ3oP5wzEzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="68178259"
+  bh=6BUvClKk5v9U4qr88aaq8azhgH6RrliJipTvuWj7qro=;
+  b=IkI4oCr2BtdFoH6KKt5b1gXSzCL7VKc6bIRuO6U2CwrtuEv4Sp2uj8jE
+   gx0QCwGxVIE163qb7Lc5YzYuLLXsT9dtcdUtNCeBXFZjKkMqYZxMXd8Gq
+   QxshIJgyM8E13vIxjQjdF/8/GGYlJ+DjRrTQ5eDTNftiGaqZm75B2JADp
+   3sy7lHOtgu0CY/6U5lniXUTvZO84bMzXR6DwYYYI0/O+pXT7Q0EeOFqUj
+   atzOFKzoB6vK5PgiW9qr/wgzLZZb+mLcX8/PmjnoYxMOMvYIbM0NhRaXl
+   t5WugQEhcWG21ZkwKgzIXD1mh/AqhnoKctvlNY2kGIXIlqafyzIsoj9k/
+   Q==;
+X-CSE-ConnectionGUID: XxhKiiuWSpe1QDdr7mDfaA==
+X-CSE-MsgGUID: qCEFfCyMQhOIXG3yotnpKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="57251931"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="68178259"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2025 03:11:26 -0700
-X-CSE-ConnectionGUID: mHXrlk/CTCyR0pAk26WeZg==
-X-CSE-MsgGUID: 4heUD2KLSLOHdpG1dLRKQw==
+   d="scan'208";a="57251931"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2025 08:57:47 -0700
+X-CSE-ConnectionGUID: LuPSp5WqQ722bdK9CgaTiQ==
+X-CSE-MsgGUID: 9x+cncI8QcGIu3xiSWFuZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="166034798"
+   d="scan'208";a="166130728"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 10 Aug 2025 03:11:23 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 10 Aug 2025 08:57:45 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ul315-0005Fg-0F;
-	Sun, 10 Aug 2025 10:11:08 +0000
-Date: Sun, 10 Aug 2025 18:10:09 +0800
+	id 1ul8QZ-0005Ka-2N;
+	Sun, 10 Aug 2025 15:57:43 +0000
+Date: Sun, 10 Aug 2025 23:57:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [robh:dt-convert 702/801]
- arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48074000
- (ti,omap2430-mcbsp): interrupt-names:3: 'sidetone' was expected
-Message-ID: <202508101839.EY3zJdOs-lkp@intel.com>
+Subject: [robh:dt-convert 511/801] arch/powerpc/boot/dts/fsl/t1024qds.dtb:
+ display@180000 (fsl,t1024-diu): compatible:0: 'fsl,t1024-diu' is not one of
+ ['fsl,diu', 'fsl,mpc5121-diu']
+Message-ID: <202508102309.GgKgG1J8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,75 +73,299 @@ TO: "Rob Herring (Arm)" <robh@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
 head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
-commit: 754be9b6a20050b6c1423cd6309e51d32c1ed930 [702/801] dt-bindings: sound: Convert ti,omap-mcbsp to DT schema
+commit: d6a15fb7185f3b8c7d190741abe628f721cbdd81 [511/801] dt-bindings: powerpc: Convert fsl/fsl,diu to DT schema
 :::::: branch date: 4 days ago
 :::::: commit date: 4 days ago
-config: arm-randconfig-054-20250807 (https://download.01.org/0day-ci/archive/20250810/202508101839.EY3zJdOs-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
+config: powerpc-randconfig-051-20250807 (https://download.01.org/0day-ci/archive/20250810/202508102309.GgKgG1J8-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.3.0
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250810/202508101839.EY3zJdOs-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250810/202508102309.GgKgG1J8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508101839.EY3zJdOs-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508102309.GgKgG1J8-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/ti,gpmc.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpmc@6e000000 (ti,omap2430-gpmc): 'ethernet@gpmc' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpmc@6e000000 (ti,omap2430-gpmc): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpmc@6e000000 (ti,omap2430-gpmc): #gpio-cells: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/gpmc@6e000000/ethernet@gpmc: failed to match any schema with compatible: ['smsc,lan91c94']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48074000 (ti,omap2430-mcbsp): 'dma-names', 'dmas' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
->> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48074000 (ti,omap2430-mcbsp): interrupt-names:3: 'sidetone' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48074000 (ti,omap2430-mcbsp): reg: [[1208434688, 255]] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
->> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48074000 (ti,omap2430-mcbsp): reg-names: ['mpu'] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48076000 (ti,omap2430-mcbsp): 'dma-names', 'dmas' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48076000 (ti,omap2430-mcbsp): interrupt-names: ['common', 'tx', 'rx'] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48076000 (ti,omap2430-mcbsp): interrupts: [[16], [62], [63]] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48076000 (ti,omap2430-mcbsp): reg: [[1208442880, 255]] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48076000 (ti,omap2430-mcbsp): reg-names: ['mpu'] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
->> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@4808c000 (ti,omap2430-mcbsp): 'dma-names', 'dmas' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@4808c000 (ti,omap2430-mcbsp): interrupt-names: ['common', 'tx', 'rx'] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@4808c000 (ti,omap2430-mcbsp): interrupts: [[17], [89], [90]] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
->> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@4808c000 (ti,omap2430-mcbsp): reg: [[1208532992, 255]] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@4808c000 (ti,omap2430-mcbsp): reg-names: ['mpu'] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@4808e000 (ti,omap2430-mcbsp): 'dma-names', 'dmas' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
->> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@4808e000 (ti,omap2430-mcbsp): interrupt-names: ['common', 'tx', 'rx'] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@4808e000 (ti,omap2430-mcbsp): interrupts: [[18], [54], [55]] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@4808e000 (ti,omap2430-mcbsp): reg: [[1208541184, 255]] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
->> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@4808e000 (ti,omap2430-mcbsp): reg-names: ['mpu'] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48096000 (ti,omap2430-mcbsp): 'dma-names', 'dmas' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48096000 (ti,omap2430-mcbsp): interrupt-names: ['common', 'tx', 'rx'] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48096000 (ti,omap2430-mcbsp): interrupts: [[19], [81], [82]] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48096000 (ti,omap2430-mcbsp): reg: [[1208573952, 255]] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/ti,omap-mcbsp.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: mcbsp@48096000 (ti,omap2430-mcbsp): reg-names: ['mpu'] is too short
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e6000 (fsl,fman-memac): 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e6000 (fsl,fman-memac): 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e6000 (fsl,fman-memac): 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: mdio@e7000 (fsl,fman-memac-mdio): compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-mdio.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: mdio@e7000 (fsl,fman-memac-mdio): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-mdio.yaml#
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: display@180000 (fsl,t1024-diu): compatible:0: 'fsl,t1024-diu' is not one of ['fsl,diu', 'fsl,mpc5121-diu']
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: display@180000 (fsl,t1024-diu): compatible: ['fsl,t1024-diu', 'fsl,diu'] is too long
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: display@180000 (fsl,t1024-diu): interrupts: [[74, 2, 0, 0]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: display@180000 (fsl,t1024-diu): reg: [[1572864, 1000]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1024-diu', 'fsl,diu']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /pcie@ffe240000: failed to match any schema with compatible: ['fsl,t1023-pcie', 'fsl,qoriq-pcie-v2.4', 'fsl,qoriq-pcie']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /pcie@ffe240000: failed to match any schema with compatible: ['fsl,t1023-pcie', 'fsl,qoriq-pcie-v2.4', 'fsl,qoriq-pcie']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /pcie@ffe240000: failed to match any schema with compatible: ['fsl,t1023-pcie', 'fsl,qoriq-pcie-v2.4', 'fsl,qoriq-pcie']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: pcie@ffe240000 (fsl,t1023-pcie): pcie@0:interrupts:0:0: 20 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: pcie@ffe240000 (fsl,t1023-pcie): pcie@0:interrupts:0: [20, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /pcie@ffe250000: failed to match any schema with compatible: ['fsl,t1023-pcie', 'fsl,qoriq-pcie-v2.4', 'fsl,qoriq-pcie']
+--
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: crypto@300000 (fsl,sec-v5.0): rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
+   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
+   	'fsl,sec-v5.4-rtic' was expected
+   	'fsl,sec-v4.0-rtic' was expected
+   	'fsl,sec-v5.0-rtic' was expected
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: sec_mon@314000 (fsl,sec-v5.0-mon): interrupts: [[93, 2, 0, 0]] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0-mon.yaml#
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: display@180000 (fsl,t1024-diu): compatible:0: 'fsl,t1024-diu' is not one of ['fsl,diu', 'fsl,mpc5121-diu']
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: display@180000 (fsl,t1024-diu): compatible: ['fsl,t1024-diu', 'fsl,diu'] is too long
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: display@180000 (fsl,t1024-diu): interrupts: [[74, 2, 0, 0]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: display@180000 (fsl,t1024-diu): reg: [[1572864, 1000]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1024-diu', 'fsl,diu']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /pcie@ffe240000: failed to match any schema with compatible: ['fsl,t1023-pcie', 'fsl,qoriq-pcie-v2.4', 'fsl,qoriq-pcie']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /pcie@ffe240000: failed to match any schema with compatible: ['fsl,t1023-pcie', 'fsl,qoriq-pcie-v2.4', 'fsl,qoriq-pcie']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /pcie@ffe240000: failed to match any schema with compatible: ['fsl,t1023-pcie', 'fsl,qoriq-pcie-v2.4', 'fsl,qoriq-pcie']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: pcie@ffe240000 (fsl,t1023-pcie): pcie@0:interrupts:0:0: 20 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: pcie@ffe240000 (fsl,t1023-pcie): pcie@0:interrupts:0: [20, 2, 0, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /pcie@ffe250000: failed to match any schema with compatible: ['fsl,t1023-pcie', 'fsl,qoriq-pcie-v2.4', 'fsl,qoriq-pcie']
+--
+   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
+   	'fsl-usb2-dr' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: usb@210000 (fsl-usb2-mph-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: usb@211000 (fsl-usb2-dr-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: display@180000 (fsl,t1040-diu): compatible:0: 'fsl,t1040-diu' is not one of ['fsl,diu', 'fsl,mpc5121-diu']
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: display@180000 (fsl,t1040-diu): compatible: ['fsl,t1040-diu', 'fsl,diu'] is too long
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: display@180000 (fsl,t1040-diu): interrupts: [[74, 2, 0, 0]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: display@180000 (fsl,t1040-diu): reg: [[1572864, 1000]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: sata@220000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: sata@220000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: sata@221000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: sata@221000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+--
+   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
+   	'fsl-usb2-dr' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: usb@210000 (fsl-usb2-mph-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: usb@211000 (fsl-usb2-dr-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: display@180000 (fsl,t1040-diu): compatible:0: 'fsl,t1040-diu' is not one of ['fsl,diu', 'fsl,mpc5121-diu']
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: display@180000 (fsl,t1040-diu): compatible: ['fsl,t1040-diu', 'fsl,diu'] is too long
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: display@180000 (fsl,t1040-diu): interrupts: [[74, 2, 0, 0]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: display@180000 (fsl,t1040-diu): reg: [[1572864, 1000]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: sata@220000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: sata@220000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: sata@221000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: sata@221000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+--
+   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
+   	'fsl-usb2-dr' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: usb@210000 (fsl-usb2-mph-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: usb@211000 (fsl-usb2-dr-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: display@180000 (fsl,t1040-diu): compatible:0: 'fsl,t1040-diu' is not one of ['fsl,diu', 'fsl,mpc5121-diu']
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: display@180000 (fsl,t1040-diu): compatible: ['fsl,t1040-diu', 'fsl,diu'] is too long
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: display@180000 (fsl,t1040-diu): interrupts: [[74, 2, 0, 0]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: display@180000 (fsl,t1040-diu): reg: [[1572864, 1000]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: sata@220000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: sata@220000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: sata@221000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: sata@221000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+--
+   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
+   	'fsl-usb2-dr' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: usb@210000 (fsl-usb2-mph-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: usb@211000 (fsl-usb2-dr-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: display@180000 (fsl,t1040-diu): compatible:0: 'fsl,t1040-diu' is not one of ['fsl,diu', 'fsl,mpc5121-diu']
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: display@180000 (fsl,t1040-diu): compatible: ['fsl,t1040-diu', 'fsl,diu'] is too long
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: display@180000 (fsl,t1040-diu): interrupts: [[74, 2, 0, 0]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: display@180000 (fsl,t1040-diu): reg: [[1572864, 1000]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: sata@220000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: sata@220000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: sata@221000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: sata@221000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+--
+   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
+   	'fsl-usb2-dr' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: usb@210000 (fsl-usb2-mph-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: usb@211000 (fsl-usb2-dr-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: display@180000 (fsl,t1040-diu): compatible:0: 'fsl,t1040-diu' is not one of ['fsl,diu', 'fsl,mpc5121-diu']
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: display@180000 (fsl,t1040-diu): compatible: ['fsl,t1040-diu', 'fsl,diu'] is too long
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: display@180000 (fsl,t1040-diu): interrupts: [[74, 2, 0, 0]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: display@180000 (fsl,t1040-diu): reg: [[1572864, 1000]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: sata@220000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: sata@220000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: sata@221000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: sata@221000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+--
+   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
+   	'fsl-usb2-dr' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: usb@210000 (fsl-usb2-mph-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: usb@211000 (fsl-usb2-dr-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: display@180000 (fsl,t1040-diu): compatible:0: 'fsl,t1040-diu' is not one of ['fsl,diu', 'fsl,mpc5121-diu']
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: display@180000 (fsl,t1040-diu): compatible: ['fsl,t1040-diu', 'fsl,diu'] is too long
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: display@180000 (fsl,t1040-diu): interrupts: [[74, 2, 0, 0]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: display@180000 (fsl,t1040-diu): reg: [[1572864, 1000]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: sata@220000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: sata@220000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: sata@221000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: sata@221000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+--
+   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
+   	'fsl-usb2-dr' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: usb@210000 (fsl-usb2-mph-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: usb@211000 (fsl-usb2-dr-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: display@180000 (fsl,t1040-diu): compatible:0: 'fsl,t1040-diu' is not one of ['fsl,diu', 'fsl,mpc5121-diu']
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: display@180000 (fsl,t1040-diu): compatible: ['fsl,t1040-diu', 'fsl,diu'] is too long
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: display@180000 (fsl,t1040-diu): interrupts: [[74, 2, 0, 0]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: display@180000 (fsl,t1040-diu): reg: [[1572864, 1000]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: sata@220000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: sata@220000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: sata@221000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: sata@221000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+--
+   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
+   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
+   	'fsl-usb2-dr' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: usb@210000 (fsl-usb2-mph-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: usb@211000 (fsl-usb2-dr-v2.5): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: display@180000 (fsl,t1040-diu): compatible:0: 'fsl,t1040-diu' is not one of ['fsl,diu', 'fsl,mpc5121-diu']
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: display@180000 (fsl,t1040-diu): compatible: ['fsl,t1040-diu', 'fsl,diu'] is too long
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: display@180000 (fsl,t1040-diu): interrupts: [[74, 2, 0, 0]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: display@180000 (fsl,t1040-diu): reg: [[1572864, 1000]] is too short
+   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,diu.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: sata@220000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: sata@220000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: sata@221000 (fsl,pq-sata-v2): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: sata@221000 (fsl,pq-sata-v2): 'cell-index' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
