@@ -1,58 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3B55680
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 Aug 2025 03:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FBFE29E0ED
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 Aug 2025 06:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754881597; cv=none; b=YUoiDBMHXHZ0wAeO/JSeFGi7+mM9/ksNqAnm/RG6DfNwW+rtPqELBXrk4yGy1/9HGR+KP4YpcC1VZ0RtR/D2J/RRHrMQgxCuYduUndwi2dIHt+oIQxW6rNxZpBpCmsd11vq08FIHftbxO/z6rQAp0kyh04M9obcHyNGooiZ2CjQ=
+	t=1754894694; cv=none; b=JU7G7JHexEZbQmnWR70696fB5KkGkofrDLf4uAmIEEIZrG58p0BQpMwzOP6ZyhPmvBFybkkiEC1ofVddjcMNGFPq3zke7Ffd4RfGXPP7T1zRYyxOFdFmMFtwD591/kmTgowtEN2TzXohB7EFlpsfljO4kG32wGO3OoT5wWqNTdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754881597; c=relaxed/simple;
-	bh=k7KyH+FadjFOQt9z3bwtewvm1j1Jj0YYhJ9BgfGpCjs=;
+	s=arc-20240116; t=1754894694; c=relaxed/simple;
+	bh=7kIyHm3ycPuG2bNrjYRzZ1oN8R/OB4JGUGBpwgvDkA8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CL4qJrzXJ0cH0SZTKCuO9ZsYrPCI93RVcaIn/nNz0OpP9W17Ktbp8x7ULqFCzPuh/BdFA7IOSh3LFiye9Q1goTxQel8rz3pM+pyCxrrsbJpEN7om7BPtIlY9xX7MLe5o8FtsrfP0C+7GHmWTp2/5dgsEDJcYpqcIVQerSHX5ZUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xb3JopJs; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=Wjll1alQmNAWxYIAaRXInr/nLC0CTwigHq+hA0tRoGzRvlxHJFN1MHYVYB+wexa4kWRW9DHW0BLO7IGq9Lt5Z7mMlLUJDtkZrPoPHWy0eiuYuSjiDINyqhboxdsBwyi3nzw8LpyNCyQex/DM9FBySe7/lb7a9oQYMgZxz+fsOXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V1BXWpBs; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xb3JopJs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754881595; x=1786417595;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k7KyH+FadjFOQt9z3bwtewvm1j1Jj0YYhJ9BgfGpCjs=;
-  b=Xb3JopJsd3LCEqVS596C5vNRhLWLYEl0/6/hq14T1qLTsQionTm8akMS
-   xElvU4a7P7scscAD4hPxWezXqVXanyLqjX4bdn9cfvLreNIKZItizeCXi
-   gnkKDHxLbp8eNaniUUtbRijm1LlUK8iO0sZk6B3nlyZvi3dm1aqYqp1eN
-   WEKXpIaYq6aVXfMquhujcJ4W0qNSjv+DJrTZ/clFDpZIl6BAk8+g9PETk
-   qm3zw/mLeZ+XCQ2iYMbkB6eMaMiFxJvsteiwJ5QcZfkMvGco2aK29XTuk
-   +FSko+YrMWlYlvcMcrAXsU1/lyBrDNp66I6VRJEIdQz/5RdsxJrmTSiF5
-   g==;
-X-CSE-ConnectionGUID: vYV5EF1dTf2fkgU4PFFpgw==
-X-CSE-MsgGUID: zaD7EQUWRhaRhKax2TgEgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57035845"
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="57035845"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2025 20:06:35 -0700
-X-CSE-ConnectionGUID: vqZ3gbYaSM2SY1wAvfd10A==
-X-CSE-MsgGUID: 6iZHP9H/Tz2QUBsVpdjN8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="165796496"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 10 Aug 2025 20:06:34 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ulIrn-0005WO-2A;
-	Mon, 11 Aug 2025 03:06:31 +0000
-Date: Mon, 11 Aug 2025 11:06:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [robh:dt-convert 88/801] arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb:
- apll96_ck@500 (ti,omap2-apll-clock): clocks: [[17]] is too short
-Message-ID: <202508111036.9wj1luRO-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V1BXWpBs"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3b783ea5014so2070591f8f.0
+        for <oe-kbuild@lists.linux.dev>; Sun, 10 Aug 2025 23:44:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1754894690; x=1755499490; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fZcBQa+R8YkEhAHCj4vRCxBH8Jc3hxrLrNZ+LWWKYcs=;
+        b=V1BXWpBsiv9XQsazi1QkOkzBGk04Wbg/u7beBYArhNYZgAMQcc3np5oeKB7UQqGfw2
+         29EtLfktpFOLF50HW3jLvxrzaWQSbsZKy2385FTelaaCutXGtMPTWj5QZUx11fIUzTUq
+         WEvyl1vgLB1WPr4YQdf8hsuOK5yF2uiev+wc5LgFu+itA9aRw3ntWp48F9K4Cuc26vNQ
+         DQ5wLqbpO1Fv2VxGdj4Zg03uxMXJ9lbDReaMXD3tPZjzeSSrPsnFYJ1kgU+zk6XKCSG4
+         /VUNteHz78IAMV3AJ4I46ZUxGpu0mhTy7enUA2jEJd/qJHEFtc+/uAF4Bqb2kQLQL/gF
+         8gkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754894690; x=1755499490;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fZcBQa+R8YkEhAHCj4vRCxBH8Jc3hxrLrNZ+LWWKYcs=;
+        b=aI/Xe18MjPnXCUIwamIAb3CspVcGRuih+0g/16S2hGfQIF+loKX8XHJg/A6nJn7itK
+         HNPfDkU7L/E1BMSQfyJigis/l8lKfI7Cx8pkepsY1474f7ThPIsk85fn1bVXl5+/P+D2
+         eMQZXl6H19sUzwd4CMLfyXcsrwliWHXRLeUVJmRwaho61ZwszqlCnofwRqfK1mF23aSM
+         FFCM11HYGtTG0LhT1ca2kE4Q3gu5KhZ/hVqrNEmL8mebPqDBUCTZvdb36mQsn8Ysr4A9
+         hsGMwlWLafHA/Ffji0OOm2GsHf4cVQTMyM/NdULzhIJKfv37noB4vGcbStX6Q8txty+l
+         R6vQ==
+X-Gm-Message-State: AOJu0Yw3QIq691zXT84RyMqf/7wiOA5kQDCoQQGgk6VHKiMMZbaRYri3
+	8+L3sne4KmKK499xxXYHqL/DSt8r/dEII1MnDCl3TKjQMPt/v1UMHBESObnIeF2tQ/4xOGX+dEc
+	V6Poe
+X-Gm-Gg: ASbGncvQ5rP3Pvan/UAs0X6F1GTnHtEjkpe2miVRm771s/kN2voQTC/Btffz1qiGzC6
+	XN5S1ie8F4GH09+ECxFvTQqpuK+FZC5s8BPt1nHfRCOqzpnhah5H6Rzdaeh+obMP5Gp/g4jnydh
+	doBOW8hkUUHrjJFGQ4VouNf/bQTsivcbNPnbHeZGFkzUXI6L1Gq2L7lpxwnaQDX8IfixSvZKDIP
+	xB2azedrHgYUfTqYPpocfA+hM5Zhbv7GNPVvWVuxSS4uEKMsyCGWIvWZIqm4s6tRDNDjNoZ1qok
+	SxxEq6zUrI4D8TT4ELz/VTAcM2avxW37acT4N3yCcRt9KCyXSoxG6DzjIXLllsgh8KSVzKWMfj2
+	CGCF+j4sqcnNX/3Qm/kpw27fgrW09+F21
+X-Google-Smtp-Source: AGHT+IGQ97PWWN8i6rks22T0ROMqYjiWyzFQh1ABqQuYfuq3vlH80S/7fcfwj183qBQeOoLh/RfHWw==
+X-Received: by 2002:a05:6000:22c8:b0:3b7:8154:aa36 with SMTP id ffacd0b85a97d-3b90092ba41mr9504145f8f.7.1754894690121;
+        Sun, 10 Aug 2025 23:44:50 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b8e0846777sm29635596f8f.48.2025.08.10.23.44.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Aug 2025 23:44:49 -0700 (PDT)
+Date: Mon, 11 Aug 2025 09:44:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dmitry Antipov <dmantipov@yandex.ru>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, Chi Zhiling <chizhiling@kylinos.cn>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Dmitry Antipov <dmantipov@yandex.ru>,
+	syzbot+db4326df1b9af04f68fc@syzkaller.appspotmail.com
+Subject: Re: [PATCH 2/2] media: xc2028: hold the device if firmware loading
+ is in progress
+Message-ID: <202508090831.5eRXcWv2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,53 +77,65 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250806075409.210489-2-dmantipov@yandex.ru>
+Message-ID: <20250811064416.Fwnj2SC4dNLqz245cFKvVVCGlU4tDJ7nsxcvi56QiaM@z>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Hi Dmitry,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: "Rob Herring (Arm)" <robh@kernel.org>
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
-commit: ab8849c27c1382ea3a8781e32e7b6d21aee7e20f [88/801] dt-bindings: clock: Convert ti/ti,dra7-apll-clock to DT schema
-:::::: branch date: 4 days ago
-:::::: commit date: 5 days ago
-config: arm-randconfig-052-20250807 (https://download.01.org/0day-ci/archive/20250811/202508111036.9wj1luRO-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250811/202508111036.9wj1luRO-lkp@intel.com/reproduce)
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Antipov/media-xc2028-hold-the-device-if-firmware-loading-is-in-progress/20250806-160542
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20250806075409.210489-2-dmantipov%40yandex.ru
+patch subject: [PATCH 2/2] media: xc2028: hold the device if firmware loading is in progress
+config: sparc-randconfig-r073-20250809 (https://download.01.org/0day-ci/archive/20250809/202508090831.5eRXcWv2-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508111036.9wj1luRO-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508090831.5eRXcWv2-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/i2c@48072000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/dss@48050000: failed to match any schema with compatible: ['ti,omap2-dss']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/dss@48050000/dispc@48050400: failed to match any schema with compatible: ['ti,omap2-dispc']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/dss@48050000/encoder@48050800: failed to match any schema with compatible: ['ti,omap2-rfbi']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/dss@48050000/encoder@48050c00: failed to match any schema with compatible: ['ti,omap2-venc']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: l4_wkup@49000000 (ti,omap2-l4-wkup): '#address-cells', '#size-cells', 'prcm@6000', 'scm@2000', 'target-module@20000' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/omap/ti,omap2-l4.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: prcm@6000 (ti,omap2-prcm): 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/arm/omap/prcm.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clocks/dpll_ck@500: failed to match any schema with compatible: ['ti,omap2-dpll-core-clock']
->> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: apll96_ck@500 (ti,omap2-apll-clock): clocks: [[17]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,dra7-apll-clock.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: apll54_ck@500 (ti,omap2-apll-clock): clocks: [[17]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,dra7-apll-clock.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clocks/usb_l4_gate_ick@214: failed to match any schema with compatible: ['ti,composite-interface-clock']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clocks/mdm_gate_ick@c10: failed to match any schema with compatible: ['ti,composite-interface-clock']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clockdomains/gfx_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clockdomains/core_l3_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clockdomains/wkup_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clockdomains/dss_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000/prcm@6000/clockdomains/core_l4_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
+smatch warnings:
+drivers/media/tuners/xc2028.c:1342 xc2028_dvb_release() warn: variable dereferenced before check 'priv' (see line 1335)
+
+vim +/priv +1342 drivers/media/tuners/xc2028.c
+
+194ced7a5a99b30 drivers/media/tuners/tuner-xc2028.c        Max Kellermann        2016-08-09  1326  static void xc2028_dvb_release(struct dvb_frontend *fe)
+701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1327  {
+215b95baf969c6f drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-23  1328  	struct xc2028_data *priv = fe->tuner_priv;
+701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1329  
+7e28adb2497f6b8 drivers/media/video/tuner-xc2028.c         Harvey Harrison       2008-04-08  1330  	tuner_dbg("%s called\n", __func__);
+701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1331  
+aa501be989f5df5 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  1332  	mutex_lock(&xc2028_list_mutex);
+aa501be989f5df5 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  1333  
+01c647c99112a50 drivers/media/tuners/xc2028.c              Dmitry Antipov        2025-08-06  1334  	/* wait for request_firmware_nowait() if scheduled */
+01c647c99112a50 drivers/media/tuners/xc2028.c              Dmitry Antipov        2025-08-06 @1335  	if (priv->state == XC2028_WAITING_FIRMWARE)
+                                                                                                            ^^^^^^^^^^^
+priv can be NULL when this is called from xc2028_attach().
+
+
+01c647c99112a50 drivers/media/tuners/xc2028.c              Dmitry Antipov        2025-08-06  1336  		wait_for_completion(&priv->fwload);
+01c647c99112a50 drivers/media/tuners/xc2028.c              Dmitry Antipov        2025-08-06  1337  
+c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18  1338  	/* only perform final cleanup if this is the last instance */
+22a1e7783e173ab drivers/media/tuners/tuner-xc2028.c        Takashi Iwai          2016-11-17  1339  	if (hybrid_tuner_report_instance_count(priv) == 1)
+de3fe21ba2fdc07 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-24  1340  		free_firmware(priv);
+701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1341  
+c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18 @1342  	if (priv)
+                                                                                                            ^^^^
+Checked too late.
+
+c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18  1343  		hybrid_tuner_release_state(priv);
+c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18  1344  
+aa501be989f5df5 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  1345  	mutex_unlock(&xc2028_list_mutex);
+aa501be989f5df5 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  1346  
+c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18  1347  	fe->tuner_priv = NULL;
+701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1348  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
