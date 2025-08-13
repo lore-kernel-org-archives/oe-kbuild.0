@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F2362F657B
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 Aug 2025 11:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6472E03EA
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 Aug 2025 12:42:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755085130; cv=none; b=SrbK+hc8uRP5UfMY9t23MPyRUnl6iowJjNwJYnS6zy/aqWVSDwAwQ4rrAoILBLQ3gmPJqcs0xqANB4m3l/69xwb7txcP/hMkwUkWaWrrEWHGn+EVexZtHvoMzWz5HwAGRSvg4Tq9oCSRbqHu3VcM17hZjpSH4rfj8Sehx0c5wHw=
+	t=1755088941; cv=none; b=uo0KAfXp0TDvHwGfUBkVoSrYRGwtObNxbBAusEhn7zvmCYjGQorxrqrDg346pVmePUnTw2noaNBy9Ux70hNAlJutJezPRoWzkYgYuj/LmCyu1CbD8BZ1DtHvmovqdDuhBkYDDVHITkFtseNGOpUb8XYGJiZqR9xDsdoY5TnXBmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755085130; c=relaxed/simple;
-	bh=BqobRZi96pg2HgEMVcq+OZa4sz47ckJjmw7UKdgyYT8=;
+	s=arc-20240116; t=1755088941; c=relaxed/simple;
+	bh=o5ZBX9qOGpnb1ml+CzYM2RFODpcnJAKJmwhx+tOvAvE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=auKlyTpRuT4AEn/dq6KSEq0WDWJDl5fBKvs0pYxZ3G5f2Tt2Z8Us6nkG6cPHm8pbijzPAAOZKV9zxsqe9D3pGNaRAZlFQs1jrNaoicUIFDAfEAoN7wUsD9q/nA3wLu3uTJa30//gv+CYwf0BsWeXcY88yLd+HIZxjOlZ6yK2aVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bUKdmVzw; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=i3INPPQmggaw50QnClpaBpGBFpiiBav5+rQedeMFRQyvJ13NH0Bb6dxBTUq/4lcgRPZxQzLc3y6pvCrJ6LSiJlyAj7WcaSjMrs4tJmiPodTyfzZvQ7j4iBCA9M0wRhxAON6j3VaEfapgZt6t0Jf314ddEBB4VNa+69jWNB/R6p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CMFU1lSW; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bUKdmVzw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CMFU1lSW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755085128; x=1786621128;
+  t=1755088940; x=1786624940;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BqobRZi96pg2HgEMVcq+OZa4sz47ckJjmw7UKdgyYT8=;
-  b=bUKdmVzwv8CuI1Msx4CQOooHXIwcC/uIauWl2Gg1TieiiQtitsgmeOYZ
-   +hmefwX6ltCcEliMdclnboP4hGWdesjr3wIFIpz7H2m6mGaM8HdmvyzOT
-   Y64qta9NSWABhiY0FiXvSm64w6SiZ7nZr5jAQcLxLLF3Y/6INrjNT81MB
-   ABbMk/YrxiLf7ZNFf9Ra5PhTJ1suCi5gxxdj+6hxVkZDUde20BxWYbSnL
-   RLHgqGfiuN7s6je7eNglthbYUQsrzcuai9c4ZVKIg01hEuOvciI374Bln
-   XJNqaCuEK9SO/wQfgdjE2lsOfbU4JhtJmGdIK47j+yjQdXl6FQhznmihc
-   w==;
-X-CSE-ConnectionGUID: oPHiL4mSSCq/aWb5xLJbBQ==
-X-CSE-MsgGUID: K35P869xQjuCaKgWkN4RIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="59997775"
+  bh=o5ZBX9qOGpnb1ml+CzYM2RFODpcnJAKJmwhx+tOvAvE=;
+  b=CMFU1lSWUWeY7knEAhP7QF+oztKW/H6J3iGcfDZNYFXFgP2m6Zsjzfch
+   5o91u+9Ti8EEGOAxTveadQGqZtbWsuPY7le35Ng+q7t9yYJ9afPkaGvct
+   TDJdR5IMh7kLtlLEY5/XRwFw0aVkXc3IQ5E5L8PiNln/CmXy2BxNGW3IY
+   myCnW4uQM9Z9CasY2fwkdkcRsxdOBypj4Z4tKFGTl0q+8BDnwmKwciYF5
+   JzjWX1XZ7L/vU5RUbX/7CWSMo+veTMNxo3Pia60L0yVBVSNIULwo2mPML
+   FCF3FxRuTF0AC5OEyirT43rmiqQLGZpgiAfVgEsbsbxe16J8p/W7m3Dc+
+   A==;
+X-CSE-ConnectionGUID: 7nmA0uHrS92AsVQ/fM+MYA==
+X-CSE-MsgGUID: 2/40asfXQ7KKRc4Olt9wxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="68834760"
 X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="59997775"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 04:38:47 -0700
-X-CSE-ConnectionGUID: PnynnzcdQ5OWooqHe6s4sg==
-X-CSE-MsgGUID: Efb0qeBiRVuvXsk+M15PbQ==
+   d="scan'208";a="68834760"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 05:42:18 -0700
+X-CSE-ConnectionGUID: vxDy6ZVOQi6+hkHZDk01hA==
+X-CSE-MsgGUID: S4p4zCfEQ/6lbPs53Y/dAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="171706443"
+   d="scan'208";a="171787860"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Aug 2025 04:38:46 -0700
+  by orviesa005.jf.intel.com with ESMTP; 13 Aug 2025 05:42:17 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1um9oN-0009ps-1R;
-	Wed, 13 Aug 2025 11:38:34 +0000
-Date: Wed, 13 Aug 2025 19:37:04 +0800
+	id 1umAo2-0009tc-1x;
+	Wed, 13 Aug 2025 12:42:14 +0000
+Date: Wed, 13 Aug 2025 20:41:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 1644/2153] include/linux/iov_iter.h:190
- iterate_folioq() error: uninitialized symbol 'remain'.
-Message-ID: <202508131953.HDaThIjM-lkp@intel.com>
+Subject: Re: [PATCH v4 12/15] pinctrl: allow to mark pin functions as
+ requestable GPIOs
+Message-ID: <202508132044.XYcvSpm4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,97 +64,98 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Dominique Martinet <asmadeus@codewreck.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
+In-Reply-To: <20250812-pinctrl-gpio-pinfuncs-v4-12-bb3906c55e64@linaro.org>
+References: <20250812-pinctrl-gpio-pinfuncs-v4-12-bb3906c55e64@linaro.org>
+TO: Bartosz Golaszewski <brgl@bgdev.pl>
+TO: Linus Walleij <linus.walleij@linaro.org>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Konrad Dybcio <konradybcio@kernel.org>
+TO: Alexey Klimov <alexey.klimov@linaro.org>
+TO: Lorenzo Bianconi <lorenzo@kernel.org>
+TO: Sean Wang <sean.wang@kernel.org>
+TO: Matthias Brugger <matthias.bgg@gmail.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: Paul Cercueil <paul@crapouillou.net>
+TO: Kees Cook <kees@kernel.org>
+TO: Andy Shevchenko <andy@kernel.org>
+TO: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: David Hildenbrand <david@redhat.com>
+TO: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+TO: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+TO: Vlastimil Babka <vbabka@suse.cz>
+TO: Mike Rapoport <rppt@kernel.org>
+TO: Suren Baghdasaryan <surenb@google.com>
+TO: Michal Hocko <mhocko@suse.com>
+TO: Dong Aisheng <aisheng.dong@nxp.com>
+TO: Fabio Estevam <festevam@gmail.com>
+TO: Shawn Guo <shawnguo@kernel.org>
+TO: Jacky Bai <ping.bai@nxp.com>
+TO: Pengutronix Kernel Team <kernel@pengutronix.de>
+TO: NXP S32 Linux Team <s32@nxp.com>
+TO: Sascha Hauer <s.hauer@pengutronix.de>
+TO: Tony Lindgren <tony@atomide.com>
+TO: Haojian Zhuang <haojian.zhuang@linaro.org>
+TO: Geert Uytterhoeven <geert+renesas@glider.be>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   43c3c17f0c805882d1b48818b1085747a68c80ec
-commit: eacecdbf2789ca7ef688b3cb4955bbdde1c499bf [1644/2153] iov_iter: iterate_folioq: fix handling of offset >= folio size
-:::::: branch date: 7 hours ago
-:::::: commit date: 30 hours ago
-config: x86_64-randconfig-161-20250813 (https://download.01.org/0day-ci/archive/20250813/202508131953.HDaThIjM-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi Bartosz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8f5ae30d69d7543eee0d70083daf4de8fe15d585]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/devres-provide-devm_kmemdup_const/20250812-170336
+base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
+patch link:    https://lore.kernel.org/r/20250812-pinctrl-gpio-pinfuncs-v4-12-bb3906c55e64%40linaro.org
+patch subject: [PATCH v4 12/15] pinctrl: allow to mark pin functions as requestable GPIOs
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: um-randconfig-r072-20250813 (https://download.01.org/0day-ci/archive/20250813/202508132044.XYcvSpm4-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508131953.HDaThIjM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508132044.XYcvSpm4-lkp@intel.com/
 
-New smatch warnings:
-include/linux/iov_iter.h:190 iterate_folioq() error: uninitialized symbol 'remain'.
-include/linux/iov_iter.h:190 iterate_folioq() error: uninitialized symbol 'remain'.
+smatch warnings:
+drivers/pinctrl/pinmux.c:96 pinmux_can_be_used_for_gpio() warn: variable dereferenced before check 'desc' (see line 92)
 
-Old smatch warnings:
-net/core/skbuff.c:4812 skb_segment() error: we previously assumed 'list_skb' could be null (see line 4747)
+vim +/desc +96 drivers/pinctrl/pinmux.c
 
-vim +/remain +190 include/linux/iov_iter.h
-
-f1982740f5e7709 David Howells      2023-09-25  143  
-db0aa2e9566fda2 David Howells      2024-06-19  144  /*
-db0aa2e9566fda2 David Howells      2024-06-19  145   * Handle ITER_FOLIOQ.
-db0aa2e9566fda2 David Howells      2024-06-19  146   */
-db0aa2e9566fda2 David Howells      2024-06-19  147  static __always_inline
-db0aa2e9566fda2 David Howells      2024-06-19  148  size_t iterate_folioq(struct iov_iter *iter, size_t len, void *priv, void *priv2,
-db0aa2e9566fda2 David Howells      2024-06-19  149  		      iov_step_f step)
-db0aa2e9566fda2 David Howells      2024-06-19  150  {
-db0aa2e9566fda2 David Howells      2024-06-19  151  	const struct folio_queue *folioq = iter->folioq;
-db0aa2e9566fda2 David Howells      2024-06-19  152  	unsigned int slot = iter->folioq_slot;
-db0aa2e9566fda2 David Howells      2024-06-19  153  	size_t progress = 0, skip = iter->iov_offset;
-db0aa2e9566fda2 David Howells      2024-06-19  154  
-db0aa2e9566fda2 David Howells      2024-06-19  155  	if (slot == folioq_nr_slots(folioq)) {
-db0aa2e9566fda2 David Howells      2024-06-19  156  		/* The iterator may have been extended. */
-db0aa2e9566fda2 David Howells      2024-06-19  157  		folioq = folioq->next;
-db0aa2e9566fda2 David Howells      2024-06-19  158  		slot = 0;
-db0aa2e9566fda2 David Howells      2024-06-19  159  	}
-db0aa2e9566fda2 David Howells      2024-06-19  160  
-db0aa2e9566fda2 David Howells      2024-06-19  161  	do {
-db0aa2e9566fda2 David Howells      2024-06-19  162  		struct folio *folio = folioq_folio(folioq, slot);
-db0aa2e9566fda2 David Howells      2024-06-19  163  		size_t part, remain, consumed;
-db0aa2e9566fda2 David Howells      2024-06-19  164  		size_t fsize;
-db0aa2e9566fda2 David Howells      2024-06-19  165  		void *base;
-db0aa2e9566fda2 David Howells      2024-06-19  166  
-db0aa2e9566fda2 David Howells      2024-06-19  167  		if (!folio)
-db0aa2e9566fda2 David Howells      2024-06-19  168  			break;
-db0aa2e9566fda2 David Howells      2024-06-19  169  
-db0aa2e9566fda2 David Howells      2024-06-19  170  		fsize = folioq_folio_size(folioq, slot);
-eacecdbf2789ca7 Dominique Martinet 2025-08-11  171  		if (skip >= fsize)
-eacecdbf2789ca7 Dominique Martinet 2025-08-11  172  			goto next;
-db0aa2e9566fda2 David Howells      2024-06-19  173  		base = kmap_local_folio(folio, skip);
-db0aa2e9566fda2 David Howells      2024-06-19  174  		part = umin(len, PAGE_SIZE - skip % PAGE_SIZE);
-db0aa2e9566fda2 David Howells      2024-06-19  175  		remain = step(base, progress, part, priv, priv2);
-db0aa2e9566fda2 David Howells      2024-06-19  176  		kunmap_local(base);
-db0aa2e9566fda2 David Howells      2024-06-19  177  		consumed = part - remain;
-db0aa2e9566fda2 David Howells      2024-06-19  178  		len -= consumed;
-db0aa2e9566fda2 David Howells      2024-06-19  179  		progress += consumed;
-db0aa2e9566fda2 David Howells      2024-06-19  180  		skip += consumed;
-db0aa2e9566fda2 David Howells      2024-06-19  181  		if (skip >= fsize) {
-eacecdbf2789ca7 Dominique Martinet 2025-08-11  182  next:
-db0aa2e9566fda2 David Howells      2024-06-19  183  			skip = 0;
-db0aa2e9566fda2 David Howells      2024-06-19  184  			slot++;
-db0aa2e9566fda2 David Howells      2024-06-19  185  			if (slot == folioq_nr_slots(folioq) && folioq->next) {
-db0aa2e9566fda2 David Howells      2024-06-19  186  				folioq = folioq->next;
-db0aa2e9566fda2 David Howells      2024-06-19  187  				slot = 0;
-db0aa2e9566fda2 David Howells      2024-06-19  188  			}
-db0aa2e9566fda2 David Howells      2024-06-19  189  		}
-db0aa2e9566fda2 David Howells      2024-06-19 @190  		if (remain)
-db0aa2e9566fda2 David Howells      2024-06-19  191  			break;
-db0aa2e9566fda2 David Howells      2024-06-19  192  	} while (len);
-db0aa2e9566fda2 David Howells      2024-06-19  193  
-db0aa2e9566fda2 David Howells      2024-06-19  194  	iter->folioq_slot = slot;
-db0aa2e9566fda2 David Howells      2024-06-19  195  	iter->folioq = folioq;
-db0aa2e9566fda2 David Howells      2024-06-19  196  	iter->iov_offset = skip;
-db0aa2e9566fda2 David Howells      2024-06-19  197  	iter->count -= progress;
-db0aa2e9566fda2 David Howells      2024-06-19  198  	return progress;
-db0aa2e9566fda2 David Howells      2024-06-19  199  }
-db0aa2e9566fda2 David Howells      2024-06-19  200  
-
-:::::: The code at line 190 was first introduced by commit
-:::::: db0aa2e9566fda2d23dc8f6c102856ead95578a4 mm: Define struct folio_queue and ITER_FOLIOQ to handle a sequence of folios
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: Christian Brauner <brauner@kernel.org>
+1e2082b5207217 Stephen Warren      2012-03-02   77  
+472a61e777fe78 Stefan Wahren       2019-08-14   78  /**
+472a61e777fe78 Stefan Wahren       2019-08-14   79   * pinmux_can_be_used_for_gpio() - check if a specific pin
+472a61e777fe78 Stefan Wahren       2019-08-14   80   *	is either muxed to a different function or used as gpio.
+472a61e777fe78 Stefan Wahren       2019-08-14   81   *
+d340351f8168d2 Lee Jones           2020-07-13   82   * @pctldev: the associated pin controller device
+472a61e777fe78 Stefan Wahren       2019-08-14   83   * @pin: the pin number in the global pin space
+472a61e777fe78 Stefan Wahren       2019-08-14   84   *
+472a61e777fe78 Stefan Wahren       2019-08-14   85   * Controllers not defined as strict will always return true,
+472a61e777fe78 Stefan Wahren       2019-08-14   86   * menaning that the gpio can be used.
+472a61e777fe78 Stefan Wahren       2019-08-14   87   */
+7cc4e6b0e4ddf6 Andy Shevchenko     2023-11-29   88  bool pinmux_can_be_used_for_gpio(struct pinctrl_dev *pctldev, unsigned int pin)
+472a61e777fe78 Stefan Wahren       2019-08-14   89  {
+472a61e777fe78 Stefan Wahren       2019-08-14   90  	struct pin_desc *desc = pin_desc_get(pctldev, pin);
+472a61e777fe78 Stefan Wahren       2019-08-14   91  	const struct pinmux_ops *ops = pctldev->desc->pmxops;
+6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  @92  	const struct pinctrl_setting_mux *mux_setting = desc->mux_setting;
+6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12   93  	bool func_is_gpio = false;
+472a61e777fe78 Stefan Wahren       2019-08-14   94  
+472a61e777fe78 Stefan Wahren       2019-08-14   95  	/* Can't inspect pin, assume it can be used */
+6ba2fd391ac58c Alexandre Torgue    2019-12-04  @96  	if (!desc || !ops)
+472a61e777fe78 Stefan Wahren       2019-08-14   97  		return true;
+472a61e777fe78 Stefan Wahren       2019-08-14   98  
+5a3e85c3c397c7 Mukesh Ojha         2024-10-15   99  	guard(mutex)(&desc->mux_lock);
+6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  100  	if (mux_setting && ops->function_is_gpio)
+6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  101  		func_is_gpio = ops->function_is_gpio(pctldev, mux_setting->func);
+6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  102  
+6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  103  	if (ops->strict && desc->mux_usecount && !func_is_gpio)
+472a61e777fe78 Stefan Wahren       2019-08-14  104  		return false;
+472a61e777fe78 Stefan Wahren       2019-08-14  105  
+472a61e777fe78 Stefan Wahren       2019-08-14  106  	return !(ops->strict && !!desc->gpio_owner);
+472a61e777fe78 Stefan Wahren       2019-08-14  107  }
+472a61e777fe78 Stefan Wahren       2019-08-14  108  
 
 -- 
 0-DAY CI Kernel Test Service
