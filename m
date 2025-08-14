@@ -1,121 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3E225C816
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 Aug 2025 07:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB5A269811
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 Aug 2025 07:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755156805; cv=none; b=nATsEJiYDR3+1OpCMEynz30BM2E2uklQMDj/9mPo2K0I7cSvLU+FTPco3dxEXFM//TzzDez2J3AC3F7bQk5o+4vAiM95UC6RUay0z0lL0kD9Zpzi4/EriCoNzhRw0+IiWuZjwPFS8A3xyHsVpZ8LZ1EpsX0xrux8kdev/xWsLPY=
+	t=1755157088; cv=none; b=PeUTS0JRWHqq+HcFss9450XnRYk8qhKUoAxt80sjjGbEnZ0Tc6+IZuUoustA06xMA5rRiwVI/R1GoBQunZ+lp+L6/+lN2kGjarOoGGPThZejz+a3NysAl5hEdiJ0XU/zI8BuMxYQszt8ca8NWL59+1PoB0wU8sgnbxm5wCqVLKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755156805; c=relaxed/simple;
-	bh=8SKPobSF/ajpN1W3ooa7JhwSeenm/s+GJ2iXXXI8iPo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MaumBMS4O19hLcnpbvPBC/miPKQyGZsRRW74Eh4W1mpHhkS3zrR3ehKA6Cf2VzrD5CoK4WiU69fkc7gH/KWc7a5F15d26gK2KcxZjxq4mpKn0u2kMlxPeLYArEEg4PhA8PN0Jzr1Q6FQr7M4bS63jYeU7duzxF61opx90mWP3AI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JeVFlcAl; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755157088; c=relaxed/simple;
+	bh=eHEaaFhWxmpGZ6BsDeM96GhyH+Ja0jrZRAEmjTePpyM=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=djBuUbGrEquLO/nbRu7p+6vTC6h3J2piXF/QQHBjn0JuIqQSNDY2G+3mHRlxWEsAUdV4rd/gQAQGB3C8R3dsro+iTRtc9WsA/N8gRnDFd2nskkgTRtYkMaUNIZCVvdO5VBW5diWF5l3abK25bxAAR1OPeww0lZE4t3XEun4cNWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=v/9cVAWm; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JeVFlcAl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755156803; x=1786692803;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8SKPobSF/ajpN1W3ooa7JhwSeenm/s+GJ2iXXXI8iPo=;
-  b=JeVFlcAlpu9wYX7VECGCocYB/fAqF2PQ9qu3Qp43zha3jt7JlHtARhw7
-   0MZwRQnAS4JDQHLtAWhSNAYkXCJlCeUYr039vNGUvTDYBJ6nBPOcDgRRK
-   NcUH6F5j3k1xlPPrjHrnP46hq/5TEOTdSoQbleJvlQs3ThsiKz33ulY1T
-   SnXJtJZ6BwjZVEL3kw2UtBej0KrsyoUe4Puqw6luts9OT67V+ItHq1uzN
-   QCDWS9rC9g75yxaAZJy+9EhZvMzxyNCCKAA7PF7CgNLnIxRbOfSyQQ4W5
-   vrb/gGBDOkGOt7VDK1mgCwBJ4fhmmkHhF1iJ7tgMem1sf9T3Fwf69A8AT
-   g==;
-X-CSE-ConnectionGUID: m5Z28knpSfq7WEPAXDmzAA==
-X-CSE-MsgGUID: 4ScpjRMOQCG4k3ZuA3PHPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="80042560"
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="80042560"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 00:33:23 -0700
-X-CSE-ConnectionGUID: WH/J0540ScuoieV0ko+n7Q==
-X-CSE-MsgGUID: CJ5WSBOARumNqG3MPPb+2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="170825927"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 14 Aug 2025 00:33:21 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1umSSc-000Ahg-1O;
-	Thu, 14 Aug 2025 07:33:18 +0000
-Date: Thu, 14 Aug 2025 15:32:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v8 1/4] dt-bindings: can: m_can: Add wakeup properties
-Message-ID: <202508141550.I0fwfEIW-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="v/9cVAWm"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-55ce509127bso495217e87.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 14 Aug 2025 00:38:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1755157085; x=1755761885; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=V0Lxf11oo0rXpVqVkWAC0Lw3oNWPIq9I531Yo7XQFWo=;
+        b=v/9cVAWmU1dGfBU9iF6LOxgz4vyzpXB/sIO0wW7PIvnaPg8ukZuqPlF1ZbK+8VaOJa
+         Iw+vPdsBXbJAjqbEbUPT8TPGRacVHubi96qqHo31B5g6lYoD4kSleIgb3IwcgZjYZQ9z
+         r9PlKf+Oc1w6s0XjvkryM+HhYiR9ZtsDjprzeQxv0EQ9jwcKJDZMHo8QiKRODfU2C2Dj
+         Bw+7/Htm27lyvLefZttPGg4klnVmygUir9/sj9jGUM3sS/0d+n1REb3swBfnlv/vnqRx
+         S35TwbhaFhZS63AXzqDFJTk/vz4DtouRuv/gAsUaoSvBqNpc57M4iWBhidNBUxCwc9rC
+         E6Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755157085; x=1755761885;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V0Lxf11oo0rXpVqVkWAC0Lw3oNWPIq9I531Yo7XQFWo=;
+        b=VwCPsAZJgYRHTghJ+HMsQoJ1Z4MeI7AAuVrIjXfVR0SC2+jHAGPeMRDsSINi6GXixm
+         QXf+tyMsDOFenY2IztHxxAHiZyYIV8HJWCvf0dG0Yyi0CHvDVZJhP9+OH1JuYt5Ifqu8
+         CQnzlY68SIu0ysoU1aqlrQ5I2MwUqNOUpBdDp7kt/1URGqg3s7De32VoT/JSxRGbirCD
+         h0A5M0mYVJbuyaupgLeSaFu6DUSoka5WHNeT4aFR+yH4dJ9yUCnH9Bey4G+hVoGSfy+3
+         GI9EepIiHOZ9iWtCvYX8ZgYHoNEuKoqfFYGslbYLA4OzFCupR7JVcQ1knlG7JDHfPBvl
+         2fog==
+X-Forwarded-Encrypted: i=1; AJvYcCWpCJFE4Yl2IHR5sa9XFo7G/FfJ08Kxs06WOy0FTZ1Ew0zek9JUv2k3wXfXhATPzsn70QcNHDMKJjk=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxuWni4TUv7BwD8cz2gOx7MupNy9Mzu/BLqK+ZePi9Ebh/BgkGC
+	HEp+FnlyDNR0hPADydfIYNpCXCf6ZTmaJwF8B0K3us7KDXussSVtRL3L1QiyMjauJ5ia7KDNIyI
+	iPBg6DS4vkBHcIjqtdHUlHU3F0bcouTsuA1qbbVI9Aw==
+X-Gm-Gg: ASbGncvwzTPar3X8BubZmlGESoP9y5qOpivIA/IBbI+GZ9J8kC4vbIUdzJxXZB7ka5t
+	W2IjP2KaDoSiSILMB8SUWNYhP680RQckefdv3lIUb9za5M/n5J460XTS6C5fjN0h3/U9vsN16h3
+	AxYfCoBDv1eNdDg9i8I6K8ti9p+xTr+Rk3Cbd/Q0M5V2EAEPTgSChlX/Ho7DGD3ptrSqs+uCsCY
+	M8Y+Oqy1iLlIdOOYnwCawr1qO1u6rirSrgQOg8=
+X-Google-Smtp-Source: AGHT+IG9Sl+u2grYbtl9VyHR7FB/EIlQJH9069FCUB+rot4YASaNIAY4/eCkV0SN9BOXHpsLTMBv/3IhK6/GlJjDcdg=
+X-Received: by 2002:a05:6512:1443:20b0:553:2dce:3aad with SMTP id
+ 2adb3069b0e04-55ce5032e9dmr473870e87.7.1755157085087; Thu, 14 Aug 2025
+ 00:38:05 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 14 Aug 2025 03:38:04 -0400
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 14 Aug 2025 03:38:04 -0400
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+In-Reply-To: <202508132044.XYcvSpm4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202508132044.XYcvSpm4-lkp@intel.com>
+Date: Thu, 14 Aug 2025 03:38:04 -0400
+X-Gm-Features: Ac12FXwIeOZwq8h4NYacnkD7oHaEb0grLTUUlutgQw1Q4iS255cFgjytfxzGOEg
+Message-ID: <CAMRc=Me+5CSzH0bO=DvMvzdm9eAGHJpz=9NK=O8_E1gVXRvnUg@mail.gmail.com>
+Subject: Re: [PATCH v4 12/15] pinctrl: allow to mark pin functions as
+ requestable GPIOs
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, oe-kbuild@lists.linux.dev, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Alexey Klimov <alexey.klimov@linaro.org>, Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Sean Wang <sean.wang@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>, 
+	Andy Shevchenko <andy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP S32 Linux Team <s32@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Tony Lindgren <tony@atomide.com>, 
+	Haojian Zhuang <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+On Wed, 13 Aug 2025 16:17:12 +0200, Dan Carpenter
+<dan.carpenter@linaro.org> said:
+> Hi Bartosz,
+>
+> kernel test robot noticed the following build warnings:
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/devres-provide-devm_kmemdup_const/20250812-170336
+> base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
+> patch link:    https://lore.kernel.org/r/20250812-pinctrl-gpio-pinfuncs-v4-12-bb3906c55e64%40linaro.org
+> patch subject: [PATCH v4 12/15] pinctrl: allow to mark pin functions as requestable GPIOs
+> config: um-randconfig-r072-20250813 (https://download.01.org/0day-ci/archive/20250813/202508132044.XYcvSpm4-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202508132044.XYcvSpm4-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/pinctrl/pinmux.c:96 pinmux_can_be_used_for_gpio() warn: variable dereferenced before check 'desc' (see line 92)
+>
+> vim +/desc +96 drivers/pinctrl/pinmux.c
+>
+> 7cc4e6b0e4ddf6 Andy Shevchenko     2023-11-29   88  bool pinmux_can_be_used_for_gpio(struct pinctrl_dev *pctldev, unsigned int pin)
+> 472a61e777fe78 Stefan Wahren       2019-08-14   89  {
+> 472a61e777fe78 Stefan Wahren       2019-08-14   90  	struct pin_desc *desc = pin_desc_get(pctldev, pin);
+> 472a61e777fe78 Stefan Wahren       2019-08-14   91  	const struct pinmux_ops *ops = pctldev->desc->pmxops;
+> 6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  @92  	const struct pinctrl_setting_mux *mux_setting = desc->mux_setting;
+>                                                                                                         ^^^^^^^^^^^^^^^^^
+> Patch adds a new dereference.
+>
+> 6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12   93  	bool func_is_gpio = false;
+> 472a61e777fe78 Stefan Wahren       2019-08-14   94
+> 472a61e777fe78 Stefan Wahren       2019-08-14   95  	/* Can't inspect pin, assume it can be used */
+> 6ba2fd391ac58c Alexandre Torgue    2019-12-04  @96  	if (!desc || !ops)
+>                                                             ^^^^^
+> The old code assumed desc could be NULL.
+>
+> 472a61e777fe78 Stefan Wahren       2019-08-14   97  		return true;
+> 472a61e777fe78 Stefan Wahren       2019-08-14   98
+> 5a3e85c3c397c7 Mukesh Ojha         2024-10-15   99  	guard(mutex)(&desc->mux_lock);
+> 6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  100  	if (mux_setting && ops->function_is_gpio)
+> 6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  101  		func_is_gpio = ops->function_is_gpio(pctldev, mux_setting->func);
+> 6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  102
+> 6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  103  	if (ops->strict && desc->mux_usecount && !func_is_gpio)
+> 472a61e777fe78 Stefan Wahren       2019-08-14  104  		return false;
+> 472a61e777fe78 Stefan Wahren       2019-08-14  105
+> 472a61e777fe78 Stefan Wahren       2019-08-14  106  	return !(ops->strict && !!desc->gpio_owner);
+> 472a61e777fe78 Stefan Wahren       2019-08-14  107  }
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
+>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250812-topic-mcan-wakeup-source-v6-12-v8-1-6972a810d63b@baylibre.com>
-References: <20250812-topic-mcan-wakeup-source-v6-12-v8-1-6972a810d63b@baylibre.com>
-TO: "Markus Schneider-Pargmann" <msp@baylibre.com>
-TO: Chandrasekar Ramakrishnan <rcsekar@samsung.com>
-TO: "Marc Kleine-Budde" <mkl@pengutronix.de>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: Vishal Mahaveer <vishalm@ti.com>
-CC: Kevin Hilman <khilman@baylibre.com>
-CC: Dhruva Gole <d-gole@ti.com>
-CC: Sebin Francis <sebin.francis@ti.com>
-CC: Kendall Willis <k-willis@ti.com>
-CC: Akashdeep Kaur <a-kaur@ti.com>
-CC: Simon Horman <horms@kernel.org>
-CC: Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
-CC: linux-can@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: "Markus Schneider-Pargmann" <msp@baylibre.com>
+Thanks for the heads-up, I'll fix it in v5.
 
-Hi Markus,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8f5ae30d69d7543eee0d70083daf4de8fe15d585]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Schneider-Pargmann/dt-bindings-can-m_can-Add-wakeup-properties/20250812-172519
-base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
-patch link:    https://lore.kernel.org/r/20250812-topic-mcan-wakeup-source-v6-12-v8-1-6972a810d63b%40baylibre.com
-patch subject: [PATCH v8 1/4] dt-bindings: can: m_can: Add wakeup properties
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-051-20250813 (https://download.01.org/0day-ci/archive/20250814/202508141550.I0fwfEIW-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508141550.I0fwfEIW-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508141550.I0fwfEIW-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/st/stm32mp157c-ultra-fly-sbc.dtb: can@4400f000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-ultra-fly-sbc.dtb: can@4400f000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Bartosz
