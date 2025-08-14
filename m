@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5DA747F
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 Aug 2025 00:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1710B1EB195
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 Aug 2025 02:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755131704; cv=none; b=AaOHnZUucXxBYJs43dTbfi48N/1pcxDakE9ka1NrCqXwsXTzzewGnOCW0hydtJ3BIXFvxHBOn6RaYUSFmnGYi6VUslYipjIi0rKWBQkO+/aa69F/dLDi+LtUWYt25xMOdINnysQrUOsNtdiS0yT8bDzvlhBAjMkMNqKAor/qN+o=
+	t=1755138522; cv=none; b=BCAbJtIQDa7TAAaCb+6440aSG0tb3EisEr9hFet1pHVKRFOE2JiV2evQVj7nVehiV4knhnQKIPo7SlVLghibhGqRxinezob4tUVFrOOfXQ3Gqt23FcRXEzNjUaoDB9s0qOqr5V0zshD6FgYn4oVTfuSKKi08sdkwSjva/P3MplQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755131704; c=relaxed/simple;
-	bh=uQdxozI+Na/xjGvPK06GyMG64LqhwIqMdbffb+76YkI=;
+	s=arc-20240116; t=1755138522; c=relaxed/simple;
+	bh=TfZhcx48A8k5JaW4mAmeW5CPWTPTuZS3YflVt68BSyI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fcQFzVZonYknwGaUnKCRRh5+CkC7Kflosi4UmvOJEyH1hiJIXgS5j/ENMVsXaQaKTFXYKKX1QEDQcdELL6vGQQaIytBV4ILewmHpilT2fLbEvJELrza8g9nQAVP5AeunKBA4H4Ot5d08ad1Z5ho9+OTkx5jCLxi6Gwj5bveXETc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMx0RJMk; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=SQgeKE3KWb1DL6wkCQ1+zWhv/Kio/Wumi/sYoIEdDWEMttx3ZheIy3VrVnAUM1XQ6UGb1u+/lyagQrn66LCcO26vStzc829AAJsyyQpHWksYDXmjxs5avtrOLD83wEczos3JXywl+XhIHtIeUs6D4dSELTCHs8j/Da5R+2Kk4I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iqW4XE0m; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMx0RJMk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iqW4XE0m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755131702; x=1786667702;
+  t=1755138520; x=1786674520;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uQdxozI+Na/xjGvPK06GyMG64LqhwIqMdbffb+76YkI=;
-  b=EMx0RJMkwKeH+FlL5x8WqxegSYuEUw5GpDYeBaDT4lfRO+r149el4SYT
-   gKCWNQz7OjdZuZH6IEYfxE56trdeCV0w8w7S6rzXtnyEXLMPofqZBlcEm
-   mUPb887HiOVs3YxYz6Sw5trQ7LGD8v/KiwVPhnV6j2Y1b/VrK0rmXEBG7
-   KLNPwTeqGKnf8/EWMebooVwvXJC7sTeEaqci36/yETMDqXFrnrVAvyDfO
-   TvgAuzL3BfXnHvq++ZYNxrTEc0UGY6CB+vGX//o8mf6NyfyGbN5pM5yxM
-   MMkWvni4N2Gsrpmj90rEEx9rBxZEpsxSQLTaZdV1QSw2PFuxPqJ/sLjXu
+  bh=TfZhcx48A8k5JaW4mAmeW5CPWTPTuZS3YflVt68BSyI=;
+  b=iqW4XE0mkFYMY91G+bV4LYOuo59YL3S4LaQfMKsfAcqIBonlpcYB85Ke
+   4J8oTdxSwgYZo9IOTprcGGCk3CzNuiUPWBycha4DFihmw/b5SM0z4AqUM
+   l68nxdpx6BCi4fHXALgEGjJW5s5NhrRXYo+GHTNtu5acK9NquBO98WcJg
+   hMUMr4FEpgfJIasJeCwn0yyuW5XSNcwNz8R6hx2OMwkfAG/Hi30FnAomZ
+   LsR5KOIoImaDwASv6ZqtTPXOuthiK70MjxcfDjPzX8BpcWIX+JnLNiLvC
+   FLH7YgPmCizpq97q5CL47aQSMrwI4P92ryCD8FLoR4hTBHRiOC3qNIcQv
    Q==;
-X-CSE-ConnectionGUID: VoJ1PiYLQoeKHa/OajGsxw==
-X-CSE-MsgGUID: JU+1xOVzQW+D4bXiSeUXew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="68521436"
+X-CSE-ConnectionGUID: PGyp7nPvQz+KFEzJCLivmA==
+X-CSE-MsgGUID: Gcx3mcUdRMSueIeT6uJQig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="80024532"
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="68521436"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 17:35:00 -0700
-X-CSE-ConnectionGUID: D+L2FbiWQZSpDHi6wEJSpg==
-X-CSE-MsgGUID: flMxd+WLRg2TrhIgn13lJw==
+   d="scan'208";a="80024532"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 19:28:39 -0700
+X-CSE-ConnectionGUID: 3zcPDta3Q86BIZXvFx7v6Q==
+X-CSE-MsgGUID: O8hA2pZKQruoxDxK4+rfYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="203794126"
+   d="scan'208";a="170773777"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 13 Aug 2025 17:34:58 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 13 Aug 2025 19:28:36 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umLvk-000ASC-0D;
-	Thu, 14 Aug 2025 00:34:56 +0000
-Date: Thu, 14 Aug 2025 08:34:48 +0800
+	id 1umNhh-000AWS-2c;
+	Thu, 14 Aug 2025 02:28:33 +0000
+Date: Thu, 14 Aug 2025 10:27:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH V6 2/5] mfd: bq257xx: Add support for BQ25703A core driver
-Message-ID: <202508140839.hYfIB0Da-lkp@intel.com>
+Subject: Re: [PATCH V6 4/5] regulator: bq257xx: Add bq257xx boost regulator
+ driver
+Message-ID: <202508141051.hwl2Erq6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,8 +64,8 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250812214300.123129-3-macroalpha82@gmail.com>
-References: <20250812214300.123129-3-macroalpha82@gmail.com>
+In-Reply-To: <20250812214300.123129-5-macroalpha82@gmail.com>
+References: <20250812214300.123129-5-macroalpha82@gmail.com>
 TO: Chris Morgan <macroalpha82@gmail.com>
 TO: linux-rockchip@lists.infradead.org
 CC: linux-pm@vger.kernel.org
@@ -92,59 +93,64 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Morgan/dt-bindings-mfd-ti-bq25703a-Add-TI-BQ25703A-Charger/20250813-054704
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20250812214300.123129-3-macroalpha82%40gmail.com
-patch subject: [PATCH V6 2/5] mfd: bq257xx: Add support for BQ25703A core driver
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: m68k-randconfig-r073-20250814 (https://download.01.org/0day-ci/archive/20250814/202508140839.hYfIB0Da-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/20250812214300.123129-5-macroalpha82%40gmail.com
+patch subject: [PATCH V6 4/5] regulator: bq257xx: Add bq257xx boost regulator driver
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: m68k-randconfig-r073-20250814 (https://download.01.org/0day-ci/archive/20250814/202508141051.hwl2Erq6-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508140839.hYfIB0Da-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508141051.hwl2Erq6-lkp@intel.com/
 
-New smatch warnings:
-drivers/mfd/bq257xx.c:46 bq257xx_probe() warn: sizeof(NUMBER)?
+smatch warnings:
+drivers/regulator/bq257xx-regulator.c:161 bq257xx_regulator_probe() error: uninitialized symbol 'init_data'.
 
-Old smatch warnings:
-drivers/mfd/bq257xx.c:47 bq257xx_probe() warn: sizeof(NUMBER)?
+vim +/init_data +161 drivers/regulator/bq257xx-regulator.c
 
-vim +46 drivers/mfd/bq257xx.c
-
-4b63b1500e4b18 Chris Morgan 2025-08-12  41  
-4b63b1500e4b18 Chris Morgan 2025-08-12  42  static int bq257xx_probe(struct i2c_client *client)
-4b63b1500e4b18 Chris Morgan 2025-08-12  43  {
-4b63b1500e4b18 Chris Morgan 2025-08-12  44  	struct bq257xx_device *ddata;
-4b63b1500e4b18 Chris Morgan 2025-08-12  45  	static const struct mfd_cell cells[] = {
-4b63b1500e4b18 Chris Morgan 2025-08-12 @46  		MFD_CELL_NAME("bq257xx-regulator"),
-4b63b1500e4b18 Chris Morgan 2025-08-12  47  		MFD_CELL_NAME("bq257xx-charger"),
-4b63b1500e4b18 Chris Morgan 2025-08-12  48  	};
-4b63b1500e4b18 Chris Morgan 2025-08-12  49  	int ret;
-4b63b1500e4b18 Chris Morgan 2025-08-12  50  
-4b63b1500e4b18 Chris Morgan 2025-08-12  51  	ddata = devm_kzalloc(&client->dev, sizeof(*ddata), GFP_KERNEL);
-4b63b1500e4b18 Chris Morgan 2025-08-12  52  	if (!ddata)
-4b63b1500e4b18 Chris Morgan 2025-08-12  53  		return -ENOMEM;
-4b63b1500e4b18 Chris Morgan 2025-08-12  54  
-4b63b1500e4b18 Chris Morgan 2025-08-12  55  	ddata->client = client;
-4b63b1500e4b18 Chris Morgan 2025-08-12  56  	ddata->regmap = devm_regmap_init_i2c(client, &bq25703_regmap_config);
-4b63b1500e4b18 Chris Morgan 2025-08-12  57  	if (IS_ERR(ddata->regmap)) {
-4b63b1500e4b18 Chris Morgan 2025-08-12  58  		return dev_err_probe(&client->dev, PTR_ERR(ddata->regmap),
-4b63b1500e4b18 Chris Morgan 2025-08-12  59  				     "Failed to allocate register map\n");
-4b63b1500e4b18 Chris Morgan 2025-08-12  60  	}
-4b63b1500e4b18 Chris Morgan 2025-08-12  61  
-4b63b1500e4b18 Chris Morgan 2025-08-12  62  	i2c_set_clientdata(client, ddata);
-4b63b1500e4b18 Chris Morgan 2025-08-12  63  
-4b63b1500e4b18 Chris Morgan 2025-08-12  64  	ret = devm_mfd_add_devices(&client->dev, PLATFORM_DEVID_AUTO,
-4b63b1500e4b18 Chris Morgan 2025-08-12  65  				   cells, ARRAY_SIZE(cells), NULL, 0, NULL);
-4b63b1500e4b18 Chris Morgan 2025-08-12  66  	if (ret)
-4b63b1500e4b18 Chris Morgan 2025-08-12  67  		return dev_err_probe(&client->dev, ret,
-4b63b1500e4b18 Chris Morgan 2025-08-12  68  				     "Failed to register child devices\n");
-4b63b1500e4b18 Chris Morgan 2025-08-12  69  
-4b63b1500e4b18 Chris Morgan 2025-08-12  70  	return ret;
-4b63b1500e4b18 Chris Morgan 2025-08-12  71  }
-4b63b1500e4b18 Chris Morgan 2025-08-12  72  
+d6db7dce7cd965 Chris Morgan 2025-08-12  137  
+d6db7dce7cd965 Chris Morgan 2025-08-12  138  static int bq257xx_regulator_probe(struct platform_device *pdev)
+d6db7dce7cd965 Chris Morgan 2025-08-12  139  {
+d6db7dce7cd965 Chris Morgan 2025-08-12  140  	struct device *dev = &pdev->dev;
+d6db7dce7cd965 Chris Morgan 2025-08-12  141  	struct bq257xx_device *bq = dev_get_drvdata(pdev->dev.parent);
+d6db7dce7cd965 Chris Morgan 2025-08-12  142  	struct bq257xx_reg_data *pdata;
+d6db7dce7cd965 Chris Morgan 2025-08-12  143  	struct device_node *np = dev->of_node;
+d6db7dce7cd965 Chris Morgan 2025-08-12  144  	struct regulator_init_data *init_data;
+d6db7dce7cd965 Chris Morgan 2025-08-12  145  	struct regulator_config cfg = {};
+d6db7dce7cd965 Chris Morgan 2025-08-12  146  
+d6db7dce7cd965 Chris Morgan 2025-08-12  147  	pdev->dev.of_node = pdev->dev.parent->of_node;
+d6db7dce7cd965 Chris Morgan 2025-08-12  148  	pdev->dev.of_node_reused = true;
+d6db7dce7cd965 Chris Morgan 2025-08-12  149  
+d6db7dce7cd965 Chris Morgan 2025-08-12  150  	pdata = devm_kzalloc(&pdev->dev, sizeof(struct bq257xx_reg_data), GFP_KERNEL);
+d6db7dce7cd965 Chris Morgan 2025-08-12  151  	if (!pdata)
+d6db7dce7cd965 Chris Morgan 2025-08-12  152  		return -ENOMEM;
+d6db7dce7cd965 Chris Morgan 2025-08-12  153  
+d6db7dce7cd965 Chris Morgan 2025-08-12  154  	pdata->bq = bq;
+d6db7dce7cd965 Chris Morgan 2025-08-12  155  	pdata->desc = bq25703_vbus_desc;
+d6db7dce7cd965 Chris Morgan 2025-08-12  156  
+d6db7dce7cd965 Chris Morgan 2025-08-12  157  	platform_set_drvdata(pdev, pdata);
+d6db7dce7cd965 Chris Morgan 2025-08-12  158  	bq257xx_reg_dt_parse_gpio(pdev);
+d6db7dce7cd965 Chris Morgan 2025-08-12  159  
+d6db7dce7cd965 Chris Morgan 2025-08-12  160  	cfg.dev = &pdev->dev;
+d6db7dce7cd965 Chris Morgan 2025-08-12 @161  	cfg.init_data = init_data;
+d6db7dce7cd965 Chris Morgan 2025-08-12  162  	cfg.driver_data = pdata;
+d6db7dce7cd965 Chris Morgan 2025-08-12  163  	cfg.of_node = np;
+d6db7dce7cd965 Chris Morgan 2025-08-12  164  	cfg.regmap = dev_get_regmap(pdev->dev.parent, NULL);
+d6db7dce7cd965 Chris Morgan 2025-08-12  165  	if (!cfg.regmap)
+d6db7dce7cd965 Chris Morgan 2025-08-12  166  		return -ENODEV;
+d6db7dce7cd965 Chris Morgan 2025-08-12  167  
+d6db7dce7cd965 Chris Morgan 2025-08-12  168  	pdata->bq257xx_reg = devm_regulator_register(dev, &pdata->desc, &cfg);
+d6db7dce7cd965 Chris Morgan 2025-08-12  169  	if (IS_ERR(pdata->bq257xx_reg)) {
+d6db7dce7cd965 Chris Morgan 2025-08-12  170  		return dev_err_probe(&pdev->dev, PTR_ERR(pdata->bq257xx_reg),
+d6db7dce7cd965 Chris Morgan 2025-08-12  171  				     "error registering bq257xx regulator");
+d6db7dce7cd965 Chris Morgan 2025-08-12  172  	}
+d6db7dce7cd965 Chris Morgan 2025-08-12  173  
+d6db7dce7cd965 Chris Morgan 2025-08-12  174  	return 0;
+d6db7dce7cd965 Chris Morgan 2025-08-12  175  }
+d6db7dce7cd965 Chris Morgan 2025-08-12  176  
 
 -- 
 0-DAY CI Kernel Test Service
