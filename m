@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D3E946A
-	for <oe-kbuild@lists.linux.dev>; Fri, 15 Aug 2025 04:51:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA3727A11E
+	for <oe-kbuild@lists.linux.dev>; Fri, 15 Aug 2025 09:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755233500; cv=none; b=h3ycxokuYD+zCz6zDceFFP3xjJlXtFBLezoS7m+msUB+T/Kwe1GBZszJYDMV4D9SGiOSovG4cYcAReIjy84A5bJbKXxLd9q0qcxgT8iknilM5KZ+qsQN21+qkDrt1habgcMa2drKJdM0W32m57IpKTBTej0pp6sm7+9Ngt/beDs=
+	t=1755251265; cv=none; b=q1s8hy3mLyAP4AMBy6ltScVTXk633KDESm1je7iYhLeva9RFln8N+lHO8A+OKNGWWrwbRLrMEoGE819ymgGvRW6IyozyuVtVEdgelXi31d787H0LzazJen1ACsLUr664WxQVAmgiaQ05kuCePdEALxNRo5ASrd9bs7M8ZQhMOXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755233500; c=relaxed/simple;
-	bh=eiixfCxQSUe3za4lNIjljdaZy1YC80uD5Oo7JtMipRc=;
+	s=arc-20240116; t=1755251265; c=relaxed/simple;
+	bh=7BbaOI6F7Jg1Y20VDmev08JegQra1TNk3nO+wEYEskQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nMJyQbA6Qvmj9+PmwppjUV4tFvfRoaqb/hYko1fnGDNXyZWeoogKw7tbYcj2WBnw+fOtahIXUl1lcKeji1q4tlsPhai0QchJS98nR3RivfkdMZn0810I4ejD66i7Mb1ESSc9Vg3AWpUrUr5yTrAeU8b1frM7Rs2lcii7I3Bhosw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lDZT0iZF; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=hgSEK9g314QJf8kpT4FHVEBDAwK4UNDxhW/RbtoWUmnMCQcALstk9a8t/RRj73r5wqcb0j9fgKVZaj095X3AZQA49omV6TUkQliULVIXdZ/YDJUOs+O5RuDdxX0I/BKNXjldfMUMgkCj1nf4NSgSfwnVrXLpD+pDsIom/TlVgfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SzTRShTe; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lDZT0iZF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SzTRShTe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755233499; x=1786769499;
+  t=1755251264; x=1786787264;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eiixfCxQSUe3za4lNIjljdaZy1YC80uD5Oo7JtMipRc=;
-  b=lDZT0iZFS2aiJY/kBD0eQXeCnyaeSI4NWR7rr2rPvCdvOXwJODlaMhAT
-   G0N3tFDY3CPEwi99Q11+vcE6ylGqvw+1mNDPwsgZLlw8L3dAY/+qHtFyy
-   k7F/LEDmjGkCsjydF3qNPe5nOl6p7cXY8/R/56ZAGq5hd+fWKWjEyHWS/
-   ndJ/62LcvVvJ+S74mOLj1J/e7WQhYI4RW22D/w6+RDHZi8o94KHUNvW4V
-   wt5wzoUlDW1pxedB9w36jIY5lrKgG+aLUg9xd7E/heVzZ5XAI9xX7xUhm
-   bQZcqYruaZHAq16wdfjJoFJke+q3kZ3E9x0IpScBcQjhrEHEbGrksTz6c
+  bh=7BbaOI6F7Jg1Y20VDmev08JegQra1TNk3nO+wEYEskQ=;
+  b=SzTRShTeSGUeOUbZA9n8hyiELGar48MSr9t2H5FUfHshP2baKu5kRpqW
+   LjIaPe25UBdKtsn/y2Y6ZnXcsNRxS2T/GPHwsfJvYFfayKwLpw8RfyGFH
+   3CP7WpgiLbk9k/BsfT4orGGUi1cAlJxWLWmP+bDmO3q0WbnjVy+bEtC/Z
+   Y2K26Ei7hA9f//yUIfkaablv91CyIvjkCDdTPY5/5fCyFS3pgYzqZELKl
+   161TF/xP8VFHahH+JSCO+jZ2EiUeHeARFsja3VZrr/rbxdrjSciZHaj7s
+   d3jAHpc3O2dNR0I5k1CP/i1gbTl/HNx7xB+sZovfgsg5b0sW46b/hOuwJ
    A==;
-X-CSE-ConnectionGUID: Bni2kyMPQtiOCrX82jttYQ==
-X-CSE-MsgGUID: oOQkmBjcTsCApZYteLKwvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="67827711"
+X-CSE-ConnectionGUID: pnRruwRtTVqCdRmUpvOKew==
+X-CSE-MsgGUID: MFBRdq/NTXONjPifUop1tA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="61412541"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="67827711"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 21:51:32 -0700
-X-CSE-ConnectionGUID: M5z2me5nQl6JmnoGWR85Og==
-X-CSE-MsgGUID: RnxpYfGsTHO5xYphlTEltA==
+   d="scan'208";a="61412541"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 02:47:44 -0700
+X-CSE-ConnectionGUID: 00Svuy3cRnCPH/oq70/BKw==
+X-CSE-MsgGUID: qQOvJbFuTOiXXpnMqCC+IQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="166565396"
+   d="scan'208";a="171440267"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 14 Aug 2025 21:51:31 -0700
+  by orviesa004.jf.intel.com with ESMTP; 15 Aug 2025 02:47:43 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ummPH-000Ba0-2o;
-	Fri, 15 Aug 2025 04:51:23 +0000
-Date: Fri, 15 Aug 2025 12:51:06 +0800
+	id 1umr2C-000Bp2-03;
+	Fri, 15 Aug 2025 09:47:40 +0000
+Date: Fri, 15 Aug 2025 17:47:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [robh:dt-convert 573/801]
- arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: pbias_regulator@230
- (ti,pbias-omap2): compatible: ['ti,pbias-omap2', 'ti,pbias-omap'] is too
- long
-Message-ID: <202508151226.14NBSgcK-lkp@intel.com>
+Subject: Re: [PATCH v1 1/2] dt-bindings: phy: mtk-tphy: add property for
+ software role switch
+Message-ID: <202508151710.A0HZap2R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,45 +68,53 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Rob Herring (Arm)" <robh@kernel.org>
+In-Reply-To: <20250814234825.810-1-me@adomerle.pw>
+References: <20250814234825.810-1-me@adomerle.pw>
+TO: Arseniy Velikanov <me@adomerle.pw>
+TO: Chunfeng Yun <chunfeng.yun@mediatek.com>
+TO: Vinod Koul <vkoul@kernel.org>
+TO: Kishon Vijay Abraham I <kishon@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Matthias Brugger <matthias.bgg@gmail.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-mediatek@lists.infradead.org
+CC: linux-phy@lists.infradead.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: ~postmarketos/upstreaming@lists.sr.ht
+CC: Arseniy Velikanov <me@adomerle.pw>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
-commit: dc5ecafbf01ab011788c3643d871b4f3d6306414 [573/801] dt-bindings: regulator: Convert ti,pbias-omap to DT schema
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: arm-randconfig-052-20250807 (https://download.01.org/0day-ci/archive/20250815/202508151226.14NBSgcK-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
+Hi Arseniy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.17-rc1 next-20250815]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arseniy-Velikanov/phy-mediatek-tphy-Add-software-role-switching/20250815-075416
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250814234825.810-1-me%40adomerle.pw
+patch subject: [PATCH v1 1/2] dt-bindings: phy: mtk-tphy: add property for software role switch
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: csky-randconfig-051-20250815 (https://download.01.org/0day-ci/archive/20250815/202508151710.A0HZap2R-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.1.0
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508151226.14NBSgcK-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508151710.A0HZap2R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508151226.14NBSgcK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508151710.A0HZap2R-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: scm@2000 (ti,omap2-scm): '#address-cells', '#pinctrl-cells', '#size-cells', 'pinmux@30', 'ranges', 'scm_conf@270' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/omap/ti,am3-scm.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: scm@2000 (ti,omap2-scm): clockdomains: {} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/arm/omap/ti,am3-scm.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: scm@2000 (ti,omap2-scm): compatible: ['ti,omap2-scm', 'simple-bus'] is too long
-   	from schema $id: http://devicetree.org/schemas/arm/omap/ti,am3-scm.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: scm_conf@270 (syscon): clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: scm_conf@270 (syscon): $nodename:0: 'scm_conf@270' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: pbias_regulator@230 (ti,pbias-omap2): compatible: ['ti,pbias-omap2', 'ti,pbias-omap'] is too long
-   	from schema $id: http://devicetree.org/schemas/ti,pbias-omap.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: pbias_regulator@230 (ti,pbias-omap2): reg: [[560, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/ti,pbias-omap.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: pbias_regulator@230 (ti,pbias-omap2): 'regulator-name' is a required property
-   	from schema $id: http://devicetree.org/schemas/ti,pbias-omap.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: counter@0 (ti,omap-counter32k): reg: [[0, 32]] is too short
-   	from schema $id: http://devicetree.org/schemas/ti,omap-counter32k.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: counter@0 (ti,omap-counter32k): 'ti,hwmods' is a required property
-   	from schema $id: http://devicetree.org/schemas/ti,omap-counter32k.yaml#
-   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: gpio@4900c000 (ti,omap2-gpio): #gpio-cells: 2 was expected
+>> Documentation/devicetree/bindings/phy/mediatek,tphy.yaml: mediatek,software-role-switch: missing type definition
 
 -- 
 0-DAY CI Kernel Test Service
