@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2EC1E522
-	for <oe-kbuild@lists.linux.dev>; Sat, 16 Aug 2025 05:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC771F8724
+	for <oe-kbuild@lists.linux.dev>; Sat, 16 Aug 2025 06:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755320892; cv=none; b=CgN/ZNzeDTFs+YJnZbQk7EeySYwW4YOLRP3GULDpjeBeclSqi9Yxq+zJrVYsZRDtuY7jg70faq36vjEl+PJFBi0iMTa6OO4Iy+6ZlxF16GKCJ28AsjSGZQ8PJYu1icUgt8Ca9DHDvh4LswTfJVC5/lH8eQGBuh35Jj+ZharLXP0=
+	t=1755324532; cv=none; b=QCE2pS/ZlPEXuEGxgSRCEPhszsH629k7NykanwPtVX/lZgroHjLWVd3HHMXWUXdLXegdFTGBxV5jUhxCL68KDv1n39UwCmtovZT31uO+Nil0g3Qoo5WSxhHdFhXDyQF0u/sBammG8ott8IsqQz//RmlwWYuYzC/r7ZCCb23yzSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755320892; c=relaxed/simple;
-	bh=JwP4OviUuWeU0rEqLHiUOxnAFxJCD4QRgJE0OsrbTkk=;
+	s=arc-20240116; t=1755324532; c=relaxed/simple;
+	bh=7sXlRacyYltM3VKhICWjGg9o06DfmUEMQRHJ+QJAqE4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iQ03kjXUsFDc+XxwGf7AaaaZgPU5Fs9u2uYpZZxDpxN/5i+s4U6xV4KKtZtNK05OmrLbyAPgt02O35qYxtWJFX9+MLcrX9ihoiwyFY+3sQaTYF5Lq5sxL1gsZXdrcsQrVl1W2YTYlz6gfz0bpInBv0dXazfhz3HJb+xRq2DqfjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OuB8+S1H; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=B1TxTY2QEsFdbw4D5C1gNW0XCGr1Sohs7sKfVDggKKN+a75RyOQ+XhSkdSCZ+xczlE1O9fNFeM7NDn2slLGQ7Wi8x4nsZBjR7OQ6wZtCC3vM+FRU9WhI8xkA4su0C/L6OOnSGp8Vqj6W0JdLaey8C+rN+exxPpLhSCS0UUMFZPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BhMbErcy; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OuB8+S1H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BhMbErcy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755320889; x=1786856889;
+  t=1755324530; x=1786860530;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JwP4OviUuWeU0rEqLHiUOxnAFxJCD4QRgJE0OsrbTkk=;
-  b=OuB8+S1HiiAL6EfXbrJ029Hla2symHy9oxTBH9v14t2DNX4KKXvt1mDC
-   Yau/oagfmFkms5mv8yE+UbuzftK/RueZynC7jDuZID8vPQ0as2t4o3Enp
-   Ydi2CldWczdjoDK1Jj3i9k4nzTcrLLP4rpgPExWjZxnCDiQ4SNe0jBJcW
-   uE9XgxwYmmPIqPZ1blKwvxYJ3LTVX2jeS9zGAVTH6ZXNYcYK/li7+OYEa
-   zZQy4Jlvmuyi+2UosJNQmTXHfirXzkMQrlTLs04I9eb9bcRx3wbUgMGkp
-   5SDLE8jf6Sv+fL0YWTyqH40ALxm4PYiKxYqiLO5u+3gZhVYBeDOvFZZW3
+  bh=7sXlRacyYltM3VKhICWjGg9o06DfmUEMQRHJ+QJAqE4=;
+  b=BhMbErcyXti5gAmyjNVjxOSaWGDU9Y14PzTxlkZPUMd2PoXFV7mpGBIh
+   BklkQV8OaLLeq+1vmsKWgk1cwqxOW4foNB+Vxe5TWvyqWOPVMVVMMppXQ
+   1sxnO05Ml5rXd6lNZH4f/ObbPFt1qvEdbuuq3PsfJUvFoO0/Zw4KFEqJI
+   9vthb71c/+6OSra0Go8ggZ8ARfc6bomPNwnMX/6pW9VPsMstx+jn273TK
+   +JGKJNCRqB6TVt16aGd59wyNyZ8n42zOTsjEKJYvq4w/DreQI12BnV6AT
+   UkTv3sfTqW/3DsBJCDmHQayPctJPtsVyCnNegavuSftzk4LAgmadcMa7v
    w==;
-X-CSE-ConnectionGUID: y9efcjygQDKMm5l87wV4DA==
-X-CSE-MsgGUID: sgtP737+TTWue2O7O99bmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57561418"
+X-CSE-ConnectionGUID: VHLSW8OZQ6GrRGs6fFJztQ==
+X-CSE-MsgGUID: 8n37pF9QT2qZx1UA3WbGzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57706086"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57561418"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 22:08:08 -0700
-X-CSE-ConnectionGUID: f/NvUjNTQRaxjWErtRZyMg==
-X-CSE-MsgGUID: 9KR+WqhmRFieV/NlVa/Q1g==
+   d="scan'208";a="57706086"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 23:08:49 -0700
+X-CSE-ConnectionGUID: I8G3FFRESU+lQqRPJkMhlA==
+X-CSE-MsgGUID: EY0Yi2A+So+uAqZFAnclvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="167504893"
+   d="scan'208";a="198019138"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Aug 2025 22:08:06 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 15 Aug 2025 23:08:48 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1un98x-000CbQ-39;
-	Sat, 16 Aug 2025 05:07:57 +0000
-Date: Sat, 16 Aug 2025 13:06:46 +0800
+	id 1unA5u-000CdC-0q;
+	Sat, 16 Aug 2025 06:08:46 +0000
+Date: Sat, 16 Aug 2025 14:08:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [robh:dt-convert 635/801] arch/powerpc/boot/dts/fsl/p2041rdb.dtb:
- global-utilities@e0000 (fsl,qoriq-device-config-1.0): '#sleep-cells' does
- not match any of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202508161238.IfP6RtpR-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v4 13/13] drm/bridge: analogix_dp: Apply panel_bridge
+ helper
+Message-ID: <202508161345.sfsLHzY7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,513 +62,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Rob Herring (Arm)" <robh@kernel.org>
+In-Reply-To: <20250814104753.195255-14-damon.ding@rock-chips.com>
+References: <20250814104753.195255-14-damon.ding@rock-chips.com>
+TO: Damon Ding <damon.ding@rock-chips.com>
+TO: andrzej.hajda@intel.com
+TO: neil.armstrong@linaro.org
+TO: rfoss@kernel.org
+CC: Laurent.pinchart@ideasonboard.com
+CC: jonas@kwiboo.se
+CC: jernej.skrabec@gmail.com
+CC: maarten.lankhorst@linux.intel.com
+CC: mripard@kernel.org
+CC: tzimmermann@suse.de
+CC: airlied@gmail.com
+CC: simona@ffwll.ch
+CC: jingoohan1@gmail.com
+CC: inki.dae@samsung.com
+CC: sw0312.kim@samsung.com
+CC: kyungmin.park@samsung.com
+CC: krzk@kernel.org
+CC: alim.akhtar@samsung.com
+CC: hjc@rock-chips.com
+CC: heiko@sntech.de
+CC: andy.yan@rock-chips.com
+CC: dmitry.baryshkov@oss.qualcomm.com
+CC: l.stach@pengutronix.de
+CC: dianders@chromium.org
+CC: dri-devel@lists.freedesktop.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-samsung-soc@vger.kernel.org
+CC: linux-rockchip@lists.infradead.org
+CC: Damon Ding <damon.ding@rock-chips.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
-commit: 241d63ed8c24bc82cffde27687ce4aa95a5f207e [635/801] dt-bindings: soc: Convert fsl/guts to DT schema
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-config: powerpc-randconfig-051-20250807 (https://download.01.org/0day-ci/archive/20250816/202508161238.IfP6RtpR-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.3.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508161238.IfP6RtpR-lkp@intel.com/reproduce)
+Hi Damon,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-exynos/exynos-drm-next]
+[also build test WARNING on rockchip/for-next linus/master v6.17-rc1 next-20250815]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Damon-Ding/drm-bridge-analogix_dp-Formalize-the-struct-analogix_dp_device/20250814-185009
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250814104753.195255-14-damon.ding%40rock-chips.com
+patch subject: [PATCH v4 13/13] drm/bridge: analogix_dp: Apply panel_bridge helper
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: hexagon-randconfig-r072-20250815 (https://download.01.org/0day-ci/archive/20250816/202508161345.sfsLHzY7-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508161238.IfP6RtpR-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202508161345.sfsLHzY7-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: global-utilities@e0000 (fsl,qoriq-device-config-1.0): '#sleep-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: global-utilities@e0000 (fsl,qoriq-device-config-1.0): compatible: ['fsl,qoriq-device-config-1.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,qoriq-pin-control-1.0']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: global-utilities@e2000 (fsl,qoriq-rcpm-1.0): '#sleep-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: global-utilities@e2000 (fsl,qoriq-rcpm-1.0): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,qoriq-rcpm-1.0'] is too short
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,t1040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
---
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/p3041ds.dtb: global-utilities@e0000 (fsl,qoriq-device-config-1.0): '#sleep-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/p3041ds.dtb: global-utilities@e0000 (fsl,qoriq-device-config-1.0): compatible: ['fsl,qoriq-device-config-1.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,qoriq-pin-control-1.0']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: global-utilities@e2000 (fsl,qoriq-rcpm-1.0): '#sleep-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: global-utilities@e2000 (fsl,qoriq-rcpm-1.0): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,qoriq-rcpm-1.0'] is too short
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,t1040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
---
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/p5020ds.dtb: global-utilities@e0000 (fsl,qoriq-device-config-1.0): '#sleep-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/p5020ds.dtb: global-utilities@e0000 (fsl,qoriq-device-config-1.0): compatible: ['fsl,qoriq-device-config-1.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,qoriq-pin-control-1.0']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: global-utilities@e2000 (fsl,qoriq-rcpm-1.0): '#sleep-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: global-utilities@e2000 (fsl,qoriq-rcpm-1.0): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,qoriq-rcpm-1.0'] is too short
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,t1040-rcpm']
-   	'fsl,qoriq-rcpm-1.0' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
---
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/p5040ds.dtb: global-utilities@e0000 (fsl,p5040-device-config): '#sleep-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/p5040ds.dtb: global-utilities@e0000 (fsl,p5040-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: global-utilities@e0000 (fsl,p5040-device-config): compatible:1: 'fsl,qoriq-device-config-2.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/p5040ds.dtb: global-utilities@e0000 (fsl,p5040-device-config): compatible: ['fsl,p5040-device-config', 'fsl,qoriq-device-config-1.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,p5040-pin-control', 'fsl,qoriq-pin-control-1.0']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/global-utilities@e0e00: failed to match any schema with compatible: ['fsl,p5040-pin-control', 'fsl,qoriq-pin-control-1.0']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: global-utilities@e2000 (fsl,p5040-rcpm): '#sleep-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p5040-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,p5040-sfp', 'fsl,qoriq-sfp-1.0']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,p5040-serdes']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: dma@100300 (fsl,eloplus-dma): 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: '^dma-channel@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,eloplus-dma.yaml#
---
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: global-utilities@e0000 (fsl,t1023-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: global-utilities@e0000 (fsl,t1023-device-config): compatible: ['fsl,t1023-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: global-utilities@e2000 (fsl,t1023-rcpm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'fsl,t1023-rcpm' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,t1040-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	'fsl,qoriq-rcpm-1.0' was expected
-   	'fsl,qoriq-rcpm-2.0' was expected
-   	'fsl,qoriq-rcpm-2.1+' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
---
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t1024qds.dtb: global-utilities@e0000 (fsl,t1023-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t1024qds.dtb: global-utilities@e0000 (fsl,t1023-device-config): compatible: ['fsl,t1023-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: global-utilities@e2000 (fsl,t1023-rcpm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'fsl,t1023-rcpm' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,t1040-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	'fsl,qoriq-rcpm-1.0' was expected
-   	'fsl,qoriq-rcpm-2.0' was expected
-   	'fsl,qoriq-rcpm-2.1+' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
---
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: global-utilities@e0000 (fsl,t1023-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: global-utilities@e0000 (fsl,t1023-device-config): compatible: ['fsl,t1023-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: global-utilities@e2000 (fsl,t1023-rcpm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'fsl,t1023-rcpm' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,t1040-rcpm']
-   	'fsl,t1023-rcpm' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	'fsl,qoriq-rcpm-1.0' was expected
-   	'fsl,qoriq-rcpm-2.0' was expected
-   	'fsl,qoriq-rcpm-2.1+' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
---
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible: ['fsl,t1040-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,t1040-sfp']
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,t1040-serdes']
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: sdhc@114000 (fsl,t1040-esdhc): $nodename:0: 'sdhc@114000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: sdhc@114000 (fsl,t1040-esdhc): Unevaluated properties are not allowed ('fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: i2c@119000 (fsl-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t1040qds.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t1040qds.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible: ['fsl,t1040-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,t1040-sfp']
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,t1040-serdes']
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: sdhc@114000 (fsl,t1040-esdhc): $nodename:0: 'sdhc@114000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: sdhc@114000 (fsl,t1040-esdhc): Unevaluated properties are not allowed ('fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: i2c@118100 (fsl-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible: ['fsl,t1040-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,t1040-sfp']
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,t1040-serdes']
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: sdhc@114000 (fsl,t1040-esdhc): $nodename:0: 'sdhc@114000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: sdhc@114000 (fsl,t1040-esdhc): Unevaluated properties are not allowed ('fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: i2c@119000 (fsl-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible: ['fsl,t1040-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,t1040-sfp']
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,t1040-serdes']
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: sdhc@114000 (fsl,t1040-esdhc): $nodename:0: 'sdhc@114000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: sdhc@114000 (fsl,t1040-esdhc): Unevaluated properties are not allowed ('fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: i2c@119000 (fsl-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible: ['fsl,t1040-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,t1040-sfp']
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,t1040-serdes']
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: sdhc@114000 (fsl,t1040-esdhc): $nodename:0: 'sdhc@114000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: sdhc@114000 (fsl,t1040-esdhc): Unevaluated properties are not allowed ('fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: i2c@119000 (fsl-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t1042qds.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t1042qds.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible: ['fsl,t1040-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,t1040-sfp']
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,t1040-serdes']
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: sdhc@114000 (fsl,t1040-esdhc): $nodename:0: 'sdhc@114000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: sdhc@114000 (fsl,t1040-esdhc): Unevaluated properties are not allowed ('fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: i2c@118100 (fsl-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible: ['fsl,t1040-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,t1040-sfp']
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,t1040-serdes']
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: sdhc@114000 (fsl,t1040-esdhc): $nodename:0: 'sdhc@114000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: sdhc@114000 (fsl,t1040-esdhc): Unevaluated properties are not allowed ('fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: i2c@119000 (fsl-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: pic@40000 (fsl,mpic): compatible: ['fsl,mpic', 'chrp,open-pic'] is too long
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: global-utilities@e0000 (fsl,t1040-device-config): compatible: ['fsl,t1040-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,t1040-sfp']
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,t1040-serdes']
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: sdhc@114000 (fsl,t1040-esdhc): $nodename:0: 'sdhc@114000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: sdhc@114000 (fsl,t1040-esdhc): Unevaluated properties are not allowed ('fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: i2c@119000 (fsl-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
---
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: pic@40000 (fsl,mpic): 'clock-frequency', 'device_type' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t2080qds.dtb: global-utilities@e0000 (fsl,t2080-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t2080qds.dtb: global-utilities@e0000 (fsl,t2080-device-config): compatible: ['fsl,t2080-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: global-utilities@e2000 (fsl,t2080-rcpm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'fsl,t2080-rcpm' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,t1040-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	'fsl,qoriq-rcpm-1.0' was expected
-   	'fsl,qoriq-rcpm-2.1' was expected
-   	'fsl,qoriq-rcpm-2.1+' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
---
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: pic@40000 (fsl,mpic): 'clock-frequency', 'device_type' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: global-utilities@e0000 (fsl,t2080-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: global-utilities@e0000 (fsl,t2080-device-config): compatible: ['fsl,t2080-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: global-utilities@e2000 (fsl,t2080-rcpm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'fsl,t2080-rcpm' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,t1040-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	'fsl,qoriq-rcpm-1.0' was expected
-   	'fsl,qoriq-rcpm-2.1' was expected
-   	'fsl,qoriq-rcpm-2.1+' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
---
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: pic@40000 (fsl,mpic): 'clock-frequency', 'device_type' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t2081qds.dtb: global-utilities@e0000 (fsl,t2080-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t2081qds.dtb: global-utilities@e0000 (fsl,t2080-device-config): compatible: ['fsl,t2080-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t2081qds.dtb: global-utilities@e2000 (fsl,t2080-rcpm): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'fsl,t2080-rcpm' is not one of ['fsl,p2041-rcpm', 'fsl,p3041-rcpm', 'fsl,p4080-rcpm', 'fsl,p5020-rcpm', 'fsl,p5040-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,b4420-rcpm', 'fsl,b4860-rcpm', 'fsl,t4240-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,t1040-rcpm']
-   	'fsl,t2080-rcpm' is not one of ['fsl,ls1012a-rcpm', 'fsl,ls1021a-rcpm', 'fsl,ls1028a-rcpm', 'fsl,ls1043a-rcpm', 'fsl,ls1046a-rcpm', 'fsl,ls1088a-rcpm', 'fsl,ls208xa-rcpm', 'fsl,lx2160a-rcpm']
-   	'fsl,qoriq-rcpm-1.0' was expected
-   	'fsl,qoriq-rcpm-2.1' was expected
-   	'fsl,qoriq-rcpm-2.1+' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/fsl,rcpm.yaml#
---
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: pic@40000 (fsl,mpic): 'clock-frequency', 'device_type' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t4240qds.dtb: global-utilities@e0000 (fsl,t4240-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t4240qds.dtb: global-utilities@e0000 (fsl,t4240-device-config): compatible: ['fsl,t4240-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,t4240-sfp']
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,t4240-serdes']
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: i2c@118100 (fsl-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: i2c@118100 (fsl-i2c): Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
---
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: pic@40000 (fsl,mpic): 'clock-frequency', 'device_type' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/powerpc/fsl/fsl,mpic.yaml#
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: timer@41100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: timer@41100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: timer@42100 (fsl,mpic-global-timer): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: timer@42100 (fsl,mpic-global-timer): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/fsl,mpic-global-timer.yaml#
->> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: global-utilities@e0000 (fsl,t4240-device-config): compatible:0: 'fsl,qoriq-device-config-1.0' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
->> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: global-utilities@e0000 (fsl,t4240-device-config): compatible: ['fsl,t4240-device-config', 'fsl,qoriq-device-config-2.0'] is too short
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/guts.yaml#
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/sfp@e8000: failed to match any schema with compatible: ['fsl,t4240-sfp']
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/serdes@ea000: failed to match any schema with compatible: ['fsl,t4240-serdes']
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: i2c@118100 (fsl-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: i2c@118100 (fsl-i2c): Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
+smatch warnings:
+drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1595 analogix_dp_bind() warn: passing a valid pointer to 'PTR_ERR'
+
+vim +/PTR_ERR +1595 drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+
+f37952339cc234e Lucas Stach      2024-06-19  1559  
+152cce0006abf7e Marek Szyprowski 2020-03-10  1560  int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
+152cce0006abf7e Marek Szyprowski 2020-03-10  1561  {
+41dc71b87962d41 Damon Ding       2025-08-14  1562  	struct drm_bridge *bridge = &dp->bridge;
+152cce0006abf7e Marek Szyprowski 2020-03-10  1563  	int ret;
+152cce0006abf7e Marek Szyprowski 2020-03-10  1564  
+3424e3a4f844c0a Yakir Yang       2016-03-29  1565  	dp->drm_dev = drm_dev;
+3424e3a4f844c0a Yakir Yang       2016-03-29  1566  	dp->encoder = dp->plat_data->encoder;
+3424e3a4f844c0a Yakir Yang       2016-03-29  1567  
+6cba3fe433415b2 Lyude Paul       2021-04-23  1568  	dp->aux.drm_dev = drm_dev;
+0d97ad03f4220ca Tomeu Vizoso     2016-08-24  1569  
+0d97ad03f4220ca Tomeu Vizoso     2016-08-24  1570  	ret = drm_dp_aux_register(&dp->aux);
+2d192f4a3acc1c6 Lucas Stach      2024-06-19  1571  	if (ret) {
+2d192f4a3acc1c6 Lucas Stach      2024-06-19  1572  		DRM_ERROR("failed to register AUX (%d)\n", ret);
+c71db051142a74b Damon Ding       2025-03-10  1573  		return ret;
+2d192f4a3acc1c6 Lucas Stach      2024-06-19  1574  	}
+0d97ad03f4220ca Tomeu Vizoso     2016-08-24  1575  
+41dc71b87962d41 Damon Ding       2025-08-14  1576  	bridge->ops = DRM_BRIDGE_OP_DETECT |
+41dc71b87962d41 Damon Ding       2025-08-14  1577  		      DRM_BRIDGE_OP_EDID |
+41dc71b87962d41 Damon Ding       2025-08-14  1578  		      DRM_BRIDGE_OP_MODES;
+41dc71b87962d41 Damon Ding       2025-08-14  1579  	bridge->of_node = dp->dev->of_node;
+41dc71b87962d41 Damon Ding       2025-08-14  1580  	bridge->type = DRM_MODE_CONNECTOR_eDP;
+41dc71b87962d41 Damon Ding       2025-08-14  1581  	ret = devm_drm_bridge_add(dp->dev, &dp->bridge);
+41dc71b87962d41 Damon Ding       2025-08-14  1582  	if (ret)
+41dc71b87962d41 Damon Ding       2025-08-14  1583  		goto err_unregister_aux;
+41dc71b87962d41 Damon Ding       2025-08-14  1584  
+41dc71b87962d41 Damon Ding       2025-08-14  1585  	ret = drm_bridge_attach(dp->encoder, bridge, NULL, 0);
+3424e3a4f844c0a Yakir Yang       2016-03-29  1586  	if (ret) {
+3424e3a4f844c0a Yakir Yang       2016-03-29  1587  		DRM_ERROR("failed to create bridge (%d)\n", ret);
+2d192f4a3acc1c6 Lucas Stach      2024-06-19  1588  		goto err_unregister_aux;
+3424e3a4f844c0a Yakir Yang       2016-03-29  1589  	}
+3424e3a4f844c0a Yakir Yang       2016-03-29  1590  
+dbd8040a6d0dedc Damon Ding       2025-08-14  1591  	if (dp->plat_data->panel) {
+dbd8040a6d0dedc Damon Ding       2025-08-14  1592  		dp->plat_data->next_bridge = devm_drm_panel_bridge_add(dp->dev,
+dbd8040a6d0dedc Damon Ding       2025-08-14  1593  								       dp->plat_data->panel);
+dbd8040a6d0dedc Damon Ding       2025-08-14  1594  		if (IS_ERR(dp->plat_data->next_bridge)) {
+dbd8040a6d0dedc Damon Ding       2025-08-14 @1595  			ret = PTR_ERR(bridge);
+dbd8040a6d0dedc Damon Ding       2025-08-14  1596  			goto err_unregister_aux;
+dbd8040a6d0dedc Damon Ding       2025-08-14  1597  		}
+dbd8040a6d0dedc Damon Ding       2025-08-14  1598  	}
+dbd8040a6d0dedc Damon Ding       2025-08-14  1599  
+dbd8040a6d0dedc Damon Ding       2025-08-14  1600  	ret = drm_bridge_attach(dp->encoder, dp->plat_data->next_bridge, bridge,
+dbd8040a6d0dedc Damon Ding       2025-08-14  1601  				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+dbd8040a6d0dedc Damon Ding       2025-08-14  1602  	if (ret) {
+dbd8040a6d0dedc Damon Ding       2025-08-14  1603  		dev_err(dp->dev, "failed to attach following panel or bridge (%d)\n", ret);
+dbd8040a6d0dedc Damon Ding       2025-08-14  1604  		goto err_unregister_aux;
+dbd8040a6d0dedc Damon Ding       2025-08-14  1605  	}
+dbd8040a6d0dedc Damon Ding       2025-08-14  1606  
+152cce0006abf7e Marek Szyprowski 2020-03-10  1607  	return 0;
+3424e3a4f844c0a Yakir Yang       2016-03-29  1608  
+2d192f4a3acc1c6 Lucas Stach      2024-06-19  1609  err_unregister_aux:
+2d192f4a3acc1c6 Lucas Stach      2024-06-19  1610  	drm_dp_aux_unregister(&dp->aux);
+f0a8b49c03d22a5 Marek Szyprowski 2016-12-30  1611  
+152cce0006abf7e Marek Szyprowski 2020-03-10  1612  	return ret;
+3424e3a4f844c0a Yakir Yang       2016-03-29  1613  }
+3424e3a4f844c0a Yakir Yang       2016-03-29  1614  EXPORT_SYMBOL_GPL(analogix_dp_bind);
+3424e3a4f844c0a Yakir Yang       2016-03-29  1615  
 
 -- 
 0-DAY CI Kernel Test Service
