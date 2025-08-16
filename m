@@ -1,76 +1,84 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AFD290BD5
-	for <oe-kbuild@lists.linux.dev>; Sat, 16 Aug 2025 10:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4F3230BF6
+	for <oe-kbuild@lists.linux.dev>; Sat, 16 Aug 2025 10:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755340115; cv=none; b=A/BxoYos1kCCEUswXobLFqUqQOnOIICPyBqN0SZUlkBOyzc7IH20zJ4vzZt3XPPoWWd3w55gbLgnZ+PqFcpSC7mEJYpK5+zzJJKuMcMVkMO8TXBwLnG6illwkoScf5G4SCJMQTGMpIJzYp5tejEmrc2J84SmWvZYsQk59DxgY8w=
+	t=1755340304; cv=none; b=fHmKkaYdZvU2ey8PhPDPR39EgsUxpwq40sisdm2q7kyPlkhiIThC2BGTpleVQwwcBjTyluem9DLMsXxkdj2cdwNCdDk5WqwB0PLlLZz24L8+ryhuugsoQN6clbKaKyJFA8ROZCDMcCG0utjdd1dyQl4UfSH1EbBJkhcGvJLYFhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755340115; c=relaxed/simple;
-	bh=M27dDn9ubdQQdmD+XfPR8sXcJOZh8/obVDeIaeOJP/U=;
+	s=arc-20240116; t=1755340304; c=relaxed/simple;
+	bh=9q+EdYEF+i9ct0cIBvf4xx15eZEUGANEZ9Pba+20CS8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=dCRRojiZ1J/R4Ke3Iee8IEwWtfe5jt4kPv6xOafxbG+f2W1wbTyJsFwJfo56o0w2V6AOp+9OYEFMRbaJuUCURGs2k01y+RHs8TSJ5reh/I9QauTmeVUNC7SCz4tcPO5nnB6vE1rey/lZSwVMMjZbQUDsPHKydseRLCPA4nNype8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TFt9/dTz; arc=none smtp.client-ip=209.85.221.47
+	 Content-Disposition:In-Reply-To; b=sX77QIis8KoAoPdohARdkm047CAQtoS8l2pR8TEKHEdDB+drcIl/70SDWeT+fL9ZXLIxi1KMW48wR6diN3INfMZvF4mS82cGPFx7uiJfjTsAzhIqUA0eoUa0FUeJ9wRWjZZZXKmNPxYgBjKa2Om1trG7VeOq7JWz2Ntuy1202gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f4MEmA/c; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TFt9/dTz"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3b916fda762so1765555f8f.0
-        for <oe-kbuild@lists.linux.dev>; Sat, 16 Aug 2025 03:28:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f4MEmA/c"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-45a1b05ac1eso11092325e9.1
+        for <oe-kbuild@lists.linux.dev>; Sat, 16 Aug 2025 03:31:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755340111; x=1755944911; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1755340301; x=1755945101; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oXh81VKf/4Dbcz4RJiYvjkoUvnAUmKw8U6C7gKFu26o=;
-        b=TFt9/dTzDrjlqDvfVypfU/WGwbDxMEFjFpP54Qu+vobAomznYAxtQbz/5mav3Ff+J3
-         KVkdwc+MUmIDrciBWT9HyHj7yn26+76VR8wALaFNdaAhncYj+ZGY7Fj4KcHgkUUhixHq
-         Nej9tPW6louaW22Lq/QFGjtVbqsrkIv+x9RxTc54s4T67hrLfxhZz9R7LM+qV+/+Wi/K
-         Ol8LCwVLw4FFLd77wMyOAkdjorR6BWYf9OKjykbEeS+zgHI1bFHBCC0qId0yQkaczDN4
-         CieHR4P7t/gEonsC1N2vh7VbLgF5r3DwbS1Mdp8efYyO8IV+8H7tmXKdgTMHMsfF8oKr
-         B7vQ==
+        bh=e8x7+nGgNL/S9BgtpwRdqXmLHGlwLdc6y+hYTmxtYuY=;
+        b=f4MEmA/chjYo/P8ojrTk/HfZf6koRLWGRTZzdDBpOr2pfa0PXpiZ7a4P1tehq+IoU5
+         sc7KPOK6u0tbEETb+QnwD2DfCp+q8nYHu8GUsKvk2MSIWObI6VwAgX1OW952H5T6ovuF
+         silaEPqZdJTE6yzF+R3iWGen5Uw4KTbLsSIeF6OAwt5pcuKnykjcj9uCqWVnX9gd0/wq
+         Ji9osQgHK1839BTclomZxqLnjAVCLJw/xN9qMdKahokx8nfYYCZFvKKl1L4UKGsNiP8n
+         TF7eQASD20+rK5myYmC63i9p2Si/P1TxwSbaposWA+0gNmiNOGIqV9RZRa+s+UvjrFrm
+         ENKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755340111; x=1755944911;
+        d=1e100.net; s=20230601; t=1755340301; x=1755945101;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oXh81VKf/4Dbcz4RJiYvjkoUvnAUmKw8U6C7gKFu26o=;
-        b=jUS/rvB7BuhZSPJM+UWAwKwDhUZRz5VA/Dv+zaI52prP8MC5BPhFfuV3bBwFjxRu7Q
-         SVN2Rhg/2dWH9n5/lK4/SXo7GKesswlu5JFBclpoHO+Od78ueykaT3kXo0dUmE1FyYUh
-         kKgE3saJhFjsw87nQSFdB40mndXovgO1LHMFje3j53ww1OUSUHnyEP5MBM9XkKQSB+ZE
-         DRDDFKOvUBNMqR6cPKx2ENE2Ccd0BCC9UpK18zGlVkMQUG/MBuaX8zOdtWYlnD7mmqFT
-         6yw98duakUf9u/++86oNdFu8wql5DNVYK4FovEe25JYpuECy+SSh8g5lhDC6vF0MMlc9
-         gXgg==
-X-Gm-Message-State: AOJu0YzWs8FP0brbOowclU9muQIcnzEw/0o+D1RyW8G+a9NFNv66K3LN
-	OxuXO7x0hBjtL+c76ouusp5JW259YOlW1EcGLfD1FNGzcXcoDGNN2R0OOf6x9Wg9kDxWrJ3ZF6z
-	01r/H
-X-Gm-Gg: ASbGncuLz4092Rs3nTbrcUBFMNp+5Xj/zy6EKxrymhhEAuNKZD6UjdhYePR5aNcBAhy
-	SWHc5wmQAtxHBvQUgFmjjvxUiGeGy+vfq/Pzz5pPSIVHM4glwL2uH2XHx/A5dzreF0eZqTeCuXJ
-	ey1bGTN0Wc0Hn4PhZKLA+nt96ccotwpZyzX7LuTsds48aifBbH56ANml5ng0Tc1EWnaC+qjF1ME
-	EdoQ4gNEAs5oalWPDo80uBBA3EMBBtCnpKeZjVv69vGORKuY+vvQ9bCPZ2H7abeMgRvDOaQVCFk
-	ePGrIbGFgplOYnWiBsLg/QA4c7rXgIaIHtm/qxhupHg3+BzlUt+aB2P+qlPa/1bPevthuzPSJCy
-	oavIHzMbSZeZDxBfUHVG72c5YNHY1H9Xen6ZigYyiJP8=
-X-Google-Smtp-Source: AGHT+IGficK1F5saavRVPWTAr0TpxR29hX57+5MvmQ1Uy0vcX036uC8t1FcIRPlsb5Lhb78Ct3ryAg==
-X-Received: by 2002:a05:6000:2f84:b0:3b8:d337:cc2d with SMTP id ffacd0b85a97d-3ba508eb0b2mr7593550f8f.18.1755340111506;
-        Sat, 16 Aug 2025 03:28:31 -0700 (PDT)
+        bh=e8x7+nGgNL/S9BgtpwRdqXmLHGlwLdc6y+hYTmxtYuY=;
+        b=BCgJI3VghyD+ugEMUwzpV74Ofj8nVNVtKK8igwvxhwTSlhm5rPQ+mm1YAr+KQz87lV
+         z4NeEOH66dt0U8RVYUg4+p9iA0OkInZQz5awTWPJhFHimaDk2gvymSu62bDiT55t/OT5
+         FTvPM0U6XzeHU2LO21GUzLnOQPLty5x8LP/33zkOHbjrwTEiVrL6uhPClAjnO/ikT4+D
+         raTiomjOVD/j1FicIH8dndfxPNRJSUn04vXJH8gjKllf7DV1qRNB0T1cbdkTbbiHRSxF
+         pKB+PMuqn6v3pgc911skpjk2AcYEmGz8AVRzWHm8jNs/rbBJJP1I2oKVJJHopyihet1m
+         q3pg==
+X-Gm-Message-State: AOJu0YzcqsviKOxNaqbNcZiHmVMb7eDrfMP2tfDk185bYG/1lo+gv5vF
+	HbxVtD4JMDo9sVLDHsjo+xyRYFx8oDkCv4G/EHduAUBA5gbp4WJzkpexp0nS+Z9rP3pGsfW9QHL
+	Dlm0D
+X-Gm-Gg: ASbGncuWRKw+jJz4JDoaIAdIBj1a/z/QYsDCU5UpHN7GmJgvOjYxOfNa0BONOiHEjwh
+	UxaHu8yYFlvaK3RS3RssiRrlTmI/Jy7sgo/CbL0riCIsEPTAFYYVwLW9KpjSKAgA019kFCqndkC
+	yv+C0J0iVU1R2Soymx8Ny9gNqHQ6lI7ZqkQXloBQ2KLQ354va1LePkYYuNvE94sCCYjlwyrMSCX
+	/HSo70iC6B6D10CXKBXjj7m/scuQMt67Xa4Pt1xgNv5/S6NWRYLVYsJFHtq7hw022gOUoiaKVLm
+	OiTGAGDeMPZF2dRiLODvSVMQPggyDaWiO38aCwj7+TLIOuIF4mClXMywIRfqqCjB4vywIji/HRa
+	95UhvW3XRFKd40f0BDv8clCqaskIUMNnxEJRA4R+I2fo=
+X-Google-Smtp-Source: AGHT+IGVWDeZL9smLLF1o3RVvY86c9i6C0MTi35gNvuamk+XUR6fXJiX36W4beKN48vGdOJoWRLrlA==
+X-Received: by 2002:a05:600c:1c20:b0:456:1e5a:8879 with SMTP id 5b1f17b1804b1-45a217fbe65mr38114945e9.9.1755340300623;
+        Sat, 16 Aug 2025 03:31:40 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3bb676c971bsm5185226f8f.32.2025.08.16.03.28.30
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a1cc22739sm96669115e9.27.2025.08.16.03.31.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Aug 2025 03:28:31 -0700 (PDT)
-Date: Sat, 16 Aug 2025 13:28:27 +0300
+        Sat, 16 Aug 2025 03:31:40 -0700 (PDT)
+Date: Sat, 16 Aug 2025 13:31:36 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Biju <biju.das.au@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
+To: oe-kbuild@lists.linux.dev, Damon Ding <damon.ding@rock-chips.com>,
+	andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+	rfoss@kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 2/4] clk: renesas: rzv2h: Add support for parent mod
- clocks
-Message-ID: <202508160958.ounSAlER-lkp@intel.com>
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+	simona@ffwll.ch, jingoohan1@gmail.com, inki.dae@samsung.com,
+	sw0312.kim@samsung.com, kyungmin.park@samsung.com, krzk@kernel.org,
+	alim.akhtar@samsung.com, hjc@rock-chips.com, heiko@sntech.de,
+	andy.yan@rock-chips.com, dmitry.baryshkov@oss.qualcomm.com,
+	l.stach@pengutronix.de, dianders@chromium.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	Damon Ding <damon.ding@rock-chips.com>
+Subject: Re: [PATCH v4 13/13] drm/bridge: analogix_dp: Apply panel_bridge
+ helper
+Message-ID: <202508161345.sfsLHzY7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -79,151 +87,90 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250814124832.76266-3-biju.das.jz@bp.renesas.com>
-Message-ID: <20250816102827.yz-cO4vBJ5LVvksSI7Awb0ggXkHAJNEie5aEjfT2cWc@z>
+In-Reply-To: <20250814104753.195255-14-damon.ding@rock-chips.com>
+Message-ID: <20250816103136.xeNGbxVtfFlbj21kpKaf8b4mFohAXgKzsYIT1qcRMdc@z>
 
-Hi Biju,
+Hi Damon,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Biju/clk-renesas-rzv2h-Refactor-rzv2h_cpg_fixed_mod_status_clk_register/20250814-205111
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
-patch link:    https://lore.kernel.org/r/20250814124832.76266-3-biju.das.jz%40bp.renesas.com
-patch subject: [PATCH 2/4] clk: renesas: rzv2h: Add support for parent mod clocks
-config: hexagon-randconfig-r072-20250815 (https://download.01.org/0day-ci/archive/20250816/202508160958.ounSAlER-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Damon-Ding/drm-bridge-analogix_dp-Formalize-the-struct-analogix_dp_device/20250814-185009
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250814104753.195255-14-damon.ding%40rock-chips.com
+patch subject: [PATCH v4 13/13] drm/bridge: analogix_dp: Apply panel_bridge helper
+config: hexagon-randconfig-r072-20250815 (https://download.01.org/0day-ci/archive/20250816/202508161345.sfsLHzY7-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508160958.ounSAlER-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508161345.sfsLHzY7-lkp@intel.com/
 
-New smatch warnings:
-drivers/clk/renesas/rzv2h-cpg.c:875 rzv2h_cpg_register_mod_clk() warn: passing zero to 'PTR_ERR'
+smatch warnings:
+drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1595 analogix_dp_bind() warn: passing a valid pointer to 'PTR_ERR'
 
-vim +/PTR_ERR +875 drivers/clk/renesas/rzv2h-cpg.c
+vim +/PTR_ERR +1595 drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
 
-dd22e56217495e Lad Prabhakar 2024-07-29  770  static void __init
-dd22e56217495e Lad Prabhakar 2024-07-29  771  rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
-dd22e56217495e Lad Prabhakar 2024-07-29  772  			   struct rzv2h_cpg_priv *priv)
-dd22e56217495e Lad Prabhakar 2024-07-29  773  {
-dd22e56217495e Lad Prabhakar 2024-07-29  774  	struct mod_clock *clock = NULL;
-dd22e56217495e Lad Prabhakar 2024-07-29  775  	struct device *dev = priv->dev;
-dd22e56217495e Lad Prabhakar 2024-07-29  776  	struct clk_init_data init;
-dd22e56217495e Lad Prabhakar 2024-07-29  777  	struct clk *parent, *clk;
-dd22e56217495e Lad Prabhakar 2024-07-29  778  	const char *parent_name;
-dd22e56217495e Lad Prabhakar 2024-07-29  779  	unsigned int id;
-dd22e56217495e Lad Prabhakar 2024-07-29  780  	int ret;
-dd22e56217495e Lad Prabhakar 2024-07-29  781  
-dd22e56217495e Lad Prabhakar 2024-07-29  782  	id = GET_MOD_CLK_ID(priv->num_core_clks, mod->on_index, mod->on_bit);
-dd22e56217495e Lad Prabhakar 2024-07-29  783  	WARN_DEBUG(id >= priv->num_core_clks + priv->num_mod_clks);
-dd22e56217495e Lad Prabhakar 2024-07-29  784  	WARN_DEBUG(mod->parent >= priv->num_core_clks + priv->num_mod_clks);
-dd22e56217495e Lad Prabhakar 2024-07-29  785  	WARN_DEBUG(PTR_ERR(priv->clks[id]) != -ENOENT);
-dd22e56217495e Lad Prabhakar 2024-07-29  786  
-dd22e56217495e Lad Prabhakar 2024-07-29  787  	parent = priv->clks[mod->parent];
-dd22e56217495e Lad Prabhakar 2024-07-29  788  	if (IS_ERR(parent)) {
-dd22e56217495e Lad Prabhakar 2024-07-29  789  		clk = parent;
-dd22e56217495e Lad Prabhakar 2024-07-29  790  		goto fail;
-dd22e56217495e Lad Prabhakar 2024-07-29  791  	}
-dd22e56217495e Lad Prabhakar 2024-07-29  792  
-dd22e56217495e Lad Prabhakar 2024-07-29  793  	clock = devm_kzalloc(dev, sizeof(*clock), GFP_KERNEL);
-dd22e56217495e Lad Prabhakar 2024-07-29  794  	if (!clock) {
-dd22e56217495e Lad Prabhakar 2024-07-29  795  		clk = ERR_PTR(-ENOMEM);
-dd22e56217495e Lad Prabhakar 2024-07-29  796  		goto fail;
-dd22e56217495e Lad Prabhakar 2024-07-29  797  	}
-dd22e56217495e Lad Prabhakar 2024-07-29  798  
-dd22e56217495e Lad Prabhakar 2024-07-29  799  	init.name = mod->name;
-dd22e56217495e Lad Prabhakar 2024-07-29  800  	init.ops = &rzv2h_mod_clock_ops;
-dd22e56217495e Lad Prabhakar 2024-07-29  801  	init.flags = CLK_SET_RATE_PARENT;
-dd22e56217495e Lad Prabhakar 2024-07-29  802  	if (mod->critical)
-dd22e56217495e Lad Prabhakar 2024-07-29  803  		init.flags |= CLK_IS_CRITICAL;
-dd22e56217495e Lad Prabhakar 2024-07-29  804  
-dd22e56217495e Lad Prabhakar 2024-07-29  805  	parent_name = __clk_get_name(parent);
-dd22e56217495e Lad Prabhakar 2024-07-29  806  	init.parent_names = &parent_name;
-dd22e56217495e Lad Prabhakar 2024-07-29  807  	init.num_parents = 1;
-dd22e56217495e Lad Prabhakar 2024-07-29  808  
-dd22e56217495e Lad Prabhakar 2024-07-29  809  	clock->on_index = mod->on_index;
-dd22e56217495e Lad Prabhakar 2024-07-29  810  	clock->on_bit = mod->on_bit;
-dd22e56217495e Lad Prabhakar 2024-07-29  811  	clock->mon_index = mod->mon_index;
-dd22e56217495e Lad Prabhakar 2024-07-29  812  	clock->mon_bit = mod->mon_bit;
-03108a2614ecab Lad Prabhakar 2024-12-02  813  	clock->no_pm = mod->no_pm;
-899e7ede4c19c6 Lad Prabhakar 2025-05-09  814  	clock->ext_clk_mux_index = mod->ext_clk_mux_index;
-dd22e56217495e Lad Prabhakar 2024-07-29  815  	clock->priv = priv;
-dd22e56217495e Lad Prabhakar 2024-07-29  816  	clock->hw.init = &init;
-9b6e63a777ea5f Biju Das      2024-12-13  817  	clock->mstop_data = mod->mstop_data;
-dd22e56217495e Lad Prabhakar 2024-07-29  818  
-dd22e56217495e Lad Prabhakar 2024-07-29  819  	ret = devm_clk_hw_register(dev, &clock->hw);
-dd22e56217495e Lad Prabhakar 2024-07-29  820  	if (ret) {
-dd22e56217495e Lad Prabhakar 2024-07-29  821  		clk = ERR_PTR(ret);
-dd22e56217495e Lad Prabhakar 2024-07-29  822  		goto fail;
-dd22e56217495e Lad Prabhakar 2024-07-29  823  	}
-dd22e56217495e Lad Prabhakar 2024-07-29  824  
-dd22e56217495e Lad Prabhakar 2024-07-29  825  	priv->clks[id] = clock->hw.clk;
-18610e6bf54faa Biju Das      2025-08-14  826  	if (mod->child_name) {
-18610e6bf54faa Biju Das      2025-08-14  827  		WARN_DEBUG(mod->child >= priv->num_core_clks);
-18610e6bf54faa Biju Das      2025-08-14  828  		WARN_DEBUG(PTR_ERR(priv->clks[mod->child]) != -ENOENT);
-18610e6bf54faa Biju Das      2025-08-14  829  
-18610e6bf54faa Biju Das      2025-08-14  830  		clk = rzv2h_cpg_mod_status_clk_register(priv, mod->child_name, mod->name, 1, 1,
-18610e6bf54faa Biju Das      2025-08-14  831  							FIXED_MOD_CONF_PACK(mod->mon_index,
-18610e6bf54faa Biju Das      2025-08-14  832  									    mod->mon_bit));
-18610e6bf54faa Biju Das      2025-08-14  833  		if (IS_ERR_OR_NULL(clk))
-18610e6bf54faa Biju Das      2025-08-14  834  			goto fail;
+152cce0006abf7e Marek Szyprowski 2020-03-10  1560  int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
+152cce0006abf7e Marek Szyprowski 2020-03-10  1561  {
+41dc71b87962d41 Damon Ding       2025-08-14  1562  	struct drm_bridge *bridge = &dp->bridge;
+152cce0006abf7e Marek Szyprowski 2020-03-10  1563  	int ret;
+152cce0006abf7e Marek Szyprowski 2020-03-10  1564  
+3424e3a4f844c0a Yakir Yang       2016-03-29  1565  	dp->drm_dev = drm_dev;
+3424e3a4f844c0a Yakir Yang       2016-03-29  1566  	dp->encoder = dp->plat_data->encoder;
+3424e3a4f844c0a Yakir Yang       2016-03-29  1567  
+6cba3fe433415b2 Lyude Paul       2021-04-23  1568  	dp->aux.drm_dev = drm_dev;
+0d97ad03f4220ca Tomeu Vizoso     2016-08-24  1569  
+0d97ad03f4220ca Tomeu Vizoso     2016-08-24  1570  	ret = drm_dp_aux_register(&dp->aux);
+2d192f4a3acc1c6 Lucas Stach      2024-06-19  1571  	if (ret) {
+2d192f4a3acc1c6 Lucas Stach      2024-06-19  1572  		DRM_ERROR("failed to register AUX (%d)\n", ret);
+c71db051142a74b Damon Ding       2025-03-10  1573  		return ret;
+2d192f4a3acc1c6 Lucas Stach      2024-06-19  1574  	}
+0d97ad03f4220ca Tomeu Vizoso     2016-08-24  1575  
+41dc71b87962d41 Damon Ding       2025-08-14  1576  	bridge->ops = DRM_BRIDGE_OP_DETECT |
+41dc71b87962d41 Damon Ding       2025-08-14  1577  		      DRM_BRIDGE_OP_EDID |
+41dc71b87962d41 Damon Ding       2025-08-14  1578  		      DRM_BRIDGE_OP_MODES;
+41dc71b87962d41 Damon Ding       2025-08-14  1579  	bridge->of_node = dp->dev->of_node;
+41dc71b87962d41 Damon Ding       2025-08-14  1580  	bridge->type = DRM_MODE_CONNECTOR_eDP;
+41dc71b87962d41 Damon Ding       2025-08-14  1581  	ret = devm_drm_bridge_add(dp->dev, &dp->bridge);
+41dc71b87962d41 Damon Ding       2025-08-14  1582  	if (ret)
+41dc71b87962d41 Damon Ding       2025-08-14  1583  		goto err_unregister_aux;
+41dc71b87962d41 Damon Ding       2025-08-14  1584  
+41dc71b87962d41 Damon Ding       2025-08-14  1585  	ret = drm_bridge_attach(dp->encoder, bridge, NULL, 0);
+3424e3a4f844c0a Yakir Yang       2016-03-29  1586  	if (ret) {
+3424e3a4f844c0a Yakir Yang       2016-03-29  1587  		DRM_ERROR("failed to create bridge (%d)\n", ret);
+2d192f4a3acc1c6 Lucas Stach      2024-06-19  1588  		goto err_unregister_aux;
+3424e3a4f844c0a Yakir Yang       2016-03-29  1589  	}
+3424e3a4f844c0a Yakir Yang       2016-03-29  1590  
+dbd8040a6d0dedc Damon Ding       2025-08-14  1591  	if (dp->plat_data->panel) {
+dbd8040a6d0dedc Damon Ding       2025-08-14  1592  		dp->plat_data->next_bridge = devm_drm_panel_bridge_add(dp->dev,
+dbd8040a6d0dedc Damon Ding       2025-08-14  1593  								       dp->plat_data->panel);
+dbd8040a6d0dedc Damon Ding       2025-08-14  1594  		if (IS_ERR(dp->plat_data->next_bridge)) {
+dbd8040a6d0dedc Damon Ding       2025-08-14 @1595  			ret = PTR_ERR(bridge);
 
-This isn't how IS_ERR_OR_NULL() is supposed to work...  :(  The NULL should
-be treated like success, it shouldn't print an error message, unless it's
-something like:
+Wrong variable.  s/bridge/dp->plat_data->next_bridge/.
 
-	WARN_ON_ONCE(!clk); // rzv2h_cpg_mod_status_clk_register() is buggy
-
-I have written a blog about how how IS_ERR_OR_NULL() is supposed to work:
-https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
-
-18610e6bf54faa Biju Das      2025-08-14  835  		priv->clks[mod->child] = clk;
-18610e6bf54faa Biju Das      2025-08-14  836  	}
-dd22e56217495e Lad Prabhakar 2024-07-29  837  
-9b6e63a777ea5f Biju Das      2024-12-13  838  	/*
-9b6e63a777ea5f Biju Das      2024-12-13  839  	 * Ensure the module clocks and MSTOP bits are synchronized when they are
-9b6e63a777ea5f Biju Das      2024-12-13  840  	 * turned ON by the bootloader. Enable MSTOP bits for module clocks that were
-9b6e63a777ea5f Biju Das      2024-12-13  841  	 * turned ON in an earlier boot stage.
-9b6e63a777ea5f Biju Das      2024-12-13  842  	 */
-9b6e63a777ea5f Biju Das      2024-12-13  843  	if (clock->mstop_data != BUS_MSTOP_NONE &&
-9b6e63a777ea5f Biju Das      2024-12-13  844  	    !mod->critical && rzv2h_mod_clock_is_enabled(&clock->hw)) {
-9b6e63a777ea5f Biju Das      2024-12-13  845  		rzv2h_mod_clock_mstop_enable(priv, clock->mstop_data);
-9b6e63a777ea5f Biju Das      2024-12-13  846  	} else if (clock->mstop_data != BUS_MSTOP_NONE && mod->critical) {
-9b6e63a777ea5f Biju Das      2024-12-13  847  		unsigned long mstop_mask = FIELD_GET(BUS_MSTOP_BITS_MASK, clock->mstop_data);
-9b6e63a777ea5f Biju Das      2024-12-13  848  		u16 mstop_index = FIELD_GET(BUS_MSTOP_IDX_MASK, clock->mstop_data);
-69ac2acd209a15 Biju Das      2025-02-22  849  		atomic_t *mstop = &priv->mstop_count[mstop_index * 16];
-9b6e63a777ea5f Biju Das      2024-12-13  850  		unsigned long flags;
-9b6e63a777ea5f Biju Das      2024-12-13  851  		unsigned int i;
-9b6e63a777ea5f Biju Das      2024-12-13  852  		u32 val = 0;
-9b6e63a777ea5f Biju Das      2024-12-13  853  
-9b6e63a777ea5f Biju Das      2024-12-13  854  		/*
-9b6e63a777ea5f Biju Das      2024-12-13  855  		 * Critical clocks are turned ON immediately upon registration, and the
-9b6e63a777ea5f Biju Das      2024-12-13  856  		 * MSTOP counter is updated through the rzv2h_mod_clock_enable() path.
-9b6e63a777ea5f Biju Das      2024-12-13  857  		 * However, if the critical clocks were already turned ON by the initial
-9b6e63a777ea5f Biju Das      2024-12-13  858  		 * bootloader, synchronize the atomic counter here and clear the MSTOP bit.
-9b6e63a777ea5f Biju Das      2024-12-13  859  		 */
-9b6e63a777ea5f Biju Das      2024-12-13  860  		spin_lock_irqsave(&priv->rmw_lock, flags);
-9b6e63a777ea5f Biju Das      2024-12-13  861  		for_each_set_bit(i, &mstop_mask, 16) {
-9b6e63a777ea5f Biju Das      2024-12-13  862  			if (atomic_read(&mstop[i]))
-9b6e63a777ea5f Biju Das      2024-12-13  863  				continue;
-9b6e63a777ea5f Biju Das      2024-12-13  864  			val |= BIT(i) << 16;
-9b6e63a777ea5f Biju Das      2024-12-13  865  			atomic_inc(&mstop[i]);
-9b6e63a777ea5f Biju Das      2024-12-13  866  		}
-9b6e63a777ea5f Biju Das      2024-12-13  867  		if (val)
-9b6e63a777ea5f Biju Das      2024-12-13  868  			writel(val, priv->base + CPG_BUS_MSTOP(mstop_index));
-9b6e63a777ea5f Biju Das      2024-12-13  869  		spin_unlock_irqrestore(&priv->rmw_lock, flags);
-9b6e63a777ea5f Biju Das      2024-12-13  870  	}
-9b6e63a777ea5f Biju Das      2024-12-13  871  
-dd22e56217495e Lad Prabhakar 2024-07-29  872  	return;
-dd22e56217495e Lad Prabhakar 2024-07-29  873  
-dd22e56217495e Lad Prabhakar 2024-07-29  874  fail:
-dd22e56217495e Lad Prabhakar 2024-07-29 @875  	dev_err(dev, "Failed to register module clock %s: %ld\n",
-dd22e56217495e Lad Prabhakar 2024-07-29  876  		mod->name, PTR_ERR(clk));
-dd22e56217495e Lad Prabhakar 2024-07-29  877  }
+dbd8040a6d0dedc Damon Ding       2025-08-14  1596  			goto err_unregister_aux;
+dbd8040a6d0dedc Damon Ding       2025-08-14  1597  		}
+dbd8040a6d0dedc Damon Ding       2025-08-14  1598  	}
+dbd8040a6d0dedc Damon Ding       2025-08-14  1599  
+dbd8040a6d0dedc Damon Ding       2025-08-14  1600  	ret = drm_bridge_attach(dp->encoder, dp->plat_data->next_bridge, bridge,
+dbd8040a6d0dedc Damon Ding       2025-08-14  1601  				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+dbd8040a6d0dedc Damon Ding       2025-08-14  1602  	if (ret) {
+dbd8040a6d0dedc Damon Ding       2025-08-14  1603  		dev_err(dp->dev, "failed to attach following panel or bridge (%d)\n", ret);
+dbd8040a6d0dedc Damon Ding       2025-08-14  1604  		goto err_unregister_aux;
+dbd8040a6d0dedc Damon Ding       2025-08-14  1605  	}
+dbd8040a6d0dedc Damon Ding       2025-08-14  1606  
+152cce0006abf7e Marek Szyprowski 2020-03-10  1607  	return 0;
+3424e3a4f844c0a Yakir Yang       2016-03-29  1608  
+2d192f4a3acc1c6 Lucas Stach      2024-06-19  1609  err_unregister_aux:
+2d192f4a3acc1c6 Lucas Stach      2024-06-19  1610  	drm_dp_aux_unregister(&dp->aux);
+f0a8b49c03d22a5 Marek Szyprowski 2016-12-30  1611  
+152cce0006abf7e Marek Szyprowski 2020-03-10  1612  	return ret;
+3424e3a4f844c0a Yakir Yang       2016-03-29  1613  }
 
 -- 
 0-DAY CI Kernel Test Service
