@@ -1,176 +1,128 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4F3230BF6
-	for <oe-kbuild@lists.linux.dev>; Sat, 16 Aug 2025 10:31:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF7321B9FD
+	for <oe-kbuild@lists.linux.dev>; Sat, 16 Aug 2025 10:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755340304; cv=none; b=fHmKkaYdZvU2ey8PhPDPR39EgsUxpwq40sisdm2q7kyPlkhiIThC2BGTpleVQwwcBjTyluem9DLMsXxkdj2cdwNCdDk5WqwB0PLlLZz24L8+ryhuugsoQN6clbKaKyJFA8ROZCDMcCG0utjdd1dyQl4UfSH1EbBJkhcGvJLYFhQ=
+	t=1755340349; cv=none; b=PDHyL7yPjBUvkf9k2AkPUeKieu1jxpLMBe0WwQMEHiwJG4BIZP1hss9aicU2Ic15ptX+pLfhtV0MrRxwGrWE0RWzcYEf7v1h/AaGpWnz2jFcWe4Ppc1wMKLenPVdm6Ok34DOx1trL/UIEJOZ9lIzol/KqREnyRNVkZlfvrgm0H0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755340304; c=relaxed/simple;
-	bh=9q+EdYEF+i9ct0cIBvf4xx15eZEUGANEZ9Pba+20CS8=;
+	s=arc-20240116; t=1755340349; c=relaxed/simple;
+	bh=Pft0D6mYn1gxE273jevOaCLhviwhjfDQQ8yjtwOCjbU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=sX77QIis8KoAoPdohARdkm047CAQtoS8l2pR8TEKHEdDB+drcIl/70SDWeT+fL9ZXLIxi1KMW48wR6diN3INfMZvF4mS82cGPFx7uiJfjTsAzhIqUA0eoUa0FUeJ9wRWjZZZXKmNPxYgBjKa2Om1trG7VeOq7JWz2Ntuy1202gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f4MEmA/c; arc=none smtp.client-ip=209.85.128.54
+	 Content-Disposition:In-Reply-To; b=YF4ejN3Nma0dGjydfMYXugCR/bcrNdI6llahp9rCyoFTS+A7zsfVSaf4cfohJkWOPLLRFb3q3JYsq0SDXOguA/XAL0PsBIAWkp/KcVeqKf6f2Nb9i53BAW4q68Tp3MyUUj6lVYqHAmrjorBnrqbTtuKA/EokX1tG2NP7HHJ052c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TyUSn3I4; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f4MEmA/c"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-45a1b05ac1eso11092325e9.1
-        for <oe-kbuild@lists.linux.dev>; Sat, 16 Aug 2025 03:31:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TyUSn3I4"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3b9d41cd38dso1956819f8f.0
+        for <oe-kbuild@lists.linux.dev>; Sat, 16 Aug 2025 03:32:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755340301; x=1755945101; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=e8x7+nGgNL/S9BgtpwRdqXmLHGlwLdc6y+hYTmxtYuY=;
-        b=f4MEmA/chjYo/P8ojrTk/HfZf6koRLWGRTZzdDBpOr2pfa0PXpiZ7a4P1tehq+IoU5
-         sc7KPOK6u0tbEETb+QnwD2DfCp+q8nYHu8GUsKvk2MSIWObI6VwAgX1OW952H5T6ovuF
-         silaEPqZdJTE6yzF+R3iWGen5Uw4KTbLsSIeF6OAwt5pcuKnykjcj9uCqWVnX9gd0/wq
-         Ji9osQgHK1839BTclomZxqLnjAVCLJw/xN9qMdKahokx8nfYYCZFvKKl1L4UKGsNiP8n
-         TF7eQASD20+rK5myYmC63i9p2Si/P1TxwSbaposWA+0gNmiNOGIqV9RZRa+s+UvjrFrm
-         ENKg==
+        d=linaro.org; s=google; t=1755340345; x=1755945145; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6neuYc8gZEraymLFwxc1gK2y9cQvAvqgKFVYEp/43fw=;
+        b=TyUSn3I4wAGsvUZDxdP/i8zMklEtHZ6K3vbcnbWykhU4FeNfIZCgTOlRppFbP0BhLk
+         7rggUX4FwoZNRO/WXd2gQNpYiCq2IXRxZ3wXmT1Jf+o431QEEdeC2ObAcXRmyhKoghZc
+         nRLb4+2YOpuWKyBb9gcQXCoUT9J2hBJIGFa+CvN9zMv8wjlNbHROxt0VynRDGVGFvHKu
+         dFJXxvPaKzBpHz8Fw9K+7mo3EKo6lPpUT7ukYqCJX3V166OrGZIQFlqfklhLozZBBb0c
+         H7ZVu4zDTVrBMePiL3+GAU1RateDcA2/UP+tkI1baUiXI4jP68ZqEEM+ZxkrjVYXeOdO
+         vJGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755340301; x=1755945101;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e8x7+nGgNL/S9BgtpwRdqXmLHGlwLdc6y+hYTmxtYuY=;
-        b=BCgJI3VghyD+ugEMUwzpV74Ofj8nVNVtKK8igwvxhwTSlhm5rPQ+mm1YAr+KQz87lV
-         z4NeEOH66dt0U8RVYUg4+p9iA0OkInZQz5awTWPJhFHimaDk2gvymSu62bDiT55t/OT5
-         FTvPM0U6XzeHU2LO21GUzLnOQPLty5x8LP/33zkOHbjrwTEiVrL6uhPClAjnO/ikT4+D
-         raTiomjOVD/j1FicIH8dndfxPNRJSUn04vXJH8gjKllf7DV1qRNB0T1cbdkTbbiHRSxF
-         pKB+PMuqn6v3pgc911skpjk2AcYEmGz8AVRzWHm8jNs/rbBJJP1I2oKVJJHopyihet1m
-         q3pg==
-X-Gm-Message-State: AOJu0YzcqsviKOxNaqbNcZiHmVMb7eDrfMP2tfDk185bYG/1lo+gv5vF
-	HbxVtD4JMDo9sVLDHsjo+xyRYFx8oDkCv4G/EHduAUBA5gbp4WJzkpexp0nS+Z9rP3pGsfW9QHL
-	Dlm0D
-X-Gm-Gg: ASbGncuWRKw+jJz4JDoaIAdIBj1a/z/QYsDCU5UpHN7GmJgvOjYxOfNa0BONOiHEjwh
-	UxaHu8yYFlvaK3RS3RssiRrlTmI/Jy7sgo/CbL0riCIsEPTAFYYVwLW9KpjSKAgA019kFCqndkC
-	yv+C0J0iVU1R2Soymx8Ny9gNqHQ6lI7ZqkQXloBQ2KLQ354va1LePkYYuNvE94sCCYjlwyrMSCX
-	/HSo70iC6B6D10CXKBXjj7m/scuQMt67Xa4Pt1xgNv5/S6NWRYLVYsJFHtq7hw022gOUoiaKVLm
-	OiTGAGDeMPZF2dRiLODvSVMQPggyDaWiO38aCwj7+TLIOuIF4mClXMywIRfqqCjB4vywIji/HRa
-	95UhvW3XRFKd40f0BDv8clCqaskIUMNnxEJRA4R+I2fo=
-X-Google-Smtp-Source: AGHT+IGVWDeZL9smLLF1o3RVvY86c9i6C0MTi35gNvuamk+XUR6fXJiX36W4beKN48vGdOJoWRLrlA==
-X-Received: by 2002:a05:600c:1c20:b0:456:1e5a:8879 with SMTP id 5b1f17b1804b1-45a217fbe65mr38114945e9.9.1755340300623;
-        Sat, 16 Aug 2025 03:31:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755340345; x=1755945145;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6neuYc8gZEraymLFwxc1gK2y9cQvAvqgKFVYEp/43fw=;
+        b=ffEQVv96EHC/1DkEPA0CMuhh8Ntcw/R5/rG+aH5IIPLmv38d8fscktqTjRY0VeIAZe
+         7Kxz4YI4SU5BXTIM15e9dMiCSIQXYdJ2wuYkAXL0rwXVxwixtSlgRtiFGQzx/kmgYdyA
+         Hoil6w0qGQ8L/iq+kP5GeHvNzkc/BkgYH8A29DM25IB7SLZOy5yzWMqudmOsRU84uxMK
+         sBZAZyNq9Y/Zq/dNI4IewJKB3tIPQTy5P3AkM3ez3ttL/wjqKWuEhPhPu5WH4W1lM37R
+         nzzIOE+wOoP7zayffAMRmKCCewSIJzt3mFP9obooKhXV0qws0rzsIlWCuE97V0a44x8f
+         CZaA==
+X-Gm-Message-State: AOJu0Yz6Us8X4vxztZ3uyNdKBGgLX6jW8OzucCNXpIOTT8C5oVNV0b75
+	EqDGAroxSEKqzRh7b8dKUnRiM8aUf1jaTp+w4f+WTwE2NMiv6R7l9YQCJGLaEOJ6hH5dEfuooDS
+	B+mml
+X-Gm-Gg: ASbGnct7UsPhCLG+3vekFrs4QR1p+YD6Wa3zbF6kJ4Quf7ohUlLXcEo1jw/kmsaZiI0
+	hlqXC4tSjbN7MBoO15wAxlTwL4o04hT+SZ5C0b9vKPRZJXEsvic22fETJ66Zff+bMY1+P8iXjr0
+	NDnMD3LWPWVsvQ37dUxS415bjgYaG/4svbAfODc/mHwBH4rbj0Z6ZrKgv8PGRBom+nS0FQt1Shg
+	fZBG5jVWz7X0OifwDZ0xXRJTMd6L2PSu+c4QDdXMF3vkwanhI01RuaDd3EzbabSeYoiOT9rCVl9
+	oYcMXa+AVQivopIHG4bScmgPYfBn3vjCtaLbAv6LgnUMi+TtvXxKpfdvDktIt0yxnC1fX9n68lD
+	Wxb0/REiFjhkgCRp8cMLGvViBoKQ=
+X-Google-Smtp-Source: AGHT+IHAnFs9UneWAmPfL3Wz0z6TEUSaBJgX0v41HAMyqMGMLN60ShzpFjC9lI8eUnUV8SafBAymaQ==
+X-Received: by 2002:a05:6000:2285:b0:3b8:f8e6:867b with SMTP id ffacd0b85a97d-3bb68545ebbmr4510434f8f.31.1755340345363;
+        Sat, 16 Aug 2025 03:32:25 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a1cc22739sm96669115e9.27.2025.08.16.03.31.39
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3bb652f75aesm5243990f8f.23.2025.08.16.03.32.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Aug 2025 03:31:40 -0700 (PDT)
-Date: Sat, 16 Aug 2025 13:31:36 +0300
+        Sat, 16 Aug 2025 03:32:25 -0700 (PDT)
+Date: Sat, 16 Aug 2025 13:32:21 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Damon Ding <damon.ding@rock-chips.com>,
-	andrzej.hajda@intel.com, neil.armstrong@linaro.org,
-	rfoss@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	simona@ffwll.ch, jingoohan1@gmail.com, inki.dae@samsung.com,
-	sw0312.kim@samsung.com, kyungmin.park@samsung.com, krzk@kernel.org,
-	alim.akhtar@samsung.com, hjc@rock-chips.com, heiko@sntech.de,
-	andy.yan@rock-chips.com, dmitry.baryshkov@oss.qualcomm.com,
-	l.stach@pengutronix.de, dianders@chromium.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	Damon Ding <damon.ding@rock-chips.com>
-Subject: Re: [PATCH v4 13/13] drm/bridge: analogix_dp: Apply panel_bridge
- helper
-Message-ID: <202508161345.sfsLHzY7-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v5 4/9] ovl: Create ovl_casefold() to support casefolded
+ strncmp()
+Message-ID: <202508161416.sbuLMXuI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250814104753.195255-14-damon.ding@rock-chips.com>
-Message-ID: <20250816103136.xeNGbxVtfFlbj21kpKaf8b4mFohAXgKzsYIT1qcRMdc@z>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250814-tonyk-overlayfs-v5-4-c5b80a909cbd@igalia.com>
+Message-ID: <20250816103221.EcBLQXhvcb6zFgTO1wpJTUdewfNMmVTqdTTrii3tYGM@z>
 
-Hi Damon,
+Hi André,
 
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Damon-Ding/drm-bridge-analogix_dp-Formalize-the-struct-analogix_dp_device/20250814-185009
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20250814104753.195255-14-damon.ding%40rock-chips.com
-patch subject: [PATCH v4 13/13] drm/bridge: analogix_dp: Apply panel_bridge helper
-config: hexagon-randconfig-r072-20250815 (https://download.01.org/0day-ci/archive/20250816/202508161345.sfsLHzY7-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/fs-Create-sb_encoding-helper/20250815-013213
+base:   0cc53520e68bea7fb80fdc6bdf8d226d1b6a98d9
+patch link:    https://lore.kernel.org/r/20250814-tonyk-overlayfs-v5-4-c5b80a909cbd%40igalia.com
+patch subject: [PATCH v5 4/9] ovl: Create ovl_casefold() to support casefolded strncmp()
+config: alpha-randconfig-r071-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161416.sbuLMXuI-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508161345.sfsLHzY7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508161416.sbuLMXuI-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1595 analogix_dp_bind() warn: passing a valid pointer to 'PTR_ERR'
+New smatch warnings:
+fs/overlayfs/readdir.c:82 ovl_casefold() warn: variable dereferenced before check 'dst' (see line 80)
 
-vim +/PTR_ERR +1595 drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+vim +/dst +82 fs/overlayfs/readdir.c
 
-152cce0006abf7e Marek Szyprowski 2020-03-10  1560  int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
-152cce0006abf7e Marek Szyprowski 2020-03-10  1561  {
-41dc71b87962d41 Damon Ding       2025-08-14  1562  	struct drm_bridge *bridge = &dp->bridge;
-152cce0006abf7e Marek Szyprowski 2020-03-10  1563  	int ret;
-152cce0006abf7e Marek Szyprowski 2020-03-10  1564  
-3424e3a4f844c0a Yakir Yang       2016-03-29  1565  	dp->drm_dev = drm_dev;
-3424e3a4f844c0a Yakir Yang       2016-03-29  1566  	dp->encoder = dp->plat_data->encoder;
-3424e3a4f844c0a Yakir Yang       2016-03-29  1567  
-6cba3fe433415b2 Lyude Paul       2021-04-23  1568  	dp->aux.drm_dev = drm_dev;
-0d97ad03f4220ca Tomeu Vizoso     2016-08-24  1569  
-0d97ad03f4220ca Tomeu Vizoso     2016-08-24  1570  	ret = drm_dp_aux_register(&dp->aux);
-2d192f4a3acc1c6 Lucas Stach      2024-06-19  1571  	if (ret) {
-2d192f4a3acc1c6 Lucas Stach      2024-06-19  1572  		DRM_ERROR("failed to register AUX (%d)\n", ret);
-c71db051142a74b Damon Ding       2025-03-10  1573  		return ret;
-2d192f4a3acc1c6 Lucas Stach      2024-06-19  1574  	}
-0d97ad03f4220ca Tomeu Vizoso     2016-08-24  1575  
-41dc71b87962d41 Damon Ding       2025-08-14  1576  	bridge->ops = DRM_BRIDGE_OP_DETECT |
-41dc71b87962d41 Damon Ding       2025-08-14  1577  		      DRM_BRIDGE_OP_EDID |
-41dc71b87962d41 Damon Ding       2025-08-14  1578  		      DRM_BRIDGE_OP_MODES;
-41dc71b87962d41 Damon Ding       2025-08-14  1579  	bridge->of_node = dp->dev->of_node;
-41dc71b87962d41 Damon Ding       2025-08-14  1580  	bridge->type = DRM_MODE_CONNECTOR_eDP;
-41dc71b87962d41 Damon Ding       2025-08-14  1581  	ret = devm_drm_bridge_add(dp->dev, &dp->bridge);
-41dc71b87962d41 Damon Ding       2025-08-14  1582  	if (ret)
-41dc71b87962d41 Damon Ding       2025-08-14  1583  		goto err_unregister_aux;
-41dc71b87962d41 Damon Ding       2025-08-14  1584  
-41dc71b87962d41 Damon Ding       2025-08-14  1585  	ret = drm_bridge_attach(dp->encoder, bridge, NULL, 0);
-3424e3a4f844c0a Yakir Yang       2016-03-29  1586  	if (ret) {
-3424e3a4f844c0a Yakir Yang       2016-03-29  1587  		DRM_ERROR("failed to create bridge (%d)\n", ret);
-2d192f4a3acc1c6 Lucas Stach      2024-06-19  1588  		goto err_unregister_aux;
-3424e3a4f844c0a Yakir Yang       2016-03-29  1589  	}
-3424e3a4f844c0a Yakir Yang       2016-03-29  1590  
-dbd8040a6d0dedc Damon Ding       2025-08-14  1591  	if (dp->plat_data->panel) {
-dbd8040a6d0dedc Damon Ding       2025-08-14  1592  		dp->plat_data->next_bridge = devm_drm_panel_bridge_add(dp->dev,
-dbd8040a6d0dedc Damon Ding       2025-08-14  1593  								       dp->plat_data->panel);
-dbd8040a6d0dedc Damon Ding       2025-08-14  1594  		if (IS_ERR(dp->plat_data->next_bridge)) {
-dbd8040a6d0dedc Damon Ding       2025-08-14 @1595  			ret = PTR_ERR(bridge);
+3f345b5617fb37 André Almeida  2025-08-14  72  static int ovl_casefold(struct unicode_map *map, const char *str, int len, char **dst)
+3f345b5617fb37 André Almeida  2025-08-14  73  {
+3f345b5617fb37 André Almeida  2025-08-14  74  	const struct qstr qstr = { .name = str, .len = len };
+3f345b5617fb37 André Almeida  2025-08-14  75  	int cf_len;
+3f345b5617fb37 André Almeida  2025-08-14  76  
+3f345b5617fb37 André Almeida  2025-08-14  77  	if (!IS_ENABLED(CONFIG_UNICODE) || !map || is_dot_dotdot(str, len))
+3f345b5617fb37 André Almeida  2025-08-14  78  		return 0;
+3f345b5617fb37 André Almeida  2025-08-14  79  
+3f345b5617fb37 André Almeida  2025-08-14 @80  	*dst = kmalloc(NAME_MAX, GFP_KERNEL);
+3f345b5617fb37 André Almeida  2025-08-14  81  
+3f345b5617fb37 André Almeida  2025-08-14 @82  	if (dst) {
 
-Wrong variable.  s/bridge/dp->plat_data->next_bridge/.
+s/dst/*dst/
 
-dbd8040a6d0dedc Damon Ding       2025-08-14  1596  			goto err_unregister_aux;
-dbd8040a6d0dedc Damon Ding       2025-08-14  1597  		}
-dbd8040a6d0dedc Damon Ding       2025-08-14  1598  	}
-dbd8040a6d0dedc Damon Ding       2025-08-14  1599  
-dbd8040a6d0dedc Damon Ding       2025-08-14  1600  	ret = drm_bridge_attach(dp->encoder, dp->plat_data->next_bridge, bridge,
-dbd8040a6d0dedc Damon Ding       2025-08-14  1601  				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-dbd8040a6d0dedc Damon Ding       2025-08-14  1602  	if (ret) {
-dbd8040a6d0dedc Damon Ding       2025-08-14  1603  		dev_err(dp->dev, "failed to attach following panel or bridge (%d)\n", ret);
-dbd8040a6d0dedc Damon Ding       2025-08-14  1604  		goto err_unregister_aux;
-dbd8040a6d0dedc Damon Ding       2025-08-14  1605  	}
-dbd8040a6d0dedc Damon Ding       2025-08-14  1606  
-152cce0006abf7e Marek Szyprowski 2020-03-10  1607  	return 0;
-3424e3a4f844c0a Yakir Yang       2016-03-29  1608  
-2d192f4a3acc1c6 Lucas Stach      2024-06-19  1609  err_unregister_aux:
-2d192f4a3acc1c6 Lucas Stach      2024-06-19  1610  	drm_dp_aux_unregister(&dp->aux);
-f0a8b49c03d22a5 Marek Szyprowski 2016-12-30  1611  
-152cce0006abf7e Marek Szyprowski 2020-03-10  1612  	return ret;
-3424e3a4f844c0a Yakir Yang       2016-03-29  1613  }
+3f345b5617fb37 André Almeida  2025-08-14  83  		cf_len = utf8_casefold(map, &qstr, *dst, NAME_MAX);
+3f345b5617fb37 André Almeida  2025-08-14  84  
+3f345b5617fb37 André Almeida  2025-08-14  85  		if (cf_len > 0)
+3f345b5617fb37 André Almeida  2025-08-14  86  			return cf_len;
+3f345b5617fb37 André Almeida  2025-08-14  87  	}
+3f345b5617fb37 André Almeida  2025-08-14  88  
+3f345b5617fb37 André Almeida  2025-08-14  89  	kfree(*dst);
+3f345b5617fb37 André Almeida  2025-08-14  90  	return 0;
+3f345b5617fb37 André Almeida  2025-08-14  91  }
 
 -- 
 0-DAY CI Kernel Test Service
