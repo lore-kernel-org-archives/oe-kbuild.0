@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FE6173
-	for <oe-kbuild@lists.linux.dev>; Sun, 17 Aug 2025 00:02:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850472F30
+	for <oe-kbuild@lists.linux.dev>; Sun, 17 Aug 2025 00:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755388945; cv=none; b=VS/xyFz+oQ2q30qRnEdp8ToinpYO33KuiatcF2C5ywBr/MmNNEcVW29yT73Rz/IHu8CUlZmQ8WznwkF4Z9AgvvM9Cz3pEcNXoHrUmM+utVfeZVGc630eIMS2+TQqfws4D5sbAOe8jt9CjMDFgX91uHgJrlTwpdqm1xFwjdHMUmU=
+	t=1755389581; cv=none; b=f4iylczIQgbT/iVu82y18Af1FNFKu2c2B4uNJoYghswqHhOpBq+PrEdrRp/QDaDnQXzGmXANyUnBvY0Kpdy3FlGPnWuXmQlKPxejVuJb3Z5XFXDxRA+EWKgl0XqqRfp4QsBxd7iW9byfYhLA+uQvG/pm/oX5CPJ3okb5twysbSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755388945; c=relaxed/simple;
-	bh=wQKmmMcshs19CieixHRNi/sVf7J0LsQdkf+EQf0f+hs=;
+	s=arc-20240116; t=1755389581; c=relaxed/simple;
+	bh=c1BflRP2kesPu9euT1QEXXx6MGE4kAsf7hlrzR+BnUI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RvJqLw8E3WzH0rv0XUS+GOEoY4bMELsSCTmsyAYhrA/SXwspg7ZxwvPfS5G2ghU/Kl+SinsEzTJgbS4Ghg5K9NLXWy9u6zczYuMQiPm7QIZN1pOtCWB7TF51Ie2vf7Q+eSWXMUfw1whfBSxP7EuQhgCgcqbqFH2zzIkYw4coY7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=doa6Mh5O; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=W9r03e2yUDSX6tgw50KIYbWPaxyoh3yHE/G6Tq4kBH/4jjQ1xGkBC8hJTZwLjObGJVXykYy8Gg9rCQnPau+ZM2fhrPdrwJgMJIfV/RlddROfioJNVjDGhgUHbxsaJX67msjD9HpXY0lBs+0XJCi/cMQE6UYuvKLk6Qt2Hg2b8sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A6PZOx55; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="doa6Mh5O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6PZOx55"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755388943; x=1786924943;
+  t=1755389579; x=1786925579;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wQKmmMcshs19CieixHRNi/sVf7J0LsQdkf+EQf0f+hs=;
-  b=doa6Mh5OKfECh9zJPuNJ3say3qGiVudF6nyEMbyeYHOU5sGJaDwhaRlY
-   6+r/8MCWAk7ATX+nCNKa4lYBpXmcXum9oGlYwtibv+/4yab6cgMTf4Ynk
-   r8Xwccysr+yRp+f6m9LL20ojdB8nd2wWdOQYnGKSDaol/ZrCdzJyO0R57
-   XrYVGQaNZKyJEST1Sk8P++PbOw4dZW6bmVV5ldFOywdwNvw2szHxMcJIZ
-   QwyXfelR3KZE5z5QhYUsIcIeIor/urW+pIhwySAcTQLZ91exe92llQcQq
-   PvGPz9JpLNxGLQ8CG3j7CKm1McTaxeQMGn0atxFphBLZfiOiMn9qXWalj
-   g==;
-X-CSE-ConnectionGUID: k7ZuFscGTXWCXZf/tNnIlw==
-X-CSE-MsgGUID: dT+66s3eTi+qIPQeUBFvzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="57807078"
+  bh=c1BflRP2kesPu9euT1QEXXx6MGE4kAsf7hlrzR+BnUI=;
+  b=A6PZOx55H3L4UpvVamRxmNQrtbxgBoIDe5H7x4jQJUUGUEmR5oJePG2b
+   dgLWcfIxZg++Hs8h35fXCU2NXwuWKvsZujIOiBvewt8e5XAbXuEDYnlBw
+   96Q1At7tLFfIj1Rh6TNa50GJa5wOjApADa1lFx/Cbdzny0whBIH3cotwO
+   jeE87+dliI8NHtPJ8L95sx97XEGT3jQiCp4oXBdASRzjuo/snOzqgMKjG
+   plbvViW6T2Ba/SPy1awrwBU7oXI5DQEKhIN2c2+BrLXJ/JzsWkGBxFXR3
+   x/DkgMvf52zSScV+5lao+PP55sDHWeXt3Dz93eI4ecK2XV9E1Co1IElVq
+   A==;
+X-CSE-ConnectionGUID: OxgDuqCAR8yZFp9U9oXruQ==
+X-CSE-MsgGUID: bMBE6pdVTjmDHtMs42Z2Ig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="57765761"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57807078"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 17:02:23 -0700
-X-CSE-ConnectionGUID: 2+u8Z60GTVSit2hI3QNj4w==
-X-CSE-MsgGUID: C2tnH1pESXiHHwbz0WzrHQ==
+   d="scan'208";a="57765761"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 17:12:59 -0700
+X-CSE-ConnectionGUID: HR66c2uqSHGJjV1WiGOkfA==
+X-CSE-MsgGUID: d0NT2d7WSOiITHWX1BBPFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="167660941"
+   d="scan'208";a="198283394"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Aug 2025 17:02:21 -0700
+  by orviesa002.jf.intel.com with ESMTP; 16 Aug 2025 17:12:58 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1unQqf-000DGh-0T;
-	Sun, 17 Aug 2025 00:02:12 +0000
-Date: Sun, 17 Aug 2025 08:01:29 +0800
+	id 1unR15-000DH1-1v;
+	Sun, 17 Aug 2025 00:12:55 +0000
+Date: Sun, 17 Aug 2025 08:12:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/powerpc/boot/decompress.c:132:8: error: call to undeclared
- function '__decompress'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202508170746.HXl5nSAm-lkp@intel.com>
+Subject: Re: [PATCH 1/3] riscv: dts: thead: th1520: add coefficients to the
+ PVT node
+Message-ID: <202508170730.VFr1mLlG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,86 +63,64 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "low confidence static check first_new_problem: arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: pvt@fffff4e000 (moortec,mr75203): moortec,ts-coeff-g: 42740 is not a multiple of 100"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250816093209.2600355-2-uwu@icenowy.me>
+References: <20250816093209.2600355-2-uwu@icenowy.me>
+TO: Icenowy Zheng <uwu@icenowy.me>
+TO: Drew Fustini <fustini@kernel.org>
+TO: Guo Ren <guoren@kernel.org>
+TO: Fu Wei <wefu@redhat.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: Han Gao <rabenda.cn@gmail.com>
+CC: Yao Zi <ziyao@disroot.org>
+CC: linux-riscv@lists.infradead.org
+CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Nathan Chancellor <nathan@kernel.org>
+CC: Icenowy Zheng <uwu@icenowy.me>
 
-Hi Nathan,
+Hi Icenowy,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   90d970cade8e67e20b09bbfdc2f0b52064322921
-commit: 84ffc79bfbf70c779e60218563f2f3ad45288671 kbuild: Add '-fno-builtin-wcslen'
-date:   4 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 4 months ago
-config: powerpc64-randconfig-001-20250817 (https://download.01.org/0day-ci/archive/20250817/202508170746.HXl5nSAm-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250817/202508170746.HXl5nSAm-lkp@intel.com/reproduce)
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.17-rc1 next-20250815]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Icenowy-Zheng/riscv-dts-thead-th1520-add-coefficients-to-the-PVT-node/20250816-173608
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250816093209.2600355-2-uwu%40icenowy.me
+patch subject: [PATCH 1/3] riscv: dts: thead: th1520: add coefficients to the PVT node
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: riscv-randconfig-052-20250817 (https://download.01.org/0day-ci/archive/20250817/202508170730.VFr1mLlG-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250817/202508170730.VFr1mLlG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508170746.HXl5nSAm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508170730.VFr1mLlG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> arch/powerpc/boot/decompress.c:132:8: error: call to undeclared function '__decompress'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     132 |         ret = __decompress(inbuf, input_size, NULL, flush, outbuf,
-         |               ^
-   1 error generated.
-
-
-vim +/__decompress +132 arch/powerpc/boot/decompress.c
-
-1b7898ee276b39 Oliver O'Halloran 2016-09-22   97  
-1b7898ee276b39 Oliver O'Halloran 2016-09-22   98  /**
-1b7898ee276b39 Oliver O'Halloran 2016-09-22   99   * partial_decompress - decompresses part or all of a compressed buffer
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  100   * @inbuf:       input buffer
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  101   * @input_size:  length of the input buffer
-930a77c3ad79c3 Zhang Jianhua     2021-05-10  102   * @outbuf:      output buffer
-930a77c3ad79c3 Zhang Jianhua     2021-05-10  103   * @output_size: length of the output buffer
-6efc2f1a64ef62 Yang Li           2024-04-08  104   * @_skip:       number of output bytes to ignore
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  105   *
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  106   * This function takes compressed data from inbuf, decompresses and write it to
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  107   * outbuf. Once output_size bytes are written to the output buffer, or the
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  108   * stream is exhausted the function will return the number of bytes that were
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  109   * decompressed. Otherwise it will return whatever error code the decompressor
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  110   * reported (NB: This is specific to each decompressor type).
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  111   *
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  112   * The skip functionality is mainly there so the program and discover
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  113   * the size of the compressed image so that it can ask firmware (if present)
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  114   * for an appropriately sized buffer.
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  115   */
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  116  long partial_decompress(void *inbuf, unsigned long input_size,
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  117  	void *outbuf, unsigned long output_size, unsigned long _skip)
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  118  {
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  119  	int ret;
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  120  
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  121  	/*
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  122  	 * The skipped bytes needs to be included in the size of data we want
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  123  	 * to decompress.
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  124  	 */
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  125  	output_size += _skip;
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  126  
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  127  	decompressed_bytes = 0;
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  128  	output_buffer = outbuf;
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  129  	limit = output_size;
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  130  	skip = _skip;
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  131  
-1b7898ee276b39 Oliver O'Halloran 2016-09-22 @132  	ret = __decompress(inbuf, input_size, NULL, flush, outbuf,
-
-:::::: The code at line 132 was first introduced by commit
-:::::: 1b7898ee276b39e54d870dc4ef3374f663d0b426 powerpc/boot: Use the pre-boot decompression API
-
-:::::: TO: Oliver O'Halloran <oohall@gmail.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: pvt@fffff4e000 (moortec,mr75203): moortec,ts-coeff-g: 42740 is not a multiple of 100
+   	from schema $id: http://devicetree.org/schemas/hwmon/moortec,mr75203.yaml#
+>> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: pvt@fffff4e000 (moortec,mr75203): moortec,ts-coeff-j: -160 is not a multiple of 100
+   	from schema $id: http://devicetree.org/schemas/hwmon/moortec,mr75203.yaml#
+--
+>> arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: pvt@fffff4e000 (moortec,mr75203): moortec,ts-coeff-g: 42740 is not a multiple of 100
+   	from schema $id: http://devicetree.org/schemas/hwmon/moortec,mr75203.yaml#
+>> arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: pvt@fffff4e000 (moortec,mr75203): moortec,ts-coeff-j: -160 is not a multiple of 100
+   	from schema $id: http://devicetree.org/schemas/hwmon/moortec,mr75203.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
