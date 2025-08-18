@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D050E26AE4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F235E166F1A
 	for <oe-kbuild@lists.linux.dev>; Mon, 18 Aug 2025 00:36:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755477393; cv=none; b=Q2o6RLrxlGLbXU0QLuuC3cvskC/isgw6B/oBRcgDildPm/g0cBnxwYtSHk1pTZjadKxJiFUDObdKXuZXFujS6hQXHFqNbBnq8E+8qefdrJmHT3ABf8wH9fZgQCXWIminiFqt4ZM6MV1Ybvz2TAMrO4Gc+KkV+KDg9DaDU7g2hho=
+	t=1755477394; cv=none; b=CkiMz2QurkcyX2q878gkmX4sQQGxkbsCR5Sy4MXg2yp1LnJiwgALM88LS2tiLBii+yh3uU6YLt7V1NPN0VCAt9gAzhUUahXezWpavUTkBvtZCZhCVmGoNx+05yhcUQ9SVLx/Gl1Ri6TYts9BP7Y/W+/lrjMGd8b2QnTdPoS7/rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755477393; c=relaxed/simple;
-	bh=BMETpxBssu/dPOhJyuwb/m3Ty/oZkasLsCHbZi0qv6I=;
+	s=arc-20240116; t=1755477394; c=relaxed/simple;
+	bh=I/yhLMZnoUzmJOK6Xk5rNX97/M5daFfDcKCTqmtLQEA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lvydzSfOLCszKoy1BMe8dd6TLgjk51QXM9emvUdR9kYdF6HEHlaKskKyoCi29etbyAnIDby541aqaUSHeKd63coPbVc6NirQcHysLMpaxTxUHtX1GV0tG74fmd7EEGQZE2f3x2k1wuuz1l4WbtHJCnpRdGWHG1FCMCkZoCbb7bI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RG+XOGaS; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=pl8Ccjd/BphF8pqnYxXMHhPSdKoMenejf6sG26anbTOm2U0Z5Bk6CIGakVbklh2YzaOHjREiKRqHGR3oG5vfE72ltjAD4/cAND12EDQ/ZQZeVXCrBH+DlpeJuvshIPvuF2Geu92GbqsXPtCQfZ08xej1ojaaKA3Lmax/sqEXUcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OxgQNqHh; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RG+XOGaS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OxgQNqHh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1755477392; x=1787013392;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BMETpxBssu/dPOhJyuwb/m3Ty/oZkasLsCHbZi0qv6I=;
-  b=RG+XOGaSDZx0NOpILyI9qSC5tVL1bj8yKZ8Au1S0uVNeXJxDYeC6H8Ix
-   LL2jWtufye1METiwwY2k+aDZaniL2GCHKQ6dMp3IkMOcbFMp3xnyUvLZO
-   koT7BE+SXltrZK817pF5I+JWo3LS2ZSA4PXw6NF4vKZtT/V6EBtifB++1
-   Vq3RbLTZtbZNJx6rdMfa66bmdCC06WFkR256VetfuUpOBZmKKH9W0PWx+
-   XZtqrvaxMQqgJqnOyx8inO8CNN4jV/c3pjL0HBssT1eWrKMuu3galLkpK
-   nClubNnXwkJbe91rVK77yWnLkqjc2gglI5m47I2B6MpEw/0op47VAKdML
+  bh=I/yhLMZnoUzmJOK6Xk5rNX97/M5daFfDcKCTqmtLQEA=;
+  b=OxgQNqHh7pUX42DhMqe3EZw66ODQFBygTSLzY41NvBsFg1RK1WMhyrMy
+   xzyJp/spPOKVHA8EUqmsQdifiTl9AkEnPniwBGflPgGW4GwjE0no0KK7x
+   wXLWYTAXbbr1eiYpkBbh0AqZ9fVj6gWXSpJq+MwrxCA3jRIuqTgsIXSd2
+   dRAAD3bwdUJv3FYwcyK2PLpByOZccDptAFXM4MqPy/xeuf9DiAkz8jTwj
+   +rZhieYurmrlquqqLjT2mes7lebWvqQzVyKnPFBVy16mSN8nJPrxnFcjF
+   +R2ryOjhf3Gj0suURQTvOZFmUAZtbLkUWKsY6/om7cpMZou9CD/dMmWt7
    w==;
-X-CSE-ConnectionGUID: 8Wgo1Yb9T8+hoF+QDRGzLQ==
-X-CSE-MsgGUID: fud/8cn+QjiIEc4E78qkMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="75148701"
+X-CSE-ConnectionGUID: 6HKJ+HyxTyykeOXo7eYuLw==
+X-CSE-MsgGUID: saxa8iFvSzWRep4iPaLSgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="69148815"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="75148701"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2025 17:36:32 -0700
-X-CSE-ConnectionGUID: HuLHAKnKRsq2l/nLWMcHnQ==
-X-CSE-MsgGUID: lw3XamFESpGtD/KSNH10JQ==
+   d="scan'208";a="69148815"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2025 17:36:31 -0700
+X-CSE-ConnectionGUID: Ymp1DKThTdykgmKtv4LG3w==
+X-CSE-MsgGUID: PZI16g0LSGumrQc9OQ5uvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="171689313"
+   d="scan'208";a="167833754"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 17 Aug 2025 17:36:31 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 17 Aug 2025 17:36:30 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1unnrQ-000Dnt-0S;
+	id 1unnrQ-000Dnr-0I;
 	Mon, 18 Aug 2025 00:36:28 +0000
-Date: Mon, 18 Aug 2025 08:35:39 +0800
+Date: Mon, 18 Aug 2025 08:35:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tty:tty-testing 8/24] drivers/tty/serial/qcom_geni_serial.c:274
- get_port_from_line() error: Calling ida_alloc_range() with a 'max' argument
- which is a power of 2. -1 missing?
-Message-ID: <202508180815.R2nDyajs-lkp@intel.com>
+Subject: Re: [PATCH v1 bpf-next 08/11] bpf, x86: add support for indirect
+ jumps
+Message-ID: <202508180805.aUCPtTuQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,72 +64,78 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-serial@vger.kernel.org
-TO: Zong Jiang <quic_zongjian@quicinc.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+In-Reply-To: <20250816180631.952085-9-a.s.protopopov@gmail.com>
+References: <20250816180631.952085-9-a.s.protopopov@gmail.com>
+TO: Anton Protopopov <a.s.protopopov@gmail.com>
+TO: bpf@vger.kernel.org
+TO: Alexei Starovoitov <ast@kernel.org>
+TO: Andrii Nakryiko <andrii@kernel.org>
+TO: Anton Protopopov <aspsk@isovalent.com>
+TO: Daniel Borkmann <daniel@iogearbox.net>
+TO: Eduard Zingerman <eddyz87@gmail.com>
+TO: Quentin Monnet <qmo@kernel.org>
+TO: Yonghong Song <yonghong.song@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-head:   7cd9f5d6c5a3f31d2b282d31ddc4d78ff83a5c08
-commit: 9391ab1ed9b3fe0d1af7d7858d9bf42f476628c8 [8/24] serial: qcom-geni: Make UART port count configurable via Kconfig
-:::::: branch date: 14 hours ago
-:::::: commit date: 4 days ago
-config: parisc-randconfig-r072-20250818 (https://download.01.org/0day-ci/archive/20250818/202508180815.R2nDyajs-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
+Hi Anton,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anton-Protopopov/bpf-fix-the-return-value-of-push_stack/20250817-020411
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250816180631.952085-9-a.s.protopopov%40gmail.com
+patch subject: [PATCH v1 bpf-next 08/11] bpf, x86: add support for indirect jumps
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
+config: x86_64-randconfig-161-20250818 (https://download.01.org/0day-ci/archive/20250818/202508180805.aUCPtTuQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508180815.R2nDyajs-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508180805.aUCPtTuQ-lkp@intel.com/
 
-New smatch warnings:
-drivers/tty/serial/qcom_geni_serial.c:274 get_port_from_line() error: Calling ida_alloc_range() with a 'max' argument which is a power of 2. -1 missing?
+smatch warnings:
+kernel/bpf/verifier.c:17800 push_goto_x_edge() error: uninitialized symbol 'w'.
+kernel/bpf/verifier.c:25013 compute_scc() warn: unsigned 'succ_cnt' is never less than zero.
 
-Old smatch warnings:
-drivers/tty/serial/qcom_geni_serial.c:1931 qcom_geni_serial_probe() warn: missing unwind goto?
+vim +/w +17800 kernel/bpf/verifier.c
 
-vim +/max +274 drivers/tty/serial/qcom_geni_serial.c
-
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  259  
-c3e7966c60745f Zong Jiang                  2025-08-12  260  static struct qcom_geni_serial_port *get_port_from_line(int line, bool console, struct device *dev)
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  261  {
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  262  	struct qcom_geni_serial_port *port;
-9391ab1ed9b3fe Zong Jiang                  2025-08-12  263  	int nr_ports = console ? GENI_UART_CONS_PORTS : CONFIG_SERIAL_QCOM_GENI_UART_PORTS;
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  264  
-a53be6945f5123 Viken Dadhaniya             2025-03-27  265  	if (console) {
-a53be6945f5123 Viken Dadhaniya             2025-03-27  266  		if (line < 0 || line >= nr_ports)
-a53be6945f5123 Viken Dadhaniya             2025-03-27  267  			return ERR_PTR(-ENXIO);
-a53be6945f5123 Viken Dadhaniya             2025-03-27  268  
-a53be6945f5123 Viken Dadhaniya             2025-03-27  269  		port = &qcom_geni_console_port;
-a53be6945f5123 Viken Dadhaniya             2025-03-27  270  	} else {
-a53be6945f5123 Viken Dadhaniya             2025-03-27  271  		int max_alias_num = of_alias_get_highest_id("serial");
-a53be6945f5123 Viken Dadhaniya             2025-03-27  272  
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  273  		if (line < 0 || line >= nr_ports)
-a53be6945f5123 Viken Dadhaniya             2025-03-27 @274  			line = ida_alloc_range(&port_ida, max_alias_num + 1, nr_ports, GFP_KERNEL);
-a53be6945f5123 Viken Dadhaniya             2025-03-27  275  		else
-a53be6945f5123 Viken Dadhaniya             2025-03-27  276  			line = ida_alloc_range(&port_ida, line, nr_ports, GFP_KERNEL);
-a53be6945f5123 Viken Dadhaniya             2025-03-27  277  
-a53be6945f5123 Viken Dadhaniya             2025-03-27  278  		if (line < 0)
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  279  			return ERR_PTR(-ENXIO);
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  280  
-c3e7966c60745f Zong Jiang                  2025-08-12  281  		port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
-c3e7966c60745f Zong Jiang                  2025-08-12  282  		if (!port)
-c3e7966c60745f Zong Jiang                  2025-08-12  283  			return ERR_PTR(-ENOMEM);
-c3e7966c60745f Zong Jiang                  2025-08-12  284  
-c3e7966c60745f Zong Jiang                  2025-08-12  285  		port->uport.iotype = UPIO_MEM;
-c3e7966c60745f Zong Jiang                  2025-08-12  286  		port->uport.ops = &qcom_geni_uart_pops;
-c3e7966c60745f Zong Jiang                  2025-08-12  287  		port->uport.flags = UPF_BOOT_AUTOCONF;
-c3e7966c60745f Zong Jiang                  2025-08-12  288  		port->uport.line = line;
-a53be6945f5123 Viken Dadhaniya             2025-03-27  289  	}
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  290  	return port;
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  291  }
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  292  
-
-:::::: The code at line 274 was first introduced by commit
-:::::: a53be6945f5123c19d6fcc30783876705a2e0f00 serial: qcom-geni: Remove alias dependency from qcom serial driver
-
-:::::: TO: Viken Dadhaniya <quic_vdadhani@quicinc.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+a34675076b990b Anton Protopopov 2025-08-16  17775  
+a34675076b990b Anton Protopopov 2025-08-16  17776  static int push_goto_x_edge(int t, struct bpf_verifier_env *env, struct jt *jt)
+a34675076b990b Anton Protopopov 2025-08-16  17777  {
+a34675076b990b Anton Protopopov 2025-08-16  17778  	int *insn_stack = env->cfg.insn_stack;
+a34675076b990b Anton Protopopov 2025-08-16  17779  	int *insn_state = env->cfg.insn_state;
+a34675076b990b Anton Protopopov 2025-08-16  17780  	u16 prev;
+a34675076b990b Anton Protopopov 2025-08-16  17781  	int w;
+a34675076b990b Anton Protopopov 2025-08-16  17782  
+a34675076b990b Anton Protopopov 2025-08-16  17783  	for (prev = GET_HIGH(insn_state[t]); prev < jt->off_cnt; prev++) {
+a34675076b990b Anton Protopopov 2025-08-16  17784  		w = jt->off[prev];
+a34675076b990b Anton Protopopov 2025-08-16  17785  
+a34675076b990b Anton Protopopov 2025-08-16  17786  		/* EXPLORED || DISCOVERED */
+a34675076b990b Anton Protopopov 2025-08-16  17787  		if (insn_state[w])
+a34675076b990b Anton Protopopov 2025-08-16  17788  			continue;
+a34675076b990b Anton Protopopov 2025-08-16  17789  
+a34675076b990b Anton Protopopov 2025-08-16  17790  		break;
+a34675076b990b Anton Protopopov 2025-08-16  17791  	}
+a34675076b990b Anton Protopopov 2025-08-16  17792  
+a34675076b990b Anton Protopopov 2025-08-16  17793  	if (prev == jt->off_cnt)
+a34675076b990b Anton Protopopov 2025-08-16  17794  		return DONE_EXPLORING;
+a34675076b990b Anton Protopopov 2025-08-16  17795  
+a34675076b990b Anton Protopopov 2025-08-16  17796  	mark_prune_point(env, t);
+a34675076b990b Anton Protopopov 2025-08-16  17797  
+a34675076b990b Anton Protopopov 2025-08-16  17798  	if (env->cfg.cur_stack >= env->prog->len)
+a34675076b990b Anton Protopopov 2025-08-16  17799  		return -E2BIG;
+a34675076b990b Anton Protopopov 2025-08-16 @17800  	insn_stack[env->cfg.cur_stack++] = w;
+a34675076b990b Anton Protopopov 2025-08-16  17801  
+a34675076b990b Anton Protopopov 2025-08-16  17802  	mark_jmp_point(env, w);
+a34675076b990b Anton Protopopov 2025-08-16  17803  
+a34675076b990b Anton Protopopov 2025-08-16  17804  	SET_HIGH(insn_state[t], prev + 1);
+a34675076b990b Anton Protopopov 2025-08-16  17805  	return KEEP_EXPLORING;
+a34675076b990b Anton Protopopov 2025-08-16  17806  }
+a34675076b990b Anton Protopopov 2025-08-16  17807  
 
 -- 
 0-DAY CI Kernel Test Service
