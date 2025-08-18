@@ -1,163 +1,98 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43992FF66A
-	for <oe-kbuild@lists.linux.dev>; Mon, 18 Aug 2025 08:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C8231CA4B;
+	Mon, 18 Aug 2025 11:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755505363; cv=none; b=iMbUucmEjRpbrJdKbOI/PvdVzSk5Hz9xYSVN2C+FK2G7s2cihqheAX08HO9P0j+5BHFGvsYB1+kwBWTMlCzIaepvByD53uIthcY+FX5uPGnYuXlbAM+RXgYN2qHEFS9WuUuyZHj678MkHxT0denSRBbZEPgt041LXuyy+UUTFhg=
+	t=1755518236; cv=none; b=Ybjhb1KjN8Ydy0pEYlRCVltq/z6lRQMQyuc3up2212fzXHg/JXR+9+UvuMt8drxuf5/7w6TiJ0JE1w6pdR1/Gx8RN7oT0+6gRoOTCJlZHD+9GOMNQJ7yj1r9vV4ceAGa9iMoTIodp800H4aR2k+0odFAqC2NRJgM5YIuzNORWl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755505363; c=relaxed/simple;
-	bh=HHKSAd/Mjx/o01GkdkMFhWBqYzjpMHK11Lxy/trHy2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=LT1jbBUPZoZmausPbzm5LWyMCkNHzrnJmcUy7D6x3KRDLrD4Gwl7gDme5ESOCDuehX+uBfoml0hbFOrqwYT0wUFvkzYYMsPlAj/PZFlaHbVQWWqobcwIgLIltjCkT2cIz6H6XC1ufmwiLzP3Dw5Sr7rSFMc2W+LoN7gHheca9nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Xabs3th9; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755518236; c=relaxed/simple;
+	bh=8pMZ1oin/+iriF81SYdkJnetu+qsH8RFR3qjscMpduk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=VyZWi/GxRIDQ6GZhgIcnHumbJ7qGwOcUa+yNzZVWeei1d4ywc5y8yx33ZTplj/dxybeBqwl2b7yK7Y4gAAoLZZf5XxGCDdSpCUy9Rm/bzP4c7CA8OkDpMprk0ZBmgw8ad4a1Ubfr60IZzknasr/Q1QtRRbxnQl0ZqMms06HK4Yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fl9uCVGS; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Xabs3th9"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45a1ac7c066so21040235e9.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 18 Aug 2025 01:22:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755505359; x=1756110159; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DfM3OUic4SP+kzMyP8kHHqITaKkedG37VBt2aK4wKj0=;
-        b=Xabs3th912Zh4GrEtOPFKm04s1EYP91Z4ULMTZG2+146xvk4r8knf6fyFNZIIQcL6f
-         qvTA78h0KL7iHy5OLGzAqSHXYzgunGXFT2CUj8yOC2xuIlAX+GNAsFf4+iNpeFOrqQ04
-         ylNm2AbFopwu7MOC1TSFsz1klMFNImuy15bxasHBnN3+nER4it4VQQckRknf/V+xznAJ
-         4IGqNDgMr/G5sItERLWt+oD59A3LcoIVgFAGqvzRNNpTEOFvUSeBAhzaXm5lrDp2Be16
-         KKw1iZ/5l6sIiZ762RvzSrg9EtLiGBOiPykFdzjTCb2at3WG6UgN5ZKnyU8hiRlBtWnO
-         ZUhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755505359; x=1756110159;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DfM3OUic4SP+kzMyP8kHHqITaKkedG37VBt2aK4wKj0=;
-        b=JT9kFls9A0zMKp9zeO2k5mkcIgCapxBx/L63CbEduX7Olz5hYUWZoM7FmGr26wpNv0
-         NCBg97PQrBDbRLlYFWPJ4/+Ga9D6acHkQij96msukyl1+L3V1VcVYZZxXkpwfzLaxcVo
-         a5HEBUlV8ZKiNkUgilobwPDmuVi7PIROWacmzirFz95cxcMur3MRzt5OW7RvXUIFbwuL
-         RqGdwn3uuIBHRzHYgoGIQMMIVyzy74ZN7ROCPLY3WmrKAO30KJwqBv07TiDNlwkLpLuK
-         glz9HEAbypFW1cC6iR5/DENUNUhCadPxlfWoW5vchLsAyufi4K3pBUx7v906K6y+8SSr
-         WMFQ==
-X-Gm-Message-State: AOJu0YxISLJkUWDEx+9p6ZXqagbEyZ+E4056YYYlyokAZV79TqBPhKue
-	982hTbF/2YT4CYurnzX88LMvdDcz1xUnX10X8ejTyypyj/Mw7yvUtlNpLBPlaK7SKR5uKRJuUDj
-	9nhSv
-X-Gm-Gg: ASbGnctqIxkfR1xNvcnVxK4UYUHmrOCbqHRXWIWrQgNxUsIae6gmFwgloYylTONu6Sf
-	kxgD09AbRS1R7196OnXLdb+lXBdsd8ewMybJsAlXTXdJ0mfZRNhxU+NC4hLg0ybmiAFz727JiZZ
-	WuH8neBd8BFC2neDMqRzrghXvebGH/hRW0YsaKQSeC2ahM001cQuwscTW8rxdLXAKh8iGq/AuB1
-	w8/5ljMPyqJMRZnLFzo6vsJpuWgjYVdjzrruXF6edcLoHnSji04Priba2ngdAc0a/dBQEl3L5U0
-	/l3puI0uu3XLdJG5d4W0cUskMBpif3BZCmk7Ms30jt68WqJg+UqoaFO3Xu1eeug9SHRYdlBABx+
-	RNXTxRCsAavlDs5XXt5hDy/gKQkYBkDgyDPZm/moS0cw=
-X-Google-Smtp-Source: AGHT+IGwnL7IszKslS4RMmOckl7pctBDP8Ycuqwcw2vG42+4+Q5iaY+TBsZa0MdI4VtsEKOZ6UKuug==
-X-Received: by 2002:a05:600c:35d3:b0:458:bf15:689c with SMTP id 5b1f17b1804b1-45a1b65c6c6mr115855795e9.2.1755505358701;
-        Mon, 18 Aug 2025 01:22:38 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a22210ab4sm122737435e9.3.2025.08.18.01.22.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 01:22:38 -0700 (PDT)
-Date: Mon, 18 Aug 2025 11:22:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>,
-	linux-rockchip@lists.infradead.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, broonie@kernel.org, lee@kernel.org,
-	lgirdwood@gmail.com, sre@kernel.org, heiko@sntech.de,
-	conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCH V6 3/5] power: supply: bq257xx: Add support for BQ257XX
- charger
-Message-ID: <202508181503.GrRD2T4C-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fl9uCVGS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755518234; x=1787054234;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=8pMZ1oin/+iriF81SYdkJnetu+qsH8RFR3qjscMpduk=;
+  b=fl9uCVGSnNpnV1XGOkFhNVxOa/cM30S9xGCOyPxCr8paiJkvwKygTIy0
+   w6beirhUHf3yKem6l0dw8IegtLEIkcuwKC7YrFC4c6walv8Q+vXhfwy10
+   x9PBgUCDSnxsmHuIrU7bsWW1tEL63v73MqJdy5oDJXozE6HkTDuLCh514
+   80QddStRnT4EmZ4QQi/OdzCvdCBrGsSt0ve+J4zQmZw5AsZn0OyTFF627
+   BkXAlTvNoRy3AVxKuwQedzt6VTU8hrmLMlHWuVWemHBXlfGthV5pOuw4I
+   nSUnZRTkg2yoDTGK/ukZI53q1n45aoYS0+iPz+o6nluXLZl2xNhDR3AWZ
+   A==;
+X-CSE-ConnectionGUID: p+80khTqSuyqATREWgew6g==
+X-CSE-MsgGUID: jKsy/yB3QVuZJPNmy6svSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="56944385"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="56944385"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 04:57:14 -0700
+X-CSE-ConnectionGUID: rmQtwpg2Qdi+yYh7dPd8Yw==
+X-CSE-MsgGUID: lP+4IwzmROGVAPRVXZdMIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="168368236"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.246.188])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 04:57:11 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Gustavo Sousa <gustavo.sousa@intel.com>
+Subject: Re: [drm-i915:for-linux-next 11/18]
+ drivers/gpu/drm/i915/i915_switcheroo.c:21 i915_switcheroo_set_state()
+ warn: variable dereferenced before check 'i915' (see line 18)
+In-Reply-To: <aKLfKK7DpMxMBFrG@stanley.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <202508160035.hmzuKiww-lkp@intel.com>
+ <6be63b523eafadf77d38d8319a011951c283bf9e@intel.com>
+ <aKLfKK7DpMxMBFrG@stanley.mountain>
+Date: Mon, 18 Aug 2025 14:57:08 +0300
+Message-ID: <59b73356c4c6eb8f001337821ced3a7704044983@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250812214300.123129-4-macroalpha82@gmail.com>
-Message-ID: <20250818082235.NjtROfag3rgnQppySiZSCVc14muHzozxPazbAEZDrB8@z>
+Content-Type: text/plain
 
-Hi Chris,
+On Mon, 18 Aug 2025, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> On Mon, Aug 18, 2025 at 10:18:14AM +0300, Jani Nikula wrote:
+>> On Fri, 15 Aug 2025, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+>> > tree:   https://gitlab.freedesktop.org/drm/i915/kernel for-linux-next
+>> > head:   63e0b17ae79a4365e874d7e2ff3816db2e6d55b5
+>> > commit: d2e184f8e16ab85876ddcc0779358fbfe5162414 [11/18] drm/i915/switcheroo: pass display to HAS_DISPLAY()
+>> > config: i386-randconfig-141-20250815 (https://download.01.org/0day-ci/archive/20250816/202508160035.hmzuKiww-lkp@intel.com/config)
+>> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+>> >
+>> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> > the same patch/commit), kindly add following tags
+>> > | Reported-by: kernel test robot <lkp@intel.com>
+>> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>> > | Closes: https://lore.kernel.org/r/202508160035.hmzuKiww-lkp@intel.com/
+>> 
+>> Side note, this triplet of tags leads to checkpatch warning:
+>> 
+>> WARNING:BAD_REPORTED_BY_LINK: Reported-by: should be immediately
+>> followed by Closes: with a URL to the report
+>> 
+>
+> It's hard to know what to do about that...  There is only one link but
+> both zero day and I rely on Reported-by tags to justify our saleries..
 
-kernel test robot noticed the following build warnings:
+Make checkpatch allow multiple reported by for one mail? *shrug*
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Morgan/dt-bindings-mfd-ti-bq25703a-Add-TI-BQ25703A-Charger/20250813-054704
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20250812214300.123129-4-macroalpha82%40gmail.com
-patch subject: [PATCH V6 3/5] power: supply: bq257xx: Add support for BQ257XX charger
-config: parisc-randconfig-r072-20250818 (https://download.01.org/0day-ci/archive/20250818/202508181503.GrRD2T4C-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508181503.GrRD2T4C-lkp@intel.com/
-
-smatch warnings:
-drivers/power/supply/bq257xx_charger.c:392 bq25703_hw_init() warn: potential ! vs ~ typo
-
-vim +392 drivers/power/supply/bq257xx_charger.c
-
-7f3b6f1e51a925 Chris Morgan 2025-08-12  365  static int bq25703_hw_init(struct bq257xx_chg *pdata)
-7f3b6f1e51a925 Chris Morgan 2025-08-12  366  {
-7f3b6f1e51a925 Chris Morgan 2025-08-12  367  	struct regmap *regmap = pdata->bq->regmap;
-7f3b6f1e51a925 Chris Morgan 2025-08-12  368  	int ret = 0;
-7f3b6f1e51a925 Chris Morgan 2025-08-12  369  
-7f3b6f1e51a925 Chris Morgan 2025-08-12  370  	regmap_update_bits(regmap, BQ25703_CHARGE_OPTION_0,
-7f3b6f1e51a925 Chris Morgan 2025-08-12  371  			   BQ25703_WDTMR_ADJ_MASK,
-7f3b6f1e51a925 Chris Morgan 2025-08-12  372  			   FIELD_PREP(BQ25703_WDTMR_ADJ_MASK,
-7f3b6f1e51a925 Chris Morgan 2025-08-12  373  			   BQ25703_WDTMR_DISABLE));
-7f3b6f1e51a925 Chris Morgan 2025-08-12  374  
-7f3b6f1e51a925 Chris Morgan 2025-08-12  375  	ret = pdata->chip->bq257xx_set_ichg(pdata, pdata->ichg_max);
-7f3b6f1e51a925 Chris Morgan 2025-08-12  376  	if (ret)
-7f3b6f1e51a925 Chris Morgan 2025-08-12  377  		return ret;
-7f3b6f1e51a925 Chris Morgan 2025-08-12  378  
-7f3b6f1e51a925 Chris Morgan 2025-08-12  379  	ret = pdata->chip->bq257xx_set_vbatreg(pdata, pdata->vbat_max);
-7f3b6f1e51a925 Chris Morgan 2025-08-12  380  	if (ret)
-7f3b6f1e51a925 Chris Morgan 2025-08-12  381  		return ret;
-7f3b6f1e51a925 Chris Morgan 2025-08-12  382  
-7f3b6f1e51a925 Chris Morgan 2025-08-12  383  	ret = bq25703_set_min_vsys(pdata, pdata->vsys_min);
-7f3b6f1e51a925 Chris Morgan 2025-08-12  384  	if (ret)
-7f3b6f1e51a925 Chris Morgan 2025-08-12  385  		return ret;
-7f3b6f1e51a925 Chris Morgan 2025-08-12  386  
-7f3b6f1e51a925 Chris Morgan 2025-08-12  387  	ret = pdata->chip->bq257xx_set_iindpm(pdata, pdata->iindpm_max);
-7f3b6f1e51a925 Chris Morgan 2025-08-12  388  	if (ret)
-7f3b6f1e51a925 Chris Morgan 2025-08-12  389  		return ret;
-7f3b6f1e51a925 Chris Morgan 2025-08-12  390  
-7f3b6f1e51a925 Chris Morgan 2025-08-12  391  	regmap_update_bits(regmap, BQ25703_CHARGE_OPTION_0,
-7f3b6f1e51a925 Chris Morgan 2025-08-12 @392  			   BQ25703_EN_LWPWR, !BQ25703_EN_LWPWR);
-
-Yeah.  This really looks like it should be bitwise negate ~ instead of
-logical negate !.
-
-7f3b6f1e51a925 Chris Morgan 2025-08-12  393  
-7f3b6f1e51a925 Chris Morgan 2025-08-12  394  	regmap_update_bits(regmap, BQ25703_ADC_OPTION,
-7f3b6f1e51a925 Chris Morgan 2025-08-12  395  			   BQ25703_ADC_CONV_EN, BQ25703_ADC_CONV_EN);
-7f3b6f1e51a925 Chris Morgan 2025-08-12  396  
-7f3b6f1e51a925 Chris Morgan 2025-08-12  397  	regmap_update_bits(regmap, BQ25703_ADC_OPTION,
-7f3b6f1e51a925 Chris Morgan 2025-08-12  398  			   BQ25703_ADC_START, BQ25703_ADC_START);
-7f3b6f1e51a925 Chris Morgan 2025-08-12  399  
-7f3b6f1e51a925 Chris Morgan 2025-08-12  400  	regmap_update_bits(regmap, BQ25703_ADC_OPTION,
-7f3b6f1e51a925 Chris Morgan 2025-08-12  401  			   BQ25703_ADC_FULL_SCALE, BQ25703_ADC_FULL_SCALE);
-7f3b6f1e51a925 Chris Morgan 2025-08-12  402  
-7f3b6f1e51a925 Chris Morgan 2025-08-12  403  	regmap_update_bits(regmap, BQ25703_ADC_OPTION,
-7f3b6f1e51a925 Chris Morgan 2025-08-12  404  			   BQ25703_ADC_CH_MASK,
-7f3b6f1e51a925 Chris Morgan 2025-08-12  405  			   (BQ25703_ADC_CMPIN_EN | BQ25703_ADC_VBUS_EN |
-7f3b6f1e51a925 Chris Morgan 2025-08-12  406  			   BQ25703_ADC_PSYS_EN | BQ25703_ADC_IIN_EN |
-7f3b6f1e51a925 Chris Morgan 2025-08-12  407  			   BQ25703_ADC_IDCHG_EN | BQ25703_ADC_ICHG_EN |
-7f3b6f1e51a925 Chris Morgan 2025-08-12  408  			   BQ25703_ADC_VSYS_EN | BQ25703_ADC_VBAT_EN));
-7f3b6f1e51a925 Chris Morgan 2025-08-12  409  
-7f3b6f1e51a925 Chris Morgan 2025-08-12  410  	return ret;
-7f3b6f1e51a925 Chris Morgan 2025-08-12  411  }
+BR,
+Jani.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Jani Nikula, Intel
