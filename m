@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C781A4F3C
-	for <oe-kbuild@lists.linux.dev>; Mon, 18 Aug 2025 21:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0031991B6
+	for <oe-kbuild@lists.linux.dev>; Tue, 19 Aug 2025 00:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755553535; cv=none; b=FjZyt8kZGVmjdD84mYPbuzEj970+mUHuOdHUL5Ez58d8bQxJJ/ByInSyMNoNTJbB3RcWRmxsYUwpnPUa4er9iUqLPeXN/t3MXRySxrPpE7wvpE9bXIN30jmdEXNc41ybPy51mVJ4hbxehpNlVd+kNPMP2x/7ahfX66J2mNyhY3g=
+	t=1755564023; cv=none; b=DzIfmo5Y5OYoCTNP4AaLQ/5jMWZhTlWZHlSf58zthkFX64GlySWUYnoF9gTFb2SKGmy2aCzcOgx8p/CmBrwAjcgsrvBO7mkIEmXmQG1WEz+u7XaHzza+ldqK9zYHuwr4aWW1bvZ//AxR7sE/cx43ODudl5qfvSG8lOAgZ2TAjDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755553535; c=relaxed/simple;
-	bh=SwLTeaH1xq2wUJAosDe3rYnwBabV4O2NA4wZlK4RRfU=;
+	s=arc-20240116; t=1755564023; c=relaxed/simple;
+	bh=Ve3OyZUee4aPt7+wnlTSp7/+CxnWRxKuG/9qbTbOwg8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AXTxOJAIMBcmzfyximhbNMpR9pc/JJSdKbExp4ktCmo/AtV/S7ENVzKvwBGU13uWH11PvjNUTqL4y1LkcPVVqSi6vOEc/vNBtUBXAJ8IbXqNKPrKYjbSvtR4ALyu5ig8hTaqEHew2FlBVu6N9LXjhtdIYJxg3PR7bm7vMWNAQD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZPAWed/v; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=b9XbMXhrD2pcivFB3BvOC1YF4+FaN1yX7aMswl9LNmX+Z2V+5B+55zE5av03CE235wIFdUi7zfwzQlr842zicfnSYDRqCB7/e8Aw9fMbJB5KZ2TkzkUFghwxv4QGLb68HIftd7pFU4QLTLQEs/B2X0udh4YflE6hK+brt0vTz3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G/8xm080; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZPAWed/v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G/8xm080"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755553534; x=1787089534;
+  t=1755564021; x=1787100021;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SwLTeaH1xq2wUJAosDe3rYnwBabV4O2NA4wZlK4RRfU=;
-  b=ZPAWed/vaiFoFiKZT80fn67Kt7oEN3iSH5AQFLIG3lT9R/upy5iGUQCA
-   E+0iFrlhnRi8Vt8i9vB7lSUJvM40TDKvK2uIUDrQPwsIWuMj3pGfDKEU0
-   AxPw5dhPxFj8gsjqimYpJqF3s1LuE8pBjC0ID7I+E4L97RfatZBf8Ebhl
-   073Oi5BJV5HhrJfYUJazjaYBAtinoxTSCnJTIoN2j9J4LCrzZpbXuWT08
-   3mH9Om+4P2MPqeHc0L7z1F9LDX/XGiKx0cUgOzoL1CnpXOHv6086vT2yu
-   n0TP9HDIMxw+7JSfYCE40Z3xcu7w5aavwJ104V+Hc5UlEDlF4P88ayW5Z
-   g==;
-X-CSE-ConnectionGUID: xlI18z1VR5+U8/XnvW1/9Q==
-X-CSE-MsgGUID: u5+QCXn5SDqwCVjiJDChYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="80378268"
+  bh=Ve3OyZUee4aPt7+wnlTSp7/+CxnWRxKuG/9qbTbOwg8=;
+  b=G/8xm080l5JlBbOb5z5dIgeLLWtfcNzAZEAu/nNhWZZ52k2MF16vm/8Z
+   CHyuZmvmWdYn5wUTxEkoCY75JN6IEmv/j6OhXe+ZnjtulSZYCDFZJ4qBg
+   A1Mdtfh0mAfECR9O7mZxLbBF0Nheua81G/YpzbOZPEBF8Ec8DqcGTzzh9
+   BugMDMJ4u42o+e6KT2B4uhRdWsavoiqDsehgH+QxRV2+KfDkodItEdTtd
+   9zMoTdJR+H55cdzMpB/ig1VOahXq8PI/rhY/WzxyFc2meJZBxfgHFOq6i
+   B/PTwdkgoBZIPYQuSI77lKrcF+wnqMrvhHepsf3UMuA3LMQrykIFsSzuN
+   Q==;
+X-CSE-ConnectionGUID: YdCFNqeTRFevYouVAkuNIA==
+X-CSE-MsgGUID: v8BbO1fVTiumUNBHnXYg/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="45374367"
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="80378268"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 14:45:32 -0700
-X-CSE-ConnectionGUID: FWmurVXVSxuUlZ6qccfH0g==
-X-CSE-MsgGUID: ZwRwSP3oS/mFRqG8OlK/TA==
+   d="scan'208";a="45374367"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 17:40:20 -0700
+X-CSE-ConnectionGUID: 2QsiC+PLRBazF7TwqDzI1w==
+X-CSE-MsgGUID: R9S7gH1yQbC6LehxcRF8hg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="167300323"
+   d="scan'208";a="167943425"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 18 Aug 2025 14:45:31 -0700
+  by orviesa008.jf.intel.com with ESMTP; 18 Aug 2025 17:40:19 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uo7f7-000GEF-2u;
-	Mon, 18 Aug 2025 21:45:28 +0000
-Date: Tue, 19 Aug 2025 05:43:14 +0800
+	id 1uoAOf-000GLT-1T;
+	Tue, 19 Aug 2025 00:40:17 +0000
+Date: Tue, 19 Aug 2025 08:39:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [geert-renesas-drivers:topic/renesas-overlays-v6.17-rc1 8/164]
- arch/mips/boot/dts/ingenic/gcw0.dtb: / (gcw,zero): memory: False schema does
- not allow {'device_type': ['memory'], 'reg': [[0, 268435456], [805306368,
- 268435456]], 'phandle': 57}
-Message-ID: <202508190533.o2Yw9OJn-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1378
+ kvm_trylock_all_vcpus() warn: iterator 'i' not incremented
+Message-ID: <202508190853.WCSkhkog-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,52 +62,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-renesas-soc@vger.kernel.org
-TO: Geert Uytterhoeven <geert+renesas@glider.be>
+CC: linux-kernel@vger.kernel.org
+TO: Maxim Levitsky <mlevitsk@redhat.com>
+CC: Paolo Bonzini <pbonzini@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-overlays-v6.17-rc1
-head:   33bec5367ad36fc3e940629a2cf5e2191da759ce
-commit: d41a94676ca4939c5f3f95c548620efd092b9516 [8/164] kbuild: Enable DT symbols when CONFIG_OF_OVERLAY is used
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: mips-randconfig-052-20250819 (https://download.01.org/0day-ci/archive/20250819/202508190533.o2Yw9OJn-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250819/202508190533.o2Yw9OJn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   be48bcf004f9d0c9207ff21d0edb3b42f253829e
+commit: e4a454ced74c0ac97c8bd32f086ee3ad74528780 KVM: add kvm_lock_all_vcpus and kvm_trylock_all_vcpus
+date:   3 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 3 months ago
+config: loongarch-randconfig-r073-20250818 (https://download.01.org/0day-ci/archive/20250819/202508190853.WCSkhkog-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508190533.o2Yw9OJn-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202508190853.WCSkhkog-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/mips/boot/dts/ingenic/gcw0.dtb: / (gcw,zero): analog-amplifier@1: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/mips/boot/dts/ingenic/gcw0.dtb: / (gcw,zero): i2c-controller@3: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
->> arch/mips/boot/dts/ingenic/gcw0.dtb: / (gcw,zero): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 268435456], [805306368, 268435456]], 'phandle': 57}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/mips/boot/dts/ingenic/gcw0.dtb: cpu@0 (ingenic,xburst-fpu1.0-mxu1.1): Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mips/cpus.yaml#
-   arch/mips/boot/dts/ingenic/gcw0.dtb: interrupt-controller@10001000 (ingenic,jz4770-intc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ingenic,jz4770-intc'] is too short
-   	'ingenic,jz4770-intc' is not one of ['ingenic,jz4740-intc', 'ingenic,jz4760-intc', 'ingenic,jz4780-intc']
-   	'ingenic,x1000-intc' was expected
-   	'ingenic,jz4725b-intc' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/ingenic,intc.yaml#
-   arch/mips/boot/dts/ingenic/gcw0.dtb: jz4770-cgu@10000000 (ingenic,jz4770-cgu): $nodename:0: 'jz4770-cgu@10000000' does not match '^clock-controller@[0-9a-f]+$'
+New smatch warnings:
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1378 kvm_trylock_all_vcpus() warn: iterator 'i' not incremented
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1384 kvm_trylock_all_vcpus() warn: iterator 'j' not incremented
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1401 kvm_lock_all_vcpus() warn: iterator 'i' not incremented
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1409 kvm_lock_all_vcpus() warn: iterator 'j' not incremented
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1425 kvm_unlock_all_vcpus() warn: iterator 'i' not incremented
+
+Old smatch warnings:
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:283 kvm_make_all_cpus_request() warn: iterator 'i' not incremented
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:487 kvm_destroy_vcpus() warn: iterator 'i' not incremented
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1721 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1714)
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1723 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1715)
+include/linux/kvm_host.h:1010 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4961 kvm_vm_ioctl_reset_dirty_pages() warn: iterator 'i' not incremented
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:6092 kvm_get_stat_per_vcpu() warn: iterator 'i' not incremented
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:6103 kvm_clear_stat_per_vcpu() warn: iterator 'i' not incremented
+
+vim +/i +1378 arch/loongarch/kvm/../../../virt/kvm/kvm_main.c
+
+6aa8b732ca01c3 drivers/kvm/kvm_main.c Avi Kivity     2006-12-10  1370  
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1371  int kvm_trylock_all_vcpus(struct kvm *kvm)
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1372  {
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1373  	struct kvm_vcpu *vcpu;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1374  	unsigned long i, j;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1375  
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1376  	lockdep_assert_held(&kvm->lock);
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1377  
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1378  	kvm_for_each_vcpu(i, vcpu, kvm)
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1379  		if (!mutex_trylock_nest_lock(&vcpu->mutex, &kvm->lock))
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1380  			goto out_unlock;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1381  	return 0;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1382  
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1383  out_unlock:
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1384  	kvm_for_each_vcpu(j, vcpu, kvm) {
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1385  		if (i == j)
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1386  			break;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1387  		mutex_unlock(&vcpu->mutex);
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1388  	}
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1389  	return -EINTR;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1390  }
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1391  EXPORT_SYMBOL_GPL(kvm_trylock_all_vcpus);
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1392  
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1393  int kvm_lock_all_vcpus(struct kvm *kvm)
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1394  {
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1395  	struct kvm_vcpu *vcpu;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1396  	unsigned long i, j;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1397  	int r;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1398  
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1399  	lockdep_assert_held(&kvm->lock);
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1400  
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1401  	kvm_for_each_vcpu(i, vcpu, kvm) {
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1402  		r = mutex_lock_killable_nest_lock(&vcpu->mutex, &kvm->lock);
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1403  		if (r)
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1404  			goto out_unlock;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1405  	}
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1406  	return 0;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1407  
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1408  out_unlock:
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1409  	kvm_for_each_vcpu(j, vcpu, kvm) {
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1410  		if (i == j)
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1411  			break;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1412  		mutex_unlock(&vcpu->mutex);
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1413  	}
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1414  	return r;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1415  }
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1416  EXPORT_SYMBOL_GPL(kvm_lock_all_vcpus);
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1417  
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1418  void kvm_unlock_all_vcpus(struct kvm *kvm)
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1419  {
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1420  	struct kvm_vcpu *vcpu;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1421  	unsigned long i;
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1422  
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1423  	lockdep_assert_held(&kvm->lock);
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1424  
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1425  	kvm_for_each_vcpu(i, vcpu, kvm)
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1426  		mutex_unlock(&vcpu->mutex);
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1427  }
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1428  EXPORT_SYMBOL_GPL(kvm_unlock_all_vcpus);
+e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1429  
 
 -- 
 0-DAY CI Kernel Test Service
