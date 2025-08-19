@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0031991B6
-	for <oe-kbuild@lists.linux.dev>; Tue, 19 Aug 2025 00:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827D713FEE
+	for <oe-kbuild@lists.linux.dev>; Tue, 19 Aug 2025 02:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755564023; cv=none; b=DzIfmo5Y5OYoCTNP4AaLQ/5jMWZhTlWZHlSf58zthkFX64GlySWUYnoF9gTFb2SKGmy2aCzcOgx8p/CmBrwAjcgsrvBO7mkIEmXmQG1WEz+u7XaHzza+ldqK9zYHuwr4aWW1bvZ//AxR7sE/cx43ODudl5qfvSG8lOAgZ2TAjDE=
+	t=1755572344; cv=none; b=OuQ2ZFajqJ8NgQtoUEG8kLx5glq/Wqtkz8P2UcFheP4m6moZUTMiyDjNPbPR1UIAc+wEWSZ+s+Cr45BdBccT5Vq9f+swMaJB0yawQfIWLcM/w/1M000qAbxnNn+jmWduQnNfpCxze9ZN2lz00Z8y9tfsq+jCNz5+vIeh+74O2KM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755564023; c=relaxed/simple;
-	bh=Ve3OyZUee4aPt7+wnlTSp7/+CxnWRxKuG/9qbTbOwg8=;
+	s=arc-20240116; t=1755572344; c=relaxed/simple;
+	bh=RF5E9jl8+dWN5RU0mopEPN6hUYj2Fi2xqL3+NvY80Tw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b9XbMXhrD2pcivFB3BvOC1YF4+FaN1yX7aMswl9LNmX+Z2V+5B+55zE5av03CE235wIFdUi7zfwzQlr842zicfnSYDRqCB7/e8Aw9fMbJB5KZ2TkzkUFghwxv4QGLb68HIftd7pFU4QLTLQEs/B2X0udh4YflE6hK+brt0vTz3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G/8xm080; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=HWrrXww4Nq4ZOzvVJSK/x1OuMuXOAcHg1rop59yEjomWXWzUeP197iWeZcwqRAoDUEolND3PZwU5VmvAMMWVyNOQYlh5TEMGIycVVPIPywwHZSeRQZ8Tk6AutYC/lr/g2JG4xeAeZKzsuSCvG5RPoEIf4gBCjLUppU3+8zuOmbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=br5UPgxp; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G/8xm080"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="br5UPgxp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755564021; x=1787100021;
+  t=1755572342; x=1787108342;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ve3OyZUee4aPt7+wnlTSp7/+CxnWRxKuG/9qbTbOwg8=;
-  b=G/8xm080l5JlBbOb5z5dIgeLLWtfcNzAZEAu/nNhWZZ52k2MF16vm/8Z
-   CHyuZmvmWdYn5wUTxEkoCY75JN6IEmv/j6OhXe+ZnjtulSZYCDFZJ4qBg
-   A1Mdtfh0mAfECR9O7mZxLbBF0Nheua81G/YpzbOZPEBF8Ec8DqcGTzzh9
-   BugMDMJ4u42o+e6KT2B4uhRdWsavoiqDsehgH+QxRV2+KfDkodItEdTtd
-   9zMoTdJR+H55cdzMpB/ig1VOahXq8PI/rhY/WzxyFc2meJZBxfgHFOq6i
-   B/PTwdkgoBZIPYQuSI77lKrcF+wnqMrvhHepsf3UMuA3LMQrykIFsSzuN
-   Q==;
-X-CSE-ConnectionGUID: YdCFNqeTRFevYouVAkuNIA==
-X-CSE-MsgGUID: v8BbO1fVTiumUNBHnXYg/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="45374367"
+  bh=RF5E9jl8+dWN5RU0mopEPN6hUYj2Fi2xqL3+NvY80Tw=;
+  b=br5UPgxpnzO0gOzYcWf9VqkjxH8J8M1w4e+FqE2sbAewOle84ajhVN91
+   S3U1NQiBxs+Z0rVVVSEDq9Wx3Wgz0VcqyQcP34TtByhEcYSPipAFYd8qG
+   pEUK1y2DT7Zw0tntURBOaqQhPHIehx5gggocQ79CDAHfnqq5Ft+rQXYgV
+   Ql78EJJ53jaw3R8xKwgU6m+Sr3S0vcWrNR34msOVZZxJHQwHBRRPtnr5B
+   g+XFk6fxjaFOZobsQVIr0ubp9Gxoai/eVeysGQfm2KJ6u77vmNvHR/RwE
+   1b2y9I6XnUMMTMsp92W43p9h4CRnsK3iyESH5cohRJBNZtHoElw9Iaukc
+   g==;
+X-CSE-ConnectionGUID: IeqhNWewTy61Vs7fOoF6Zw==
+X-CSE-MsgGUID: RU3dm4bkSGS+i1DHA7Vvzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="57953798"
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="45374367"
+   d="scan'208";a="57953798"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 17:40:20 -0700
-X-CSE-ConnectionGUID: 2QsiC+PLRBazF7TwqDzI1w==
-X-CSE-MsgGUID: R9S7gH1yQbC6LehxcRF8hg==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 19:59:02 -0700
+X-CSE-ConnectionGUID: XOzVgLfJSH+7dAb7DZlT0w==
+X-CSE-MsgGUID: aUCa0yLZQWqB6nq3F5dVMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="167943425"
+   d="scan'208";a="167964804"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 18 Aug 2025 17:40:19 -0700
+  by orviesa008.jf.intel.com with ESMTP; 18 Aug 2025 19:59:01 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoAOf-000GLT-1T;
-	Tue, 19 Aug 2025 00:40:17 +0000
-Date: Tue, 19 Aug 2025 08:39:19 +0800
+	id 1uoCYr-000GS5-32;
+	Tue, 19 Aug 2025 02:58:57 +0000
+Date: Tue, 19 Aug 2025 10:58:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1378
- kvm_trylock_all_vcpus() warn: iterator 'i' not incremented
-Message-ID: <202508190853.WCSkhkog-lkp@intel.com>
+Subject: arch/loongarch/net/bpf_jit.c:1547 __arch_prepare_bpf_trampoline()
+ error: uninitialized symbol 'retval_off'.
+Message-ID: <202508191020.PBBh07cK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,103 +65,243 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Maxim Levitsky <mlevitsk@redhat.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>
+TO: Chenghao Duan <duanchenghao@kylinos.cn>
+CC: Huacai Chen <chenhuacai@kernel.org>
+CC: George Guo <guodongtai@kylinos.cn>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   be48bcf004f9d0c9207ff21d0edb3b42f253829e
-commit: e4a454ced74c0ac97c8bd32f086ee3ad74528780 KVM: add kvm_lock_all_vcpus and kvm_trylock_all_vcpus
-date:   3 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 3 months ago
-config: loongarch-randconfig-r073-20250818 (https://download.01.org/0day-ci/archive/20250819/202508190853.WCSkhkog-lkp@intel.com/config)
+commit: f9b6b41f0cf31791541cea9644ddbedb46465801 LoongArch: BPF: Add basic bpf trampoline support
+date:   2 weeks ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 2 weeks ago
+config: loongarch-randconfig-r073-20250818 (https://download.01.org/0day-ci/archive/20250819/202508191020.PBBh07cK-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508190853.WCSkhkog-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508191020.PBBh07cK-lkp@intel.com/
 
 New smatch warnings:
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1378 kvm_trylock_all_vcpus() warn: iterator 'i' not incremented
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1384 kvm_trylock_all_vcpus() warn: iterator 'j' not incremented
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1401 kvm_lock_all_vcpus() warn: iterator 'i' not incremented
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1409 kvm_lock_all_vcpus() warn: iterator 'j' not incremented
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1425 kvm_unlock_all_vcpus() warn: iterator 'i' not incremented
+arch/loongarch/net/bpf_jit.c:1547 __arch_prepare_bpf_trampoline() error: uninitialized symbol 'retval_off'.
 
 Old smatch warnings:
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:283 kvm_make_all_cpus_request() warn: iterator 'i' not incremented
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:487 kvm_destroy_vcpus() warn: iterator 'i' not incremented
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1721 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1714)
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1723 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1715)
-include/linux/kvm_host.h:1010 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4961 kvm_vm_ioctl_reset_dirty_pages() warn: iterator 'i' not incremented
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:6092 kvm_get_stat_per_vcpu() warn: iterator 'i' not incremented
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:6103 kvm_clear_stat_per_vcpu() warn: iterator 'i' not incremented
+arch/loongarch/net/bpf_jit.c:934 build_insn() warn: missing unwind goto?
+arch/loongarch/net/bpf_jit.c:1557 __arch_prepare_bpf_trampoline() error: uninitialized symbol 'retval_off'.
+arch/loongarch/net/bpf_jit.c:1565 __arch_prepare_bpf_trampoline() error: uninitialized symbol 'retval_off'.
+arch/loongarch/net/bpf_jit.c:1579 __arch_prepare_bpf_trampoline() error: uninitialized symbol 'retval_off'.
 
-vim +/i +1378 arch/loongarch/kvm/../../../virt/kvm/kvm_main.c
+vim +/retval_off +1547 arch/loongarch/net/bpf_jit.c
 
-6aa8b732ca01c3 drivers/kvm/kvm_main.c Avi Kivity     2006-12-10  1370  
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1371  int kvm_trylock_all_vcpus(struct kvm *kvm)
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1372  {
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1373  	struct kvm_vcpu *vcpu;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1374  	unsigned long i, j;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1375  
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1376  	lockdep_assert_held(&kvm->lock);
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1377  
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1378  	kvm_for_each_vcpu(i, vcpu, kvm)
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1379  		if (!mutex_trylock_nest_lock(&vcpu->mutex, &kvm->lock))
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1380  			goto out_unlock;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1381  	return 0;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1382  
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1383  out_unlock:
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1384  	kvm_for_each_vcpu(j, vcpu, kvm) {
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1385  		if (i == j)
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1386  			break;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1387  		mutex_unlock(&vcpu->mutex);
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1388  	}
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1389  	return -EINTR;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1390  }
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1391  EXPORT_SYMBOL_GPL(kvm_trylock_all_vcpus);
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1392  
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1393  int kvm_lock_all_vcpus(struct kvm *kvm)
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1394  {
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1395  	struct kvm_vcpu *vcpu;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1396  	unsigned long i, j;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1397  	int r;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1398  
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1399  	lockdep_assert_held(&kvm->lock);
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1400  
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1401  	kvm_for_each_vcpu(i, vcpu, kvm) {
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1402  		r = mutex_lock_killable_nest_lock(&vcpu->mutex, &kvm->lock);
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1403  		if (r)
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1404  			goto out_unlock;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1405  	}
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1406  	return 0;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1407  
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1408  out_unlock:
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1409  	kvm_for_each_vcpu(j, vcpu, kvm) {
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1410  		if (i == j)
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1411  			break;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1412  		mutex_unlock(&vcpu->mutex);
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1413  	}
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1414  	return r;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1415  }
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1416  EXPORT_SYMBOL_GPL(kvm_lock_all_vcpus);
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1417  
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1418  void kvm_unlock_all_vcpus(struct kvm *kvm)
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1419  {
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1420  	struct kvm_vcpu *vcpu;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1421  	unsigned long i;
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1422  
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1423  	lockdep_assert_held(&kvm->lock);
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1424  
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1425  	kvm_for_each_vcpu(i, vcpu, kvm)
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1426  		mutex_unlock(&vcpu->mutex);
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1427  }
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1428  EXPORT_SYMBOL_GPL(kvm_unlock_all_vcpus);
-e4a454ced74c0a virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1429  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1418  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1419  static int __arch_prepare_bpf_trampoline(struct jit_ctx *ctx, struct bpf_tramp_image *im,
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1420  					 const struct btf_func_model *m, struct bpf_tramp_links *tlinks,
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1421  					 void *func_addr, u32 flags)
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1422  {
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1423  	int i, ret, save_ret;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1424  	int stack_size = 0, nargs = 0;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1425  	int retval_off, args_off, nargs_off, ip_off, run_ctx_off, sreg_off;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1426  	void *orig_call = func_addr;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1427  	struct bpf_tramp_links *fentry = &tlinks[BPF_TRAMP_FENTRY];
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1428  	struct bpf_tramp_links *fexit = &tlinks[BPF_TRAMP_FEXIT];
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1429  	struct bpf_tramp_links *fmod_ret = &tlinks[BPF_TRAMP_MODIFY_RETURN];
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1430  	u32 **branches = NULL;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1431  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1432  	if (flags & (BPF_TRAMP_F_ORIG_STACK | BPF_TRAMP_F_SHARE_IPMODIFY))
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1433  		return -ENOTSUPP;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1434  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1435  	/*
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1436  	 * FP + 8       [ RA to parent func ] return address to parent
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1437  	 *                    function
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1438  	 * FP + 0       [ FP of parent func ] frame pointer of parent
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1439  	 *                    function
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1440  	 * FP - 8       [ T0 to traced func ] return address of traced
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1441  	 *                    function
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1442  	 * FP - 16      [ FP of traced func ] frame pointer of traced
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1443  	 *                    function
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1444  	 *
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1445  	 * FP - retval_off  [ return value      ] BPF_TRAMP_F_CALL_ORIG or
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1446  	 *                    BPF_TRAMP_F_RET_FENTRY_RET
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1447  	 *                  [ argN              ]
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1448  	 *                  [ ...               ]
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1449  	 * FP - args_off    [ arg1              ]
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1450  	 *
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1451  	 * FP - nargs_off   [ regs count        ]
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1452  	 *
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1453  	 * FP - ip_off      [ traced func   ] BPF_TRAMP_F_IP_ARG
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1454  	 *
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1455  	 * FP - run_ctx_off [ bpf_tramp_run_ctx ]
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1456  	 *
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1457  	 * FP - sreg_off    [ callee saved reg  ]
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1458  	 *
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1459  	 */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1460  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1461  	if (m->nr_args > LOONGARCH_MAX_REG_ARGS)
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1462  		return -ENOTSUPP;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1463  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1464  	if (flags & (BPF_TRAMP_F_ORIG_STACK | BPF_TRAMP_F_SHARE_IPMODIFY))
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1465  		return -ENOTSUPP;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1466  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1467  	stack_size = 0;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1468  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1469  	/* Room of trampoline frame to store return address and frame pointer */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1470  	stack_size += 16;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1471  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1472  	save_ret = flags & (BPF_TRAMP_F_CALL_ORIG | BPF_TRAMP_F_RET_FENTRY_RET);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1473  	if (save_ret) {
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1474  		/* Save BPF R0 and A0 */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1475  		stack_size += 16;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1476  		retval_off = stack_size;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1477  	}
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1478  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1479  	/* Room of trampoline frame to store args */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1480  	nargs = m->nr_args;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1481  	stack_size += nargs * 8;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1482  	args_off = stack_size;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1483  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1484  	/* Room of trampoline frame to store args number */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1485  	stack_size += 8;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1486  	nargs_off = stack_size;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1487  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1488  	/* Room of trampoline frame to store ip address */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1489  	if (flags & BPF_TRAMP_F_IP_ARG) {
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1490  		stack_size += 8;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1491  		ip_off = stack_size;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1492  	}
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1493  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1494  	/* Room of trampoline frame to store struct bpf_tramp_run_ctx */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1495  	stack_size += round_up(sizeof(struct bpf_tramp_run_ctx), 8);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1496  	run_ctx_off = stack_size;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1497  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1498  	stack_size += 8;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1499  	sreg_off = stack_size;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1500  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1501  	stack_size = round_up(stack_size, 16);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1502  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1503  	/* For the trampoline called from function entry */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1504  	/* RA and FP for parent function */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1505  	emit_insn(ctx, addid, LOONGARCH_GPR_SP, LOONGARCH_GPR_SP, -16);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1506  	emit_insn(ctx, std, LOONGARCH_GPR_RA, LOONGARCH_GPR_SP, 8);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1507  	emit_insn(ctx, std, LOONGARCH_GPR_FP, LOONGARCH_GPR_SP, 0);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1508  	emit_insn(ctx, addid, LOONGARCH_GPR_FP, LOONGARCH_GPR_SP, 16);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1509  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1510  	/* RA and FP for traced function */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1511  	emit_insn(ctx, addid, LOONGARCH_GPR_SP, LOONGARCH_GPR_SP, -stack_size);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1512  	emit_insn(ctx, std, LOONGARCH_GPR_T0, LOONGARCH_GPR_SP, stack_size - 8);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1513  	emit_insn(ctx, std, LOONGARCH_GPR_FP, LOONGARCH_GPR_SP, stack_size - 16);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1514  	emit_insn(ctx, addid, LOONGARCH_GPR_FP, LOONGARCH_GPR_SP, stack_size);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1515  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1516  	/* callee saved register S1 to pass start time */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1517  	emit_insn(ctx, std, LOONGARCH_GPR_S1, LOONGARCH_GPR_FP, -sreg_off);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1518  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1519  	/* store ip address of the traced function */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1520  	if (flags & BPF_TRAMP_F_IP_ARG) {
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1521  		move_imm(ctx, LOONGARCH_GPR_T1, (const s64)func_addr, false);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1522  		emit_insn(ctx, std, LOONGARCH_GPR_T1, LOONGARCH_GPR_FP, -ip_off);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1523  	}
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1524  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1525  	/* store nargs number */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1526  	move_imm(ctx, LOONGARCH_GPR_T1, nargs, false);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1527  	emit_insn(ctx, std, LOONGARCH_GPR_T1, LOONGARCH_GPR_FP, -nargs_off);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1528  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1529  	store_args(ctx, nargs, args_off);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1530  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1531  	/* To traced function */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1532  	/* Ftrace jump skips 2 NOP instructions */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1533  	if (is_kernel_text((unsigned long)orig_call))
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1534  		orig_call += LOONGARCH_FENTRY_NBYTES;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1535  	/* Direct jump skips 5 NOP instructions */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1536  	else if (is_bpf_text_address((unsigned long)orig_call))
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1537  		orig_call += LOONGARCH_BPF_FENTRY_NBYTES;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1538  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1539  	if (flags & BPF_TRAMP_F_CALL_ORIG) {
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1540  		move_imm(ctx, LOONGARCH_GPR_A0, (const s64)im, false);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1541  		ret = emit_call(ctx, (const u64)__bpf_tramp_enter);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1542  		if (ret)
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1543  			return ret;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1544  	}
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1545  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1546  	for (i = 0; i < fentry->nr_links; i++) {
+f9b6b41f0cf317 Chenghao Duan 2025-08-05 @1547  		ret = invoke_bpf_prog(ctx, fentry->links[i], args_off, retval_off,
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1548  				      run_ctx_off, flags & BPF_TRAMP_F_RET_FENTRY_RET);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1549  		if (ret)
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1550  			return ret;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1551  	}
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1552  	if (fmod_ret->nr_links) {
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1553  		branches  = kcalloc(fmod_ret->nr_links, sizeof(u32 *), GFP_KERNEL);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1554  		if (!branches)
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1555  			return -ENOMEM;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1556  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1557  		invoke_bpf_mod_ret(ctx, fmod_ret, args_off, retval_off, run_ctx_off, branches);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1558  	}
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1559  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1560  	if (flags & BPF_TRAMP_F_CALL_ORIG) {
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1561  		restore_args(ctx, m->nr_args, args_off);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1562  		ret = emit_call(ctx, (const u64)orig_call);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1563  		if (ret)
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1564  			goto out;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1565  		emit_insn(ctx, std, LOONGARCH_GPR_A0, LOONGARCH_GPR_FP, -retval_off);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1566  		emit_insn(ctx, std, regmap[BPF_REG_0], LOONGARCH_GPR_FP, -(retval_off - 8));
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1567  		im->ip_after_call = ctx->ro_image + ctx->idx;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1568  		/* Reserve space for the move_imm + jirl instruction */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1569  		for (i = 0; i < LOONGARCH_LONG_JUMP_NINSNS; i++)
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1570  			emit_insn(ctx, nop);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1571  	}
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1572  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1573  	for (i = 0; ctx->image && i < fmod_ret->nr_links; i++) {
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1574  		int offset = (void *)(&ctx->image[ctx->idx]) - (void *)branches[i];
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1575  		*branches[i] = larch_insn_gen_bne(LOONGARCH_GPR_T1, LOONGARCH_GPR_ZERO, offset);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1576  	}
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1577  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1578  	for (i = 0; i < fexit->nr_links; i++) {
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1579  		ret = invoke_bpf_prog(ctx, fexit->links[i], args_off, retval_off, run_ctx_off, false);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1580  		if (ret)
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1581  			goto out;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1582  	}
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1583  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1584  	if (flags & BPF_TRAMP_F_CALL_ORIG) {
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1585  		im->ip_epilogue = ctx->ro_image + ctx->idx;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1586  		move_imm(ctx, LOONGARCH_GPR_A0, (const s64)im, false);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1587  		ret = emit_call(ctx, (const u64)__bpf_tramp_exit);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1588  		if (ret)
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1589  			goto out;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1590  	}
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1591  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1592  	if (flags & BPF_TRAMP_F_RESTORE_REGS)
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1593  		restore_args(ctx, m->nr_args, args_off);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1594  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1595  	if (save_ret) {
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1596  		emit_insn(ctx, ldd, LOONGARCH_GPR_A0, LOONGARCH_GPR_FP, -retval_off);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1597  		emit_insn(ctx, ldd, regmap[BPF_REG_0], LOONGARCH_GPR_FP, -(retval_off - 8));
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1598  	}
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1599  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1600  	emit_insn(ctx, ldd, LOONGARCH_GPR_S1, LOONGARCH_GPR_FP, -sreg_off);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1601  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1602  	/* trampoline called from function entry */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1603  	emit_insn(ctx, ldd, LOONGARCH_GPR_T0, LOONGARCH_GPR_SP, stack_size - 8);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1604  	emit_insn(ctx, ldd, LOONGARCH_GPR_FP, LOONGARCH_GPR_SP, stack_size - 16);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1605  	emit_insn(ctx, addid, LOONGARCH_GPR_SP, LOONGARCH_GPR_SP, stack_size);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1606  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1607  	emit_insn(ctx, ldd, LOONGARCH_GPR_RA, LOONGARCH_GPR_SP, 8);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1608  	emit_insn(ctx, ldd, LOONGARCH_GPR_FP, LOONGARCH_GPR_SP, 0);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1609  	emit_insn(ctx, addid, LOONGARCH_GPR_SP, LOONGARCH_GPR_SP, 16);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1610  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1611  	if (flags & BPF_TRAMP_F_SKIP_FRAME)
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1612  		/* return to parent function */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1613  		emit_insn(ctx, jirl, LOONGARCH_GPR_ZERO, LOONGARCH_GPR_RA, 0);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1614  	else
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1615  		/* return to traced function */
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1616  		emit_insn(ctx, jirl, LOONGARCH_GPR_ZERO, LOONGARCH_GPR_T0, 0);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1617  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1618  	ret = ctx->idx;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1619  out:
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1620  	kfree(branches);
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1621  
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1622  	return ret;
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1623  }
+f9b6b41f0cf317 Chenghao Duan 2025-08-05  1624  
 
 -- 
 0-DAY CI Kernel Test Service
