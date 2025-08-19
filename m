@@ -1,77 +1,58 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5212931CA6F
-	for <oe-kbuild@lists.linux.dev>; Tue, 19 Aug 2025 09:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF8E322A2E
+	for <oe-kbuild@lists.linux.dev>; Tue, 19 Aug 2025 10:36:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755597222; cv=none; b=JM0mJ8gzw+zaD90zFGCNL1Ahwvi/n7RZ/4FIQHO/Utxbf6KI5D9xObiLc3EdtAvCukUgqafXVU38FiahSj4pGldPpFTBIc8u+v87VK3c5UICwR+CgeCWtuppETxXQ2RB5C11jfpMY6JYF4+fXXw6HNoDzcNMOIL/Z20SSG79njc=
+	t=1755599762; cv=none; b=UokacZbwbYs9ZUIJMu1rpHtlrQ7r9+El5p8ilOxbqtVLOCt/htebqpiIxrOurViFM6MXFe7HN1+FvOceKMNSISxU/S5PceAXjwMSSACWQOnzub1jj+wwLOLkvjGAGBDOpeX3aiCwrfqpRGi3OcCXLv7fa7/eprjZQYN5ue3Jl/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755597222; c=relaxed/simple;
-	bh=YEizIsE8/y/LtNcORPO8jldB4Nh5dJHp08eXLO5S9Go=;
+	s=arc-20240116; t=1755599762; c=relaxed/simple;
+	bh=tatqhZ+09LlY+yMrsDUVHQUFt0AEoaB8lJrE5u9zEko=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=CRjbg9Bs5CXOsI4W4Y0uAl3tD0CC+xeBcKQmXdUAzOznR5FDkkI8JMvlhLGiWUPNgPGSHkavzhCjPJHMinYcwYkC1iyEI0jFlZiNjmQIZnrXj1UltU9/uwN9utBNCTqc+6tNbQSpQiAWsggUAQJg5oyD29cTZBtxHSauh+6NeWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UeEm2gPy; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=MkSMHLkpb6g9sAeqT+CDmwdCsXyhbV6e3bHexcM8lN8EjlW24eDsxsSpCqHhPQNN86q+KusbIYW7PaLvyFsmP/kUkn/ZUHkbDn0qvG+utkEsRg2dmPhJbUxa8Esy31jY6Xh3pi4rOLEaomACiEeoailXvo6TPTDZt2UynelKips=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kxPbS9Gw; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UeEm2gPy"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3b9e411c820so2752121f8f.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 19 Aug 2025 02:53:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755597217; x=1756202017; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rNam3s73jCkH5fp8vQUdOONkGiCMjeqztr8hoMDyHKE=;
-        b=UeEm2gPykyQbPY5wFTvL/UOCaKl7YsC6cLS9JL8j8H4QeQNmcMvKlRHu687neSgAyK
-         wzbTLj7MTsPF3mSxIds/580kcK8gqgRkTNCwP8eg1CiZETLX7UvrSW1xIitEtpI5/CMW
-         ptJcQlkkgsM7KqDc2tJrq29ZEv85I5+cmkBGKcZE4ZRAjVNC62gYwC3gUrMYiDm0DSgz
-         gu8Gw01QLXZ0uV4Sf41nE5vVvM1WOwpDqt0s1FFee9Rq6Pfm7dJ6K11fbkXFzRCwHnql
-         kiv6L4qEUAOmcLBufoPZ7JUgAhAXZiCVInZ+y7rHyzmPpI3+ZdvmRytipNK7A2wMytkW
-         iV5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755597217; x=1756202017;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rNam3s73jCkH5fp8vQUdOONkGiCMjeqztr8hoMDyHKE=;
-        b=R69ekznB2hpI8qRK/8SZvV+TWHpIllGCmjKq/PzUWBG36wYkiXnB8/iBu5W3QMtjVM
-         bibVByyaxVbCHXylzwwQCoukOWLNiSc88SETq9MqSgaJlINXWc5H9wj8LBSsVwMCOZ09
-         H8ae+RwBP4KzzE8eqUCqTsgMtPTFE7VK3rKyo0oBQUDVb7RvP9nKYZX/lbdCO+cy3dbW
-         rt2xJ17WNiY2+Pk4N5gtwrLeE0W2bNfXqAVxn3WjdkTkD/8KgVuGxzeeo20sdUk7Vm9I
-         xlWz3eTf0GU1/0M8AU751tBuqyATksG3OZmfwtHmhkIlaVhWcAJaMHDXy1Yk4kwmwCrT
-         FmWA==
-X-Gm-Message-State: AOJu0Yy+eDygRob2CTekapMI2nF6i1BubdSfeuaNApdx/ZDPH/gsNebz
-	mCHXqHQgqsFQ8Yz/86XhX0t+AvAYVFqd5CGgzLVPEHpf+FtHUmAuGv7SJQJrCp8fdJbAlWeQikH
-	K+Ku0
-X-Gm-Gg: ASbGncuVB9voDyjqhQ5vFmdX95N+K3vBQFvsQ0m7HLChlka6E+RaQ+0pOUSiyDTfIYQ
-	+JVnQzporgO45ufs5ZQQPiiFVMggODmIgO2ru/sjjBI5jCk0acQbE/nS16XfcQcLsoZLsfY4ray
-	iW8Lr+hhnhFmktaxLHEA7Q0tEOY+aHK9QyJV1Go2OKtJ45fsMX+j8IIp3IwO4shJikqN9VW2R4Y
-	y54Tt73JeIT47L1cyHf95GDkC0Ka+SMcLYphQ+1UXwreZ49pFXIYhB/BP7y+wrqmIUMIoHCN+Mo
-	qGWlD39ln6aenvqo0IombzYbyc/BSQaJo8Ee71v1EvZoRYyNEC5yj4luyWSvcYoOSzLbKobqC5x
-	RjWn7m6LwqnAsm+oi2HntBFGivGPl5BR0WO0dg1f32fo=
-X-Google-Smtp-Source: AGHT+IFhVoXOXWz933OS2H4MYPh1tnFGv79hui+RhHHpUYqmH0GfWUAlyD1l4ealbPI6uEAVPOGUJg==
-X-Received: by 2002:a05:6000:200d:b0:3b7:8832:fdd5 with SMTP id ffacd0b85a97d-3c0eaf4f6dfmr1431883f8f.16.1755597213853;
-        Tue, 19 Aug 2025 02:53:33 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c0771c16eesm3152017f8f.37.2025.08.19.02.53.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 02:53:33 -0700 (PDT)
-Date: Tue, 19 Aug 2025 12:53:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Binbin Zhou <zhoubinbin@loongson.cn>,
-	Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>, Lee Jones <lee@kernel.org>,
-	Corey Minyard <minyard@acm.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net, jeffbai@aosc.io,
-	kexybiscuit@aosc.io, wangyao@lemote.com,
-	Chong Qiao <qiaochong@loongson.cn>
-Subject: Re: [PATCH v9 2/3] mfd: ls2kbmc: Add Loongson-2K BMC reset function
- support
-Message-ID: <202508191519.uT5io1jk-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kxPbS9Gw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755599761; x=1787135761;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tatqhZ+09LlY+yMrsDUVHQUFt0AEoaB8lJrE5u9zEko=;
+  b=kxPbS9GwNPIC3Usk9uWDpiaL/Ko2/AZtBS5YaaJWt24vFzDl1TTlAGx1
+   teT41kCTpr+jpw3VoZFBQqYymjqd6xCkxRNno/u92w4YViKdyZuh5+iw9
+   C2T4aLn1aA5qqZ1jUlfIWbkK03h4CiB5PL97AUuM2br00ViG4qRbFPCjx
+   PLFIog2ME7hYebL8AJVgJguTFsOSlgU7LaOoaYI3Ph7FerJ5qsTfhPs91
+   oYxUmAZR4n+ULWsMC1IxUV5GWetqjpVvfBAUrSjz2Zvxnrvb6wGyAErlx
+   Ajc0iSL3FdJLp1S4ScpBX66OCoa9oa6Y6uUgZXNEIpaSeTvG9AWq26OP5
+   A==;
+X-CSE-ConnectionGUID: yFlR+AQ9Q56bKSXlDMj5pQ==
+X-CSE-MsgGUID: cB/naEl+SSeM/PGVfhcrnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="83264732"
+X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
+   d="scan'208";a="83264732"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 03:36:00 -0700
+X-CSE-ConnectionGUID: Kp4mvpasQKyt4EfJVzBmkQ==
+X-CSE-MsgGUID: ylU6AlbrS92GPtfdyfbGPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
+   d="scan'208";a="167320722"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 19 Aug 2025 03:35:59 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uoJh2-000Gkw-2H;
+	Tue, 19 Aug 2025 10:35:55 +0000
+Date: Tue, 19 Aug 2025 18:35:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3 1/6] dt-bindings: mfd: twl: Add missing sub-nodes for
+ TWL4030 & TWL603x
+Message-ID: <202508191602.TsZdPLgN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,96 +61,95 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1809103a948545df93b7b439df46ca6393995aa1.1754999365.git.zhoubinbin@loongson.cn>
-Message-ID: <20250819095330.K_NwiD3fi6eopzQaxzd2-th289hF9rkZY9PzN-HyyqM@z>
 
-Hi Binbin,
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250816021523.167049-2-jihed.chaibi.dev@gmail.com>
+References: <20250816021523.167049-2-jihed.chaibi.dev@gmail.com>
+TO: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+TO: linux-kernel@vger.kernel.org
+CC: andreas@kemnade.info
+CC: peter.ujfalusi@gmail.com
+CC: dmitry.torokhov@gmail.com
+CC: robh@kernel.org
+CC: krzk+dt@kernel.org
+CC: lgirdwood@gmail.com
+CC: tiwai@suse.com
+CC: conor+dt@kernel.org
+CC: lee@kernel.org
+CC: ukleinek@kernel.org
+CC: broonie@kernel.org
+CC: gregkh@linuxfoundation.org
+CC: linus.walleij@linaro.org
+CC: brgl@bgdev.pl
+CC: aaro.koskinen@iki.fi
+CC: khilman@baylibre.com
+CC: rogerq@kernel.org
+CC: tony@atomide.com
+CC: linux-gpio@vger.kernel.org
+CC: linux-input@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-pwm@vger.kernel.org
+CC: linux-sound@vger.kernel.org
+CC: linux-usb@vger.kernel.org
+CC: linux-omap@vger.kernel.org
+CC: shuah@kernel.org
+CC: jihed.chaibi.dev@gmail.com
+
+Hi Jihed,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/mfd-ls2kbmc-Introduce-Loongson-2K-BMC-core-driver/20250812-200258
-base:   006aa8f57f55dd5bf68c4ada1e0d3f4e59027d71
-patch link:    https://lore.kernel.org/r/1809103a948545df93b7b439df46ca6393995aa1.1754999365.git.zhoubinbin%40loongson.cn
-patch subject: [PATCH v9 2/3] mfd: ls2kbmc: Add Loongson-2K BMC reset function support
-config: loongarch-randconfig-r073-20250818 (https://download.01.org/0day-ci/archive/20250819/202508191519.uT5io1jk-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on dtor-input/next dtor-input/for-linus linus/master v6.17-rc2 next-20250818]
+[cannot apply to lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jihed-Chaibi/dt-bindings-mfd-twl-Add-missing-sub-nodes-for-TWL4030-TWL603x/20250816-102205
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20250816021523.167049-2-jihed.chaibi.dev%40gmail.com
+patch subject: [PATCH v3 1/6] dt-bindings: mfd: twl: Add missing sub-nodes for TWL4030 & TWL603x
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm-randconfig-051-20250817 (https://download.01.org/0day-ci/archive/20250819/202508191602.TsZdPLgN-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250819/202508191602.TsZdPLgN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508191519.uT5io1jk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508191602.TsZdPLgN-lkp@intel.com/
 
-smatch warnings:
-drivers/mfd/ls2k-bmc-core.c:389 ls2k_bmc_pdata_initial() warn: passing zero to 'PTR_ERR'
-
-vim +/PTR_ERR +389 drivers/mfd/ls2k-bmc-core.c
-
-71ff6b050ad788 Binbin Zhou 2025-08-12  360  static int ls2k_bmc_pdata_initial(struct ls2k_bmc_pdata *ddata)
-71ff6b050ad788 Binbin Zhou 2025-08-12  361  {
-71ff6b050ad788 Binbin Zhou 2025-08-12  362  	struct pci_dev *pdev = to_pci_dev(ddata->dev);
-71ff6b050ad788 Binbin Zhou 2025-08-12  363  	int gsi = 16 + (LS2K_BMC_RESET_GPIO & 7);
-71ff6b050ad788 Binbin Zhou 2025-08-12  364  	void __iomem *gpio_base;
-71ff6b050ad788 Binbin Zhou 2025-08-12  365  	int irq, ret, val;
-71ff6b050ad788 Binbin Zhou 2025-08-12  366  
-71ff6b050ad788 Binbin Zhou 2025-08-12  367  	ls2k_bmc_save_pci_data(pdev, ddata);
-71ff6b050ad788 Binbin Zhou 2025-08-12  368  
-71ff6b050ad788 Binbin Zhou 2025-08-12  369  	INIT_WORK(&ddata->bmc_reset_work, ls2k_bmc_events_fn);
-71ff6b050ad788 Binbin Zhou 2025-08-12  370  
-71ff6b050ad788 Binbin Zhou 2025-08-12  371  	ret = devm_request_irq(&pdev->dev, pdev->irq, ls2k_bmc_interrupt,
-71ff6b050ad788 Binbin Zhou 2025-08-12  372  			       IRQF_SHARED | IRQF_TRIGGER_FALLING, "ls2kbmc pcie", ddata);
-71ff6b050ad788 Binbin Zhou 2025-08-12  373  	if (ret) {
-71ff6b050ad788 Binbin Zhou 2025-08-12  374  		dev_err(ddata->dev, "Failed to request LS2KBMC PCI-E IRQ %d.\n", pdev->irq);
-71ff6b050ad788 Binbin Zhou 2025-08-12  375  		return ret;
-71ff6b050ad788 Binbin Zhou 2025-08-12  376  	}
-71ff6b050ad788 Binbin Zhou 2025-08-12  377  
-71ff6b050ad788 Binbin Zhou 2025-08-12  378  	/*
-71ff6b050ad788 Binbin Zhou 2025-08-12  379  	 * Since gpio_chip->to_irq is not implemented in the Loongson-3 GPIO driver,
-71ff6b050ad788 Binbin Zhou 2025-08-12  380  	 * acpi_register_gsi() is used to obtain the GPIO IRQ. The GPIO interrupt is a
-71ff6b050ad788 Binbin Zhou 2025-08-12  381  	 * watchdog interrupt that is triggered when the BMC resets.
-71ff6b050ad788 Binbin Zhou 2025-08-12  382  	 */
-71ff6b050ad788 Binbin Zhou 2025-08-12  383  	irq = acpi_register_gsi(NULL, gsi, ACPI_EDGE_SENSITIVE, ACPI_ACTIVE_LOW);
-71ff6b050ad788 Binbin Zhou 2025-08-12  384  	if (irq < 0)
-71ff6b050ad788 Binbin Zhou 2025-08-12  385  		return irq;
-71ff6b050ad788 Binbin Zhou 2025-08-12  386  
-71ff6b050ad788 Binbin Zhou 2025-08-12  387  	gpio_base = ioremap(LOONGSON_GPIO_REG_BASE, LOONGSON_GPIO_REG_SIZE);
-71ff6b050ad788 Binbin Zhou 2025-08-12  388  	if (!gpio_base) {
-71ff6b050ad788 Binbin Zhou 2025-08-12 @389  		ret = PTR_ERR(gpio_base);
-
-This PTR_ERR(NULL) is success.  It should be "ret = -ENOMEM;"
-
-71ff6b050ad788 Binbin Zhou 2025-08-12  390  		goto acpi_failed;
-71ff6b050ad788 Binbin Zhou 2025-08-12  391  	}
-71ff6b050ad788 Binbin Zhou 2025-08-12  392  
-71ff6b050ad788 Binbin Zhou 2025-08-12  393  	/* Disable GPIO output */
-71ff6b050ad788 Binbin Zhou 2025-08-12  394  	val = readl(gpio_base + LOONGSON_GPIO_OEN);
-71ff6b050ad788 Binbin Zhou 2025-08-12  395  	writel(val | BIT(LS2K_BMC_RESET_GPIO), gpio_base + LOONGSON_GPIO_OEN);
-71ff6b050ad788 Binbin Zhou 2025-08-12  396  
-71ff6b050ad788 Binbin Zhou 2025-08-12  397  	/* Enable GPIO functionality */
-71ff6b050ad788 Binbin Zhou 2025-08-12  398  	val = readl(gpio_base + LOONGSON_GPIO_FUNC);
-71ff6b050ad788 Binbin Zhou 2025-08-12  399  	writel(val & ~BIT(LS2K_BMC_RESET_GPIO), gpio_base + LOONGSON_GPIO_FUNC);
-71ff6b050ad788 Binbin Zhou 2025-08-12  400  
-71ff6b050ad788 Binbin Zhou 2025-08-12  401  	/* Set GPIO interrupts to low-level active */
-71ff6b050ad788 Binbin Zhou 2025-08-12  402  	val = readl(gpio_base + LOONGSON_GPIO_INTPOL);
-71ff6b050ad788 Binbin Zhou 2025-08-12  403  	writel(val & ~BIT(LS2K_BMC_RESET_GPIO), gpio_base + LOONGSON_GPIO_INTPOL);
-71ff6b050ad788 Binbin Zhou 2025-08-12  404  
-71ff6b050ad788 Binbin Zhou 2025-08-12  405  	/* Enable GPIO interrupts */
-71ff6b050ad788 Binbin Zhou 2025-08-12  406  	val = readl(gpio_base + LOONGSON_GPIO_INTEN);
-71ff6b050ad788 Binbin Zhou 2025-08-12  407  	writel(val | BIT(LS2K_BMC_RESET_GPIO), gpio_base + LOONGSON_GPIO_INTEN);
-71ff6b050ad788 Binbin Zhou 2025-08-12  408  
-71ff6b050ad788 Binbin Zhou 2025-08-12  409  	ret = devm_request_irq(ddata->dev, irq, ls2k_bmc_interrupt,
-71ff6b050ad788 Binbin Zhou 2025-08-12  410  			       IRQF_SHARED | IRQF_TRIGGER_FALLING, "ls2kbmc gpio", ddata);
-71ff6b050ad788 Binbin Zhou 2025-08-12  411  	if (ret)
-71ff6b050ad788 Binbin Zhou 2025-08-12  412  		dev_err(ddata->dev, "Failed to request LS2KBMC GPIO IRQ %d.\n", irq);
-71ff6b050ad788 Binbin Zhou 2025-08-12  413  
-71ff6b050ad788 Binbin Zhou 2025-08-12  414  	iounmap(gpio_base);
-71ff6b050ad788 Binbin Zhou 2025-08-12  415  
-71ff6b050ad788 Binbin Zhou 2025-08-12  416  acpi_failed:
-71ff6b050ad788 Binbin Zhou 2025-08-12  417  	acpi_unregister_gsi(gsi);
-71ff6b050ad788 Binbin Zhou 2025-08-12  418  	return ret;
-71ff6b050ad788 Binbin Zhou 2025-08-12  419  }
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[6]], 'usb1v8-supply': [[7]], 'usb3v1-supply': [[4]], 'usb_mode': [1], '#phy-cells': 0} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/i2c@48072000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/i2c@48072000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/dss@48050000: failed to match any schema with compatible: ['ti,omap2-dss']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/dss@48050000/dispc@48050400: failed to match any schema with compatible: ['ti,omap2-dispc']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/dss@48050000/encoder@48050800: failed to match any schema with compatible: ['ti,omap2-rfbi']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/dss@48050000/encoder@48050c00: failed to match any schema with compatible: ['ti,omap2-venc']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: l4_wkup@49000000 (ti,omap2-l4-wkup): $nodename:0: 'l4_wkup@49000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/l4_wkup@49000000: failed to match any schema with compatible: ['ti,omap2-l4-wkup', 'simple-bus']
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
