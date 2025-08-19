@@ -1,55 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFAE378F36
-	for <oe-kbuild@lists.linux.dev>; Tue, 19 Aug 2025 08:35:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5212931CA6F
+	for <oe-kbuild@lists.linux.dev>; Tue, 19 Aug 2025 09:53:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755592511; cv=none; b=OlSKn00Ai9OQlRyVRq2HWzM890Fro9F3f6cIECIImJaQinfCUKp+KQUWCero2a4fJdy0XjPr7UX7/wPhAcV5JAdF3cud1s3zmBGHO4gsHcueSuA4g5zDukT5bQxQ4/apOJCU2RuobtvRi7WBRUWK66l8npztdFEjpKi1P3Da3Po=
+	t=1755597222; cv=none; b=JM0mJ8gzw+zaD90zFGCNL1Ahwvi/n7RZ/4FIQHO/Utxbf6KI5D9xObiLc3EdtAvCukUgqafXVU38FiahSj4pGldPpFTBIc8u+v87VK3c5UICwR+CgeCWtuppETxXQ2RB5C11jfpMY6JYF4+fXXw6HNoDzcNMOIL/Z20SSG79njc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755592511; c=relaxed/simple;
-	bh=ESMooSztdzriXC1F4iNeYbOfcA/xTJ5ZY6DOOjVmeW0=;
+	s=arc-20240116; t=1755597222; c=relaxed/simple;
+	bh=YEizIsE8/y/LtNcORPO8jldB4Nh5dJHp08eXLO5S9Go=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZKSr6ReYGuCXA/jWzAmtSWqCYwZ1dWVn4VXa3+9KWcI5T21STVKnOIQ2X560JwiScg4xUIJifM8Mp8zs5DRStb4y0cy7aO/iKoN/No40AxJQAZDEuEUKHTesUX3KUl++58FIzmQbJNdJi03OPJbVMKazJR7IMN9fzkzkRygIJMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hdI15/lQ; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=CRjbg9Bs5CXOsI4W4Y0uAl3tD0CC+xeBcKQmXdUAzOznR5FDkkI8JMvlhLGiWUPNgPGSHkavzhCjPJHMinYcwYkC1iyEI0jFlZiNjmQIZnrXj1UltU9/uwN9utBNCTqc+6tNbQSpQiAWsggUAQJg5oyD29cTZBtxHSauh+6NeWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UeEm2gPy; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hdI15/lQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755592508; x=1787128508;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ESMooSztdzriXC1F4iNeYbOfcA/xTJ5ZY6DOOjVmeW0=;
-  b=hdI15/lQW9Qc/Iges+F7gbAbXuECD1ZjBBWTwAjRviKud51Ez9RxQKOR
-   U7Cfg3rIK6jaYeQfI8HerTdDBdZKwXksKz7sSnJSDfpg3V2u/r2Zs8ZIA
-   XWt9ykx1MPQoy89HSgiO2eTAuN/Orug5nai8k+AZlLhpRc/sP1CYQPuXr
-   VHQ12zZy9mdH0PgRnOBDvxIVoiKjiSaqMRqV6jHd9eUZ+zbMeXanpO5VG
-   4z5C4u+2NGBqjPVkO/kgVQQrLCR7VTyknEtEG3GQTBk6rpkp2JuctUc1N
-   Lr8UwXw/rcDZpVfPBB9cOorc/5FR9Vg/fElyC1DPaJp6RcP9do9B9Yx/d
-   g==;
-X-CSE-ConnectionGUID: J7GzxuiOScS6siZgm15s3Q==
-X-CSE-MsgGUID: FjLtuJgIQZW/GBl0HoL+xg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="68926072"
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="68926072"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 01:35:09 -0700
-X-CSE-ConnectionGUID: t1y6Wr3BTuWdHiC0ivuRag==
-X-CSE-MsgGUID: cv6SFek+TqeraOOtCtRhaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="167030905"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 19 Aug 2025 01:35:07 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uoHnl-000GfP-1s;
-	Tue, 19 Aug 2025 08:34:46 +0000
-Date: Tue, 19 Aug 2025 16:33:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UeEm2gPy"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3b9e411c820so2752121f8f.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 19 Aug 2025 02:53:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755597217; x=1756202017; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rNam3s73jCkH5fp8vQUdOONkGiCMjeqztr8hoMDyHKE=;
+        b=UeEm2gPykyQbPY5wFTvL/UOCaKl7YsC6cLS9JL8j8H4QeQNmcMvKlRHu687neSgAyK
+         wzbTLj7MTsPF3mSxIds/580kcK8gqgRkTNCwP8eg1CiZETLX7UvrSW1xIitEtpI5/CMW
+         ptJcQlkkgsM7KqDc2tJrq29ZEv85I5+cmkBGKcZE4ZRAjVNC62gYwC3gUrMYiDm0DSgz
+         gu8Gw01QLXZ0uV4Sf41nE5vVvM1WOwpDqt0s1FFee9Rq6Pfm7dJ6K11fbkXFzRCwHnql
+         kiv6L4qEUAOmcLBufoPZ7JUgAhAXZiCVInZ+y7rHyzmPpI3+ZdvmRytipNK7A2wMytkW
+         iV5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755597217; x=1756202017;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rNam3s73jCkH5fp8vQUdOONkGiCMjeqztr8hoMDyHKE=;
+        b=R69ekznB2hpI8qRK/8SZvV+TWHpIllGCmjKq/PzUWBG36wYkiXnB8/iBu5W3QMtjVM
+         bibVByyaxVbCHXylzwwQCoukOWLNiSc88SETq9MqSgaJlINXWc5H9wj8LBSsVwMCOZ09
+         H8ae+RwBP4KzzE8eqUCqTsgMtPTFE7VK3rKyo0oBQUDVb7RvP9nKYZX/lbdCO+cy3dbW
+         rt2xJ17WNiY2+Pk4N5gtwrLeE0W2bNfXqAVxn3WjdkTkD/8KgVuGxzeeo20sdUk7Vm9I
+         xlWz3eTf0GU1/0M8AU751tBuqyATksG3OZmfwtHmhkIlaVhWcAJaMHDXy1Yk4kwmwCrT
+         FmWA==
+X-Gm-Message-State: AOJu0Yy+eDygRob2CTekapMI2nF6i1BubdSfeuaNApdx/ZDPH/gsNebz
+	mCHXqHQgqsFQ8Yz/86XhX0t+AvAYVFqd5CGgzLVPEHpf+FtHUmAuGv7SJQJrCp8fdJbAlWeQikH
+	K+Ku0
+X-Gm-Gg: ASbGncuVB9voDyjqhQ5vFmdX95N+K3vBQFvsQ0m7HLChlka6E+RaQ+0pOUSiyDTfIYQ
+	+JVnQzporgO45ufs5ZQQPiiFVMggODmIgO2ru/sjjBI5jCk0acQbE/nS16XfcQcLsoZLsfY4ray
+	iW8Lr+hhnhFmktaxLHEA7Q0tEOY+aHK9QyJV1Go2OKtJ45fsMX+j8IIp3IwO4shJikqN9VW2R4Y
+	y54Tt73JeIT47L1cyHf95GDkC0Ka+SMcLYphQ+1UXwreZ49pFXIYhB/BP7y+wrqmIUMIoHCN+Mo
+	qGWlD39ln6aenvqo0IombzYbyc/BSQaJo8Ee71v1EvZoRYyNEC5yj4luyWSvcYoOSzLbKobqC5x
+	RjWn7m6LwqnAsm+oi2HntBFGivGPl5BR0WO0dg1f32fo=
+X-Google-Smtp-Source: AGHT+IFhVoXOXWz933OS2H4MYPh1tnFGv79hui+RhHHpUYqmH0GfWUAlyD1l4ealbPI6uEAVPOGUJg==
+X-Received: by 2002:a05:6000:200d:b0:3b7:8832:fdd5 with SMTP id ffacd0b85a97d-3c0eaf4f6dfmr1431883f8f.16.1755597213853;
+        Tue, 19 Aug 2025 02:53:33 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c0771c16eesm3152017f8f.37.2025.08.19.02.53.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 02:53:33 -0700 (PDT)
+Date: Tue, 19 Aug 2025 12:53:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Binbin Zhou <zhoubinbin@loongson.cn>,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>, Lee Jones <lee@kernel.org>,
+	Corey Minyard <minyard@acm.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net, jeffbai@aosc.io,
+	kexybiscuit@aosc.io, wangyao@lemote.com,
+	Chong Qiao <qiaochong@loongson.cn>
 Subject: Re: [PATCH v9 2/3] mfd: ls2kbmc: Add Loongson-2K BMC reset function
  support
 Message-ID: <202508191519.uT5io1jk-lkp@intel.com>
@@ -61,44 +80,24 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <1809103a948545df93b7b439df46ca6393995aa1.1754999365.git.zhoubinbin@loongson.cn>
-References: <1809103a948545df93b7b439df46ca6393995aa1.1754999365.git.zhoubinbin@loongson.cn>
-TO: Binbin Zhou <zhoubinbin@loongson.cn>
-TO: Binbin Zhou <zhoubb.aaron@gmail.com>
-TO: Huacai Chen <chenhuacai@loongson.cn>
-TO: Lee Jones <lee@kernel.org>
-TO: Corey Minyard <minyard@acm.org>
-CC: Xuerui Wang <kernel@xen0n.name>
-CC: loongarch@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: openipmi-developer@lists.sourceforge.net
-CC: jeffbai@aosc.io
-CC: kexybiscuit@aosc.io
-CC: wangyao@lemote.com
-CC: Chong Qiao <qiaochong@loongson.cn>
+Message-ID: <20250819095330.K_NwiD3fi6eopzQaxzd2-th289hF9rkZY9PzN-HyyqM@z>
 
 Hi Binbin,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 006aa8f57f55dd5bf68c4ada1e0d3f4e59027d71]
-
 url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/mfd-ls2kbmc-Introduce-Loongson-2K-BMC-core-driver/20250812-200258
 base:   006aa8f57f55dd5bf68c4ada1e0d3f4e59027d71
 patch link:    https://lore.kernel.org/r/1809103a948545df93b7b439df46ca6393995aa1.1754999365.git.zhoubinbin%40loongson.cn
 patch subject: [PATCH v9 2/3] mfd: ls2kbmc: Add Loongson-2K BMC reset function support
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
 config: loongarch-randconfig-r073-20250818 (https://download.01.org/0day-ci/archive/20250819/202508191519.uT5io1jk-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202508191519.uT5io1jk-lkp@intel.com/
 
 smatch warnings:
@@ -106,7 +105,6 @@ drivers/mfd/ls2k-bmc-core.c:389 ls2k_bmc_pdata_initial() warn: passing zero to '
 
 vim +/PTR_ERR +389 drivers/mfd/ls2k-bmc-core.c
 
-71ff6b050ad788 Binbin Zhou 2025-08-12  359  
 71ff6b050ad788 Binbin Zhou 2025-08-12  360  static int ls2k_bmc_pdata_initial(struct ls2k_bmc_pdata *ddata)
 71ff6b050ad788 Binbin Zhou 2025-08-12  361  {
 71ff6b050ad788 Binbin Zhou 2025-08-12  362  	struct pci_dev *pdev = to_pci_dev(ddata->dev);
@@ -137,6 +135,9 @@ vim +/PTR_ERR +389 drivers/mfd/ls2k-bmc-core.c
 71ff6b050ad788 Binbin Zhou 2025-08-12  387  	gpio_base = ioremap(LOONGSON_GPIO_REG_BASE, LOONGSON_GPIO_REG_SIZE);
 71ff6b050ad788 Binbin Zhou 2025-08-12  388  	if (!gpio_base) {
 71ff6b050ad788 Binbin Zhou 2025-08-12 @389  		ret = PTR_ERR(gpio_base);
+
+This PTR_ERR(NULL) is success.  It should be "ret = -ENOMEM;"
+
 71ff6b050ad788 Binbin Zhou 2025-08-12  390  		goto acpi_failed;
 71ff6b050ad788 Binbin Zhou 2025-08-12  391  	}
 71ff6b050ad788 Binbin Zhou 2025-08-12  392  
@@ -167,8 +168,8 @@ vim +/PTR_ERR +389 drivers/mfd/ls2k-bmc-core.c
 71ff6b050ad788 Binbin Zhou 2025-08-12  417  	acpi_unregister_gsi(gsi);
 71ff6b050ad788 Binbin Zhou 2025-08-12  418  	return ret;
 71ff6b050ad788 Binbin Zhou 2025-08-12  419  }
-71ff6b050ad788 Binbin Zhou 2025-08-12  420  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
