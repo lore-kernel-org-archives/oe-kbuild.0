@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E02D198A11
-	for <oe-kbuild@lists.linux.dev>; Wed, 20 Aug 2025 01:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7E522B8B6
+	for <oe-kbuild@lists.linux.dev>; Wed, 20 Aug 2025 02:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755651608; cv=none; b=TFldouRdYwfciwC/zQa6aVXoHPME3PHRBfFl0++kz11acNkCZuev1J+AW9613UK0IIUQ1dX307Kvzd3tH+T8RxzwrKFxrydRpSw2jHA+Vgd0lDLYIySuh0+YO/96lpl1RA5LIyaC8tIWMj027njbZyocozH16Qi8N2xxzcGUktE=
+	t=1755656751; cv=none; b=RPCPg+u7lI3S+d6TpWDkZrBbtlP1V9gtelG6/0TjpU3tRQhjFpa/8IQxoOr/CGTiXZJmGMD8VcyV5vpHgkzmiTTXTK3jogPACjn5xQzE76fKjsPp/QsBznDp9x1At7/8yTmLrmE/PvZTYDyvDOLCyVlkPG0d/f+vt1ipOFkoadA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755651608; c=relaxed/simple;
-	bh=JHcPsaDFDX+z5oqI5gj8asvdazoXWYj1PxHiE+cQeAg=;
+	s=arc-20240116; t=1755656751; c=relaxed/simple;
+	bh=4mLO2tAwwrLnmW38FnIYDiJwRNaK5z5SsLrKLNgByd0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lTkkR6BF1jhYH798sYk6t1kj/rjoaOFzpu43ubvnx6MRK/N+P2SEqiElAgEscUTQ1jlHBQqvOAnFU/jHmsVlMtVijtSuxn8WT3o9HR/EDb0oLFfYErnT6jGlyywGtrUBN2tJHcbwrgZT9MZ6fUlXohr3JwUIx1Vxlwr8ITxsik0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VMMqybH7; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=thzwySfrYZPpwUHTEpH9J60R/pCP6+RckEJqvtLfPrUs2nzR4nSwDnaHCfi0x9WE/zh5CAxO7M13N+N8smqFeTp0Yywujm2wGt2U/qE7tDFztqLqqqFtqUD1Y9AGnxQduXspuxEMu6ua2W/zSNsyALBg7THYiVZl3aXGCaRzdog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VjPiTE7P; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMMqybH7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VjPiTE7P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755651606; x=1787187606;
+  t=1755656749; x=1787192749;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JHcPsaDFDX+z5oqI5gj8asvdazoXWYj1PxHiE+cQeAg=;
-  b=VMMqybH7UGIdhTn/uK3l0K3BoBn4+pstdUl6ilnQNOFKi6Z2sk/Tvn3/
-   lCaLe0EAJ4p+SpakgbWPQ1czMsK+AL1mqQm9/0NPFrlWYgh1Z9oSXBRJ8
-   rQsBGK5cglc+Ch6lGRLke07q9C5to/4eOzVDyudgLg3MFOe8TXK6PgoZs
-   cFKGL7NTgEymI6Ih8hRS+om3y87/4wPG5lqHJvBLhso6R+dbmKaqLQC7y
-   f3YEdgFd77EwnCegdhcU4gmpgYe6V1dxKYVHBXfq55yDlo6iNJq4OwH7L
-   V6ZdiYxwJJmgeephOxZKkXMT8fCqBsWxZT27LcFdgxXdkPIbrRRphqyra
-   A==;
-X-CSE-ConnectionGUID: UvGCeNoUTI+tmMDRvmPALw==
-X-CSE-MsgGUID: tcgD3VD4SMi3vYj0tD2x9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="60536268"
+  bh=4mLO2tAwwrLnmW38FnIYDiJwRNaK5z5SsLrKLNgByd0=;
+  b=VjPiTE7P80v++yYHFAmCaJKlmw71a7yCbX7PhWb+1SSoPIIM7dGlWNI2
+   WWMF4OPWhQcKG+IC7/38wc1BIu6PqrIl3dRSmrcLzUQ3YNJhfY6zpb3ue
+   kMhVqDHdl+D4ckJ2tv+MlCQIv8Fe5PfVR9WuhUVk/KUWBTJIiIaNWYRZV
+   A1vOHd7ji1YLhxocy99Uw1kLS9Z6vlp6m3wq3chbMvokcv/6lAlPTyK9W
+   wbnp3JAm/SkXjl8i92GE/2zEgyQ3uoQCEjHriMU2gnvbI4IdNUUqgfQQK
+   Y4uUfXGVaPnzz5SwYdGJyQ2oSKjGPHby6A1ijfsDYEx7XMHSrmaIzpJ19
+   Q==;
+X-CSE-ConnectionGUID: zFp5FKyKTUGt8Yo/xdWMPQ==
+X-CSE-MsgGUID: Sk/jkb+nQSGoSFlTQCHkTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57776273"
 X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="60536268"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 18:00:04 -0700
-X-CSE-ConnectionGUID: 5y9S5DrjQ5Gc0vyQ9PHIJQ==
-X-CSE-MsgGUID: xLoQj+XfQjikn8s1UezBMw==
+   d="scan'208";a="57776273"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 19:25:49 -0700
+X-CSE-ConnectionGUID: KZs5pbevQBexRMVc/CtbqQ==
+X-CSE-MsgGUID: y3Cp7aB0QD+AiqVoLSSNXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="191679997"
+   d="scan'208";a="167967269"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Aug 2025 18:00:03 -0700
+  by orviesa007.jf.intel.com with ESMTP; 19 Aug 2025 19:25:48 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoXBJ-000HuB-0n;
-	Wed, 20 Aug 2025 01:00:01 +0000
-Date: Wed, 20 Aug 2025 08:59:13 +0800
+	id 1uoYVg-000HyF-0f;
+	Wed, 20 Aug 2025 02:25:17 +0000
+Date: Wed, 20 Aug 2025 10:24:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 3/3] ARM: dts: aspeed: Add device tree for mgx4u BMC
-Message-ID: <202508200851.hwDIbkea-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading
+ functionality
+Message-ID: <202508200929.zEY4ejFt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,95 +62,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250815-mgx4u_devicetree-v1-3-66db6fa5a7e4@nvidia.com>
-References: <20250815-mgx4u_devicetree-v1-3-66db6fa5a7e4@nvidia.com>
-TO: Marc Olberding <molberding@nvidia.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Joel Stanley <joel@jms.id.au>
-TO: Andrew Jeffery <andrew@codeconstruct.com.au>
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-aspeed@lists.ozlabs.org
+In-Reply-To: <20250813174408.1146717-4-ivecera@redhat.com>
+References: <20250813174408.1146717-4-ivecera@redhat.com>
+TO: Ivan Vecera <ivecera@redhat.com>
+TO: netdev@vger.kernel.org
+CC: Jiri Pirko <jiri@resnulli.us>
+CC: Eric Dumazet <edumazet@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Paolo Abeni <pabeni@redhat.com>
+CC: Simon Horman <horms@kernel.org>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: Prathosh Satish <Prathosh.Satish@microchip.com>
+CC: linux-doc@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: Marc Olberding <molberding@nvidia.com>
+CC: Michal Schmidt <mschmidt@redhat.com>
+CC: Petr Oros <poros@redhat.com>
+CC: Przemek Kitszel <przemyslaw.kitszel@intel.com>
 
-Hi Marc,
+Hi Ivan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 7bac2c97af4078d7a627500c9bcdd5b033f97718]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marc-Olberding/dt-bindings-arm-aspeed-Add-Nvidia-s-mgx4u-BMC/20250816-035003
-base:   7bac2c97af4078d7a627500c9bcdd5b033f97718
-patch link:    https://lore.kernel.org/r/20250815-mgx4u_devicetree-v1-3-66db6fa5a7e4%40nvidia.com
-patch subject: [PATCH 3/3] ARM: dts: aspeed: Add device tree for mgx4u BMC
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm-randconfig-051-20250817 (https://download.01.org/0day-ci/archive/20250820/202508200851.hwDIbkea-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250820/202508200851.hwDIbkea-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dpll-zl3073x-Add-functions-to-access-hardware-registers/20250814-014831
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250813174408.1146717-4-ivecera%40redhat.com
+patch subject: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading functionality
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: xtensa-randconfig-r073-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200929.zEY4ejFt-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 9.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508200851.hwDIbkea-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202508200929.zEY4ejFt-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/aspeed/aspeed-g6.dtsi:728.36-732.7: Warning (unique_unit_address_if_enabled): /ahb/apb@1e780000/lpc@1e789000/reset-controller@98: duplicate unit-address (also used in node /ahb/apb@1e780000/lpc@1e789000/uart-routing@98)
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: spi@1e630000 (aspeed,ast2600-spi): Unevaluated properties are not allowed ('fmc-spi-user-mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/aspeed,ast2600-fmc.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: /ahb/apb@1e6e0000/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: /ahb/apb@1e6e0000/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: /ahb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: /ahb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: /ahb/apb@1e780000/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: kcs@24 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: /ahb/apb@1e780000/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: /ahb/apb@1e780000/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: fsi@1e79b000 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: /ahb/apb@1e790000/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: fsi@1e79b100 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: /ahb/apb@1e790000/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dtb: /ahb/apb@1e790000/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
+smatch warnings:
+drivers/dpll/zl3073x/fw.c:239 zl3073x_fw_component_load() warn: potential user controlled sizeof overflow 'count * 4' '0-u32max * 4'
+
+vim +239 drivers/dpll/zl3073x/fw.c
+
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  183  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  184  /**
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  185   * zl3073x_fw_component_load - Load component from firmware source
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  186   * @zldev: zl3073x device structure
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  187   * @pcomp: pointer to loaded component
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  188   * @psrc: data pointer to load component from
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  189   * @psize: remaining bytes in buffer
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  190   * @extack: netlink extack pointer to report errors
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  191   *
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  192   * The function allocates single firmware component and loads the data from
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  193   * the buffer specified by @psrc and @psize. Pointer to allocated component
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  194   * is stored in output @pcomp. Source data pointer @psrc and remaining bytes
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  195   * @psize are updated accordingly.
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  196   *
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  197   * Return:
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  198   * * 1 when component was allocated and loaded
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  199   * * 0 when there is no component to load
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  200   * * <0 on error
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  201   */
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  202  static ssize_t
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  203  zl3073x_fw_component_load(struct zl3073x_dev *zldev,
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  204  			  struct zl3073x_fw_component **pcomp,
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  205  			  const char **psrc, size_t *psize,
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  206  			  struct netlink_ext_ack *extack)
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  207  {
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  208  	const struct zl3073x_fw_component_info *info;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  209  	struct zl3073x_fw_component *comp = NULL;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  210  	struct device *dev = zldev->dev;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  211  	enum zl3073x_fw_component_id id;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  212  	char buf[32], name[16];
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  213  	u32 count, size, *dest;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  214  	int pos, rc;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  215  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  216  	/* Fetch image name and size from input */
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  217  	strscpy(buf, *psrc, min(sizeof(buf), *psize));
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  218  	rc = sscanf(buf, "%15s %u %n", name, &count, &pos);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  219  	if (!rc) {
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  220  		/* No more data */
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  221  		return 0;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  222  	} else if (rc == 1) {
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  223  		ZL3073X_FW_ERR_MSG(zldev, extack, "invalid component size");
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  224  		return -EINVAL;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  225  	}
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  226  	*psrc += pos;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  227  	*psize -= pos;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  228  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  229  	dev_dbg(dev, "Firmware component '%s' found\n", name);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  230  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  231  	id = zl3073x_fw_component_id_get(name);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  232  	if (id == ZL_FW_COMPONENT_INVALID) {
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  233  		ZL3073X_FW_ERR_MSG(zldev, extack, "unknown component type '%s'",
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  234  				   name);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  235  		return -EINVAL;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  236  	}
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  237  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  238  	info = &component_info[id];
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13 @239  	size = count * sizeof(u32); /* get size in bytes */
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  240  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  241  	/* Check image size validity */
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  242  	if (size > component_info[id].max_size) {
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  243  		ZL3073X_FW_ERR_MSG(zldev, extack,
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  244  				   "[%s] component is too big (%u bytes)\n",
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  245  				   info->name, size);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  246  		return -EINVAL;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  247  	}
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  248  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  249  	dev_dbg(dev, "Indicated component image size: %u bytes\n", size);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  250  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  251  	/* Alloc component */
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  252  	comp = zl3073x_fw_component_alloc(size);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  253  	if (!comp) {
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  254  		ZL3073X_FW_ERR_MSG(zldev, extack, "failed to alloc memory");
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  255  		return -ENOMEM;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  256  	}
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  257  	comp->id = id;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  258  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  259  	/* Load component data from firmware source */
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  260  	for (dest = comp->data; count; count--, dest++) {
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  261  		strscpy(buf, *psrc, min(sizeof(buf), *psize));
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  262  		rc = sscanf(buf, "%x %n", dest, &pos);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  263  		if (!rc)
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  264  			goto err_data;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  265  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  266  		*psrc += pos;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  267  		*psize -= pos;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  268  	}
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  269  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  270  	*pcomp = comp;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  271  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  272  	return 1;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  273  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  274  err_data:
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  275  	ZL3073X_FW_ERR_MSG(zldev, extack, "[%s] invalid or missing data",
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  276  			   info->name);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  277  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  278  	zl3073x_fw_component_free(comp);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  279  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  280  	return -ENODATA;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  281  }
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  282  
 
 -- 
 0-DAY CI Kernel Test Service
