@@ -1,132 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DA72798FE
-	for <oe-kbuild@lists.linux.dev>; Wed, 20 Aug 2025 09:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDE22522B4
+	for <oe-kbuild@lists.linux.dev>; Wed, 20 Aug 2025 10:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755683831; cv=none; b=jkupnqAHKxAzZrP8nPIPTKTvvjdq9BDxBHIt8DU+dpNOzV7tAoFgMSiAqlnQqkgovu2lD9HK6K92TE8ge4W2QJoj25oKtSNFAuNE1qJLBfCHFbE82zD3AYwtI0/rhaGdB4JbzELtwGRjJgbOhZksPBfFl5m1j+HO3X8TQQIbIY4=
+	t=1755684542; cv=none; b=avZe4MTBScOPRrr4vq117ktse7A033JTHa5NStBP22aftLfp1o4u1ot7Ooy1E9n6OMXVoA9y+HvSykQ1JPxTTTS+Ldpyv2AzooR4UeZEPPoCpVXzNsB/iZGrds2FhAKUSQlCtuZsbevbztw0HiYRfoNU0KbA8h/GXprmix8+KAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755683831; c=relaxed/simple;
-	bh=ERCDnXF+euyBiesIMPAPCqZEmvpwQDMGgLbxGYMFIkE=;
+	s=arc-20240116; t=1755684542; c=relaxed/simple;
+	bh=lbUZacDE5urk5Wh2J6jDgkFJErQWfDA9eFskfeh7LqY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lDJ3/IcI1YkS89mzh2a01imAh6ErftEi++A87fkj4RJCIlUz/xpb2fm+QPBpAZ1AJcMI47NlQ1YGDwFweH6AqVz85t3lsOSLPRX3MPI5BYP6dTH3uxdOcwZLgmaDjxvA3k/VirrxWOi3kXn6J1yR8p0cuSSBDq/fOiYT9w8Bfxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RnJqrwgW; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=YDihLdH0p8ScX/dwbTemvNySGkYaZK/uOCSpMAwG+gquwto/4nvkvWf1rYrC+FpDVMfO3hi8pG/8kCOzr/875NbsA71XpWCPlyUz0LRxqUBdEyPyZc9LhMcSpF7pPC++beWwlVzMgPa7dIpWHw3toPhLkkZnLGqFUvpUgBgIJWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M4SGqaBR; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RnJqrwgW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M4SGqaBR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755683829; x=1787219829;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ERCDnXF+euyBiesIMPAPCqZEmvpwQDMGgLbxGYMFIkE=;
-  b=RnJqrwgWGoiIzkQ+JGfLM56wXQ7UVZdoxRQazYUgYeLYq3y00uXbstar
-   4P2zJRrSzf4+lQ3Y2Kz9FvRAHjr1vZgnXeBxNDu8Mx33LcHaJIAqHyGDV
-   b7i1qgnTOSOZ3AzxxH0jbcHL7JrM5uXcqLwkJw4OkUuj1AbOVg64QoV0l
-   S51oLH0TARg2YV/hGehHsQ8WdvVEvUAgSG+APGD+iN15AmU+n1vvTJioL
-   pAXWVgij6krUIgZ+q6pAky2gO9UpPetzTbffc9fe2cv1shyDMTy14DsTa
-   xH0YSZV728gHeLXDwpgYrXnfkMuGCk/7F5cXaSag/26gIfRYrYe4v+M4Y
-   Q==;
-X-CSE-ConnectionGUID: Uc6U8tRhTj+5R3gyUPrNNA==
-X-CSE-MsgGUID: dWNfTidSSay+6r07NzdvRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="58010899"
+  t=1755684540; x=1787220540;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lbUZacDE5urk5Wh2J6jDgkFJErQWfDA9eFskfeh7LqY=;
+  b=M4SGqaBRQk/n5SLfQHOqjbVxIrgfBE6hgON0SH44CmqukMZWIJvGR49V
+   RXoyWo10T5q2z9wWJThkB5DCmIt962zSLHX2eYwhuvkJ/lAnJRurInRZu
+   XCS8QiYYePY1g1EvGLYqeiE76dBX9H4GK96XRN27tP3W2Tfw/h+7Om/hF
+   LGo70vTKEA6rTl6Tp3Mj047oLs+Zcsp372oUI+yYjRM1ZinKKxF7NBM4d
+   0CiDIbKKAvghYNU5MqDsPmBfUPCJ1HCcAqWoqX3cFuV7fA9qoYj1L0zrC
+   PssTRXJ3BgY0StGbZ5wJ5+Xj9g4/EPPub/Rpe4h2o1a77G/JMSLS6MGWu
+   A==;
+X-CSE-ConnectionGUID: V3MCfxofQWqOi8NkBu6fMw==
+X-CSE-MsgGUID: MvTr7m6KTdyugLlZ5INTzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57653236"
 X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="58010899"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 02:57:09 -0700
-X-CSE-ConnectionGUID: 04oU+fDrTWaRUVCpzu2ERQ==
-X-CSE-MsgGUID: jIaygiqoTa6ic7+7mctAmg==
+   d="scan'208";a="57653236"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 03:08:59 -0700
+X-CSE-ConnectionGUID: E38+sAsZS7iFh9R8KVMpzA==
+X-CSE-MsgGUID: 0QKk8IFdRmOVtjoodpaTDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="167707885"
+   d="scan'208";a="172506024"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 20 Aug 2025 02:57:08 -0700
+  by orviesa004.jf.intel.com with ESMTP; 20 Aug 2025 03:08:58 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uofYy-000Iop-2x;
-	Wed, 20 Aug 2025 09:57:01 +0000
-Date: Wed, 20 Aug 2025 17:56:43 +0800
+	id 1uofkV-000Iq4-32;
+	Wed, 20 Aug 2025 10:08:55 +0000
+Date: Wed, 20 Aug 2025 18:07:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 3308/3631] drivers/mmc/host/sdhci-cadence.c:297
- sdhci_cdns_tune_blkgap() error: uninitialized symbol 'hrs37_mode'.
-Message-ID: <202508201717.XTR5uRFP-lkp@intel.com>
+Subject: arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:1378
+ kvm_trylock_all_vcpus() warn: iterator 'i' not incremented
+Message-ID: <202508201849.gyHsJBT1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Benoît Monin" <benoit.monin@bootlin.com>
-CC: Ulf Hansson <ulf.hansson@linaro.org>
+CC: linux-kernel@vger.kernel.org
+TO: Maxim Levitsky <mlevitsk@redhat.com>
+CC: Paolo Bonzini <pbonzini@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   5303936d609e09665deda94eaedf26a0e5c3a087
-commit: 60613a8b9b8187d789750423132ad7664ca448c9 [3308/3631] mmc: sdhci-cadence: implement multi-block read gap tuning
-:::::: branch date: 5 hours ago
-:::::: commit date: 21 hours ago
-config: i386-randconfig-141-20250820 (https://download.01.org/0day-ci/archive/20250820/202508201717.XTR5uRFP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b19a97d57c15643494ac8bfaaa35e3ee472d41da
+commit: e4a454ced74c0ac97c8bd32f086ee3ad74528780 KVM: add kvm_lock_all_vcpus and kvm_trylock_all_vcpus
+date:   3 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 3 months ago
+config: powerpc64-randconfig-r073-20250819 (https://download.01.org/0day-ci/archive/20250820/202508201849.gyHsJBT1-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508201717.XTR5uRFP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508201849.gyHsJBT1-lkp@intel.com/
 
-smatch warnings:
-drivers/mmc/host/sdhci-cadence.c:297 sdhci_cdns_tune_blkgap() error: uninitialized symbol 'hrs37_mode'.
+New smatch warnings:
+arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:1378 kvm_trylock_all_vcpus() warn: iterator 'i' not incremented
+arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:1384 kvm_trylock_all_vcpus() warn: iterator 'j' not incremented
+arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:1401 kvm_lock_all_vcpus() warn: iterator 'i' not incremented
+arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:1409 kvm_lock_all_vcpus() warn: iterator 'j' not incremented
+arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:1425 kvm_unlock_all_vcpus() warn: iterator 'i' not incremented
 
-vim +/hrs37_mode +297 drivers/mmc/host/sdhci-cadence.c
+Old smatch warnings:
+arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:283 kvm_make_all_cpus_request() warn: iterator 'i' not incremented
+arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:487 kvm_destroy_vcpus() warn: iterator 'i' not incremented
+arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:1721 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1714)
+arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:1723 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1715)
+include/linux/kvm_host.h:1010 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
+arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:4961 kvm_vm_ioctl_reset_dirty_pages() warn: iterator 'i' not incremented
+arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:6092 kvm_get_stat_per_vcpu() warn: iterator 'i' not incremented
+arch/powerpc/kvm/../../../virt/kvm/kvm_main.c:6103 kvm_clear_stat_per_vcpu() warn: iterator 'i' not incremented
 
-ff6af28faff53a Masahiro Yamada 2016-12-08  271  
-60613a8b9b8187 Benoît Monin    2025-08-18  272  /**
-60613a8b9b8187 Benoît Monin    2025-08-18  273   * sdhci_cdns_tune_blkgap() - tune multi-block read gap
-60613a8b9b8187 Benoît Monin    2025-08-18  274   * @mmc: MMC host
-60613a8b9b8187 Benoît Monin    2025-08-18  275   *
-60613a8b9b8187 Benoît Monin    2025-08-18  276   * Tune delay used in multi block read. To do so,
-60613a8b9b8187 Benoît Monin    2025-08-18  277   * try sending multi-block read command with incremented gap, unless
-60613a8b9b8187 Benoît Monin    2025-08-18  278   * it succeeds.
-60613a8b9b8187 Benoît Monin    2025-08-18  279   *
-60613a8b9b8187 Benoît Monin    2025-08-18  280   * Return: error code
-60613a8b9b8187 Benoît Monin    2025-08-18  281   */
-60613a8b9b8187 Benoît Monin    2025-08-18  282  static int sdhci_cdns_tune_blkgap(struct mmc_host *mmc)
-60613a8b9b8187 Benoît Monin    2025-08-18  283  {
-60613a8b9b8187 Benoît Monin    2025-08-18  284  	struct sdhci_host *host = mmc_priv(mmc);
-60613a8b9b8187 Benoît Monin    2025-08-18  285  	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
-60613a8b9b8187 Benoît Monin    2025-08-18  286  	struct sdhci_cdns_priv *priv = sdhci_pltfm_priv(pltfm_host);
-60613a8b9b8187 Benoît Monin    2025-08-18  287  	void __iomem *hrs37_reg = priv->hrs_addr + SDHCI_CDNS_HRS37;
-60613a8b9b8187 Benoît Monin    2025-08-18  288  	void __iomem *hrs38_reg = priv->hrs_addr + SDHCI_CDNS_HRS38;
-60613a8b9b8187 Benoît Monin    2025-08-18  289  	int ret;
-60613a8b9b8187 Benoît Monin    2025-08-18  290  	u32 gap;
-60613a8b9b8187 Benoît Monin    2025-08-18  291  	u32 hrs37_mode;
-60613a8b9b8187 Benoît Monin    2025-08-18  292  
-60613a8b9b8187 Benoît Monin    2025-08-18  293  	/* Currently only needed in HS200 mode */
-60613a8b9b8187 Benoît Monin    2025-08-18  294  	if (host->timing != MMC_TIMING_MMC_HS200)
-60613a8b9b8187 Benoît Monin    2025-08-18  295  		return 0;
-60613a8b9b8187 Benoît Monin    2025-08-18  296  
-60613a8b9b8187 Benoît Monin    2025-08-18 @297  	writel(hrs37_mode, hrs37_reg);
-60613a8b9b8187 Benoît Monin    2025-08-18  298  
-60613a8b9b8187 Benoît Monin    2025-08-18  299  	for (gap = 0; gap <= SDHCI_CDNS_HRS38_BLKGAP_MAX; gap++) {
-60613a8b9b8187 Benoît Monin    2025-08-18  300  		writel(gap, hrs38_reg);
-60613a8b9b8187 Benoît Monin    2025-08-18  301  		ret = mmc_read_tuning(mmc, 512, 32);
-60613a8b9b8187 Benoît Monin    2025-08-18  302  		if (!ret)
-60613a8b9b8187 Benoît Monin    2025-08-18  303  			break;
-60613a8b9b8187 Benoît Monin    2025-08-18  304  	}
-60613a8b9b8187 Benoît Monin    2025-08-18  305  
-60613a8b9b8187 Benoît Monin    2025-08-18  306  	dev_dbg(mmc_dev(mmc), "read block gap tune %s, gap %d\n", ret ? "failed" : "OK", gap);
-60613a8b9b8187 Benoît Monin    2025-08-18  307  	return ret;
-60613a8b9b8187 Benoît Monin    2025-08-18  308  }
-60613a8b9b8187 Benoît Monin    2025-08-18  309  
+vim +/i +1378 arch/powerpc/kvm/../../../virt/kvm/kvm_main.c
+
+6aa8b732ca01c3d drivers/kvm/kvm_main.c Avi Kivity     2006-12-10  1370  
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1371  int kvm_trylock_all_vcpus(struct kvm *kvm)
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1372  {
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1373  	struct kvm_vcpu *vcpu;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1374  	unsigned long i, j;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1375  
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1376  	lockdep_assert_held(&kvm->lock);
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1377  
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1378  	kvm_for_each_vcpu(i, vcpu, kvm)
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1379  		if (!mutex_trylock_nest_lock(&vcpu->mutex, &kvm->lock))
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1380  			goto out_unlock;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1381  	return 0;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1382  
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1383  out_unlock:
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1384  	kvm_for_each_vcpu(j, vcpu, kvm) {
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1385  		if (i == j)
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1386  			break;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1387  		mutex_unlock(&vcpu->mutex);
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1388  	}
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1389  	return -EINTR;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1390  }
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1391  EXPORT_SYMBOL_GPL(kvm_trylock_all_vcpus);
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1392  
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1393  int kvm_lock_all_vcpus(struct kvm *kvm)
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1394  {
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1395  	struct kvm_vcpu *vcpu;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1396  	unsigned long i, j;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1397  	int r;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1398  
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1399  	lockdep_assert_held(&kvm->lock);
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1400  
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1401  	kvm_for_each_vcpu(i, vcpu, kvm) {
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1402  		r = mutex_lock_killable_nest_lock(&vcpu->mutex, &kvm->lock);
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1403  		if (r)
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1404  			goto out_unlock;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1405  	}
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1406  	return 0;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1407  
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1408  out_unlock:
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1409  	kvm_for_each_vcpu(j, vcpu, kvm) {
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1410  		if (i == j)
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1411  			break;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1412  		mutex_unlock(&vcpu->mutex);
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1413  	}
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1414  	return r;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1415  }
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1416  EXPORT_SYMBOL_GPL(kvm_lock_all_vcpus);
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1417  
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1418  void kvm_unlock_all_vcpus(struct kvm *kvm)
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1419  {
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1420  	struct kvm_vcpu *vcpu;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1421  	unsigned long i;
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1422  
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1423  	lockdep_assert_held(&kvm->lock);
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1424  
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1425  	kvm_for_each_vcpu(i, vcpu, kvm)
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1426  		mutex_unlock(&vcpu->mutex);
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1427  }
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1428  EXPORT_SYMBOL_GPL(kvm_unlock_all_vcpus);
+e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1429  
 
 -- 
 0-DAY CI Kernel Test Service
