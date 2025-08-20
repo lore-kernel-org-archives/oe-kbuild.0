@@ -1,319 +1,205 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010008.outbound.protection.outlook.com [52.101.229.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF9B24166E;
-	Wed, 20 Aug 2025 06:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755670460; cv=fail; b=HMqG5GpDqr9qYPtFPAHcEwu8ZDD1m7N0klc6U56VRIQ7KpbEsWxbPqNMlsFKoTKflHCXV5FNDUFwkRGWpKTk18fZvdE+4vQ3LGBQcXN+ZXE/YpQnSw9dp497BQnwWcTTswZZ2+4EojfKiHAwyhM2l5EvYK0TOFSqltWUMvwqk/o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755670460; c=relaxed/simple;
-	bh=YCqLBHT//KxXILB/EJOR0B9jXhMKGQ2a9AmK/+7XP3A=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=p3wSyM9nWQS3MT6wYYKQ/jlRX5V3+n9C6ktmh41q9X4twUX2OiQ41ksfS9tmCO4fRwdzTIzd/r7oKVhoK0db4biVrB0nW9fbTHHonR/oHrVoxzFG4H7SV+uK5EhimWWignqMuxdOAc59/wJAOPIJ1b0FabzLyqt8QvOd3VcenJo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=NPJdafik; arc=fail smtp.client-ip=52.101.229.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06EA235063
+	for <oe-kbuild@lists.linux.dev>; Wed, 20 Aug 2025 06:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755672032; cv=none; b=N6RKFGHv0SaB8insZdje+iZG8Rgx5ya1WjruSJKlljnGe1PswO+mV1xEsLWOauBBdw0iT1GdTnq5HIH8dw4FFW95fh4DTfiQtatLEFfYuSYuUyc3j2niNOzP8ciQEmmVm5qkMXIRBYeKE/hLSXpTEYBhtY45kobjJUklPzWwtuc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755672032; c=relaxed/simple;
+	bh=GbYe/xr2KnaQN5qvGP3TKUQEzBohUBz2Hp6+TW9NVTs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=IYsfRXsPj840bl/rHJpV5ZxxpTk9nqoH+u7IYzPm0S3q0YXe7yXGaVKnYoYpzlUw6S0YEX2hQjK+V2VJRNk05RB1f46QbqqdVwY4IAie5Lx/kLp9W66DiJysc5gLQ2gnQs0eJ9Niq7bUM8tAd4rAvG1hoEYZ+Ue2jlfhc2F+nZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SvUk5y8+; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="NPJdafik"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=T5ZgpGe5w6MdkWTRPf32Ik+UclXk65kekcDvF1XercLuEinxu8nEf7sVVS3S7IMYAvVer9OzZ19HZgstZojHg+YKCv0onR6eEoghTF36He0QIDEik6V9Nf38Pj+0Yo6eFC4LYCpz5MIqFzQnMw9mtZU1snj3dHYxZnmIAhVvq8/BFvsbhX9EQjqQncvxCnmX22c/XE6eWpeBKEyOx17H0XqEVpkezFMYsuwn/fWbiBtwBS9K4vvayD3xkRnzf+NnAjgf+eKmP+4KMBp+4mfPyhxNsp+IqK669WOEP+MwacNepgxBTPTnQWdW2NWCu9e0DrF3/PTLwst9W5yJnJE0yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DTK+6mULbUrrWHs1K99cEUHQpJO8D+cUp4q7g9Qu3+s=;
- b=Ma8xgh8J12gj0uJfftbHsFiMxRsttZAWVucIQvwwVCJPyDHAmAAnZLOYa1RgeqWxvFzT6n+SWEyzCTHPrVp9kVREBMTBRaymdjzhiw60RGogeCcH8psh5VG0pjS37hgC36XMmzNHfDh+jaBz21aq3DcG/9FNiNvtG6dlMWCjf8jxHF6RM/VWxFBXhRx76ojPo3h15zgzgYqdWP495UKYju6Ydg2Nfj2vt/81CBUTWFNmaE7EK+Ku4X/N8/Jm243d+AkG1LyVwt6ps/wX7mPb22tecp2UlUXlu29CjUajsbQ5U/pAPER3NN6JEOChyCXj1wdw7Et/QvHL6k4qHhycXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DTK+6mULbUrrWHs1K99cEUHQpJO8D+cUp4q7g9Qu3+s=;
- b=NPJdafikx7/4Udhw/yRbKLgIwhDK7m2pJC9oCi5e3kTGHx+pF6J87ku7/BVTzAAsqbuD6AvFEIalehy4saKtHgmvfkOBrcqpDbmRy7OfjWQi6EuxuKFHOZJlVR3b5bWNATb7Dj5oC+MxD2aJa9JaaK/nQkG2MJzO/86m6y5KKms=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TY4PR01MB15046.jpnprd01.prod.outlook.com (2603:1096:405:280::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.13; Wed, 20 Aug
- 2025 06:14:13 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%7]) with mapi id 15.20.9052.012; Wed, 20 Aug 2025
- 06:14:13 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, "oe-kbuild@lists.linux.dev"
-	<oe-kbuild@lists.linux.dev>, biju.das.au <biju.das.au@gmail.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
-	<mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-CC: "lkp@intel.com" <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
-	<linux-clk@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH 2/4] clk: renesas: rzv2h: Add support for parent mod
- clocks
-Thread-Topic: [PATCH 2/4] clk: renesas: rzv2h: Add support for parent mod
- clocks
-Thread-Index: AQHcDRnDguIrfslfREyvEDEISi1yTLRlFs2AgAYBbYA=
-Date: Wed, 20 Aug 2025 06:14:13 +0000
-Message-ID:
- <TY3PR01MB113460C30E29F6BE3F52EA85E8633A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20250814124832.76266-3-biju.das.jz@bp.renesas.com>
- <202508160958.ounSAlER-lkp@intel.com>
-In-Reply-To: <202508160958.ounSAlER-lkp@intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TY4PR01MB15046:EE_
-x-ms-office365-filtering-correlation-id: 5dffaeff-6ef2-4d9b-6e8b-08dddfb0c8bc
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?tj6/KprS0pcRanMMHDHv/psRZG4S276AAtMzHrWS31VjvIbR0CmvygEJbCxZ?=
- =?us-ascii?Q?QeGbTcSXqH/Ixe1LsyJySRovhvhEUehjEQSlmaTD8AFATp/g8FcH4hB0P+Cx?=
- =?us-ascii?Q?s+DMfHDZqZxQSEBslpt8bdZNP7gAn2XexVlQbmgKniKEAgLhnnOTLS+CQUYw?=
- =?us-ascii?Q?R+K6gMm8g/o4awBwUnNq+/wK3WimjJ0GENCOzt50Ho/cyWzkfKJnVk9QsJr2?=
- =?us-ascii?Q?vzEkGa8ChQtErjnZWybCy63Q45STDjOqnzWwdox1hhTL/LcFioGnlJOpSQFJ?=
- =?us-ascii?Q?BiKhF2TSrPRwc9NRoyyyNeE7F6oNslMZLU44IjRVj1h/7ANrJweV8kmXQxGT?=
- =?us-ascii?Q?LwasAOJYUnUbhDr6BMIfZP9eQ+P4G3Y4s5AdCz4ASQZB3hb9i1CZGZ0uxpL7?=
- =?us-ascii?Q?cSe4Ep6vNJt22mZyAzkJkCI7jiv/q1ytBDLf2UD2lUxQL6yIT8VUQ0hm1hSP?=
- =?us-ascii?Q?NfSwcogA06ljJiaka6X8TY4Jyn9+dBhgvwHK037BszuV5Zfb/RgzEvEtvgpW?=
- =?us-ascii?Q?JxVdPY/qLyqcgWM6UScZfVVMnq38X6VUd/Rbawl8GgQoZ88+TE9/eyIVsO4d?=
- =?us-ascii?Q?1RNOPBce7JfZDL5Zy0bMeOQ3AJ4eASF+jrFQEcta8XcoXhQrginW5I67C6r6?=
- =?us-ascii?Q?Ey6VorTIApjiksolQ7FJNk8Wf4qGEb4M/YzBFpcJX1PTrMI3Icyvsz5jheUh?=
- =?us-ascii?Q?Md13r7mncVY+d2hcaHtX0+CDncwYXCnsFnqsPV2bSKk5/SbDqMP7GJ6B1TrN?=
- =?us-ascii?Q?gbwDJroq+xVYkTlvVSXf0Es5X9QLM1ViAHFLNfIMTGZow0ZjGNjeXA61McC5?=
- =?us-ascii?Q?YOQ8pLujBCiL6A+IY82W18KIlJmlEJbtz6V+ARW99WGJqrQe60hbGokidB31?=
- =?us-ascii?Q?ctZl1/ILPTupCZU03t6SSmp+YOws2dp8vEh5j3Xyt4OrFlbPr2nYUEys9Ki3?=
- =?us-ascii?Q?L76KfmPDHTfRz6GAin7bxghN+EbiPWlBf1SOGq98Pcj88N0cFP6+dmeJvK8J?=
- =?us-ascii?Q?Dru9LSAa5aEhOPA32SuyODVdblK9H1Dso7TiY4RtdN6nZYDpWCHJSF9RjWor?=
- =?us-ascii?Q?LaqncNbX8XbcYMpZA1uYjHVX8YQzX7f2ow7me0qZrEKyVuyRoYC3GEQ2zhWK?=
- =?us-ascii?Q?klyt93DpPQL6I2/1iNhQgjlGzRytEBirWrt5gIpjByLg+RUUtRvSpJE9swNS?=
- =?us-ascii?Q?tsUos5jn2Efm089ygqcbsOLv/RZX9wD5r6PmpAud6/TqO6LNWfDfIx/00tqh?=
- =?us-ascii?Q?lViRygyINzT/DXizrJJKVRcl9+ielSGVW5/3qDKM7cGErIyJNvHswT2Qida4?=
- =?us-ascii?Q?pQnv48/CtRo4tAeiNt+BF9fS/6JY2xImzGPhejs/1NKR0g8KixagYY04gSsC?=
- =?us-ascii?Q?yQbzCXtkQhZ5gJ7N+UUeNZRfb98APcf9Ne1rQ89Kl/ISPNGk3e0+cUJYTsGk?=
- =?us-ascii?Q?5C3x+GAa0EeOp81A86AaqkoN0DX414qC?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?DvzRRjXOWJ+5bX13BTMCeFATkrdUsBTHfKp1yL9EQu7IpwYvTFVZqv3hDaSg?=
- =?us-ascii?Q?QJJLsAPBjKKBIknx/eUu80NAt6xB0I+o7A8CD+c6CubDT8fjDujHmZifrn2L?=
- =?us-ascii?Q?0ypaDe2dwqzmFgj2jnri+85k789GhhmquJYXDktkpl8ZkNhpiZslM2BVVjwZ?=
- =?us-ascii?Q?qW5eRD4QJBxQGeVqkAmmZOPT+RhN+fduJr0Dw9Oh9SNpI2EBVnE6H+m0j/mI?=
- =?us-ascii?Q?+fwoFCZxJ5/VHuQcqTkVTYywZMbgUCvdD9g0Nz2jjo1xzkLm+Ac8T2wfPxAx?=
- =?us-ascii?Q?Njh4JcOD771kiCiFP22m86KaUpvNLhpY7p5z93O3IF8Q64d6KMoWgA7DdKCw?=
- =?us-ascii?Q?AA7uEXceJKu3mdeEjrhYdeMxOCiLtGF5MS+QKioNcD9vjSe/DT2wkrg9MdFK?=
- =?us-ascii?Q?tmWRASA2moJlHOcrGpSJSj4vgo0qpAF/IJkDukbmjXhC9JKe0C7k4iwk8ebt?=
- =?us-ascii?Q?ApPSwdWDucXz7dvI0dw8mPg0D6r2SYvGZe7ktXzgZCKpYNj1HQnb3qSUinWC?=
- =?us-ascii?Q?wwNpAKKMREu60fwv5ZhUuIDdY4D9zWGS8ap9bJYre9GrijBCRftmoBBsGVQ3?=
- =?us-ascii?Q?Ih6Fy8VhM6eZmNnKSgW4CS+IBWBtVd8H+yuLCxoHwCKf33A7hKnxy9UVQN+y?=
- =?us-ascii?Q?3sLXDlATjzhlUwZ4p+O/HBbl5/AE72VeHiDh9YVTyH4XfsSJfChkYgMa8WBU?=
- =?us-ascii?Q?DoKMRGOwt2EBJRG6tQnf1eRz+0pN2zVO1AebJbWTgpRdrzMnX8uLny7Ni4Db?=
- =?us-ascii?Q?tafRmwql68qU04CyrBld3DsQSYAszPxjci2lXYjx4GdOHNMNKBCLq7q3qAbS?=
- =?us-ascii?Q?kd8JgD1poo8u3f2LARFmK1ZgKUpkZBZ/izgELi5TNMT+1Zra/zuYrQFD0xdW?=
- =?us-ascii?Q?2G2er4MQTaSRtGA+xR+1eUUQRvIPkqTvAM4W++gjBfuWerVniidQjzxGzB1l?=
- =?us-ascii?Q?Pu8rhx4CHFPJfuc4LTmTabAiw9WUr03MptyPJXC40exowBnmimikLnJqi2AY?=
- =?us-ascii?Q?XQhWXLxecHzzs0ORlhJgVNgcDuvU/zrHZeKkBq7khJbQFtuu1ekqa2ZObtq5?=
- =?us-ascii?Q?Lhvje/r7eKboN8A9bNoB6M2HrooYBmEUl4Q68bs8bCSIrotLXORgPznSuz+E?=
- =?us-ascii?Q?H6sBo6eafQrYM7cWpps5g25rkFEF7t9LoRyRtD59Htwiky68KCb+3nCxJuFG?=
- =?us-ascii?Q?RfYyYTYIyxxCwDFq5/Eyj3KwbPHbXyV1KE6twCL020miK3EuagHR7jPfo/iQ?=
- =?us-ascii?Q?mb89btUeTJXd70DHkJPOPZEsvGI/tJ36SJ58iTsx5L/QccoGjGNUvR8BmZ+3?=
- =?us-ascii?Q?q/11ZWk1vr220MiwomtKPhS9VcWEVYQY/09ahf7IKMnOgqiVu+e3J7MH4UAR?=
- =?us-ascii?Q?43zmZYD9jzGgMS9muorQNJpR49xFL+B3ugX4E0OvT9EYGyWpTNGwXsUJbNhv?=
- =?us-ascii?Q?qwT0QaVJOMAz6mbj2YP597dTnYky/R1qKfkLtklitbOAZiSUY3iWn49S0nwl?=
- =?us-ascii?Q?qofKzLevZh/hBUbNXyVKhC9e8PCxmhBrI9Q6d6fe/gEEoLlUSf6FR0oeVxpB?=
- =?us-ascii?Q?RUU2E7HXEKT/eywTYT+VEioO9lOAnF5peC+euOsqiSp8rq5Wnu4gEbXNW7eR?=
- =?us-ascii?Q?LA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SvUk5y8+"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b9edf0e4efso4016539f8f.2
+        for <oe-kbuild@lists.linux.dev>; Tue, 19 Aug 2025 23:40:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755672028; x=1756276828; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xr7gbAs7NoWP6YIoHdlAkJ/lGPbRe6fvpSA2+GwU+Bk=;
+        b=SvUk5y8+iQS1dqiJ2zNLxGMj1JnUESJrTDip0008kBqzGXKZ6yXdHMPV5h4CmMJFVC
+         PC3XWUzk34sbe5jWK2NjQ8Jz8LJ8xXElEHbCCZ/NqO1rGDwo5fk9CIl5rtOTfZf/ufQ1
+         Hm2Gs7jBt6omMJgokxhJcayecAoL+3dltvegGwy8t955jl4j9kOGozhB2kJRbYR7uu18
+         rQNh+Uf6442vjmDwn4cJBpRmdOd1IZsW+jNwZIk8F4AL59ZmH+3PcfzqNBfbcgjV5ct8
+         BVWR7iy96ka6hYe9wzc71wNt2l0N1FrWNNYdSPsXLkPVSgJ/UdGvkq/H2oDPUHto/BNe
+         Xu8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755672028; x=1756276828;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xr7gbAs7NoWP6YIoHdlAkJ/lGPbRe6fvpSA2+GwU+Bk=;
+        b=FaS267i4N7XABVr2xWJaSh/L7qx5JkVqdjS8kLeSbOO//jveTcxuXX09NXXe+R6T0T
+         efoWPWDafnZFgd+diR3p2vJns9NRonafj6f/RtFyStp72wTTHfC0aQTHMu8DJ/K+zbV5
+         mHb3E4vQ2B3GFJADA9VOfkdIe8fwNJ3YX9+mTywurM/Ft3IU4y8TWzR0YECFQD8wcmZK
+         4qcmchJA6RslJJmnDQDc81rNW/2OGj6DtF+5wg1nzsBEVgRSroe3KmqW9amPqCpbnmMP
+         JgwaYwDGV/R368oYXfBkoJ4M3MgVOYTPhEwD6So4HI2fv9wFTK3i8gGa1iiQ5WCbJ0c8
+         1TFg==
+X-Gm-Message-State: AOJu0YxRSky+LtkDPH9VFqpRlP4vL+1ZtTfB0f/YQTLFTJpNq10MxoJ1
+	VKz2LXjL9JWf7tkpjSFPffGnk1zyqaX44RAMmNB56RdK2Zf8vrpy/SELCk3GCiUhEvACfYEccXt
+	E2CxX
+X-Gm-Gg: ASbGncvdYSBd/W8Qrumeb314r/94TApmVjpYtooI1VUz6ctbC+uSrGsAEzpAEfGpTe1
+	2iC+koJxIxLImZrffpm0U66+yQnnVSXBHHXAkpm6RDaEEnveTZSSWMLehuDT8EAf7ZYI/E3d3gn
+	uEQGMmwAT9IGDLRvnsHRD5QGDoaqGqJKYD/4FmPUHZZJ7JPuerBRcnkQb1rNSbclRrYyrlIIyPy
+	sM092qQiste3PclDtEoevVVk/SWLZHjGWPnsTHP4WigZQggLLzhoSYo3DyxALu4KtnnfC7JXbc1
+	EJLkRPuBQTy/6rzw6k+DRRtg5oZVVznp8+TWOGRBWsTgdVBOI6U8mY9bEP9prwYDpjVuZFrUTkA
+	Zs1/XEG/M0eLXuUJgMtvXuzDZATQ=
+X-Google-Smtp-Source: AGHT+IGAZ6McYMCx54eY6pWpoKew3ITg2+wTSl/nURpfg3Nb30p1pBzhgzsuHH+BOzekuGd6+2v13A==
+X-Received: by 2002:a05:6000:188f:b0:3b8:f358:e80d with SMTP id ffacd0b85a97d-3c32c4345d2mr1070252f8f.5.1755672027829;
+        Tue, 19 Aug 2025 23:40:27 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b47c2865dsm17711515e9.2.2025.08.19.23.40.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 23:40:27 -0700 (PDT)
+Date: Wed, 20 Aug 2025 09:40:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Ivan Vecera <ivecera@redhat.com>,
+	netdev@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Jiri Pirko <jiri@resnulli.us>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Michal Schmidt <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Subject: Re: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading
+ functionality
+Message-ID: <202508200929.zEY4ejFt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5dffaeff-6ef2-4d9b-6e8b-08dddfb0c8bc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2025 06:14:13.1194
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IthuegWSk69SXDmsxfpsZ5H0pXA2bTLEmKtuxhLhGygqJpDhfLJg/gOLYNaOAH3K4ehMtBK7tbk9VW0KkVFD3ztZDwVhHhVgfmtpNofAch4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB15046
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250813174408.1146717-4-ivecera@redhat.com>
+Message-ID: <20250820064023.I9YzNNZ64Yv6Wrw3Q5m9_o0UGk8qL_trgirMdnSZIe8@z>
 
-Hi Dan Carpenter,
+Hi Ivan,
 
-> -----Original Message-----
-> From: Dan Carpenter <dan.carpenter@linaro.org>
-> Sent: 16 August 2025 11:28
-> Subject: Re: [PATCH 2/4] clk: renesas: rzv2h: Add support for parent mod =
-clocks
->=20
-> Hi Biju,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Biju/clk-renesas-r=
-zv2h-Refactor-
-> rzv2h_cpg_fixed_mod_status_clk_register/20250814-205111
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-dri=
-vers.git renesas-clk
-> patch link:    https://lore.kernel.org/r/20250814124832.76266-3-biju.das.=
-jz%40bp.renesas.com
-> patch subject: [PATCH 2/4] clk: renesas: rzv2h: Add support for parent mo=
-d clocks
-> config: hexagon-randconfig-r072-20250815 (https://download.01.org/0day-
-> ci/archive/20250816/202508160958.ounSAlER-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project
-> 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of the same patch/commit),
-> kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202508160958.ounSAlER-lkp@intel.com/
->=20
-> New smatch warnings:
-> drivers/clk/renesas/rzv2h-cpg.c:875 rzv2h_cpg_register_mod_clk() warn: pa=
-ssing zero to 'PTR_ERR'
->=20
-> vim +/PTR_ERR +875 drivers/clk/renesas/rzv2h-cpg.c
->=20
-> dd22e56217495e Lad Prabhakar 2024-07-29  770  static void __init dd22e562=
-17495e Lad Prabhakar 2024-07-
-> 29  771  rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
-> dd22e56217495e Lad Prabhakar 2024-07-29  772  			   struct rzv2h_cpg_priv=
- *priv)
-> dd22e56217495e Lad Prabhakar 2024-07-29  773  {
-> dd22e56217495e Lad Prabhakar 2024-07-29  774  	struct mod_clock *clock =
-=3D NULL;
-> dd22e56217495e Lad Prabhakar 2024-07-29  775  	struct device *dev =3D pri=
-v->dev;
-> dd22e56217495e Lad Prabhakar 2024-07-29  776  	struct clk_init_data init;
-> dd22e56217495e Lad Prabhakar 2024-07-29  777  	struct clk *parent, *clk;
-> dd22e56217495e Lad Prabhakar 2024-07-29  778  	const char *parent_name;
-> dd22e56217495e Lad Prabhakar 2024-07-29  779  	unsigned int id;
-> dd22e56217495e Lad Prabhakar 2024-07-29  780  	int ret;
-> dd22e56217495e Lad Prabhakar 2024-07-29  781
-> dd22e56217495e Lad Prabhakar 2024-07-29  782  	id =3D GET_MOD_CLK_ID(priv=
-->num_core_clks, mod-
-> >on_index, mod->on_bit);
-> dd22e56217495e Lad Prabhakar 2024-07-29  783  	WARN_DEBUG(id >=3D priv->n=
-um_core_clks + priv-
-> >num_mod_clks);
-> dd22e56217495e Lad Prabhakar 2024-07-29  784  	WARN_DEBUG(mod->parent >=
-=3D priv->num_core_clks + priv-
-> >num_mod_clks);
-> dd22e56217495e Lad Prabhakar 2024-07-29  785  	WARN_DEBUG(PTR_ERR(priv->c=
-lks[id]) !=3D -ENOENT);
-> dd22e56217495e Lad Prabhakar 2024-07-29  786
-> dd22e56217495e Lad Prabhakar 2024-07-29  787  	parent =3D priv->clks[mod-=
->parent];
-> dd22e56217495e Lad Prabhakar 2024-07-29  788  	if (IS_ERR(parent)) {
-> dd22e56217495e Lad Prabhakar 2024-07-29  789  		clk =3D parent;
-> dd22e56217495e Lad Prabhakar 2024-07-29  790  		goto fail;
-> dd22e56217495e Lad Prabhakar 2024-07-29  791  	}
-> dd22e56217495e Lad Prabhakar 2024-07-29  792
-> dd22e56217495e Lad Prabhakar 2024-07-29  793  	clock =3D devm_kzalloc(dev=
-, sizeof(*clock), GFP_KERNEL);
-> dd22e56217495e Lad Prabhakar 2024-07-29  794  	if (!clock) {
-> dd22e56217495e Lad Prabhakar 2024-07-29  795  		clk =3D ERR_PTR(-ENOMEM);
-> dd22e56217495e Lad Prabhakar 2024-07-29  796  		goto fail;
-> dd22e56217495e Lad Prabhakar 2024-07-29  797  	}
-> dd22e56217495e Lad Prabhakar 2024-07-29  798
-> dd22e56217495e Lad Prabhakar 2024-07-29  799  	init.name =3D mod->name;
-> dd22e56217495e Lad Prabhakar 2024-07-29  800  	init.ops =3D &rzv2h_mod_cl=
-ock_ops;
-> dd22e56217495e Lad Prabhakar 2024-07-29  801  	init.flags =3D CLK_SET_RAT=
-E_PARENT;
-> dd22e56217495e Lad Prabhakar 2024-07-29  802  	if (mod->critical)
-> dd22e56217495e Lad Prabhakar 2024-07-29  803  		init.flags |=3D CLK_IS_CR=
-ITICAL;
-> dd22e56217495e Lad Prabhakar 2024-07-29  804
-> dd22e56217495e Lad Prabhakar 2024-07-29  805  	parent_name =3D __clk_get_=
-name(parent);
-> dd22e56217495e Lad Prabhakar 2024-07-29  806  	init.parent_names =3D &par=
-ent_name;
-> dd22e56217495e Lad Prabhakar 2024-07-29  807  	init.num_parents =3D 1;
-> dd22e56217495e Lad Prabhakar 2024-07-29  808
-> dd22e56217495e Lad Prabhakar 2024-07-29  809  	clock->on_index =3D mod->o=
-n_index;
-> dd22e56217495e Lad Prabhakar 2024-07-29  810  	clock->on_bit =3D mod->on_=
-bit;
-> dd22e56217495e Lad Prabhakar 2024-07-29  811  	clock->mon_index =3D mod->=
-mon_index;
-> dd22e56217495e Lad Prabhakar 2024-07-29  812  	clock->mon_bit =3D mod->mo=
-n_bit;
-> 03108a2614ecab Lad Prabhakar 2024-12-02  813  	clock->no_pm =3D mod->no_p=
-m;
-> 899e7ede4c19c6 Lad Prabhakar 2025-05-09  814  	clock->ext_clk_mux_index =
-=3D mod->ext_clk_mux_index;
-> dd22e56217495e Lad Prabhakar 2024-07-29  815  	clock->priv =3D priv;
-> dd22e56217495e Lad Prabhakar 2024-07-29  816  	clock->hw.init =3D &init;
-> 9b6e63a777ea5f Biju Das      2024-12-13  817  	clock->mstop_data =3D mod-=
->mstop_data;
-> dd22e56217495e Lad Prabhakar 2024-07-29  818
-> dd22e56217495e Lad Prabhakar 2024-07-29  819  	ret =3D devm_clk_hw_regist=
-er(dev, &clock->hw);
-> dd22e56217495e Lad Prabhakar 2024-07-29  820  	if (ret) {
-> dd22e56217495e Lad Prabhakar 2024-07-29  821  		clk =3D ERR_PTR(ret);
-> dd22e56217495e Lad Prabhakar 2024-07-29  822  		goto fail;
-> dd22e56217495e Lad Prabhakar 2024-07-29  823  	}
-> dd22e56217495e Lad Prabhakar 2024-07-29  824
-> dd22e56217495e Lad Prabhakar 2024-07-29  825  	priv->clks[id] =3D clock->=
-hw.clk;
-> 18610e6bf54faa Biju Das      2025-08-14  826  	if (mod->child_name) {
-> 18610e6bf54faa Biju Das      2025-08-14  827  		WARN_DEBUG(mod->child >=
-=3D priv->num_core_clks);
-> 18610e6bf54faa Biju Das      2025-08-14  828  		WARN_DEBUG(PTR_ERR(priv->=
-clks[mod->child]) !=3D -
-> ENOENT);
-> 18610e6bf54faa Biju Das      2025-08-14  829
-> 18610e6bf54faa Biju Das      2025-08-14  830  		clk =3D rzv2h_cpg_mod_sta=
-tus_clk_register(priv,
-> mod->child_name, mod->name, 1, 1,
-> 18610e6bf54faa Biju Das      2025-08-14  831
-> 	FIXED_MOD_CONF_PACK(mod->mon_index,
-> 18610e6bf54faa Biju Das      2025-08-14  832
-> mod->mon_bit));
-> 18610e6bf54faa Biju Das      2025-08-14  833  		if (IS_ERR_OR_NULL(clk))
-> 18610e6bf54faa Biju Das      2025-08-14  834  			goto fail;
->=20
-> This isn't how IS_ERR_OR_NULL() is supposed to work...  :(  The NULL shou=
-ld be treated like success, it
-> shouldn't print an error message, unless it's something like:
+kernel test robot noticed the following build warnings:
 
-OK.
->=20
-> 	WARN_ON_ONCE(!clk); // rzv2h_cpg_mod_status_clk_register() is buggy
->=20
-> I have written a blog about how how IS_ERR_OR_NULL() is supposed to work:
-> https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and=
--null/
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dpll-zl3073x-Add-functions-to-access-hardware-registers/20250814-014831
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250813174408.1146717-4-ivecera%40redhat.com
+patch subject: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading functionality
+config: xtensa-randconfig-r073-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200929.zEY4ejFt-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 9.5.0
 
-Thanks for the link. Will take care next time.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508200929.zEY4ejFt-lkp@intel.com/
 
-I would like to drop this patch as Geert provided some
-feedback to remodel the clocks[1].
+smatch warnings:
+drivers/dpll/zl3073x/fw.c:239 zl3073x_fw_component_load() warn: potential user controlled sizeof overflow 'count * 4' '0-u32max * 4'
 
-[1] https://lore.kernel.org/all/CAMuHMdXJBL_uJ=3D2v0aKJaSf45070yP=3DZ_kPe-9=
-uSyE1P0QeiJQ@mail.gmail.com/
+vim +239 drivers/dpll/zl3073x/fw.c
 
-Cheers,
-Biju
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  202  static ssize_t
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  203  zl3073x_fw_component_load(struct zl3073x_dev *zldev,
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  204  			  struct zl3073x_fw_component **pcomp,
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  205  			  const char **psrc, size_t *psize,
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  206  			  struct netlink_ext_ack *extack)
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  207  {
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  208  	const struct zl3073x_fw_component_info *info;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  209  	struct zl3073x_fw_component *comp = NULL;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  210  	struct device *dev = zldev->dev;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  211  	enum zl3073x_fw_component_id id;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  212  	char buf[32], name[16];
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  213  	u32 count, size, *dest;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  214  	int pos, rc;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  215  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  216  	/* Fetch image name and size from input */
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  217  	strscpy(buf, *psrc, min(sizeof(buf), *psize));
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  218  	rc = sscanf(buf, "%15s %u %n", name, &count, &pos);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  219  	if (!rc) {
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  220  		/* No more data */
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  221  		return 0;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  222  	} else if (rc == 1) {
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  223  		ZL3073X_FW_ERR_MSG(zldev, extack, "invalid component size");
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  224  		return -EINVAL;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  225  	}
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  226  	*psrc += pos;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  227  	*psize -= pos;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  228  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  229  	dev_dbg(dev, "Firmware component '%s' found\n", name);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  230  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  231  	id = zl3073x_fw_component_id_get(name);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  232  	if (id == ZL_FW_COMPONENT_INVALID) {
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  233  		ZL3073X_FW_ERR_MSG(zldev, extack, "unknown component type '%s'",
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  234  				   name);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  235  		return -EINVAL;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  236  	}
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  237  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  238  	info = &component_info[id];
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13 @239  	size = count * sizeof(u32); /* get size in bytes */
+
+This is an integer overflow.  Imagine count is 0x80000001.  That means
+size is 4.
+
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  240  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  241  	/* Check image size validity */
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  242  	if (size > component_info[id].max_size) {
+
+size is valid.
+
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  243  		ZL3073X_FW_ERR_MSG(zldev, extack,
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  244  				   "[%s] component is too big (%u bytes)\n",
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  245  				   info->name, size);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  246  		return -EINVAL;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  247  	}
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  248  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  249  	dev_dbg(dev, "Indicated component image size: %u bytes\n", size);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  250  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  251  	/* Alloc component */
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  252  	comp = zl3073x_fw_component_alloc(size);
+
+The allocation succeeds.
+
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  253  	if (!comp) {
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  254  		ZL3073X_FW_ERR_MSG(zldev, extack, "failed to alloc memory");
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  255  		return -ENOMEM;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  256  	}
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  257  	comp->id = id;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  258  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  259  	/* Load component data from firmware source */
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  260  	for (dest = comp->data; count; count--, dest++) {
+
+But count is invalid so so we will loop 134 million times.
+
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  261  		strscpy(buf, *psrc, min(sizeof(buf), *psize));
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  262  		rc = sscanf(buf, "%x %n", dest, &pos);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  263  		if (!rc)
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  264  			goto err_data;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  265  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  266  		*psrc += pos;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  267  		*psize -= pos;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  268  	}
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  269  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  270  	*pcomp = comp;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  271  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  272  	return 1;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  273  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  274  err_data:
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  275  	ZL3073X_FW_ERR_MSG(zldev, extack, "[%s] invalid or missing data",
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  276  			   info->name);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  277  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  278  	zl3073x_fw_component_free(comp);
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  279  
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  280  	return -ENODATA;
+cd5cfd9ddd76800 Ivan Vecera 2025-08-13  281  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
