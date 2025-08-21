@@ -1,259 +1,1126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1218A3375A1
-	for <oe-kbuild@lists.linux.dev>; Wed, 20 Aug 2025 21:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8671632DD
+	for <oe-kbuild@lists.linux.dev>; Thu, 21 Aug 2025 01:06:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755726655; cv=none; b=BQjdLhYBOXTLE/rqKwyUYyuHfGpbTMVlP/dIPv/NkIz3hJODbGtuYHCpKIQksIm8n5QfiYdm3v4eDNraDB6XH90b4l+7v3yNJk5JxqDRnX/Brc6KId+ARSIB3LKB/xK3/iaURhLzrNkOAa8BWCA7BJmyHnbtsf57emC1ANgVFfY=
+	t=1755738416; cv=none; b=hwoo9pJDZTOjHCOIM2oy06aCS6MV2OwaB9NqBE5FvkCGEwdKCcf9xA3GiRLm07kTsbx/x5NIecquPAf59qAy8A+nH5eyythvC6mChy5BNAsgporQF0/rht0d1RSiSBLqdtW36NWI2a5al9duYDDBmYXA3G+V7DWEol2wJS+FOMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755726655; c=relaxed/simple;
-	bh=Alw7xCJQ2y3c8muHy+kV5L6q1VS4ClbsssG0EYsG7RA=;
+	s=arc-20240116; t=1755738416; c=relaxed/simple;
+	bh=QKN0W7MhFnp2/Je+HZuf3Hvl2C5+JSVviuza30/DU1Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a9PcE2iduNPq1RzzHP2+IuM+sLApvDPImQ3KWd7kD8kKS7p1NVBkSc69KyjMnixNT13n8IiyBxD7Ivm9XAuRaWK3fg/vm98TANMQC6/VsApSeRTdWYS5zOACztEM6WObz9LPOSKrNxpzCvmRmdKWFno/UGrlOJIDfRd6c6/UDRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c40S0KTT; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=pZh/lYM5eSPUzEoklYQ2eewamKD7EXYhjVYi5spXVepiFilde/J/G0+kCejaGo8yGZAfiyx7Iao8M7mHAN9yCO9RzBXVCc3/gLkwrcOXWo/SQFjveeJaguVQ5dKpWtUk+4EhrqBpQ/CQ78pxby27oZNe9WqEkdNVB97jWK6+LsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iZYd+Z1U; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c40S0KTT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iZYd+Z1U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755726653; x=1787262653;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Alw7xCJQ2y3c8muHy+kV5L6q1VS4ClbsssG0EYsG7RA=;
-  b=c40S0KTT07PdlB3dPbU11OD0hyzA3CcZwu63/lhGIxSd7ZsmR3FvSsl2
-   y5woRxh86TYLqCm/LDkfmOXe4h+7LQYCKpKplbpX/pttr4CGe7ywVG3cI
-   afYMIeNFxPQQx8i/4jIL6LIrdXZKTJrqER6blIj770qzcvM+AZOLuEQ9z
-   KNQ2+xv2RKASXdZXLpf6xrEE7LZSIpWe9KZlQJ5Ip95uxqZAfjj95hnEo
-   36bSS0iBlidSO1AviJhrxDpa65ngzOA/JQYW2JMtBR0tzHu3d11RQdEH0
-   2NRzuHCZCqqkT3ZM3aex7viVKoy240M/GBePnfwNhCrLi8/jzbrwbffEw
-   A==;
-X-CSE-ConnectionGUID: 9FpA8czDS/OI3e9GwDK1ew==
-X-CSE-MsgGUID: q9dvvuTUTGutANNnKOfWeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="45581474"
+  t=1755738408; x=1787274408;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QKN0W7MhFnp2/Je+HZuf3Hvl2C5+JSVviuza30/DU1Q=;
+  b=iZYd+Z1UXXnLktOfwOMfS3LB3Hg5fFGAVZa3uEuQfFcWFJu1UzOpB8kR
+   oEAFxybQwSwuTMMExChHhT/qeJuEJ28VDeEPnNxzEpTPO0hEBrDBRJbQh
+   IlciFuNVwbS31IjbNF6ZifPn/F4/aL3DuD+kIqQn3ACa5je5mOKUpclVn
+   +AhZt0FjO50GESLJx6TqPN9Ozdt6rSGDA2e7foV1pkjeRalYD4NbhenyJ
+   DLPKIWmuc3TmyjllI5kawptn7579fHuFjHrKbSus2yLQiz/Z43i9v48ZZ
+   og8HZNLYzaj0hO7n1hmEbJazGS2YhrCOhd465Xg+BJ4m5JEXnYp7UK92T
+   Q==;
+X-CSE-ConnectionGUID: As1ndksYRbSiDB3zEcMv6A==
+X-CSE-MsgGUID: 2XDOWD6BTB+D6HugB6IQWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57043496"
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="45581474"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 14:50:52 -0700
-X-CSE-ConnectionGUID: CdT6XalERFGdmasv6dJVaA==
-X-CSE-MsgGUID: 3Wzc/wvATmG0/Tn3qzM08g==
+   d="scan'208";a="57043496"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 18:06:47 -0700
+X-CSE-ConnectionGUID: nmGw28VfRqyO9utanAF/LQ==
+X-CSE-MsgGUID: Jl/Y7aH+SraI/4kWY/3mng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="169024572"
+   d="scan'208";a="199252996"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Aug 2025 14:50:51 -0700
+  by orviesa002.jf.intel.com with ESMTP; 20 Aug 2025 18:06:46 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoqhj-000Jha-00;
-	Wed, 20 Aug 2025 21:50:48 +0000
-Date: Thu, 21 Aug 2025 05:50:17 +0800
+	id 1uotlB-000Jnr-1J;
+	Thu, 21 Aug 2025 01:06:37 +0000
+Date: Thu, 21 Aug 2025 09:06:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 4/6] Input: mc13783-pwrbutton: convert members to array
-Message-ID: <202508210551.VzAtE5re-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3 1/6] dt-bindings: mfd: twl: Add missing sub-nodes for
+ TWL4030 & TWL603x
+Message-ID: <202508210841.fpsRvyVt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250817102751.29709-5-akurz@blala.de>
-References: <20250817102751.29709-5-akurz@blala.de>
-TO: Alexander Kurz <akurz@blala.de>
-TO: Lee Jones <lee@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-TO: Dzmitry Sankouski <dsankouski@gmail.com>
-TO: "Dr. David Alan Gilbert" <linux@treblig.org>
-TO: Heiko Stuebner <heiko@sntech.de>
-TO: "Uwe Kleine-König" <u.kleine-koenig@baylibre.com>
-TO: devicetree@vger.kernel.org
-TO: linux-input@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Alexander Kurz <akurz@blala.de>
+In-Reply-To: <20250816021523.167049-2-jihed.chaibi.dev@gmail.com>
+References: <20250816021523.167049-2-jihed.chaibi.dev@gmail.com>
+TO: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+TO: linux-kernel@vger.kernel.org
+CC: andreas@kemnade.info
+CC: peter.ujfalusi@gmail.com
+CC: dmitry.torokhov@gmail.com
+CC: robh@kernel.org
+CC: krzk+dt@kernel.org
+CC: lgirdwood@gmail.com
+CC: tiwai@suse.com
+CC: conor+dt@kernel.org
+CC: lee@kernel.org
+CC: ukleinek@kernel.org
+CC: broonie@kernel.org
+CC: gregkh@linuxfoundation.org
+CC: linus.walleij@linaro.org
+CC: brgl@bgdev.pl
+CC: aaro.koskinen@iki.fi
+CC: khilman@baylibre.com
+CC: rogerq@kernel.org
+CC: tony@atomide.com
+CC: linux-gpio@vger.kernel.org
+CC: linux-input@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-pwm@vger.kernel.org
+CC: linux-sound@vger.kernel.org
+CC: linux-usb@vger.kernel.org
+CC: linux-omap@vger.kernel.org
+CC: shuah@kernel.org
+CC: jihed.chaibi.dev@gmail.com
 
-Hi Alexander,
+Hi Jihed,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes robh/for-next linus/master v6.17-rc2 next-20250820]
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on dtor-input/next dtor-input/for-linus linus/master v6.17-rc1 next-20250815]
+[cannot apply to lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Kurz/Input-mc13783-pwrbutton-fix-irq-mixup/20250817-182649
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20250817102751.29709-5-akurz%40blala.de
-patch subject: [PATCH 4/6] Input: mc13783-pwrbutton: convert members to array
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-141-20250820 (https://download.01.org/0day-ci/archive/20250821/202508210551.VzAtE5re-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Jihed-Chaibi/dt-bindings-mfd-twl-Add-missing-sub-nodes-for-TWL4030-TWL603x/20250816-102205
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20250816021523.167049-2-jihed.chaibi.dev%40gmail.com
+patch subject: [PATCH v3 1/6] dt-bindings: mfd: twl: Add missing sub-nodes for TWL4030 & TWL603x
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: arm-randconfig-052-20250817 (https://download.01.org/0day-ci/archive/20250821/202508210841.fpsRvyVt-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508210841.fpsRvyVt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508210551.VzAtE5re-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508210841.fpsRvyVt-lkp@intel.com/
 
-New smatch warnings:
-drivers/input/misc/mc13783-pwrbutton.c:185 mc13783_pwrbutton_probe() error: buffer overflow 'pdata->b_on_key' 3 <= 3
-
-Old smatch warnings:
-drivers/input/misc/mc13783-pwrbutton.c:186 mc13783_pwrbutton_probe() error: buffer overflow 'pdata->b_on_key' 3 <= 3
-drivers/input/misc/mc13783-pwrbutton.c:187 mc13783_pwrbutton_probe() error: buffer overflow 'pdata->b_on_key' 3 <= 3
-
-vim +185 drivers/input/misc/mc13783-pwrbutton.c
-
-4eeb8abb43c2b7 Alexander Kurz    2025-08-17  107  
-5298cc4cc753bb Bill Pemberton    2012-11-23  108  static int mc13783_pwrbutton_probe(struct platform_device *pdev)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  109  {
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  110  	const struct mc13xxx_buttons_platform_data *pdata;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  111  	struct mc13xxx *mc13783 = dev_get_drvdata(pdev->dev.parent);
-739ba46c8b2ddb Alexander Kurz    2025-08-17  112  	enum mc13xxx_chip_type chip = platform_get_device_id(pdev)->driver_data;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  113  	struct input_dev *pwr;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  114  	struct mc13783_pwrb *priv;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  115  	int err = 0;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  116  	int reg = 0;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  117  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  118  	pdata = dev_get_platdata(&pdev->dev);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  119  	if (!pdata) {
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  120  		dev_err(&pdev->dev, "missing platform data\n");
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  121  		return -ENODEV;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  122  	}
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  123  
-173a22b931fb1b Alexander Kurz    2025-08-17  124  	pwr = devm_input_allocate_device(&pdev->dev);
-173a22b931fb1b Alexander Kurz    2025-08-17  125  	if (!pwr)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  126  		return -ENOMEM;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  127  
-173a22b931fb1b Alexander Kurz    2025-08-17  128  	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-173a22b931fb1b Alexander Kurz    2025-08-17  129  	if (!priv)
-173a22b931fb1b Alexander Kurz    2025-08-17  130  		return -ENOMEM;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  131  
-739ba46c8b2ddb Alexander Kurz    2025-08-17  132  	/* ONOFD3 is only supported for MC13783. */
-fc0cc88dc308bc Alexander Kurz    2025-08-17  133  	if (pdata->b_on_flags[2] & MC13783_BUTTON_ENABLE &&
-739ba46c8b2ddb Alexander Kurz    2025-08-17  134  		chip != MC13XXX_CHIP_TYPE_MC13783)
-739ba46c8b2ddb Alexander Kurz    2025-08-17  135  		return -ENODEV;
-739ba46c8b2ddb Alexander Kurz    2025-08-17  136  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  137  	reg |= (pdata->b_on_flags[0] & 0x3) << MC13783_POWER_CONTROL_2_ON1BDBNC;
-fc0cc88dc308bc Alexander Kurz    2025-08-17  138  	reg |= (pdata->b_on_flags[1] & 0x3) << MC13783_POWER_CONTROL_2_ON2BDBNC;
-fc0cc88dc308bc Alexander Kurz    2025-08-17  139  	reg |= (pdata->b_on_flags[2] & 0x3) << MC13783_POWER_CONTROL_2_ON3BDBNC;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  140  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  141  	priv->pwr = pwr;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  142  	priv->mc13783 = mc13783;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  143  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  144  	mc13xxx_lock(mc13783);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  145  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  146  	if (pdata->b_on_flags[0] & MC13783_BUTTON_ENABLE) {
-fc0cc88dc308bc Alexander Kurz    2025-08-17  147  		priv->keymap[0] = pdata->b_on_key[0];
-fc0cc88dc308bc Alexander Kurz    2025-08-17  148  		if (pdata->b_on_key[0] != KEY_RESERVED)
-fc0cc88dc308bc Alexander Kurz    2025-08-17  149  			__set_bit(pdata->b_on_key[0], pwr->keybit);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  150  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  151  		if (pdata->b_on_flags[0] & MC13783_BUTTON_POL_INVERT)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  152  			priv->flags |= MC13783_PWRB_B1_POL_INVERT;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  153  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  154  		if (pdata->b_on_flags[0] & MC13783_BUTTON_RESET_EN)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  155  			reg |= MC13783_POWER_CONTROL_2_ON1BRSTEN;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  156  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  157  		err = mc13xxx_irq_request(mc13783, MC13783_IRQ_ONOFD1,
-4eeb8abb43c2b7 Alexander Kurz    2025-08-17  158  					  button1_irq, "b1on", priv);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  159  		if (err) {
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  160  			dev_dbg(&pdev->dev, "Can't request irq\n");
-173a22b931fb1b Alexander Kurz    2025-08-17  161  			goto free_mc13xxx_lock;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  162  		}
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  163  	}
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  164  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  165  	if (pdata->b_on_flags[1] & MC13783_BUTTON_ENABLE) {
-fc0cc88dc308bc Alexander Kurz    2025-08-17  166  		priv->keymap[1] = pdata->b_on_key[1];
-fc0cc88dc308bc Alexander Kurz    2025-08-17  167  		if (pdata->b_on_key[1] != KEY_RESERVED)
-fc0cc88dc308bc Alexander Kurz    2025-08-17  168  			__set_bit(pdata->b_on_key[1], pwr->keybit);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  169  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  170  		if (pdata->b_on_flags[1] & MC13783_BUTTON_POL_INVERT)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  171  			priv->flags |= MC13783_PWRB_B2_POL_INVERT;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  172  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  173  		if (pdata->b_on_flags[1] & MC13783_BUTTON_RESET_EN)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  174  			reg |= MC13783_POWER_CONTROL_2_ON2BRSTEN;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  175  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  176  		err = mc13xxx_irq_request(mc13783, MC13783_IRQ_ONOFD2,
-4eeb8abb43c2b7 Alexander Kurz    2025-08-17  177  					  button2_irq, "b2on", priv);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  178  		if (err) {
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  179  			dev_dbg(&pdev->dev, "Can't request irq\n");
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  180  			goto free_irq_b1;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  181  		}
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  182  	}
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  183  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  184  	if (pdata->b_on_flags[2] & MC13783_BUTTON_ENABLE) {
-fc0cc88dc308bc Alexander Kurz    2025-08-17 @185  		priv->keymap[2] = pdata->b_on_key[3];
-fc0cc88dc308bc Alexander Kurz    2025-08-17  186  		if (pdata->b_on_key[3] != KEY_RESERVED)
-fc0cc88dc308bc Alexander Kurz    2025-08-17  187  			__set_bit(pdata->b_on_key[3], pwr->keybit);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  188  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  189  		if (pdata->b_on_flags[2] & MC13783_BUTTON_POL_INVERT)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  190  			priv->flags |= MC13783_PWRB_B3_POL_INVERT;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  191  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  192  		if (pdata->b_on_flags[2] & MC13783_BUTTON_RESET_EN)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  193  			reg |= MC13783_POWER_CONTROL_2_ON3BRSTEN;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  194  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  195  		err = mc13xxx_irq_request(mc13783, MC13783_IRQ_ONOFD3,
-4eeb8abb43c2b7 Alexander Kurz    2025-08-17  196  					  button3_irq, "b3on", priv);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  197  		if (err) {
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  198  			dev_dbg(&pdev->dev, "Can't request irq: %d\n", err);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  199  			goto free_irq_b2;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  200  		}
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  201  	}
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  202  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  203  	mc13xxx_reg_rmw(mc13783, MC13783_REG_POWER_CONTROL_2, 0x3FE, reg);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  204  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  205  	mc13xxx_unlock(mc13783);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  206  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  207  	pwr->name = "mc13783_pwrbutton";
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  208  	pwr->phys = "mc13783_pwrbutton/input0";
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  209  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  210  	pwr->keycode = priv->keymap;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  211  	pwr->keycodemax = ARRAY_SIZE(priv->keymap);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  212  	pwr->keycodesize = sizeof(priv->keymap[0]);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  213  	__set_bit(EV_KEY, pwr->evbit);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  214  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  215  	err = input_register_device(pwr);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  216  	if (err) {
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  217  		dev_dbg(&pdev->dev, "Can't register power button: %d\n", err);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  218  		goto free_irq;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  219  	}
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  220  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  221  	platform_set_drvdata(pdev, priv);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  222  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  223  	return 0;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  224  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  225  free_irq:
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  226  	mc13xxx_lock(mc13783);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  227  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  228  	if (pdata->b_on_flags[2] & MC13783_BUTTON_ENABLE)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  229  		mc13xxx_irq_free(mc13783, MC13783_IRQ_ONOFD3, priv);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  230  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  231  free_irq_b2:
-fc0cc88dc308bc Alexander Kurz    2025-08-17  232  	if (pdata->b_on_flags[1] & MC13783_BUTTON_ENABLE)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  233  		mc13xxx_irq_free(mc13783, MC13783_IRQ_ONOFD2, priv);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  234  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  235  free_irq_b1:
-fc0cc88dc308bc Alexander Kurz    2025-08-17  236  	if (pdata->b_on_flags[0] & MC13783_BUTTON_ENABLE)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  237  		mc13xxx_irq_free(mc13783, MC13783_IRQ_ONOFD1, priv);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  238  
-173a22b931fb1b Alexander Kurz    2025-08-17  239  free_mc13xxx_lock:
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  240  	mc13xxx_unlock(mc13783);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  241  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  242  	return err;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  243  }
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  244  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: twl@48 (ti,twl4030): audio: {'compatible': ['ti,twl4030-audio'], 'codec': {}} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/sound/ti,twl4030-audio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: twl@48 (ti,twl4030): audio: Unevaluated properties are not allowed ('codec', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,use-leds': True, 'phandle': 286} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8, 'status': ['disabled']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: twl@48 (ti,twl4030): power:compatible: ['ti,twl4030-power-idle-osc-off', 'ti,twl4030-power-idle'] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[237]], 'usb1v8-supply': [[238]], 'usb3v1-supply': [[235]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 270} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'clock-names', 'clocks', 'gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: eeprom@50 (atmel,24c64): Unevaluated properties are not allowed ('readonly' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: tsc2004@48 (ti,tsc2004): $nodename:0: 'tsc2004@48' does not match '^touchscreen(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2005.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-35xx-devkit.dtb: at25@0 (atmel,at25): $nodename: 'anyOf' conditional failed, one must be fixed:
+   	'at25@0' does not match '^eeprom@[0-9a-f]{1,2}$'
+--
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: twl@48 (ti,twl4030): audio: {'compatible': ['ti,twl4030-audio'], 'codec': {}} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/sound/ti,twl4030-audio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: twl@48 (ti,twl4030): audio: Unevaluated properties are not allowed ('codec', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,use-leds': True, 'phandle': 292} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8, 'status': ['disabled']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: twl@48 (ti,twl4030): power:compatible: ['ti,twl4030-power-idle-osc-off', 'ti,twl4030-power-idle'] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[240]], 'usb1v8-supply': [[241]], 'usb3v1-supply': [[238]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 276} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'clock-names', 'clocks', 'gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: eeprom@50 (atmel,24c64): Unevaluated properties are not allowed ('readonly' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: tsc2004@48 (ti,tsc2004): $nodename:0: 'tsc2004@48' does not match '^touchscreen(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2005.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit.dtb: at25@0 (atmel,at25): $nodename: 'anyOf' conditional failed, one must be fixed:
+   	'at25@0' does not match '^eeprom@[0-9a-f]{1,2}$'
+--
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: twl@48 (ti,twl4030): audio: {'compatible': ['ti,twl4030-audio'], 'codec': {}} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/sound/ti,twl4030-audio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: twl@48 (ti,twl4030): audio: Unevaluated properties are not allowed ('codec', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,use-leds': True, 'phandle': 292} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8, 'status': ['disabled']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: twl@48 (ti,twl4030): power:compatible: ['ti,twl4030-power-idle-osc-off', 'ti,twl4030-power-idle'] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[240]], 'usb1v8-supply': [[241]], 'usb3v1-supply': [[238]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 276} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'clock-names', 'clocks', 'gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: eeprom@50 (atmel,24c64): Unevaluated properties are not allowed ('readonly' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: tsc2004@48 (ti,tsc2004): $nodename:0: 'tsc2004@48' does not match '^touchscreen(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2005.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-torpedo-37xx-devkit-28.dtb: at25@0 (atmel,at25): $nodename: 'anyOf' conditional failed, one must be fixed:
+   	'at25@0' does not match '^eeprom@[0-9a-f]{1,2}$'
+--
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: twl@48 (ti,twl4030): audio: Unevaluated properties are not allowed ('codec', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,use-leds': True} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: twl@48 (ti,twl4030): power:compatible: ['ti,twl4030-power-idle-osc-off', 'ti,twl4030-power-idle'] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[238]], 'usb1v8-supply': [[239]], 'usb3v1-supply': [[236]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 271} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'clock-names', 'clocks', 'gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: tsc2004@48 (ti,tsc2004): $nodename:0: 'tsc2004@48' does not match '^touchscreen(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2005.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-35xx-devkit.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+--
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: twl@48 (ti,twl4030): audio: Unevaluated properties are not allowed ('codec', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,use-leds': True} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: twl@48 (ti,twl4030): power:compatible: ['ti,twl4030-power-idle-osc-off', 'ti,twl4030-power-idle'] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[240]], 'usb1v8-supply': [[241]], 'usb3v1-supply': [[238]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 273} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'clock-names', 'clocks', 'gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: tsc2004@48 (ti,tsc2004): $nodename:0: 'tsc2004@48' does not match '^touchscreen(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2005.yaml#
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/logicpd-som-lv-37xx-devkit.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+--
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[232]], 'usb1v8-supply': [[233]], 'usb3v1-supply': [[230]], 'usb_mode': [1], '#phy-cells': 0} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: /ocp@68000000/mmu@5d000000: failed to match any schema with compatible: ['ti,omap2-iommu']
+   arch/arm/boot/dts/ti/omap/omap3430-sdp.dtb: /ocp@68000000/wdt@48314000: failed to match any schema with compatible: ['ti,omap3-wdt']
+--
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,pulldowns', 'ti,pullups', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[237]], 'usb1v8-supply': [[238]], 'usb3v1-supply': [[235]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 253} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+   arch/arm/boot/dts/ti/omap/omap3-beagle.dtb: /ocp@68000000/mmu@5d000000: failed to match any schema with compatible: ['ti,omap2-iommu']
+--
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,pulldowns', 'ti,pullups', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[237]], 'usb1v8-supply': [[238]], 'usb3v1-supply': [[235]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 253} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-ab4.dtb: /ocp@68000000/mmu@5d000000: failed to match any schema with compatible: ['ti,omap2-iommu']
+--
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: twl@48 (ti,twl4030): audio: Unevaluated properties are not allowed ('codec', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,use-leds': True, 'ti,pullups': 2, 'ti,pulldowns': 238020, 'phandle': 275} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,pulldowns', 'ti,pullups', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: twl@48 (ti,twl4030): power:compatible:0: 'ti,twl4030-power-beagleboard-xm' is not one of ['ti,twl4030-power', 'ti,twl4030-power-reset', 'ti,twl4030-power-idle', 'ti,twl4030-power-idle-osc-off']
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: twl@48 (ti,twl4030): power:compatible: ['ti,twl4030-power-beagleboard-xm', 'ti,twl4030-power-idle-osc-off'] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[240]], 'usb1v8-supply': [[241]], 'usb3v1-supply': [[238]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 255} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'clock-names', 'clocks', 'gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: /ocp@68000000/i2c@48070000/twl@48/power: failed to match any schema with compatible: ['ti,twl4030-power-beagleboard-xm', 'ti,twl4030-power-idle-osc-off']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+--
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: twl@48 (ti,twl4030): audio: Unevaluated properties are not allowed ('codec', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,use-leds': True, 'ti,pullups': 2, 'ti,pulldowns': 238020, 'phandle': 275} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,pulldowns', 'ti,pullups', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: twl@48 (ti,twl4030): power:compatible:0: 'ti,twl4030-power-beagleboard-xm' is not one of ['ti,twl4030-power', 'ti,twl4030-power-reset', 'ti,twl4030-power-idle', 'ti,twl4030-power-idle-osc-off']
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: twl@48 (ti,twl4030): power:compatible: ['ti,twl4030-power-beagleboard-xm', 'ti,twl4030-power-idle-osc-off'] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[240]], 'usb1v8-supply': [[241]], 'usb3v1-supply': [[238]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 255} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'clock-names', 'clocks', 'gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: /ocp@68000000/i2c@48070000/twl@48/power: failed to match any schema with compatible: ['ti,twl4030-power-beagleboard-xm', 'ti,twl4030-power-idle-osc-off']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-beagle-xm-ab.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+--
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: /ocp@68000000/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap3430-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: /ocp@68000000/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap3430-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,use-leds': True, 'phandle': 280, 'en-on-board-gpio-61-hog': {'gpio-hog': True, 'gpios': [[2, 0]], 'output-low': True, 'line-name': ['en_hsusb2_clk']}} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'en-on-board-gpio-61-hog', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8, 'linux,keymap': [33685506, 16842755, 4, 50462725, 33619974, 16777223, 16973832, 50397193, 33554442, 33751095, 131083, 50331731, 16908302, 65564]} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows', 'linux,keymap' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-evm.dtb: twl@48 (ti,twl4030): power:compatible:0: 'ti,twl4030-power-omap3-evm' is not one of ['ti,twl4030-power', 'ti,twl4030-power-reset', 'ti,twl4030-power-idle', 'ti,twl4030-power-idle-osc-off']
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-evm.dtb: twl@48 (ti,twl4030): power:compatible: ['ti,twl4030-power-omap3-evm', 'ti,twl4030-power-idle'] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[237]], 'usb1v8-supply': [[238]], 'usb3v1-supply': [[235]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 262} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-evm.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: gpio (ti,twl4030-gpio): 'en-on-board-gpio-61-hog' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ti,twl4030-gpio.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: /ocp@68000000/i2c@48070000/twl@48/power: failed to match any schema with compatible: ['ti,twl4030-power-omap3-evm', 'ti,twl4030-power-idle']
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: /ocp@68000000/i2c@48060000/tvp5146@5c: failed to match any schema with compatible: ['ti,tvp5146m2']
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-evm.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+--
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: /ocp@68000000/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap3630-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: /ocp@68000000/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap3630-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,use-leds': True, 'phandle': 282, 'en-on-board-gpio-61-hog': {'gpio-hog': True, 'gpios': [[2, 0]], 'output-low': True, 'line-name': ['en_hsusb2_clk']}} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'en-on-board-gpio-61-hog', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8, 'linux,keymap': [33685506, 16842755, 4, 50462725, 33619974, 16777223, 16973832, 50397193, 33554442, 33751095, 131083, 50331731, 16908302, 65564]} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows', 'linux,keymap' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: twl@48 (ti,twl4030): power:compatible:0: 'ti,twl4030-power-omap3-evm' is not one of ['ti,twl4030-power', 'ti,twl4030-power-reset', 'ti,twl4030-power-idle', 'ti,twl4030-power-idle-osc-off']
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: twl@48 (ti,twl4030): power:compatible: ['ti,twl4030-power-omap3-evm', 'ti,twl4030-power-idle'] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[239]], 'usb1v8-supply': [[240]], 'usb3v1-supply': [[237]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 264} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: gpio (ti,twl4030-gpio): 'en-on-board-gpio-61-hog' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ti,twl4030-gpio.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: /ocp@68000000/i2c@48070000/twl@48/power: failed to match any schema with compatible: ['ti,twl4030-power-omap3-evm', 'ti,twl4030-power-idle']
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: /ocp@68000000/i2c@48060000/tvp5146@5c: failed to match any schema with compatible: ['ti,tvp5146m2']
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-evm-37xx.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+--
+   arch/arm/boot/dts/ti/omap/omap3-gta04a3.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,pullups': 4, 'ti,pulldowns': 238019} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a3.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,pulldowns', 'ti,pullups' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a3.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8, 'status': ['disabled']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a3.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[246]], 'usb1v8-supply': [[247]], 'usb3v1-supply': [[244]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 280} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a3.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-gta04a3.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'clock-names', 'clocks', 'gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a3.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a3.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a3.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a3.dtb: tca6507@45 (ti,tca6507): led@6: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/leds/ti,tca6507.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a3.dtb: tsc2007@48 (ti,tsc2007): 'touchscreen-fuzz-pressure', 'touchscreen-fuzz-x', 'touchscreen-fuzz-y', 'touchscreen-inverted-y', 'touchscreen-max-pressure', 'touchscreen-min-x', 'touchscreen-min-y', 'touchscreen-size-x', 'touchscreen-size-y' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti.tsc2007.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a3.dtb: lis302@1d (st,lis331dlh): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-click-time-limit', 'st,click-latency', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+--
+   arch/arm/boot/dts/ti/omap/omap3-gta04a4.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,pullups': 4, 'ti,pulldowns': 238019} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a4.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,pulldowns', 'ti,pullups' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a4.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8, 'status': ['disabled']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a4.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[246]], 'usb1v8-supply': [[247]], 'usb3v1-supply': [[244]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 278} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a4.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-gta04a4.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'clock-names', 'clocks', 'gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a4.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a4.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a4.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a4.dtb: tca6507@45 (ti,tca6507): led@6: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/leds/ti,tca6507.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a4.dtb: tsc2007@48 (ti,tsc2007): 'touchscreen-fuzz-pressure', 'touchscreen-fuzz-x', 'touchscreen-fuzz-y', 'touchscreen-inverted-y', 'touchscreen-max-pressure', 'touchscreen-min-x', 'touchscreen-min-y', 'touchscreen-size-x', 'touchscreen-size-y' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti.tsc2007.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a4.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a4.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+--
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,pullups': 4, 'ti,pulldowns': 238019, 'phandle': 293} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,pulldowns', 'ti,pullups' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8, 'status': ['disabled']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[247]], 'usb1v8-supply': [[248]], 'usb3v1-supply': [[245]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 274} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-gta04a5.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'clock-names', 'clocks', 'gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5.dtb: tca6507@45 (ti,tca6507): led@6: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/leds/ti,tca6507.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5.dtb: tsc2007@48 (ti,tsc2007): 'touchscreen-fuzz-pressure', 'touchscreen-fuzz-x', 'touchscreen-fuzz-y', 'touchscreen-inverted-y', 'touchscreen-max-pressure', 'touchscreen-min-x', 'touchscreen-min-y', 'touchscreen-size-x', 'touchscreen-size-y' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti.tsc2007.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+--
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5one.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,pullups': 4, 'ti,pulldowns': 238019, 'phandle': 293} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5one.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,pulldowns', 'ti,pullups' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5one.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8, 'status': ['disabled']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5one.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[247]], 'usb1v8-supply': [[248]], 'usb3v1-supply': [[245]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 274} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5one.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-gta04a5one.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'clock-names', 'clocks', 'gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5one.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5one.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5one.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5one.dtb: tca6507@45 (ti,tca6507): led@6: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/leds/ti,tca6507.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5one.dtb: tsc2007@48 (ti,tsc2007): 'touchscreen-fuzz-pressure', 'touchscreen-fuzz-x', 'touchscreen-fuzz-y', 'touchscreen-inverted-y', 'touchscreen-max-pressure', 'touchscreen-min-x', 'touchscreen-min-y', 'touchscreen-size-x', 'touchscreen-size-y' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti.tsc2007.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5one.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-gta04a5one.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+--
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,pulldowns', 'ti,pullups', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[241]], 'usb1v8-supply': [[242]], 'usb3v1-supply': [[239]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 265} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-ha.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+   arch/arm/boot/dts/ti/omap/omap3-ha.dtb: /ocp@68000000/mmu@5d000000: failed to match any schema with compatible: ['ti,omap2-iommu']
+--
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,pulldowns', 'ti,pullups', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[242]], 'usb1v8-supply': [[243]], 'usb3v1-supply': [[240]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 266} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+   arch/arm/boot/dts/ti/omap/omap3-ha-lcd.dtb: /ocp@68000000/mmu@5d000000: failed to match any schema with compatible: ['ti,omap2-iommu']
+--
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[240]], 'usb1v8-supply': [[241]], 'usb3v1-supply': [[238]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 271} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: /ocp@68000000/i2c@48060000/eeprom@50: failed to match any schema with compatible: ['ti,eeprom']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+--
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[241]], 'usb1v8-supply': [[242]], 'usb3v1-supply': [[239]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 271} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: /ocp@68000000/i2c@48060000/eeprom@50: failed to match any schema with compatible: ['ti,eeprom']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-igep0020-rev-f.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+--
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[239]], 'usb1v8-supply': [[240]], 'usb3v1-supply': [[237]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 264} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030.dtb: /ocp@68000000/mmu@5d000000: failed to match any schema with compatible: ['ti,omap2-iommu']
+--
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[240]], 'usb1v8-supply': [[241]], 'usb3v1-supply': [[238]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 264} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+   arch/arm/boot/dts/ti/omap/omap3-igep0030-rev-g.dtb: /ocp@68000000/mmu@5d000000: failed to match any schema with compatible: ['ti,omap2-iommu']
+--
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[243]], 'usb1v8-supply': [[244]], 'usb3v1-supply': [[241]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 275} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+   arch/arm/boot/dts/ti/omap/omap3-lilly-dbb056.dtb: /ocp@68000000/mmu@5d000000: failed to match any schema with compatible: ['ti,omap2-iommu']
+--
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: twl@48 (ti,twl4030): audio: Unevaluated properties are not allowed ('compatible', 'ti,enable-vibra' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: twl@48 (ti,twl4030): gpio: {'compatible': ['ti,twl4030-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'interrupt-controller': True, '#interrupt-cells': 1, 'ti,pullups': 0, 'ti,pulldowns': 261951, 'phandle': 302} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,pulldowns', 'ti,pullups' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8, 'linux,keymap': [16, 65560, 131097, 196659, 262158, 393246, 458783, 16777233, 16842784, 16908321, 16973858, 17039395, 17104932, 17170469, 17236006, 33554450, 33620020, 33685607, 33751068, 33882156, 33947693, 34013230, 34078787, 50331667, 50397231, 50462768, 50528305, 50593842, 50659385, 50724921, 50790505, 67108884, 67174508, 67240042, 67371037, 67436644, 67502122, 67633220, 83886101, 84410455, 100663318, 117440535, 117506113, 117571650]} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows', 'linux,keymap' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-n900.dtb: twl@48 (ti,twl4030): power:compatible:0: 'ti,twl4030-power-n900' is not one of ['ti,twl4030-power', 'ti,twl4030-power-reset', 'ti,twl4030-power-idle', 'ti,twl4030-power-idle-osc-off']
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-n900.dtb: twl@48 (ti,twl4030): power:compatible: ['ti,twl4030-power-n900', 'ti,twl4030-power-idle-osc-off'] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[241]], 'usb1v8-supply': [[242]], 'usb3v1-supply': [[239]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 276} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-n900.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'power', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/i2c@48070000/twl@48/power: failed to match any schema with compatible: ['ti,twl4030-power-n900', 'ti,twl4030-power-idle-osc-off']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/i2c@48072000/led-controller@30: failed to match any schema with compatible: ['adi,adp1653']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/i2c@48072000/si4713@63: failed to match any schema with compatible: ['silabs,si4713']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: /ocp@68000000/i2c@48060000/camera@3e: failed to match any schema with compatible: ['toshiba,et8ek8']
+   arch/arm/boot/dts/ti/omap/omap3-n900.dtb: tsc2005@0 (ti,tsc2005): $nodename:0: 'tsc2005@0' does not match '^touchscreen(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2005.yaml#
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-alto35.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-alto35.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-alto35.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-alto35.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[237]], 'usb1v8-supply': [[238]], 'usb3v1-supply': [[235]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 266} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-alto35.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-alto35.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-alto35.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-alto35.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-alto35.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-alto35.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-alto35.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-chestnut43.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-chestnut43.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-chestnut43.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-chestnut43.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[237]], 'usb1v8-supply': [[238]], 'usb3v1-supply': [[235]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 266} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-chestnut43.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-chestnut43.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-chestnut43.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-chestnut43.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-chestnut43.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-chestnut43.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-chestnut43.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-gallop43.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-gallop43.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-gallop43.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-gallop43.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[237]], 'usb1v8-supply': [[238]], 'usb3v1-supply': [[235]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 263} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-gallop43.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-gallop43.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-gallop43.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-gallop43.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-gallop43.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-gallop43.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-gallop43.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo35.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo35.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo35.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo35.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[237]], 'usb1v8-supply': [[238]], 'usb3v1-supply': [[235]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 266} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo35.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-palo35.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo35.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo35.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo35.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo35.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo35.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo43.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo43.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo43.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo43.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[237]], 'usb1v8-supply': [[238]], 'usb3v1-supply': [[235]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 263} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo43.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-palo43.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo43.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo43.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo43.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo43.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-palo43.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-alto35.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-alto35.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-alto35.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-alto35.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[239]], 'usb1v8-supply': [[240]], 'usb3v1-supply': [[237]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 268} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-alto35.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-storm-alto35.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-alto35.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-alto35.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-alto35.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-alto35.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-alto35.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-chestnut43.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-chestnut43.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-chestnut43.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-chestnut43.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[239]], 'usb1v8-supply': [[240]], 'usb3v1-supply': [[237]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 268} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-chestnut43.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-storm-chestnut43.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-chestnut43.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-chestnut43.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-chestnut43.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-chestnut43.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-chestnut43.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-gallop43.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-gallop43.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-gallop43.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-gallop43.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[239]], 'usb1v8-supply': [[240]], 'usb3v1-supply': [[237]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 265} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-gallop43.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-storm-gallop43.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-gallop43.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-gallop43.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-gallop43.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-gallop43.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-gallop43.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo35.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo35.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo35.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo35.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[239]], 'usb1v8-supply': [[240]], 'usb3v1-supply': [[237]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 268} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo35.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo35.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo35.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo35.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo35.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo35.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo35.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo43.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo43.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo43.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo43.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[239]], 'usb1v8-supply': [[240]], 'usb3v1-supply': [[237]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 265} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo43.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo43.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo43.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo43.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo43.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo43.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-palo43.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-summit.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-summit.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-summit.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-summit.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[239]], 'usb1v8-supply': [[240]], 'usb3v1-supply': [[237]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 261} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-summit.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-storm-summit.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-summit.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-summit.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-summit.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-summit.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-summit.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobi.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobi.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobi.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobi.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[239]], 'usb1v8-supply': [[240]], 'usb3v1-supply': [[237]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 264} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobi.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobi.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobi.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobi.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobi.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobi.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobi.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobiduo.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobiduo.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobiduo.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobiduo.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[239]], 'usb1v8-supply': [[240]], 'usb3v1-supply': [[237]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 265} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobiduo.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobiduo.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobiduo.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobiduo.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobiduo.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobiduo.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-storm-tobiduo.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-summit.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-summit.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-summit.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-summit.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[237]], 'usb1v8-supply': [[238]], 'usb3v1-supply': [[235]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 259} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-summit.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-summit.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-summit.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-summit.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-summit.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-summit.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-summit.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobi.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobi.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobi.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobi.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[237]], 'usb1v8-supply': [[238]], 'usb3v1-supply': [[235]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 262} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobi.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-tobi.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobi.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobi.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobi.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobi.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobi.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobiduo.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobiduo.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobiduo.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobiduo.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[237]], 'usb1v8-supply': [[238]], 'usb3v1-supply': [[235]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 263} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobiduo.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-overo-tobiduo.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobiduo.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobiduo.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobiduo.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobiduo.dtb: lis33de@1d (st,lis33de): 'Vdd-supply', 'Vdd_IO-supply', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-thresh-x', 'st,click-thresh-y', 'st,click-thresh-z', 'st,irq1-click', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-x-hi', 'st,wakeup-x-lo', 'st,wakeup-y-hi', 'st,wakeup-y-lo', 'st,wakeup-z-hi', 'st,wakeup-z-lo' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-overo-tobiduo.dtb: lis33de@1d (st,lis33de): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,lis33de', 'st,lis3lv02d'] is too long
+   	'st,lis33de' is not one of ['st,h3lis331dl-accel', 'st,lis2de12', 'st,lis2dw12', 'st,lis2hh12', 'st,lis2dh12-accel', 'st,lis2ds12', 'st,lis302dl', 'st,lis331dl-accel', 'st,lis331dlh-accel', 'st,lis3de', 'st,lis3dh-accel', 'st,lis3dhh', 'st,lis3l02dq', 'st,lis3lv02dl-accel', 'st,lng2dm-accel', 'st,lsm303agr-accel', 'st,lsm303c-accel', 'st,lsm303dl-accel', 'st,lsm303dlh-accel', 'st,lsm303dlhc-accel', 'st,lsm303dlm-accel', 'st,lsm330-accel', 'st,lsm330d-accel', 'st,lsm330dl-accel', 'st,lsm330dlc-accel']
+   	'st,iis328dq' was expected
+--
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,pulldowns', 'ti,pullups', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[234]], 'usb1v8-supply': [[235]], 'usb3v1-supply': [[232]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 258} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('audio', 'gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+   arch/arm/boot/dts/ti/omap/omap3-thunder.dtb: /ocp@68000000/mmu@5d000000: failed to match any schema with compatible: ['ti,omap2-iommu']
+--
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: twl@48 (ti,twl4030): gpio: Unevaluated properties are not allowed ('#gpio-cells', '#interrupt-cells', 'compatible', 'gpio-controller', 'interrupt-controller', 'ti,use-leds' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: twl@48 (ti,twl4030): keypad: {'compatible': ['ti,twl4030-keypad'], 'interrupts': [[1]], 'keypad,num-rows': 8, 'keypad,num-columns': 8} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: twl@48 (ti,twl4030): keypad: Unevaluated properties are not allowed ('compatible', 'interrupts', 'keypad,num-columns', 'keypad,num-rows' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: twl@48 (ti,twl4030): twl4030-usb: {'compatible': ['ti,twl4030-usb'], 'interrupts': [[10], [4]], 'usb1v5-supply': [[236]], 'usb1v8-supply': [[237]], 'usb3v1-supply': [[234]], 'usb_mode': [1], '#phy-cells': 0, 'phandle': 259} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/usb/ti,twlxxxx-usb.yaml#"}
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: twl@48 (ti,twl4030): twl4030-usb: Unevaluated properties are not allowed ('#phy-cells', 'compatible', 'interrupts', 'usb1v5-supply', 'usb1v8-supply', 'usb3v1-supply', 'usb_mode' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+>> arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: twl@48 (ti,twl4030): Unevaluated properties are not allowed ('gpio', 'keypad', 'madc', 'pwm', 'pwmled', 'pwrbutton', 'twl4030-usb', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: /ocp@68000000/i2c@48060000/tvp5146@5c: failed to match any schema with compatible: ['ti,tvp5146m2']
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+   arch/arm/boot/dts/ti/omap/omap3-zoom3.dtb: /ocp@68000000/mmu@5d000000: failed to match any schema with compatible: ['ti,omap2-iommu']
 
 -- 
 0-DAY CI Kernel Test Service
