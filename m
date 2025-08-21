@@ -1,70 +1,58 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC3A2EF677
-	for <oe-kbuild@lists.linux.dev>; Thu, 21 Aug 2025 08:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C97241663
+	for <oe-kbuild@lists.linux.dev>; Thu, 21 Aug 2025 09:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755764499; cv=none; b=OuKqPFLpVCOkvIo1Hp/YQKjXbOFgQSJUvr96XaVHVYLZsrz9YWFAx0oB5gqFXpyMm6o1XNaNJJtyP+ggfWSWYunjcF96ew0LlFj+1YnXAkagpwqR1oanaA+AyBpqQL4l3vBXNPWsOZ0idW0LobMEVWDNPWK1l0pMzmdGr19StTQ=
+	t=1755770209; cv=none; b=WnN8kJXIPDxUVSt0dA+pnPGZjIPmYNrpau+LCSxj1epIW3FV3FEdHvaVjlRnGpTeW2EamfIafBC1+T4uCkd5q3AuPF3spjPS82oOZhAgAqvldMdyW5aJHmlfMNPdfEUerb7ql8XT1uXE8Z/q4vUWOMH5MKT5N7eCe5bPSoUEKh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755764499; c=relaxed/simple;
-	bh=JXocULCsBo7/n98cmVoNOqykInxPZnjLVNBTREPdg0Q=;
+	s=arc-20240116; t=1755770209; c=relaxed/simple;
+	bh=3jry8IwtCjNAGpcYvuyGA3eMnBxq5FzcH99p8zEib6w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=k1EEZ+6SM1n6lrgHx9yLOGpJ/WwX8iaAtt+3M63vWJ5pzmy+1O6E9xZjyrrbwory1YpoXWKdQkHEJSLPGeriXs7RCbDLC2VP26gWcG5/UArT6YoHkBHooHtk2kykLG6KmI3dzQx+9PeUXZNbsng+yBas8/mIxHcrcoEyX5iKGBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZTGzCfrv; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=TcXBV2XamW8yHXJB8UgPvn58M2mm9sT94Q8OMUGiqDvR1/2NsjlDWPJo2UaunY8tAJBCNZdl+tPawnSdjpmdHKXZQazwRHEP3qVpNwSVAZplXbr9ze1CVaxcn3IwvPNKKfKjmnICD8tOZHTHiuc356x1htTMuDQnHM/e7Snk/Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hbx3+Ttz; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZTGzCfrv"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3b9a342e8ffso490461f8f.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 21 Aug 2025 01:21:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755764494; x=1756369294; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6F9MVHoGttGvZi9mtKapX8wE+xXVK++WzjAWqNNFy5w=;
-        b=ZTGzCfrvKt0HeAyT6xDn75pgEIymlJqfCl5gNokcdZ5zqnOWu8RbECK+Ujj1ZT/p9s
-         ghOaIAlPOL4Ec2T511HIptARbchaQXWOlJGwMdBXRvsKb2QT2NqIjj18H1fvYCq8a+NP
-         a+56l1As21WZhgkVwqQd/7U+54VbxBMAvcVU4vnZ07PMzDavd6MAHimD7udZmHuvCwOz
-         uIYvLMUulY+4MUxjdBnycMIfPUa04wCwBW8ogjJuKyWwzgIcwzSqT9YUKtjzb6gNw8It
-         Z1181RRqdVtMnJyZpQ23Yl0PVBvpRi6kKwRjcZaQaM62e6GC74XvI8vluCOT8dxTlRWo
-         hjJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755764494; x=1756369294;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6F9MVHoGttGvZi9mtKapX8wE+xXVK++WzjAWqNNFy5w=;
-        b=VPOMEAWn4agyEfszQ5V8S7WjOVTGS0nl/q6XNkU2fhDeHpstqPIZB+fHtvvppLOFFw
-         Y6oEy7qshfB04ekVfOt05YrDLioVl2IWa8GgDk3Iqv9oJCXvdv5xCVBJP5uFyTcLtfJe
-         rGkGYpXHToOWnhC1ZcQfU0DVz0Z+CDezc3uHjSEEuthjL7qPWqekzy2xqzLDAzw7R1ub
-         /c5OFr0Z/oJqO/euZ4xWda8QgxwBa4DTexWE0XZ/LBvTNU0CyNvxcHSe0BdGdTMLhFv7
-         8oHHgRIO7fY+sAqUY1quggBqSAD/e+arMna5T+MoRocC07BNNR3CSEs7k7FptzVu9T6I
-         Iqsg==
-X-Gm-Message-State: AOJu0Yx7S7XZUF/ZOeVnomnrBr3G/YUrIzaC/5UnNlO5aFKGZQub2y9v
-	2gyVh+w+424WSxzkf9mX4vBt1yVCuGyWGEulmSzwrUssXNM75TRISjR67FnDSFN4NGS9bUTrGQZ
-	84WSl
-X-Gm-Gg: ASbGnctaFpENm2N5ye9xT4tkX0eHHlKm/k1nFQZPu5UGBySr8frT7IHDNwM+8tmtrce
-	ESWfFcg3d10sPDlmzPfTeF+47PKPrv1EfLK+6IBq7Mrh1R3YQI53pLuG8qFQ8BH0cB8B/ZBkuN8
-	NKsarNXUkJbwmls8dwhQOx1iag9GVYHhubmkSuQnb4LbV0oN8qfyGkZa6jbuxLIkSgkw/xOOwEI
-	BJn+5DhwzKMg5PrExP6/46YOx4+tTRLqT2dcugZyjTzR6EM5s0W6LdcB7Lg3s1p1f/O0ECgVFdM
-	ub6nlV5sYjIBZUVzBf4q4BHVRyyW5akPqYWLpEHM/NS8J+iIM+PpX6fHsCMPu08mvF2B9YC6xep
-	cV9+R6kg8te+JlrxbhXiVzyU1qBY=
-X-Google-Smtp-Source: AGHT+IEEH9J16IEfY7X5Ab8U3awn2/tTG/DyRWYmbtluKFWJrwnSi/zTjuUtoKU2yasvK1jGjM/f0A==
-X-Received: by 2002:a05:6000:2911:b0:3b7:9d87:9808 with SMTP id ffacd0b85a97d-3c4b0445cbcmr1346807f8f.15.1755764494525;
-        Thu, 21 Aug 2025 01:21:34 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c07487986fsm11782149f8f.1.2025.08.21.01.21.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 01:21:34 -0700 (PDT)
-Date: Thu, 21 Aug 2025 11:21:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sun YangKai <sunk67188@gmail.com>,
-	linux-btrfs@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Sun YangKai <sunk67188@gmail.com>
-Subject: Re: [PATCH] btrfs: more trivial BTRFS_PATH_AUTO_FREE conversions
-Message-ID: <202508211534.QmDKCbTm-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hbx3+Ttz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755770207; x=1787306207;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3jry8IwtCjNAGpcYvuyGA3eMnBxq5FzcH99p8zEib6w=;
+  b=hbx3+TtzQBjudUcWiOrZt6VO8yz/b7h41VdS+k4qINezIcUjRQuanopF
+   4y+DvZrPju7VPI68hnRXcqA11OjnbL8QKk+4/SBJL7SJ+ep60Vjzm7WSA
+   g2BKnT3rHAmtOAyBivDsNae3Fm9Ffg/EOAU1e4CMVzxfuIWvh/h80CstA
+   rUimUPJqO5/ZBIeWf56YqRI+Tb02M7dwMu/2XFaGye06mLrT/fAiuuLIP
+   fX/8eVDQX9x86hBHlat7EUgZTwlIPKM3u3AB7Hso97qRgrLxFdSQM8Mtr
+   L1N5yl9RtHJMmlOzmieRN7IWj72Q3E+eYrTvFZs9/+RhQlyHHj3R0WHqT
+   g==;
+X-CSE-ConnectionGUID: qIfNPnSYSzuIVy9ibCMghw==
+X-CSE-MsgGUID: p/tadK2GT1aNXDZ4/cbTHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="68324453"
+X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
+   d="scan'208";a="68324453"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 02:56:46 -0700
+X-CSE-ConnectionGUID: e9IgXGDtSkar6IzAzIF7sg==
+X-CSE-MsgGUID: n3xy2tpyRxKjEd5oOiG6tQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
+   d="scan'208";a="167879120"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 21 Aug 2025 02:56:44 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1up21y-000KAp-2A;
+	Thu, 21 Aug 2025 09:56:32 +0000
+Date: Thu, 21 Aug 2025 17:55:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [chao:bugfix/syzbot 21/21] fs/f2fs/sysfs.c:1811:2-8: Missing call to
+ dput() at line 1811.
+Message-ID: <202508211750.zNfjckT5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,67 +61,97 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250819033819.19826-1-sunk67188@gmail.com>
-Message-ID: <20250821082130.Q64gnlCUMyBY70uQJKaCnu1UDQxzmX1cztsPvTQgsIA@z>
 
-Hi Sun,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+TO: Jaegeuk Kim <jaegeuk@kernel.org>
+CC: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sun-YangKai/btrfs-more-trivial-BTRFS_PATH_AUTO_FREE-conversions/20250819-114252
-base:   v6.17-rc2
-patch link:    https://lore.kernel.org/r/20250819033819.19826-1-sunk67188%40gmail.com
-patch subject: [PATCH] btrfs: more trivial BTRFS_PATH_AUTO_FREE conversions
-config: parisc-randconfig-r071-20250821 (https://download.01.org/0day-ci/archive/20250821/202508211534.QmDKCbTm-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 9.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/syzbot
+head:   a910788bf8a9a5d791157a4df5222af3992e745e
+commit: a910788bf8a9a5d791157a4df5222af3992e745e [21/21] f2fs: show the list of donation files
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-101-20250821 (https://download.01.org/0day-ci/archive/20250821/202508211750.zNfjckT5-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508211534.QmDKCbTm-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202508211750.zNfjckT5-lkp@intel.com/
 
-smatch warnings:
-fs/btrfs/send.c:931 get_inode_info() warn: missing error code? 'ret'
+cocci warnings: (new ones prefixed by >>)
+>> fs/f2fs/sysfs.c:1811:2-8: Missing call to dput() at line 1811.
+   fs/f2fs/sysfs.c:1811:2-8: Missing call to dput() at line 1831.
 
-vim +/ret +931 fs/btrfs/send.c
+vim +1811 fs/f2fs/sysfs.c
 
-7e93f6dc11d9128 BingJing Chang  2022-08-12  908  static int get_inode_info(struct btrfs_root *root, u64 ino,
-7e93f6dc11d9128 BingJing Chang  2022-08-12  909  			  struct btrfs_inode_info *info)
-31db9f7c23fbf7e Alexander Block 2012-07-25  910  {
-31db9f7c23fbf7e Alexander Block 2012-07-25  911  	int ret;
-c8ce1e5fe626333 Sun YangKai     2025-08-19  912  	BTRFS_PATH_AUTO_FREE(path);
-31db9f7c23fbf7e Alexander Block 2012-07-25  913  	struct btrfs_inode_item *ii;
-31db9f7c23fbf7e Alexander Block 2012-07-25  914  	struct btrfs_key key;
-31db9f7c23fbf7e Alexander Block 2012-07-25  915  
-7e93f6dc11d9128 BingJing Chang  2022-08-12  916  	path = alloc_path_for_send();
-7e93f6dc11d9128 BingJing Chang  2022-08-12  917  	if (!path)
-7e93f6dc11d9128 BingJing Chang  2022-08-12  918  		return -ENOMEM;
-7e93f6dc11d9128 BingJing Chang  2022-08-12  919  
-31db9f7c23fbf7e Alexander Block 2012-07-25  920  	key.objectid = ino;
-31db9f7c23fbf7e Alexander Block 2012-07-25  921  	key.type = BTRFS_INODE_ITEM_KEY;
-31db9f7c23fbf7e Alexander Block 2012-07-25  922  	key.offset = 0;
-31db9f7c23fbf7e Alexander Block 2012-07-25  923  	ret = btrfs_search_slot(NULL, root, &key, path, 0, 0);
-31db9f7c23fbf7e Alexander Block 2012-07-25  924  	if (ret) {
-3f8a18cc53bd1be Josef Bacik     2014-03-28  925  		if (ret > 0)
-31db9f7c23fbf7e Alexander Block 2012-07-25  926  			ret = -ENOENT;
-c8ce1e5fe626333 Sun YangKai     2025-08-19  927  		return ret;
-31db9f7c23fbf7e Alexander Block 2012-07-25  928  	}
-31db9f7c23fbf7e Alexander Block 2012-07-25  929  
-7e93f6dc11d9128 BingJing Chang  2022-08-12  930  	if (!info)
-c8ce1e5fe626333 Sun YangKai     2025-08-19 @931  		return ret;
-
-ret is zero, but it should be an error code.
-
-7e93f6dc11d9128 BingJing Chang  2022-08-12  932  
-31db9f7c23fbf7e Alexander Block 2012-07-25  933  	ii = btrfs_item_ptr(path->nodes[0], path->slots[0],
-31db9f7c23fbf7e Alexander Block 2012-07-25  934  			struct btrfs_inode_item);
-7e93f6dc11d9128 BingJing Chang  2022-08-12  935  	info->size = btrfs_inode_size(path->nodes[0], ii);
-7e93f6dc11d9128 BingJing Chang  2022-08-12  936  	info->gen = btrfs_inode_generation(path->nodes[0], ii);
+f238eff95f485b Jaegeuk Kim 2024-03-04  1771  
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1772  static int __maybe_unused donation_list_seq_show(struct seq_file *seq,
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1773  						void *offset)
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1774  {
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1775  	struct super_block *sb = seq->private;
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1776  	struct f2fs_sb_info *sbi = F2FS_SB(sb);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1777  	struct inode *inode;
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1778  	struct f2fs_inode_info *fi;
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1779  	struct dentry *dentry;
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1780  	char *buf, *path;
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1781  	int i;
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1782  
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1783  	buf = f2fs_getname(sbi);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1784  	if (!buf)
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1785  		return 0;
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1786  
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1787  	seq_printf(seq, "Donation List\n");
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1788  	seq_printf(seq, " # of files  : %u\n", sbi->donate_files);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1789  	seq_printf(seq, " %-50s %10s %20s %20s %22s\n",
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1790  			"File path", "Status", "Donation offset (kb)",
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1791  			"Donation size (kb)", "File cached size (kb)");
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1792  	seq_printf(seq, "---\n");
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1793  
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1794  	for (i = 0; i < sbi->donate_files; i++) {
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1795  		spin_lock(&sbi->inode_lock[DONATE_INODE]);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1796  		if (list_empty(&sbi->inode_list[DONATE_INODE])) {
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1797  			spin_unlock(&sbi->inode_lock[DONATE_INODE]);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1798  			break;
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1799  		}
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1800  		fi = list_first_entry(&sbi->inode_list[DONATE_INODE],
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1801  					struct f2fs_inode_info, gdonate_list);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1802  		list_move_tail(&fi->gdonate_list, &sbi->inode_list[DONATE_INODE]);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1803  		inode = igrab(&fi->vfs_inode);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1804  		spin_unlock(&sbi->inode_lock[DONATE_INODE]);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1805  
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1806  		if (!inode)
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1807  			continue;
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1808  
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1809  		inode_lock_shared(inode);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1810  
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11 @1811  		dentry = d_find_alias(inode);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1812  		if (!dentry) {
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1813  			path = NULL;
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1814  		} else {
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1815  			path = dentry_path_raw(dentry, buf, PATH_MAX);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1816  			if (IS_ERR(path))
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1817  				goto next;
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1818  		}
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1819  		seq_printf(seq, " %-50s %10s %20llu %20llu %22llu\n",
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1820  				path ? path : "<unlinked>",
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1821  				is_inode_flag_set(inode, FI_DONATE_FINISHED) ?
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1822  				"Evicted" : "Donated",
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1823  				(loff_t)fi->donate_start << (PAGE_SHIFT - 10),
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1824  				(loff_t)(fi->donate_end + 1) << (PAGE_SHIFT - 10),
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1825  				(loff_t)inode->i_mapping->nrpages << (PAGE_SHIFT - 10));
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1826  next:
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1827  		inode_unlock_shared(inode);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1828  		iput(inode);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1829  	}
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1830  	f2fs_putname(buf);
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1831  	return 0;
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1832  }
+a910788bf8a9a5 Jaegeuk Kim 2025-08-11  1833  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
