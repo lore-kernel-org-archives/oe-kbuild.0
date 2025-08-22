@@ -1,70 +1,59 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFB521858D
-	for <oe-kbuild@lists.linux.dev>; Fri, 22 Aug 2025 17:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91471A9FB9
+	for <oe-kbuild@lists.linux.dev>; Fri, 22 Aug 2025 18:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755883053; cv=none; b=uP9Tydfqx/9KeIneSgPhY44zLhmBcVXSmd4v1vU1t6I6kK9mccHU5HeK/Q5Q/Sjj/nyyV/xGXEG8cbSQnywd4JsLGsTgprQvE+hOiVuNo92GsQ0XH9k6kQDbPWmaERGjv1pcDzPjZDk0JEEzSAyB2ybU39Tw3Yen3wWmflx1/9o=
+	t=1755886257; cv=none; b=JIAGMdRucemP24yNtHqT+PVTPGwBsUIutPFADXLUv6MZjv8j3pVDBWaYvdWc0WwzYVIIH+6EhvK5Uqrrc3BAzuFT+gTCnKVmdhJbWQaR4xqo/wN3c6rXhK71jQ7ZhxVSYEcYmpuEk0Ab+RBPvDMQBxcevjvNGaOD8j3xVxAsRng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755883053; c=relaxed/simple;
-	bh=5Udo/f8ent/K3o9ISDeOwIWa6pto6XFRhDz1qdZBK/s=;
+	s=arc-20240116; t=1755886257; c=relaxed/simple;
+	bh=7LbSiwB4VCVLPx1Q3KyikUEQ5XFWvDVlpLKM1fxW27I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T9biFeCvk3YCGhB0I+VD7/h+31VT/j3L26kpOmoAPb6g+ZP/+rgBXy13WjCo6tPcs87UHn1IjAUx892gJyv3OSKoX6Yp1pBLmMIf4wcYDVGkaLjzZ+CkRFkc6JJhbBTYU3zqzIXxqIA3PPJfqB+aBOEElOJjjxBOa3oQDk837jI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QvKBpqrx; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=u+OoRTDNM8aZqWbIoVFEqyBDcDSCW1Id6YzQJqoU42TyYxDxpYdKTbKCSwEx5enMv56qDbaHHRDd46tkGGST+JHR5xXHkChilTVzb0v+C05xyj6oSyAVE+cD5NAHvvQX7r/4zm4JfGru2wd19sfoqXJmL6NaE9/ekJ94wcq2dbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GzwS7jsm; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QvKBpqrx"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45a1b00a65fso11801695e9.0
-        for <oe-kbuild@lists.linux.dev>; Fri, 22 Aug 2025 10:17:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755883049; x=1756487849; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nG60mJTcfDhZrN0Chr9ou2fiLnhkow+tZ1jRLbxcJ6I=;
-        b=QvKBpqrxExOlTeP/hf1QNxq/OyJjoL7jBQNzpdQ8sLN8BGhl17rygW04b8F8p+6FKg
-         9aBq4kZoQeaANxXEug+oBeE5BGkgWZE4PYtRgqQow7Au+QvJYVUjo3uIk8Oj05Rb7QV0
-         cz46HGZE4r/jxpHKn1oFBVvzFd+hA8iuGB6qnFHsZcxcNzv6qq+PnUTlnWYpzX1goiER
-         auc+49ct+6n8qcrOKt+pleQ5xYkdimi86f4vZjdGYvC3tNwGHDvZSb5SREkjznWWaRee
-         m11vaBgP5gRbrAbmmUYdXwReAD/L17ku5ZQEp5TtI9CGIErH3j6nslxjPSFBJ1HXQfPq
-         vDAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755883049; x=1756487849;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nG60mJTcfDhZrN0Chr9ou2fiLnhkow+tZ1jRLbxcJ6I=;
-        b=QVN3hip/xdgaBeXh6wlvKf/GcsGdMzis97n5MwuNF2PI/xjXAT48y3P1BVqTA4+LJJ
-         L3AOq4+PIPtBFUG415OJ4I7lV4beVqs/LZ6Ro5MYOH5Yx4jVFfMvwgPCjArR1ZUEgFPU
-         ngIiLj+Bj+g0JA5sn673Y7GCtObAkkesTFbfUWSetmuhAsClOYSDTrqbIdHeKlJWxOSE
-         GXvEPC24Y4u+fMJxtWtqWtSQOl3+9cOwP1wRMkuxs56AoFPFJC+DrJyamIEZf4zjqo1y
-         8ORobYLj4cXoyTq0WGXNLx96wkNnUJmax757YI6lFCd9yOf1HH47eEIrOGGHmqyZqzIn
-         +IlQ==
-X-Gm-Message-State: AOJu0YxPMth6QoAlNEjN02y/oM2u+r2JQlQf+DEU4XMr3csSdfEcuVuH
-	S/3NDBxPKm1fCqtoHOjhawMLncUFzpKi4Bb9/Edkz+wPUSHWx4yup8ifa/rLgJAuhPobUT3JHwl
-	UJcHO
-X-Gm-Gg: ASbGncuCwToxcw7u+8RSppFuyUYIo2Pc8vtyR7/lObPPa0iwCHiQJNSO+GfVoeNUgpj
-	kZNZhWEoB9JC+x1r6NWJPCn2iLTQCZAfAQryJadiBlJ+ARtlR6XeLmSoOBEkbKWBMdjd5+RhBUm
-	yzj3s5U3RUGDRLYtyzDedLN5b6uzdyK/GmRiDUgRWtIFIsD8rjogXYM3KMp32LwePHls05Nd8In
-	kl8SqCOUKZNiLuqN68LlUjfjC/ZXh8+w/TptqQN27psamaNhaVfyXqP1msRROaH2BL5jqaSgszP
-	/hiYbnpyZOhGHBWxgQ6Fp2QuxiZIg0UvkhMMTqXmRuoldWaUxLQIFffBPJ+IBIwpGfVYKrSh3OA
-	dgAyvDm3Gj8AfP64oLiSK7hxHZwk=
-X-Google-Smtp-Source: AGHT+IE6I2k6xPHD429XkzRqTgiEYzD1yR/BB8fOScRUjLp3oce39ToFkb+CldfR2IO0M4Ry6HmIRg==
-X-Received: by 2002:a05:600c:4fcb:b0:458:bc58:850c with SMTP id 5b1f17b1804b1-45b5179f436mr29795645e9.1.1755883049157;
-        Fri, 22 Aug 2025 10:17:29 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c7117d5977sm207666f8f.51.2025.08.22.10.17.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Aug 2025 10:17:28 -0700 (PDT)
-Date: Fri, 22 Aug 2025 20:17:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Rob Clark <robdclark@chromium.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Antonino Maniscalco <antomani103@gmail.com>
-Subject: drivers/gpu/drm/msm/msm_iommu.c:778 msm_iommu_gpu_new() error: we
- previously assumed 'adreno_smmu' could be null (see line 767)
-Message-ID: <202508230010.dMoERmOs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GzwS7jsm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755886256; x=1787422256;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7LbSiwB4VCVLPx1Q3KyikUEQ5XFWvDVlpLKM1fxW27I=;
+  b=GzwS7jsm662gmhlmmDNpYNiYYhiIU+7goSV93NA9uPD9+KWDSQixFMer
+   rJSZy+NDsryvKVsuGsBJTA7TrBRZq8713VDO4tsDzU30qel51tSC27rHu
+   qH0gBYVocfUeie8yz8HbqUHZ82kI0jviF+UqD/yhSjRv3rCoYhB60ferT
+   Dv3/rh1Il5WJfId8HMrt8l0KP4Kd+toQCFHieR5jSEowGyl9LGB8NQMBr
+   tiIZSgv9a6TuTT6L6HZSpsjRlbHKLZ8SqEWLnFxAXf0unq+CNkru4uhqB
+   dLoGsskcEdIyP2p+HF8x1wCp/69EUHucJBjy5H+AHou48ohGCsvRmcSGb
+   w==;
+X-CSE-ConnectionGUID: N0yDhAZBS1ifh2bbpAPCCQ==
+X-CSE-MsgGUID: wvZcuPLSTCOWYc/tu1AxCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58150635"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="58150635"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 11:10:55 -0700
+X-CSE-ConnectionGUID: KAiBmdafRFC+T5nfAoIJug==
+X-CSE-MsgGUID: MiwaECyQTWyio88Tcp0Tmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="168665801"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 22 Aug 2025 11:10:53 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1upWDz-000LcC-1k;
+	Fri, 22 Aug 2025 18:10:51 +0000
+Date: Sat, 23 Aug 2025 02:10:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [krzk-github:sm8750/visense-cps-testing-on-top-of-sm8750-audio-lpass
+ 41/76] arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: speaker@0,0
+ (sdw20217020400): #sound-dai-cells: 1 was expected
+Message-ID: <202508230242.M6lu32AN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,55 +62,112 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20250822171725.D_xP4dPbChpBc1Lk-EEID-jJ82ssG82z4LTul6EDz1o@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cf6fc5eefc5bbbbff92a085039ff74cdbd065c29
-commit: e601ea31d66ba83d565cae9cfa45cbbcdd8286dd drm/msm: Support pgtable preallocation
-config: arm64-randconfig-r071-20250822 (https://download.01.org/0day-ci/archive/20250823/202508230010.dMoERmOs-lkp@intel.com/config)
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+
+tree:   https://github.com/krzk/linux sm8750/visense-cps-testing-on-top-of-sm8750-audio-lpass
+head:   ffb2a13619fdca58779259a6a7f8eb5f710fdaa4
+commit: 6557977abd0dad01345ab3d5e77b9e51aece717f [41/76] ASoC: dt-bindings: wsa884x: fix dai-cells
+:::::: branch date: 28 hours ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-052-20250822 (https://download.01.org/0day-ci/archive/20250823/202508230242.M6lu32AN-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508230242.M6lu32AN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508230010.dMoERmOs-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508230242.M6lu32AN-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/msm/msm_iommu.c:778 msm_iommu_gpu_new() error: we previously assumed 'adreno_smmu' could be null (see line 767)
-
-vim +/adreno_smmu +778 drivers/gpu/drm/msm/msm_iommu.c
-
-8cceb773f565f3 Dmitry Baryshkov 2023-02-14  756  struct msm_mmu *msm_iommu_gpu_new(struct device *dev, struct msm_gpu *gpu, unsigned long quirks)
-8cceb773f565f3 Dmitry Baryshkov 2023-02-14  757  {
-8cceb773f565f3 Dmitry Baryshkov 2023-02-14  758  	struct adreno_smmu_priv *adreno_smmu = dev_get_drvdata(dev);
-8cceb773f565f3 Dmitry Baryshkov 2023-02-14  759  	struct msm_iommu *iommu;
-8cceb773f565f3 Dmitry Baryshkov 2023-02-14  760  	struct msm_mmu *mmu;
-8cceb773f565f3 Dmitry Baryshkov 2023-02-14  761  
-8cceb773f565f3 Dmitry Baryshkov 2023-02-14  762  	mmu = msm_iommu_new(dev, quirks);
-db40d2928d245f Luca Weiss       2023-05-08  763  	if (IS_ERR_OR_NULL(mmu))
-8cceb773f565f3 Dmitry Baryshkov 2023-02-14  764  		return mmu;
-8cceb773f565f3 Dmitry Baryshkov 2023-02-14  765  
-8cceb773f565f3 Dmitry Baryshkov 2023-02-14  766  	iommu = to_msm_iommu(mmu);
-e601ea31d66ba8 Rob Clark        2025-06-29 @767  	if (adreno_smmu && adreno_smmu->cookie) {
-                                                            ^^^^^^^^^^^
-Check for NULL.  Hopefully this can be removed.
-
-e601ea31d66ba8 Rob Clark        2025-06-29  768  		const struct io_pgtable_cfg *cfg =
-e601ea31d66ba8 Rob Clark        2025-06-29  769  			adreno_smmu->get_ttbr1_cfg(adreno_smmu->cookie);
-e601ea31d66ba8 Rob Clark        2025-06-29  770  		size_t tblsz = get_tblsz(cfg);
-e601ea31d66ba8 Rob Clark        2025-06-29  771  
-e601ea31d66ba8 Rob Clark        2025-06-29  772  		iommu->pt_cache =
-e601ea31d66ba8 Rob Clark        2025-06-29  773  			kmem_cache_create("msm-mmu-pt", tblsz, tblsz, 0, NULL);
-e601ea31d66ba8 Rob Clark        2025-06-29  774  	}
-f66f3cf6bc42ab Abhinav Kumar    2025-02-19  775  	iommu_set_fault_handler(iommu->domain, msm_gpu_fault_handler, iommu);
-8cceb773f565f3 Dmitry Baryshkov 2023-02-14  776  
-8cceb773f565f3 Dmitry Baryshkov 2023-02-14  777  	/* Enable stall on iommu fault: */
-8cceb773f565f3 Dmitry Baryshkov 2023-02-14 @778  	if (adreno_smmu->set_stall)
-                                                            ^^^^^^^^^^^^^^^^^^^^^^
-Because otherwise we are toasted.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:5295.27-5370.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:5392.27-5448.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8650-hdk.dts:834.9-845.5: Warning (graph_child_address): /soc@0/geniqup@ac0000/i2c@a8c000/typec-mux@e/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: speaker@0,0 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: speaker@0,1 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): power-domains: [[79, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): power-domains: [[79, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): Unevaluated properties are not allowed ('power-domains' was unexpected)
+--
+   arch/arm64/boot/dts/qcom/sm8750.dtsi:3008.27-3100.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8750.dtsi:3122.27-3185.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8750.dtsi:2766.34-2767.8: Warning (graph_endpoint): /soc@0/phy@88e8000/ports/port@0/endpoint: graph connection to node '/pmic-glink/connector@0/ports/port@1/endpoint' is not bidirectional
+   arch/arm64/boot/dts/qcom/sm8750.dtsi:2867.31-2868.9: Warning (graph_endpoint): /soc@0/usb@a6f8800/usb@a600000/ports/port@0/endpoint: graph connection to node '/pmic-glink/connector@0/ports/port@0/endpoint' is not bidirectional
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: Warning (graph_child_address): Failed prerequisite 'graph_endpoint'
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/phy@1c06000: failed to match any schema with compatible: ['qcom,sm8750-qmp-gen3x2-pcie-phy']
+>> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: speaker@0,0 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: speaker@0,1 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: usb@a6f8800 (qcom,sm8750-dwc3): clock-names: ['cfg_noc', 'core', 'iface', 'sleep', 'mock_utmi'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: usb@a6f8800 (qcom,sm8750-dwc3): clocks: [[36, 11], [36, 156], [36, 3], [36, 161], [36, 158]] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: clock-controller@aaf0000 (qcom,sm8750-videocc): 'required-opps' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4879.11-4889.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: speaker@0,0 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: speaker@0,1 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4879.11-4889.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1e80100-hp-elitebook-ultra-g1q.dtb: speaker@0,0 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-hp-elitebook-ultra-g1q.dtb: speaker@0,1 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4879.11-4889.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: speaker@0,0 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: speaker@0,1 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4879.11-4889.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1p42100-crd.dtb: speaker@0,0 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+   arch/arm64/boot/dts/qcom/x1p42100-crd.dtb: speaker@0,1 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+>> arch/arm64/boot/dts/qcom/x1p42100-crd.dtb: speaker@0,0 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+   arch/arm64/boot/dts/qcom/x1p42100-crd.dtb: speaker@0,1 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+--
+>> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-el2.dtb: speaker@0,0 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-el2.dtb: speaker@0,1 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+--
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15-el2.dtb: speaker@0,0 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15-el2.dtb: speaker@0,1 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+--
+>> arch/arm64/boot/dts/qcom/x1e80100-hp-omnibook-x14-el2.dtb: speaker@0,0 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-hp-omnibook-x14-el2.dtb: speaker@0,1 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+--
+>> arch/arm64/boot/dts/qcom/x1e80100-qcp-el2.dtb: speaker@0,0 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp-el2.dtb: speaker@0,1 (sdw20217020400): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,wsa8840.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
