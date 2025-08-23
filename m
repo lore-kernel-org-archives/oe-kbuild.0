@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57832E7BCA
-	for <oe-kbuild@lists.linux.dev>; Sat, 23 Aug 2025 16:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB558202C5D
+	for <oe-kbuild@lists.linux.dev>; Sat, 23 Aug 2025 18:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755967281; cv=none; b=Fv4WiNa8FUaja7bYBgubl2Ce9Iv4yYaEoUcezB7sWFyBH7wO8GQP4kdaeNCY+mudOh1N88WCPPL2Qz9lRNr7x1jHokZ3PDg60CxPQmzVoOA1f07XaI54kCwWlvoaTpZVjRlwKa7LsWDUmqpYzDmITyvE/MNWRpvPlu44dFZJwyw=
+	t=1755972337; cv=none; b=twQGTfL0EtzNpHpIBipIzr1yA7zxg51HftBxhlyK8a+71o5RZZOz8FaLuJkjm/rRAp8ha6zWHv9vYoGlyANoV2g/Fn2Z/JJsX/z3GzY0UmJo3WdDt4EadfBV5kKH2FlmmIi0guHr65psJ1EFNG7UHPSXIKAYL9BeSxW+CzPZCWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755967281; c=relaxed/simple;
-	bh=FwsdD0bGjjF0g8duX20VYEc7Ott97h73vhAzyL/j4AQ=;
+	s=arc-20240116; t=1755972337; c=relaxed/simple;
+	bh=TfO5w/t18Ci84VlSf1APpbh22C6BLHD+ALBRcnzgFCM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jIxEsFSKfO4MNtOCgUz+6ZA+syTaN4Oh4AuW766d6EulN0VPqizPwQPLR5djNhGyEKLiG2Nyt8OooGeK/HwmWVyxTlBGQnKbBdEhvhQp67dUUn+rMIM8659Nc+ti4NyOWZgfqeqC+A5y229QY2ST1fPnLcK5+kc+9JKS9mjv36Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DY7iB3s3; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=a7ia85/VTBc3i/cv3LpnRGBZpcDVaepS37VRPQi3a74yPPodGh1LcNjkMRXLfdkgAP8+YVYNwRGiQsxLZT4LnRDTHdRaJrPkNOzR2J3L0hnxXgpYyoLwX5EKK8X75cE5Y40d9GCZ6KEweXGJ1XKq/ZsmRX0Cl6D6hbbIA6YWx70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cZ6mB4TE; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DY7iB3s3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cZ6mB4TE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755967279; x=1787503279;
+  t=1755972336; x=1787508336;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FwsdD0bGjjF0g8duX20VYEc7Ott97h73vhAzyL/j4AQ=;
-  b=DY7iB3s3Yacmp1pm6KUjBgBx/BhBa4l/BQ0amVhbdS5jZOpjr7/tscrI
-   phInDadkTAl3hgEvHUEjEFm1g0fhJ7+JKo/vNvjBFYh2Gx6mScbSpxWzi
-   e8xCGQs/sKCfxsQpXO4oCq71WMPDRmThgXS1CMZBt0KUmP96kvkHyC0Iz
-   5lMOVKFsi0rlbWRYjYJ9D/OzTgVIBZDo8YqUbZHFw+o8oVuPEcys9H7JS
-   w9Fd7R+rMtIAnxJAiIJ/MXqw6l0cEyy6Ctd/pWpt22COwjzTZGroo3yk+
-   W3SLZNIF+YxnnZf9fhboNf7M/Apd61CYXSxYUJ5wlqeAgm0Oy8d7/PBQI
-   A==;
-X-CSE-ConnectionGUID: pl3LOK6KTl+AMmSE3s7n3A==
-X-CSE-MsgGUID: JQzsDc7NQoqdLjUwjwda4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="69348884"
+  bh=TfO5w/t18Ci84VlSf1APpbh22C6BLHD+ALBRcnzgFCM=;
+  b=cZ6mB4TEvkcoVuQ9CMEEomARMuIpI8gO8AGIEAvy0Zld3tYOsTHVAKm6
+   LziricOWg7q3NX4Z8izxWAZda7Jy4RWYTqPYNTzZdEyhJUZ55ZyZsVDSN
+   0/7+aW0dVyY015fuQgur/HLxTLsJRBRnAfl2FsvJ98thn0qLQ3dknAY09
+   t7MISTEHTFG42cr526yU7X578QO/E9x9izAMzg0iRQOwDetUB6N2CWr+o
+   PtWyxUfRKU5+vWeFi+udXKd8u4Echa/F3Dx9yQJn+wFaeWzuuSuEnOGJu
+   sx0YDfRP1dspcy0xvbajFV8x0roS6y5gN1v7sf/2+GylPNTiT6NkbnLsb
+   w==;
+X-CSE-ConnectionGUID: WE6BXB2ES0iK1MO1GC88SQ==
+X-CSE-MsgGUID: s4LIa9ItQCWNBVcZ4JrkBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62076119"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="69348884"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 09:41:17 -0700
-X-CSE-ConnectionGUID: l2uBhxRQRy2jpAfh7S0blA==
-X-CSE-MsgGUID: V1CbcGC7T3u66udO7tSMyQ==
+   d="scan'208";a="62076119"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 11:05:35 -0700
+X-CSE-ConnectionGUID: 6ZQKsh+ISxKFzIMc25IWlA==
+X-CSE-MsgGUID: k1VsaCfcScuYkjl6NxAHaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="173211274"
+   d="scan'208";a="174226928"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Aug 2025 09:41:16 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 23 Aug 2025 11:05:34 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uprIU-000MQl-12;
-	Sat, 23 Aug 2025 16:41:01 +0000
-Date: Sun, 24 Aug 2025 00:40:17 +0800
+	id 1upscN-000MUj-2v;
+	Sat, 23 Aug 2025 18:05:31 +0000
+Date: Sun, 24 Aug 2025 02:05:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [shawnguo:imx/dt64 35/45]
- arch/arm64/boot/dts/freescale/imx95-tqma9596sa-mb-smarc-2.dtb: scmi
- (arm,scmi): Unevaluated properties are not allowed ('protocol@80',
- 'protocol@81', 'protocol@82', 'protocol@84' were unexpected)
-Message-ID: <202508240005.4AXldVGn-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [tiwai-sound:test/auto-cleanup 61/178] sound/pci/ac97/ac97_pcm.c:630
+ snd_ac97_pcm_open() warn: inconsistent returns '&pcm->bus->bus_lock'.
+Message-ID: <202508240241.iMz7IXHK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,42 +62,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-TO: Peng Fan <peng.fan@nxp.com>
-CC: Shawn Guo <shawnguo@kernel.org>
-CC: Frank Li <Frank.Li@nxp.com>
+CC: alsa-devel@alsa-project.org
+TO: Takashi Iwai <tiwai@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git imx/dt64
-head:   5a796a700ff8a26b8c17bfa5b789dd24ce19c3b6
-commit: 770fcc6856e986b4dc976d22e64083a4a772a69f [35/45] arm64: dts: imx95: Add LMM/CPU nodes
-:::::: branch date: 31 hours ago
-:::::: commit date: 31 hours ago
-config: arm64-randconfig-051-20250823 (https://download.01.org/0day-ci/archive/20250824/202508240005.4AXldVGn-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508240005.4AXldVGn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/auto-cleanup
+head:   1e7737301c8d897813301af12b69031eef11c5ef
+commit: 3a6d8fb3c6b1664d1e574b0cd09fd92064c5fa0c [61/178] ALSA: ac97: Use guard() for spin locks
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20250823 (https://download.01.org/0day-ci/archive/20250824/202508240241.iMz7IXHK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508240005.4AXldVGn-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202508240241.iMz7IXHK-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/freescale/imx95-tqma9596sa.dtsi:276.9-288.5: Warning (graph_child_address): /soc/bus@42000000/i2c@42530000/dp-bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/freescale/imx95-tqma9596sa-mb-smarc-2.dtb: scmi (arm,scmi): Unevaluated properties are not allowed ('linux,code' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/firmware/arm,scmi.yaml#
->> arch/arm64/boot/dts/freescale/imx95-tqma9596sa-mb-smarc-2.dtb: scmi (arm,scmi): Unevaluated properties are not allowed ('protocol@80', 'protocol@81', 'protocol@82', 'protocol@84' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/firmware/arm,scmi.yaml#
-   arch/arm64/boot/dts/freescale/imx95-tqma9596sa-mb-smarc-2.dtb: pcie@4c300000 (fsl,imx95-pcie): clock-names: ['pcie', 'pcie_bus', 'pcie_phy', 'pcie_aux'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
-   arch/arm64/boot/dts/freescale/imx95-tqma9596sa-mb-smarc-2.dtb: pcie@4c380000 (fsl,imx95-pcie): clock-names: ['pcie', 'pcie_bus', 'pcie_phy', 'pcie_aux'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+smatch warnings:
+sound/pci/ac97/ac97_pcm.c:630 snd_ac97_pcm_open() warn: inconsistent returns '&pcm->bus->bus_lock'.
+sound/pci/ac97/ac97_pcm.c:630 snd_ac97_pcm_open() warn: inconsistent returns 'irq'.
+
+vim +630 sound/pci/ac97/ac97_pcm.c
+
+7b09679c431ba9 Takashi Iwai   2006-04-28  542  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  543  /**
+^1da177e4c3f41 Linus Torvalds 2005-04-16  544   * snd_ac97_pcm_open - opens the given AC97 pcm
+^1da177e4c3f41 Linus Torvalds 2005-04-16  545   * @pcm: the ac97 pcm instance
+^1da177e4c3f41 Linus Torvalds 2005-04-16  546   * @rate: rate in Hz, if codec does not support VRA, this value must be 48000Hz
+^1da177e4c3f41 Linus Torvalds 2005-04-16  547   * @cfg: output stream characteristics
+^1da177e4c3f41 Linus Torvalds 2005-04-16  548   * @slots: a subset of allocated slots (snd_ac97_pcm_assign) for this pcm
+^1da177e4c3f41 Linus Torvalds 2005-04-16  549   *
+^1da177e4c3f41 Linus Torvalds 2005-04-16  550   * It locks the specified slots and sets the given rate to AC97 registers.
+eb7c06e8e9c93b Yacine Belkadi 2013-03-11  551   *
+eb7c06e8e9c93b Yacine Belkadi 2013-03-11  552   * Return: Zero if successful, or a negative error code on failure.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  553   */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  554  int snd_ac97_pcm_open(struct ac97_pcm *pcm, unsigned int rate,
+^1da177e4c3f41 Linus Torvalds 2005-04-16  555  		      enum ac97_pcm_cfg cfg, unsigned short slots)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  556  {
+ee42381e71c563 Takashi Iwai   2005-11-17  557  	struct snd_ac97_bus *bus;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  558  	int i, cidx, r, ok_flag;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  559  	unsigned int reg_ok[4] = {0,0,0,0};
+^1da177e4c3f41 Linus Torvalds 2005-04-16  560  	unsigned char reg;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  561  	int err = 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  562  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  563  	r = rate > 48000;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  564  	bus = pcm->bus;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  565  	if (cfg == AC97_PCM_CFG_SPDIF) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  566  		for (cidx = 0; cidx < 4; cidx++)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  567  			if (bus->codec[cidx] && (bus->codec[cidx]->ext_id & AC97_EI_SPDIF)) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  568  				err = set_spdif_rate(bus->codec[cidx], rate);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  569  				if (err < 0)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  570  					return err;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  571  			}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  572  	}
+3a6d8fb3c6b166 Takashi Iwai   2025-08-07  573  	scoped_guard(spinlock_irq, &pcm->bus->bus_lock) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  574  		for (i = 3; i < 12; i++) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  575  			if (!(slots & (1 << i)))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  576  				continue;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  577  			ok_flag = 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  578  			for (cidx = 0; cidx < 4; cidx++) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  579  				if (bus->used_slots[pcm->stream][cidx] & (1 << i)) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  580  					err = -EBUSY;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  581  					goto error;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  582  				}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  583  				if (pcm->r[r].rslots[cidx] & (1 << i)) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  584  					bus->used_slots[pcm->stream][cidx] |= (1 << i);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  585  					ok_flag++;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  586  				}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  587  			}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  588  			if (!ok_flag) {
+38c16e34fe2f72 Takashi Iwai   2014-02-25  589  				dev_err(bus->card->dev,
+38c16e34fe2f72 Takashi Iwai   2014-02-25  590  					"cannot find configuration for AC97 slot %i\n",
+38c16e34fe2f72 Takashi Iwai   2014-02-25  591  					i);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  592  				err = -EAGAIN;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  593  				goto error;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  594  			}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  595  		}
+6dbe662874ba08 Takashi Iwai   2006-06-27  596  		pcm->cur_dbl = r;
+3a6d8fb3c6b166 Takashi Iwai   2025-08-07  597  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  598  	for (i = 3; i < 12; i++) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  599  		if (!(slots & (1 << i)))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  600  			continue;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  601  		for (cidx = 0; cidx < 4; cidx++) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  602  			if (pcm->r[r].rslots[cidx] & (1 << i)) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  603  				reg = get_slot_reg(pcm, cidx, i, r);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  604  				if (reg == 0xff) {
+38c16e34fe2f72 Takashi Iwai   2014-02-25  605  					dev_err(bus->card->dev,
+38c16e34fe2f72 Takashi Iwai   2014-02-25  606  						"invalid AC97 slot %i?\n", i);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  607  					continue;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  608  				}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  609  				if (reg_ok[cidx] & (1 << (reg - AC97_PCM_FRONT_DAC_RATE)))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  610  					continue;
+38c16e34fe2f72 Takashi Iwai   2014-02-25  611  				dev_dbg(bus->card->dev,
+38c16e34fe2f72 Takashi Iwai   2014-02-25  612  					"setting ac97 reg 0x%x to rate %d\n",
+38c16e34fe2f72 Takashi Iwai   2014-02-25  613  					reg, rate);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  614  				err = snd_ac97_set_rate(pcm->r[r].codec[cidx], reg, rate);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  615  				if (err < 0)
+38c16e34fe2f72 Takashi Iwai   2014-02-25  616  					dev_err(bus->card->dev,
+38c16e34fe2f72 Takashi Iwai   2014-02-25  617  						"error in snd_ac97_set_rate: cidx=%d, reg=0x%x, rate=%d, err=%d\n",
+38c16e34fe2f72 Takashi Iwai   2014-02-25  618  						cidx, reg, rate, err);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  619  				else
+^1da177e4c3f41 Linus Torvalds 2005-04-16  620  					reg_ok[cidx] |= (1 << (reg - AC97_PCM_FRONT_DAC_RATE));
+^1da177e4c3f41 Linus Torvalds 2005-04-16  621  			}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  622  		}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  623  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  624  	pcm->aslots = slots;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  625  	return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  626  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  627   error:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  628  	pcm->aslots = slots;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  629  	snd_ac97_pcm_close(pcm);
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @630  	return err;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  631  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  632  
+
+:::::: The code at line 630 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
