@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D6420C461
-	for <oe-kbuild@lists.linux.dev>; Sat, 23 Aug 2025 23:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13791D5CD4
+	for <oe-kbuild@lists.linux.dev>; Sat, 23 Aug 2025 23:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755990368; cv=none; b=m7ckjPtvjc6oO+vwYpIKVlUNfkjM/BvSk7drSTxLpO8xTRHQbex1NnXQA+F/5KcgR/8jTKwXSgGW/27klp/LQutRuglIyF8YcRvT1aXgTkhpQieDFGDr59Z/YDZiKP/HuJzuk7NvbwYMIkSUm65MCt+jr3k7nt6NdS12IseaqBw=
+	t=1755992312; cv=none; b=m/jsGgn2LoFRg1NQ/SoSJ7C7pbi+BxqrmnZBj1bTSHlllAtNwjrLLmAUZTLrDVC0eMY8cekRgXNGZBCFhqiKV7kxwnAJAf1zLXRWRWGsiI0K0MVd6WydCJQTC0uNs9hNEgiSlw2vQXW3TxY3/tCS8pTgHW0L8T7M88Y9f53v5LQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755990368; c=relaxed/simple;
-	bh=EFUIhibNWCMw0orZee7W1T6KlE2AZ/zJpKr5pSJ+2HA=;
+	s=arc-20240116; t=1755992312; c=relaxed/simple;
+	bh=sVF3aYLoXLFA91wXmeMWxxMl+7zEHGOgvwknrfhF68k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RRkatsoULb2VG6cuPEPGvBF3ZkXW8roNFq351jQwkEJmOfx0JSlDsqSSJkqsLjJL+2Kmdg6pZujJP8Z/v6cDRpe22NEZXLPgmLHgMC8tahCu9+Fz6F2jwtzdNOTb7h9PwKN5FXRI/6R/TVxVvytcPHcgmHbarychoKHmZr1L+4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M4rDggOu; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=QnrancTxMiuQmLYuWdoQnZdMmjuO/lIZEygbY3mqOb0RMjdPaH4HieuarcDNhbGECef3Nda9J3RR6Nj0IOF9rSPNbInlaWyK33NTTvrdz4Bo0AmCNHKoo9OY+F/GpDYz+PYnQV+klrwFoErmPvYd3bKsEn8GjwDP9/5KMWpXLrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FKs1QOgW; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M4rDggOu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FKs1QOgW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755990367; x=1787526367;
+  t=1755992310; x=1787528310;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EFUIhibNWCMw0orZee7W1T6KlE2AZ/zJpKr5pSJ+2HA=;
-  b=M4rDggOu1aHvTN5pudcnTxIRvAyZ65e2mVJfi8UetI7W9xN9xxiDDYM0
-   lnHXDpPQsXBOoH7Z/unXAjekCQ6AiaNLFqmfTUcLt98LNqCRkHL1whEZN
-   1Sh/a0TzSJAop+tCC3aL+FwFU3xrq3cbP7rycHYKSe7tVKhVu9QIViAwx
-   ojsi2GLVuqhcQZqH20rsAI1i+/0caHWkM+zjjyIBYWVkgoN8oYgjehz2b
-   4e9Hz1DVZdujBA68NOGHk9hc6m+zfDSVeuf7YTA4kPfLhjgnvwjsnzmEU
-   gFqDWAksEe+tOWoRnxCGSI9fRwdIK5MgZQgQKLTvqSSDj0FDF6VdgzUvR
-   w==;
-X-CSE-ConnectionGUID: EnFNbgkgTxiqtq6ePq4JBg==
-X-CSE-MsgGUID: NjmQNPZZTa6isf/6EKjF0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58200395"
+  bh=sVF3aYLoXLFA91wXmeMWxxMl+7zEHGOgvwknrfhF68k=;
+  b=FKs1QOgWI6RCTa8vehC2aP/ADGhfbRMfHRxd+tpauUOLR4CMCP5cuvdT
+   bmKw3CCBvPGesgULH2ULojD6Lg2THVHE2/bl5dH3JsD5C1XI6pAwB0CP5
+   9d4adF4WjoHUHeNACZ4UIGvDg9ya091ovTIoY+uQujTG9eQoYszXix0Yo
+   +ga99DiWtKUKrhiaTcicZ/YQOmWkqlYg/Qe5fCfTj7oZpnZsSzDTnQ6ox
+   BggY1reCCQC5bnknocd8hpLFG2TwXuBp8upsAg3yGCuSNotQkteWjh5Wk
+   eFjkVeiK/0U/P+lnUhFIWW4ulUD9uc0rqUdGTaGHI6Xhxf4Pj4ew0fwTv
+   g==;
+X-CSE-ConnectionGUID: jZFNzBXvQyqcn0wRFGLxmg==
+X-CSE-MsgGUID: nIadrgL+Spqv+310K0Ck7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62068546"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58200395"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 16:06:03 -0700
-X-CSE-ConnectionGUID: sUOReY5ITiSnIdTAXaMR8g==
-X-CSE-MsgGUID: eznWhSQZQ+Cj2giJpg7AQQ==
+   d="scan'208";a="62068546"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 16:38:29 -0700
+X-CSE-ConnectionGUID: 5t7T0YSbSW2wkq6anCpr2Q==
+X-CSE-MsgGUID: u6/Fn61PQbSxtVC9h8r9Tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="174263273"
+   d="scan'208";a="206145699"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Aug 2025 16:06:01 -0700
+  by orviesa001.jf.intel.com with ESMTP; 23 Aug 2025 16:38:27 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upxJ9-000Mdt-1Z;
-	Sat, 23 Aug 2025 23:05:59 +0000
-Date: Sun, 24 Aug 2025 07:05:50 +0800
+	id 1upxoJ-000Met-1O;
+	Sat, 23 Aug 2025 23:38:19 +0000
+Date: Sun, 24 Aug 2025 07:37:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/tx.c:723
- iwl_pcie_txq_alloc() warn: check sign expansion for 'slots_num'
-Message-ID: <202508240642.jxhc4pbT-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH] dt-bindings: ata: imx: Add a reference to
+ ahci-common.yaml
+Message-ID: <202508240722.8sMEscQw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,118 +62,139 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+In-Reply-To: <20250822175830.91682-1-festevam@gmail.com>
+References: <20250822175830.91682-1-festevam@gmail.com>
+TO: Fabio Estevam <festevam@gmail.com>
+TO: cassel@kernel.org
+CC: dlemoal@kernel.org
+CC: robh@kernel.org
+CC: krzk+dt@kernel.org
+CC: conor+dt@kernel.org
+CC: linux-ide@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: imx@lists.linux.dev
+CC: Fabio Estevam <festevam@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8d245acc1e884e89f0808f64d6af3fc91d4903a0
-commit: c8a00a6e89ffee419a9190d2af9c75a7afe196d2 wifi: iwlwifi: pcie: move generation specific files to a folder
-date:   9 weeks ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 9 weeks ago
-config: x86_64-randconfig-r071-20250821 (https://download.01.org/0day-ci/archive/20250824/202508240642.jxhc4pbT-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi Fabio,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.17-rc2 next-20250822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-Estevam/dt-bindings-ata-imx-Add-a-reference-to-ahci-common-yaml/20250823-020351
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250822175830.91682-1-festevam%40gmail.com
+patch subject: [PATCH] dt-bindings: ata: imx: Add a reference to ahci-common.yaml
+:::::: branch date: 29 hours ago
+:::::: commit date: 29 hours ago
+config: arm64-randconfig-053-20250823 (https://download.01.org/0day-ci/archive/20250824/202508240722.8sMEscQw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508240722.8sMEscQw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508240642.jxhc4pbT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508240722.8sMEscQw-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/tx.c:723 iwl_pcie_txq_alloc() warn: check sign expansion for 'slots_num'
-
-vim +/slots_num +723 drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/tx.c
-
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  718  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  719  int iwl_pcie_txq_alloc(struct iwl_trans *trans, struct iwl_txq *txq,
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  720  		       int slots_num, bool cmd_queue)
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  721  {
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  722  	struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
-c96a36491003d7 drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2025-05-08 @723  	size_t num_entries = trans->mac_cfg->gen2 ?
-264e744fec0171 drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2025-05-08  724  		slots_num : trans->mac_cfg->base->max_tfd_queue_size;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  725  	size_t tfd_sz;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  726  	size_t tb0_buf_sz;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  727  	int i;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  728  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  729  	if (WARN_ONCE(slots_num <= 0, "Invalid slots num:%d\n", slots_num))
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  730  		return -EINVAL;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  731  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  732  	if (WARN_ON(txq->entries || txq->tfds))
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  733  		return -EINVAL;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  734  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  735  	tfd_sz = trans_pcie->txqs.tfd.size * num_entries;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  736  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  737  	timer_setup(&txq->stuck_timer, iwl_txq_stuck_timer, 0);
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  738  	txq->trans = trans;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  739  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  740  	txq->n_window = slots_num;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  741  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  742  	txq->entries = kcalloc(slots_num,
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  743  			       sizeof(struct iwl_pcie_txq_entry),
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  744  			       GFP_KERNEL);
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  745  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  746  	if (!txq->entries)
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  747  		goto error;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  748  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  749  	if (cmd_queue)
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  750  		for (i = 0; i < slots_num; i++) {
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  751  			txq->entries[i].cmd =
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  752  				kmalloc(sizeof(struct iwl_device_cmd),
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  753  					GFP_KERNEL);
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  754  			if (!txq->entries[i].cmd)
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  755  				goto error;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  756  		}
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  757  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  758  	/* Circular buffer of transmit frame descriptors (TFDs),
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  759  	 * shared with device
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  760  	 */
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  761  	txq->tfds = dma_alloc_coherent(trans->dev, tfd_sz,
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  762  				       &txq->dma_addr, GFP_KERNEL);
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  763  	if (!txq->tfds)
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  764  		goto error;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  765  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  766  	BUILD_BUG_ON(sizeof(*txq->first_tb_bufs) != IWL_FIRST_TB_SIZE_ALIGN);
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  767  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  768  	tb0_buf_sz = sizeof(*txq->first_tb_bufs) * slots_num;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  769  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  770  	txq->first_tb_bufs = dma_alloc_coherent(trans->dev, tb0_buf_sz,
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  771  						&txq->first_tb_dma,
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  772  						GFP_KERNEL);
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  773  	if (!txq->first_tb_bufs)
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  774  		goto err_free_tfds;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  775  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  776  	for (i = 0; i < num_entries; i++) {
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  777  		void *tfd = iwl_txq_get_tfd(trans, txq, i);
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  778  
-c96a36491003d7 drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2025-05-08  779  		if (trans->mac_cfg->gen2)
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  780  			iwl_txq_set_tfd_invalid_gen2(trans, tfd);
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  781  		else
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  782  			iwl_txq_set_tfd_invalid_gen1(trans, tfd);
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  783  	}
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  784  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  785  	return 0;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  786  err_free_tfds:
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  787  	dma_free_coherent(trans->dev, tfd_sz, txq->tfds, txq->dma_addr);
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  788  	txq->tfds = NULL;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  789  error:
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  790  	if (txq->entries && cmd_queue)
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  791  		for (i = 0; i < slots_num; i++)
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  792  			kfree(txq->entries[i].cmd);
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  793  	kfree(txq->entries);
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  794  	txq->entries = NULL;
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  795  
-49101078be769e drivers/net/wireless/intel/iwlwifi/pcie/tx.c Johannes Berg     2024-06-05  796  	return -ENOMEM;
-f02831be962c7b drivers/net/wireless/iwlwifi/pcie/tx.c       Emmanuel Grumbach 2012-11-14  797  }
-f02831be962c7b drivers/net/wireless/iwlwifi/pcie/tx.c       Emmanuel Grumbach 2012-11-14  798  
-
-:::::: The code at line 723 was first introduced by commit
-:::::: c96a36491003d7a6fb6dd3c5bcf84cca15387109 wifi: iwlwifi: rename cfg_trans_params to mac_cfg
-
-:::::: TO: Johannes Berg <johannes.berg@intel.com>
-:::::: CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+>> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: sata@5f020000 (fsl,imx8qm-ahci): phy-names: ['sata-phy', 'cali-phy0', 'cali-phy1'] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: sata@5f020000 (fsl,imx8qm-ahci): phys: [[256, 2, 1, 0], [256, 0, 2, 0], [256, 1, 2, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: sata@5f020000 (fsl,imx8qm-ahci): phy-names: ['sata-phy', 'cali-phy0', 'cali-phy1'] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: sata@5f020000 (fsl,imx8qm-ahci): phys: [[256, 2, 1, 0], [256, 0, 2, 0], [256, 1, 2, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: sata@5f020000 (fsl,imx8qm-ahci): phy-names: ['sata-phy', 'cali-phy0', 'cali-phy1'] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: sata@5f020000 (fsl,imx8qm-ahci): phys: [[252, 2, 1, 0], [252, 0, 2, 0], [252, 1, 2, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+>> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: sata@5f020000 (fsl,imx8qm-ahci): phy-names: ['sata-phy', 'cali-phy0', 'cali-phy1'] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: sata@5f020000 (fsl,imx8qm-ahci): phys: [[255, 2, 1, 0], [255, 0, 2, 0], [255, 1, 2, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+>> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: sata@5f020000 (fsl,imx8qm-ahci): phy-names: ['sata-phy', 'cali-phy0', 'cali-phy1'] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: sata@5f020000 (fsl,imx8qm-ahci): phys: [[251, 2, 1, 0], [251, 0, 2, 0], [251, 1, 2, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
+   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: sata@5f020000 (fsl,imx8qm-ahci): phy-names: ['sata-phy', 'cali-phy0', 'cali-phy1'] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: sata@5f020000 (fsl,imx8qm-ahci): phys: [[216, 2, 1, 0], [216, 0, 2, 0], [216, 1, 2, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: sata@5f020000 (fsl,imx8qm-ahci): phy-names: ['sata-phy', 'cali-phy0', 'cali-phy1'] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: sata@5f020000 (fsl,imx8qm-ahci): phys: [[216, 2, 1, 0], [216, 0, 2, 0], [216, 1, 2, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: sata@5f020000 (fsl,imx8qm-ahci): phy-names: ['sata-phy', 'cali-phy0', 'cali-phy1'] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: sata@5f020000 (fsl,imx8qm-ahci): phys: [[216, 2, 1, 0], [216, 0, 2, 0], [216, 1, 2, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
