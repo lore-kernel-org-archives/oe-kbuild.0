@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4781C23236D
-	for <oe-kbuild@lists.linux.dev>; Sun, 24 Aug 2025 06:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C404235044
+	for <oe-kbuild@lists.linux.dev>; Sun, 24 Aug 2025 06:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756015802; cv=none; b=gALSeuh+F4DZPszEcLqSiIdwvTy0ZpJmnmKCW8AS85KPPGnKY1DijB5qLb05G+AhMggQCv7JFWJZt08nFr4kXpw00tWcz9raRdkaT4Jj4tktkfOFECFn6eAnYxm3IBWuqtzLjTNSOWhY4hRzptwCHfo0HDXNYkDssn38YO1J85c=
+	t=1756017703; cv=none; b=MpOj+gJOiRrfWNQ8oI61U38SZTTBICgzPN0IrZLzTeungStuZgOagVIeWsOpbOFZFdK+Mg6CA26zC8CB02vwqPAUIMVrFfNMPEWZfDDb+0pJC6V9dVuL6IuMbw1XWPdbj1NNG1N9lWGRGGT6XZ12qQuWurn4fJMNg18EQ6u2Y1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756015802; c=relaxed/simple;
-	bh=IjeH6YPViR0i5YPE4VAskp9zGzEYkJR//uPybOR+BA8=;
+	s=arc-20240116; t=1756017703; c=relaxed/simple;
+	bh=eg/rGgugx0igHR+7ElCyzQXTlskr15POYgDLeU4mlmE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KLbQHKVBhLqZa9RTrgcKI4kC475WgbErkHiGLGzD8DG+/7T6WcJprh6R4XTQ4upOPjH/oDdgc2z/M2hG+RVoKfb3hobxTWZPyAAkOt8f7zfBH2UYdeyHTzZ+6LFAkBsBrOgEK2sR5Z2KYwzz8aUpE8qatVR1pYExINv0gn31Lhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HYje952q; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=njdnQNcg+yiA/o4E3BNL1QxZMYGDGT+baJUjeVOPYiMn1ZGAqhaMKWlf1RECvIgMMkLIXVAnbdL6krezi2m719abtNWb6Asjc6KkdL9INQfn8FibVcAAt62318UEmX60ngrCmTrduN7knyZKqvZQYgknG97fkvxKjuYOYosh3ZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mJsFXHwJ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HYje952q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mJsFXHwJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756015800; x=1787551800;
+  t=1756017698; x=1787553698;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IjeH6YPViR0i5YPE4VAskp9zGzEYkJR//uPybOR+BA8=;
-  b=HYje952qpxHNcYRRDjIm3nYAh4WZ0s4owV/ZjLpB1irh6/lTAa4Kkue0
-   P90YCsmepOUBQK8ZAPYHRPps6QqSx9sNC/kmTpUkj5YLx6pVCpxuXj0zO
-   65yK1nc0IynomaOgUjCBvyK1Qi5OlHx+m883z8kHZZCn00n0kq4rq0zw+
-   fexeK3hkCmwu6MG+UWwjztBe0SKIu0WXj22vy7PDWRq15lVRq2TfRjLEI
-   QG5Ksc2hFlgKLnPDdBxf2AmFosLcD2ykS25GZOuRRx9CC+nVg4uVD+cLt
-   Lx4ikUrOa+W46F4kqj8GpW2s+ZRlKJeQWc/RfaF0LStPfC+nTlzKRx4FA
-   A==;
-X-CSE-ConnectionGUID: LF+vc4BZRUqhTL3DTUCWDg==
-X-CSE-MsgGUID: n25H0lmbS0urYuYwbejXhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62092308"
+  bh=eg/rGgugx0igHR+7ElCyzQXTlskr15POYgDLeU4mlmE=;
+  b=mJsFXHwJSSXId7wzIbHYqNvCUKz1ZDGsJh0sbhXBvtTtW0d7HcETPUzl
+   F0ey7MjQ4Q3UzEkHNSnSMoeq8WlveQdl3zSKhHpbmTp3D+WLXfVqaqPzJ
+   uebzjh758UMPX00Xg9909zpYGBjPWK4wJWVwuP543jzSojZGVIQgDz3EC
+   VLWLGkW/XDKMnY2hcZL0z3k2HgFuT5RSit+EkL4BOIzLR3iiDSgi4Jm47
+   Q4lGRKOixZ4Qm5I2Tk2aSPVMfjjUF430sqv35jgDzlci2TjKuG2AMso/z
+   kzqCcmNxeucGvB39mQgmaA+ZYq3rbJQP5LB0sLgxZlwIK7rGzQAkpMly9
+   w==;
+X-CSE-ConnectionGUID: DdvNDuxzT3yWelJqBtRaeA==
+X-CSE-MsgGUID: pyzzzcuMSp67fKYSMaKgcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="57283607"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62092308"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 23:10:00 -0700
-X-CSE-ConnectionGUID: niGk9+dkQYSHkxugNdaChA==
-X-CSE-MsgGUID: fDs/F4C/TWivKm3c4wfPJQ==
+   d="scan'208";a="57283607"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 23:41:37 -0700
+X-CSE-ConnectionGUID: SLiNfgwST1OQ7xNXgwkwhw==
+X-CSE-MsgGUID: 0UbF1OtiRSasPjL1ij1G3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="206194319"
+   d="scan'208";a="192699043"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 23 Aug 2025 23:09:59 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 23 Aug 2025 23:41:35 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uq3vQ-000Mnt-0G;
-	Sun, 24 Aug 2025 06:09:56 +0000
-Date: Sun, 24 Aug 2025 14:09:23 +0800
+	id 1uq4Q1-000Mpj-1B;
+	Sun, 24 Aug 2025 06:41:33 +0000
+Date: Sun, 24 Aug 2025 14:40:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:openEuler-1.0-LTS 1568/1568]
- block/blk-throttle.c:2306:1-7: preceding lock on line 2212
-Message-ID: <202508241455.Hw9lAo3X-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH net-next v2 01/10] dt-bindings: net: sun8i-emac: Add A523
+ GMAC200 compatible
+Message-ID: <202508241442.SlEipQds-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,153 +62,1394 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yang Yingliang <yangyingliang@huawei.com>
+In-Reply-To: <20250813145540.2577789-2-wens@kernel.org>
+References: <20250813145540.2577789-2-wens@kernel.org>
+TO: "Chen-Yu Tsai" <wens@kernel.org>
+TO: Andrew Lunn <andrew+netdev@lunn.ch>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+TO: Eric Dumazet <edumazet@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: "Chen-Yu Tsai" <wens@csie.org>
+TO: Jernej Skrabec <jernej@kernel.org>
+TO: Samuel Holland <samuel@sholland.org>
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-sunxi@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: Andre Przywara <andre.przywara@arm.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   7ca8f70fcd371eeaeba54893cc754f3e18714fae
-commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1568/1568] blk-throttle: Set BIO_THROTTLED when bio has been throttled
-:::::: branch date: 3 days ago
-:::::: commit date: 3 years, 6 months ago
-config: x86_64-randconfig-102-20250408 (https://download.01.org/0day-ci/archive/20250824/202508241455.Hw9lAo3X-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+Hi Chen-Yu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/dt-bindings-net-sun8i-emac-Add-A523-GMAC200-compatible/20250813-230250
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250813145540.2577789-2-wens%40kernel.org
+patch subject: [PATCH net-next v2 01/10] dt-bindings: net: sun8i-emac: Add A523 GMAC200 compatible
+:::::: branch date: 11 days ago
+:::::: commit date: 11 days ago
+config: arm-randconfig-052-20250814 (https://download.01.org/0day-ci/archive/20250824/202508241442.SlEipQds-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 3769ce013be2879bf0b329c14a16f5cb766f26ce)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508241442.SlEipQds-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202508241455.Hw9lAo3X-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508241442.SlEipQds-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
-
-vim +2306 block/blk-throttle.c
-
-2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
-ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
-ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
-e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
-c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
-ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
-73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
-0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
-bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
-e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
-e43473b7f223ec Vivek Goyal   2010-09-15  2203  
-ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
-ae118896361111 Tejun Heo     2015-08-18  2205  
-2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
-e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
-e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
-bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
-e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2211  
-e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
-c9589f03e49095 Tejun Heo     2015-08-18  2213  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
-c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
-e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
-f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
-2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
-9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
-9e234eeafbe17e Shaohua Li    2017-03-27  2221  
-73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
-73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
-c79892c5576163 Shaohua Li    2017-03-27  2224  again:
-9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
-3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
-3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
-fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
-0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
-9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
-9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
-c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
-3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
-c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
-c79892c5576163 Shaohua Li    2017-03-27  2240  			}
-9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
-c79892c5576163 Shaohua Li    2017-03-27  2242  		}
-de701c74a34005 Vivek Goyal   2011-03-07  2243  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
-e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
-04521db04e9a11 Vivek Goyal   2011-03-22  2246  
-04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
-04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
-04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
-04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
-04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
-04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
-04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
-04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
-04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
-04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
-04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
-0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
-9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
-9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
-9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
-9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
-c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
-9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
-9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
-e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
-e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2271  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
-fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
-8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
-9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
-9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
-9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
-73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
-e43473b7f223ec Vivek Goyal   2010-09-15  2279  
-3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df Shaohua Li    2017-03-27  2281  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
-c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
-bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
-e43473b7f223ec Vivek Goyal   2010-09-15  2285  
-7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
-7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
-7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
-7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
-7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
-7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
-0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
-77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
-7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
-e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2296  
-bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
-111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
-5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
-e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
-e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
-bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
-e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
-e43473b7f223ec Vivek Goyal   2010-09-15  2308  
-
-:::::: The code at line 2306 was first introduced by commit
-:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
-
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/rockchip/rv1109-relfor-saib.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clock-names: ['stmmaceth', 'mac_clk_rx', 'mac_clk_tx', 'clk_mac_ref', 'aclk_mac', 'pclk_mac', 'clk_mac_speed', 'ptp_ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-relfor-saib.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clocks: [[2, 126], [2, 136], [2, 136], [2, 127], [2, 191], [2, 278], [2, 136], [2, 137]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-relfor-saib.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clock-names: ['stmmaceth', 'mac_clk_rx', 'mac_clk_tx', 'clk_mac_ref', 'aclk_mac', 'pclk_mac', 'clk_mac_speed', 'ptp_ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-relfor-saib.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clocks: [[2, 126], [2, 136], [2, 136], [2, 127], [2, 191], [2, 278], [2, 136], [2, 137]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-relfor-saib.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['rockchip,rv1126-gmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'rockchip,rv1126-gmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-relfor-saib.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): interrupt-names: ['macirq', 'eth_wake_irq'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-relfor-saib.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): interrupts: [[0, 95, 4], [0, 96, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/rockchip/rv1109-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clock-names: ['stmmaceth', 'mac_clk_rx', 'mac_clk_tx', 'clk_mac_ref', 'aclk_mac', 'pclk_mac', 'clk_mac_speed', 'ptp_ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clocks: [[2, 126], [2, 136], [2, 136], [2, 127], [2, 191], [2, 278], [2, 136], [2, 137]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clock-names: ['stmmaceth', 'mac_clk_rx', 'mac_clk_tx', 'clk_mac_ref', 'aclk_mac', 'pclk_mac', 'clk_mac_speed', 'ptp_ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clocks: [[2, 126], [2, 136], [2, 136], [2, 127], [2, 191], [2, 278], [2, 136], [2, 137]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['rockchip,rv1126-gmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'rockchip,rv1126-gmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): interrupt-names: ['macirq', 'eth_wake_irq'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): interrupts: [[0, 95, 4], [0, 96, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1109-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): Unevaluated properties are not allowed ('clock_in_out', 'rockchip,grf' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/rockchip/rv1126-edgeble-neu2-io.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clock-names: ['stmmaceth', 'mac_clk_rx', 'mac_clk_tx', 'clk_mac_ref', 'aclk_mac', 'pclk_mac', 'clk_mac_speed', 'ptp_ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-edgeble-neu2-io.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clocks: [[2, 126], [2, 136], [2, 136], [2, 127], [2, 191], [2, 278], [2, 136], [2, 137]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-edgeble-neu2-io.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clock-names: ['stmmaceth', 'mac_clk_rx', 'mac_clk_tx', 'clk_mac_ref', 'aclk_mac', 'pclk_mac', 'clk_mac_speed', 'ptp_ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-edgeble-neu2-io.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clocks: [[2, 126], [2, 136], [2, 136], [2, 127], [2, 191], [2, 278], [2, 136], [2, 137]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-edgeble-neu2-io.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['rockchip,rv1126-gmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'rockchip,rv1126-gmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-edgeble-neu2-io.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): interrupt-names: ['macirq', 'eth_wake_irq'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-edgeble-neu2-io.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): interrupts: [[0, 95, 4], [0, 96, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-edgeble-neu2-io.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-edgeble-neu2-io.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): Unevaluated properties are not allowed ('clock_in_out', 'rockchip,grf', 'rx_delay', 'tx_delay' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/rockchip/rv1126-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clock-names: ['stmmaceth', 'mac_clk_rx', 'mac_clk_tx', 'clk_mac_ref', 'aclk_mac', 'pclk_mac', 'clk_mac_speed', 'ptp_ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clocks: [[2, 126], [2, 136], [2, 136], [2, 127], [2, 191], [2, 278], [2, 136], [2, 137]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clock-names: ['stmmaceth', 'mac_clk_rx', 'mac_clk_tx', 'clk_mac_ref', 'aclk_mac', 'pclk_mac', 'clk_mac_speed', 'ptp_ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): clocks: [[2, 126], [2, 136], [2, 136], [2, 127], [2, 191], [2, 278], [2, 136], [2, 137]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['rockchip,rv1126-gmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'rockchip,rv1126-gmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): interrupt-names: ['macirq', 'eth_wake_irq'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): interrupts: [[0, 95, 4], [0, 96, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/rockchip/rv1126-sonoff-ihost.dtb: ethernet@ffc40000 (rockchip,rv1126-gmac): Unevaluated properties are not allowed ('clock_in_out', 'rockchip,grf' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+   arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: adc@48004000 (st,stm32mp13-adc-core): adc@0:interrupts: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'ethstp', 'eth-ck'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): clocks: [[4, 81], [4, 77], [4, 79], [4, 83], [4, 139]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'ethstp', 'eth-ck'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): clocks: [[4, 81], [4, 77], [4, 79], [4, 83], [4, 139]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp13-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp13-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): interrupt-names: ['macirq', 'eth_wake_irq'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): interrupts-extended: [[2, 0, 62, 4], [10, 68, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+   arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: adc@48003000 (st,stm32mp13-adc-core): adc@0:interrupts: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'ethstp', 'eth-ck'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): clocks: [[4, 82], [4, 78], [4, 80], [4, 84], [4, 141]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'ethstp', 'eth-ck'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): clocks: [[4, 82], [4, 78], [4, 80], [4, 84], [4, 141]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp133c-prihmb.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp13-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp13-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+   arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: adc@48004000 (st,stm32mp13-adc-core): adc@0:interrupts: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'ethstp', 'eth-ck'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): clocks: [[4, 81], [4, 77], [4, 79], [4, 83], [4, 139]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'ethstp', 'eth-ck'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): clocks: [[4, 81], [4, 77], [4, 79], [4, 83], [4, 139]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp13-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp13-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): interrupt-names: ['macirq', 'eth_wake_irq'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): interrupts-extended: [[2, 0, 62, 4], [8, 68, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,ext-phyclk', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+   arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: adc@48003000 (st,stm32mp13-adc-core): adc@0:interrupts: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'ethstp', 'eth-ck'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): clocks: [[4, 82], [4, 78], [4, 80], [4, 84], [4, 141]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'ethstp', 'eth-ck'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): clocks: [[4, 82], [4, 78], [4, 80], [4, 84], [4, 141]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp13-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp13-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,ext-phyclk', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+   arch/arm/boot/dts/st/stm32mp135f-dk.dtb: adc@48004000 (st,stm32mp13-adc-core): adc@0:interrupts: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'ethstp', 'eth-ck'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): clocks: [[4, 81], [4, 77], [4, 79], [4, 83], [4, 139]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'ethstp', 'eth-ck'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): clocks: [[4, 81], [4, 77], [4, 79], [4, 83], [4, 139]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp13-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp13-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): interrupt-names: ['macirq', 'eth_wake_irq'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): interrupts-extended: [[2, 0, 62, 4], [10, 68, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800a000 (st,stm32mp13-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+   arch/arm/boot/dts/st/stm32mp135f-dk.dtb: adc@48003000 (st,stm32mp13-adc-core): adc@0:interrupts: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'ethstp', 'eth-ck'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): clocks: [[4, 82], [4, 78], [4, 80], [4, 84], [4, 141]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'ethstp', 'eth-ck'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): clocks: [[4, 82], [4, 78], [4, 80], [4, 84], [4, 141]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: ethernet@5800e000 (st,stm32mp13-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp13-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp13-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1a.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1a.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[6, 105], [6, 103], [6, 104], [6, 123], [6, 169], [6, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1a.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1a.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[6, 105], [6, 103], [6, 104], [6, 123], [6, 169], [6, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1a.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1a.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1a.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1a.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1a.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+   arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: switch@0 (nxp,sja1105q): Unevaluated properties are not allowed ('clocks', 'reset-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/nxp,sja1105.yaml#
+   arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: mmc@1 (prt,prtt1c-wfm200): $nodename:0: 'mmc@1' does not match '^wifi(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/silabs,wfx.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[6, 105], [6, 103], [6, 104], [6, 123], [6, 169], [6, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[6, 105], [6, 103], [6, 104], [6, 123], [6, 169], [6, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'phy-handle' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1c.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[6, 105], [6, 103], [6, 104], [6, 123], [6, 169], [6, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[6, 105], [6, 103], [6, 104], [6, 123], [6, 169], [6, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-prtt1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp151a-dhcor-testbench.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-dhcor-testbench.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[6, 105], [6, 103], [6, 104], [6, 123], [6, 169], [6, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-dhcor-testbench.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-dhcor-testbench.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[6, 105], [6, 103], [6, 104], [6, 123], [6, 169], [6, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-dhcor-testbench.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-dhcor-testbench.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-dhcor-testbench.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-dhcor-testbench.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151a-dhcor-testbench.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp151c-mecio1r0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mecio1r0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[6, 105], [6, 103], [6, 104], [6, 123], [6, 169], [6, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mecio1r0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mecio1r0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[6, 105], [6, 103], [6, 104], [6, 123], [6, 169], [6, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mecio1r0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mecio1r0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mecio1r0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mecio1r0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mecio1r0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,eth-clk-sel', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp151c-mect1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mect1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[6, 105], [6, 103], [6, 104], [6, 123], [6, 169], [6, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mect1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mect1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[6, 105], [6, 103], [6, 104], [6, 123], [6, 169], [6, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mect1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mect1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mect1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mect1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'phy-handle' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mect1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-mect1s.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,eth-clk-sel', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+   arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: audio-controller@44004000 (st,stm32h7-i2s): port:endpoint: Unevaluated properties are not allowed ('format' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/st,stm32-i2s.yaml#
+   arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: audio-controller@44004000 (st,stm32h7-i2s): Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/st,stm32-i2s.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp151c-plyaqm.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,eth-clk-sel', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,eth-clk-sel', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'phy-handle' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,eth-clk-sel', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,eth-clk-sel', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-dk1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[8, 105], [8, 103], [8, 104], [8, 123], [8, 169], [8, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[8, 105], [8, 103], [8, 104], [8, 123], [8, 169], [8, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): cts-gpios: False schema does not allow [[31, 15, 1]]
+   	from schema $id: http://devicetree.org/schemas/serial/st,stm32-uart.yaml#
+   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): rts-gpios: False schema does not allow [[32, 0, 1]]
+   	from schema $id: http://devicetree.org/schemas/serial/st,stm32-uart.yaml#
+   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): Unevaluated properties are not allowed ('bluetooth', 'uart-has-rtscts' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/st,stm32-uart.yaml#
+   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): cts-gpios: False schema does not allow [[31, 15, 1]]
+   	from schema $id: http://devicetree.org/schemas/serial/serial.yaml#
+   arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: serial@40010000 (st,stm32h7-uart): rts-gpios: False schema does not allow [[32, 0, 1]]
+   	from schema $id: http://devicetree.org/schemas/serial/serial.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-iot-box.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0-of7.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0-of7.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0-of7.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0-of7.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-microgea-stm32mp1-microdev2.0-of7.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2-of10.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2-of10.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2-of10.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2-of10.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-ctouch2-of10.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-edimm2.2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-edimm2.2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-edimm2.2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-edimm2.2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-icore-stm32mp1-edimm2.2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-stinger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-stinger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-stinger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-stinger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-stinger96.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[8, 105], [8, 103], [8, 104], [8, 123], [8, 169], [8, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[8, 105], [8, 103], [8, 104], [8, 123], [8, 169], [8, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-ed1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ed1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ed1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ed1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ed1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[8, 105], [8, 103], [8, 104], [8, 123], [8, 169], [8, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[8, 105], [8, 103], [8, 104], [8, 123], [8, 169], [8, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,eth-ref-clk-sel', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+   arch/arm/boot/dts/st/stm32mp157c-emsbc-argon.dtb: m4@10000000 (st,stm32mp1-m4): 'interrupt-names', 'recovery' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/remoteproc/st,stm32-rproc.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[8, 105], [8, 103], [8, 104], [8, 123], [8, 169], [8, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[8, 105], [8, 103], [8, 104], [8, 123], [8, 169], [8, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+   arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: /soc/bus@5c007000/i2c@40015000/touchscreen@38: failed to match any schema with compatible: ['edt,edt-ft5x06']
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-mc1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'phy-handle' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,eth-clk-sel', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'phy-handle' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,eth-clk-sel', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-odyssey.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-odyssey.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-odyssey.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-odyssey.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-odyssey.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-odyssey.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-odyssey.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-odyssey.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-odyssey.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,eth-clk-sel', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,eth-clk-sel', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+   arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: touch@44 (st,stmpe811): touchscreen: Unevaluated properties are not allowed ('st,adc-freq', 'st,mod-12b', 'st,ref-sel', 'st,sample-time' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,eth-clk-sel', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-ultra-fly-sbc.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ultra-fly-sbc.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ultra-fly-sbc.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ultra-fly-sbc.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[7, 105], [7, 103], [7, 104], [7, 123], [7, 169], [7, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ultra-fly-sbc.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ultra-fly-sbc.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ultra-fly-sbc.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ultra-fly-sbc.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ultra-fly-sbc.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157f-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157f-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[8, 105], [8, 103], [8, 104], [8, 123], [8, 169], [8, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157f-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clock-names: ['stmmaceth', 'mac-clk-tx', 'mac-clk-rx', 'eth-ck', 'ptp_ref', 'ethstp'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157f-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): clocks: [[8, 105], [8, 103], [8, 104], [8, 123], [8, 169], [8, 112]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157f-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['st,stm32mp1-dwmac', 'snps,dwmac-4.20a'] is too long
+   	'allwinner,sun8i-a83t-emac' was expected
+   	'allwinner,sun8i-h3-emac' was expected
+   	'allwinner,sun8i-r40-gmac' was expected
+   	'allwinner,sun8i-v3s-emac' was expected
+   	'allwinner,sun50i-a64-emac' was expected
+   	'st,stm32mp1-dwmac' is not one of ['allwinner,sun20i-d1-emac', 'allwinner,sun50i-a100-emac', 'allwinner,sun50i-h6-emac', 'allwinner,sun50i-h616-emac0', 'allwinner,sun55i-a523-gmac0']
+   	'allwinner,sun55i-a523-gmac200' was expected
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157f-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157f-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'reset-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157f-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): 'syscon' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
+>> arch/arm/boot/dts/st/stm32mp157f-dk2.dtb: ethernet@5800a000 (st,stm32mp1-dwmac): Unevaluated properties are not allowed ('access-controllers', 'reg-names', 'st,syscon' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/allwinner,sun8i-a83t-emac.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
