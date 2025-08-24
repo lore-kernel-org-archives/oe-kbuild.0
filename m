@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F9A84E07
-	for <oe-kbuild@lists.linux.dev>; Sun, 24 Aug 2025 04:24:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4781C23236D
+	for <oe-kbuild@lists.linux.dev>; Sun, 24 Aug 2025 06:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756009489; cv=none; b=InxaJKT3H2Gpv58WPOMPAk/pQuzU3DVY53voMsAVoyJMYCirHSMEmxPaqn1/3ZNtrKdLu7kpO8a/JdOM12B9VZW2qK1COHGM9PxmexwcyREfXvGRT7MH/lXDKIv9vWLjSptv9AlESMpLC+4O5a76CXVorlF8y4ONvzFv3gywtAQ=
+	t=1756015802; cv=none; b=gALSeuh+F4DZPszEcLqSiIdwvTy0ZpJmnmKCW8AS85KPPGnKY1DijB5qLb05G+AhMggQCv7JFWJZt08nFr4kXpw00tWcz9raRdkaT4Jj4tktkfOFECFn6eAnYxm3IBWuqtzLjTNSOWhY4hRzptwCHfo0HDXNYkDssn38YO1J85c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756009489; c=relaxed/simple;
-	bh=KcMVgmT162pCMcgHK66pXMrxnUT6dEnOte6vsrQX6WA=;
+	s=arc-20240116; t=1756015802; c=relaxed/simple;
+	bh=IjeH6YPViR0i5YPE4VAskp9zGzEYkJR//uPybOR+BA8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Mv6Ub+LWMlJ1ZBS0ldD5haFfnZKRT4tOF/OT1i4zLs3m9dPOfhrwHYJXZC8Ph7rjSJCOd4ZJ2mBGo0YLVKLMv7I+54+MIdTbgnuyATzttC3BDGgRXH6mDEh0nSD9mcOmW6qJlki2DW8YXr4ZnOh5rAhHZxf2q884AxKm19tzoKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dn63PYji; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=KLbQHKVBhLqZa9RTrgcKI4kC475WgbErkHiGLGzD8DG+/7T6WcJprh6R4XTQ4upOPjH/oDdgc2z/M2hG+RVoKfb3hobxTWZPyAAkOt8f7zfBH2UYdeyHTzZ+6LFAkBsBrOgEK2sR5Z2KYwzz8aUpE8qatVR1pYExINv0gn31Lhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HYje952q; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dn63PYji"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HYje952q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756009487; x=1787545487;
+  t=1756015800; x=1787551800;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KcMVgmT162pCMcgHK66pXMrxnUT6dEnOte6vsrQX6WA=;
-  b=Dn63PYjiCsIt4ngdbsTdNii3G45tASy/ecuGRaxMShnRinZ2bYQmRX/h
-   TeOP2YR3LcKHiDESc6kLukq2qVODNGJKnz5GBwn5bv26uvYoLrgvG/LQP
-   QXeyukZU5HRHKu7XHoYjNREEhoj/v/QQ26mk/4pG6bDdte3johHAs954A
-   y4xZipqJFtwqFBcl6X4Dcyo8q0vB8K2SWQZhRlVBZ2fpJUvIo4WPGUCp8
-   ZlA+UQJC/gh+oGso4jhl67fgeTQjc3roZf4mREl46tO/vXZujkvbA0QQd
-   S8A1/eHZZH57ryR1KPG3w66d0wwwmHRNo8JWQnsQmtKPGWDB3Jpbfmvy5
+  bh=IjeH6YPViR0i5YPE4VAskp9zGzEYkJR//uPybOR+BA8=;
+  b=HYje952qpxHNcYRRDjIm3nYAh4WZ0s4owV/ZjLpB1irh6/lTAa4Kkue0
+   P90YCsmepOUBQK8ZAPYHRPps6QqSx9sNC/kmTpUkj5YLx6pVCpxuXj0zO
+   65yK1nc0IynomaOgUjCBvyK1Qi5OlHx+m883z8kHZZCn00n0kq4rq0zw+
+   fexeK3hkCmwu6MG+UWwjztBe0SKIu0WXj22vy7PDWRq15lVRq2TfRjLEI
+   QG5Ksc2hFlgKLnPDdBxf2AmFosLcD2ykS25GZOuRRx9CC+nVg4uVD+cLt
+   Lx4ikUrOa+W46F4kqj8GpW2s+ZRlKJeQWc/RfaF0LStPfC+nTlzKRx4FA
    A==;
-X-CSE-ConnectionGUID: BHOEo55mSrmXm0CkbK+f4A==
-X-CSE-MsgGUID: iu02OrrnRp+8uAwr24L9GA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58179530"
+X-CSE-ConnectionGUID: LF+vc4BZRUqhTL3DTUCWDg==
+X-CSE-MsgGUID: n25H0lmbS0urYuYwbejXhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62092308"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58179530"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 21:24:47 -0700
-X-CSE-ConnectionGUID: 4tzFLEY/Sc+Wh8Ce9fOVfg==
-X-CSE-MsgGUID: DnuSLCzWTAi3hJKFpiZYCw==
+   d="scan'208";a="62092308"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 23:10:00 -0700
+X-CSE-ConnectionGUID: niGk9+dkQYSHkxugNdaChA==
+X-CSE-MsgGUID: fDs/F4C/TWivKm3c4wfPJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="168534066"
+   d="scan'208";a="206194319"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 23 Aug 2025 21:24:45 -0700
+  by orviesa001.jf.intel.com with ESMTP; 23 Aug 2025 23:09:59 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uq2Hb-000Ml1-0P;
-	Sun, 24 Aug 2025 04:24:43 +0000
-Date: Sun, 24 Aug 2025 12:23:58 +0800
+	id 1uq3vQ-000Mnt-0G;
+	Sun, 24 Aug 2025 06:09:56 +0000
+Date: Sun, 24 Aug 2025 14:09:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: ata: imx: Add a reference to
- ahci-common.yaml
-Message-ID: <202508241258.95Ql4tpH-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [openeuler:openEuler-1.0-LTS 1568/1568]
+ block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+Message-ID: <202508241455.Hw9lAo3X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,100 +62,153 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250822175830.91682-1-festevam@gmail.com>
-References: <20250822175830.91682-1-festevam@gmail.com>
-TO: Fabio Estevam <festevam@gmail.com>
-TO: cassel@kernel.org
-CC: dlemoal@kernel.org
-CC: robh@kernel.org
-CC: krzk+dt@kernel.org
-CC: conor+dt@kernel.org
-CC: linux-ide@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: imx@lists.linux.dev
-CC: Fabio Estevam <festevam@gmail.com>
+TO: kernel@openeuler.org
+TO: Yang Yingliang <yangyingliang@huawei.com>
 
-Hi Fabio,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.17-rc2 next-20250822]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-Estevam/dt-bindings-ata-imx-Add-a-reference-to-ahci-common-yaml/20250823-020351
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250822175830.91682-1-festevam%40gmail.com
-patch subject: [PATCH] dt-bindings: ata: imx: Add a reference to ahci-common.yaml
-:::::: branch date: 34 hours ago
-:::::: commit date: 34 hours ago
-config: arm64-randconfig-051-20250823 (https://download.01.org/0day-ci/archive/20250824/202508241258.95Ql4tpH-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508241258.95Ql4tpH-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   7ca8f70fcd371eeaeba54893cc754f3e18714fae
+commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1568/1568] blk-throttle: Set BIO_THROTTLED when bio has been throttled
+:::::: branch date: 3 days ago
+:::::: commit date: 3 years, 6 months ago
+config: x86_64-randconfig-102-20250408 (https://download.01.org/0day-ci/archive/20250824/202508241455.Hw9lAo3X-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508241258.95Ql4tpH-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202508241455.Hw9lAo3X-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: sata@5f020000 (fsl,imx8qm-ahci): phy-names: ['sata-phy', 'cali-phy0', 'cali-phy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: sata@5f020000 (fsl,imx8qm-ahci): phys: [[255, 2, 1, 0], [255, 0, 2, 0], [255, 1, 2, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: sata@5f020000 (fsl,imx8qm-ahci): phy-names: ['sata-phy', 'cali-phy0', 'cali-phy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: sata@5f020000 (fsl,imx8qm-ahci): phys: [[255, 2, 1, 0], [255, 0, 2, 0], [255, 1, 2, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:83.3-86.28: Warning (interrupt_map): /bus@5f000000/pcie@5f010000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
-   arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi:33.3-36.27: Warning (interrupt_map): /bus@5f000000/pcie@5f000000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@51a00000, using 0 as fallback
->> arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: sata@5f020000 (fsl,imx8qm-ahci): phy-names: ['sata-phy', 'cali-phy0', 'cali-phy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: sata@5f020000 (fsl,imx8qm-ahci): phys: [[216, 2, 1, 0], [216, 0, 2, 0], [216, 1, 2, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: sata@5f020000 (fsl,imx8qm-ahci): phy-names: ['sata-phy', 'cali-phy0', 'cali-phy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: sata@5f020000 (fsl,imx8qm-ahci): phys: [[216, 2, 1, 0], [216, 0, 2, 0], [216, 1, 2, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: sata@5f020000 (fsl,imx8qm-ahci): phy-names: ['sata-phy', 'cali-phy0', 'cali-phy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: sata@5f020000 (fsl,imx8qm-ahci): phys: [[216, 2, 1, 0], [216, 0, 2, 0], [216, 1, 2, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
+cocci warnings: (new ones prefixed by >>)
+>> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+
+vim +2306 block/blk-throttle.c
+
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
+ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
+ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
+e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
+c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
+ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
+73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
+0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
+e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
+e43473b7f223ec Vivek Goyal   2010-09-15  2203  
+ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
+ae118896361111 Tejun Heo     2015-08-18  2205  
+2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
+e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
+e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
+bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
+e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2211  
+e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
+c9589f03e49095 Tejun Heo     2015-08-18  2213  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
+c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
+e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
+f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
+9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
+9e234eeafbe17e Shaohua Li    2017-03-27  2221  
+73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
+73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
+c79892c5576163 Shaohua Li    2017-03-27  2224  again:
+9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
+3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
+3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
+fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
+9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
+c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
+3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
+c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
+c79892c5576163 Shaohua Li    2017-03-27  2240  			}
+9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
+c79892c5576163 Shaohua Li    2017-03-27  2242  		}
+de701c74a34005 Vivek Goyal   2011-03-07  2243  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
+e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
+04521db04e9a11 Vivek Goyal   2011-03-22  2246  
+04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
+04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
+04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
+04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
+04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
+04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
+04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
+04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
+04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
+04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
+04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
+0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
+9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
+9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
+c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
+9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
+e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
+e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2271  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
+fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
+8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
+9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
+9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
+9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
+73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
+e43473b7f223ec Vivek Goyal   2010-09-15  2279  
+3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2281  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
+c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
+e43473b7f223ec Vivek Goyal   2010-09-15  2285  
+7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
+7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
+7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
+7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
+7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
+7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
+77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
+7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
+e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2296  
+bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
+111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
+5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
+e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
+e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
+bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
+e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
+e43473b7f223ec Vivek Goyal   2010-09-15  2308  
+
+:::::: The code at line 2306 was first introduced by commit
+:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
+
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
