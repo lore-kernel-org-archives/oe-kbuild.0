@@ -1,74 +1,72 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF3E22B8BD
-	for <oe-kbuild@lists.linux.dev>; Mon, 25 Aug 2025 07:26:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52D328FFCB
+	for <oe-kbuild@lists.linux.dev>; Mon, 25 Aug 2025 07:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756106792; cv=none; b=tKCZ+c66J6KffSmPQcJIp4HGArmXbVbA7SPJVt9WG09s23haJyEWQqVhdRXXOCAPZN33NR/oUCvJFKwMMBXKX4yEgOWUYa4Tjc2MMCdPig8jHlbcvXWLN31dFh8zpAdgNuCxODxLUYuTGTHBuraUPM71fXB3zrdYAtFSJAL8alk=
+	t=1756107082; cv=none; b=dOSt3G3srNIpIOLLqBWMBYe0KWMun2bisZubUSiFJFP5PTVJCnzTq76HugepoG36217yrzrfhXsEJR9WO67OW6vPw85NSoVJ0a66P98GtunQFi5tLD3UlzK5yJusRfpaKDI+Q8eghv7TrK2blTPfIb2VZxMNmg3f8tzH+IWSVF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756106792; c=relaxed/simple;
-	bh=XcfUHZbpminC1LjKkK7GBwQm3RDpQBVIen2tXQ3GtPo=;
+	s=arc-20240116; t=1756107082; c=relaxed/simple;
+	bh=eDBLoiXmzkfu9v1SxnpdEzYEo37pSpcTHmzBEbb6LNs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=HvbgbwMnphKXe3m15V9e/u2zbk0ukmcTwJ7bIukbicMEKLH5TcfIm+ZSe+fcT/RGHAoU47mqezVLruNPVfcu1QaMQi8ccMYACXlf51nJonFiTos9TLgxgEaDlLmVT7hYKjl8sShJ4tzaDZUq2CbNSwiSk+bmQDTjY3xypwgHKN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bc7FhKWX; arc=none smtp.client-ip=209.85.128.48
+	 Content-Disposition; b=f3Uw6jEEeGg1mNaC4MnGp4F8CrUwyY+Sttvg4T+lakLLO5i6WHwJWQc1lrST22fEKHHstjErusa5W0lirrCYiIYt9+jpS+42egb4ZuhGWR5hhpoxVg0PEzCDPw435zfKd75X31N4IWlR6bRFQzA5bPu006VubEnW/0q8y66vhDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=b1nT1Bp4; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bc7FhKWX"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45b627ea5f3so975875e9.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 25 Aug 2025 00:26:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b1nT1Bp4"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45a1b00f23eso22684795e9.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 25 Aug 2025 00:31:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756106789; x=1756711589; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YXW4WXdZbpuVMj+45X2QEx8cTs8sv2KAIiv17RXifaI=;
-        b=bc7FhKWXwEHIieef3kFe3QU4Sim8F8W70wwY4gLvT9BTDR5PNvqBBUZLMFpbkBMKf/
-         UXCZJB9ntuMPKt1tC1lDoIQF/AvLsbsdTw0M5i/qNCS6JzZICvf7e7SLAUYD+VCoipX1
-         1oVWY9NrJuHraafBDs2yLoOJpOGqB4N0TGiQvaQ+0t6daqoYzh/0vMiSirFHpYj5WH+R
-         1r466B9vw0MzUhdrltsgxWJ7FPFWeB124q7anHaz47m2c8lmj/uad5DwzhSMYXP1Wwes
-         w9sbOj7YE3DzEvI6pHmhinW7RvZtrm9jW7AowRA200INZ09a4PNVMfbJ2KddrOgITmSM
-         Kx+Q==
+        d=linaro.org; s=google; t=1756107070; x=1756711870; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dA0B/Z+t0SDZNKhJ0t4Zd1ZeMJ/vd3BE1jNyaljxoLg=;
+        b=b1nT1Bp4qwyzu9TtCh1ZOkILc596jNOq9vmtMuzJphP6TFVCAi2dRGdrjAGpjzf/95
+         mZb3kw1qu16cRQyo1dpu84/y4uwZNXamKUT9LzWKf104e40pODEmzv7b7Di2PuHa5H8+
+         KAvy+8sU1r3bRorH/0n7vGJFAT0eQ5JeROTM+5YKZ7IEnC+GmXSXHEjqDw3GoLH1klPs
+         ei++ZlhLp2fzBrZ3HDRT5soA1fkLdb2gb6Gum63LdmcQyrTc+VdbSgGJB+U2p3LVxyw6
+         KsR9uwFlFk+TS2acoy/k+X74vI52hEF2QInB7vcg8SY0b5C0+/gQZj5V+FiyWG4Va9+v
+         385Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756106789; x=1756711589;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YXW4WXdZbpuVMj+45X2QEx8cTs8sv2KAIiv17RXifaI=;
-        b=hals/HyDwOi4caBdSX8rkFQb+svNCRyPLdiBGwqoSIE472yta32aDvjpRJ/0PHMxL+
-         +9+PZp4wuG/clNwX4rJcBdq5gjCfU/FDWwZTq2uAW/2eSm+oR39E9qwRBx4BYWjRqodK
-         SLGKKJ7Xt4myWDM/pzWD6xG9i4QhjJ7QtGKIhwGs5q2d1DhQeA+3XcpS3kg7Jp1vCilV
-         RlL0mhU8fU0DVmua7dY1vd8sh4Da63ctgdMEplgm3K7+1ui7+kqpd3CDjv1HtVlkQX87
-         Uc40KLzDTRvnZAuyrbVnyFhXHEBY50PxyWW9hgcauQQCbaD4USP0JLGtZnwTc2DEj1HX
-         d27w==
-X-Gm-Message-State: AOJu0YytfOsra6arSuSCaOIuAMo/SGV76HrN6szFvSTrEJDHFCAJ5aI9
-	IF8ldBh70VgaCiApibN92JvPXqPm5X8xmpkX40pdSUi2CKyOtuwqAbHBDhLH2otAMTJL+HWo6RO
-	nY9hv
-X-Gm-Gg: ASbGnctG+WPetRvYvZk6rZraVnuFqXtI+Y1jjVSTemaGNyeX3juAK5cZkzPO9oKGGXe
-	gh44jWFo4dxm+AJsKC/sS/QFQbSOAqdGq4cufyeVya7LNvtZn5p+rdVZTxKprsr+gBTJr1tK4fH
-	gTGOk4a6h3z9q6ooGXuJtsM3bsczdqTOqAdq2NbUZN+sUSn4bqjgwsuiYIK8dcZrTZvPD+BdWmN
-	fhrXT9r6mBGrrzZZQzS03H/HTEyTG9Am8Ludil5PHMfUT79I51iAFNNJxGuHbpyFy58szLgzKAT
-	5GmwLQXu+7qPCiYxCMH4eTD6/Fv+vfSU7kixt8xKrWXUpLw10g0uuIXaV/RuqppbP3WU8JMIlNz
-	xCEpvwi3A4GUjyl2V3vN58pXLw+4=
-X-Google-Smtp-Source: AGHT+IHr3tXyCt5Yvc6g17pBN46i+4YotNdNbVGbK4q48niWSb9xQKqdHzzLOgg+Scq9+9QVsNBEzw==
-X-Received: by 2002:a05:6000:24c7:b0:3c8:1df2:540c with SMTP id ffacd0b85a97d-3c81df25723mr3798109f8f.43.1756106788624;
-        Mon, 25 Aug 2025 00:26:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756107070; x=1756711870;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dA0B/Z+t0SDZNKhJ0t4Zd1ZeMJ/vd3BE1jNyaljxoLg=;
+        b=Mh7DBaQWq6ogVr52EbLvMSlPOReXfjNo02YMX+JEhJYi9f3xDKGmxZ+Mw4dsAUlwFY
+         lqrR7cjPgTJwIyCLuWnRIc7/3O479My8Yow4et8F1w7gFCclO5rwxCtTawQ+8ygbzNR2
+         a5KKQ4ESfZe9TCgX3Fs0ct7SX2RJIdhaDATfeoJlBRS/AjlbL3rIl71/G0Ria4T8BbnY
+         2rLI8K2AQltMBgJfoYcNB5fgcmWlLSjJ33XqgLZbV9XMEOQkHOmvSYfYqxPWKLhl2q3L
+         mLjW6+HuCAF3mWLnLGzvJFqD++Rb6a3yaj/yVlSGLMJbio1SPavaHWxBxMra6LAit53y
+         Ryfg==
+X-Gm-Message-State: AOJu0Yy0ZjcBLEC8WgAUn0UJHaOQRZFXoSa3vMlouiLqYeSxD5S0tjLf
+	lIgkAZ7MBE16KJjI0HAjhUeQK3ArUJdcBSv8ZhTpZ6p9tAh+l8GCG0dNy2A3UecJC9OX6GMO1PU
+	8m4JD
+X-Gm-Gg: ASbGncvu03KTxo/jXovJ+7mPfhx9ay4elSKbyRpjjj+krZ72SaLiQV0tnXKjE5z+YkM
+	dYMN6QSyb7Nb8ejT6X/L9lUXMP4WX/1YN5XyxS1VJxLXc2eM5zUODf7BphzII6lTsEm8PCm4rtC
+	SyEucgJTSmktxKO+h23KUnCK8b3SHB6Dsq6h4D4s4QUD006ZjcenfECeOZQeI8VABTe0I0tcD/1
+	6Rf3ehDWqnUwAfLpcmvd01Q3A425wcveRAk5X5r9tTLcGeP0iEDKZmjN1F3v9oK9UV6qzjHfYj1
+	kcjZJRRajQFGWWVp6qFspkhEt7oZbtrlW/4uNX3hF729VNhxwLRrp38GBm0cmOl30xBswGhmUyc
+	nhbeAoZ8PDUEOePbfp4WbD/nGW8M=
+X-Google-Smtp-Source: AGHT+IGojlP1+8rsUw99TfqoNfzVAu8XJv38XLLNWdTJivfaVzBSz4xljXNXlocr3Uiwlv0dn6pwYw==
+X-Received: by 2002:a05:600c:1987:b0:456:1904:27f3 with SMTP id 5b1f17b1804b1-45b517c2fb5mr88724605e9.18.1756107069869;
+        Mon, 25 Aug 2025 00:31:09 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c7116e1478sm10327401f8f.46.2025.08.25.00.26.27
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c711abd15asm10434837f8f.56.2025.08.25.00.31.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Aug 2025 00:26:28 -0700 (PDT)
-Date: Mon, 25 Aug 2025 10:26:24 +0300
+        Mon, 25 Aug 2025 00:31:09 -0700 (PDT)
+Date: Mon, 25 Aug 2025 10:31:06 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
-	jfalempe@redhat.com, airlied@redhat.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	airlied@gmail.com, simona@ffwll.ch
+To: oe-kbuild@lists.linux.dev, Saeed Mahameed <saeedm@nvidia.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 6/6] drm/ast: Put AST_DRAM_ constants into enum
- ast_dram_layout
-Message-ID: <202508240748.TUAvbluX-lkp@intel.com>
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Parav Pandit <parav@nvidia.com>, Feng Liu <feliu@nvidia.com>,
+	William Tu <witu@nvidia.com>, Mark Bloch <mbloch@nvidia.com>
+Subject: [linux-next:master 2381/4234]
+ drivers/net/ethernet/mellanox/mlx5/core/eswitch.h:981
+ mlx5_esw_vport_vhca_id() warn: signedness bug returning '(-95)'
+Message-ID: <202508250221.IoqBZOXQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -77,63 +75,34 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250822132846.25376-7-tzimmermann@suse.de>
-Message-ID: <20250825072624.1R1lyOb2oolmzD6cFhTTE54d6zU8pQgJQaD41G9K2Dg@z>
+Message-ID: <20250825073106.l5vokxEV2OPrfT-mfrqC1efsdMUb5xjIGBs4iOGsYRw@z>
 
-Hi Thomas,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-ast-Do-not-print-DRAM-info/20250822-213333
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20250822132846.25376-7-tzimmermann%40suse.de
-patch subject: [PATCH 6/6] drm/ast: Put AST_DRAM_ constants into enum ast_dram_layout
-config: i386-randconfig-141-20250823 (https://download.01.org/0day-ci/archive/20250824/202508240748.TUAvbluX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0f4c93f7eb861acab537dbe94441817a270537bf
+commit: 1baf30426553efb3ac518b0e9d5c1c3f8ed7762a [2381/4234] net/mlx5: E-Switch, Set/Query hca cap via vhca id
+config: x86_64-randconfig-r071-20250821 (https://download.01.org/0day-ci/archive/20250825/202508250221.IoqBZOXQ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508240748.TUAvbluX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508250221.IoqBZOXQ-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/ast/ast_2100.c:63 ast_2100_get_dram_layout_p2a() error: uninitialized symbol 'dram_layout'.
+drivers/net/ethernet/mellanox/mlx5/core/eswitch.h:981 mlx5_esw_vport_vhca_id() warn: signedness bug returning '(-95)'
 
-vim +/dram_layout +63 drivers/gpu/drm/ast/ast_2100.c
+vim +981 drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
 
-334d62edac4c5b Thomas Zimmermann 2025-08-22  38  static enum ast_dram_layout ast_2100_get_dram_layout_p2a(struct ast_device *ast)
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  39  {
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  40  	u32 mcr_cfg;
-334d62edac4c5b Thomas Zimmermann 2025-08-22  41  	enum ast_dram_layout dram_layout;
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  42  
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  43  	ast_write32(ast, 0xf004, 0x1e6e0000);
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  44  	ast_write32(ast, 0xf000, 0x1);
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  45  	mcr_cfg = ast_read32(ast, 0x10004);
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  46  
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  47  	switch (mcr_cfg & 0x0c) {
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  48  	case 0:
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  49  	case 4:
-334d62edac4c5b Thomas Zimmermann 2025-08-22  50  		dram_layout = AST_DRAM_512Mx16;
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  51  		break;
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  52  	case 8:
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  53  		if (mcr_cfg & 0x40)
-334d62edac4c5b Thomas Zimmermann 2025-08-22  54  			dram_layout = AST_DRAM_1Gx16;
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  55  		else
-334d62edac4c5b Thomas Zimmermann 2025-08-22  56  			dram_layout = AST_DRAM_512Mx32;
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  57  		break;
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  58  	case 0xc:
-334d62edac4c5b Thomas Zimmermann 2025-08-22  59  		dram_layout = AST_DRAM_1Gx32;
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  60  		break;
+1baf30426553ef Saeed Mahameed 2025-06-16  978  static inline bool
+                                                             ^^^
+1baf30426553ef Saeed Mahameed 2025-06-16  979  mlx5_esw_vport_vhca_id(struct mlx5_eswitch *esw, u16 vportn, u16 *vhca_id)
+1baf30426553ef Saeed Mahameed 2025-06-16  980  {
+1baf30426553ef Saeed Mahameed 2025-06-16 @981  	return -EOPNOTSUPP;
 
-Should there be a default case?
+s/-EOPNOTSUPP/false/
 
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  61  	}
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  62  
-334d62edac4c5b Thomas Zimmermann 2025-08-22 @63  	return dram_layout;
-b59465efc7cb88 Thomas Zimmermann 2025-08-22  64  }
+1baf30426553ef Saeed Mahameed 2025-06-16  982  }
 
 -- 
 0-DAY CI Kernel Test Service
