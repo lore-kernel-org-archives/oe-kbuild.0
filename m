@@ -1,174 +1,232 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5194296BD1
-	for <oe-kbuild@lists.linux.dev>; Mon, 25 Aug 2025 07:35:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66F1296159
+	for <oe-kbuild@lists.linux.dev>; Mon, 25 Aug 2025 07:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756107325; cv=none; b=SpSL+yVwJyZMca5RdHhtP2tbbLl0HBXmd8WORpt3jUp0moYyTWaKB0svd3I4uuDVRXwCwVCSOi4iP5dRzT795IL5qLRJrmg8ixVvwDt3gTStuPM/ienPeozk9lVPlrY7SOpZ/KuUos/x7a1MMPXz7f+zOMctC/wnaX21Uz9FdL4=
+	t=1756107658; cv=none; b=VO6GOMvexNF9tvgcaivmpIbsOzhBwbaTCueclurzwj9o9ofJODSmzQJuBJCVBxihe1/qb8cdulyFBe1EOJ3OxShL5biLcFbRSwUh+ONTYnMFfNYjfRvsHqCpoQd0CBY2svU1JcgVxeW+icJxRF2zTUfWq3iJFxH7Ce2f3lJDFYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756107325; c=relaxed/simple;
-	bh=MpXpYDmIRJcPM8ARHtXC4DLTjSZC1KnXl1kvzblT2DQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=N1GznMw8e0KBEKlrbfkBP+Szr0Q55JxZbd4suuXhRihKe0tlxGDkqTN4gmlPux6fNwSaR3J90cfLZBhtXKn7iF1rwMUVZ9T49bSj3uUSAflibD1ra06xFHh9Kfq+cBr1iHRO8lOAJhN3p4NeY323LMrRb5Qg5Lnr9q9GVrXEsPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NiYbplQ3; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1756107658; c=relaxed/simple;
+	bh=wVcm/m7SCrOAdR2Ih+rlyl5JyPv+Pjbe4NSgsW1nZws=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hawdRnGk2HFRAICg8083R/vcsusvB4bc3exkZHJzu1PXscbPoCDqVsVFKYFgdD+/FLINhR8slMSguLTJ1CVVRwdAIZd8nYUYWqqcI/QIq0AgWiI5+Pa/rWize+F0xtIzOluaxFdEduvVNm7+tOrzEQYo94pEg55xgEGe5qwn/78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SJ4aDrtg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lPQ1wO40; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KXo5Fj2W; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VRa84Bg+; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NiYbplQ3"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45b5d49ae47so3963195e9.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 25 Aug 2025 00:35:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756107322; x=1756712122; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qLqDCAEeqZueR/V1nZAa0eICESVjVswaFOTFOoFfvYo=;
-        b=NiYbplQ3Fz/TS1HRAKiRv+87PcSA55YjCUTmDcalvR/oUFUaRPRa91di22kh25djnq
-         8iyU4EeguhtjmL8qbJPwVdJxGIGfEXIOCdPwbWFt0Xk+NxOfaepquucofrkvyHcJeHC3
-         tXrp5kMPDq8q9a09tbrd+U+GIoQq8Qsra0q5qRIk8iJGdj+RKyvJSb6yXw5vO1beAiu6
-         Cw0g2Fsj8iibR8OqXmscsSWByThOs4W/JlJgPdX9j17pJZZH87d3ShRz1O0Kd4R46L99
-         iGEttgveA0PZ25Sh+KvjM4GOYtkedPSmdP7AbU3/pgGKfmPJH1aSERCEJoR9wRD11u9Z
-         JN+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756107322; x=1756712122;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qLqDCAEeqZueR/V1nZAa0eICESVjVswaFOTFOoFfvYo=;
-        b=OdqsAH1oc5SuhPC1bjCZoLkfK3aaQXDqhLZkhqf+bUn7N0g+fyuEYbAm+i+rCyNTiy
-         byHAPA7QHGHFCQy/LQwOnuCscLNyY2Lim4+NXFagYmnFdprNF/16VU9C4Mxj7yjAkWsF
-         j2pBOqQOEWnb2ChgTl/k5zonLng7e+W0E8f80fHnNn7w73yMTbPHCeBuKZUu+zJ3S0r3
-         ckGAGZ2uNi4Hnd3AEZXrKQV4lnc51CK897nCVQg+Si8nb6twy38H9S9DfEKV2inL4Wbm
-         s8SigfMpE8ThJzFmWfRvvCq9x89F3ZH4XI1oksiwZP46JnAdvdz+ZTuuNtQVcXm/tXYi
-         C7Mg==
-X-Gm-Message-State: AOJu0YzHp3yYz3OLaAKt9fN8s6al3ba61irn96Jca5s7Fasg2BjWTbu/
-	yDTVkTyryFzxY41MmOatUq444ON98S/tf7R2h7HCGGTXsBaOEVN2JlapyAcHRvS47tMMrywnDzc
-	kURCI
-X-Gm-Gg: ASbGncuFiiatXqM2w4iQO4xfzWrnB6ToiTs8qFZM3/46coLstbQCar/HAfLm5Yd98Zm
-	Gvgrv8PQ7kKpeRt0P46LcsPJuAtD2VAoRovD4EyvHRmPqHPr7mFSmSBBwVousZAHIa0h4BX+52a
-	jBnb9HmCO1O2k6wC4WeHL1OB3TO3c+6tCJ8Ws21SR1+cu6JuQgzkm3Q8lxpX89/LbR+8JxSbSmE
-	m8cDZrEOr18SYD7LljnLQvMOmnikeW3QEkpHODfxIZeY3kJhX5dnzgFtB7YmweIwsv3nb8PxHL5
-	qTcKq58Omw3qzDO1GTLixrGCX0AaAl9ouSVHe28lMD9ZCLPejZPPLuzRVfUKfk50WI4A0Tb8W7E
-	zZy8witUOEhnfRtK4k+vOCbjU06A=
-X-Google-Smtp-Source: AGHT+IErURa0Xlnp2EqAvu9MT0KYK+YicwHUY5MOLIbTG3b7xCaO3SGy7MLRfklR+AK/4jewEFfrgw==
-X-Received: by 2002:a05:600c:3155:b0:456:21d2:c6f7 with SMTP id 5b1f17b1804b1-45b517b99ecmr101326305e9.23.1756107321591;
-        Mon, 25 Aug 2025 00:35:21 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b5748e743sm99362065e9.17.2025.08.25.00.35.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Aug 2025 00:35:21 -0700 (PDT)
-Date: Mon, 25 Aug 2025 10:35:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-	Yannick Fertre <yannick.fertre@foss.st.com>,
-	Philippe Cornu <philippe.cornu@foss.st.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/stm: ltdc: unify log system
-Message-ID: <202508250637.nLxtkS26-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SJ4aDrtg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lPQ1wO40";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KXo5Fj2W";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VRa84Bg+"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D3E56211F5;
+	Mon, 25 Aug 2025 07:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756107655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=CrXs71rS6n9RGS4r0t0K3B7fNTdcgXj7C+tduoQYygs=;
+	b=SJ4aDrtgMqDZ6jRWPP2oa2DjxYD19sLRAuK8L0z2LVSYGcAkKgP6vlANzXcz8k66oG/a9M
+	P8NzBfxuZ8BGpq4s8EFX5vgcA2TtlbVZZAGi6ClXhKofnlYzGXtPEdUUKbskkbGY6Lwnh7
+	qEAumJKkhstDs2z3obo1ZqwLhEpEdvw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756107655;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=CrXs71rS6n9RGS4r0t0K3B7fNTdcgXj7C+tduoQYygs=;
+	b=lPQ1wO40+Ge9igiE7wClk1bdbB8JBpC3XZ7L1ZK9l7lxu8oYB3Tf0zarpMJIR1MB/8rE8s
+	qxN4RHSZ306nCMCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KXo5Fj2W;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=VRa84Bg+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756107654; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=CrXs71rS6n9RGS4r0t0K3B7fNTdcgXj7C+tduoQYygs=;
+	b=KXo5Fj2WzInSiRNZaGvAoIaoLLSaR3T+Rml8gWx/LH3GueQAaUlHXfINQNGVwYHW9c0jrG
+	wAPaDtuNVPa3J5vnzsNOLUFy4gipnIWNj9dpUxT3qk9BoV4UW67oygEXIUklphKy9XwINR
+	gYsjP8xIYM6bmQPGLU2/4B4qYvh+izs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756107654;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=CrXs71rS6n9RGS4r0t0K3B7fNTdcgXj7C+tduoQYygs=;
+	b=VRa84Bg+LxkK6dIoCB8pryKXze9M3Tit3b2kVNU3ZJP+JeEwA3lsw2V6t8JuL+Yaok1696
+	kfyH+63nhP3jCNBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9D0341368F;
+	Mon, 25 Aug 2025 07:40:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pb9OGoQTrGiPNgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Mon, 25 Aug 2025 07:40:52 +0000
+Message-ID: <f78cf9e0-6ce2-4366-9dfc-670b9e03d0c0@suse.de>
+Date: Mon, 25 Aug 2025 09:40:51 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250821130356.883553-1-raphael.gallais-pou@foss.st.com>
-Message-ID: <20250825073517.iRU8l17w61FjvnJMKVrD15S-RnsF8F7DbDOCHYFU3o8@z>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/6] drm/ast: Put AST_DRAM_ constants into enum
+ ast_dram_layout
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ jfalempe@redhat.com, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+References: <202508240748.TUAvbluX-lkp@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <202508240748.TUAvbluX-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: D3E56211F5
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[linaro.org,lists.linux.dev,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:dkim,suse.de:mid];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -4.51
 
-Hi Raphael,
+Hi
 
-kernel test robot noticed the following build warnings:
+Am 25.08.25 um 09:26 schrieb Dan Carpenter:
+> Hi Thomas,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-ast-Do-not-print-DRAM-info/20250822-213333
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+> patch link:    https://lore.kernel.org/r/20250822132846.25376-7-tzimmermann%40suse.de
+> patch subject: [PATCH 6/6] drm/ast: Put AST_DRAM_ constants into enum ast_dram_layout
+> config: i386-randconfig-141-20250823 (https://download.01.org/0day-ci/archive/20250824/202508240748.TUAvbluX-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202508240748.TUAvbluX-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/gpu/drm/ast/ast_2100.c:63 ast_2100_get_dram_layout_p2a() error: uninitialized symbol 'dram_layout'.
+>
+> vim +/dram_layout +63 drivers/gpu/drm/ast/ast_2100.c
+>
+> 334d62edac4c5b Thomas Zimmermann 2025-08-22  38  static enum ast_dram_layout ast_2100_get_dram_layout_p2a(struct ast_device *ast)
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  39  {
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  40  	u32 mcr_cfg;
+> 334d62edac4c5b Thomas Zimmermann 2025-08-22  41  	enum ast_dram_layout dram_layout;
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  42
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  43  	ast_write32(ast, 0xf004, 0x1e6e0000);
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  44  	ast_write32(ast, 0xf000, 0x1);
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  45  	mcr_cfg = ast_read32(ast, 0x10004);
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  46
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  47  	switch (mcr_cfg & 0x0c) {
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  48  	case 0:
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  49  	case 4:
+> 334d62edac4c5b Thomas Zimmermann 2025-08-22  50  		dram_layout = AST_DRAM_512Mx16;
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  51  		break;
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  52  	case 8:
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  53  		if (mcr_cfg & 0x40)
+> 334d62edac4c5b Thomas Zimmermann 2025-08-22  54  			dram_layout = AST_DRAM_1Gx16;
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  55  		else
+> 334d62edac4c5b Thomas Zimmermann 2025-08-22  56  			dram_layout = AST_DRAM_512Mx32;
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  57  		break;
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  58  	case 0xc:
+> 334d62edac4c5b Thomas Zimmermann 2025-08-22  59  		dram_layout = AST_DRAM_1Gx32;
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  60  		break;
+>
+> Should there be a default case?
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks for reporting. That only happens now with the values being an 
+enum type. The first case (512Mx16) would be the default. Will be fixed 
+in the next iteration.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Raphael-Gallais-Pou/drm-stm-ltdc-unify-log-system/20250821-210930
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20250821130356.883553-1-raphael.gallais-pou%40foss.st.com
-patch subject: [PATCH] drm/stm: ltdc: unify log system
-config: arm-randconfig-r072-20250824 (https://download.01.org/0day-ci/archive/20250825/202508250637.nLxtkS26-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+Best regards
+Thomas
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508250637.nLxtkS26-lkp@intel.com/
-
-New smatch warnings:
-drivers/gpu/drm/stm/ltdc.c:1150 ltdc_crtc_set_crc_source() warn: variable dereferenced before check 'crtc' (see line 1148)
-drivers/gpu/drm/stm/ltdc.c:1174 ltdc_crtc_verify_crc_source() warn: variable dereferenced before check 'crtc' (see line 1172)
-
-vim +/crtc +1150 drivers/gpu/drm/stm/ltdc.c
-
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1143  static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1144  {
-898a9e3f56db98 Raphael Gallais-Pou 2023-05-15  1145  	struct ltdc_device *ldev;
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1146  	int ret;
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1147  
-fa2b2390600532 Raphael Gallais-Pou 2025-08-21 @1148  	drm_dbg_driver(crtc->dev, "\n");
-                                                                       ^^^^^^^^^
-Dereference.  A lot of the time people would suggest to delete these
-types of printks and use ftrace instead.
-
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1149  
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11 @1150  	if (!crtc)
-                                                            ^^^^^
-Checked too late.
-
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1151  		return -ENODEV;
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1152  
-898a9e3f56db98 Raphael Gallais-Pou 2023-05-15  1153  	ldev = crtc_to_ltdc(crtc);
-898a9e3f56db98 Raphael Gallais-Pou 2023-05-15  1154  
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1155  	if (source && strcmp(source, "auto") == 0) {
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1156  		ldev->crc_active = true;
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1157  		ret = regmap_set_bits(ldev->regmap, LTDC_GCR, GCR_CRCEN);
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1158  	} else if (!source) {
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1159  		ldev->crc_active = false;
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1160  		ret = regmap_clear_bits(ldev->regmap, LTDC_GCR, GCR_CRCEN);
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1161  	} else {
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1162  		ret = -EINVAL;
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1163  	}
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1164  
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1165  	ldev->crc_skip_count = 0;
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1166  	return ret;
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1167  }
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1168  
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1169  static int ltdc_crtc_verify_crc_source(struct drm_crtc *crtc,
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1170  				       const char *source, size_t *values_cnt)
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1171  {
-fa2b2390600532 Raphael Gallais-Pou 2025-08-21 @1172  	drm_dbg_driver(crtc->dev, "\n");
-                                                                        ^^^^^^^^
-Dereference
-
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1173  
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11 @1174  	if (!crtc)
-                                                            ^^^^^
-Too late.
-
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1175  		return -ENODEV;
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1176  
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1177  	if (source && strcmp(source, "auto") != 0) {
-fa2b2390600532 Raphael Gallais-Pou 2025-08-21  1178  		drm_dbg_driver(crtc->dev, "Unknown CRC source %s for %s\n",
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1179  			       source, crtc->name);
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1180  		return -EINVAL;
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1181  	}
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1182  
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1183  	*values_cnt = 1;
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1184  	return 0;
-79b44684a14e36 Raphael Gallais-Pou 2022-02-11  1185  }
+>
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  61  	}
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  62
+> 334d62edac4c5b Thomas Zimmermann 2025-08-22 @63  	return dram_layout;
+> b59465efc7cb88 Thomas Zimmermann 2025-08-22  64  }
+>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
 
