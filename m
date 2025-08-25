@@ -1,232 +1,133 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66F1296159
-	for <oe-kbuild@lists.linux.dev>; Mon, 25 Aug 2025 07:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC291F4CBC
+	for <oe-kbuild@lists.linux.dev>; Mon, 25 Aug 2025 09:42:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756107658; cv=none; b=VO6GOMvexNF9tvgcaivmpIbsOzhBwbaTCueclurzwj9o9ofJODSmzQJuBJCVBxihe1/qb8cdulyFBe1EOJ3OxShL5biLcFbRSwUh+ONTYnMFfNYjfRvsHqCpoQd0CBY2svU1JcgVxeW+icJxRF2zTUfWq3iJFxH7Ce2f3lJDFYw=
+	t=1756114976; cv=none; b=TEZJpwmOuFEV3h+GVYn70i9X0MpxEtFK3GbJ8jJKIFOeCzXtE4htMvasXsCZsnMF9kau4g1W6Zk/B3N5U5L+1nt7akYHh0soohOtP54U4ls8/OO0DXvmDtwLfBwctdhed+DobGysBD3Nc7HcXLBitNerYL00W7RJVGnwylgFfV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756107658; c=relaxed/simple;
-	bh=wVcm/m7SCrOAdR2Ih+rlyl5JyPv+Pjbe4NSgsW1nZws=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hawdRnGk2HFRAICg8083R/vcsusvB4bc3exkZHJzu1PXscbPoCDqVsVFKYFgdD+/FLINhR8slMSguLTJ1CVVRwdAIZd8nYUYWqqcI/QIq0AgWiI5+Pa/rWize+F0xtIzOluaxFdEduvVNm7+tOrzEQYo94pEg55xgEGe5qwn/78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SJ4aDrtg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lPQ1wO40; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KXo5Fj2W; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VRa84Bg+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1756114976; c=relaxed/simple;
+	bh=+AkKs6lCy+9j27933p1mPzWTrunZee+lc9m6baD63n0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FMXN8EGYdy26Fg5E4DBdjalZ16GCu/NbutvzbjDwNmFokZKPbTeJfLJWUwYau13nV7nuVTag+JZV/avbdgOt5cQrvzD7AvWZnkQ4JMPi74D95jKQ9yFW4FXml0m99J9tbIqmY0YZ6mjPnLypR+zGRDimq4+1RnCGqU8W+JIsetg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jJEh3/HF; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SJ4aDrtg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lPQ1wO40";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KXo5Fj2W";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VRa84Bg+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D3E56211F5;
-	Mon, 25 Aug 2025 07:40:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756107655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=CrXs71rS6n9RGS4r0t0K3B7fNTdcgXj7C+tduoQYygs=;
-	b=SJ4aDrtgMqDZ6jRWPP2oa2DjxYD19sLRAuK8L0z2LVSYGcAkKgP6vlANzXcz8k66oG/a9M
-	P8NzBfxuZ8BGpq4s8EFX5vgcA2TtlbVZZAGi6ClXhKofnlYzGXtPEdUUKbskkbGY6Lwnh7
-	qEAumJKkhstDs2z3obo1ZqwLhEpEdvw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756107655;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=CrXs71rS6n9RGS4r0t0K3B7fNTdcgXj7C+tduoQYygs=;
-	b=lPQ1wO40+Ge9igiE7wClk1bdbB8JBpC3XZ7L1ZK9l7lxu8oYB3Tf0zarpMJIR1MB/8rE8s
-	qxN4RHSZ306nCMCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KXo5Fj2W;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=VRa84Bg+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756107654; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=CrXs71rS6n9RGS4r0t0K3B7fNTdcgXj7C+tduoQYygs=;
-	b=KXo5Fj2WzInSiRNZaGvAoIaoLLSaR3T+Rml8gWx/LH3GueQAaUlHXfINQNGVwYHW9c0jrG
-	wAPaDtuNVPa3J5vnzsNOLUFy4gipnIWNj9dpUxT3qk9BoV4UW67oygEXIUklphKy9XwINR
-	gYsjP8xIYM6bmQPGLU2/4B4qYvh+izs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756107654;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=CrXs71rS6n9RGS4r0t0K3B7fNTdcgXj7C+tduoQYygs=;
-	b=VRa84Bg+LxkK6dIoCB8pryKXze9M3Tit3b2kVNU3ZJP+JeEwA3lsw2V6t8JuL+Yaok1696
-	kfyH+63nhP3jCNBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9D0341368F;
-	Mon, 25 Aug 2025 07:40:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pb9OGoQTrGiPNgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 25 Aug 2025 07:40:52 +0000
-Message-ID: <f78cf9e0-6ce2-4366-9dfc-670b9e03d0c0@suse.de>
-Date: Mon, 25 Aug 2025 09:40:51 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jJEh3/HF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756114974; x=1787650974;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+AkKs6lCy+9j27933p1mPzWTrunZee+lc9m6baD63n0=;
+  b=jJEh3/HFbfXxzaxg6NM5ROpNq5pczgYAer90o6Q9EaSWu6zz4hK2BZ3H
+   OCGQF1O2XqsOxdqbKrouB3DgsVlGiVgwywf64V6Wnr5/SeXBpycTGqKBK
+   0ngQmUHL008p7J1yR11oMMyUibiiyDX+suTWvTDEaHjgqJSCyxjF6r4/0
+   gHS9gHZGmuO/BpH2pVaLB0r9iquBJolmfKQiDLQB9lH4dcz13URhz+Vac
+   3hRomNzRUe0NJZZ7v4rFpYTzrFLOLa7EQYEUKVTkSehgTI7ek60Dr1bbR
+   Y9QV9RsaWE4pmNNuxT6K+BH7GgUb247NIQF/hyhcEjIyQaWbOk47IE/71
+   g==;
+X-CSE-ConnectionGUID: 2j5hrbMASmmKO0U7sHqw8A==
+X-CSE-MsgGUID: yPP/OsPMT2GZTPYiAKZrWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="69694993"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="69694993"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 02:42:53 -0700
+X-CSE-ConnectionGUID: j0C64mS+TcGZ14OFpVZs/w==
+X-CSE-MsgGUID: x4HyPw0ySwOzhDM8bn0LUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="169641371"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 25 Aug 2025 02:42:52 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uqTiX-000NZn-1v;
+	Mon, 25 Aug 2025 09:42:37 +0000
+Date: Mon, 25 Aug 2025 17:41:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [openeuler:OLK-6.6 2720/2720] mm/vmscan.o: warning: objtool:
+ __remove_mapping+0x64: unreachable instruction
+Message-ID: <202508251755.PMQxcIFm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] drm/ast: Put AST_DRAM_ constants into enum
- ast_dram_layout
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- jfalempe@redhat.com, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-References: <202508240748.TUAvbluX-lkp@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <202508240748.TUAvbluX-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: D3E56211F5
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[linaro.org,lists.linux.dev,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:dkim,suse.de:mid];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi
+:::::: 
+:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: 
 
-Am 25.08.25 um 09:26 schrieb Dan Carpenter:
-> Hi Thomas,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-ast-Do-not-print-DRAM-info/20250822-213333
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-> patch link:    https://lore.kernel.org/r/20250822132846.25376-7-tzimmermann%40suse.de
-> patch subject: [PATCH 6/6] drm/ast: Put AST_DRAM_ constants into enum ast_dram_layout
-> config: i386-randconfig-141-20250823 (https://download.01.org/0day-ci/archive/20250824/202508240748.TUAvbluX-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202508240748.TUAvbluX-lkp@intel.com/
->
-> smatch warnings:
-> drivers/gpu/drm/ast/ast_2100.c:63 ast_2100_get_dram_layout_p2a() error: uninitialized symbol 'dram_layout'.
->
-> vim +/dram_layout +63 drivers/gpu/drm/ast/ast_2100.c
->
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22  38  static enum ast_dram_layout ast_2100_get_dram_layout_p2a(struct ast_device *ast)
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  39  {
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  40  	u32 mcr_cfg;
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22  41  	enum ast_dram_layout dram_layout;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  42
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  43  	ast_write32(ast, 0xf004, 0x1e6e0000);
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  44  	ast_write32(ast, 0xf000, 0x1);
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  45  	mcr_cfg = ast_read32(ast, 0x10004);
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  46
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  47  	switch (mcr_cfg & 0x0c) {
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  48  	case 0:
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  49  	case 4:
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22  50  		dram_layout = AST_DRAM_512Mx16;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  51  		break;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  52  	case 8:
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  53  		if (mcr_cfg & 0x40)
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22  54  			dram_layout = AST_DRAM_1Gx16;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  55  		else
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22  56  			dram_layout = AST_DRAM_512Mx32;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  57  		break;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  58  	case 0xc:
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22  59  		dram_layout = AST_DRAM_1Gx32;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  60  		break;
->
-> Should there be a default case?
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: kernel@openeuler.org
 
-Thanks for reporting. That only happens now with the values being an 
-enum type. The first case (512Mx16) would be the default. Will be fixed 
-in the next iteration.
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   8c34eb7d35ef31e5ca62e2eecd8688e40f888200
+commit: 7984eaba9ede77910543832d6e19af3f84f49d7c [2720/2720] LoongArch: Add ORC stack unwinder support
+:::::: branch date: 74 minutes ago
+:::::: commit date: 10 months ago
+config: loongarch-randconfig-001-20250825 (https://download.01.org/0day-ci/archive/20250825/202508251755.PMQxcIFm-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250825/202508251755.PMQxcIFm-lkp@intel.com/reproduce)
 
-Best regards
-Thomas
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202508251755.PMQxcIFm-lkp@intel.com/
 
->
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  61  	}
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  62
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22 @63  	return dram_layout;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  64  }
->
+All warnings (new ones prefixed by >>):
+
+>> mm/vmscan.o: warning: objtool: __remove_mapping+0x64: unreachable instruction
+--
+>> mm/slub.o: warning: objtool: early_kmem_cache_node_alloc.constprop.0+0x40: unreachable instruction
+>> mm/slub.o: warning: objtool: deactivate_slab+0x1dc: unreachable instruction
+>> mm/slub.o: warning: objtool: __slab_free+0x110: unreachable instruction
+--
+>> mm/page_reporting.o: warning: objtool: page_reporting_cycle+0x1bc: unreachable instruction
+--
+>> mm/percpu.o: warning: objtool: pcpu_build_alloc_info+0x430: unreachable instruction
+>> mm/percpu.o: warning: objtool: pcpu_setup_first_chunk+0xb0: unreachable instruction
+--
+>> mm/khugepaged.o: warning: objtool: collapse_huge_page+0x478: unreachable instruction
+>> mm/khugepaged.o: warning: objtool: madvise_collapse+0x8c: unreachable instruction
+--
+>> mm/truncate.o: warning: objtool: invalidate_inode_pages2_range+0x2f8: unreachable instruction
+--
+>> mm/gup.o: warning: objtool: get_user_pages_remote+0x2b0: unreachable instruction
+>> mm/gup.o: warning: objtool: get_user_pages+0x1dc: unreachable instruction
+>> mm/gup.o: warning: objtool: get_user_pages_unlocked+0x23c: unreachable instruction
+>> mm/gup.o: warning: objtool: __gup_longterm_locked+0x7ec: unreachable instruction
+>> mm/gup.o: warning: objtool: faultin_page_range+0x22c: unreachable instruction
+--
+>> mm/vmalloc.o: warning: objtool: vmap_range_noflush.constprop.0+0x78: unreachable instruction
+>> mm/vmalloc.o: warning: objtool: alloc_vmap_area+0x7a4: unreachable instruction
+>> mm/vmalloc.o: warning: objtool: pcpu_get_vm_areas+0xd4: unreachable instruction
+>> mm/vmalloc.o: warning: objtool: vb_free+0x50: unreachable instruction
+>> mm/vmalloc.o: warning: objtool: vm_unmap_ram+0x4c: unreachable instruction
+>> mm/vmalloc.o: warning: objtool: vfree+0xa4: unreachable instruction
+>> mm/vmalloc.o: warning: objtool: vm_area_add_early+0x64: unreachable instruction
+>> mm/vmalloc.o: warning: objtool: vm_area_register_early+0xa4: unreachable instruction
+--
+>> mm/readahead.o: warning: objtool: read_pages+0x2d0: unreachable instruction
+--
+>> mm/memory.o: warning: objtool: vm_insert_pages+0x150: unreachable instruction
+>> mm/memory.o: warning: objtool: remap_pfn_range_internal+0x128: unreachable instruction
+>> mm/memory.o: warning: objtool: vm_insert_page+0x198: unreachable instruction
+>> mm/memory.o: warning: objtool: vmf_insert_pfn_prot+0x68: unreachable instruction
+--
+>> mm/mmap.o: warning: objtool: mm_drop_all_locks+0xfc: unreachable instruction
+>> mm/mmap.o: warning: objtool: mm_take_all_locks+0x260: unreachable instruction
+..
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
