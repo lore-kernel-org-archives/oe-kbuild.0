@@ -1,111 +1,231 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E14C1DFCE
-	for <oe-kbuild@lists.linux.dev>; Tue, 26 Aug 2025 21:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D990521ADA4
+	for <oe-kbuild@lists.linux.dev>; Tue, 26 Aug 2025 22:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756242516; cv=none; b=kFNllbDzP7ZjPYd7e3hKLuF/MqKkMpl/evWodMTxGa+PquFYhUc+V6DwWFBJ5KKTIqmI3pGRbJEZ1d6vz73NyeVY83w9n/cGankjXjdHx9U9yUVrvlSZiDGa7KKDKp+lq7ytkcA+4uazvPvcSSZBvgwgD7N7fOOBNz2lfaIK54k=
+	t=1756246142; cv=none; b=LRm7HOPBh6t45uTioBCdfHv6ZtAs1EACNTcid4p7Kl6q8iMbei7lfABoHBGVULXKd1nwwNXr8MRVPfb25AVdDfhwueN2jmKtAdhgKbKCJ98oUXda0gpxDopatYtBYxkW+csNQfpeesIUPI9kNj7Xjs4JH7cVlEDkJNeWlc8NFxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756242516; c=relaxed/simple;
-	bh=tmcfkDuzE+kRtxfLVheBlhdfNADZ/zzwTiMl6Ol/yAM=;
+	s=arc-20240116; t=1756246142; c=relaxed/simple;
+	bh=O906XxgDUWdD1k4/m9RkdOvoANEqYCpbZt2oSxTHvfk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BJWNhg/g/WYyO1joWiEWWE+XcqWXFA4JOFLCU9XE4gyEowXm8kw4IbyfMMM8DLw5kAvlCqqyqpNxDcSdr7iv9Qzmpzp9Z+bBU12gbWVaxqVfj802n9JP3Ho6WLlFsurP1Yc5lmA5Kisr7mHukZkEqjPcMQTRYU7b29005qtB0Es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XgOWXwSa; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=ozUlpXv/GLuxkjMrZbLSkuostsbg/m3P/i6CZAs4wEjlGENYxlddqhi4embL586k5HCu97aTHiflWT/8cYIMErJUi57omX1D84W4S8/3btGGgVmc9SrqdH0yp32+TnJBbX94+/wLWUXjvsijF+Ia+swh0M2B5W9RoGWbK95+kTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+H+JQ2d; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XgOWXwSa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+H+JQ2d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756242514; x=1787778514;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tmcfkDuzE+kRtxfLVheBlhdfNADZ/zzwTiMl6Ol/yAM=;
-  b=XgOWXwSasRDqpNKG0NtH6gHErkaT/QTNkb/QJyhQb3yqcDIXVycshZrK
-   M5Ggg38yPTAMGoH5iMn6qapUGFr4kTZJ5cK5FgabfTM3WpOYilxpVbVj4
-   /tYMNNR6d42s4mMs9Y9KT56mXzGnoEtsR+P1zBpYgKLgWCqCF23MQxz8t
-   T2C8d/sMxr5HyshoGOnPyVCUDjWqtolm6K98L19ydqwoX0YC6MDZJ92VG
-   XsR+spjUp81SuNX8jHxGWQeztrBVrg/c5hJjQY9U66Sw82GKHrn4NBpq1
-   RO3+LUnweIvJJ6gpRrXMEZypm4G21LSjfYdXM3kmykj5K/UMmZ3CP/xxJ
+  t=1756246141; x=1787782141;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=O906XxgDUWdD1k4/m9RkdOvoANEqYCpbZt2oSxTHvfk=;
+  b=S+H+JQ2dwAaRjaL3mj4wQ7ejUFYhe5d4l8gFk1psVzE9yccTOxIJt7Hv
+   1xkvkc5NXJob7ErT08bXDiCdEU73L4y7LtsCU+F+V+Af6rVu+ojbAReSw
+   M2u0fV+zxT4UbAo8ZT7nzZ1YGmVsYNALSkBLPKabQ9jpm/IOuFb9IOw0M
+   Zkv7CjZHrbq3YKZE3N9ZNLzuF8/Xv4x/pji2ck8z5xcGhV+9Mzf/uCeiZ
+   di6y9qAMqQ3rFLE33+hKun2xNXyjmbzkD6I5EmlD+kGAg+p6d8XXEdqRG
+   4yT6JmB02LoCFhc8fehmHuV2cCTMV+plaMXJj1sm+bFlx61jCeoO5HVug
    w==;
-X-CSE-ConnectionGUID: aphWIi6VTlKpTN2MbFAqnA==
-X-CSE-MsgGUID: /8Je/ePWQ7qSPYfWv9qTeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58410964"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58410964"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 14:08:34 -0700
-X-CSE-ConnectionGUID: F49zoW0GTsCnquaito2pjQ==
-X-CSE-MsgGUID: CS/Jvc/fTL+MlkxAQdrX4A==
+X-CSE-ConnectionGUID: fsJYh1+GTeeuPdFJW2h0Ig==
+X-CSE-MsgGUID: /SdavQ84Qai741v2w6fZoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="61130412"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="61130412"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 15:09:00 -0700
+X-CSE-ConnectionGUID: pGUS2XamTY6Lbs1T5D1gfw==
+X-CSE-MsgGUID: bMejCq6ER2aytfjqUzBgxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="169184781"
+   d="scan'208";a="170060785"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Aug 2025 14:08:33 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 26 Aug 2025 15:08:56 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ur0tN-000SOh-27;
-	Tue, 26 Aug 2025 21:07:52 +0000
-Date: Wed, 27 Aug 2025 05:06:58 +0800
+	id 1ur1qY-000SRb-0p;
+	Tue, 26 Aug 2025 22:08:54 +0000
+Date: Wed, 27 Aug 2025 06:08:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:openEuler-1.0-LTS 1764/1764]
- drivers/scsi/sssraid/sssraid_os.c:2107:8-16: WARNING: please use sysfs_emit
- or sysfs_emit_at
-Message-ID: <202508270558.ibI5rpIF-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [sailus-media-tree:cleanup 30/54] drivers/media/i2c/imx214.c:1109
+ imx214_ctrls_init() error: we previously assumed 'imx214->link_freq' could
+ be null (see line 1017)
+Message-ID: <202508270603.MDqIVFss-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
+CC: linux-media@vger.kernel.org
+TO: "André Apitzsch" <git@apitzsch.eu>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   9f15a7fad9b673525b3e0334f90c7f7d60da06fb
-commit: 2e2a4edd9d4a725c5474dc278b090913d9b5bfd5 [1764/1764] SCSI: SSSRAID: Support 3SNIC 3S5XX serial RAID/HBA  controllers
-:::::: branch date: 17 hours ago
-:::::: commit date: 1 year, 10 months ago
-config: x86_64-randconfig-101-20250827 (https://download.01.org/0day-ci/archive/20250827/202508270558.ibI5rpIF-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   git://linuxtv.org/sailus/media_tree.git cleanup
+head:   9a8e7210e8e21ebba263affd0d7481ef0d6c323e
+commit: 7407c0acdb2ff0c1e3a962543db7d775b3b611c8 [30/54] media: i2c: imx214: Move imx214_pll_update to imx214_ctrls_init
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-141-20250827 (https://download.01.org/0day-ci/archive/20250827/202508270603.MDqIVFss-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202508270558.ibI5rpIF-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202508270603.MDqIVFss-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/scsi/sssraid/sssraid_os.c:2107:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
-   drivers/scsi/sssraid/sssraid_os.c:2050:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
-   drivers/scsi/sssraid/sssraid_os.c:2018:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
-   drivers/scsi/sssraid/sssraid_os.c:2063:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
-   drivers/scsi/sssraid/sssraid_os.c:2034:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
-   drivers/scsi/sssraid/sssraid_os.c:2301:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
-   drivers/scsi/sssraid/sssraid_os.c:2072:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
-   drivers/scsi/sssraid/sssraid_os.c:2098:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
-   drivers/scsi/sssraid/sssraid_os.c:2208:9-17: WARNING: please use sysfs_emit or sysfs_emit_at
-   drivers/scsi/sssraid/sssraid_os.c:2272:9-17: WARNING: please use sysfs_emit or sysfs_emit_at
-   drivers/scsi/sssraid/sssraid_os.c:2238:9-17: WARNING: please use sysfs_emit or sysfs_emit_at
+smatch warnings:
+drivers/media/i2c/imx214.c:1109 imx214_ctrls_init() error: we previously assumed 'imx214->link_freq' could be null (see line 1017)
 
-vim +2107 drivers/scsi/sssraid/sssraid_os.c
+vim +1109 drivers/media/i2c/imx214.c
 
-2e2a4edd9d4a72 Steven Song 2023-11-07  2100  
-2e2a4edd9d4a72 Steven Song 2023-11-07  2101  static ssize_t can_queue_count_show(struct device *dev,
-2e2a4edd9d4a72 Steven Song 2023-11-07  2102  				    struct device_attribute *attr, char *buf)
-2e2a4edd9d4a72 Steven Song 2023-11-07  2103  {
-2e2a4edd9d4a72 Steven Song 2023-11-07  2104  	struct Scsi_Host *shost = class_to_shost(dev);
-2e2a4edd9d4a72 Steven Song 2023-11-07  2105  	struct blk_mq_tag_set *tag_set = &shost->tag_set;
-2e2a4edd9d4a72 Steven Song 2023-11-07  2106  
-2e2a4edd9d4a72 Steven Song 2023-11-07 @2107  	return snprintf(buf, 20, "%d\n", tag_set->nr_hw_queues + 1);
-2e2a4edd9d4a72 Steven Song 2023-11-07  2108  }
-2e2a4edd9d4a72 Steven Song 2023-11-07  2109  
+7407c0acdb2ff0 André Apitzsch 2025-06-30   986  
+4f302d004bd0fc André Apitzsch 2023-12-06   987  static int imx214_ctrls_init(struct imx214 *imx214)
+4f302d004bd0fc André Apitzsch 2023-12-06   988  {
+4f302d004bd0fc André Apitzsch 2023-12-06   989  	static const struct v4l2_area unit_size = {
+4f302d004bd0fc André Apitzsch 2023-12-06   990  		.width = 1120,
+4f302d004bd0fc André Apitzsch 2023-12-06   991  		.height = 1120,
+4f302d004bd0fc André Apitzsch 2023-12-06   992  	};
+0b57fcf81d32b8 André Apitzsch 2024-12-20   993  	const struct imx214_mode *mode = &imx214_modes[0];
+2ae9f9780d8097 André Apitzsch 2023-12-06   994  	struct v4l2_fwnode_device_properties props;
+4f302d004bd0fc André Apitzsch 2023-12-06   995  	struct v4l2_ctrl_handler *ctrl_hdlr;
+0b57fcf81d32b8 André Apitzsch 2024-12-20   996  	int exposure_max, exposure_def;
+0b57fcf81d32b8 André Apitzsch 2024-12-20   997  	int hblank;
+aac37a3a763d1f André Apitzsch 2024-12-20   998  	int i, ret;
+4f302d004bd0fc André Apitzsch 2023-12-06   999  
+2ae9f9780d8097 André Apitzsch 2023-12-06  1000  	ret = v4l2_fwnode_device_parse(imx214->dev, &props);
+2ae9f9780d8097 André Apitzsch 2023-12-06  1001  	if (ret < 0)
+2ae9f9780d8097 André Apitzsch 2023-12-06  1002  		return ret;
+2ae9f9780d8097 André Apitzsch 2023-12-06  1003  
+4f302d004bd0fc André Apitzsch 2023-12-06  1004  	ctrl_hdlr = &imx214->ctrls;
+aac37a3a763d1f André Apitzsch 2024-12-20  1005  	ret = v4l2_ctrl_handler_init(&imx214->ctrls, 13);
+4f302d004bd0fc André Apitzsch 2023-12-06  1006  	if (ret)
+4f302d004bd0fc André Apitzsch 2023-12-06  1007  		return ret;
+4f302d004bd0fc André Apitzsch 2023-12-06  1008  
+b9b359662952ff André Apitzsch 2025-05-24  1009  	imx214->pixel_rate =
+b9b359662952ff André Apitzsch 2025-05-24  1010  		v4l2_ctrl_new_std(ctrl_hdlr, NULL, V4L2_CID_PIXEL_RATE, 1,
+b9b359662952ff André Apitzsch 2025-05-24  1011  				  INT_MAX, 1, 1);
+4f302d004bd0fc André Apitzsch 2023-12-06  1012  
+4f302d004bd0fc André Apitzsch 2023-12-06  1013  	imx214->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, NULL,
+4f302d004bd0fc André Apitzsch 2023-12-06  1014  						   V4L2_CID_LINK_FREQ,
+b9b359662952ff André Apitzsch 2025-05-24  1015  						   imx214->bus_cfg.nr_of_link_frequencies - 1,
+b9b359662952ff André Apitzsch 2025-05-24  1016  						   0, imx214->bus_cfg.link_frequencies);
+4f302d004bd0fc André Apitzsch 2023-12-06 @1017  	if (imx214->link_freq)
+4f302d004bd0fc André Apitzsch 2023-12-06  1018  		imx214->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+4f302d004bd0fc André Apitzsch 2023-12-06  1019  
+4f302d004bd0fc André Apitzsch 2023-12-06  1020  	/*
+4f302d004bd0fc André Apitzsch 2023-12-06  1021  	 * WARNING!
+4f302d004bd0fc André Apitzsch 2023-12-06  1022  	 * Values obtained reverse engineering blobs and/or devices.
+4f302d004bd0fc André Apitzsch 2023-12-06  1023  	 * Ranges and functionality might be wrong.
+4f302d004bd0fc André Apitzsch 2023-12-06  1024  	 *
+4f302d004bd0fc André Apitzsch 2023-12-06  1025  	 * Sony, please release some register set documentation for the
+4f302d004bd0fc André Apitzsch 2023-12-06  1026  	 * device.
+4f302d004bd0fc André Apitzsch 2023-12-06  1027  	 *
+4f302d004bd0fc André Apitzsch 2023-12-06  1028  	 * Yours sincerely, Ricardo.
+4f302d004bd0fc André Apitzsch 2023-12-06  1029  	 */
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1030  
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1031  	/* Initial vblank/hblank/exposure parameters based on current mode */
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1032  	imx214->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1033  					   V4L2_CID_VBLANK, IMX214_VBLANK_MIN,
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1034  					   IMX214_VTS_MAX - mode->height, 2,
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1035  					   mode->vts_def - mode->height);
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1036  
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1037  	hblank = IMX214_PPL_DEFAULT - mode->width;
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1038  	imx214->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1039  					   V4L2_CID_HBLANK, hblank, hblank,
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1040  					   1, hblank);
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1041  	if (imx214->hblank)
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1042  		imx214->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1043  
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1044  	exposure_max = mode->vts_def - IMX214_EXPOSURE_OFFSET;
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1045  	exposure_def = min(exposure_max, IMX214_EXPOSURE_DEFAULT);
+4f302d004bd0fc André Apitzsch 2023-12-06  1046  	imx214->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
+4f302d004bd0fc André Apitzsch 2023-12-06  1047  					     V4L2_CID_EXPOSURE,
+4f302d004bd0fc André Apitzsch 2023-12-06  1048  					     IMX214_EXPOSURE_MIN,
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1049  					     exposure_max,
+4f302d004bd0fc André Apitzsch 2023-12-06  1050  					     IMX214_EXPOSURE_STEP,
+0b57fcf81d32b8 André Apitzsch 2024-12-20  1051  					     exposure_def);
+4f302d004bd0fc André Apitzsch 2023-12-06  1052  
+dafbd1e960446e André Apitzsch 2024-12-20  1053  	v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
+dafbd1e960446e André Apitzsch 2024-12-20  1054  			  IMX214_ANA_GAIN_MIN, IMX214_ANA_GAIN_MAX,
+dafbd1e960446e André Apitzsch 2024-12-20  1055  			  IMX214_ANA_GAIN_STEP, IMX214_ANA_GAIN_DEFAULT);
+dafbd1e960446e André Apitzsch 2024-12-20  1056  
+dafbd1e960446e André Apitzsch 2024-12-20  1057  	v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
+dafbd1e960446e André Apitzsch 2024-12-20  1058  			  IMX214_DGTL_GAIN_MIN, IMX214_DGTL_GAIN_MAX,
+dafbd1e960446e André Apitzsch 2024-12-20  1059  			  IMX214_DGTL_GAIN_STEP, IMX214_DGTL_GAIN_DEFAULT);
+dafbd1e960446e André Apitzsch 2024-12-20  1060  
+5f8d5fe0bd9471 André Apitzsch 2024-12-20  1061  	imx214->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
+5f8d5fe0bd9471 André Apitzsch 2024-12-20  1062  					  V4L2_CID_HFLIP, 0, 1, 1, 0);
+5f8d5fe0bd9471 André Apitzsch 2024-12-20  1063  	if (imx214->hflip)
+5f8d5fe0bd9471 André Apitzsch 2024-12-20  1064  		imx214->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+5f8d5fe0bd9471 André Apitzsch 2024-12-20  1065  
+5f8d5fe0bd9471 André Apitzsch 2024-12-20  1066  	imx214->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
+5f8d5fe0bd9471 André Apitzsch 2024-12-20  1067  					  V4L2_CID_VFLIP, 0, 1, 1, 0);
+5f8d5fe0bd9471 André Apitzsch 2024-12-20  1068  	if (imx214->vflip)
+5f8d5fe0bd9471 André Apitzsch 2024-12-20  1069  		imx214->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+5f8d5fe0bd9471 André Apitzsch 2024-12-20  1070  
+5f8d5fe0bd9471 André Apitzsch 2024-12-20  1071  	v4l2_ctrl_cluster(2, &imx214->hflip);
+5f8d5fe0bd9471 André Apitzsch 2024-12-20  1072  
+aac37a3a763d1f André Apitzsch 2024-12-20  1073  	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx214_ctrl_ops,
+aac37a3a763d1f André Apitzsch 2024-12-20  1074  				     V4L2_CID_TEST_PATTERN,
+aac37a3a763d1f André Apitzsch 2024-12-20  1075  				     ARRAY_SIZE(imx214_test_pattern_menu) - 1,
+aac37a3a763d1f André Apitzsch 2024-12-20  1076  				     0, 0, imx214_test_pattern_menu);
+aac37a3a763d1f André Apitzsch 2024-12-20  1077  	for (i = 0; i < 4; i++) {
+aac37a3a763d1f André Apitzsch 2024-12-20  1078  		/*
+aac37a3a763d1f André Apitzsch 2024-12-20  1079  		 * The assumption is that
+aac37a3a763d1f André Apitzsch 2024-12-20  1080  		 * V4L2_CID_TEST_PATTERN_GREENR == V4L2_CID_TEST_PATTERN_RED + 1
+aac37a3a763d1f André Apitzsch 2024-12-20  1081  		 * V4L2_CID_TEST_PATTERN_BLUE   == V4L2_CID_TEST_PATTERN_RED + 2
+aac37a3a763d1f André Apitzsch 2024-12-20  1082  		 * V4L2_CID_TEST_PATTERN_GREENB == V4L2_CID_TEST_PATTERN_RED + 3
+aac37a3a763d1f André Apitzsch 2024-12-20  1083  		 */
+aac37a3a763d1f André Apitzsch 2024-12-20  1084  		v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
+aac37a3a763d1f André Apitzsch 2024-12-20  1085  				  V4L2_CID_TEST_PATTERN_RED + i,
+aac37a3a763d1f André Apitzsch 2024-12-20  1086  				  IMX214_TESTP_COLOUR_MIN,
+aac37a3a763d1f André Apitzsch 2024-12-20  1087  				  IMX214_TESTP_COLOUR_MAX,
+aac37a3a763d1f André Apitzsch 2024-12-20  1088  				  IMX214_TESTP_COLOUR_STEP,
+aac37a3a763d1f André Apitzsch 2024-12-20  1089  				  IMX214_TESTP_COLOUR_MAX);
+aac37a3a763d1f André Apitzsch 2024-12-20  1090  		/* The "Solid color" pattern is white by default */
+aac37a3a763d1f André Apitzsch 2024-12-20  1091  	}
+aac37a3a763d1f André Apitzsch 2024-12-20  1092  
+4f302d004bd0fc André Apitzsch 2023-12-06  1093  	imx214->unit_size = v4l2_ctrl_new_std_compound(ctrl_hdlr,
+4f302d004bd0fc André Apitzsch 2023-12-06  1094  				NULL,
+4f302d004bd0fc André Apitzsch 2023-12-06  1095  				V4L2_CID_UNIT_CELL_SIZE,
+a5bd42aafb0684 Hans Verkuil   2025-02-03  1096  				v4l2_ctrl_ptr_create((void *)&unit_size),
+a5bd42aafb0684 Hans Verkuil   2025-02-03  1097  				v4l2_ctrl_ptr_create(NULL),
+a5bd42aafb0684 Hans Verkuil   2025-02-03  1098  				v4l2_ctrl_ptr_create(NULL));
+4f302d004bd0fc André Apitzsch 2023-12-06  1099  
+2ae9f9780d8097 André Apitzsch 2023-12-06  1100  	v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx214_ctrl_ops, &props);
+2ae9f9780d8097 André Apitzsch 2023-12-06  1101  
+4f302d004bd0fc André Apitzsch 2023-12-06  1102  	ret = ctrl_hdlr->error;
+4f302d004bd0fc André Apitzsch 2023-12-06  1103  	if (ret) {
+4f302d004bd0fc André Apitzsch 2023-12-06  1104  		v4l2_ctrl_handler_free(ctrl_hdlr);
+4f302d004bd0fc André Apitzsch 2023-12-06  1105  		dev_err(imx214->dev, "failed to add controls: %d\n", ret);
+4f302d004bd0fc André Apitzsch 2023-12-06  1106  		return ret;
+4f302d004bd0fc André Apitzsch 2023-12-06  1107  	}
+4f302d004bd0fc André Apitzsch 2023-12-06  1108  
+7407c0acdb2ff0 André Apitzsch 2025-06-30 @1109  	ret = imx214_pll_update(imx214);
+7407c0acdb2ff0 André Apitzsch 2025-06-30  1110  	if (ret < 0) {
+7407c0acdb2ff0 André Apitzsch 2025-06-30  1111  		v4l2_ctrl_handler_free(ctrl_hdlr);
+7407c0acdb2ff0 André Apitzsch 2025-06-30  1112  		dev_err(imx214->dev, "failed to update PLL\n");
+7407c0acdb2ff0 André Apitzsch 2025-06-30  1113  		return ret;
+7407c0acdb2ff0 André Apitzsch 2025-06-30  1114  	}
+7407c0acdb2ff0 André Apitzsch 2025-06-30  1115  
+4f302d004bd0fc André Apitzsch 2023-12-06  1116  	imx214->sd.ctrl_handler = ctrl_hdlr;
+4f302d004bd0fc André Apitzsch 2023-12-06  1117  
+4f302d004bd0fc André Apitzsch 2023-12-06  1118  	return 0;
+4f302d004bd0fc André Apitzsch 2023-12-06  1119  };
+4f302d004bd0fc André Apitzsch 2023-12-06  1120  
 
 -- 
 0-DAY CI Kernel Test Service
