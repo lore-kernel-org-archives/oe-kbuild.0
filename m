@@ -1,110 +1,117 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCCA276022
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 Aug 2025 13:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D88E2F0C76
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 Aug 2025 21:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756299992; cv=none; b=RTOezUQvwlSYw6PAR6k8xu3PWW9pzndmvDlQqjQCVoYpMS6+/MF++DkJvWuTTJQou78r5Bj2J1zQJTUp/dvpPV3AKEghIhlb9/jEIBJ6NA4/YGkuuAxdjjXz8gc8lWg3UqFe6XwGYLFqGXoFpHs8dbtux+D1PUMqtX3N7nP/cXE=
+	t=1756331306; cv=none; b=HGJVk1+Iy7PUVWiRGJoBbvzSZDgGj3UvAfZpJFfpB62ArqTJaDkunEuwQnqkA+iZIdNWc67aG7iMmnrc8YFa/TqDojpJPinuim/4DU6YWe2b2zFxc233S7KGDEHq4gYrk2NJj00OghMwqrX3xebNmXZwBZklMH24J5AcEwAlQ1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756299992; c=relaxed/simple;
-	bh=J6tlttBlgZ6DdU9dlu0VuCFWzKR1/21U0OOFFKpK/Q0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tUEFFR+H+QCi2N73QofIXGGfY8aiOnLnUxM2ZvbEbzEJJlHXAbB01s1otqcZ6JBNBjaQ6qcywLHogMWi5ZiCA/oZLKnh2/Vc2UoNvqxUks6Dy+RZ6woP+fYrlJXCKndKPFZAEMgxmON51Jq+46Jw5W9M+voHaJr68AEhmgF8mNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FTEXaN6G; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1756331306; c=relaxed/simple;
+	bh=zG7EkFmgZbm4d08dthhBBUGRvS6C0v9tnyzsEg5RdQA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=I7PXvkAAIBrEAsZuvpJOSWKe0MsURh45EHRYxGRrOgbiaoCLQMrL655TbiFTfK21MnAyUELynMb0X2bH6PknqOPlsdelOxUSLoODq9fuXKk+i6ko1AEz9w9nar88DOl09aWA2BKSeiZb0AnBRjOq9CrOMwOs1Ropgi0hjjd4jOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N8QHGQxI; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FTEXaN6G"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45a1b04f8b5so41947875e9.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 27 Aug 2025 06:06:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756299989; x=1756904789; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hK+6X7If3iibz8tYO8lX48Dx7ObpMSFEmkT7sgjJ+No=;
-        b=FTEXaN6G5xnV6F7/cnUg8syTsO9Xdvx9iZU1tNtQVrRdS5e+PTzJFrtIidZPxuyBiX
-         pL0cuH+EpzbPObInM5Bn2k+yR/mm2W2o9RYqblxpkYuMAJxcUpO/289h9R1l7KgPGil9
-         cRsF2m8+ogNa+bEl8iozGnKGsOGE2KW/kQmQvi0FFCn+3Mzg/Eicy7jbOcp/H+RjyBsO
-         +fSHdsGQqQVlmMV0bwFd6sM+GbtC2mRai4nFkPIYBQSpj6c3x+CK1A5Xj1xAJ8yrVQbL
-         4WlorCYZIsplIXChO0yt/hsrXkKqDW46gdyuxrAkp4D2ZTbslh4XbkAVvM57vfYjdizt
-         cW3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756299989; x=1756904789;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hK+6X7If3iibz8tYO8lX48Dx7ObpMSFEmkT7sgjJ+No=;
-        b=mmREpu4NiyTBPwBWSFkhjxSXx+lPHJjBIyyZCMVMLWv5QzWJbXKUoVkwHg0x/305CB
-         ndXGx/D9W+T3VN4NEs+ofU/8PwOTKHdIVM/43QUSThLOH1reknFQ9H+GFcYH/w4J9vco
-         Vay8tMFc1z4Rt+CWLfQfqIHwovIQ4l9kmxA8J6d8rtVD4G605LnR9Garlro6D9TMP9+k
-         +O9iYdV+xjyYUrCboLYXeLNvdB84nOACM/VIeAdaEbZdSbygP+eOordzMZoONDr94W4N
-         /JIrK1LPSj3ecclz1hSzK3VRyMj4uSkGhk4JUPRXQJ8iC9g5mUHGMAf/cftVtUVfFjh4
-         swIg==
-X-Gm-Message-State: AOJu0Yy/kG37jkwuEwnZYJxdYpqItmdevHVLLYZEycjq0u6Q8vgZdtI+
-	eB17cZY+BL6OAjFY4swtBmH/AdDpcZynbo/AuB/n7QfOkLLGUoqenNmib7XBh36GuIg=
-X-Gm-Gg: ASbGncugEXNoAQjiBi79cIVMsrdalRW75t1o3Hu0gskxp3gQ748skMU+pBUyWrb8VZM
-	JwZ/akSKz3KtKRR0Tgo1rJQ6up8ktcJ5YuJDGE1yhbZ6kGQ69R+0d6j8YrlrBShvqukek05R9z5
-	K0JBJIkfAcOLX4WKrxdZuO1BMK17XA6vxKyAfWxhA52LGhug0uGixmdO6Yz2AwRwPGD/U3e+uum
-	tlWieUbnLkvdulPgGl89Nk18i4We7QFJKFDuvhnI5JP2uNBYUsMpvWYlEGROiUxiXCfIWgvf370
-	KkxXHZgsGY7OPErcloNq+7hyGG0gDU7ZPg5ZH7t+jUlrzGRG/W1Y83jVSo95WuTmemG01BQEysy
-	/4OgI4u4BgaTV7f2iTqE0z3m+Ynk=
-X-Google-Smtp-Source: AGHT+IEXDXRBapmJnNzs3yvXudhRz+Tvr8DgSaDCekM2NjQJUOq12kV9vyfi7g4u8CZNTYZm5ZKuaA==
-X-Received: by 2002:a05:600c:3b15:b0:458:c059:7db1 with SMTP id 5b1f17b1804b1-45b517d4580mr189191765e9.30.1756299988612;
-        Wed, 27 Aug 2025 06:06:28 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c711212924sm20651459f8f.33.2025.08.27.06.06.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 06:06:28 -0700 (PDT)
-Date: Wed, 27 Aug 2025 16:06:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild@lists.linux.dev,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [sailus-media-tree:cleanup 30/54]
- drivers/media/i2c/imx214.c:1109 imx214_ctrls_init() error: we previously
- assumed 'imx214->link_freq' could be null (see line 1017)
-Message-ID: <aK8C0InZVhV-VnXr@stanley.mountain>
-References: <202508270603.MDqIVFss-lkp@intel.com>
- <aK7MAiDuq6tqEW7X@kekkonen.localdomain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8QHGQxI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756331305; x=1787867305;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zG7EkFmgZbm4d08dthhBBUGRvS6C0v9tnyzsEg5RdQA=;
+  b=N8QHGQxI5uJL4CoEP7UiHnUgvm20TMt1yht9h1MvTdJejiFm0XegMoYI
+   JCRkIpiviw+BEFg02/l/TeyLC+coyKFYQXczDqXGAnRvk7FX33kaxVhfV
+   ZPVB4yWOIZUFGGwRmsvf5Qh2tJP4pRPQ3mwiPoTpMLz+DyqQ+5HFEqoo5
+   Uf5Yb9Syh+sxsHZLt/I78hcnZr/Fyz+6YoEJiJvHT1S2Gm3pKGO66NmBk
+   sq6mdUJ12y6MiAY/Cg8XJjSJVqNNdmQYO9iZRqyvBkLNUCV11LZu8yIYM
+   DW3mWMiAXAzDrx+39fdryzZTdTlwU6+fQ9fY8ope/ncgmIPzsVypHh3vr
+   A==;
+X-CSE-ConnectionGUID: BUdZNx7eQ2yFmxHeaFb21Q==
+X-CSE-MsgGUID: DQHcDxnbQrqdzD+5OBVfeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11535"; a="58445194"
+X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
+   d="scan'208";a="58445194"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 14:48:24 -0700
+X-CSE-ConnectionGUID: glcm5YYMRQOo1+wzgnsC1g==
+X-CSE-MsgGUID: ci+ikMbSTyG271Gk+qeOjw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
+   d="scan'208";a="174278159"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 27 Aug 2025 14:48:22 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1urO0C-000TF1-13;
+	Wed, 27 Aug 2025 21:48:20 +0000
+Date: Thu, 28 Aug 2025 05:48:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: mm/memtest.c:78 do_one_pass() warn: iterator 'i' not incremented
+Message-ID: <202508280538.fjNoEqi7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aK7MAiDuq6tqEW7X@kekkonen.localdomain>
 
-On Wed, Aug 27, 2025 at 12:12:34PM +0300, Sakari Ailus wrote:
-> > 4f302d004bd0fc André Apitzsch 2023-12-06  1012  
-> > 4f302d004bd0fc André Apitzsch 2023-12-06  1013  	imx214->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, NULL,
-> > 4f302d004bd0fc André Apitzsch 2023-12-06  1014  						   V4L2_CID_LINK_FREQ,
-> > b9b359662952ff André Apitzsch 2025-05-24  1015  						   imx214->bus_cfg.nr_of_link_frequencies - 1,
-> > b9b359662952ff André Apitzsch 2025-05-24  1016  						   0, imx214->bus_cfg.link_frequencies);
-> > 4f302d004bd0fc André Apitzsch 2023-12-06 @1017  	if (imx214->link_freq)
-> >                                                             ^^^^^^^^^^^^^^^^^
-> > This assumes ->link_freq can be NULL.
-> 
-> This seems to be a false positive: the control handler's error is set if
-> adding the LINK_FREQ control isn't successful and that is checked for later
-> on, before calling imx214_pll_update(). Probably smatch can't figure that
-> out?
-> 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Yuli Wang <wangyuli@uniontech.com>
+CC: Huacai Chen <chenhuacai@kernel.org>
 
-Yeah.  You're right.  Smatch knows that v4l2_ctrl_new() sets
-ctrl_hdlr->error on failure but when it gets returned from
-v4l2_ctrl_new_int_menu() then that information is lost.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fab1beda7597fac1cecc01707d55eadb6bbe773c
+commit: fb8e9f59d6f292c3d9fea6c155c22ea5fc3053ab LoongArch: Select ARCH_USE_MEMTEST
+date:   4 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 4 months ago
+config: loongarch-randconfig-r072-20250825 (https://download.01.org/0day-ci/archive/20250828/202508280538.fjNoEqi7-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
-I should investigate why that is...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202508280538.fjNoEqi7-lkp@intel.com/
 
-Thanks for looking at this.
+smatch warnings:
+mm/memtest.c:78 do_one_pass() warn: iterator 'i' not incremented
 
-regards,
-dan carpenter
+vim +/i +78 mm/memtest.c
 
+1f067167a83d1c arch/x86/mm/memtest.c Yinghai Lu       2008-07-15  72  
+7f70baeeb9e2d2 mm/memtest.c          Vladimir Murzin  2015-04-14  73  static void __init do_one_pass(u64 pattern, phys_addr_t start, phys_addr_t end)
+bfb4dc0da45f8f arch/x86/mm/memtest.c Andreas Herrmann 2009-02-25  74  {
+8d89ac808417e9 arch/x86/mm/memtest.c Tejun Heo        2011-07-12  75  	u64 i;
+8d89ac808417e9 arch/x86/mm/memtest.c Tejun Heo        2011-07-12  76  	phys_addr_t this_start, this_end;
+bfb4dc0da45f8f arch/x86/mm/memtest.c Andreas Herrmann 2009-02-25  77  
+fc6daaf9315187 mm/memtest.c          Tony Luck        2015-06-24 @78  	for_each_free_mem_range(i, NUMA_NO_NODE, MEMBLOCK_NONE, &this_start,
+fc6daaf9315187 mm/memtest.c          Tony Luck        2015-06-24  79  				&this_end, NULL) {
+7f70baeeb9e2d2 mm/memtest.c          Vladimir Murzin  2015-04-14  80  		this_start = clamp(this_start, start, end);
+7f70baeeb9e2d2 mm/memtest.c          Vladimir Murzin  2015-04-14  81  		this_end = clamp(this_end, start, end);
+8d89ac808417e9 arch/x86/mm/memtest.c Tejun Heo        2011-07-12  82  		if (this_start < this_end) {
+f373bafcad6883 mm/memtest.c          Vladimir Murzin  2015-09-08  83  			pr_info("  %pa - %pa pattern %016llx\n",
+f373bafcad6883 mm/memtest.c          Vladimir Murzin  2015-09-08  84  				&this_start, &this_end, cpu_to_be64(pattern));
+8d89ac808417e9 arch/x86/mm/memtest.c Tejun Heo        2011-07-12  85  			memtest(pattern, this_start, this_end - this_start);
+8d89ac808417e9 arch/x86/mm/memtest.c Tejun Heo        2011-07-12  86  		}
+bfb4dc0da45f8f arch/x86/mm/memtest.c Andreas Herrmann 2009-02-25  87  	}
+bfb4dc0da45f8f arch/x86/mm/memtest.c Andreas Herrmann 2009-02-25  88  }
+bfb4dc0da45f8f arch/x86/mm/memtest.c Andreas Herrmann 2009-02-25  89  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: fc6daaf93151877748f8096af6b3fddb147f22d6 mm/memblock: add extra "flags" to memblock to allow selection of memory based on attribute
+
+:::::: TO: Tony Luck <tony.luck@intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
