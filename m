@@ -1,133 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67ED2F0C66
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 Aug 2025 12:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCCA276022
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 Aug 2025 13:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756299078; cv=none; b=VqWl1bGymT8+6TIF3M+JUDc5iGLoUwbJPbunogjVfOr2gmatM6YsuvgSKWninQ3ERz+d0Cq1ydIa3VS+fDAjFhV3/BtrTM0NAnMiU9ZCAYJReg+u3Ty0yDT+xs+R0uE+TRA5XMEmw37fievbkANgi2oYkblUychldKLfoFHDp5c=
+	t=1756299992; cv=none; b=RTOezUQvwlSYw6PAR6k8xu3PWW9pzndmvDlQqjQCVoYpMS6+/MF++DkJvWuTTJQou78r5Bj2J1zQJTUp/dvpPV3AKEghIhlb9/jEIBJ6NA4/YGkuuAxdjjXz8gc8lWg3UqFe6XwGYLFqGXoFpHs8dbtux+D1PUMqtX3N7nP/cXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756299078; c=relaxed/simple;
-	bh=haKAvlj85ajjvaQ7DmDW99w4KCFM2CVdGP38iyD49D0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QBXki+QVKf/TrDPubTxxMIwUPnNQkK1veDZhSzeLrQtsJFnd971S8UqOnjRymeCA1j6pS5WSjCQ/G6yrXwUg1MyVkvA5Mbidf1QKAMJAh+uyo4zxzXoliY0qJklgxpqFHXaF/Zawg1JllYKzc2inT2jQviSbXYjhXYVt25B1uHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XPImHjNc; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756299992; c=relaxed/simple;
+	bh=J6tlttBlgZ6DdU9dlu0VuCFWzKR1/21U0OOFFKpK/Q0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tUEFFR+H+QCi2N73QofIXGGfY8aiOnLnUxM2ZvbEbzEJJlHXAbB01s1otqcZ6JBNBjaQ6qcywLHogMWi5ZiCA/oZLKnh2/Vc2UoNvqxUks6Dy+RZ6woP+fYrlJXCKndKPFZAEMgxmON51Jq+46Jw5W9M+voHaJr68AEhmgF8mNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FTEXaN6G; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XPImHjNc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756299077; x=1787835077;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=haKAvlj85ajjvaQ7DmDW99w4KCFM2CVdGP38iyD49D0=;
-  b=XPImHjNcaVAnJa++LrJVHHei5lVy7bnw4pb1Jw1lS8XEnfqi9verJayz
-   nXPmR31FLJERwKz6/VmS7eQ3txWIFscA8FjGBZRyi5MgtCx8kB5Ygh3pK
-   dxhXpAmBAKLinuXhDGyaPJxm+qVCC6pwIvRcGbDZl08b6ZjvMWkjC8+4p
-   SH0nMPk3pXGZhV75iM2A/fKNnNSxZxUjGykgRvUQdD+qsjyPnA1mrJMvY
-   7hopQgvFwPmo/yoCFfywPSf3NqjNRQS2Xk7HTeGZ3IdowH7jDyltmBpLJ
-   Elv7CtCXf/L9z46XicXDqPP2lHb+KkYBliyX+rqAIrNtlrc4OmA+BAJJE
-   A==;
-X-CSE-ConnectionGUID: +ltWEvF5RNiD92RZ+QwcKQ==
-X-CSE-MsgGUID: V5znbPTuTNKaMhGl1UiHBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11535"; a="58258550"
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="58258550"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 05:51:16 -0700
-X-CSE-ConnectionGUID: 7IWstBrNR7WutC94PqDIeg==
-X-CSE-MsgGUID: Z+Pru3V+Q0mc0DaHKgk75g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="200784173"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 27 Aug 2025 05:51:13 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1urFcB-000Swh-1k;
-	Wed, 27 Aug 2025 12:51:04 +0000
-Date: Wed, 27 Aug 2025 20:50:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [frederic-dynticks:kthread/core-v2 33/35] kernel/kthread.c:938
- kthread_affine_preferred_update() warn: inconsistent returns 'global
- &kthread_affinity_lock'.
-Message-ID: <202508272011.bvP4u7Dx-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FTEXaN6G"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45a1b04f8b5so41947875e9.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 27 Aug 2025 06:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756299989; x=1756904789; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hK+6X7If3iibz8tYO8lX48Dx7ObpMSFEmkT7sgjJ+No=;
+        b=FTEXaN6G5xnV6F7/cnUg8syTsO9Xdvx9iZU1tNtQVrRdS5e+PTzJFrtIidZPxuyBiX
+         pL0cuH+EpzbPObInM5Bn2k+yR/mm2W2o9RYqblxpkYuMAJxcUpO/289h9R1l7KgPGil9
+         cRsF2m8+ogNa+bEl8iozGnKGsOGE2KW/kQmQvi0FFCn+3Mzg/Eicy7jbOcp/H+RjyBsO
+         +fSHdsGQqQVlmMV0bwFd6sM+GbtC2mRai4nFkPIYBQSpj6c3x+CK1A5Xj1xAJ8yrVQbL
+         4WlorCYZIsplIXChO0yt/hsrXkKqDW46gdyuxrAkp4D2ZTbslh4XbkAVvM57vfYjdizt
+         cW3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756299989; x=1756904789;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hK+6X7If3iibz8tYO8lX48Dx7ObpMSFEmkT7sgjJ+No=;
+        b=mmREpu4NiyTBPwBWSFkhjxSXx+lPHJjBIyyZCMVMLWv5QzWJbXKUoVkwHg0x/305CB
+         ndXGx/D9W+T3VN4NEs+ofU/8PwOTKHdIVM/43QUSThLOH1reknFQ9H+GFcYH/w4J9vco
+         Vay8tMFc1z4Rt+CWLfQfqIHwovIQ4l9kmxA8J6d8rtVD4G605LnR9Garlro6D9TMP9+k
+         +O9iYdV+xjyYUrCboLYXeLNvdB84nOACM/VIeAdaEbZdSbygP+eOordzMZoONDr94W4N
+         /JIrK1LPSj3ecclz1hSzK3VRyMj4uSkGhk4JUPRXQJ8iC9g5mUHGMAf/cftVtUVfFjh4
+         swIg==
+X-Gm-Message-State: AOJu0Yy/kG37jkwuEwnZYJxdYpqItmdevHVLLYZEycjq0u6Q8vgZdtI+
+	eB17cZY+BL6OAjFY4swtBmH/AdDpcZynbo/AuB/n7QfOkLLGUoqenNmib7XBh36GuIg=
+X-Gm-Gg: ASbGncugEXNoAQjiBi79cIVMsrdalRW75t1o3Hu0gskxp3gQ748skMU+pBUyWrb8VZM
+	JwZ/akSKz3KtKRR0Tgo1rJQ6up8ktcJ5YuJDGE1yhbZ6kGQ69R+0d6j8YrlrBShvqukek05R9z5
+	K0JBJIkfAcOLX4WKrxdZuO1BMK17XA6vxKyAfWxhA52LGhug0uGixmdO6Yz2AwRwPGD/U3e+uum
+	tlWieUbnLkvdulPgGl89Nk18i4We7QFJKFDuvhnI5JP2uNBYUsMpvWYlEGROiUxiXCfIWgvf370
+	KkxXHZgsGY7OPErcloNq+7hyGG0gDU7ZPg5ZH7t+jUlrzGRG/W1Y83jVSo95WuTmemG01BQEysy
+	/4OgI4u4BgaTV7f2iTqE0z3m+Ynk=
+X-Google-Smtp-Source: AGHT+IEXDXRBapmJnNzs3yvXudhRz+Tvr8DgSaDCekM2NjQJUOq12kV9vyfi7g4u8CZNTYZm5ZKuaA==
+X-Received: by 2002:a05:600c:3b15:b0:458:c059:7db1 with SMTP id 5b1f17b1804b1-45b517d4580mr189191765e9.30.1756299988612;
+        Wed, 27 Aug 2025 06:06:28 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c711212924sm20651459f8f.33.2025.08.27.06.06.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Aug 2025 06:06:28 -0700 (PDT)
+Date: Wed, 27 Aug 2025 16:06:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild@lists.linux.dev,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [sailus-media-tree:cleanup 30/54]
+ drivers/media/i2c/imx214.c:1109 imx214_ctrls_init() error: we previously
+ assumed 'imx214->link_freq' could be null (see line 1017)
+Message-ID: <aK8C0InZVhV-VnXr@stanley.mountain>
+References: <202508270603.MDqIVFss-lkp@intel.com>
+ <aK7MAiDuq6tqEW7X@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aK7MAiDuq6tqEW7X@kekkonen.localdomain>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Frederic Weisbecker <frederic@kernel.org>
+On Wed, Aug 27, 2025 at 12:12:34PM +0300, Sakari Ailus wrote:
+> > 4f302d004bd0fc André Apitzsch 2023-12-06  1012  
+> > 4f302d004bd0fc André Apitzsch 2023-12-06  1013  	imx214->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, NULL,
+> > 4f302d004bd0fc André Apitzsch 2023-12-06  1014  						   V4L2_CID_LINK_FREQ,
+> > b9b359662952ff André Apitzsch 2025-05-24  1015  						   imx214->bus_cfg.nr_of_link_frequencies - 1,
+> > b9b359662952ff André Apitzsch 2025-05-24  1016  						   0, imx214->bus_cfg.link_frequencies);
+> > 4f302d004bd0fc André Apitzsch 2023-12-06 @1017  	if (imx214->link_freq)
+> >                                                             ^^^^^^^^^^^^^^^^^
+> > This assumes ->link_freq can be NULL.
+> 
+> This seems to be a false positive: the control handler's error is set if
+> adding the LINK_FREQ control isn't successful and that is checked for later
+> on, before calling imx214_pll_update(). Probably smatch can't figure that
+> out?
+> 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git kthread/core-v2
-head:   6bcb15d1aebd50828a313a2ec927dea9d0ab9b8f
-commit: 6365e0ca8b5387309efcfedabeeec97e064e2034 [33/35] kthread: Add API to update preferred affinity on kthread runtime
-:::::: branch date: 20 hours ago
-:::::: commit date: 22 hours ago
-config: x86_64-randconfig-161-20250827 (https://download.01.org/0day-ci/archive/20250827/202508272011.bvP4u7Dx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+Yeah.  You're right.  Smatch knows that v4l2_ctrl_new() sets
+ctrl_hdlr->error on failure but when it gets returned from
+v4l2_ctrl_new_int_menu() then that information is lost.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508272011.bvP4u7Dx-lkp@intel.com/
+I should investigate why that is...
 
-smatch warnings:
-kernel/kthread.c:938 kthread_affine_preferred_update() warn: inconsistent returns 'global &kthread_affinity_lock'.
+Thanks for looking at this.
 
-vim +938 kernel/kthread.c
+regards,
+dan carpenter
 
-4d13f4304fa434 Frederic Weisbecker 2024-09-27  901  
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  902  /**
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  903   * kthread_affine_preferred_update - update a kthread's preferred affinity
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  904   * @p: thread created by kthread_create().
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  905   * @cpumask: new mask of CPUs (might not be online, must be possible) for @k
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  906   *           to run on.
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  907   *
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  908   * Update the cpumask of the desired kthread's affinity that was passed by
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  909   * a previous call to kthread_affine_preferred(). This can be called either
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  910   * before or after the first wakeup of the kthread.
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  911   *
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  912   * Returns 0 if the affinity has been applied.
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  913   */
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  914  int kthread_affine_preferred_update(struct task_struct *p,
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  915  				    const struct cpumask *mask)
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  916  {
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  917  	struct kthread *kthread = to_kthread(p);
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  918  	cpumask_var_t affinity;
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  919  	int ret = 0;
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  920  
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  921  	if (!zalloc_cpumask_var(&affinity, GFP_KERNEL))
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  922  		return -ENOMEM;
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  923  
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  924  	scoped_guard(mutex, &kthread_affinity_lock) {
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  925  		if (WARN_ON_ONCE(!kthread->preferred_affinity ||
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  926  				 list_empty(&kthread->affinity_node))) {
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  927  			ret = -EINVAL;
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  928  			goto out;
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  929  		}
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  930  
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  931  		cpumask_copy(kthread->preferred_affinity, mask);
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  932  		kthread_fetch_affinity(kthread, affinity);
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  933  		set_cpus_allowed_ptr(p, affinity);
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  934  	}
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  935  out:
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  936  	free_cpumask_var(affinity);
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  937  
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26 @938  	return ret;
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  939  }
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  940  EXPORT_SYMBOL_GPL(kthread_affine_preferred_update);
-6365e0ca8b5387 Frederic Weisbecker 2025-08-26  941  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
