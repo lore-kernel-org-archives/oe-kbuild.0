@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC61430F935
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 Aug 2025 23:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80233594A
+	for <oe-kbuild@lists.linux.dev>; Thu, 28 Aug 2025 02:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756336297; cv=none; b=Tv+Xusl3U3XuCqCpsgi93p8Hh3hr8ufZ3/9ZekcJkd1hf7Tgh5UrDbCZTHV4MroxLvzTDy+GnpYJFJUvVDHWHHsLDixRVbbcQ+Fxux0pi2jUoib0Vjs6dqpSAFWD4yti+u22CVFxNOjkU2na+fYPYKWyLIcxusV8beVzXLIffow=
+	t=1756349045; cv=none; b=TqWkgey5GEeMUrf20fFxNnJ3nmb8uCZbnywoHIVwgePNnvlireHF6DGTAl08KQs3wTTTqZ4hxOvi8BEax8QX9rbr+m1I7R6CEYMy+BUbT1XdCZlKPIT6Eg67tqj8n6+HCzMUzt091/Nc3p4exl40UUPM6diY+2zjHgklG8k2GP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756336297; c=relaxed/simple;
-	bh=dmMCKYq3D9gdjQM7e3sdI+Qx9r4UXRn1ObWTnV3sTG4=;
+	s=arc-20240116; t=1756349045; c=relaxed/simple;
+	bh=gBG9/pUUxQnE7vD2g1o5N9LMng2pQN6ReXIRUiWPx78=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Zo7yPfBmDqx+wC1LZo1RuPDy0XTi/3BQr6IJTBg3/aek/W0KlujCig7UyXLyYm/9/EtHKVWclbBTyeiueBaCb2oF0N6qXpEhgBNyByZ6nGYuefMrWof3HGbJKvLcGEQ/TUBgp55+B0k6L8mXxtHh0IFqDRTx1qI77lZnNp3ihMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z4lL64tZ; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=KwTlW1jFKIFTJnJYC6Ni5XklOTGCUMs/YeheUemrRMdmZGencViZijHXr9Y6bsvJv7EH312UdCx2AxKU9j5HxIuV6V3XtS9IOjsxi8n5bppwU75KvAjkTWnY8mUvVd2g3Y5zrYoNFFGkfyfGhOT4N6b1ULdBosfJ6EFg+ywQwhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kBGLNgiz; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z4lL64tZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kBGLNgiz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756336294; x=1787872294;
+  t=1756349043; x=1787885043;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dmMCKYq3D9gdjQM7e3sdI+Qx9r4UXRn1ObWTnV3sTG4=;
-  b=Z4lL64tZii9567m7Qsc246jWoeXQAdwuOfprWIGwcDfIqBnaCt7RLQRx
-   1jajGqztkqU9ZyXxm1qzL9ubqebKuIUL29P4y+Kh7hvZX7LUlN51xC34D
-   +EJmjn5EAJyxMpdj+vwUFuu5ev9QLieBLYlhFfKHlxeWtINXlFp4yFGol
-   F4W4hrMpbyN3+FcnWYSdhqKuOvFmC59s0iXQIO/C8Cy6mrv9BftoI5dZb
-   1UYza004uq5RGS2YkC2t4HzhfH5THyzbYAV8xIfWBKlfBQ6BV7mR04UDy
-   NPnCKbla42xn6hbIXwLAfYBRRcN1JBhbxLQUm/TzxAR5mJylvsWrO+8D0
-   w==;
-X-CSE-ConnectionGUID: lMOX5s67QaCJelIqzjg0ow==
-X-CSE-MsgGUID: I4VPAagfTb2TZFIOnRgE0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11535"; a="57798176"
+  bh=gBG9/pUUxQnE7vD2g1o5N9LMng2pQN6ReXIRUiWPx78=;
+  b=kBGLNgizsIpQmM7nJeBJ3OMC8e+06vIOqet9hZubgU3Ur+7AjAH0mBBa
+   Au/F+r6WUdknZHTcZI244cNeFJdeOjQboih5TSxJuOlvpbYrQM8sccbMe
+   yeLLJrdXYFCCTxbGrYqqUXrcpMD74CnTyfh8/WzOGAUXFx9kbfASoKaTo
+   olcsXozyWhw0EhaJulfB1MbDDFnxpYjUN0N8tey7DHpk8ikv6NX1qdGjB
+   L8FByieMKDgftuUgCYD8VuH+8G4ZoACmde/7P/2bBsZBCgYF0QF3NJCeV
+   3nKnILzgZfJFPIQVVvLgBjPidNK+nvqsvl5IRYNrFUbMPr5VhtgKXd7iz
+   Q==;
+X-CSE-ConnectionGUID: i2MmOJKaQvSL7SJDzli6Tw==
+X-CSE-MsgGUID: sw/gAxYDRY2hl214euAuTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11535"; a="61244620"
 X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
-   d="scan'208";a="57798176"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 16:11:34 -0700
-X-CSE-ConnectionGUID: 2NiFonL9T/+naHG0vJkWGw==
-X-CSE-MsgGUID: dsLqTAC4SMmUKURNuPnb6A==
+   d="scan'208";a="61244620"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 19:44:01 -0700
+X-CSE-ConnectionGUID: WNHv1jK3RTSKUxmCj1E+fQ==
+X-CSE-MsgGUID: DAWh8LDpTMqI1P44a5CoQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
-   d="scan'208";a="174342370"
+   d="scan'208";a="170804859"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 27 Aug 2025 16:11:32 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 27 Aug 2025 19:44:00 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1urPIf-000TGd-1h;
-	Wed, 27 Aug 2025 23:11:29 +0000
-Date: Thu, 28 Aug 2025 07:11:29 +0800
+	id 1urScH-000TNj-21;
+	Thu, 28 Aug 2025 02:43:57 +0000
+Date: Thu, 28 Aug 2025 10:41:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v6 bpf] xsk: fix immature cq descriptor production
-Message-ID: <202508280638.Dy15CCOf-lkp@intel.com>
+Subject: Re: [PATCH v2 4/5] LoongArch/kexec_file: Add crash dump support
+Message-ID: <202508281014.9xPatJD8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,109 +63,92 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250820154416.2248012-1-maciej.fijalkowski@intel.com>
-References: <20250820154416.2248012-1-maciej.fijalkowski@intel.com>
-TO: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-TO: bpf@vger.kernel.org
-TO: ast@kernel.org
-TO: daniel@iogearbox.net
-TO: andrii@kernel.org
-CC: netdev@vger.kernel.org
-CC: magnus.karlsson@intel.com
-CC: stfomichev@gmail.com
-CC: aleksander.lobakin@intel.com
-CC: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-CC: Eryk Kubanski <e.kubanski@partner.samsung.com>
+In-Reply-To: <20250820055700.24344-5-youling.tang@linux.dev>
+References: <20250820055700.24344-5-youling.tang@linux.dev>
+TO: Youling Tang <youling.tang@linux.dev>
+TO: Huacai Chen <chenhuacai@kernel.org>
+CC: WANG Xuerui <kernel@xen0n.name>
+CC: Baoquan He <bhe@redhat.com>
+CC: Yao Zi <ziyao@disroot.org>
+CC: kexec@lists.infradead.org
+CC: loongarch@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: youling.tang@linux.dev
+CC: Youling Tang <tangyouling@kylinos.cn>
 
-Hi Maciej,
+Hi Youling,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bpf/master]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.17-rc3 next-20250827]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Fijalkowski/xsk-fix-immature-cq-descriptor-production/20250820-235001
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-patch link:    https://lore.kernel.org/r/20250820154416.2248012-1-maciej.fijalkowski%40intel.com
-patch subject: [PATCH v6 bpf] xsk: fix immature cq descriptor production
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: powerpc-randconfig-r072-20250827 (https://download.01.org/0day-ci/archive/20250828/202508280638.Dy15CCOf-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Youling-Tang/LoongArch-Add-struct-loongarch_image_header-for-kernel-image/20250820-140025
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250820055700.24344-5-youling.tang%40linux.dev
+patch subject: [PATCH v2 4/5] LoongArch/kexec_file: Add crash dump support
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: loongarch-randconfig-r072-20250825 (https://download.01.org/0day-ci/archive/20250828/202508281014.9xPatJD8-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508280638.Dy15CCOf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508281014.9xPatJD8-lkp@intel.com/
 
 smatch warnings:
-net/xdp/xsk.c:662 xsk_build_skb_zerocopy() error: use kfree_skb() here instead of kfree(skb)
+arch/loongarch/kernel/machine_kexec_file.c:58 prepare_elf_headers() warn: iterator 'i' not incremented
 
-vim +662 net/xdp/xsk.c
+vim +/i +58 arch/loongarch/kernel/machine_kexec_file.c
 
-cf24f5a5feeaae3 Tirthendu Sarkar   2023-07-19  638  
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  639  static struct sk_buff *xsk_build_skb_zerocopy(struct xdp_sock *xs,
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  640  					      struct xdp_desc *desc)
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  641  {
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  642  	struct xsk_buff_pool *pool = xs->pool;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  643  	u32 hr, len, ts, offset, copy, copied;
-b3a8246d6ffa300 Maciej Fijalkowski 2025-08-20  644  	struct xsk_addrs *addrs = NULL;
-cf24f5a5feeaae3 Tirthendu Sarkar   2023-07-19  645  	struct sk_buff *skb = xs->skb;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  646  	struct page *page;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  647  	void *buffer;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  648  	int err, i;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  649  	u64 addr;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  650  
-cf24f5a5feeaae3 Tirthendu Sarkar   2023-07-19  651  	if (!skb) {
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  652  		hr = max(NET_SKB_PAD, L1_CACHE_ALIGN(xs->dev->needed_headroom));
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  653  
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  654  		skb = sock_alloc_send_skb(&xs->sk, hr, 1, &err);
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  655  		if (unlikely(!skb))
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  656  			return ERR_PTR(err);
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  657  
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  658  		skb_reserve(skb, hr);
-b3a8246d6ffa300 Maciej Fijalkowski 2025-08-20  659  
-b3a8246d6ffa300 Maciej Fijalkowski 2025-08-20  660  		addrs = kmem_cache_zalloc(xsk_tx_generic_cache, GFP_KERNEL);
-b3a8246d6ffa300 Maciej Fijalkowski 2025-08-20  661  		if (!addrs) {
-b3a8246d6ffa300 Maciej Fijalkowski 2025-08-20 @662  			kfree(skb);
-b3a8246d6ffa300 Maciej Fijalkowski 2025-08-20  663  			return ERR_PTR(-ENOMEM);
-b3a8246d6ffa300 Maciej Fijalkowski 2025-08-20  664  		}
-b3a8246d6ffa300 Maciej Fijalkowski 2025-08-20  665  
-b3a8246d6ffa300 Maciej Fijalkowski 2025-08-20  666  		xsk_set_destructor_arg(skb, addrs);
-cf24f5a5feeaae3 Tirthendu Sarkar   2023-07-19  667  	}
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  668  
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  669  	addr = desc->addr;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  670  	len = desc->len;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  671  	ts = pool->unaligned ? len : pool->chunk_size;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  672  
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  673  	buffer = xsk_buff_raw_get_data(pool, addr);
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  674  	offset = offset_in_page(buffer);
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  675  	addr = buffer - pool->addrs;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  676  
-cf24f5a5feeaae3 Tirthendu Sarkar   2023-07-19  677  	for (copied = 0, i = skb_shinfo(skb)->nr_frags; copied < len; i++) {
-cf24f5a5feeaae3 Tirthendu Sarkar   2023-07-19  678  		if (unlikely(i >= MAX_SKB_FRAGS))
-9d0a67b9d42c630 Tirthendu Sarkar   2023-08-23  679  			return ERR_PTR(-EOVERFLOW);
-cf24f5a5feeaae3 Tirthendu Sarkar   2023-07-19  680  
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  681  		page = pool->umem->pgs[addr >> PAGE_SHIFT];
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  682  		get_page(page);
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  683  
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  684  		copy = min_t(u32, PAGE_SIZE - offset, len - copied);
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  685  		skb_fill_page_desc(skb, i, page, offset, copy);
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  686  
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  687  		copied += copy;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  688  		addr += copy;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  689  		offset = 0;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  690  	}
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  691  
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  692  	skb->len += len;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  693  	skb->data_len += len;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  694  	skb->truesize += ts;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  695  
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  696  	refcount_add(ts, &xs->sk.sk_wmem_alloc);
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  697  
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  698  	return skb;
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  699  }
-9c8f21e6f8856a9 Xuan Zhuo          2021-02-18  700  
+11aec169182e3a Youling Tang 2025-08-20  39  
+11aec169182e3a Youling Tang 2025-08-20  40  static int prepare_elf_headers(void **addr, unsigned long *sz)
+11aec169182e3a Youling Tang 2025-08-20  41  {
+11aec169182e3a Youling Tang 2025-08-20  42  	struct crash_mem *cmem;
+11aec169182e3a Youling Tang 2025-08-20  43  	unsigned int nr_ranges;
+11aec169182e3a Youling Tang 2025-08-20  44  	int ret;
+11aec169182e3a Youling Tang 2025-08-20  45  	u64 i;
+11aec169182e3a Youling Tang 2025-08-20  46  	phys_addr_t start, end;
+11aec169182e3a Youling Tang 2025-08-20  47  
+11aec169182e3a Youling Tang 2025-08-20  48  	nr_ranges = 2; /* for exclusion of crashkernel region */
+11aec169182e3a Youling Tang 2025-08-20  49  	for_each_mem_range(i, &start, &end)
+11aec169182e3a Youling Tang 2025-08-20  50  		nr_ranges++;
+11aec169182e3a Youling Tang 2025-08-20  51  
+11aec169182e3a Youling Tang 2025-08-20  52  	cmem = kmalloc(struct_size(cmem, ranges, nr_ranges), GFP_KERNEL);
+11aec169182e3a Youling Tang 2025-08-20  53  	if (!cmem)
+11aec169182e3a Youling Tang 2025-08-20  54  		return -ENOMEM;
+11aec169182e3a Youling Tang 2025-08-20  55  
+11aec169182e3a Youling Tang 2025-08-20  56  	cmem->max_nr_ranges = nr_ranges;
+11aec169182e3a Youling Tang 2025-08-20  57  	cmem->nr_ranges = 0;
+11aec169182e3a Youling Tang 2025-08-20 @58  	for_each_mem_range(i, &start, &end) {
+11aec169182e3a Youling Tang 2025-08-20  59  		cmem->ranges[cmem->nr_ranges].start = start;
+11aec169182e3a Youling Tang 2025-08-20  60  		cmem->ranges[cmem->nr_ranges].end = end - 1;
+11aec169182e3a Youling Tang 2025-08-20  61  		cmem->nr_ranges++;
+11aec169182e3a Youling Tang 2025-08-20  62  	}
+11aec169182e3a Youling Tang 2025-08-20  63  
+11aec169182e3a Youling Tang 2025-08-20  64  	/* Exclude crashkernel region */
+11aec169182e3a Youling Tang 2025-08-20  65  	ret = crash_exclude_mem_range(cmem, crashk_res.start, crashk_res.end);
+11aec169182e3a Youling Tang 2025-08-20  66  	if (ret)
+11aec169182e3a Youling Tang 2025-08-20  67  		goto out;
+11aec169182e3a Youling Tang 2025-08-20  68  
+11aec169182e3a Youling Tang 2025-08-20  69  	if (crashk_low_res.end) {
+11aec169182e3a Youling Tang 2025-08-20  70  		ret = crash_exclude_mem_range(cmem, crashk_low_res.start, crashk_low_res.end);
+11aec169182e3a Youling Tang 2025-08-20  71  		if (ret)
+11aec169182e3a Youling Tang 2025-08-20  72  			goto out;
+11aec169182e3a Youling Tang 2025-08-20  73  	}
+11aec169182e3a Youling Tang 2025-08-20  74  
+11aec169182e3a Youling Tang 2025-08-20  75  	ret = crash_prepare_elf64_headers(cmem, true, addr, sz);
+11aec169182e3a Youling Tang 2025-08-20  76  
+11aec169182e3a Youling Tang 2025-08-20  77  out:
+11aec169182e3a Youling Tang 2025-08-20  78  	kfree(cmem);
+11aec169182e3a Youling Tang 2025-08-20  79  	return ret;
+11aec169182e3a Youling Tang 2025-08-20  80  }
+11aec169182e3a Youling Tang 2025-08-20  81  
 
 -- 
 0-DAY CI Kernel Test Service
