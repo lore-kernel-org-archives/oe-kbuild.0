@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632582A1AA
-	for <oe-kbuild@lists.linux.dev>; Fri, 29 Aug 2025 22:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7436825EFBC
+	for <oe-kbuild@lists.linux.dev>; Fri, 29 Aug 2025 23:04:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756506737; cv=none; b=mexPseSCmru8DF00MfN9/zR+OswRxZwP6ER1dOzUxiR37KCxmNqQYlTvnemUu/5sFLDRidqoGPYUP+xqITVBZ/HYbkHOYVjIUsWkhHE9S9wLTO+v7M6ILDl6Rvy0snSujYPbfdcwKdrqDbxvWzMKcjHzN7Nm8IiCYhXcPHdt318=
+	t=1756508676; cv=none; b=F8iE8y4YawcgFM3RXcVmN+SMQcP2C1cqN1wYkKny6mQ5FXJsd54TI++TGITuNiJZdKa5bohZSbF2FxUlrGXmsaMHUFf4ECgqwgxytPIcf+8S41oBP3ufeUeSmaBF6habZUDIou1/Y6QcZbv46RA1Pu3/jPknCUXKZym2F5eBgR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756506737; c=relaxed/simple;
-	bh=Molf1B/whISjU1l/d+qUe2eDSMSJ+BDOGFkDIAzvrLA=;
+	s=arc-20240116; t=1756508676; c=relaxed/simple;
+	bh=ZI6WfDRdR0euKiZKAQgTtZqXYxKgh3fyHDma06eZtGw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dEzHXvEvlYRD/+3Ot+lOfuYBlJEskjhz9G4FxTDuZLkwann4br3ahTRGnPkdbinvZz5pBcH3r9eA7gTeOiC4rXKo9JlUyBkw8y9bIlZ3p9KhcEJ/Scl0gE2M3HTXie7SgUyP8LBJZHD3X4cHyOp6w5F/DGmcdWpQBSycN6uBSxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GAOuFvlQ; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=Xy7X0Mg9+ojG4z0DVikB7Tpoj1XOpDER2IY+iN9DJupW6L5SGrzbn7HZOOVUkettA92AnV6McxZSBSWfuQgoQuI8GCQeVL1G/J1wFcZqO4fY/eqZp59gNR8pTJitVHUOR2YAN4ZeCtxlb7sacdTG8OeM0h7QGtzopSYKTZs9YhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9q8MvX0; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GAOuFvlQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9q8MvX0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756506735; x=1788042735;
+  t=1756508673; x=1788044673;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Molf1B/whISjU1l/d+qUe2eDSMSJ+BDOGFkDIAzvrLA=;
-  b=GAOuFvlQSRZ+RlcPfPC4AYWrRU92xeSAWcjFcNqgxYaFjhcs6vvc5NKP
-   1Su5h3kIiYYMs2zo75KEmVtIsDQyccJVEzcsHEWCngYd9jEYiH42u35nZ
-   aIPrvR6x3Dzwm7zD1edbXGkPit5HwUTe8WywCWw7c8uz6hlXXeFJROq7f
-   XT7PBSYYjX0CReJij2mU+52NECVOts3A0SuIhoMXh5W8GS+T+UkcVNC/7
-   LCBCEquxuKCzAp2RPcgakllTkqx/IFoT4EdgjnOD/acEfQ2/BLxGANLVJ
-   UcOcQoJTMlVQ4yLgEOXnIv6+nQI1pMwWmgOgFUjZrIRQUm2joOnsgwb0O
-   A==;
-X-CSE-ConnectionGUID: LmtvrV/ZToONi7VggpU67w==
-X-CSE-MsgGUID: AGijOz1XSAy6ZO8vGZc/wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="70230599"
+  bh=ZI6WfDRdR0euKiZKAQgTtZqXYxKgh3fyHDma06eZtGw=;
+  b=m9q8MvX0w4v1gOhv0+GZBk6jA8eSBJuiJebYAcGUH9G/s4Gz3s1MCQ0Q
+   gEh9FlFDjuEfLExbOEHbwAtxIrj4LprGW2CJvKOajfkOouoMaq+hKOS/E
+   B+rhzuxdDvOZ2LuRteFVXGYeX3RhkHjZMvacpwlr74Z5qnzVyjkN5CMYS
+   3jRgGWn0mPPfGBBYCGZsr1AGTFQwxbfhkBioF3XsstP//9YNXunnsLUwe
+   Mw8FXxEh7bJZyxIeyeuT6lvD+++6EEdMucvBhRHjucY55WmFMPE7IXgoG
+   y4nklH5bExXxrNtWlBQ5ebPA3tZLWaatAUqzlEDvAiKIunquMrLKaEBH0
+   Q==;
+X-CSE-ConnectionGUID: a7NXn3rwSyqev+X0n6tZWg==
+X-CSE-MsgGUID: zRG5vAf7SPqxAHe5V9rILA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="58869643"
 X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="70230599"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 15:32:15 -0700
-X-CSE-ConnectionGUID: xt2Re+VBSQOsP4E7i19MMg==
-X-CSE-MsgGUID: R0c1zLyyRY+uvK2c2dRe/g==
+   d="scan'208";a="58869643"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 16:04:33 -0700
+X-CSE-ConnectionGUID: 1cYyBm3eTg2UE8gW7dDIUg==
+X-CSE-MsgGUID: 0acx72SBQ8WKiXwxMo5y5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="169738053"
+   d="scan'208";a="174661611"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 29 Aug 2025 15:32:13 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 Aug 2025 16:04:31 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1us7db-000V0t-0V;
-	Fri, 29 Aug 2025 22:32:05 +0000
-Date: Sat, 30 Aug 2025 06:30:58 +0800
+	id 1us88l-000V27-13;
+	Fri, 29 Aug 2025 23:04:28 +0000
+Date: Sat, 30 Aug 2025 07:04:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/vmscan.c:3504 walk_pte_range() error: uninitialized symbol
- 'dirty'.
-Message-ID: <202508300608.r9dCRkfC-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: sound/usb/pcm.c:855:6-7: WARNING: Unsigned expression compared with
+ zero: r > 0
+Message-ID: <202508300615.PVkr2D96-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,200 +65,101 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Yu Zhao <yuzhao@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Tiwei Bie <tiwei.btw@antgroup.com>
+CC: Johannes Berg <johannes.berg@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   fb679c832b6497f19fffb8274c419783909c0912
-commit: a52dcec56c5b96250f15efbd7de3d3ea6ce863d9 mm/mglru: fix PTE-mapped large folios
-date:   7 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 7 months ago
-config: hexagon-randconfig-r072-20250829 (https://download.01.org/0day-ci/archive/20250830/202508300608.r9dCRkfC-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+commit: a0e2cb6a90634f3dc80f16e882a683ee5761b0b0 um: Add VFIO-based virtual PCI driver
+date:   4 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 4 months ago
+config: um-randconfig-r053-20250830 (https://download.01.org/0day-ci/archive/20250830/202508300615.PVkr2D96-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508300608.r9dCRkfC-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202508300615.PVkr2D96-lkp@intel.com/
 
-smatch warnings:
-mm/vmscan.c:3504 walk_pte_range() error: uninitialized symbol 'dirty'.
-mm/vmscan.c:3609 walk_pmd_range_locked() error: uninitialized symbol 'dirty'.
-mm/vmscan.c:4215 lru_gen_look_around() error: uninitialized symbol 'dirty'.
+cocci warnings: (new ones prefixed by >>)
+>> sound/usb/pcm.c:855:6-7: WARNING: Unsigned expression compared with zero: r > 0
 
-vim +/dirty +3504 mm/vmscan.c
+vim +855 sound/usb/pcm.c
 
-a52dcec56c5b96 Yu Zhao        2024-12-30  3449  
-bd74fdaea14602 Yu Zhao        2022-09-18  3450  static bool walk_pte_range(pmd_t *pmd, unsigned long start, unsigned long end,
-bd74fdaea14602 Yu Zhao        2022-09-18  3451  			   struct mm_walk *args)
-bd74fdaea14602 Yu Zhao        2022-09-18  3452  {
-bd74fdaea14602 Yu Zhao        2022-09-18  3453  	int i;
-a52dcec56c5b96 Yu Zhao        2024-12-30  3454  	bool dirty;
-bd74fdaea14602 Yu Zhao        2022-09-18  3455  	pte_t *pte;
-bd74fdaea14602 Yu Zhao        2022-09-18  3456  	spinlock_t *ptl;
-bd74fdaea14602 Yu Zhao        2022-09-18  3457  	unsigned long addr;
-bd74fdaea14602 Yu Zhao        2022-09-18  3458  	int total = 0;
-bd74fdaea14602 Yu Zhao        2022-09-18  3459  	int young = 0;
-a52dcec56c5b96 Yu Zhao        2024-12-30  3460  	struct folio *last = NULL;
-bd74fdaea14602 Yu Zhao        2022-09-18  3461  	struct lru_gen_mm_walk *walk = args->private;
-bd74fdaea14602 Yu Zhao        2022-09-18  3462  	struct mem_cgroup *memcg = lruvec_memcg(walk->lruvec);
-bd74fdaea14602 Yu Zhao        2022-09-18  3463  	struct pglist_data *pgdat = lruvec_pgdat(walk->lruvec);
-cc25bbe10a86a7 Kinsey Ho      2024-02-14  3464  	DEFINE_MAX_SEQ(walk->lruvec);
-a52dcec56c5b96 Yu Zhao        2024-12-30  3465  	int gen = lru_gen_from_seq(max_seq);
-2441774f2d2890 Qi Zheng       2024-09-26  3466  	pmd_t pmdval;
-bd74fdaea14602 Yu Zhao        2022-09-18  3467  
-a52dcec56c5b96 Yu Zhao        2024-12-30  3468  	pte = pte_offset_map_rw_nolock(args->mm, pmd, start & PMD_MASK, &pmdval, &ptl);
-52fc048320adf1 Hugh Dickins   2023-06-08  3469  	if (!pte)
-52fc048320adf1 Hugh Dickins   2023-06-08  3470  		return false;
-a52dcec56c5b96 Yu Zhao        2024-12-30  3471  
-52fc048320adf1 Hugh Dickins   2023-06-08  3472  	if (!spin_trylock(ptl)) {
-52fc048320adf1 Hugh Dickins   2023-06-08  3473  		pte_unmap(pte);
-a52dcec56c5b96 Yu Zhao        2024-12-30  3474  		return true;
-52fc048320adf1 Hugh Dickins   2023-06-08  3475  	}
-bd74fdaea14602 Yu Zhao        2022-09-18  3476  
-2441774f2d2890 Qi Zheng       2024-09-26  3477  	if (unlikely(!pmd_same(pmdval, pmdp_get_lockless(pmd)))) {
-2441774f2d2890 Qi Zheng       2024-09-26  3478  		pte_unmap_unlock(pte, ptl);
-2441774f2d2890 Qi Zheng       2024-09-26  3479  		return false;
-2441774f2d2890 Qi Zheng       2024-09-26  3480  	}
-2441774f2d2890 Qi Zheng       2024-09-26  3481  
-bd74fdaea14602 Yu Zhao        2022-09-18  3482  	arch_enter_lazy_mmu_mode();
-bd74fdaea14602 Yu Zhao        2022-09-18  3483  restart:
-bd74fdaea14602 Yu Zhao        2022-09-18  3484  	for (i = pte_index(start), addr = start; addr != end; i++, addr += PAGE_SIZE) {
-bd74fdaea14602 Yu Zhao        2022-09-18  3485  		unsigned long pfn;
-bd74fdaea14602 Yu Zhao        2022-09-18  3486  		struct folio *folio;
-c33c794828f212 Ryan Roberts   2023-06-12  3487  		pte_t ptent = ptep_get(pte + i);
-bd74fdaea14602 Yu Zhao        2022-09-18  3488  
-bd74fdaea14602 Yu Zhao        2022-09-18  3489  		total++;
-bd74fdaea14602 Yu Zhao        2022-09-18  3490  		walk->mm_stats[MM_LEAF_TOTAL]++;
-bd74fdaea14602 Yu Zhao        2022-09-18  3491  
-1d4832becdc2cd Yu Zhao        2024-10-19  3492  		pfn = get_pte_pfn(ptent, args->vma, addr, pgdat);
-bd74fdaea14602 Yu Zhao        2022-09-18  3493  		if (pfn == -1)
-bd74fdaea14602 Yu Zhao        2022-09-18  3494  			continue;
-bd74fdaea14602 Yu Zhao        2022-09-18  3495  
-798c0330c2ca07 Yu Zhao        2024-12-30  3496  		folio = get_pfn_folio(pfn, memcg, pgdat);
-bd74fdaea14602 Yu Zhao        2022-09-18  3497  		if (!folio)
-bd74fdaea14602 Yu Zhao        2022-09-18  3498  			continue;
-bd74fdaea14602 Yu Zhao        2022-09-18  3499  
-1d4832becdc2cd Yu Zhao        2024-10-19  3500  		if (!ptep_clear_young_notify(args->vma, addr, pte + i))
-1d4832becdc2cd Yu Zhao        2024-10-19  3501  			continue;
-bd74fdaea14602 Yu Zhao        2022-09-18  3502  
-a52dcec56c5b96 Yu Zhao        2024-12-30  3503  		if (last != folio) {
-a52dcec56c5b96 Yu Zhao        2024-12-30 @3504  			walk_update_folio(walk, last, gen, dirty);
-bd74fdaea14602 Yu Zhao        2022-09-18  3505  
-a52dcec56c5b96 Yu Zhao        2024-12-30  3506  			last = folio;
-a52dcec56c5b96 Yu Zhao        2024-12-30  3507  			dirty = false;
-a52dcec56c5b96 Yu Zhao        2024-12-30  3508  		}
-bd74fdaea14602 Yu Zhao        2022-09-18  3509  
-a52dcec56c5b96 Yu Zhao        2024-12-30  3510  		if (pte_dirty(ptent))
-a52dcec56c5b96 Yu Zhao        2024-12-30  3511  			dirty = true;
-a52dcec56c5b96 Yu Zhao        2024-12-30  3512  
-a52dcec56c5b96 Yu Zhao        2024-12-30  3513  		young++;
-a52dcec56c5b96 Yu Zhao        2024-12-30  3514  		walk->mm_stats[MM_LEAF_YOUNG]++;
-bd74fdaea14602 Yu Zhao        2022-09-18  3515  	}
-bd74fdaea14602 Yu Zhao        2022-09-18  3516  
-a52dcec56c5b96 Yu Zhao        2024-12-30  3517  	walk_update_folio(walk, last, gen, dirty);
-a52dcec56c5b96 Yu Zhao        2024-12-30  3518  	last = NULL;
-a52dcec56c5b96 Yu Zhao        2024-12-30  3519  
-bd74fdaea14602 Yu Zhao        2022-09-18  3520  	if (i < PTRS_PER_PTE && get_next_vma(PMD_MASK, PAGE_SIZE, args, &start, &end))
-bd74fdaea14602 Yu Zhao        2022-09-18  3521  		goto restart;
-bd74fdaea14602 Yu Zhao        2022-09-18  3522  
-bd74fdaea14602 Yu Zhao        2022-09-18  3523  	arch_leave_lazy_mmu_mode();
-52fc048320adf1 Hugh Dickins   2023-06-08  3524  	pte_unmap_unlock(pte, ptl);
-bd74fdaea14602 Yu Zhao        2022-09-18  3525  
-bd74fdaea14602 Yu Zhao        2022-09-18  3526  	return suitable_to_scan(total, young);
-bd74fdaea14602 Yu Zhao        2022-09-18  3527  }
-bd74fdaea14602 Yu Zhao        2022-09-18  3528  
-b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3529  static void walk_pmd_range_locked(pud_t *pud, unsigned long addr, struct vm_area_struct *vma,
-b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3530  				  struct mm_walk *args, unsigned long *bitmap, unsigned long *first)
-bd74fdaea14602 Yu Zhao        2022-09-18  3531  {
-bd74fdaea14602 Yu Zhao        2022-09-18  3532  	int i;
-a52dcec56c5b96 Yu Zhao        2024-12-30  3533  	bool dirty;
-bd74fdaea14602 Yu Zhao        2022-09-18  3534  	pmd_t *pmd;
-bd74fdaea14602 Yu Zhao        2022-09-18  3535  	spinlock_t *ptl;
-a52dcec56c5b96 Yu Zhao        2024-12-30  3536  	struct folio *last = NULL;
-bd74fdaea14602 Yu Zhao        2022-09-18  3537  	struct lru_gen_mm_walk *walk = args->private;
-bd74fdaea14602 Yu Zhao        2022-09-18  3538  	struct mem_cgroup *memcg = lruvec_memcg(walk->lruvec);
-bd74fdaea14602 Yu Zhao        2022-09-18  3539  	struct pglist_data *pgdat = lruvec_pgdat(walk->lruvec);
-cc25bbe10a86a7 Kinsey Ho      2024-02-14  3540  	DEFINE_MAX_SEQ(walk->lruvec);
-a52dcec56c5b96 Yu Zhao        2024-12-30  3541  	int gen = lru_gen_from_seq(max_seq);
-bd74fdaea14602 Yu Zhao        2022-09-18  3542  
-bd74fdaea14602 Yu Zhao        2022-09-18  3543  	VM_WARN_ON_ONCE(pud_leaf(*pud));
-bd74fdaea14602 Yu Zhao        2022-09-18  3544  
-bd74fdaea14602 Yu Zhao        2022-09-18  3545  	/* try to batch at most 1+MIN_LRU_BATCH+1 entries */
-b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3546  	if (*first == -1) {
-b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3547  		*first = addr;
-b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3548  		bitmap_zero(bitmap, MIN_LRU_BATCH);
-bd74fdaea14602 Yu Zhao        2022-09-18  3549  		return;
-bd74fdaea14602 Yu Zhao        2022-09-18  3550  	}
-bd74fdaea14602 Yu Zhao        2022-09-18  3551  
-b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3552  	i = addr == -1 ? 0 : pmd_index(addr) - pmd_index(*first);
-bd74fdaea14602 Yu Zhao        2022-09-18  3553  	if (i && i <= MIN_LRU_BATCH) {
-bd74fdaea14602 Yu Zhao        2022-09-18  3554  		__set_bit(i - 1, bitmap);
-bd74fdaea14602 Yu Zhao        2022-09-18  3555  		return;
-bd74fdaea14602 Yu Zhao        2022-09-18  3556  	}
-bd74fdaea14602 Yu Zhao        2022-09-18  3557  
-b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3558  	pmd = pmd_offset(pud, *first);
-bd74fdaea14602 Yu Zhao        2022-09-18  3559  
-bd74fdaea14602 Yu Zhao        2022-09-18  3560  	ptl = pmd_lockptr(args->mm, pmd);
-bd74fdaea14602 Yu Zhao        2022-09-18  3561  	if (!spin_trylock(ptl))
-bd74fdaea14602 Yu Zhao        2022-09-18  3562  		goto done;
-bd74fdaea14602 Yu Zhao        2022-09-18  3563  
-bd74fdaea14602 Yu Zhao        2022-09-18  3564  	arch_enter_lazy_mmu_mode();
-bd74fdaea14602 Yu Zhao        2022-09-18  3565  
-bd74fdaea14602 Yu Zhao        2022-09-18  3566  	do {
-bd74fdaea14602 Yu Zhao        2022-09-18  3567  		unsigned long pfn;
-bd74fdaea14602 Yu Zhao        2022-09-18  3568  		struct folio *folio;
-b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3569  
-b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3570  		/* don't round down the first address */
-b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3571  		addr = i ? (*first & PMD_MASK) + i * PMD_SIZE : *first;
-bd74fdaea14602 Yu Zhao        2022-09-18  3572  
-1d4832becdc2cd Yu Zhao        2024-10-19  3573  		if (!pmd_present(pmd[i]))
-bd74fdaea14602 Yu Zhao        2022-09-18  3574  			goto next;
-bd74fdaea14602 Yu Zhao        2022-09-18  3575  
-bd74fdaea14602 Yu Zhao        2022-09-18  3576  		if (!pmd_trans_huge(pmd[i])) {
-1d4832becdc2cd Yu Zhao        2024-10-19  3577  			if (!walk->force_scan && should_clear_pmd_young() &&
-1d4832becdc2cd Yu Zhao        2024-10-19  3578  			    !mm_has_notifiers(args->mm))
-bd74fdaea14602 Yu Zhao        2022-09-18  3579  				pmdp_test_and_clear_young(vma, addr, pmd + i);
-bd74fdaea14602 Yu Zhao        2022-09-18  3580  			goto next;
-bd74fdaea14602 Yu Zhao        2022-09-18  3581  		}
-bd74fdaea14602 Yu Zhao        2022-09-18  3582  
-1d4832becdc2cd Yu Zhao        2024-10-19  3583  		pfn = get_pmd_pfn(pmd[i], vma, addr, pgdat);
-1d4832becdc2cd Yu Zhao        2024-10-19  3584  		if (pfn == -1)
-1d4832becdc2cd Yu Zhao        2024-10-19  3585  			goto next;
-1d4832becdc2cd Yu Zhao        2024-10-19  3586  
-798c0330c2ca07 Yu Zhao        2024-12-30  3587  		folio = get_pfn_folio(pfn, memcg, pgdat);
-bd74fdaea14602 Yu Zhao        2022-09-18  3588  		if (!folio)
-bd74fdaea14602 Yu Zhao        2022-09-18  3589  			goto next;
-bd74fdaea14602 Yu Zhao        2022-09-18  3590  
-1d4832becdc2cd Yu Zhao        2024-10-19  3591  		if (!pmdp_clear_young_notify(vma, addr, pmd + i))
-bd74fdaea14602 Yu Zhao        2022-09-18  3592  			goto next;
-bd74fdaea14602 Yu Zhao        2022-09-18  3593  
-a52dcec56c5b96 Yu Zhao        2024-12-30  3594  		if (last != folio) {
-a52dcec56c5b96 Yu Zhao        2024-12-30  3595  			walk_update_folio(walk, last, gen, dirty);
-bd74fdaea14602 Yu Zhao        2022-09-18  3596  
-a52dcec56c5b96 Yu Zhao        2024-12-30  3597  			last = folio;
-a52dcec56c5b96 Yu Zhao        2024-12-30  3598  			dirty = false;
-a52dcec56c5b96 Yu Zhao        2024-12-30  3599  		}
-bd74fdaea14602 Yu Zhao        2022-09-18  3600  
-a52dcec56c5b96 Yu Zhao        2024-12-30  3601  		if (pmd_dirty(pmd[i]))
-a52dcec56c5b96 Yu Zhao        2024-12-30  3602  			dirty = true;
-a52dcec56c5b96 Yu Zhao        2024-12-30  3603  
-a52dcec56c5b96 Yu Zhao        2024-12-30  3604  		walk->mm_stats[MM_LEAF_YOUNG]++;
-bd74fdaea14602 Yu Zhao        2022-09-18  3605  next:
-bd74fdaea14602 Yu Zhao        2022-09-18  3606  		i = i > MIN_LRU_BATCH ? 0 : find_next_bit(bitmap, MIN_LRU_BATCH, i) + 1;
-bd74fdaea14602 Yu Zhao        2022-09-18  3607  	} while (i <= MIN_LRU_BATCH);
-bd74fdaea14602 Yu Zhao        2022-09-18  3608  
-a52dcec56c5b96 Yu Zhao        2024-12-30 @3609  	walk_update_folio(walk, last, gen, dirty);
-a52dcec56c5b96 Yu Zhao        2024-12-30  3610  
-bd74fdaea14602 Yu Zhao        2022-09-18  3611  	arch_leave_lazy_mmu_mode();
-bd74fdaea14602 Yu Zhao        2022-09-18  3612  	spin_unlock(ptl);
-bd74fdaea14602 Yu Zhao        2022-09-18  3613  done:
-b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3614  	*first = -1;
-bd74fdaea14602 Yu Zhao        2022-09-18  3615  }
-bd74fdaea14602 Yu Zhao        2022-09-18  3616  
+37b3e56d8911f9e Takashi Iwai 2023-01-02  813  
+e5779998bf8b70e Daniel Mack  2010-03-04  814  static int hw_rule_rate(struct snd_pcm_hw_params *params,
+e5779998bf8b70e Daniel Mack  2010-03-04  815  			struct snd_pcm_hw_rule *rule)
+e5779998bf8b70e Daniel Mack  2010-03-04  816  {
+e5779998bf8b70e Daniel Mack  2010-03-04  817  	struct snd_usb_substream *subs = rule->private;
+4e7cf1fbb34ecb4 Takashi Iwai 2021-09-29  818  	struct snd_usb_audio *chip = subs->stream->chip;
+37b3e56d8911f9e Takashi Iwai 2023-01-02  819  	const struct snd_usb_endpoint *ep;
+cab941b7e5cf054 Takashi Iwai 2020-11-23  820  	const struct audioformat *fp;
+e5779998bf8b70e Daniel Mack  2010-03-04  821  	struct snd_interval *it = hw_param_interval(params, SNDRV_PCM_HW_PARAM_RATE);
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  822  	unsigned int rmin, rmax, r;
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  823  	int i;
+e5779998bf8b70e Daniel Mack  2010-03-04  824  
+e5779998bf8b70e Daniel Mack  2010-03-04  825  	hwc_debug("hw_rule_rate: (%d,%d)\n", it->min, it->max);
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  826  	rmin = UINT_MAX;
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  827  	rmax = 0;
+88766f04c4142c0 Eldad Zack   2013-04-03  828  	list_for_each_entry(fp, &subs->fmt_list, list) {
+e5779998bf8b70e Daniel Mack  2010-03-04  829  		if (!hw_check_valid_format(subs, params, fp))
+e5779998bf8b70e Daniel Mack  2010-03-04  830  			continue;
+37b3e56d8911f9e Takashi Iwai 2023-01-02  831  
+37b3e56d8911f9e Takashi Iwai 2023-01-02  832  		ep = get_endpoint_in_use(chip, fp->endpoint,
+37b3e56d8911f9e Takashi Iwai 2023-01-02  833  					 subs->data_endpoint);
+37b3e56d8911f9e Takashi Iwai 2023-01-02  834  		if (ep) {
+37b3e56d8911f9e Takashi Iwai 2023-01-02  835  			hwc_debug("rate limit %d for ep#%x\n",
+37b3e56d8911f9e Takashi Iwai 2023-01-02  836  				  ep->cur_rate, fp->endpoint);
+37b3e56d8911f9e Takashi Iwai 2023-01-02  837  			rmin = min(rmin, ep->cur_rate);
+37b3e56d8911f9e Takashi Iwai 2023-01-02  838  			rmax = max(rmax, ep->cur_rate);
+37b3e56d8911f9e Takashi Iwai 2023-01-02  839  			continue;
+37b3e56d8911f9e Takashi Iwai 2023-01-02  840  		}
+37b3e56d8911f9e Takashi Iwai 2023-01-02  841  
+37b3e56d8911f9e Takashi Iwai 2023-01-02  842  		if (fp->implicit_fb) {
+37b3e56d8911f9e Takashi Iwai 2023-01-02  843  			ep = get_endpoint_in_use(chip, fp->sync_ep,
+37b3e56d8911f9e Takashi Iwai 2023-01-02  844  						 subs->sync_endpoint);
+37b3e56d8911f9e Takashi Iwai 2023-01-02  845  			if (ep) {
+37b3e56d8911f9e Takashi Iwai 2023-01-02  846  				hwc_debug("rate limit %d for sync_ep#%x\n",
+37b3e56d8911f9e Takashi Iwai 2023-01-02  847  					  ep->cur_rate, fp->sync_ep);
+37b3e56d8911f9e Takashi Iwai 2023-01-02  848  				rmin = min(rmin, ep->cur_rate);
+37b3e56d8911f9e Takashi Iwai 2023-01-02  849  				rmax = max(rmax, ep->cur_rate);
+37b3e56d8911f9e Takashi Iwai 2023-01-02  850  				continue;
+37b3e56d8911f9e Takashi Iwai 2023-01-02  851  			}
+37b3e56d8911f9e Takashi Iwai 2023-01-02  852  		}
+37b3e56d8911f9e Takashi Iwai 2023-01-02  853  
+4e7cf1fbb34ecb4 Takashi Iwai 2021-09-29  854  		r = snd_usb_endpoint_get_clock_rate(chip, fp->clock);
+4e7cf1fbb34ecb4 Takashi Iwai 2021-09-29 @855  		if (r > 0) {
+4e7cf1fbb34ecb4 Takashi Iwai 2021-09-29  856  			if (!snd_interval_test(it, r))
+4e7cf1fbb34ecb4 Takashi Iwai 2021-09-29  857  				continue;
+4e7cf1fbb34ecb4 Takashi Iwai 2021-09-29  858  			rmin = min(rmin, r);
+4e7cf1fbb34ecb4 Takashi Iwai 2021-09-29  859  			rmax = max(rmax, r);
+4e7cf1fbb34ecb4 Takashi Iwai 2021-09-29  860  			continue;
+4e7cf1fbb34ecb4 Takashi Iwai 2021-09-29  861  		}
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  862  		if (fp->rate_table && fp->nr_rates) {
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  863  			for (i = 0; i < fp->nr_rates; i++) {
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  864  				r = fp->rate_table[i];
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  865  				if (!snd_interval_test(it, r))
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  866  					continue;
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  867  				rmin = min(rmin, r);
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  868  				rmax = max(rmax, r);
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  869  			}
+e5779998bf8b70e Daniel Mack  2010-03-04  870  		} else {
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  871  			rmin = min(rmin, fp->rate_min);
+bc4e94aa8e72e79 Takashi Iwai 2020-11-23  872  			rmax = max(rmax, fp->rate_max);
+e5779998bf8b70e Daniel Mack  2010-03-04  873  		}
+e5779998bf8b70e Daniel Mack  2010-03-04  874  	}
+e5779998bf8b70e Daniel Mack  2010-03-04  875  
+7726dce14c5e7ea Takashi Iwai 2020-11-23  876  	return apply_hw_params_minmax(it, rmin, rmax);
+e5779998bf8b70e Daniel Mack  2010-03-04  877  }
+e5779998bf8b70e Daniel Mack  2010-03-04  878  
+
+:::::: The code at line 855 was first introduced by commit
+:::::: 4e7cf1fbb34ecb472c073980458cbe413afd4d64 ALSA: usb-audio: Restrict rates for the shared clocks
+
+:::::: TO: Takashi Iwai <tiwai@suse.de>
+:::::: CC: Takashi Iwai <tiwai@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
