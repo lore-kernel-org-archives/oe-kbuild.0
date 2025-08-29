@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5BC30BB96
-	for <oe-kbuild@lists.linux.dev>; Fri, 29 Aug 2025 10:33:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA5779CD
+	for <oe-kbuild@lists.linux.dev>; Fri, 29 Aug 2025 16:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756463595; cv=none; b=d7lkB4WFdvCmWJ/samrT+d0WUg7YJINl/WJZ9iU8w3crWA0P64s6ZzQa1Wlk4btR0AF45NhumkQyzatQcdFJ/Xb0BDCz4MzrWxKiUYgLaPaJjpBfCyuzTik3A4dmhJvPxwgS3KL5QRsz5aUDOJPvX2j3tSBdy7pPC1IFEmpRTKA=
+	t=1756485937; cv=none; b=AZN+Lvj4Hufc1GgpFqpXQY3YCU37otDkbumxD6OtkhoEZ6SFwCxCooSPDmjhiNn9Nbp9bdHI3ICtS1Pc023vEaBKqOj2TLLE2sGfUafMt1iRl4OTGkHovPQLFZMuodYo0vEKKevD4VX6kXvJPdDmBEx6afBAgU3mQ/q+Rhetmio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756463595; c=relaxed/simple;
-	bh=ctaGdgZ5L094lIbENnlKAVgYch6UElQkBA4MSpZq5TA=;
+	s=arc-20240116; t=1756485937; c=relaxed/simple;
+	bh=J7Zwy3qSGBgZ9o2EexLf4TEF3cAxf+Y/8WR6HuBbcmg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bK35lJ44VgVL4O/Yq/zE6wgrYN/No/EaE964jGoyk+RGD68f3Kg5EjDAKDUVzHMKA25/V5QyhD2YknLHH8xJCCsjbC/LhULvGB45Ckz+89iPQd14D0ltX6cJGcR/mWwVU9pwBwYlfYqjW3N35bWLA8ue2f6hwTrdli94zZDGCZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ON5voSaK; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=WCagrPq4sNAex8kkiHiKxDSYW6LUoEKifRTx0iEBiKmUbaOkZTJR1yjQVHfsnEDzQ143TZHr0sl31f1CSQWFgqQmvXtF7tAj0VrvpK3M+xckBQgp/yJ1iA0OJ2xGnJ7N8v8MHkSAHOLXGTOWhbVbuYmNf/M+KZT6jVhTq9Kr3Y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CzMEySBy; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ON5voSaK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CzMEySBy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756463593; x=1787999593;
+  t=1756485935; x=1788021935;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ctaGdgZ5L094lIbENnlKAVgYch6UElQkBA4MSpZq5TA=;
-  b=ON5voSaKUFUw9POfb13YeQCsP1P+7qajKQLpJu9/U+ZAVSWnS17144Od
-   qNn3EvijMSkaAVT6HtEYz+DBC1DpmcNyW8D3VLcR1LM9D481t6+j9YmUe
-   j0xlo3QxszGiQcEz9Kk7z2yHeF3tB4kPcGMQh0M5HQQKG66qkRWuq76lb
-   V8HCv7keymHFW6CUlVCSJe/VcyyK+MMG7Y2Dvd89YwE3Aj3o6NROkG7KT
-   OtthsRt34yQHsmJJFZs6lHHcRT3UuIFJBdgUGZVSwHvAqIt3ZWfha9joQ
-   sW/y6nt9ALv1OdAHtLS8ktjuVx/Wqu4Rlwd5+cNt0rpsG9KE8DluhmMWD
-   g==;
-X-CSE-ConnectionGUID: z2JvFT1+SISbeBz1Lf93gA==
-X-CSE-MsgGUID: CFXK6gdXS4Gh/VpezQO08A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="69455229"
+  bh=J7Zwy3qSGBgZ9o2EexLf4TEF3cAxf+Y/8WR6HuBbcmg=;
+  b=CzMEySByKokGOoHQxqO+Lk0VYPhyGLsGl7ylZ2knY381w8L4PMQ4wEsH
+   UggENyhyRqqRp2pn5Vz6r4EEOc4gqjEH18G8D0/OvEDj7vAkbWZszU6r1
+   bJ975vcUygodzSsx2msGid3iACR3esX4X3qXDOZriIjjG2QCkUnavjOxT
+   yHzx6Czvz8HCN087HwKq+awAwpbuzLiNFf/oOrtb9plYaoTegiYCHZ6XT
+   7WknvAqNspf4FTbe1I2UsoF8Z5RwJYTU6mLi45Ag/HwXlcZwTjBhfJYye
+   NqdAQoiYhQ8q1UK6o4f+jh5N3BPARgAv8lrx207GxG5C1DLIwREFSTx6L
+   Q==;
+X-CSE-ConnectionGUID: wbvjlDwGSACL4TLPj4Kpdw==
+X-CSE-MsgGUID: aS3ALiNPRXiW8voBaBGtWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="61411068"
 X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="69455229"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 03:33:12 -0700
-X-CSE-ConnectionGUID: yrmCwjAjSGWczTR5w80aLA==
-X-CSE-MsgGUID: B7Au/7U0QGS3f3MCWFnu6g==
+   d="scan'208";a="61411068"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 09:45:34 -0700
+X-CSE-ConnectionGUID: C6pwu9MMTDiurZPv36WI0w==
+X-CSE-MsgGUID: aItZcq/2T1OK0sCSQW4tfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="201293985"
+   d="scan'208";a="170324737"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 29 Aug 2025 03:33:12 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 29 Aug 2025 09:45:33 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1urwOk-000Ud9-2c;
-	Fri, 29 Aug 2025 10:32:17 +0000
-Date: Fri, 29 Aug 2025 18:31:37 +0800
+	id 1us2EF-000Ulz-17;
+	Fri, 29 Aug 2025 16:45:31 +0000
+Date: Sat, 30 Aug 2025 00:45:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: net/tipc/node.c:1750 tipc_node_xmit() warn: inconsistent returns
- 'bh'.
-Message-ID: <202508291815.bBFuBWKT-lkp@intel.com>
+Subject: [djwong-xfs:fuse-service-container 60/74] fs/fuse/dir.c:1468
+ fuse_update_get_attr() error: uninitialized symbol 'sync'.
+Message-ID: <202508300059.so2lq8UG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,114 +64,104 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Heiko Carstens <hca@linux.ibm.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   07d9df80082b8d1f37e05658371b087cb6738770
-commit: b5f463486b212c56d837c2592d87de7fb4833662 s390: Support PREEMPT_DYNAMIC
-date:   9 months ago
-:::::: branch date: 32 hours ago
-:::::: commit date: 9 months ago
-config: s390-randconfig-r072-20250829 (https://download.01.org/0day-ci/archive/20250829/202508291815.bBFuBWKT-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 9.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fuse-service-container
+head:   f970c3e66ed46fbdf680a7998079bb922f76a2c2
+commit: f7414ea43dc53887a8fe4beabf61a74be5c35c75 [60/74] fuse: allow more statx fields
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: arm-randconfig-r073-20250829 (https://download.01.org/0day-ci/archive/20250830/202508300059.so2lq8UG-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508291815.bBFuBWKT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508300059.so2lq8UG-lkp@intel.com/
 
-New smatch warnings:
-net/tipc/node.c:1750 tipc_node_xmit() warn: inconsistent returns 'bh'.
+smatch warnings:
+fs/fuse/dir.c:1468 fuse_update_get_attr() error: uninitialized symbol 'sync'.
 
-Old smatch warnings:
-net/tipc/node.c:2278 tipc_nl_peer_rm() error: uninitialized symbol 'addr'.
+vim +/sync +1468 fs/fuse/dir.c
 
-vim +/bh +1750 net/tipc/node.c
+e5e5558e923f35 Miklos Szeredi        2005-09-09  1425  
+2a8c810d5e4929 Alexander Mikhalitsyn 2024-09-03  1426  static int fuse_update_get_attr(struct mnt_idmap *idmap, struct inode *inode,
+2a8c810d5e4929 Alexander Mikhalitsyn 2024-09-03  1427  				struct file *file, struct kstat *stat,
+2a8c810d5e4929 Alexander Mikhalitsyn 2024-09-03  1428  				u32 request_mask, unsigned int flags)
+bcb4be809d2a80 Miklos Szeredi        2007-11-28  1429  {
+bcb4be809d2a80 Miklos Szeredi        2007-11-28  1430  	struct fuse_inode *fi = get_fuse_inode(inode);
+d3045530bdd29d Miklos Szeredi        2023-08-10  1431  	struct fuse_conn *fc = get_fuse_conn(inode);
+5b97eeacbd80a7 Miklos Szeredi        2017-09-12  1432  	int err = 0;
+bf5c1898bf9e6d Miklos Szeredi        2018-03-20  1433  	bool sync;
+ec85537519b330 Miklos Szeredi        2021-10-22  1434  	u32 inval_mask = READ_ONCE(fi->inval_mask);
+ec85537519b330 Miklos Szeredi        2021-10-22  1435  	u32 cache_mask = fuse_get_cache_mask(inode);
+bcb4be809d2a80 Miklos Szeredi        2007-11-28  1436  
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1437  	/* Only ask for supported stats */
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1438  	request_mask &= FUSE_SUPPORTED_STATX_MASK;
+d3045530bdd29d Miklos Szeredi        2023-08-10  1439  retry:
+d3045530bdd29d Miklos Szeredi        2023-08-10  1440  	if (fc->no_statx)
+8d8f9c4b8df6bc Miklos Szeredi        2023-08-10  1441  		request_mask &= STATX_BASIC_STATS;
+8d8f9c4b8df6bc Miklos Szeredi        2023-08-10  1442  
+8d8f9c4b8df6bc Miklos Szeredi        2023-08-10  1443  	if (!request_mask)
+8d8f9c4b8df6bc Miklos Szeredi        2023-08-10  1444  		sync = false;
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1445  	else if (request_mask & FUSE_UNCACHED_STATX_MASK) {
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1446  		switch (flags & AT_STATX_SYNC_TYPE) {
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1447  		case AT_STATX_DONT_SYNC:
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1448  			request_mask &= ~FUSE_UNCACHED_STATX_MASK;
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1449  			sync = false;
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1450  			break;
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1451  		case AT_STATX_FORCE_SYNC:
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1452  		case AT_STATX_SYNC_AS_STAT:
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1453  			sync = true;
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1454  			break;
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1455  		default:
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1456  			WARN_ON(1);
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1457  			break;
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1458  		}
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1459  	} else if (flags & AT_STATX_FORCE_SYNC)
+bf5c1898bf9e6d Miklos Szeredi        2018-03-20  1460  		sync = true;
+bf5c1898bf9e6d Miklos Szeredi        2018-03-20  1461  	else if (flags & AT_STATX_DONT_SYNC)
+bf5c1898bf9e6d Miklos Szeredi        2018-03-20  1462  		sync = false;
+ec85537519b330 Miklos Szeredi        2021-10-22  1463  	else if (request_mask & inval_mask & ~cache_mask)
+2f1e81965fd0f6 Miklos Szeredi        2018-10-15  1464  		sync = true;
+bf5c1898bf9e6d Miklos Szeredi        2018-03-20  1465  	else
+bf5c1898bf9e6d Miklos Szeredi        2018-03-20  1466  		sync = time_before64(fi->i_time, get_jiffies_64());
+bf5c1898bf9e6d Miklos Szeredi        2018-03-20  1467  
+bf5c1898bf9e6d Miklos Szeredi        2018-03-20 @1468  	if (sync) {
+60bcc88ad185d5 Seth Forshee          2016-08-29  1469  		forget_all_cached_acls(inode);
+f7414ea43dc538 Darrick J. Wong       2025-07-18  1470  		/* Try statx if a field not covered by regular stat is wanted */
+d3045530bdd29d Miklos Szeredi        2023-08-10  1471  		if (!fc->no_statx && (request_mask & ~STATX_BASIC_STATS)) {
+2a8c810d5e4929 Alexander Mikhalitsyn 2024-09-03  1472  			err = fuse_do_statx(idmap, inode, file, stat);
+d3045530bdd29d Miklos Szeredi        2023-08-10  1473  			if (err == -ENOSYS) {
+d3045530bdd29d Miklos Szeredi        2023-08-10  1474  				fc->no_statx = 1;
+eb4b691b9115fa Danny Lin             2024-04-13  1475  				err = 0;
+d3045530bdd29d Miklos Szeredi        2023-08-10  1476  				goto retry;
+d3045530bdd29d Miklos Szeredi        2023-08-10  1477  			}
+d3045530bdd29d Miklos Szeredi        2023-08-10  1478  		} else {
+2a8c810d5e4929 Alexander Mikhalitsyn 2024-09-03  1479  			err = fuse_do_getattr(idmap, inode, stat, file);
+d3045530bdd29d Miklos Szeredi        2023-08-10  1480  		}
+5b97eeacbd80a7 Miklos Szeredi        2017-09-12  1481  	} else if (stat) {
+2a8c810d5e4929 Alexander Mikhalitsyn 2024-09-03  1482  		generic_fillattr(idmap, request_mask, inode, stat);
+bcb4be809d2a80 Miklos Szeredi        2007-11-28  1483  		stat->mode = fi->orig_i_mode;
+45c72cd73c788d Pavel Shilovsky       2012-05-10  1484  		stat->ino = fi->orig_ino;
+972f4c46d0a1bb Miklos Szeredi        2023-08-10  1485  		if (test_bit(FUSE_I_BTIME, &fi->state)) {
+972f4c46d0a1bb Miklos Szeredi        2023-08-10  1486  			stat->btime = fi->i_btime;
+972f4c46d0a1bb Miklos Szeredi        2023-08-10  1487  			stat->result_mask |= STATX_BTIME;
+972f4c46d0a1bb Miklos Szeredi        2023-08-10  1488  		}
+38f21da95222cf Darrick J. Wong       2025-06-30  1489  		stat->attributes = fi->statx_attributes;
+38f21da95222cf Darrick J. Wong       2025-06-30  1490  		stat->attributes_mask = fi->statx_attributes_mask;
+bcb4be809d2a80 Miklos Szeredi        2007-11-28  1491  	}
+bcb4be809d2a80 Miklos Szeredi        2007-11-28  1492  
+bcb4be809d2a80 Miklos Szeredi        2007-11-28  1493  	return err;
+bcb4be809d2a80 Miklos Szeredi        2007-11-28  1494  }
+bcb4be809d2a80 Miklos Szeredi        2007-11-28  1495  
 
-f73b12812a3d1d Hoang Le              2019-10-29  1677  
-af9b028e270fda Jon Paul Maloy        2015-07-16  1678  /**
-25764779298f23 Mauro Carvalho Chehab 2021-01-14  1679   * tipc_node_xmit() - general link level function for message sending
-af9b028e270fda Jon Paul Maloy        2015-07-16  1680   * @net: the applicable net namespace
-af9b028e270fda Jon Paul Maloy        2015-07-16  1681   * @list: chain of buffers containing message
-af9b028e270fda Jon Paul Maloy        2015-07-16  1682   * @dnode: address of destination node
-af9b028e270fda Jon Paul Maloy        2015-07-16  1683   * @selector: a number used for deterministic link selection
-365ad353c2564b Jon Paul Maloy        2017-01-03  1684   * Consumes the buffer chain.
-637b77fdca5c5e Randy Dunlap          2020-11-29  1685   * Return: 0 if success, otherwise: -ELINKCONG,-EHOSTUNREACH,-EMSGSIZE,-ENOBUF
-af9b028e270fda Jon Paul Maloy        2015-07-16  1686   */
-af9b028e270fda Jon Paul Maloy        2015-07-16  1687  int tipc_node_xmit(struct net *net, struct sk_buff_head *list,
-af9b028e270fda Jon Paul Maloy        2015-07-16  1688  		   u32 dnode, int selector)
-af9b028e270fda Jon Paul Maloy        2015-07-16  1689  {
-5405ff6e15f40f Jon Paul Maloy        2015-11-19  1690  	struct tipc_link_entry *le = NULL;
-af9b028e270fda Jon Paul Maloy        2015-07-16  1691  	struct tipc_node *n;
-af9b028e270fda Jon Paul Maloy        2015-07-16  1692  	struct sk_buff_head xmitq;
-f73b12812a3d1d Hoang Le              2019-10-29  1693  	bool node_up = false;
-88956177db179e Xin Long              2022-12-03  1694  	struct net *peer_net;
-4952cd3e7b47df Richard Alpe          2016-02-11  1695  	int bearer_id;
-4952cd3e7b47df Richard Alpe          2016-02-11  1696  	int rc;
-4952cd3e7b47df Richard Alpe          2016-02-11  1697  
-4952cd3e7b47df Richard Alpe          2016-02-11  1698  	if (in_own_node(net, dnode)) {
-6c9081a3915dc0 John Rutherford       2019-08-07  1699  		tipc_loopback_trace(net, list);
-e654f9f53b45fd Jon Maloy             2019-08-15  1700  		spin_lock_init(&list->lock);
-4952cd3e7b47df Richard Alpe          2016-02-11  1701  		tipc_sk_rcv(net, list);
-4952cd3e7b47df Richard Alpe          2016-02-11  1702  		return 0;
-4952cd3e7b47df Richard Alpe          2016-02-11  1703  	}
-af9b028e270fda Jon Paul Maloy        2015-07-16  1704  
-af9b028e270fda Jon Paul Maloy        2015-07-16  1705  	n = tipc_node_find(net, dnode);
-4952cd3e7b47df Richard Alpe          2016-02-11  1706  	if (unlikely(!n)) {
-e654f9f53b45fd Jon Maloy             2019-08-15  1707  		__skb_queue_purge(list);
-4952cd3e7b47df Richard Alpe          2016-02-11  1708  		return -EHOSTUNREACH;
-4952cd3e7b47df Richard Alpe          2016-02-11  1709  	}
-4952cd3e7b47df Richard Alpe          2016-02-11  1710  
-88956177db179e Xin Long              2022-12-03  1711  	rcu_read_lock();
-5405ff6e15f40f Jon Paul Maloy        2015-11-19  1712  	tipc_node_read_lock(n);
-f73b12812a3d1d Hoang Le              2019-10-29  1713  	node_up = node_is_up(n);
-88956177db179e Xin Long              2022-12-03  1714  	peer_net = n->peer_net;
-88956177db179e Xin Long              2022-12-03  1715  	tipc_node_read_unlock(n);
-88956177db179e Xin Long              2022-12-03  1716  	if (node_up && peer_net && check_net(peer_net)) {
-f73b12812a3d1d Hoang Le              2019-10-29  1717  		/* xmit inner linux container */
-88956177db179e Xin Long              2022-12-03  1718  		tipc_lxc_xmit(peer_net, list);
-f73b12812a3d1d Hoang Le              2019-10-29  1719  		if (likely(skb_queue_empty(list))) {
-88956177db179e Xin Long              2022-12-03  1720  			rcu_read_unlock();
-f73b12812a3d1d Hoang Le              2019-10-29  1721  			tipc_node_put(n);
-f73b12812a3d1d Hoang Le              2019-10-29  1722  			return 0;
-f73b12812a3d1d Hoang Le              2019-10-29  1723  		}
-f73b12812a3d1d Hoang Le              2019-10-29  1724  	}
-88956177db179e Xin Long              2022-12-03  1725  	rcu_read_unlock();
-f73b12812a3d1d Hoang Le              2019-10-29  1726  
-88956177db179e Xin Long              2022-12-03  1727  	tipc_node_read_lock(n);
-2312bf61ae365f Jon Paul Maloy        2015-11-19  1728  	bearer_id = n->active_links[selector & 1];
-4952cd3e7b47df Richard Alpe          2016-02-11  1729  	if (unlikely(bearer_id == INVALID_BEARER_ID)) {
-4952cd3e7b47df Richard Alpe          2016-02-11  1730  		tipc_node_read_unlock(n);
-4952cd3e7b47df Richard Alpe          2016-02-11  1731  		tipc_node_put(n);
-e654f9f53b45fd Jon Maloy             2019-08-15  1732  		__skb_queue_purge(list);
-4952cd3e7b47df Richard Alpe          2016-02-11  1733  		return -EHOSTUNREACH;
-4952cd3e7b47df Richard Alpe          2016-02-11  1734  	}
-4952cd3e7b47df Richard Alpe          2016-02-11  1735  
-4952cd3e7b47df Richard Alpe          2016-02-11  1736  	__skb_queue_head_init(&xmitq);
-2312bf61ae365f Jon Paul Maloy        2015-11-19  1737  	le = &n->links[bearer_id];
-2312bf61ae365f Jon Paul Maloy        2015-11-19  1738  	spin_lock_bh(&le->lock);
-2312bf61ae365f Jon Paul Maloy        2015-11-19  1739  	rc = tipc_link_xmit(le->link, list, &xmitq);
-2312bf61ae365f Jon Paul Maloy        2015-11-19  1740  	spin_unlock_bh(&le->lock);
-5405ff6e15f40f Jon Paul Maloy        2015-11-19  1741  	tipc_node_read_unlock(n);
-4952cd3e7b47df Richard Alpe          2016-02-11  1742  
-365ad353c2564b Jon Paul Maloy        2017-01-03  1743  	if (unlikely(rc == -ENOBUFS))
-598411d70f85dc Jon Paul Maloy        2015-07-30  1744  		tipc_node_link_down(n, bearer_id, false);
-365ad353c2564b Jon Paul Maloy        2017-01-03  1745  	else
-fc1b6d6de22087 Tuong Lien            2019-11-08  1746  		tipc_bearer_xmit(net, bearer_id, &xmitq, &le->maddr, n);
-4952cd3e7b47df Richard Alpe          2016-02-11  1747  
-af9b028e270fda Jon Paul Maloy        2015-07-16  1748  	tipc_node_put(n);
-5405ff6e15f40f Jon Paul Maloy        2015-11-19  1749  
-dc8d1eb305984b Jon Paul Maloy        2015-12-02 @1750  	return rc;
-dc8d1eb305984b Jon Paul Maloy        2015-12-02  1751  }
-af9b028e270fda Jon Paul Maloy        2015-07-16  1752  
+:::::: The code at line 1468 was first introduced by commit
+:::::: bf5c1898bf9e6d5ce9840743e8eccc74c14d16a4 fuse: honor AT_STATX_FORCE_SYNC
 
-:::::: The code at line 1750 was first introduced by commit
-:::::: dc8d1eb305984b1182f5e85de3c3a1f8592b83af tipc: fix node reference count bug
-
-:::::: TO: Jon Paul Maloy <jon.maloy@ericsson.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Miklos Szeredi <mszeredi@redhat.com>
+:::::: CC: Miklos Szeredi <mszeredi@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
