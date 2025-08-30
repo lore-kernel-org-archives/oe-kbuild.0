@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DA8275860
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Aug 2025 03:22:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4563A42049
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Aug 2025 04:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756524127; cv=none; b=S3+7Dt8uWVw03oAZjWWXAzgJckley3X/8CdNv2VuwETUHB0+5z9+b3WzEEJ8yKo575Sx3DitOdajsfxlpPg7VfzRhZS1pXarO+4pg5X/xwUx/bbkCqPVf7Ad3pzgxhYYnPFd6wSsHCShMMKonOqCq20mDWttw3l79T+W33MuvOk=
+	t=1756528389; cv=none; b=QtaQBNtPXmCiG55Pvygtc95JMD34tgjZ/DO4LeStTh4qA+2y35VbXQzbt4W6uVuXx2Krd9WRh2Ki6zqtLfWLS66023f+odSROldDbGGrZfHY695ajNyfk1nCrBZbP7aHh+WE4iED/WZ3UpSPgZPQQqjw/Z0yRhm88g6D2AWhhqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756524127; c=relaxed/simple;
-	bh=4+7OpeR3ZxpHYTf9vkaAm0vg7DtATETgwgecrzHguLg=;
+	s=arc-20240116; t=1756528389; c=relaxed/simple;
+	bh=Rbfb9lSCtnm5Kyxe1KyowawdPD0trOI8zK2gxgAbcWs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bfAP7nqTjK6HZd2ANQEqciJQp+r43lYztET0gVPZ/CopLFX7DUmC6MQnr6SDymGW31CLtEN/nyKbvLJXzEo/VG9ZdyzWgpCmpAUpW+8kHIx0BG1Jz6bW9eis2benhM5ssI9Y4dncoGP4OgTGHaMFjn3Cp4mX6sSqdMXzbftWWSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YB9QoYsS; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=n4iOSCs/WgmkYHq+6yuIA6aJItyNr6LGthl7LYdLZlDvm+Ol7dMClvplE1djeluRND01TROycLI/i//9s7qyotVQ3Tf8F2gPvsiaxoGsMZz+wM6oinSS8tJ7lSNZ29CPzXN5Zoa8e6vSEOTmPlcJyQuG/QnkuNoMVL5dEBszkwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nha3naiS; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YB9QoYsS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nha3naiS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756524126; x=1788060126;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4+7OpeR3ZxpHYTf9vkaAm0vg7DtATETgwgecrzHguLg=;
-  b=YB9QoYsSFQvC6i9uReJZ14A4ENziAqkhV4jRyDiPNF58NQE4c7UgwK6V
-   AKdXTjSBBcESh+ltRNznQxnojkVwx7bievs3IL5M9Xxhk1TUcBPXTSrN0
-   j3tdNnLmawQSeoAer1Z+HvhhVBYx2hL4xCcjTxkXL7sewqnD6PiyNCBtE
-   J++ViOUGvtfZJ1DI7QITaJX285p68wEaN4ESvckM2SZeorNOrvwbY2tET
-   X1aRp/tWGT3UA2InJXKVwm8O4s/cq9ei9gUXd6D4BoVnrKNtj8PWpIeVe
-   lVMjK3vFpmQ71eosE9Xa6IjxZAt2sBLYWeAolirCgwb+CWzQm+VlxS0G0
-   Q==;
-X-CSE-ConnectionGUID: AiwOGlb5QHC/Zha/BAJBVQ==
-X-CSE-MsgGUID: Gj9uWWD4S8CVtImDBuW+Mg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="46382249"
+  t=1756528387; x=1788064387;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Rbfb9lSCtnm5Kyxe1KyowawdPD0trOI8zK2gxgAbcWs=;
+  b=nha3naiSyKHGWsuGMic5TPVspWRwd9u8jaFILi7fQCyxqB34p0wF5L8n
+   /Q9q9CjWRljT3EJELvtF4cYm0vzDVY0PNHIuhRupLzlJiHxuF471eq7UV
+   UIKMLwjb/rQDNSwbylCP5qPS1uGs8f8YxK9mxOVDaKdQgXUekKqoZfxxK
+   WZzFQL6Hp5TjAISsSM+xBL4ZRmgVJ4yI6kVAz3MZhw0Kpq/gvfl/NAmGI
+   7FN6uGDgtONSu02vOM1QC68XKxlgcqWVLT2ZEyyL7qxBeeLe4Pbu2SZSk
+   ziG0c1+O0pp5fvIchOWl+ujkTIptA/9PY5M3gOPKfYrgwd88RrYvLy9we
+   g==;
+X-CSE-ConnectionGUID: S4jUbI6aTkKiAH+zgeHA9Q==
+X-CSE-MsgGUID: XyD4RHAAR2KZK//GLaKmLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="69519129"
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="46382249"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 20:22:05 -0700
-X-CSE-ConnectionGUID: qIG/8R1vQ7+X2ATIO/YOIA==
-X-CSE-MsgGUID: uHwhy4TTTz2tunJ+w9AXNw==
+   d="scan'208";a="69519129"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 21:33:06 -0700
+X-CSE-ConnectionGUID: YMjwPsKuSEyqOeY8ARRBRQ==
+X-CSE-MsgGUID: 5HlbHLkYTRa+lzU+0gEiZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="175798767"
+   d="scan'208";a="170907728"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Aug 2025 20:22:03 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 29 Aug 2025 21:33:06 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1usC9s-000V9C-1S;
-	Sat, 30 Aug 2025 03:21:47 +0000
-Date: Sat, 30 Aug 2025 11:20:16 +0800
+	id 1usDGx-000VAV-0Y;
+	Sat, 30 Aug 2025 04:33:03 +0000
+Date: Sat, 30 Aug 2025 12:32:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linusw-nomadik:ux500-dts 1/2]
- arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: gpio@101e7000 (st,nomadik-gpio):
- Unevaluated properties are not allowed ('mmcsd-hog', 'ngpio' were
- unexpected)
-Message-ID: <202508301115.Hl7RrwlX-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: include/linux/mutex.h:226 class_mutex_try_constructor() warn:
+ passing zero to 'ERR_PTR'
+Message-ID: <202508301208.YtAc26lq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,102 +61,47 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "dtcheck: binding changes may go via different =
-trees"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
+CC: linux-kernel@vger.kernel.org
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: Dave Jiang <dave.jiang@intel.com>
+CC: Dan Williams <dan.j.williams@intel.com>
+CC: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadi=
-k.git ux500-dts
-head:   9c66753641765cc2f5ee1528a23f3fd2fd77cb93
-commit: 4ce3d8526d95f414228908048a1313fe322f0d9b [1/2] ARM: dts: st: ste-no=
-madik: Align GPIO hog name with bindings
-:::::: branch date: 33 hours ago
-:::::: commit date: 33 hours ago
-config: arm-randconfig-052-20250829 (https://download.01.org/0day-ci/archiv=
-e/20250830/202508301115.Hl7RrwlX-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ac2=
-3f7465eedd0dd565ffb201f573e7a69695fa3)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20250830/202508301115.Hl7RrwlX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   11e7861d680c3757eab18ec0a474ff680e007dc4
+commit: 857d18f23ab17284d1b6de6f61f4e74958596376 cleanup: Introduce ACQUIRE() and ACQUIRE_ERR() for conditional locks
+date:   6 weeks ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 6 weeks ago
+config: powerpc-randconfig-r072-20250830 (https://download.01.org/0day-ci/archive/20250830/202508301208.YtAc26lq-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ac23f7465eedd0dd565ffb201f573e7a69695fa3)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202508301115.Hl7RrwlX-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202508301208.YtAc26lq-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/st/ste-nomadik-stn8815.dtsi:625.24-630.5: Warning (uni=
-t_address_vs_reg): /src@101e0000/mspclk3@48M: node has a unit name, but no =
-reg or ranges property
-   arch/arm/boot/dts/st/ste-nomadik-stn8815.dtsi:631.24-636.5: Warning (uni=
-t_address_vs_reg): /src@101e0000/mshcclk@48M: node has a unit name, but no =
-reg or ranges property
-   arch/arm/boot/dts/st/ste-nomadik-stn8815.dtsi:637.24-643.5: Warning (uni=
-t_address_vs_reg): /src@101e0000/usbmclk@48M: node has a unit name, but no =
-reg or ranges property
-   arch/arm/boot/dts/st/ste-nomadik-stn8815.dtsi:644.24-649.5: Warning (uni=
-t_address_vs_reg): /src@101e0000/rngcclk@48M: node has a unit name, but no =
-reg or ranges property
-   arch/arm/boot/dts/st/ste-nomadik-stn8815.dtsi:692.7-715.4: Warning (unit=
-_address_vs_reg): /i2c0: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/st/ste-nomadik-stn8815.dtsi:718.7-739.4: Warning (unit=
-_address_vs_reg): /i2c1: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /: failed to match any schem=
-a with compatible: ['calaosystems,usb-s8815']
-   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: / (calaosystems,usb-s8815): =
-memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0,=
- 67108864], [134217728, 67108864]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
->> arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: gpio@101e7000 (st,nomadik-gp=
-io): Unevaluated properties are not allowed ('mmcsd-hog', 'ngpio' were unex=
-pected)
-   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yam=
-l#
-   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /pinctrl: failed to match an=
-y schema with compatible: ['stericsson,stn8815-pinctrl']
-   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /src@101e0000: failed to mat=
-ch any schema with compatible: ['stericsson,nomadik-src']
-   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: src@101e0000 (stericsson,nom=
-adik-src): 'clk108@108M', 'clk216@216M', 'clk27@27M', 'clk48@48M', 'clk72@7=
-2M', 'difclk@72M', 'hclk3d@48M', 'hclkclcd@48M', 'hclkcryp@48M', 'hclkdif@4=
-8M', 'hclkdma0@48M', 'hclkdma1@48M', 'hclkhash@48M', 'hclkhpi@48M', 'hclkrn=
-g@48M', 'hclksaa@48M', 'hclksdram@48M', 'hclksmc@48M', 'hclksva@48M', 'hclk=
-usb@48M', 'hclkusbm@48M', 'hsiclkrx@216M', 'hsiclktx@108M', 'i2c0clk@48M', =
-'i2c1clk@48M', 'ipbmcclk@48M', 'ipi2cclk@48M', 'irdaclk@48M', 'mshcclk@48M'=
-, 'mspclk0@48M', 'mspclk1@48M', 'mspclk2@48M', 'mspclk3@48M', 'mxtal@19.2M'=
-, 'owmclk@48M', 'pclkhsem@48M', 'pclkhsi@48M', 'pclki2c0@48M', 'pclki2c1@48=
-M', 'pclkirda@48M', 'pclkmshc@48M', 'pclkmsp0@48M', 'pclkmsp1@48M', 'pclkms=
-p2@48M', 'pclkmsp3@48M', 'pclkowm@48M', 'pclksdi@48M', 'pclkske@48M', 'pclk=
-ssp@48M', 'pclkuart0@48M', 'pclkuart1@48M', 'pclkuart2@48M', 'pclkxti@48M',=
- 'rngcclk@48M', 'sdiclk@48M', 'skeclk@48M', 'sspiclk@48M', 'timclk@2.4M', '=
-uart0clk@48M', 'uart1clk@48M', 'uart2clk@48M', 'ulpiclk@60M', 'usbclk@48M',=
- 'usbmclk@48M', 'x3dclk@48M' do not match any of the regexes: '.*-names$', =
-'.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a=
--zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F=
-]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /src@101e0000/pll1@0: failed=
- to match any schema with compatible: ['st,nomadik-pll-clock']
-   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /src@101e0000/hclk@0: failed=
- to match any schema with compatible: ['st,nomadik-hclk-clock']
-   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /src@101e0000/pll2@0: failed=
- to match any schema with compatible: ['st,nomadik-pll-clock']
-   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /src@101e0000/hclkdma0@48M: =
-failed to match any schema with compatible: ['st,nomadik-src-clock']
-   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /src@101e0000/hclksmc@48M: f=
-ailed to match any schema with compatible: ['st,nomadik-src-clock']
+smatch warnings:
+include/linux/mutex.h:226 class_mutex_try_constructor() warn: passing zero to 'ERR_PTR'
 
---=20
+vim +/ERR_PTR +226 include/linux/mutex.h
+
+b1fca26631f76a Eric Paris     2009-03-23  224  
+54da6a0924311c Peter Zijlstra 2023-05-26  225  DEFINE_GUARD(mutex, struct mutex *, mutex_lock(_T), mutex_unlock(_T))
+e4ab322fbaaaf8 Peter Zijlstra 2023-09-17 @226  DEFINE_GUARD_COND(mutex, _try, mutex_trylock(_T))
+857d18f23ab172 Peter Zijlstra 2025-07-11  227  DEFINE_GUARD_COND(mutex, _intr, mutex_lock_interruptible(_T), _RET == 0)
+54da6a0924311c Peter Zijlstra 2023-05-26  228  
+
+:::::: The code at line 226 was first introduced by commit
+:::::: e4ab322fbaaaf84b23d6cb0e3317a7f68baf36dc cleanup: Add conditional guard support
+
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
