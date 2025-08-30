@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9084F1EDA0E
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Aug 2025 23:39:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC381EDA0E
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Aug 2025 23:40:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756597190; cv=none; b=E0Ngw4eFut92jP2rwvwXKlIlf/PCzqCGomZVZ5FWvyGNuoqbAmMj4iF/kuRSNXwtNy3SYsP5xMEw6pMLSiVo3ZvDzNgEU56x5B4pkCl9iuj4Vsz7I7Z92Lo4IKdvxtlhZhkef3NS5b055MJ4lQvhTogGlkp45aMRQvDzmt3ZZXo=
+	t=1756597240; cv=none; b=Devnvys8xzm5UvkU3ZpeL769EBbzByA19LQJJgGQRzMkRRo8m8YrjozxJ1M6K0DBoxtTcwnX6XEE2tNun7HjYXnIiTIylf5k5/UkYJZoEkWI1C1BT8I+QR5ATbZnwLboo2znFFDMxt4yEN7coKWruew+50WcSXBGj5b0sU9VDEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756597190; c=relaxed/simple;
-	bh=r3L3L3rK8TZbUGgvvL9LEtR3HY5aYfCAQYghokNX60M=;
+	s=arc-20240116; t=1756597240; c=relaxed/simple;
+	bh=dq3b6raGACOtUZP23KrcEcHsfqLGJ8bN1DZAwd9/PXE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sbUOMyOKWm+lzG5P5kfiV6NL0H9GhOo+JNFJEByzR/TklOwPEvukUmtTPuQ8KSwmenVGCcZhObaSPh/jItE7bAF/Bm/EU7dm9+qJfAgezcaurTTE4u/qQyFmacdt+l9BOZCxFG+22nH78NXpLAWpg6kmS7esp+09kVqDWEvz8Iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mb3xWMJV; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Dx+dwbPp1fOJSv+wM4CwnbUTZpezQQYyODQCkZ3MP7XhdZJ6kG2R0EpBRq8BXpYYq00xMK2ecGljlGQgLs0qw1eNCslr9HblokNrCouCyiokmRuI3Atin8+nVmoCynDw/xoMo5P23E+kKDQg8BUOCX/Z45Xy02dVloeG/ZoijKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=inQD5d+T; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mb3xWMJV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="inQD5d+T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756597188; x=1788133188;
+  t=1756597238; x=1788133238;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r3L3L3rK8TZbUGgvvL9LEtR3HY5aYfCAQYghokNX60M=;
-  b=Mb3xWMJVR0oD7lFGtktcKfP4LyZzmQGruvgBugpybU6QY3pffMED0ptM
-   FvKgpobW7YdYz23QYt27fhsw4BC1Ac9z/w8HpSH6wbrfAVwm42GnpVWXT
-   QdtbbrSOnuYxsTqaqz3CZGCzTWI970DKNK/aSfHPdhhyn47ukudCXyWUl
-   ChlICzuKw+Ppz/H2rizFwqVLjAv3HfEqbLIVltSgj+iRXJi677mxSpthi
-   hpKJbDRPfJn3ReRWNkWLLCbYXZq9Wm6Yp1pN+/bDXepEyFchmoJz3NIWT
-   U7w6mX5wvrdVH6D3VmjnhBXCt41YYZF5Zig9MmizCfNysitrE2sUbErt/
-   w==;
-X-CSE-ConnectionGUID: jjeUJoQkRueucpCRdu/N3Q==
-X-CSE-MsgGUID: EQV/WTxuTZadRjC2OrRakQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62676751"
+  bh=dq3b6raGACOtUZP23KrcEcHsfqLGJ8bN1DZAwd9/PXE=;
+  b=inQD5d+TrC/lL5o2ORvNBtDh+oeo+S6OhBZYfAhm+FGG8D1cq5h9aojo
+   WCqrDrNrJTNcwsumysg5TNPtUo8MshyAPDctS+SNxXGP0Rq3ZcbeGnFqT
+   aNgjezaHQPzy0OTYl/avsoxeXKsW9YXzTaLQZBfkEJLdzYIP3dF3e2vXn
+   ZOynTSrrLQByA+21fIbNlVvp4QBiUPSw1dre22pj/YpaEKI1wk9PVgb0l
+   RcxZ7Lj3CWG+W1NaA1vdA+tA4HQFx4PbPafjDsJ9QPwKQntQJO4WVslkl
+   eumcelDpVy7u+Pz2ttcD6ZrYylPqr/co4i9S3NrNR2ZxIeTRNrWvTJvOb
+   g==;
+X-CSE-ConnectionGUID: 9MBHSaqrRw6poxPRRWaQIw==
+X-CSE-MsgGUID: OS9TS/pPSnu35KPV5X0TOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62676758"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62676751"
+   d="scan'208";a="62676758"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2025 16:39:48 -0700
-X-CSE-ConnectionGUID: hPnGd+bUT5mqcaVdkzOOxw==
-X-CSE-MsgGUID: M/3N5nn8S0yEiDVcWmsxRQ==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2025 16:40:37 -0700
+X-CSE-ConnectionGUID: YElUTB7SS0WCTtJU4V007g==
+X-CSE-MsgGUID: 2KymSNmkTayY00x4RmMW+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="170186564"
+   d="scan'208";a="170186614"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 30 Aug 2025 16:39:46 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 30 Aug 2025 16:40:36 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1usVA1-000VlT-0l;
-	Sat, 30 Aug 2025 23:39:16 +0000
-Date: Sun, 31 Aug 2025 07:38:23 +0800
+	id 1usVAe-000VlV-1H;
+	Sat, 30 Aug 2025 23:40:00 +0000
+Date: Sun, 31 Aug 2025 07:38:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 15/15] iio: adc: ad4030: Add support for ADAQ4216 and
- ADAQ4224
-Message-ID: <202508310754.Y4V0Iq26-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>,
+	Elena Reshetova <elena.reshetova@intel.com>
+Subject: [brauner-github:vfs-6.18.inode.refcount.preliminaries 4/5]
+ fs/inode.c:1924:45-46: WARNING: atomic_add_unless
+Message-ID: <202508310743.euHihnAz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,88 +65,83 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <006ac88a667ce0d2c751946b562af83d0f27a44f.1756511030.git.marcelo.schmitt@analog.com>
-References: <006ac88a667ce0d2c751946b562af83d0f27a44f.1756511030.git.marcelo.schmitt@analog.com>
-TO: Marcelo Schmitt <marcelo.schmitt@analog.com>
-TO: linux-iio@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-doc@vger.kernel.org
-TO: devicetree@vger.kernel.org
-TO: linux-spi@vger.kernel.org
-CC: jic23@kernel.org
-CC: Michael.Hennerich@analog.com
-CC: nuno.sa@analog.com
-CC: eblanc@baylibre.com
-CC: dlechner@baylibre.com
-CC: andy@kernel.org
-CC: corbet@lwn.net
-CC: robh@kernel.org
-CC: krzk+dt@kernel.org
-CC: conor+dt@kernel.org
-CC: broonie@kernel.org
-CC: Jonathan.Cameron@huawei.com
-CC: andriy.shevchenko@linux.intel.com
-CC: ahaslam@baylibre.com
-CC: marcelo.schmitt1@gmail.com
+CC: Christian Brauner <christianvanbrauner@gmail.com>
+TO: Josef Bacik <josef@toxicpanda.com>
+CC: Christian Brauner <brauner@kernel.org>
+CC: Mateusz Guzik <mjguzik@gmail.com>
 
-Hi Marcelo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 91812d3843409c235f336f32f1c37ddc790f1e03]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/iio-adc-ad4030-Fix-_scale-for-when-oversampling-is-enabled/20250830-084901
-base:   91812d3843409c235f336f32f1c37ddc790f1e03
-patch link:    https://lore.kernel.org/r/006ac88a667ce0d2c751946b562af83d0f27a44f.1756511030.git.marcelo.schmitt%40analog.com
-patch subject: [PATCH 15/15] iio: adc: ad4030: Add support for ADAQ4216 and ADAQ4224
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: x86_64-randconfig-161-20250831 (https://download.01.org/0day-ci/archive/20250831/202508310754.Y4V0Iq26-lkp@intel.com/config)
+tree:   https://github.com/brauner/linux.git vfs-6.18.inode.refcount.preliminaries
+head:   c06366d1d6aba8c5757b0a119a948ee37bfbc560
+commit: 3cba19f6a00675fbc2af0987dfc90e216e6cfb74 [4/5] fs: rework iput logic
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: x86_64-randconfig-101-20250830 (https://download.01.org/0day-ci/archive/20250831/202508310743.euHihnAz-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508310754.Y4V0Iq26-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202508310743.euHihnAz-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/adc/ad4030.c:515 ad4030_set_pga() error: 'scan_type' dereferencing possible ERR_PTR()
+cocci warnings: (new ones prefixed by >>)
+>> fs/inode.c:1924:45-46: WARNING: atomic_add_unless
 
-vim +/scan_type +515 drivers/iio/adc/ad4030.c
+vim +1924 fs/inode.c
 
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  501  
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  502  static int ad4030_set_pga(struct iio_dev *indio_dev,
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  503  			  struct iio_chan_spec const *chan, int gain_int,
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  504  			  int gain_fract)
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  505  {
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  506  	struct ad4030_state *st = iio_priv(indio_dev);
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  507  	const struct iio_scan_type *scan_type;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  508  	unsigned int mag_bits;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  509  	u64 gain_nano, tmp;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  510  
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  511  	if (!st->pga_gpios)
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  512  		return -EINVAL;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  513  
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  514  	scan_type = iio_get_current_scan_type(indio_dev, chan);
-8017880dd8ca3e Marcelo Schmitt 2025-08-29 @515  	if (scan_type->sign == 's')
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  516  		mag_bits = st->chip->precision_bits - 1;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  517  	else
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  518  		mag_bits = st->chip->precision_bits;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  519  
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  520  	gain_nano = gain_int * NANO + gain_fract;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  521  
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  522  	if (!in_range(gain_nano, 0, ADAQ4616_GAIN_MAX_NANO))
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  523  		return -EINVAL;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  524  
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  525  	tmp = DIV_ROUND_CLOSEST_ULL(gain_nano << mag_bits, NANO);
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  526  	gain_nano = DIV_ROUND_CLOSEST_ULL(st->vref_uv, tmp);
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  527  	st->pga_index = find_closest(gain_nano, ad4030_hw_gains,
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  528  				     ARRAY_SIZE(ad4030_hw_gains));
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  529  
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  530  	return ad4030_set_pga_gain(st);
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  531  }
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  532  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1899  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1900  /**
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1901   *	iput	- put an inode
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1902   *	@inode: inode to put
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1903   *
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1904   *	Puts an inode, dropping its usage count. If the inode use count hits
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1905   *	zero, the inode is then freed and may also be destroyed.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1906   *
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1907   *	Consequently, iput() can sleep.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1908   */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1909  void iput(struct inode *inode)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1910  {
+3cba19f6a00675 Josef Bacik    2025-08-26  1911  	if (unlikely(!inode))
+0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1912  		return;
+3cba19f6a00675 Josef Bacik    2025-08-26  1913  
+0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1914  retry:
+3cba19f6a00675 Josef Bacik    2025-08-26  1915  	lockdep_assert_not_held(&inode->i_lock);
+3cba19f6a00675 Josef Bacik    2025-08-26  1916  	VFS_BUG_ON_INODE(inode->i_state & I_CLEAR, inode);
+3cba19f6a00675 Josef Bacik    2025-08-26  1917  	/*
+3cba19f6a00675 Josef Bacik    2025-08-26  1918          * Note this assert is technically racy as if the count is bogusly
+3cba19f6a00675 Josef Bacik    2025-08-26  1919          * equal to one, then two CPUs racing to further drop it can both
+3cba19f6a00675 Josef Bacik    2025-08-26  1920          * conclude it's fine.
+3cba19f6a00675 Josef Bacik    2025-08-26  1921          */
+3cba19f6a00675 Josef Bacik    2025-08-26  1922  	VFS_BUG_ON_INODE(atomic_read(&inode->i_count) < 1, inode);
+3cba19f6a00675 Josef Bacik    2025-08-26  1923  
+3cba19f6a00675 Josef Bacik    2025-08-26 @1924  	if (atomic_add_unless(&inode->i_count, -1, 1))
+3cba19f6a00675 Josef Bacik    2025-08-26  1925  		return;
+3cba19f6a00675 Josef Bacik    2025-08-26  1926  
+3cba19f6a00675 Josef Bacik    2025-08-26  1927  	if ((inode->i_state & I_DIRTY_TIME) && inode->i_nlink) {
+0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1928  		trace_writeback_lazytime_iput(inode);
+0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1929  		mark_inode_dirty_sync(inode);
+0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1930  		goto retry;
+0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1931  	}
+3cba19f6a00675 Josef Bacik    2025-08-26  1932  
+3cba19f6a00675 Josef Bacik    2025-08-26  1933  	spin_lock(&inode->i_lock);
+3cba19f6a00675 Josef Bacik    2025-08-26  1934  	if (unlikely((inode->i_state & I_DIRTY_TIME) && inode->i_nlink)) {
+3cba19f6a00675 Josef Bacik    2025-08-26  1935  		spin_unlock(&inode->i_lock);
+3cba19f6a00675 Josef Bacik    2025-08-26  1936  		goto retry;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1937  	}
+3cba19f6a00675 Josef Bacik    2025-08-26  1938  
+3cba19f6a00675 Josef Bacik    2025-08-26  1939  	if (!atomic_dec_and_test(&inode->i_count)) {
+3cba19f6a00675 Josef Bacik    2025-08-26  1940  		spin_unlock(&inode->i_lock);
+3cba19f6a00675 Josef Bacik    2025-08-26  1941  		return;
+3cba19f6a00675 Josef Bacik    2025-08-26  1942  	}
+3cba19f6a00675 Josef Bacik    2025-08-26  1943  
+3cba19f6a00675 Josef Bacik    2025-08-26  1944  	/*
+3cba19f6a00675 Josef Bacik    2025-08-26  1945          * iput_final() drops ->i_lock, we can't assert on it as the inode may
+3cba19f6a00675 Josef Bacik    2025-08-26  1946          * be deallocated by the time the call returns.
+3cba19f6a00675 Josef Bacik    2025-08-26  1947          */
+3cba19f6a00675 Josef Bacik    2025-08-26  1948  	iput_final(inode);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1949  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1950  EXPORT_SYMBOL(iput);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1951  
 
 -- 
 0-DAY CI Kernel Test Service
