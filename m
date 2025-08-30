@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6707A6F06B
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Aug 2025 03:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DA8275860
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Aug 2025 03:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756524106; cv=none; b=IgqlZPreovhk018MlUCHHFEHbkTq5z/xpjkh43bNDoOeg0w4LMikeNaZcWjHjUsEWj7xU/ORNMoekRNOb9/fS6hRMyhzLLxV+WdH7AKNLfrTR1mxgmBNNXfM+UU2dLJzQjM7MZBJB8nHCrORCxAJYAu+PTWfY/DPhH+Z82hE2Yc=
+	t=1756524127; cv=none; b=S3+7Dt8uWVw03oAZjWWXAzgJckley3X/8CdNv2VuwETUHB0+5z9+b3WzEEJ8yKo575Sx3DitOdajsfxlpPg7VfzRhZS1pXarO+4pg5X/xwUx/bbkCqPVf7Ad3pzgxhYYnPFd6wSsHCShMMKonOqCq20mDWttw3l79T+W33MuvOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756524106; c=relaxed/simple;
-	bh=p2XeOXym4xp2uQEu4NePeca1o5u4acBGvogprhvXcsE=;
+	s=arc-20240116; t=1756524127; c=relaxed/simple;
+	bh=4+7OpeR3ZxpHYTf9vkaAm0vg7DtATETgwgecrzHguLg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C86ZYj0iXE0xLtQ6XGZ2qwKpVL3CAPvktRk7hmOlqTkvLs4m54iZ9izT0MuHnfTZXDcwVigqkLH/4Hm/izKzY3oz5eG+XZ7v0Iss7rfbq9K5lIe+puihLHd+gd6eKrsMHMo0z0GQ58i2qycSB9YYxg2kEYai82vCH+DQk2qYLXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N9CAGnt5; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=bfAP7nqTjK6HZd2ANQEqciJQp+r43lYztET0gVPZ/CopLFX7DUmC6MQnr6SDymGW31CLtEN/nyKbvLJXzEo/VG9ZdyzWgpCmpAUpW+8kHIx0BG1Jz6bW9eis2benhM5ssI9Y4dncoGP4OgTGHaMFjn3Cp4mX6sSqdMXzbftWWSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YB9QoYsS; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N9CAGnt5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YB9QoYsS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756524104; x=1788060104;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p2XeOXym4xp2uQEu4NePeca1o5u4acBGvogprhvXcsE=;
-  b=N9CAGnt552kjj93jqYt7Afa6mSETqmx9l/DkClRLvSIEcsmbeWecSZRE
-   SCDw4AVCCx0QAI7vrgbyxyYk4Q50aylCjjHYT5aGZDV/dPQghhZS8TUsW
-   Taho+xKc1CWuLbzGZEQKp7PymIeUL6tSUa2uUdHv1kvpkGCmqgPG7ZSff
-   52/3TI0N9rLuTmAR3PYMWWOK0wU7BAbdiyElp0/v/JpY3b3dY8ZYfxJri
-   xFNHECqKjx6WddZMADIzp4nLsfeJxKEprCMsy9XMtD2gkPC8hO5jlQbQe
-   8O74FG/cNr3S9K4Mh2ndKglmtaOADpSBa0khdVQwKw+YrPBv3Bv9gMNyz
-   w==;
-X-CSE-ConnectionGUID: GhE+I/DKS1qqBKlLO067Ow==
-X-CSE-MsgGUID: ck7fdDwBTHK3Vh6Ey/1uTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="81401470"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="81401470"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 20:21:44 -0700
-X-CSE-ConnectionGUID: /q42PVwNSDqSh0RfHYwofg==
-X-CSE-MsgGUID: ab6bSQNYQtOFqRWtOPYWDA==
+  t=1756524126; x=1788060126;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4+7OpeR3ZxpHYTf9vkaAm0vg7DtATETgwgecrzHguLg=;
+  b=YB9QoYsSFQvC6i9uReJZ14A4ENziAqkhV4jRyDiPNF58NQE4c7UgwK6V
+   AKdXTjSBBcESh+ltRNznQxnojkVwx7bievs3IL5M9Xxhk1TUcBPXTSrN0
+   j3tdNnLmawQSeoAer1Z+HvhhVBYx2hL4xCcjTxkXL7sewqnD6PiyNCBtE
+   J++ViOUGvtfZJ1DI7QITaJX285p68wEaN4ESvckM2SZeorNOrvwbY2tET
+   X1aRp/tWGT3UA2InJXKVwm8O4s/cq9ei9gUXd6D4BoVnrKNtj8PWpIeVe
+   lVMjK3vFpmQ71eosE9Xa6IjxZAt2sBLYWeAolirCgwb+CWzQm+VlxS0G0
+   Q==;
+X-CSE-ConnectionGUID: AiwOGlb5QHC/Zha/BAJBVQ==
+X-CSE-MsgGUID: Gj9uWWD4S8CVtImDBuW+Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="46382249"
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="46382249"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 20:22:05 -0700
+X-CSE-ConnectionGUID: qIG/8R1vQ7+X2ATIO/YOIA==
+X-CSE-MsgGUID: uHwhy4TTTz2tunJ+w9AXNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="170434906"
+   d="scan'208";a="175798767"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Aug 2025 20:21:42 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 29 Aug 2025 20:22:03 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1usC96-000V99-18;
-	Sat, 30 Aug 2025 03:21:10 +0000
-Date: Sat, 30 Aug 2025 11:20:07 +0800
+	id 1usC9s-000V9C-1S;
+	Sat, 30 Aug 2025 03:21:47 +0000
+Date: Sat, 30 Aug 2025 11:20:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [daveh-devel:kpte 2/6] include/asm-generic/pgalloc.h:281
- __pgd_alloc_noprof() error: uninitialized symbol 'ptdesc'.
-Message-ID: <202508301127.c2I2lcpb-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linusw-nomadik:ux500-dts 1/2]
+ arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: gpio@101e7000 (st,nomadik-gpio):
+ Unevaluated properties are not allowed ('mmcsd-hog', 'ngpio' were
+ unexpected)
+Message-ID: <202508301115.Hl7RrwlX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,52 +64,102 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+::::::=20
+:::::: Manual check reason: "dtcheck: binding changes may go via different =
+trees"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Dave Hansen <dave.hansen@linux.intel.com>
+CC: linux-arm-kernel@lists.infradead.org
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Linus Walleij <linus.walleij@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git kpte
-head:   d5eaa925a3150c716e8ec564c51069fbdd303fbc
-commit: ccbd04de39826d130b67374e68599e128b53acab [2/6] mm: Actually mark kernel page table pages
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-config: hexagon-randconfig-r072-20250829 (https://download.01.org/0day-ci/archive/20250830/202508301127.c2I2lcpb-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadi=
+k.git ux500-dts
+head:   9c66753641765cc2f5ee1528a23f3fd2fd77cb93
+commit: 4ce3d8526d95f414228908048a1313fe322f0d9b [1/2] ARM: dts: st: ste-no=
+madik: Align GPIO hog name with bindings
+:::::: branch date: 33 hours ago
+:::::: commit date: 33 hours ago
+config: arm-randconfig-052-20250829 (https://download.01.org/0day-ci/archiv=
+e/20250830/202508301115.Hl7RrwlX-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ac2=
+3f7465eedd0dd565ffb201f573e7a69695fa3)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20250830/202508301115.Hl7RrwlX-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508301127.c2I2lcpb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508301115.Hl7RrwlX-lkp@intel.com/
 
-smatch warnings:
-include/asm-generic/pgalloc.h:281 __pgd_alloc_noprof() error: uninitialized symbol 'ptdesc'.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/st/ste-nomadik-stn8815.dtsi:625.24-630.5: Warning (uni=
+t_address_vs_reg): /src@101e0000/mspclk3@48M: node has a unit name, but no =
+reg or ranges property
+   arch/arm/boot/dts/st/ste-nomadik-stn8815.dtsi:631.24-636.5: Warning (uni=
+t_address_vs_reg): /src@101e0000/mshcclk@48M: node has a unit name, but no =
+reg or ranges property
+   arch/arm/boot/dts/st/ste-nomadik-stn8815.dtsi:637.24-643.5: Warning (uni=
+t_address_vs_reg): /src@101e0000/usbmclk@48M: node has a unit name, but no =
+reg or ranges property
+   arch/arm/boot/dts/st/ste-nomadik-stn8815.dtsi:644.24-649.5: Warning (uni=
+t_address_vs_reg): /src@101e0000/rngcclk@48M: node has a unit name, but no =
+reg or ranges property
+   arch/arm/boot/dts/st/ste-nomadik-stn8815.dtsi:692.7-715.4: Warning (unit=
+_address_vs_reg): /i2c0: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/st/ste-nomadik-stn8815.dtsi:718.7-739.4: Warning (unit=
+_address_vs_reg): /i2c1: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /: failed to match any schem=
+a with compatible: ['calaosystems,usb-s8815']
+   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: / (calaosystems,usb-s8815): =
+memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0,=
+ 67108864], [134217728, 67108864]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: gpio@101e7000 (st,nomadik-gp=
+io): Unevaluated properties are not allowed ('mmcsd-hog', 'ngpio' were unex=
+pected)
+   	from schema $id: http://devicetree.org/schemas/gpio/st,nomadik-gpio.yam=
+l#
+   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /pinctrl: failed to match an=
+y schema with compatible: ['stericsson,stn8815-pinctrl']
+   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /src@101e0000: failed to mat=
+ch any schema with compatible: ['stericsson,nomadik-src']
+   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: src@101e0000 (stericsson,nom=
+adik-src): 'clk108@108M', 'clk216@216M', 'clk27@27M', 'clk48@48M', 'clk72@7=
+2M', 'difclk@72M', 'hclk3d@48M', 'hclkclcd@48M', 'hclkcryp@48M', 'hclkdif@4=
+8M', 'hclkdma0@48M', 'hclkdma1@48M', 'hclkhash@48M', 'hclkhpi@48M', 'hclkrn=
+g@48M', 'hclksaa@48M', 'hclksdram@48M', 'hclksmc@48M', 'hclksva@48M', 'hclk=
+usb@48M', 'hclkusbm@48M', 'hsiclkrx@216M', 'hsiclktx@108M', 'i2c0clk@48M', =
+'i2c1clk@48M', 'ipbmcclk@48M', 'ipi2cclk@48M', 'irdaclk@48M', 'mshcclk@48M'=
+, 'mspclk0@48M', 'mspclk1@48M', 'mspclk2@48M', 'mspclk3@48M', 'mxtal@19.2M'=
+, 'owmclk@48M', 'pclkhsem@48M', 'pclkhsi@48M', 'pclki2c0@48M', 'pclki2c1@48=
+M', 'pclkirda@48M', 'pclkmshc@48M', 'pclkmsp0@48M', 'pclkmsp1@48M', 'pclkms=
+p2@48M', 'pclkmsp3@48M', 'pclkowm@48M', 'pclksdi@48M', 'pclkske@48M', 'pclk=
+ssp@48M', 'pclkuart0@48M', 'pclkuart1@48M', 'pclkuart2@48M', 'pclkxti@48M',=
+ 'rngcclk@48M', 'sdiclk@48M', 'skeclk@48M', 'sspiclk@48M', 'timclk@2.4M', '=
+uart0clk@48M', 'uart1clk@48M', 'uart2clk@48M', 'ulpiclk@60M', 'usbclk@48M',=
+ 'usbmclk@48M', 'x3dclk@48M' do not match any of the regexes: '.*-names$', =
+'.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a=
+-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F=
+]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /src@101e0000/pll1@0: failed=
+ to match any schema with compatible: ['st,nomadik-pll-clock']
+   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /src@101e0000/hclk@0: failed=
+ to match any schema with compatible: ['st,nomadik-hclk-clock']
+   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /src@101e0000/pll2@0: failed=
+ to match any schema with compatible: ['st,nomadik-pll-clock']
+   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /src@101e0000/hclkdma0@48M: =
+failed to match any schema with compatible: ['st,nomadik-src-clock']
+   arch/arm/boot/dts/st/ste-nomadik-s8815.dtb: /src@101e0000/hclksmc@48M: f=
+ailed to match any schema with compatible: ['st,nomadik-src-clock']
 
-vim +/ptdesc +281 include/asm-generic/pgalloc.h
-
-98a7e47faa3ec3 Kevin Brodsky 2025-01-08  273  
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  274  static inline pgd_t *__pgd_alloc_noprof(struct mm_struct *mm, unsigned int order)
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  275  {
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  276  	gfp_t gfp = GFP_PGTABLE_USER;
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  277  	struct ptdesc *ptdesc;
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  278  
-ccbd04de39826d Dave Hansen   2025-08-28  279  	if (mm == &init_mm) {
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  280  		gfp = GFP_PGTABLE_KERNEL;
-ccbd04de39826d Dave Hansen   2025-08-28 @281  		ptdesc_set_kernel(ptdesc);
-ccbd04de39826d Dave Hansen   2025-08-28  282  	}
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  283  	gfp &= ~__GFP_HIGHMEM;
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  284  
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  285  	ptdesc = pagetable_alloc_noprof(gfp, order);
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  286  	if (!ptdesc)
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  287  		return NULL;
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  288  
-d95936a2267c11 Kevin Brodsky 2025-01-03  289  	pagetable_pgd_ctor(ptdesc);
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  290  	return ptdesc_address(ptdesc);
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  291  }
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  292  #define __pgd_alloc(...)	alloc_hooks(__pgd_alloc_noprof(__VA_ARGS__))
-a9b3c355c2e638 Kevin Brodsky 2025-01-03  293  
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
