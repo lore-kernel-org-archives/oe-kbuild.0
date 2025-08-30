@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D149D2C237F
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Aug 2025 18:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06842244692
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Aug 2025 19:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756577047; cv=none; b=eKkQWUy0L0cJYPlyrtu8Iu9g6TmKOtQzvhEzLhMRjwFqLsvLw82mcy2/+TFjFRc8RrNnRhfvaxXyCJgx0f2f447yoySWOdnyzbVDLyb6N/3lrkoB35E/qdqxJWxPXtnWa3KazCI0uzfoxIqt6HZo4tpsAH9/LTkNxgKe06DYiiE=
+	t=1756581052; cv=none; b=HfNXoSof0Bi1yvmZRrm9E9qlkLIItoIx4g+DGamzvXYWP9yR92PoK6PmSRXPpKsAikJ5sBgpsoCBqWbVKZO7tanFx3uixmqAtC40UqmfNhMy8rN3T8x9l/8H4RHRCJs9S0aIUGHHOLK5PxBJtDL/XhsO8t922HuAQwWIdDLYoVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756577047; c=relaxed/simple;
-	bh=yvPhYjZmWYIlyaSqyLu7pChUkoJidlb24OT+BFw+9II=;
+	s=arc-20240116; t=1756581052; c=relaxed/simple;
+	bh=Iz4DG71NBCrtyWvuJVw1x/mW2faaiBAEtKwWdt3qnKg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PVST0WyIS0UcdMMYy1DZG/zcThdv/k9AK/zsGiyCOgS5hDroZ4hlSjlORvIzR2TkYab8t4ieaGIzXDYmJucSsti6ip8R44noy0qE7dwjMjrTEjgduq/sQhjmIbFbQ3TV3WxXK4J2VO442XnLb49WbWWnoQIOryzpfnHP2J2WO8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lwekbq0t; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=fN4I8Q73nE6mK7k6+svyzXDUNDn9R9l0IejgSOj8ZUEprdK7GqU5NJ6jc5ZGGgNwmyXQZ/cQfOfVlBL1HfXC4YsDHB2F+9pgyc31ydDvKa1bmEzpsr2sYnCWABNAWJbkohAPxHFMucvXn2TiUDdTT1aJ3iJ5JjBJJ74cdTWNKmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aGdvVFZc; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lwekbq0t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aGdvVFZc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756577046; x=1788113046;
+  t=1756581050; x=1788117050;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yvPhYjZmWYIlyaSqyLu7pChUkoJidlb24OT+BFw+9II=;
-  b=Lwekbq0tm6ec80Dwo6iRPxaZJzwVjkZz1qLt20sPf2SXRif8lkyzabJ1
-   ROu8lNPbWLVdjQnPhO+i/8Z+gLEe2GWTbO2OsRhtxxPdWsRoe+6PempWf
-   iCiFMLq44Ca5SJ749Dbkmv70kWU8TqQ761auha1qT1Sbkm4pmWlQAT01Q
-   R2HEQ9LiFXrHpEqLfNfmuQKwNu2yL6hT2l7WFwye3W4hWQivmsAAr7shv
-   kx1aFzpZ3IbzSJCfCumcFF6d7oA/jULCo16uDKw6TCVgRStyzVRSV4r4E
-   GdJ75+LjiETcregrGaPgofeWGtMGeVzCwpr0BIZVoZS4ZjBTtILxll1P2
+  bh=Iz4DG71NBCrtyWvuJVw1x/mW2faaiBAEtKwWdt3qnKg=;
+  b=aGdvVFZcUuNxGSS9lVpTrO8DvCphRE6NRDOdmgGnXKO4VPgdQXrxSly4
+   3qszuLQhNVF/KXn6IzqSLsKN6G81/PQfrciCSt2MEmzq8hM8jDBSV96N9
+   mQO6pdzu1MwNecF9bbbMwbVytgVIN6Ig/9zQinc86lHhYMJwdNi3BB6TV
+   R/CGCaVX0RpXme0sHFdX1GuGHNLeHABmhsLR+uyPXxONZZdZ69Nhp4qcK
+   H7LoJQ1xj3vMY9p647/rneIH2l1hjBJgy4x797UwwCQ+2bUJXfD+d0Pva
+   nKCwwbzkg5mVVKgLnitfs/9b4a+IHFP/5v4Q8Mz6zvPgA6TFJvfmz5wyk
    A==;
-X-CSE-ConnectionGUID: HTxwuNkPSHOog78XrtCDQg==
-X-CSE-MsgGUID: pBlGOrUvTFuOnBm3RaL6tA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58759733"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58759733"
+X-CSE-ConnectionGUID: FdgmvQHHR9ax2SKLnHpPnQ==
+X-CSE-MsgGUID: ftnMv34MRA6qIXOMl//qSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="69938553"
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="69938553"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2025 11:04:05 -0700
-X-CSE-ConnectionGUID: 7+Z/TE1ERsaz/u/zio1orw==
-X-CSE-MsgGUID: N5KQRRc3RwmC4cad8uXeLg==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2025 12:10:49 -0700
+X-CSE-ConnectionGUID: YoIisq5MSQ+Y67DKepk8gA==
+X-CSE-MsgGUID: jHFFSWGiTvu/LEOtRNqAzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="207777238"
+   d="scan'208";a="207784681"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 30 Aug 2025 11:04:04 -0700
+  by orviesa001.jf.intel.com with ESMTP; 30 Aug 2025 12:10:48 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1usPvT-000Vb5-3D;
-	Sat, 30 Aug 2025 18:03:50 +0000
-Date: Sun, 31 Aug 2025 02:03:00 +0800
+	id 1usQyL-000VdX-1V;
+	Sat, 30 Aug 2025 19:10:45 +0000
+Date: Sun, 31 Aug 2025 03:09:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [avpatel:riscv_trace_support_v1 21/100] arch/riscv/kernel/csr.c:81
- csr_read_num() warn: Function too hairy.  No more merges.
-Message-ID: <202508310107.V7DDIdwT-lkp@intel.com>
+Subject: Re: [PATCH net-next v1] net: devmem: NULL check
+ netdev_nl_get_dma_dev return value
+Message-ID: <202508310205.YQmsa9gY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,133 +64,126 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Anup Patel <apatel@ventanamicro.com>
-CC: Sunil V L <sunilvl@ventanamicro.com>
+In-Reply-To: <20250829220003.3310242-1-almasrymina@google.com>
+References: <20250829220003.3310242-1-almasrymina@google.com>
+TO: Mina Almasry <almasrymina@google.com>
+TO: netdev@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: Mina Almasry <almasrymina@google.com>
+CC: Eric Dumazet <edumazet@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Paolo Abeni <pabeni@redhat.com>
+CC: Simon Horman <horms@kernel.org>
+CC: Joe Damato <jdamato@fastly.com>
+CC: Stanislav Fomichev <sdf@fomichev.me>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v1
-head:   c117d7c95ad2d3303f1e050b293802218a1caf18
-commit: 8c87201a700f2a9c6af9b0294e3e60fd2c7fb4de [21/100] RISC-V: Add common csr_read_num() and csr_write_num() functions
-:::::: branch date: 26 hours ago
-:::::: commit date: 6 days ago
-config: riscv-randconfig-r072-20250830 (https://download.01.org/0day-ci/archive/20250831/202508310107.V7DDIdwT-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 10.5.0
+Hi Mina,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 4f54dff818d7b5b1d84becd5d90bc46e6233c0d7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mina-Almasry/net-devmem-NULL-check-netdev_nl_get_dma_dev-return-value/20250830-060251
+base:   4f54dff818d7b5b1d84becd5d90bc46e6233c0d7
+patch link:    https://lore.kernel.org/r/20250829220003.3310242-1-almasrymina%40google.com
+patch subject: [PATCH net-next v1] net: devmem: NULL check netdev_nl_get_dma_dev return value
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: x86_64-randconfig-161-20250830 (https://download.01.org/0day-ci/archive/20250831/202508310205.YQmsa9gY-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508310107.V7DDIdwT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508310205.YQmsa9gY-lkp@intel.com/
 
-smatch warnings:
-arch/riscv/kernel/csr.c:81 csr_read_num() warn: Function too hairy.  No more merges.
-arch/riscv/kernel/csr.c:146 csr_write_num() warn: Function too hairy.  No more merges.
+New smatch warnings:
+net/core/netdev-genl.c:1102 netdev_nl_bind_tx_doit() warn: passing zero to 'PTR_ERR'
 
-vim +81 arch/riscv/kernel/csr.c
+Old smatch warnings:
+net/core/netdev-genl.c:50 netdev_nl_dev_fill() warn: inconsistent indenting
 
-8c87201a700f2a Anup Patel 2025-08-15   43  
-8c87201a700f2a Anup Patel 2025-08-15   44  unsigned long csr_read_num(unsigned long csr_num, int *out_err)
-8c87201a700f2a Anup Patel 2025-08-15   45  {
-8c87201a700f2a Anup Patel 2025-08-15   46  #define switchcase_csr_read(__csr_num)				\
-8c87201a700f2a Anup Patel 2025-08-15   47  	case (__csr_num):					\
-8c87201a700f2a Anup Patel 2025-08-15   48  		return csr_read(__csr_num)
-8c87201a700f2a Anup Patel 2025-08-15   49  #define switchcase_csr_read_2(__csr_num)			\
-8c87201a700f2a Anup Patel 2025-08-15   50  	switchcase_csr_read(__csr_num + 0);			\
-8c87201a700f2a Anup Patel 2025-08-15   51  	switchcase_csr_read(__csr_num + 1)
-8c87201a700f2a Anup Patel 2025-08-15   52  #define switchcase_csr_read_4(__csr_num)			\
-8c87201a700f2a Anup Patel 2025-08-15   53  	switchcase_csr_read_2(__csr_num + 0);			\
-8c87201a700f2a Anup Patel 2025-08-15   54  	switchcase_csr_read_2(__csr_num + 2)
-8c87201a700f2a Anup Patel 2025-08-15   55  #define switchcase_csr_read_8(__csr_num)			\
-8c87201a700f2a Anup Patel 2025-08-15   56  	switchcase_csr_read_4(__csr_num + 0);			\
-8c87201a700f2a Anup Patel 2025-08-15   57  	switchcase_csr_read_4(__csr_num + 4)
-8c87201a700f2a Anup Patel 2025-08-15   58  #define switchcase_csr_read_16(__csr_num)			\
-8c87201a700f2a Anup Patel 2025-08-15   59  	switchcase_csr_read_8(__csr_num + 0);			\
-8c87201a700f2a Anup Patel 2025-08-15   60  	switchcase_csr_read_8(__csr_num + 8)
-8c87201a700f2a Anup Patel 2025-08-15   61  #define switchcase_csr_read_32(__csr_num)			\
-8c87201a700f2a Anup Patel 2025-08-15   62  	switchcase_csr_read_16(__csr_num + 0);			\
-8c87201a700f2a Anup Patel 2025-08-15   63  	switchcase_csr_read_16(__csr_num + 16)
-8c87201a700f2a Anup Patel 2025-08-15   64  #define switchcase_csr_read_64(__csr_num)			\
-8c87201a700f2a Anup Patel 2025-08-15   65  	switchcase_csr_read_32(__csr_num + 0);			\
-8c87201a700f2a Anup Patel 2025-08-15   66  	switchcase_csr_read_32(__csr_num + 32)
-8c87201a700f2a Anup Patel 2025-08-15   67  #define switchcase_csr_read_128(__csr_num)			\
-8c87201a700f2a Anup Patel 2025-08-15   68  	switchcase_csr_read_64(__csr_num + 0);			\
-8c87201a700f2a Anup Patel 2025-08-15   69  	switchcase_csr_read_64(__csr_num + 64)
-8c87201a700f2a Anup Patel 2025-08-15   70  #define switchcase_csr_read_256(__csr_num)			\
-8c87201a700f2a Anup Patel 2025-08-15   71  	switchcase_csr_read_128(__csr_num + 0);			\
-8c87201a700f2a Anup Patel 2025-08-15   72  	switchcase_csr_read_128(__csr_num + 128)
-8c87201a700f2a Anup Patel 2025-08-15   73  
-8c87201a700f2a Anup Patel 2025-08-15   74  	*out_err = 0;
-8c87201a700f2a Anup Patel 2025-08-15   75  	switch (csr_num) {
-8c87201a700f2a Anup Patel 2025-08-15   76  	switchcase_csr_read_32(CSR_CYCLE);
-8c87201a700f2a Anup Patel 2025-08-15   77  	switchcase_csr_read_32(CSR_CYCLEH);
-8c87201a700f2a Anup Patel 2025-08-15   78  	switchcase_csr_read_256(CSR_CUSTOM0_U_RW_BASE);
-8c87201a700f2a Anup Patel 2025-08-15   79  	switchcase_csr_read_64(CSR_CUSTOM1_U_RO_BASE);
-8c87201a700f2a Anup Patel 2025-08-15   80  	switchcase_csr_read_64(CSR_CUSTOM2_S_RW_BASE);
-8c87201a700f2a Anup Patel 2025-08-15  @81  	switchcase_csr_read_64(CSR_CUSTOM3_S_RW_BASE);
-8c87201a700f2a Anup Patel 2025-08-15   82  	switchcase_csr_read_64(CSR_CUSTOM4_S_RO_BASE);
-8c87201a700f2a Anup Patel 2025-08-15   83  	switchcase_csr_read_64(CSR_CUSTOM5_HS_RW_BASE);
-8c87201a700f2a Anup Patel 2025-08-15   84  	switchcase_csr_read_64(CSR_CUSTOM6_HS_RW_BASE);
-8c87201a700f2a Anup Patel 2025-08-15   85  	switchcase_csr_read_64(CSR_CUSTOM7_HS_RO_BASE);
-8c87201a700f2a Anup Patel 2025-08-15   86  #ifdef CONFIG_RISCV_M_MODE
-8c87201a700f2a Anup Patel 2025-08-15   87  	switchcase_csr_read_64(CSR_CUSTOM8_M_RW_BASE);
-8c87201a700f2a Anup Patel 2025-08-15   88  	switchcase_csr_read_64(CSR_CUSTOM9_M_RW_BASE);
-8c87201a700f2a Anup Patel 2025-08-15   89  	switchcase_csr_read_64(CSR_CUSTOM10_M_RO_BASE);
-8c87201a700f2a Anup Patel 2025-08-15   90  #endif
-8c87201a700f2a Anup Patel 2025-08-15   91  	default:
-8c87201a700f2a Anup Patel 2025-08-15   92  		*out_err = -EINVAL;
-8c87201a700f2a Anup Patel 2025-08-15   93  		break;
-8c87201a700f2a Anup Patel 2025-08-15   94  	}
-8c87201a700f2a Anup Patel 2025-08-15   95  
-8c87201a700f2a Anup Patel 2025-08-15   96  	return 0;
-8c87201a700f2a Anup Patel 2025-08-15   97  #undef switchcase_csr_read_256
-8c87201a700f2a Anup Patel 2025-08-15   98  #undef switchcase_csr_read_128
-8c87201a700f2a Anup Patel 2025-08-15   99  #undef switchcase_csr_read_64
-8c87201a700f2a Anup Patel 2025-08-15  100  #undef switchcase_csr_read_32
-8c87201a700f2a Anup Patel 2025-08-15  101  #undef switchcase_csr_read_16
-8c87201a700f2a Anup Patel 2025-08-15  102  #undef switchcase_csr_read_8
-8c87201a700f2a Anup Patel 2025-08-15  103  #undef switchcase_csr_read_4
-8c87201a700f2a Anup Patel 2025-08-15  104  #undef switchcase_csr_read_2
-8c87201a700f2a Anup Patel 2025-08-15  105  #undef switchcase_csr_read
-8c87201a700f2a Anup Patel 2025-08-15  106  }
-8c87201a700f2a Anup Patel 2025-08-15  107  EXPORT_SYMBOL_GPL(csr_read_num);
-8c87201a700f2a Anup Patel 2025-08-15  108  
-8c87201a700f2a Anup Patel 2025-08-15  109  void csr_write_num(unsigned long csr_num, unsigned long val, int *out_err)
-8c87201a700f2a Anup Patel 2025-08-15  110  {
-8c87201a700f2a Anup Patel 2025-08-15  111  #define switchcase_csr_write(__csr_num, __val)			\
-8c87201a700f2a Anup Patel 2025-08-15  112  	case (__csr_num):					\
-8c87201a700f2a Anup Patel 2025-08-15  113  		csr_write(__csr_num, __val);			\
-8c87201a700f2a Anup Patel 2025-08-15  114  		break
-8c87201a700f2a Anup Patel 2025-08-15  115  #define switchcase_csr_write_2(__csr_num, __val)		\
-8c87201a700f2a Anup Patel 2025-08-15  116  	switchcase_csr_write(__csr_num + 0, __val);		\
-8c87201a700f2a Anup Patel 2025-08-15  117  	switchcase_csr_write(__csr_num + 1, __val)
-8c87201a700f2a Anup Patel 2025-08-15  118  #define switchcase_csr_write_4(__csr_num, __val)		\
-8c87201a700f2a Anup Patel 2025-08-15  119  	switchcase_csr_write_2(__csr_num + 0, __val);		\
-8c87201a700f2a Anup Patel 2025-08-15  120  	switchcase_csr_write_2(__csr_num + 2, __val)
-8c87201a700f2a Anup Patel 2025-08-15  121  #define switchcase_csr_write_8(__csr_num, __val)		\
-8c87201a700f2a Anup Patel 2025-08-15  122  	switchcase_csr_write_4(__csr_num + 0, __val);		\
-8c87201a700f2a Anup Patel 2025-08-15  123  	switchcase_csr_write_4(__csr_num + 4, __val)
-8c87201a700f2a Anup Patel 2025-08-15  124  #define switchcase_csr_write_16(__csr_num, __val)		\
-8c87201a700f2a Anup Patel 2025-08-15  125  	switchcase_csr_write_8(__csr_num + 0, __val);		\
-8c87201a700f2a Anup Patel 2025-08-15  126  	switchcase_csr_write_8(__csr_num + 8, __val)
-8c87201a700f2a Anup Patel 2025-08-15  127  #define switchcase_csr_write_32(__csr_num, __val)		\
-8c87201a700f2a Anup Patel 2025-08-15  128  	switchcase_csr_write_16(__csr_num + 0, __val);		\
-8c87201a700f2a Anup Patel 2025-08-15  129  	switchcase_csr_write_16(__csr_num + 16, __val)
-8c87201a700f2a Anup Patel 2025-08-15  130  #define switchcase_csr_write_64(__csr_num, __val)		\
-8c87201a700f2a Anup Patel 2025-08-15  131  	switchcase_csr_write_32(__csr_num + 0, __val);		\
-8c87201a700f2a Anup Patel 2025-08-15  132  	switchcase_csr_write_32(__csr_num + 32, __val)
-8c87201a700f2a Anup Patel 2025-08-15  133  #define switchcase_csr_write_128(__csr_num, __val)		\
-8c87201a700f2a Anup Patel 2025-08-15  134  	switchcase_csr_write_64(__csr_num + 0, __val);		\
-8c87201a700f2a Anup Patel 2025-08-15  135  	switchcase_csr_write_64(__csr_num + 64, __val)
-8c87201a700f2a Anup Patel 2025-08-15  136  #define switchcase_csr_write_256(__csr_num, __val)		\
-8c87201a700f2a Anup Patel 2025-08-15  137  	switchcase_csr_write_128(__csr_num + 0, __val);		\
-8c87201a700f2a Anup Patel 2025-08-15  138  	switchcase_csr_write_128(__csr_num + 128, __val)
-8c87201a700f2a Anup Patel 2025-08-15  139  
-8c87201a700f2a Anup Patel 2025-08-15  140  	*out_err = 0;
-8c87201a700f2a Anup Patel 2025-08-15  141  	switch (csr_num) {
-8c87201a700f2a Anup Patel 2025-08-15  142  	switchcase_csr_write_256(CSR_CUSTOM0_U_RW_BASE, val);
-8c87201a700f2a Anup Patel 2025-08-15  143  	switchcase_csr_write_64(CSR_CUSTOM2_S_RW_BASE, val);
-8c87201a700f2a Anup Patel 2025-08-15  144  	switchcase_csr_write_64(CSR_CUSTOM3_S_RW_BASE, val);
-8c87201a700f2a Anup Patel 2025-08-15  145  	switchcase_csr_write_64(CSR_CUSTOM5_HS_RW_BASE, val);
-8c87201a700f2a Anup Patel 2025-08-15 @146  	switchcase_csr_write_64(CSR_CUSTOM6_HS_RW_BASE, val);
+vim +/PTR_ERR +1102 net/core/netdev-genl.c
+
+170aafe35cb98e Mina Almasry       2024-09-10  1045  
+8802087d20c0e1 Stanislav Fomichev 2025-05-08  1046  int netdev_nl_bind_tx_doit(struct sk_buff *skb, struct genl_info *info)
+8802087d20c0e1 Stanislav Fomichev 2025-05-08  1047  {
+bd61848900bff5 Mina Almasry       2025-05-08  1048  	struct net_devmem_dmabuf_binding *binding;
+bd61848900bff5 Mina Almasry       2025-05-08  1049  	struct netdev_nl_sock *priv;
+bd61848900bff5 Mina Almasry       2025-05-08  1050  	struct net_device *netdev;
+512c88fb0e884c Dragos Tatulea     2025-08-27  1051  	struct device *dma_dev;
+bd61848900bff5 Mina Almasry       2025-05-08  1052  	u32 ifindex, dmabuf_fd;
+bd61848900bff5 Mina Almasry       2025-05-08  1053  	struct sk_buff *rsp;
+bd61848900bff5 Mina Almasry       2025-05-08  1054  	int err = 0;
+bd61848900bff5 Mina Almasry       2025-05-08  1055  	void *hdr;
+bd61848900bff5 Mina Almasry       2025-05-08  1056  
+bd61848900bff5 Mina Almasry       2025-05-08  1057  	if (GENL_REQ_ATTR_CHECK(info, NETDEV_A_DEV_IFINDEX) ||
+bd61848900bff5 Mina Almasry       2025-05-08  1058  	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_DMABUF_FD))
+bd61848900bff5 Mina Almasry       2025-05-08  1059  		return -EINVAL;
+bd61848900bff5 Mina Almasry       2025-05-08  1060  
+bd61848900bff5 Mina Almasry       2025-05-08  1061  	ifindex = nla_get_u32(info->attrs[NETDEV_A_DEV_IFINDEX]);
+bd61848900bff5 Mina Almasry       2025-05-08  1062  	dmabuf_fd = nla_get_u32(info->attrs[NETDEV_A_DMABUF_FD]);
+bd61848900bff5 Mina Almasry       2025-05-08  1063  
+bd61848900bff5 Mina Almasry       2025-05-08  1064  	priv = genl_sk_priv_get(&netdev_nl_family, NETLINK_CB(skb).sk);
+bd61848900bff5 Mina Almasry       2025-05-08  1065  	if (IS_ERR(priv))
+bd61848900bff5 Mina Almasry       2025-05-08  1066  		return PTR_ERR(priv);
+bd61848900bff5 Mina Almasry       2025-05-08  1067  
+bd61848900bff5 Mina Almasry       2025-05-08  1068  	rsp = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
+bd61848900bff5 Mina Almasry       2025-05-08  1069  	if (!rsp)
+bd61848900bff5 Mina Almasry       2025-05-08  1070  		return -ENOMEM;
+bd61848900bff5 Mina Almasry       2025-05-08  1071  
+bd61848900bff5 Mina Almasry       2025-05-08  1072  	hdr = genlmsg_iput(rsp, info);
+bd61848900bff5 Mina Almasry       2025-05-08  1073  	if (!hdr) {
+bd61848900bff5 Mina Almasry       2025-05-08  1074  		err = -EMSGSIZE;
+bd61848900bff5 Mina Almasry       2025-05-08  1075  		goto err_genlmsg_free;
+bd61848900bff5 Mina Almasry       2025-05-08  1076  	}
+bd61848900bff5 Mina Almasry       2025-05-08  1077  
+bd61848900bff5 Mina Almasry       2025-05-08  1078  	mutex_lock(&priv->lock);
+bd61848900bff5 Mina Almasry       2025-05-08  1079  
+bd61848900bff5 Mina Almasry       2025-05-08  1080  	netdev = netdev_get_by_index_lock(genl_info_net(info), ifindex);
+bd61848900bff5 Mina Almasry       2025-05-08  1081  	if (!netdev) {
+bd61848900bff5 Mina Almasry       2025-05-08  1082  		err = -ENODEV;
+bd61848900bff5 Mina Almasry       2025-05-08  1083  		goto err_unlock_sock;
+bd61848900bff5 Mina Almasry       2025-05-08  1084  	}
+bd61848900bff5 Mina Almasry       2025-05-08  1085  
+bd61848900bff5 Mina Almasry       2025-05-08  1086  	if (!netif_device_present(netdev)) {
+bd61848900bff5 Mina Almasry       2025-05-08  1087  		err = -ENODEV;
+bd61848900bff5 Mina Almasry       2025-05-08  1088  		goto err_unlock_netdev;
+bd61848900bff5 Mina Almasry       2025-05-08  1089  	}
+bd61848900bff5 Mina Almasry       2025-05-08  1090  
+ae28cb114727dd Mina Almasry       2025-05-08  1091  	if (!netdev->netmem_tx) {
+ae28cb114727dd Mina Almasry       2025-05-08  1092  		err = -EOPNOTSUPP;
+ae28cb114727dd Mina Almasry       2025-05-08  1093  		NL_SET_ERR_MSG(info->extack,
+ae28cb114727dd Mina Almasry       2025-05-08  1094  			       "Driver does not support netmem TX");
+ae28cb114727dd Mina Almasry       2025-05-08  1095  		goto err_unlock_netdev;
+ae28cb114727dd Mina Almasry       2025-05-08  1096  	}
+ae28cb114727dd Mina Almasry       2025-05-08  1097  
+512c88fb0e884c Dragos Tatulea     2025-08-27  1098  	dma_dev = netdev_queue_get_dma_dev(netdev, 0);
+512c88fb0e884c Dragos Tatulea     2025-08-27  1099  	binding = net_devmem_bind_dmabuf(netdev, dma_dev, DMA_TO_DEVICE,
+512c88fb0e884c Dragos Tatulea     2025-08-27  1100  					 dmabuf_fd, priv, info->extack);
+991dbef67e2c35 Mina Almasry       2025-08-29  1101  	if (IS_ERR_OR_NULL(binding)) {
+bd61848900bff5 Mina Almasry       2025-05-08 @1102  		err = PTR_ERR(binding);
+bd61848900bff5 Mina Almasry       2025-05-08  1103  		goto err_unlock_netdev;
+bd61848900bff5 Mina Almasry       2025-05-08  1104  	}
+bd61848900bff5 Mina Almasry       2025-05-08  1105  
+bd61848900bff5 Mina Almasry       2025-05-08  1106  	nla_put_u32(rsp, NETDEV_A_DMABUF_ID, binding->id);
+bd61848900bff5 Mina Almasry       2025-05-08  1107  	genlmsg_end(rsp, hdr);
+bd61848900bff5 Mina Almasry       2025-05-08  1108  
+bd61848900bff5 Mina Almasry       2025-05-08  1109  	netdev_unlock(netdev);
+bd61848900bff5 Mina Almasry       2025-05-08  1110  	mutex_unlock(&priv->lock);
+bd61848900bff5 Mina Almasry       2025-05-08  1111  
+bd61848900bff5 Mina Almasry       2025-05-08  1112  	return genlmsg_reply(rsp, info);
+bd61848900bff5 Mina Almasry       2025-05-08  1113  
+bd61848900bff5 Mina Almasry       2025-05-08  1114  err_unlock_netdev:
+bd61848900bff5 Mina Almasry       2025-05-08  1115  	netdev_unlock(netdev);
+bd61848900bff5 Mina Almasry       2025-05-08  1116  err_unlock_sock:
+bd61848900bff5 Mina Almasry       2025-05-08  1117  	mutex_unlock(&priv->lock);
+bd61848900bff5 Mina Almasry       2025-05-08  1118  err_genlmsg_free:
+bd61848900bff5 Mina Almasry       2025-05-08  1119  	nlmsg_free(rsp);
+bd61848900bff5 Mina Almasry       2025-05-08  1120  	return err;
+8802087d20c0e1 Stanislav Fomichev 2025-05-08  1121  }
+8802087d20c0e1 Stanislav Fomichev 2025-05-08  1122  
 
 -- 
 0-DAY CI Kernel Test Service
