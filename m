@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C011FBCA7
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Aug 2025 21:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57D613774D
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Aug 2025 21:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756588076; cv=none; b=fZo2iVSrd6B/w7/+/PY7biRp25PvT3JN+BC85HDrdM7LWa3dDB93D5N0tJ+IMURbkTjgKlV9QjfwA3Q2S7KKVyC11yjA9AllI+ltL46XU+QQQuzOXTntUGB9te1/38chCj+ADQais/gVnK3N2ZY/muFwAl2XhXLKdFQJu+QSImY=
+	t=1756588690; cv=none; b=JgdlX8A9Ud8eYhAIAlXZdYSEMYsdf+v6lo5j+0h/GYZbMjBzqypr468GJGyNtFJIRdVMpJiMF7+jNRUqBKrrKOArInljJvPVUEAOn6WHgA+Drd7ondH0OoMcnYHPrgLGDR5PBJC9IZ/IavtWEdIiszplNjohaAySRI5zmSLL1LI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756588076; c=relaxed/simple;
-	bh=NEtpyY/eKh81qmvvxTpZSv54eb1miTIXrkxdpwwvRcw=;
+	s=arc-20240116; t=1756588690; c=relaxed/simple;
+	bh=8IjuOH5JJpx2cV67BshQmt0sEeYDLhW8ACQNrV5yAEM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rdhpHWdf3VG+iw9mPslRpvkCCr+8OfBb+PPwFZT8BfLjoZNZv/DgW9VVDlhA5xS6PhRvE7o3+8mfY0uRW6dgH02Wma+X6EIJkPcWE9XOH8utEFoLOXSWJXT4w2colkLj8ETssmvbmaarJJbB/tiPBIC99NqU2/p2c5C1GNSJNFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HgoL0czU; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=D5q8xGkboiQnqRS60AOB3qXLJzOre8fy4yGtGypACxVVatHDCtMLemIzNxxxb4gJ9iGw34wPoCFcN0x1SSz43mG4IEWDy8Z5Q2QWyORONghMoJPW2RbMGBpAS31fIbKV67usEJfXvyIVTj+kpRih3S/EzghmEs6Zca3ui/sTCak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C+mcwBP0; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HgoL0czU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C+mcwBP0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756588074; x=1788124074;
+  t=1756588689; x=1788124689;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NEtpyY/eKh81qmvvxTpZSv54eb1miTIXrkxdpwwvRcw=;
-  b=HgoL0czUegBKUjfTD704ikFPkebvD3m3UuPTJMggz1zH6yNYaB5WrWFL
-   rpRmYS0RlfERkIjJMcIDg7E1bdhhzA8s6uOtxBNNNgqGLrA7bi87UVYsS
-   N+B0Kz9dbD3speu+BrsKGuxi4IjyYIGc1rkI6RyuJQQ/j+51x/KWdVWxe
-   SYXeTzGJkOaRl5CO2kw0TaohdpqcqsI7BY95GkQTyYmjB8WbPz3QGEr4Y
-   0ib7v1y+U/Hzji1Fh8hJIER8DgWa/07QWsHQqC3BoJKK4oWhBO7RhyehB
-   EJtQt1dLfy/5Rea0lNdG9ejgwGSz2iuKA8ydSE4EXmUAVRecU7PCGWgsV
-   A==;
-X-CSE-ConnectionGUID: 3t3ZID5tQB+wX5JXAdNNfw==
-X-CSE-MsgGUID: hwF6N1XySg+kDdsxfoIGww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58763582"
+  bh=8IjuOH5JJpx2cV67BshQmt0sEeYDLhW8ACQNrV5yAEM=;
+  b=C+mcwBP0INZpkLfZEzqdMLLxWhL2PaQrcd6oStp3Bw9xtNwccL+S+sVX
+   PTQhyqER7YhX63H4bfh93xgJEkhVZbmb2gZXOBg4rRdLTrcRH7UHxVMCs
+   hQc6NdhYE9qForDHhsaUzqBCvLeeSw98lFdQ7TlUaE64yATeZ7dvfY1IZ
+   q83Bft5vryo67TBlycE8ckQ/1yW4jK7ukblzufLmj+vyc3NIVaUusEbjP
+   XEBbInuc4Gu18JhoURStMSiO8MTaZrB6Dw6PbjpwASti8HgziDS6VVI9G
+   YLXC8OYIi5OO+uhuCE/UG9p99QyAaQr7xPg8LhGxTmwosjewTW2F1H0Bw
+   Q==;
+X-CSE-ConnectionGUID: EEKNoNYCQlG5izXTayiNAg==
+X-CSE-MsgGUID: 33M6EWkfTzCQjDTiMZmksg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="81429388"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58763582"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2025 14:07:53 -0700
-X-CSE-ConnectionGUID: hs+Osj/ZTd6QyI+AUwwGIQ==
-X-CSE-MsgGUID: Hhrpv+gARHK8B1X93O373Q==
+   d="scan'208";a="81429388"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2025 14:18:08 -0700
+X-CSE-ConnectionGUID: GfECGRwTSVWOwk+liS5Lcw==
+X-CSE-MsgGUID: CrhUu5oOTVyWDVznwT6e5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="175921417"
+   d="scan'208";a="194312202"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 30 Aug 2025 14:07:51 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 30 Aug 2025 14:18:07 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1usSnd-000VhX-2D;
-	Sat, 30 Aug 2025 21:07:49 +0000
-Date: Sun, 31 Aug 2025 05:07:11 +0800
+	id 1usSxY-000Vhj-2Q;
+	Sat, 30 Aug 2025 21:18:04 +0000
+Date: Sun, 31 Aug 2025 05:17:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v3 2/4] nvme-fc: reorganize ctrl ref-counting and cleanup
- code
-Message-ID: <202508310442.lBWBZ5AC-lkp@intel.com>
+Subject: [brauner-github:vfs-6.18.inode.refcount.preliminaries 4/5]
+ fs/inode.c:1948 iput() warn: inconsistent returns '&inode->i_lock'.
+Message-ID: <202508310517.8dy7Pq7r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,91 +64,83 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250829-nvme-fc-sync-v3-2-d69c87e63aee@kernel.org>
-References: <20250829-nvme-fc-sync-v3-2-d69c87e63aee@kernel.org>
-TO: Daniel Wagner <wagi@kernel.org>
-TO: Keith Busch <kbusch@kernel.org>
-TO: Christoph Hellwig <hch@lst.de>
-TO: Sagi Grimberg <sagi@grimberg.me>
-TO: James Smart <james.smart@broadcom.com>
-CC: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-CC: Hannes Reinecke <hare@suse.de>
-CC: linux-nvme@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: Daniel Wagner <wagi@kernel.org>
+CC: Christian Brauner <christianvanbrauner@gmail.com>
+TO: Josef Bacik <josef@toxicpanda.com>
+CC: Christian Brauner <brauner@kernel.org>
+CC: Mateusz Guzik <mjguzik@gmail.com>
 
-Hi Daniel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvme-fabrics-introduce-ref-counting-for-nvmf_ctrl_options/20250829-234513
-base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
-patch link:    https://lore.kernel.org/r/20250829-nvme-fc-sync-v3-2-d69c87e63aee%40kernel.org
-patch subject: [PATCH v3 2/4] nvme-fc: reorganize ctrl ref-counting and cleanup code
-:::::: branch date: 29 hours ago
-:::::: commit date: 29 hours ago
-config: x86_64-randconfig-161-20250830 (https://download.01.org/0day-ci/archive/20250831/202508310442.lBWBZ5AC-lkp@intel.com/config)
+tree:   https://github.com/brauner/linux.git vfs-6.18.inode.refcount.preliminaries
+head:   c06366d1d6aba8c5757b0a119a948ee37bfbc560
+commit: 3cba19f6a00675fbc2af0987dfc90e216e6cfb74 [4/5] fs: rework iput logic
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
+config: i386-randconfig-141-20250830 (https://download.01.org/0day-ci/archive/20250831/202508310517.8dy7Pq7r-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202508310442.lBWBZ5AC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508310517.8dy7Pq7r-lkp@intel.com/
 
-New smatch warnings:
-drivers/nvme/host/fc.c:1492 nvme_fc_match_disconn_ls() warn: iterator used outside loop: 'ctrl'
+smatch warnings:
+fs/inode.c:1948 iput() warn: inconsistent returns '&inode->i_lock'.
 
-Old smatch warnings:
-drivers/nvme/host/fc.c:3180 nvme_fc_delete_association() warn: mixing irqsave and irq
+vim +1948 fs/inode.c
 
-vim +/ctrl +1492 drivers/nvme/host/fc.c
-
-14fd1e98afafc0 James Smart 2020-03-31  1464  
-14fd1e98afafc0 James Smart 2020-03-31  1465  static struct nvme_fc_ctrl *
-14fd1e98afafc0 James Smart 2020-03-31  1466  nvme_fc_match_disconn_ls(struct nvme_fc_rport *rport,
-14fd1e98afafc0 James Smart 2020-03-31  1467  		      struct nvmefc_ls_rcv_op *lsop)
-14fd1e98afafc0 James Smart 2020-03-31  1468  {
-14fd1e98afafc0 James Smart 2020-03-31  1469  	struct fcnvme_ls_disconnect_assoc_rqst *rqst =
-14fd1e98afafc0 James Smart 2020-03-31  1470  					&lsop->rqstbuf->rq_dis_assoc;
-14fd1e98afafc0 James Smart 2020-03-31  1471  	struct nvme_fc_ctrl *ctrl, *ret = NULL;
-14fd1e98afafc0 James Smart 2020-03-31  1472  	struct nvmefc_ls_rcv_op *oldls = NULL;
-14fd1e98afafc0 James Smart 2020-03-31  1473  	u64 association_id = be64_to_cpu(rqst->associd.association_id);
-14fd1e98afafc0 James Smart 2020-03-31  1474  	unsigned long flags;
-14fd1e98afafc0 James Smart 2020-03-31  1475  
-14fd1e98afafc0 James Smart 2020-03-31  1476  	spin_lock_irqsave(&rport->lock, flags);
-14fd1e98afafc0 James Smart 2020-03-31  1477  
-14fd1e98afafc0 James Smart 2020-03-31  1478  	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list) {
-14fd1e98afafc0 James Smart 2020-03-31  1479  		spin_lock(&ctrl->lock);
-14fd1e98afafc0 James Smart 2020-03-31  1480  		if (association_id == ctrl->association_id) {
-14fd1e98afafc0 James Smart 2020-03-31  1481  			oldls = ctrl->rcv_disconn;
-14fd1e98afafc0 James Smart 2020-03-31  1482  			ctrl->rcv_disconn = lsop;
-14fd1e98afafc0 James Smart 2020-03-31  1483  			ret = ctrl;
-14fd1e98afafc0 James Smart 2020-03-31  1484  		}
-14fd1e98afafc0 James Smart 2020-03-31  1485  		spin_unlock(&ctrl->lock);
-14fd1e98afafc0 James Smart 2020-03-31  1486  	}
-14fd1e98afafc0 James Smart 2020-03-31  1487  
-14fd1e98afafc0 James Smart 2020-03-31  1488  	spin_unlock_irqrestore(&rport->lock, flags);
-14fd1e98afafc0 James Smart 2020-03-31  1489  
-14fd1e98afafc0 James Smart 2020-03-31  1490  	/* transmit a response for anything that was pending */
-14fd1e98afafc0 James Smart 2020-03-31  1491  	if (oldls) {
-14fd1e98afafc0 James Smart 2020-03-31 @1492  		dev_info(rport->lport->dev,
-14fd1e98afafc0 James Smart 2020-03-31  1493  			"NVME-FC{%d}: Multiple Disconnect Association "
-14fd1e98afafc0 James Smart 2020-03-31  1494  			"LS's received\n", ctrl->cnum);
-14fd1e98afafc0 James Smart 2020-03-31  1495  		/* overwrite good response with bogus failure */
-14fd1e98afafc0 James Smart 2020-03-31  1496  		oldls->lsrsp->rsplen = nvme_fc_format_rjt(oldls->rspbuf,
-14fd1e98afafc0 James Smart 2020-03-31  1497  						sizeof(*oldls->rspbuf),
-14fd1e98afafc0 James Smart 2020-03-31  1498  						rqst->w0.ls_cmd,
-14fd1e98afafc0 James Smart 2020-03-31  1499  						FCNVME_RJT_RC_UNAB,
-14fd1e98afafc0 James Smart 2020-03-31  1500  						FCNVME_RJT_EXP_NONE, 0);
-14fd1e98afafc0 James Smart 2020-03-31  1501  		nvme_fc_xmt_ls_rsp(oldls);
-14fd1e98afafc0 James Smart 2020-03-31  1502  	}
-14fd1e98afafc0 James Smart 2020-03-31  1503  
-14fd1e98afafc0 James Smart 2020-03-31  1504  	return ret;
-14fd1e98afafc0 James Smart 2020-03-31  1505  }
-14fd1e98afafc0 James Smart 2020-03-31  1506  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1899  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1900  /**
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1901   *	iput	- put an inode
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1902   *	@inode: inode to put
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1903   *
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1904   *	Puts an inode, dropping its usage count. If the inode use count hits
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1905   *	zero, the inode is then freed and may also be destroyed.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1906   *
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1907   *	Consequently, iput() can sleep.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1908   */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1909  void iput(struct inode *inode)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1910  {
+3cba19f6a00675 Josef Bacik    2025-08-26  1911  	if (unlikely(!inode))
+0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1912  		return;
+3cba19f6a00675 Josef Bacik    2025-08-26  1913  
+0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1914  retry:
+3cba19f6a00675 Josef Bacik    2025-08-26  1915  	lockdep_assert_not_held(&inode->i_lock);
+3cba19f6a00675 Josef Bacik    2025-08-26  1916  	VFS_BUG_ON_INODE(inode->i_state & I_CLEAR, inode);
+3cba19f6a00675 Josef Bacik    2025-08-26  1917  	/*
+3cba19f6a00675 Josef Bacik    2025-08-26  1918          * Note this assert is technically racy as if the count is bogusly
+3cba19f6a00675 Josef Bacik    2025-08-26  1919          * equal to one, then two CPUs racing to further drop it can both
+3cba19f6a00675 Josef Bacik    2025-08-26  1920          * conclude it's fine.
+3cba19f6a00675 Josef Bacik    2025-08-26  1921          */
+3cba19f6a00675 Josef Bacik    2025-08-26  1922  	VFS_BUG_ON_INODE(atomic_read(&inode->i_count) < 1, inode);
+3cba19f6a00675 Josef Bacik    2025-08-26  1923  
+3cba19f6a00675 Josef Bacik    2025-08-26  1924  	if (atomic_add_unless(&inode->i_count, -1, 1))
+3cba19f6a00675 Josef Bacik    2025-08-26  1925  		return;
+3cba19f6a00675 Josef Bacik    2025-08-26  1926  
+3cba19f6a00675 Josef Bacik    2025-08-26  1927  	if ((inode->i_state & I_DIRTY_TIME) && inode->i_nlink) {
+0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1928  		trace_writeback_lazytime_iput(inode);
+0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1929  		mark_inode_dirty_sync(inode);
+0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1930  		goto retry;
+0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1931  	}
+3cba19f6a00675 Josef Bacik    2025-08-26  1932  
+3cba19f6a00675 Josef Bacik    2025-08-26  1933  	spin_lock(&inode->i_lock);
+3cba19f6a00675 Josef Bacik    2025-08-26  1934  	if (unlikely((inode->i_state & I_DIRTY_TIME) && inode->i_nlink)) {
+3cba19f6a00675 Josef Bacik    2025-08-26  1935  		spin_unlock(&inode->i_lock);
+3cba19f6a00675 Josef Bacik    2025-08-26  1936  		goto retry;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1937  	}
+3cba19f6a00675 Josef Bacik    2025-08-26  1938  
+3cba19f6a00675 Josef Bacik    2025-08-26  1939  	if (!atomic_dec_and_test(&inode->i_count)) {
+3cba19f6a00675 Josef Bacik    2025-08-26  1940  		spin_unlock(&inode->i_lock);
+3cba19f6a00675 Josef Bacik    2025-08-26  1941  		return;
+3cba19f6a00675 Josef Bacik    2025-08-26  1942  	}
+3cba19f6a00675 Josef Bacik    2025-08-26  1943  
+3cba19f6a00675 Josef Bacik    2025-08-26  1944  	/*
+3cba19f6a00675 Josef Bacik    2025-08-26  1945          * iput_final() drops ->i_lock, we can't assert on it as the inode may
+3cba19f6a00675 Josef Bacik    2025-08-26  1946          * be deallocated by the time the call returns.
+3cba19f6a00675 Josef Bacik    2025-08-26  1947          */
+3cba19f6a00675 Josef Bacik    2025-08-26 @1948  	iput_final(inode);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1949  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1950  EXPORT_SYMBOL(iput);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1951  
 
 -- 
 0-DAY CI Kernel Test Service
