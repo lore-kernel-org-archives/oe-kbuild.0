@@ -1,78 +1,58 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE40331AF1B
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 Sep 2025 11:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFFE26D4C1
+	for <oe-kbuild@lists.linux.dev>; Mon,  1 Sep 2025 12:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756727260; cv=none; b=CqL23MydPqSjvLqX73QOMPIn74cQbr3X+rZFaVA8gFi6Va7Y6E/KFPQUb8vNEExTrFqKiSBu6VkXxEok4zo2YDLpHZ0ek4MH0UrIuxFtbHIsEEsKXYlcQkyIZMAJPE6a2oHlBoqWD9UiFO6Rt3/BUChAPS/nyemFVqKLbmoy0uk=
+	t=1756729481; cv=none; b=kF84uNGzrYdVMMFST42CHO5L7OuNa2EUZZajJukFwrxfmP/YY0mH1zVYoCNZtXQ+gzowJ7rFHJ7zzdXV3nmfvccfDLZL92UAQK22kZc3Pg5VmEKb5DGNzwW9z96GES3NHZPpuv6vBgMWgXMf1SfVJgshkqe5+cDyCMdzCFH1Rfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756727260; c=relaxed/simple;
-	bh=wU+YtIjUdHrTJHGH2u24IDhC568tsl9YMJ7XuPW7+Vo=;
+	s=arc-20240116; t=1756729481; c=relaxed/simple;
+	bh=5pT/EnQhylEh7KNaY6ZujZ55y88LJZupU6JafLB1I18=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=akcvQmJI8PyRNXIv7L1FQfhJjx+jBowccx6WXqHoszp0c9+0/imz7MpOaeBpBbbENEkA9X9vM86QY45DYMXVUUkJ4ZqI7VKtxCCXSJP97r3MvrGH0viZEuO8NIZGSy1grvM8dcQ9JsTl+BKNbpyp4+eYJ5VGDDbvDn1jiVoYUT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fVxD73ZH; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=rgQy6oyQhswR4F8QQn92C1yRxtoU0iIIFAaB3QZWIJ5BY/mZfrUO7pP+W869PTfmib/zrVitlrQYdoMkmTOjPNg7z6oyoh1JXqiW86AkbXZJbYZghTsKk7yiDJRsE46JM7u5NxId20yQ2SaeR1WBF7FOcD9JlLexuIoXLUn7G5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VXfvo49R; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fVxD73ZH"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-45b7c01a8c1so33478095e9.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 01 Sep 2025 04:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756727257; x=1757332057; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LzQCI9Zj8RikZvzuhO8bePIhY5c3MO1QFwxFZbxrm1Q=;
-        b=fVxD73ZHpNuUGkD36mtRSJ2UtpyRSEssreJ+EtB9AQmF+8DEjmebJmZpExlq2HOQP2
-         ZvXsmB+jGfG2eM7g6H4GcU3rKwrLvcBlRrpQYkz9iD1oWFAgUpGeOIShgIVVuzEgf3qZ
-         tDpKUxirf2Nbhz+s/KrbnsrXXOhYACPmOw52IGGeodkAhqF3gvq4jOmP4Xp/wfmJyAm2
-         vMuLtK1ZOaDeeWYPZBD4ymT2rod8enn+wKk7zXimXwzYz1TVA/f9fEUThn/F2PqylFGE
-         OaGrCsMlQiSNojZindu5e60cyLkxFtC3KBd1xujRvo/NZcK0pk30lnjgnTwIi1rCIs2f
-         gcdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756727257; x=1757332057;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LzQCI9Zj8RikZvzuhO8bePIhY5c3MO1QFwxFZbxrm1Q=;
-        b=i+3myQVOoE/lzOz/l/Tv7BJPMZ8osPhUc1etEe0OMbnUWd/gn4W6hBadB4S9mU1kn4
-         1SU38wnD2utZxgA3WOvMABsAp9NCAPTop0OspJXw2eamGMKM5j+s64D0vZGiq7iaf4jG
-         UYuaf4v9d3es2IDNEGHWW+MO5UwbvWy/sGmmDMnGeXu4ofFYzJGEHvEkSal0I20pPJw6
-         JKqsTvPbSerBJEHzxQww5fbnsJ9ycnDsCP5MtfTeS4sKoDTNPa3xOmpaBR925np278lI
-         QaF6w53WmRqeFeO/qhKcrKIy7/3csXYjkqhOBIOZPNxtIn3brwN72YipnWM+1Rz/nODp
-         u0cw==
-X-Gm-Message-State: AOJu0YyLN3pvRuNvbi1wq99qZ9R8Ycd5TXb2fCG2WVV/GuQuPmgUWipT
-	aej+3zd+nkgUACbMK2eRfdTZ+/il2eZhmjB1vQpXVj6NVGfJmfmbmZjSx/EGHyq2cQUDpy0mJtN
-	6mfRO
-X-Gm-Gg: ASbGncs4+5FgAc+v44qV+m3Bi/WU3GnIBL3n7uVmOHFfTBgCy2+kZ+OgB0qtNIwW1aU
-	fBjVb6OvPhqdv9x6GXY8fZd2J+kAPNOcFu0MZYuQCr/v2yxlQVygBBBXEoWaz5bPvGRwpxiqYPh
-	iA9cPXXxuPeTSZWm6JCROMyjpmBE3DamyX10BRBbK5yMgKOtD/PvVBpz2b+C0THyPszaz1fuJ81
-	0iCUNsWMbtlaMCdUR33g6ZcpuLjsXRIZi19uZQQVaxMxrTeUeWSXyyvrxyQJ3GOV7gKVvI7nVo5
-	3VM2TuzDM9MXcGm+NNmYiD2yKdIXqKDXD0nvSaHbvg9FAZUplMXMMGRBAwIqzQwdL7pjAf5vDO/
-	YPyt9q6vwyRdU/6Un1VYeqU75m2mm/aLNY3kHfA==
-X-Google-Smtp-Source: AGHT+IH0O4ZkQ2YHVX46lUYZ8xCc2gxCMjSWxlXrU84lXHEdxwk9FtWekPg/E84Nq3t3E+yY+gv8GQ==
-X-Received: by 2002:a05:600c:1385:b0:45b:80ff:58f7 with SMTP id 5b1f17b1804b1-45b855c489fmr56725645e9.36.1756727256836;
-        Mon, 01 Sep 2025 04:47:36 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3cf33adf170sm15932215f8f.33.2025.09.01.04.47.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 04:47:36 -0700 (PDT)
-Date: Mon, 1 Sep 2025 14:47:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-spi@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, jic23@kernel.org,
-	Michael.Hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
-	corbet@lwn.net, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, broonie@kernel.org,
-	Jonathan.Cameron@huawei.com, andriy.shevchenko@linux.intel.com,
-	ahaslam@baylibre.com, marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH 15/15] iio: adc: ad4030: Add support for ADAQ4216 and
- ADAQ4224
-Message-ID: <202508310754.Y4V0Iq26-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VXfvo49R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756729479; x=1788265479;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5pT/EnQhylEh7KNaY6ZujZ55y88LJZupU6JafLB1I18=;
+  b=VXfvo49Rg0UQhNdj71T7veJM+JTQNbRBVrjdKy3CdUVhUJtlOETNV29y
+   aen4r+NMIJsZnbhvqDkjHcSlYSJCwlIPZCoF7MauWEk2Q1cQi4qZTgenW
+   iyGp3wzvW4gwQb6q6pVGitd6U54yIl93A2p4e5pEA+8jltB/jGrZ92LQn
+   i6ikL5LJk0w6YCyk8aAAYz9jJVaO+jz+L45M2jF75Enn/ESm0IpHtTjX7
+   WfpfNrDgM4gj7lF4FsVXxh5ouoqQw2Ov8Wb3OVYkR800r2wfrqK+q/ErK
+   3VtPqNU8O040KyK/pH1RncpbN5ixFqOdYlvfJhy6Bwb2wZEU645avfyzv
+   w==;
+X-CSE-ConnectionGUID: /dV3B6fTQ2aHE6Y5+Uq+vw==
+X-CSE-MsgGUID: U0FtALj/RfmPJ/yIRS7dxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58936920"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="58936920"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 05:24:39 -0700
+X-CSE-ConnectionGUID: UKvmg4iBTYexELHFjpdjPQ==
+X-CSE-MsgGUID: JH8/Un/mR1uQXNP15n54GQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="171862789"
+Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 01 Sep 2025 05:24:37 -0700
+Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ut3aC-0000ap-1N;
+	Mon, 01 Sep 2025 12:24:28 +0000
+Date: Mon, 1 Sep 2025 20:23:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [openeuler:openEuler-1.0-LTS 1568/1568]
+ block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+Message-ID: <202509012020.P1RhMhQr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,67 +61,155 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <006ac88a667ce0d2c751946b562af83d0f27a44f.1756511030.git.marcelo.schmitt@analog.com>
-Message-ID: <20250901114733.buU-LPV-He82fnWcTD1oS3zfvJxV-bv-tbhPcp6YFLM@z>
 
-Hi Marcelo,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: kernel@openeuler.org
+TO: Yang Yingliang <yangyingliang@huawei.com>
 
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/iio-adc-ad4030-Fix-_scale-for-when-oversampling-is-enabled/20250830-084901
-base:   91812d3843409c235f336f32f1c37ddc790f1e03
-patch link:    https://lore.kernel.org/r/006ac88a667ce0d2c751946b562af83d0f27a44f.1756511030.git.marcelo.schmitt%40analog.com
-patch subject: [PATCH 15/15] iio: adc: ad4030: Add support for ADAQ4216 and ADAQ4224
-config: x86_64-randconfig-161-20250831 (https://download.01.org/0day-ci/archive/20250831/202508310754.Y4V0Iq26-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   73bffb6a755d7ec519eefa4c67c236ed58888905
+commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1568/1568] blk-throttle: Set BIO_THROTTLED when bio has been throttled
+:::::: branch date: 5 hours ago
+:::::: commit date: 3 years, 6 months ago
+config: x86_64-randconfig-102-20250408 (https://download.01.org/0day-ci/archive/20250901/202509012020.P1RhMhQr-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508310754.Y4V0Iq26-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202509012020.P1RhMhQr-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/adc/ad4030.c:515 ad4030_set_pga() error: 'scan_type' dereferencing possible ERR_PTR()
+cocci warnings: (new ones prefixed by >>)
+>> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
 
-vim +/scan_type +515 drivers/iio/adc/ad4030.c
+vim +2306 block/blk-throttle.c
 
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  502  static int ad4030_set_pga(struct iio_dev *indio_dev,
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  503  			  struct iio_chan_spec const *chan, int gain_int,
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  504  			  int gain_fract)
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  505  {
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  506  	struct ad4030_state *st = iio_priv(indio_dev);
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  507  	const struct iio_scan_type *scan_type;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  508  	unsigned int mag_bits;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  509  	u64 gain_nano, tmp;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  510  
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  511  	if (!st->pga_gpios)
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  512  		return -EINVAL;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  513  
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  514  	scan_type = iio_get_current_scan_type(indio_dev, chan);
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
+ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
+ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
+e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
+c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
+ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
+73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
+0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
+e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
+e43473b7f223ec Vivek Goyal   2010-09-15  2203  
+ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
+ae118896361111 Tejun Heo     2015-08-18  2205  
+2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
+e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
+e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
+bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
+e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2211  
+e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
+c9589f03e49095 Tejun Heo     2015-08-18  2213  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
+c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
+e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
+f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
+9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
+9e234eeafbe17e Shaohua Li    2017-03-27  2221  
+73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
+73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
+c79892c5576163 Shaohua Li    2017-03-27  2224  again:
+9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
+3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
+3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
+fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
+9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
+c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
+3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
+c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
+c79892c5576163 Shaohua Li    2017-03-27  2240  			}
+9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
+c79892c5576163 Shaohua Li    2017-03-27  2242  		}
+de701c74a34005 Vivek Goyal   2011-03-07  2243  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
+e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
+04521db04e9a11 Vivek Goyal   2011-03-22  2246  
+04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
+04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
+04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
+04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
+04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
+04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
+04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
+04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
+04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
+04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
+04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
+0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
+9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
+9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
+c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
+9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
+e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
+e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2271  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
+fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
+8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
+9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
+9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
+9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
+73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
+e43473b7f223ec Vivek Goyal   2010-09-15  2279  
+3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2281  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
+c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
+e43473b7f223ec Vivek Goyal   2010-09-15  2285  
+7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
+7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
+7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
+7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
+7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
+7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
+77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
+7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
+e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2296  
+bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
+111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
+5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
+e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
+e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
+bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
+e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
+e43473b7f223ec Vivek Goyal   2010-09-15  2308  
 
-	if (IS_ERR(scan_type))
-		return PTR_ERR(scan_type);
+:::::: The code at line 2306 was first introduced by commit
+:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
 
-8017880dd8ca3e Marcelo Schmitt 2025-08-29 @515  	if (scan_type->sign == 's')
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  516  		mag_bits = st->chip->precision_bits - 1;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  517  	else
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  518  		mag_bits = st->chip->precision_bits;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  519  
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  520  	gain_nano = gain_int * NANO + gain_fract;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  521  
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  522  	if (!in_range(gain_nano, 0, ADAQ4616_GAIN_MAX_NANO))
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  523  		return -EINVAL;
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  524  
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  525  	tmp = DIV_ROUND_CLOSEST_ULL(gain_nano << mag_bits, NANO);
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  526  	gain_nano = DIV_ROUND_CLOSEST_ULL(st->vref_uv, tmp);
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  527  	st->pga_index = find_closest(gain_nano, ad4030_hw_gains,
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  528  				     ARRAY_SIZE(ad4030_hw_gains));
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  529  
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  530  	return ad4030_set_pga_gain(st);
-8017880dd8ca3e Marcelo Schmitt 2025-08-29  531  }
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
