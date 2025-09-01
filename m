@@ -1,75 +1,75 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED7C314A93
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 Sep 2025 11:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A692556E
+	for <oe-kbuild@lists.linux.dev>; Mon,  1 Sep 2025 11:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756726531; cv=none; b=eHY/tYJIvN5BthISuV3VLrH3qqn31Nz6/1YJxpudQCsoDQy95rkt6AvcXBJfhpGrN3bKHzNEuWRoOK4SvM/Bk6EMobjsAiJdo2VUAa5M8UoE7aw4Bxv3zWGBLhg6KlnmNmQTsWDDSGc4Gur7tfgI9YAbBouMw2hijrnFSeZEZN0=
+	t=1756727175; cv=none; b=Z7ScK1SdSdCf2tbEgjZvqji+T5XpwraO8CDR7cqNDOJIsyd8Dv2NdF0b3oHYrISQUDh7ulnN9spTT7qE7odLhyduuGtGo3u1Ynx0tCgbUPIIw+Ize+zcuF+SubIAy0cMFX+D1l8OXlHlxTQ7nRZtaam/j+BhROULUZatK/2Ba0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756726531; c=relaxed/simple;
-	bh=5Su5qnMW/hHYdd9KFxk5sM71atdYkx2Dvh08OZmr2no=;
+	s=arc-20240116; t=1756727175; c=relaxed/simple;
+	bh=oa8yFhR4MOVlIbCKi2lAbxZI5mMl7NxHerF/PDAor2s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=jM/EKEZ9rKo96yhCywV8InxgJh8TW70Pvx4bhfzv1YKLMkXrcvNn5eAN4BCXuTpm2WT9mkhPoBZvH7N788gr8tSPyQ/FnyS49493SV/xfUz8Y0QOEp+e42hbfBlkV0qOXxp3RWP5FD9rj6O+UonNWX1XCqmoINnaZmd5NNDUlIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uym5Jfhk; arc=none smtp.client-ip=209.85.128.45
+	 Content-Disposition:In-Reply-To; b=NxAoAqvZA02fSN/JybZyMBLWwgMACY1f5COGs85SCusLSCyjK4bjWhknCodlC7O091etx0nOER0vc+4+AUmM6sZbR7QOKCcVwsAhEbYHFQbMsN8HkI2vDiUk5S+Tcgn7EH0K37Y3meKJfmAJyFF6vR6NPu8AKK74wVhi/0TvYM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x6r9VhPh; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uym5Jfhk"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45b82a21e6bso17233045e9.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 01 Sep 2025 04:35:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x6r9VhPh"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3cbb0df3981so2071622f8f.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 01 Sep 2025 04:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756726527; x=1757331327; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1756727172; x=1757331972; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c9cCpZlImVazv64ehQTKhe9f281E06NS/0iMyn5viqg=;
-        b=uym5JfhkwG4YsUqwquWPcvKafJ3kUeQYzReImbWepN4ls85TYaLHJyOq2f6jtCHECx
-         r/ZSb0CWr5eS/1o9yJ1HWoN3CIEMSz8ji4l61PxCMsx+2LOY1b31XV3xvD75LuWr2uKx
-         FUETfh6sUnM58aWIvng+cgj0J8vaxNb8WTN9+7FR6WdDidJYw4gsdCsAlgCkewPf0Zh4
-         fXXdz/xCVdrcOxGsHMBYxY6N0A3W9vwmyZmhZEQBuolDEjQFh7jqB/vqzkII5PT5NwEt
-         YZnGh3i/iF2fd0znDOY5TSZmoMIvd2i3+ADqAEf0CkOzHu5Zvg3B0nnpgJ+/4swd2VmE
-         z3Iw==
+        bh=/CXP5PchANxZqGp3Gssb1xnZMCk6ZZsq9Lr1RRv1yS0=;
+        b=x6r9VhPhEWumT6f/2Dxf8C9f5s+WcsZfXBeDEV8w2mJ1/s8o9Ux2ACO6Z2zTqIKqg/
+         nnWIc6M3xz94aQzFBs/V11TfCqk4DJFxRsoFu+s/C9UI7MA3gOxfVo3Boa3hElTg3bCk
+         1+FynJl2k2GKvvUUhYbYVlpjawX/US8q2fBjs5eeSrJthpnLleTRyJgtr9Ahnan1KF4T
+         SafQgCeRlI4lJAOBwxXfL7GxpgeY9GwZB8B0e6YG/22lkBFbynx6dQVlW4c3o0QlUoRJ
+         2UGj3/bTwXXJ+y6di9ONj93xIbhWzhCMgEk2YMH5emABJWXwybijYYt0j5WJm9eDOtiS
+         G+1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756726527; x=1757331327;
+        d=1e100.net; s=20230601; t=1756727172; x=1757331972;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=c9cCpZlImVazv64ehQTKhe9f281E06NS/0iMyn5viqg=;
-        b=I1xr49OwZ1cwoDJndwUiq4eC+5l0nEY4YzjR+Jlzrz7Xbf8gLKNDhiDUC1WB4Fwuiw
-         u0eUennvfMXw3rEI9ZSb1whJxX0dyo6PlAZee2KfOWndChDDV332lEyl0ALF9uylYYzz
-         wH3fgLaWosmuvnTIwdWoeqT6TFC/wZfk1gXNw2yoTxwJtyFOteW3zyYCbYzpWe0rA6ei
-         w3VUmKrUKSFFKNbmJZOpKT29e/wXSIz7iyqKo9EtES86E/Q3x+AsKI+umTgXH1jmCI1x
-         3I+9+/np18XnnIqoSsgD925/+Uho6qFyVQWSns4Q9QiEKQOHGdd89pkz5nXqI2AOeqiI
-         CFhw==
-X-Gm-Message-State: AOJu0YzRWjnmYSuYNvcEP0WcCZkO3sANaA56HG/cf29JjrYlnVmLHTUg
-	Ghnlqk1gxrMGpHKsDNYYIQZq9tErHBpnL8M9FVVCY14zkLw0h4jXwhYh3fYPuA4NdcJY1CSSruG
-	SI2XV
-X-Gm-Gg: ASbGncuGV64CkxmxfFz716AVPxEKNbRl3T3ZmpibdKL/5Wr/RAdlDSggK/y0Iqwk7m3
-	kIqxbAbMdbWElXVot/GBVprvYGdAeHuZypubSXK7NJqmu6/BVFh3y7iKPR5LJU33HOJv8eaNdPj
-	KkElLhCBX9fyUGqfDOG4yKmLref1hWSn9/8vlKWvmF7lyXqd2n2UdlARAdN1ptuR1jaYysTfgnH
-	rPsiDzfAJAtDe5skJsmXp44VYgqDOqltp0cAAKt3iQVO51+dgtuS8mzx6PkA027zT56oflNI2MC
-	0LKOhUAv5iPAEptKnMGwgezf0c34Ihp5UwI2yhHofZNOlNV1xlLYOqKJ+Tn8UH+399xiYlCfN15
-	uTctrw9ahdmeEJ57XdiotygRCvlhCqwupxS6DyQ==
-X-Google-Smtp-Source: AGHT+IEsyjfAmj4sww84+pgQzOLWH82jjfVxE1+yTMurN84goWigwlJr78Akd0Qt+QV+xZ/JTMH/Jw==
-X-Received: by 2002:a05:600c:1c0c:b0:456:fdd:6030 with SMTP id 5b1f17b1804b1-45b85587d3cmr51042365e9.19.1756726527175;
-        Mon, 01 Sep 2025 04:35:27 -0700 (PDT)
+        bh=/CXP5PchANxZqGp3Gssb1xnZMCk6ZZsq9Lr1RRv1yS0=;
+        b=E7hHF4p4rDgmiYD+Gus6no7rpPtayQrZJP2rxKNB1zNOKI5i09oW/eczpYRnIOFmPL
+         3Imol+9XhKjRni7+sDZ+OZdzapZ+uMbznDE5vC+55ClwHIQ882JPmBZ1bcLq9XEozJ4p
+         Y79J+72Q34Pt2YOlRun6Cf7ThUj538NIRRpZTUicAV5haRD3DJly5s0tSdpAFd810Fvd
+         LyfNm6XS0oCAD7Ru0uHObqGMOGe6Y+iyjCnnGhn3i1pyFvIr1d7LSe1gs2yLygBXt4lZ
+         m6n1FzOK8AgvuZKncbD3y12EiVl0C912vmD2aQ5gqqJZ49O8YDG/rwbIKzp5n4mQhTWE
+         xJ3g==
+X-Gm-Message-State: AOJu0Yw5uqWANOqWrQeCPZVFH7Dhh9hNVNQULkUUE+8RTiU1Jn3hP73M
+	0lu3aI94FSOPlvEzTOv3NtN9hya417ir0RaeD+njAfANrHz50wPrRxnS1bnt3Dh89GJF/A+shCf
+	Ro0ip
+X-Gm-Gg: ASbGnctmdnfv8iZpNvK8b3SNI/m4UEJqZlIWVVAdXrUPSw6gb7OgkSjX2UXkCCGH763
+	vQoNhuK+EB17GwIfHPwylErCbezUDjSM2PaWTNkQ2jlpWpDmejcgJvprtm0AtnvKmk8of5jwLH1
+	zFneLHOdWfu33BfWp8QVJklPP1yP54AeKI3pBCi4CCyq5ygNjImRulhXjffzfCQ5OCgOCogyW3h
+	yxoW5Pfwua40H5cjRZgk+owP7L3K7LENpqSENX3/fNsrkvUaeXm8h41LQTmLHXWhMbAvZhZLndz
+	Vbg6daLG56wT5leGabP2PyrbQf91ZXsT1E5HzHMDY9bMsBm389KdhKy8lL7KykweVIWBkGPkR+1
+	JGfOoqItsK8N4mIWC9djUVwrW/BGBon+q3BUQ2Q==
+X-Google-Smtp-Source: AGHT+IHlqFyBokSnfRsgCUq7ALQSf4KtqVA34zcf/hmeCVs/UatcVoPMPEKEgVaN9VTTEzBEDFIuLA==
+X-Received: by 2002:a05:6000:24c1:b0:3c8:95b0:945e with SMTP id ffacd0b85a97d-3d1e01d4c59mr5678053f8f.43.1756727171860;
+        Mon, 01 Sep 2025 04:46:11 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b7e74b72esm156739695e9.0.2025.09.01.04.35.25
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3cf276d643dsm15226323f8f.26.2025.09.01.04.46.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 04:35:26 -0700 (PDT)
-Date: Mon, 1 Sep 2025 14:35:23 +0300
+        Mon, 01 Sep 2025 04:46:11 -0700 (PDT)
+Date: Mon, 1 Sep 2025 14:46:07 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Mina Almasry <almasrymina@google.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+To: oe-kbuild@lists.linux.dev, Daniel Wagner <wagi@kernel.org>,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Mina Almasry <almasrymina@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Joe Damato <jdamato@fastly.com>,
-	Stanislav Fomichev <sdf@fomichev.me>
-Subject: Re: [PATCH net-next v1] net: devmem: NULL check
- netdev_nl_get_dma_dev return value
-Message-ID: <202508310205.YQmsa9gY-lkp@intel.com>
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Daniel Wagner <wagi@kernel.org>
+Subject: Re: [PATCH v3 2/4] nvme-fc: reorganize ctrl ref-counting and cleanup
+ code
+Message-ID: <202508310442.lBWBZ5AC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -78,112 +78,82 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250829220003.3310242-1-almasrymina@google.com>
-Message-ID: <20250901113523.AmeYUMAM5TtNpZSLPymK0kQ15VAE7abLkamFLYJFyMY@z>
+In-Reply-To: <20250829-nvme-fc-sync-v3-2-d69c87e63aee@kernel.org>
+Message-ID: <20250901114607.insL5SSy0GqZLhKqw0Q_im382pu3v81d54V0vkgcOJw@z>
 
-Hi Mina,
+Hi Daniel,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mina-Almasry/net-devmem-NULL-check-netdev_nl_get_dma_dev-return-value/20250830-060251
-base:   4f54dff818d7b5b1d84becd5d90bc46e6233c0d7
-patch link:    https://lore.kernel.org/r/20250829220003.3310242-1-almasrymina%40google.com
-patch subject: [PATCH net-next v1] net: devmem: NULL check netdev_nl_get_dma_dev return value
-config: x86_64-randconfig-161-20250830 (https://download.01.org/0day-ci/archive/20250831/202508310205.YQmsa9gY-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvme-fabrics-introduce-ref-counting-for-nvmf_ctrl_options/20250829-234513
+base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+patch link:    https://lore.kernel.org/r/20250829-nvme-fc-sync-v3-2-d69c87e63aee%40kernel.org
+patch subject: [PATCH v3 2/4] nvme-fc: reorganize ctrl ref-counting and cleanup code
+config: x86_64-randconfig-161-20250830 (https://download.01.org/0day-ci/archive/20250831/202508310442.lBWBZ5AC-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508310205.YQmsa9gY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508310442.lBWBZ5AC-lkp@intel.com/
 
 New smatch warnings:
-net/core/netdev-genl.c:1102 netdev_nl_bind_tx_doit() warn: passing zero to 'PTR_ERR'
+drivers/nvme/host/fc.c:1492 nvme_fc_match_disconn_ls() warn: iterator used outside loop: 'ctrl'
 
-vim +/PTR_ERR +1102 net/core/netdev-genl.c
+Old smatch warnings:
+drivers/nvme/host/fc.c:3180 nvme_fc_delete_association() warn: mixing irqsave and irq
 
-8802087d20c0e1 Stanislav Fomichev 2025-05-08  1046  int netdev_nl_bind_tx_doit(struct sk_buff *skb, struct genl_info *info)
-8802087d20c0e1 Stanislav Fomichev 2025-05-08  1047  {
-bd61848900bff5 Mina Almasry       2025-05-08  1048  	struct net_devmem_dmabuf_binding *binding;
-bd61848900bff5 Mina Almasry       2025-05-08  1049  	struct netdev_nl_sock *priv;
-bd61848900bff5 Mina Almasry       2025-05-08  1050  	struct net_device *netdev;
-512c88fb0e884c Dragos Tatulea     2025-08-27  1051  	struct device *dma_dev;
-bd61848900bff5 Mina Almasry       2025-05-08  1052  	u32 ifindex, dmabuf_fd;
-bd61848900bff5 Mina Almasry       2025-05-08  1053  	struct sk_buff *rsp;
-bd61848900bff5 Mina Almasry       2025-05-08  1054  	int err = 0;
-bd61848900bff5 Mina Almasry       2025-05-08  1055  	void *hdr;
-bd61848900bff5 Mina Almasry       2025-05-08  1056  
-bd61848900bff5 Mina Almasry       2025-05-08  1057  	if (GENL_REQ_ATTR_CHECK(info, NETDEV_A_DEV_IFINDEX) ||
-bd61848900bff5 Mina Almasry       2025-05-08  1058  	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_DMABUF_FD))
-bd61848900bff5 Mina Almasry       2025-05-08  1059  		return -EINVAL;
-bd61848900bff5 Mina Almasry       2025-05-08  1060  
-bd61848900bff5 Mina Almasry       2025-05-08  1061  	ifindex = nla_get_u32(info->attrs[NETDEV_A_DEV_IFINDEX]);
-bd61848900bff5 Mina Almasry       2025-05-08  1062  	dmabuf_fd = nla_get_u32(info->attrs[NETDEV_A_DMABUF_FD]);
-bd61848900bff5 Mina Almasry       2025-05-08  1063  
-bd61848900bff5 Mina Almasry       2025-05-08  1064  	priv = genl_sk_priv_get(&netdev_nl_family, NETLINK_CB(skb).sk);
-bd61848900bff5 Mina Almasry       2025-05-08  1065  	if (IS_ERR(priv))
-bd61848900bff5 Mina Almasry       2025-05-08  1066  		return PTR_ERR(priv);
-bd61848900bff5 Mina Almasry       2025-05-08  1067  
-bd61848900bff5 Mina Almasry       2025-05-08  1068  	rsp = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
-bd61848900bff5 Mina Almasry       2025-05-08  1069  	if (!rsp)
-bd61848900bff5 Mina Almasry       2025-05-08  1070  		return -ENOMEM;
-bd61848900bff5 Mina Almasry       2025-05-08  1071  
-bd61848900bff5 Mina Almasry       2025-05-08  1072  	hdr = genlmsg_iput(rsp, info);
-bd61848900bff5 Mina Almasry       2025-05-08  1073  	if (!hdr) {
-bd61848900bff5 Mina Almasry       2025-05-08  1074  		err = -EMSGSIZE;
-bd61848900bff5 Mina Almasry       2025-05-08  1075  		goto err_genlmsg_free;
-bd61848900bff5 Mina Almasry       2025-05-08  1076  	}
-bd61848900bff5 Mina Almasry       2025-05-08  1077  
-bd61848900bff5 Mina Almasry       2025-05-08  1078  	mutex_lock(&priv->lock);
-bd61848900bff5 Mina Almasry       2025-05-08  1079  
-bd61848900bff5 Mina Almasry       2025-05-08  1080  	netdev = netdev_get_by_index_lock(genl_info_net(info), ifindex);
-bd61848900bff5 Mina Almasry       2025-05-08  1081  	if (!netdev) {
-bd61848900bff5 Mina Almasry       2025-05-08  1082  		err = -ENODEV;
-bd61848900bff5 Mina Almasry       2025-05-08  1083  		goto err_unlock_sock;
-bd61848900bff5 Mina Almasry       2025-05-08  1084  	}
-bd61848900bff5 Mina Almasry       2025-05-08  1085  
-bd61848900bff5 Mina Almasry       2025-05-08  1086  	if (!netif_device_present(netdev)) {
-bd61848900bff5 Mina Almasry       2025-05-08  1087  		err = -ENODEV;
-bd61848900bff5 Mina Almasry       2025-05-08  1088  		goto err_unlock_netdev;
-bd61848900bff5 Mina Almasry       2025-05-08  1089  	}
-bd61848900bff5 Mina Almasry       2025-05-08  1090  
-ae28cb114727dd Mina Almasry       2025-05-08  1091  	if (!netdev->netmem_tx) {
-ae28cb114727dd Mina Almasry       2025-05-08  1092  		err = -EOPNOTSUPP;
-ae28cb114727dd Mina Almasry       2025-05-08  1093  		NL_SET_ERR_MSG(info->extack,
-ae28cb114727dd Mina Almasry       2025-05-08  1094  			       "Driver does not support netmem TX");
-ae28cb114727dd Mina Almasry       2025-05-08  1095  		goto err_unlock_netdev;
-ae28cb114727dd Mina Almasry       2025-05-08  1096  	}
-ae28cb114727dd Mina Almasry       2025-05-08  1097  
-512c88fb0e884c Dragos Tatulea     2025-08-27  1098  	dma_dev = netdev_queue_get_dma_dev(netdev, 0);
-512c88fb0e884c Dragos Tatulea     2025-08-27  1099  	binding = net_devmem_bind_dmabuf(netdev, dma_dev, DMA_TO_DEVICE,
-512c88fb0e884c Dragos Tatulea     2025-08-27  1100  					 dmabuf_fd, priv, info->extack);
-991dbef67e2c35 Mina Almasry       2025-08-29  1101  	if (IS_ERR_OR_NULL(binding)) {
-bd61848900bff5 Mina Almasry       2025-05-08 @1102  		err = PTR_ERR(binding);
-bd61848900bff5 Mina Almasry       2025-05-08  1103  		goto err_unlock_netdev;
+vim +/ctrl +1492 drivers/nvme/host/fc.c
 
-net_devmem_bind_dmabuf() can't return NULL.  See my blog for more
-details:
-https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+14fd1e98afafc0 James Smart 2020-03-31  1465  static struct nvme_fc_ctrl *
+14fd1e98afafc0 James Smart 2020-03-31  1466  nvme_fc_match_disconn_ls(struct nvme_fc_rport *rport,
+14fd1e98afafc0 James Smart 2020-03-31  1467  		      struct nvmefc_ls_rcv_op *lsop)
+14fd1e98afafc0 James Smart 2020-03-31  1468  {
+14fd1e98afafc0 James Smart 2020-03-31  1469  	struct fcnvme_ls_disconnect_assoc_rqst *rqst =
+14fd1e98afafc0 James Smart 2020-03-31  1470  					&lsop->rqstbuf->rq_dis_assoc;
+14fd1e98afafc0 James Smart 2020-03-31  1471  	struct nvme_fc_ctrl *ctrl, *ret = NULL;
+14fd1e98afafc0 James Smart 2020-03-31  1472  	struct nvmefc_ls_rcv_op *oldls = NULL;
+14fd1e98afafc0 James Smart 2020-03-31  1473  	u64 association_id = be64_to_cpu(rqst->associd.association_id);
+14fd1e98afafc0 James Smart 2020-03-31  1474  	unsigned long flags;
+14fd1e98afafc0 James Smart 2020-03-31  1475  
+14fd1e98afafc0 James Smart 2020-03-31  1476  	spin_lock_irqsave(&rport->lock, flags);
+14fd1e98afafc0 James Smart 2020-03-31  1477  
+14fd1e98afafc0 James Smart 2020-03-31  1478  	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list) {
+14fd1e98afafc0 James Smart 2020-03-31  1479  		spin_lock(&ctrl->lock);
+14fd1e98afafc0 James Smart 2020-03-31  1480  		if (association_id == ctrl->association_id) {
+14fd1e98afafc0 James Smart 2020-03-31  1481  			oldls = ctrl->rcv_disconn;
+14fd1e98afafc0 James Smart 2020-03-31  1482  			ctrl->rcv_disconn = lsop;
+14fd1e98afafc0 James Smart 2020-03-31  1483  			ret = ctrl;
 
-bd61848900bff5 Mina Almasry       2025-05-08  1104  	}
-bd61848900bff5 Mina Almasry       2025-05-08  1105  
-bd61848900bff5 Mina Almasry       2025-05-08  1106  	nla_put_u32(rsp, NETDEV_A_DMABUF_ID, binding->id);
-bd61848900bff5 Mina Almasry       2025-05-08  1107  	genlmsg_end(rsp, hdr);
-bd61848900bff5 Mina Almasry       2025-05-08  1108  
-bd61848900bff5 Mina Almasry       2025-05-08  1109  	netdev_unlock(netdev);
-bd61848900bff5 Mina Almasry       2025-05-08  1110  	mutex_unlock(&priv->lock);
-bd61848900bff5 Mina Almasry       2025-05-08  1111  
-bd61848900bff5 Mina Almasry       2025-05-08  1112  	return genlmsg_reply(rsp, info);
-bd61848900bff5 Mina Almasry       2025-05-08  1113  
-bd61848900bff5 Mina Almasry       2025-05-08  1114  err_unlock_netdev:
-bd61848900bff5 Mina Almasry       2025-05-08  1115  	netdev_unlock(netdev);
-bd61848900bff5 Mina Almasry       2025-05-08  1116  err_unlock_sock:
-bd61848900bff5 Mina Almasry       2025-05-08  1117  	mutex_unlock(&priv->lock);
-bd61848900bff5 Mina Almasry       2025-05-08  1118  err_genlmsg_free:
-bd61848900bff5 Mina Almasry       2025-05-08  1119  	nlmsg_free(rsp);
-bd61848900bff5 Mina Almasry       2025-05-08  1120  	return err;
-8802087d20c0e1 Stanislav Fomichev 2025-05-08  1121  }
+There should maybe be a break statement here?
+
+14fd1e98afafc0 James Smart 2020-03-31  1484  		}
+14fd1e98afafc0 James Smart 2020-03-31  1485  		spin_unlock(&ctrl->lock);
+14fd1e98afafc0 James Smart 2020-03-31  1486  	}
+14fd1e98afafc0 James Smart 2020-03-31  1487  
+14fd1e98afafc0 James Smart 2020-03-31  1488  	spin_unlock_irqrestore(&rport->lock, flags);
+14fd1e98afafc0 James Smart 2020-03-31  1489  
+14fd1e98afafc0 James Smart 2020-03-31  1490  	/* transmit a response for anything that was pending */
+14fd1e98afafc0 James Smart 2020-03-31  1491  	if (oldls) {
+14fd1e98afafc0 James Smart 2020-03-31 @1492  		dev_info(rport->lport->dev,
+14fd1e98afafc0 James Smart 2020-03-31  1493  			"NVME-FC{%d}: Multiple Disconnect Association "
+14fd1e98afafc0 James Smart 2020-03-31  1494  			"LS's received\n", ctrl->cnum);
+
+ctrl->cnum is always an invalid pointer on this line.  Another
+option would be to print ret->cnum instead ctrl->nmum.
+
+14fd1e98afafc0 James Smart 2020-03-31  1495  		/* overwrite good response with bogus failure */
+14fd1e98afafc0 James Smart 2020-03-31  1496  		oldls->lsrsp->rsplen = nvme_fc_format_rjt(oldls->rspbuf,
+14fd1e98afafc0 James Smart 2020-03-31  1497  						sizeof(*oldls->rspbuf),
+14fd1e98afafc0 James Smart 2020-03-31  1498  						rqst->w0.ls_cmd,
+14fd1e98afafc0 James Smart 2020-03-31  1499  						FCNVME_RJT_RC_UNAB,
+14fd1e98afafc0 James Smart 2020-03-31  1500  						FCNVME_RJT_EXP_NONE, 0);
+14fd1e98afafc0 James Smart 2020-03-31  1501  		nvme_fc_xmt_ls_rsp(oldls);
+14fd1e98afafc0 James Smart 2020-03-31  1502  	}
+14fd1e98afafc0 James Smart 2020-03-31  1503  
+14fd1e98afafc0 James Smart 2020-03-31  1504  	return ret;
+14fd1e98afafc0 James Smart 2020-03-31  1505  }
 
 -- 
 0-DAY CI Kernel Test Service
