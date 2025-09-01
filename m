@@ -1,68 +1,75 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F8A217F55
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 Sep 2025 11:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED7C314A93
+	for <oe-kbuild@lists.linux.dev>; Mon,  1 Sep 2025 11:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756724598; cv=none; b=ri+PctBVGXdp/qQ/0QIZ8b7TRacNjdRdSf4lQCK7iTmNQTjHrqDKnavl06PQYIyDsZNE91Y2KO97xaYAQWdF9RGBL7HdnnJJSZx419hHIdCd53q1LkzQJPEyj/PdKzaY/KKK0Aqy9mb4Z2C2zn7obqJrCEQpFJuSm2u66UKz9rw=
+	t=1756726531; cv=none; b=eHY/tYJIvN5BthISuV3VLrH3qqn31Nz6/1YJxpudQCsoDQy95rkt6AvcXBJfhpGrN3bKHzNEuWRoOK4SvM/Bk6EMobjsAiJdo2VUAa5M8UoE7aw4Bxv3zWGBLhg6KlnmNmQTsWDDSGc4Gur7tfgI9YAbBouMw2hijrnFSeZEZN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756724598; c=relaxed/simple;
-	bh=ptGJCdbRm+L7I8B9lPfGk2/T+BCPlsgI+n/6cIFtGsM=;
+	s=arc-20240116; t=1756726531; c=relaxed/simple;
+	bh=5Su5qnMW/hHYdd9KFxk5sM71atdYkx2Dvh08OZmr2no=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m7xRviYBiYhBoBX6kw3lzR+kgvXsIX9GTa0hNxFo6IzOCDn5AyoOr4boasvAI8bjHQJL7l701PVOnO5Ly3UM9EnCLpQnt2C9na7n+OjPg2fhuDpgeFElM6Pax4BQ5YeiuTzzk53yJ4WyC1KLC9MkiNTRE23RxI5abs4mEMuX8h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cDIyrX7Q; arc=none smtp.client-ip=209.85.128.51
+	 Content-Disposition:In-Reply-To; b=jM/EKEZ9rKo96yhCywV8InxgJh8TW70Pvx4bhfzv1YKLMkXrcvNn5eAN4BCXuTpm2WT9mkhPoBZvH7N788gr8tSPyQ/FnyS49493SV/xfUz8Y0QOEp+e42hbfBlkV0qOXxp3RWP5FD9rj6O+UonNWX1XCqmoINnaZmd5NNDUlIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uym5Jfhk; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cDIyrX7Q"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-45b83ae1734so14628265e9.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 01 Sep 2025 04:03:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uym5Jfhk"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45b82a21e6bso17233045e9.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 01 Sep 2025 04:35:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756724595; x=1757329395; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0lrijmnSkItkFmsHISp2ytuEc4cny30bE8H1X92+55Y=;
-        b=cDIyrX7Q7hf4bPeTE74eo1HmTrcyHWdhLOkxf3Oc0WoIxG2hHGHiMcF5UNGaogzn/O
-         K77gyf44CzwJ5U9FeCGjvuwHxyL2CEvKgsKAiVbSEWdEDUtyjDzgXpqB5rrupqhXvTun
-         u+ZRwrsL047ccA4pVeFFHtn/vnQ6J13jkIisXntAGgypmTsORmSzXOltX5PN6IKyAKcw
-         oz7nsDc51DxKgFt1AZv06gi/oxiZwNmfUkgivC7UN2crHccAKbR9fTjytWIFjhwLEbkJ
-         vAsHY3A9mhac0pkTeEoe9o1eyID5AagzpHOE5zjhP0L+kH6XFM19291YRrZQTUBXIchU
-         z9Gg==
+        d=linaro.org; s=google; t=1756726527; x=1757331327; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=c9cCpZlImVazv64ehQTKhe9f281E06NS/0iMyn5viqg=;
+        b=uym5JfhkwG4YsUqwquWPcvKafJ3kUeQYzReImbWepN4ls85TYaLHJyOq2f6jtCHECx
+         r/ZSb0CWr5eS/1o9yJ1HWoN3CIEMSz8ji4l61PxCMsx+2LOY1b31XV3xvD75LuWr2uKx
+         FUETfh6sUnM58aWIvng+cgj0J8vaxNb8WTN9+7FR6WdDidJYw4gsdCsAlgCkewPf0Zh4
+         fXXdz/xCVdrcOxGsHMBYxY6N0A3W9vwmyZmhZEQBuolDEjQFh7jqB/vqzkII5PT5NwEt
+         YZnGh3i/iF2fd0znDOY5TSZmoMIvd2i3+ADqAEf0CkOzHu5Zvg3B0nnpgJ+/4swd2VmE
+         z3Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756724595; x=1757329395;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0lrijmnSkItkFmsHISp2ytuEc4cny30bE8H1X92+55Y=;
-        b=sx2RiwRO/kE8o37q/TAwbkSPcitc2qSyIQXRFq9b0Kk5Sik7gBsOK+pcjJAFtXAimH
-         Rb6o9DivRFd/7EQVGoh3HJw3JNi7256K6SB5zSpk9HT4tLf6mNCpFdjsqgUEjygylQZw
-         gRw6PR2YRr6iCRuPAyZSxCWH1O69aCm1+aqPAI6DR0bxrMQ0HzrIqjjTE0PdWAk+/2Mw
-         CgwjW6xFh0fI8kTbPVMdFUHgEWbw6CNkwtRgMcrmFXaI1+aunyvc4MnIFB3ifbMb1YaX
-         VFtSUewmMLrSpVcEzpvEmK7pNApkpNiayo7/xmBu+Zh1dTQ0H8Z5sz70ix3rpJq/Fv46
-         Vu2A==
-X-Gm-Message-State: AOJu0YzajWbEZMlvhH+RYQPX1+ofSH7FwnmXLumu2N5DiojJQjfRGum5
-	K0icIR2Ra8fZT+DSx/FJxuO061KX9pRGG1naJytSZqkDiNJQmdLEF5ocLnOExYf5/zafaQfygtK
-	Bea5M
-X-Gm-Gg: ASbGncsM2hFXV5sYJ8XMc9YthvX3i1RnzsWqvq99vlexE8jvFWB+07m/y9NAByZeMLo
-	xVvnxCxi6s1sgvGwxjmpU4ahwvwRwpTtjOyKTn+1Lrh5y7xqGiq5tVb+qJcVdWGpuOnpueQBNoU
-	f69hiIFf5h7TG24OfsbEgLDjT6K2/+GoI7Nj4KputvElDthbzqHAoKxRyx3ZLh2W0/rexSpz9eC
-	KiPpuNe+tUnZKrpRuI2fHp6ABHRGvF+NFd19Oiv8JE7ZcEbA4PFKr8LcYaELsbPkQeoLznZaF4T
-	amZkTBiTu35r8RtWLiRdapNVCCj9pI2rGaROFZHuVNZWChEbxPiMtaACvtG65wnaDAr0zv0LMBj
-	HA/JSLdikxnJ+q7lWJbSskKSmAtI=
-X-Google-Smtp-Source: AGHT+IGeZQla2uiihmhyZKOqzDM/uEAxqHznjRkio83cU9U9Gu89cdX8OEsHVjN+B1MolgD4xJ6Dgw==
-X-Received: by 2002:a05:600c:1914:b0:45b:8a6f:c6de with SMTP id 5b1f17b1804b1-45b8a6fc825mr37685545e9.29.1756724594520;
-        Mon, 01 Sep 2025 04:03:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756726527; x=1757331327;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c9cCpZlImVazv64ehQTKhe9f281E06NS/0iMyn5viqg=;
+        b=I1xr49OwZ1cwoDJndwUiq4eC+5l0nEY4YzjR+Jlzrz7Xbf8gLKNDhiDUC1WB4Fwuiw
+         u0eUennvfMXw3rEI9ZSb1whJxX0dyo6PlAZee2KfOWndChDDV332lEyl0ALF9uylYYzz
+         wH3fgLaWosmuvnTIwdWoeqT6TFC/wZfk1gXNw2yoTxwJtyFOteW3zyYCbYzpWe0rA6ei
+         w3VUmKrUKSFFKNbmJZOpKT29e/wXSIz7iyqKo9EtES86E/Q3x+AsKI+umTgXH1jmCI1x
+         3I+9+/np18XnnIqoSsgD925/+Uho6qFyVQWSns4Q9QiEKQOHGdd89pkz5nXqI2AOeqiI
+         CFhw==
+X-Gm-Message-State: AOJu0YzRWjnmYSuYNvcEP0WcCZkO3sANaA56HG/cf29JjrYlnVmLHTUg
+	Ghnlqk1gxrMGpHKsDNYYIQZq9tErHBpnL8M9FVVCY14zkLw0h4jXwhYh3fYPuA4NdcJY1CSSruG
+	SI2XV
+X-Gm-Gg: ASbGncuGV64CkxmxfFz716AVPxEKNbRl3T3ZmpibdKL/5Wr/RAdlDSggK/y0Iqwk7m3
+	kIqxbAbMdbWElXVot/GBVprvYGdAeHuZypubSXK7NJqmu6/BVFh3y7iKPR5LJU33HOJv8eaNdPj
+	KkElLhCBX9fyUGqfDOG4yKmLref1hWSn9/8vlKWvmF7lyXqd2n2UdlARAdN1ptuR1jaYysTfgnH
+	rPsiDzfAJAtDe5skJsmXp44VYgqDOqltp0cAAKt3iQVO51+dgtuS8mzx6PkA027zT56oflNI2MC
+	0LKOhUAv5iPAEptKnMGwgezf0c34Ihp5UwI2yhHofZNOlNV1xlLYOqKJ+Tn8UH+399xiYlCfN15
+	uTctrw9ahdmeEJ57XdiotygRCvlhCqwupxS6DyQ==
+X-Google-Smtp-Source: AGHT+IEsyjfAmj4sww84+pgQzOLWH82jjfVxE1+yTMurN84goWigwlJr78Akd0Qt+QV+xZ/JTMH/Jw==
+X-Received: by 2002:a05:600c:1c0c:b0:456:fdd:6030 with SMTP id 5b1f17b1804b1-45b85587d3cmr51042365e9.19.1756726527175;
+        Mon, 01 Sep 2025 04:35:27 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3cf33adf170sm15738737f8f.33.2025.09.01.04.03.13
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b7e74b72esm156739695e9.0.2025.09.01.04.35.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 04:03:13 -0700 (PDT)
-Date: Mon, 1 Sep 2025 14:03:10 +0300
+        Mon, 01 Sep 2025 04:35:26 -0700 (PDT)
+Date: Mon, 1 Sep 2025 14:35:23 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Coly Li <colyli@fnnas.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [colyli-bcache:for-next 2/8] drivers/md/bcache/writeback.c:528
- read_dirty() error: uninitialized symbol 'w'.
-Message-ID: <202508301526.DWO44fy4-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Mina Almasry <almasrymina@google.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mina Almasry <almasrymina@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Joe Damato <jdamato@fastly.com>,
+	Stanislav Fomichev <sdf@fomichev.me>
+Subject: Re: [PATCH net-next v1] net: devmem: NULL check
+ netdev_nl_get_dma_dev return value
+Message-ID: <202508310205.YQmsa9gY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,148 +78,112 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20250901110310.XjkVBUhKeQ_GxyaAZ90II3b3oSFpdEyoDv0wkv_K9Tw@z>
+In-Reply-To: <20250829220003.3310242-1-almasrymina@google.com>
+Message-ID: <20250901113523.AmeYUMAM5TtNpZSLPymK0kQ15VAE7abLkamFLYJFyMY@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/colyli/linux-bcache.git for-next
-head:   64a24f5938c1f3608091098fbf6c24b52dbe2073
-commit: 354e8c8d9c033372e5aa7395417ee1ed556605f0 [2/8] bcache: improve writeback throughput when frontend I/O is idle
-config: x86_64-randconfig-161-20250830 (https://download.01.org/0day-ci/archive/20250830/202508301526.DWO44fy4-lkp@intel.com/config)
+Hi Mina,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mina-Almasry/net-devmem-NULL-check-netdev_nl_get_dma_dev-return-value/20250830-060251
+base:   4f54dff818d7b5b1d84becd5d90bc46e6233c0d7
+patch link:    https://lore.kernel.org/r/20250829220003.3310242-1-almasrymina%40google.com
+patch subject: [PATCH net-next v1] net: devmem: NULL check netdev_nl_get_dma_dev return value
+config: x86_64-randconfig-161-20250830 (https://download.01.org/0day-ci/archive/20250831/202508310205.YQmsa9gY-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508301526.DWO44fy4-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508310205.YQmsa9gY-lkp@intel.com/
 
-smatch warnings:
-drivers/md/bcache/writeback.c:528 read_dirty() error: uninitialized symbol 'w'.
+New smatch warnings:
+net/core/netdev-genl.c:1102 netdev_nl_bind_tx_doit() warn: passing zero to 'PTR_ERR'
 
-vim +/w +528 drivers/md/bcache/writeback.c
+vim +/PTR_ERR +1102 net/core/netdev-genl.c
 
-5e6926daac267d Kent Overstreet     2013-07-24  462  static void read_dirty(struct cached_dev *dc)
-cafe563591446c Kent Overstreet     2013-03-23  463  {
-6f10f7d1b02b1b Coly Li             2018-08-11  464  	unsigned int delay = 0;
-354e8c8d9c0333 Coly Li             2025-08-28  465  	struct keybuf_key *next, *w;
-cafe563591446c Kent Overstreet     2013-03-23  466  	struct dirty_io *io;
-5e6926daac267d Kent Overstreet     2013-07-24  467  	struct closure cl;
-354e8c8d9c0333 Coly Li             2025-08-28  468  	size_t size;
-354e8c8d9c0333 Coly Li             2025-08-28  469  	int nk, i;
-5e6926daac267d Kent Overstreet     2013-07-24  470  
-6e6ccc67b9c7a6 Michael Lyle        2018-01-08  471  	BUG_ON(!llist_empty(&dc->writeback_ordering_wait.list));
-5e6926daac267d Kent Overstreet     2013-07-24  472  	closure_init_stack(&cl);
-cafe563591446c Kent Overstreet     2013-03-23  473  
-cafe563591446c Kent Overstreet     2013-03-23  474  	/*
-cafe563591446c Kent Overstreet     2013-03-23  475  	 * XXX: if we error, background writeback just spins. Should use some
-cafe563591446c Kent Overstreet     2013-03-23  476  	 * mempools.
-cafe563591446c Kent Overstreet     2013-03-23  477  	 */
-cafe563591446c Kent Overstreet     2013-03-23  478  
-539d39eb270834 Tang Junhui         2018-01-08  479  	next = bch_keybuf_next(&dc->writeback_keys);
-5e6926daac267d Kent Overstreet     2013-07-24  480  
-771f393e8ffc9b Coly Li             2018-03-18  481  	while (!kthread_should_stop() &&
-771f393e8ffc9b Coly Li             2018-03-18  482  	       !test_bit(CACHE_SET_IO_DISABLE, &dc->disk.c->flags) &&
-771f393e8ffc9b Coly Li             2018-03-18  483  	       next) {
-354e8c8d9c0333 Coly Li             2025-08-28  484  		size_t max_size_in_pass;
-354e8c8d9c0333 Coly Li             2025-08-28  485  		int max_writebacks_in_pass;
-354e8c8d9c0333 Coly Li             2025-08-28  486  
-539d39eb270834 Tang Junhui         2018-01-08  487  		size = 0;
-539d39eb270834 Tang Junhui         2018-01-08  488  		nk = 0;
-354e8c8d9c0333 Coly Li             2025-08-28  489  		reset_heap(&dc->read_dirty_heap);
-539d39eb270834 Tang Junhui         2018-01-08  490  
-539d39eb270834 Tang Junhui         2018-01-08  491  		do {
-539d39eb270834 Tang Junhui         2018-01-08  492  			BUG_ON(ptr_stale(dc->disk.c, &next->key, 0));
-539d39eb270834 Tang Junhui         2018-01-08  493  
-354e8c8d9c0333 Coly Li             2025-08-28  494  			if (atomic_read(&dc->disk.c->at_max_writeback_rate)) {
-354e8c8d9c0333 Coly Li             2025-08-28  495  				max_writebacks_in_pass = MAX_WRITEBACKS_IN_PASS;
-354e8c8d9c0333 Coly Li             2025-08-28  496  				max_size_in_pass = MAX_WRITESIZE_IN_PASS;
-354e8c8d9c0333 Coly Li             2025-08-28  497  			} else {
-354e8c8d9c0333 Coly Li             2025-08-28  498  				max_writebacks_in_pass = WRITEBACKS_IN_PASS;
-354e8c8d9c0333 Coly Li             2025-08-28  499  				max_size_in_pass = WRITESIZE_IN_PASS;
-354e8c8d9c0333 Coly Li             2025-08-28  500  			}
-354e8c8d9c0333 Coly Li             2025-08-28  501  
-539d39eb270834 Tang Junhui         2018-01-08  502  			/*
-539d39eb270834 Tang Junhui         2018-01-08  503  			 * Don't combine too many operations, even if they
-539d39eb270834 Tang Junhui         2018-01-08  504  			 * are all small.
-539d39eb270834 Tang Junhui         2018-01-08  505  			 */
-354e8c8d9c0333 Coly Li             2025-08-28  506  			if (nk >= max_writebacks_in_pass)
-cafe563591446c Kent Overstreet     2013-03-23  507  				break;
-cafe563591446c Kent Overstreet     2013-03-23  508  
-539d39eb270834 Tang Junhui         2018-01-08  509  			/*
-539d39eb270834 Tang Junhui         2018-01-08  510  			 * If the current operation is very large, don't
-539d39eb270834 Tang Junhui         2018-01-08  511  			 * further combine operations.
-539d39eb270834 Tang Junhui         2018-01-08  512  			 */
-354e8c8d9c0333 Coly Li             2025-08-28  513  			if (size >= max_size_in_pass)
-539d39eb270834 Tang Junhui         2018-01-08  514  				break;
-cafe563591446c Kent Overstreet     2013-03-23  515  
-354e8c8d9c0333 Coly Li             2025-08-28  516  			if (!heap_add(&dc->read_dirty_heap, next,
-354e8c8d9c0333 Coly Li             2025-08-28  517  				      keybuf_key_cmp))
-539d39eb270834 Tang Junhui         2018-01-08  518  				break;
-cafe563591446c Kent Overstreet     2013-03-23  519  
-539d39eb270834 Tang Junhui         2018-01-08  520  			size += KEY_SIZE(&next->key);
-354e8c8d9c0333 Coly Li             2025-08-28  521  			nk++;
-539d39eb270834 Tang Junhui         2018-01-08  522  		} while ((next = bch_keybuf_next(&dc->writeback_keys)));
-cafe563591446c Kent Overstreet     2013-03-23  523  
-539d39eb270834 Tang Junhui         2018-01-08  524  		/* Now we have gathered a set of 1..5 keys to write back. */
-539d39eb270834 Tang Junhui         2018-01-08  525  		for (i = 0; i < nk; i++) {
-354e8c8d9c0333 Coly Li             2025-08-28  526  			heap_pop(&dc->read_dirty_heap, w, keybuf_key_cmp);
+8802087d20c0e1 Stanislav Fomichev 2025-05-08  1046  int netdev_nl_bind_tx_doit(struct sk_buff *skb, struct genl_info *info)
+8802087d20c0e1 Stanislav Fomichev 2025-05-08  1047  {
+bd61848900bff5 Mina Almasry       2025-05-08  1048  	struct net_devmem_dmabuf_binding *binding;
+bd61848900bff5 Mina Almasry       2025-05-08  1049  	struct netdev_nl_sock *priv;
+bd61848900bff5 Mina Almasry       2025-05-08  1050  	struct net_device *netdev;
+512c88fb0e884c Dragos Tatulea     2025-08-27  1051  	struct device *dma_dev;
+bd61848900bff5 Mina Almasry       2025-05-08  1052  	u32 ifindex, dmabuf_fd;
+bd61848900bff5 Mina Almasry       2025-05-08  1053  	struct sk_buff *rsp;
+bd61848900bff5 Mina Almasry       2025-05-08  1054  	int err = 0;
+bd61848900bff5 Mina Almasry       2025-05-08  1055  	void *hdr;
+bd61848900bff5 Mina Almasry       2025-05-08  1056  
+bd61848900bff5 Mina Almasry       2025-05-08  1057  	if (GENL_REQ_ATTR_CHECK(info, NETDEV_A_DEV_IFINDEX) ||
+bd61848900bff5 Mina Almasry       2025-05-08  1058  	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_DMABUF_FD))
+bd61848900bff5 Mina Almasry       2025-05-08  1059  		return -EINVAL;
+bd61848900bff5 Mina Almasry       2025-05-08  1060  
+bd61848900bff5 Mina Almasry       2025-05-08  1061  	ifindex = nla_get_u32(info->attrs[NETDEV_A_DEV_IFINDEX]);
+bd61848900bff5 Mina Almasry       2025-05-08  1062  	dmabuf_fd = nla_get_u32(info->attrs[NETDEV_A_DMABUF_FD]);
+bd61848900bff5 Mina Almasry       2025-05-08  1063  
+bd61848900bff5 Mina Almasry       2025-05-08  1064  	priv = genl_sk_priv_get(&netdev_nl_family, NETLINK_CB(skb).sk);
+bd61848900bff5 Mina Almasry       2025-05-08  1065  	if (IS_ERR(priv))
+bd61848900bff5 Mina Almasry       2025-05-08  1066  		return PTR_ERR(priv);
+bd61848900bff5 Mina Almasry       2025-05-08  1067  
+bd61848900bff5 Mina Almasry       2025-05-08  1068  	rsp = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
+bd61848900bff5 Mina Almasry       2025-05-08  1069  	if (!rsp)
+bd61848900bff5 Mina Almasry       2025-05-08  1070  		return -ENOMEM;
+bd61848900bff5 Mina Almasry       2025-05-08  1071  
+bd61848900bff5 Mina Almasry       2025-05-08  1072  	hdr = genlmsg_iput(rsp, info);
+bd61848900bff5 Mina Almasry       2025-05-08  1073  	if (!hdr) {
+bd61848900bff5 Mina Almasry       2025-05-08  1074  		err = -EMSGSIZE;
+bd61848900bff5 Mina Almasry       2025-05-08  1075  		goto err_genlmsg_free;
+bd61848900bff5 Mina Almasry       2025-05-08  1076  	}
+bd61848900bff5 Mina Almasry       2025-05-08  1077  
+bd61848900bff5 Mina Almasry       2025-05-08  1078  	mutex_lock(&priv->lock);
+bd61848900bff5 Mina Almasry       2025-05-08  1079  
+bd61848900bff5 Mina Almasry       2025-05-08  1080  	netdev = netdev_get_by_index_lock(genl_info_net(info), ifindex);
+bd61848900bff5 Mina Almasry       2025-05-08  1081  	if (!netdev) {
+bd61848900bff5 Mina Almasry       2025-05-08  1082  		err = -ENODEV;
+bd61848900bff5 Mina Almasry       2025-05-08  1083  		goto err_unlock_sock;
+bd61848900bff5 Mina Almasry       2025-05-08  1084  	}
+bd61848900bff5 Mina Almasry       2025-05-08  1085  
+bd61848900bff5 Mina Almasry       2025-05-08  1086  	if (!netif_device_present(netdev)) {
+bd61848900bff5 Mina Almasry       2025-05-08  1087  		err = -ENODEV;
+bd61848900bff5 Mina Almasry       2025-05-08  1088  		goto err_unlock_netdev;
+bd61848900bff5 Mina Almasry       2025-05-08  1089  	}
+bd61848900bff5 Mina Almasry       2025-05-08  1090  
+ae28cb114727dd Mina Almasry       2025-05-08  1091  	if (!netdev->netmem_tx) {
+ae28cb114727dd Mina Almasry       2025-05-08  1092  		err = -EOPNOTSUPP;
+ae28cb114727dd Mina Almasry       2025-05-08  1093  		NL_SET_ERR_MSG(info->extack,
+ae28cb114727dd Mina Almasry       2025-05-08  1094  			       "Driver does not support netmem TX");
+ae28cb114727dd Mina Almasry       2025-05-08  1095  		goto err_unlock_netdev;
+ae28cb114727dd Mina Almasry       2025-05-08  1096  	}
+ae28cb114727dd Mina Almasry       2025-05-08  1097  
+512c88fb0e884c Dragos Tatulea     2025-08-27  1098  	dma_dev = netdev_queue_get_dma_dev(netdev, 0);
+512c88fb0e884c Dragos Tatulea     2025-08-27  1099  	binding = net_devmem_bind_dmabuf(netdev, dma_dev, DMA_TO_DEVICE,
+512c88fb0e884c Dragos Tatulea     2025-08-27  1100  					 dmabuf_fd, priv, info->extack);
+991dbef67e2c35 Mina Almasry       2025-08-29  1101  	if (IS_ERR_OR_NULL(binding)) {
+bd61848900bff5 Mina Almasry       2025-05-08 @1102  		err = PTR_ERR(binding);
+bd61848900bff5 Mina Almasry       2025-05-08  1103  		goto err_unlock_netdev;
 
-Smatch wants error checking on heap_pop() but probably it's not
-required?
+net_devmem_bind_dmabuf() can't return NULL.  See my blog for more
+details:
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
 
-539d39eb270834 Tang Junhui         2018-01-08  527  
-29f1d5caced9c2 Gustavo A. R. Silva 2020-07-25 @528  			io = kzalloc(struct_size(io, bio.bi_inline_vecs,
-29f1d5caced9c2 Gustavo A. R. Silva 2020-07-25  529  						DIV_ROUND_UP(KEY_SIZE(&w->key), PAGE_SECTORS)),
-cafe563591446c Kent Overstreet     2013-03-23  530  				     GFP_KERNEL);
-cafe563591446c Kent Overstreet     2013-03-23  531  			if (!io)
-cafe563591446c Kent Overstreet     2013-03-23  532  				goto err;
-cafe563591446c Kent Overstreet     2013-03-23  533  
-cafe563591446c Kent Overstreet     2013-03-23  534  			w->private	= io;
-cafe563591446c Kent Overstreet     2013-03-23  535  			io->dc		= dc;
-cafe563591446c Kent Overstreet     2013-03-23  536  
-cafe563591446c Kent Overstreet     2013-03-23  537  			dirty_init(w);
-c34b7ac6508755 Christoph Hellwig   2022-12-06  538  			io->bio.bi_opf = REQ_OP_READ;
-4f024f3797c43c Kent Overstreet     2013-10-11  539  			io->bio.bi_iter.bi_sector = PTR_OFFSET(&w->key, 0);
-11e9560e6c005b Christoph Hellwig   2021-04-11  540  			bio_set_dev(&io->bio, dc->disk.c->cache->bdev);
-cafe563591446c Kent Overstreet     2013-03-23  541  			io->bio.bi_end_io	= read_dirty_endio;
-cafe563591446c Kent Overstreet     2013-03-23  542  
-25d8be77e19224 Ming Lei            2017-12-18  543  			if (bch_bio_alloc_pages(&io->bio, GFP_KERNEL))
-cafe563591446c Kent Overstreet     2013-03-23  544  				goto err_free;
-cafe563591446c Kent Overstreet     2013-03-23  545  
-c37511b863f36c Kent Overstreet     2013-04-26  546  			trace_bcache_writeback(&w->key);
-cafe563591446c Kent Overstreet     2013-03-23  547  
-c2a4f3183a1248 Kent Overstreet     2013-09-23  548  			down(&dc->in_flight);
-539d39eb270834 Tang Junhui         2018-01-08  549  
-3be11dbab67a3e Coly Li             2018-08-11  550  			/*
-3be11dbab67a3e Coly Li             2018-08-11  551  			 * We've acquired a semaphore for the maximum
-539d39eb270834 Tang Junhui         2018-01-08  552  			 * simultaneous number of writebacks; from here
-539d39eb270834 Tang Junhui         2018-01-08  553  			 * everything happens asynchronously.
-539d39eb270834 Tang Junhui         2018-01-08  554  			 */
-5e6926daac267d Kent Overstreet     2013-07-24  555  			closure_call(&io->cl, read_dirty_submit, NULL, &cl);
-539d39eb270834 Tang Junhui         2018-01-08  556  		}
-cafe563591446c Kent Overstreet     2013-03-23  557  
-539d39eb270834 Tang Junhui         2018-01-08  558  		delay = writeback_delay(dc, size);
-539d39eb270834 Tang Junhui         2018-01-08  559  
-771f393e8ffc9b Coly Li             2018-03-18  560  		while (!kthread_should_stop() &&
-771f393e8ffc9b Coly Li             2018-03-18  561  		       !test_bit(CACHE_SET_IO_DISABLE, &dc->disk.c->flags) &&
-771f393e8ffc9b Coly Li             2018-03-18  562  		       delay) {
-539d39eb270834 Tang Junhui         2018-01-08  563  			schedule_timeout_interruptible(delay);
-539d39eb270834 Tang Junhui         2018-01-08  564  			delay = writeback_delay(dc, 0);
-539d39eb270834 Tang Junhui         2018-01-08  565  		}
-cafe563591446c Kent Overstreet     2013-03-23  566  	}
-cafe563591446c Kent Overstreet     2013-03-23  567  
-cafe563591446c Kent Overstreet     2013-03-23  568  	if (0) {
-cafe563591446c Kent Overstreet     2013-03-23  569  err_free:
-cafe563591446c Kent Overstreet     2013-03-23  570  		kfree(w->private);
-cafe563591446c Kent Overstreet     2013-03-23  571  err:
-cafe563591446c Kent Overstreet     2013-03-23  572  		bch_keybuf_del(&dc->writeback_keys, w);
-cafe563591446c Kent Overstreet     2013-03-23  573  	}
-cafe563591446c Kent Overstreet     2013-03-23  574  
-c2a4f3183a1248 Kent Overstreet     2013-09-23  575  	/*
-c2a4f3183a1248 Kent Overstreet     2013-09-23  576  	 * Wait for outstanding writeback IOs to finish (and keybuf slots to be
-c2a4f3183a1248 Kent Overstreet     2013-09-23  577  	 * freed) before refilling again
-c2a4f3183a1248 Kent Overstreet     2013-09-23  578  	 */
-5e6926daac267d Kent Overstreet     2013-07-24  579  	closure_sync(&cl);
-5e6926daac267d Kent Overstreet     2013-07-24  580  }
+bd61848900bff5 Mina Almasry       2025-05-08  1104  	}
+bd61848900bff5 Mina Almasry       2025-05-08  1105  
+bd61848900bff5 Mina Almasry       2025-05-08  1106  	nla_put_u32(rsp, NETDEV_A_DMABUF_ID, binding->id);
+bd61848900bff5 Mina Almasry       2025-05-08  1107  	genlmsg_end(rsp, hdr);
+bd61848900bff5 Mina Almasry       2025-05-08  1108  
+bd61848900bff5 Mina Almasry       2025-05-08  1109  	netdev_unlock(netdev);
+bd61848900bff5 Mina Almasry       2025-05-08  1110  	mutex_unlock(&priv->lock);
+bd61848900bff5 Mina Almasry       2025-05-08  1111  
+bd61848900bff5 Mina Almasry       2025-05-08  1112  	return genlmsg_reply(rsp, info);
+bd61848900bff5 Mina Almasry       2025-05-08  1113  
+bd61848900bff5 Mina Almasry       2025-05-08  1114  err_unlock_netdev:
+bd61848900bff5 Mina Almasry       2025-05-08  1115  	netdev_unlock(netdev);
+bd61848900bff5 Mina Almasry       2025-05-08  1116  err_unlock_sock:
+bd61848900bff5 Mina Almasry       2025-05-08  1117  	mutex_unlock(&priv->lock);
+bd61848900bff5 Mina Almasry       2025-05-08  1118  err_genlmsg_free:
+bd61848900bff5 Mina Almasry       2025-05-08  1119  	nlmsg_free(rsp);
+bd61848900bff5 Mina Almasry       2025-05-08  1120  	return err;
+8802087d20c0e1 Stanislav Fomichev 2025-05-08  1121  }
 
 -- 
 0-DAY CI Kernel Test Service
