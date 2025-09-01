@@ -1,75 +1,78 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A692556E
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 Sep 2025 11:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE40331AF1B
+	for <oe-kbuild@lists.linux.dev>; Mon,  1 Sep 2025 11:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756727175; cv=none; b=Z7ScK1SdSdCf2tbEgjZvqji+T5XpwraO8CDR7cqNDOJIsyd8Dv2NdF0b3oHYrISQUDh7ulnN9spTT7qE7odLhyduuGtGo3u1Ynx0tCgbUPIIw+Ize+zcuF+SubIAy0cMFX+D1l8OXlHlxTQ7nRZtaam/j+BhROULUZatK/2Ba0Q=
+	t=1756727260; cv=none; b=CqL23MydPqSjvLqX73QOMPIn74cQbr3X+rZFaVA8gFi6Va7Y6E/KFPQUb8vNEExTrFqKiSBu6VkXxEok4zo2YDLpHZ0ek4MH0UrIuxFtbHIsEEsKXYlcQkyIZMAJPE6a2oHlBoqWD9UiFO6Rt3/BUChAPS/nyemFVqKLbmoy0uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756727175; c=relaxed/simple;
-	bh=oa8yFhR4MOVlIbCKi2lAbxZI5mMl7NxHerF/PDAor2s=;
+	s=arc-20240116; t=1756727260; c=relaxed/simple;
+	bh=wU+YtIjUdHrTJHGH2u24IDhC568tsl9YMJ7XuPW7+Vo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=NxAoAqvZA02fSN/JybZyMBLWwgMACY1f5COGs85SCusLSCyjK4bjWhknCodlC7O091etx0nOER0vc+4+AUmM6sZbR7QOKCcVwsAhEbYHFQbMsN8HkI2vDiUk5S+Tcgn7EH0K37Y3meKJfmAJyFF6vR6NPu8AKK74wVhi/0TvYM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x6r9VhPh; arc=none smtp.client-ip=209.85.221.53
+	 Content-Disposition:In-Reply-To; b=akcvQmJI8PyRNXIv7L1FQfhJjx+jBowccx6WXqHoszp0c9+0/imz7MpOaeBpBbbENEkA9X9vM86QY45DYMXVUUkJ4ZqI7VKtxCCXSJP97r3MvrGH0viZEuO8NIZGSy1grvM8dcQ9JsTl+BKNbpyp4+eYJ5VGDDbvDn1jiVoYUT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fVxD73ZH; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x6r9VhPh"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3cbb0df3981so2071622f8f.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 01 Sep 2025 04:46:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fVxD73ZH"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-45b7c01a8c1so33478095e9.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 01 Sep 2025 04:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756727172; x=1757331972; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1756727257; x=1757332057; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/CXP5PchANxZqGp3Gssb1xnZMCk6ZZsq9Lr1RRv1yS0=;
-        b=x6r9VhPhEWumT6f/2Dxf8C9f5s+WcsZfXBeDEV8w2mJ1/s8o9Ux2ACO6Z2zTqIKqg/
-         nnWIc6M3xz94aQzFBs/V11TfCqk4DJFxRsoFu+s/C9UI7MA3gOxfVo3Boa3hElTg3bCk
-         1+FynJl2k2GKvvUUhYbYVlpjawX/US8q2fBjs5eeSrJthpnLleTRyJgtr9Ahnan1KF4T
-         SafQgCeRlI4lJAOBwxXfL7GxpgeY9GwZB8B0e6YG/22lkBFbynx6dQVlW4c3o0QlUoRJ
-         2UGj3/bTwXXJ+y6di9ONj93xIbhWzhCMgEk2YMH5emABJWXwybijYYt0j5WJm9eDOtiS
-         G+1g==
+        bh=LzQCI9Zj8RikZvzuhO8bePIhY5c3MO1QFwxFZbxrm1Q=;
+        b=fVxD73ZHpNuUGkD36mtRSJ2UtpyRSEssreJ+EtB9AQmF+8DEjmebJmZpExlq2HOQP2
+         ZvXsmB+jGfG2eM7g6H4GcU3rKwrLvcBlRrpQYkz9iD1oWFAgUpGeOIShgIVVuzEgf3qZ
+         tDpKUxirf2Nbhz+s/KrbnsrXXOhYACPmOw52IGGeodkAhqF3gvq4jOmP4Xp/wfmJyAm2
+         vMuLtK1ZOaDeeWYPZBD4ymT2rod8enn+wKk7zXimXwzYz1TVA/f9fEUThn/F2PqylFGE
+         OaGrCsMlQiSNojZindu5e60cyLkxFtC3KBd1xujRvo/NZcK0pk30lnjgnTwIi1rCIs2f
+         gcdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756727172; x=1757331972;
+        d=1e100.net; s=20230601; t=1756727257; x=1757332057;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/CXP5PchANxZqGp3Gssb1xnZMCk6ZZsq9Lr1RRv1yS0=;
-        b=E7hHF4p4rDgmiYD+Gus6no7rpPtayQrZJP2rxKNB1zNOKI5i09oW/eczpYRnIOFmPL
-         3Imol+9XhKjRni7+sDZ+OZdzapZ+uMbznDE5vC+55ClwHIQ882JPmBZ1bcLq9XEozJ4p
-         Y79J+72Q34Pt2YOlRun6Cf7ThUj538NIRRpZTUicAV5haRD3DJly5s0tSdpAFd810Fvd
-         LyfNm6XS0oCAD7Ru0uHObqGMOGe6Y+iyjCnnGhn3i1pyFvIr1d7LSe1gs2yLygBXt4lZ
-         m6n1FzOK8AgvuZKncbD3y12EiVl0C912vmD2aQ5gqqJZ49O8YDG/rwbIKzp5n4mQhTWE
-         xJ3g==
-X-Gm-Message-State: AOJu0Yw5uqWANOqWrQeCPZVFH7Dhh9hNVNQULkUUE+8RTiU1Jn3hP73M
-	0lu3aI94FSOPlvEzTOv3NtN9hya417ir0RaeD+njAfANrHz50wPrRxnS1bnt3Dh89GJF/A+shCf
-	Ro0ip
-X-Gm-Gg: ASbGnctmdnfv8iZpNvK8b3SNI/m4UEJqZlIWVVAdXrUPSw6gb7OgkSjX2UXkCCGH763
-	vQoNhuK+EB17GwIfHPwylErCbezUDjSM2PaWTNkQ2jlpWpDmejcgJvprtm0AtnvKmk8of5jwLH1
-	zFneLHOdWfu33BfWp8QVJklPP1yP54AeKI3pBCi4CCyq5ygNjImRulhXjffzfCQ5OCgOCogyW3h
-	yxoW5Pfwua40H5cjRZgk+owP7L3K7LENpqSENX3/fNsrkvUaeXm8h41LQTmLHXWhMbAvZhZLndz
-	Vbg6daLG56wT5leGabP2PyrbQf91ZXsT1E5HzHMDY9bMsBm389KdhKy8lL7KykweVIWBkGPkR+1
-	JGfOoqItsK8N4mIWC9djUVwrW/BGBon+q3BUQ2Q==
-X-Google-Smtp-Source: AGHT+IHlqFyBokSnfRsgCUq7ALQSf4KtqVA34zcf/hmeCVs/UatcVoPMPEKEgVaN9VTTEzBEDFIuLA==
-X-Received: by 2002:a05:6000:24c1:b0:3c8:95b0:945e with SMTP id ffacd0b85a97d-3d1e01d4c59mr5678053f8f.43.1756727171860;
-        Mon, 01 Sep 2025 04:46:11 -0700 (PDT)
+        bh=LzQCI9Zj8RikZvzuhO8bePIhY5c3MO1QFwxFZbxrm1Q=;
+        b=i+3myQVOoE/lzOz/l/Tv7BJPMZ8osPhUc1etEe0OMbnUWd/gn4W6hBadB4S9mU1kn4
+         1SU38wnD2utZxgA3WOvMABsAp9NCAPTop0OspJXw2eamGMKM5j+s64D0vZGiq7iaf4jG
+         UYuaf4v9d3es2IDNEGHWW+MO5UwbvWy/sGmmDMnGeXu4ofFYzJGEHvEkSal0I20pPJw6
+         JKqsTvPbSerBJEHzxQww5fbnsJ9ycnDsCP5MtfTeS4sKoDTNPa3xOmpaBR925np278lI
+         QaF6w53WmRqeFeO/qhKcrKIy7/3csXYjkqhOBIOZPNxtIn3brwN72YipnWM+1Rz/nODp
+         u0cw==
+X-Gm-Message-State: AOJu0YyLN3pvRuNvbi1wq99qZ9R8Ycd5TXb2fCG2WVV/GuQuPmgUWipT
+	aej+3zd+nkgUACbMK2eRfdTZ+/il2eZhmjB1vQpXVj6NVGfJmfmbmZjSx/EGHyq2cQUDpy0mJtN
+	6mfRO
+X-Gm-Gg: ASbGncs4+5FgAc+v44qV+m3Bi/WU3GnIBL3n7uVmOHFfTBgCy2+kZ+OgB0qtNIwW1aU
+	fBjVb6OvPhqdv9x6GXY8fZd2J+kAPNOcFu0MZYuQCr/v2yxlQVygBBBXEoWaz5bPvGRwpxiqYPh
+	iA9cPXXxuPeTSZWm6JCROMyjpmBE3DamyX10BRBbK5yMgKOtD/PvVBpz2b+C0THyPszaz1fuJ81
+	0iCUNsWMbtlaMCdUR33g6ZcpuLjsXRIZi19uZQQVaxMxrTeUeWSXyyvrxyQJ3GOV7gKVvI7nVo5
+	3VM2TuzDM9MXcGm+NNmYiD2yKdIXqKDXD0nvSaHbvg9FAZUplMXMMGRBAwIqzQwdL7pjAf5vDO/
+	YPyt9q6vwyRdU/6Un1VYeqU75m2mm/aLNY3kHfA==
+X-Google-Smtp-Source: AGHT+IH0O4ZkQ2YHVX46lUYZ8xCc2gxCMjSWxlXrU84lXHEdxwk9FtWekPg/E84Nq3t3E+yY+gv8GQ==
+X-Received: by 2002:a05:600c:1385:b0:45b:80ff:58f7 with SMTP id 5b1f17b1804b1-45b855c489fmr56725645e9.36.1756727256836;
+        Mon, 01 Sep 2025 04:47:36 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3cf276d643dsm15226323f8f.26.2025.09.01.04.46.10
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3cf33adf170sm15932215f8f.33.2025.09.01.04.47.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 04:46:11 -0700 (PDT)
-Date: Mon, 1 Sep 2025 14:46:07 +0300
+        Mon, 01 Sep 2025 04:47:36 -0700 (PDT)
+Date: Mon, 1 Sep 2025 14:47:33 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Daniel Wagner <wagi@kernel.org>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <james.smart@broadcom.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Daniel Wagner <wagi@kernel.org>
-Subject: Re: [PATCH v3 2/4] nvme-fc: reorganize ctrl ref-counting and cleanup
- code
-Message-ID: <202508310442.lBWBZ5AC-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-spi@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, jic23@kernel.org,
+	Michael.Hennerich@analog.com, nuno.sa@analog.com,
+	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
+	corbet@lwn.net, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, broonie@kernel.org,
+	Jonathan.Cameron@huawei.com, andriy.shevchenko@linux.intel.com,
+	ahaslam@baylibre.com, marcelo.schmitt1@gmail.com
+Subject: Re: [PATCH 15/15] iio: adc: ad4030: Add support for ADAQ4216 and
+ ADAQ4224
+Message-ID: <202508310754.Y4V0Iq26-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -78,82 +81,65 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250829-nvme-fc-sync-v3-2-d69c87e63aee@kernel.org>
-Message-ID: <20250901114607.insL5SSy0GqZLhKqw0Q_im382pu3v81d54V0vkgcOJw@z>
+In-Reply-To: <006ac88a667ce0d2c751946b562af83d0f27a44f.1756511030.git.marcelo.schmitt@analog.com>
+Message-ID: <20250901114733.buU-LPV-He82fnWcTD1oS3zfvJxV-bv-tbhPcp6YFLM@z>
 
-Hi Daniel,
+Hi Marcelo,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvme-fabrics-introduce-ref-counting-for-nvmf_ctrl_options/20250829-234513
-base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
-patch link:    https://lore.kernel.org/r/20250829-nvme-fc-sync-v3-2-d69c87e63aee%40kernel.org
-patch subject: [PATCH v3 2/4] nvme-fc: reorganize ctrl ref-counting and cleanup code
-config: x86_64-randconfig-161-20250830 (https://download.01.org/0day-ci/archive/20250831/202508310442.lBWBZ5AC-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/iio-adc-ad4030-Fix-_scale-for-when-oversampling-is-enabled/20250830-084901
+base:   91812d3843409c235f336f32f1c37ddc790f1e03
+patch link:    https://lore.kernel.org/r/006ac88a667ce0d2c751946b562af83d0f27a44f.1756511030.git.marcelo.schmitt%40analog.com
+patch subject: [PATCH 15/15] iio: adc: ad4030: Add support for ADAQ4216 and ADAQ4224
+config: x86_64-randconfig-161-20250831 (https://download.01.org/0day-ci/archive/20250831/202508310754.Y4V0Iq26-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508310442.lBWBZ5AC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508310754.Y4V0Iq26-lkp@intel.com/
 
-New smatch warnings:
-drivers/nvme/host/fc.c:1492 nvme_fc_match_disconn_ls() warn: iterator used outside loop: 'ctrl'
+smatch warnings:
+drivers/iio/adc/ad4030.c:515 ad4030_set_pga() error: 'scan_type' dereferencing possible ERR_PTR()
 
-Old smatch warnings:
-drivers/nvme/host/fc.c:3180 nvme_fc_delete_association() warn: mixing irqsave and irq
+vim +/scan_type +515 drivers/iio/adc/ad4030.c
 
-vim +/ctrl +1492 drivers/nvme/host/fc.c
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  502  static int ad4030_set_pga(struct iio_dev *indio_dev,
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  503  			  struct iio_chan_spec const *chan, int gain_int,
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  504  			  int gain_fract)
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  505  {
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  506  	struct ad4030_state *st = iio_priv(indio_dev);
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  507  	const struct iio_scan_type *scan_type;
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  508  	unsigned int mag_bits;
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  509  	u64 gain_nano, tmp;
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  510  
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  511  	if (!st->pga_gpios)
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  512  		return -EINVAL;
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  513  
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  514  	scan_type = iio_get_current_scan_type(indio_dev, chan);
 
-14fd1e98afafc0 James Smart 2020-03-31  1465  static struct nvme_fc_ctrl *
-14fd1e98afafc0 James Smart 2020-03-31  1466  nvme_fc_match_disconn_ls(struct nvme_fc_rport *rport,
-14fd1e98afafc0 James Smart 2020-03-31  1467  		      struct nvmefc_ls_rcv_op *lsop)
-14fd1e98afafc0 James Smart 2020-03-31  1468  {
-14fd1e98afafc0 James Smart 2020-03-31  1469  	struct fcnvme_ls_disconnect_assoc_rqst *rqst =
-14fd1e98afafc0 James Smart 2020-03-31  1470  					&lsop->rqstbuf->rq_dis_assoc;
-14fd1e98afafc0 James Smart 2020-03-31  1471  	struct nvme_fc_ctrl *ctrl, *ret = NULL;
-14fd1e98afafc0 James Smart 2020-03-31  1472  	struct nvmefc_ls_rcv_op *oldls = NULL;
-14fd1e98afafc0 James Smart 2020-03-31  1473  	u64 association_id = be64_to_cpu(rqst->associd.association_id);
-14fd1e98afafc0 James Smart 2020-03-31  1474  	unsigned long flags;
-14fd1e98afafc0 James Smart 2020-03-31  1475  
-14fd1e98afafc0 James Smart 2020-03-31  1476  	spin_lock_irqsave(&rport->lock, flags);
-14fd1e98afafc0 James Smart 2020-03-31  1477  
-14fd1e98afafc0 James Smart 2020-03-31  1478  	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list) {
-14fd1e98afafc0 James Smart 2020-03-31  1479  		spin_lock(&ctrl->lock);
-14fd1e98afafc0 James Smart 2020-03-31  1480  		if (association_id == ctrl->association_id) {
-14fd1e98afafc0 James Smart 2020-03-31  1481  			oldls = ctrl->rcv_disconn;
-14fd1e98afafc0 James Smart 2020-03-31  1482  			ctrl->rcv_disconn = lsop;
-14fd1e98afafc0 James Smart 2020-03-31  1483  			ret = ctrl;
+	if (IS_ERR(scan_type))
+		return PTR_ERR(scan_type);
 
-There should maybe be a break statement here?
-
-14fd1e98afafc0 James Smart 2020-03-31  1484  		}
-14fd1e98afafc0 James Smart 2020-03-31  1485  		spin_unlock(&ctrl->lock);
-14fd1e98afafc0 James Smart 2020-03-31  1486  	}
-14fd1e98afafc0 James Smart 2020-03-31  1487  
-14fd1e98afafc0 James Smart 2020-03-31  1488  	spin_unlock_irqrestore(&rport->lock, flags);
-14fd1e98afafc0 James Smart 2020-03-31  1489  
-14fd1e98afafc0 James Smart 2020-03-31  1490  	/* transmit a response for anything that was pending */
-14fd1e98afafc0 James Smart 2020-03-31  1491  	if (oldls) {
-14fd1e98afafc0 James Smart 2020-03-31 @1492  		dev_info(rport->lport->dev,
-14fd1e98afafc0 James Smart 2020-03-31  1493  			"NVME-FC{%d}: Multiple Disconnect Association "
-14fd1e98afafc0 James Smart 2020-03-31  1494  			"LS's received\n", ctrl->cnum);
-
-ctrl->cnum is always an invalid pointer on this line.  Another
-option would be to print ret->cnum instead ctrl->nmum.
-
-14fd1e98afafc0 James Smart 2020-03-31  1495  		/* overwrite good response with bogus failure */
-14fd1e98afafc0 James Smart 2020-03-31  1496  		oldls->lsrsp->rsplen = nvme_fc_format_rjt(oldls->rspbuf,
-14fd1e98afafc0 James Smart 2020-03-31  1497  						sizeof(*oldls->rspbuf),
-14fd1e98afafc0 James Smart 2020-03-31  1498  						rqst->w0.ls_cmd,
-14fd1e98afafc0 James Smart 2020-03-31  1499  						FCNVME_RJT_RC_UNAB,
-14fd1e98afafc0 James Smart 2020-03-31  1500  						FCNVME_RJT_EXP_NONE, 0);
-14fd1e98afafc0 James Smart 2020-03-31  1501  		nvme_fc_xmt_ls_rsp(oldls);
-14fd1e98afafc0 James Smart 2020-03-31  1502  	}
-14fd1e98afafc0 James Smart 2020-03-31  1503  
-14fd1e98afafc0 James Smart 2020-03-31  1504  	return ret;
-14fd1e98afafc0 James Smart 2020-03-31  1505  }
+8017880dd8ca3e Marcelo Schmitt 2025-08-29 @515  	if (scan_type->sign == 's')
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  516  		mag_bits = st->chip->precision_bits - 1;
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  517  	else
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  518  		mag_bits = st->chip->precision_bits;
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  519  
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  520  	gain_nano = gain_int * NANO + gain_fract;
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  521  
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  522  	if (!in_range(gain_nano, 0, ADAQ4616_GAIN_MAX_NANO))
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  523  		return -EINVAL;
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  524  
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  525  	tmp = DIV_ROUND_CLOSEST_ULL(gain_nano << mag_bits, NANO);
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  526  	gain_nano = DIV_ROUND_CLOSEST_ULL(st->vref_uv, tmp);
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  527  	st->pga_index = find_closest(gain_nano, ad4030_hw_gains,
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  528  				     ARRAY_SIZE(ad4030_hw_gains));
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  529  
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  530  	return ad4030_set_pga_gain(st);
+8017880dd8ca3e Marcelo Schmitt 2025-08-29  531  }
 
 -- 
 0-DAY CI Kernel Test Service
