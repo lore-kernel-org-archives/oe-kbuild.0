@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D9F284885
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Sep 2025 05:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C072E06C9
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Sep 2025 06:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756792534; cv=none; b=gPTUBCuztcUfABoNN+v8YX/Jfja5dweZZ18OXS6bPOkTxhIj8PKvi5GKJyRa9LZbjr9slSft/p4aOpMYXZh3Pf7cHPiC1kX61xBDOsWdo6eOkPEpG8gpwXXU0o54f/4cf5FR9bMWFUcCz9pVBim1jJGmCHzFATc7hzQ53Rfo0fM=
+	t=1756795477; cv=none; b=TxmBEc3ZvAYtIB0D5gpM+DEu0mdXrdLQRJV7fQnX8gr7/5W+DrHTBRfQ8fwFYP6Q1mMQ4+dSvgG13Bl6OmgnoU654aQoH7YzkPYY7TYhmfQyrzkwA9YA72QuyPbX4h5b5gL1fAuQ7YTNCCTC7YuIe/9lUtFyMnVs+o6X2cy4N58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756792534; c=relaxed/simple;
-	bh=2wzZm7cCB2Hj4HATInhomzrVH5eyqaypKoH8HEJ4zN0=;
+	s=arc-20240116; t=1756795477; c=relaxed/simple;
+	bh=oWyELOlP4Iu3aQpC5cct9L/o8yrlG2nqe/D97z0dlIE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Lc+ioOF8NTKG0mZ4IpkVGgZ9xxdfx5QZkCxQ3OG/fJNMVsWEH7mziXSRigWEy02tkn2Trh37KFP8klxc7BbWMhNBn/Dj+eEWMS8ldy6qbG2hWsrO+Eq+B+ldSDg1k3wEopS2DUAn6N+nimaihB961a8PERanhjxc7XWIwOqxQaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KqQw0pAB; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=R2JbL6jLtXeHf1WjduCAoFlhVwRSMS9e/TWeI5+z1CjefN0NNj5KNW6gMqGi5dh6PC7nt06zVn7EyI+D4A0CA4cBCA/qR2HFs5KTBQDt1zPrO7ZiA6ZQIT7gQ5g1QJCmU4GM9u2ZBhxDniAqJFzejIXcted8RWvL/QtQLtZkQTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GyEW1dbN; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KqQw0pAB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GyEW1dbN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756792533; x=1788328533;
+  t=1756795476; x=1788331476;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2wzZm7cCB2Hj4HATInhomzrVH5eyqaypKoH8HEJ4zN0=;
-  b=KqQw0pABfC1FjqlN3mRz11NlRxFD+NVxYk6I/V48wPxhNF3L5yilR979
-   A8vln37jt5LQIee8fOPJoz9HZNcyykVKvgC0fBosrT0adQMmglITP2Qoj
-   lvzPpbG3FkMtlZo0GNAfp0ENMt9ZwbQgXTs8qa2t868USOxgKaIlg1LtF
-   usVZVdY3Pgq3bWgtjTVLvRXZSqkCOe6geQdJ8ULmqlDaUAjZWdr1DeGRu
-   lyOn5IlcU8U52CrpDX6swe6DEcKW5dPsi3oY/LMveNkEU8hq56xu/Wisu
-   A91Th4h+7quHJLLW9BW5NruKL3gt/kzzg7uJ622dgthL6RLVxdeE4eMxo
+  bh=oWyELOlP4Iu3aQpC5cct9L/o8yrlG2nqe/D97z0dlIE=;
+  b=GyEW1dbNSeK+WrdDLyNbbexlKKL05ksVhDrKwIpFCvjWupFIq+l98ai/
+   bsFg1D5LiEpz25LS8LyS1t47s5zuD85urN8tHBxgPjEMTjZjuaoOKzeBR
+   CE7rD5EtZqGvZkWDMANtIgmmE1yl9+D2cb78lziHLepAa8b2zcrJVdMs1
+   SmBOj8yEJz/jiqO1AtmrI7yndYsxe9+hm/LDnljEetE51iWEAcz5H9Jbi
+   8B0UNshgfboVOPqjEdgqbICViFaerpnko7bSrec7wpHKNYkdFlECtt+aM
+   ywdcKD0Qb/8DejfPcob0QJ8YQIrOcwp9EeUeojYerwCQE1vMRsecylJ/I
    A==;
-X-CSE-ConnectionGUID: j0Zf4rFTRQmeDw1qUykiXg==
-X-CSE-MsgGUID: +6uKPSnWRM63BiCqtzAcTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="61687762"
+X-CSE-ConnectionGUID: aMPbfrgoRR6NU0amB7Wbcw==
+X-CSE-MsgGUID: LeMGp9GXS2uoM7Dc7gTb3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="76649948"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="61687762"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 22:55:32 -0700
-X-CSE-ConnectionGUID: u6MeAXQRTfqr7QVdUdF+hw==
-X-CSE-MsgGUID: SJdGlk8QT2y/uiUe7oyYJA==
+   d="scan'208";a="76649948"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 23:44:36 -0700
+X-CSE-ConnectionGUID: Gs6FWDalSc+0FKNgdWlYqg==
+X-CSE-MsgGUID: yGPO6GzRSDCN4jDCUQlzIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="202125668"
+   d="scan'208";a="202121468"
 Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Sep 2025 22:55:31 -0700
+  by orviesa002.jf.intel.com with ESMTP; 01 Sep 2025 23:44:34 -0700
 Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utJzN-0003Ff-0k;
-	Tue, 02 Sep 2025 05:55:29 +0000
-Date: Tue, 2 Sep 2025 07:55:16 +0200
+	id 1utKkq-0003G3-07;
+	Tue, 02 Sep 2025 06:44:32 +0000
+Date: Tue, 2 Sep 2025 08:43:37 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [anolis-intel-cloud:devel-5.10 1/1]
- arch/x86/realmode/rm/../../boot/bioscall.S:35: Warning: found `movsd';
- assuming `movsl' was meant
-Message-ID: <202509020756.w0LBsJz1-lkp@intel.com>
+Subject: [rockchip:v6.18-armsoc/dts64 41/47]
+ arch/arm64/boot/dts/rockchip/rk3528-armsom-sige1.dtb: /soc/syscon@ff348000:
+ failed to match any schema with compatible: ['rockchip,rk3528-pipe-phy-grf',
+ 'syscon']
+Message-ID: <202509020818.RwZf5BQg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,48 +65,37 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: aubrey.li@linux.intel.com
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+TO: Jonas Karlman <jonas@kwiboo.se>
+CC: Heiko Stuebner <heiko@sntech.de>
 
-Hi John,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   119e72f374248c57f950f0658c1e1099b40e2ffa
-commit: fdc9c3cff9e213e49429bc07db4b7a503713eddd [1/1] x86/build: Propagate $(CLANG_FLAGS) to $(REALMODE_FLAGS)
-:::::: branch date: 2 days ago
-:::::: commit date: 4 years, 4 months ago
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250902/202509020756.w0LBsJz1-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509020756.w0LBsJz1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.18-armsoc/dts64
+head:   df02252f271b4fa50c7087a0e6f5a7d7ed2f1dcc
+commit: 7cedc908a877d7c003aa0c205fb088bb6c15f5d4 [41/47] arm64: dts: rockchip: Add ArmSoM Sige1
+:::::: branch date: 20 hours ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-2051-20250901 (https://download.01.org/0day-ci/archive/20250902/202509020818.RwZf5BQg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509020818.RwZf5BQg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509020756.w0LBsJz1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509020818.RwZf5BQg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   arch/x86/realmode/rm/../../boot/bioscall.S: Assembler messages:
->> arch/x86/realmode/rm/../../boot/bioscall.S:35: Warning: found `movsd'; assuming `movsl' was meant
-   arch/x86/realmode/rm/../../boot/bioscall.S:70: Warning: found `movsd'; assuming `movsl' was meant
-
-
-vim +35 arch/x86/realmode/rm/../../boot/bioscall.S
-
-7a734e7dd93b9a H. Peter Anvin 2009-04-01 @35  	rep; movsd
-
-:::::: The code at line 35 was first introduced by commit
-:::::: 7a734e7dd93b9aea08ed51036a9a0e2c9dfd8dac x86, setup: "glove box" BIOS calls -- infrastructure
-
-:::::: TO: H. Peter Anvin <hpa@linux.intel.com>
-:::::: CC: H. Peter Anvin <hpa@zytor.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/rockchip/rk3528.dtsi:240.6-1136.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/rockchip/rk3528-armsom-sige1.dtb: /soc/syscon@ff348000: failed to match any schema with compatible: ['rockchip,rk3528-pipe-phy-grf', 'syscon']
+   arch/arm64/boot/dts/rockchip/rk3528-armsom-sige1.dtb: adc@ffae0000 (rockchip,rk3528-saradc): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/rockchip-saradc.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3528-armsom-sige1.dtb: /soc/phy@ffdc0000: failed to match any schema with compatible: ['rockchip,rk3528-naneng-combphy']
 
 -- 
 0-DAY CI Kernel Test Service
