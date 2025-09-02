@@ -1,150 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152E72EC0BE
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Sep 2025 10:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1231A2E8DF1
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Sep 2025 10:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756809606; cv=none; b=izH6uOZnSaX6rxZSScU21q4yn/rAXlRXe/YTTLIF/VqCnDrwmJKStbJYO8wkwz9a/PmJN1UxQG4DyuR0JSFHv2x56Co95klAId1BN6Z/5zOj7T4mzMnnEJ+BBxWaqbde/EPJnTUeWpNpVJPRseeEeuQFBpBFw4FhyiV9tbjuwY4=
+	t=1756809663; cv=none; b=YevXcJlTtDv3z9lllAx7TJakPDAjK2FJlwXWybRtrCK0MMOb/UJ2ZIMWK7TZwXeNuPUWS47PVMQS5+GJD+J3ux/B3l8qKC8Ccfxcr1a8OWYvwUHXeUz8auJT7ObZ9D44i2wYhAvT4MKAlaDtvZgWeig2lI889xnQx2PWdC47qeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756809606; c=relaxed/simple;
-	bh=vJ0Qg1sh74+4AWjFCuCAPfpwtyA5OzPrBsJ8zRJPVzs=;
+	s=arc-20240116; t=1756809663; c=relaxed/simple;
+	bh=OeXXkfZKY4is8FLiGAvAoFMEpIpDc7P3T3AzLx8Fsq0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WDNmsGTyjyrGs1txDMOaaX7BvDDkIx26qqa/gm1j9sp67/bXl5cNev3FUryaX35YSA7ecnGPJqi5Ns7iuIq0aJ5MtIQTP0YbGjX6DOuxDQErBGlBBi3RfhVVzButSp5OUBt/9DM6RshFx/d10W2GZrUCZcpQCbw6GyO48Qh+fW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y9xHLCyX; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=hG7m3GFjU9jF5F/rFlMJUL11SMcCUm9PoCJlnba2h9+UgI4/PvOw7lXiygSNbzS9sR6RS0d1om5ptjDv++YCWhDr9RxI9Cw6Zw4A4NUvGBEXDoJurPcB8j08htzgz2GujWijQkm829hSpm/kxBugWn5SndXg+E5YWkmnDU9c/WM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rilj/Gfp; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9xHLCyX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rilj/Gfp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756809604; x=1788345604;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vJ0Qg1sh74+4AWjFCuCAPfpwtyA5OzPrBsJ8zRJPVzs=;
-  b=Y9xHLCyXxI5qxv3wNihL4NXutb23WHbN4V/dwlz1afnUIUa9z8Bm2BYo
-   rnK5uHbEgif1A7hK1OvORCOSEEwa6NBnr5o6wGtjr36fiFzBvdyGP612P
-   Ca6vpJeKCb/NEhQbsNW78UPffVkzPv5cLCeUudLlsePi1L7ASF7r7atwI
-   tFi+79uPXpcNQnmQ9kTxb0bigREW79sbsILAY46KfrbkRYYPMTywkO0WM
-   lY1ID7gCagcW/50ogHkejEzlpe8dI0/VJZfwvM0+IzBI4KppriFhPm8Oq
-   zeUCIdTx9OrB7beY/iLp/17xDRuhehW+OnU2OjyI7Pg9HEsvuDF6NixbY
-   g==;
-X-CSE-ConnectionGUID: a5bwggsfR6GUz8ZpnoUpww==
-X-CSE-MsgGUID: mkkfaL8sQCS78HaVWNnuIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="84494925"
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="84494925"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:40:03 -0700
-X-CSE-ConnectionGUID: TD7MftF9R0WmTS1uwZwm7w==
-X-CSE-MsgGUID: FP4rHqFDQ0qLXg/2Tk3DYg==
+  t=1756809662; x=1788345662;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OeXXkfZKY4is8FLiGAvAoFMEpIpDc7P3T3AzLx8Fsq0=;
+  b=Rilj/GfpHXBUcCY0O4rfHwBUp8ANqedm9JtAFOqiBwkJyJA1TSn64hXI
+   CbP+4lVq4AOt5jwHqQxFdq9lkNSHHiRySAUdj0uCRZ6copjM4rA+2EHN3
+   IcdHcYDcm4aDeBv9+EyjyTiVxVFDvtvWaoN0n4yWLLzkHu59R7vvlC8GD
+   0/RP82Ny04H7OMpMRUiCUkTXpRKjC8wWNfXHBaQOuNEOETDJB+ifHB7XW
+   Pn+37ThEeuP+hbNBLX4u0n0Lgse8SoYOYphXFBR+a9UZ/+/JhPpYEjELI
+   bZYynHX5utNUtFkmNWx867z3PmvsdqGB9V4/B3gP8A945VYhDMJRl/a0S
+   A==;
+X-CSE-ConnectionGUID: SOxFOvO0RxGDp4xuCfJqOw==
+X-CSE-MsgGUID: uEGg8qMPQ3+ORnOnGP8sVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58993626"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="58993626"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:41:02 -0700
+X-CSE-ConnectionGUID: 7nmycEZ9TAmsNnQQo0H1/w==
+X-CSE-MsgGUID: DOEOdu10SvOjpC9NrMtw0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="171124239"
+   d="scan'208";a="176561942"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 02 Sep 2025 03:40:02 -0700
+  by orviesa005.jf.intel.com with ESMTP; 02 Sep 2025 03:40:58 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utOQK-0001qZ-19;
-	Tue, 02 Sep 2025 10:39:43 +0000
-Date: Tue, 2 Sep 2025 18:38:59 +0800
+	id 1utOQh-0001qb-1h;
+	Tue, 02 Sep 2025 10:40:15 +0000
+Date: Tue, 2 Sep 2025 18:39:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 4/5] auxdisplay: linedisp: support attribute attachment
- to auxdisplay devices
-Message-ID: <202509021722.wnbbAMB8-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v5 6/7] dt-bindings: soc: fsl: qe: Convert QE GPIO to DT
+ schema
+Message-ID: <202509021831.uriGVFSf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250901020033.60196-5-jefflessard3@gmail.com>
-References: <20250901020033.60196-5-jefflessard3@gmail.com>
-TO: "Jean-François Lessard" <jefflessard3@gmail.com>
-TO: Andy Shevchenko <andy@kernel.org>
-TO: Geert Uytterhoeven <geert@linux-m68k.org>
+In-Reply-To: <48b4e7b25878b94dcb738f8239c815be484cf9c9.1756727747.git.christophe.leroy@csgroup.eu>
+References: <48b4e7b25878b94dcb738f8239c815be484cf9c9.1756727747.git.christophe.leroy@csgroup.eu>
+TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+TO: Qiang Zhao <qiang.zhao@nxp.com>
+TO: Linus Walleij <linus.walleij@linaro.org>
+TO: Bartosz Golaszewski <brgl@bgdev.pl>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: Christophe Leroy <christophe.leroy@csgroup.eu>
 CC: linux-kernel@vger.kernel.org
+CC: linuxppc-dev@lists.ozlabs.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-gpio@vger.kernel.org
+CC: devicetree@vger.kernel.org
 
-Hi Jean-François,
+Hi Christophe,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.17-rc4 next-20250902]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on powerpc/next powerpc/fixes linus/master v6.17-rc4]
+[cannot apply to next-20250902]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jean-Fran-ois-Lessard/auxdisplay-linedisp-encapsulate-container_of-usage-within-to_linedisp/20250901-100347
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250901020033.60196-5-jefflessard3%40gmail.com
-patch subject: [PATCH 4/5] auxdisplay: linedisp: support attribute attachment to auxdisplay devices
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-config: x86_64-randconfig-161-20250902 (https://download.01.org/0day-ci/archive/20250902/202509021722.wnbbAMB8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/soc-fsl-qe-Add-an-interrupt-controller-for-QUICC-Engine-Ports/20250901-202447
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/48b4e7b25878b94dcb738f8239c815be484cf9c9.1756727747.git.christophe.leroy%40csgroup.eu
+patch subject: [PATCH v5 6/7] dt-bindings: soc: fsl: qe: Convert QE GPIO to DT schema
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: powerpc-randconfig-051-20250902 (https://download.01.org/0day-ci/archive/20250902/202509021831.uriGVFSf-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021831.uriGVFSf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202509021722.wnbbAMB8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509021831.uriGVFSf-lkp@intel.com/
 
-smatch warnings:
-drivers/auxdisplay/line-display.c:81 delete_attachment() warn: iterator used outside loop: 'attachment'
-drivers/auxdisplay/line-display.c:102 to_linedisp() warn: iterator used outside loop: 'attachment'
-
-vim +/attachment +81 drivers/auxdisplay/line-display.c
-
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   64  
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   65  static struct linedisp *delete_attachment(struct device *dev, bool owns_device)
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   66  {
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   67  	struct linedisp_attachment *attachment;
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   68  	struct linedisp *linedisp;
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   69  
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   70  	guard(spinlock)(&linedisp_attachments_lock);
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   71  
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   72  	list_for_each_entry(attachment, &linedisp_attachments, list) {
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   73  		if (attachment->device == dev &&
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   74  		    attachment->owns_device == owns_device)
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   75  			break;
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   76  	}
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   77  
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   78  	if (list_entry_is_head(attachment, &linedisp_attachments, list))
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   79  		return NULL;
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   80  
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31  @81  	linedisp = attachment->linedisp;
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   82  	list_del(&attachment->list);
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   83  	kfree(attachment);
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   84  
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   85  	return linedisp;
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   86  }
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   87  
-edd8dbd6f21b41 Jean-François Lessard 2025-08-31   88  static struct linedisp *to_linedisp(struct device *dev)
-edd8dbd6f21b41 Jean-François Lessard 2025-08-31   89  {
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   90  	struct linedisp_attachment *attachment;
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   91  
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   92  	guard(spinlock)(&linedisp_attachments_lock);
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   93  
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   94  	list_for_each_entry(attachment, &linedisp_attachments, list) {
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   95  		if (attachment->device == dev)
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   96  			break;
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   97  	}
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   98  
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31   99  	if (list_entry_is_head(attachment, &linedisp_attachments, list))
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31  100  		return NULL;
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31  101  
-5b645f9dfbbe40 Jean-François Lessard 2025-08-31 @102  	return attachment->linedisp;
-edd8dbd6f21b41 Jean-François Lessard 2025-08-31  103  }
-edd8dbd6f21b41 Jean-François Lessard 2025-08-31  104  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/powerpc/boot/dts/kmeter1.dtb: /soc8360@e0000000: failed to match any schema with compatible: ['fsl,mpc8360-immr', 'simple-bus']
+   arch/powerpc/boot/dts/kmeter1.dtb: i2c@3000 (fsl,mpc8313-i2c): Unevaluated properties are not allowed ('cell-index' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
+   arch/powerpc/boot/dts/kmeter1.dtb: serial@4500 (fsl,ns16550): Unevaluated properties are not allowed ('cell-index', 'device_type' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/powerpc/boot/dts/kmeter1.dtb: /soc8360@e0000000/pic@700: failed to match any schema with compatible: ['fsl,pq2pro-pic', 'fsl,ipic']
+   arch/powerpc/boot/dts/kmeter1.dtb: /soc8360@e0000000/pic@700: failed to match any schema with compatible: ['fsl,pq2pro-pic', 'fsl,ipic']
+   arch/powerpc/boot/dts/kmeter1.dtb: /soc8360@e0000000/par_io@1400: failed to match any schema with compatible: ['fsl,mpc8360-par_io']
+   arch/powerpc/boot/dts/kmeter1.dtb: gpio-controller@30 (fsl,mpc8360-qe-pario-bank): compatible:0: 'fsl,mpc8360-qe-pario-bank' is not one of ['fsl,chip-qe-pario-bank']
+   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,mpc8323-qe-pario-bank.yaml#
+>> arch/powerpc/boot/dts/kmeter1.dtb: gpio-controller@30 (fsl,mpc8360-qe-pario-bank): reg: [[5168], [24]] is too long
+   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,mpc8323-qe-pario-bank.yaml#
+   arch/powerpc/boot/dts/kmeter1.dtb: /soc8360@e0000000/par_io@1400/gpio-controller@30: failed to match any schema with compatible: ['fsl,mpc8360-qe-pario-bank', 'fsl,mpc8323-qe-pario-bank']
+   arch/powerpc/boot/dts/kmeter1.dtb: qe@100000 (fsl,qe): $nodename:0: 'qe@100000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
+   arch/powerpc/boot/dts/kmeter1.dtb: qe@100000 (fsl,qe): compatible: ['fsl,qe'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
+   arch/powerpc/boot/dts/kmeter1.dtb: qe@100000 (fsl,qe): interrupt-controller@80: '#address-cells', 'big-endian' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
+   arch/powerpc/boot/dts/kmeter1.dtb: qe@100000 (fsl,qe): interrupt-controller@80:interrupts: [[32, 8], [33, 8], [34, 8], [35, 8], [40, 8], [41, 8], [42, 8], [43, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
+--
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
+   arch/powerpc/boot/dts/mpc832x_rdb.dtb: serial@4500 (fsl,ns16550): Unevaluated properties are not allowed ('cell-index', 'device_type' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/powerpc/boot/dts/mpc832x_rdb.dtb: serial@4600 (fsl,ns16550): Unevaluated properties are not allowed ('cell-index', 'device_type' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/powerpc/boot/dts/mpc832x_rdb.dtb: crypto@30000 (fsl,sec2.2): Unevaluated properties are not allowed ('sleep' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec2.0.yaml#
+   arch/powerpc/boot/dts/mpc832x_rdb.dtb: /soc8323@e0000000/par_io@1400: failed to match any schema with compatible: ['fsl,mpc8323-qe-pario']
+   arch/powerpc/boot/dts/mpc832x_rdb.dtb: gpio-controller@1448 (fsl,mpc8323-qe-pario-bank): compatible:0: 'fsl,mpc8323-qe-pario-bank' is not one of ['fsl,chip-qe-pario-bank']
+   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,mpc8323-qe-pario-bank.yaml#
+>> arch/powerpc/boot/dts/mpc832x_rdb.dtb: gpio-controller@1448 (fsl,mpc8323-qe-pario-bank): compatible: ['fsl,mpc8323-qe-pario-bank'] is too short
+   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,mpc8323-qe-pario-bank.yaml#
+   arch/powerpc/boot/dts/mpc832x_rdb.dtb: qe@e0100000 (fsl,qe): $nodename:0: 'qe@e0100000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
+   arch/powerpc/boot/dts/mpc832x_rdb.dtb: qe@e0100000 (fsl,qe): compatible: ['fsl,qe'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
+   arch/powerpc/boot/dts/mpc832x_rdb.dtb: qe@e0100000 (fsl,qe): interrupt-controller@80: '#address-cells', 'big-endian' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
+   arch/powerpc/boot/dts/mpc832x_rdb.dtb: qe@e0100000 (fsl,qe): compatible: ['fsl,qe'] is too short
+   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
+   arch/powerpc/boot/dts/mpc832x_rdb.dtb: qe@e0100000 (fsl,qe): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'device_type', 'mdio@3120', 'spi@4c0', 'spi@500', 'ucc@2200', 'ucc@3000' were unexpected)
 
 -- 
 0-DAY CI Kernel Test Service
