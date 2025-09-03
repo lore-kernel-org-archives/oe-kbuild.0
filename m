@@ -1,193 +1,293 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E860912CD8B;
-	Wed,  3 Sep 2025 02:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5982E75809
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 Sep 2025 02:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756866622; cv=none; b=qJle7Ramnkp676stABtolJnvknOwplIGm5tocpOPw0rBEUiFO7i/jwjwjI7mDLgELSTZf57xSAINN3FNqA+UkW/dQAENVWIv5fp4bAsbGlBm/+eL8YcEcanpaWVHChMb8zJEYdBCpW7eHxmbosgkAzCovWpQGmxfv8nyE+wLeBk=
+	t=1756867799; cv=none; b=Sjc4I6uPL3+FOQecZnpajmvxnu5vkSNu0Jy0mPsyxJFdC7hlnc91CWdiCT3tr4XmhbBMO8omMKQ1+pMVREkTNLq4/WYLkFZz4MNWQrceZrAfCmo4vsgtqz0azZ+d+51zL+FlTPrDVItz1VEiw8H86aOMYUZhB5fczJgUjw3Xf3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756866622; c=relaxed/simple;
-	bh=ycU7s97Elzp8D9Lnpn/nwPgh4p+h+fTr5P6Bub2JNp0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PLVQ/J72opRiYBobY2QDwmZZNukQ8peYDvG9gXS77iHXpgg1nvTTuI0H+mvpG+MtaPzRh6cca4YxmQ4fEzy4zr1712KpMlpiZJK+N2yqYJv4D1D8Y6f8LZug6jY3AgfwfgYGEgKGXFf2ISR/gJJoo1aIBUYSiNQdLtmpFqPdd/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: ebccd6ec886d11f0b29709d653e92f7d-20250903
-X-CID-CACHE: Type:Local,Time:202509031012+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:fc1c0d25-1a5f-430f-9cce-28659ca7fdfc,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:aa48c90d2685f52c421d2b43104888ae,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|850,TC:nil,Content:0|50,EDM
-	:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
-	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: ebccd6ec886d11f0b29709d653e92f7d-20250903
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
-	(envelope-from <zhangzihuan@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 1902583084; Wed, 03 Sep 2025 10:30:13 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 15CAAE008FA3;
-	Wed,  3 Sep 2025 10:30:13 +0800 (CST)
-X-ns-mid: postfix-68B7A834-477631288
-Received: from [172.25.120.24] (unknown [172.25.120.24])
-	by mail.kylinos.cn (NSMail) with ESMTPA id 1AB2FE008FA2;
-	Wed,  3 Sep 2025 10:30:09 +0800 (CST)
-Message-ID: <9a649258-5eee-4e0e-ba87-af79189b8a09@kylinos.cn>
-Date: Wed, 3 Sep 2025 10:30:08 +0800
+	s=arc-20240116; t=1756867799; c=relaxed/simple;
+	bh=025Qq38TIVmNtUCF6lI6rrOjRgGJl75QLzna3BamjNU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q76G8aQb58clXWJsOX/oZvdQiCwlb/Xt41NN2iRyUoAeF7sutq3XuNx2emU99lM76OrphuPT0KgUTCuEM0kEhoBAOnH6mkXKoUQLZ9NfleSTKeyS0AYpikwkD99iVD8m+yV6jMvNnDAGzmvV5eUU+jKeFQSpD26RYUyvxEUZQKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qlrxu3qW; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qlrxu3qW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756867797; x=1788403797;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=025Qq38TIVmNtUCF6lI6rrOjRgGJl75QLzna3BamjNU=;
+  b=Qlrxu3qWs/1qW+vUTriBnZVFn9VD6udikcel6de3sDgnwg/JLfaaSfFN
+   jA2/P3MMv3j9XdcZrewczD6kkx0idzlF9zcXAOy6Zrrwt63qUe3LgV/YW
+   d7ZzmNFNuyvN2i1LSiOIPHmJolaQK4PERRoVz2F3AV046Mb4BR9fkDz5v
+   Ic0HQ4n7kVDA14kieuJSLDRFq258CTtuuz4Tk6VezRFaupXkQzCC+EswF
+   Mjts0cHBB3LIFpIJWkOU0LwagQIhW63aaIBRJ/SgGN+ZBQHf2L8Uma4YW
+   bQ5aZWfH11etyoZYCmvH2EHHENVbAOrekZjIYXHtu1ZjMz3B0QnsRRdmk
+   Q==;
+X-CSE-ConnectionGUID: 8JrZJM5TTOGwqhiLZuq3PA==
+X-CSE-MsgGUID: 6E4toZMwSBOI4LlwXV6IWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="69433290"
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
+   d="scan'208";a="69433290"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 19:49:57 -0700
+X-CSE-ConnectionGUID: mzfrFNGQQQKGFLXczzbU7Q==
+X-CSE-MsgGUID: R3sXS2yvSQaxuJCH7D4W2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
+   d="scan'208";a="171615193"
+Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 02 Sep 2025 19:49:55 -0700
+Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1utdZF-0003HT-33;
+	Wed, 03 Sep 2025 02:49:50 +0000
+Date: Wed, 3 Sep 2025 10:49:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [djwong-xfs:health-monitoring 28/28] ERROR: modpost:
+ __ex_table+0x2404 references non-executable section '.initcall4.init'
+Message-ID: <202509031047.IqurGtL3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 12/12] PM: EM: Use scope-based cleanup helper
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- "Rafael J . wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Krzysztof Kozlowski
- <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- Ben Horgan <ben.horgan@arm.com>, zhenglifeng <zhenglifeng1@huawei.com>,
- Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>
-References: <202509022308.CeaKUqJM-lkp@intel.com>
-From: Zihuan Zhang <zhangzihuan@kylinos.cn>
-In-Reply-To: <202509022308.CeaKUqJM-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "riscv arch toolchain issue"
+:::::: 
 
-=E5=9C=A8 2025/9/2 23:53, Dan Carpenter =E5=86=99=E9=81=93:
-> Hi Zihuan,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Zihuan-Zhang/arm=
-64-topology-Use-scope-based-cleanup-helper/20250901-170106
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm=
-.git linux-next
-> patch link:    https://lore.kernel.org/r/20250901085748.36795-13-zhangz=
-ihuan%40kylinos.cn
-> patch subject: [PATCH v3 12/12] PM: EM: Use scope-based cleanup helper
-> config: powerpc64-randconfig-r071-20250902 (https://download.01.org/0da=
-y-ci/archive/20250902/202509022308.CeaKUqJM-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project=
- 2e122990391b2ba062e6308a12cfedf7206270ba)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202509022308.CeaKUqJM-lkp@intel.com=
-/
->
-> smatch warnings:
-> kernel/power/energy_model.c:454 em_cpufreq_update_efficiencies() error:=
- uninitialized symbol 'policy'.
->
-> vim +/policy +454 kernel/power/energy_model.c
->
-> e7b1cc9a7ea6d7 Lukasz Luba       2024-02-08  450  static void
-> e7b1cc9a7ea6d7 Lukasz Luba       2024-02-08  451  em_cpufreq_update_eff=
-iciencies(struct device *dev, struct em_perf_state *table)
-> e458716a92b57f Vincent Donnefort 2021-09-08  452  {
-> e458716a92b57f Vincent Donnefort 2021-09-08  453  	struct em_perf_domai=
-n *pd =3D dev->em_pd;
-> 3a096464b04b72 Zihuan Zhang      2025-09-01 @454  	struct cpufreq_polic=
-y *policy __free(put_cpufreq_policy);
->
-> policy needs to be set to NULL here.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git health-monitoring
+head:   e268fde01f2634c18d583b982f04ae18bb8a9597
+commit: e268fde01f2634c18d583b982f04ae18bb8a9597 [28/28] xfs: send uevents when major filesystem events happen
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: riscv-randconfig-001-20250903 (https://download.01.org/0day-ci/archive/20250903/202509031047.IqurGtL3-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509031047.IqurGtL3-lkp@intel.com/reproduce)
 
-Thanks for point it out.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202509031047.IqurGtL3-lkp@intel.com/
 
-> e458716a92b57f Vincent Donnefort 2021-09-08  455  	int found =3D 0;
-> 99907d6054f2d3 Lukasz Luba       2024-02-08  456  	int i, cpu;
-> e458716a92b57f Vincent Donnefort 2021-09-08  457
-> e7b1cc9a7ea6d7 Lukasz Luba       2024-02-08  458  	if (!_is_cpu_device(=
-dev))
-> e458716a92b57f Vincent Donnefort 2021-09-08  459  		return;
->                                                                  ^^^^^^
-> returning before an initialization is an uninitialized variable bug.
->
-> e458716a92b57f Vincent Donnefort 2021-09-08  460
-> 99907d6054f2d3 Lukasz Luba       2024-02-08  461  	/* Try to get a CPU =
-which is active and in this PD */
-> 99907d6054f2d3 Lukasz Luba       2024-02-08  462  	cpu =3D cpumask_firs=
-t_and(em_span_cpus(pd), cpu_active_mask);
-> 99907d6054f2d3 Lukasz Luba       2024-02-08  463  	if (cpu >=3D nr_cpu_=
-ids) {
-> 99907d6054f2d3 Lukasz Luba       2024-02-08  464  		dev_warn(dev, "EM: =
-No online CPU for CPUFreq policy\n");
-> 99907d6054f2d3 Lukasz Luba       2024-02-08  465  		return;
-> 99907d6054f2d3 Lukasz Luba       2024-02-08  466  	}
-> 99907d6054f2d3 Lukasz Luba       2024-02-08  467
-> 99907d6054f2d3 Lukasz Luba       2024-02-08  468  	policy =3D cpufreq_c=
-pu_get(cpu);
->
-> Or we could declare it here:
->
-> 	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_c=
-pu_get(cpu);
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
+ERROR: modpost: __ex_table+0x225c references non-executable section '.debug_loc'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2260 (section: __ex_table) -> .LLST98 (section: .debug_loc)
+ERROR: modpost: __ex_table+0x2260 references non-executable section '.debug_loc'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2274 (section: __ex_table) -> .LASF4147 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2274 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2280 (section: __ex_table) -> .LLST82 (section: .debug_loc)
+ERROR: modpost: __ex_table+0x2280 references non-executable section '.debug_loc'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2284 (section: __ex_table) -> .LASF4148 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2284 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x228c (section: __ex_table) -> .LLST85 (section: .debug_loc)
+ERROR: modpost: __ex_table+0x228c references non-executable section '.debug_loc'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2298 (section: __ex_table) -> .LASF707 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2298 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x229c (section: __ex_table) -> .LASF709 (section: .debug_str)
+ERROR: modpost: __ex_table+0x229c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22a4 (section: __ex_table) -> .LASF711 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22a4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22a8 (section: __ex_table) -> .LASF713 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22a8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22b0 (section: __ex_table) -> .LASF715 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22b0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22b4 (section: __ex_table) -> .LASF717 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22b4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22bc (section: __ex_table) -> .LASF719 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22bc references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22c0 (section: __ex_table) -> .LASF721 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22c0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22c8 (section: __ex_table) -> .LASF760 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22c8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22cc (section: __ex_table) -> .LASF761 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22cc references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22e0 (section: __ex_table) -> .LASF1158 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22e0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22e4 (section: __ex_table) -> .LASF1160 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22e4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22ec (section: __ex_table) -> .LASF1162 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22ec references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22f0 (section: __ex_table) -> .LASF1164 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22f0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22f8 (section: __ex_table) -> .LASF6833 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22f8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x22fc (section: __ex_table) -> .LASF6835 (section: .debug_str)
+ERROR: modpost: __ex_table+0x22fc references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2304 (section: __ex_table) -> .LASF6837 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2304 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2308 (section: __ex_table) -> .LASF6839 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2308 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2310 (section: __ex_table) -> .LASF1880 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2310 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2314 (section: __ex_table) -> .LASF1882 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2314 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x231c (section: __ex_table) -> .LASF1884 (section: .debug_str)
+ERROR: modpost: __ex_table+0x231c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2320 (section: __ex_table) -> .LASF1886 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2320 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2328 (section: __ex_table) -> .LASF1888 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2328 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x232c (section: __ex_table) -> .LASF1890 (section: .debug_str)
+ERROR: modpost: __ex_table+0x232c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2334 (section: __ex_table) -> .LASF1892 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2334 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2338 (section: __ex_table) -> .LASF1894 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2338 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2340 (section: __ex_table) -> .LASF2057 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2340 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2344 (section: __ex_table) -> .LASF2059 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2344 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x234c (section: __ex_table) -> .LASF2061 (section: .debug_str)
+ERROR: modpost: __ex_table+0x234c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2350 (section: __ex_table) -> .LASF2063 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2350 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2358 (section: __ex_table) -> .LASF2065 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2358 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x235c (section: __ex_table) -> .LASF2067 (section: .debug_str)
+ERROR: modpost: __ex_table+0x235c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2364 (section: __ex_table) -> .LASF2069 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2364 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2368 (section: __ex_table) -> .LASF2063 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2368 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2370 (section: __ex_table) -> .LLST3941 (section: .debug_loc)
+ERROR: modpost: __ex_table+0x2370 references non-executable section '.debug_loc'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x237c (section: __ex_table) -> .LASF587 (section: .debug_str)
+ERROR: modpost: __ex_table+0x237c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2380 (section: __ex_table) -> .LASF589 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2380 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2388 (section: __ex_table) -> .LASF591 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2388 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x238c (section: __ex_table) -> .LASF589 (section: .debug_str)
+ERROR: modpost: __ex_table+0x238c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2394 (section: __ex_table) -> .LASF594 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2394 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2398 (section: __ex_table) -> .LASF596 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2398 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x23a0 (section: __ex_table) -> .LASF598 (section: .debug_str)
+ERROR: modpost: __ex_table+0x23a0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x23a4 (section: __ex_table) -> .LASF600 (section: .debug_str)
+ERROR: modpost: __ex_table+0x23a4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2400 (section: __ex_table) -> __TRACE_SYSTEM____GFP_HIGHMEM_BIT (section: .init.data)
+ERROR: modpost: __ex_table+0x2400 references non-executable section '.init.data'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2404 (section: __ex_table) -> __initcall__kmod_percpu__669_3371_percpu_enable_async4 (section: .initcall4.init)
+>> ERROR: modpost: __ex_table+0x2404 references non-executable section '.initcall4.init'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x240c (section: __ex_table) -> .LASF521 (section: .debug_str)
+ERROR: modpost: __ex_table+0x240c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2410 (section: __ex_table) -> .LASF523 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2410 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2418 (section: __ex_table) -> .LASF525 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2418 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x241c (section: __ex_table) -> .LASF527 (section: .debug_str)
+ERROR: modpost: __ex_table+0x241c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2424 (section: __ex_table) -> .LASF529 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2424 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2428 (section: __ex_table) -> .LASF531 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2428 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2430 (section: __ex_table) -> .LASF750 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2430 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2434 (section: __ex_table) -> .LASF752 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2434 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x243c (section: __ex_table) -> .LASF754 (section: .debug_str)
+ERROR: modpost: __ex_table+0x243c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2440 (section: __ex_table) -> .LASF756 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2440 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2448 (section: __ex_table) -> .LASF758 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2448 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x244c (section: __ex_table) -> .LASF760 (section: .debug_str)
+ERROR: modpost: __ex_table+0x244c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2454 (section: __ex_table) -> .LASF762 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2454 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2458 (section: __ex_table) -> .LASF756 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2458 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2460 (section: __ex_table) -> .LASF765 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2460 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2464 (section: __ex_table) -> .LASF756 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2464 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x246c (section: __ex_table) -> .LASF768 (section: .debug_str)
+ERROR: modpost: __ex_table+0x246c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2470 (section: __ex_table) -> .LASF756 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2470 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2478 (section: __ex_table) -> .LASF771 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2478 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x247c (section: __ex_table) -> .LASF756 (section: .debug_str)
+ERROR: modpost: __ex_table+0x247c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2484 (section: __ex_table) -> .LASF2598 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2484 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2488 (section: __ex_table) -> .LASF2600 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2488 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2490 (section: __ex_table) -> .LASF2602 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2490 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2494 (section: __ex_table) -> .LASF2604 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2494 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x249c (section: __ex_table) -> .LASF2606 (section: .debug_str)
+ERROR: modpost: __ex_table+0x249c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x24a0 (section: __ex_table) -> .LASF2604 (section: .debug_str)
+ERROR: modpost: __ex_table+0x24a0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x24a8 (section: __ex_table) -> .LASF471 (section: .debug_str)
+ERROR: modpost: __ex_table+0x24a8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x24ac (section: __ex_table) -> .LASF473 (section: .debug_str)
+ERROR: modpost: __ex_table+0x24ac references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x24b4 (section: __ex_table) -> .LASF475 (section: .debug_str)
+ERROR: modpost: __ex_table+0x24b4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x24b8 (section: __ex_table) -> .LASF477 (section: .debug_str)
+ERROR: modpost: __ex_table+0x24b8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x24c0 (section: __ex_table) -> .LASF479 (section: .debug_str)
+ERROR: modpost: __ex_table+0x24c0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x24c4 (section: __ex_table) -> .LASF477 (section: .debug_str)
+ERROR: modpost: __ex_table+0x24c4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x24cc (section: __ex_table) -> .LASF3392 (section: .debug_str)
+ERROR: modpost: __ex_table+0x24cc references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x24d0 (section: __ex_table) -> .LASF3394 (section: .debug_str)
+ERROR: modpost: __ex_table+0x24d0 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x24d8 (section: __ex_table) -> .LASF3396 (section: .debug_str)
+ERROR: modpost: __ex_table+0x24d8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x24dc (section: __ex_table) -> .LASF3398 (section: .debug_str)
+ERROR: modpost: __ex_table+0x24dc references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x24e4 (section: __ex_table) -> .LASF2890 (section: .debug_str)
+ERROR: modpost: __ex_table+0x24e4 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x24e8 (section: __ex_table) -> .LASF2892 (section: .debug_str)
+ERROR: modpost: __ex_table+0x24e8 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2538 (section: __ex_table) -> .LASF2109 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2538 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x253c (section: __ex_table) -> .LASF2111 (section: .debug_str)
+ERROR: modpost: __ex_table+0x253c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2544 (section: __ex_table) -> .LASF2113 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2544 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2548 (section: __ex_table) -> .LASF2115 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2548 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2550 (section: __ex_table) -> .LASF1102 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2550 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2554 (section: __ex_table) -> .LASF1104 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2554 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x255c (section: __ex_table) -> .LASF1106 (section: .debug_str)
+ERROR: modpost: __ex_table+0x255c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2560 (section: __ex_table) -> .LASF1108 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2560 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2568 (section: __ex_table) -> .LASF1110 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2568 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x256c (section: __ex_table) -> .LASF1112 (section: .debug_str)
+ERROR: modpost: __ex_table+0x256c references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2574 (section: __ex_table) -> .LASF1114 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2574 references non-executable section '.debug_str'
+WARNING: modpost: vmlinux: section mismatch in reference: 0x2578 (section: __ex_table) -> .LASF1116 (section: .debug_str)
+ERROR: modpost: __ex_table+0x2578 references non-executable section '.debug_str'
 
-Thanks for the suggestion.=C2=A0 However, I=E2=80=99m not sure whether to=
- keep this=20
-patch, since Krzysztof has raised some objections.
-
->
-> e458716a92b57f Vincent Donnefort 2021-09-08  469  	if (!policy) {
-> 4274521fabee05 Lukasz Luba       2024-02-08  470  		dev_warn(dev, "EM: =
-Access to CPUFreq policy failed\n");
-> e458716a92b57f Vincent Donnefort 2021-09-08  471  		return;
-> e458716a92b57f Vincent Donnefort 2021-09-08  472  	}
-> e458716a92b57f Vincent Donnefort 2021-09-08  473
-> e458716a92b57f Vincent Donnefort 2021-09-08  474  	for (i =3D 0; i < pd=
-->nr_perf_states; i++) {
-> e458716a92b57f Vincent Donnefort 2021-09-08  475  		if (!(table[i].flag=
-s & EM_PERF_STATE_INEFFICIENT))
-> e458716a92b57f Vincent Donnefort 2021-09-08  476  			continue;
-> e458716a92b57f Vincent Donnefort 2021-09-08  477
-> e458716a92b57f Vincent Donnefort 2021-09-08  478  		if (!cpufreq_table_=
-set_inefficient(policy, table[i].frequency))
-> e458716a92b57f Vincent Donnefort 2021-09-08  479  			found++;
-> e458716a92b57f Vincent Donnefort 2021-09-08  480  	}
-> e458716a92b57f Vincent Donnefort 2021-09-08  481
-> e458716a92b57f Vincent Donnefort 2021-09-08  482  	if (!found)
-> e458716a92b57f Vincent Donnefort 2021-09-08  483  		return;
-> e458716a92b57f Vincent Donnefort 2021-09-08  484
-> e458716a92b57f Vincent Donnefort 2021-09-08  485  	/*
-> e458716a92b57f Vincent Donnefort 2021-09-08  486  	 * Efficiencies have=
- been installed in CPUFreq, inefficient frequencies
-> e458716a92b57f Vincent Donnefort 2021-09-08  487  	 * will be skipped. =
-The EM can do the same.
-> e458716a92b57f Vincent Donnefort 2021-09-08  488  	 */
-> e458716a92b57f Vincent Donnefort 2021-09-08  489  	pd->flags |=3D EM_PE=
-RF_DOMAIN_SKIP_INEFFICIENCIES;
-> e458716a92b57f Vincent Donnefort 2021-09-08  490  }
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
