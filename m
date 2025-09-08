@@ -1,68 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74EB1990A7
-	for <oe-kbuild@lists.linux.dev>; Sun,  7 Sep 2025 14:48:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049A41E1E19
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 Sep 2025 09:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757256489; cv=none; b=sKVGWhOn/jrlvjF5cF8N8RZdKxUqR9+fJsVj1cVY3+C936rkrU2bdcaiNigAy7fFz/OKZKBVOLX+xWkQjFGFtheS+M1fAJE7e+RcBCk0TU14hpJ001wMFbTawvQKfFkNLOxN3pMpkLCykZTLmyeAobyc0c06WjK43/V0K+KiTN0=
+	t=1757323100; cv=none; b=WH3oEuuAOHD5V+jytl6kIwCeS2UB7S01RynfBRaoCz40JRiozMfPdFfnnFirOz3EGfbj4+1d1VQ9Ymw9mYKJpKT7TOX7hYrnffL940mlQf/ilkVXB/bo+/CM/5D6bakRjhrg78rG+WJGkOuC1A5QXl4p4aK2yR1G7HodaWwnuj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757256489; c=relaxed/simple;
-	bh=sIJzEIkbLgOsz7ifbHQhIixtZfb6ETnno/mRvQoHEFo=;
+	s=arc-20240116; t=1757323100; c=relaxed/simple;
+	bh=a64MMSAPRTHVHPdPadj7mLXVJa4T0N3Oemgab+DzBbo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=afczuIq91LLa1gFRvCWgESdBWx78E56SUIDic9szZ9L2B73f9QfqQL8yenbcc0YVZ0kAerglF6kwuAoot8exzLB5aQaG3VANV2Tlx5+TPxUDtTPXTDtCZb2qWBySPiSbiBa8TO/k61H4O5XUgumEMXLbb4jugoNVvIwsnbcu5yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBaNp10F; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=jRNftUU6JEtEUVOS6YysQRnqTki6WLpWsF0Tk1f4wzlKbaBRf9QXxrTLB9UMESNqGRwDJRMykg5gyBYgRomn5AZVlQq8BfQHaTlYJlkUm47bIjTg9kXUadPPE81gGN/d1iiQJoU5UJRvQ28AVHz7v0G3E8qirEE89Iyqx5XlK1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ME8VOwS4; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBaNp10F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ME8VOwS4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757256487; x=1788792487;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=sIJzEIkbLgOsz7ifbHQhIixtZfb6ETnno/mRvQoHEFo=;
-  b=XBaNp10FeBLhRvevxSulZomxkds7LyH+GSejozpfdZANQNVu7ecrX37X
-   mdHBfx8Cm/E3xg69WlRcNNbL2GU8MzB2dKpVNdn7dQvBg+BujZ6Ho7BFB
-   ZrEg0iVmaMduBi/5k+BYF8yx5/OejP8u8pUDq9rBRMRhg1cWoS4cUdhge
-   5gimdCLWguzcKNM7g/ZiCmDCC4zFJxtWgPnI3DwdvlWozpWSwKKftUvxs
-   ix079jEDTp17qgh/CRHor7HBrRBFXOiHws/6fgRu7xcopnGT6o9Bx1OHu
-   ha+hIlsbAMBQ4Cz1iPU1+NpZtlvywHn8pvNXiEUrwcXup9ICKyYVRaTqg
+  t=1757323098; x=1788859098;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=a64MMSAPRTHVHPdPadj7mLXVJa4T0N3Oemgab+DzBbo=;
+  b=ME8VOwS472l8YqGL5Y135yxq3J8wqinVXxdxBqYiq5FOeL2y7iKCwgS8
+   bvoP8cVQao/a4v/VPSLNq4FpjAp9pzfUev8ChOcsMUhdmo/rfnhXQDhSM
+   K8IscAPDUOkveVNo3isyYAhtypAtAvyLvAuIj2dKHWzdnjz5smiw/QgkW
+   QDADg1KdHnNwA7eTyCTXZ+JkFNpzoutXb9jaX9al2dW+sjrMkXdXS0FD2
+   ZCu/+u0RhliLZRkE96xYAQudn8RiTw1u0DNF/TyCuQ8KPY7A3GIzUHiXt
+   HiSuFRkjicsjiPy3VEIcICjrw1ZOQK35jyYPakyUc+yr6n855WhEE/0QB
    Q==;
-X-CSE-ConnectionGUID: gegR78KGSLud94QKPW+Rfw==
-X-CSE-MsgGUID: 1bdUhf01ThmI7ayepgiIFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11546"; a="47099393"
-X-IronPort-AV: E=Sophos;i="6.18,246,1751266800"; 
-   d="scan'208";a="47099393"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2025 07:48:07 -0700
-X-CSE-ConnectionGUID: slmfRcbSSUqNtn4fcS9MpQ==
-X-CSE-MsgGUID: JscmUuOpTJW1nJ4VwWzc+w==
+X-CSE-ConnectionGUID: ZFi3+PQNQUOmcw8CjYs+KQ==
+X-CSE-MsgGUID: FwfUWoNETrKMtM8zHVhY6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11546"; a="59271924"
+X-IronPort-AV: E=Sophos;i="6.18,248,1751266800"; 
+   d="scan'208";a="59271924"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 02:18:16 -0700
+X-CSE-ConnectionGUID: YU6Pbk4HRFSAe0jWVhGMcQ==
+X-CSE-MsgGUID: hoHhi/ozQhaBunoBszT7Ug==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,246,1751266800"; 
-   d="scan'208";a="203529599"
+X-IronPort-AV: E=Sophos;i="6.18,248,1751266800"; 
+   d="scan'208";a="172006966"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Sep 2025 07:48:06 -0700
+  by orviesa010.jf.intel.com with ESMTP; 08 Sep 2025 02:18:15 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uvGgW-0002JX-06;
-	Sun, 07 Sep 2025 14:48:04 +0000
-Date: Sun, 7 Sep 2025 22:47:19 +0800
+	id 1uvY0q-0003gt-34;
+	Mon, 08 Sep 2025 09:18:12 +0000
+Date: Mon, 8 Sep 2025 17:18:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 12/23] dt-bindings: display: tegra: move
- avdd-dsi-csi-supply from VI to CSI
-Message-ID: <202509072200.uL95SKjO-lkp@intel.com>
+Subject: [rockchip:v6.18-armsoc/dts64 38/48]
+ arch/arm64/boot/dts/rockchip/rk3528-rock-2a.dtb: adc@ffae0000
+ (rockchip,rk3528-saradc): 'power-domains' does not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <202509081750.Tbe85f0m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
@@ -70,100 +70,39 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250906135345.241229-13-clamor95@gmail.com>
-References: <20250906135345.241229-13-clamor95@gmail.com>
-TO: Svyatoslav Ryhel <clamor95@gmail.com>
-TO: Thierry Reding <thierry.reding@gmail.com>
-TO: Mikko Perttunen <mperttunen@nvidia.com>
-TO: Jonathan Hunter <jonathanh@nvidia.com>
-TO: Sowjanya Komatineni <skomatineni@nvidia.com>
-TO: Luca Ceresoli <luca.ceresoli@bootlin.com>
-TO: David Airlie <airlied@gmail.com>
-TO: Simona Vetter <simona@ffwll.ch>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Prashant Gaikwad <pgaikwad@nvidia.com>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-TO: Svyatoslav Ryhel <clamor95@gmail.com>
-TO: Dmitry Osipenko <digetx@gmail.com>
-TO: "Jonas Schwöbel" <jonasschwoebel@yahoo.de>
-TO: Charan Pedumuru <charan.pedumuru@gmail.com>
-CC: dri-devel@lists.freedesktop.org
-CC: devicetree@vger.kernel.org
-CC: linux-tegra@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-clk@vger.kernel.org
-CC: linux-staging@lists.linux.dev
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+TO: Jonas Karlman <jonas@kwiboo.se>
+CC: Heiko Stuebner <heiko@sntech.de>
+CC: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-Hi Svyatoslav,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tegra/for-next]
-[also build test WARNING on robh/for-next clk/clk-next linus/master v6.17-rc4 next-20250905]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/clk-tegra-set-CSUS-as-vi_sensors-gate-for-Tegra20-Tegra30-and-Tegra114/20250906-215750
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250906135345.241229-13-clamor95%40gmail.com
-patch subject: [PATCH v2 12/23] dt-bindings: display: tegra: move avdd-dsi-csi-supply from VI to CSI
-:::::: branch date: 25 hours ago
-:::::: commit date: 25 hours ago
-config: arm64-randconfig-051-20250907 (https://download.01.org/0day-ci/archive/20250907/202509072200.uL95SKjO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.18-armsoc/dts64
+head:   42bbc32c7e9e974ae4eb830ae1381cb016133e5c
+commit: 5b71b3d9aa61626d6a93ed2f761a748aa2ecfa95 [38/48] arm64: dts: rockchip: Add Radxa ROCK 2A/2F
+:::::: branch date: 16 hours ago
+:::::: commit date: 6 days ago
+config: arm64-randconfig-051-20250906 (https://download.01.org/0day-ci/archive/20250908/202509081750.Tbe85f0m-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250907/202509072200.uL95SKjO-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250908/202509081750.Tbe85f0m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509072200.uL95SKjO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509081750.Tbe85f0m-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
->> arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: vi@54080000 (nvidia,tegra210-vi): 'avdd-dsi-csi-supply' does not match any of the regexes: '^csi@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vi.yaml#
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /i2c@7000d000/pmic@3c: failed to match any schema with compatible: ['maxim,max77620']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra210-mc']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: external-memory-controller@7001b000 (nvidia,tegra210-emc): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   arch/arm64/boot/dts/rockchip/rk3528.dtsi:240.6-1136.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/rockchip/rk3528-rock-2a.dtb: /soc/syscon@ff348000: failed to match any schema with compatible: ['rockchip,rk3528-pipe-phy-grf', 'syscon']
+>> arch/arm64/boot/dts/rockchip/rk3528-rock-2a.dtb: adc@ffae0000 (rockchip,rk3528-saradc): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/rockchip-saradc.yaml#
+   arch/arm64/boot/dts/rockchip/rk3528-rock-2a.dtb: /soc/phy@ffdc0000: failed to match any schema with compatible: ['rockchip,rk3528-naneng-combphy']
 --
-   	'google,nyan-big-rev9' was expected
-   	'google,nyan-big-rev6' was expected
-   	'nvidia,tegra186' was expected
-   	'nvidia,tegra194' was expected
-   	'nvidia,tegra234' was expected
-   	'nvidia,p3701-0008' was expected
-   	'nvidia,p3834-0008' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/tegra.yaml#
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /: failed to match any schema with compatible: ['nvidia,p3450-0000', 'nvidia,tegra210']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
->> arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: vi@54080000 (nvidia,tegra210-vi): 'avdd-dsi-csi-supply' does not match any of the regexes: '^csi@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vi.yaml#
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /i2c@7000d000/pmic@3c: failed to match any schema with compatible: ['maxim,max77620']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra210-mc']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: external-memory-controller@7001b000 (nvidia,tegra210-emc): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   arch/arm64/boot/dts/rockchip/rk3528.dtsi:240.6-1136.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/rockchip/rk3528-rock-2f.dtb: /soc/syscon@ff348000: failed to match any schema with compatible: ['rockchip,rk3528-pipe-phy-grf', 'syscon']
+>> arch/arm64/boot/dts/rockchip/rk3528-rock-2f.dtb: adc@ffae0000 (rockchip,rk3528-saradc): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/rockchip-saradc.yaml#
+   arch/arm64/boot/dts/rockchip/rk3528-rock-2f.dtb: /soc/phy@ffdc0000: failed to match any schema with compatible: ['rockchip,rk3528-naneng-combphy']
 
 -- 
 0-DAY CI Kernel Test Service
