@@ -1,190 +1,184 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2085.outbound.protection.outlook.com [40.107.243.85])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A425124C068;
-	Wed, 10 Sep 2025 21:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757541271; cv=fail; b=E7ex0jdfEF+zSRvA9QkYLOF3NMtQWTcjgiea/cwmsZg+ZW9RdcK2j90Fg9j+ieT6ScSSHL+qLEw3fSqW7wh+/aZ/yaSI73sR4qQgDr1w6+NROv/b56d5VsHNLZ5t8r0os953jFlQI/ABonUxu23hgEJhmol6jyiBxzOwvGi+V+k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757541271; c=relaxed/simple;
-	bh=8n4OSyd3NRpusMUXq3LI1OZPQ9fo+xRI7XLKWkFcRM0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=DtMT3h0+P8faq9C88Almb7tP1S9CBdSN5kiFgZ+Hz7K4z9zw6hBhjqkklnIqDT5ZuZBqEJ6XOAio+qdgj8u5nWiWTcc9+13sbGPi/1TJ1/C9kNsZTKpYwyYKuvHWiynjHJWokYGwiuWB3slvQKIMUw5E/ouv8FQQyGEeV7vogew=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=QK35nfKy; arc=fail smtp.client-ip=40.107.243.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32E722D9E9
+	for <oe-kbuild@lists.linux.dev>; Wed, 10 Sep 2025 22:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757544257; cv=none; b=ImaT1nqCK31cyncVJewyYeE7Z2nAG9eLNz7v9EislBG/mXi54j3D76pJHUBwCeCq2L7bksQtJN/yzbXt6HYDVql585rr8Uhq5OyUmwMrskvtV3TaNwgtxiNPCxjVeF5CltW6PT99J+T3YGDT9OqIQ0jHhtuWNrIW33LVf2deDWQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757544257; c=relaxed/simple;
+	bh=bITanxOPjy1x5OmeP3yMKId5XXc9IYWrJ3sKWgL3rFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uA85HRzQz54wZtoilayJ2aH9nyasLhJj2i9OhKIjWKx2v2bHuTvdMUMk0tdPHiOVNSkYyM6wQNq8H8ejrRAmW2T9knWmVxX2+RU/FNzO0fC3RmoD6huybKbpo4Kcv7EgykvW9cftSk225O55IJS3f4UQ0UCGF9Ef/tx1/Zvrve0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+WlQ8GJ; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="QK35nfKy"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l2/2rorZWPke3LzO0M/5wWWu8kZcTpoBGtWFI2gg16n2PR2zxQTLY1ogj/1cv3apq6Q0VvsnDll/zi/CzXYoyqbuLpm/dy2AR1XNaMyGr4YTXfc97+KItOYH2c3hTtD1zULAYPNLr/FQQJMznW2rwziNTCYhMIa1aEKjxkPHJKRpRvUbqbieE+BWTF52bmcXvykyzymQYHs0FeWExXU4vBivzJilkBm8nn6sVfNnct3oq08qcMTDYjjVjFMPqeiSkokYPC7JAZDs4w+JcdBrd6SufPZtLpZr5dVy3q2gDP75mMcUGM2vWVRUTYRgb409+ocv2tDP6nAC+VMP60G1WA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6d8BudgP3mW0BjjLux7f5xNWWq2BxqHvd/zHqw6ksqQ=;
- b=DAt3thO0ffa2Flpafn0tlxiTDbSLLhCQH6ayCSbiY1g+/asmhJa3LB5YfHf+gVxTw4hiOHM91qOcntZWG402BqQVBbeIgRvOte4sPu5FmHQb59kQ9RUARGoLJv+5atz9v8k1p/7q/QEOgTErW50DyjpFeL/MiCZKGVUnuqRDmtNUV2DOP0gh8+4kZTrJNpOZGAkMBQJ8Ma7TzRsw75w4ESAwcMwxxczQED22+j2YgnAdtzNEgQhvTOWJ7XYkho1Jtxy5EMz3dLpWQJzIImXp9tAyUOjdvWyU+PlA1HHZg/rs0UBhAaCqnYyQG8CUIaTLB0KH1kyO/mJOEQRZNLALDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6d8BudgP3mW0BjjLux7f5xNWWq2BxqHvd/zHqw6ksqQ=;
- b=QK35nfKyxiNX+cYz+CIJ3/a/QjAeYePZric+dKc4Q8hizc8o+k/9YbgIuUIrYDpHQIqycFPel2+WW9BEcqAU3OlK2ZgKV7O62BeeJCNM0iEfSnKY8DjD2khnOIymk/RMvKOr+LK5Ji1BcUwrfLj6sgKtlLdsB7I0MkCiLo32JQDrNav3T6shUDs8U95W0ijIkbMh/S8rezlDS4WfpoWJpmlKx0XLmh5odhUgqwl9ybxuwYHsnnFZtU27vWIFVzKUimhpAz/aBVZrMiznJWavcJosP3FLlao+MCgYxJkTzAkXyCAHN8rpWdmeWj160zBv0ccEH7/kgzv19+aF3QQulg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
- by DS0PR12MB7947.namprd12.prod.outlook.com (2603:10b6:8:150::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
- 2025 21:54:24 +0000
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
- 21:54:24 +0000
-Message-ID: <88f160fb-0f84-49e2-9139-1fba1a21428e@nvidia.com>
-Date: Thu, 11 Sep 2025 07:54:20 +1000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [akpm-mm:mm-new 398/411] mm/huge_memory.c:3069
- __split_huge_pmd_locked() error: uninitialized symbol 'write'.
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <202509101756.jkC29gja-lkp@intel.com>
-Content-Language: en-US
-From: Balbir Singh <balbirs@nvidia.com>
-In-Reply-To: <202509101756.jkC29gja-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR01CA0042.prod.exchangelabs.com (2603:10b6:a03:94::19)
- To PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+WlQ8GJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757544255; x=1789080255;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bITanxOPjy1x5OmeP3yMKId5XXc9IYWrJ3sKWgL3rFo=;
+  b=i+WlQ8GJZ2Sz3U92/MsfUBmTMWcKXRU9bPnq3d3R3ulGLAMagmUItH8O
+   B1JA+UzUcHpihWhA6sxFRYNlii1wwgi5zzWlqXkZwg0Q0Un4HVlWWHhL+
+   CkISfA2CVsyFZlZDWEpG5lwE6yMH8fLb5sfKnqqJg//KLe0IXv3m4CCyX
+   KxOiXSKkGyt6puoozSQz7a/aVO2vY4kvCLLyyBcpWV4dR3L0M/eAES6+v
+   SRhcRW4UVIZqdnFbq8lsosRSuztrNUuQmQ3G794fKAz7aBBia9mls9MwO
+   gj2kawdTF7NojhOcE+F7HTWrRdsh1eDAV3cmBFhYMlkLZpXQ+vGw9QQ3i
+   g==;
+X-CSE-ConnectionGUID: OYq+OshCQ2CWpXq27wD8bQ==
+X-CSE-MsgGUID: 8/TdTW7uQWuHSlz5tmgIVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="77322430"
+X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
+   d="scan'208";a="77322430"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 15:44:15 -0700
+X-CSE-ConnectionGUID: 4NFos9I1RgmVyfU7WvIJmg==
+X-CSE-MsgGUID: AR9tsw0bQYK2c93ohI0fnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
+   d="scan'208";a="177859415"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 10 Sep 2025 15:44:13 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uwTXu-0006L9-22;
+	Wed, 10 Sep 2025 22:44:10 +0000
+Date: Thu, 11 Sep 2025 06:43:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [akpm-mm:mm-new 367/411] mm/memcontrol.c:3725 mem_cgroup_alloc()
+ warn: iterator 'i' not incremented
+Message-ID: <202509110607.ZpZ2R8ug-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|DS0PR12MB7947:EE_
-X-MS-Office365-Filtering-Correlation-Id: 436ca446-1656-43f8-9e49-08ddf0b49acf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MDVWWW1BOGQwV0p0Nm1qMmIySW9rWGQ3T2lxdWUrWWovdFJHK050UkFMTUZE?=
- =?utf-8?B?cHg4NFk5RWNUck5mVXYyemUwKzNKS1dIaGxEcm1pTGFSSlZ0cVdDcVpQcThE?=
- =?utf-8?B?VHBocG1CUTFLNEgrNlByUG53N3Q3cUhKejBGTlBVOXl5YTdpNS9FeFR2N2Mv?=
- =?utf-8?B?dDEzTWVQUEZ5RHg0SUZMS3k4ZmwvdE9QWlhJRnFYd3BLQTAzbUJsVjVUakdQ?=
- =?utf-8?B?aXZNUTlTS2tjNEt1R2h0MnJzaUI0dXEvRVc0KytFbnNaSElkU2tsbm1TdlRF?=
- =?utf-8?B?bUJQYnlMTTdKVCtqUEljUllVNHNqNXlMWUtEaEFaOVpML0ZTTnk4QXVNS1hi?=
- =?utf-8?B?TDhqRDdPVE5JMFMxRG83ejB4T0xUWlpxcnBJbXdoOU9NVkNqQy84Z0JOSUox?=
- =?utf-8?B?M1o0MnFoRkVWdUw5Q2Z4U2ErdWZCZkIrUUhjNVF6UzR5VGRLbVdhRmpWN2lZ?=
- =?utf-8?B?QURLdXh5eU85WjlFMjFjTm1WbmxCS216Y2xKdWJLSFNvT2RJWEdlQjNZMnZS?=
- =?utf-8?B?VmNmcUVPd0NPMmR4WGJqVFJVZi9jcnVMckR4UzFhSE5QNEVHWXN4cW14YmFU?=
- =?utf-8?B?Wm5JdVp0ak5KaWtCNnkzZFVjeHJFajNrZ2NrdEQvaUY0eThBSGpVM1AvdmNP?=
- =?utf-8?B?UGU2ZHc2Rk9CNzJDOVJmM0phcVBMSEZCWlZFUExML3FOM0U2cFZJTnl0djg0?=
- =?utf-8?B?Mmh1K0JDbEd4U0FuUm9udEhTSXUzNzQ4bkRtWmpoek55WEFWTjdNTVlLSy9M?=
- =?utf-8?B?Q0JkRGVycVpacUtDTE9qTjdKVGRoaDUxMWI4U1d0UzVNR2c2ZUV4aFZjbDg1?=
- =?utf-8?B?ZDdhMkZNOUl5WE9DNXkrWU1DRHgxNnppY09jVWVVdFhZWi9KNXB5SnZPbCti?=
- =?utf-8?B?TjI1cVFwZ0JOMEpRd0NmQ2FoQ3g4OVdDU1pyS1hNa3dOM3FqWTJaVEtqMGto?=
- =?utf-8?B?NnRCZ1c3Zjc5YUpnbmFPUGx6c0VFSUlMelNvcDBub2VKcjRCMjFtaGpna241?=
- =?utf-8?B?MU9VeVBDeTFCVGppZ2FGaXNNNnB2YlFSaHkyWWJMazBGTy93WjYxTGM5ak9M?=
- =?utf-8?B?Qnp5aHBmQ2VWMjdzUGo5NmE2Z09qZGQzc2ZZM3BFN1ZhZGpES1NzVGFTcWxU?=
- =?utf-8?B?MU96REtXWGlpZzNCdnZ2Zm9hMmNCbGVhOXh4T29sWnBFd0lONWdSUUVSNjlB?=
- =?utf-8?B?RFBKRXU2d3poTUVuUnVZZnlyZW05OE5qL2k0U2tXaFhWSm01dGViR09HVnN5?=
- =?utf-8?B?SmZneVk0QWZiSmlwOHU4bUNMbVFaaENERFRuNXNTV1Q1MGVrTFBNdENVNWpv?=
- =?utf-8?B?RDA4c25jVkRublFMTXhFbkN3SDd0b1lBOHA1VWxraGk2aE1UYjV4bGQyQ0Zs?=
- =?utf-8?B?a2psYno5dU5jWkxFczk5ejZsZ09wMlYvbnYzaDRTWHlpb0t0WTVDVXNVMVEv?=
- =?utf-8?B?alg5TEN0cFV0bzVraWJvM3lGTm5HOFd6MjBtbWpaaWtUbUg0ZnBZa0NFZlZM?=
- =?utf-8?B?d3k1RXd5S3NVd3JZNWFRbVdDZkhDUVJtenpGb05Ld1FJK3JKenNPdHd4dFdO?=
- =?utf-8?B?RlVHRXdIdEhDOUJ1WHhXVlBtWXM2MEk5d01mQjlENC9EVlgyT1ozdmpoYUxO?=
- =?utf-8?B?cjFUd09VR016L1R6KzdBU285dGtDNnM2aFE3cG1pdXVxV3g3RWR1ZFdYOFVQ?=
- =?utf-8?B?bE1Sc3E4Sy9xZVNNUnhwRXU4b3JTcytNYWpNa0dYRDFCeXJiTFdyRzhJa2ZO?=
- =?utf-8?B?Zms0NjZuUStUclZWMHBPYXdwZUtGcVRMQUZBZk81RVNaYkNJdDFjK0djL1Ex?=
- =?utf-8?B?NXJNZG8zV1RhYlVuNkhYbUlWU2p5RHE4bmRjVXJIeC92ejBDcDIzcTZCbXYx?=
- =?utf-8?B?RkN3K2N2U1Y4cjhXS2l2a0tKSmYyTXdnMmQzYU5JeXV6NWMwbVJSeCtFRVpS?=
- =?utf-8?Q?aU1DFHqYupk=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7277.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K1ZFRTBwUzRLdGg0T3dtYVplYlRMZGsycXdSOFBMdFBnSzZZM1JHckpSc0Fm?=
- =?utf-8?B?ZkM0VmttLzhWZ3RVN0V5MC83MTFselAzUWpXTGZpSk1mR1lZSnJzTnd1dlEr?=
- =?utf-8?B?bXlabTlRWXZ6Zkg3Yk0zK0FtZHZ0VXE3MWZQTjJuekNrdHp4eVIyc2s4YzZh?=
- =?utf-8?B?ay85U3FoNkVvNlVXRUU0elJ2OTBwNDlWNTRCdTZFWExMVEdXaVpiK0tTSlpJ?=
- =?utf-8?B?Z2F4K0NBOU94ZGNVc2lUb09UNm5mRHR3cm1MeHZnUFI0Y3dJWnNNNGZFdEtj?=
- =?utf-8?B?dWJSa2lTSVFmTFdhemVuTCtDM1V2M1lHZU1FTUcvTVdVQ3Z2aXdnamFXUTZU?=
- =?utf-8?B?MjkyMFl5YzIzc3YxcDNvYWJSR0d2STk5dGtvOVFkNFAxaGxZY3BTQ3Q1VUJm?=
- =?utf-8?B?WW5qZW01TFNjUGZNZXp4dU5GNnBaUXJhMnc1TzN3MjVJZktGUk9ZYVFIVXFZ?=
- =?utf-8?B?Qys1UW9QV1BuS0VnU0lLVk5sY2h1b2xBN2hGVllybG1pbllzTnFJSmlEaGxY?=
- =?utf-8?B?L2MwM1NkVHNCd2ozUkxkT3dHZFIvZlRMamU4YllrWFMvcStONTNROEI3TDl0?=
- =?utf-8?B?VGV6RHJHRGNhVVRWa1NCajlZbkpqaG9BWmNiTTlpeEh6QjJ5Ym5zMTlCQjdI?=
- =?utf-8?B?bGE0cCtlZTA1Z1JUMHdURjZ4YVlWTHRWQjczUnYwWHR5eU1QQlNXby9LWkJO?=
- =?utf-8?B?eHhUeVV2TnJmeWtqTTgzN3A2UGdzSHd4WVpTVzBYLzZOWldkY3VVZjE0VUYv?=
- =?utf-8?B?WmVnZGtqd253azczV01jZVVYYmFrWjNDVDd3SFJLWEdrUk1SVytxb3FkL0s2?=
- =?utf-8?B?SHM1Um5ZL1NQWXg2RklBZjZZcEFKMThjSUtFQ293eDgxcFFMejl3bmhmcmcx?=
- =?utf-8?B?OWhRVlVad0NDOXloeWdweWZYeUs1SWVSZnA1YkhqbHJnNkZwMjZEdUlBMHVw?=
- =?utf-8?B?MzBvWlc3akZDQzFneVVYOU5KWUJFcUVjalBHUFV6c2tJTitESUk0cVNVdnVs?=
- =?utf-8?B?WjI5LzdYMEordC9FOXU3TFR5MG1oV2hhVm9Kd0dpSjBiZm9Fd0FvazJMaElJ?=
- =?utf-8?B?cXVldHkzSFBBRXF0REFHQzVoUk41aUROZWx3QkdYOStoTjRIbTZITWJhUjlN?=
- =?utf-8?B?MmpRTjJIOHpZTUtHR3FvMUxXZVgvL3VjRUwxWlFISjJpMjQ4NDFaT3R4RWpk?=
- =?utf-8?B?eVlUUkhTRXJNWTRmcVN1VTBuTHlYeGg0MFdzZjRtT0taamEvbk9KbXp6ZXhJ?=
- =?utf-8?B?ZjlGQk1QVnJRSDB1UTdIc0Q4djgxNHA4dmZTMkNUTjVFY2FQaHNMdmJuMVA3?=
- =?utf-8?B?cDJNektFZFh4U2gyYmVuSzdHc2tZMVJiYUR6Zk9TWHJPZFZrdUV6K25QVkJi?=
- =?utf-8?B?SDNzVmJ3WGNpN1ZEMXZ6dXI4TWNEYnAvdHlaZlY4SGZLSmFvUHR4dEZXN1Mz?=
- =?utf-8?B?SlVKWlcyZWxKM1JyRUxVNExXUXFuSU1rM0h2dTMyZjhPRlYzZ0MwOEgyU2ZJ?=
- =?utf-8?B?SThsMGRBSTdKOXNFSDFRZkNLZWh2c3hoR2hDUHl1NFFGTXRpc0pNQ0pkckVB?=
- =?utf-8?B?MmlDNDhlUFBxb0IzZTRKTVpGMGlxcjR4QUszR0dnTWtpb2tKR3FnYVJKYjdx?=
- =?utf-8?B?bm9MdXYyN3V3YzByaDhxcmtPR2xwa2VRRXhtSlVONTMwNnNMWExzei9FUTJI?=
- =?utf-8?B?Qlh0Skt1Y3BHd1FjT3RQS1cvU1cvTmRWcXNCdnlxclVLMTJZbWcxMlhKaFB0?=
- =?utf-8?B?ZFdpYmU5c2kweS9SNlB5a0l1d2psd3FGQTBzRmpWY3JQVHFBZmZPSXkraUVI?=
- =?utf-8?B?dUFBS0IzbWd6L3FiUHBNNnE5RU5VTUduSXlvbDJjbHJRTjRZRjcrUmZTL1ZZ?=
- =?utf-8?B?ZTdEU21GY0IySzM3Sm5MWHlVeDJ3WVNic2h1QXVpdm8ycnJZcEJlQUdhdXk0?=
- =?utf-8?B?Wk5kZS9aTStFd1ZodVd5SFFSRVVDNlQ4Rk9YWVV2YlNLZ2owcjlVK0dTa0dx?=
- =?utf-8?B?bVJWaXE4N3paRDZTNEJhNTJGSEhPRFIxelJRZ3ZZM0wxUlRmbmZPdkJ6dTA0?=
- =?utf-8?B?UFpseGtNMlZNemVxMFY4cFB3aitzc05ycTRkSWlHa3d2aTlJUnRhakVYQjBy?=
- =?utf-8?Q?Z+Y9jPmxz4y1fPJ13/84RVu9x?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 436ca446-1656-43f8-9e49-08ddf0b49acf
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 21:54:23.9777
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dEO4Vv6wnzM7Sl+xwEonETg9S1SYfriTtHBxpBT0kWHfEY6nWPOOgUiKRs4OZhUaWHOfmxpc4b3eOCAE4GWaKA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7947
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 9/10/25 21:52, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-> head:   3a0afa6640282ff559b6f4ff432cffc3ecc2bc77
-> commit: 825d533acfd9573bd1b99f08a80c42fa41fbf07d [398/411] mm/huge_memory: implement device-private THP splitting
-> config: i386-randconfig-141-20250910 (https://download.01.org/0day-ci/archive/20250910/202509101756.jkC29gja-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202509101756.jkC29gja-lkp@intel.com/
-> 
-> smatch warnings:
-> mm/huge_memory.c:3069 __split_huge_pmd_locked() error: uninitialized symbol 'write'.
-> mm/huge_memory.c:3078 __split_huge_pmd_locked() error: uninitialized symbol 'young'.
-> 
-> vim +/write +3069 mm/huge_memory.c
-> 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Julian Sun <sunjunchao@bytedance.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-If the entry is not present, it is a migration or device private entry, so write is
-set, I understand that smatch is complaining about it falling through the paths.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   3a0afa6640282ff559b6f4ff432cffc3ecc2bc77
+commit: b87d0f2ecfaf93277592052967f7ee9042c799ab [367/411] memcg: don't wait writeback completion when release memcg
+:::::: branch date: 16 hours ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-r071-20250910 (https://download.01.org/0day-ci/archive/20250911/202509110607.ZpZ2R8ug-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
-If freeze is true for a device private migration entry, young needs to be initialized
-to false.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202509110607.ZpZ2R8ug-lkp@intel.com/
 
-Andrew I can send out a patch to fix it or I can wait to gather more feedback
-and do a v6?
+smatch warnings:
+mm/memcontrol.c:3725 mem_cgroup_alloc() warn: iterator 'i' not incremented
 
-Balbir
+vim +/i +3725 mm/memcontrol.c
 
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3718  
+9cee7e8ef3e31c Yosry Ahmed       2024-01-24  3719  static struct mem_cgroup *mem_cgroup_alloc(struct mem_cgroup *parent)
+8cdea7c0545426 Balbir Singh      2008-02-07  3720  {
+8a4b42b955286c Shakeel Butt      2025-05-14  3721  	struct memcg_vmstats_percpu *statc;
+8a4b42b955286c Shakeel Butt      2025-05-14  3722  	struct memcg_vmstats_percpu __percpu *pstatc_pcpu;
+d142e3e66731a0 Glauber Costa     2013-02-22  3723  	struct mem_cgroup *memcg;
+9cee7e8ef3e31c Yosry Ahmed       2024-01-24  3724  	int node, cpu;
+b87d0f2ecfaf93 Julian Sun        2025-08-28 @3725  	int __maybe_unused i = 0;
+07222371912c83 Shakeel Butt      2024-08-09  3726  	long error;
+8cdea7c0545426 Balbir Singh      2008-02-07  3727  
+97e4fc4b35dc1b Huan Yang         2025-04-25  3728  	memcg = kmem_cache_zalloc(memcg_cachep, GFP_KERNEL);
+c0ff4b8540a5c1 Raghavendra K T   2011-11-02  3729  	if (!memcg)
+07222371912c83 Shakeel Butt      2024-08-09  3730  		return ERR_PTR(-ENOMEM);
+0b8f73e104285a Johannes Weiner   2016-01-20  3731  
+07222371912c83 Shakeel Butt      2024-08-09  3732  	error = xa_alloc(&mem_cgroup_ids, &memcg->id.id, NULL,
+07222371912c83 Shakeel Butt      2024-08-09  3733  			 XA_LIMIT(1, MEM_CGROUP_ID_MAX), GFP_KERNEL);
+07222371912c83 Shakeel Butt      2024-08-09  3734  	if (error)
+73f576c04b9410 Johannes Weiner   2016-07-20  3735  		goto fail;
+07222371912c83 Shakeel Butt      2024-08-09  3736  	error = -ENOMEM;
+73f576c04b9410 Johannes Weiner   2016-07-20  3737  
+aab6103b97f1c7 Roman Gushchin    2024-05-01  3738  	memcg->vmstats = kzalloc(sizeof(struct memcg_vmstats),
+aab6103b97f1c7 Roman Gushchin    2024-05-01  3739  				 GFP_KERNEL_ACCOUNT);
+410f8e82689e1e Shakeel Butt      2022-09-07  3740  	if (!memcg->vmstats)
+410f8e82689e1e Shakeel Butt      2022-09-07  3741  		goto fail;
+410f8e82689e1e Shakeel Butt      2022-09-07  3742  
+3e38e0aaca9eaf Roman Gushchin    2020-08-11  3743  	memcg->vmstats_percpu = alloc_percpu_gfp(struct memcg_vmstats_percpu,
+3e38e0aaca9eaf Roman Gushchin    2020-08-11  3744  						 GFP_KERNEL_ACCOUNT);
+871789d4af807d Chris Down        2019-05-14  3745  	if (!memcg->vmstats_percpu)
+0b8f73e104285a Johannes Weiner   2016-01-20  3746  		goto fail;
+8cdea7c0545426 Balbir Singh      2008-02-07  3747  
+5d383b69a04e2e Shakeel Butt      2024-08-14  3748  	if (!memcg1_alloc_events(memcg))
+5d383b69a04e2e Shakeel Butt      2024-08-14  3749  		goto fail;
+5d383b69a04e2e Shakeel Butt      2024-08-14  3750  
+9cee7e8ef3e31c Yosry Ahmed       2024-01-24  3751  	for_each_possible_cpu(cpu) {
+9cee7e8ef3e31c Yosry Ahmed       2024-01-24  3752  		if (parent)
+8a4b42b955286c Shakeel Butt      2025-05-14  3753  			pstatc_pcpu = parent->vmstats_percpu;
+9cee7e8ef3e31c Yosry Ahmed       2024-01-24  3754  		statc = per_cpu_ptr(memcg->vmstats_percpu, cpu);
+8a4b42b955286c Shakeel Butt      2025-05-14  3755  		statc->parent_pcpu = parent ? pstatc_pcpu : NULL;
+9cee7e8ef3e31c Yosry Ahmed       2024-01-24  3756  		statc->vmstats = memcg->vmstats;
+9cee7e8ef3e31c Yosry Ahmed       2024-01-24  3757  	}
+9cee7e8ef3e31c Yosry Ahmed       2024-01-24  3758  
+3ed28fa1080c73 Bob Liu           2012-01-12  3759  	for_each_node(node)
+a8248bb72fed58 Xiu Jianfeng      2024-05-07  3760  		if (!alloc_mem_cgroup_per_node_info(memcg, node))
+0b8f73e104285a Johannes Weiner   2016-01-20  3761  			goto fail;
+f64c3f54940d69 Balbir Singh      2009-09-23  3762  
+0b8f73e104285a Johannes Weiner   2016-01-20  3763  	if (memcg_wb_domain_init(memcg, GFP_KERNEL))
+0b8f73e104285a Johannes Weiner   2016-01-20  3764  		goto fail;
+d142e3e66731a0 Glauber Costa     2013-02-22  3765  
+f7e1cb6ec51b04 Johannes Weiner   2016-01-14  3766  	INIT_WORK(&memcg->high_work, high_work_func);
+70ddf637eebe47 Anton Vorontsov   2013-04-29  3767  	vmpressure_init(&memcg->vmpressure);
+c6f53ed8f213a6 David Finkel      2024-07-29  3768  	INIT_LIST_HEAD(&memcg->memory_peaks);
+c6f53ed8f213a6 David Finkel      2024-07-29  3769  	INIT_LIST_HEAD(&memcg->swap_peaks);
+c6f53ed8f213a6 David Finkel      2024-07-29  3770  	spin_lock_init(&memcg->peaks_lock);
+378bdb97405a00 Kuniyuki Iwashima 2025-07-17  3771  	memcg->socket_pressure = get_jiffies_64();
+378bdb97405a00 Kuniyuki Iwashima 2025-07-17  3772  #if BITS_PER_LONG < 64
+378bdb97405a00 Kuniyuki Iwashima 2025-07-17  3773  	seqlock_init(&memcg->socket_pressure_seqlock);
+378bdb97405a00 Kuniyuki Iwashima 2025-07-17  3774  #endif
+b5855a26dedf21 Roman Gushchin    2024-06-28  3775  	memcg1_memcg_init(memcg);
+900a38f027b37b Vladimir Davydov  2014-12-12  3776  	memcg->kmemcg_id = -1;
+bf4f059954dcb2 Roman Gushchin    2020-08-06  3777  	INIT_LIST_HEAD(&memcg->objcg_list);
+52ebea749aaed1 Tejun Heo         2015-05-22  3778  #ifdef CONFIG_CGROUP_WRITEBACK
+52ebea749aaed1 Tejun Heo         2015-05-22  3779  	INIT_LIST_HEAD(&memcg->cgwb_list);
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3780  	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++) {
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3781  		struct memcg_cgwb_frn *frn = &memcg->cgwb_frn[i];
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3782  
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3783  		frn->wait = kmalloc(sizeof(struct cgwb_frn_wait), GFP_KERNEL);
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3784  		if (!frn->wait)
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3785  			goto fail;
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3786  
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3787  		frn->wait->done =
+97b27821b4854c Tejun Heo         2019-08-26  3788  			__WB_COMPLETION_INIT(&memcg_cgwb_frn_waitq);
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3789  		init_wait_func(&frn->wait->wq_entry, memcg_cgwb_waitq_callback_fn);
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3790  	}
+87eaceb3faa59b Yang Shi          2019-09-23  3791  #endif
+87eaceb3faa59b Yang Shi          2019-09-23  3792  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+87eaceb3faa59b Yang Shi          2019-09-23  3793  	spin_lock_init(&memcg->deferred_split_queue.split_queue_lock);
+87eaceb3faa59b Yang Shi          2019-09-23  3794  	INIT_LIST_HEAD(&memcg->deferred_split_queue.split_queue);
+87eaceb3faa59b Yang Shi          2019-09-23  3795  	memcg->deferred_split_queue.split_queue_len = 0;
+52ebea749aaed1 Tejun Heo         2015-05-22  3796  #endif
+ec1c86b25f4bdd Yu Zhao           2022-09-18  3797  	lru_gen_init_memcg(memcg);
+0b8f73e104285a Johannes Weiner   2016-01-20  3798  	return memcg;
+0b8f73e104285a Johannes Weiner   2016-01-20  3799  fail:
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3800  #ifdef CONFIG_CGROUP_WRITEBACK
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3801  	while (i--)
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3802  		kfree(memcg->cgwb_frn[i].wait);
+b87d0f2ecfaf93 Julian Sun        2025-08-28  3803  #endif
+7e97de0b033bca Kirill Tkhai      2018-08-02  3804  	mem_cgroup_id_remove(memcg);
+40e952f9d68792 Tahsin Erdogan    2017-03-09  3805  	__mem_cgroup_free(memcg);
+11d6761218d19c Yafang Shao       2020-05-07  3806  	return ERR_PTR(error);
+d142e3e66731a0 Glauber Costa     2013-02-22  3807  }
+d142e3e66731a0 Glauber Costa     2013-02-22  3808  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
