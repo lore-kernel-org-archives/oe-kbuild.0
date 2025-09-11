@@ -1,170 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B08A2DC773
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Sep 2025 18:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4183F9C5
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Sep 2025 18:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757616212; cv=none; b=izkeSIkCrkU6MITvqRrc1NibWUZSQv3jGL71My5y35hzdWobR0/ssUqT3+Snigr5d6LcuvzXqlFlYQcMbJRxrtTvATgcuiJFsffpT/eiPP1StbKA9rnl04lJJMB5iJStPg7ZKGsxZ1fZtqLQX1o1fRpFijzN74ovK6XRQI9pirg=
+	t=1757616942; cv=none; b=X+ZIyjP/jzkcq8NvDojJso78lLqcfoHSyYkCJQ8vWuJrXm8d1MMJyHczXZJJi5EobpGVUIwHssT+OFMBNKKL0IzTacOvAhaRSGjYjZXKoOhFm028EkIsMgxeronQ9LyKCikBZBcjaU0pjHIlkAZN3BIo10UJMUkXEd2UVYQPlH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757616212; c=relaxed/simple;
-	bh=e+nX0y6jvIbhstczMTnRUqgjh+pyML9VEwckIrRtO8Y=;
+	s=arc-20240116; t=1757616942; c=relaxed/simple;
+	bh=lzd6NtgHgkyDSLWMrj81lFHwBZJAe5JfV+GPhZaKTV4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SsHecJO55jeoll7xw4E67k41BLpTOIojkFOD4xBk3zi718KZFKdVD+gOGjpafsNjo5IWiuIYTMEKOtYWw9vmNUUlWUhzz/b5wCsn7enmwe7c84Yd3Ty+Pvz6J7zPJlqhVDoOKGUVdso5STb+LOki/xuvAVhoUcxa4qRx5273i5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V04Hc/vg; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=aXyPQPWm3KAP3OsnyGzicvLfZ6wvRk8yXsoHtauD0NtUDU7AOLFhkcNduAlsh4JQcFopb22bxOHY0copcF1kBMa3UYayvJbMMOVtYin+140FPfN4Fr/j9UVAjLimr9OTuhXzLDFxFehRA6Ns0MZUQST5kBPeptK8r2pR6t5Ngkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eujxYCtw; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V04Hc/vg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757616210; x=1789152210;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=e+nX0y6jvIbhstczMTnRUqgjh+pyML9VEwckIrRtO8Y=;
-  b=V04Hc/vgSY4v6n4xmdEWwwyJjAoHRZPO0nsK06tz+ms9yVuB9lso9czN
-   CmrwV8aXWNwCn2lGlWii0avtnKR8thulw92TvPgJZ3T9McI4cj1m1hpCA
-   8rxlnGguQMUrKx9t/Wluf10HQCFiq1FHoDQWjKz6OMYAZC3G9yZi4yLvb
-   vPIh6ojRWOgzJYLHMnYPI9C0QHiszzT25Mo1E7BvgjN3tm6s4QzvJvGx7
-   O/tu0CM4M0+6MlZn2+t2sEztbwa5kX14coMRVNfJEWCMxZjjFy2PKXRGS
-   HGyZSpDgIZjJlyDRGshtSQ59To+aN9IE+b7Yf06XD1/LVOi5vSBoCjVEm
-   g==;
-X-CSE-ConnectionGUID: 6qBEy+5DTJG6R5Dyw2GV1w==
-X-CSE-MsgGUID: 2UmZh1EuSqSPQU1bS39jdw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11550"; a="62591299"
-X-IronPort-AV: E=Sophos;i="6.18,257,1751266800"; 
-   d="scan'208";a="62591299"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 11:43:29 -0700
-X-CSE-ConnectionGUID: 6oplMOEnQeq9s4CYJAwfdg==
-X-CSE-MsgGUID: lprc+ijdRf6gbBSq3oiI5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,257,1751266800"; 
-   d="scan'208";a="174201731"
-Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 11 Sep 2025 11:43:28 -0700
-Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uwmGU-0000Zg-0z;
-	Thu, 11 Sep 2025 18:43:26 +0000
-Date: Fri, 12 Sep 2025 02:43:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 7719/8263] drivers/gpu/drm/xe/xe_vm.c:2408
- new_vma() error: uninitialized symbol 'vma'.
-Message-ID: <202509120259.hEa4EM5r-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eujxYCtw"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3e4b5aee522so748590f8f.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 11 Sep 2025 11:55:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1757616939; x=1758221739; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=on1LxH3XCPAWDrhUZ5T3eqLBDppv1GkqfxuP4NdAa8M=;
+        b=eujxYCtwE8e1+PIftn2rYH8Wqs8ZEQQcNgMOo7wafTzwGysrWe52TKJccLoWhcYQDP
+         5j8v67XbWILERYCnE3ryM6dEg2c3ARO4w25AG1DS222bqZp0rExdbCDGVXZEGUNDRfkw
+         36pMHJ01J71fwzML3eepd1HZ0jNeTW/GSo0O2lDO0qEapnP94LsQDWAceAcb2xEkstHt
+         jH+3eOCfXQtAn4siXT/f8tk+ks/5hsGvQ4lpse5kM6ZjFVJU6JLoUnXPZXU4WVNaFI9g
+         tVRq8Ns2aERUVgWaCCbsQ78NfrYp0nigZo+my08U0G3BQSnuwtqq1T35QVPmqzWzYntH
+         0opg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757616939; x=1758221739;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=on1LxH3XCPAWDrhUZ5T3eqLBDppv1GkqfxuP4NdAa8M=;
+        b=eXXzQ+SUdw9oG/UgT/FfPDaTEnBgZjO88kerU+yiz69koCJw9mu2h5UJHRlfX/UR8Y
+         VH3ovJRaQFyWmynD6mz88SSl5eb0ys2GCkOb3naQcfVO4xfeA3G8nzXDcJtW/OK/se/R
+         esj2fUbH2UR3WNGpZwnh1cmlc8jncgzprS7wRxIzALIoJGexI3Fjbgw7l79JBteGUXCh
+         LWmPDP7hZCmffPsZE+lYBLOHyDOMRHYEPeo/1xzk3YP4L7H/JTO80CjtVWvxwbvITakw
+         RAdLH6DoU47T5wvQ0xoOUnAn1w31AdXFlfIBz6TxFobBTTnm+E/n5z5jbQuqt8U4+q6u
+         onZw==
+X-Gm-Message-State: AOJu0YxvmdO6d8I438cSyGjo7157ugE9bAPndobTPZCEIF8E2osIdyVJ
+	21+e1ZEvs151FdnVSvIHjn3aiHiQJ+BiCWa0hfkS2oWdX6hsJvMuz8kZIZDVh+9PRc0dTnoDbKD
+	jcbwY
+X-Gm-Gg: ASbGncvPBpEq1cNz+ua0Yzl1enRqh0dONTeNF1RypIJOmWYtCQC6HhDD4KXtxSszPF/
+	4MPF6MeohouyV5/NnjI7EYeEMq5QoVJ8/UylsjJsxqkL/KpCmT0swi0KKuW2HZc+zCfmNjtgBtu
+	hUWyotgGBm3CQHFHIqdGhoZwNMitXr2sGuVq8ZxxrLQtkSLRK87j0HWq6O/D+LXiy0xL8Y7AaEu
+	elwRNb9x1R5W/DdNXhCWWMVRQbVejnozMqP/+onYEbCBDnbJro8rG86Vcsnx7jiC/w1e6fECXkH
+	7I0C8S5Ih9IO0tQA99obOTjAIxeuKC+hFzhlnFMC1eXkTHITXdiL7DN/oWbQkMl9Xbn+jVDEyZ8
+	meSbVzOuRgFRjwrYqfmexu7DH+C4=
+X-Google-Smtp-Source: AGHT+IGCbd5+C0lvF6hqq/A2SzFcoSrAVnxQ2N0dbWUUQ2bfNAxuGp4CbA4bM8Qe1/rPncZRiMsPyw==
+X-Received: by 2002:a05:6000:1a86:b0:3e7:490c:1b2 with SMTP id ffacd0b85a97d-3e7659c4d6dmr335557f8f.36.1757616939077;
+        Thu, 11 Sep 2025 11:55:39 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3e7607cd415sm3403567f8f.30.2025.09.11.11.55.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Sep 2025 11:55:38 -0700 (PDT)
+Date: Thu, 11 Sep 2025 21:55:34 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 8010/8263] io_uring/query.c:98 io_query() error:
+ uninitialized symbol 'ret'.
+Message-ID: <202509120150.hzd9vw51-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-CC: Matthew Brost <matthew.brost@intel.com>
+Message-ID: <20250911185534.nwLvpJ5U5N13GribWux_6VzwaV_cK_qzWC7ZfCXLNMY@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   8f21d9da46702c4d6951ba60ca8a05f42870fe8f
-commit: 8f25e5abcbfb9cbcd923021774f2e785db3f7f55 [7719/8263] drm/xe: Convert existing drm_exec transactions for exhaustive eviction
-:::::: branch date: 12 hours ago
-:::::: commit date: 35 hours ago
-config: i386-randconfig-141-20250911 (https://download.01.org/0day-ci/archive/20250912/202509120259.hEa4EM5r-lkp@intel.com/config)
+commit: d9b7dbb7f34aa7a8485fd39ffe4bba65e20692cf [8010/8263] io_uring/query: check for loops in in_query()
+config: x86_64-randconfig-161-20250911 (https://download.01.org/0day-ci/archive/20250912/202509120150.hzd9vw51-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202509120259.hEa4EM5r-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202509120150.hzd9vw51-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/xe/xe_vm.c:2408 new_vma() error: uninitialized symbol 'vma'.
+smatch warnings:
+io_uring/query.c:98 io_query() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-drivers/gpu/drm/xe/xe_vm.c:2858 prefetch_ranges() warn: iterator 'i' not incremented
-drivers/gpu/drm/xe/xe_vm.c:2936 op_lock_and_prep() error: uninitialized symbol 'region'.
-drivers/gpu/drm/xe/xe_vm.c:3230 vm_bind_ioctl_ops_execute() error: uninitialized symbol 'fence'.
-drivers/gpu/drm/xe/xe_vm.c:3866 xe_vm_range_tilemask_tlb_inval() error: uninitialized symbol 'err'.
-drivers/gpu/drm/xe/xe_vm.c:4081 xe_vm_snapshot_print() warn: passing zero to 'PTR_ERR'
-drivers/gpu/drm/xe/xe_vm.c:4215 xe_vm_alloc_vma() error: uninitialized symbol 'default_pat'.
+vim +/ret +98 io_uring/query.c
 
-vim +/vma +2408 drivers/gpu/drm/xe/xe_vm.c
+c265ae75f900ce Pavel Begunkov 2025-09-08  76  int io_query(struct io_ring_ctx *ctx, void __user *arg, unsigned nr_args)
+c265ae75f900ce Pavel Begunkov 2025-09-08  77  {
+c265ae75f900ce Pavel Begunkov 2025-09-08  78  	char entry_buffer[IO_MAX_QUERY_SIZE];
+c265ae75f900ce Pavel Begunkov 2025-09-08  79  	void __user *uhdr = arg;
+d9b7dbb7f34aa7 Jens Axboe     2025-09-10  80  	int ret, nr = 0;
+c265ae75f900ce Pavel Begunkov 2025-09-08  81  
+c265ae75f900ce Pavel Begunkov 2025-09-08  82  	memset(entry_buffer, 0, sizeof(entry_buffer));
+c265ae75f900ce Pavel Begunkov 2025-09-08  83  
+c265ae75f900ce Pavel Begunkov 2025-09-08  84  	if (nr_args)
+c265ae75f900ce Pavel Begunkov 2025-09-08  85  		return -EINVAL;
+c265ae75f900ce Pavel Begunkov 2025-09-08  86  
+c265ae75f900ce Pavel Begunkov 2025-09-08  87  	while (uhdr) {
 
-b06d47be7c8316 Matthew Brost         2023-07-07  2349  
-b06d47be7c8316 Matthew Brost         2023-07-07  2350  static struct xe_vma *new_vma(struct xe_vm *vm, struct drm_gpuva_op_map *op,
-29c39c56a08b23 Himal Prasad Ghimiray 2025-08-21  2351  			      struct xe_vma_mem_attr *attr, unsigned int flags)
-b06d47be7c8316 Matthew Brost         2023-07-07  2352  {
-b06d47be7c8316 Matthew Brost         2023-07-07  2353  	struct xe_bo *bo = op->gem.obj ? gem_to_xe_bo(op->gem.obj) : NULL;
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2354  	struct xe_validation_ctx ctx;
-24f947d58fe554 Thomas Hellström      2023-12-12  2355  	struct drm_exec exec;
-b06d47be7c8316 Matthew Brost         2023-07-07  2356  	struct xe_vma *vma;
-33991ae8f40a82 Matthew Brost         2024-06-17  2357  	int err = 0;
-b06d47be7c8316 Matthew Brost         2023-07-07  2358  
-b06d47be7c8316 Matthew Brost         2023-07-07  2359  	lockdep_assert_held_write(&vm->lock);
-b06d47be7c8316 Matthew Brost         2023-07-07  2360  
-b06d47be7c8316 Matthew Brost         2023-07-07  2361  	if (bo) {
-24f947d58fe554 Thomas Hellström      2023-12-12  2362  		err = 0;
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2363  		xe_validation_guard(&ctx, &vm->xe->val, &exec,
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2364  				    (struct xe_val_flags) {.interruptible = true}, err) {
-24f947d58fe554 Thomas Hellström      2023-12-12  2365  			if (!bo->vm) {
-24f947d58fe554 Thomas Hellström      2023-12-12  2366  				err = drm_exec_lock_obj(&exec, xe_vm_obj(vm));
-24f947d58fe554 Thomas Hellström      2023-12-12  2367  				drm_exec_retry_on_contention(&exec);
-24f947d58fe554 Thomas Hellström      2023-12-12  2368  			}
-24f947d58fe554 Thomas Hellström      2023-12-12  2369  			if (!err) {
-24f947d58fe554 Thomas Hellström      2023-12-12  2370  				err = drm_exec_lock_obj(&exec, &bo->ttm.base);
-24f947d58fe554 Thomas Hellström      2023-12-12  2371  				drm_exec_retry_on_contention(&exec);
-24f947d58fe554 Thomas Hellström      2023-12-12  2372  			}
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2373  			if (err)
-b06d47be7c8316 Matthew Brost         2023-07-07  2374  				return ERR_PTR(err);
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2375  
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2376  			vma = xe_vma_create(vm, bo, op->gem.offset,
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2377  					    op->va.addr, op->va.addr +
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2378  					    op->va.range - 1, attr, flags);
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2379  			if (IS_ERR(vma))
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2380  				return vma;
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2381  
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2382  			if (!bo->vm) {
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2383  				err = add_preempt_fences(vm, bo);
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2384  				if (err) {
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2385  					prep_vma_destroy(vm, vma, false);
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2386  					xe_vma_destroy(vma, NULL);
-dd08ebf6c3525a Matthew Brost         2023-03-30  2387  				}
-24f947d58fe554 Thomas Hellström      2023-12-12  2388  			}
-24f947d58fe554 Thomas Hellström      2023-12-12  2389  		}
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2390  		if (err)
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2391  			return ERR_PTR(err);
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2392  	} else {
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2393  		vma = xe_vma_create(vm, NULL, op->gem.offset,
-b06d47be7c8316 Matthew Brost         2023-07-07  2394  				    op->va.addr, op->va.addr +
-29c39c56a08b23 Himal Prasad Ghimiray 2025-08-21  2395  				    op->va.range - 1, attr, flags);
-33991ae8f40a82 Matthew Brost         2024-06-17  2396  		if (IS_ERR(vma))
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2397  			return vma;
-dd08ebf6c3525a Matthew Brost         2023-03-30  2398  
-33991ae8f40a82 Matthew Brost         2024-06-17  2399  		if (xe_vma_is_userptr(vma))
-5bd24e78829ad5 Thomas Hellström      2024-01-31  2400  			err = xe_vma_userptr_pin_pages(to_userptr_vma(vma));
-8f25e5abcbfb9c Thomas Hellström      2025-09-08  2401  	}
-b06d47be7c8316 Matthew Brost         2023-07-07  2402  	if (err) {
-b06d47be7c8316 Matthew Brost         2023-07-07  2403  		prep_vma_destroy(vm, vma, false);
-b06d47be7c8316 Matthew Brost         2023-07-07  2404  		xe_vma_destroy_unlocked(vma);
-33991ae8f40a82 Matthew Brost         2024-06-17  2405  		vma = ERR_PTR(err);
-dd08ebf6c3525a Matthew Brost         2023-03-30  2406  	}
-dd08ebf6c3525a Matthew Brost         2023-03-30  2407  
-b06d47be7c8316 Matthew Brost         2023-07-07 @2408  	return vma;
-b06d47be7c8316 Matthew Brost         2023-07-07  2409  }
-b06d47be7c8316 Matthew Brost         2023-07-07  2410  
+This comes from the syscall so it could be NULL at the start.
 
-:::::: The code at line 2408 was first introduced by commit
-:::::: b06d47be7c83165d3b3e45e1d5f9520b79c7f5cc drm/xe: Port Xe to GPUVA
-
-:::::: TO: Matthew Brost <matthew.brost@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+c265ae75f900ce Pavel Begunkov 2025-09-08  88  		u64 next_hdr;
+c265ae75f900ce Pavel Begunkov 2025-09-08  89  
+c265ae75f900ce Pavel Begunkov 2025-09-08  90  		ret = io_handle_query_entry(ctx, entry_buffer, uhdr, &next_hdr);
+c265ae75f900ce Pavel Begunkov 2025-09-08  91  		if (ret)
+d9b7dbb7f34aa7 Jens Axboe     2025-09-10  92  			break;
+c265ae75f900ce Pavel Begunkov 2025-09-08  93  		uhdr = u64_to_user_ptr(next_hdr);
+d9b7dbb7f34aa7 Jens Axboe     2025-09-10  94  		/* Have some limit to avoid a potential loop */
+d9b7dbb7f34aa7 Jens Axboe     2025-09-10  95  		if (++nr >= 1024)
+d9b7dbb7f34aa7 Jens Axboe     2025-09-10  96  			break;
+c265ae75f900ce Pavel Begunkov 2025-09-08  97  	}
+d9b7dbb7f34aa7 Jens Axboe     2025-09-10 @98  	return nr ?: ret;
+                                                             ^^^
+leading to an uninitialized "ret" variable.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
