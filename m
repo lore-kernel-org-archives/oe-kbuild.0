@@ -1,153 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638912AD0C
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Sep 2025 18:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B08A2DC773
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Sep 2025 18:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757615492; cv=none; b=etrQ7b9FnWLZJ/AzQ5Bi/Ms88eCPN9YkqDPQwlAgBaS5hLmmK4tYwiFMrpR5T7ngf0Y9QiEdlc/qIx6Htzjhwtp9625bfhMjYGFXPh5DR4+IHorrwobrkGuhInlTvKm2no2TWrQjFrb53JD0GYusvorHLDhnWzWWcuaORpRkloc=
+	t=1757616212; cv=none; b=izkeSIkCrkU6MITvqRrc1NibWUZSQv3jGL71My5y35hzdWobR0/ssUqT3+Snigr5d6LcuvzXqlFlYQcMbJRxrtTvATgcuiJFsffpT/eiPP1StbKA9rnl04lJJMB5iJStPg7ZKGsxZ1fZtqLQX1o1fRpFijzN74ovK6XRQI9pirg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757615492; c=relaxed/simple;
-	bh=6zO+pjAS9TxngjnhFypZAv3lJGcVIzYIN6f52Ul+ktY=;
+	s=arc-20240116; t=1757616212; c=relaxed/simple;
+	bh=e+nX0y6jvIbhstczMTnRUqgjh+pyML9VEwckIrRtO8Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AM5GneefBcdR7e2ylYEnMhcgXXLqssuLZrp+h5YmvY0xDCBmr1Gg9MrPKPckygjIu7in7oSAZLgFruO07P/PRkF/sQiLn/gV7/tF1h4uPeaCsUHQlmfwYela9u1dKJlYt04y/lygyh9WKvQBU6USE0qtBgzZGmRbcnJjN7keUTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eWha6xP5; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=SsHecJO55jeoll7xw4E67k41BLpTOIojkFOD4xBk3zi718KZFKdVD+gOGjpafsNjo5IWiuIYTMEKOtYWw9vmNUUlWUhzz/b5wCsn7enmwe7c84Yd3Ty+Pvz6J7zPJlqhVDoOKGUVdso5STb+LOki/xuvAVhoUcxa4qRx5273i5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V04Hc/vg; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eWha6xP5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V04Hc/vg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757615490; x=1789151490;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6zO+pjAS9TxngjnhFypZAv3lJGcVIzYIN6f52Ul+ktY=;
-  b=eWha6xP5ApAWvXxT8cB7cyKtj+T7YHQjE7v5gZ8+aElbtOCQj5o0422r
-   M3VLN168gRgBCudmZdN0tVAXGr3NtzvqGrJSRsTB35zoShmgxHoD+5dBM
-   +ZPwc6kbaJjiPuEw6r4I4vmQBUrSGlONd9i9n4fwLqXJm1AZB+XRMldQY
-   jh30JdYT6R3oabEfxCPrtCfEvfpnOTJoPUQDCx9Ah2RfJLHo7U3nIWVMY
-   jYNP4rrh2LY3pAIvZOGLB/xvgWllfrzRp0SvMqLuE7liZJD5VsfdJ3EEs
-   igJ97229DxbuAFpiB/chMLJ5iRSZpz6imgo+xrNFWpbtYN6OGSwG3wLy5
-   A==;
-X-CSE-ConnectionGUID: kPvp1oxoSYK+unbIbUhPIQ==
-X-CSE-MsgGUID: avDVhXQMTnCGRt9u3IR7BQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11550"; a="63783691"
+  t=1757616210; x=1789152210;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=e+nX0y6jvIbhstczMTnRUqgjh+pyML9VEwckIrRtO8Y=;
+  b=V04Hc/vgSY4v6n4xmdEWwwyJjAoHRZPO0nsK06tz+ms9yVuB9lso9czN
+   CmrwV8aXWNwCn2lGlWii0avtnKR8thulw92TvPgJZ3T9McI4cj1m1hpCA
+   8rxlnGguQMUrKx9t/Wluf10HQCFiq1FHoDQWjKz6OMYAZC3G9yZi4yLvb
+   vPIh6ojRWOgzJYLHMnYPI9C0QHiszzT25Mo1E7BvgjN3tm6s4QzvJvGx7
+   O/tu0CM4M0+6MlZn2+t2sEztbwa5kX14coMRVNfJEWCMxZjjFy2PKXRGS
+   HGyZSpDgIZjJlyDRGshtSQ59To+aN9IE+b7Yf06XD1/LVOi5vSBoCjVEm
+   g==;
+X-CSE-ConnectionGUID: 6qBEy+5DTJG6R5Dyw2GV1w==
+X-CSE-MsgGUID: 2UmZh1EuSqSPQU1bS39jdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11550"; a="62591299"
 X-IronPort-AV: E=Sophos;i="6.18,257,1751266800"; 
-   d="scan'208";a="63783691"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 11:31:28 -0700
-X-CSE-ConnectionGUID: hVDGt5TNRmmQDexyrEbVHg==
-X-CSE-MsgGUID: eyq3KbYDR6ClYAdTlCJ5LQ==
+   d="scan'208";a="62591299"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 11:43:29 -0700
+X-CSE-ConnectionGUID: 6oplMOEnQeq9s4CYJAwfdg==
+X-CSE-MsgGUID: lprc+ijdRf6gbBSq3oiI5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,257,1751266800"; 
-   d="scan'208";a="173307280"
+   d="scan'208";a="174201731"
 Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 11 Sep 2025 11:31:27 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 11 Sep 2025 11:43:28 -0700
 Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uwm4q-0000Z2-22;
-	Thu, 11 Sep 2025 18:31:24 +0000
-Date: Fri, 12 Sep 2025 02:31:19 +0800
+	id 1uwmGU-0000Zg-0z;
+	Thu, 11 Sep 2025 18:43:26 +0000
+Date: Fri, 12 Sep 2025 02:43:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 7959/8263] drivers/char/tpm/tpm_ppi.c:349
- tpm_show_ppi_tcg_operations() warn: inconsistent returns 'global
- &tpm_ppi_lock'.
-Message-ID: <202509120229.YpG1CcD3-lkp@intel.com>
+Subject: [linux-next:master 7719/8263] drivers/gpu/drm/xe/xe_vm.c:2408
+ new_vma() error: uninitialized symbol 'vma'.
+Message-ID: <202509120259.hEa4EM5r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Denis Aleksandrov <daleksan@redhat.com>
-CC: Jarkko Sakkinen <jarkko@kernel.org>
-CC: Paul Menzel <pmenzel@molgen.mpg.de>
+TO: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+CC: Matthew Brost <matthew.brost@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   8f21d9da46702c4d6951ba60ca8a05f42870fe8f
-commit: 18aada46edf7f79dba1ab89a100d0fc350d4a5c8 [7959/8263] tpm: Prevent local DOS via tpm/tpm0/ppi/*operations
+commit: 8f25e5abcbfb9cbcd923021774f2e785db3f7f55 [7719/8263] drm/xe: Convert existing drm_exec transactions for exhaustive eviction
 :::::: branch date: 12 hours ago
-:::::: commit date: 21 hours ago
-config: x86_64-randconfig-161-20250911 (https://download.01.org/0day-ci/archive/20250912/202509120229.YpG1CcD3-lkp@intel.com/config)
+:::::: commit date: 35 hours ago
+config: i386-randconfig-141-20250911 (https://download.01.org/0day-ci/archive/20250912/202509120259.hEa4EM5r-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202509120229.YpG1CcD3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509120259.hEa4EM5r-lkp@intel.com/
 
-smatch warnings:
-drivers/char/tpm/tpm_ppi.c:349 tpm_show_ppi_tcg_operations() warn: inconsistent returns 'global &tpm_ppi_lock'.
-drivers/char/tpm/tpm_ppi.c:378 tpm_show_ppi_vs_operations() warn: inconsistent returns 'global &tpm_ppi_lock'.
+New smatch warnings:
+drivers/gpu/drm/xe/xe_vm.c:2408 new_vma() error: uninitialized symbol 'vma'.
 
-vim +349 drivers/char/tpm/tpm_ppi.c
+Old smatch warnings:
+drivers/gpu/drm/xe/xe_vm.c:2858 prefetch_ranges() warn: iterator 'i' not incremented
+drivers/gpu/drm/xe/xe_vm.c:2936 op_lock_and_prep() error: uninitialized symbol 'region'.
+drivers/gpu/drm/xe/xe_vm.c:3230 vm_bind_ioctl_ops_execute() error: uninitialized symbol 'fence'.
+drivers/gpu/drm/xe/xe_vm.c:3866 xe_vm_range_tilemask_tlb_inval() error: uninitialized symbol 'err'.
+drivers/gpu/drm/xe/xe_vm.c:4081 xe_vm_snapshot_print() warn: passing zero to 'PTR_ERR'
+drivers/gpu/drm/xe/xe_vm.c:4215 xe_vm_alloc_vma() error: uninitialized symbol 'default_pat'.
 
-f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  322  
-81198078d7da42 Xiaoyan Zhang     2013-08-29  323  static ssize_t tpm_show_ppi_tcg_operations(struct device *dev,
-81198078d7da42 Xiaoyan Zhang     2013-08-29  324  					   struct device_attribute *attr,
-81198078d7da42 Xiaoyan Zhang     2013-08-29  325  					   char *buf)
-f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  326  {
-9b774d5cf2db4b Jarkko Sakkinen   2015-04-14  327  	struct tpm_chip *chip = to_tpm_chip(dev);
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  328  	ssize_t len = 0;
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  329  	u32 ret;
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  330  	int i;
-0dc553652102c5 Jarkko Sakkinen   2014-12-12  331  
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  332  	spin_lock(&tpm_ppi_lock);
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  333  	if (!ppi_cache_populated) {
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  334  		len = cache_ppi_operations(chip->acpi_dev_handle, buf);
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  335  		if (len < 0)
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  336  			return len;
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  337  
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  338  		ppi_cache_populated = true;
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  339  	}
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  340  
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  341  	for (i = 0; i <= PPI_TPM_REQ_MAX; i++) {
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  342  		ret = ppi_operations_cache[i];
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  343  		if (ret >= 0 && ret < ARRAY_SIZE(tpm_ppi_info))
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  344  			len += sysfs_emit_at(buf, len, "%d %d: %s\n",
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  345  							i, ret, tpm_ppi_info[ret]);
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  346  	}
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  347  	spin_unlock(&tpm_ppi_lock);
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  348  
-18aada46edf7f7 Denis Aleksandrov 2025-09-10 @349  	return len;
-f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  350  }
-f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  351  
-81198078d7da42 Xiaoyan Zhang     2013-08-29  352  static ssize_t tpm_show_ppi_vs_operations(struct device *dev,
-81198078d7da42 Xiaoyan Zhang     2013-08-29  353  					  struct device_attribute *attr,
-81198078d7da42 Xiaoyan Zhang     2013-08-29  354  					  char *buf)
-f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  355  {
-9b774d5cf2db4b Jarkko Sakkinen   2015-04-14  356  	struct tpm_chip *chip = to_tpm_chip(dev);
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  357  	ssize_t len = 0;
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  358  	u32 ret;
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  359  	int i;
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  360  
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  361  	spin_lock(&tpm_ppi_lock);
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  362  	if (!ppi_cache_populated) {
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  363  		len = cache_ppi_operations(chip->acpi_dev_handle, buf);
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  364  		if (len < 0)
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  365  			return len;
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  366  
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  367  		ppi_cache_populated = true;
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  368  	}
-0dc553652102c5 Jarkko Sakkinen   2014-12-12  369  
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  370  	for (i = PPI_VS_REQ_START; i <= PPI_VS_REQ_END; i++) {
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  371  		ret = ppi_operations_cache[i];
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  372  		if (ret >= 0 && ret < ARRAY_SIZE(tpm_ppi_info))
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  373  			len += sysfs_emit_at(buf, len, "%d %d: %s\n",
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  374  							i, ret, tpm_ppi_info[ret]);
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  375  	}
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  376  	spin_unlock(&tpm_ppi_lock);
-18aada46edf7f7 Denis Aleksandrov 2025-09-10  377  
-18aada46edf7f7 Denis Aleksandrov 2025-09-10 @378  	return len;
-f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  379  }
-f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  380  
+vim +/vma +2408 drivers/gpu/drm/xe/xe_vm.c
+
+b06d47be7c8316 Matthew Brost         2023-07-07  2349  
+b06d47be7c8316 Matthew Brost         2023-07-07  2350  static struct xe_vma *new_vma(struct xe_vm *vm, struct drm_gpuva_op_map *op,
+29c39c56a08b23 Himal Prasad Ghimiray 2025-08-21  2351  			      struct xe_vma_mem_attr *attr, unsigned int flags)
+b06d47be7c8316 Matthew Brost         2023-07-07  2352  {
+b06d47be7c8316 Matthew Brost         2023-07-07  2353  	struct xe_bo *bo = op->gem.obj ? gem_to_xe_bo(op->gem.obj) : NULL;
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2354  	struct xe_validation_ctx ctx;
+24f947d58fe554 Thomas Hellström      2023-12-12  2355  	struct drm_exec exec;
+b06d47be7c8316 Matthew Brost         2023-07-07  2356  	struct xe_vma *vma;
+33991ae8f40a82 Matthew Brost         2024-06-17  2357  	int err = 0;
+b06d47be7c8316 Matthew Brost         2023-07-07  2358  
+b06d47be7c8316 Matthew Brost         2023-07-07  2359  	lockdep_assert_held_write(&vm->lock);
+b06d47be7c8316 Matthew Brost         2023-07-07  2360  
+b06d47be7c8316 Matthew Brost         2023-07-07  2361  	if (bo) {
+24f947d58fe554 Thomas Hellström      2023-12-12  2362  		err = 0;
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2363  		xe_validation_guard(&ctx, &vm->xe->val, &exec,
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2364  				    (struct xe_val_flags) {.interruptible = true}, err) {
+24f947d58fe554 Thomas Hellström      2023-12-12  2365  			if (!bo->vm) {
+24f947d58fe554 Thomas Hellström      2023-12-12  2366  				err = drm_exec_lock_obj(&exec, xe_vm_obj(vm));
+24f947d58fe554 Thomas Hellström      2023-12-12  2367  				drm_exec_retry_on_contention(&exec);
+24f947d58fe554 Thomas Hellström      2023-12-12  2368  			}
+24f947d58fe554 Thomas Hellström      2023-12-12  2369  			if (!err) {
+24f947d58fe554 Thomas Hellström      2023-12-12  2370  				err = drm_exec_lock_obj(&exec, &bo->ttm.base);
+24f947d58fe554 Thomas Hellström      2023-12-12  2371  				drm_exec_retry_on_contention(&exec);
+24f947d58fe554 Thomas Hellström      2023-12-12  2372  			}
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2373  			if (err)
+b06d47be7c8316 Matthew Brost         2023-07-07  2374  				return ERR_PTR(err);
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2375  
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2376  			vma = xe_vma_create(vm, bo, op->gem.offset,
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2377  					    op->va.addr, op->va.addr +
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2378  					    op->va.range - 1, attr, flags);
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2379  			if (IS_ERR(vma))
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2380  				return vma;
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2381  
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2382  			if (!bo->vm) {
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2383  				err = add_preempt_fences(vm, bo);
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2384  				if (err) {
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2385  					prep_vma_destroy(vm, vma, false);
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2386  					xe_vma_destroy(vma, NULL);
+dd08ebf6c3525a Matthew Brost         2023-03-30  2387  				}
+24f947d58fe554 Thomas Hellström      2023-12-12  2388  			}
+24f947d58fe554 Thomas Hellström      2023-12-12  2389  		}
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2390  		if (err)
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2391  			return ERR_PTR(err);
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2392  	} else {
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2393  		vma = xe_vma_create(vm, NULL, op->gem.offset,
+b06d47be7c8316 Matthew Brost         2023-07-07  2394  				    op->va.addr, op->va.addr +
+29c39c56a08b23 Himal Prasad Ghimiray 2025-08-21  2395  				    op->va.range - 1, attr, flags);
+33991ae8f40a82 Matthew Brost         2024-06-17  2396  		if (IS_ERR(vma))
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2397  			return vma;
+dd08ebf6c3525a Matthew Brost         2023-03-30  2398  
+33991ae8f40a82 Matthew Brost         2024-06-17  2399  		if (xe_vma_is_userptr(vma))
+5bd24e78829ad5 Thomas Hellström      2024-01-31  2400  			err = xe_vma_userptr_pin_pages(to_userptr_vma(vma));
+8f25e5abcbfb9c Thomas Hellström      2025-09-08  2401  	}
+b06d47be7c8316 Matthew Brost         2023-07-07  2402  	if (err) {
+b06d47be7c8316 Matthew Brost         2023-07-07  2403  		prep_vma_destroy(vm, vma, false);
+b06d47be7c8316 Matthew Brost         2023-07-07  2404  		xe_vma_destroy_unlocked(vma);
+33991ae8f40a82 Matthew Brost         2024-06-17  2405  		vma = ERR_PTR(err);
+dd08ebf6c3525a Matthew Brost         2023-03-30  2406  	}
+dd08ebf6c3525a Matthew Brost         2023-03-30  2407  
+b06d47be7c8316 Matthew Brost         2023-07-07 @2408  	return vma;
+b06d47be7c8316 Matthew Brost         2023-07-07  2409  }
+b06d47be7c8316 Matthew Brost         2023-07-07  2410  
+
+:::::: The code at line 2408 was first introduced by commit
+:::::: b06d47be7c83165d3b3e45e1d5f9520b79c7f5cc drm/xe: Port Xe to GPUVA
+
+:::::: TO: Matthew Brost <matthew.brost@intel.com>
+:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
