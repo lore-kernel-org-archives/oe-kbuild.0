@@ -1,223 +1,133 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B880154652
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Sep 2025 19:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27406B672
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Sep 2025 20:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757618526; cv=none; b=PsJbz0mLX5mFOoOVWT2/QaByf2ZOsP9xbSuvUDByi25LhZG3BB4HMNuJr1M9L1DSEMZOgmg6fr+zsFbLOUmbLcc+TwoX8e4BQNtB9J+OFBKo07vhb30ZqcFSeFpYQCYOUy9eDrQKn3lcrn3Pki3MiVxx1tvBjp7vnJ+HiZ+BO2s=
+	t=1757621891; cv=none; b=oKLd5FXXhpPq+Z+Lh4wUc23lA+Hasj3WiC1lasnn81d72zq9rdvG9iIeeRCFgaZXSqsSwey1kIdtxJfM6jmWBDfDTpegWEWhc2C/hb4zu62UIVa7Gi+j2mDvntMxfdFv81GjJ/dZzfpqcQeRiL/Auqc3gxSn2xg8WjujaAhjSN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757618526; c=relaxed/simple;
-	bh=lJSKtlCdSA8FR4fOHvIrXDNpM7SmVa3VC+s7wmRjvzY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GfYzNpjXGxzREARA4K0yuCI4cDOCRx3cCdmbwu8HWd/lte5+f+Mt2XJOGyju0pAzNslZKdxGHtWKTzJmN0YLq2MCSPP8h/tKLS+Fv/i8dVSFRIGFEWVYEOYrVjGKVOIOOEjB8rAiaQJGV8cmkb9tagyhAupLqY8wBfuP3EagVx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jLuF665d; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1757621891; c=relaxed/simple;
+	bh=S00aOvw9oBVcxLo01WkPaVCy04j6EqJb8FjdhO50VSY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rbRtM0eGxVR7t6ykS/F3A4Q6Rks3y6l4IbaPwwW1nBCVaDAPKIQ6IY8sWBSw/mUNuCBc/zC7VHm2QYiL7cPylzNDflL9YS1p9uA2kzsopSWOwMW2+tgwFILIdyHrowviLrrP98EVbwUafR1CgbB+WSGekGdvKi8Qm2azcMDzmlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S7MPu825; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jLuF665d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757618523;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vPAAIBSdPkpUMbvgdCZ5DvLOlR8DyORx2hSMbeOUIlA=;
-	b=jLuF665d+/Oh5aBwAhrqex3ISUEdqSUB7DxjVYjVSqx/WhBvym1IuQz1Ho9w131QGv9oo6
-	J2nPE6B7j91k2h725j0OxbL6gBlThkHmcltoPPbZ9Q6qI1pbf7RA8i8JC9CfNEN4pLJUoB
-	sDZYz1QL2Pz0Ih8fKPLbn0aqrnwXHQM=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-363-JluEmu89NzeZgBSHSeUVDQ-1; Thu, 11 Sep 2025 15:22:02 -0400
-X-MC-Unique: JluEmu89NzeZgBSHSeUVDQ-1
-X-Mimecast-MFC-AGG-ID: JluEmu89NzeZgBSHSeUVDQ_1757618522
-Received: by mail-yb1-f197.google.com with SMTP id 3f1490d57ef6-e96d57eb1d0so1309391276.3
-        for <oe-kbuild@lists.linux.dev>; Thu, 11 Sep 2025 12:22:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757618521; x=1758223321;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vPAAIBSdPkpUMbvgdCZ5DvLOlR8DyORx2hSMbeOUIlA=;
-        b=Rm4LVje4VKzqpGbohtC9uvHIEI6X0pmLxUvslT+k8xaLyaDyHanbAxOCJfmwKNMfgc
-         fSapDaAxbXToF2PsHdqAhCXiB6ajebmhqB/buwyZgLJBQmI73E4quv9G+zw7tO1PMQEN
-         1Tgiv4wv9BtCMx/ZN3qgfdqpj0p5iMdOp9tIWddmTDPPRmQNqsMAUaOQSzDwJaIZOZf0
-         wCyhUj5dIPEoz0zKiOl97LVHo4rP5KyieLqOLwhOtLT4K3ykAfmIIJZf36n8licrw0eO
-         t6ZYOyur/Tyu38112RAPl1cfLKTQo9QZPWikb+iD0UwscuskM8ikbvladn5uf4dvICqK
-         /biQ==
-X-Gm-Message-State: AOJu0YxJgDjLnmd2COqdSQO45RdDuK3Avq6YJfz/Ryo04JIAgkxGzQPH
-	BGuFdV4Zs0zDCmrcRrb4mYehaI1ppvKnYwXPEQ/weYqE6j/AmEjCXkq5Llf1heDE5f+f71FB18M
-	OHipGsX6+6HOiWIN0BkJQAeNJZcu4l+ri03w9r+zeOkSNgje/9E3hEwOb0HvE63zGq7RVaSipyq
-	6FaVoMM+EUKkBeZ5FMDZB9QTPbQwnVIw9Kz76xvif4EaNPlDY=
-X-Gm-Gg: ASbGncvgFrkkLJ8VIvnG9v8V+rFYBYo1cQvbcjSuex8ek2/npTanO0IrKU/HAZmTanR
-	YIrj8UY0o7XqMn6J8X/btEl775dnag5sLhMCQTQGMKZ6NrpT61I3GsOoG1+oJP4ODdWkqy5yqZS
-	Z9knVgX7bxGEFilywWUt8jYDjEftr+PZrRRBk22GT9SItqCnnemkKJhA==
-X-Received: by 2002:a05:6902:6184:b0:e97:84b3:96d0 with SMTP id 3f1490d57ef6-ea3d99eef8fmr304021276.11.1757618521302;
-        Thu, 11 Sep 2025 12:22:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFVuQF6GFPmwF+PLi/eB0mkl/3ba9Iz7OdiTzhjWOSJbmY/G6DWp00LZmh091qOxLmVftjW+ssS7c6q051r8ms=
-X-Received: by 2002:a05:6902:6184:b0:e97:84b3:96d0 with SMTP id
- 3f1490d57ef6-ea3d99eef8fmr304001276.11.1757618520791; Thu, 11 Sep 2025
- 12:22:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S7MPu825"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757621889; x=1789157889;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=S00aOvw9oBVcxLo01WkPaVCy04j6EqJb8FjdhO50VSY=;
+  b=S7MPu825znLzFODiUqssUPyhOU8PsnsyE1IlEHlq503iudPBByNrA9Vc
+   K6CceyqwV9HsABaZUtjjtTIdPl7filpOuwl4JM+MMUIAufrzfnd7mc6qF
+   eKl4OammyJAomaLTVZmXx93IN1mASl4ogFsyzBM2JGbV7Mb5/8EVsugK+
+   rh+zImTRMxhb5K2NaqYZIIzjux9a1zUd0YrHWDUMnaWrYluvfZOfg2hND
+   vOdArzLfa5ADctX0x3vL44NkmtXusF6GWO0uZykP43oP6FTbntEgvGeV5
+   9kXYeMqU14EfdwQQYbiE7F9kmp6TdsskqrlXBiOHn5M5RUCqzhsSTlwrO
+   A==;
+X-CSE-ConnectionGUID: AEVeJMxjQIa7o68YCE9WUw==
+X-CSE-MsgGUID: s2SQwng4Te2tJ05CD1l8gQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11550"; a="60076094"
+X-IronPort-AV: E=Sophos;i="6.18,258,1751266800"; 
+   d="scan'208";a="60076094"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 13:18:08 -0700
+X-CSE-ConnectionGUID: 23ho7G5FRhOMpMLsfF0qzA==
+X-CSE-MsgGUID: 3emHiatzSpO2Xg1JU7nQZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,258,1751266800"; 
+   d="scan'208";a="177822343"
+Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 11 Sep 2025 13:18:07 -0700
+Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uwnk0-0000c0-15;
+	Thu, 11 Sep 2025 20:18:02 +0000
+Date: Fri, 12 Sep 2025 04:17:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 7722/8263] drivers/gpu/drm/xe/xe_dma_buf.c:253
+ xe_dma_buf_init_obj() error: uninitialized symbol 'bo'.
+Message-ID: <202509120423.5Zmxqx6o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202509120229.YpG1CcD3-lkp@intel.com>
-In-Reply-To: <202509120229.YpG1CcD3-lkp@intel.com>
-From: Denis Aleksandrov <daleksan@redhat.com>
-Date: Thu, 11 Sep 2025 15:21:49 -0400
-X-Gm-Features: Ac12FXwf_L1AGGZDpDhox13jXjFaaf_nkx5ME2J1foFJp4pRfqdXkBY6CcHANhI
-Message-ID: <CAG+gbFc=hxHSGxh5fFBSfs7GB1Z2aS-b0MkmyQaCP-o9P7Xw8g@mail.gmail.com>
-Subject: Re: [linux-next:master 7959/8263] drivers/char/tpm/tpm_ppi.c:349
- tpm_show_ppi_tcg_operations() warn: inconsistent returns 'global &tpm_ppi_lock'.
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Paul Menzel <pmenzel@molgen.mpg.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: ri2acdxA1Ybkh7L_S3feCvfejBdpF3nC0XurIdQ3iN8_1757618522
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 11, 2025 at 2:56=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   8f21d9da46702c4d6951ba60ca8a05f42870fe8f
-> commit: 18aada46edf7f79dba1ab89a100d0fc350d4a5c8 [7959/8263] tpm: Prevent=
- local DOS via tpm/tpm0/ppi/*operations
-> config: x86_64-randconfig-161-20250911 (https://download.01.org/0day-ci/a=
-rchive/20250912/202509120229.YpG1CcD3-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202509120229.YpG1CcD3-lkp@intel.com/
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+CC: Matthew Brost <matthew.brost@intel.com>
 
-Jarkko, would you like me to send a separate patch or a v5?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8f21d9da46702c4d6951ba60ca8a05f42870fe8f
+commit: eb289a5f6cc668853f9b2ea6aca04afe58ed11c7 [7722/8263] drm/xe: Convert xe_dma_buf.c for exhaustive eviction
+:::::: branch date: 14 hours ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20250911 (https://download.01.org/0day-ci/archive/20250912/202509120423.5Zmxqx6o-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
->
-> smatch warnings:
-> drivers/char/tpm/tpm_ppi.c:349 tpm_show_ppi_tcg_operations() warn: incons=
-istent returns 'global &tpm_ppi_lock'.
-> drivers/char/tpm/tpm_ppi.c:378 tpm_show_ppi_vs_operations() warn: inconsi=
-stent returns 'global &tpm_ppi_lock'.
->
-> vim +349 drivers/char/tpm/tpm_ppi.c
->
-> 81198078d7da42 Xiaoyan Zhang     2013-08-29  323  static ssize_t tpm_show=
-_ppi_tcg_operations(struct device *dev,
-> 81198078d7da42 Xiaoyan Zhang     2013-08-29  324                         =
-                  struct device_attribute *attr,
-> 81198078d7da42 Xiaoyan Zhang     2013-08-29  325                         =
-                  char *buf)
-> f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  326  {
-> 9b774d5cf2db4b Jarkko Sakkinen   2015-04-14  327        struct tpm_chip *=
-chip =3D to_tpm_chip(dev);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  328        ssize_t len =3D 0=
-;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  329        u32 ret;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  330        int i;
-> 0dc553652102c5 Jarkko Sakkinen   2014-12-12  331
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  332        spin_lock(&tpm_pp=
-i_lock);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  333        if (!ppi_cache_po=
-pulated) {
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  334                len =3D c=
-ache_ppi_operations(chip->acpi_dev_handle, buf);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  335                if (len <=
- 0)
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  336                        r=
-eturn len;
->
-> spin_unlock(&tpm_ppi_lock) before returning.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202509120423.5Zmxqx6o-lkp@intel.com/
 
-Hi Dan, thanks for the catch!
+smatch warnings:
+drivers/gpu/drm/xe/xe_dma_buf.c:253 xe_dma_buf_init_obj() error: uninitialized symbol 'bo'.
 
->
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  337
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  338                ppi_cache=
-_populated =3D true;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  339        }
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  340
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  341        for (i =3D 0; i <=
-=3D PPI_TPM_REQ_MAX; i++) {
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  342                ret =3D p=
-pi_operations_cache[i];
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  343                if (ret >=
-=3D 0 && ret < ARRAY_SIZE(tpm_ppi_info))
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  344                        l=
-en +=3D sysfs_emit_at(buf, len, "%d %d: %s\n",
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  345                         =
-                               i, ret, tpm_ppi_info[ret]);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  346        }
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  347        spin_unlock(&tpm_=
-ppi_lock);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  348
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10 @349        return len;
-> f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  350  }
-> f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  351
-> 81198078d7da42 Xiaoyan Zhang     2013-08-29  352  static ssize_t tpm_show=
-_ppi_vs_operations(struct device *dev,
-> 81198078d7da42 Xiaoyan Zhang     2013-08-29  353                         =
-                 struct device_attribute *attr,
-> 81198078d7da42 Xiaoyan Zhang     2013-08-29  354                         =
-                 char *buf)
-> f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  355  {
-> 9b774d5cf2db4b Jarkko Sakkinen   2015-04-14  356        struct tpm_chip *=
-chip =3D to_tpm_chip(dev);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  357        ssize_t len =3D 0=
-;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  358        u32 ret;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  359        int i;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  360
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  361        spin_lock(&tpm_pp=
-i_lock);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  362        if (!ppi_cache_po=
-pulated) {
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  363                len =3D c=
-ache_ppi_operations(chip->acpi_dev_handle, buf);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  364                if (len <=
- 0)
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  365                        r=
-eturn len;
->
-> Same.
->
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  366
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  367                ppi_cache=
-_populated =3D true;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  368        }
-> 0dc553652102c5 Jarkko Sakkinen   2014-12-12  369
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  370        for (i =3D PPI_VS=
-_REQ_START; i <=3D PPI_VS_REQ_END; i++) {
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  371                ret =3D p=
-pi_operations_cache[i];
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  372                if (ret >=
-=3D 0 && ret < ARRAY_SIZE(tpm_ppi_info))
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  373                        l=
-en +=3D sysfs_emit_at(buf, len, "%d %d: %s\n",
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  374                         =
-                               i, ret, tpm_ppi_info[ret]);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  375        }
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  376        spin_unlock(&tpm_=
-ppi_lock);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  377
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10 @378        return len;
-> f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  379  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+vim +/bo +253 drivers/gpu/drm/xe/xe_dma_buf.c
 
-Best,
-Denis
+dd08ebf6c3525a Matthew Brost    2023-03-30  217  
+dd08ebf6c3525a Matthew Brost    2023-03-30  218  static struct drm_gem_object *
+dd08ebf6c3525a Matthew Brost    2023-03-30  219  xe_dma_buf_init_obj(struct drm_device *dev, struct xe_bo *storage,
+dd08ebf6c3525a Matthew Brost    2023-03-30  220  		    struct dma_buf *dma_buf)
+dd08ebf6c3525a Matthew Brost    2023-03-30  221  {
+dd08ebf6c3525a Matthew Brost    2023-03-30  222  	struct dma_resv *resv = dma_buf->resv;
+dd08ebf6c3525a Matthew Brost    2023-03-30  223  	struct xe_device *xe = to_xe_device(dev);
+eb289a5f6cc668 Thomas Hellström 2025-09-08  224  	struct xe_validation_ctx ctx;
+eb289a5f6cc668 Thomas Hellström 2025-09-08  225  	struct drm_gem_object *dummy_obj;
+eb289a5f6cc668 Thomas Hellström 2025-09-08  226  	struct drm_exec exec;
+dd08ebf6c3525a Matthew Brost    2023-03-30  227  	struct xe_bo *bo;
+eb289a5f6cc668 Thomas Hellström 2025-09-08  228  	int ret = 0;
+eb289a5f6cc668 Thomas Hellström 2025-09-08  229  
+eb289a5f6cc668 Thomas Hellström 2025-09-08  230  	dummy_obj = drm_gpuvm_resv_object_alloc(&xe->drm);
+eb289a5f6cc668 Thomas Hellström 2025-09-08  231  	if (!dummy_obj)
+eb289a5f6cc668 Thomas Hellström 2025-09-08  232  		return ERR_PTR(-ENOMEM);
+eb289a5f6cc668 Thomas Hellström 2025-09-08  233  
+eb289a5f6cc668 Thomas Hellström 2025-09-08  234  	dummy_obj->resv = resv;
+eb289a5f6cc668 Thomas Hellström 2025-09-08  235  	xe_validation_guard(&ctx, &xe->val, &exec, (struct xe_val_flags) {}, ret) {
+eb289a5f6cc668 Thomas Hellström 2025-09-08  236  		ret = drm_exec_lock_obj(&exec, dummy_obj);
+eb289a5f6cc668 Thomas Hellström 2025-09-08  237  		drm_exec_retry_on_contention(&exec);
+eb289a5f6cc668 Thomas Hellström 2025-09-08  238  		if (ret)
+eb289a5f6cc668 Thomas Hellström 2025-09-08  239  			break;
+dd08ebf6c3525a Matthew Brost    2023-03-30  240  
+622f709ca6297d Pallavi Mishra   2023-08-11  241  		bo = ___xe_bo_create_locked(xe, storage, NULL, resv, NULL, dma_buf->size,
+622f709ca6297d Pallavi Mishra   2023-08-11  242  					    0, /* Will require 1way or 2way for vm_bind */
+eb289a5f6cc668 Thomas Hellström 2025-09-08  243  					    ttm_bo_type_sg, XE_BO_FLAG_SYSTEM, &exec);
+eb289a5f6cc668 Thomas Hellström 2025-09-08  244  		drm_exec_retry_on_contention(&exec);
+dd08ebf6c3525a Matthew Brost    2023-03-30  245  		if (IS_ERR(bo)) {
+dd08ebf6c3525a Matthew Brost    2023-03-30  246  			ret = PTR_ERR(bo);
+eb289a5f6cc668 Thomas Hellström 2025-09-08  247  			xe_validation_retry_on_oom(&ctx, &ret);
+eb289a5f6cc668 Thomas Hellström 2025-09-08  248  			break;
+dd08ebf6c3525a Matthew Brost    2023-03-30  249  		}
+eb289a5f6cc668 Thomas Hellström 2025-09-08  250  	}
+eb289a5f6cc668 Thomas Hellström 2025-09-08  251  	drm_gem_object_put(dummy_obj);
+dd08ebf6c3525a Matthew Brost    2023-03-30  252  
+eb289a5f6cc668 Thomas Hellström 2025-09-08 @253  	return ret ? ERR_PTR(ret) : &bo->ttm.base;
+dd08ebf6c3525a Matthew Brost    2023-03-30  254  }
+dd08ebf6c3525a Matthew Brost    2023-03-30  255  
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
