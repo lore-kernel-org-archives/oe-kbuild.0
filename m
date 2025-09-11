@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB0F4AEE2
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Sep 2025 03:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC39246788
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Sep 2025 13:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757560361; cv=none; b=BnKaWtmGJZxO3BjivfFMuy1M1aVM6nNIrr9PlJLGTajqJl4pSGa8Lan9IPifwnQ297/DxY3kpeWIqk7iWoC94b8Q3It/or+ao2Swb+R1N4Bf7AJTIOigylDXZgYfF/j4Tjcc4EkAez0uwzE+x8LvIyzY0BJMirLjT4UhF8TicRk=
+	t=1757597751; cv=none; b=dv/owZk1i6h0IC2tT98YoT939hanZHppe5P+Pd3bpXnYQRlYSRv1md0D27K9nL1alt7Bgy/aPC5oVPdaCYF3G/kYN2ETpad8Q9lTnWh/AabsQMPvPomDyZRBVQdP8OREHDlg/KZNCJMnKsWqren/E/RkYckP87Fu1bKOFDQfq/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757560361; c=relaxed/simple;
-	bh=5Wf4K86/kUnbsFZi2qhrF6NUp2F6X1S0gHLgZAIhBE0=;
+	s=arc-20240116; t=1757597751; c=relaxed/simple;
+	bh=6w9hNBCjr9XsI8mIKPAE+tALSOSQ43VUtFuawLCL+h8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WvCHsmW2wUh47dIclmesaBJYLVBwJkGAahi0HluoizMCMA2v8RgJlp+8T85BbbbUS6xauX59Ft17g4NcRdf9YOZkc8Qdo2GKt6LhmMFZCESzwRQ3x8slROAhMSdqnGBTHbI6Wz9M8faeKmRBVuZ2bAb5aPUNILKwZWD6egFBf6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ATwbhm7q; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=dfzdY9mTUKaZ/rAx0/XO/mpATui6ZFyBExAjau8rWkyrcbq4NL0Lu8FPpMb1eFojx7+BPGKFaK2iJDipELpVaLC+CTUGfDIIBZ4W6//cVViZ0nyceC3nh2T1m25Wf/vtTnZm3DN0jglbCO7zU47JekBbzk9Up/r0IXBeRykVW14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QCasNUw+; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ATwbhm7q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCasNUw+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757560359; x=1789096359;
+  t=1757597749; x=1789133749;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5Wf4K86/kUnbsFZi2qhrF6NUp2F6X1S0gHLgZAIhBE0=;
-  b=ATwbhm7qbIZIdCUwKRuFsZ/mAASjchKq+ngKr8S5PTP25JOQuK712wfU
-   I+IEMr9Mz5goXeGcTKUFvAX37ryb0OZ3Vd8SHwT5INYY0lIkrNpDR4pCO
-   LFQBYI1artQchVuuAdVOYNZFuVfvajSS49y973TGAm00rT/DgXzVu6Tvf
-   U1sUEzn+182dFZ7TUj7S4STHpo0BYpgVFAc29naR6px6iqkhh0WLEVYqB
-   hhcV+CYs3DsMTS06Ewh9Sj4QGebyqXBFzXdpbbONTSshTG+6CfNSlnnna
-   zWqZ38fD75uDbHgX5RnAp/mV1EKj5nKnaqeQviBUZNmuI7rA8Ag/i58EG
+  bh=6w9hNBCjr9XsI8mIKPAE+tALSOSQ43VUtFuawLCL+h8=;
+  b=QCasNUw++79z4XXHXrfA7DBeKejEmSUbWLymC+uy+JM7n3uvASRhNYch
+   Kqfn7u8PsuoQ08zC3k47JfwDuc5fSkgGPePddXpUZWYL9lQOQ8hFrQHEQ
+   zzEdUPRHdH5YApB1P2mK8boZoRqNg7QCCb7CyeLThpzP3sHbGRdIqdRxA
+   LbhkZTtfBphSEKCD7Ch858TwWJLnLnOPJxeWm8Z5VW8b1/s2E/l+7UkV9
+   G+Iv8KVi/Exk+diMaQ+woG58DsQ/gzB9Ts19mk+/ORJRDew/Un3WGeFm6
+   3uckp5ApVprLC7cGD2l0yTCowTf5ZzsE3SqbfMl65VHLvqSLLToXeGgk1
    w==;
-X-CSE-ConnectionGUID: 3/kvcfvHQDCCf51cubhPDw==
-X-CSE-MsgGUID: Qcd/+HowQKqwhOPL9I75Dw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="77491477"
-X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; 
-   d="scan'208";a="77491477"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 20:12:38 -0700
-X-CSE-ConnectionGUID: TZHYoRMPRCKiQTOxx0yPAg==
-X-CSE-MsgGUID: 1lz58ph9RESNtSoISsmG8Q==
+X-CSE-ConnectionGUID: HsH1b3QWTK6VpjmkwkoDnA==
+X-CSE-MsgGUID: IeaXKmkxSAiCxhy95J0UlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="82517209"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="82517209"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 06:35:48 -0700
+X-CSE-ConnectionGUID: gZpkjkjvSDe51KQorpLVfA==
+X-CSE-MsgGUID: oXQJmnctRvG3ccaf/ips6g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; 
-   d="scan'208";a="178767054"
-Received: from lkp-server01.sh.intel.com (HELO 682ec36e968c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Sep 2025 20:12:37 -0700
-Received: from kbuild by 682ec36e968c with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.18,257,1751266800"; 
+   d="scan'208";a="197374063"
+Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 11 Sep 2025 06:35:46 -0700
+Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uwXje-00004P-2d;
-	Thu, 11 Sep 2025 03:12:34 +0000
-Date: Thu, 11 Sep 2025 11:11:59 +0800
+	id 1uwhSi-0000MS-0o;
+	Thu, 11 Sep 2025 13:35:44 +0000
+Date: Thu, 11 Sep 2025 21:34:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [bcachefs:bcachefs-testing 396/407] ERROR: modpost:
- __ex_table+0x1834 references non-executable section '.initcall6.init'
-Message-ID: <202509111142.E1bzcmzZ-lkp@intel.com>
+Subject: [conor:pinctrl 16/18]
+ arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: syscon@20002000
+ (microchip,mpfs-mss-top-sysreg): 'pinctrl@200', 'pinctrl@204' do not match
+ any of the regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202509112112.8YbwEVgX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,232 +65,130 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "riscv arch toolchain issue"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: Kent Overstreet <kent.overstreet@linux.dev>
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Conor Dooley <conor+lkp@kernel.org>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   34701549f97cb6ad21d1dc10bbc188b08afa133e
-commit: 824881ee3d9874b8271fe42219e24fa66836e4de [396/407] mm: shrinker: Add new stats for .to_text()
-:::::: branch date: 9 hours ago
-:::::: commit date: 10 hours ago
-config: riscv-randconfig-002-20250911 (https://download.01.org/0day-ci/archive/20250911/202509111142.E1bzcmzZ-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7fb1dc08d2f025aad5777bb779dfac1197e9ef87)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509111142.E1bzcmzZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git pinctrl
+head:   9d928f1d404e339ec552b1fb749e1287533868cc
+commit: f49c1fded333005467d9480d4cba62dfb8059501 [16/18] more wip wip wip
+:::::: branch date: 17 hours ago
+:::::: commit date: 2 days ago
+config: riscv-randconfig-052-20250911 (https://download.01.org/0day-ci/archive/20250911/202509112112.8YbwEVgX-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509112112.8YbwEVgX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509111142.E1bzcmzZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509112112.8YbwEVgX-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-ERROR: modpost: __ex_table+0x16c0 references non-executable section '.debug_loc'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x16c8 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x16c8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x16cc (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x16cc references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x16d4 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x16d4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x16d8 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x16d8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x16e0 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x16e0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x16e4 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x16e4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x16ec (section: __ex_table) -> .L0  (section: .debug_ranges)
-ERROR: modpost: __ex_table+0x16ec references non-executable section '.debug_ranges'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x16f0 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x16f0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1708 (section: __ex_table) -> .L__func__.init_held_rtmutex (section: .rodata.str1.1)
-ERROR: modpost: __ex_table+0x1708 references non-executable section '.rodata.str1.1'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1710 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1710 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1714 (section: __ex_table) -> .L0  (section: .debug_ranges)
-ERROR: modpost: __ex_table+0x1714 references non-executable section '.debug_ranges'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x171c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x171c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1720 (section: __ex_table) -> .L0  (section: .debug_ranges)
-ERROR: modpost: __ex_table+0x1720 references non-executable section '.debug_ranges'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1728 (section: __ex_table) -> .L0  (section: .debug_ranges)
-ERROR: modpost: __ex_table+0x1728 references non-executable section '.debug_ranges'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x172c (section: __ex_table) -> .L0  (section: .debug_ranges)
-ERROR: modpost: __ex_table+0x172c references non-executable section '.debug_ranges'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1734 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1734 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1738 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1738 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1740 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1740 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1744 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1744 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x174c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x174c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1750 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1750 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1758 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1758 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x175c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x175c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1764 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1764 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1768 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1768 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x177c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x177c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1780 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1780 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1788 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1788 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x178c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x178c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1794 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1794 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1798 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1798 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17a0 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17a0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17a4 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17a4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17ac (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17ac references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17b0 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17b0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17b8 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17b8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17bc (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17bc references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17c4 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17c4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17c8 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17c8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17d0 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17d0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17d4 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17d4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17dc (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17dc references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17e0 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17e0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17f4 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17f4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x17f8 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x17f8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1800 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1800 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1804 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1804 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x180c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x180c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1810 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1810 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1834 (section: __ex_table) -> __initcall__kmod_fan53555__549_791_fan53555_regulator_driver_init6 (section: .initcall6.init)
->> ERROR: modpost: __ex_table+0x1834 references non-executable section '.initcall6.init'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x183c (section: __ex_table) -> fan53555_id (section: .rodata)
-ERROR: modpost: __ex_table+0x183c references non-executable section '.rodata'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1840 (section: __ex_table) -> $d (section: .debug_loc)
-ERROR: modpost: __ex_table+0x1840 references non-executable section '.debug_loc'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1848 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1848 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x184c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x184c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1854 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1854 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1858 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1858 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1860 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1860 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1864 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1864 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x186c (section: __ex_table) -> .L0  (section: .debug_frame)
-ERROR: modpost: __ex_table+0x186c references non-executable section '.debug_frame'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1888 (section: __ex_table) -> pv88060_regulator_info (section: .rodata)
-ERROR: modpost: __ex_table+0x1888 references non-executable section '.rodata'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x18cc (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x18cc references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x18d0 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x18d0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x18d8 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x18d8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x18dc (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x18dc references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x18e4 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x18e4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x18e8 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x18e8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x18f0 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x18f0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x18f4 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x18f4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x18fc (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x18fc references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1900 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1900 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1908 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1908 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x190c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x190c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1914 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1914 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1918 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1918 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1920 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1920 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1924 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1924 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x192c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x192c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1930 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1930 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1938 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1938 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x193c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x193c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1944 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1944 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1948 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1948 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1950 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1950 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1954 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1954 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x195c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x195c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1960 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1960 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1968 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1968 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x196c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x196c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1974 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1974 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1978 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1978 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1980 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1980 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1984 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1984 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x198c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x198c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1990 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1990 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x1998 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x1998 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x199c (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x199c references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x19a4 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x19a4 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x19a8 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x19a8 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x19b0 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x19b0 references non-executable section '.debug_str'
-WARNING: modpost: vmlinux: section mismatch in reference: 0x19b4 (section: __ex_table) -> .L0  (section: .debug_str)
-ERROR: modpost: __ex_table+0x19b4 references non-executable section '.debug_str'
+dtcheck warnings: (new ones prefixed by >>)
+   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:261.24-435.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@200: Relying on default #address-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:261.24-435.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@200: Relying on default #size-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:437.23-443.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@204: Relying on default #address-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:437.23-443.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@204: Relying on default #size-cells value
+   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: Warning (avoid_unnecessary_addr_size): Failed prerequisite 'avoid_default_addr_size'
+   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
+>> arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'pinctrl@200', 'pinctrl@204' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: /soc/syscon@20002000/pinctrl@200: failed to match any schema with compatible: ['microchip,mpfs-pinctrl-iomux0']
+   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: /soc/syscon@20002000/pinctrl@204: failed to match any schema with compatible: ['microchip,mpfs-pinctrl']
+--
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:261.24-435.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@200: Relying on default #address-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:261.24-435.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@200: Relying on default #size-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:437.23-443.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@204: Relying on default #address-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:437.23-443.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@204: Relying on default #size-cells value
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: Warning (avoid_unnecessary_addr_size): Failed prerequisite 'avoid_default_addr_size'
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
+>> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'pinctrl@200', 'pinctrl@204' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: /soc/syscon@20002000/pinctrl@200: failed to match any schema with compatible: ['microchip,mpfs-pinctrl-iomux0']
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: /soc/syscon@20002000/pinctrl@204: failed to match any schema with compatible: ['microchip,mpfs-pinctrl']
+--
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:261.24-435.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@200: Relying on default #address-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:261.24-435.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@200: Relying on default #size-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:437.23-443.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@204: Relying on default #address-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:437.23-443.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@204: Relying on default #size-cells value
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: Warning (avoid_unnecessary_addr_size): Failed prerequisite 'avoid_default_addr_size'
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
+>> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'pinctrl@200', 'pinctrl@204' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: /soc/syscon@20002000/pinctrl@200: failed to match any schema with compatible: ['microchip,mpfs-pinctrl-iomux0']
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: /soc/syscon@20002000/pinctrl@204: failed to match any schema with compatible: ['microchip,mpfs-pinctrl']
+--
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:261.24-435.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@200: Relying on default #address-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:261.24-435.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@200: Relying on default #size-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:437.23-443.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@204: Relying on default #address-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:437.23-443.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@204: Relying on default #size-cells value
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: Warning (avoid_unnecessary_addr_size): Failed prerequisite 'avoid_default_addr_size'
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
+>> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'pinctrl@200', 'pinctrl@204' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: /soc/syscon@20002000/pinctrl@200: failed to match any schema with compatible: ['microchip,mpfs-pinctrl-iomux0']
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: /soc/syscon@20002000/pinctrl@204: failed to match any schema with compatible: ['microchip,mpfs-pinctrl']
+--
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:261.24-435.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@200: Relying on default #address-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:261.24-435.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@200: Relying on default #size-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:437.23-443.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@204: Relying on default #address-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:437.23-443.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@204: Relying on default #size-cells value
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: Warning (avoid_unnecessary_addr_size): Failed prerequisite 'avoid_default_addr_size'
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
+>> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'pinctrl@200', 'pinctrl@204' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: /soc/syscon@20002000/pinctrl@200: failed to match any schema with compatible: ['microchip,mpfs-pinctrl-iomux0']
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: /soc/syscon@20002000/pinctrl@204: failed to match any schema with compatible: ['microchip,mpfs-pinctrl']
+--
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:261.24-435.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@200: Relying on default #address-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:261.24-435.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@200: Relying on default #size-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:437.23-443.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@204: Relying on default #address-cells value
+   arch/riscv/boot/dts/microchip/mpfs.dtsi:437.23-443.6: Warning (avoid_default_addr_size): /soc/syscon@20002000/pinctrl@204: Relying on default #size-cells value
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: Warning (avoid_unnecessary_addr_size): Failed prerequisite 'avoid_default_addr_size'
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
+>> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): 'pinctrl@200', 'pinctrl@204' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: syscon@20002000 (microchip,mpfs-mss-top-sysreg): compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: /soc/syscon@20002000/pinctrl@200: failed to match any schema with compatible: ['microchip,mpfs-pinctrl-iomux0']
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: /soc/syscon@20002000/pinctrl@204: failed to match any schema with compatible: ['microchip,mpfs-pinctrl']
 
 -- 
 0-DAY CI Kernel Test Service
