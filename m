@@ -1,72 +1,76 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05DB23ABB0
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Sep 2025 08:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA9E2DC780
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Sep 2025 08:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757665032; cv=none; b=NmUDAIvvBbXWkJGsUjcJKThvmc4A31SY344MIfCX6UbxsOBjLt/zmfDJ7Z2gg99tN04lCCiG52f0VqXezuaFul7/ELmxj+DRxmdWME4N46mbYZ4FN1UKXnIewGdYw3dZtoHx1lgsWh7SFU+2+BOsgoJaiztiS666ODO8iEo/0X4=
+	t=1757665311; cv=none; b=Gmht6jODIpBLPgS7TFx3xcOiHwCMgHIkcMoKOk2FtRLPODNzjHT7tHxUeiV937Tb72bNMTXG8ZGVNHwRacdxSXWxMW0Pn0pqO5SpU0BDAiLKAHBGUiCNhgTDYPERqsRq1FgL/8dsZBCb1kVJBR2drBozlTtjzbmLewTcTQN+bNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757665032; c=relaxed/simple;
-	bh=i9CFVWx0KuQcVLiLCs7JaLronTxZjdKNbsKFJb4KxyU=;
+	s=arc-20240116; t=1757665311; c=relaxed/simple;
+	bh=qZUNdYRrarMZrx/I2jScYFyIRFcUWFIjiLtabn+O6tY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=IHnPyQ5NuncbADU1VNpxWHczKOx2o14U3JDgPQ17ED/3BFATxZaohh+rslazTL861EcbUWBGQiPRyR1509wZ5gZ0Dt1COt6Tb8xwpviPe2EQoQ9ZT3KphZ1Wgn3zsrXPJL6Cg6Q8TX10zjwfcdhYp+CwRBuCTcN/7dqK3bQvvXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VhD4OUYq; arc=none smtp.client-ip=209.85.128.44
+	 Content-Disposition:In-Reply-To; b=uQfKPD7t2TpWc980TJFVL0/MkjWfj4XXc18Z9Yv/vnh+xS1LCnr64s0wluYozHrfj/XoIzkwLLudV7fgLIqgObe5hpiS0dXAEHRlwFGqkd4C8wAYoHttLxpkNIXYFF9NEIsQW2AbxtQn11yigJf/S4MZwx8fJuxKgc+AncZKAb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lhUP9OBa; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VhD4OUYq"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-45dd5e24d16so15045785e9.3
-        for <oe-kbuild@lists.linux.dev>; Fri, 12 Sep 2025 01:17:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lhUP9OBa"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45cb6428c46so19081205e9.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 12 Sep 2025 01:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757665027; x=1758269827; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1757665308; x=1758270108; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Etxg0IY1htc5QJcqwa87OQjVL3XIqrFRkFeKYdzH19A=;
-        b=VhD4OUYqwY9iwa8nD79nDqbKOdWWC3cDNzZUY7oP5H538N/XTsFx7x78u24wBGR0lr
-         gBIB3iXgd3LfVI6rABLebwO33i+0rngaxY+byIkm3/omPrIwmGEoqNldAtZ721qaYQVZ
-         2oBuHQcRAV8rGnR4nLppVHbjMWxAjpVZoAvp20KtD3wdxM/ot3hD4/wUECGt8AoUByJK
-         id65ERMo8PpMZeRThfAkPPQublfEoN4pVcG0HHRhU8BQkB7y1RGmJmlj6+JWQJ4zaEVn
-         jQEzNz0LqTrUDJAKMctB7ngC1ep64qJgi0MfJ30OYGyQX4vBCVXq4YnSl807RscriiIB
-         LunA==
+        bh=W60sZMoMdyLE26ZTuIL3nBsOV3BIJdUY+5uCUKpKW8g=;
+        b=lhUP9OBaxvTf8/iC25ITgvx/afzNhcSF25A4oJGu8bx0lHAGw1vIU3UIErOM6euCe1
+         Cf8E1hnuptHY/lW9RxCriahqCqrRZcH1btC+AzvumfAPGSRpz4CeKd4g7nFJM3RgVevX
+         gtGON9uDvc2aVOE6yxy9Z/xoWRn1x/iD2eQEYBl6uxxlPMjxC2LTLlx52U3ixVZrN5ZH
+         3gxV/Pyi7Y6rGGhAwXZlXzs7pKK4nI/B/yJ53RNL92CeZ1AFA5RbDCpokQ8BXstEoLdm
+         sMbyySTZLkMJswA0NPu/dMG6JZYw1ioSqKoLn7YSQJE1xserPLPhR57/5hEYuogohVsF
+         oTNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757665027; x=1758269827;
+        d=1e100.net; s=20230601; t=1757665308; x=1758270108;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Etxg0IY1htc5QJcqwa87OQjVL3XIqrFRkFeKYdzH19A=;
-        b=n5PcASBMA8MIZhRbECOuqEl+cRLiKSxpSIMLq96EcpZ5HjsvS3hKc6nj90n5GU7JNE
-         iUhl+hQvVAHmHixDscX27r0uDdUlbGI8JDcQSrhKpYisRZshfFcr0jGRI2JOQphlaK/V
-         FdE/lEExEFEhsGjYv394SvuDN9X8QxrCUutplw4QAXfmDY6/cY1XYPaf7PY4iMtGZHjp
-         9ZMVYHe627cTUejMUkUzmXqmZG9okZ3lWx5hZ2MTa4TxDWrw7ieyScEP/k3Y+/uWO6C8
-         OGGNxTU1QBWMUo6M31fyr2dIbyTR4j5XQSEJuTQDSMZv9PY3JNtM9DfGwewsNw3epHF/
-         0oSA==
-X-Gm-Message-State: AOJu0YwUF5HkXYApNtwvvGz95XdMiu+i0nf8Fmb9WTeBt5OAsbY1GHMB
-	TqjxbCQjrwIJAn+zKr9+voBrconCZDfp0fiDQwDUl+hEaxNga+nHHKcN6Esgs9XQ9jMNB9otCdt
-	hlFyR
-X-Gm-Gg: ASbGncvdZdK/SBYdoo6M4jEUHVUy9wsHDYiZ36NruK8uZQ7cj+pZkJZ/O4eKrWq+om4
-	iNGEE+JectHOeuyVqn2MAyhb5aTlc3aS8a3DT2BcTI3YUJFjfcODnlp17QSZWox5UXuJqJRjqBw
-	v1bjCYLTLPEm3vpjrcjicxLqzb5pAubeUUJzBklOhXRprkvxuh0spvX9eBpmYsvvsBNoA0wbDO3
-	658AqnCOvK8VjNWwFfR38EojZz8LLqwLCUjcNBI1d0ofBhgM2UJhmnv1m5CrbSNDD8W4xnavb1D
-	Ac2lCjm4PURmO2vZD2dadMQ7MXD4X0UVr8GhAcZHRYdshfpgxgbhgeOTS1eMQssfaFkIXD+/sL/
-	Y852XSvWVqokpSeJfFGxLc0xQp/A=
-X-Google-Smtp-Source: AGHT+IG/0RzEIOXstnhWOvUJR4C018nzBGkctjQb2dAgAi3fPX3o+xS6Nw+E9OgCuuiHC/GyGX4w6g==
-X-Received: by 2002:a05:600c:c178:b0:45d:e54b:fa29 with SMTP id 5b1f17b1804b1-45f211c8cd3mr19002855e9.14.1757665026848;
-        Fri, 12 Sep 2025 01:17:06 -0700 (PDT)
+        bh=W60sZMoMdyLE26ZTuIL3nBsOV3BIJdUY+5uCUKpKW8g=;
+        b=lu+GF6g5Zd73O87QTxLTXAiTkK0CNIRzzRmgy9PQCeAVZaWVrSkpwk7hPFS/qzc/jq
+         E2rIi6DmeCJ8zQLL/u0HylnAqPmDGuvJpyG9CjIvfcTWx0JJqihb3Di1XYMG0ug+gzdv
+         uwzlQt+70677Rqz4atdOqxAPpu30mz/ky13sQTyn3O9YqufR+r5QjZhHkpyBWKsNVjP0
+         3digOR2kcVycQG8t13f3OTk62/10yY8784U45ZXZTXnuYa1l5/hBes0Fh7322qHHORwl
+         zdts5yA/e6eIrIsqFvIkcUQF8pxYWH3DavhgUI1qpORgf9HaJsKh28ENAd2wK9U0RTJX
+         USRg==
+X-Gm-Message-State: AOJu0YwgYJkRmGXnFgIO2nfBkH+NPpG+uta6FQCrKTwASv8TFOnqE9FS
+	OqzM6qoksZrFIA4UEp4A6/4z3aIYjpy/89hdptnmG8F48R6qT63ts8JiPJ0mpR9b7xW9+35PWAz
+	8H4ol
+X-Gm-Gg: ASbGncukZ26olaLpPJwk+8LQZJJ0GwYIpSQf86/i+E2ufYW+nq5+DnRFRnSkS8MfPnQ
+	TeoKflJY2wUbAQal0NjvyQ8Wb5taZgH+8RUgUiLMhgFGFopdDtZL/RIz7j+4Z2rScaGKnoGHa2X
+	Zk+Jeaf/BiUDQ2MPkNhUfeC+g7FgQK0TfeAv4898JsibI+yApUsCuSOifJ+fEEgttP9Hk4vJAi9
+	vRKJY+K/v3s8yMmgcGskO5T1fRRQnqAoI3IpHRaZpEgRF8i91/nVCc3yWtzoTVew3bCEUVIYaNr
+	vSCFTulBG2LaPWuvMvwmxstBsIyLLKVshvxy65iu+55HKO52cDzQ20kmCxG3x5Ljs9v6rWE4ceV
+	cgK0qUgGe9SU3vsrR5LgzZAXGwcpuAEfm7X0h4g==
+X-Google-Smtp-Source: AGHT+IFTVzbYTElrhk+3fv8FZJj0pkcZ0zRcQ2nWpXCv1OCHxc8/2XmvcN8Ey7vGOZneILg1INJRRw==
+X-Received: by 2002:a7b:c006:0:b0:45a:236a:23ba with SMTP id 5b1f17b1804b1-45f211f6b92mr13416655e9.22.1757665307562;
+        Fri, 12 Sep 2025 01:21:47 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45e037d638dsm51062505e9.22.2025.09.12.01.17.05
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45e016b5cbcsm56441345e9.11.2025.09.12.01.21.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 01:17:06 -0700 (PDT)
-Date: Fri, 12 Sep 2025 11:17:02 +0300
+        Fri, 12 Sep 2025 01:21:47 -0700 (PDT)
+Date: Fri, 12 Sep 2025 11:21:44 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Eduard Zingerman <eddyz87@gmail.com>,
-	bpf@vger.kernel.org, ast@kernel.org, andrii@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net,
-	martin.lau@linux.dev, kernel-team@fb.com, yonghong.song@linux.dev,
-	eddyz87@gmail.com
-Subject: Re: [PATCH bpf-next v1 09/10] bpf: disable and remove registers
- chain based liveness
-Message-ID: <202509120205.YfzyI2gp-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev,
+	Thomas Bertschinger <tahbertschinger@gmail.com>,
+	io-uring@vger.kernel.org, axboe@kernel.dk,
+	linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk,
+	brauner@kernel.org, linux-nfs@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Thomas Bertschinger <tahbertschinger@gmail.com>,
+	Amir Goldstein <amir73il@gmail.com>, chuck.lever@oracle.com,
+	jlayton@kernel.org
+Subject: Re: [PATCH 07/10] exportfs: new FILEID_CACHED flag for non-blocking
+ fh lookup
+Message-ID: <202509120423.cZlR8oLY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,216 +79,199 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250911010437.2779173-10-eddyz87@gmail.com>
-Message-ID: <20250912081702.wjRLcHqwPYBc-_9pDRAdp-OASJt2lFyB2BPXpgIvuQU@z>
+In-Reply-To: <20250910214927.480316-8-tahbertschinger@gmail.com>
+Message-ID: <20250912082144.pOhc7_dcqh-HMUpuZ-Xf1JYo-eLavx8wR7XYyoWs1T8@z>
 
-Hi Eduard,
+Hi Thomas,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/bpf-bpf_verifier_state-cleaned-flag-instead-of-REG_LIVE_DONE/20250911-090604
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250911010437.2779173-10-eddyz87%40gmail.com
-patch subject: [PATCH bpf-next v1 09/10] bpf: disable and remove registers chain based liveness
-config: arm-randconfig-r071-20250911 (https://download.01.org/0day-ci/archive/20250912/202509120205.YfzyI2gp-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Bertschinger/fhandle-create-helper-for-name_to_handle_at-2/20250911-054830
+base:   76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c
+patch link:    https://lore.kernel.org/r/20250910214927.480316-8-tahbertschinger%40gmail.com
+patch subject: [PATCH 07/10] exportfs: new FILEID_CACHED flag for non-blocking fh lookup
+config: arm-randconfig-r071-20250911 (https://download.01.org/0day-ci/archive/20250912/202509120423.cZlR8oLY-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202509120205.YfzyI2gp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509120423.cZlR8oLY-lkp@intel.com/
 
 smatch warnings:
-kernel/bpf/verifier.c:19305 is_state_visited() error: uninitialized symbol 'err'.
+fs/exportfs/expfs.c:539 exportfs_decode_fh_raw() warn: maybe use && instead of &
 
-vim +/err +19305 kernel/bpf/verifier.c
+vim +539 fs/exportfs/expfs.c
 
-58e2af8b3a6b58 Jakub Kicinski          2016-09-21  19134  static int is_state_visited(struct bpf_verifier_env *env, int insn_idx)
-f1bca824dabba4 Alexei Starovoitov      2014-09-29  19135  {
-58e2af8b3a6b58 Jakub Kicinski          2016-09-21  19136  	struct bpf_verifier_state_list *new_sl;
-5564ee3abb2ebe Eduard Zingerman        2025-02-15  19137  	struct bpf_verifier_state_list *sl;
-c9e31900b54cad Eduard Zingerman        2025-06-11  19138  	struct bpf_verifier_state *cur = env->cur_state, *new;
-c9e31900b54cad Eduard Zingerman        2025-06-11  19139  	bool force_new_state, add_new_state, loop;
-d5c95ed86213e4 Eduard Zingerman        2025-09-10  19140  	int n, err, states_cnt = 0;
-5564ee3abb2ebe Eduard Zingerman        2025-02-15  19141  	struct list_head *pos, *tmp, *head;
-aa30eb3260b2de Eduard Zingerman        2024-10-29  19142  
-aa30eb3260b2de Eduard Zingerman        2024-10-29  19143  	force_new_state = env->test_state_freq || is_force_checkpoint(env, insn_idx) ||
-aa30eb3260b2de Eduard Zingerman        2024-10-29  19144  			  /* Avoid accumulating infinitely long jmp history */
-baaebe0928bf32 Eduard Zingerman        2025-06-11  19145  			  cur->jmp_history_cnt > 40;
-f1bca824dabba4 Alexei Starovoitov      2014-09-29  19146  
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19147  	/* bpf progs typically have pruning point every 4 instructions
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19148  	 * http://vger.kernel.org/bpfconf2019.html#session-1
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19149  	 * Do not add new state for future pruning if the verifier hasn't seen
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19150  	 * at least 2 jumps and at least 8 instructions.
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19151  	 * This heuristics helps decrease 'total_states' and 'peak_states' metric.
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19152  	 * In tests that amounts to up to 50% reduction into total verifier
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19153  	 * memory consumption and 20% verifier time speedup.
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19154  	 */
-aa30eb3260b2de Eduard Zingerman        2024-10-29  19155  	add_new_state = force_new_state;
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19156  	if (env->jmps_processed - env->prev_jmps_processed >= 2 &&
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19157  	    env->insn_processed - env->prev_insn_processed >= 8)
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19158  		add_new_state = true;
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19159  
-9242b5f5615c82 Alexei Starovoitov      2018-12-13  19160  	clean_live_states(env, insn_idx, cur);
-9242b5f5615c82 Alexei Starovoitov      2018-12-13  19161  
-c9e31900b54cad Eduard Zingerman        2025-06-11  19162  	loop = false;
-5564ee3abb2ebe Eduard Zingerman        2025-02-15  19163  	head = explored_state(env, insn_idx);
-5564ee3abb2ebe Eduard Zingerman        2025-02-15  19164  	list_for_each_safe(pos, tmp, head) {
-5564ee3abb2ebe Eduard Zingerman        2025-02-15  19165  		sl = container_of(pos, struct bpf_verifier_state_list, node);
-dc2a4ebc0b44a2 Alexei Starovoitov      2019-05-21  19166  		states_cnt++;
-dc2a4ebc0b44a2 Alexei Starovoitov      2019-05-21  19167  		if (sl->state.insn_idx != insn_idx)
-5564ee3abb2ebe Eduard Zingerman        2025-02-15  19168  			continue;
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19169  
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19170  		if (sl->state.branches) {
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19171  			struct bpf_func_state *frame = sl->state.frame[sl->state.curframe];
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19172  
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19173  			if (frame->in_async_callback_fn &&
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19174  			    frame->async_entry_cnt != cur->frame[cur->curframe]->async_entry_cnt) {
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19175  				/* Different async_entry_cnt means that the verifier is
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19176  				 * processing another entry into async callback.
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19177  				 * Seeing the same state is not an indication of infinite
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19178  				 * loop or infinite recursion.
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19179  				 * But finding the same state doesn't mean that it's safe
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19180  				 * to stop processing the current state. The previous state
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19181  				 * hasn't yet reached bpf_exit, since state.branches > 0.
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19182  				 * Checking in_async_callback_fn alone is not enough either.
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19183  				 * Since the verifier still needs to catch infinite loops
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19184  				 * inside async callbacks.
-bfc6bb74e4f16a Alexei Starovoitov      2021-07-14  19185  				 */
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19186  				goto skip_inf_loop_check;
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19187  			}
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19188  			/* BPF open-coded iterators loop detection is special.
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19189  			 * states_maybe_looping() logic is too simplistic in detecting
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19190  			 * states that *might* be equivalent, because it doesn't know
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19191  			 * about ID remapping, so don't even perform it.
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19192  			 * See process_iter_next_call() and iter_active_depths_differ()
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19193  			 * for overview of the logic. When current and one of parent
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19194  			 * states are detected as equivalent, it's a good thing: we prove
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19195  			 * convergence and can stop simulating further iterations.
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19196  			 * It's safe to assume that iterator loop will finish, taking into
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19197  			 * account iter_next() contract of eventually returning
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19198  			 * sticky NULL result.
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19199  			 *
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19200  			 * Note, that states have to be compared exactly in this case because
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19201  			 * read and precision marks might not be finalized inside the loop.
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19202  			 * E.g. as in the program below:
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19203  			 *
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19204  			 *     1. r7 = -16
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19205  			 *     2. r6 = bpf_get_prandom_u32()
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19206  			 *     3. while (bpf_iter_num_next(&fp[-8])) {
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19207  			 *     4.   if (r6 != 42) {
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19208  			 *     5.     r7 = -32
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19209  			 *     6.     r6 = bpf_get_prandom_u32()
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19210  			 *     7.     continue
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19211  			 *     8.   }
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19212  			 *     9.   r0 = r10
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19213  			 *    10.   r0 += r7
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19214  			 *    11.   r8 = *(u64 *)(r0 + 0)
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19215  			 *    12.   r6 = bpf_get_prandom_u32()
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19216  			 *    13. }
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19217  			 *
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19218  			 * Here verifier would first visit path 1-3, create a checkpoint at 3
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19219  			 * with r7=-16, continue to 4-7,3. Existing checkpoint at 3 does
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19220  			 * not have read or precision mark for r7 yet, thus inexact states
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19221  			 * comparison would discard current state with r7=-32
-2793a8b015f7f1 Eduard Zingerman        2023-10-24  19222  			 * => unsafe memory access at 11 would not be caught.
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19223  			 */
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19224  			if (is_iter_next_insn(env, insn_idx)) {
-4f81c16f50baf6 Alexei Starovoitov      2024-03-05  19225  				if (states_equal(env, &sl->state, cur, RANGE_WITHIN)) {
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19226  					struct bpf_func_state *cur_frame;
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19227  					struct bpf_reg_state *iter_state, *iter_reg;
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19228  					int spi;
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19229  
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19230  					cur_frame = cur->frame[cur->curframe];
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19231  					/* btf_check_iter_kfuncs() enforces that
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19232  					 * iter state pointer is always the first arg
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19233  					 */
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19234  					iter_reg = &cur_frame->regs[BPF_REG_1];
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19235  					/* current state is valid due to states_equal(),
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19236  					 * so we can assume valid iter and reg state,
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19237  					 * no need for extra (re-)validations
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19238  					 */
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19239  					spi = __get_spi(iter_reg->off + iter_reg->var_off.value);
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19240  					iter_state = &func(env, iter_reg)->stack[spi].spilled_ptr;
-2a0992829ea386 Eduard Zingerman        2023-10-24  19241  					if (iter_state->iter.state == BPF_ITER_STATE_ACTIVE) {
-c9e31900b54cad Eduard Zingerman        2025-06-11  19242  						loop = true;
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19243  						goto hit;
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19244  					}
-2a0992829ea386 Eduard Zingerman        2023-10-24  19245  				}
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19246  				goto skip_inf_loop_check;
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19247  			}
-011832b97b311b Alexei Starovoitov      2024-03-05  19248  			if (is_may_goto_insn_at(env, insn_idx)) {
-2b2efe1937ca9f Alexei Starovoitov      2024-06-19  19249  				if (sl->state.may_goto_depth != cur->may_goto_depth &&
-2b2efe1937ca9f Alexei Starovoitov      2024-06-19  19250  				    states_equal(env, &sl->state, cur, RANGE_WITHIN)) {
-c9e31900b54cad Eduard Zingerman        2025-06-11  19251  					loop = true;
-011832b97b311b Alexei Starovoitov      2024-03-05  19252  					goto hit;
-011832b97b311b Alexei Starovoitov      2024-03-05  19253  				}
-011832b97b311b Alexei Starovoitov      2024-03-05  19254  			}
-588af0c506ec8e Eduard Zingerman        2025-09-10  19255  			if (bpf_calls_callback(env, insn_idx)) {
-4f81c16f50baf6 Alexei Starovoitov      2024-03-05  19256  				if (states_equal(env, &sl->state, cur, RANGE_WITHIN))
-ab5cfac139ab85 Eduard Zingerman        2023-11-21  19257  					goto hit;
-ab5cfac139ab85 Eduard Zingerman        2023-11-21  19258  				goto skip_inf_loop_check;
-ab5cfac139ab85 Eduard Zingerman        2023-11-21  19259  			}
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19260  			/* attempt to detect infinite loop to avoid unnecessary doomed work */
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19261  			if (states_maybe_looping(&sl->state, cur) &&
-4f81c16f50baf6 Alexei Starovoitov      2024-03-05  19262  			    states_equal(env, &sl->state, cur, EXACT) &&
-ab5cfac139ab85 Eduard Zingerman        2023-11-21  19263  			    !iter_active_depths_differ(&sl->state, cur) &&
-011832b97b311b Alexei Starovoitov      2024-03-05  19264  			    sl->state.may_goto_depth == cur->may_goto_depth &&
-ab5cfac139ab85 Eduard Zingerman        2023-11-21  19265  			    sl->state.callback_unroll_depth == cur->callback_unroll_depth) {
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19266  				verbose_linfo(env, insn_idx, "; ");
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19267  				verbose(env, "infinite loop detected at insn %d\n", insn_idx);
-b4d8239534fddc Eduard Zingerman        2023-10-24  19268  				verbose(env, "cur state:");
-1995edc5f9089e Kumar Kartikeya Dwivedi 2024-12-03  19269  				print_verifier_state(env, cur, cur->curframe, true);
-b4d8239534fddc Eduard Zingerman        2023-10-24  19270  				verbose(env, "old state:");
-1995edc5f9089e Kumar Kartikeya Dwivedi 2024-12-03  19271  				print_verifier_state(env, &sl->state, cur->curframe, true);
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19272  				return -EINVAL;
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19273  			}
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19274  			/* if the verifier is processing a loop, avoid adding new state
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19275  			 * too often, since different loop iterations have distinct
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19276  			 * states and may not help future pruning.
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19277  			 * This threshold shouldn't be too low to make sure that
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19278  			 * a loop with large bound will be rejected quickly.
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19279  			 * The most abusive loop will be:
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19280  			 * r1 += 1
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19281  			 * if r1 < 1000000 goto pc-2
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19282  			 * 1M insn_procssed limit / 100 == 10k peak states.
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19283  			 * This threshold shouldn't be too high either, since states
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19284  			 * at the end of the loop are likely to be useful in pruning.
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19285  			 */
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19286  skip_inf_loop_check:
-4b5ce570dbef57 Andrii Nakryiko         2023-03-09  19287  			if (!force_new_state &&
-98ddcf389d1bb7 Andrii Nakryiko         2023-03-02  19288  			    env->jmps_processed - env->prev_jmps_processed < 20 &&
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19289  			    env->insn_processed - env->prev_insn_processed < 100)
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19290  				add_new_state = false;
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19291  			goto miss;
-2589726d12a1b1 Alexei Starovoitov      2019-06-15  19292  		}
-c9e31900b54cad Eduard Zingerman        2025-06-11  19293  		/* See comments for mark_all_regs_read_and_precise() */
-c9e31900b54cad Eduard Zingerman        2025-06-11  19294  		loop = incomplete_read_marks(env, &sl->state);
-c9e31900b54cad Eduard Zingerman        2025-06-11  19295  		if (states_equal(env, &sl->state, cur, loop ? RANGE_WITHIN : NOT_EXACT)) {
-06accc8779c1d5 Andrii Nakryiko         2023-03-08  19296  hit:
-9f4686c41bdff0 Alexei Starovoitov      2019-04-01  19297  			sl->hit_cnt++;
-a3ce685dd01a78 Alexei Starovoitov      2019-06-28  19298  
-a3ce685dd01a78 Alexei Starovoitov      2019-06-28  19299  			/* if previous state reached the exit with precision and
-a7de265cb2d849 Rafael Passos           2024-04-17  19300  			 * current state is equivalent to it (except precision marks)
-a3ce685dd01a78 Alexei Starovoitov      2019-06-28  19301  			 * the precision needs to be propagated back in
-a3ce685dd01a78 Alexei Starovoitov      2019-06-28  19302  			 * the current state.
-a3ce685dd01a78 Alexei Starovoitov      2019-06-28  19303  			 */
-41f6f64e6999a8 Andrii Nakryiko         2023-12-05  19304  			if (is_jmp_point(env, env->insn_idx))
-baaebe0928bf32 Eduard Zingerman        2025-06-11 @19305  				err = err ? : push_jmp_history(env, cur, 0, 0);
-                                                                                              ^^^
-err needs to be initialized to zero at the start.  Btw, I really
-encourage people to use CONFIG_INIT_STACK_ALL_PATTERN=y in their
-testing.  (In production everyone should use
-CONFIG_INIT_STACK_ALL_ZERO=y).
+d045465fc6cbfa4 Trond Myklebust     2020-11-30  437  struct dentry *
+d045465fc6cbfa4 Trond Myklebust     2020-11-30  438  exportfs_decode_fh_raw(struct vfsmount *mnt, struct fid *fid, int fh_len,
+620c266f394932e Christian Brauner   2024-05-24  439  		       int fileid_type, unsigned int flags,
+d045465fc6cbfa4 Trond Myklebust     2020-11-30  440  		       int (*acceptable)(void *, struct dentry *),
+d045465fc6cbfa4 Trond Myklebust     2020-11-30  441  		       void *context)
+d37065cd6d6bbe9 Christoph Hellwig   2007-07-17  442  {
+39655164405940d Christoph Hellwig   2007-10-21  443  	const struct export_operations *nop = mnt->mnt_sb->s_export_op;
+638205375afdc8a Thomas Bertschinger 2025-09-10  444  	bool decode_cached = fileid_type & FILEID_CACHED;
+2596110a3994593 Christoph Hellwig   2007-10-21  445  	struct dentry *result, *alias;
+f3f8e17571934ea Al Viro             2008-08-11  446  	char nbuf[NAME_MAX+1];
+2596110a3994593 Christoph Hellwig   2007-10-21  447  	int err;
+d37065cd6d6bbe9 Christoph Hellwig   2007-07-17  448  
+4a530a7c751d27f Amir Goldstein      2024-10-11  449  	if (fileid_type < 0 || FILEID_USER_FLAGS(fileid_type))
+4a530a7c751d27f Amir Goldstein      2024-10-11  450  		return ERR_PTR(-EINVAL);
+4a530a7c751d27f Amir Goldstein      2024-10-11  451  
+2596110a3994593 Christoph Hellwig   2007-10-21  452  	/*
+2596110a3994593 Christoph Hellwig   2007-10-21  453  	 * Try to get any dentry for the given file handle from the filesystem.
+2596110a3994593 Christoph Hellwig   2007-10-21  454  	 */
+66c62769bcf6aa1 Amir Goldstein      2023-10-23  455  	if (!exportfs_can_decode_fh(nop))
+becfd1f37544798 Aneesh Kumar K.V    2011-01-29  456  		return ERR_PTR(-ESTALE);
+638205375afdc8a Thomas Bertschinger 2025-09-10  457  
+638205375afdc8a Thomas Bertschinger 2025-09-10  458  	if (decode_cached && !(nop->flags & EXPORT_OP_NONBLOCK))
+638205375afdc8a Thomas Bertschinger 2025-09-10  459  		return ERR_PTR(-EAGAIN);
+638205375afdc8a Thomas Bertschinger 2025-09-10  460  
+2596110a3994593 Christoph Hellwig   2007-10-21  461  	result = nop->fh_to_dentry(mnt->mnt_sb, fid, fh_len, fileid_type);
+09bb8bfffd29c3d NeilBrown           2016-08-04  462  	if (IS_ERR_OR_NULL(result))
+d045465fc6cbfa4 Trond Myklebust     2020-11-30  463  		return result;
+2596110a3994593 Christoph Hellwig   2007-10-21  464  
+620c266f394932e Christian Brauner   2024-05-24  465  	if ((flags & EXPORT_FH_DIR_ONLY) && !d_is_dir(result)) {
+620c266f394932e Christian Brauner   2024-05-24  466  		err = -ENOTDIR;
+620c266f394932e Christian Brauner   2024-05-24  467  		goto err_result;
+620c266f394932e Christian Brauner   2024-05-24  468  	}
+620c266f394932e Christian Brauner   2024-05-24  469  
+8a22efa15b46d52 Amir Goldstein      2018-03-09  470  	/*
+8a22efa15b46d52 Amir Goldstein      2018-03-09  471  	 * If no acceptance criteria was specified by caller, a disconnected
+8a22efa15b46d52 Amir Goldstein      2018-03-09  472  	 * dentry is also accepatable. Callers may use this mode to query if
+8a22efa15b46d52 Amir Goldstein      2018-03-09  473  	 * file handle is stale or to get a reference to an inode without
+8a22efa15b46d52 Amir Goldstein      2018-03-09  474  	 * risking the high overhead caused by directory reconnect.
+8a22efa15b46d52 Amir Goldstein      2018-03-09  475  	 */
+8a22efa15b46d52 Amir Goldstein      2018-03-09  476  	if (!acceptable)
+8a22efa15b46d52 Amir Goldstein      2018-03-09  477  		return result;
+8a22efa15b46d52 Amir Goldstein      2018-03-09  478  
+e36cb0b89ce20b4 David Howells       2015-01-29  479  	if (d_is_dir(result)) {
+2596110a3994593 Christoph Hellwig   2007-10-21  480  		/*
+2596110a3994593 Christoph Hellwig   2007-10-21  481  		 * This request is for a directory.
+2596110a3994593 Christoph Hellwig   2007-10-21  482  		 *
+2596110a3994593 Christoph Hellwig   2007-10-21  483  		 * On the positive side there is only one dentry for each
+2596110a3994593 Christoph Hellwig   2007-10-21  484  		 * directory inode.  On the negative side this implies that we
+2596110a3994593 Christoph Hellwig   2007-10-21  485  		 * to ensure our dentry is connected all the way up to the
+2596110a3994593 Christoph Hellwig   2007-10-21  486  		 * filesystem root.
+2596110a3994593 Christoph Hellwig   2007-10-21  487  		 */
+2596110a3994593 Christoph Hellwig   2007-10-21  488  		if (result->d_flags & DCACHE_DISCONNECTED) {
+638205375afdc8a Thomas Bertschinger 2025-09-10  489  			err = -EAGAIN;
+638205375afdc8a Thomas Bertschinger 2025-09-10  490  			if (decode_cached)
+638205375afdc8a Thomas Bertschinger 2025-09-10  491  				goto err_result;
+638205375afdc8a Thomas Bertschinger 2025-09-10  492  
+f3f8e17571934ea Al Viro             2008-08-11  493  			err = reconnect_path(mnt, result, nbuf);
+2596110a3994593 Christoph Hellwig   2007-10-21  494  			if (err)
+2596110a3994593 Christoph Hellwig   2007-10-21  495  				goto err_result;
+2596110a3994593 Christoph Hellwig   2007-10-21  496  		}
+2596110a3994593 Christoph Hellwig   2007-10-21  497  
+2596110a3994593 Christoph Hellwig   2007-10-21  498  		if (!acceptable(context, result)) {
+2596110a3994593 Christoph Hellwig   2007-10-21  499  			err = -EACCES;
+2596110a3994593 Christoph Hellwig   2007-10-21  500  			goto err_result;
+2596110a3994593 Christoph Hellwig   2007-10-21  501  		}
+2596110a3994593 Christoph Hellwig   2007-10-21  502  
+2596110a3994593 Christoph Hellwig   2007-10-21  503  		return result;
+2596110a3994593 Christoph Hellwig   2007-10-21  504  	} else {
+2596110a3994593 Christoph Hellwig   2007-10-21  505  		/*
+2596110a3994593 Christoph Hellwig   2007-10-21  506  		 * It's not a directory.  Life is a little more complicated.
+2596110a3994593 Christoph Hellwig   2007-10-21  507  		 */
+2596110a3994593 Christoph Hellwig   2007-10-21  508  		struct dentry *target_dir, *nresult;
+2596110a3994593 Christoph Hellwig   2007-10-21  509  
+2596110a3994593 Christoph Hellwig   2007-10-21  510  		/*
+2596110a3994593 Christoph Hellwig   2007-10-21  511  		 * See if either the dentry we just got from the filesystem
+2596110a3994593 Christoph Hellwig   2007-10-21  512  		 * or any alias for it is acceptable.  This is always true
+2596110a3994593 Christoph Hellwig   2007-10-21  513  		 * if this filesystem is exported without the subtreecheck
+2596110a3994593 Christoph Hellwig   2007-10-21  514  		 * option.  If the filesystem is exported with the subtree
+2596110a3994593 Christoph Hellwig   2007-10-21  515  		 * check option there's a fair chance we need to look at
+2596110a3994593 Christoph Hellwig   2007-10-21  516  		 * the parent directory in the file handle and make sure
+2596110a3994593 Christoph Hellwig   2007-10-21  517  		 * it's connected to the filesystem root.
+2596110a3994593 Christoph Hellwig   2007-10-21  518  		 */
+2596110a3994593 Christoph Hellwig   2007-10-21  519  		alias = find_acceptable_alias(result, acceptable, context);
+2596110a3994593 Christoph Hellwig   2007-10-21  520  		if (alias)
+2596110a3994593 Christoph Hellwig   2007-10-21  521  			return alias;
+2596110a3994593 Christoph Hellwig   2007-10-21  522  
+2596110a3994593 Christoph Hellwig   2007-10-21  523  		/*
+2596110a3994593 Christoph Hellwig   2007-10-21  524  		 * Try to extract a dentry for the parent directory from the
+2596110a3994593 Christoph Hellwig   2007-10-21  525  		 * file handle.  If this fails we'll have to give up.
+2596110a3994593 Christoph Hellwig   2007-10-21  526  		 */
+2596110a3994593 Christoph Hellwig   2007-10-21  527  		err = -ESTALE;
+2596110a3994593 Christoph Hellwig   2007-10-21  528  		if (!nop->fh_to_parent)
+2596110a3994593 Christoph Hellwig   2007-10-21  529  			goto err_result;
+2596110a3994593 Christoph Hellwig   2007-10-21  530  
+2596110a3994593 Christoph Hellwig   2007-10-21  531  		target_dir = nop->fh_to_parent(mnt->mnt_sb, fid,
+2596110a3994593 Christoph Hellwig   2007-10-21  532  				fh_len, fileid_type);
+a4f4d6df5373682 J. Bruce Fields     2008-12-08  533  		if (!target_dir)
+a4f4d6df5373682 J. Bruce Fields     2008-12-08  534  			goto err_result;
+2596110a3994593 Christoph Hellwig   2007-10-21  535  		err = PTR_ERR(target_dir);
+2596110a3994593 Christoph Hellwig   2007-10-21  536  		if (IS_ERR(target_dir))
+2596110a3994593 Christoph Hellwig   2007-10-21  537  			goto err_result;
+638205375afdc8a Thomas Bertschinger 2025-09-10  538  		err = -EAGAIN;
+638205375afdc8a Thomas Bertschinger 2025-09-10 @539  		if (decode_cached & (target_dir->d_flags & DCACHE_DISCONNECTED)) {
 
+It needs to be &&.  DCACHE_DISCONNECTED is BIT(5).
 
-23b37d616565c8 Eduard Zingerman        2025-06-11  19306  			err = err ? : propagate_precision(env, &sl->state, cur, NULL);
-f4d7e40a5b7157 Alexei Starovoitov      2017-12-14  19307  			if (err)
-f4d7e40a5b7157 Alexei Starovoitov      2017-12-14  19308  				return err;
-c9e31900b54cad Eduard Zingerman        2025-06-11  19309  			/* When processing iterator based loops above propagate_liveness and
-c9e31900b54cad Eduard Zingerman        2025-06-11  19310  			 * propagate_precision calls are not sufficient to transfer all relevant
-c9e31900b54cad Eduard Zingerman        2025-06-11  19311  			 * read and precision marks. E.g. consider the following case:
+638205375afdc8a Thomas Bertschinger 2025-09-10  540  			goto err_result;
+638205375afdc8a Thomas Bertschinger 2025-09-10  541  		}
+2596110a3994593 Christoph Hellwig   2007-10-21  542  
+2596110a3994593 Christoph Hellwig   2007-10-21  543  		/*
+2596110a3994593 Christoph Hellwig   2007-10-21  544  		 * And as usual we need to make sure the parent directory is
+2596110a3994593 Christoph Hellwig   2007-10-21  545  		 * connected to the filesystem root.  The VFS really doesn't
+2596110a3994593 Christoph Hellwig   2007-10-21  546  		 * like disconnected directories..
+2596110a3994593 Christoph Hellwig   2007-10-21  547  		 */
+f3f8e17571934ea Al Viro             2008-08-11  548  		err = reconnect_path(mnt, target_dir, nbuf);
+2596110a3994593 Christoph Hellwig   2007-10-21  549  		if (err) {
+2596110a3994593 Christoph Hellwig   2007-10-21  550  			dput(target_dir);
+2596110a3994593 Christoph Hellwig   2007-10-21  551  			goto err_result;
+2596110a3994593 Christoph Hellwig   2007-10-21  552  		}
+2596110a3994593 Christoph Hellwig   2007-10-21  553  
+2596110a3994593 Christoph Hellwig   2007-10-21  554  		/*
+2596110a3994593 Christoph Hellwig   2007-10-21  555  		 * Now that we've got both a well-connected parent and a
+2596110a3994593 Christoph Hellwig   2007-10-21  556  		 * dentry for the inode we're after, make sure that our
+2596110a3994593 Christoph Hellwig   2007-10-21  557  		 * inode is actually connected to the parent.
+2596110a3994593 Christoph Hellwig   2007-10-21  558  		 */
+e38f981758118d8 Christoph Hellwig   2007-10-21  559  		err = exportfs_get_name(mnt, target_dir, nbuf, result);
+a2ece088882666e Al Viro             2019-11-08  560  		if (err) {
+a2ece088882666e Al Viro             2019-11-08  561  			dput(target_dir);
+a2ece088882666e Al Viro             2019-11-08  562  			goto err_result;
+a2ece088882666e Al Viro             2019-11-08  563  		}
+a2ece088882666e Al Viro             2019-11-08  564  
+ce3490038971a20 NeilBrown           2025-06-09  565  		nresult = lookup_one_unlocked(mnt_idmap(mnt), &QSTR(nbuf), target_dir);
+2596110a3994593 Christoph Hellwig   2007-10-21  566  		if (!IS_ERR(nresult)) {
+a2ece088882666e Al Viro             2019-11-08  567  			if (unlikely(nresult->d_inode != result->d_inode)) {
+2596110a3994593 Christoph Hellwig   2007-10-21  568  				dput(nresult);
+a2ece088882666e Al Viro             2019-11-08  569  				nresult = ERR_PTR(-ESTALE);
+2596110a3994593 Christoph Hellwig   2007-10-21  570  			}
+2596110a3994593 Christoph Hellwig   2007-10-21  571  		}
+2596110a3994593 Christoph Hellwig   2007-10-21  572  		/*
+2596110a3994593 Christoph Hellwig   2007-10-21  573  		 * At this point we are done with the parent, but it's pinned
+2596110a3994593 Christoph Hellwig   2007-10-21  574  		 * by the child dentry anyway.
+2596110a3994593 Christoph Hellwig   2007-10-21  575  		 */
+2596110a3994593 Christoph Hellwig   2007-10-21  576  		dput(target_dir);
+2596110a3994593 Christoph Hellwig   2007-10-21  577  
+a2ece088882666e Al Viro             2019-11-08  578  		if (IS_ERR(nresult)) {
+a2ece088882666e Al Viro             2019-11-08  579  			err = PTR_ERR(nresult);
+a2ece088882666e Al Viro             2019-11-08  580  			goto err_result;
+a2ece088882666e Al Viro             2019-11-08  581  		}
+a2ece088882666e Al Viro             2019-11-08  582  		dput(result);
+a2ece088882666e Al Viro             2019-11-08  583  		result = nresult;
+a2ece088882666e Al Viro             2019-11-08  584  
+2596110a3994593 Christoph Hellwig   2007-10-21  585  		/*
+2596110a3994593 Christoph Hellwig   2007-10-21  586  		 * And finally make sure the dentry is actually acceptable
+2596110a3994593 Christoph Hellwig   2007-10-21  587  		 * to NFSD.
+2596110a3994593 Christoph Hellwig   2007-10-21  588  		 */
+2596110a3994593 Christoph Hellwig   2007-10-21  589  		alias = find_acceptable_alias(result, acceptable, context);
+2596110a3994593 Christoph Hellwig   2007-10-21  590  		if (!alias) {
+2596110a3994593 Christoph Hellwig   2007-10-21  591  			err = -EACCES;
+2596110a3994593 Christoph Hellwig   2007-10-21  592  			goto err_result;
+2596110a3994593 Christoph Hellwig   2007-10-21  593  		}
+2596110a3994593 Christoph Hellwig   2007-10-21  594  
+2596110a3994593 Christoph Hellwig   2007-10-21  595  		return alias;
+2596110a3994593 Christoph Hellwig   2007-10-21  596  	}
+2596110a3994593 Christoph Hellwig   2007-10-21  597  
+2596110a3994593 Christoph Hellwig   2007-10-21  598   err_result:
+2596110a3994593 Christoph Hellwig   2007-10-21  599  	dput(result);
+2596110a3994593 Christoph Hellwig   2007-10-21  600  	return ERR_PTR(err);
+10f11c341da8c0e Christoph Hellwig   2007-07-17  601  }
 
 -- 
 0-DAY CI Kernel Test Service
