@@ -1,120 +1,121 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1A3321435
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Sep 2025 16:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A9D28DC4
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Sep 2025 18:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757695690; cv=none; b=HGy3AS/XwvXVQkJeZJDPsXILAqnBCoZAYqlMit9QBW5Q+MSzmY8e8gzbTeVIMZecwa4gmnrA9y8EiJS/LU7v2p3XYuF7ZjPGzMVUSPmAzocKCrm+7RUzoT1X2FlcB5S2Sy4uL3CWfO5ibenfwMV0FROOorEcwKyMOCUNofnl2Hs=
+	t=1757701407; cv=none; b=abLYScznb5SxqZot8WMnnyC+UlUEnul1FoeFXWw4SeXgWW/pjxYnM7ZJXWHE89LHvFspsOHZ2Z10I8aF01govNqr1VHRvLfVyEoCbTSovLdw9CtRPMSTKXIoFM5ljdRhvtLBX1qAwCwLxEseP2covLOTVazuYWI4dbucVRcKp0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757695690; c=relaxed/simple;
-	bh=RvDEpeloizCGVbZM9h2TCHBDf+mfeFWHfJJ88MjWEOs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZIHsQdGwYojz0mkpNcUXQuXbjdXTs7ALsIgGGEiVhIBCtrgKD6d+RZ5t5Y2RBUMoXvDWgce0BMt3jZ9xS0vYSfHDesY2s93nSd4bWBorpiF9WQQC3tua9Q67z0JBzwjhQAAFdPmVpJnUBIfrheI2s6a1pquYzfKo/MMWTQwEwN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ettcUxyU; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757701407; c=relaxed/simple;
+	bh=R1UFnv9ahSRtHquTafowfm5tm6xIoo9cO/jjeqZCMHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cdxQoUBdRDDEOU2jivufqgdAd5Ooz2s/sVgNU+74HwKcisOXsR/4ejVDFDtTP9HGvSaeNqSesKEKb3aHIf76cnr7Bvu2dA2hd3Bod/cfEzTGrA5XOtEsBMett3KS3f9vkMWKN4/y4khJcUldmXZ+9fp/FEBKjUaRIwnF4/6rnsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ExzcBOU7; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ettcUxyU"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-24c8ef94e5dso17385385ad.1
-        for <oe-kbuild@lists.linux.dev>; Fri, 12 Sep 2025 09:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757695688; x=1758300488; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JojO/2M959zsBWVjUEkcgukb++2NDZNktHYDQOvCs0w=;
-        b=ettcUxyUZhPo6lKdBERSTkkKnUNkci5RwRQUpDSjiCOLxHjCUpBaCbsXRxYoeHOiBx
-         OU/OhRgh1XNcJjErVpPCUMzOYUjIGisAbM47lqMW78/9Cho6ZwhzAU1N3X5aEYi76Vam
-         7hBx9DQSxVtvm8MHJXQYU9Dx50KBwdLj0787c0qVKRr1Yct98AxOMQYMkBT8FIxXuKhD
-         B4L1/bQrMJB/K7jx3KFvDugJXspxQ/PxOj9/I5A63HDOIb8vRSFAeVebugW+yBkOt/oB
-         jXZfZkcD4xFz0C/Z3fV2hR2utI4jSg8hp1J0u8CvNq9XD9QR07xupKZTkky8PyM5zhgN
-         Kznw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757695688; x=1758300488;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JojO/2M959zsBWVjUEkcgukb++2NDZNktHYDQOvCs0w=;
-        b=SUv8DCoUXVRlexNvZvTqx8OcsklCGta9bN4MrtUtTFMcsCkOH8Osa+LyRKVEAhAG3r
-         vqei6w/1WIHbEqO3Qnj9UHAn2gd6dPU8W/AtopLQyFdq2hVYBVQMR1/u/gD258Zkaio7
-         YXO4075AfFmJABZQKaL081fpryAXgX0C7Ff11k7B3w5P3D/2wlyh4dKpV8N36CHZVZpJ
-         4W7JlV2Yk/w5KCzaDEJNoIV7SwM0grlKeC5Kv+AK9vQdrke/YMCFDakB1Mu94LzF+8yX
-         sCiyzcnMprz725lfu/eu1yoabYAuCgg5gucKLIzDYWNGn4U+Qty7DqlkJR7JgLPu38Ff
-         5nMA==
-X-Forwarded-Encrypted: i=1; AJvYcCX9IkkHAvQie2DUbyvbx3/nkS5nWO8N42AA+CTM8j4xa5lnDmb0RpcZ3tw71L9CXOc7gL0wxNetotU=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwROVgQjkxSdZGdGV+RUt5DhRw81IAacLZp6mOEXkOcZcl4T2o8
-	CH4xjaIdiw6zO8E+BFDpS2jSxKIUWtxad3cJlnCzt8FttBbEf1L8MT0m
-X-Gm-Gg: ASbGnctxMSiKH5blW3CjglADM0/8GH/Nv1NbN1m4F8WOzvuPIWPk7CQ9Cm9oK+3vfCq
-	DSOeGpca3xOBmgqu3lz1QRMDJbn4uIaih6ou/BFTJJxGLrRikm3rqKj/kl0D/A/b7I5xFE7vJQh
-	OFrBjPsCD75HuaHP2w184HLqOvNQdW96du89/LOeaxXkhHy2n2Coz0gaDgxsfhAcLH+qEqISMOj
-	hGrrE4UJ83TZjbl+2KmClo3WTtDggI/ur9m5iUA8OL2JoUtGYK8ecMgd1HOIklP444rkGKOMnWe
-	ST0cckP54jrY2IYIcFM7L0qSBCUJn2UyrXCQClukduFSmxE42fFf03efAYUkM4SIET0qdt2zrxG
-	5ChI2sohZ7cP8IIWxggAkbigIOt9SWdROLKvHlu1FsyuvHOgrbZFGaKJSZsM=
-X-Google-Smtp-Source: AGHT+IFbLPULombToQlgoB3lZt9f0p06h3JKUzxWJplHYpXNn/n7w1mHGDTg8MpZyVqCQim7jQ46fg==
-X-Received: by 2002:a17:902:e750:b0:24d:34:b9e7 with SMTP id d9443c01a7336-25bae8f39c5mr81665195ad.29.1757695688481;
-        Fri, 12 Sep 2025 09:48:08 -0700 (PDT)
-Received: from ?IPv6:2a03:83e0:115c:1:c48c:3b10:7546:af9b? ([2620:10d:c090:500::4:ca20])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b54a35b7e31sm5111359a12.11.2025.09.12.09.48.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 09:48:08 -0700 (PDT)
-Message-ID: <b620881ec86c8074731c1ff414dbb7aa8bade3a5.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v1 09/10] bpf: disable and remove registers
- chain based liveness
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, 
-	bpf@vger.kernel.org, ast@kernel.org, andrii@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net, 
-	martin.lau@linux.dev, kernel-team@fb.com, yonghong.song@linux.dev
-Date: Fri, 12 Sep 2025 09:48:06 -0700
-In-Reply-To: <202509120205.YfzyI2gp-lkp@intel.com>
-References: <202509120205.YfzyI2gp-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ExzcBOU7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757701406; x=1789237406;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=R1UFnv9ahSRtHquTafowfm5tm6xIoo9cO/jjeqZCMHw=;
+  b=ExzcBOU7/kvlACa/YRhr7BnwJh2NyEOZUUkWMPbepY9TzpcKaHtLj0Qj
+   n1EopW64WBWrXXhO63VP8EU5xTkqsUyR6grDoJLv385OV1QJtBQCQOJW/
+   SOfDZ3HZVPBEhkT9/jZNNcGM4fqyWELX205VkFBQhXusR+nEg+MQX3Ge6
+   XZk+CRpNX7/kU7cxNBQ9CRE1uDlYEBPGituKTETPdKbLp7hgczGV1KsNx
+   S4275NnhgjfI5pZQ6hG7A5kjcoNoJB3t1SpYayGxJnK0jyoQPqWrctL3X
+   vhQRlGp2zkzY1+E3Qz0A0os7YV1l5Bt7A1nxjdMbL1/d2mqkNcY6FVu5G
+   w==;
+X-CSE-ConnectionGUID: mIuDVZktQM2Yw+afDTPWIQ==
+X-CSE-MsgGUID: upH6ydDGSD2oHzQyouF/GQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11551"; a="59279503"
+X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; 
+   d="scan'208";a="59279503"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2025 11:23:25 -0700
+X-CSE-ConnectionGUID: 8pfn1K5cQ7aIkWONKeEpUQ==
+X-CSE-MsgGUID: LzmovL58T+yP5MjYxvSpZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; 
+   d="scan'208";a="173944270"
+Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 12 Sep 2025 11:23:24 -0700
+Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ux8Qc-0001AQ-1L;
+	Fri, 12 Sep 2025 18:23:22 +0000
+Date: Sat, 13 Sep 2025 02:22:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [morimoto:x5h-upstream-2025-09-12 6/13]
+ arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: serial@c0718000
+ (renesas,hscif-r8a78000): compatible: 'oneOf' conditional failed, one must
+ be fixed:
+Message-ID: <202509130238.VM1q3Ihx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 2025-09-12 at 11:17 +0300, Dan Carpenter wrote:
-> Hi Eduard,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/b=
-pf-bpf_verifier_state-cleaned-flag-instead-of-REG_LIVE_DONE/20250911-090604
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
-master
-> patch link:    https://lore.kernel.org/r/20250911010437.2779173-10-eddyz8=
-7%40gmail.com
-> patch subject: [PATCH bpf-next v1 09/10] bpf: disable and remove register=
-s chain based liveness
-> config: arm-randconfig-r071-20250911 (https://download.01.org/0day-ci/arc=
-hive/20250912/202509120205.YfzyI2gp-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 2=
-1857ae337e0892a5522b6e7337899caa61de2a6)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > Closes: https://lore.kernel.org/r/202509120205.YfzyI2gp-lkp@intel.com/
->=20
-> smatch warnings:
-> kernel/bpf/verifier.c:19305 is_state_visited() error: uninitialized symbo=
-l 'err'.
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-Hi Dan,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Hai Pham <hai.pham.ud@renesas.com>
+CC: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC: Vinh Nguyen <vinh.nguyen.xz@renesas.com>
+CC: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+CC: Khanh Le <khanh.le.xr@renesas.com>
+CC: Huy Bui <huy.bui.wm@renesas.com>
+CC: Phong Hoang <phong.hoang.wz@renesas.com>
 
-Thank you for the report, kernel test robot already notified me here:
-https://lore.kernel.org/bpf/20250911010437.2779173-1-eddyz87@gmail.com/T/#m=
-103a269f4c096b34043bef16fa5f1d629b794968
+tree:   https://github.com/morimoto/linux x5h-upstream-2025-09-12
+head:   0eb95c8741433390cd9b90399428fdddcbb54b7b
+commit: a2abdec2af0287e433eab131e0cb53dd6a4344d0 [6/13] arm64: dts: renesas: R8A78000: Add initial Ironhide support
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: arm64-randconfig-052-20250912 (https://download.01.org/0day-ci/archive/20250913/202509130238.VM1q3Ihx-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250913/202509130238.VM1q3Ihx-lkp@intel.com/reproduce)
 
-Thanks,
-Eduard
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202509130238.VM1q3Ihx-lkp@intel.com/
 
-[...]
+dtcheck warnings: (new ones prefixed by >>)
+   	'renesas,hscif-r8a78000' is not one of ['renesas,hscif-r8a7778', 'renesas,hscif-r8a7779']
+   	'renesas,hscif-r8a78000' is not one of ['renesas,hscif-r8a7742', 'renesas,hscif-r8a7743', 'renesas,hscif-r8a7744', 'renesas,hscif-r8a7745', 'renesas,hscif-r8a77470', 'renesas,hscif-r8a7790', 'renesas,hscif-r8a7791', 'renesas,hscif-r8a7792', 'renesas,hscif-r8a7793', 'renesas,hscif-r8a7794']
+   	'renesas,hscif-r8a78000' is not one of ['renesas,hscif-r8a774a1', 'renesas,hscif-r8a774b1', 'renesas,hscif-r8a774c0', 'renesas,hscif-r8a774e1', 'renesas,hscif-r8a7795', 'renesas,hscif-r8a7796', 'renesas,hscif-r8a77961', 'renesas,hscif-r8a77965', 'renesas,hscif-r8a77970', 'renesas,hscif-r8a77980', 'renesas,hscif-r8a77990', 'renesas,hscif-r8a77995']
+   	'renesas,hscif-r8a78000' is not one of ['renesas,hscif-r8a779a0', 'renesas,hscif-r8a779f0', 'renesas,hscif-r8a779g0', 'renesas,hscif-r8a779h0']
+   	'renesas,rcar-gen1-hscif' was expected
+   	'renesas,rcar-gen2-hscif' was expected
+   	'renesas,rcar-gen3-hscif' was expected
+   	'renesas,rcar-gen4-hscif' was expected
+   	'renesas,rcar-gen5-hscif' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/renesas,hscif.yaml#
+>> arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: serial@c0718000 (renesas,hscif-r8a78000): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['renesas,hscif-r8a78000', 'renesas,hscif'] is too short
+   	'renesas,hscif-r8a78000' is not one of ['renesas,hscif-r8a7778', 'renesas,hscif-r8a7779']
+   	'renesas,hscif-r8a78000' is not one of ['renesas,hscif-r8a7742', 'renesas,hscif-r8a7743', 'renesas,hscif-r8a7744', 'renesas,hscif-r8a7745', 'renesas,hscif-r8a77470', 'renesas,hscif-r8a7790', 'renesas,hscif-r8a7791', 'renesas,hscif-r8a7792', 'renesas,hscif-r8a7793', 'renesas,hscif-r8a7794']
+   	'renesas,hscif-r8a78000' is not one of ['renesas,hscif-r8a774a1', 'renesas,hscif-r8a774b1', 'renesas,hscif-r8a774c0', 'renesas,hscif-r8a774e1', 'renesas,hscif-r8a7795', 'renesas,hscif-r8a7796', 'renesas,hscif-r8a77961', 'renesas,hscif-r8a77965', 'renesas,hscif-r8a77970', 'renesas,hscif-r8a77980', 'renesas,hscif-r8a77990', 'renesas,hscif-r8a77995']
+   	'renesas,hscif-r8a78000' is not one of ['renesas,hscif-r8a779a0', 'renesas,hscif-r8a779f0', 'renesas,hscif-r8a779g0', 'renesas,hscif-r8a779h0']
+   	'renesas,rcar-gen1-hscif' was expected
+   	'renesas,rcar-gen2-hscif' was expected
+   	'renesas,rcar-gen3-hscif' was expected
+   	'renesas,rcar-gen4-hscif' was expected
+   	'renesas,rcar-gen5-hscif' was expected
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
