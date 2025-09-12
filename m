@@ -1,191 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE09A3081B8
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Sep 2025 13:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F421521D3E6
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Sep 2025 15:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757685285; cv=none; b=UcN8qrpxjzAaSzhnNmXrKpq9wzW8W+eUkNJeXxRgIfm062ribV/waMR5moYf9SxI120h82NuG+t32yYvSg4uT0/nqRX9Fkd9DuHPpGjlN0+/19O0nb2DpDuJqVFPqieMFZ7LATIYxCS/mHsTn2aFdeTFNWZ7ndFM088wJVLkvC4=
+	t=1757689647; cv=none; b=NTyrKYFsYeolHEHhvEwBKiJr1uQ53jfZ5TTVes+dr0gxJhuYXa6OCIukImsp1wKyAhqoZ8Q+8+T92eglXW+RqJiJNyZg7o+m7mLlOKhM2DGUIPrZsMgt4I9fxd3fLFEIgZZen76jisL62/vDbyxxx3CNgwTU47ZMnSLkBgu2BLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757685285; c=relaxed/simple;
-	bh=UF1NTypsK0YifXyGHVXLPAQgfVj6LQ+tTwlEo4YCcJs=;
+	s=arc-20240116; t=1757689647; c=relaxed/simple;
+	bh=vRPCAqNcKNL8RamQOKQgZKTxSjX0Ora8YD4TxlDbkKo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NoXjoXF8Bd1saZQBYIK234D5knMC35vlsmflhehkL09Q1MsR56cC6QU7UwX32czBEVOQ0JpwwlfBHK80qTQ255O1oYQkboMhk5LbYIcYGgYvKn2Eo3OD6l5XDXbRnNdN6+XqrfTRI/aMK46wqBJSU9Nzk9Ull/8ogZxiLC9X2KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zx+Edxq1; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=NJKCKXfV4FdTpCLJe7OXoXNo+kV7jYW9s/7JrWB4Yd7YN35pg3tvemF5l0Xtbq2Tej9m7xmn3e5TqPmO/fDMTiipRcXdad7KvzuSSi0yZTeTmeJL/DIiqF70Hpibwdne86HRMP4MUoc5LL4iqzKMP4Mi0Z8c0vcKcW/RKVD9vzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SV0wW5Eq; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zx+Edxq1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SV0wW5Eq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757685284; x=1789221284;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=UF1NTypsK0YifXyGHVXLPAQgfVj6LQ+tTwlEo4YCcJs=;
-  b=Zx+Edxq1Ao+yRZmanRcaPKd/U6Xp/8HaFNxa4GyOm5jg+rGKFZul7a4p
-   D1iF0+4xVSXBAQH9NyGnk9/Yxt4TwXcEGF+mHWrWQGRlsM8iHzw2zJMym
-   3Vk63jQe4ss/3Qz4aP8uWQZyZPgrWFA7gunafjqeKKYIz0ewgpL31ypU5
-   Qro1bAyPgRsX+IqGXg7vv6s/WHn9nz+4rg7l+tfHQrQO+HEVgPedJykZp
-   fdEf9rRxgEMR+Ajx/C0m2zWm07tu2d2L/KTeg4GQprGUKAiDH9Q74AeZS
-   KK6RTgyOAprDpTTRRR58hQg/wIuVZArBJ6T97lOf8zH72sCjeChX0jxL3
-   A==;
-X-CSE-ConnectionGUID: pmJAkc5DRWuUtdi1uYkAWg==
-X-CSE-MsgGUID: nbtPaV8aSpWJZlvjtcVEOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11551"; a="60139409"
+  t=1757689645; x=1789225645;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vRPCAqNcKNL8RamQOKQgZKTxSjX0Ora8YD4TxlDbkKo=;
+  b=SV0wW5Eqq01vEYAoUgHvEu+cfVNOZYxWGStqW+1tmJjsyyhLLqdYBojS
+   fuN2ZQxccs0LnlvDLrFgNu0SOlsb/UA9R6bw1+0Zn81bCqp+IYqKBWeyv
+   9a6kQkVUnLsXZtI/RNgXVgWAigPaPXhdRzJzHtoZwQiGhqQ3ZS87PGaFO
+   eXb9MJKlMfOSQP/hgemKm91U3RXsLZ+b6DelOP5i2HqFMnoBJHReN97Hk
+   nktoJpalbDNhdSCjS8UN6lTF1eBuW2azZlaoV3geIi1OJrbOx2dwwq58J
+   T2Or5A40eboMBClApkt1GpTH9iLV+F18fP63MmHW5et95SwqbHWGnk2QP
+   g==;
+X-CSE-ConnectionGUID: uYFAqQOkQBuUl3T7iHehdg==
+X-CSE-MsgGUID: Hkv5x19eTXOg4TPXJ4h2dQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11551"; a="63667895"
 X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; 
-   d="scan'208";a="60139409"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2025 06:54:43 -0700
-X-CSE-ConnectionGUID: DOBx+ZHvRG2//qpa00drXw==
-X-CSE-MsgGUID: ZaGpu+iKRoqZh8vOtpDbkA==
+   d="scan'208";a="63667895"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2025 08:07:24 -0700
+X-CSE-ConnectionGUID: VNTOPtz/RtS8rBgAdxqr2A==
+X-CSE-MsgGUID: Voi0HMlzQoSlRj+6/HkILQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; 
-   d="scan'208";a="204749942"
+   d="scan'208";a="178330319"
 Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 12 Sep 2025 06:54:41 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 12 Sep 2025 08:07:23 -0700
 Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ux4EY-00012O-2w;
-	Fri, 12 Sep 2025 13:54:38 +0000
-Date: Fri, 12 Sep 2025 21:53:43 +0800
+	id 1ux5Mu-000144-2o;
+	Fri, 12 Sep 2025 15:07:20 +0000
+Date: Fri, 12 Sep 2025 23:07:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 7388/8719] drivers/gpu/drm/xe/xe_pxp_submit.c:133
- allocate_gsc_client_resources() error: uninitialized symbol 'bo'.
-Message-ID: <202509122123.Tv76XiqQ-lkp@intel.com>
+Subject: [bcachefs:bcachefs-testing 408/413] fs/bcachefs/rebalance.c:269
+ bch2_bkey_needs_rebalance() warn: potential ! vs ~ typo
+Message-ID: <202509122223.5KcPTtzo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-CC: Matthew Brost <matthew.brost@intel.com>
+CC: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   590b221ed4256fd6c34d3dea77aa5bd6e741bbc1
-commit: 59eabff2a3524d7f3bf6c24890cd197c4c116fcb [7388/8719] drm/xe: Convert xe_bo_create_pin_map() for exhaustive eviction
-:::::: branch date: 8 hours ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20250911 (https://download.01.org/0day-ci/archive/20250912/202509122123.Tv76XiqQ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   bb2535dc2fde90827c6c5f396f650218c1708fa2
+commit: 15b69edd603293d247aa78c34a249e414789ce90 [408/413] bcachefs: rebalance now supports checking/changing checksum type
+:::::: branch date: 11 hours ago
+:::::: commit date: 13 hours ago
+config: hexagon-randconfig-r071-20250912 (https://download.01.org/0day-ci/archive/20250912/202509122223.5KcPTtzo-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202509122123.Tv76XiqQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509122223.5KcPTtzo-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/xe/xe_pxp_submit.c:133 allocate_gsc_client_resources() error: uninitialized symbol 'bo'.
+New smatch warnings:
+fs/bcachefs/rebalance.c:269 bch2_bkey_needs_rebalance() warn: potential ! vs ~ typo
 
-vim +/bo +133 drivers/gpu/drm/xe/xe_pxp_submit.c
+Old smatch warnings:
+fs/bcachefs/rebalance.c:1255 check_rebalance_work_one() error: we previously assumed 'extent_k.k' could be null (see line 1248)
+fs/bcachefs/rebalance.c:1258 check_rebalance_work_one() error: we previously assumed 'rebalance_k.k' could be null (see line 1249)
 
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   83  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   84  #define PXP_BB_SIZE		XE_PAGE_SIZE
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   85  static int allocate_gsc_client_resources(struct xe_gt *gt,
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   86  					 struct xe_pxp_gsc_client_resources *gsc_res,
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   87  					 size_t inout_size)
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   88  {
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   89  	struct xe_tile *tile = gt_to_tile(gt);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   90  	struct xe_device *xe = tile_to_xe(tile);
-59eabff2a3524d Thomas Hellström       2025-09-08   91  	struct xe_validation_ctx ctx;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   92  	struct xe_hw_engine *hwe;
-59eabff2a3524d Thomas Hellström       2025-09-08   93  	struct drm_exec exec;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   94  	struct xe_vm *vm;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   95  	struct xe_bo *bo;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   96  	struct xe_exec_queue *q;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   97  	struct dma_fence *fence;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   98  	long timeout;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29   99  	int err = 0;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  100  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  101  	hwe = xe_gt_hw_engine(gt, XE_ENGINE_CLASS_OTHER, 0, true);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  102  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  103  	/* we shouldn't reach here if the GSC engine is not available */
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  104  	xe_assert(xe, hwe);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  105  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  106  	/* PXP instructions must be issued from PPGTT */
-9337166fa1d80f Piotr Piórkowski       2025-08-11  107  	vm = xe_vm_create(xe, XE_VM_FLAG_GSC, NULL);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  108  	if (IS_ERR(vm))
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  109  		return PTR_ERR(vm);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  110  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  111  	/* We allocate a single object for the batch and the in/out memory */
-59eabff2a3524d Thomas Hellström       2025-09-08  112  
-59eabff2a3524d Thomas Hellström       2025-09-08  113  	xe_validation_guard(&ctx, &xe->val, &exec, (struct xe_val_flags){}, err) {
-59eabff2a3524d Thomas Hellström       2025-09-08  114  		err = xe_vm_drm_exec_lock(vm, &exec);
-59eabff2a3524d Thomas Hellström       2025-09-08  115  		drm_exec_retry_on_contention(&exec);
-59eabff2a3524d Thomas Hellström       2025-09-08  116  		if (err)
-59eabff2a3524d Thomas Hellström       2025-09-08  117  			break;
-59eabff2a3524d Thomas Hellström       2025-09-08  118  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  119  		bo = xe_bo_create_pin_map(xe, tile, vm, PXP_BB_SIZE + inout_size * 2,
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  120  					  ttm_bo_type_kernel,
-59eabff2a3524d Thomas Hellström       2025-09-08  121  					  XE_BO_FLAG_SYSTEM | XE_BO_FLAG_PINNED |
-59eabff2a3524d Thomas Hellström       2025-09-08  122  					  XE_BO_FLAG_NEEDS_UC, &exec);
-59eabff2a3524d Thomas Hellström       2025-09-08  123  		drm_exec_retry_on_contention(&exec);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  124  		if (IS_ERR(bo)) {
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  125  			err = PTR_ERR(bo);
-59eabff2a3524d Thomas Hellström       2025-09-08  126  			xe_validation_retry_on_oom(&ctx, &err);
-59eabff2a3524d Thomas Hellström       2025-09-08  127  			break;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  128  		}
-59eabff2a3524d Thomas Hellström       2025-09-08  129  	}
-59eabff2a3524d Thomas Hellström       2025-09-08  130  	if (err)
-59eabff2a3524d Thomas Hellström       2025-09-08  131  		goto vm_out;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  132  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29 @133  	fence = xe_vm_bind_kernel_bo(vm, bo, NULL, 0, XE_CACHE_WB);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  134  	if (IS_ERR(fence)) {
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  135  		err = PTR_ERR(fence);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  136  		goto bo_out;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  137  	}
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  138  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  139  	timeout = dma_fence_wait_timeout(fence, false, HZ);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  140  	dma_fence_put(fence);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  141  	if (timeout <= 0) {
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  142  		err = timeout ?: -ETIME;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  143  		goto bo_out;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  144  	}
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  145  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  146  	q = xe_exec_queue_create(xe, vm, BIT(hwe->logical_instance), 1, hwe,
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  147  				 EXEC_QUEUE_FLAG_KERNEL |
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  148  				 EXEC_QUEUE_FLAG_PERMANENT, 0);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  149  	if (IS_ERR(q)) {
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  150  		err = PTR_ERR(q);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  151  		goto bo_out;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  152  	}
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  153  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  154  	gsc_res->vm = vm;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  155  	gsc_res->bo = bo;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  156  	gsc_res->inout_size = inout_size;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  157  	gsc_res->batch = IOSYS_MAP_INIT_OFFSET(&bo->vmap, 0);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  158  	gsc_res->msg_in = IOSYS_MAP_INIT_OFFSET(&bo->vmap, PXP_BB_SIZE);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  159  	gsc_res->msg_out = IOSYS_MAP_INIT_OFFSET(&bo->vmap, PXP_BB_SIZE + inout_size);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  160  	gsc_res->q = q;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  161  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  162  	/* initialize host-session-handle (for all Xe-to-gsc-firmware PXP cmds) */
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  163  	gsc_res->host_session_handle = xe_gsc_create_host_session_id();
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  164  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  165  	return 0;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  166  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  167  bo_out:
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  168  	xe_bo_unpin_map_no_vm(bo);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  169  vm_out:
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  170  	xe_vm_close_and_put(vm);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  171  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  172  	return err;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  173  }
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  174  
+vim +269 fs/bcachefs/rebalance.c
 
-:::::: The code at line 133 was first introduced by commit
-:::::: dcdd6b84d9acaa0794c29de7024cfdb20cfd7b92 drm/xe/pxp: Allocate PXP execution resources
-
-:::::: TO: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-:::::: CC: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+6366b1a9a814ba Kent Overstreet 2025-08-19  219  
+6366b1a9a814ba Kent Overstreet 2025-08-19  220  	unsigned compression_type = bch2_compression_opt_to_type(r.background_compression);
+15b69edd603293 Kent Overstreet 2025-09-01  221  	unsigned csum_type	= bch2_data_checksum_type_rb(c, r);
+6366b1a9a814ba Kent Overstreet 2025-08-19  222  
+6366b1a9a814ba Kent Overstreet 2025-08-19  223  	bool incompressible = false, unwritten = false, ec = false;
+6366b1a9a814ba Kent Overstreet 2025-08-19  224  	unsigned durability = 0, min_durability = INT_MAX;
+161d13835e38e4 Kent Overstreet 2024-10-28  225  
+161d13835e38e4 Kent Overstreet 2024-10-28  226  	const union bch_extent_entry *entry;
+161d13835e38e4 Kent Overstreet 2024-10-28  227  	struct extent_ptr_decoded p;
+15ba41fcbf6130 Kent Overstreet 2025-08-20  228  	unsigned ptr_idx = 1;
+161d13835e38e4 Kent Overstreet 2024-10-28  229  
+15ba41fcbf6130 Kent Overstreet 2025-08-20  230  	guard(rcu)();
+161d13835e38e4 Kent Overstreet 2024-10-28  231  	bkey_for_each_ptr_decode(k.k, ptrs, p, entry) {
+15ba41fcbf6130 Kent Overstreet 2025-08-20  232  		incompressible	|= p.crc.compression_type == BCH_COMPRESSION_TYPE_incompressible;
+15ba41fcbf6130 Kent Overstreet 2025-08-20  233  		unwritten	|= p.ptr.unwritten;
+161d13835e38e4 Kent Overstreet 2024-10-28  234  
+15ba41fcbf6130 Kent Overstreet 2025-08-20  235  		if (!p.ptr.cached) {
+6366b1a9a814ba Kent Overstreet 2025-08-19  236  			if (p.crc.compression_type != compression_type) {
+15ba41fcbf6130 Kent Overstreet 2025-08-20  237  				*compress_ptrs |= ptr_idx;
+6366b1a9a814ba Kent Overstreet 2025-08-19  238  				r.need_rb |= BIT(BCH_REBALANCE_background_compression);
+161d13835e38e4 Kent Overstreet 2024-10-28  239  			}
+161d13835e38e4 Kent Overstreet 2024-10-28  240  
+15b69edd603293 Kent Overstreet 2025-09-01  241  			if (p.crc.csum_type != csum_type) {
+15b69edd603293 Kent Overstreet 2025-09-01  242  				*csum_ptrs |= ptr_idx;
+15b69edd603293 Kent Overstreet 2025-09-01  243  				r.need_rb |= BIT(BCH_REBALANCE_data_checksum);
+15b69edd603293 Kent Overstreet 2025-09-01  244  			}
+15b69edd603293 Kent Overstreet 2025-09-01  245  
+6366b1a9a814ba Kent Overstreet 2025-08-19  246  			if (r.background_target &&
+6366b1a9a814ba Kent Overstreet 2025-08-19  247  			    !bch2_dev_in_target(c, p.ptr.dev, r.background_target)) {
+6366b1a9a814ba Kent Overstreet 2025-08-19  248  				*move_ptrs |= ptr_idx;
+6366b1a9a814ba Kent Overstreet 2025-08-19  249  				r.need_rb |= BIT(BCH_REBALANCE_background_target);
+161d13835e38e4 Kent Overstreet 2024-10-28  250  			}
+161d13835e38e4 Kent Overstreet 2024-10-28  251  
+6366b1a9a814ba Kent Overstreet 2025-08-19  252  			unsigned d = bch2_extent_ptr_durability(c, &p);
+6366b1a9a814ba Kent Overstreet 2025-08-19  253  			durability += d;
+6366b1a9a814ba Kent Overstreet 2025-08-19  254  			min_durability = min(min_durability, d);
+161d13835e38e4 Kent Overstreet 2024-10-28  255  
+6366b1a9a814ba Kent Overstreet 2025-08-19  256  			ec |= p.has_ec;
+6366b1a9a814ba Kent Overstreet 2025-08-19  257  		}
+8c087d2ddf5d4d Kent Overstreet 2025-03-11  258  
+15ba41fcbf6130 Kent Overstreet 2025-08-20  259  		ptr_idx <<= 1;
+15ba41fcbf6130 Kent Overstreet 2025-08-20  260  	}
+161d13835e38e4 Kent Overstreet 2024-10-28  261  
+6366b1a9a814ba Kent Overstreet 2025-08-19  262  	if (unwritten || incompressible) {
+6366b1a9a814ba Kent Overstreet 2025-08-19  263  		*compress_ptrs = 0;
+6366b1a9a814ba Kent Overstreet 2025-08-19  264  		r.need_rb &= ~BIT(BCH_REBALANCE_background_compression);
+161d13835e38e4 Kent Overstreet 2024-10-28  265  	}
+15b69edd603293 Kent Overstreet 2025-09-01  266  
+15b69edd603293 Kent Overstreet 2025-09-01  267  	if (unwritten) {
+15b69edd603293 Kent Overstreet 2025-09-01  268  		*csum_ptrs = 0;
+15b69edd603293 Kent Overstreet 2025-09-01 @269  		r.need_rb &= !BIT(BCH_REBALANCE_data_checksum);
+15b69edd603293 Kent Overstreet 2025-09-01  270  	}
+15b69edd603293 Kent Overstreet 2025-09-01  271  
+6366b1a9a814ba Kent Overstreet 2025-08-19  272  	return r;
+161d13835e38e4 Kent Overstreet 2024-10-28  273  }
+161d13835e38e4 Kent Overstreet 2024-10-28  274  
 
 -- 
 0-DAY CI Kernel Test Service
