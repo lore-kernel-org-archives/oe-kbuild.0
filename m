@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CDE289E36
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Sep 2025 09:59:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E192E8E0F
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Sep 2025 09:59:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757757576; cv=none; b=Dwoula2l8csKVL0148pUeZg2SNM8ZJwZbP1YtJa8ax4ERYJcDhPanQ/4GdQw3EZHyypB0q+9FK3cBBEKX63SgDGlcFwNDSX2+X8ULtwgc/BjVB25o7dHnvK8RZgnzwSzengjX87j8UoereTSWHH+v4V6xA8K6r18xK6sAwgu+AQ=
+	t=1757757578; cv=none; b=PNmyJRmspy8Yhft4ij0Sse7ScFAbmnNqPPNqJ/9DEL8wKs+zQ+DoBtDHIDK07QJxMs7LjI2O/fNYRDjWYU8/5WPyUaHH5A+tygRm4p9hCKuyVdSVSP/bP2/tOnMcRuVT+Q6nPERNey0q+fUTzcDjiHaqbFuOb0qzaZoS1DZp9vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757757576; c=relaxed/simple;
-	bh=PjmoHIJXygklQpC2w2l154zFlm3St2KmqGnvXDJLij8=;
+	s=arc-20240116; t=1757757578; c=relaxed/simple;
+	bh=JBG/aD0fd1rTK5mxsp5+q1vYobtV0oQVOswT1INEkBE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FHalPBesgYogob+2tJAWz/+HQSDv1VqoAC+U9/4+51cXPDA8Cc5W2UBEALz7jJULQpMCHc1EvwYp260iCGTI5f+//hp0H3NrmXYeVa6L7nABqw1WvcXlzYaeQ9cq8dM6oa3klaEHUYCVwNHjyWmycI/Y60nEZ43j68hkcnIeU3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=grhh0SiN; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=nPq+hw7RSYvXlMzDsqTnmTC6WWPLtZs2pNONZtmFs8Q3v4+MDra3tcYpshUp5cHhE905JUpZlDnN0iGKUh2X1/TpXZA3k6CIgoH+6poA6FrpBKk919uoYSMAG6kqsknrsjKfOBY7Z5+bwz7ZcLL7R8ULEKRTNO+yMAKCY6BwgGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SHmb0c1s; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="grhh0SiN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SHmb0c1s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757757575; x=1789293575;
+  t=1757757576; x=1789293576;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PjmoHIJXygklQpC2w2l154zFlm3St2KmqGnvXDJLij8=;
-  b=grhh0SiN3q0to6h8ki2r7xKqFuX3JzOputGcDOhty0rAVk3pwy4UD6PL
-   Lm3wGEuZ28p4z7P3fKE6ORestnttLq0za0A6FYezVjSLOnK/DwFdIZihV
-   cGLpZUZlZY4GYHj/5fFjn0BX1X1bySxtiKdRdlBb+l4O43Zf3rqi5BpVi
-   goDP1KOPe8QWkWubdqmywGORYo4Kqv9iYNXkWZQ4v5JfG95fGTAWgYZY/
-   uc7Iz2cbJfl6htrW/n0EiktMyNTFhZSV6DyFbJpIhiG29bQVeU2UAEkTP
-   hxRwuL1q2twwlP7/+ftR+LPHGZw1rHogYB8jWEXm/CYEC/tGeeYnBO8Sv
+  bh=JBG/aD0fd1rTK5mxsp5+q1vYobtV0oQVOswT1INEkBE=;
+  b=SHmb0c1sPGKmd9EGNtgtU0vscQYdi9WPZ6vydeDxI3Thb00LSjlydM1Z
+   ZJbaAlUXF5KtIRd0LO/IzBNzEa+aeQ22ODEZITcpqRq9QHsRYWldirh4w
+   z5ZqSWUuhON3yq/EL0rnSgkU/T5kXhjZAg8+bhspMSBUxH2niVUHJKJ0n
+   Khb5z4LxbMza84r9dLua47fFGPscyWa3YOCOB7xzFCI6Vx4ffabqSvEsU
+   R6Pt8wWzJmKzLgMX/EbsGzNmBOBJDA+nPVSlxK3AVHZD/LDKw4NiYtODH
+   ZBrqn3i054/ZJNanf1upmAgMTlowurJSJvfRWsvtafwXLGo1i7mc9o7eS
    Q==;
-X-CSE-ConnectionGUID: VEC8q+E1SV+ZtklA/K1MfQ==
-X-CSE-MsgGUID: SWgZct2ETUiPFqiueYqrRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11551"; a="59317224"
+X-CSE-ConnectionGUID: K0BrcJahRXap52dqm3EAyQ==
+X-CSE-MsgGUID: bmzLLvd8Qs6ZHdQXc2kPMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11551"; a="59317226"
 X-IronPort-AV: E=Sophos;i="6.18,261,1751266800"; 
-   d="scan'208";a="59317224"
+   d="scan'208";a="59317226"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2025 02:59:34 -0700
-X-CSE-ConnectionGUID: +gJqNGKVTaGfFGxQPA1P6Q==
-X-CSE-MsgGUID: KaBzAzJ0SyuBrhbQM/50nw==
+X-CSE-ConnectionGUID: 4FejyHqHRVG2JEydAVELmA==
+X-CSE-MsgGUID: BGPK5DhOSgmW3XnQEN7aaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,261,1751266800"; 
-   d="scan'208";a="173485621"
+   d="scan'208";a="173485623"
 Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
   by orviesa010.jf.intel.com with ESMTP; 13 Sep 2025 02:59:32 -0700
 Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uxN2Y-0001Ru-0k;
+	id 1uxN2Y-0001Rs-0M;
 	Sat, 13 Sep 2025 09:59:30 +0000
-Date: Sat, 13 Sep 2025 17:59:05 +0800
+Date: Sat, 13 Sep 2025 17:59:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [cel:nfsd-testing 45/50] fs/nfsd/nfs4recover.c:406 purge_old()
- error: uninitialized symbol 'child'.
-Message-ID: <202509131751.4STnDcZg-lkp@intel.com>
+Subject: [broonie-ci:20250912_sbinding_support_reading_subsystem_id_from_device_tree
+ 2/2] sound/soc/codecs/cs35l41.c:1163 cs35l41_get_system_name() warn: passing
+ zero to 'PTR_ERR'
+Message-ID: <202509131704.J6ztKjC1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,77 +65,82 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: NeilBrown <neil@brown.name>
-CC: Chuck Lever <chuck.lever@oracle.com>
-CC: Jeff Layton <jlayton@kernel.org>
+TO: Stefan Binding <sbinding@opensource.cirrus.com>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
-head:   454e99ac23dc63c1472eb5df8f97c961c0f178c9
-commit: 30424fb94b7bea14e27922669924948d6320e991 [45/50] nfsd: move name lookup out of nfsd4_list_rec_dir()
-:::::: branch date: 19 hours ago
-:::::: commit date: 5 days ago
-config: sparc64-randconfig-r072-20250913 (https://download.01.org/0day-ci/archive/20250913/202509131751.4STnDcZg-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git 20250912_sbinding_support_reading_subsystem_id_from_device_tree
+head:   6a7fa83fafcf594a3d2454b15afbae4e09c804fc
+commit: 6a7fa83fafcf594a3d2454b15afbae4e09c804fc [2/2] ASoC: cs35l41: Fallback to reading Subsystem ID property if not ACPI
+:::::: branch date: 23 hours ago
+:::::: commit date: 23 hours ago
+config: i386-randconfig-141-20250913 (https://download.01.org/0day-ci/archive/20250913/202509131704.J6ztKjC1-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202509131751.4STnDcZg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509131704.J6ztKjC1-lkp@intel.com/
 
-smatch warnings:
-fs/nfsd/nfs4recover.c:406 purge_old() error: uninitialized symbol 'child'.
+New smatch warnings:
+sound/soc/codecs/cs35l41.c:1163 cs35l41_get_system_name() warn: passing zero to 'PTR_ERR'
 
-vim +/child +406 fs/nfsd/nfs4recover.c
+Old smatch warnings:
+sound/soc/codecs/cs35l41.c:1117 cs35l41_dsp_init() warn: missing error code 'ret'
 
-c7b9a45927e74c8 NeilBrown         2005-06-23  397  
-c7b9a45927e74c8 NeilBrown         2005-06-23  398  static int
-30424fb94b7bea1 NeilBrown         2025-09-08  399  purge_old(struct dentry *parent, char *cname, struct nfsd_net *nn)
-c7b9a45927e74c8 NeilBrown         2005-06-23  400  {
-c7b9a45927e74c8 NeilBrown         2005-06-23  401  	int status;
-30424fb94b7bea1 NeilBrown         2025-09-08  402  	struct dentry *child;
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  403  	struct xdr_netobj name;
-c7b9a45927e74c8 NeilBrown         2005-06-23  404  
-30424fb94b7bea1 NeilBrown         2025-09-08  405  	if (strlen(cname) != HEXDIR_LEN - 1) {
-6b1891052a3f8e3 Scott Mayhew      2019-03-26 @406  		printk("%s: illegal name %pd in recovery directory\n",
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  407  				__func__, child);
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  408  		/* Keep trying; maybe the others are OK: */
-b37ad28bcaa7c48 Al Viro           2006-10-19  409  		return 0;
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  410  	}
-30424fb94b7bea1 NeilBrown         2025-09-08  411  	name.data = kstrdup(cname, GFP_KERNEL);
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  412  	if (!name.data) {
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  413  		dprintk("%s: failed to allocate memory for name.data!\n",
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  414  			__func__);
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  415  		goto out;
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  416  	}
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  417  	name.len = HEXDIR_LEN;
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  418  	if (nfs4_has_reclaimed_state(name, nn))
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  419  		goto out_free;
-c7b9a45927e74c8 NeilBrown         2005-06-23  420  
-30424fb94b7bea1 NeilBrown         2025-09-08  421  	inode_lock_nested(d_inode(parent), I_MUTEX_PARENT);
-30424fb94b7bea1 NeilBrown         2025-09-08  422  	child = lookup_one(&nop_mnt_idmap, &QSTR(cname), parent);
-30424fb94b7bea1 NeilBrown         2025-09-08  423  	if (!IS_ERR(child)) {
-abf08576afe3150 Christian Brauner 2023-01-13  424  		status = vfs_rmdir(&nop_mnt_idmap, d_inode(parent), child);
-c7b9a45927e74c8 NeilBrown         2005-06-23  425  		if (status)
-a6a9f18f0a9f943 Al Viro           2013-09-16  426  			printk("failed to remove client recovery directory %pd\n",
-a6a9f18f0a9f943 Al Viro           2013-09-16  427  			       child);
-30424fb94b7bea1 NeilBrown         2025-09-08  428  		dput(child);
-30424fb94b7bea1 NeilBrown         2025-09-08  429  	}
-30424fb94b7bea1 NeilBrown         2025-09-08  430  	inode_unlock(d_inode(parent));
-30424fb94b7bea1 NeilBrown         2025-09-08  431  
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  432  out_free:
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  433  	kfree(name.data);
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  434  out:
-c7b9a45927e74c8 NeilBrown         2005-06-23  435  	/* Keep trying, success or failure: */
-b37ad28bcaa7c48 Al Viro           2006-10-19  436  	return 0;
-c7b9a45927e74c8 NeilBrown         2005-06-23  437  }
-c7b9a45927e74c8 NeilBrown         2005-06-23  438  
+vim +/PTR_ERR +1163 sound/soc/codecs/cs35l41.c
 
-:::::: The code at line 406 was first introduced by commit
-:::::: 6b1891052a3f8e3c3217e8512bbed2fd6252977b nfsd: make nfs4_client_reclaim use an xdr_netobj instead of a fixed char array
-
-:::::: TO: Scott Mayhew <smayhew@redhat.com>
-:::::: CC: J. Bruce Fields <bfields@redhat.com>
+bae9e13fc55cbc David Rhodes   2021-10-29  1150  
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1151  static int cs35l41_get_system_name(struct cs35l41_private *cs35l41)
+c1ad138822a1be Stefan Binding 2022-07-07  1152  {
+1d44a30ae3f919 Stefan Binding 2025-02-05  1153  	struct acpi_device *adev = ACPI_COMPANION(cs35l41->dev);
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1154  	const char *sub = NULL;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1155  	const char *tmp;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1156  	int ret = 0;
+c1ad138822a1be Stefan Binding 2022-07-07  1157  
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1158  	/* If there is no acpi_device, there is no ACPI for this system, skip checking ACPI */
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1159  	if (adev) {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1160  		acpi_handle handle = acpi_device_handle(adev);
+c1ad138822a1be Stefan Binding 2022-07-07  1161  
+c1ad138822a1be Stefan Binding 2022-07-07  1162  		sub = acpi_get_subsystem_id(handle);
+6a7fa83fafcf59 Stefan Binding 2025-09-12 @1163  		ret = PTR_ERR(sub);
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1164  		if (ret) {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1165  			sub = NULL;
+1d44a30ae3f919 Stefan Binding 2025-02-05  1166  			/* If no _SUB, fallback to _HID, otherwise fail */
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1167  			if (ret == -ENODATA) {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1168  				tmp = acpi_device_hid(adev);
+1d44a30ae3f919 Stefan Binding 2025-02-05  1169  				/* If dummy hid, return 0 and fallback to legacy firmware path */
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1170  				if (!strcmp(tmp, "device")) {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1171  					ret = 0;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1172  					goto err;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1173  				}
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1174  				sub = kstrdup(tmp, GFP_KERNEL);
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1175  				if (!sub) {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1176  					ret = -ENOMEM;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1177  					goto err;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1178  				}
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1179  			}
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1180  		}
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1181  	} else {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1182  		if (!device_property_read_string(cs35l41->dev, "cirrus,subsystem-id", &tmp)) {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1183  			sub = kstrdup(tmp, GFP_KERNEL);
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1184  			if (!sub) {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1185  				ret = -ENOMEM;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1186  				goto err;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1187  			}
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1188  		}
+c1ad138822a1be Stefan Binding 2022-07-07  1189  	}
+c1ad138822a1be Stefan Binding 2022-07-07  1190  
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1191  err:
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1192  	if (sub) {
+c1ad138822a1be Stefan Binding 2022-07-07  1193  		cs35l41->dsp.system_name = sub;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1194  		dev_info(cs35l41->dev, "Subsystem ID: %s\n", cs35l41->dsp.system_name);
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1195  	} else
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1196  		dev_warn(cs35l41->dev, "Subsystem ID not found\n");
+c1ad138822a1be Stefan Binding 2022-07-07  1197  
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1198  	return ret;
+b19181638182d1 Stefan Binding 2025-02-10  1199  }
+c1ad138822a1be Stefan Binding 2022-07-07  1200  
 
 -- 
 0-DAY CI Kernel Test Service
