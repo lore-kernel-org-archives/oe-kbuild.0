@@ -1,204 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01255254855
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Sep 2025 22:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399661E7C2E;
+	Sun, 14 Sep 2025 01:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757801874; cv=none; b=NNAW23jiMmosbYh0ebeJECM2zGaht8ESDCQV+WwXNEuN6G/znboJouw5EVpuMb1wmg2QM9bbbjod418A3KcKTGDVhgOr2AWTJlGKp4ASCQ8KB7zjJ8nkdfD5SD83W2m3iQFES/164Oy46QHVXa6HYjzSUcAK0UuIvm/iVhkIIL4=
+	t=1757812006; cv=none; b=bjfoTshswfL0dRR61cHFhSwAEFFEi12dvI+owXY1naNAOmpYednpY9zUTdJBP8ODos9NP+3+SdwjCqIHl1urEgvudupbQ0So+En0w3nhCTLOg6+XW64vsJCf1TLJjewtG5XOPlJYdOgA1OsJqi1zG8IrfInkRhsi0hggLd0iBEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757801874; c=relaxed/simple;
-	bh=rqWam2YHFiuiTlAcPeMTFtK4JoZqXGYpZ8gbcz7Ajcs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HMPszwUZ+4wdw/JkHQGUTOYOH/pZDeHXYn/DXBPZn4uD8v/gYaHLhlWg3mtY6b57klDiuzHwIM3RndeWccK8miIvokATnFfjIdJrlT9wtyZYEtndRWxwxUM6wO3KqeWN0Ld0SOE1VwktcQhw2EH1VpeGYwZFwAj7Vb9/MgJJil0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oK3VFKc/; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757812006; c=relaxed/simple;
+	bh=TVqHWo3i6jLYJTTLpGVWzcbJpoMxfxiibDk65RrhFqI=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=d2GOeU59rVexHd/upU/l3mojW4bPk47jJlgRXnSNDdiuPuLlhpy6uB39mn9zrcmNpYzTMCHJTfWUvN0mhieWALvXQfd285zZ6W/So8XjYFdKqsDggnlYine2mxpEMa28gTfUTfyItwE4xBjTNzwerhViUslrxmE6/Lw8xmMQTU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=VYNhWWJm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fAlYu2Yl; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oK3VFKc/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757801873; x=1789337873;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rqWam2YHFiuiTlAcPeMTFtK4JoZqXGYpZ8gbcz7Ajcs=;
-  b=oK3VFKc/cGy1yno72nfSKANxVw93Iu2QcEKJBHuqOiKDv8GwZRJXeWEw
-   CXLTwzSBJ42umAVFxvURKy5+0igaCrVbXhxcN30Pv21tKFye1zE0/Mpcu
-   JURym6HJxUJLbqEp/fdiMH7ymMHXMVeCl2aLchxaAnvEwwJiCdIdRpO8J
-   +tgkYCH7M3BTMJbdDffknwVD4baeXQKajzVvrHVPkXcf9gHJNhl+w1llB
-   npKv71Pn376OzQzE41egAryPBjW7dfvK063VzsPJ+sdbgUv5m2ZoYT9qb
-   C71E7J8T21dtGZmnnyD2omtmeRSlsmKkdgqd2AaxwcCZzAFCH4de7keL7
-   A==;
-X-CSE-ConnectionGUID: ssXQuqoUSUmsfb9ZXW3yOg==
-X-CSE-MsgGUID: MytT1poAQlWNsbBLKiM7IA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11552"; a="71208074"
-X-IronPort-AV: E=Sophos;i="6.18,262,1751266800"; 
-   d="scan'208";a="71208074"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2025 15:17:53 -0700
-X-CSE-ConnectionGUID: IVYHTQ6AT3O5+2tbIR89cg==
-X-CSE-MsgGUID: h0Z6VejKS1qdNPEQt9kFJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,262,1751266800"; 
-   d="scan'208";a="173820776"
-Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 13 Sep 2025 15:17:51 -0700
-Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uxYZ2-0001u8-1y;
-	Sat, 13 Sep 2025 22:17:48 +0000
-Date: Sun, 14 Sep 2025 06:17:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 7605/8263] mm/vmscan.c:784 __remove_mapping()
- error: uninitialized symbol 'ci'.
-Message-ID: <202509140627.P9M0sfhq-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="VYNhWWJm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fAlYu2Yl"
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6B5731400051;
+	Sat, 13 Sep 2025 21:06:43 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Sat, 13 Sep 2025 21:06:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
+	1757812003; x=1757898403; bh=rSfY6gl0j29zFaD+vjhTSb1E1G02TWmHvd4
+	jnDpkRNU=; b=VYNhWWJmLWh8teTUHf/o9IscNeX2ki+HOJCsbeJklPhNGuyiNZr
+	criTj6Fs9IxfIuDxdPG1G9s2cxYVS/26/Xz8zxPR5tZcNohMnkNIWNHHKXz18GHa
+	4Yn7jEOsHmxZYBYnsIYL/WduFQTaWmQw2Oqkc6iyWI416C+jgsUmpUd6mXWP6G9B
+	NPZkxgMvK8wfsVSBYSKHs/nd3EkRmRcaf9G50Hkc5z8l3zpTVIlQcDYaseH4k3S9
+	0YMOpqasremVLPeIZpOzAop7tnnYV5YLm4vFQgFIYYqLLMku84tBkWEuxAQCfNKs
+	WEsoRT9t+w0r+absmtAIvKqbgxHF8LcIG+w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757812003; x=
+	1757898403; bh=rSfY6gl0j29zFaD+vjhTSb1E1G02TWmHvd4jnDpkRNU=; b=f
+	AlYu2YlnT5Sqm+aHjedMfxuzLxagT8aVPhxOsyvINhXFgdJ5OuLhpAb5nYFIxXhU
+	5aZKBqG8HrYVsf26zdmFt0zahfg6HB8o51J4f1Wq6eAnOcLR2MqLn0remCcupXLv
+	jdvx5St9xsUEK1Zxp3eaJhs1Wy4Jmp1T2ZLl8jGi94L/CG9ynUBiTb+Heqcxc98V
+	6qtxkU/4+QzkLaZAqKa+R4ozdSYluzfzGtkCDSI0USl6IX7F8NTjmx2XFFOsqazz
+	WlaymxpLnjNTYT+jecV764sbWzUooSFaweF9U5/K3c7X5JEu2HNUOtBmnxHTCuGj
+	u6Sp7uA5WKMa2FaWmj4Ig==
+X-ME-Sender: <xms:IxXGaHoKT4Qgx4Pfucfld_hBlGpmZOtNs5o2g9VYjEP54dniug041g>
+    <xme:IxXGaCbh_jMVKegYPYsz19QF3j_-3u3hsEG1Snxj4XTuWW5RisT3opiMTqUUWmeKM
+    7cUxomfivQ-hA>
+X-ME-Received: <xmr:IxXGaAUgBjQsHJNUbyvqvQauCZWeVnkS-zDobJjavAoUrU1YaKNj_Xb3dtRgtMXY2kdNPhkiM6j-rehjuuCxBzG75TTi-7kX6P_LK3fgLcQ7>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdeffeeghecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpegtgfgghffvvefujghffffkrhesthhqredttddtjeenucfhrhhomheppfgvihhluehr
+    ohifnhcuoehnvghilhgssehofihnmhgrihhlrdhnvghtqeenucggtffrrghtthgvrhhnpe
+    ejffevgeegjedvudelieeigfffiefgkeelvddvheevvddvteffveduveduudefgfenucff
+    ohhmrghinhepkhgvrhhnvghlrdhorhhgpddtuddrohhrghdpghhithhhuhgsrdgtohhmne
+    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhl
+    sgesohifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtph
+    houhhtpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhmpdhr
+    tghpthhtohepohgvqdhksghuihhlugeslhhishhtshdrlhhinhhugidruggvvhdprhgtph
+    htthhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhr
+    tghpthhtohepuggrnhdrtggrrhhpvghnthgvrheslhhinhgrrhhordhorhhgpdhrtghpth
+    htohepjhhlrgihthhonheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhkphesihhn
+    thgvlhdrtghomh
+X-ME-Proxy: <xmx:IxXGaL-WBJBE2MyHU0kD-VugMZF2LaWFyTVE8mzruw3oc78UjK6tJQ>
+    <xmx:IxXGaJ_NRQqOendUij1emnfliw7rluzRListnDVHneVEFkhgQUftLQ>
+    <xmx:IxXGaLRCTXK_9wxZzMWVeDPWMUv6-59ZhDw-scB3enHckwNGNJehVA>
+    <xmx:IxXGaNeMcjnu7gdN7VAt8nWTjfNZnMZVlViAmE3SfQMpEO1IgrCFMA>
+    <xmx:IxXGaEKCe2B5eUC0QwtZVL_kkwC0KG6p5YLTLwJ3CIN8Hs77g3HoqksS>
+Feedback-ID: iab3e480c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 13 Sep 2025 21:06:41 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: NeilBrown <neilb@ownmail.net>
+To: "Dan Carpenter" <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ "Chuck Lever" <chuck.lever@oracle.com>, "Jeff Layton" <jlayton@kernel.org>
+Subject: Re: [cel:nfsd-testing 45/50] fs/nfsd/nfs4recover.c:406 purge_old()
+ error: uninitialized symbol 'child'.
+In-reply-to: <202509131751.4STnDcZg-lkp@intel.com>
+References: <202509131751.4STnDcZg-lkp@intel.com>
+Date: Sun, 14 Sep 2025 11:06:39 +1000
+Message-id: <175781199938.1696783.3669146136396360246@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Kairui Song <kasong@tencent.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Chris Li <chrisl@kernel.org>
+On Sat, 13 Sep 2025, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-test=
+ing
+> head:   454e99ac23dc63c1472eb5df8f97c961c0f178c9
+> commit: 30424fb94b7bea14e27922669924948d6320e991 [45/50] nfsd: move name lo=
+okup out of nfsd4_list_rec_dir()
+> config: sparc64-randconfig-r072-20250913 (https://download.01.org/0day-ci/a=
+rchive/20250913/202509131751.4STnDcZg-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 15.1.0
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202509131751.4STnDcZg-lkp@intel.com/
+>=20
+> smatch warnings:
+> fs/nfsd/nfs4recover.c:406 purge_old() error: uninitialized symbol 'child'.
+>=20
+> vim +/child +406 fs/nfsd/nfs4recover.c
+>=20
+> c7b9a45927e74c8 NeilBrown         2005-06-23  398  static int
+> 30424fb94b7bea1 NeilBrown         2025-09-08  399  purge_old(struct dentry =
+*parent, char *cname, struct nfsd_net *nn)
+> c7b9a45927e74c8 NeilBrown         2005-06-23  400  {
+> c7b9a45927e74c8 NeilBrown         2005-06-23  401  	int status;
+> 30424fb94b7bea1 NeilBrown         2025-09-08  402  	struct dentry *child;
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  403  	struct xdr_netobj name;
+> c7b9a45927e74c8 NeilBrown         2005-06-23  404 =20
+> 30424fb94b7bea1 NeilBrown         2025-09-08  405  	if (strlen(cname) !=3D =
+HEXDIR_LEN - 1) {
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26 @406  		printk("%s: illegal na=
+me %pd in recovery directory\n",
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  407  				__func__, child);
+>                                                                            =
+               ^^^^^
+> s/child/cname/
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   590b221ed4256fd6c34d3dea77aa5bd6e741bbc1
-commit: c2079bb89a0c782632a748dec99db66f5226b178 [7605/8263] mm, swap: use the swap table for the swap cache and switch API
-:::::: branch date: 2 days ago
-:::::: commit date: 4 days ago
-config: m68k-randconfig-r072-20250914 (https://download.01.org/0day-ci/archive/20250914/202509140627.P9M0sfhq-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.4.0
+Also s/%pd/%s/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202509140627.P9M0sfhq-lkp@intel.com/
+Chuck: do you want to just edit the patch, or should I recend?
 
-smatch warnings:
-mm/vmscan.c:784 __remove_mapping() error: uninitialized symbol 'ci'.
+Thanks Dan.
 
-vim +/ci +784 mm/vmscan.c
+NeilBrown
 
-^1da177e4c3f41 Linus Torvalds          2005-04-16  723  
-a649fd9271773d Andrew Morton           2006-10-17  724  /*
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  725)  * Same as remove_mapping, but if the folio is removed from the mapping, it
-e286781d5f2e9c Nicholas Piggin         2008-07-25  726   * gets returned with a refcount of 0.
-a649fd9271773d Andrew Morton           2006-10-17  727   */
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  728) static int __remove_mapping(struct address_space *mapping, struct folio *folio,
-b910718a948a91 Johannes Weiner         2019-11-30  729  			    bool reclaimed, struct mem_cgroup *target_memcg)
-49d2e9cc454436 Christoph Lameter       2006-01-08  730  {
-bd4c82c22c367e Ying Huang              2017-09-06  731  	int refcount;
-aae466b0052e18 Joonsoo Kim             2020-08-11  732  	void *shadow = NULL;
-c2079bb89a0c78 Kairui Song             2025-09-06  733  	struct swap_cluster_info *ci;
-c4843a7593a9df Greg Thelen             2015-05-22  734  
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  735) 	BUG_ON(!folio_test_locked(folio));
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  736) 	BUG_ON(mapping != folio_mapping(folio));
-49d2e9cc454436 Christoph Lameter       2006-01-08  737  
-c2079bb89a0c78 Kairui Song             2025-09-06  738  	if (folio_test_swapcache(folio)) {
-c2079bb89a0c78 Kairui Song             2025-09-06  739  		ci = swap_cluster_lock_by_folio_irq(folio);
-c2079bb89a0c78 Kairui Song             2025-09-06  740  	} else {
-51b8c1fe250d1b Johannes Weiner         2021-11-08  741  		spin_lock(&mapping->host->i_lock);
-3047250972ff93 Johannes Weiner         2021-09-02  742  		xa_lock_irq(&mapping->i_pages);
-c2079bb89a0c78 Kairui Song             2025-09-06  743  	}
-c2079bb89a0c78 Kairui Song             2025-09-06  744  
-49d2e9cc454436 Christoph Lameter       2006-01-08  745  	/*
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  746) 	 * The non racy check for a busy folio.
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  747  	 *
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  748  	 * Must be careful with the order of the tests. When someone has
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  749) 	 * a ref to the folio, it may be possible that they dirty it then
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  750) 	 * drop the reference. So if the dirty flag is tested before the
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  751) 	 * refcount here, then the following race may occur:
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  752  	 *
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  753  	 * get_user_pages(&page);
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  754  	 * [user mapping goes away]
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  755  	 * write_to(page);
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  756) 	 *				!folio_test_dirty(folio)    [good]
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  757) 	 * folio_set_dirty(folio);
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  758) 	 * folio_put(folio);
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  759) 	 *				!refcount(folio)   [good, discard it]
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  760  	 *
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  761  	 * [oops, our write_to data is lost]
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  762  	 *
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  763  	 * Reversing the order of the tests ensures such a situation cannot
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  764) 	 * escape unnoticed. The smp_rmb is needed to ensure the folio->flags
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  765) 	 * load is not satisfied before that of folio->_refcount.
-0fd0e6b05aa096 Nicholas Piggin         2006-09-27  766  	 *
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  767) 	 * Note that if the dirty flag is always set via folio_mark_dirty,
-b93b016313b3ba Matthew Wilcox          2018-04-10  768  	 * and thus under the i_pages lock, then this ordering is not required.
-49d2e9cc454436 Christoph Lameter       2006-01-08  769  	 */
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  770) 	refcount = 1 + folio_nr_pages(folio);
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  771) 	if (!folio_ref_freeze(folio, refcount))
-49d2e9cc454436 Christoph Lameter       2006-01-08  772  		goto cannot_free;
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  773) 	/* note: atomic_cmpxchg in folio_ref_freeze provides the smp_rmb */
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  774) 	if (unlikely(folio_test_dirty(folio))) {
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  775) 		folio_ref_unfreeze(folio, refcount);
-49d2e9cc454436 Christoph Lameter       2006-01-08  776  		goto cannot_free;
-e286781d5f2e9c Nicholas Piggin         2008-07-25  777  	}
-49d2e9cc454436 Christoph Lameter       2006-01-08  778  
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  779) 	if (folio_test_swapcache(folio)) {
-3d2c9087688777 David Hildenbrand       2023-08-21  780  		swp_entry_t swap = folio->swap;
-ac35a490237446 Yu Zhao                 2022-09-18  781  
-aae466b0052e18 Joonsoo Kim             2020-08-11  782  		if (reclaimed && !mapping_exiting(mapping))
-8927f6473e56e3 Matthew Wilcox (Oracle  2021-12-23  783) 			shadow = workingset_eviction(folio, target_memcg);
-c2079bb89a0c78 Kairui Song             2025-09-06 @784  		__swap_cache_del_folio(ci, folio, swap, shadow);
-89ce924f0bd447 Johannes Weiner         2025-01-24  785  		memcg1_swapout(folio, swap);
-c2079bb89a0c78 Kairui Song             2025-09-06  786  		swap_cluster_unlock_irq(ci);
-4081f7446d95a9 Matthew Wilcox (Oracle  2022-09-02  787) 		put_swap_folio(folio, swap);
-e286781d5f2e9c Nicholas Piggin         2008-07-25  788  	} else {
-d2329aa0c78f4a Matthew Wilcox (Oracle  2022-05-01  789) 		void (*free_folio)(struct folio *);
-6072d13c429373 Linus Torvalds          2010-12-01  790  
-d2329aa0c78f4a Matthew Wilcox (Oracle  2022-05-01  791) 		free_folio = mapping->a_ops->free_folio;
-a528910e12ec7e Johannes Weiner         2014-04-03  792  		/*
-a528910e12ec7e Johannes Weiner         2014-04-03  793  		 * Remember a shadow entry for reclaimed file cache in
-a528910e12ec7e Johannes Weiner         2014-04-03  794  		 * order to detect refaults, thus thrashing, later on.
-a528910e12ec7e Johannes Weiner         2014-04-03  795  		 *
-a528910e12ec7e Johannes Weiner         2014-04-03  796  		 * But don't store shadows in an address space that is
-238c30468f46b1 dylan-meiners           2020-08-06  797  		 * already exiting.  This is not just an optimization,
-a528910e12ec7e Johannes Weiner         2014-04-03  798  		 * inode reclaim needs to empty out the radix tree or
-a528910e12ec7e Johannes Weiner         2014-04-03  799  		 * the nodes are lost.  Don't plant shadows behind its
-a528910e12ec7e Johannes Weiner         2014-04-03  800  		 * back.
-f9fe48bece3af2 Ross Zwisler            2016-01-22  801  		 *
-f9fe48bece3af2 Ross Zwisler            2016-01-22  802  		 * We also don't store shadows for DAX mappings because the
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  803) 		 * only page cache folios found in these are zero pages
-f9fe48bece3af2 Ross Zwisler            2016-01-22  804  		 * covering holes, and because we don't want to mix DAX
-f9fe48bece3af2 Ross Zwisler            2016-01-22  805  		 * exceptional entries and shadow exceptional entries in the
-b93b016313b3ba Matthew Wilcox          2018-04-10  806  		 * same address_space.
-a528910e12ec7e Johannes Weiner         2014-04-03  807  		 */
-be7c07d60e13ac Matthew Wilcox (Oracle  2021-12-23  808) 		if (reclaimed && folio_is_file_lru(folio) &&
-f9fe48bece3af2 Ross Zwisler            2016-01-22  809  		    !mapping_exiting(mapping) && !dax_mapping(mapping))
-8927f6473e56e3 Matthew Wilcox (Oracle  2021-12-23  810) 			shadow = workingset_eviction(folio, target_memcg);
-8927f6473e56e3 Matthew Wilcox (Oracle  2021-12-23  811) 		__filemap_remove_folio(folio, shadow);
-3047250972ff93 Johannes Weiner         2021-09-02  812  		xa_unlock_irq(&mapping->i_pages);
-51b8c1fe250d1b Johannes Weiner         2021-11-08  813  		if (mapping_shrinkable(mapping))
-51b8c1fe250d1b Johannes Weiner         2021-11-08  814  			inode_add_lru(mapping->host);
-51b8c1fe250d1b Johannes Weiner         2021-11-08  815  		spin_unlock(&mapping->host->i_lock);
-6072d13c429373 Linus Torvalds          2010-12-01  816  
-d2329aa0c78f4a Matthew Wilcox (Oracle  2022-05-01  817) 		if (free_folio)
-d2329aa0c78f4a Matthew Wilcox (Oracle  2022-05-01  818) 			free_folio(folio);
-e286781d5f2e9c Nicholas Piggin         2008-07-25  819  	}
-e286781d5f2e9c Nicholas Piggin         2008-07-25  820  
-49d2e9cc454436 Christoph Lameter       2006-01-08  821  	return 1;
-49d2e9cc454436 Christoph Lameter       2006-01-08  822  
-49d2e9cc454436 Christoph Lameter       2006-01-08  823  cannot_free:
-c2079bb89a0c78 Kairui Song             2025-09-06  824  	if (folio_test_swapcache(folio)) {
-c2079bb89a0c78 Kairui Song             2025-09-06  825  		swap_cluster_unlock_irq(ci);
-c2079bb89a0c78 Kairui Song             2025-09-06  826  	} else {
-3047250972ff93 Johannes Weiner         2021-09-02  827  		xa_unlock_irq(&mapping->i_pages);
-51b8c1fe250d1b Johannes Weiner         2021-11-08  828  		spin_unlock(&mapping->host->i_lock);
-c2079bb89a0c78 Kairui Song             2025-09-06  829  	}
-49d2e9cc454436 Christoph Lameter       2006-01-08  830  	return 0;
-49d2e9cc454436 Christoph Lameter       2006-01-08  831  }
-49d2e9cc454436 Christoph Lameter       2006-01-08  832  
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>=20
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  408  		/* Keep trying; maybe =
+the others are OK: */
+> b37ad28bcaa7c48 Al Viro           2006-10-19  409  		return 0;
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  410  	}
+> 30424fb94b7bea1 NeilBrown         2025-09-08  411  	name.data =3D kstrdup(c=
+name, GFP_KERNEL);
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  412  	if (!name.data) {
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  413  		dprintk("%s: failed to=
+ allocate memory for name.data!\n",
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  414  			__func__);
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  415  		goto out;
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  416  	}
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  417  	name.len =3D HEXDIR_LEN;
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  418  	if (nfs4_has_reclaimed_=
+state(name, nn))
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  419  		goto out_free;
+> c7b9a45927e74c8 NeilBrown         2005-06-23  420 =20
+> 30424fb94b7bea1 NeilBrown         2025-09-08  421  	inode_lock_nested(d_ino=
+de(parent), I_MUTEX_PARENT);
+> 30424fb94b7bea1 NeilBrown         2025-09-08  422  	child =3D lookup_one(&n=
+op_mnt_idmap, &QSTR(cname), parent);
+> 30424fb94b7bea1 NeilBrown         2025-09-08  423  	if (!IS_ERR(child)) {
+> abf08576afe3150 Christian Brauner 2023-01-13  424  		status =3D vfs_rmdir(&=
+nop_mnt_idmap, d_inode(parent), child);
+> c7b9a45927e74c8 NeilBrown         2005-06-23  425  		if (status)
+> a6a9f18f0a9f943 Al Viro           2013-09-16  426  			printk("failed to rem=
+ove client recovery directory %pd\n",
+> a6a9f18f0a9f943 Al Viro           2013-09-16  427  			       child);
+> 30424fb94b7bea1 NeilBrown         2025-09-08  428  		dput(child);
+> 30424fb94b7bea1 NeilBrown         2025-09-08  429  	}
+> 30424fb94b7bea1 NeilBrown         2025-09-08  430  	inode_unlock(d_inode(pa=
+rent));
+> 30424fb94b7bea1 NeilBrown         2025-09-08  431 =20
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  432  out_free:
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  433  	kfree(name.data);
+> 6b1891052a3f8e3 Scott Mayhew      2019-03-26  434  out:
+> c7b9a45927e74c8 NeilBrown         2005-06-23  435  	/* Keep trying, success=
+ or failure: */
+> b37ad28bcaa7c48 Al Viro           2006-10-19  436  	return 0;
+> c7b9a45927e74c8 NeilBrown         2005-06-23  437  }
+>=20
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>=20
+>=20
+
