@@ -1,70 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26020270557
-	for <oe-kbuild@lists.linux.dev>; Sun, 14 Sep 2025 03:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0F01E8322
+	for <oe-kbuild@lists.linux.dev>; Sun, 14 Sep 2025 09:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757822243; cv=none; b=G1eTkzvFT8PCgNFOPCu2Z2B2NRZ1HQ07OkEFhHPX4tw4dCeCc8RJ5suzLMKfqqjRsFRwJH9zL/ybHwh8c1/N3mAQ+PpCF9f/Cppk/BvpmjR6daRehWXMbdC466dW0hQKkaACUbOGPf5m500fa34USPzdRHDIuQw4GmbQbFJkCvc=
+	t=1757843658; cv=none; b=QSniomDdnloooBOenvB0a8RkSHmZK28WWlQRVudD/PtERIsmlCx+nbZkGhZZ9mSFFNF9nViHuisxqToAYntxJk6EyOia2K5X2pcZrv/t23ojUS3aMjkwHWK0bKyXiMAELLOYuwyLQNS8B/KUq4pwEsRNgRTVsqzRzRFLUxbEdnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757822243; c=relaxed/simple;
-	bh=k32wml3UbyJA3rfZfZ5ZPef1LojYNGMXRheAzsj+gww=;
+	s=arc-20240116; t=1757843658; c=relaxed/simple;
+	bh=/y6BRvLdbVL6F4QT/mCRY5g2ObqnPBB8FeJIji99JLg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ksKjf5W3Ad3DrKDxs+hEp5SNUW7A3CbbxMDU/FFYoktXMAHSU+t13srqwdXn2vBNXCzL0qwsHUDffL3eORwDshzhukvGTe26OcSfHZS9/Ft2cn11XIVRsXGpk/Jb+0nMwrCLWgwTmIqDw2HkJbc8iBb/vubNW8OX7bOH25Y9eJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jh4NKw3M; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=B6oPn09jxga9r7xtS5XAZ0TkqJgERPorZGwCgZDOwztAyn/jfxVGxYfYxhNVWlve51H7+tJRsgSecIw/+/3xE5rDWHR6/u3wUZ78mvAFV2tfbBt5YGJkK0cYT/T+AvsBI2qCDMJzo8GkGy1hfTdjHT8Ff5q6BJdIS4O9vWvD/oY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BDukeaeX; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jh4NKw3M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BDukeaeX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757822241; x=1789358241;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=k32wml3UbyJA3rfZfZ5ZPef1LojYNGMXRheAzsj+gww=;
-  b=jh4NKw3MCO849KyhaIW26zLSOoinZyywSmaSrsLqvF0cnXsEegXGR2QQ
-   qWJ/Yh1HcxV1JaiMVydT0jdc36r3/azCLvVYgAR/jT0CGt8p0MtUbhiUj
-   7ugvJ5saRIC3sIJ+CNgITh6s3P3zxG3TxbynO+QaO/OdHLAXIOPC5AayA
-   IQM3R3O/prn2yYCRUtcJ9RoDYeOvO2tcdVoPc45gvDAoIbhblqiwv7dI2
-   R16udHY2eKiEG6WOKcbAOsBYK5FiyCyt5hV0SE2aTF+CeGXfrGJpr+W12
-   RsSpn251d7jbTpsx/jQj4iU4Sx2cnTanxQU0m6Ap+aGwN79fYJxj49HLC
-   g==;
-X-CSE-ConnectionGUID: 6Oc8AME0TseWD5AcmBW0qQ==
-X-CSE-MsgGUID: Fu3R6cS6RYKuSbnt/wngkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11552"; a="59341740"
+  t=1757843655; x=1789379655;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/y6BRvLdbVL6F4QT/mCRY5g2ObqnPBB8FeJIji99JLg=;
+  b=BDukeaeXiE5fCJ4UGnywwoQrJMkUegAFPdZlLQqmTdkgDuD/PROTllpj
+   FO+VUfdePpExSny86hjNcgvARiB1GAUoNP7Af7GmBuktVAlRymvUDPcIN
+   bO2m0odLOfjxHX1tPXWYE7xxOE/ZSWOcdwU6c8jLhwNr4kE3ysqSjlJVm
+   nHBIVfWlojVHLFBPbZU21YdMlsF8M28cHuDJA5OnuGc51lYrc1m1vQmTG
+   cDoi3PG+3l/udib1ftQEm93yd3ZvGlRsfHjyjaNpcgp687ngAUvl/qw7v
+   Px58aRb8sTd7Wl1PmqaeAU5OhWxxbH40FwvfWYy1cH8LyjJtpVGZ66Zgh
+   Q==;
+X-CSE-ConnectionGUID: U20H/59RSpiHt30PPRJamA==
+X-CSE-MsgGUID: a+RNddOBQUO3MyHSPQfNkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11552"; a="77734610"
 X-IronPort-AV: E=Sophos;i="6.18,263,1751266800"; 
-   d="scan'208";a="59341740"
+   d="scan'208";a="77734610"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2025 20:57:20 -0700
-X-CSE-ConnectionGUID: VAGqhh31T/+cV6RWN/84zA==
-X-CSE-MsgGUID: ES/LuCJ9RqqwcG/POrw/yQ==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2025 02:54:15 -0700
+X-CSE-ConnectionGUID: gFmplkfyRyWRw8D6jrItHg==
+X-CSE-MsgGUID: X2A6dX6WQaKtx2f/CrpZ6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,263,1751266800"; 
-   d="scan'208";a="211477534"
+   d="scan'208";a="211524591"
 Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 13 Sep 2025 20:57:19 -0700
+  by orviesa001.jf.intel.com with ESMTP; 14 Sep 2025 02:54:14 -0700
 Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uxdrZ-00025o-0B;
-	Sun, 14 Sep 2025 03:57:17 +0000
-Date: Sun, 14 Sep 2025 11:57:06 +0800
+	id 1uxjQx-0002Ii-15;
+	Sun, 14 Sep 2025 09:54:11 +0000
+Date: Sun, 14 Sep 2025 17:54:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [gclement-mvebu:mvebu/dt64 5/6]
- arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb:
- /soc/bus@d0000000/watchdog@8300: failed to match any schema with compatible:
- ['marvell,armada-3700-wdt']
-Message-ID: <202509141132.I2Dvw1bu-lkp@intel.com>
+Subject: Re: [PATCH] dt-bindings: leds: as3645: Convert to DT schema
+Message-ID: <202509141751.v85VqbzA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
@@ -72,53 +67,86 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Tomáš Macholda" <tomas.macholda@nic.cz>
-CC: Gregory CLEMENT <gregory.clement@bootlin.com>
+In-Reply-To: <20250909-ams-txt-to-dt-schema-v1-1-8a30c25c8295@thegoodpenguin.co.uk>
+References: <20250909-ams-txt-to-dt-schema-v1-1-8a30c25c8295@thegoodpenguin.co.uk>
+TO: Harrison Carter <hcarter@thegoodpenguin.co.uk>
+TO: Lee Jones <lee@kernel.org>
+TO: Pavel Machek <pavel@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: linux-leds@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Harrison Carter <hcarter@thegoodpenguin.co.uk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gclement/mvebu.git mvebu/dt64
-head:   1cc3d6c8640e4a75dab4077121b8cafd15eab8b0
-commit: 0b738a2901f43980fc2307a50a26457be1c8030b [5/6] arm64: dts: marvell: add dts for RIPE Atlas Probe v5
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-054-20250913 (https://download.01.org/0day-ci/archive/20250914/202509141132.I2Dvw1bu-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
+Hi Harrison,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Harrison-Carter/dt-bindings-leds-as3645-Convert-to-DT-schema/20250909-165436
+base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+patch link:    https://lore.kernel.org/r/20250909-ams-txt-to-dt-schema-v1-1-8a30c25c8295%40thegoodpenguin.co.uk
+patch subject: [PATCH] dt-bindings: leds: as3645: Convert to DT schema
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: arm-randconfig-051-20250910 (https://download.01.org/0day-ci/archive/20250914/202509141751.v85VqbzA-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
 dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250914/202509141132.I2Dvw1bu-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250914/202509141751.v85VqbzA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509141132.I2Dvw1bu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509141751.v85VqbzA-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/watchdog@8300: failed to match any schema with compatible: ['marvell,armada-3700-wdt']
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/pinctrl@13800: failed to match any schema with compatible: ['marvell,armada3710-nb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: pinctrl@13800 (marvell,armada3710-nb-pinctrl): reg: [[79872, 256], [80896, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/pinctrl@13800/xtal-clk: failed to match any schema with compatible: ['marvell,armada-3700-xtal-clock']
->> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell,comphy-a3700): clock-names: False schema does not allow ['xtal']
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
->> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell,comphy-a3700): clocks: False schema does not allow [[4]]
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
->> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell,comphy-a3700): clock-names:0: 'mg_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
->> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell,comphy-a3700): clock-names: ['xtal'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
->> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell,comphy-a3700): clocks: [[4]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/pinctrl@18800: failed to match any schema with compatible: ['marvell,armada3710-sb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: pinctrl@18800 (marvell,armada3710-sb-pinctrl): reg: [[100352, 256], [101376, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/system-controller@5d800: failed to match any schema with compatible: ['marvell,armada-3700-usb2-host-device-misc', 'syscon']
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: usb@5e000 (marvell,armada-3700-ehci): phy-names:0: 'usb' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
->> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/mailbox@b0000: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-mailbox']
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: mmc@d8000 (marvell,armada-3700-sdhci): Unevaluated properties are not allowed ('marvell,xenon-emmc' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml#
->> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: pcie@d0070000 (marvell,armada-3700-pcie): interrupt-controller: '#address-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pci/marvell,armada-3700-pcie.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /firmware/armada-3700-rwtm: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-firmware', 'cznic,turris-mox-rwtm']
-   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /firmware/armada-3700-rwtm: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-firmware', 'cznic,turris-mox-rwtm']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap3630-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap3630-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/serial@4806c000/bluetooth: failed to match any schema with compatible: ['ti,wl1271-bluetooth-nokia', 'nokia,h4p-bluetooth']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/serial@4806c000/bluetooth: failed to match any schema with compatible: ['ti,wl1271-bluetooth-nokia', 'nokia,h4p-bluetooth']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/i2c@48070000/twl@48: failed to match any schema with compatible: ['ti,twl5031']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/i2c@48070000/twl@48/pwm: failed to match any schema with compatible: ['ti,twl4030-pwm']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/i2c@48070000/twl@48/pwmled: failed to match any schema with compatible: ['ti,twl4030-pwmled']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/i2c@48070000/twl@48/power: failed to match any schema with compatible: ['ti,twl4030-power']
+>> arch/arm/boot/dts/ti/omap/omap3-n9.dtb: as3645a@30 (ams,as3645a): 'flash@0', 'indicator@1' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/ams,as3645a.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: camera@10 (nokia,smia): port:endpoint: 'bus-type' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/i2c/mipi-ccs.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: lis302@1d (st,lis3lv02d): 'Vdd-supply', 'Vdd_IO-supply', 'st,axis-x', 'st,axis-y', 'st,axis-z', 'st,click-latency', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-threshold-x', 'st,click-threshold-y', 'st,click-threshold-z', 'st,click-time-limit', 'st,highpass-cutoff-hz', 'st,irq1-ff-wu-1', 'st,irq1-ff-wu-2', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-threshold', 'st,wakeup-x-hi', 'st,wakeup-y-hi', 'st,wakeup2-threshold', 'st,wakeup2-z-hi', 'st,wu-duration-1', 'st,wu-duration-2' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-n9.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+--
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap3630-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/serial@4806c000/bluetooth: failed to match any schema with compatible: ['ti,wl1271-bluetooth-nokia', 'nokia,h4p-bluetooth']
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/serial@4806c000/bluetooth: failed to match any schema with compatible: ['ti,wl1271-bluetooth-nokia', 'nokia,h4p-bluetooth']
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/i2c@48070000/twl@48: failed to match any schema with compatible: ['ti,twl5031']
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/i2c@48070000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/i2c@48070000/twl@48/pwm: failed to match any schema with compatible: ['ti,twl4030-pwm']
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/i2c@48070000/twl@48/pwmled: failed to match any schema with compatible: ['ti,twl4030-pwmled']
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/i2c@48070000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/i2c@48070000/twl@48/power: failed to match any schema with compatible: ['ti,twl4030-power']
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/i2c@48070000/twl@48/audio: failed to match any schema with compatible: ['ti,twl4030-audio']
+>> arch/arm/boot/dts/ti/omap/omap3-n950.dtb: as3645a@30 (ams,as3645a): 'flash@0', 'indicator@1' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/ams,as3645a.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: camera@10 (nokia,smia): port:endpoint: 'bus-type' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/i2c/mipi-ccs.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: lis302@1d (st,lis3lv02d): 'Vdd-supply', 'Vdd_IO-supply', 'st,axis-x', 'st,axis-y', 'st,axis-z', 'st,click-latency', 'st,click-single-x', 'st,click-single-y', 'st,click-single-z', 'st,click-threshold-x', 'st,click-threshold-y', 'st,click-threshold-z', 'st,click-time-limit', 'st,highpass-cutoff-hz', 'st,irq1-ff-wu-1', 'st,irq1-ff-wu-2', 'st,irq2-click', 'st,max-limit-x', 'st,max-limit-y', 'st,max-limit-z', 'st,min-limit-x', 'st,min-limit-y', 'st,min-limit-z', 'st,wakeup-threshold', 'st,wakeup-x-hi', 'st,wakeup-y-hi', 'st,wakeup2-threshold', 'st,wakeup2-z-hi', 'st,wu-duration-1', 'st,wu-duration-2' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/omap3-n950.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
 
 -- 
 0-DAY CI Kernel Test Service
