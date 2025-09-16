@@ -1,57 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E001240604
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Sep 2025 04:53:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3445E286435
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Sep 2025 05:25:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757998394; cv=none; b=b1ICbGYIgpm8zWAS/1z89OuV6030NmjlyAzwris8v54REKa5TU4+oSGsRC2gmeT3zEaB1u95M7F9SOFi9zm57lOpisv/89s0bhsowoXN8sXkcsawp0DoqW02zd30c/qUAgOCWgc1omQPrDPeeX+INpdJthnr5UR8SKlgop2dzpg=
+	t=1758000349; cv=none; b=rrU/ygY7Qw4lC/IfVvTKWFwWqyMaTBsGdI3WCPWlYYXTEZh38voI3wXSMClFH1MlAXA0Nx4z23v8M0eqgiDASbiRn/57si/D3oXFZ23fpWwGbdQPP9e8amkvoLtLWKybe0Fy+ZCjN9/2Q3qsJ5KG77K3jaX7QvHODB6zwQEzFI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757998394; c=relaxed/simple;
-	bh=v5s3tYFu+H3HEyJANsp8lCznakKaE4qanIeURd+Byd8=;
+	s=arc-20240116; t=1758000349; c=relaxed/simple;
+	bh=9v2PbL51iUi5Dfdg6tAHaBe0qV5wXBTCTgBAnlmmDMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iCLnQ7pDOxpCdqa5YhNYuHEOYKvyc5GitaCsEAPLFQEGDo2b20QxZ8ceco4ynkrwU4e983wSvuQvdVX4Wug/aiNYWSs6BXwp8oc4aNRdrw9ZI35bEaX1qNPNLPVEgMeV984LVk1o2solguUVUqC1Ie1eGZmb0OLoWGmwNRoV74k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nglknkcS; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=p1BzGHBWSpeiZ3ImhCzHKOqckzN1usyc+efgqDSVOxKTkmDBR9mvSvZiXGIAZPzm7gfi4O+LgpbznIzlLwAWy8/itBKjgtJ/zIazGpBvROQx0CWOSEmDmQyk/zjsMM2r1EOhRP9Bu7Hc42EZ2SlNmfXdaqp3gMHm6MhY5Fpm7uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EXoRqw8b; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nglknkcS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EXoRqw8b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757998392; x=1789534392;
+  t=1758000347; x=1789536347;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v5s3tYFu+H3HEyJANsp8lCznakKaE4qanIeURd+Byd8=;
-  b=nglknkcSU0kCJtn65LbSvlb/nacjZN3dK+rktGMm1G+Q1PqCutc9AltP
-   V+YAoGnOh+GXZZ8XV3ZfE8n2fJeJyPzqm0XyddUahLPfsEVR+DRUwIqUz
-   TQ7mqnDvaZl51iHj9oUrJJsMSHOHNZDzrkL8hFWenVlM++eQSbcYwbvSV
-   +kZOx6NIrOPZ7qoZN+D8Rva8dFXA4Dk2Tk6esUFR/KR5/PYtbSYo7i30S
-   ENI4q9gGaFqyc+6v6xHkhEcQ35zwZtmXgRRY53SRMekVuZIoOWAesE3FO
-   uI0tR+O82qRGVlwmSqOYQ8tP6S++DVx3zPuK8gqZ1wXHlb7hZaSmWd0Eb
-   Q==;
-X-CSE-ConnectionGUID: 4phSchuyQtaHMa8iyvoKmA==
-X-CSE-MsgGUID: U81o4hfaTyidIfgMRDtaqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="59489528"
+  bh=9v2PbL51iUi5Dfdg6tAHaBe0qV5wXBTCTgBAnlmmDMY=;
+  b=EXoRqw8buz0xuhTcl9AXr1b0nQ86ZldZpYpKQOgBvA8dYnsFIn13fX3f
+   vR1J9r/9Dz7ZmmmVNki6pWpdEhmJWAQKNQDuDy5i0ZpEQguZfkix97MJT
+   ah4blHdQup2ne5QKi5ytpivC0pAOI1u7DkZghDyLkl98BaKN+60wpfx7K
+   KiGRFQlHCSjlZTSA0J+yEb4E5QKRpZPMmE5qKSC/fAoSSd3Kd/v9VPsCw
+   925BUhwqs0/e/p3D/niITxlTXrVBoWo7LG2RhcpLTYoLcOWdWWYmrUFuM
+   941MEcwdmmcICRGY2IaQckZlrwUr4OrnV3341L8+RoSo+65piCEOOvhAt
+   A==;
+X-CSE-ConnectionGUID: swxSICYaTGawrm/1sp19pw==
+X-CSE-MsgGUID: fNwUwBCUSZyw+FrHUZnFpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="59491734"
 X-IronPort-AV: E=Sophos;i="6.18,268,1751266800"; 
-   d="scan'208";a="59489528"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 21:53:11 -0700
-X-CSE-ConnectionGUID: 2rLvyWDUS02pQ4zJi4Ai/w==
-X-CSE-MsgGUID: ttGWSqH7RouURAGKrxOxVg==
+   d="scan'208";a="59491734"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 22:25:46 -0700
+X-CSE-ConnectionGUID: JfBuQr2SRxif6AVA0ZPobQ==
+X-CSE-MsgGUID: ZRvT4KDlTWecXK8LZsN+9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,268,1751266800"; 
-   d="scan'208";a="174381747"
+   d="scan'208";a="174445131"
 Received: from lkp-server01.sh.intel.com (HELO 5b01dd97f97c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 15 Sep 2025 21:53:10 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 15 Sep 2025 22:25:45 -0700
 Received: from kbuild by 5b01dd97f97c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uyNgh-00010F-0k;
-	Tue, 16 Sep 2025 04:53:07 +0000
-Date: Tue, 16 Sep 2025 12:52:46 +0800
+	id 1uyOCE-000111-2o;
+	Tue, 16 Sep 2025 05:25:42 +0000
+Date: Tue, 16 Sep 2025 13:25:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 4/4] arm64: dts: add Protonic PRT8ML board
-Message-ID: <202509161238.XivYVKTW-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH V3] drm/bridge: ti-sn65dsi86: Add support for DisplayPort
+ mode with HPD
+Message-ID: <202509161344.FPfsjq01-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,73 +62,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250910-imx8mp-prt8ml-v1-4-fd04aed15670@pengutronix.de>
-References: <20250910-imx8mp-prt8ml-v1-4-fd04aed15670@pengutronix.de>
-TO: Jonas Rebmann <jre@pengutronix.de>
-TO: Andrew Lunn <andrew@lunn.ch>
-TO: Vladimir Oltean <olteanv@gmail.com>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev@vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
-TO: Jakub Kicinski <kuba@kernel.org>
-TO: Paolo Abeni <pabeni@redhat.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Liam Girdwood <lgirdwood@gmail.com>
-TO: Mark Brown <broonie@kernel.org>
-TO: Shengjiu Wang <shengjiu.wang@nxp.com>
-TO: Shawn Guo <shawnguo@kernel.org>
-TO: Sascha Hauer <s.hauer@pengutronix.de>
-TO: Fabio Estevam <festevam@gmail.com>
-TO: Pengutronix Kernel Team <kernel@pengutronix.de>
-CC: devicetree@vger.kernel.org
+In-Reply-To: <20250910183353.2045339-1-john.ripple@keysight.com>
+References: <20250910183353.2045339-1-john.ripple@keysight.com>
+TO: John Ripple <john.ripple@keysight.com>
+TO: john.ripple@keysight.com
+CC: Laurent.pinchart@ideasonboard.com
+CC: airlied@gmail.com
+CC: andrzej.hajda@intel.com
+CC: blake.vermeer@keysight.com
+CC: dianders@chromium.org
+CC: dri-devel@lists.freedesktop.org
+CC: jernej.skrabec@gmail.com
+CC: jonas@kwiboo.se
 CC: linux-kernel@vger.kernel.org
-CC: linux-sound@vger.kernel.org
-CC: imx@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: Jonas Rebmann <jre@pengutronix.de>
-CC: Lucas Stach <l.stach@pengutronix.de>
-CC: David Jander <david@protonic.nl>
-CC: Oleksij Rempel <o.rempel@pengutronix.de>
+CC: maarten.lankhorst@linux.intel.com
+CC: matt_laubhan@keysight.com
+CC: mripard@kernel.org
+CC: neil.armstrong@linaro.org
+CC: rfoss@kernel.org
+CC: simona@ffwll.ch
+CC: tzimmermann@suse.de
 
-Hi Jonas,
+Hi John,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on d34bbb45b57c90a5c1bcac5f327df79ddfbfe957]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.17-rc6 next-20250915]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonas-Rebmann/dt-bindings-net-dsa-nxp-sja1105-Add-reset-gpios-property/20250910-203727
-base:   d34bbb45b57c90a5c1bcac5f327df79ddfbfe957
-patch link:    https://lore.kernel.org/r/20250910-imx8mp-prt8ml-v1-4-fd04aed15670%40pengutronix.de
-patch subject: [PATCH 4/4] arm64: dts: add Protonic PRT8ML board
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm64-randconfig-051-20250916 (https://download.01.org/0day-ci/archive/20250916/202509161238.XivYVKTW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250916/202509161238.XivYVKTW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20250911-023707/John-Ripple/drm-bridge-ti-sn65dsi86-break-probe-dependency-loop/20250820-235209
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250910183353.2045339-1-john.ripple%40keysight.com
+patch subject: [PATCH V3] drm/bridge: ti-sn65dsi86: Add support for DisplayPort mode with HPD
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: x86_64-randconfig-161-20250916 (https://download.01.org/0day-ci/archive/20250916/202509161344.FPfsjq01-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509161238.XivYVKTW-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202509161344.FPfsjq01-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e10000 (fsl,imx8mp-isp): 'power-domain-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e10000 (fsl,imx8mp-isp): power-domains: [[72, 6], [72, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e20000 (fsl,imx8mp-isp): 'power-domain-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e20000 (fsl,imx8mp-isp): power-domains: [[72, 6], [72, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+smatch warnings:
+drivers/gpu/drm/bridge/ti-sn65dsi86.c:1385 ti_sn_bridge_interrupt() error: uninitialized symbol 'status'.
+
+vim +/status +1385 drivers/gpu/drm/bridge/ti-sn65dsi86.c
+
+982f589bde7a7f Stephen Boyd 2020-11-02  1364  
+b8670cf7e6a41b John Ripple  2025-09-10  1365  static irqreturn_t ti_sn_bridge_interrupt(int irq, void *private)
+b8670cf7e6a41b John Ripple  2025-09-10  1366  {
+b8670cf7e6a41b John Ripple  2025-09-10  1367  	struct ti_sn65dsi86 *pdata = private;
+b8670cf7e6a41b John Ripple  2025-09-10  1368  	struct drm_device *dev = pdata->bridge.dev;
+b8670cf7e6a41b John Ripple  2025-09-10  1369  	u8 status;
+b8670cf7e6a41b John Ripple  2025-09-10  1370  	int ret;
+b8670cf7e6a41b John Ripple  2025-09-10  1371  	bool hpd_event = false;
+b8670cf7e6a41b John Ripple  2025-09-10  1372  
+b8670cf7e6a41b John Ripple  2025-09-10  1373  	mutex_lock(&pdata->hpd_mutex);
+b8670cf7e6a41b John Ripple  2025-09-10  1374  	if (!pdata->hpd_enabled) {
+b8670cf7e6a41b John Ripple  2025-09-10  1375  		mutex_unlock(&pdata->hpd_mutex);
+b8670cf7e6a41b John Ripple  2025-09-10  1376  		return IRQ_HANDLED;
+b8670cf7e6a41b John Ripple  2025-09-10  1377  	}
+b8670cf7e6a41b John Ripple  2025-09-10  1378  
+b8670cf7e6a41b John Ripple  2025-09-10  1379  	ret = ti_sn65dsi86_read_u8(pdata, SN_IRQ_STATUS_REG, &status);
+b8670cf7e6a41b John Ripple  2025-09-10  1380  	if (ret)
+b8670cf7e6a41b John Ripple  2025-09-10  1381  		pr_err("Failed to read IRQ status: %d\n", ret);
+b8670cf7e6a41b John Ripple  2025-09-10  1382  	else
+b8670cf7e6a41b John Ripple  2025-09-10  1383  		hpd_event = status & (HPD_REMOVAL_STATUS | HPD_INSERTION_STATUS);
+b8670cf7e6a41b John Ripple  2025-09-10  1384  
+b8670cf7e6a41b John Ripple  2025-09-10 @1385  	if (status) {
+b8670cf7e6a41b John Ripple  2025-09-10  1386  		drm_dbg(dev, "(SN_IRQ_STATUS_REG = %#x)\n", status);
+b8670cf7e6a41b John Ripple  2025-09-10  1387  		ret = regmap_write(pdata->regmap, SN_IRQ_STATUS_REG, status);
+b8670cf7e6a41b John Ripple  2025-09-10  1388  		if (ret)
+b8670cf7e6a41b John Ripple  2025-09-10  1389  			pr_err("Failed to clear IRQ status: %d\n", ret);
+b8670cf7e6a41b John Ripple  2025-09-10  1390  	} else {
+b8670cf7e6a41b John Ripple  2025-09-10  1391  		mutex_unlock(&pdata->hpd_mutex);
+b8670cf7e6a41b John Ripple  2025-09-10  1392  		return IRQ_NONE;
+b8670cf7e6a41b John Ripple  2025-09-10  1393  	}
+b8670cf7e6a41b John Ripple  2025-09-10  1394  
+b8670cf7e6a41b John Ripple  2025-09-10  1395  	/* Only send the HPD event if we are bound with a device. */
+b8670cf7e6a41b John Ripple  2025-09-10  1396  	if (dev && hpd_event)
+b8670cf7e6a41b John Ripple  2025-09-10  1397  		drm_kms_helper_hotplug_event(dev);
+b8670cf7e6a41b John Ripple  2025-09-10  1398  	mutex_unlock(&pdata->hpd_mutex);
+b8670cf7e6a41b John Ripple  2025-09-10  1399  
+b8670cf7e6a41b John Ripple  2025-09-10  1400  	return IRQ_HANDLED;
+b8670cf7e6a41b John Ripple  2025-09-10  1401  }
+b8670cf7e6a41b John Ripple  2025-09-10  1402  
 
 -- 
 0-DAY CI Kernel Test Service
