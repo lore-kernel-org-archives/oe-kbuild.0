@@ -1,56 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC32B32D5C7
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Sep 2025 17:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCA431BC80
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Sep 2025 20:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758042573; cv=none; b=ZmKozHy9ItX81UrZEL4i750YlJhmMR3YwlLZi48DJrpOhrXWPiiFd5a5n2iFybV+t+UY1zdx+vlKVvoMq0+xQ37JfiORH0rnSIFonImeKbPQsQAt2CwXNeRfF1mApdmb9QIQFs/EvmAw4iaQ0mPWQ0mjWOLGyUlNTojI+ycbhss=
+	t=1758055042; cv=none; b=ZU4Sj/J1yln8tiVIltCfE2g3jNEF5qEpo39wx4UYGuQotYHH8undcJu/H5yw/FBIkvLh7DjaK8TA7FVne+GQugry6Sh14CCZTrHPzXmw9pL7Uq/6DC/4tRMQTwGjjY5ONMcP2/EDCC+o4zaepn6CbLRfVI9TSDd9Iq4sbGejq90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758042573; c=relaxed/simple;
-	bh=ifa455a/Zl9SEMv80XHMO4dqcxWjN3Tc6gKOVJXSDtc=;
+	s=arc-20240116; t=1758055042; c=relaxed/simple;
+	bh=Z80SKrP0sS/6bnyjPQojTzh9RSD8etRdSrEn9Y4Wovg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qnXNHkTtBqa6aawo3vqNLS3v/wdvWJ86VC6PQw7jBkGEIuJlBLzOl2lKiqnHCvkzmAmaGMmppEOhi+bHHfcY37BRoJ48YL1/wv5VlACuXecb0Sv7XdA+i9P51S2MXu9qoJ6g68itGKKCDkddagtzLJB5dlCJhN9gF3uWoaLBljo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I1nQdPZu; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=AerpsCO2q5BTAP964+yE39KIiTcS7LmRHSMGdagvRLaqv7Q1QovOKGNrfgeHrDz3XV5LNgZu0QNhcngk+hT9I/T7URnycWeUL0qhu+wuv/4uvjBxqwL6dQ6GK1Yiwz2T6JdzYOtJ6U+BLjbH8KFGsGm+ywbo4rPaUhdr+8MqC70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZoerUiiU; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I1nQdPZu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZoerUiiU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758042571; x=1789578571;
+  t=1758055040; x=1789591040;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ifa455a/Zl9SEMv80XHMO4dqcxWjN3Tc6gKOVJXSDtc=;
-  b=I1nQdPZu0TQv08fvzFMHYUheL8aElUGQJL3X+y2wY3zaIkndfMzDZmbB
-   aotgBgEdwlFFsiSX8wq8dT/g7Y0bq1azFUtEixD3ioyv9NCT+A8aqAMWM
-   HBknuvHlOJh1efBWA1Gtbn1x0bxeOuk32cvVgRQu19suJ0kqOGzTqOBjL
-   BEG+ElzpRHf06HUNNbD975IBc/tNdLJ1mnG451+zp9XLyjagIMRGSyoFt
-   IT0BU56zPD5WE77Ji90StGeICCEvP2241owCUO6Pa6g9ovFOC6iZ6a2rC
-   wtrTE7sHwE9bzzDv+O+TSrdnNeTbjg67AMMW8TMkBzO28bM+VMS6YJfds
-   w==;
-X-CSE-ConnectionGUID: AXXLkg0pSEm+z68kTEJ5aw==
-X-CSE-MsgGUID: sSHvIHFNQMSAdB8VVuAykw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="47908460"
-X-IronPort-AV: E=Sophos;i="6.18,269,1751266800"; 
-   d="scan'208";a="47908460"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 10:09:29 -0700
-X-CSE-ConnectionGUID: /4ZjnOwJSBeXr+h5ov2D3g==
-X-CSE-MsgGUID: xOIFTS5NTK279TiXf2Tyjg==
+  bh=Z80SKrP0sS/6bnyjPQojTzh9RSD8etRdSrEn9Y4Wovg=;
+  b=ZoerUiiUZGSlJTngTQuoA0RfAjpzjkYroOm52SnFrGtBD64qzIAhjTHW
+   NXb96TTaMH+yIUeAn5S9hMaSem8nGLMJZ4KeXwWlsepx6CuizfMH1E9P3
+   6xikRh1ieqVLeakN3mq4kC+iedBZABF3xfExcnKV3TqkknshdpXHCQa+d
+   AwsDpZWF0zHQOtNg4PE4k/fVOxDDYJx6npAiYFUek32HC6rqe/pXoPXUf
+   emm5SrRFcXwR5+KzRRnrfjbfgquPwiWcFpCxGL/elGAvq1o+Qa6BWHxcI
+   azBpnjSEn+TW23p0tzNlUJvgQydm37Kv34eEr0bh+WF/q+c8t7KywEyJc
+   Q==;
+X-CSE-ConnectionGUID: rh0OAzxsRQ+mihWWiyu/qQ==
+X-CSE-MsgGUID: nLK4Q6DUTeOgKqYXs3RVsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="64168851"
+X-IronPort-AV: E=Sophos;i="6.18,270,1751266800"; 
+   d="scan'208";a="64168851"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 13:37:12 -0700
+X-CSE-ConnectionGUID: /PDG+cDTQRqRdeyRcy3qTA==
+X-CSE-MsgGUID: 55KaCYJmR0WvOX9TloJ44g==
 X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Sep 2025 10:09:28 -0700
-Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.18,270,1751266800"; 
+   d="scan'208";a="175827692"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by fmviesa010.fm.intel.com with ESMTP; 16 Sep 2025 13:37:10 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1uyZBF-0000Xz-2I;
-	Tue, 16 Sep 2025 17:09:25 +0000
-Date: Wed, 17 Sep 2025 01:09:24 +0800
+	id 1uycQF-000000002e5-1ftd;
+	Tue, 16 Sep 2025 20:37:07 +0000
+Date: Tue, 16 Sep 2025 22:36:21 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 5/6] arm64: dts: apple: Add J474s, J475c and J475d
- device trees
-Message-ID: <202509170040.Jn3hHKHJ-lkp@intel.com>
+Subject: [qcom:arm64-for-6.18 190/247]
+ arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: codec@3370000
+ (qcom,sc7280-lpass-va-macro): clock-names: ['mclk', 'macro', 'dcodec'] is
+ too long
+Message-ID: <202509162204.ZkcFhFdi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,198 +70,34 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250914-dt-apple-t6020-v2-5-1a738a98bb43@jannau.net>
-References: <20250914-dt-apple-t6020-v2-5-1a738a98bb43@jannau.net>
-TO: Janne Grunau <j@jannau.net>
-TO: Sven Peter <sven@kernel.org>
-TO: Janne Grunau <j@jannau.net>
-TO: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-TO: Neal Gompa <neal@gompa.dev>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Hector Martin <marcan@marcan.st>
-TO: Marc Zyngier <maz@kernel.org>
-CC: asahi@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+TO: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+CC: Bjorn Andersson <andersson@kernel.org>
+CC: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Hi Janne,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on eef7336dc6c11f80c08b55b09b24faf124baeb0d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Janne-Grunau/dt-bindings-arm-apple-Add-t6020x-compatibles/20250915-034102
-base:   eef7336dc6c11f80c08b55b09b24faf124baeb0d
-patch link:    https://lore.kernel.org/r/20250914-dt-apple-t6020-v2-5-1a738a98bb43%40jannau.net
-patch subject: [PATCH v2 5/6] arm64: dts: apple: Add J474s, J475c and J475d device trees
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-052-20250916 (https://download.01.org/0day-ci/archive/20250917/202509170040.Jn3hHKHJ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509170040.Jn3hHKHJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.18
+head:   520f9fec5d6f5a23e7985140dc4dd9986f0ed140
+commit: aa04c298619ff2621691ef1df5e243637d777222 [190/247] arm64: dts: qcom: qcm6490-idp: Add WSA8830 speakers and WCD9370 headset codec
+:::::: branch date: 4 hours ago
+:::::: commit date: 8 days ago
+config: arm64-randconfig-2053-20250916 (https://download.01.org/0day-ci/archive/20250916/202509162204.ZkcFhFdi-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250916/202509162204.ZkcFhFdi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509170040.Jn3hHKHJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509162204.ZkcFhFdi-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/pinctrl@2a2820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,t8103-pinctrl']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@39b008000 (apple,t6020-dart): compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@39b008000 (apple,t6020-dart): compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/iommu@39b008000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: pwm@39b030000 (apple,t6020-fpwm): compatible:0: 'apple,t6020-fpwm' is not one of ['apple,t8103-fpwm', 'apple,t6000-fpwm', 'apple,t8112-fpwm']
-   	from schema $id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/pwm@39b030000: failed to match any schema with compatible: ['apple,t6020-fpwm', 'apple,s5l-fpwm']
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b040000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b040000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b040000 (apple,t6020-i2c): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/i2c@39b040000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b044000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b044000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/i2c@39b044000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b048000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b048000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/i2c@39b048000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b04c000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b04c000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/i2c@39b04c000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b050000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b050000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/i2c@39b050000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b054000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b054000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/i2c@39b054000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: spi@39b104000 (apple,t6020-spi): compatible:0: 'apple,t6020-spi' is not one of ['apple,t8103-spi', 'apple,t8112-spi', 'apple,t6000-spi']
-   	from schema $id: http://devicetree.org/schemas/spi/apple,spi.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: spi@39b104000 (apple,t6020-spi): compatible:1: 'apple,spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/apple,spi.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: spi@39b104000 (apple,t6020-spi): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/apple,spi.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6020-spi', 'apple,t8103-spi']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: spi@39b108000 (apple,t6020-spi): compatible:0: 'apple,t6020-spi' is not one of ['apple,t8103-spi', 'apple,t8112-spi', 'apple,t6000-spi']
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/pinctrl@2a2820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,t8103-pinctrl']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@39b008000 (apple,t6020-dart): compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@39b008000 (apple,t6020-dart): compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/iommu@39b008000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: pwm@39b030000 (apple,t6020-fpwm): compatible:0: 'apple,t6020-fpwm' is not one of ['apple,t8103-fpwm', 'apple,t6000-fpwm', 'apple,t8112-fpwm']
-   	from schema $id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/pwm@39b030000: failed to match any schema with compatible: ['apple,t6020-fpwm', 'apple,s5l-fpwm']
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b040000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b040000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b040000 (apple,t6020-i2c): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/i2c@39b040000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b044000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b044000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/i2c@39b044000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b048000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b048000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/i2c@39b048000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b04c000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b04c000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/i2c@39b04c000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b050000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b050000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/i2c@39b050000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b054000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b054000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/i2c@39b054000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: spi@39b104000 (apple,t6020-spi): compatible:0: 'apple,t6020-spi' is not one of ['apple,t8103-spi', 'apple,t8112-spi', 'apple,t6000-spi']
-   	from schema $id: http://devicetree.org/schemas/spi/apple,spi.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: spi@39b104000 (apple,t6020-spi): compatible:1: 'apple,spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/apple,spi.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: spi@39b104000 (apple,t6020-spi): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/apple,spi.yaml#
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6020-spi', 'apple,t8103-spi']
-   arch/arm64/boot/dts/apple/t6021-j475c.dtb: spi@39b108000 (apple,t6020-spi): compatible:0: 'apple,t6020-spi' is not one of ['apple,t8103-spi', 'apple,t8112-spi', 'apple,t6000-spi']
---
-   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/pinctrl@2a2820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,t8103-pinctrl']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@39b008000 (apple,t6020-dart): compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@39b008000 (apple,t6020-dart): compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/iommu@39b008000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: pwm@39b030000 (apple,t6020-fpwm): compatible:0: 'apple,t6020-fpwm' is not one of ['apple,t8103-fpwm', 'apple,t6000-fpwm', 'apple,t8112-fpwm']
-   	from schema $id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/pwm@39b030000: failed to match any schema with compatible: ['apple,t6020-fpwm', 'apple,s5l-fpwm']
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b040000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b040000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b040000 (apple,t6020-i2c): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/i2c@39b040000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b044000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b044000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/i2c@39b044000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b048000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b048000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/i2c@39b048000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b04c000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b04c000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/i2c@39b04c000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b050000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b050000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/i2c@39b050000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b054000 (apple,t6020-i2c): compatible:0: 'apple,t6020-i2c' is not one of ['apple,s5l8960x-i2c', 'apple,t7000-i2c', 'apple,s8000-i2c', 'apple,t8010-i2c', 'apple,t8015-i2c', 'apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b054000 (apple,t6020-i2c): compatible:1: 'apple,i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/i2c@39b054000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,t8103-i2c']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: spi@39b104000 (apple,t6020-spi): compatible:0: 'apple,t6020-spi' is not one of ['apple,t8103-spi', 'apple,t8112-spi', 'apple,t6000-spi']
-   	from schema $id: http://devicetree.org/schemas/spi/apple,spi.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: spi@39b104000 (apple,t6020-spi): compatible:1: 'apple,spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/apple,spi.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: spi@39b104000 (apple,t6020-spi): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/apple,spi.yaml#
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/spi@39b104000: failed to match any schema with compatible: ['apple,t6020-spi', 'apple,t8103-spi']
-   arch/arm64/boot/dts/apple/t6022-j475d.dtb: spi@39b108000 (apple,t6020-spi): compatible:0: 'apple,t6020-spi' is not one of ['apple,t8103-spi', 'apple,t8112-spi', 'apple,t6000-spi']
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4317.10-4327.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: codec@3370000 (qcom,sc7280-lpass-va-macro): clock-names: ['mclk', 'macro', 'dcodec'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,lpass-va-macro.yaml#
+>> arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: codec@3370000 (qcom,sc7280-lpass-va-macro): clocks: [[206, 56, 1], [206, 102, 1], [206, 103, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/qcom,lpass-va-macro.yaml#
+>> arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: pinctrl@33c0000 (qcom,sc7280-lpass-lpi-pinctrl): Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7280-lpass-lpi-pinctrl.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
