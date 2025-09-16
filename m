@@ -1,55 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3445E286435
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Sep 2025 05:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F664143756
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Sep 2025 05:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758000349; cv=none; b=rrU/ygY7Qw4lC/IfVvTKWFwWqyMaTBsGdI3WCPWlYYXTEZh38voI3wXSMClFH1MlAXA0Nx4z23v8M0eqgiDASbiRn/57si/D3oXFZ23fpWwGbdQPP9e8amkvoLtLWKybe0Fy+ZCjN9/2Q3qsJ5KG77K3jaX7QvHODB6zwQEzFI0=
+	t=1758001592; cv=none; b=r26L2g7hDtMPX4F4nxcgwyDZ8lA0PzTcYkNlWADWz3YTZ6RMljGsLqnjggOB+ZX8qHaO2y7BBTosshrTKur4j6+xbVsy3n7wc+tM+a5LOatV9AiiwP+Q31K5UoDYwvqoqZiXGgD/Agzf7cA0UDnoA1EhjulPccn1jYe4ABV8Tso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758000349; c=relaxed/simple;
-	bh=9v2PbL51iUi5Dfdg6tAHaBe0qV5wXBTCTgBAnlmmDMY=;
+	s=arc-20240116; t=1758001592; c=relaxed/simple;
+	bh=FywVTW+NkJBScWUwmd15Woqfq8DE1jZ960vJHnXScr0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p1BzGHBWSpeiZ3ImhCzHKOqckzN1usyc+efgqDSVOxKTkmDBR9mvSvZiXGIAZPzm7gfi4O+LgpbznIzlLwAWy8/itBKjgtJ/zIazGpBvROQx0CWOSEmDmQyk/zjsMM2r1EOhRP9Bu7Hc42EZ2SlNmfXdaqp3gMHm6MhY5Fpm7uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EXoRqw8b; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=ilQh+twk+3VN50R5fGzDDdM0A4lfBVf7wXOrQ2L/7RLHefFPDlQiK+FF2GCpxHdcLK7gwFinTkvnLIM7ABvbQRipwsv+G9YgTs8vWC9eEFnLVM4RyNYZ/ziEoJUUk+S3Gs2wD7A0/oBZ7Omp2sv+/feP8qJb7g+AxFKi7ZH92v4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pmyqb/fs; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EXoRqw8b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758000347; x=1789536347;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9v2PbL51iUi5Dfdg6tAHaBe0qV5wXBTCTgBAnlmmDMY=;
-  b=EXoRqw8buz0xuhTcl9AXr1b0nQ86ZldZpYpKQOgBvA8dYnsFIn13fX3f
-   vR1J9r/9Dz7ZmmmVNki6pWpdEhmJWAQKNQDuDy5i0ZpEQguZfkix97MJT
-   ah4blHdQup2ne5QKi5ytpivC0pAOI1u7DkZghDyLkl98BaKN+60wpfx7K
-   KiGRFQlHCSjlZTSA0J+yEb4E5QKRpZPMmE5qKSC/fAoSSd3Kd/v9VPsCw
-   925BUhwqs0/e/p3D/niITxlTXrVBoWo7LG2RhcpLTYoLcOWdWWYmrUFuM
-   941MEcwdmmcICRGY2IaQckZlrwUr4OrnV3341L8+RoSo+65piCEOOvhAt
-   A==;
-X-CSE-ConnectionGUID: swxSICYaTGawrm/1sp19pw==
-X-CSE-MsgGUID: fNwUwBCUSZyw+FrHUZnFpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="59491734"
-X-IronPort-AV: E=Sophos;i="6.18,268,1751266800"; 
-   d="scan'208";a="59491734"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 22:25:46 -0700
-X-CSE-ConnectionGUID: JfBuQr2SRxif6AVA0ZPobQ==
-X-CSE-MsgGUID: ZRvT4KDlTWecXK8LZsN+9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,268,1751266800"; 
-   d="scan'208";a="174445131"
-Received: from lkp-server01.sh.intel.com (HELO 5b01dd97f97c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Sep 2025 22:25:45 -0700
-Received: from kbuild by 5b01dd97f97c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uyOCE-000111-2o;
-	Tue, 16 Sep 2025 05:25:42 +0000
-Date: Tue, 16 Sep 2025 13:25:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pmyqb/fs"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45f2c5ef00fso17446615e9.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 15 Sep 2025 22:46:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1758001588; x=1758606388; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hRpDCRaw7BEKyikqEm/KEgdpxjmtpKt/Hv/Bxs3qVwM=;
+        b=pmyqb/fsVSg5VivVwGocyvLGkRDFzbLSfK4rz4cc8AM/M3Yw0Vd1Nm0hR4dSCbDRch
+         b92M9r6QbWe5hrgjk0YkbOWT7KjKL9tOg8aTb9qNkHGlix85loeWFFIidS5JnHTA06od
+         IaHXb6oDX8PB2lfzJj5xNHIHuGJDGCPyTcs2aFJ6AOHtLuCP20Rc7lWYDlyjjZFh0bpq
+         4eDShBjJi0LSsSvg0tlH3Lwi8FxT+HQqzOfmizXAoXr9vSZwtQY1zScI738r0jFknWHA
+         5rHXFWvi0abPB+DZ3Bi6UgG49ghBYl0dHnnwNDaEdgsIYTvM+Z+uf+NsMyya4PHM4PDe
+         OYjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758001588; x=1758606388;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hRpDCRaw7BEKyikqEm/KEgdpxjmtpKt/Hv/Bxs3qVwM=;
+        b=ZIG7kP7TdX8oXahPlS0y2jo1uvV3S4LCj+l0LHjQaSRqCBjz8mrJsq7PKoB3grkv4r
+         Y1nnCsWBE2LckxzxpHpQvNzmMaNK6ZQxUY3meTxo+YVgn+R/BD6Q4U3Ww4pxVG2mFNvm
+         1j84zxq9isJEozqn1vhMn4QCeRopgIY+8DCngZu0++bdKSr6NNl0ZmyqR+taOWTNIgo0
+         f7flbENOajT1qCrp6g3+f8MgdoaQHAv4mN9/K2v9XKmR5SWJAKJfByHTCpcCbwEhS3PA
+         XN7tUYOKnKsyJPYvduqHlgb19SE7lcCaII+iwUVBPjRkL2A0X/ONmIKSItjJXn+btb/4
+         UfiQ==
+X-Gm-Message-State: AOJu0YwMm9MdXqAUuhrQ+fMI8lwNU8vG84ofp+41xpTUEiT9ALWJiHwb
+	jEkaU+3YbyBistNOXVR2t75l5LnpPK7eSO5vSlQdB1S7AaNdOKdfldOrFoSc3BldJu+Wv6gpG44
+	tfx9d
+X-Gm-Gg: ASbGncucZGDjdzOZLTivl/clpOPFoBmjuSthIDJzCQf3gW/xi5qO6VCH4HgqZAKz6Qb
+	o7+lgHUh4HBu7fzi572+OSnAeA9jbv4slC8aV/7WhbeCQqzO/Y5GtinZSBGbaaY5pht6Ftjshb0
+	QAf5NFYGcCR7hZlOP6SyQlX8f6F32gI9Nt4kSo3V7Vf1rOML0/qyGhoSUc3Ncj03Z9yRqggeCjg
+	oRElOPZcKrG8Iu3XcK0MoZsZvok0LIa1ZQ77Waa4Wlk5fFEbCQSviaNtfXjkB3s7YThpF1eAdi+
+	zceRyUdhgyM3AxycSUTLQ6u0QGRyC0VOeCuxyO/ToVesP4xfT0PTsgn67vbp5YuPwH0Vs+2jwCg
+	r61DCKMvm2iyzX92QC3jjv+8twSZMVdbcmlGYUw==
+X-Google-Smtp-Source: AGHT+IEJMjy+qyIk5xqFocYpNMUmqI1onZLmshq/sOyCOw+IB161XWLjgacwRGHQYXdmBTmZ8cwD6Q==
+X-Received: by 2002:a05:600c:58d8:b0:45b:868e:7f7f with SMTP id 5b1f17b1804b1-45f211f856fmr120265875e9.17.1758001588267;
+        Mon, 15 Sep 2025 22:46:28 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3e95b111b68sm10476481f8f.32.2025.09.15.22.46.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Sep 2025 22:46:27 -0700 (PDT)
+Date: Tue, 16 Sep 2025 08:46:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, John Ripple <john.ripple@keysight.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+	andrzej.hajda@intel.com, blake.vermeer@keysight.com,
+	dianders@chromium.org, dri-devel@lists.freedesktop.org,
+	jernej.skrabec@gmail.com, jonas@kwiboo.se,
+	linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+	matt_laubhan@keysight.com, mripard@kernel.org,
+	neil.armstrong@linaro.org, rfoss@kernel.org, simona@ffwll.ch,
+	tzimmermann@suse.de
 Subject: Re: [PATCH V3] drm/bridge: ti-sn65dsi86: Add support for DisplayPort
  mode with HPD
 Message-ID: <202509161344.FPfsjq01-lkp@intel.com>
@@ -61,53 +80,26 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20250910183353.2045339-1-john.ripple@keysight.com>
-References: <20250910183353.2045339-1-john.ripple@keysight.com>
-TO: John Ripple <john.ripple@keysight.com>
-TO: john.ripple@keysight.com
-CC: Laurent.pinchart@ideasonboard.com
-CC: airlied@gmail.com
-CC: andrzej.hajda@intel.com
-CC: blake.vermeer@keysight.com
-CC: dianders@chromium.org
-CC: dri-devel@lists.freedesktop.org
-CC: jernej.skrabec@gmail.com
-CC: jonas@kwiboo.se
-CC: linux-kernel@vger.kernel.org
-CC: maarten.lankhorst@linux.intel.com
-CC: matt_laubhan@keysight.com
-CC: mripard@kernel.org
-CC: neil.armstrong@linaro.org
-CC: rfoss@kernel.org
-CC: simona@ffwll.ch
-CC: tzimmermann@suse.de
+Message-ID: <20250916054623.kyQark4rLlJYMH4pMqpbKXXldYtctbvmemMDwwQ4sYQ@z>
 
 Hi John,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.17-rc6 next-20250915]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20250911-023707/John-Ripple/drm-bridge-ti-sn65dsi86-break-probe-dependency-loop/20250820-235209
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20250910183353.2045339-1-john.ripple%40keysight.com
 patch subject: [PATCH V3] drm/bridge: ti-sn65dsi86: Add support for DisplayPort mode with HPD
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
 config: x86_64-randconfig-161-20250916 (https://download.01.org/0day-ci/archive/20250916/202509161344.FPfsjq01-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202509161344.FPfsjq01-lkp@intel.com/
 
 smatch warnings:
@@ -115,7 +107,6 @@ drivers/gpu/drm/bridge/ti-sn65dsi86.c:1385 ti_sn_bridge_interrupt() error: unini
 
 vim +/status +1385 drivers/gpu/drm/bridge/ti-sn65dsi86.c
 
-982f589bde7a7f Stephen Boyd 2020-11-02  1364  
 b8670cf7e6a41b John Ripple  2025-09-10  1365  static irqreturn_t ti_sn_bridge_interrupt(int irq, void *private)
 b8670cf7e6a41b John Ripple  2025-09-10  1366  {
 b8670cf7e6a41b John Ripple  2025-09-10  1367  	struct ti_sn65dsi86 *pdata = private;
@@ -133,10 +124,16 @@ b8670cf7e6a41b John Ripple  2025-09-10  1378
 b8670cf7e6a41b John Ripple  2025-09-10  1379  	ret = ti_sn65dsi86_read_u8(pdata, SN_IRQ_STATUS_REG, &status);
 b8670cf7e6a41b John Ripple  2025-09-10  1380  	if (ret)
 b8670cf7e6a41b John Ripple  2025-09-10  1381  		pr_err("Failed to read IRQ status: %d\n", ret);
+
+status isn't initialized on error.
+
 b8670cf7e6a41b John Ripple  2025-09-10  1382  	else
 b8670cf7e6a41b John Ripple  2025-09-10  1383  		hpd_event = status & (HPD_REMOVAL_STATUS | HPD_INSERTION_STATUS);
 b8670cf7e6a41b John Ripple  2025-09-10  1384  
 b8670cf7e6a41b John Ripple  2025-09-10 @1385  	if (status) {
+                                                    ^^^^^^
+warning
+
 b8670cf7e6a41b John Ripple  2025-09-10  1386  		drm_dbg(dev, "(SN_IRQ_STATUS_REG = %#x)\n", status);
 b8670cf7e6a41b John Ripple  2025-09-10  1387  		ret = regmap_write(pdata->regmap, SN_IRQ_STATUS_REG, status);
 b8670cf7e6a41b John Ripple  2025-09-10  1388  		if (ret)
@@ -153,8 +150,8 @@ b8670cf7e6a41b John Ripple  2025-09-10  1398  	mutex_unlock(&pdata->hpd_mutex);
 b8670cf7e6a41b John Ripple  2025-09-10  1399  
 b8670cf7e6a41b John Ripple  2025-09-10  1400  	return IRQ_HANDLED;
 b8670cf7e6a41b John Ripple  2025-09-10  1401  }
-b8670cf7e6a41b John Ripple  2025-09-10  1402  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
