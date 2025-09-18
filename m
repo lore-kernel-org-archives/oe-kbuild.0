@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3C027875C
-	for <oe-kbuild@lists.linux.dev>; Wed, 17 Sep 2025 18:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7D82629D
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Sep 2025 04:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758132064; cv=none; b=e7XGLSURWk5x2Eo6RYMKa5V09s6KyhB6jhzM3lbaqBw5+7yc2AguaqU6BmErahFMj8ttQQqg7cFd1p6B4bf65wq87vEXsZ/nRKjFMyL8xGy+cSTv1tqdb1DeHLzYdGQJw2tPNJSkjEfPY+OqSJrynPUZdb8moKTahf+7cXatETc=
+	t=1758170767; cv=none; b=PIJX2fHzQEc/nkA8Z+Cn7urKG4L8Ix/nVImZ+hV1N6xG9buHcYEm/McE1Z4WoL3xvnaYT1oCRf7qT/JLPGnSxwLXruH4uCr9LpXusyyrLHe6SMLddIOO1crZh2NLWTK2upm69KfNvPyNYBPDmqm5n0wmSdItz0D+ENS4/zBWsn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758132064; c=relaxed/simple;
-	bh=y/ka9ZUVmwbud00AJHwzRyK6mF+IXkyXKWK6e1XgpTY=;
+	s=arc-20240116; t=1758170767; c=relaxed/simple;
+	bh=HIHqJQiwe+1vZQ5geQ4+3npPnLnjNxbgNdG9IiVRUIg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lA6iDN7EynvVkq+Y5tDksV7RiiQ25v7vgVYp5ekaV0580UI5i9YcMVgpE0+1OoSQJUtipIL/tY1dmVDAw3DDkyfzbRFR9ZlylHzP4SvM/eI2rbP4wifuHQOs/4cmIHzskFFuXmoJr8IiUwgc70e5tSXCuH5xjxVG0j+z1VtjG+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bjFiB8h3; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=MjNl8zm56uvOtiX3VeNFeBF3+27XHRba7VJfiTKM2aO1KLN/+GPTjtl7rUJEegG1UXS9pqHBeBYgS6IJAOEuREg01Od3yoJsNQWGmBJGI0VndVCRZKAzyrfceSTNHYNn9EKDitPc4hbzCfXQNnweuTh6CuVZEOOQGtHApewuIaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bjzagY9F; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bjFiB8h3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bjzagY9F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758132060; x=1789668060;
+  t=1758170765; x=1789706765;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y/ka9ZUVmwbud00AJHwzRyK6mF+IXkyXKWK6e1XgpTY=;
-  b=bjFiB8h3J0cxTcBbB79WqZ2FuUqynjFifvGOBxfxcN1VGEkT1ZTFA/6L
-   +EVoVnxc7E/zX+1NBU4TSaHPPQs2vZ0hl8yt9T3T910U/8byFSrDJ5R0u
-   /mJIx+EAINkmTD8MlV/PY2SyJ0g3TuTRQflTGjL0zLVR2HTjKJsd87aNj
-   dfBKWe3GU81+nlTD/946Vrp4g/crrY6zC6Cxj8/mr6ESK4Q2zrQ6rSlQD
-   SFUM8eRVJOQBj24BOu5G7pAwhgbiG9z0tNXhDc0/i2T6+6zvgnn2p6YdM
-   OreRYMM1937ECqTkKgtb0ZrE5aF0qNsfUk1x4vRbsAPll8qB1X2yDFPe+
-   w==;
-X-CSE-ConnectionGUID: nVWDBjPDQLKCA5TgnEae0A==
-X-CSE-MsgGUID: 6b1HDi0RT5q8hqzaxzcH5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="60599765"
-X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
-   d="scan'208";a="60599765"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 11:01:00 -0700
-X-CSE-ConnectionGUID: gV4htA5WSf6cZFlcSFxF1Q==
-X-CSE-MsgGUID: YR4QtadsSASpGcPgxyeWNA==
+  bh=HIHqJQiwe+1vZQ5geQ4+3npPnLnjNxbgNdG9IiVRUIg=;
+  b=bjzagY9FX97M3YEMKO6YQ24EYPGqMLX38Kmt4LPQ9YoHnTTmfiaqpRpu
+   Ky8D+aLmrjDkG9L7Jc6a+KLF8X8mfJ/SwR3cuj4GoJhzPSbr+eG4XaVzh
+   60w3S5WRgLOBXm/OU3CHOK9/gLh+yPOLrOXYdKYnHQsb2OcZsNvS+Dn0S
+   MqJSrzh477dltTon5pdueWvXkQ8UiDq83eJslaLN0/Tp31Z/AgHibkrJl
+   cd3M9gQWvLPedQGxJzubbwBuQOlO8wwMEL+lSPsx5kXh/2ppkBnyM/CRQ
+   E2PtyIe6kZ/TIGrwh/8C+vWE1tcAjtSyui5fRnWB4f1N7Fxx3gW/87v8V
+   A==;
+X-CSE-ConnectionGUID: DbOSH0CGTLOffFLx7Zn0Xw==
+X-CSE-MsgGUID: y5Q7tRXQSVCZgIQmOFnLZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="83085886"
+X-IronPort-AV: E=Sophos;i="6.18,274,1751266800"; 
+   d="scan'208";a="83085886"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 21:46:04 -0700
+X-CSE-ConnectionGUID: h6tAF45XQYKqRMhIMwoNnA==
+X-CSE-MsgGUID: 92V5jxpNQFuB4HXJLjc7Qw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
-   d="scan'208";a="206102104"
+X-IronPort-AV: E=Sophos;i="6.18,274,1751266800"; 
+   d="scan'208";a="180712432"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 17 Sep 2025 11:00:59 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 17 Sep 2025 21:46:03 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uywSe-0002L1-26;
-	Wed, 17 Sep 2025 18:00:56 +0000
-Date: Thu, 18 Sep 2025 02:00:42 +0800
+	id 1uz6Wu-0002lb-1m;
+	Thu, 18 Sep 2025 04:46:00 +0000
+Date: Thu, 18 Sep 2025 12:45:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 3/4] dt-bindings: usb: uhci: Add Aspeed AST2700
- compatible
-Message-ID: <202509180123.DNzM6Nbb-lkp@intel.com>
+Subject: [qcom:arm64-for-6.18 171/256]
+ arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dtb: phy@fd5000
+ (qcom,x1e80100-qmp-usb3-dp-phy): 'mode-switch' does not match any of the
+ regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202509181238.5g1vXdIU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,48 +70,40 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250917021926.3692137-4-ryan_chen@aspeedtech.com>
-References: <20250917021926.3692137-4-ryan_chen@aspeedtech.com>
-TO: Ryan Chen <ryan_chen@aspeedtech.com>
-TO: "ryan_chen" <ryan_chen@aspeedtech.com>
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Alan Stern <stern@rowland.harvard.edu>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
-TO: linux-usb@vger.kernel.org
-TO: devicetree@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
+TO: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+CC: Bjorn Andersson <andersson@kernel.org>
+CC: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 
-Hi Ryan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus robh/for-next linus/master v6.17-rc6 next-20250917]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/dt-bindings-usb-uhci-Add-reset-property/20250917-102150
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20250917021926.3692137-4-ryan_chen%40aspeedtech.com
-patch subject: [PATCH v2 3/4] dt-bindings: usb: uhci: Add Aspeed AST2700 compatible
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: arc-randconfig-052-20250918 (https://download.01.org/0day-ci/archive/20250918/202509180123.DNzM6Nbb-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.18
+head:   141714e163bbb7620d538af48fce4024a4f239e1
+commit: d3f600dc452df45f0f404eba65a88f4aecc48b43 [171/256] arm64: dts: qcom: Add Lenovo ThinkBook 16 G7 QOY device tree
+:::::: branch date: 9 hours ago
+:::::: commit date: 2 weeks ago
+config: arm64-randconfig-054-20250912 (https://download.01.org/0day-ci/archive/20250918/202509181238.5g1vXdIU-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
 dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509180123.DNzM6Nbb-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509181238.5g1vXdIU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509180123.DNzM6Nbb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509181238.5g1vXdIU-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/usb/usb-uhci.yaml: ignoring, error parsing file
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4894.11-4904.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dtb: phy@fd5000 (qcom,x1e80100-qmp-usb3-dp-phy): 'mode-switch' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dtb: phy@fda000 (qcom,x1e80100-qmp-usb3-dp-phy): 'mode-switch' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dtb: phy@fdf000 (qcom,x1e80100-qmp-usb3-dp-phy): 'mode-switch' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
+--
+>> arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16-el2.dtb: phy@fd5000 (qcom,x1e80100-qmp-usb3-dp-phy): 'mode-switch' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16-el2.dtb: phy@fda000 (qcom,x1e80100-qmp-usb3-dp-phy): 'mode-switch' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16-el2.dtb: phy@fdf000 (qcom,x1e80100-qmp-usb3-dp-phy): 'mode-switch' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
