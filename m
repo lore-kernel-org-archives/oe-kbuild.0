@@ -1,69 +1,57 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57AF92E973D
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 Sep 2025 07:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F251626560B
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Sep 2025 08:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758268285; cv=none; b=VvjmF2e/0kKQIn44rTqZOMRsp30ewXWfRQYUI+TFuJr07u7BkLevC03Yflk3MnRZWFnnrlAacXOwf4TWG4HiDyakUz0RV1n2vQ/uWztNswmsut3fyFG3geIbbE17G51WMrlmVIJ3BJIk8/zeR3mPy5wLFmaGPHzggdipuR4sAdM=
+	t=1758270098; cv=none; b=Mm//SQ0zc3FgabAGt/2msdksJxenPlkZFNsvt/iMhuc32NygzoDsgYB1KCL8mX01hXdbsmVGoSPw8Hv8FgQYe2TjIq/yXQxS+qNsW0s8v6Ty1loKBuUYa0oyr3aohAaMMaJPXEugOQw/k4KcGia4sbP4oEYLWcwtWHKAo8Fa0ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758268285; c=relaxed/simple;
-	bh=GEhDAzaPz82GkzvVD5d2pUkgfEK+bg/jQmAZ/1SykH4=;
+	s=arc-20240116; t=1758270098; c=relaxed/simple;
+	bh=8h3x2BGZwC/i+q+pZSVF0adRcffOGrrLBInfwdVgb1Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iNTQFifnHaV9GVoYXCxKD7xWGjndk5C0iR19yiIuIJ4pFGXUAcgD1/LwHd+vuQxFpuIOCMTU9SdCIZ12CEFZsh15fa3ZTHgxnTQ1VAgqT4PSXh5v55JPS53nQJJA78GPwyvLsH7641uGbxXKdRCHdjEuDrJ3IR/Yjb1+trSnhhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ksdDmmFS; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=WWYI13oLMrNznEJeiHy3CzlOzR+BoL/GD91f012AoBOaVfGg/Hz7IAjpw58MVm6AtjgLWppr9vmtxvDnY/nm8GSurGGQ/nRbogHVu4KN9usTYbonX7R+kA6Y3vEALrScA5On60MEPWkjTOsBu1CJ3FfesyhHXrqr1TlLPrB0mMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MTmYL4cm; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ksdDmmFS"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-45f2313dd86so15799185e9.2
-        for <oe-kbuild@lists.linux.dev>; Fri, 19 Sep 2025 00:51:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758268281; x=1758873081; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AoR6sX7977KTM78McnBCryAeUsXj1N3KYvPpEIo+aAw=;
-        b=ksdDmmFSxtKTZevNcAsKzbjKAUl6hGvXe3Ho8KX0we/Y2C8kJzTTWM7TYvymGJW4kC
-         f8h9dHCj3H4VSG6U/EjfSpeKwYW4FkRuT30Y9PCCoD5+zwBu8kQDuAMqgX6hmNY6/qCB
-         XN15F8iGnTv4lOPjuliNS0PKuDclVfVBcbej5eUwBpZGw39+HaBO8G3caZP2f/b84NXV
-         W+R2GSNd/rdZTCg9wQwsTEFhUaixQSd21yGVgoF+7jscpFgFN0W4uayreV2F0wfldWWx
-         5t68xAPEadW6uJqHBFfwvtQ25lEWIj7qbPKdD11YkSU6jmUgb674KWIt8OIkcy4/EYY1
-         5yMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758268281; x=1758873081;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AoR6sX7977KTM78McnBCryAeUsXj1N3KYvPpEIo+aAw=;
-        b=Z8sNBd6sh23njH9TxAvQlabkNkK+/3kBgXWSDCdYks3miagd1hXRjBEhxF6kWA2l48
-         qDT8/pPSfVM3SRa9YDlacTj+DwLLCodpSpuXC6k57EvRAvgRn2asNd/jAwVI+TxEng5a
-         /aVGe01ML8cQkTwAeLeUwSrIKyz6chpFiJseNVpFp9K9q4iKaR4VD1c3z2Jtn3J4h8TQ
-         LPoPXlDPIXSwdfUTvazk9llozUzBbFDX+Hq1DBHZyB8dAwMi8/owl4MeGltqyO/2jryM
-         sPEsHgqDw/Xnh03S2FwNy/hKpRi/z+mspN8H2YMQdB85f/8hfWT43NZZdbELRNPOSEzP
-         a95A==
-X-Gm-Message-State: AOJu0YznEgDuwbCKhdnZZjzFS4as6h5xYLwGgZYoYTuIahxEVXcPzy1I
-	TC6J4x42W3KYWWnHLu3olZurFRNFS6W3qFCgC1FD9rXvJVpf5iXfAFp/4fbKur3G0q6EH1IIZfl
-	DJYBB
-X-Gm-Gg: ASbGncuZwucdoYzgWIRMeiwk1ltJUmKg7JUG/O4L/vGCZkpLFMRRYPjvBlNquoeR5Jk
-	Zj/N+t6JZHSwveFQk4FY8Xe/D7PCeAlT0KlDf3W24euKZlle6vyCg3lKQEHQYNst0ls976LOTs7
-	JE7WkgaOp/trzokH1U2xqcO4Pyo1V8COZEkdntHlZS9Egwr7VPKTH3Lpp0m/jHXv1Dpb+KLYeX3
-	xnUaG/d7jKHABzYZ+eWX+JTMzQnKgGdy9QQUZRPn/y1K8AElYDbiNhU0ExgWU5t8OxqhFfVNKbg
-	jwaZGhxlljm8eRf5hlIp1niziCDSjBj8f6OhzvDtGEUVBnDRCNWcjdIWZyZO8JXvSBkdcMJqhIV
-	JnLbViS4kbbF+3fP8lUHW4hDtvh24Qfdrej1ims8=
-X-Google-Smtp-Source: AGHT+IG2y3ymgwjYLxUBVnnrtWk+wmqxx5F05UEMJJ8jYqfdiJS+URFqiBn4B6NQ5zmH4os7msh0hw==
-X-Received: by 2002:a05:600c:8206:b0:45b:7c4c:cfbf with SMTP id 5b1f17b1804b1-46825c1257fmr14948285e9.23.1758268281269;
-        Fri, 19 Sep 2025 00:51:21 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3ee106fd0edsm6332684f8f.53.2025.09.19.00.51.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 00:51:20 -0700 (PDT)
-Date: Fri, 19 Sep 2025 10:51:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Kent Overstreet <kent.overstreet@linux.dev>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 406/423]
- fs/bcachefs/move.c:385 bch2_move_extent() error: we previously assumed 'u'
- could be null (see line 327)
-Message-ID: <202509191055.R9lEpLQ5-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MTmYL4cm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758270097; x=1789806097;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8h3x2BGZwC/i+q+pZSVF0adRcffOGrrLBInfwdVgb1Q=;
+  b=MTmYL4cm+kwCWsIJpwEetzm+ot7vdjQIqeOAV9ECS09xPn7v4yqZQssk
+   RO120fLqmmSC4wuFLBRasFcW3b1qcx51chXt4kBja2btuuQ1IUt6t3zpX
+   TxG8dQhSycSt5cbafLS3uEqb6B/tXtFUA6WeQJwh3mz3hCv+CIt6lacjp
+   9Ysu9yOrXpgfCX8T44mSYoTJPhDz6fVROqndoVTzjZ7JX3v7i5t1WavwT
+   2p6NNkpI5N2zvteBMzSjNBLBrxYw3ruNuAEuWFvX3v0nXqK+r00gMAphl
+   KdcE8LpiVtS/3IfANHnr02FQmRTi79QcLwO3SB8i/HFR8Ui0nGU528fVF
+   g==;
+X-CSE-ConnectionGUID: 66BBXcmPQCiJMKO1/HsUXQ==
+X-CSE-MsgGUID: hEXFa5m/SWm1aVDC5p/0/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="64434742"
+X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; 
+   d="scan'208";a="64434742"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 01:21:36 -0700
+X-CSE-ConnectionGUID: ItbEDkVNTMiZMN/h1NRW5A==
+X-CSE-MsgGUID: SsdRpW3PR1i8Q1IGHQUjHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; 
+   d="scan'208";a="212932175"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by orviesa001.jf.intel.com with ESMTP; 19 Sep 2025 01:21:36 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1uzWN3-000000003J7-037h;
+	Fri, 19 Sep 2025 08:21:33 +0000
+Date: Fri, 19 Sep 2025 10:21:28 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH] arm64: tegra: Add pinctrl definition for PCIe C4 EP
+Message-ID: <202509191041.vFSx93PJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,141 +60,99 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20250919075117.H384PBmROaklMs724oCh2DrPTK2nKxYRBMOLTQhE-jk@z>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   1a64c52bac4085601538041ff371480bb598809e
-commit: f8a958f04d309e868f5d3f910aa1fc185772596b [406/423] bcachefs: kill struct moving_io
-config: i386-randconfig-141-20250919 (https://download.01.org/0day-ci/archive/20250919/202509191055.R9lEpLQ5-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250918120138.17572-2-cassel@kernel.org>
+References: <20250918120138.17572-2-cassel@kernel.org>
+TO: Niklas Cassel <cassel@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Thierry Reding <thierry.reding@gmail.com>
+TO: Jonathan Hunter <jonathanh@nvidia.com>
+CC: Vidya Sagar <vidyas@nvidia.com>
+CC: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
+CC: Gautham Srinivasan <gauthams@nvidia.com>
+CC: Niklas Cassel <cassel@kernel.org>
+CC: devicetree@vger.kernel.org
+CC: linux-tegra@vger.kernel.org
+
+Hi Niklas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk-dt/for-next tegra/for-next linus/master v6.17-rc6 next-20250918]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Cassel/arm64-tegra-Add-pinctrl-definition-for-PCIe-C4-EP/20250918-202414
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250918120138.17572-2-cassel%40kernel.org
+patch subject: [PATCH] arm64: tegra: Add pinctrl definition for PCIe C4 EP
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
+config: arm64-randconfig-2051-20250919 (https://download.01.org/0day-ci/archive/20250919/202509191041.vFSx93PJ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ce5124856e019792783de9630d0c5a1f0aaf2d9d)
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250919/202509191041.vFSx93PJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202509191055.R9lEpLQ5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509191041.vFSx93PJ-lkp@intel.com/
 
-smatch warnings:
-fs/bcachefs/move.c:385 bch2_move_extent() error: we previously assumed 'u' could be null (see line 327)
-
-vim +/u +385 fs/bcachefs/move.c
-
-633169035a7ccdf Kent Overstreet 2023-10-20  293  int bch2_move_extent(struct moving_context *ctxt,
-49188a9313e2209 Kent Overstreet 2025-05-08  294  		     struct move_bucket *bucket_in_flight,
-633169035a7ccdf Kent Overstreet 2023-10-20  295  		     struct btree_iter *iter,
-99aaf57000b4091 Kent Overstreet 2019-07-25  296  		     struct bkey_s_c k,
-cce5c6de6f8c77a Kent Overstreet 2025-08-23  297  		     struct bch_inode_opts io_opts,
-7f5c5d20f01483b Kent Overstreet 2022-06-13  298  		     struct data_update_opts data_opts)
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  299  {
-633169035a7ccdf Kent Overstreet 2023-10-20  300  	struct btree_trans *trans = ctxt->trans;
-f30dd8601262c74 Kent Overstreet 2020-10-16  301  	struct bch_fs *c = trans->c;
-bf676ce1a766f25 Kent Overstreet 2025-07-18  302  	int ret = 0;
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  303  
-060ff4b794748ef Kent Overstreet 2025-05-26  304  	if (trace_io_move_enabled())
-157ea5834133c02 Kent Overstreet 2025-02-03  305  		trace_io_move2(c, k, &io_opts, &data_opts);
-157ea5834133c02 Kent Overstreet 2025-02-03  306  	this_cpu_add(c->counters[BCH_COUNTER_io_move], k.k->size);
-189c176c5dd3245 Kent Overstreet 2024-01-15  307  
-96a363a7e688320 Kent Overstreet 2023-10-23  308  	if (ctxt->stats)
-96a363a7e688320 Kent Overstreet 2023-10-23  309  		ctxt->stats->pos = BBPOS(iter->btree_id, iter->pos);
-5a21764db13877e Kent Overstreet 2023-04-20  310  
-1be887979bc12a6 Kent Overstreet 2022-10-09  311  	bch2_data_update_opts_normalize(k, &data_opts);
-1be887979bc12a6 Kent Overstreet 2022-10-09  312  
-1be887979bc12a6 Kent Overstreet 2022-10-09  313  	if (!data_opts.rewrite_ptrs &&
-f269ae55d2de9c6 Kent Overstreet 2024-12-28  314  	    !data_opts.extra_replicas &&
-f269ae55d2de9c6 Kent Overstreet 2024-12-28  315  	    !data_opts.scrub) {
-1426ce7ed5dbba4 Kent Overstreet 2025-08-03  316  		if (data_opts.kill_ptrs|data_opts.kill_ec_ptrs) {
-8b0550942a7ea83 Kent Overstreet 2025-08-02  317  			this_cpu_add(c->counters[BCH_COUNTER_io_move_drop_only], k.k->size);
-a34eef6dd179463 Kent Overstreet 2024-10-20  318  			return bch2_extent_drop_ptrs(trans, iter, k, &io_opts, &data_opts);
-8b0550942a7ea83 Kent Overstreet 2025-08-02  319  		} else {
-8b0550942a7ea83 Kent Overstreet 2025-08-02  320  			this_cpu_add(c->counters[BCH_COUNTER_io_move_noop], k.k->size);
-1be887979bc12a6 Kent Overstreet 2022-10-09  321  			return 0;
-1be887979bc12a6 Kent Overstreet 2022-10-09  322  		}
-8b0550942a7ea83 Kent Overstreet 2025-08-02  323  	}
-1be887979bc12a6 Kent Overstreet 2022-10-09  324  
-f8a958f04d309e8 Kent Overstreet 2025-09-15  325  	struct data_update *u = allocate_dropping_locks(trans, ret,
-f8a958f04d309e8 Kent Overstreet 2025-09-15  326  				kzalloc(sizeof(struct data_update), _gfp));
-f8a958f04d309e8 Kent Overstreet 2025-09-15 @327  	if (!u && !ret)
-bf676ce1a766f25 Kent Overstreet 2025-07-18  328  		ret = bch_err_throw(c, ENOMEM_move_extent);
-f02d15327455822 Kent Overstreet 2025-05-28  329  	if (ret)
-bf676ce1a766f25 Kent Overstreet 2025-07-18  330  		goto err;
-
-We goto err when "u" is NULL.
-
-f02d15327455822 Kent Overstreet 2025-05-28  331  
-f8a958f04d309e8 Kent Overstreet 2025-09-15  332  	ret = bch2_data_update_init(trans, iter, ctxt, u, ctxt->wp,
-f269ae55d2de9c6 Kent Overstreet 2024-12-28  333  				    &io_opts, data_opts, iter->btree_id, k);
-f269ae55d2de9c6 Kent Overstreet 2024-12-28  334  	if (ret)
-bf676ce1a766f25 Kent Overstreet 2025-07-18  335  		goto err;
-f269ae55d2de9c6 Kent Overstreet 2024-12-28  336  
-f8a958f04d309e8 Kent Overstreet 2025-09-15  337  	u->op.end_io		= move_write_done;
-f8a958f04d309e8 Kent Overstreet 2025-09-15  338  	u->rbio.bio.bi_end_io	= move_read_endio;
-f8a958f04d309e8 Kent Overstreet 2025-09-15  339  	u->rbio.bio.bi_ioprio	= IOPRIO_PRIO_VALUE(IOPRIO_CLASS_IDLE, 0);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  340  
-a0bfe3b065cabc6 Kent Overstreet 2023-10-20  341  	if (ctxt->rate)
-a0bfe3b065cabc6 Kent Overstreet 2023-10-20  342  		bch2_ratelimit_increment(ctxt->rate, k.k->size);
-a0bfe3b065cabc6 Kent Overstreet 2023-10-20  343  
-2f528663c5abf10 Kent Overstreet 2023-03-04  344  	if (ctxt->stats) {
-2f528663c5abf10 Kent Overstreet 2023-03-04  345  		atomic64_inc(&ctxt->stats->keys_moved);
-f8a958f04d309e8 Kent Overstreet 2025-09-15  346  		atomic64_add(u->k.k->k.size, &ctxt->stats->sectors_moved);
-2f528663c5abf10 Kent Overstreet 2023-03-04  347  	}
-2f528663c5abf10 Kent Overstreet 2023-03-04  348  
-8fcdf81418f16ef Kent Overstreet 2023-02-27  349  	if (bucket_in_flight) {
-f8a958f04d309e8 Kent Overstreet 2025-09-15  350  		u->b = bucket_in_flight;
-f8a958f04d309e8 Kent Overstreet 2025-09-15  351  		atomic_inc(&u->b->count);
-8fcdf81418f16ef Kent Overstreet 2023-02-27  352  	}
-8fcdf81418f16ef Kent Overstreet 2023-02-27  353  
-060ff4b794748ef Kent Overstreet 2025-05-26  354  	if (trace_io_move_read_enabled())
-157ea5834133c02 Kent Overstreet 2025-02-03  355  		trace_io_move_read2(c, k);
-b9fa375bab2786d Kent Overstreet 2023-03-11  356  
-175d6c2cf1ad8a8 Kent Overstreet 2025-07-14  357  	scoped_guard(mutex, &ctxt->lock) {
-f8a958f04d309e8 Kent Overstreet 2025-09-15  358  		atomic_add(u->k.k->k.size, &ctxt->read_sectors);
-c782c5832e9251a Kent Overstreet 2023-01-09  359  		atomic_inc(&ctxt->read_ios);
-b9fa375bab2786d Kent Overstreet 2023-03-11  360  
-f8a958f04d309e8 Kent Overstreet 2025-09-15  361  		list_add_tail(&u->read_list, &ctxt->reads);
-f8a958f04d309e8 Kent Overstreet 2025-09-15  362  		list_add_tail(&u->io_list, &ctxt->ios);
-175d6c2cf1ad8a8 Kent Overstreet 2025-07-14  363  	}
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  364  
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  365  	/*
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  366  	 * dropped by move_read_endio() - guards against use after free of
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  367  	 * ctxt when doing wakeup
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  368  	 */
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  369  	closure_get(&ctxt->cl);
-f8a958f04d309e8 Kent Overstreet 2025-09-15  370  	__bch2_read_extent(trans, &u->rbio,
-f8a958f04d309e8 Kent Overstreet 2025-09-15  371  			   u->rbio.bio.bi_iter,
-5ff75ccbbc3f262 Kent Overstreet 2021-03-14  372  			   bkey_start_pos(k.k),
-a0bfe3b065cabc6 Kent Overstreet 2023-10-20  373  			   iter->btree_id, k, 0,
-f269ae55d2de9c6 Kent Overstreet 2024-12-28  374  			   NULL,
-f269ae55d2de9c6 Kent Overstreet 2024-12-28  375  			   BCH_READ_last_fragment,
-f269ae55d2de9c6 Kent Overstreet 2024-12-28  376  			   data_opts.scrub ?  data_opts.read_dev : -1);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  377  	return 0;
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  378  err:
-f8a958f04d309e8 Kent Overstreet 2025-09-15  379  	if (!bch2_err_matches(ret, EROFS) &&
-f8a958f04d309e8 Kent Overstreet 2025-09-15  380  	    !bch2_err_matches(ret, BCH_ERR_transaction_restart)) {
-157ea5834133c02 Kent Overstreet 2025-02-03  381  		count_event(c, io_move_start_fail);
-74644030098a0c4 Kent Overstreet 2023-11-27  382  
-157ea5834133c02 Kent Overstreet 2025-02-03  383  		if (trace_io_move_start_fail_enabled()) {
-175d6c2cf1ad8a8 Kent Overstreet 2025-07-14  384  			CLASS(printbuf, buf)();
-f8a958f04d309e8 Kent Overstreet 2025-09-15 @385  			bch2_bkey_val_to_text(&buf, c, bkey_i_to_s_c(u->k.k));
-                                                                                                                     ^^^^^^
-
-ae4d612cc1f23a6 Kent Overstreet 2023-11-26  386  			prt_str(&buf, ": ");
-ae4d612cc1f23a6 Kent Overstreet 2023-11-26  387  			prt_str(&buf, bch2_err_str(ret));
-157ea5834133c02 Kent Overstreet 2025-02-03  388  			trace_io_move_start_fail(c, buf.buf);
-ae4d612cc1f23a6 Kent Overstreet 2023-11-26  389  		}
-f8a958f04d309e8 Kent Overstreet 2025-09-15  390  	}
-f8a958f04d309e8 Kent Overstreet 2025-09-15  391  
-f8a958f04d309e8 Kent Overstreet 2025-09-15  392  	bch2_bkey_buf_exit(&u->k, c);
-                                                                           ^^^^^
-Unchecked dereferences.
-
-f8a958f04d309e8 Kent Overstreet 2025-09-15  393  	kfree(u);
-327971cef509c63 Kent Overstreet 2025-05-27  394  
-327971cef509c63 Kent Overstreet 2025-05-27  395  	if (bch2_err_matches(ret, BCH_ERR_data_update_done))
-327971cef509c63 Kent Overstreet 2025-05-27  396  		return 0;
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  397  	return ret;
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  398  }
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dtb: pinmux@2430000 (nvidia,tegra234-pinmux): Unevaluated properties are not allowed ('pex_rst_c4_in' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pinctrl/nvidia,tegra234-pinmux.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dtb: ethernet@6800000 (nvidia,tegra234-mgbe): 'snps,axi-config', 'stmmac-axi-config' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/nvidia,tegra234-mgbe.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dtb: ethernet@6900000 (nvidia,tegra234-mgbe): 'snps,axi-config', 'stmmac-axi-config' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/nvidia,tegra234-mgbe.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dtb: ethernet@6a00000 (nvidia,tegra234-mgbe): 'snps,axi-config', 'stmmac-axi-config' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/nvidia,tegra234-mgbe.yaml#
+--
+>> arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: pinmux@2430000 (nvidia,tegra234-pinmux): Unevaluated properties are not allowed ('pex_rst_c4_in' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pinctrl/nvidia,tegra234-pinmux.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: audio-codec@1c (realtek,rt5640): realtek,jack-detect-source: 7 is not one of [0, 1, 2, 3, 4, 5, 6]
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: audio-codec@1c (realtek,rt5640): Unevaluated properties are not allowed ('clock-names', 'clocks', 'port', 'realtek,jack-detect-source' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: padctl@3520000 (nvidia,tegra234-xusb-padctl): ports:usb2-0: 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra194-xusb-padctl.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: padctl@3520000 (nvidia,tegra234-xusb-padctl): ports:usb2-0: 'connector' is a dependency of 'usb-role-switch'
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra194-xusb-padctl.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: padctl@3520000 (nvidia,tegra234-xusb-padctl): ports:usb2-1: 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+>> arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: pinmux@2430000 (nvidia,tegra234-pinmux): Unevaluated properties are not allowed ('pex_rst_c4_in' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pinctrl/nvidia,tegra234-pinmux.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: audio-codec@1c (realtek,rt5640): realtek,jack-detect-source: 7 is not one of [0, 1, 2, 3, 4, 5, 6]
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: audio-codec@1c (realtek,rt5640): Unevaluated properties are not allowed ('clock-names', 'clocks', 'port', 'realtek,jack-detect-source' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: padctl@3520000 (nvidia,tegra234-xusb-padctl): ports:usb2-0: 'connector' is a dependency of 'usb-role-switch'
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra194-xusb-padctl.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: ethernet@6800000 (nvidia,tegra234-mgbe): 'snps,axi-config', 'stmmac-axi-config' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/nvidia,tegra234-mgbe.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: ethernet@6900000 (nvidia,tegra234-mgbe): 'snps,axi-config', 'stmmac-axi-config' do not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+>> arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: pinmux@2430000 (nvidia,tegra234-pinmux): Unevaluated properties are not allowed ('pex_rst_c4_in' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pinctrl/nvidia,tegra234-pinmux.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: padctl@3520000 (nvidia,tegra234-xusb-padctl): ports:usb2-0: 'connector' is a dependency of 'usb-role-switch'
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra194-xusb-padctl.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: ethernet@6800000 (nvidia,tegra234-mgbe): 'snps,axi-config', 'stmmac-axi-config' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/nvidia,tegra234-mgbe.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: ethernet@6900000 (nvidia,tegra234-mgbe): 'snps,axi-config', 'stmmac-axi-config' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/nvidia,tegra234-mgbe.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: ethernet@6a00000 (nvidia,tegra234-mgbe): 'snps,axi-config', 'stmmac-axi-config' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/nvidia,tegra234-mgbe.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
