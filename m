@@ -1,55 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E6F3090DB
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 Sep 2025 10:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5279230BE9
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Sep 2025 11:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758278487; cv=none; b=JxcpZo/wo247y2CsFMbguGbdPK3EgOi4ExSM77DL+gZeoqCUmPi/VJuBUJz3hyJ1PeJdjQ3jKzzAAuD5vwVRUH6LhOmWFC/m3OrprcHyaadNccPXEUmfpxi0AslRzlLJrKbaeDA48FM/RS/QnZUzj3Ef9UXbOjKpJcsaQHL7mT8=
+	t=1758280774; cv=none; b=Eb14WnTTPhYSDEg5sYRNM7UQCSrczk2bnp5+Tsv1adVImgK7rAzvDrdsHatrI8hfZkEjLHE5CYun3QCK+ffIntkAScTOwugUC3b+a4u0OxGH8mNGcXAurxDHHCM++zs6n8p34QfKb4lctWRavmUqeFZIC43zBAPpouW3pHvlVy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758278487; c=relaxed/simple;
-	bh=8ugGBTe6/f8KQaEf8W161isZJGhGwarDvnmP9glkPOE=;
+	s=arc-20240116; t=1758280774; c=relaxed/simple;
+	bh=OSpSer7L/Fdwo1tYMGj624Qc1hg8hpEySnn90lrR+5Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lmaESbuWxhMUXOT+fhU+/STm/n9GSXVkuyQ++HMbli6C54SqQf2ky7b4GKVX4LPh6Xru+1kfFBX+1/Q0uu/nSY+o97DiAXHBmuw9COdcNYxgEkjP0sNZInefzKc7rINv7+UL3kgIdJtSvE9oaKOxrWswhbbymaFcax6eSnPz+h8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZJ2kJ7wr; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=Z2pvU+GzGaQv7Nyzd7TWuw5YDmfC05ydDQJDea24Qf3Qh5Z3EqExSGDspNYLu5Z+Y2en/GNn+oyl3tT5aOG2kRbGnmgBDEyoIPt3gawdscEakjhq/hvbU0476bKyM24f9enAPyJVj8kTG20lEeBiyjvRTE/uZTj8DgEvtZk6/ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZkLG/iF1; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZJ2kJ7wr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758278482; x=1789814482;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8ugGBTe6/f8KQaEf8W161isZJGhGwarDvnmP9glkPOE=;
-  b=ZJ2kJ7wrH55f63ZcD4POdTemZNuOd2lfFxgY/qKEu1Wmp9hI/k6abwm9
-   V8Vzi5ME+FpaUFFJ1KhhP13ZWb2pmITQxDLmJbPJ7MCS+M6HKFLSCpFXd
-   5IMlv5+LAUcov86PrK7sSYf5/RFEhlAxKQShO2OEO8dSMMftJ35/N65eM
-   JzteJZYlvurtvRMhAhjGApCEIacvnILEdeg0e21qZWZuRFeAMFUfHuUTS
-   fkyCpKurJjpzTES8EYVnyO+f0EP93JtE5CSkWXz0pq1eimEGKMR5mLqvC
-   uTQF/PCkL0rwl/CqxIAM1iDU7wog+mOB7RLpIR3d6SSdGYSbNPqzi7+7R
-   w==;
-X-CSE-ConnectionGUID: ciJKQvpvShGZCDPCwqO3Fw==
-X-CSE-MsgGUID: j9S6totHRYqYpTazixIu4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="59663870"
-X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; 
-   d="scan'208";a="59663870"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 03:41:22 -0700
-X-CSE-ConnectionGUID: evqLyRvaRBCafKEqV3aVKA==
-X-CSE-MsgGUID: FjGgwjvtQq2eQKLtQsOIig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; 
-   d="scan'208";a="175622673"
-Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 19 Sep 2025 03:41:20 -0700
-Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uzYYI-0004DL-08;
-	Fri, 19 Sep 2025 10:41:18 +0000
-Date: Fri, 19 Sep 2025 18:40:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZkLG/iF1"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45f2acb5f42so15335495e9.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 19 Sep 2025 04:19:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1758280771; x=1758885571; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vt83PDk7dRWoqywELBSt3rXR8Q/SZZebgA8QDff1daI=;
+        b=ZkLG/iF1kbH5jKnHxfoj+UZlY06JgSUNYbA+SX4GmG6RUSyeYqGdzknTxUiEUmH1Ve
+         HMhOUJ11XF0g4wBh1rBtLAUy/4G81o0iBUpC4QZ98A1nfx6tlVtdXu5TSr+CbnglFeHi
+         ClsHKcwQ2gutvhqcstwSDXH/pM/J+lMgLN3uJ1H1zcUJwQJ7o+Oc3JDk9jeP0ZsOsqpB
+         jguxoMTr5Clmy3Tlw10+JdUy7dRo2v2LTBemDb2fXSbETYGBhU5qMe7/aOb6DFlZX/YT
+         p0Zw20mNe+EhSOx9TfGDA4WS33CrBl8ALbFnoK3xy90ZNccE8U5JXbWC6B703/gcHrxZ
+         ysEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758280771; x=1758885571;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vt83PDk7dRWoqywELBSt3rXR8Q/SZZebgA8QDff1daI=;
+        b=vc8lyzY8cURUImOyqIm3JPLhVzOA+zHLtlow3SaQ8YRtV1MX3n7bCRtzxYhlU0FPvD
+         pFCTed0LG2yJ/zUmhpZ9Wq8j8MNci56DE7WccWwUR0P2Lqu1a5eA+b43UwM6iGt9JSW8
+         nvMz1o9fVg8X0cvSJN82jTDvTRwJRhOjN85Z9CyYtW6BacaufKRehDU2ePSpJxhJI1hS
+         wV5w8lVsxSeKbVOYgN2hy3Co55Q7joIdG7cSZ8ghdOVO+S44vyldXOhj/Sdsbnj28BMK
+         WzFtMfTm91KUm9OhB3fNODw5rl6x5pKFFpTw0iyXNPu/lnSs106sH5/Z4VMWV8kzwqoA
+         lJtQ==
+X-Gm-Message-State: AOJu0Yzfmgs0bzqgFmo5az2XHATqdAjyR+2lyY/VNaBJxzCWdQKloKB/
+	hcwRsh3cD5NA5JWVs0WBFF1f15Pob9CJWi215lNAXlPxUTZFn38rUWP7TSyWnGUM4vb2wxcEzvD
+	CK65c
+X-Gm-Gg: ASbGncs/q70qAT21hC2LWd3czvTC7wD5yoMTjlpkOy8GCCEPirsEaHESd11JFCyLr/I
+	XjCVGqTWNo006zkdsRhVSJSw/S89srDR/cgCwVcUfUx6Q2ogFzRi64KXS/0jCPCSxgqk33c5qY+
+	UD1fu5RnlOUc9rat/4LXcLyteh4sD37Cn3wP906fo72EBdc79Dh/8+dZRIFJTduxEUTqwhFmN6i
+	oX4PwKbe305M7RMYJlqs82/PxDvoVleeLDohLzDmTmzGDdWJKkyhGqWrxPa3XG7d+hqKHWDeETk
+	2yOOwvRm2yeps6IidEaOGJUIoc+/mhxuy4M1wWLeb1ABcrzOSwaZgRVNB5DUOZWZF4RKczFazks
+	7Mgg8RT7mnfC/ZVpaFAYlP20xh/VM
+X-Google-Smtp-Source: AGHT+IG897BEsfsXFm/Qto6IyaO1agOOC97axuG1JFS175oEpSD1jqU46H55yBTAlhCtEEiag7KJLw==
+X-Received: by 2002:a05:600c:3b1e:b0:45d:dc6c:9e30 with SMTP id 5b1f17b1804b1-467aba7b0f2mr33515745e9.14.1758280770647;
+        Fri, 19 Sep 2025 04:19:30 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-464eadd7e11sm86483755e9.0.2025.09.19.04.19.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Sep 2025 04:19:30 -0700 (PDT)
+Date: Fri, 19 Sep 2025 14:19:26 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, jason.zeng@intel.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [bytedance:6.6-velinux 5959/5959] drivers/block/nbd.c:1298
  nbd_reconnect_socket() warn: inconsistent returns '&nsock->tx_lock'.
 Message-ID: <202509191844.UIjeXrdY-lkp@intel.com>
@@ -61,23 +71,18 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: jason.zeng@intel.com
+Message-ID: <20250919111926.DX85DQKaGA6eb3HLhLLAvP-dPZ14lf1-qELzX0AbVLU@z>
 
 tree:   https://github.com/bytedance/kernel.git 6.6-velinux
 head:   267e33ff5e034d9f9222c229e6967b6ceb65e27a
 commit: 454e732aaf9bdba6d2183f14939163e6a37dfbd3 [5959/5959] bytedance: nbd: Don't use workqueue to create recv threads
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
 config: x86_64-randconfig-161-20250919 (https://download.01.org/0day-ci/archive/20250919/202509191844.UIjeXrdY-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202509191844.UIjeXrdY-lkp@intel.com/
 
 smatch warnings:
@@ -85,7 +90,6 @@ drivers/block/nbd.c:1298 nbd_reconnect_socket() warn: inconsistent returns '&nso
 
 vim +1298 drivers/block/nbd.c
 
-23272a6754b81f Markus Schneider-Pargmann 2015-10-29  1229  
 b7aa3d39385dc2 Josef Bacik               2017-04-06  1230  static int nbd_reconnect_socket(struct nbd_device *nbd, unsigned long arg)
 b7aa3d39385dc2 Josef Bacik               2017-04-06  1231  {
 b7aa3d39385dc2 Josef Bacik               2017-04-06  1232  	struct nbd_config *config = nbd->config;
@@ -122,6 +126,9 @@ b7aa3d39385dc2 Josef Bacik               2017-04-06  1259  		}
 454e732aaf9bdb Xie Yongji                2021-12-17  1263  			sockfd_put(sock);
 454e732aaf9bdb Xie Yongji                2021-12-17  1264  			kfree(args);
 454e732aaf9bdb Xie Yongji                2021-12-17  1265  			return -ENOMEM;
+
+Call mutex_unlock(&nsock->tx_lock); before returning.
+
 454e732aaf9bdb Xie Yongji                2021-12-17  1266  		}
 454e732aaf9bdb Xie Yongji                2021-12-17  1267  
 b7aa3d39385dc2 Josef Bacik               2017-04-06  1268  		sk_set_memalloc(sock->sk);
@@ -156,14 +163,8 @@ b7aa3d39385dc2 Josef Bacik               2017-04-06  1296  	sockfd_put(sock);
 b7aa3d39385dc2 Josef Bacik               2017-04-06  1297  	kfree(args);
 b7aa3d39385dc2 Josef Bacik               2017-04-06 @1298  	return -ENOSPC;
 b7aa3d39385dc2 Josef Bacik               2017-04-06  1299  }
-b7aa3d39385dc2 Josef Bacik               2017-04-06  1300  
-
-:::::: The code at line 1298 was first introduced by commit
-:::::: b7aa3d39385dc2d95899f9e379623fef446a2acd nbd: add a reconfigure netlink command
-
-:::::: TO: Josef Bacik <josef@toxicpanda.com>
-:::::: CC: Jens Axboe <axboe@fb.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
