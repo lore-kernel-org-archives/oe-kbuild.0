@@ -1,55 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240D82580EE
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 Sep 2025 02:15:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57AF92E973D
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Sep 2025 07:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758248135; cv=none; b=olXuV0Exjg+EfNNgO2Gx/7u+FIcl5uD2CM5jc6GmJiuGXgXlGs1Y/YxDHgwc1I1pBdyRW7K/vu9p5496CX+6a/daL4QgC5fLclEqWli/4f4/NzmnLnp97l9uGTheMdXo4IhDBygMzk2uw7ARMI8KzhaVhhlFy3BWbaEpt4Qf8pw=
+	t=1758268285; cv=none; b=VvjmF2e/0kKQIn44rTqZOMRsp30ewXWfRQYUI+TFuJr07u7BkLevC03Yflk3MnRZWFnnrlAacXOwf4TWG4HiDyakUz0RV1n2vQ/uWztNswmsut3fyFG3geIbbE17G51WMrlmVIJ3BJIk8/zeR3mPy5wLFmaGPHzggdipuR4sAdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758248135; c=relaxed/simple;
-	bh=KjxY1nXVtaacVW0SAE3YCEoRPqyUQnDhYZm7lLQSjfo=;
+	s=arc-20240116; t=1758268285; c=relaxed/simple;
+	bh=GEhDAzaPz82GkzvVD5d2pUkgfEK+bg/jQmAZ/1SykH4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d36k53G4xQnXQa7fPAxBc0BTQ6FwdntdAydCkE9AaYy9WnHzBC8U/+qePnZE/rHFGGXAeHz7x9AhvYRuXeBc22b4hynw03EA4Hpw7b/IhFrgVEqi+UroRb64Hn9xZqCl9Nta4ng1TPTqL9tQC9XI3jLdLxctuZo7RKK9M3/acLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dItXdSn/; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=iNTQFifnHaV9GVoYXCxKD7xWGjndk5C0iR19yiIuIJ4pFGXUAcgD1/LwHd+vuQxFpuIOCMTU9SdCIZ12CEFZsh15fa3ZTHgxnTQ1VAgqT4PSXh5v55JPS53nQJJA78GPwyvLsH7641uGbxXKdRCHdjEuDrJ3IR/Yjb1+trSnhhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ksdDmmFS; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dItXdSn/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758248133; x=1789784133;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KjxY1nXVtaacVW0SAE3YCEoRPqyUQnDhYZm7lLQSjfo=;
-  b=dItXdSn/gHvRdbRqXfgV/7AGlKQvaaJkCpu0Yl3p8gblUjz3qnrcYv4w
-   yP9Xkwru6UKeG9auRtoXr3vzGsRNwxrV08s8GpH15nnQssGupafWZArVW
-   CZ4Xw6RoNUkqftAx0/sVE/cPsPQpz6mRhEEPs8ex6O1tuQXq6ZAhBtLQa
-   75YZvrNUVAleKnwjTO63MLBtW6UtFul7Ork9nMTRzTfoaoTQzudmehYs4
-   tuiaV/yeoP9SgpSGsmelL6lYk5QY5asE9Jk/JVajPj3/C1/pHSPiiK1vV
-   XHBFtq1I33hz/tM/GMKxWQKcOZNb9EVYPmFMDkvjouC1Z7j+2oWKJeG2V
-   g==;
-X-CSE-ConnectionGUID: /kP1HeUMRx2wvKyhTS8D4g==
-X-CSE-MsgGUID: bpThz+4ZQta/cfS8nYFXrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64396190"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64396190"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2025 19:15:33 -0700
-X-CSE-ConnectionGUID: GKsj362SQAm3Q9Ibk8Wmlw==
-X-CSE-MsgGUID: dNRfDiTaQr+fIh89sG6jDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,276,1751266800"; 
-   d="scan'208";a="206653078"
-Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Sep 2025 19:15:31 -0700
-Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uzQen-0003uR-0m;
-	Fri, 19 Sep 2025 02:15:29 +0000
-Date: Fri, 19 Sep 2025 10:14:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ksdDmmFS"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-45f2313dd86so15799185e9.2
+        for <oe-kbuild@lists.linux.dev>; Fri, 19 Sep 2025 00:51:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1758268281; x=1758873081; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AoR6sX7977KTM78McnBCryAeUsXj1N3KYvPpEIo+aAw=;
+        b=ksdDmmFSxtKTZevNcAsKzbjKAUl6hGvXe3Ho8KX0we/Y2C8kJzTTWM7TYvymGJW4kC
+         f8h9dHCj3H4VSG6U/EjfSpeKwYW4FkRuT30Y9PCCoD5+zwBu8kQDuAMqgX6hmNY6/qCB
+         XN15F8iGnTv4lOPjuliNS0PKuDclVfVBcbej5eUwBpZGw39+HaBO8G3caZP2f/b84NXV
+         W+R2GSNd/rdZTCg9wQwsTEFhUaixQSd21yGVgoF+7jscpFgFN0W4uayreV2F0wfldWWx
+         5t68xAPEadW6uJqHBFfwvtQ25lEWIj7qbPKdD11YkSU6jmUgb674KWIt8OIkcy4/EYY1
+         5yMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758268281; x=1758873081;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AoR6sX7977KTM78McnBCryAeUsXj1N3KYvPpEIo+aAw=;
+        b=Z8sNBd6sh23njH9TxAvQlabkNkK+/3kBgXWSDCdYks3miagd1hXRjBEhxF6kWA2l48
+         qDT8/pPSfVM3SRa9YDlacTj+DwLLCodpSpuXC6k57EvRAvgRn2asNd/jAwVI+TxEng5a
+         /aVGe01ML8cQkTwAeLeUwSrIKyz6chpFiJseNVpFp9K9q4iKaR4VD1c3z2Jtn3J4h8TQ
+         LPoPXlDPIXSwdfUTvazk9llozUzBbFDX+Hq1DBHZyB8dAwMi8/owl4MeGltqyO/2jryM
+         sPEsHgqDw/Xnh03S2FwNy/hKpRi/z+mspN8H2YMQdB85f/8hfWT43NZZdbELRNPOSEzP
+         a95A==
+X-Gm-Message-State: AOJu0YznEgDuwbCKhdnZZjzFS4as6h5xYLwGgZYoYTuIahxEVXcPzy1I
+	TC6J4x42W3KYWWnHLu3olZurFRNFS6W3qFCgC1FD9rXvJVpf5iXfAFp/4fbKur3G0q6EH1IIZfl
+	DJYBB
+X-Gm-Gg: ASbGncuZwucdoYzgWIRMeiwk1ltJUmKg7JUG/O4L/vGCZkpLFMRRYPjvBlNquoeR5Jk
+	Zj/N+t6JZHSwveFQk4FY8Xe/D7PCeAlT0KlDf3W24euKZlle6vyCg3lKQEHQYNst0ls976LOTs7
+	JE7WkgaOp/trzokH1U2xqcO4Pyo1V8COZEkdntHlZS9Egwr7VPKTH3Lpp0m/jHXv1Dpb+KLYeX3
+	xnUaG/d7jKHABzYZ+eWX+JTMzQnKgGdy9QQUZRPn/y1K8AElYDbiNhU0ExgWU5t8OxqhFfVNKbg
+	jwaZGhxlljm8eRf5hlIp1niziCDSjBj8f6OhzvDtGEUVBnDRCNWcjdIWZyZO8JXvSBkdcMJqhIV
+	JnLbViS4kbbF+3fP8lUHW4hDtvh24Qfdrej1ims8=
+X-Google-Smtp-Source: AGHT+IG2y3ymgwjYLxUBVnnrtWk+wmqxx5F05UEMJJ8jYqfdiJS+URFqiBn4B6NQ5zmH4os7msh0hw==
+X-Received: by 2002:a05:600c:8206:b0:45b:7c4c:cfbf with SMTP id 5b1f17b1804b1-46825c1257fmr14948285e9.23.1758268281269;
+        Fri, 19 Sep 2025 00:51:21 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3ee106fd0edsm6332684f8f.53.2025.09.19.00.51.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Sep 2025 00:51:20 -0700 (PDT)
+Date: Fri, 19 Sep 2025 10:51:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Kent Overstreet <kent.overstreet@linux.dev>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [koverstreet-bcachefs:bcachefs-testing 406/423]
  fs/bcachefs/move.c:385 bch2_move_extent() error: we previously assumed 'u'
  could be null (see line 327)
@@ -62,23 +72,18 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+Message-ID: <20250919075117.H384PBmROaklMs724oCh2DrPTK2nKxYRBMOLTQhE-jk@z>
 
 tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
 head:   1a64c52bac4085601538041ff371480bb598809e
 commit: f8a958f04d309e868f5d3f910aa1fc185772596b [406/423] bcachefs: kill struct moving_io
-:::::: branch date: 35 hours ago
-:::::: commit date: 3 days ago
 config: i386-randconfig-141-20250919 (https://download.01.org/0day-ci/archive/20250919/202509191055.R9lEpLQ5-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202509191055.R9lEpLQ5-lkp@intel.com/
 
 smatch warnings:
@@ -86,7 +91,6 @@ fs/bcachefs/move.c:385 bch2_move_extent() error: we previously assumed 'u' could
 
 vim +/u +385 fs/bcachefs/move.c
 
-0337cc7eeed19e8 Kent Overstreet 2022-06-20  292  
 633169035a7ccdf Kent Overstreet 2023-10-20  293  int bch2_move_extent(struct moving_context *ctxt,
 49188a9313e2209 Kent Overstreet 2025-05-08  294  		     struct move_bucket *bucket_in_flight,
 633169035a7ccdf Kent Overstreet 2023-10-20  295  		     struct btree_iter *iter,
@@ -125,6 +129,9 @@ f8a958f04d309e8 Kent Overstreet 2025-09-15 @327  	if (!u && !ret)
 bf676ce1a766f25 Kent Overstreet 2025-07-18  328  		ret = bch_err_throw(c, ENOMEM_move_extent);
 f02d15327455822 Kent Overstreet 2025-05-28  329  	if (ret)
 bf676ce1a766f25 Kent Overstreet 2025-07-18  330  		goto err;
+
+We goto err when "u" is NULL.
+
 f02d15327455822 Kent Overstreet 2025-05-28  331  
 f8a958f04d309e8 Kent Overstreet 2025-09-15  332  	ret = bch2_data_update_init(trans, iter, ctxt, u, ctxt->wp,
 f269ae55d2de9c6 Kent Overstreet 2024-12-28  333  				    &io_opts, data_opts, iter->btree_id, k);
@@ -180,6 +187,8 @@ f8a958f04d309e8 Kent Overstreet 2025-09-15  380  	    !bch2_err_matches(ret, BCH
 157ea5834133c02 Kent Overstreet 2025-02-03  383  		if (trace_io_move_start_fail_enabled()) {
 175d6c2cf1ad8a8 Kent Overstreet 2025-07-14  384  			CLASS(printbuf, buf)();
 f8a958f04d309e8 Kent Overstreet 2025-09-15 @385  			bch2_bkey_val_to_text(&buf, c, bkey_i_to_s_c(u->k.k));
+                                                                                                                     ^^^^^^
+
 ae4d612cc1f23a6 Kent Overstreet 2023-11-26  386  			prt_str(&buf, ": ");
 ae4d612cc1f23a6 Kent Overstreet 2023-11-26  387  			prt_str(&buf, bch2_err_str(ret));
 157ea5834133c02 Kent Overstreet 2025-02-03  388  			trace_io_move_start_fail(c, buf.buf);
@@ -187,14 +196,17 @@ ae4d612cc1f23a6 Kent Overstreet 2023-11-26  389  		}
 f8a958f04d309e8 Kent Overstreet 2025-09-15  390  	}
 f8a958f04d309e8 Kent Overstreet 2025-09-15  391  
 f8a958f04d309e8 Kent Overstreet 2025-09-15  392  	bch2_bkey_buf_exit(&u->k, c);
+                                                                           ^^^^^
+Unchecked dereferences.
+
 f8a958f04d309e8 Kent Overstreet 2025-09-15  393  	kfree(u);
 327971cef509c63 Kent Overstreet 2025-05-27  394  
 327971cef509c63 Kent Overstreet 2025-05-27  395  	if (bch2_err_matches(ret, BCH_ERR_data_update_done))
 327971cef509c63 Kent Overstreet 2025-05-27  396  		return 0;
 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  397  	return ret;
 1c6fdbd8f2465dd Kent Overstreet 2017-03-16  398  }
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  399  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
