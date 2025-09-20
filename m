@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E2134BA2A
-	for <oe-kbuild@lists.linux.dev>; Sat, 20 Sep 2025 11:03:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45956186E2E
+	for <oe-kbuild@lists.linux.dev>; Sat, 20 Sep 2025 14:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758366229; cv=none; b=Mn5I50f7th4VcC2ZuPR7cpcO6kyWMO4e7JUN3H18rrs2GhJB8vb19IcO5vUD8E9zfPmaZUzoGKCWLD+NHxd7DvuuKXSA6fAlhMA2Erbs0TU303/4zDlzNURsHAYq8CfMhi/YkI+sF3cwZbQwpXMNLD+JAKEVs1GA1poAko8B0xA=
+	t=1758378009; cv=none; b=GyOKpBc7WgzH7hnueqlZedq+H3xdLmeFU8JwNWBkGS/5uGTLYEg6bCfNxElhYNfm3sxdbLnt+qemHTriVIHtvlSi6cIU7Acw2Bti9BjuA36+l4sjm4RPSJ/ooVs7yE2DfavSeL5zitiCt1aTH5Y9hXslmVwWy2RBLCZdt2vutJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758366229; c=relaxed/simple;
-	bh=DPLg9BXGtaNXH/bjYhUi/t3Go+gGKxgs5wyl9aRMw2Y=;
+	s=arc-20240116; t=1758378009; c=relaxed/simple;
+	bh=ZN3UgV78xJAft3Scsf1WoQeqIvNXHY+JCT5BVNvPqsA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gKfYXCNdvqj9k7STL/YgT1TRHKDPlLhdeTKezDD/XNvv28GHYDzWoHWsTztkkVCeFsCxByZTBNuJyDFVqM7bUfMXs+nuJpD23PB4UlorAQmkmixI7XLczyxWhNo9ECkBVSf6h62qnrXUYAL8Xt4Qgfx4Ir8Zx7/GhGxoexQIE4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EZ4YIpo+; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=djr72G8ASTET5rbjC1y8Rlq+Iq0ctrZofNJy61UG+uLtCt7BhbxbA945+cvy/2YazaABv+sOLwNS1ituU61u3zxeR+swjWaS01eRjIz6GvnYq1a6y3Nm3PT82Fz/1n0L963mmBAIc1sbxjcW36DVpjoefBtgD51xnWURklumbR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fCkHcyfQ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EZ4YIpo+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fCkHcyfQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758366227; x=1789902227;
+  t=1758378007; x=1789914007;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DPLg9BXGtaNXH/bjYhUi/t3Go+gGKxgs5wyl9aRMw2Y=;
-  b=EZ4YIpo+eqd25aDLWSOzzwe7Z7qiImG7D1MdWhBwxycOGJbbbXEYUSiB
-   q9PKUgzvLsH1aA3j6ATuxYSr8rbMobsRT7wz+Krr0qwCVEexuuwj7xejC
-   r8o4o3hg7zmmh+oYSD2a40E7D6/cQ8P/ptedRSpXS32g52DpR8Q7FTvuS
-   r3VMoz0tqO+i3wYajiq22hAG12kH/hVkC6zOrrO/2K/74NNDxheyV9tJn
-   xRJpWHVRMOLvu3IDOiVohHtzFEsgjiatoJQoEzLr2RNjUJALxVdOqin6/
-   8XfW57MlOBppedrLVv2J0pwMNou+KA/zEU3CCQnN7vnpo2tZPdm7RD3D7
+  bh=ZN3UgV78xJAft3Scsf1WoQeqIvNXHY+JCT5BVNvPqsA=;
+  b=fCkHcyfQ7QpXVGO2KExznyjKSX/Mr1806T41MFJf15FEcXmwGlWnk8ie
+   +MpRnc4ytrs9dcRm5+IYKZu4KIawES+4gHnY3nenIEL8ym8Iswx6ZO0cU
+   A4Kr8rcdFLlH5EMAK55CVwkRZsMCC4JSjsjr6jHLKwVoMmvCMQJoqykex
+   GuvGB09bW1XrQt9jxSTbh1HLD3bOOaKUdniBM1A+TD1kajAMieizdOxIA
+   OBnbk5DVMwfCNL/DOi0r1oP0QEf0v4Fbh3jc3Wq2P7s7x4VXBOOLW7vC2
+   UmAXN38QrWmZ1HX1gZP3jdZfkOcRlbxo+NcaychGDqGaUhEFpu4S9ifiH
    A==;
-X-CSE-ConnectionGUID: h+JS34eoSUqYsKY9C97ndg==
-X-CSE-MsgGUID: kt0pboqiQaiKvjiudABMig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="83303614"
-X-IronPort-AV: E=Sophos;i="6.18,280,1751266800"; 
-   d="scan'208";a="83303614"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 04:03:46 -0700
-X-CSE-ConnectionGUID: alcYo674S1CCumGxE3Q6ZQ==
-X-CSE-MsgGUID: xkeq/HA3QSS1ulhsxCyKJQ==
+X-CSE-ConnectionGUID: ab034yfATiOxWgzUAq+VTg==
+X-CSE-MsgGUID: PATdjUwOQ3yUBXaNa19Wnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11559"; a="59921312"
+X-IronPort-AV: E=Sophos;i="6.18,281,1751266800"; 
+   d="scan'208";a="59921312"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 07:20:06 -0700
+X-CSE-ConnectionGUID: P5qRyAl+QU2aV57DMBGZTQ==
+X-CSE-MsgGUID: MtPKc4xKTfSxTq0sFNCoIQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,280,1751266800"; 
-   d="scan'208";a="175867712"
+X-IronPort-AV: E=Sophos;i="6.18,281,1751266800"; 
+   d="scan'208";a="175641275"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 20 Sep 2025 04:03:46 -0700
+  by orviesa009.jf.intel.com with ESMTP; 20 Sep 2025 07:20:05 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uzvNX-0005Er-0z;
-	Sat, 20 Sep 2025 11:03:43 +0000
-Date: Sat, 20 Sep 2025 19:03:36 +0800
+	id 1uzyRW-0005NJ-1o;
+	Sat, 20 Sep 2025 14:20:02 +0000
+Date: Sat, 20 Sep 2025 22:19:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [qcom:arm64-for-6.18 246/265]
- arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: cci@5c1b000 (qcom,qcm2290-cci):
- clocks: [[29, 62], [29, 29]] is too short
-Message-ID: <202509201823.6bJNCobn-lkp@intel.com>
+Subject: [qcom:arm64-for-6.18 245/265]
+ arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: cci@ac14000
+ (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <202509202223.MOWxUkHu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,41 +70,56 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Loic Poulain <loic.poulain@oss.qualcomm.com>
+TO: Wenmeng Liu <quic_wenmliu@qualcomm.com>
 CC: Bjorn Andersson <andersson@kernel.org>
+CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
 CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.18
 head:   2f695d3eac36601d383155e3bba189f06a0f750c
-commit: e645096d1f6dadcead09c722a3fbc6c44a45fece [246/265] arm64: dts: qcom: qcm2290: Add CCI node
-:::::: branch date: 9 hours ago
+commit: b68fc45910d4eb1b3bb7e160282fba5a4bdd8409 [245/265] arm64: dts: qcom: lemans-evk: Add IMX577-based camera overlay
+:::::: branch date: 12 hours ago
 :::::: commit date: 4 days ago
-config: arm64-randconfig-052-20250919 (https://download.01.org/0day-ci/archive/20250920/202509201823.6bJNCobn-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
+config: arm64-randconfig-053-20250919 (https://download.01.org/0day-ci/archive/20250920/202509202223.MOWxUkHu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
 dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509201823.6bJNCobn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509202223.MOWxUkHu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509201823.6bJNCobn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509202223.MOWxUkHu-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/qcm2290.dtsi:1891.27-1964.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@5e00000/dsi@5e94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/qcm2290.dtsi:1849.11-1859.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: cci@5c1b000 (qcom,qcm2290-cci): clock-names: ['ahb', 'cci'] is too short
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
->> arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: cci@5c1b000 (qcom,qcm2290-cci): clocks: [[29, 62], [29, 29]] is too short
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: cci@5c1b000 (qcom,qcm2290-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,qcm2290-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,qcm2290-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,qcm2290-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,qcm2290-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-msm.yaml#
+   arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: /soc@0/mmc@87c4000: failed to match any schema with compatible: ['qcom,sa8775p-sdhci', 'qcom,sdhci-msm-v5']
+   arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: cci@ac13000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
+   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
+   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
+   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
    	'qcom,msm8226-cci' was expected
    	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: /soc@0/cci@5c1b000: failed to match any schema with compatible: ['qcom,qcm2290-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: /soc@0/camss@5c6e000: failed to match any schema with compatible: ['qcom,qcm2290-camss']
+   arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: /soc@0/cci@ac13000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: cci@ac14000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
+   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
+   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
+   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
+   	'qcom,msm8226-cci' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
+   arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: /soc@0/cci@ac14000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: cci@ac15000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
+   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
+   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
+   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
+   	'qcom,msm8226-cci' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
+   arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: /soc@0/cci@ac15000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
+   arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: cci@ac16000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
+   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
 
 -- 
 0-DAY CI Kernel Test Service
