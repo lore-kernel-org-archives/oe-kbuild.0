@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F2A1DF725
-	for <oe-kbuild@lists.linux.dev>; Sat, 20 Sep 2025 02:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51391D7E5C
+	for <oe-kbuild@lists.linux.dev>; Sat, 20 Sep 2025 02:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758335400; cv=none; b=Wnw6CTxsjivpsvhUBG/L4Fls+/xNfKTA7wRNFoGLORNgsz83+SOSC3xLz8E8tVa2sPRG6rsjt6+LEzwG70pDWYK2BiFW9EqUj7IaorBXPcBxs85vKFaiCIkW6VZ1pvX5UI4Ej5ICn9yLvcs0bwN8sBon4PGZwXNQp8IgMUHKqPo=
+	t=1758336062; cv=none; b=gz3eYj1NsNRgLJdbWSQ4hl92dFq7/ocAtXjqkBw5FsFH8mV+2WFtbNYKyFhGg4qPAg1LbpqxM6sB+5bUb+pBmu2DzOzZFzw+XcS3nDSG9y7xd+EWcGrBc4gWfLG/qGKvztxAlYej9f/6ym0Tkvix3SC8G9lekNVT61+qHvgNEOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758335400; c=relaxed/simple;
-	bh=A3mWd+bdqI3HQZD3NLs8LF2zVpUlKQT97oGvH9PdGec=;
+	s=arc-20240116; t=1758336062; c=relaxed/simple;
+	bh=tpi7affaxNg2OFjdZVvnyeAipIeHX9+2nSCYG336Uf0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P31Bt63M5j2dbs2RgNvcW0zGLxjGfSd807kKBW//L25klGPcKRZ1PqqmuBzkhFd1P+DfpaoGG0ASzf0ki+Ix/YFXguBb9E+YcfvnXu+DmZ38YgxI4EQMmGvXEqb3NvhuE6PizTMaAKAmlDdNgrt3N6h59CaA6wRP04sya3fftUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QWSX1WKT; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=VDZcLOKk1OQGBod1SxeewnGasEsnqLKGS952jHoSLmbSSNghWntgS8ql7Be6f4yhtxC6IyyMh9d80L/UHCn8aNwTPxL/hMEOcvNnvDDyoYCaxsWXCdVU4FzOr4h8WOsF2apyQOECIUSWjpggIv3JsMWKDeIetO6AY/YVCsPwp5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bSLAzitz; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWSX1WKT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bSLAzitz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758335399; x=1789871399;
+  t=1758336060; x=1789872060;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A3mWd+bdqI3HQZD3NLs8LF2zVpUlKQT97oGvH9PdGec=;
-  b=QWSX1WKTsQ1Qnk6GvWEfNPKVJ7nGPKj8OWRbnY0h2zF7C15/d2nsGT72
-   HQOx2nIdfdONs0/iT8mrcFEwEISxM1QMNAY/ou9Q4B2G0HNcjy7jhgGpt
-   wzRCVQwch+YgwRSkeNAIn1kpV72ZpqwG/Tdfg0e5EtWy/Pz5VLbJsGjlS
-   A8dCfjzgVXPZSS//ijjsm+D/WIMqNIGlN2buU9XyXfY6kzKTI9chTR65C
-   3XDdxEzR/wkqax/OIwzvh0CH0KQGt9bsZjUsUD1R/pMeB+CQtL2wjfs8R
-   5//DHkQGlWDR8JsqSKbrgOC13ZuIE5GDmcRuJomsLlzpDPuyOk346+ZCv
-   w==;
-X-CSE-ConnectionGUID: 0A51WXzkT2+6RMWXXrUKDA==
-X-CSE-MsgGUID: 2isXk/yYQzOAhovCixso8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="60612913"
+  bh=tpi7affaxNg2OFjdZVvnyeAipIeHX9+2nSCYG336Uf0=;
+  b=bSLAzitzVO+AdRCe2BbSSNr/y3Kd9AuHSQsF4VVaMAwYCvXHiOPflz2+
+   /0y5qH5yrer9EldIHG04rEUQCseUzlOEhDYAZEk7KHRkE5gnT8BbfzbsJ
+   2cHtA7QdNmgA3xUy08Ojb9dU5OWd6O9134oQP6FoGd8GK+dMlTVmj58b6
+   oD/1OuAatH02pEqpCKqxPX17EkrAviUYE+oSCKO5xPtzPmmILW71S+0Vd
+   mSTRDY0z1m6y7fQVVmqS2GmahSba6wINSwjPn/9abFKQHKBiEhTtHgpG3
+   Oxuk1JMUm5kFHigVkZofZiBbktsVmc8TBh83OAz1llLzQ+TY7qPhDG5fN
+   g==;
+X-CSE-ConnectionGUID: Mq95YogdRkGLtTx4eDd/sA==
+X-CSE-MsgGUID: GaAbrNkmS0GBJhPLgtu8QA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="60837791"
 X-IronPort-AV: E=Sophos;i="6.18,279,1751266800"; 
-   d="scan'208";a="60612913"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 19:29:58 -0700
-X-CSE-ConnectionGUID: 6VzY+AKYTS2Nm00PzG9Baw==
-X-CSE-MsgGUID: AAOXTS6+TbuN3tSu/98+AQ==
+   d="scan'208";a="60837791"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 19:41:00 -0700
+X-CSE-ConnectionGUID: HmDOmAgJSsqJcVSn0XPSbw==
+X-CSE-MsgGUID: qmdIkPt7S5ydlmYSdXtE7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,279,1751266800"; 
-   d="scan'208";a="176025613"
+   d="scan'208";a="175792756"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Sep 2025 19:29:57 -0700
+  by orviesa007.jf.intel.com with ESMTP; 19 Sep 2025 19:40:58 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uznMI-0004yZ-32;
-	Sat, 20 Sep 2025 02:29:54 +0000
-Date: Sat, 20 Sep 2025 10:29:53 +0800
+	id 1uznWx-0004yp-2G;
+	Sat, 20 Sep 2025 02:40:55 +0000
+Date: Sat, 20 Sep 2025 10:40:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: vmlinux.o: warning: objtool: cifsConvertToUTF16.part.0+0xbe2:
- ignoring unreachables due to jump table quirk
-Message-ID: <202509201034.pc33HNBn-lkp@intel.com>
+Subject: Re: [PATCH v2 3/3] arm64: dts: add Protonic PRT8ML board
+Message-ID: <202509201033.EBlHijce-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,33 +62,74 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250918-imx8mp-prt8ml-v2-3-3d84b4fe53de@pengutronix.de>
+References: <20250918-imx8mp-prt8ml-v2-3-3d84b4fe53de@pengutronix.de>
+TO: Jonas Rebmann <jre@pengutronix.de>
+TO: Andrew Lunn <andrew@lunn.ch>
+TO: Vladimir Oltean <olteanv@gmail.com>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+TO: Eric Dumazet <edumazet@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Liam Girdwood <lgirdwood@gmail.com>
+TO: Mark Brown <broonie@kernel.org>
+TO: Shengjiu Wang <shengjiu.wang@nxp.com>
+TO: Shawn Guo <shawnguo@kernel.org>
+TO: Sascha Hauer <s.hauer@pengutronix.de>
+TO: Fabio Estevam <festevam@gmail.com>
+TO: Pengutronix Kernel Team <kernel@pengutronix.de>
+CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: Ingo Molnar <mingo@kernel.org>
+CC: linux-sound@vger.kernel.org
+CC: imx@lists.linux.dev
+CC: linux-arm-kernel@lists.infradead.org
+CC: Jonas Rebmann <jre@pengutronix.de>
+CC: David Jander <david@protonic.nl>
+CC: Lucas Stach <l.stach@pengutronix.de>
+CC: Oleksij Rempel <o.rempel@pengutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cd89d487374c49f18a8c4af312ecc74d997f3b07
-commit: eeff7ac61526a4a9c3916cf46885622078ad886b objtool: Warn when disabling unreachable warnings
-date:   6 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 6 months ago
-config: x86_64-randconfig-121-20250915 (https://download.01.org/0day-ci/archive/20250920/202509201034.pc33HNBn-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509201034.pc33HNBn-lkp@intel.com/reproduce)
+Hi Jonas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ea21fa34164c9ea0a2a5b8714c7e36f54c7fb46e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonas-Rebmann/dt-bindings-net-dsa-nxp-sja1105-Add-reset-gpios-property/20250918-202530
+base:   ea21fa34164c9ea0a2a5b8714c7e36f54c7fb46e
+patch link:    https://lore.kernel.org/r/20250918-imx8mp-prt8ml-v2-3-3d84b4fe53de%40pengutronix.de
+patch subject: [PATCH v2 3/3] arm64: dts: add Protonic PRT8ML board
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-052-20250919 (https://download.01.org/0day-ci/archive/20250920/202509201033.EBlHijce-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+dtschema version: 2025.9.dev1+g4b28bc79f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509201033.EBlHijce-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509201034.pc33HNBn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509201033.EBlHijce-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> vmlinux.o: warning: objtool: cifsConvertToUTF16.part.0+0xbe2: ignoring unreachables due to jump table quirk
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: codec@11 (asahi-kasei,ak4458): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sound/asahi-kasei,ak4458.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e10000 (fsl,imx8mp-isp): 'power-domain-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e10000 (fsl,imx8mp-isp): power-domains: [[77, 6], [77, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e20000 (fsl,imx8mp-isp): 'power-domain-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e20000 (fsl,imx8mp-isp): power-domains: [[77, 6], [77, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
