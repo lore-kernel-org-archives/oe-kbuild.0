@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6346425F79A
-	for <oe-kbuild@lists.linux.dev>; Sat, 20 Sep 2025 10:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E2134BA2A
+	for <oe-kbuild@lists.linux.dev>; Sat, 20 Sep 2025 11:03:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758365685; cv=none; b=qvhuh9AfJ1IqD3xtyQInMAhrE9jSLA9WPoLeHjDk/iNet1Bb5mSmfXHFs0pBNsCihVpPKYL+FpQRIKJ+FPKdT3jkrcaHWAg00UCFNTPLoDmY4v8TFqGYTmdtyxav5ifIcasyLsz3vXhlUjBOjjnGZZZe339tgETMR9ULx8K2pwI=
+	t=1758366229; cv=none; b=Mn5I50f7th4VcC2ZuPR7cpcO6kyWMO4e7JUN3H18rrs2GhJB8vb19IcO5vUD8E9zfPmaZUzoGKCWLD+NHxd7DvuuKXSA6fAlhMA2Erbs0TU303/4zDlzNURsHAYq8CfMhi/YkI+sF3cwZbQwpXMNLD+JAKEVs1GA1poAko8B0xA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758365685; c=relaxed/simple;
-	bh=JegK/3XqCNfdyqxNkosbc1PsswTrX7iRkaCBOE8WDTo=;
+	s=arc-20240116; t=1758366229; c=relaxed/simple;
+	bh=DPLg9BXGtaNXH/bjYhUi/t3Go+gGKxgs5wyl9aRMw2Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YYTYXVt5/oQ9TtM0S1kBDcmLhzaDpYeuC6zXnkLU91nanxuN2f1zNUwulkNK2AmrxoZM7CnoH3m7ocSKSFhosqjD77zzsd1kmV4qqQJO8sG7Y/xprgs/nBpac0oi9wWQEXipUsUBcKLiLn3Yl/If6ptAX//EtcM5IAILBl/kgpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eomlvryR; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=gKfYXCNdvqj9k7STL/YgT1TRHKDPlLhdeTKezDD/XNvv28GHYDzWoHWsTztkkVCeFsCxByZTBNuJyDFVqM7bUfMXs+nuJpD23PB4UlorAQmkmixI7XLczyxWhNo9ECkBVSf6h62qnrXUYAL8Xt4Qgfx4Ir8Zx7/GhGxoexQIE4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EZ4YIpo+; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eomlvryR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EZ4YIpo+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758365683; x=1789901683;
+  t=1758366227; x=1789902227;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JegK/3XqCNfdyqxNkosbc1PsswTrX7iRkaCBOE8WDTo=;
-  b=eomlvryRrZKFtiaFJEbXVQD7XURxHn/lWjPYvnW9ID/rC0PaywWpAC6U
-   klsB2LCfDTraJ0OI2yXtRBS85aIXxYvqii8snioROW3yF+rBRZd/bnBCW
-   ewiJFA9EYpET5tHzkuy2gSJ5jRIDczr3xhT1LECEiNHpKSpctCxcQ07dP
-   UEDIcbKdzF3Kei0QstNpB9b/XsZvkk4nz+oP2gNM58CicKW77NUmj/n6i
-   dncBACHomzTQpEIDbCbJ0xQuD+q4Ktve3/HqlaJcbzZ+cO+hoxfnWzzxc
-   2Jx5hPucgvB4uH1VJkV7f2Mh+5nsTg6VVE9EXy7eK+MmRNy3bFV7us64f
-   g==;
-X-CSE-ConnectionGUID: zbaSjE2cTJmQKRxAeM2hOQ==
-X-CSE-MsgGUID: k5EOCZlfQGif7O2nG1Ct3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="63326297"
+  bh=DPLg9BXGtaNXH/bjYhUi/t3Go+gGKxgs5wyl9aRMw2Y=;
+  b=EZ4YIpo+eqd25aDLWSOzzwe7Z7qiImG7D1MdWhBwxycOGJbbbXEYUSiB
+   q9PKUgzvLsH1aA3j6ATuxYSr8rbMobsRT7wz+Krr0qwCVEexuuwj7xejC
+   r8o4o3hg7zmmh+oYSD2a40E7D6/cQ8P/ptedRSpXS32g52DpR8Q7FTvuS
+   r3VMoz0tqO+i3wYajiq22hAG12kH/hVkC6zOrrO/2K/74NNDxheyV9tJn
+   xRJpWHVRMOLvu3IDOiVohHtzFEsgjiatoJQoEzLr2RNjUJALxVdOqin6/
+   8XfW57MlOBppedrLVv2J0pwMNou+KA/zEU3CCQnN7vnpo2tZPdm7RD3D7
+   A==;
+X-CSE-ConnectionGUID: h+JS34eoSUqYsKY9C97ndg==
+X-CSE-MsgGUID: kt0pboqiQaiKvjiudABMig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="83303614"
 X-IronPort-AV: E=Sophos;i="6.18,280,1751266800"; 
-   d="scan'208";a="63326297"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 03:54:42 -0700
-X-CSE-ConnectionGUID: ffJGCzD0T9GhBXIi+y8PyA==
-X-CSE-MsgGUID: Nl5dFYQiRSeOA/5kWj4IKg==
+   d="scan'208";a="83303614"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 04:03:46 -0700
+X-CSE-ConnectionGUID: alcYo674S1CCumGxE3Q6ZQ==
+X-CSE-MsgGUID: xkeq/HA3QSS1ulhsxCyKJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,280,1751266800"; 
-   d="scan'208";a="175605908"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by orviesa009.jf.intel.com with ESMTP; 20 Sep 2025 03:54:42 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="175867712"
+Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 20 Sep 2025 04:03:46 -0700
+Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uzvEl-000000003Rh-0iy9;
-	Sat, 20 Sep 2025 10:54:39 +0000
-Date: Sat, 20 Sep 2025 12:54:07 +0200
+	id 1uzvNX-0005Er-0z;
+	Sat, 20 Sep 2025 11:03:43 +0000
+Date: Sat, 20 Sep 2025 19:03:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 4/134]
- arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: /soc/i2c@20a111000: failed to
- match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
-Message-ID: <202509201245.420v0QpF-lkp@intel.com>
+Subject: [qcom:arm64-for-6.18 246/265]
+ arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: cci@5c1b000 (qcom,qcm2290-cci):
+ clocks: [[29, 62], [29, 29]] is too short
+Message-ID: <202509201823.6bJNCobn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,51 +69,41 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Nick Chan <towinchenmi@gmail.com>
-CC: Janne Grunau <j@jannau.net>
-CC: Sven Peter <sven@kernel.org>
+TO: Loic Poulain <loic.poulain@oss.qualcomm.com>
+CC: Bjorn Andersson <andersson@kernel.org>
+CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   00c6dc8272d302876034765e34843f6abc62219f
-commit: fc876907e6a86b06499a0e67a1ca21389ba74b5d [4/134] arm64: dts: apple: s5l8960x: Add I2C nodes
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: arm64-randconfig-2051-20250919 (https://download.01.org/0day-ci/archive/20250920/202509201245.420v0QpF-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ce5124856e019792783de9630d0c5a1f0aaf2d9d)
-dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509201245.420v0QpF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.18
+head:   2f695d3eac36601d383155e3bba189f06a0f750c
+commit: e645096d1f6dadcead09c722a3fbc6c44a45fece [246/265] arm64: dts: qcom: qcm2290: Add CCI node
+:::::: branch date: 9 hours ago
+:::::: commit date: 4 days ago
+config: arm64-randconfig-052-20250919 (https://download.01.org/0day-ci/archive/20250920/202509201823.6bJNCobn-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+dtschema version: 2025.9.dev1+g4b28bc79f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509201823.6bJNCobn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509201245.420v0QpF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509201823.6bJNCobn-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: i2c@20a110000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: /soc/i2c@20a110000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
-   arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: i2c@20a111000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: /soc/i2c@20a111000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
->> arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: i2c@20a112000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: /soc/i2c@20a112000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
->> arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: i2c@20a113000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: /soc/i2c@20a113000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
---
->> arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: i2c@20a110000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: /soc/i2c@20a110000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
->> arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: i2c@20a111000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: /soc/i2c@20a111000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
->> arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: i2c@20a112000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: /soc/i2c@20a112000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
->> arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: i2c@20a113000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: /soc/i2c@20a113000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/qcom/qcm2290.dtsi:1891.27-1964.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@5e00000/dsi@5e94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/qcm2290.dtsi:1849.11-1859.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: cci@5c1b000 (qcom,qcm2290-cci): clock-names: ['ahb', 'cci'] is too short
+   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
+>> arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: cci@5c1b000 (qcom,qcm2290-cci): clocks: [[29, 62], [29, 29]] is too short
+   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
+   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: cci@5c1b000 (qcom,qcm2290-cci): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,qcm2290-cci', 'qcom,msm8996-cci'] is too long
+   	'qcom,qcm2290-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
+   	'qcom,qcm2290-cci' is not one of ['qcom,msm8916-cci']
+   	'qcom,qcm2290-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
+   	'qcom,msm8226-cci' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
+   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: /soc@0/cci@5c1b000: failed to match any schema with compatible: ['qcom,qcm2290-cci', 'qcom,msm8996-cci']
+   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: /soc@0/camss@5c6e000: failed to match any schema with compatible: ['qcom,qcm2290-camss']
 
 -- 
 0-DAY CI Kernel Test Service
