@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7554A23ABAF
-	for <oe-kbuild@lists.linux.dev>; Sun, 21 Sep 2025 13:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493D72D77E2
+	for <oe-kbuild@lists.linux.dev>; Sun, 21 Sep 2025 13:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758460467; cv=none; b=aa5yKsYoHJNMxjgOxVSCFjSaK/dRjGLOfZBw3ogWPBqOMMy8j0s/Qn+PdID34C17+Oo/pBirfgMMagX1mPh1+0UQKO8e2XCK40cyn1rBYuuQ8ZxOQv1XJR42vDuoj98bw8xs882DNKhB4ciIHHQg+ujSsqmbERvVZ9elblXU3ss=
+	t=1758461128; cv=none; b=DyCR7MvoKsapyqnAH3FKKoQuVcAd1hMiX2jH5hZ0wREwxZ1x69nlft0tnEopAAixoHyjHAlZ1d4niEocvN/TwwbgQHABNsw7V46YRtx0SwFEpVdgQeXwHDyzpKMo7pSvcTX2Dxkb6KtwUSrskQwjyd9G39TXIcQ4RARrIqTz9Lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758460467; c=relaxed/simple;
-	bh=GzGEkb822HxxonU6E1U5+4gK9hG4OfN3qShUST5A8vw=;
+	s=arc-20240116; t=1758461128; c=relaxed/simple;
+	bh=pPNauDQbBPBU9gs4o6HGq+OhaKOg9SK3E0QjTP3mfSw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H6HpqWAOkMWtdhhDisJ5WCvjLeMvqNYN0HfkFIlhAcL4rcSFEKKm3yFzBtnnX1yTBHmUfp1eVIHWy5NjH2fUciQqM+qS7VK2Mrmz1MPTEhQOi2mhrn+0w9Lslv6BlWON23LHSwLflQP9wsIrXcdsz2IXIgcaJYRPHBHNjV+exAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cy8eisBJ; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=YJ7Ew5j7C/vSxsU96NtcnOBbZj5Pf3ps4rGsPtRAfuyV5NkkHvrhWaLI0stE7F8KwFZH1mwQQjDdkxeBdz9KmhdeOcuY6upFFN4dl2MaPOWX0xMBEyNQvHYZrWwL+Ts8DmIDy3f3QZgBqRUpsWOM75+l6p/2Dg2/FTpDCo89fFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U/xmLAIc; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cy8eisBJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/xmLAIc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758460465; x=1789996465;
+  t=1758461126; x=1789997126;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GzGEkb822HxxonU6E1U5+4gK9hG4OfN3qShUST5A8vw=;
-  b=cy8eisBJv11tILjkGREKF/4f3sy0kFrexuAQ0CBCTnxF6+0aVCpEIDX8
-   HxsnDAE66XKi+zd5Q9YnFTOBn5r2nO7bkxDkMU7dc/gBAenb0TQbZCkvV
-   999QReYinvdkjgyt/AP7eV6l+o7bkWymYNvoCP/IlNu9+CXEcbFXV8b6a
-   fIW1kV2FJY4MQF5ePcJTq1N0RzySQwrtXhUt7VZjMoG9qZnu/3+XUAJyv
-   6Tqy4FEiM2Fl6AB5P8tkqX4569m33qdji/sRCWX5ZuzIdI9ff24Khw46n
-   ZUmE3ljrN1RwAYAsaB37dO90S/wi0r2PmMdO2AAqH3mU52VMRyF1OcVYh
-   g==;
-X-CSE-ConnectionGUID: s8aPhDlaTMOpSdOPRbnupg==
-X-CSE-MsgGUID: bwKYtJCxSZWsAQRhGFxMWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="86181747"
+  bh=pPNauDQbBPBU9gs4o6HGq+OhaKOg9SK3E0QjTP3mfSw=;
+  b=U/xmLAIcwfi1RgaWV0MK+ajhzNFu9JJBLF/IZSPtoH1hnFQqTOiM2SWP
+   vt4AdIFBTJPcdpP1TUItYUicKbDvxXMc6PQbU9t/iuUhBcbn/yl6Dw1ez
+   /NAEwRamxSwBbFGsAtF8nzWf7Pq7OE7TbA9MVpzYG2PhB8UJWgXDTzJ/+
+   2x1bpCToicrNP3oyyNIuf5JYxBC/tQRK1GbzhDVfMSBC65yyWOLxSv6CP
+   IIa+1PUtOS60D7tGsY5fyBcYxBCFtuXLd6PWNxB/wUIJx4SpQ6lB8opHc
+   LwgnppC1FUnI3cflG6F9T6S2Vi6SjIgovIE+v9XSbICi6BJhz5lFytY6R
+   w==;
+X-CSE-ConnectionGUID: iNQAeA4rSOWSfCJwgOYjtA==
+X-CSE-MsgGUID: VNnnSuKpSZ614ESX8qgK3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="71368863"
 X-IronPort-AV: E=Sophos;i="6.18,283,1751266800"; 
-   d="scan'208";a="86181747"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 06:14:24 -0700
-X-CSE-ConnectionGUID: jeqakO3RShWMpp3ZtYM9XA==
-X-CSE-MsgGUID: hCA3sURuROSz+/3xTZEuXQ==
+   d="scan'208";a="71368863"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 06:25:25 -0700
+X-CSE-ConnectionGUID: DHA6ZZJxSCmNsJbFHdysaw==
+X-CSE-MsgGUID: SKPB0T29T8OegHbELSdQJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,283,1751266800"; 
-   d="scan'208";a="176087762"
+   d="scan'208";a="177066063"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 21 Sep 2025 06:14:24 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 21 Sep 2025 06:25:24 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0JtV-0000l3-1K;
-	Sun, 21 Sep 2025 13:14:21 +0000
-Date: Sun, 21 Sep 2025 21:14:05 +0800
+	id 1v0K4A-0000l7-1Q;
+	Sun, 21 Sep 2025 13:25:22 +0000
+Date: Sun, 21 Sep 2025 21:24:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [qcom:arm64-for-6.18 264/265]
- arch/arm64/boot/dts/qcom/sm6350-sony-xperia-lena-pdx213.dtb:
- displayport-controller@ae90000 (qcom,sm6350-dp): compatible: 'oneOf'
- conditional failed, one must be fixed:
-Message-ID: <202509212132.WxYIFB6U-lkp@intel.com>
+Subject: Re: [PATCH v2 2/2] ARM: dts: aspeed: add device tree for ASRock Rack
+ ALTRAD8 BMC
+Message-ID: <202509212140.97jyb4AK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,41 +68,57 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Dmitry Baryshkov <lumag@kernel.org>
-CC: Bjorn Andersson <andersson@kernel.org>
+In-Reply-To: <20250917180428.810751-3-rebecca@bsdio.com>
+References: <20250917180428.810751-3-rebecca@bsdio.com>
+TO: Rebecca Cran <rebecca@bsdio.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Joel Stanley <joel@jms.id.au>
+TO: Andrew Jeffery <andrew@codeconstruct.com.au>
+TO: devicetree@vger.kernel.org
+TO: linux-arm-kernel@lists.infradead.org
+TO: linux-aspeed@lists.ozlabs.org
+TO: linux-kernel@vger.kernel.org
+CC: Rebecca Cran <rebecca@bsdio.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.18
-head:   2f695d3eac36601d383155e3bba189f06a0f750c
-commit: f2983d8a1ea2812a4ccf6693dcd59118ac3f0a8e [264/265] arm64: dts: qcom: sm6350: correct DP compatibility strings
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
-config: arm64-randconfig-051-20250921 (https://download.01.org/0day-ci/archive/20250921/202509212132.WxYIFB6U-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+Hi Rebecca,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 5aca7966d2a7255ba92fd5e63268dd767b223aa5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rebecca-Cran/dt-bindings-arm-aspeed-add-ASRock-Rack-ALTRAD8-board/20250918-020746
+base:   5aca7966d2a7255ba92fd5e63268dd767b223aa5
+patch link:    https://lore.kernel.org/r/20250917180428.810751-3-rebecca%40bsdio.com
+patch subject: [PATCH v2 2/2] ARM: dts: aspeed: add device tree for ASRock Rack ALTRAD8 BMC
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm-randconfig-053-20250919 (https://download.01.org/0day-ci/archive/20250921/202509212140.97jyb4AK-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
 dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250921/202509212132.WxYIFB6U-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250921/202509212140.97jyb4AK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509212132.WxYIFB6U-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509212140.97jyb4AK-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sm6350.dtsi:2331.27-2406.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sm6350-sony-xperia-lena-pdx213.dtb: displayport-controller@ae90000 (qcom,sm6350-dp): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sm6350-dp', 'qcom,sc7180-dp'] is too long
-   	'qcom,sm6350-dp' is not one of ['qcom,sa8775p-dp', 'qcom,sc7180-dp', 'qcom,sc7280-dp', 'qcom,sc7280-edp', 'qcom,sc8180x-dp', 'qcom,sc8180x-edp', 'qcom,sc8280xp-dp', 'qcom,sc8280xp-edp', 'qcom,sdm845-dp', 'qcom,sm8350-dp', 'qcom,sm8650-dp']
-   	'qcom,sm6350-dp' is not one of ['qcom,sm8750-dp']
-   	'qcom,sm8350-dp' was expected
-   	'qcom,sm8650-dp' was expected
-   	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
---
->> arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: displayport-controller@ae90000 (qcom,sm6350-dp): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sm6350-dp', 'qcom,sc7180-dp'] is too long
-   	'qcom,sm6350-dp' is not one of ['qcom,sa8775p-dp', 'qcom,sc7180-dp', 'qcom,sc7280-dp', 'qcom,sc7280-edp', 'qcom,sc8180x-dp', 'qcom,sc8180x-edp', 'qcom,sc8280xp-dp', 'qcom,sc8280xp-edp', 'qcom,sdm845-dp', 'qcom,sm8350-dp', 'qcom,sm8650-dp']
-   	'qcom,sm6350-dp' is not one of ['qcom,sm8750-dp']
-   	'qcom,sm8350-dp' was expected
-   	'qcom,sm8650-dp' was expected
-   	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-altrad8.dts:578.16-581.6: Warning (unique_unit_address_if_enabled): /ahb/spi@1e630000/flash@0/partitions/code@400000: duplicate unit-address (also used in node /ahb/spi@1e630000/flash@0/partitions/tfa@400000)
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-altrad8.dtb: /ahb/apb/memory-controller@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2500-sdram-edac']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-altrad8.dtb: /ahb/apb/syscon@1e6e2000/p2a-control@2c: failed to match any schema with compatible: ['aspeed,ast2500-p2a-ctrl']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-altrad8.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2500-gfx', 'syscon']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-altrad8.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2400-timer']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-altrad8.dtb: /ahb/apb/pwm-tacho-controller@1e786000: failed to match any schema with compatible: ['aspeed,ast2500-pwm-tacho']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-altrad8.dtb: fan@0: aspeed,fan-tach-ch: b'\x00\x08' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-altrad8.dtb: fan@1: aspeed,fan-tach-ch: b'\x01\t' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-altrad8.dtb: fan@2: aspeed,fan-tach-ch: b'\x02\n' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-altrad8.dtb: fan@3: aspeed,fan-tach-ch: b'\x03\x0b' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
