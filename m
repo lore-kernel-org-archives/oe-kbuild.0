@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA88E80C02
-	for <oe-kbuild@lists.linux.dev>; Sun, 21 Sep 2025 06:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836D327E05A
+	for <oe-kbuild@lists.linux.dev>; Sun, 21 Sep 2025 07:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758436630; cv=none; b=icYoSbxBpFKSw9/YNid/icA3sW//v1+foKiubeo6pw42u8QLHA2rBrgDZkrLiSFZx1SF0eXvjFPryrgh2+gOx0qXiFpfAXLbH30HvgiyPtZ34z3VxxVrvfID4Jq+9bno9TlXdltQNJsMfaUyPg8qnNlEan1eZEruKJl1b4wzxdc=
+	t=1758438769; cv=none; b=csHh7UHIboGxXGdwgT+mx13KE74ufLuLXCBT0Okxsfqho2/Db57j6bALNNbTr3wKWP6qpK/87UFt6fEkhugSctQVdFK6BtFgJp6txvAB0ETlOeClEeD1WPqVXD/t5KuCGVBrnNBHoBPgk6AX9Rwh40z/lO+ltzq9rfMF2CBtYf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758436630; c=relaxed/simple;
-	bh=g/ihSI92iyuZbVNT/bQLu/PpfEFfrFggap2qKqi8708=;
+	s=arc-20240116; t=1758438769; c=relaxed/simple;
+	bh=A6GmCQ4dynC5RPH7L2M0++fGaegRf92ka3iVyTAtUso=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sqsWrUlM4Uh08QuEb078gSg4DoTxXnTF213Okz6Y5eTHAUx7LtshCjp/Jk56bSI4maiD5UCJsu9E2kT2YJPleF1XDy/lIyIfbVrz4TZ775FzszJ9LirIkCTDZ9mfiKWdkbkPC7pLGT8rPsEXMogI+f59AR7iaxnx1IwYOAzjGEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUkgwqvG; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=e5klV/dLIJMLAShG0Ei5xNE/H9jFp9iFdwDJXFFw4rTJxz/dE4MYDulu6Kex2GupahOXkv3l/i57DvulO++Zvej8lDo+kvC3iwF1EzEXPm5kpR+5Ou3IBskfV7A/lZEiYdApdGkPLSpMA4AjG/+FmCWfQ2m4WJdi3O0lRi5zMwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GwMowApY; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUkgwqvG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GwMowApY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758436628; x=1789972628;
+  t=1758438768; x=1789974768;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g/ihSI92iyuZbVNT/bQLu/PpfEFfrFggap2qKqi8708=;
-  b=cUkgwqvGIh4RD6S3b8D7W/Ooz0JjKmtcacz95Jnp795612LJXQdHNmJc
-   IJU5+o3tW9eRW6LB5i/t2AspEP0c16+R9BjODWRD5xtYlL/As8yuYwB34
-   6EhvdumtNMyYddpvfGpzwTU62qokVGb8HgBno0oWOF5luyWhYqrqvmk+s
-   qHO/YSY70O1qwN2AV76zOArTWBXVhiY/T3qMlmTeQfBmPGapZThorDSU8
-   4jwAZ+964c0zrmqVlthvDAwHgu4LboFx3eFzF6QNVcg4WYSreRzyfzppD
-   aNkrMJreICBNAJ7dSZ/NaXxmW7u/xpMFA+Bf1Ku7ZQvgWUyTQSq5874pN
-   A==;
-X-CSE-ConnectionGUID: S1t0XxgtTsGQZVNBLtLdYw==
-X-CSE-MsgGUID: CHwtJ83xSqmMrFX8rZ0OfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11559"; a="60848822"
+  bh=A6GmCQ4dynC5RPH7L2M0++fGaegRf92ka3iVyTAtUso=;
+  b=GwMowApY9/Kv24QPsxJsV6o/ndVKMsy3hhN48n59IjKAirVA3nmk+7Dz
+   uTsAWMBz2+SClGdyq2uVVySQOFz5rJWoBtdkx7caqFA4V+fc7HpwYCJpk
+   jyrZDVC7NR2gIO6Pz+bsfMlwHugb1xH3a1L/+w7iIeSqyq3C14I73T/eO
+   xcXSadSry7kjLDDpPvZ289f8Rd6JHt74SNw1p01Hv2Q41h2PyQ3qoSMRF
+   aRfYnDWfZs5ds/LKFw0Tv0XNLhWd4c9o/SNoTjhiNvIqyDXW5et/jkO2W
+   wFdxj5uVLwoO7TbIhmdoWfszap9kq5hMrKG2oi1Ctpj50aaBRsJSb83Dw
+   g==;
+X-CSE-ConnectionGUID: AW4AOaYWSsKpeAAEOXHfsQ==
+X-CSE-MsgGUID: /viBQQY5TdmeOejv8MwcSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11559"; a="70981809"
 X-IronPort-AV: E=Sophos;i="6.18,282,1751266800"; 
-   d="scan'208";a="60848822"
+   d="scan'208";a="70981809"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 23:37:07 -0700
-X-CSE-ConnectionGUID: LeKbMEBUQzi8dk7p+QJHoA==
-X-CSE-MsgGUID: /+BVx/r8Thuld8EYKsDvGQ==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 00:12:47 -0700
+X-CSE-ConnectionGUID: iAoujQgcRRyMcz03LbWG0g==
+X-CSE-MsgGUID: Mvm01oYFSSKwaAkHlxEh/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,282,1751266800"; 
-   d="scan'208";a="180223224"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 20 Sep 2025 23:37:05 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+   d="scan'208";a="180227239"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by orviesa003.jf.intel.com with ESMTP; 21 Sep 2025 00:12:44 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v0Dh0-0000W7-31;
-	Sun, 21 Sep 2025 06:37:02 +0000
-Date: Sun, 21 Sep 2025 14:37:00 +0800
+	id 1v0EFX-000000003Xt-2Sf0;
+	Sun, 21 Sep 2025 07:12:43 +0000
+Date: Sun, 21 Sep 2025 09:12:27 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [qcom:arm64-for-6.18 244/265]
- arch/arm64/boot/dts/qcom/lemans-evk.dtb: cci@ac14000 (qcom,sa8775p-cci):
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202509211425.T9DfTJVF-lkp@intel.com>
+Subject: [asahilinux:bits/000-devicetree 6/134]
+ arch/arm64/boot/dts/apple/t7001-j81.dtb: /soc/i2c@20a110000: failed to match
+ any schema with compatible: ['apple,t7000-i2c', 'apple,i2c']
+Message-ID: <202509210905.UiMqyWNT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,230 +69,51 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Wenmeng Liu <quic_wenmliu@qualcomm.com>
-CC: Bjorn Andersson <andersson@kernel.org>
-CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+TO: Nick Chan <towinchenmi@gmail.com>
+CC: Janne Grunau <j@jannau.net>
+CC: Sven Peter <sven@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.18
-head:   2f695d3eac36601d383155e3bba189f06a0f750c
-commit: 3964a91e552880c356ec4d3f09eed927f48e9c66 [244/265] arm64: dts: qcom: lemans: Add CCI definitions
-:::::: branch date: 28 hours ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-051-20250919 (https://download.01.org/0day-ci/archive/20250921/202509211425.T9DfTJVF-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250921/202509211425.T9DfTJVF-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   00c6dc8272d302876034765e34843f6abc62219f
+commit: 55e2d1ad882de08ee0dccc751f4cc88e3f10c3fa [6/134] arm64: dts: apple: t7001: Add I2C nodes
+:::::: branch date: 2 weeks ago
+:::::: commit date: 2 weeks ago
+config: arm64-randconfig-2052-20250919 (https://download.01.org/0day-ci/archive/20250921/202509210905.UiMqyWNT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250921/202509210905.UiMqyWNT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509211425.T9DfTJVF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509210905.UiMqyWNT-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-msm.yaml#
-   arch/arm64/boot/dts/qcom/lemans-evk.dtb: /soc@0/mmc@87c4000: failed to match any schema with compatible: ['qcom,sa8775p-sdhci', 'qcom,sdhci-msm-v5']
-   arch/arm64/boot/dts/qcom/lemans-evk.dtb: cci@ac13000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/lemans-evk.dtb: /soc@0/cci@ac13000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
->> arch/arm64/boot/dts/qcom/lemans-evk.dtb: cci@ac14000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/lemans-evk.dtb: /soc@0/cci@ac14000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/lemans-evk.dtb: cci@ac15000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/lemans-evk.dtb: /soc@0/cci@ac15000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
->> arch/arm64/boot/dts/qcom/lemans-evk.dtb: cci@ac16000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/lemans-evk.dtb: /soc@0/cci@ac16000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/lemans-evk.dtb: /soc@0/isp@ac78000: failed to match any schema with compatible: ['qcom,sa8775p-camss']
-   arch/arm64/boot/dts/qcom/lemans-evk.dtb: remoteproc@20c00000 (qcom,sa8775p-gpdsp0-pas): glink-edge:fastrpc:label:0: 'gdsp0' is not one of ['adsp', 'mdsp', 'sdsp', 'cdsp', 'cdsp1']
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
+   arch/arm64/boot/dts/apple/t7001-j81.dtb: i2c@20a110000 (apple,t7000-i2c): compatible:0: 'apple,t7000-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t7001-j81.dtb: /soc/i2c@20a110000: failed to match any schema with compatible: ['apple,t7000-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t7001-j81.dtb: i2c@20a111000 (apple,t7000-i2c): compatible:0: 'apple,t7000-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t7001-j81.dtb: /soc/i2c@20a111000: failed to match any schema with compatible: ['apple,t7000-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t7001-j81.dtb: i2c@20a112000 (apple,t7000-i2c): compatible:0: 'apple,t7000-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t7001-j81.dtb: /soc/i2c@20a112000: failed to match any schema with compatible: ['apple,t7000-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t7001-j81.dtb: i2c@20a113000 (apple,t7000-i2c): compatible:0: 'apple,t7000-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t7001-j81.dtb: /soc/i2c@20a113000: failed to match any schema with compatible: ['apple,t7000-i2c', 'apple,i2c']
 --
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-msm.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: /soc@0/mmc@87c4000: failed to match any schema with compatible: ['qcom,sa8775p-sdhci', 'qcom,sdhci-msm-v5']
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: cci@ac13000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: /soc@0/cci@ac13000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
->> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: cci@ac14000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: /soc@0/cci@ac14000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: cci@ac15000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
->> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: /soc@0/cci@ac15000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: cci@ac16000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: /soc@0/cci@ac16000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: /soc@0/isp@ac78000: failed to match any schema with compatible: ['qcom,sa8775p-camss']
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: remoteproc@20c00000 (qcom,sa8775p-gpdsp0-pas): glink-edge:fastrpc:label:0: 'gdsp0' is not one of ['adsp', 'mdsp', 'sdsp', 'cdsp', 'cdsp1']
---
-   	'qcom,sdhci-msm-v4' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-msm.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: /soc@0/mmc@87c4000: failed to match any schema with compatible: ['qcom,sa8775p-sdhci', 'qcom,sdhci-msm-v5']
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: cci@ac13000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
->> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: /soc@0/cci@ac13000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: cci@ac14000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: /soc@0/cci@ac14000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
->> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: cci@ac15000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: /soc@0/cci@ac15000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: cci@ac16000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
->> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: /soc@0/cci@ac16000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: /soc@0/isp@ac78000: failed to match any schema with compatible: ['qcom,sa8775p-camss']
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: remoteproc@20c00000 (qcom,sa8775p-gpdsp0-pas): glink-edge:fastrpc:label:0: 'gdsp0' is not one of ['adsp', 'mdsp', 'sdsp', 'cdsp', 'cdsp1']
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: remoteproc@20c00000 (qcom,sa8775p-gpdsp0-pas): glink-edge: Unevaluated properties are not allowed ('fastrpc' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: remoteproc@20c00000 (qcom,sa8775p-gpdsp0-pas): Unevaluated properties are not allowed ('glink-edge', 'interconnects', 'qcom,smem-state-names', 'qcom,smem-states' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: fastrpc (qcom,fastrpc): label:0: 'gdsp0' is not one of ['adsp', 'mdsp', 'sdsp', 'cdsp', 'cdsp1']
-   	from schema $id: http://devicetree.org/schemas/misc/qcom,fastrpc.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: remoteproc@21c00000 (qcom,sa8775p-gpdsp1-pas): glink-edge:fastrpc:label:0: 'gdsp1' is not one of ['adsp', 'mdsp', 'sdsp', 'cdsp', 'cdsp1']
---
-   	'qcom,sdhci-msm-v4' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-msm.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: /soc@0/mmc@87c4000: failed to match any schema with compatible: ['qcom,sa8775p-sdhci', 'qcom,sdhci-msm-v5']
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: cci@ac13000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: /soc@0/cci@ac13000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: cci@ac14000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: /soc@0/cci@ac14000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: cci@ac15000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: /soc@0/cci@ac15000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: cci@ac16000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: /soc@0/cci@ac16000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: /soc@0/isp@ac78000: failed to match any schema with compatible: ['qcom,sa8775p-camss']
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@20c00000 (qcom,sa8775p-gpdsp0-pas): glink-edge:fastrpc:label:0: 'gdsp0' is not one of ['adsp', 'mdsp', 'sdsp', 'cdsp', 'cdsp1']
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@20c00000 (qcom,sa8775p-gpdsp0-pas): glink-edge: Unevaluated properties are not allowed ('fastrpc' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@20c00000 (qcom,sa8775p-gpdsp0-pas): Unevaluated properties are not allowed ('glink-edge', 'interconnects', 'qcom,smem-state-names', 'qcom,smem-states' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: fastrpc (qcom,fastrpc): label:0: 'gdsp0' is not one of ['adsp', 'mdsp', 'sdsp', 'cdsp', 'cdsp1']
-   	from schema $id: http://devicetree.org/schemas/misc/qcom,fastrpc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@21c00000 (qcom,sa8775p-gpdsp1-pas): glink-edge:fastrpc:label:0: 'gdsp1' is not one of ['adsp', 'mdsp', 'sdsp', 'cdsp', 'cdsp1']
---
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-msm.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: /soc@0/mmc@87c4000: failed to match any schema with compatible: ['qcom,sa8775p-sdhci', 'qcom,sdhci-msm-v5']
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: cci@ac13000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: /soc@0/cci@ac13000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
->> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: cci@ac14000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: /soc@0/cci@ac14000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: cci@ac15000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: /soc@0/cci@ac15000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: cci@ac16000 (qcom,sa8775p-cci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-cci', 'qcom,msm8996-cci'] is too long
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8226-cci', 'qcom,msm8974-cci', 'qcom,msm8996-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,msm8916-cci']
-   	'qcom,sa8775p-cci' is not one of ['qcom,sc7280-cci', 'qcom,sc8280xp-cci', 'qcom,sdm670-cci', 'qcom,sdm845-cci', 'qcom,sm6350-cci', 'qcom,sm8250-cci', 'qcom,sm8450-cci', 'qcom,sm8550-cci', 'qcom,sm8650-cci', 'qcom,x1e80100-cci']
-   	'qcom,msm8226-cci' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/qcom,i2c-cci.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: /soc@0/cci@ac16000: failed to match any schema with compatible: ['qcom,sa8775p-cci', 'qcom,msm8996-cci']
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: /soc@0/isp@ac78000: failed to match any schema with compatible: ['qcom,sa8775p-camss']
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: remoteproc@20c00000 (qcom,sa8775p-gpdsp0-pas): glink-edge:fastrpc:label:0: 'gdsp0' is not one of ['adsp', 'mdsp', 'sdsp', 'cdsp', 'cdsp1']
+>> arch/arm64/boot/dts/apple/t7001-j82.dtb: i2c@20a110000 (apple,t7000-i2c): compatible:0: 'apple,t7000-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t7001-j82.dtb: /soc/i2c@20a110000: failed to match any schema with compatible: ['apple,t7000-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t7001-j82.dtb: i2c@20a111000 (apple,t7000-i2c): compatible:0: 'apple,t7000-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t7001-j82.dtb: /soc/i2c@20a111000: failed to match any schema with compatible: ['apple,t7000-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t7001-j82.dtb: i2c@20a112000 (apple,t7000-i2c): compatible:0: 'apple,t7000-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t7001-j82.dtb: /soc/i2c@20a112000: failed to match any schema with compatible: ['apple,t7000-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t7001-j82.dtb: i2c@20a113000 (apple,t7000-i2c): compatible:0: 'apple,t7000-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t7001-j82.dtb: /soc/i2c@20a113000: failed to match any schema with compatible: ['apple,t7000-i2c', 'apple,i2c']
 
 -- 
 0-DAY CI Kernel Test Service
