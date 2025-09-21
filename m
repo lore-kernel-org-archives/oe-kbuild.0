@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF86F1A9FBA
-	for <oe-kbuild@lists.linux.dev>; Sun, 21 Sep 2025 20:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1617D49620
+	for <oe-kbuild@lists.linux.dev>; Sun, 21 Sep 2025 21:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758484973; cv=none; b=UcwPmC8gET/l5qD49MRVfzyddXwHv1ZKk83f44GLi7G7irwP6C5pHFuKn4z/jJESFSyWsHlYoFfMCZaUi4kMpkz+EwH6BAB/HYk139aj30XsLXBO2vSi10zzLnmC5a3YbGbmz9bI/5iDc28d/S4F9fSdEWfrAGGuFesFJMwRUSw=
+	t=1758490695; cv=none; b=O4RgE3m/B9g96dnX3oVjca4qZ+BdD46GcQTH1DhraUzld6j7zKjkBgUfDCresBfN1VB9l6Wmq2qHq65xL0qKk0xEsgr5yxgkw/fl/gXzhn9teIZ2E1Eapzp6qOVO69/0Mus/IlzJ2VSDHlz+1tSlMNdEehpAFBs77VSCYVfKt7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758484973; c=relaxed/simple;
-	bh=3gHpJFMkaS7uaboRN/X4RfGOUcYp3o3p19b1bNTbeR4=;
+	s=arc-20240116; t=1758490695; c=relaxed/simple;
+	bh=qah8niuw7cgmDmsM5YIIEGowCiGMJt24e3ZR495nF/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tf2AZoFC6D+pcQu5tvetxffOwx6VNkqEcrfxXtGct2QAujwSSRmpd1xlRlTDdw+R/byhDUNdC72m6bq3wyGv4u0mUZaZdo2/OVF/V46cu6bC2uyRqCDBRMIkq6Q/min57uaOODk65GnYqV4JC5hjFacydeqU8EXGpdyvT0cdZow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fzrnCoul; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=HuMMbQORTBBPM7dW04z4quj1OoQz7d3KX2KjQZc+ibbjmEh0z6KQTl8nrruz9j4UUcWE+lmfwz+nimrA2WC+702ltn8l3a3OdGYXSBLL26P2VaguYpTa+k2fKeEFiFZHHpZQf29TCrjPRn0wnDRYua937i4VFvaYqJca0izi8FQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n5nTLkof; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fzrnCoul"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n5nTLkof"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758484971; x=1790020971;
+  t=1758490694; x=1790026694;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3gHpJFMkaS7uaboRN/X4RfGOUcYp3o3p19b1bNTbeR4=;
-  b=fzrnCoulT9WDPADlGnuudsDLN9c2JmU3zyRQ6ItndM+Hd8BVpkAG24xO
-   iDv8CBQPfyLwY7BFR2RaJp7LQUgkMiVyVEJiPupXkJsIrhWEYZEhhy2Xy
-   TfwO005+Qa9lRhsGykjRXKeWvauiVkJSDPskuGOYzDwdt4oM4YD7eN6Af
-   Xld+5vVMpo9+CxsgqaiUtiqBf2Ax76B5oV+Kpd2NaE2imTMu40wK1AwOB
-   B5vmCTNFtCC/XDwtWWclH9a33NGV+8diKhcGVwAxp9qfcRRocFgz+XLCN
-   FGBuqC2Oux6+uAfwvqOePQuSc8tef7AA9gq7/3fpdrcBK3Sj+OR7eexDj
+  bh=qah8niuw7cgmDmsM5YIIEGowCiGMJt24e3ZR495nF/s=;
+  b=n5nTLkof4duhsb4O5eD9JP5xkOB8KOGBOIVCqLA3z1JCHmpD+Nk6gfy9
+   tW2JzM+UzveXRwNx9RhMNHP5QpnYuMSkjeVpopfpntJqICmBCvycBczND
+   6+RyYN18jMXT40cxD6VbwnjdlVfWb+9a9V3K6BD3TaTiRhLM2j9yB3RoH
+   hFIwnhmkqySFic+DLXA6c9J8POrFDgtLaYohZBq2dB//myJLCyY2w1EIy
+   EXec+G/zZNWlWDGLbA/WmJLPKBdrmHm2mG+HM2Xbw7WLnJ12TOPtqkq5j
+   zxhtQEQMoEWAhrrPqyvbAcnIxvX9Hn8vlvs9e4SEtAB/l7Rz1qst/OYiv
    A==;
-X-CSE-ConnectionGUID: ERPxertvTVu/v3hPfnAg5g==
-X-CSE-MsgGUID: cqfxbrQkTOSIng9CzW7ekg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60696791"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60696791"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 13:02:51 -0700
-X-CSE-ConnectionGUID: XWIcgdOhSG6/p6hSmVRwaw==
-X-CSE-MsgGUID: nV3dbr04TyWBBDjnJ3WiPw==
+X-CSE-ConnectionGUID: uIgzogxLTla+bk0AcIDz4Q==
+X-CSE-MsgGUID: nnHlTxygReKwJ2pCTs/Vdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="60644059"
+X-IronPort-AV: E=Sophos;i="6.18,283,1751266800"; 
+   d="scan'208";a="60644059"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 14:38:14 -0700
+X-CSE-ConnectionGUID: 2rtbJBNvRbaSCb6ZotQSQw==
+X-CSE-MsgGUID: 2CMbrPTATUKslJpUbvBixg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,283,1751266800"; 
-   d="scan'208";a="176749597"
+   d="scan'208";a="175603954"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 21 Sep 2025 13:02:50 -0700
+  by orviesa010.jf.intel.com with ESMTP; 21 Sep 2025 14:38:13 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0QGl-0000yj-2d;
-	Sun, 21 Sep 2025 20:02:47 +0000
-Date: Mon, 22 Sep 2025 04:02:28 +0800
+	id 1v0Rl3-00011J-37;
+	Sun, 21 Sep 2025 21:38:09 +0000
+Date: Mon, 22 Sep 2025 05:37:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [Patch v2 1/2] mm/ksm: get mm_slot by mm_slot_entry() when slot
- is !NULL
-Message-ID: <202509220348.96Aa4hMs-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [qcom:arm64-for-6.18 252/265]
+ arch/arm64/boot/dts/qcom/qcs615-ride.dtb: thermal-sensor@c263000
+ (qcom,qcs615-tsens): compatible: 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <202509220523.CjZuqj2J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,91 +64,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250919071244.17020-2-richard.weiyang@gmail.com>
-References: <20250919071244.17020-2-richard.weiyang@gmail.com>
-TO: Wei Yang <richard.weiyang@gmail.com>
+TO: Gaurav Kohli <quic_gkohli@quicinc.com>
+CC: Bjorn Andersson <andersson@kernel.org>
+CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+CC: Dmitry Baryshkov <lumag@kernel.org>
 
-Hi Wei,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.17-rc6 next-20250919]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Yang/mm-ksm-get-mm_slot-by-mm_slot_entry-when-slot-is-NULL/20250919-151547
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250919071244.17020-2-richard.weiyang%40gmail.com
-patch subject: [Patch v2 1/2] mm/ksm: get mm_slot by mm_slot_entry() when slot is !NULL
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: microblaze-randconfig-r073-20250921 (https://download.01.org/0day-ci/archive/20250922/202509220348.96Aa4hMs-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.18
+head:   2f695d3eac36601d383155e3bba189f06a0f750c
+commit: 4e26b0f4f1a965e366795c100bd7a8ee1635ed14 [252/265] arm64: dts: qcom: qcs615: Enable TSENS support for QCS615 SoC
+:::::: branch date: 2 days ago
+:::::: commit date: 5 days ago
+config: arm64-randconfig-051-20250919 (https://download.01.org/0day-ci/archive/20250922/202509220523.CjZuqj2J-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
+dtschema version: 2025.9.dev1+g4b28bc79f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509220523.CjZuqj2J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202509220348.96Aa4hMs-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509220523.CjZuqj2J-lkp@intel.com/
 
-New smatch warnings:
-mm/ksm.c:2959 __ksm_exit() error: uninitialized symbol 'mm_slot'.
-
-Old smatch warnings:
-arch/microblaze/include/asm/thread_info.h:85 current_thread_info() error: uninitialized symbol 'sp'.
-
-vim +/mm_slot +2959 mm/ksm.c
-
-f8af4da3b4c14e Hugh Dickins      2009-09-21  2921  
-1c2fb7a4c2ca7a Andrea Arcangeli  2009-09-21  2922  void __ksm_exit(struct mm_struct *mm)
-f8af4da3b4c14e Hugh Dickins      2009-09-21  2923  {
-21fbd59136e077 Qi Zheng          2022-08-31  2924  	struct ksm_mm_slot *mm_slot;
-58730ab6c7cab4 Qi Zheng          2022-08-31  2925  	struct mm_slot *slot;
-9ba6929480088a Hugh Dickins      2009-09-21  2926  	int easy_to_free = 0;
-cd551f97519d35 Hugh Dickins      2009-09-21  2927  
-31dbd01f314364 Izik Eidus        2009-09-21  2928  	/*
-9ba6929480088a Hugh Dickins      2009-09-21  2929  	 * This process is exiting: if it's straightforward (as is the
-9ba6929480088a Hugh Dickins      2009-09-21  2930  	 * case when ksmd was never running), free mm_slot immediately.
-9ba6929480088a Hugh Dickins      2009-09-21  2931  	 * But if it's at the cursor or has rmap_items linked to it, use
-c1e8d7c6a7a682 Michel Lespinasse 2020-06-08  2932  	 * mmap_lock to synchronize with any break_cows before pagetables
-9ba6929480088a Hugh Dickins      2009-09-21  2933  	 * are freed, and leave the mm_slot on the list for ksmd to free.
-9ba6929480088a Hugh Dickins      2009-09-21  2934  	 * Beware: ksm may already have noticed it exiting and freed the slot.
-31dbd01f314364 Izik Eidus        2009-09-21  2935  	 */
-9ba6929480088a Hugh Dickins      2009-09-21  2936  
-cd551f97519d35 Hugh Dickins      2009-09-21  2937  	spin_lock(&ksm_mmlist_lock);
-58730ab6c7cab4 Qi Zheng          2022-08-31  2938  	slot = mm_slot_lookup(mm_slots_hash, mm);
-de4014f857d062 Wei Yang          2025-09-19  2939  	if (slot) {
-58730ab6c7cab4 Qi Zheng          2022-08-31  2940  		mm_slot = mm_slot_entry(slot, struct ksm_mm_slot, slot);
-de4014f857d062 Wei Yang          2025-09-19  2941  		if (ksm_scan.mm_slot != mm_slot) {
-6514d511dbe5a7 Hugh Dickins      2009-12-14  2942  			if (!mm_slot->rmap_list) {
-58730ab6c7cab4 Qi Zheng          2022-08-31  2943  				hash_del(&slot->hash);
-58730ab6c7cab4 Qi Zheng          2022-08-31  2944  				list_del(&slot->mm_node);
-9ba6929480088a Hugh Dickins      2009-09-21  2945  				easy_to_free = 1;
-9ba6929480088a Hugh Dickins      2009-09-21  2946  			} else {
-58730ab6c7cab4 Qi Zheng          2022-08-31  2947  				list_move(&slot->mm_node,
-58730ab6c7cab4 Qi Zheng          2022-08-31  2948  					  &ksm_scan.mm_slot->slot.mm_node);
-9ba6929480088a Hugh Dickins      2009-09-21  2949  			}
-9ba6929480088a Hugh Dickins      2009-09-21  2950  		}
-de4014f857d062 Wei Yang          2025-09-19  2951  	}
-cd551f97519d35 Hugh Dickins      2009-09-21  2952  	spin_unlock(&ksm_mmlist_lock);
-cd551f97519d35 Hugh Dickins      2009-09-21  2953  
-9ba6929480088a Hugh Dickins      2009-09-21  2954  	if (easy_to_free) {
-58730ab6c7cab4 Qi Zheng          2022-08-31  2955  		mm_slot_free(mm_slot_cache, mm_slot);
-12e423ba4eaed7 Lorenzo Stoakes   2025-08-12  2956  		mm_flags_clear(MMF_VM_MERGE_ANY, mm);
-12e423ba4eaed7 Lorenzo Stoakes   2025-08-12  2957  		mm_flags_clear(MMF_VM_MERGEABLE, mm);
-9ba6929480088a Hugh Dickins      2009-09-21  2958  		mmdrop(mm);
-9ba6929480088a Hugh Dickins      2009-09-21 @2959  	} else if (mm_slot) {
-d8ed45c5dcd455 Michel Lespinasse 2020-06-08  2960  		mmap_write_lock(mm);
-d8ed45c5dcd455 Michel Lespinasse 2020-06-08  2961  		mmap_write_unlock(mm);
-9ba6929480088a Hugh Dickins      2009-09-21  2962  	}
-739100c88f49a6 Stefan Roesch     2023-02-10  2963  
-739100c88f49a6 Stefan Roesch     2023-02-10  2964  	trace_ksm_exit(mm);
-31dbd01f314364 Izik Eidus        2009-09-21  2965  }
-31dbd01f314364 Izik Eidus        2009-09-21  2966  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: clock-controller@100000 (qcom,qcs615-gcc): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,qcs615-gcc.yaml#
+>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: thermal-sensor@c263000 (qcom,qcs615-tsens): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,qcs615-tsens', 'qcom,tsens-v2'] is too long
+   	'qcom,qcs615-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm8960-tsens']
+   	'qcom,qcs615-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm8226-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens', 'qcom,msm8974-tsens']
+   	'qcom,qcs615-tsens' is not one of ['qcom,ipq5018-tsens', 'qcom,msm8937-tsens', 'qcom,msm8956-tsens', 'qcom,msm8976-tsens', 'qcom,qcs404-tsens']
+   	'qcom,qcs615-tsens' is not one of ['qcom,milos-tsens', 'qcom,msm8953-tsens', 'qcom,msm8996-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8255p-tsens', 'qcom,sa8775p-tsens', 'qcom,sar2130p-tsens', 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc8280xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens', 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm8250-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'qcom,sm8650-tsens', 'qcom,x1e80100-tsens']
+   	'qcom,qcs615-tsens' is not one of ['qcom,ipq5332-tsens', 'qcom,ipq5424-tsens', 'qcom,ipq8074-tsens']
+   	'qcom,qcs615-tsens' is not one of ['qcom,ipq6018-tsens', 'qcom,ipq9574-tsens']
+   	'qcom,tsens-v0_1' was expected
+   	'qcom,tsens-v1' was expected
+   	'qcom,ipq8074-tsens' was expected
 
 -- 
 0-DAY CI Kernel Test Service
