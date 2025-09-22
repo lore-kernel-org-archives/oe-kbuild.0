@@ -1,194 +1,131 @@
-Received: from sonic314-19.consmr.mail.gq1.yahoo.com (sonic314-19.consmr.mail.gq1.yahoo.com [98.137.69.82])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC038308F3D
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Sep 2025 13:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=98.137.69.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E218310F1
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Sep 2025 14:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758547665; cv=none; b=VqOUfs1Te1+oFhSF4qtNz2lAN45SQxwDRBMb+w/OWeE9CG/qnSGJRMlo4XABhQwn9ZLv04B/qw/ZQtYLvY8e+NQEMhP75oQ6SGlBu3rW9xEueJkm+AMIXZr1kIuLdF/P5FFNUZ+TQ9OPjaXx3YGRhZicohh1Zsj5cbGAvQejcJ8=
+	t=1758550200; cv=none; b=e3IgJgxcWeWM4t8C8Pittd84cQBPT4NmN0sYqluyhSs7+xnJ6HZNlPuQZfUNvxMY/NXTRN+0oKnjuaKoaD0D9GmtnZhZ6imnEmr/s+PCUME6vdoDwF8w47meVUdSti3qoR0KtshE/LT/uf05BCYGLKFdacWLuAXAb0oy/lb7WA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758547665; c=relaxed/simple;
-	bh=Ll8vhZ2NHmVgnCNVmwLk/oH5X7CiVGxEdw1qJM1j+Pc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=tqJ7neluqThzbmK4oYHTr+eV0LhvieF5YiQPkzNNrmoIuwb+3r9V0dRzb1dkHLy/na0swb7VJhozJ1JHw1IUEfU6/kjT6Fqu13FJbn8PKkm9xqi1myKo9Zz+n/az1LfGaE+USp9hmFspFFC80Q2hWstxPrUulCilTWEjPR3D2Qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com; spf=pass smtp.mailfrom=aol.com; dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b=D9avbBPt; arc=none smtp.client-ip=98.137.69.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aol.com
+	s=arc-20240116; t=1758550200; c=relaxed/simple;
+	bh=kbdERS4FjoYT3C2bjXQms4zBl0cMwSJegSBhDNslsEA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=E3UaZbr0Vp/XKoRj9h46kojZ4ylBkpkzBj9JVldDvlWCS7Dxkdf+KMTNPuQhxwdPvYIqpO1kFXWtqgvUMEkm7Ogqx3MZ25VHFL3VeHjhRzIXDUSUsb1KQY3FjiXuqyPB8aFI9+X1Gb7RW3gYObouAqAhPJaqhSRcclB5JScIkms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XcuPwPU4; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b="D9avbBPt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1758547663; bh=0EfXqbK4DHTE0Z8e3N5vogNx54gJngPVVQY62jODgAo=; h=Subject:From:To:Cc:Date:In-Reply-To:References:From:Subject:Reply-To; b=D9avbBPtvR3dNys4V+GsM0GCdY8B0NoE+2rqeh8gtVv3A8HwngJYDkUinHwHeCA2wemTxspsp/31Zaw8HxxMzMzWn2F6VWalHNZu9E1T46tU4ONYWPF2yg8/B5kt18TnnhF1+BNl5M+ZNUmnGBDrJrp+uKHI7yBtMeito+7zEQs1jVjPqua5NHgO3YhM4kfUHkznfDnVk/CagHelgyv8V9V2jdqr1AYLKI0ReIgsQpTWbWtakIyS4U/8zMcP4OzM7nraaK6XoZCN4j59nNMiQIX3DCEVty6oQ7bwSt9eTJZNYRjS8/XjdjB1bWqPSSToBQlYU2JJqOwToP0drNlNKw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1758547663; bh=/lXziLWET9exGq2207Ea+1l/MPlf/g2232JbAsDOGys=; h=X-Sonic-MF:Subject:From:To:Date:From:Subject; b=BpB2kWuV9PuS7YNH2UFkiXvHerZ1MuqfDL0DcY8/Z7MkN7u/7TagfBWmYIWkPCP4JTwf8mT4olCZRk3tZOClAF1zmKyU+gs6OSF1A6NXRliX4HWbyPZMwYZkRQzuFOWWOneFDY8KMw3YsDcnzTkERSwFgcnbsbWbj/8xAJ4lLBjw+hRkgVPqm4wevrsdanimhQoDVVmHV767/NNroOQETGWoAGWq2h6UprjRkIyCNjWYdthwPoKb6jy6PuRy5CdOHIL/mPiz7p2v3DZ3LwyiSNTgYQchytZMEW7rQGSGNIQkyWGvXyEJJhqMIcc1t/AlfbugV83MYD/oKK0XnJdBAg==
-X-YMail-OSG: uMjTQtAVM1kdo9eTdXKhlDzDjODgp6IjVE_Etyc3FC08mABxKOmkS0XCR0tnT5i
- 75uGz58sIL2nshhxnKeFHqkwLkoAiIghJbLwMJ6_Je5C5nai2iam.OsDWnj42iI94_HITYi9FiRg
- hRyV3Dkk5vEppKQAhf3E77EIVhrKtbaLVRJhlWQGwbo1bq3zPxGQDqxQeuZkcGgMx0WRdhrBQN5r
- JdwuAoe3xLWLZgJOYSCJJi5_9FYJ8ou4q55uBPQ0QFq7JuBc9TrZNno_YoCqTj91qnMPf1kjYQxb
- UMXTJbJ0i34VSF6wV81CEhhRqDBiHuKQL9rQIu_W84H73RQpaR5Xt8f0BQiyJ1cbXLWB2Sk.fkEE
- wgycRvvIR6J5oGjOXCxL0Oshk778xfNTZX6Wmy2.q3VjZH250PwliqhEe71JujeBkKTa_8hc5wWZ
- zJ5yRx4U9kicXkPQjW.S6MJl5dBIRy5S7YDSVAnikDLgKbAAsueBIe.9E4SAk9I71nI7.IFY4m3q
- dPkzQnEQtn3aH_rGZrj_w2ovl.eMWvYZZhiw4OV9MOWuKu1xVpps3OYRrKrhZtjVDc_UURihhpGa
- nqJY2TZlQZBaA6g_4xBwVPGeldhtuOnWOxlZDVCk2a5muoIkk_NamNghMj7aCg7n3LNZVxmyCLax
- hIAilW.ckS2lnWfUd4upoqvCaLO9vRC.qttqq36HFvu0k86GEbS3N3ZMV3mdQiP1SGy46i.L9qda
- lTJfWVRKczjsEkIif.eaLMpKnsFzJh.ntgFWFCwDe1JE6M___HTZlKn5Xm_wtfBRO2pyiw1iRrQp
- J9f81m5VgJSMt69oefJWtlc5KrNiR4TavtFpm73WzNE3iuMusw0ZH7VlCi0p0YQs_rfvX1drnRpf
- cmzVtxQDjeQJtSIKyxGW5AUg36OFwd_IcI5gsHb.ke7M9g4YdUA7q_oOhCEn2AMGYDmuEQTHFy2f
- Gh2RBi5UufKqOwyjnbweYxUH_zR7ZPUFu9VEYbTMGi5jR_97FwjQCEpi8VJuZ7I.Ru9LzhT1OCRE
- .dLLK6WBYC8g0_n0FIHe7PXYHVJ3pit5nDvJDC9tWv1_1vyfgbRCzwA6FHG90QbHLALosl.NHmg7
- ojAcpgHTM2qi5GM2_i_O2.QZ_ysUwh0Ky2YGvF.i1JFQUVZmrK1kPoz8mGniSHGShtN833L0dgCQ
- EKepclSvvRvINplmIddvoXa.qUyC8kDSn93KFR1wjmkyoHEYoD2hi2SQ6wJ1jaTKhNjFTsi8nnq_
- QWpAdETMAmHEQjYdKZ.FIMFX9SAIbT6dJ0827NZa2FWWjRu65DKzw3S3aP4943.Gp6Kk6PwFleZR
- R_q20FxBec9Dx4s2o6bV1SbznqNVEKF3Sohjc30p1PnpD3ZimjbYg2_a6Sj0b9gTKq4BATZxxqRD
- ovC48RIEvKoEx6WinM9z25BvFOIk54P8flFJyDOi0iE2gG6b_foQBD5VChD4qc1Q2uEHw2FtG3bj
- SQ9JER9e65ggaPTRE.sSV.H0L_iun23.GQMqPHpcrQfF76g8CKaudNTREVPS0bxWvoxhPVUCmOoh
- FPEqVim5arNSdhLbuh43iBuzJ4wsY3WJnZr3hHEWCKSN.cehZa._AukzbqT14sfd2TloC95laect
- _lgJxgW90JWvOUr8b696qHbR3NPI5QN9bxnNqkEI39B9VpPVHDNHLTk6TKcK42nQ6toEGDbMkzxx
- j2XAF4nd6SA.3Rv1tpq9kX9rMo9dIi7g_E3vQKItY4MCYwKoUkX0Zy9Svtz.mRhnpIK9sKlrumE4
- uHr3BkQlR._GMBhzKPpgW3OwabgKLENNSA.yONqTN7dkuo1hPYsv77eMoyWZWzQquFsLRDOyMlCu
- oo5ifLT126E9kzb4sFzeFR3_GF34CdeCM.TG9Bm9VGwlPW687PL6N7C_OWhJ5h25FUQqm9OQoBKX
- HO2JmMAW1RRjlAfUqJZuJLy5w5QHJtU4qbfep46r7VSJ_5Dt8JBXvEPPNx4qSKmzOrysllotDjf7
- cGXKPntGHCuDJ977527BkfVm1uafp1J99Sjg7SDMPrZGcCGPcwUXA6rWH44f7jgfNlD_z4tTHaAD
- 9yf1GkmjWwsWR25wR7R.Dkc4z6V2mNmm0YaN0dL.UQ8ggeKnzxAksoJWdkmLxqShkBY32O1liG29
- E9KKgK1IfiRRipPKrCIYFouseQd9jJvWkj40SG0aLJeE3FGuNoAQC30pR4TkCD2Gjg8LezrlrJH1
- ttKxVRxTKlTp_12foPKIhl.FkQYZ.13vI4QfAfKY0b_YOr.xCPUTiNLSQHg--
-X-Sonic-MF: <rubenru09@aol.com>
-X-Sonic-ID: fa94e19c-8fce-4d91-8c55-ef4cb44f0a34
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.gq1.yahoo.com with HTTP; Mon, 22 Sep 2025 13:27:43 +0000
-Received: by hermes--production-ir2-74585cff4f-6d9mc (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID a37f67a5b94ace5596a44b3048a74291;
-          Mon, 22 Sep 2025 13:07:24 +0000 (UTC)
-Message-ID: <b87337baa6bdb69354f368a5526a68f1cc5f701c.camel@aol.com>
-Subject: Re: [PATCH] drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions
-From: Ruben Wauters <rubenru09@aol.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann	 <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter	 <simona@ffwll.ch>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Mon, 22 Sep 2025 14:07:22 +0100
-In-Reply-To: <202509212215.c8v3RKmL-lkp@intel.com>
-References: <202509212215.c8v3RKmL-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XcuPwPU4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758550195; x=1790086195;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kbdERS4FjoYT3C2bjXQms4zBl0cMwSJegSBhDNslsEA=;
+  b=XcuPwPU4R1kP6EHnf46LKBtXLLZWtnzEvZRwb6hi+TkQdtoZtKecRiiI
+   8dVxMBpQMV+Wz/KPDAxTl14zXs1nBdGN8fGzyCP3b4mvzhkxnCrHTD/dl
+   AKHf/JB6O/4Z6mJTb7vS5D25oSgBcpM8JfpTncW1U/spAudGSQC/JjSwk
+   l5mUtii8HfPosRH57Rip0bq2MwCV8X73pESwedsRcBMzKdhQHUjSstFEA
+   wRNgPO5tw+/IJNUKS/huB3gKcJMCOG/RmwEafr+fB5SNQiwXaL99vrzlg
+   KgaiLTHCJ0vC87X75OvkhWB7fsrVV/mb9pswrMDvK2SQUajpdgzrszIzy
+   A==;
+X-CSE-ConnectionGUID: 7Fad7S3TQTawPMSS+dda8Q==
+X-CSE-MsgGUID: bKU8YNFLQ0SnPj4X28AheA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="72176793"
+X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
+   d="scan'208";a="72176793"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 07:09:55 -0700
+X-CSE-ConnectionGUID: fWQ3TeMARj62SKz5OOJUaA==
+X-CSE-MsgGUID: Y4U4f1nNQNa00sONY6dVjg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
+   d="scan'208";a="175754090"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by orviesa010.jf.intel.com with ESMTP; 22 Sep 2025 07:09:56 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1v0hEn-000000003oZ-2BMn;
+	Mon, 22 Sep 2025 14:09:53 +0000
+Date: Mon, 22 Sep 2025 16:09:01 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 22/140]
+ arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/smc@23e400000/rtc: failed to
+ match any schema with compatible: ['apple,smc-rtc']
+Message-ID: <202509221642.uCyJcaLu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mailer: WebService/1.1.24425 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 2025-09-22 at 08:47 +0300, Dan Carpenter wrote:
-> Hi Ruben,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:=C2=A0=C2=A0=C2=A0
-> https://github.com/intel-lab-lkp/linux/commits/Ruben-Wauters/drm-gud-repl=
-ace-WARN_ON-WARN_ON_ONCE-with-drm-versions/20250914-235627
-> base:=C2=A0=C2=A0 git://anongit.freedesktop.org/drm/drm-misc drm-misc-nex=
-t
-> patch link:=C2=A0=C2=A0=C2=A0
-> https://lore.kernel.org/r/20250914155308.2144-1-rubenru09%40aol.com
-> patch subject: [PATCH] drm: gud: replace WARN_ON/WARN_ON_ONCE with
-> drm versions
-> config: x86_64-randconfig-161-20250921
-> (https://download.01.org/0day-ci/archive/20250921/202509212215.c8v3RK
-> mL-lkp@intel.com/config)
-> compiler: clang version 20.1.8
-> (https://github.com/llvm/llvm-project=C2=A087f0227cb60147a26a1eeb4fb06e3b=
-5
-> 05e9c7261)
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-Hi,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Janne Grunau <j@jannau.net>
 
-Thank you for catching this, I completely missed it. Since the patch
-has already been applied to drm-misc-next I will send another patch to
-fix this issue.
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   703a105e4188c8c9e084375a48f08853cf64cfca
+commit: 6eeb18e3f504a024f9d777a379b3e57d584961cc [22/140] arm64: dts: apple: t8103: Add smc_rtc node
+:::::: branch date: 26 hours ago
+:::::: commit date: 2 weeks ago
+config: arm64-randconfig-2051-20250919 (https://download.01.org/0day-ci/archive/20250922/202509221642.uCyJcaLu-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ce5124856e019792783de9630d0c5a1f0aaf2d9d)
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509221642.uCyJcaLu-lkp@intel.com/reproduce)
 
-> If you fix the issue in a separate patch/commit (i.e. not just a new
-> version of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > Closes:
-> > https://lore.kernel.org/r/202509212215.c8v3RKmL-lkp@intel.com/
->=20
-> smatch warnings:
-> drivers/gpu/drm/gud/gud_connector.c:597
-> gud_connector_fill_properties() warn: passing a valid pointer to
-> 'PTR_ERR'
->=20
-> vim +/PTR_ERR +597 drivers/gpu/drm/gud/gud_connector.c
->=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 580=C2=A0 int
-> gud_connector_fill_properties(struct drm_connector_state
-> *connector_state,
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
-> 581=C2=A0=C2=A0				=C2=A0 struct gud_property_req *properties)
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 582=C2=A0 {
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 583=C2=A0=C2=A0	struc=
-t gud_connector
-> *gconn =3D to_gud_connector(connector_state->connector);
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 584=C2=A0=C2=A0	unsig=
-ned int i;
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 585=C2=A0=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 586=C2=A0=C2=A0	for (=
-i =3D 0; i <
-> gconn->num_properties; i++) {
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 587=C2=A0=C2=A0		u16 =
-prop =3D
-> gconn->properties[i];
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 588=C2=A0=C2=A0		u64 =
-val;
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 589=C2=A0=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 590=C2=A0=C2=A0		if (=
-prop =3D=3D
-> GUD_PROPERTY_BACKLIGHT_BRIGHTNESS) {
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 591=C2=A0=C2=A0			val
-> =3D connector_state->tv.brightness;
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 592=C2=A0=C2=A0		} el=
-se {
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
-> 593=C2=A0=C2=A0			unsigned int *state_val;
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 594=C2=A0=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
-> 595=C2=A0=C2=A0			state_val =3D gud_connector_tv_state_val(prop, &connect=
-or_state->tv);
-> d00e57106c0d0c Ruben Wauters=C2=A0 2025-09-14=C2=A0 596=C2=A0=C2=A0			if
-> (drm_WARN_ON_ONCE(connector_state->connector->dev, state_val))
->=20
-> You accidentally deleted the IS_ERR() check so now this function is
-> badly broken.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202509221642.uCyJcaLu-lkp@intel.com/
 
-What I think happened was that on replacing WARN_ON_ONCE with
-drm_WARN_ON_ONCE I had to find a drm device for the first parameter.
-Since there was not one readily available I believe I ended up re-
-writing this line, and accidentally left out the IS_ERR(). I will fix
-this.
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: pmic@f (apple,sera-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: pmic@f (apple,sera-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: nvmem-layout (fixed-layout): 'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/smc@23e400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/smc@23e400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
+--
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: pmic@f (apple,sera-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: pmic@f (apple,sera-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: nvmem-layout (fixed-layout): 'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/smc@23e400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/smc@23e400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
+--
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: pmic@f (apple,sera-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: pmic@f (apple,sera-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: nvmem-layout (fixed-layout): 'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/smc@23e400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/smc@23e400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
 
-> 	if (drm_WARN_ON_ONCE(connector_state->connector->dev,
-> IS_ERR(state_val)))
->=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13
-> @597=C2=A0=C2=A0				return PTR_ERR(state_val);
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 598=C2=A0=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 599=C2=A0=C2=A0			val
-> =3D *state_val;
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 600=C2=A0=C2=A0		}
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 601=C2=A0=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
-> 602=C2=A0=C2=A0		properties[i].prop =3D cpu_to_le16(prop);
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
-> 603=C2=A0=C2=A0		properties[i].val =3D cpu_to_le64(val);
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 604=C2=A0=C2=A0	}
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 605=C2=A0=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 606=C2=A0=C2=A0	retur=
-n gconn-
-> >num_properties;
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 607=C2=A0 }
-
-Thank you for reporting this
-
-Ruben Wauters
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
