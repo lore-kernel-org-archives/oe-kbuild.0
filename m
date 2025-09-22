@@ -1,61 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DE8191493
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Sep 2025 11:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB8123E32D
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Sep 2025 12:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758541557; cv=none; b=uF0zNLm1Giue1e+lydaMgvZ/85HYkO2vX2sX5ExqOUxdKGztUoZ2e2LTX6s/yoVexchtdwlTHCa+e9tk8fvSkrq78jJBWjI0l0XczyZBYKJatYhJaHL+1xbYKqWKGL/FZ9g1Z8+di3SzsfCRPuhD9dxlN2QKmfRf9sL0WoZYi7Q=
+	t=1758542965; cv=none; b=GzEzfa3c6uiKQWUT/vk4gKdEbOiwjsmNPzx56kIU4cIUpED3YkgDyD3zlq3nM6D2ATAdYscUpQ8ZgV0F6Fx9e2GAowhOCJGnZAtZj85bujoJoVK9xMk70Y/cAoOQUoFVhMoQviCNNIJMOin5U6R8DZOF7kuC93HNHTJ018gD64E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758541557; c=relaxed/simple;
-	bh=Uk/C0C7PhP1cgxMKHfXAWiaBFMS6NOfx+UdJVhHcCBQ=;
+	s=arc-20240116; t=1758542965; c=relaxed/simple;
+	bh=MKgQ+tu50/fZjUNZTM3mBKIKDqZEvMutWUj53CwlaAs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Li8+7rA1O2Jx1m4UR6kid8MVp/WgO35OKTN1iH5VsSo4NUr3L383N2evZOCLDtqXNUG1td/O50W6HuucSUvmY7JBH2kzwmGSr95pkOwoDZiqzHkx7kEgtrEUcUl6agIOMKhSKrx+SQ3TF5O+SPhSwxK+7yhlVg5z6UFCiGm5sjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jAWYysF2; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=sZQSu6AyAKkYM0ZsWgl+QC8haxpWd99Ap/31EjeH2tRFjtndN6XYse62UJ3oF1Z9udpx45QZ0Gd2qZbVQocvW3tadD5c5sST9YdMzX4u+rZufSQz84WPULrQX69QXu1DP1SldDTAkaZfx/lIX+iKhwjbfQcAmL43pa2iXPMolC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qfd+RPK5; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jAWYysF2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qfd+RPK5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758541556; x=1790077556;
+  t=1758542964; x=1790078964;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Uk/C0C7PhP1cgxMKHfXAWiaBFMS6NOfx+UdJVhHcCBQ=;
-  b=jAWYysF2h+rtMQV0yVUNez1eyYswBqnpZYwkgjtIjq0+Yppqdy9r03V4
-   /cYbui4TMFDX33FvC9EUq28gTrzMk4WLHZp8jZO6zIal1s5fUoi38SDi6
-   GE1zozaIoJEg7shg91sp4pPRFnAPfu5rT0VkcmBe9BXWwDeI/BgAgm7Ep
-   tDfjBsXXvkn0Q9EOi1QUmL0Pw+pmpRQIxonQ7IG+r+YmuhjQK7JCW0Aan
-   S7bMPpZdwTT1h0kPS2wtHf3VC7AmwRceeHK4C5F6SnHU7ldDbcNO7EJY/
-   h+LsKxCAanNCqU0sfAiu3sJxqNDYFuo9LrH1dzQhUMHN4mrw50sb8woUR
+  bh=MKgQ+tu50/fZjUNZTM3mBKIKDqZEvMutWUj53CwlaAs=;
+  b=Qfd+RPK5R0XI9d+gopFAa+PVVV/qbTfDY2K/j8+XfLy02eMkgDVsey8t
+   i5cD6EnY2ZOjjqpHCDf+MaQc0wgE2XqSr+Ijvmv7RPTaVFHcxA+wTbfcj
+   V9DuF/FdQ7MhvOvZaD1m+vghBO9Qcvp/lh8N9vhYPqEgMv71Q/HXWLVnh
+   uBxoL7Y/b4EIq4yRReqCzOjf9tQaY9P7dnfX+oRf0Dv43n/UgyChViDvc
+   eHC5fpLTQWVVuga7KA7X8V/ltG4LySDBUWUTM7KedkwbSOLQdi+ilxXr9
+   7BrHGvV6RPKPyYIevJ83lJwPpSssxszAFeBNbH821kbmj7Z20ILUr+6Ti
    w==;
-X-CSE-ConnectionGUID: URfwhvU1SfKbmSEyR2xfcQ==
-X-CSE-MsgGUID: bNH8OMbZRxOeoybOGwSKNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64606087"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64606087"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 04:45:55 -0700
-X-CSE-ConnectionGUID: p6opw/k2R0+rYLFZOoXCmA==
-X-CSE-MsgGUID: dvedIIv8SuyW/6Lq0n22oQ==
+X-CSE-ConnectionGUID: 6qZInhklTMqLDTrcPdQNxg==
+X-CSE-MsgGUID: M2CBZ6z9S8OtJC6DfbjgSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="71906412"
+X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
+   d="scan'208";a="71906412"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 05:09:23 -0700
+X-CSE-ConnectionGUID: f9HZKci1SxqIK5zZsZXnvQ==
+X-CSE-MsgGUID: ktDUQNVoRyyHinQGbYZ2AQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
-   d="scan'208";a="175593811"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by orviesa006.jf.intel.com with ESMTP; 22 Sep 2025 04:45:54 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="180717277"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 22 Sep 2025 05:09:22 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0ezP-000000003kv-27EU;
-	Mon, 22 Sep 2025 11:45:51 +0000
-Date: Mon, 22 Sep 2025 13:45:00 +0200
+	id 1v0fM8-0001dp-0O;
+	Mon, 22 Sep 2025 12:09:20 +0000
+Date: Mon, 22 Sep 2025 20:08:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 19/140]
- arch/arm64/boot/dts/apple/t8112-j415.dtb: pmic@e (apple,stowe-pmic):
- nvmem-layout: Unevaluated properties are not allowed ('#address-cells',
- '#size-cells', 'boot-error-count@f702,0', 'boot-error-stage@f703',
- 'boot-stage@f701', 'fault-shadow@867b', 'panic-...
-Message-ID: <202509221339.u5OGBfaK-lkp@intel.com>
+Subject: Re: [PATCH 2/2] ARM: dts: aspeed: add asrock x470d4u bmc
+Message-ID: <202509221943.VXrBqhlr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,44 +67,58 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
-CC: Neal Gompa <neal@gompa.dev>
-CC: Sven Peter <sven@kernel.org>
+In-Reply-To: <20250919185621.6647-3-tan@siewert.io>
+References: <20250919185621.6647-3-tan@siewert.io>
+TO: Tan Siewert <tan@siewert.io>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Joel Stanley <joel@jms.id.au>
+TO: Andrew Jeffery <andrew@codeconstruct.com.au>
+CC: Tan Siewert <tan@siewert.io>
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-aspeed@lists.ozlabs.org
+CC: linux-kernel@vger.kernel.org
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   703a105e4188c8c9e084375a48f08853cf64cfca
-commit: 4a2544346f8f515c3e4370b44ffdf62d466b9c7a [19/140] arm64: dts: apple: Add devicetreee for t8112-j415
-:::::: branch date: 24 hours ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-2051-20250919 (https://download.01.org/0day-ci/archive/20250922/202509221339.u5OGBfaK-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ce5124856e019792783de9630d0c5a1f0aaf2d9d)
-dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509221339.u5OGBfaK-lkp@intel.com/reproduce)
+Hi Tan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.17-rc7 next-20250919]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tan-Siewert/dt-bindings-arm-aspeed-add-ASRock-X470D4U-BMC/20250920-025905
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250919185621.6647-3-tan%40siewert.io
+patch subject: [PATCH 2/2] ARM: dts: aspeed: add asrock x470d4u bmc
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm-randconfig-052-20250921 (https://download.01.org/0day-ci/archive/20250922/202509221943.VXrBqhlr-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+dtschema version: 2025.9.dev1+g4b28bc79f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509221943.VXrBqhlr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509221339.u5OGBfaK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509221943.VXrBqhlr-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t8112.dtsi:491.25-500.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: pmic@e (apple,stowe-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'boot-error-count@f702,0', 'panic-count@f702,4', 'shutdown-flag@f70f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	'#address-cells', '#size-cells', 'boot-error-count@f702,0', 'boot-error-stage@f703', 'boot-stage@f701', 'fault-shadow@867b', 'panic-count@f702,4', 'pm-setting@f801', 'rtc-offset@f900', 'shutdown-flag@f70f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: pmic@e (apple,stowe-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@f702,0', 'boot-error-stage@f703', 'boot-stage@f701', 'fault-shadow@867b', 'panic-count@f702,4', 'pm-setting@f801', 'rtc-offset@f900', 'shutdown-flag@f70f,3', 'socd@8b00' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: pmic@e (apple,stowe-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: nvmem-layout (fixed-layout): 'boot-error-count@f702,0', 'panic-count@f702,4', 'shutdown-flag@f70f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x470d4u.dtb: /ahb/apb/memory-controller@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2500-sdram-edac']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x470d4u.dtb: /ahb/apb/syscon@1e6e2000/p2a-control@2c: failed to match any schema with compatible: ['aspeed,ast2500-p2a-ctrl']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x470d4u.dtb: display@1e6e6000 (aspeed,ast2500-gfx): 'reg-io-width' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/gpu/aspeed,ast2400-gfx.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x470d4u.dtb: display@1e6e6000 (aspeed,ast2500-gfx): 'memory-region' is a required property
+   	from schema $id: http://devicetree.org/schemas/gpu/aspeed,ast2400-gfx.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x470d4u.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2400-timer']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x470d4u.dtb: /ahb/apb/pwm-tacho-controller@1e786000: failed to match any schema with compatible: ['aspeed,ast2500-pwm-tacho']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x470d4u.dtb: fan@1: aspeed,fan-tach-ch: b'\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x470d4u.dtb: fan@2: aspeed,fan-tach-ch: b'\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
 
 -- 
 0-DAY CI Kernel Test Service
