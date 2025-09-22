@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D3714A60F
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Sep 2025 01:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539B15464D
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Sep 2025 01:40:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758503777; cv=none; b=JQKm6nEqjxe2StibQsu1iUE6joiQQLxExVwgF75KHORXwR4x8oQdyi9qLh8BT0mn/anRBxbo99zB9rnYz/rj7GwK3i8LKiOyDJ6p95Uvpae6A7QcMN+8Whwg8CJf+sqUvqfib+pO/Sr90C8coHkWN++Qamqww2WDR/5sS1XRMA4=
+	t=1758505235; cv=none; b=rH/6JR3hKjD/wfvX2zXXNl0TImPjzuoVyk6Kh0UBT95I69j3WrGYJHVcT+kS2McPW5nd51VfPshZbIvHAIcLHhH2Bv8Z8bGECTJLnoayOy9MvF5kcVC+kQ1eo9sCameQWF057Po6bXB7ekhwhij8pU1spCD3BIUd7G6TJsXrFac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758503777; c=relaxed/simple;
-	bh=loMpGUv4wbTiCO1+xGUJUyIq3NgbnnPpW0afpWtDm0E=;
+	s=arc-20240116; t=1758505235; c=relaxed/simple;
+	bh=AZIi+quLuPzN1/Bz4HRxso456ff4BlyEjl4HKewgHkA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ts7cPY9+M+u7PNzlLGmyo7vGWj4maVfxjN7rxrz394xKv7f0Lv6iLbX5Yz+yWlrLKUloB7TzBzjxK99ps/DBjDNKjHS6WxYKNwJMS7rCikNZAg3tfV9Nk0dCJKiQa3Bez3VQmv2xnNsw4X9lB1AdNUV+8VvpOouP9z94oruUuYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g9MRRiVc; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=NjHsS3Xa+20zGi7d45Ze2WrWsYn/IPugnWtdQHnp2ryFQcc3DWGHPBckrJQ8zAoP3MnSGRIlBGzzWjWDq+xoxJQzBDSecZtL0azhYhsuQx7ggiE3pBm2Ml5/OIYmNjSdgHaiIcbdS18sTzKDSzzWHqyJy3BPaWOwW8efB/X08GY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iw4mULX/; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g9MRRiVc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iw4mULX/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758503774; x=1790039774;
+  t=1758505233; x=1790041233;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=loMpGUv4wbTiCO1+xGUJUyIq3NgbnnPpW0afpWtDm0E=;
-  b=g9MRRiVc3ZfrL10bN9zGpyuyoS7+K8gr5BkYgEPTM/3D67QYv3L2ghlM
-   OqCbDgDh6bido5vcZsXhf+lKdBpj/IDbwgfgh2Li3xhjN/d/VPWbbLIl+
-   HqYsbnE8RLipeUhomQ4Q6bAlaCObwq8IE5v8r/79a4MxcA7qQ8lPoAK6u
-   euG03p2ir4SnK2unTYTC0woPV24RSeGSEaN5Zl0+bMEc5rLUJvJk9raFL
-   hrYcDHn7X98NYlJBzxnS6xYorXk8+hfpcyM+jS5hKchHRHoRzR2sO8+r7
-   9gJNu/B9wWZfOt13WUKLsrQs23QGn6FrQ63iFajMLNv7rCYmQGgPb8wAp
+  bh=AZIi+quLuPzN1/Bz4HRxso456ff4BlyEjl4HKewgHkA=;
+  b=iw4mULX/3TCvW2w+ZYkrJ6bCPQD0HnbCDyQ7rgvWTDXCDsSWpsSJhv7g
+   bvyqmWQFTmdcj8NOj09Kq6pgEXLYT93x4xd27N6upy73zDO2GweIzAjWJ
+   tA+dxr95Jw6ARLhh7flEDSODeP/G/Li/E3rHbrvEP5T6vSxsgNpD2cTgX
+   cJiZ5P5PbcjJPm2I1PBdAIH8Bs9Zyq4lARIUUuk8W80YV32Fy4Z/X1Mop
+   mWhrbcFVf5ncW/NP4DkGRo7oTKs/mdQBRY74vuRTZgsm0HbHMKRguWTL6
+   auy0C8pGhGJg9ez27+U0UYJ3tTmsBBTKHwgXLlP10Uto4Pjkyg+uk6eJc
    A==;
-X-CSE-ConnectionGUID: EsrzXcS3R6+VsCmDjs5iDw==
-X-CSE-MsgGUID: zTaGzM0LQvm/lQ7+aViKBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="71439581"
+X-CSE-ConnectionGUID: oO41DgvQQmOHtkt1Xaxtyw==
+X-CSE-MsgGUID: I+uk1Bt1RtSTPYO26IxIwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="78369141"
 X-IronPort-AV: E=Sophos;i="6.18,283,1751266800"; 
-   d="scan'208";a="71439581"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 18:16:13 -0700
-X-CSE-ConnectionGUID: 8O5x08BVTz+R7iDyK5FIaA==
-X-CSE-MsgGUID: x0Bhtd6AQUKFK/TPPXr3Dg==
+   d="scan'208";a="78369141"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 18:40:33 -0700
+X-CSE-ConnectionGUID: NA8MgeK2QUWB4WM5winkOg==
+X-CSE-MsgGUID: C4CVdYcNQj+9Alr3zuMJmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,283,1751266800"; 
-   d="scan'208";a="176169007"
+   d="scan'208";a="176787999"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 21 Sep 2025 18:16:12 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 21 Sep 2025 18:40:31 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0VA1-0001Bx-2Z;
-	Mon, 22 Sep 2025 01:16:09 +0000
-Date: Mon, 22 Sep 2025 09:15:53 +0800
+	id 1v0VXV-0001Cn-0V;
+	Mon, 22 Sep 2025 01:40:25 +0000
+Date: Mon, 22 Sep 2025 09:39:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 4/4] ARM: dts: microchip: add I3C controller
-Message-ID: <202509220838.axS5scyS-lkp@intel.com>
+Subject: Re: [PATCH 2/2] arm64: dts: mediatek: mt7981b: OpenWrt One: set
+ console UART to 115200
+Message-ID: <202509220924.RQpKrqSJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,59 +68,45 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250918095429.232710-5-durai.manickamkr@microchip.com>
-References: <20250918095429.232710-5-durai.manickamkr@microchip.com>
-TO: Durai Manickam KR <durai.manickamkr@microchip.com>
-TO: linux-i3c@lists.infradead.org
+In-Reply-To: <20250920000619.2643457-3-bryan@bryanhinton.com>
+References: <20250920000619.2643457-3-bryan@bryanhinton.com>
+TO: bryan@bryanhinton.com
 TO: devicetree@vger.kernel.org
+TO: linux-arm-kernel@lists.infradead.org
 TO: linux-kernel@vger.kernel.org
-TO: alexandre.belloni@bootlin.com
-TO: Frank.Li@nxp.com
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: balamanikandan.gunasundar@microchip.com
-TO: nicolas.ferre@microchip.com
-CC: Durai Manickam KR <durai.manickamkr@microchip.com>
+TO: linux-mediatek@lists.infradead.org
+CC: angelogioacchino.delregno@collabora.com
+CC: conor+dt@kernel.org
+CC: krzk+dt@kernel.org
+CC: matthias.bgg@gmail.com
+CC: robh@kernel.org
+CC: Bryan Hinton <bryan@bryanhinton.com>
 
-Hi Durai,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on robh/for-next abelloni/rtc-next linus/master v6.17-rc6 next-20250919]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 1522b530ac3e2dadd75ccb351b88d3c7c4cf584e]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Durai-Manickam-KR/clk-at91-sama7d65-add-peripheral-clock-for-I3C/20250918-175934
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20250918095429.232710-5-durai.manickamkr%40microchip.com
-patch subject: [PATCH 4/4] ARM: dts: microchip: add I3C controller
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm-randconfig-053-20250919 (https://download.01.org/0day-ci/archive/20250922/202509220838.axS5scyS-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/bryan-bryanhinton-com/arm64-dts-mediatek-mt7981b-add-labels-for-UART0-1-2-nodes/20250920-080820
+base:   1522b530ac3e2dadd75ccb351b88d3c7c4cf584e
+patch link:    https://lore.kernel.org/r/20250920000619.2643457-3-bryan%40bryanhinton.com
+patch subject: [PATCH 2/2] arm64: dts: mediatek: mt7981b: OpenWrt One: set console UART to 115200
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20250920 (https://download.01.org/0day-ci/archive/20250922/202509220924.RQpKrqSJ-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
 dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509220838.axS5scyS-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509220924.RQpKrqSJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509220838.axS5scyS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509220924.RQpKrqSJ-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: i2c@600 (microchip,sama7d65-i2c): #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-controller.yaml#
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/uddrc@e3800000: failed to match any schema with compatible: ['microchip,sama7d65-uddrc', 'microchip,sama7g5-uddrc']
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/uddrc@e3800000: failed to match any schema with compatible: ['microchip,sama7d65-uddrc', 'microchip,sama7g5-uddrc']
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: ddr3phy@e3804000 (microchip,sama7d65-ddr3phy): compatible: ['microchip,sama7d65-ddr3phy', 'microchip,sama7g5-ddr3phy'] does not contain items matching the given schema
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: ddr3phy@e3804000 (microchip,sama7d65-ddr3phy): compatible:1: 'syscon' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: ddr3phy@e3804000 (microchip,sama7d65-ddr3phy): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/i3c@e9000000: failed to match any schema with compatible: ['mchp,sama7d65-i3c-hci']
+>> arch/arm64/boot/dts/mediatek/mt7981b-openwrt-one.dtb: serial@11002000 (mediatek,mt7981-uart): Unevaluated properties are not allowed ('current-speed' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/mediatek,uart.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
