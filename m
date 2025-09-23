@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC982252900
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Sep 2025 04:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383F030DD25
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Sep 2025 05:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758601741; cv=none; b=eAJiUr6hcJw3ef+a5dq/V8mTidh3n9YuoNHg9DW3HjAPN1FIk1Hm4ePDQvEOCV9X6Rmqt8WfzTu88zxh6tyhBiPpYrswMw3Tukpv9WfP01jN412+JlAGrBckEYlXe5ddWHxP9edMklNR52DFIGxPEH5xiLejXeLHbqKD5ZUFQpg=
+	t=1758604304; cv=none; b=ABXmGVWjZyLtic1Y7vvY6SxZ0CArIwCSI9RJJlaJrPOOlzZM1pPLuOuAEXikcR7XSG3mMvzgd2Y83Zbu7HYHlkVClubgexFrTZnft6JsYSBiChIqzDnJ1wC6U1Runb/BqZAI37Hi3ipSR2+oh6xKo/H6T1mkD1hvlB9YduaQYSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758601741; c=relaxed/simple;
-	bh=a4afKQryg9FQ423XnER0/lVV8gAkI5resFBtB8EMluU=;
+	s=arc-20240116; t=1758604304; c=relaxed/simple;
+	bh=FSIBCKcDZufJaK3hBNt6v7qW808dk1ovZ1/SMsF4pMo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S5prEoACbx5iM/x0eUwsnGB0SZxWWftMlxFX5mkaNjHpRCmy5z35kiImU6+IuHV2FzWWdiAYnypDCqaI+aBHSK6sx6JJdw+IQPUsV4EFr9wRFU2T5yPLKoOD8AixLajEIPvjYedg5cTuWPN8GqUIvbBwach+axe+ZLKACL+1/IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ac4uQTG6; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=rwO8atvnWTvLoG52zfkkQMrzDmV+QhGkzBcsBnYky7ChIlWfFgApDTzfc+dGHbuZPbd3Rqjcp79hTtKSzq12lmgosLf7k/qWIs16zgM3EmfiULRad+FmoQB+F63xvulIbNjtid8IyEjEkhDbjvHE48CJlKLqOWexhaxsFj8vSRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cv1HxnJ4; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ac4uQTG6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cv1HxnJ4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758601739; x=1790137739;
+  t=1758604302; x=1790140302;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a4afKQryg9FQ423XnER0/lVV8gAkI5resFBtB8EMluU=;
-  b=Ac4uQTG6/FnUhdDV1E5c7VfXblZItc35o+HTm6+GY/jQGWUguimyhuVw
-   z8B3XeJHpjfcF8WqyJIVv8tf2bx+0cvHSRsJLBHEhOIhic9lYhUVotvWe
-   RB5EvmMv2Drucd3k/OAnd5HMHT/wHBENPNP2oa93neoN+kfT3ATxaG61B
-   QoPYXhp636mue3cb01yRqxZRm4d4kKg2/TrGHPELFywzkmIUNr/V5r4+I
-   Q01Od/ynQzh7BE2fZwPYNZOd2kHT+78aJba38LBKfz4DXaoY1BFB5T7l6
-   9sgg+UKHEfeq5w0mg31ksV/S/2fyGICskh4cFY7AyU1dIZneCjs+Lh07X
+  bh=FSIBCKcDZufJaK3hBNt6v7qW808dk1ovZ1/SMsF4pMo=;
+  b=cv1HxnJ4Iyg1l84pxRmsjsTdqy6SQwBdO4XR2NT70kExXcX2PRallsTS
+   oPg8G0ot1Hff/qMih0UQaTtFRycxnv5Er/BjFn1++jI6UWv5b3EZR7ExU
+   S/+5xxWoZjC5HMKsvm58gQ7GcutsE+heZrIJuC86P4FE8rfDBNuGXrRPV
+   PiJ6ORTDniSnOs8Wyv42yCyft1V67KpIT+FecWB8HJrxdv58nYxdT3I16
+   Aer/EPOGh4x3AdYfepRuPvTE9VDzMmGVI7pcXmHaai8iynSwrYfK9UXY4
+   i53KEebIeCd8I5yatB9NOHEsjyrxWZXkbnEOmdvzpfyI1f8ILxnK8gagU
    g==;
-X-CSE-ConnectionGUID: Am2W2+D9SMmP9mt/ZKIUew==
-X-CSE-MsgGUID: 6sxWYn63RpSbrVTK4DzNSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="64698618"
+X-CSE-ConnectionGUID: 6mDyih/eSjqnzHoD9ZpJ/g==
+X-CSE-MsgGUID: 0XkgzRV/RiSOoC6am34zvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60932630"
 X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="64698618"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 21:28:59 -0700
-X-CSE-ConnectionGUID: aMzQUQDkTnyEciTb5HheGQ==
-X-CSE-MsgGUID: 4U5PjiAISSyDXZANMF6Gdw==
+   d="scan'208";a="60932630"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 22:11:41 -0700
+X-CSE-ConnectionGUID: Ity+li/tTDOsQYlm+9JVWQ==
+X-CSE-MsgGUID: K18ybBvZQ1eyThfI7ujssQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="180670674"
+   d="scan'208";a="176741940"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 22 Sep 2025 21:28:58 -0700
+  by orviesa008.jf.intel.com with ESMTP; 22 Sep 2025 22:11:40 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0ue7-0002kD-0A;
-	Tue, 23 Sep 2025 04:28:55 +0000
-Date: Tue, 23 Sep 2025 12:28:46 +0800
+	id 1v0vJQ-0002lN-1J;
+	Tue, 23 Sep 2025 05:11:36 +0000
+Date: Tue, 23 Sep 2025 13:11:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [arm64:for-next/perf 5/28] drivers/perf/dwc_pcie_pmu.c:418
- dwc_pcie_pmu_validate_group() error: uninitialized symbol 'time_event'.
-Message-ID: <202509231223.gZsX6Eio-lkp@intel.com>
+Subject: Re: [PATCH 2/2] cifs: client: allow changing multichannel mount
+ options on remount
+Message-ID: <202509231242.5ZgtQ3Ye-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,61 +64,118 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-TO: Ilkka Koskinen <ilkka@os.amperecomputing.com>
-CC: Will Deacon <will@kernel.org>
+In-Reply-To: <20250922082417.816331-2-rajasimandalos@gmail.com>
+References: <20250922082417.816331-2-rajasimandalos@gmail.com>
+TO: rajasimandalos@gmail.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/perf
-head:   6d2f913fda5683fbd4c3580262e10386c1263dfb
-commit: 71396cfac97d0249fa7d8dcc8e649b6ba4c090e4 [5/28] perf/dwc_pcie: Support counting multiple lane events in parallel
-:::::: branch date: 16 hours ago
-:::::: commit date: 5 days ago
-config: sparc64-randconfig-r072-20250922 (https://download.01.org/0day-ci/archive/20250923/202509231223.gZsX6Eio-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.5.0
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on cifs/for-next]
+[also build test WARNING on linus/master v6.17-rc7 next-20250922]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/rajasimandalos-gmail-com/cifs-client-allow-changing-multichannel-mount-options-on-remount/20250922-162930
+base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
+patch link:    https://lore.kernel.org/r/20250922082417.816331-2-rajasimandalos%40gmail.com
+patch subject: [PATCH 2/2] cifs: client: allow changing multichannel mount options on remount
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: x86_64-randconfig-161-20250923 (https://download.01.org/0day-ci/archive/20250923/202509231242.5ZgtQ3Ye-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202509231223.gZsX6Eio-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509231242.5ZgtQ3Ye-lkp@intel.com/
 
-smatch warnings:
-drivers/perf/dwc_pcie_pmu.c:418 dwc_pcie_pmu_validate_group() error: uninitialized symbol 'time_event'.
+New smatch warnings:
+fs/smb/client/sess.c:327 cifs_decrease_secondary_channels() error: uninitialized symbol 'server'.
+fs/smb/client/sess.c:327 cifs_decrease_secondary_channels() error: we previously assumed 'server' could be null (see line 314)
 
-vim +/time_event +418 drivers/perf/dwc_pcie_pmu.c
+Old smatch warnings:
+fs/smb/client/sess.c:330 cifs_decrease_secondary_channels() error: uninitialized symbol 'server'.
+fs/smb/client/sess.c:448 cifs_chan_update_iface() warn: iterator used outside loop: 'iface'
+fs/smb/client/sess.c:456 cifs_chan_update_iface() warn: iterator used outside loop: 'iface'
 
-71396cfac97d02 Ilkka Koskinen 2025-08-28  400  
-71396cfac97d02 Ilkka Koskinen 2025-08-28  401  static int dwc_pcie_pmu_validate_group(struct perf_event *event)
-71396cfac97d02 Ilkka Koskinen 2025-08-28  402  {
-71396cfac97d02 Ilkka Koskinen 2025-08-28  403  	struct perf_event *sibling, *leader = event->group_leader;
-71396cfac97d02 Ilkka Koskinen 2025-08-28  404  	DECLARE_BITMAP(val_lane_events, 2 * DWC_PCIE_LANE_MAX_EVENTS_PER_GROUP);
-71396cfac97d02 Ilkka Koskinen 2025-08-28  405  	bool time_event;
-71396cfac97d02 Ilkka Koskinen 2025-08-28  406  	int type;
-71396cfac97d02 Ilkka Koskinen 2025-08-28  407  
-71396cfac97d02 Ilkka Koskinen 2025-08-28  408  	type = DWC_PCIE_EVENT_TYPE(leader);
-71396cfac97d02 Ilkka Koskinen 2025-08-28  409  	if (type == DWC_PCIE_TIME_BASE_EVENT)
-71396cfac97d02 Ilkka Koskinen 2025-08-28  410  		time_event = true;
-71396cfac97d02 Ilkka Koskinen 2025-08-28  411  	else
-71396cfac97d02 Ilkka Koskinen 2025-08-28  412  		if (dwc_pcie_pmu_validate_add_lane_event(leader, val_lane_events))
-71396cfac97d02 Ilkka Koskinen 2025-08-28  413  			return -ENOSPC;
-71396cfac97d02 Ilkka Koskinen 2025-08-28  414  
-71396cfac97d02 Ilkka Koskinen 2025-08-28  415  	for_each_sibling_event(sibling, leader) {
-71396cfac97d02 Ilkka Koskinen 2025-08-28  416  		type = DWC_PCIE_EVENT_TYPE(sibling);
-71396cfac97d02 Ilkka Koskinen 2025-08-28  417  		if (type == DWC_PCIE_TIME_BASE_EVENT) {
-71396cfac97d02 Ilkka Koskinen 2025-08-28 @418  			if (time_event)
-71396cfac97d02 Ilkka Koskinen 2025-08-28  419  				return -ENOSPC;
-71396cfac97d02 Ilkka Koskinen 2025-08-28  420  
-71396cfac97d02 Ilkka Koskinen 2025-08-28  421  			time_event = true;
-71396cfac97d02 Ilkka Koskinen 2025-08-28  422  			continue;
-71396cfac97d02 Ilkka Koskinen 2025-08-28  423  		}
-71396cfac97d02 Ilkka Koskinen 2025-08-28  424  
-71396cfac97d02 Ilkka Koskinen 2025-08-28  425  		if (dwc_pcie_pmu_validate_add_lane_event(sibling, val_lane_events))
-71396cfac97d02 Ilkka Koskinen 2025-08-28  426  			return -ENOSPC;
-71396cfac97d02 Ilkka Koskinen 2025-08-28  427  	}
-71396cfac97d02 Ilkka Koskinen 2025-08-28  428  
-71396cfac97d02 Ilkka Koskinen 2025-08-28  429  	return 0;
-71396cfac97d02 Ilkka Koskinen 2025-08-28  430  }
-71396cfac97d02 Ilkka Koskinen 2025-08-28  431  
+vim +/server +327 fs/smb/client/sess.c
+
+d70e9fa5588476 fs/cifs/sess.c       Aurelien Aptel   2019-09-20  266  
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  267  /**
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  268   * cifs_decrease_secondary_channels - Reduce the number of active secondary channels
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  269   * @ses: pointer to the CIFS session structure
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  270   * @from_reconfigure: if true, only reduce to chan_max; if false, reduce to a single channel
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  271   *
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  272   * This function disables and cleans up extra secondary channels for a CIFS session.
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  273   * If called during reconfiguration, it reduces the channel count to the new maximum (chan_max).
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  274   * Otherwise, it disables all but the primary channel.
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  275   */
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  276  void cifs_decrease_secondary_channels(struct cifs_ses *ses, bool from_reconfigure)
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  277  {
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  278  	int i, chan_count;
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  279  	struct TCP_Server_Info *server;
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  280  	struct cifs_server_iface *iface;
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  281  
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  282  	spin_lock(&ses->chan_lock);
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  283  	chan_count = ses->chan_count;
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  284  	if (chan_count == 1)
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  285  		goto done;
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  286  
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  287  	// Update the chan_count to the new maximum
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  288  	if (from_reconfigure)
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  289  		ses->chan_count = ses->chan_max;
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  290  	else
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  291  		ses->chan_count = 1;
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  292  
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  293  	for (i = ses->chan_max ; i < chan_count; i++) {
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  294  		iface = ses->chans[i].iface;
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  295  		server = ses->chans[i].server;
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  296  
+5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  297  		/*
+5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  298  		 * remove these references first, since we need to unlock
+5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  299  		 * the chan_lock here, since iface_lock is a higher lock
+5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  300  		 */
+5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  301  		ses->chans[i].iface = NULL;
+5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  302  		ses->chans[i].server = NULL;
+5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  303  		spin_unlock(&ses->chan_lock);
+5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  304  
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  305  		if (iface) {
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  306  			spin_lock(&ses->iface_lock);
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  307  			iface->num_channels--;
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  308  			if (iface->weight_fulfilled)
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  309  				iface->weight_fulfilled--;
+a15ccef82d3de9 fs/smb/client/sess.c Ritvik Budhiraja 2023-11-21  310  			kref_put(&iface->refcount, release_iface);
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  311  			spin_unlock(&ses->iface_lock);
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  312  		}
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  313  
+5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14 @314  		if (server) {
+5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  315  			if (!server->terminate) {
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  316  				server->terminate = true;
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  317  				cifs_signal_cifsd_for_reconnect(server, false);
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  318  			}
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  319  			cifs_put_tcp_session(server, false);
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  320  		}
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  321  
+5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  322  		spin_lock(&ses->chan_lock);
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  323  	}
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  324  
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  325  	/* For extra secondary channels, reset the need reconnect bit */
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  326  	if (ses->chan_count == 1) {
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22 @327  		cifs_server_dbg(VFS, "server does not support multichannel anymore. Disable all other channels\n");
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  328  		ses->chans_need_reconnect &= 1;
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  329  	} else {
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  330  		cifs_server_dbg(VFS, "Disable extra secondary channels\n");
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  331  		ses->chans_need_reconnect &= ((1UL << ses->chan_max) - 1);
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  332  	}
+1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  333  
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  334  done:
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  335  	spin_unlock(&ses->chan_lock);
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  336  }
+ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  337  
 
 -- 
 0-DAY CI Kernel Test Service
