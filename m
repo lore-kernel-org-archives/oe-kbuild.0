@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81AD1224F6
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Sep 2025 00:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BDF23A984
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Sep 2025 01:33:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758586442; cv=none; b=Q4tlR2drKDJn41OGfNKW+V55SlYWWYONyPWOcEnz265lMGLAgun4BBDFMjh+aZjOtMPIQQEeFEXXqO+f/nUgDidL0CD7qT2VSCc2kc/mBeXKsjKtSD679ptBpEc4cCMudpu5QnBTgdit37ndLmQcWp22Q6HXb2dd6uSmOQxc8Iw=
+	t=1758591187; cv=none; b=hbIx+i176pP6tgICh6o5r8NQGmib3ZqIcNserOqwpEG5TsXPxS66ROjUBUG2ta8ev4iNskzFqihbSNDtgCXo8rEoVjNZvfLBZABIKxR3lSMz1ASNpt8ccVEwso2ju0dfCPKkQ7Tc8X1zfR2cHSwJ8fk91U1g8GWrOyL4IvvOXjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758586442; c=relaxed/simple;
-	bh=zjv2AJ0saO8lSfd84V+PKIceX4QXgxQqU1UdeRLlpbo=;
+	s=arc-20240116; t=1758591187; c=relaxed/simple;
+	bh=i705ooW2TjaRHnxaWOuj8gY74QPhuLkDuX7J+b134BY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pSX12H3CzMOBio4ZovtMKh/5cF9qlaTLNSkBJZqq1c6hC8JZrtCmrt0nbcRBROq77FpY5Rfjs69wFcH6PyMS+Cs29DXlU/Q6QFbi59a/iUsXiKnyhDzi4zlcd4EipXFoUjrrsJwXb7QLWdYwUO7B9DJgKYWldW3Dubm7OZHkjA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NFCxew13; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=VEKEfYzXxlE2vxNB0Tbwfkuwk7ZNNTmQtO4Pl/YluCAOK0A5uxkyM2/Bw+teAK8Y5H1lxdyC/0YaEucf+jOluDsQzqciSLdxO+M/PNFQJzN4jX1Ie4LSTO/5WJrhLV2N8OjYW0JA4ospnBOi2WjRh/jUlGZ/BxKzMl513d9boLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QLfy32d0; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NFCxew13"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QLfy32d0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758586441; x=1790122441;
+  t=1758591185; x=1790127185;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zjv2AJ0saO8lSfd84V+PKIceX4QXgxQqU1UdeRLlpbo=;
-  b=NFCxew13HvsNbhdx4hMyIAnfaGda14h1cK4xlaqa4vjgpRDcGeAKtK3/
-   EWDvrXbtVtliN06TGO/Pw/cTQq/V1JGrc0Xx1D0qwUa6qX8i3rN58M2UK
-   5C++fL7Ny/TG8pX9EwT7B7uzNSAVFfQ0C/pEGxc8HwUAQ2qKprIWTcZj2
-   MIjQ4hYDG4AuzMgC+cMbt+oZZTsE9OEQaQAfVvijxFg0jion+r+mqFwaY
-   miG3SXlRBQxnQriFQFylJjx7H6GKWdUDWOLWRWJnhHukdPfJ6ZBgfRWTW
-   ItMKZDZ1eOvkep13FgG8Cb1aIsO0aTotOLDBn6iApxaBCTw6bULaAFZSp
-   g==;
-X-CSE-ConnectionGUID: C0Cb4h0fTm2kdE/KKEnExg==
-X-CSE-MsgGUID: EzcbgqJqRw2ghY9xbySbuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="61027194"
+  bh=i705ooW2TjaRHnxaWOuj8gY74QPhuLkDuX7J+b134BY=;
+  b=QLfy32d0Ll89eUOtpLAqspBM8zq9kiGSm8PIKSlc0o88i9ES+lBFpEpr
+   5n6UYt6QjkGkqeiXX/RuemzDOxAIqjfohBhsAZbvMAzh76UuTdiO02mKX
+   2wGKy4nDpaT3tIgH7t0ZcaT4CLd1b+5j3l9wzqAAQYe+kqHY9wC/EBZF0
+   2gn0OzIZa0vdMaXC/UiemQpHDeO91aivVPQJT4GJk6hOg90jrDyDUdxqa
+   NbDsX3XXmqcRrtYKtVzZ/ZvABxl0Z8wumeS+bQD9jescptZFFeqSMlRhs
+   t6Bo3qhzCfH4kLFiR5wVNo3i7PJjVt91+Ktbh047MIWnFdMxfVICADHCQ
+   Q==;
+X-CSE-ConnectionGUID: aQopkeGJSJyzGUCF4x7UVg==
+X-CSE-MsgGUID: a3WZyPE1RdyGFH3mDa6K2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="48435496"
 X-IronPort-AV: E=Sophos;i="6.18,286,1751266800"; 
-   d="scan'208";a="61027194"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 17:14:00 -0700
-X-CSE-ConnectionGUID: 7vGHcI0sR5qixkC9O+T4xw==
-X-CSE-MsgGUID: xOgQ4H5CQYe8pmmeIRMWPQ==
+   d="scan'208";a="48435496"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 18:33:04 -0700
+X-CSE-ConnectionGUID: akgZIWRwTUi/E1KDAUV11w==
+X-CSE-MsgGUID: 3nW2C6AyRsO6eu0rIaO0jA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,286,1751266800"; 
-   d="scan'208";a="176450985"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 22 Sep 2025 17:13:59 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+   d="scan'208";a="176228684"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by fmviesa007.fm.intel.com with ESMTP; 22 Sep 2025 18:33:04 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v0qfM-0002Zp-1N;
-	Tue, 23 Sep 2025 00:13:56 +0000
-Date: Tue, 23 Sep 2025 08:12:59 +0800
+	id 1v0rtt-0000000042X-21S0;
+	Tue, 23 Sep 2025 01:33:01 +0000
+Date: Tue, 23 Sep 2025 03:32:57 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [melver:cap-analysis/dev 23/35] security/selinux/avc.c:483
- avc_reclaim_node() error: uninitialized symbol 'flags'.
-Message-ID: <202509230813.j9h9IIQa-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 22/140]
+ arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/smc@23e400000/rtc: failed to
+ match any schema with compatible: ['apple,smc-rtc']
+Message-ID: <202509230340.ztf2mnby-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,77 +63,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: elver@google.com
+TO: Janne Grunau <j@jannau.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis/dev
-head:   b57fd8af63116c56536eb40f04dbe4f2206ec4ed
-commit: 32b884d94862a5295719faf9e1c3b5eef162cca4 [23/35] compiler-capability-analysis: Remove __cond_lock() function-like helper
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: powerpc64-randconfig-r071-20250922 (https://download.01.org/0day-ci/archive/20250923/202509230813.j9h9IIQa-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   703a105e4188c8c9e084375a48f08853cf64cfca
+commit: 6eeb18e3f504a024f9d777a379b3e57d584961cc [22/140] arm64: dts: apple: t8103: Add smc_rtc node
+:::::: branch date: 2 days ago
+:::::: commit date: 2 weeks ago
+config: arm64-randconfig-2052-20250919 (https://download.01.org/0day-ci/archive/20250923/202509230340.ztf2mnby-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509230340.ztf2mnby-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202509230813.j9h9IIQa-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509230340.ztf2mnby-lkp@intel.com/
 
-New smatch warnings:
-security/selinux/avc.c:483 avc_reclaim_node() error: uninitialized symbol 'flags'.
-arch/powerpc/kernel/nvram_64.c:704 oops_to_nvram() error: uninitialized symbol 'flags'.
-drivers/tty/serial/samsung_tty.c:2288 s3c24xx_serial_console_write() error: uninitialized symbol 'flags'.
-drivers/tty/serial/st-asc.c:875 asc_console_write() error: uninitialized symbol 'flags'.
-
-Old smatch warnings:
-security/selinux/avc.c:488 avc_reclaim_node() error: uninitialized symbol 'flags'.
-
-vim +/flags +483 security/selinux/avc.c
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  458  
-e67b79850fcc4e Stephen Smalley  2023-03-09  459  static inline int avc_reclaim_node(void)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  460  {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  461  	struct avc_node *node;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  462  	int hvalue, try, ecx;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  463  	unsigned long flags;
-26036651c56260 Eric Paris       2009-02-12  464  	struct hlist_head *head;
-edf3d1aecd0d60 Eric Paris       2009-02-12  465  	spinlock_t *lock;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  466  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  467  	for (try = 0, ecx = 0; try < AVC_CACHE_SLOTS; try++) {
-e67b79850fcc4e Stephen Smalley  2023-03-09  468  		hvalue = atomic_inc_return(&selinux_avc.avc_cache.lru_hint) &
-6b6bc6205d9879 Stephen Smalley  2018-03-05  469  			(AVC_CACHE_SLOTS - 1);
-e67b79850fcc4e Stephen Smalley  2023-03-09  470  		head = &selinux_avc.avc_cache.slots[hvalue];
-e67b79850fcc4e Stephen Smalley  2023-03-09  471  		lock = &selinux_avc.avc_cache.slots_lock[hvalue];
-^1da177e4c3f41 Linus Torvalds   2005-04-16  472  
-edf3d1aecd0d60 Eric Paris       2009-02-12  473  		if (!spin_trylock_irqsave(lock, flags))
-^1da177e4c3f41 Linus Torvalds   2005-04-16  474  			continue;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  475  
-618442509128fe Paul E. McKenney 2008-04-21  476  		rcu_read_lock();
-b67bfe0d42cac5 Sasha Levin      2013-02-27  477  		hlist_for_each_entry(node, head, list) {
-e67b79850fcc4e Stephen Smalley  2023-03-09  478  			avc_node_delete(node);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  479  			avc_cache_stats_incr(reclaims);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  480  			ecx++;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  481  			if (ecx >= AVC_CACHE_RECLAIM) {
-618442509128fe Paul E. McKenney 2008-04-21  482  				rcu_read_unlock();
-edf3d1aecd0d60 Eric Paris       2009-02-12 @483  				spin_unlock_irqrestore(lock, flags);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  484  				goto out;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  485  			}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  486  		}
-618442509128fe Paul E. McKenney 2008-04-21  487  		rcu_read_unlock();
-edf3d1aecd0d60 Eric Paris       2009-02-12  488  		spin_unlock_irqrestore(lock, flags);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  489  	}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  490  out:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  491  	return ecx;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  492  }
-^1da177e4c3f41 Linus Torvalds   2005-04-16  493  
-
-:::::: The code at line 483 was first introduced by commit
-:::::: edf3d1aecd0d608acbd561b0c527e1d41abcb657 SELinux: code readability with avc_cache
-
-:::::: TO: Eric Paris <eparis@redhat.com>
-:::::: CC: James Morris <jmorris@namei.org>
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: pmic@f (apple,sera-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: pmic@f (apple,sera-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: nvmem-layout (fixed-layout): 'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/smc@23e400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/smc@23e400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
+--
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: pmic@f (apple,sera-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: pmic@f (apple,sera-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: nvmem-layout (fixed-layout): 'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/smc@23e400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/smc@23e400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
 
 -- 
 0-DAY CI Kernel Test Service
