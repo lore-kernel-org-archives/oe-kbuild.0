@@ -1,77 +1,42 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8208831D36A
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Sep 2025 08:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D88A31CA5A;
+	Tue, 23 Sep 2025 08:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758616173; cv=none; b=Q2RZ7CInAVcYLNDYqFhPtLDLK1SfKQawTZKB9v4ZG1bxlVhAqGJhmFUyE+F4GfcYAwHQKbuCEUdxNUHuqUpk5t4wdiySnnAht52Na+80jB8tbj/dXna0XZR+eWOPsAYDp6m/GrdJWifcp+/wgULwQzI6Ys+vV2Qsj7w4Iurki60=
+	t=1758616197; cv=none; b=AZ7MeIiEKhlkmdk4L+fqlZbqQSa2dLunNDl8u71Z/13zBEFv/iNZpF7Zo8vYzMdL+kvX87zwY0uSsiwCi06xKqhF+Eh3DbvBZ9X5ojYY1wl4DqanYRzePqzgQ3h1Nz0ZYCqHlf0M5Mf5z5/dHEwiV6oZfS2m1kpfbAxmDNHTxic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758616173; c=relaxed/simple;
-	bh=/RR/U7qjyLInx5I/uwXMxNivKnihvdkWrEIVwHz7Eq8=;
+	s=arc-20240116; t=1758616197; c=relaxed/simple;
+	bh=CKqFdA8GHYXfFUOGldnkZyW68C95ycj/6y4+MPEn6QE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=orMePhF/nf8k44AqjVnKXVEaX3tWftSM3H5Rs7Y2gy1rBnoGHr8peR3VLYhkBINjibzseBlLnoND8AAkWbkHyzkhLflo8b6j3LkbgWDC2fnvmNc7XPqOq5Wzta05BiTrf8g12BEPdLEMIZhlXEfB+Go/MN75FnGjNOKqApVD3p8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zfxqGvrO; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=UJrc8tRE/BN8fW8sYvqLuQQKNPU3+DGg3fx8Id0qM2c9j5zGLz3TxiedGFVCKVgAjtyDI4TXQ9Q72VXjVI4aHgKUoGrdePFgVUSbCkRfsKMRGwCR5llVCQM/VB6ucNHjDFW8EanIksWPB6eFiGkuQjgPgMnx6U9KV1Z+bPZBGFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D6kdpA/8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zfxqGvrO"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3ee1317b1f7so2608495f8f.2
-        for <oe-kbuild@lists.linux.dev>; Tue, 23 Sep 2025 01:29:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758616170; x=1759220970; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y4H3efbdSwxqDOTY4ewV+hCqf/E/cTKwJvAAgRINhHQ=;
-        b=zfxqGvrOoWafkunwnLYAgKrXT9B4nIFd3Y6bRtbZErHjVxv0zOMy7e36XErNe+7OvR
-         FaKR4TTUNa098hYa23KIcijgtPyxB9Ls3RuOrV7/ee87XKqwfGaGIr7hoTOlHpqCmc5T
-         1PrfOeAiAlQ6GbS+Of18Kjd5Fcu+Lkf8Z0gQXGMz7V/cbcQ6SQxiU+Wi6Y7i/6RGcies
-         rIHUzHDye5lF5snwv2C05qFHxe2NC1jIp0kkC3kwx/Vn37TCLAjWDm9hSrQTqMK3786n
-         T8h5Qp7cITANPaAFJe2dOEHolL9eZ/0rXcoFlw5lGxoW5/iuzDwbto03A7jfrmxB5KGB
-         2Suw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758616170; x=1759220970;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y4H3efbdSwxqDOTY4ewV+hCqf/E/cTKwJvAAgRINhHQ=;
-        b=JYvNODPq+ygj+QWUl7wIGx3Wb96cc/4yMUT3IdxfDpGQDDLmKD0zpnrnY36sTzN9f9
-         oLFLe6nX+QUQJcnYr+YzCvQkIqXEqjnxj58B2vBT3I5QSE5vAywuvWaCNzxW0uA2VdF5
-         mDUTbgIKdBGPTXQVknSbpz91U/UzH3XWqzjENcsreffD3UUpV/5ELBKaEZ7gEvWO1GKH
-         zOpRkXTPtQCSguf6OCgx2qPEU3GfL5recRZzEw3FjRmslz5GcwYY4WrEwH7ZanHFauPI
-         EXZdOB8QQ78zOfIgXdTkEqUbpmJkOgIwfjM0ZWsV3WgN4zAfSziTjFMYDwgCGgcwCrRR
-         x4WQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX04Zv6sfGpi0UnI9AszEMVUR0vGuetGz3XFl+LQr1hwUyET/fVtiWReMLjCx6/4HAzWOGYzbjVvuo=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJbs+NcjCl/sZJYirfGOIoh5zmBrY9WH0RPbVtmz3QDTFgPka9
-	eODvW5uVZnv6F5CuR5h4mOz191HcUqL4QN4wkV94kuFWlGov/X+/6mz4BKWhDHzN7Ds=
-X-Gm-Gg: ASbGncvVczFZFbEBTqWekLANEimucPH5UihsHqwhde6V/LObzgLIGFDAE7d7qMjjlJM
-	R5evLM6DWJaLLYCwnYTIzdR52lpnz6swX074v7qADF1wdDRJXxwBMPl1hLrKSLi7qrnhz3sMcGP
-	zi0JnopUgX4V3QKHHzVrCCaberVeqyty4C41ARX9kwQvFdpo+wbC0hHgkCd2xUQBN4lH8uvoNNX
-	Wv/lp4PM/4FlC+xMF3e/BOzhMwZ43ieWcDbJ72ScnxfYiO9V2ui7IfuiyfHhrb/QCjSCAiRzjf0
-	Fn2QsOPJF9lFxbBY9Ha8/WDS0w9Qzhdf/ybgck36Thb00iR+bzdGoiCZFmk0sway4fou046Z2Pj
-	twmAELKF5rHjg6O0bxkpnfBvlP41TuSuYYMbEfns=
-X-Google-Smtp-Source: AGHT+IHsvSUzwkgJMr2fuGf+beelXF7ViUccT9vVETmtAg6567gvGPlf85mOeUM7tJRvmp045Lmkcg==
-X-Received: by 2002:a05:6000:310f:b0:400:6e06:e0ae with SMTP id ffacd0b85a97d-405cb5d27d8mr1308843f8f.47.1758616169814;
-        Tue, 23 Sep 2025 01:29:29 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3ee0fbfedd6sm23425761f8f.60.2025.09.23.01.29.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 01:29:29 -0700 (PDT)
-Date: Tue, 23 Sep 2025 11:29:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Ruben Wauters <rubenru09@aol.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	lkp@intel.com, oe-kbuild@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/gud: fix accidentally deleted IS_ERR() check
-Message-ID: <aNJaZldQsfTtOBa5@stanley.mountain>
-References: <20250922173836.5608-1-rubenru09.ref@aol.com>
- <20250922173836.5608-1-rubenru09@aol.com>
- <a8e2ce0c-0aed-41b6-9856-acf62f60551b@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D6kdpA/8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 954B6C4CEF5;
+	Tue, 23 Sep 2025 08:29:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758616196;
+	bh=CKqFdA8GHYXfFUOGldnkZyW68C95ycj/6y4+MPEn6QE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D6kdpA/8R69LG8IHWPX0RCknKW1LmJSlhB9gYPcB6Nm8mLNv8djI5Vf23hKcWY9UY
+	 Q8rucrPzn/VXJb7lVBeGkarBlb/LdFqly7R1BXRnMYAhBCErj60ohHgZIbsFHq0Icw
+	 PrBsSkQjboPTHoFPklVBneY/Px+oNwbpo2Z0TSfGVCTex0SowlHfoekWbm2oCIi9mR
+	 Ur22S8z5ylr8l+YfHMnauz8bt4VnjQ4MoyhcRoZmLXdftDiLsoWsb4zh0nXnGKXGpJ
+	 bLJrWdMn5sHwMvkouzEM9ZJCgyZJdzFUS3rd0CwGAQJD2a7mqFMVW5PmkyxAJPju+q
+	 otGiBTH96Pcvw==
+Date: Tue, 23 Sep 2025 09:29:52 +0100
+From: Will Deacon <will@kernel.org>
+To: Ilkka Koskinen <ilkka@os.amperecomputing.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [arm64:for-next/perf 5/28] drivers/perf/dwc_pcie_pmu.c:418
+ dwc_pcie_pmu_validate_group() error: uninitialized symbol 'time_event'.
+Message-ID: <aNJagMeldVo6cML4@willie-the-truck>
+References: <202509231223.gZsX6Eio-lkp@intel.com>
+ <a2bb5fb1-f94e-cdea-6db5-86d78d2a53eb@os.amperecomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,19 +45,18 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a8e2ce0c-0aed-41b6-9856-acf62f60551b@suse.de>
+In-Reply-To: <a2bb5fb1-f94e-cdea-6db5-86d78d2a53eb@os.amperecomputing.com>
 
-On Tue, Sep 23, 2025 at 09:57:11AM +0200, Thomas Zimmermann wrote:
-> -:15: WARNING:BAD_REPORTED_BY_LINK: Reported-by: should be immediately
-> followed by Closes: with a URL to the report
-> #15:
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> 
+On Tue, Sep 23, 2025 at 12:55:01AM -0700, Ilkka Koskinen wrote:
+> That's cleary a bug and I don't know how I missed it.
 
-I've been meaning to add a lkp@intel.com exception to that rule in
-checkpatch...  :/
+Don't worry, these things happen. As Dan pointed out, it's hard to catch
+this in practice anyway (and the robot is doing its job for us).
 
-regards,
-dan carpenter
+> I can submit a new version or a separate patch to fix it in the morning.
+> Which one do you prefer?
 
+Please just send fixes on top of for-next/perf, as that is a
+non-rebasing branch.
+
+Will
