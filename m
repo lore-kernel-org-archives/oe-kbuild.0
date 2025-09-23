@@ -1,175 +1,249 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11021086.outbound.protection.outlook.com [52.101.57.86])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2875A2DECBA;
-	Tue, 23 Sep 2025 21:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758662202; cv=fail; b=clWPVdO/Pmmg3+/5kFxdguGpRWvbldfDHnG0//f5H4KMqRl7yjppmJjfZKRAfz6C+PSofnyLfy3h6KZckQAAITUJjIWJNMqL28qvuzfAWd3MrU5+lbo0EsB5rMz/2Ou/h1JLX41gcXK/HDWxa129252ADbE+f3PxTjGHwpQ7adc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758662202; c=relaxed/simple;
-	bh=BB93eBvLwS/tdtMyxAt6m6CmgoFuIl87zH656jE4ANA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 Content-Type:MIME-Version; b=feYH1nUISA0RBGzUlVMcgbKOUTs7lDUIyTj7ic0urmWq0TlF/JufFUlyXWuNYxBg/zTicz81vIJViHpSHgq/f+eo6NYk4rtWK+8iKkBqMNTp7vJ+Nv1hKRxbROOOGgD7WdKsm3Q6qsforiN6c7K7SqIeIY8xQAlMPztguch892E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=mn9/lnH2; arc=fail smtp.client-ip=52.101.57.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3F8A48
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Sep 2025 22:25:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758666319; cv=none; b=RTFPOgNzcKmZfa9L6uVScpBIr222ZZc6nUzq5kJebRLNqFzkuSf2vC1dWAhnNjGgloSpia7TNsy88OM2C0oc5xyTlHH9pSHgBvpdbnzCE+1sKZlqD4AVmwADH6lbnQGMY4uqEyu9g0KcCGWGP86FHGGd9vyUjKBzt8USHttxH+E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758666319; c=relaxed/simple;
+	bh=5vmbuWinGvCektR88ObTO1ya1HhjzmmBBqZ91myuGrE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FCkMReagGhcPTEtDjxCiurCi6jx+Yo50k4Pgky81+eMJE39gFzjKEamlIaNEyk+mCj6BeLxXN0n9AEi8V4TjSPsy6QHfLFTN3H0oa8VeG7m4pJxUL9yO0gqOXN79R1DLWNsfOg/nfyRbLKAF84J0GEimw/930qKV2X4B8UZc+bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SueEYuAj; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="mn9/lnH2"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F2RCi0rrFn671AL2b7qiT+JCLsoYo1LWO4uCU2EVUxs4YiSGQMrC98MgCNxn80X5ueL8DhyMyXzkl5olRprCoPGk86bGpk8Ullm6Uayulqz0lDRbuH0VQWHsc31Djxqlm+A5CAhQFGh84/F7WqiIiGiLT41O7jKB5IZumGdJwRH6Yh4aW+DiEYylxxF22WR4W4YuVnir63PI8Ptpidk2W7k0vyIS5p/ZIgaHVS2ipxCB+ziubvwngb3fzF0oWkIo7C+jjn0rm2kP3rjIrsQKDCJ41KRASVa5ry/WXxZVzoJYnHqLOiXKc+IBbgqUulkNQDhMUqeb7x6rsZ03nEuQJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oliUaHxNgyXCX1ylI2oIXlqzOdO9nCc+JcRwOZbPWtY=;
- b=bhsfMNCQcpmoOktIV4a/97Xveh1PDbbBwhE4SEUPSqpbMbvfl6CEQCzOxwr6gAR7Vt8aVzsxmnDCAjnVmXWNyr/H1qpJCcj3UGn9apL9iCP2jqnVUVLRnEPfi2F7LPwXJ3DTWgNdQENXzM1qwakAEygM+Ti6FH2D3pZzqELayVT9aOyH3b8xzadE5S5F/PQ2MRXzanlURpNVzH2FvdpWApGk7PFhVQ0im65f66J9TcQrpjrauxFG8spRpYJrMzixiuVN15nUgy0oJN3LASyh8Prwhbja9i3hliVDemUb/9TsdavALOGsLvqIbUQ7EaFetKf6w/D1J7Q5MuX8kddjyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oliUaHxNgyXCX1ylI2oIXlqzOdO9nCc+JcRwOZbPWtY=;
- b=mn9/lnH2PFgodOTxfxTqonqVUFoEPP6AIDl7mYZ02Cdrkw+zG2RyJE63v3Ga9YSQZXJ61Cl5V2FliEbC4IAoPbHj1QqdDZan3YYmsBOJv4iMMb91s8gBHyXx/GMQqvpC9UQwCuZFagYmvHcI5aRjn+r08ZvHlGaxz2Jn/EnK3vs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from MW4PR01MB6228.prod.exchangelabs.com (2603:10b6:303:76::7) by
- CO1PR01MB6743.prod.exchangelabs.com (2603:10b6:303:d5::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.20; Tue, 23 Sep 2025 21:16:36 +0000
-Received: from MW4PR01MB6228.prod.exchangelabs.com
- ([fe80::86f5:4db2:7ad5:7fc4]) by MW4PR01MB6228.prod.exchangelabs.com
- ([fe80::86f5:4db2:7ad5:7fc4%6]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
- 21:16:36 +0000
-Date: Tue, 23 Sep 2025 14:16:27 -0700 (PDT)
-From: Ilkka Koskinen <ilkka@os.amperecomputing.com>
-To: Will Deacon <will@kernel.org>
-cc: Dan Carpenter <dan.carpenter@linaro.org>, 
-    Ilkka Koskinen <ilkka@os.amperecomputing.com>, oe-kbuild@lists.linux.dev, 
-    lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-    linux-arm-kernel@lists.infradead.org
-Subject: Re: [arm64:for-next/perf 5/28] drivers/perf/dwc_pcie_pmu.c:418
- dwc_pcie_pmu_validate_group() error: uninitialized symbol 'time_event'.
-In-Reply-To: <aNJjQkj70kCArFf1@willie-the-truck>
-Message-ID: <5c1ca3a3-6de-6631-a18-abc55a702862@os.amperecomputing.com>
-References: <202509231223.gZsX6Eio-lkp@intel.com> <a2bb5fb1-f94e-cdea-6db5-86d78d2a53eb@os.amperecomputing.com> <aNJZ6SqYvBfjZlrZ@stanley.mountain> <aNJbxj55fEgutUPn@willie-the-truck> <aNJjQkj70kCArFf1@willie-the-truck>
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-ClientProxiedBy: CY5PR15CA0086.namprd15.prod.outlook.com
- (2603:10b6:930:18::19) To MW4PR01MB6228.prod.exchangelabs.com
- (2603:10b6:303:76::7)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SueEYuAj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758666315; x=1790202315;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5vmbuWinGvCektR88ObTO1ya1HhjzmmBBqZ91myuGrE=;
+  b=SueEYuAjPR/Fu8jMHaUAOXi3MO7l5abCuY7YfiTCFHwR+IA6ah4TlTGF
+   kqzMy6J+hVZ2hgHEx+pjeNBfN0Rl8XzMopMJGc+I8DAFm8qZ48RrBiRl5
+   8p6QTJetrBNyc1baTMd5eG8esZf3JIzholT0SO7MKniZFJcw+Iypr6CFE
+   20IlI42daxqlnUIFPoxGlla+OVtSnlCz1EDj06kKsa00T1XUHucxkoBox
+   uuPL9y1y+IMtbxGt42KwHZqm40wN9nwC59JoC8TmsMUAMlh01UC5fhSRi
+   5O6F95/DpXO7eeGkQ6Qk2D91L00v9feOSp+LbvrLvINNC+j/BVSKwrjB9
+   Q==;
+X-CSE-ConnectionGUID: ztiBqrJgTy60gCr/cfVoFQ==
+X-CSE-MsgGUID: gvSbu5bSSWeMBu8bT1ZFqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="78562799"
+X-IronPort-AV: E=Sophos;i="6.18,289,1751266800"; 
+   d="scan'208";a="78562799"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 15:25:14 -0700
+X-CSE-ConnectionGUID: +aTrs1LERbWExY++FydeaQ==
+X-CSE-MsgGUID: lqg/ri5kTOaGkZXnGwhEmQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,289,1751266800"; 
+   d="scan'208";a="177660042"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by fmviesa010.fm.intel.com with ESMTP; 23 Sep 2025 15:25:13 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1v1BRf-000000004If-0SkH;
+	Tue, 23 Sep 2025 22:25:11 +0000
+Date: Wed, 24 Sep 2025 00:25:06 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 28/140]
+ arch/arm64/boot/dts/apple/t6000-j314s.dtb: efuse@2922bc000
+ (apple,t6000-efuses): Unevaluated properties are not allowed
+ ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30',
+ 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse...
+Message-ID: <202509240048.0KfsPLCg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR01MB6228:EE_|CO1PR01MB6743:EE_
-X-MS-Office365-Filtering-Correlation-Id: bb732787-54fc-49f7-ac10-08ddfae67a84
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?A5ti3mv1eZJxv4h5qN5IMlIWp/ofTzR0Ti3jWRQbnKQi2AhCEHECUDJcm9KT?=
- =?us-ascii?Q?xHHhuya1WjzZghdQvYIT2rc64taVg7tIbplIr/rLzQgVsMpC1WGwlnY/r9lK?=
- =?us-ascii?Q?yBK4xRUdp6OXAHj73yRS639nHNydhkKRTxIIgbfm8e4PApgCsw32EftF/VsF?=
- =?us-ascii?Q?ZvA2v4Z8q6fK4yV0w4AdZZ5XXyV0pU9U0EGqqYRWfnTshKcIn3sBzo81oL3J?=
- =?us-ascii?Q?ecSxiilIuqTzu8u2BNdq3e3KWxfoYcubclmppXh0m4mFShMaPsCD7a23VZNc?=
- =?us-ascii?Q?o2XF3rG5bHMPo+zAR2iu9YzVPARQHVE6eG3P/g1xazL6wh17dLGEwPdD6aj+?=
- =?us-ascii?Q?N1OOhxidDPlR6SzjK9HYge2xRbKPgoj+NuBsxfEvl48vhdhdt7gIZPuQy2ff?=
- =?us-ascii?Q?6DAbTpIjnrirhzkPT2siKHJuTVx4yWuypceRQYAkstTKz0mzqsarZ134i9Lu?=
- =?us-ascii?Q?QzghAxtKGl4tRhng3zWEx9UIaFaWtU6iF1NHWmIhpRfREhimbZf38AQnAat7?=
- =?us-ascii?Q?6JHFb0VIbg74UZXb66bJ60hI04mtLZYBeOE21p5WnvJ2kuKxKEucJdqf9Yoa?=
- =?us-ascii?Q?h59/Dct+L0Rj/3LjAjX/atU5qZ3CTEvd7GyDTf1Oxw82FVWb3TQ1EKS2F8hT?=
- =?us-ascii?Q?0cOcOBIS7yd6HpuF3D+Tddehe9v5Gsi/JSGD78WepwMHG0NjMuymp7KonVIP?=
- =?us-ascii?Q?lVwZI5rojDf6JQ10BE7UPC4k6RuwUWN6bauKSEJsmAYLS5ctNMy/CntRc1fy?=
- =?us-ascii?Q?qfwEuLpE1N8hOBz1mDPyqWgfTSRgySEPxbM4uth4b8HDIt1/NSxLY4WbXT1i?=
- =?us-ascii?Q?Rs8EObMeGNrqb2WNCw9+HFPMcWIrGJ2dHsSn8rBjX8szOfasdewrVWjDohD0?=
- =?us-ascii?Q?3YCXrCgXsvuroZE83wpDCTL7+fVs8CxBTi87A0frZY/s4CeQcbeVMqdbokjp?=
- =?us-ascii?Q?CxfjwMmABDgeHrVO0FWddbkKFa9OsUXSa3HROkwHAkwzP6+m7lPG6D0JG96A?=
- =?us-ascii?Q?/jOZW1Ffg8VKRkx1Te+7msGNb2jXcBroj0CoJRwL7W3oZrjDwZr6juNHrQu5?=
- =?us-ascii?Q?KtWmAF6VVYh43bxE3vwS3bbYnTyo9IfoE8cywikW7xVv8eG+PNmJWJKxPT9u?=
- =?us-ascii?Q?STyXjMKJEmEybN0eWKsPymZYIbhhAPtF5ozMuM0b58ZkSV4lu0Sw/pxJ8kaa?=
- =?us-ascii?Q?haMIH5QALthZacwep/tYMdx9E2tZeGI3i5htyI8es31HNTGIFdKiaSkT8Qg8?=
- =?us-ascii?Q?0ql0IiYax13EsmMT6e1WP5gRkGRlkbjBg+sqw4BcSWKkFhlCA81fvqdVlRgE?=
- =?us-ascii?Q?HGLSVdQPsUdZxHjlZNtfXAoPypqyRgaWbrCvGFS+0T9PZJbzYumJy+tyqPjD?=
- =?us-ascii?Q?ncc9S1o48rv52WVuuZ18c+sPp5EAg6HUo2amkosqDzpud7C10HRl52nxcTmj?=
- =?us-ascii?Q?iaiC2EedrUNzSmWosyPDgdUek2NtR03PwvrPLhjbcb3U4/FmiBdMhA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR01MB6228.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?vMP0xbKe+wIlFyv2fDxMCP5QljCmbLPnjNxL1p+uWrDm0YJC46Xfglnqko20?=
- =?us-ascii?Q?sNnt5kWNPt8G+QWwby51z5119yhvmF0MW6kAy8PKk69q9T35tB4UdO64drXn?=
- =?us-ascii?Q?Z0TfGp17lcVQQ4/eV8hPPwnIF2i2vzV1+1mGvXX/AQ2chAH2m4yXz3Gu0moR?=
- =?us-ascii?Q?eFBU9SnqN+H1TVVprVxt+y2SGx998RN8wdX+OeHXNhe3jrNRbvzU2vSJa61k?=
- =?us-ascii?Q?HFv3XmuP2826i2JxtpPRE3zYVHG9AyEoUZlQZap7Gz3P5nE2+BVXoVHDocNv?=
- =?us-ascii?Q?FGwsjZjJylQ59Od98Xl4D2n/Klv9pZNXsyETfZCm99UD8UWiHwEPdnkbm6AE?=
- =?us-ascii?Q?28Fhz0opK3hckWkUxp3Z/Z+zMz6jBOiYjiElTG2MkvhUEF2o/iGX5ENL0YYu?=
- =?us-ascii?Q?tnFVtxjuK1o29UDVoDX9BiltkZjSRM/Q4BJfGnhs3FNzmlL7GStI7TsTibd0?=
- =?us-ascii?Q?0+TJixDP6aCKOFN2Y5l4ZDZOqfGo/lD52SWo8bfV0GzGHlv998v6lo7BxlId?=
- =?us-ascii?Q?98cSKD6CkM1DUPrjNsyeSgbFqqsSqXoS8MNvY0oFwEhikXTaF9NSDRTi7KTc?=
- =?us-ascii?Q?EwLVkUT51dEoTmHOT5qSiEvYRlkPVKVy3PB5CLfSfNHavVJzlf3G86/HI/Fg?=
- =?us-ascii?Q?VNSzW2KkWl6Rzt+xgXo5mWMDG8hapAmuuH8Xod6+YJiPHbcp6oHKYjKbVR5J?=
- =?us-ascii?Q?Ip9bs1ESmAmiy+tOODOhKQhJ9AW64vnoa66nB3ylAQdgOGcYQn7q/wBRKejg?=
- =?us-ascii?Q?IuHD6bQNNzuNc16QnMS4vsA2OOxUNGHAFd440pXXLGdns3RpRiGi+zwyk1k5?=
- =?us-ascii?Q?XlrFoOGZijZ3mnGTTP/kqnxsCSsDesDinm8Z9Kfm7Q0scjFrD+ElJ26i7GYG?=
- =?us-ascii?Q?6XifEL3yCQHoDPkSvFToJo5slVAi2diSnvlEOg4bv4ncTKR59oJiRP8KZa3t?=
- =?us-ascii?Q?YmcXcKT/dKDKZAsdnzh5ShTwEgRWj1Pd7HHPSduDs9DVLIwEkHr9aU0cdkqA?=
- =?us-ascii?Q?B90bEQFGiov+WWKWZHJ4/rsbTzZX6IFA7gYxl2zHXQJkgCOpbUrO9RGhB4Ll?=
- =?us-ascii?Q?3zFmWJRlRqRGib7M3AsSllne0O0bh6R/gC+JnsEqfRbEwxkTGqklj94Pqf8i?=
- =?us-ascii?Q?5X/32b20RJxeUXZZnPD+HRmOSiKMxito//QrO4/wsPlXbrdU2dc1olOCCjyi?=
- =?us-ascii?Q?38OeyGYUeCFNjb8HQxfYWUTJ2oKhuMhRFz7xNzOjArG5ZhSfV4PHDI6ED8gh?=
- =?us-ascii?Q?DMqTiYqHbXGKEqt/EG9ew7HPBlBMzPzoQSz2pJexcwvycRwOvvdakWEtrDpx?=
- =?us-ascii?Q?EXKVAe8nrGQJ1Fl4HCPdExbl9vVER5N7fzVeRcZvYV7XK9ukFSYb5dmVsV51?=
- =?us-ascii?Q?p4yHOVKzm8kNdZnJgRmumjBoJQ8qDhTACH+0zwpnJZYUpgVnUpU8LHxht9sJ?=
- =?us-ascii?Q?2XVWz5flYdeR0EIvXW+XQDahN4iXeltt/oe4ZMMxpYkTTYWj3+FdHhf/Poq4?=
- =?us-ascii?Q?mwtRRtD72VJXEf18PrrroBJura3VjcGpvSq6e9we42TUEYQ3eCUy66W6mfA5?=
- =?us-ascii?Q?Gjke07TDx0I9PBBKIU6ose9ifWJ5liESV5xeFipMBUwkz3pggHqgUB8+9kOo?=
- =?us-ascii?Q?DBhTEIvnq3MaL8mczy0VDNA=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb732787-54fc-49f7-ac10-08ddfae67a84
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR01MB6228.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 21:16:36.4654
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0VIjkHBz902AHpeXgfZlT3gh+f/ryNrcIy2R7DWys82pjodKYMqvcng16KN8NoBtMm0QXe7XuCx5kT1lPwTDP+dFqRJHD2GyOatO+eBhb53cJXaxCjZjq7mY2PnANIsr
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR01MB6743
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-On Tue, 23 Sep 2025, Will Deacon wrote:
-> On Tue, Sep 23, 2025 at 09:35:18AM +0100, Will Deacon wrote:
->> On Tue, Sep 23, 2025 at 11:27:21AM +0300, Dan Carpenter wrote:
->>> On Tue, Sep 23, 2025 at 12:55:01AM -0700, Ilkka Koskinen wrote:
->>>> That's cleary a bug and I don't know how I missed it.
->>>
->>> Because we disabled uninitialized variable warnings for GCC and because
->>> everyone has CONFIG_INIT_STACK_ALL_ZERO set so it wouldn't show up in
->>> testing either.
->>
->> The more annoying thing is that I run smatch on my tree before pushing
->> but somehow I didn't notice this. I'll run it again to see whether it
->> detected it in the first place...
->
-> bah, there it is:
->
-> +drivers/perf/dwc_pcie_pmu.c:418 dwc_pcie_pmu_validate_group() error: uninitialized symbol 'time_event'. [smatch]
->
-> so not sure why I missed this. Maybe I used the wrong .config (this
-> driver isn't enabled in defconfig).
->
-> Will
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: R <rqou@berkeley.edu>
+CC: Janne Grunau <j@jannau.net>
 
-Interestingly, the gcc version I was using to doesn't raise a warning even 
-if I have -Wmaybe-initialized set. It does warn though if I move the if 
-line outside the loop.
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   703a105e4188c8c9e084375a48f08853cf64cfca
+commit: bf2ff5ce27fb1079aad640bbf6c845c08e72f171 [28/140] arm64: dts: apple: t6000: Add eFuses node and ATC phy fuses
+:::::: branch date: 2 days ago
+:::::: commit date: 3 weeks ago
+config: arm64-randconfig-2052-20250919 (https://download.01.org/0day-ci/archive/20250924/202509240048.0KfsPLCg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509240048.0KfsPLCg-lkp@intel.com/reproduce)
 
-Anyways, I'm glad Dan and the test bot caught the bug.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202509240048.0KfsPLCg-lkp@intel.com/
 
-Cheers, Ilkka
+dtcheck warnings: (new ones prefixed by >>)
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j314s.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[141, 0], [142, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+--
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j314c.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[155, 0], [156, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+--
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j316s.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[141, 0], [142, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+--
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j316c.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[155, 0], [156, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+--
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j375c.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[157, 0], [158, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+--
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+>> arch/arm64/boot/dts/apple/t6002-j375d.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[178, 0], [179, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+--
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/phy@f03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@1302280000 (apple,t6000-dwc3): iommus: [[223, 0], [224, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@1302280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/phy@1303000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/phy@1303000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+>> arch/arm64/boot/dts/apple/t6002-j375d.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[305, 0], [306, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@2200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@2200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@2200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@2200000000/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@2200000000/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
