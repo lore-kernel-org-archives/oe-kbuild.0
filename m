@@ -1,128 +1,195 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B91D26E706
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Sep 2025 06:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C3E30F930
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Sep 2025 06:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758608109; cv=none; b=ePJw7T7BPFcjyAKSgRT9aLYIKWGMIJwCQAvSnRHHAQzj6+TnajumYNZoEqe1pWU9ljGeKQ/oszVEVHMBfxlOflFl3cx7aqmgxDEB2PzaNOhUtlW23W9mYuAqLptqWEpQ8PzA9SyGqf0jtdoEHEHWdgfc3dN0KpaERhOEgMdIsOQ=
+	t=1758609535; cv=none; b=KzM7JHlYQIkcyIOzo6xAq8NQ7So9S7gmMIMncPK1ZkUPytwCjK4Xt7FFfeitn0GG49iQ5UQzyOsmpnRlHPYCgiaFy65iq99P6DuLgSeo25GBYNGd78F0ygJKb0Owxny4IlZrCU9us/xkYAPciHr0kRW0WFLprjmDCwmlvqid354=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758608109; c=relaxed/simple;
-	bh=jNZj4zFYDC649z1XTC8KSjI7wSH47AxeEYvJtQgulCc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pD44T8eGJ/SGnSFeajnehlAg8CvkuK7SVtKlU0pheSq6/PAFb8/JpmTL0tHSMRJNaB4HJMZsjAMzvtrHPtJ3USqyu3ZziNUEd3/wjm8EEo07beoEVYH61lKjYLeDu+tcSLlILmlbshy0K+tpA0UEh25UxS31cHUPZrLLVWmJqSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IYq+S8cr; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1758609535; c=relaxed/simple;
+	bh=DMH94pu9VGu2YOgC5xKd37Q5Ip6ER9SpFac88lCKB3k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KuwFIt5y6SL7k3y30hitEHG85YVeh/b20GCivGleVbGUWJNsEDkAenpcpYWUGEBonZdkpvc1bPFG/x5opC0uLcrlEDjBHn/xQy/8/YkzDej7+ZqvI59VKjDxqe+PeDCtPK0q9f3mxNm1dfC3XZp+hf5/7M+ubBA5tkb68Jcm6qY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rjHXCTMJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Bu9ELGvi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fLJywFKC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y25WnlxJ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IYq+S8cr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758608108; x=1790144108;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jNZj4zFYDC649z1XTC8KSjI7wSH47AxeEYvJtQgulCc=;
-  b=IYq+S8crtSNKwmNKKHZqhatRfjs+MRCSSShaWPpbTlnHdNhQBBRBfvnI
-   SDKA04fKCrtP05TaJ005yuGJvDkCE/FtB1clrmO00dCAIum6McsCkyRrt
-   ZMFGnPdpU3Mpd95BQChsgBsXm9SWcDonigvT8C099J/7R2oUuUZmjrCRu
-   3jFbIHEIdVb84Q6zyEFw+0v/dgnGkoY7LBt82CziGtGGBoxk3fRyjmoRf
-   uoQglmNbW866/noFIHKoAHPt0pmF2DsAtARNudqY3t0N4TQ23oPneuJ+x
-   BTKiEz93WJSgf0TEEhzNxE+j2jDdEpUpQDCv5ugQuMZYjktkxSmpLHi4I
-   Q==;
-X-CSE-ConnectionGUID: LZW4jtx7SWyvWD5imaNYsg==
-X-CSE-MsgGUID: k6dTtf/+RrO5lqvLow2udA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60820397"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60820397"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 23:15:07 -0700
-X-CSE-ConnectionGUID: 4G/5yt0jQ0m9vkgAiaVftg==
-X-CSE-MsgGUID: 7WenhzdHSyaV/WCvrLXTwg==
-X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Sep 2025 23:15:06 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1v0wIp-0000000045V-2TC0;
-	Tue, 23 Sep 2025 06:15:03 +0000
-Date: Tue, 23 Sep 2025 08:14:46 +0200
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 2/2] dts: aspeed: Add a dts for the nvidia msx4 hpm
-Message-ID: <202509230841.VUyh9Csx-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rjHXCTMJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bu9ELGvi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fLJywFKC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y25WnlxJ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E3DB8224E6;
+	Tue, 23 Sep 2025 06:38:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758609532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
+	b=rjHXCTMJ6WqW0SndCHqWDfgtfvrFcmJmxUvtdLXCYPVU7CqFjxkKipUB218v27sLye0NTp
+	coyx/PBWzJTPKjtTyAPNAfcsw6asuoCcaPoWnLAWQw2MQrKWq1S9Dty0/7FylgLPUHieki
+	yNDLsmV2cpWYmOfO8dZC/u2mACNx3Hw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758609532;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
+	b=Bu9ELGvijHyU2/96UJ3hTvFZxr11r5YmaRa/wVYng/DmjFd72DoTZ6U7bSo/pgOLZHwou0
+	yE460Bm9KI/NZfAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758609531; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
+	b=fLJywFKC8Fgr3hEw2YlaziV56e1DqWmjzIDgra6DMRBXlJEO/QZ/kZMCSsk69ulWNWNZg7
+	hk9xMKjpmUbbX/6fmXwqJMnE69IzoJA4wIJUnh1YopTOr4wbp9qEC6+lpCzoU0XyqpaHFr
+	jE2ktpeIAfUp5z33LRwp1odK8YViT+g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758609531;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
+	b=y25WnlxJCvce3z4cXbYTANV62uHo1NKTZGxkCq30sBj4aMd4Ur88dNKKsIssUXDjNDNNef
+	WHFB1zW+Pa3S9lBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C961132C9;
+	Tue, 23 Sep 2025 06:38:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ndUHJXtA0mj4HQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 23 Sep 2025 06:38:51 +0000
+Message-ID: <53d8dd21-2c46-4c3c-b7f9-30696c6f6412@suse.de>
+Date: Tue, 23 Sep 2025 08:38:51 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/gud: fix accidentally deleted IS_ERR() check
+To: Ruben Wauters <rubenru09@aol.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, lkp@intel.com,
+ oe-kbuild@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250922173836.5608-1-rubenru09.ref@aol.com>
+ <20250922173836.5608-1-rubenru09@aol.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250922173836.5608-1-rubenru09@aol.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[aol.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250918-msx1_devicetree-v1-2-18dc07e02118@nvidia.com>
-References: <20250918-msx1_devicetree-v1-2-18dc07e02118@nvidia.com>
-TO: Marc Olberding <molberding@nvidia.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Joel Stanley <joel@jms.id.au>
-TO: Andrew Jeffery <andrew@codeconstruct.com.au>
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-aspeed@lists.ozlabs.org
-CC: linux-kernel@vger.kernel.org
-CC: Marc Olberding <molberding@nvidia.com>
 
-Hi Marc,
+Am 22.09.25 um 19:32 schrieb Ruben Wauters:
+> During conversion of WARN_ON_ONCE to drm_WARN_ON_ONCE in commit
+> 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm
+> versions"), the IS_ERR check was accidentally removed, breaking the
+> gud_connector_add_properties() function, as any valid pointer in
+> state_val would produce an error.
+>
+> The warning was reported by kernel test robot, and is fixed in this patch.
+>
+> Fixes: 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/r/202509212215.c8v3RKmL-lkp@intel.com/
+> Signed-off-by: Ruben Wauters <rubenru09@aol.com>
 
-kernel test robot noticed the following build warnings:
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-[auto build test WARNING on 8f5ae30d69d7543eee0d70083daf4de8fe15d585]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marc-Olberding/dt-bindings-arm-aspeed-Add-Nvidia-msx4-board/20250919-071432
-base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
-patch link:    https://lore.kernel.org/r/20250918-msx1_devicetree-v1-2-18dc07e02118%40nvidia.com
-patch subject: [PATCH 2/2] dts: aspeed: Add a dts for the nvidia msx4 hpm
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm-randconfig-2052-20250922 (https://download.01.org/0day-ci/archive/20250923/202509230841.VUyh9Csx-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509230841.VUyh9Csx-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509230841.VUyh9Csx-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/aspeed/aspeed-g6.dtsi:634.36-638.7: Warning (unique_unit_address_if_enabled): /ahb/apb/lpc@1e789000/reset-controller@98: duplicate unit-address (also used in node /ahb/apb/lpc@1e789000/uart-routing@98)
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+> ---
+>   drivers/gpu/drm/gud/gud_connector.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/gud/gud_connector.c b/drivers/gpu/drm/gud/gud_connector.c
+> index 62e349b06dbe..1726a3fadff8 100644
+> --- a/drivers/gpu/drm/gud/gud_connector.c
+> +++ b/drivers/gpu/drm/gud/gud_connector.c
+> @@ -593,7 +593,7 @@ int gud_connector_fill_properties(struct drm_connector_state *connector_state,
+>   			unsigned int *state_val;
+>   
+>   			state_val = gud_connector_tv_state_val(prop, &connector_state->tv);
+> -			if (drm_WARN_ON_ONCE(connector_state->connector->dev, state_val))
+> +			if (drm_WARN_ON_ONCE(connector_state->connector->dev, IS_ERR(state_val)))
+>   				return PTR_ERR(state_val);
+>   
+>   			val = *state_val;
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
+
