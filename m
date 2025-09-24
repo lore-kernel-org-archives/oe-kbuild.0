@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC9F2236E8
-	for <oe-kbuild@lists.linux.dev>; Wed, 24 Sep 2025 02:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A414C98
+	for <oe-kbuild@lists.linux.dev>; Wed, 24 Sep 2025 03:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758682799; cv=none; b=KQXmbzWtTKtsddJse5PQhzfTqfi1dMpV6i1rbxr8AxUWh2aYVFcVHIFTKHBKnRjTNoIzpVoeqwEZDJYrvmj8WaaI2SAOe8sFlINyah4y1Ha7jvwwqfq1FELu3mxIr5nRa2PaUIfqQRtbtR3BoMpD3JexJDHy50AwX0JXxfkErz4=
+	t=1758686045; cv=none; b=Vg04JFenc/D+d6kG2GJidEzfNuaVBECIuSRkS28wWUUB+xat8M/fZd534ZmJr/w63iF575tWEpOdXDzq1AVbhvMlNgf0Mp9mgreOleBcptR9qw4rtr9Sm0XjCcvRstX7k6hTOT2mQUxKYDEGdpEYfCJbHhrf23+2NgLE/e+YsTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758682799; c=relaxed/simple;
-	bh=QBAXFGIxnHuyZYIvm3CvSoRR5dvlFW3uNgXrk+DeDy4=;
+	s=arc-20240116; t=1758686045; c=relaxed/simple;
+	bh=+ys9I38DOfwoKHfTnPu96ZZgm7PtWsS2Gmx4YH9BhK8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HHMYr5SEhv0gZE0ZoHlm3n2fYsb767hMfKI1qSIlE7zCr9DKzdEMN36oLjHgNb/ocguQsFQWm9Zvzgild14gr4g53FwvsJSWIMtEj0yjvZ/2Ir5DJQDU8jYfk8aHK5d6Z6vI6hhu92P7QzG5F44trAjaAaOZcbAmDGy7KVEYAt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FhMe/O2X; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=S8yXnerpAslFLbFt75KQ1hACAnZwCdzhdKXB0b7v60c0cpoWEPLkcJZHx3RuJ0Fu9EQZHL1Q2TR4/M+/k3hgYQz28HLeoppYSdgBfRoPaYEDqDyVNcUE/vgHM4v9Lzn7DfyiuQqRx/A7RShSyzHZ8G9D6WmebC/2AmCzizfylBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TDx44o85; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FhMe/O2X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TDx44o85"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758682797; x=1790218797;
+  t=1758686043; x=1790222043;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QBAXFGIxnHuyZYIvm3CvSoRR5dvlFW3uNgXrk+DeDy4=;
-  b=FhMe/O2X4uQw8lrX5Oxbn3O5W3DocpTXY7CgjQZBJiYH7OaJUt9DBssJ
-   S4XH7GGjc8V0VpbPQ77nvqmyaIMrGQkbBtFNG+hVs/4qSTFcITg/WrOyF
-   2FR5hd+0qNICHXnvB9/K6r102l/rNo3USKpIChWyWnsPCx2SgWT2U2NwE
-   IzVuD8CukXBjjj5F8aL3/0lXeyci3JQdIWJrcBoQbiVP102iqNT5sGhXw
-   Zwavzvnfy/pPo4XEEHGYGm6IC9YJv0iAeXalcNuFO0x+gtNYJRa4It+rg
-   KhjQ1dsg5GmNuW7UO2SAOIFhsFp/88dZBIw0gxqs8kcx4K+UHp5bugYCk
-   w==;
-X-CSE-ConnectionGUID: kKNG8HseTbug4gbhjgvD8Q==
-X-CSE-MsgGUID: xSm3ALwNQgCpg106N5d8iA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60861517"
+  bh=+ys9I38DOfwoKHfTnPu96ZZgm7PtWsS2Gmx4YH9BhK8=;
+  b=TDx44o859mYX7RzqCptoTwl3KKsTtyScJXOCPoTG6IPQasHhnQbyBnWY
+   kpcf/PkC/ic3KS4clWDjn7SRa5BDwGIKKcM2y5nTCjAEbD6+UmSoxMZGj
+   6O6n4mbLVrmAvZ4V77w5OP0j3SjYZPNF0x1dSxzhiP+pvrIlz9ZzvuWyY
+   mGxGLP/MwbAJDaLQc3FDC4sjP5e3/9RHsSXhHLVPXfWykVo/0LLFGN2nv
+   41ScfEUyr2Ncjc7wYloA3827d5NEEUOtvg/fFlWuKEbc6i2aCfsXSoD/K
+   XqC0fG4VNS3Hzm36CUv8ya46b+2jQgnxXyrKqYzpiHQpCFbD+9937+n2K
+   A==;
+X-CSE-ConnectionGUID: VJS2sbAdSqW5poAjcXBoBQ==
+X-CSE-MsgGUID: PSXxfYPjTXK2lsqIyxXHbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="61032563"
 X-IronPort-AV: E=Sophos;i="6.18,289,1751266800"; 
-   d="scan'208";a="60861517"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 19:59:56 -0700
-X-CSE-ConnectionGUID: r5ylfgYjReSl0Vn33iBgdQ==
-X-CSE-MsgGUID: SgilotqBSGCxFD7dBapI6A==
+   d="scan'208";a="61032563"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 20:54:02 -0700
+X-CSE-ConnectionGUID: LhcPG3EdS6iCZBHy+AdDKw==
+X-CSE-MsgGUID: Vc/VQPYBQyWKS8sZ5jBdLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,289,1751266800"; 
-   d="scan'208";a="176206784"
+   d="scan'208";a="177322330"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 23 Sep 2025 19:59:55 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 23 Sep 2025 20:54:01 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1FjP-0003kX-0X;
-	Wed, 24 Sep 2025 02:59:49 +0000
-Date: Wed, 24 Sep 2025 10:57:47 +0800
+	id 1v1GZX-0003mL-0x;
+	Wed, 24 Sep 2025 03:53:43 +0000
+Date: Wed, 24 Sep 2025 11:52:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 10231/11867] drivers/gpu/drm/xe/xe_configfs.c:282
- lookup_engine_info() error: we previously assumed 'mask' could be null (see
- line 278)
-Message-ID: <202509241020.mrKHkcLR-lkp@intel.com>
+Subject: [melver:cap-analysis/dev 23/35] lib/test_capability-analysis.c:125
+ test_spinlock_trylock_extra() error: uninitialized symbol 'flags'.
+Message-ID: <202509241125.8lkyg6o7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,78 +64,67 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Lucas De Marchi <lucas.demarchi@intel.com>
-CC: Raag Jadav <raag.jadav@intel.com>
+TO: elver@google.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ce7f1a983b074f6cf8609068088ca3182c569ee4
-commit: e2a9854d806e1cb95861a0f3c7125caaefd7ef03 [10231/11867] drm/xe/configfs: Allow to select by class only
-:::::: branch date: 10 hours ago
-:::::: commit date: 5 days ago
-config: i386-randconfig-141-20250923 (https://download.01.org/0day-ci/archive/20250924/202509241020.mrKHkcLR-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis/dev
+head:   b57fd8af63116c56536eb40f04dbe4f2206ec4ed
+commit: 32b884d94862a5295719faf9e1c3b5eef162cca4 [23/35] compiler-capability-analysis: Remove __cond_lock() function-like helper
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: sparc64-randconfig-r072-20250922 (https://download.01.org/0day-ci/archive/20250924/202509241125.8lkyg6o7-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202509241020.mrKHkcLR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509241125.8lkyg6o7-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/xe/xe_configfs.c:282 lookup_engine_info() error: we previously assumed 'mask' could be null (see line 278)
+New smatch warnings:
+lib/test_capability-analysis.c:125 test_spinlock_trylock_extra() error: uninitialized symbol 'flags'.
 
-vim +/mask +282 drivers/gpu/drm/xe/xe_configfs.c
+Old smatch warnings:
+lib/test_capability-analysis.c:101 test_raw_spinlock_trylock_extra() warn: mixing irq and irqsave
+include/linux/spinlock.h:542 class_raw_spinlock_try_constructor() warn: passing zero to 'ERR_PTR'
+lib/test_capability-analysis.c:125 test_spinlock_trylock_extra() warn: mixing irq and irqsave
+include/linux/spinlock.h:581 class_spinlock_try_constructor() warn: passing zero to 'ERR_PTR'
+include/linux/mutex.h:230 class_mutex_try_constructor() warn: passing zero to 'ERR_PTR'
+include/linux/rwsem.h:262 class_rwsem_read_try_constructor() warn: passing zero to 'ERR_PTR'
+include/linux/rwsem.h:270 class_rwsem_write_try_constructor() warn: passing zero to 'ERR_PTR'
 
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  256  
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  257  /*
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  258   * Lookup engine_info. If @mask is not NULL, reduce the mask according to the
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  259   * instance in @pattern.
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  260   *
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  261   * Examples of inputs:
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  262   * - lookup_engine_info("rcs0", &mask): return "rcs" entry from @engine_info and
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  263   *   mask == BIT_ULL(XE_HW_ENGINE_RCS0)
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  264   * - lookup_engine_info("rcs*", &mask): return "rcs" entry from @engine_info and
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  265   *   mask == XE_HW_ENGINE_RCS_MASK
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  266   * - lookup_engine_info("rcs", NULL): return "rcs" entry from @engine_info
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  267   */
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  268  static const struct engine_info *lookup_engine_info(const char *pattern, u64 *mask)
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  269  {
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  270  	for (size_t i = 0; i < ARRAY_SIZE(engine_info); i++) {
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  271  		u8 instance;
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  272  		u16 bit;
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  273  
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  274  		if (!str_has_prefix(pattern, engine_info[i].cls))
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  275  			continue;
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  276  
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  277  		pattern += strlen(engine_info[i].cls);
-e2a9854d806e1cb Lucas De Marchi 2025-09-16 @278  		if (!mask && !*pattern)
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  279  			return &engine_info[i];
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  280  
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  281  		if (!strcmp(pattern, "*")) {
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28 @282  			*mask = engine_info[i].mask;
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  283  			return &engine_info[i];
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  284  		}
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  285  
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  286  		if (kstrtou8(pattern, 10, &instance))
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  287  			return NULL;
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  288  
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  289  		bit = __ffs64(engine_info[i].mask) + instance;
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  290  		if (bit >= fls64(engine_info[i].mask))
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  291  			return NULL;
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  292  
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  293  		*mask = BIT_ULL(bit);
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  294  		return &engine_info[i];
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  295  	}
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  296  
-e2a9854d806e1cb Lucas De Marchi 2025-09-16  297  	return NULL;
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  298  }
-d09bc3edfe5c702 Lucas De Marchi 2025-05-28  299  
+vim +/flags +125 lib/test_capability-analysis.c
 
-:::::: The code at line 282 was first introduced by commit
-:::::: d09bc3edfe5c702463e2640314b7db2219242446 drm/xe/configfs: Add attribute to disable engines
+821a2ecb55c76ae Marco Elver 2025-01-23  107  
+821a2ecb55c76ae Marco Elver 2025-01-23  108  TEST_SPINLOCK_COMMON(spinlock,
+821a2ecb55c76ae Marco Elver 2025-01-23  109  		     spinlock_t,
+821a2ecb55c76ae Marco Elver 2025-01-23  110  		     spin_lock_init,
+821a2ecb55c76ae Marco Elver 2025-01-23  111  		     spin_lock,
+821a2ecb55c76ae Marco Elver 2025-01-23  112  		     spin_unlock,
+821a2ecb55c76ae Marco Elver 2025-01-23  113  		     spin_trylock,
+821a2ecb55c76ae Marco Elver 2025-01-23  114  		     TEST_OP_RW);
+821a2ecb55c76ae Marco Elver 2025-01-23  115  static void __used test_spinlock_trylock_extra(struct test_spinlock_data *d)
+821a2ecb55c76ae Marco Elver 2025-01-23  116  {
+821a2ecb55c76ae Marco Elver 2025-01-23  117  	unsigned long flags;
+821a2ecb55c76ae Marco Elver 2025-01-23  118  
+821a2ecb55c76ae Marco Elver 2025-01-23  119  	if (spin_trylock_irq(&d->lock)) {
+821a2ecb55c76ae Marco Elver 2025-01-23  120  		d->counter++;
+821a2ecb55c76ae Marco Elver 2025-01-23  121  		spin_unlock_irq(&d->lock);
+821a2ecb55c76ae Marco Elver 2025-01-23  122  	}
+821a2ecb55c76ae Marco Elver 2025-01-23  123  	if (spin_trylock_irqsave(&d->lock, flags)) {
+821a2ecb55c76ae Marco Elver 2025-01-23  124  		d->counter++;
+821a2ecb55c76ae Marco Elver 2025-01-23 @125  		spin_unlock_irqrestore(&d->lock, flags);
+821a2ecb55c76ae Marco Elver 2025-01-23  126  	}
+821a2ecb55c76ae Marco Elver 2025-01-23  127  	scoped_cond_guard(spinlock_try, return, &d->lock) {
+821a2ecb55c76ae Marco Elver 2025-01-23  128  		d->counter++;
+821a2ecb55c76ae Marco Elver 2025-01-23  129  	}
+821a2ecb55c76ae Marco Elver 2025-01-23  130  }
+821a2ecb55c76ae Marco Elver 2025-01-23  131  
 
-:::::: TO: Lucas De Marchi <lucas.demarchi@intel.com>
-:::::: CC: Lucas De Marchi <lucas.demarchi@intel.com>
+:::::: The code at line 125 was first introduced by commit
+:::::: 821a2ecb55c76aebb2a5fc53c7a49c2bc21a59af locking/rwlock, spinlock: Support Clang's capability analysis
+
+:::::: TO: Marco Elver <elver@google.com>
+:::::: CC: Marco Elver <elver@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
