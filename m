@@ -1,181 +1,305 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631A51C8630
-	for <oe-kbuild@lists.linux.dev>; Wed, 24 Sep 2025 15:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5BCA156F20
+	for <oe-kbuild@lists.linux.dev>; Wed, 24 Sep 2025 19:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758726305; cv=none; b=t8gtkBHyQohLGo9O84mJei1YoiCLAODoI56gckMIBcUISQnr+QcNgSB1D0eWn9E3Hb+BWSqlcuTU21Xfp1jrxcDexJqYuFP5ZoGnZVL5uzmCacuzfllg5QRJWNP2GnrmeJ/XzoLTKwm+zWhBVe8FpgvhSjWDWCvw9FQL7l/emCo=
+	t=1758741030; cv=none; b=LJ23Aj2O92Y1hj3XtxeCkEvVcAK114BS8zvB+1rapWGAuutMjqE9OxhLYfV7RqObfIL00E6/xYVUKaIiAn9hSa7tC0JX/jERuX4M33U7pxAoAuOWhoHT6BeSvljzNViGlVvcCDHxm3mcw8Cb/Eqs1QUGSqtNmbDMA5/kijrryoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758726305; c=relaxed/simple;
-	bh=Qqz52OFb5c570gOa0Z/CYT9oJ7f5YAtJOsg0XT9EC/s=;
+	s=arc-20240116; t=1758741030; c=relaxed/simple;
+	bh=X4HdXitWsk5tsPkbAdGDtkK1/IjNeaVGFWigONMK1CU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=JNeEwYeTpDTY0VgWTdc9srDtVO32MwkJYY9YodBsHR5BQzKDkrrmw9JXk29SWCgpdIRVORfry9r91UPB0I4/q/WfK+MIqLc/aohK4QYNJkCss6Fj+ZhE2JtuNIprf5LNBAQjK0sO3H7UOUDzin6RS8xgPLz1RpRyyRIK4Y8RUfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=H+En+UkH; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=dlt/NcpZjLxC47/D3MN0UnJsQbl6sU4X9v/QEXogjFcirtVW9Sxfj6LOSkieZtsYjAlaLSRJ8YclNiPqNPBS6EmmEKwwKqAAcS0WwaSFHZ5p82HjYGuHYgUmWXjQ/++1mEaAPz4niwyVkKSPKNzdjYUU/iBl5UzrgQn+FPJuhAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MjczkSBb; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="H+En+UkH"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-46e2562e8cbso13087605e9.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 24 Sep 2025 08:05:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758726301; x=1759331101; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xtQ58nilsjUFvi81rFIHT0NM76qux0KSDZHaVgbUBdk=;
-        b=H+En+UkHiapAhfnBNcpnCxFkdyQ1gfO6lR63LdNiBuIiwIW3hUC1wDrfkcxlklve8F
-         7jtGKGZRfyI2Zg1/MgvgvWo0aGiZrel/pEzLDsl7T69Xj/H4kSEOZMuyfNxuGr4dWdEl
-         36RHOTWiXDg2yiXj3hCLpPMgAQzAMqXpgL8Qa7UnxnxqwcwGx10HE28DelFXVCm/+nJt
-         uUXMXnyyYZh9t9oeO3XOvWoT6h6V0W146cwoypRhb+T2gG+pwZwsMoS/BpkRiS581v2W
-         XZ7zP+E+J6dhv0nBt2wml8Tw2Qqqyrf+D3cUfb1ZLFmm0S/RPW/7RlMB6MOK+1sCZ0eY
-         0gcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758726301; x=1759331101;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xtQ58nilsjUFvi81rFIHT0NM76qux0KSDZHaVgbUBdk=;
-        b=MvijvUzGTyIJqVaiBHzqp9jtVjUE2uPG2GhLfYcHAXUxkC363EMS9z729F6WlIEGqg
-         MePtnUFuHAFyRRiMRepiRc/s8ZnaLXWH4ruU23DSr5ez9QI1zJSe9xMSyV7sBsXwEPJV
-         aSOwGiK8CQa9qJKMxUjpbnI+pkajPDsGl24jKBaHdaEs01O3joUVF2QQoVx93c6ANBdh
-         BjKXQc56Oar5eL8zfPN8R165+zhhfaw4qFw3uf/GVvAAKOTRvKtzWlvKP3/RNFeuUkMq
-         FygMFe0gL0bCQiwiQVSEPhVmo+EFyxhv+PJsYIk6m6fCL77Z4eu5y93ITwQoq6BcSMPO
-         e6wA==
-X-Gm-Message-State: AOJu0Ywt/vRdYsVGUV2fODG5FFdrt7A74cRIxaA2GxUI8maoMNVllJl+
-	Pg6ilZC9delydOUUd2ghISWGPrwmhum1tIjXwdyJ6gucNfv2zBNtk/CPk958c3eCj+jjhEf+Sme
-	2tq66
-X-Gm-Gg: ASbGncsXZ36D01qFKqeDiFt9BHyxIbeFlDDBfaAwW3fm4k+ZjCpsdwSIrfFZNTfGD62
-	IjhusVHqDaV/BNa5Wn3vf95BSofI+8Y8wi1gjmstyco5eW+XarUhkBHGvTjD/Hgyz8bmFPVgN6N
-	mGyQlWH8Hbe8rjo6Rr386Sp5mEL7yg9WUw3iylb5fPjkvYCjLtXrkq9eWB4wn+W6CJquSR1Uko3
-	PI2a3YYzk2xEy/F85W5wWfnzajcUAOgb0OdX5IiEUdLXjFVKxbM9qN4lXoMF6UMBbn/3g9J/U3F
-	2bkmz7WYbpRQlX5qhQJV84gzXUvQ9eYakbrBlvOYSuQ25+TWI032JSaj4rvH49NulPXUNLO7fDh
-	1xJY8rLW7AWCS2+i6JUBHu/MgKLgr
-X-Google-Smtp-Source: AGHT+IEV8S1X8yUwn1TTPkXG5qP4Bhfx85uEoPDrLTHDaoendE33Txor0jBwuEWUxTavEgFkYn30yg==
-X-Received: by 2002:a05:600c:489a:b0:45d:dc9b:e85f with SMTP id 5b1f17b1804b1-46e329aedecmr1389115e9.2.1758726301251;
-        Wed, 24 Sep 2025 08:05:01 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46e2a9bd9c3sm36164615e9.9.2025.09.24.08.05.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 08:05:00 -0700 (PDT)
-Date: Wed, 24 Sep 2025 18:04:56 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 5/6] firewire: core; eliminate pick_me goto label
-Message-ID: <202509242259.ICWpLRW0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjczkSBb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758741028; x=1790277028;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=X4HdXitWsk5tsPkbAdGDtkK1/IjNeaVGFWigONMK1CU=;
+  b=MjczkSBbpr013uqb41zP1mKdqucri3lgNrCqQwNoOdwTRpxoBCBin6Vy
+   XX/5XwNdEe+M2Vy4r39o1NxvLphduBJoMwz7Y2kkJhwVA07a91MNBSh+q
+   MJMA/Y1IXu8s++heOlokbt8/NHyGo/vrhzfmQLnje3744OWKVFo7ycASp
+   JUJjwqOdBtFM5GTMWNtYnMBoBGB0wtXAfezKQ5MsayOWBQ/EED7vwdouc
+   tyqtTu93OS1GLgR7C2v806PqLiqzHSHSPpKb/1ZxYYU8o7yxljfVM+Tcz
+   2KjDoNPR3wVc4bzUSjFl7kYKl5Upo5qnK6XlpfySwrwd6GJbw+UB3CKl4
+   w==;
+X-CSE-ConnectionGUID: SOvrCdjwSPiWfpuuCpjmzg==
+X-CSE-MsgGUID: TCLyFBGlT92s3jLQjSX5Ng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="64690993"
+X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
+   d="scan'208";a="64690993"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 12:10:28 -0700
+X-CSE-ConnectionGUID: iHlo6zjlRLSxPbDN030Miw==
+X-CSE-MsgGUID: oDEQQ2nDSd+CDqkyRclneA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
+   d="scan'208";a="176242852"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by orviesa006.jf.intel.com with ESMTP; 24 Sep 2025 12:10:26 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1v1Usi-000000004dZ-02ra;
+	Wed, 24 Sep 2025 19:10:24 +0000
+Date: Wed, 24 Sep 2025 21:09:29 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 1/140]
+ arch/arm64/boot/dts/apple/t8103-j274.dtb: pmic@f (apple,sera-pmic):
+ nvmem-layout: Unevaluated properties are not allowed ('#address-cells',
+ '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03',
+ 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-c...
+Message-ID: <202509242109.PCf0WoOO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250918230857.127400-6-o-takashi@sakamocchi.jp>
-Message-ID: <20250924150456.5oUzGPe1OBOSek2HR-6RsIwGgXW0tfp7lOH8WQHWMbY@z>
 
-Hi Takashi,
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Sven Peter <sven@kernel.org>
+CC: Janne Grunau <j@jannau.net>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Takashi-Sakamoto/firewire-core-remove-useless-generation-check/20250919-115832
-base:   e6d2338b6f3e522872f3a14fcc5e5de2f58bf23b
-patch link:    https://lore.kernel.org/r/20250918230857.127400-6-o-takashi%40sakamocchi.jp
-patch subject: [PATCH 5/6] firewire: core; eliminate pick_me goto label
-config: sparc64-randconfig-r072-20250922 (https://download.01.org/0day-ci/archive/20250924/202509242259.ICWpLRW0-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.5.0
+Hi Sven,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   703a105e4188c8c9e084375a48f08853cf64cfca
+commit: 4439580d6a60770726166c428226db0abe216110 [1/140] arm64: dts: apple: Add bit offset to PMIC NVMEM node names
+:::::: branch date: 3 days ago
+:::::: commit date: 3 weeks ago
+config: arm64-randconfig-2051-20250919 (https://download.01.org/0day-ci/archive/20250924/202509242109.PCf0WoOO-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ce5124856e019792783de9630d0c5a1f0aaf2d9d)
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509242109.PCf0WoOO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202509242259.ICWpLRW0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509242109.PCf0WoOO-lkp@intel.com/
 
-New smatch warnings:
-drivers/firewire/core-card.c:445 bm_work() error: uninitialized symbol 'stand_for_root'.
-
-vim +/stand_for_root +445 drivers/firewire/core-card.c
-
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  381  static void bm_work(struct work_struct *work)
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  382  {
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  383  	static const char gap_count_table[] = {
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  384  		63, 5, 7, 8, 10, 13, 16, 18, 21, 24, 26, 29, 32, 35, 37, 40
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  385  	};
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  386  	struct fw_card *card __free(card_unref) = from_work(card, work, bm_work.work);
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  387  	struct fw_node *root_node __free(node_unref) = NULL;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  388  	int root_id, new_root_id, irm_id, local_id;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  389  	int expected_gap_count, generation;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  390  	bool do_reset = false;
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  391  	bool stand_for_root;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  392  
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  393  	if (card->local_node == NULL)
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  394  		return;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  395  
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  396  	generation = card->generation;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  397  
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  398  	root_node = fw_node_get(card->root_node);
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  399  
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  400  	root_id  = root_node->node_id;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  401  	irm_id   = card->irm_node->node_id;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  402  	local_id = card->local_node->node_id;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  403  
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  404  	if (card->bm_generation != generation) {
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  405  		enum bm_contention_outcome result = contend_for_bm(card);
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  406  
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  407  		switch (result) {
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  408  		case BM_CONTENTION_OUTCOME_WITHIN_WINDOW:
-379b870c28c6a6 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-15  409  			fw_schedule_bm_work(card, msecs_to_jiffies(125));
-25feb1a96e21ae drivers/firewire/core-card.c Takashi Sakamoto  2025-09-08  410  			return;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  411  		case BM_CONTENTION_OUTCOME_IRM_HAS_LINK_OFF:
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  412  			stand_for_root = true;
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  413  			break;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  414  		case BM_CONTENTION_OUTCOME_IRM_COMPLIES_1394_1995_ONLY:
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  415  			stand_for_root = true;
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  416  			break;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  417  		case BM_CONTENTION_OUTCOME_AT_NEW_GENERATION:
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  418  			// BM work has been rescheduled.
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  419  			return;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  420  		case BM_CONTENTION_OUTCOME_LOCAL_PROBLEM_AT_TRANSACTION:
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  421  			// Let's try again later and hope that the local problem has gone away by
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  422  			// then.
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  423  			fw_schedule_bm_work(card, msecs_to_jiffies(125));
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  424  			return;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  425  		case BM_CONTENTION_OUTCOME_IRM_IS_NOT_CAPABLE_FOR_IRM:
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  426  			// Let's do a bus reset and pick the local node as root, and thus, IRM.
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  427  			stand_for_root = true;
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  428  			break;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  429  		case BM_CONTENTION_OUTCOME_IRM_HOLDS_ANOTHER_NODE_AS_BM:
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  430  			if (local_id == irm_id) {
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  431  				// Only acts as IRM.
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  432  				allocate_broadcast_channel(card, generation);
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  433  			}
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  434  			fallthrough;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  435  		case BM_CONTENTION_OUTCOME_IRM_HOLDS_LOCAL_NODE_AS_BM:
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  436  		default:
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  437  			card->bm_generation = generation;
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  438  			stand_for_root = false;
-e309c29e1b26f4 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  439  			break;
-931c4834c8d1e1 drivers/firewire/fw-card.c   Kristian Høgsberg 2007-01-26  440  		}
-ff94548bbb2edf drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  441  	}
-
-stand_for_root is uninitialized on the else path.
-
-931c4834c8d1e1 drivers/firewire/fw-card.c   Kristian Høgsberg 2007-01-26  442  
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  443  	// We're bus manager for this generation, so next step is to make sure we have an active
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  444  	// cycle master and do gap count optimization.
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19 @445  	if (!stand_for_root) {
-                                                                                    ^^^^^^^^^^^^^^^
-
-91bf158f8cdf6f drivers/firewire/core-card.c Takashi Sakamoto  2025-09-13  446  		if (card->gap_count == GAP_COUNT_MISMATCHED) {
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  447  			// If self IDs have inconsistent gap counts, do a
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  448  			// bus reset ASAP. The config rom read might never
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  449  			// complete, so don't wait for it. However, still
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  450  			// send a PHY configuration packet prior to the
-de5d138456fb29 drivers/firewire/core-card.c Takashi Sakamoto  2025-09-19  451  			// bus reset. The PHY configuration packet might
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.25-423.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: pmic@f (apple,sera-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: pmic@f (apple,sera-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: pmic@f (apple,sera-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: nvmem-layout (fixed-layout): 'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.25-423.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103.dtsi:425.26-429.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: pmic@f (apple,sera-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: pmic@f (apple,sera-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: pmic@f (apple,sera-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: nvmem-layout (fixed-layout): 'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.25-423.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: pmic@f (apple,sera-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: pmic@f (apple,sera-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: pmic@f (apple,sera-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: nvmem-layout (fixed-layout): 'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.25-423.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: pmic@f (apple,sera-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: pmic@f (apple,sera-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: pmic@f (apple,sera-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: nvmem-layout (fixed-layout): 'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+--
+   arch/arm64/boot/dts/apple/t8103.dtsi:414.25-423.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: pmic@f (apple,sera-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: pmic@f (apple,sera-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@9f02,0', 'boot-error-stage@9f03', 'boot-stage@9f01', 'fault-shadow@a67b', 'panic-count@9f02,4', 'pm-setting@d001', 'rtc-offset@d100', 'shutdown-flag@9f0f,3', 'socd@ab00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: pmic@f (apple,sera-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: nvmem-layout (fixed-layout): 'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+--
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j314s.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j314s.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+--
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j314c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j314c.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+--
+>> arch/arm64/boot/dts/apple/t6000-j316s.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j316s.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+--
+>> arch/arm64/boot/dts/apple/t6001-j316c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j316c.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+--
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j375c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6001-j375c.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+--
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t6002-j375d.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t6002-j375d.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t6002-j375d.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+--
+   arch/arm64/boot/dts/apple/t8112.dtsi:429.25-438.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: pmic@e (apple,stowe-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@f702,0', 'panic-count@f702,4', 'shutdown-flag@f70f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@f702,0', 'boot-error-stage@f703', 'boot-stage@f701', 'fault-shadow@867b', 'panic-count@f702,4', 'pm-setting@f801', 'rtc-offset@f900', 'shutdown-flag@f70f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: pmic@e (apple,stowe-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@f702,0', 'boot-error-stage@f703', 'boot-stage@f701', 'fault-shadow@867b', 'panic-count@f702,4', 'pm-setting@f801', 'rtc-offset@f900', 'shutdown-flag@f70f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: pmic@e (apple,stowe-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: nvmem-layout (fixed-layout): 'boot-error-count@f702,0', 'panic-count@f702,4', 'shutdown-flag@f70f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+--
+   arch/arm64/boot/dts/apple/t8112.dtsi:429.25-438.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: pmic@e (apple,stowe-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@f702,0', 'panic-count@f702,4', 'shutdown-flag@f70f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@f702,0', 'boot-error-stage@f703', 'boot-stage@f701', 'fault-shadow@867b', 'panic-count@f702,4', 'pm-setting@f801', 'rtc-offset@f900', 'shutdown-flag@f70f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: pmic@e (apple,stowe-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@f702,0', 'boot-error-stage@f703', 'boot-stage@f701', 'fault-shadow@867b', 'panic-count@f702,4', 'pm-setting@f801', 'rtc-offset@f900', 'shutdown-flag@f70f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: pmic@e (apple,stowe-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: nvmem-layout (fixed-layout): 'boot-error-count@f702,0', 'panic-count@f702,4', 'shutdown-flag@f70f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
+--
+   arch/arm64/boot/dts/apple/t8112.dtsi:429.25-438.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/apple/t8112.dtsi:440.26-444.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: pmic@e (apple,stowe-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'boot-error-count@f702,0', 'panic-count@f702,4', 'shutdown-flag@f70f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	'#address-cells', '#size-cells', 'boot-error-count@f702,0', 'boot-error-stage@f703', 'boot-stage@f701', 'fault-shadow@867b', 'panic-count@f702,4', 'pm-setting@f801', 'rtc-offset@f900', 'shutdown-flag@f70f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: pmic@e (apple,stowe-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@f702,0', 'boot-error-stage@f703', 'boot-stage@f701', 'fault-shadow@867b', 'panic-count@f702,4', 'pm-setting@f801', 'rtc-offset@f900', 'shutdown-flag@f70f,3', 'socd@8b00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: pmic@e (apple,stowe-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: nvmem-layout (fixed-layout): 'boot-error-count@f702,0', 'panic-count@f702,4', 'shutdown-flag@f70f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
