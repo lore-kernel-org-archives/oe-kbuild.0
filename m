@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA8621E087
-	for <oe-kbuild@lists.linux.dev>; Wed, 24 Sep 2025 02:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC9F2236E8
+	for <oe-kbuild@lists.linux.dev>; Wed, 24 Sep 2025 02:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758681321; cv=none; b=NqbLAlXjmNzn4qYPfk0ANqbAxtXKGDKI2IBUa0sRouwb4uMRxfmDWT0zGK2qoHHbvIUTJ6gq1CT57MDP7Zl5U2WqjQ2piMQccZyrKe7waLy+aWdMOUUHaxa86FgkeNY89/vAKUC26WCJmFlhKmzNh2aiVQ8cZX4vRW4OMmBIs+0=
+	t=1758682799; cv=none; b=KQXmbzWtTKtsddJse5PQhzfTqfi1dMpV6i1rbxr8AxUWh2aYVFcVHIFTKHBKnRjTNoIzpVoeqwEZDJYrvmj8WaaI2SAOe8sFlINyah4y1Ha7jvwwqfq1FELu3mxIr5nRa2PaUIfqQRtbtR3BoMpD3JexJDHy50AwX0JXxfkErz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758681321; c=relaxed/simple;
-	bh=A/t/NddVKzTP8vVdUtkzGhVzHid+TdJ73W85qO5Ix/0=;
+	s=arc-20240116; t=1758682799; c=relaxed/simple;
+	bh=QBAXFGIxnHuyZYIvm3CvSoRR5dvlFW3uNgXrk+DeDy4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Cn1dJC+VOLpfmQknIdsHBhXqQBZq0SYJAxz9yW+zkcgbo0aWcDL+BEJKOhPcHQFUrR21YAhWTwmQTx47sct28eVRY9OhrLcCIU7kdjokQTgv0PesJe+meGSLndK6e0+Q7jTtTXNx2l2vEKhE+h6xdEjcm2mHHmlxNhf+BjuedZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j/rdSSfo; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=HHMYr5SEhv0gZE0ZoHlm3n2fYsb767hMfKI1qSIlE7zCr9DKzdEMN36oLjHgNb/ocguQsFQWm9Zvzgild14gr4g53FwvsJSWIMtEj0yjvZ/2Ir5DJQDU8jYfk8aHK5d6Z6vI6hhu92P7QzG5F44trAjaAaOZcbAmDGy7KVEYAt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FhMe/O2X; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j/rdSSfo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FhMe/O2X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758681318; x=1790217318;
+  t=1758682797; x=1790218797;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A/t/NddVKzTP8vVdUtkzGhVzHid+TdJ73W85qO5Ix/0=;
-  b=j/rdSSfo9qwk9imdUQVisZuXtSvgJ6fW3PDtvd2D6bjBlSlCZiOc1yj9
-   YdHg/E2h8Yaee0SFcONPyparZyB1fiMMAToYdOw3DmDr8f2m/F7VoYoOL
-   SHthpPi+2nQwceRh+wNF5Om0yL9uGfY7ghhEcaaWW50rFgAPfTIqIMbmq
-   SFmDx4oYTR9u+Xj+HlhtgY2O/0I/sBTiyKSth4NpISpSN8bo7ESwYt41H
-   +6hmXWiFsE33Q3I6/w9E5fEfSTSpNZ74yqHhmonshp7vxeaAJdZ0YB723
-   ZTG092KUTxBve/YVHk4WlDIS+a0wvxIx8IS9RL3/iZOxmevHdGr4CWzO9
-   Q==;
-X-CSE-ConnectionGUID: 4o20H/XZT9mkdA19TbMBUQ==
-X-CSE-MsgGUID: /OXp5hifSUWYFdEWC8lxMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="83575405"
+  bh=QBAXFGIxnHuyZYIvm3CvSoRR5dvlFW3uNgXrk+DeDy4=;
+  b=FhMe/O2X4uQw8lrX5Oxbn3O5W3DocpTXY7CgjQZBJiYH7OaJUt9DBssJ
+   S4XH7GGjc8V0VpbPQ77nvqmyaIMrGQkbBtFNG+hVs/4qSTFcITg/WrOyF
+   2FR5hd+0qNICHXnvB9/K6r102l/rNo3USKpIChWyWnsPCx2SgWT2U2NwE
+   IzVuD8CukXBjjj5F8aL3/0lXeyci3JQdIWJrcBoQbiVP102iqNT5sGhXw
+   Zwavzvnfy/pPo4XEEHGYGm6IC9YJv0iAeXalcNuFO0x+gtNYJRa4It+rg
+   KhjQ1dsg5GmNuW7UO2SAOIFhsFp/88dZBIw0gxqs8kcx4K+UHp5bugYCk
+   w==;
+X-CSE-ConnectionGUID: kKNG8HseTbug4gbhjgvD8Q==
+X-CSE-MsgGUID: xSm3ALwNQgCpg106N5d8iA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60861517"
 X-IronPort-AV: E=Sophos;i="6.18,289,1751266800"; 
-   d="scan'208";a="83575405"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 19:35:18 -0700
-X-CSE-ConnectionGUID: VHl1Ac8FTeiBxkh8t0KzDQ==
-X-CSE-MsgGUID: feO+XYJJTfGvOu+lesa4Hw==
+   d="scan'208";a="60861517"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 19:59:56 -0700
+X-CSE-ConnectionGUID: r5ylfgYjReSl0Vn33iBgdQ==
+X-CSE-MsgGUID: SgilotqBSGCxFD7dBapI6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,289,1751266800"; 
-   d="scan'208";a="181309888"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2025 19:35:16 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="176206784"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 23 Sep 2025 19:59:55 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1FLe-000000004NV-0Goh;
-	Wed, 24 Sep 2025 02:35:14 +0000
-Date: Wed, 24 Sep 2025 04:34:38 +0200
+	id 1v1FjP-0003kX-0X;
+	Wed, 24 Sep 2025 02:59:49 +0000
+Date: Wed, 24 Sep 2025 10:57:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 41/140]
- arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e580000
- (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does
- not match any of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202509240416.Kk8DQQs7-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 10231/11867] drivers/gpu/drm/xe/xe_configfs.c:282
+ lookup_engine_info() error: we previously assumed 'mask' could be null (see
+ line 278)
+Message-ID: <202509241020.mrKHkcLR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,264 +63,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Hector Martin <marcan@marcan.st>
-CC: Janne Grunau <j@jannau.net>
+TO: Lucas De Marchi <lucas.demarchi@intel.com>
+CC: Raag Jadav <raag.jadav@intel.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   703a105e4188c8c9e084375a48f08853cf64cfca
-commit: 9340f4298dc40c3db24bea5d0f2318da700265c6 [41/140] arm64: dts: apple: t600x: Mark MCA power states as externally-clocked
-:::::: branch date: 3 days ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-2051-20250919 (https://download.01.org/0day-ci/archive/20250924/202509240416.Kk8DQQs7-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ce5124856e019792783de9630d0c5a1f0aaf2d9d)
-dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509240416.Kk8DQQs7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ce7f1a983b074f6cf8609068088ca3182c569ee4
+commit: e2a9854d806e1cb95861a0f3c7125caaefd7ef03 [10231/11867] drm/xe/configfs: Allow to select by class only
+:::::: branch date: 10 hours ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-141-20250923 (https://download.01.org/0day-ci/archive/20250924/202509241020.mrKHkcLR-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509240416.Kk8DQQs7-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202509241020.mrKHkcLR-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'onie,tlv-layout' was expected
-   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-controller@288 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-controller@290 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-controller@298 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: power-controller@2a0 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[142, 0], [143, 1]] is too long
---
-   	'onie,tlv-layout' was expected
-   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-controller@288 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-controller@290 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-controller@298 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: power-controller@2a0 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[156, 0], [157, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
---
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-controller@288 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-controller@290 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-controller@298 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: power-controller@2a0 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[142, 0], [143, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
---
-   	'onie,tlv-layout' was expected
-   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-controller@288 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-controller@290 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-controller@298 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: power-controller@2a0 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[156, 0], [157, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
---
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-controller@288 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-controller@290 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-controller@298 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: power-controller@2a0 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[158, 0], [159, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
---
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-controller@288 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-controller@290 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-controller@298 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-controller@2a0 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[179, 0], [180, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
---
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/phy@f03000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@1302280000 (apple,t6000-dwc3): iommus: [[224, 0], [225, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@1302280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/phy@1303000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/phy@1303000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@288: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@290: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@298: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-management@28e580000 (apple,t6000-pmgr): power-controller@2a0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-controller@288 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-controller@290 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-controller@298 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: power-controller@2a0 (apple,t6000-pmgr-pwrstate): 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[306, 0], [307, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@2200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@2200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@2200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
+smatch warnings:
+drivers/gpu/drm/xe/xe_configfs.c:282 lookup_engine_info() error: we previously assumed 'mask' could be null (see line 278)
+
+vim +/mask +282 drivers/gpu/drm/xe/xe_configfs.c
+
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  256  
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  257  /*
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  258   * Lookup engine_info. If @mask is not NULL, reduce the mask according to the
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  259   * instance in @pattern.
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  260   *
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  261   * Examples of inputs:
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  262   * - lookup_engine_info("rcs0", &mask): return "rcs" entry from @engine_info and
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  263   *   mask == BIT_ULL(XE_HW_ENGINE_RCS0)
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  264   * - lookup_engine_info("rcs*", &mask): return "rcs" entry from @engine_info and
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  265   *   mask == XE_HW_ENGINE_RCS_MASK
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  266   * - lookup_engine_info("rcs", NULL): return "rcs" entry from @engine_info
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  267   */
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  268  static const struct engine_info *lookup_engine_info(const char *pattern, u64 *mask)
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  269  {
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  270  	for (size_t i = 0; i < ARRAY_SIZE(engine_info); i++) {
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  271  		u8 instance;
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  272  		u16 bit;
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  273  
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  274  		if (!str_has_prefix(pattern, engine_info[i].cls))
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  275  			continue;
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  276  
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  277  		pattern += strlen(engine_info[i].cls);
+e2a9854d806e1cb Lucas De Marchi 2025-09-16 @278  		if (!mask && !*pattern)
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  279  			return &engine_info[i];
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  280  
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  281  		if (!strcmp(pattern, "*")) {
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28 @282  			*mask = engine_info[i].mask;
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  283  			return &engine_info[i];
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  284  		}
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  285  
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  286  		if (kstrtou8(pattern, 10, &instance))
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  287  			return NULL;
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  288  
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  289  		bit = __ffs64(engine_info[i].mask) + instance;
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  290  		if (bit >= fls64(engine_info[i].mask))
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  291  			return NULL;
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  292  
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  293  		*mask = BIT_ULL(bit);
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  294  		return &engine_info[i];
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  295  	}
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  296  
+e2a9854d806e1cb Lucas De Marchi 2025-09-16  297  	return NULL;
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  298  }
+d09bc3edfe5c702 Lucas De Marchi 2025-05-28  299  
+
+:::::: The code at line 282 was first introduced by commit
+:::::: d09bc3edfe5c702463e2640314b7db2219242446 drm/xe/configfs: Add attribute to disable engines
+
+:::::: TO: Lucas De Marchi <lucas.demarchi@intel.com>
+:::::: CC: Lucas De Marchi <lucas.demarchi@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
