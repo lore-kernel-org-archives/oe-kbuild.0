@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4B928B4F0
-	for <oe-kbuild@lists.linux.dev>; Wed, 24 Sep 2025 21:56:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB57FC1D
+	for <oe-kbuild@lists.linux.dev>; Thu, 25 Sep 2025 00:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758750990; cv=none; b=Malcs31E5jhbZ3nGFvHK/JXG1if+R4Y1Vaf+sOP3TUlVHDTpsQwJFUpbECS4RTm1xTIDE8p7S0rqrFCH3/ZPR8/kZGcrnAuiiCGwm9RMoBAZnbAyAF+IBURjIuLsUoqGVvzVRTUCU7wFUPqqGAuFCmpGXkcHSkG62RItcrdOzto=
+	t=1758759871; cv=none; b=fQJm1zRC/h26rGK99gdeR0Jis/Gxn8Bgu+bW+3exa0RSdlvAUwZCs5K082bdUVqksiqED6TYcYyP6kgBi4uVBKhBTR4eAONPD8JUDq+/Q15avnluWubSywhSbHrogGYEX1dg8kcsOTQsDvvddbzJEKmztXPgAFs4/Vvxhl/PFXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758750990; c=relaxed/simple;
-	bh=e+4Y8j93b8Rhaxwb6b+rjG7Mxhpe5kt0ZkFQGWtF9GA=;
+	s=arc-20240116; t=1758759871; c=relaxed/simple;
+	bh=KpoJa31tB0HjDeY9fjsEbOnvWU193cc3HOWcACoqteI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P1+/chJhkLo5oRSazQYNJTDD8D5eKoFvm8C7N2jqoAEQlVOEuy5uWd1C1kw42mefqXktIHFjC7ji2LJNTwf2FuWVAaRC32u1mT2sHo6c4Gl2AwMDA/aHRJdW1t3IoQTGIVFbtvOmx85CsgCee4Sa30/rjNnae5uq7Lg8GIFu4Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JmiYogqZ; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=dzPkuMcaBpTGOjW1gkwjqHbKOAvS97T/5fwan8jh6/HWdYJ6+1jWzB2QLpB/luNIqcYcsm8zc1iwFK469I9wUc89nWlx9/Y4gFkSRlLVsExkC3FrR9Ec0Ji6YZOn991MDEqDMYqSFtoqTCXD7q5SwwJMD2Q0XaGkgZAxPddKNLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eS5PvaKT; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JmiYogqZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eS5PvaKT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758750988; x=1790286988;
+  t=1758759869; x=1790295869;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e+4Y8j93b8Rhaxwb6b+rjG7Mxhpe5kt0ZkFQGWtF9GA=;
-  b=JmiYogqZASdFkmm5XCQGuzw4o1H6i9c2jsG5BZUlY03x2NeaNVCWU0VE
-   Ya1Ec2zfsNDrhn3l9HosztPxghfAjdb9gZXzwShvi64l0RdembeUwnA5Z
-   TiZhLBVZHvGkQ/7tyCvi0NF/0L8AVXvnsHbUw5qaV/vOzvPfkl3LaMkBa
-   1BWZ1LnHNvHuBemmvSGMBTh820Vf7xJSAtTE9XxjCdFGuo5hwCrCZlPXz
-   qfA8NJAacLGqdj80/H+8UY2a0weV21nXZ4jZ/suGWSlqL9LC+fEsVLJe0
-   F6PM1hUiIHv/HnRGMJ7f1NQQ/OnWtBrN/Gfq0bUAwzDyzw+516rb5mP8V
-   Q==;
-X-CSE-ConnectionGUID: Ii5PzFBGSq+c8t3zC5wqgw==
-X-CSE-MsgGUID: qYePRlpESji/jo7nzUyHZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="83665050"
-X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="83665050"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 14:56:28 -0700
-X-CSE-ConnectionGUID: 0H/GkXWHTFqnkHy1r8GYLw==
-X-CSE-MsgGUID: XX20R2/LTAyoZxJ5tAPVDw==
+  bh=KpoJa31tB0HjDeY9fjsEbOnvWU193cc3HOWcACoqteI=;
+  b=eS5PvaKT0dWUZC72p4F4UJHyKB3iB1ZklXQvM5AhjbmCWTnUMCLY7Ii7
+   1LYNh1RGya86jVzN7e+c84/6iLZr3HF5T9GAyFLfhpj1K4qGck8qQTyZ0
+   xlEDkGttcQiGHiCKfmLunvwCFzy9mdg7C9tVd4YF7uCfaZv9yMhxmzH6h
+   humTGJwkr0ki7aD1AAggTX/mGEl/dlKQekNLfV3w9Hjo2yPOeZec6zjaY
+   +1igcXhfPJx6WlukB4Z7GYe0aHu/dlFw+lBRh/BS59WccixL8HRJ//wLb
+   kE9vXw39rG0NJFXVjjjSr0g3FQSoJjQhMCzlXrb+wbGusVBqe/dnyLTj+
+   w==;
+X-CSE-ConnectionGUID: uesnRrQ7Tn2qxtY2ck1dBg==
+X-CSE-MsgGUID: sT8PhA+8QHGN6ONBQeNpYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64876378"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64876378"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 17:24:28 -0700
+X-CSE-ConnectionGUID: Si262+xTTley3O15ybe84A==
+X-CSE-MsgGUID: YsRXv/jxSM6E7QcLeJvPSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="177219834"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by orviesa008.jf.intel.com with ESMTP; 24 Sep 2025 14:56:27 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="176753559"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 24 Sep 2025 17:24:27 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1XTM-000000004ej-3Jht;
-	Wed, 24 Sep 2025 21:56:24 +0000
-Date: Wed, 24 Sep 2025 23:56:14 +0200
+	id 1v1Zma-0004jt-1m;
+	Thu, 25 Sep 2025 00:24:24 +0000
+Date: Thu, 25 Sep 2025 08:24:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 4/140]
- arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: /soc/i2c@20a111000: failed to
- match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
-Message-ID: <202509242354.xm6e4obc-lkp@intel.com>
+Subject: Re: [PATCH 2/2] dts: aspeed: Add a dts for the nvidia msx4 hpm
+Message-ID: <202509250822.mjTX3xfq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,51 +67,87 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Nick Chan <towinchenmi@gmail.com>
-CC: Janne Grunau <j@jannau.net>
-CC: Sven Peter <sven@kernel.org>
+In-Reply-To: <20250918-msx1_devicetree-v1-2-18dc07e02118@nvidia.com>
+References: <20250918-msx1_devicetree-v1-2-18dc07e02118@nvidia.com>
+TO: Marc Olberding <molberding@nvidia.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Joel Stanley <joel@jms.id.au>
+TO: Andrew Jeffery <andrew@codeconstruct.com.au>
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-aspeed@lists.ozlabs.org
+CC: linux-kernel@vger.kernel.org
+CC: Marc Olberding <molberding@nvidia.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   703a105e4188c8c9e084375a48f08853cf64cfca
-commit: fc876907e6a86b06499a0e67a1ca21389ba74b5d [4/140] arm64: dts: apple: s5l8960x: Add I2C nodes
-:::::: branch date: 3 days ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-2051-20250919 (https://download.01.org/0day-ci/archive/20250924/202509242354.xm6e4obc-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ce5124856e019792783de9630d0c5a1f0aaf2d9d)
-dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509242354.xm6e4obc-lkp@intel.com/reproduce)
+Hi Marc,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8f5ae30d69d7543eee0d70083daf4de8fe15d585]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marc-Olberding/dt-bindings-arm-aspeed-Add-Nvidia-msx4-board/20250919-071432
+base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
+patch link:    https://lore.kernel.org/r/20250918-msx1_devicetree-v1-2-18dc07e02118%40nvidia.com
+patch subject: [PATCH 2/2] dts: aspeed: Add a dts for the nvidia msx4 hpm
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm-randconfig-054-20250919 (https://download.01.org/0day-ci/archive/20250925/202509250822.mjTX3xfq-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema version: 2025.9.dev1+g4b28bc79f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509250822.mjTX3xfq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509242354.xm6e4obc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509250822.mjTX3xfq-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: i2c@20a110000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: /soc/i2c@20a110000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
-   arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: i2c@20a111000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
->> arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: /soc/i2c@20a111000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
->> arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: i2c@20a112000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: /soc/i2c@20a112000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
->> arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: i2c@20a113000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-j87.dtb: /soc/i2c@20a113000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
---
->> arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: i2c@20a110000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: /soc/i2c@20a110000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
->> arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: i2c@20a111000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: /soc/i2c@20a111000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
->> arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: i2c@20a112000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: /soc/i2c@20a112000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
->> arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: i2c@20a113000 (apple,s5l8960x-i2c): compatible:0: 'apple,s5l8960x-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-   arch/arm64/boot/dts/apple/s5l8960x-n51.dtb: /soc/i2c@20a113000: failed to match any schema with compatible: ['apple,s5l8960x-i2c', 'apple,i2c']
+   arch/arm/boot/dts/aspeed/aspeed-g6.dtsi:634.36-638.7: Warning (unique_unit_address_if_enabled): /ahb/apb/lpc@1e789000/reset-controller@98: duplicate unit-address (also used in node /ahb/apb/lpc@1e789000/uart-routing@98)
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: kcs@24 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: fsi@1e79b000 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: fsi@1e79b100 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
 
 -- 
 0-DAY CI Kernel Test Service
