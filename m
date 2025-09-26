@@ -1,155 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609472080C8
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Sep 2025 06:19:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D504B1E50E
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Sep 2025 06:32:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758867574; cv=none; b=sHctXjWHIGnQZ37PUuui4Et5HEhLYhbVdmzMZ0lrm8be37fCBvXuVnTm/LGEv19cLSsvGTkJ71USLI+0Z33aYpLk2sh/eo5GCJ59UVmlViX7BK547RJHJEmyZq2fVcR18wHqjMQsZD5/794l9EmVC/TDlJexFtg4/I1ZLQ9yeys=
+	t=1758868355; cv=none; b=ahNUEKoEZdwvmywaksB8YIw8yTSMLj8Lk/WNmk9T5lwXTUGlBEdDOyrGU3fmtQo36mDiOqnLREhKyFXB+zeFXlSjBlW3jfMOS8bcFiQPTuK0mA/NL8veww0dnAYLzD17TCRULtCwOMdUhCd+QWij9unSuFn5esnoYKm03AM9e/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758867574; c=relaxed/simple;
-	bh=decxxmUL2scu8LkTMKRX84182o6oblyQvN5h/NMp2Lw=;
+	s=arc-20240116; t=1758868355; c=relaxed/simple;
+	bh=MW7rX5xSyUe44f/KPLcEJ44zBG1XYq9U+PrUOn1h7mc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oqnStAMag9svTb6+5Ew0eSjqV/Khl0hh35N//qR52XYwBxf3zFXbaNjLKWd7lS5mi20mwWKOfMqXFoeBLw1ZmYGk+TAFi4i0g59eHSuA3PACrOYXWH7+eFUkhsh9LxjfjawNYasGd3f+bMr5qgXFVlAS7PLS0zUNdZ1cl+QHiTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BZni7fhh; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=jiGV4imxB58npi+3Q/p+gKo21g4qh2QGsTz+wBRGMMAQKumJqZTF4s1BXXQvRVhynQz4vQivr+k5DetWZg1SyTD4paP+1PMF5AelQK46kLfYYtea6ll6blILEzUboXgBqCJ3IV2j3HDizLNlLr62j6MlSjMy6Qyrvdoc7rIKSDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YtLAyEwQ; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BZni7fhh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YtLAyEwQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758867572; x=1790403572;
+  t=1758868352; x=1790404352;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=decxxmUL2scu8LkTMKRX84182o6oblyQvN5h/NMp2Lw=;
-  b=BZni7fhho3zgC720MoU+gcgst7Xm4wve3hSLGYPk1Syo97gC0bIv2oTg
-   OOstW3m6tK2+SX/zdGVh5wgna/4CFGTnhEgOVMvhj/KczsxHHNuf+o5Tv
-   liWybiDEcy2iUL8dIpOsXuzb8gNUJ7OeJu7RW8W5cMhuhMQ5kU6t+/gLp
-   xQy5QnlGNHMjM/rZnN90Dh67z9glLiWrlc5lSEtmhP5iDM2hZv/pJ8irv
-   kl4QbLwzEM6dDSF3cA+I4lIAwfVdktjokDlWdGMhPgEkaZtwcR0OLtHHY
-   XHfHRPNdUT/m4uCdrkMWaTk2fUpOslAV2b3m7Pld3xEJRcfQqe/thEQGe
-   A==;
-X-CSE-ConnectionGUID: kX7blDtAQ6isAL8BHqcZHw==
-X-CSE-MsgGUID: pyXwZMboR12IOgxbNpJBiw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="61246093"
+  bh=MW7rX5xSyUe44f/KPLcEJ44zBG1XYq9U+PrUOn1h7mc=;
+  b=YtLAyEwQJzndC4bRp4o5mX6g7JztIx8Qd8MUzOz3PMDf/MHbGCh+rSep
+   E5X3xydb2OqlQ2OBDJQY/T1xiLsHHhF++JXFMmSqFx9zluGKnbr5f8baB
+   m/1bMAHDh6gPfEPNgG9XhpjW7o9TJ9yzts0Otc9HcjtdkXqUImdYbtptB
+   fuQqwDGPqjZCwVBqNaPDLyCafFpKUkgR/VOodAlkK4hr4LRW6Xsn5/5Rn
+   a14Jn6QA1KDveV7taOXlbrEE1nGdX8KMMt+BcAHGO+utTiP1YBB+XiodO
+   C3vRiYg9S7DMht7Ydpz0e+yBIjcYBl12+C6ZL9T0bFPafB5FEixIIcHQd
+   g==;
+X-CSE-ConnectionGUID: 7mcTihWBSlerrgeG7iKRGA==
+X-CSE-MsgGUID: 27f+LvVWT06FWIoTzVw9FA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="60896317"
 X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; 
-   d="scan'208";a="61246093"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 23:19:32 -0700
-X-CSE-ConnectionGUID: 6G61TWgNSL25Ty0UsMvb0g==
-X-CSE-MsgGUID: hg3S0Rx0SGyCPO7ZfL381g==
+   d="scan'208";a="60896317"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 23:32:32 -0700
+X-CSE-ConnectionGUID: o1oieMFSTu+kWGI1ol0nHw==
+X-CSE-MsgGUID: XcetM4VcQHiVzmiY8WiWuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; 
-   d="scan'208";a="176805854"
+   d="scan'208";a="181919220"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 25 Sep 2025 23:19:30 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 25 Sep 2025 23:32:31 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v21nj-0005y1-30;
-	Fri, 26 Sep 2025 06:19:27 +0000
-Date: Fri, 26 Sep 2025 14:19:08 +0800
+	id 1v220K-0005yH-23;
+	Fri, 26 Sep 2025 06:32:28 +0000
+Date: Fri, 26 Sep 2025 14:32:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3 09/12] um: use nolibc for the --showconfig
- implementation
-Message-ID: <202509261452.g5peaXCc-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 11909/12395] drivers/hwmon/pmbus/mp2925.c:159
+ mp2925_write_word_data() error: uninitialized symbol 'ret'.
+Message-ID: <202509261419.gEaY1lha-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250924142059.527768-10-benjamin@sipsolutions.net>
-References: <20250924142059.527768-10-benjamin@sipsolutions.net>
-TO: Benjamin Berg <benjamin@sipsolutions.net>
-TO: linux-um@lists.infradead.org
-TO: Willy Tarreau <w@1wt.eu>
-TO: "Thomas Weiﬂschuh" <linux@weissschuh.net>
-TO: linux-kselftest@vger.kernel.org
-TO: Arnaldo Carvalho de Melo <acme@redhat.com>
-CC: linux-kernel@vger.kernel.org
-CC: Benjamin Berg <benjamin.berg@intel.com>
+TO: Wensheng Wang <wenswang@yeah.net>
+CC: Guenter Roeck <linux@roeck-us.net>
 
-Hi Benjamin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on uml/next]
-[also build test WARNING on uml/fixes shuah-kselftest/next shuah-kselftest/fixes linus/master v6.17-rc7 next-20250925]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Berg/tools-compiler-h-fix-__used-definition/20250924-222547
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux next
-patch link:    https://lore.kernel.org/r/20250924142059.527768-10-benjamin%40sipsolutions.net
-patch subject: [PATCH v3 09/12] um: use nolibc for the --showconfig implementation
-:::::: branch date: 2 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8e2755d7779a95dd61d8997ebce33ff8b1efd3fb
+commit: b3a4efc88601cb5fc97b4ae23c478700a60302da [11909/12395] hwmon: add MP2925 and MP2929 driver
+:::::: branch date: 15 hours ago
 :::::: commit date: 2 days ago
-config: um-randconfig-r111-20250926 (https://download.01.org/0day-ci/archive/20250926/202509261452.g5peaXCc-lkp@intel.com/config)
+config: x86_64-randconfig-r073-20250926 (https://download.01.org/0day-ci/archive/20250926/202509261419.gEaY1lha-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509261452.g5peaXCc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509261452.g5peaXCc-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202509261419.gEaY1lha-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   command-line: note: in included file (through tools/include/nolibc/nolibc.h, tools/include/nolibc/stddef.h, arch/um/include/shared/user.h, builtin):
->> tools/include/nolibc/sys.h:109:29: sparse: sparse: Using plain integer as NULL pointer
-   command-line: note: in included file (through tools/include/nolibc/nolibc.h, tools/include/nolibc/stddef.h, arch/um/include/shared/user.h, builtin):
->> tools/include/nolibc/sys/reboot.h:31:16: sparse: sparse: Using plain integer as NULL pointer
->> tools/include/nolibc/sys/reboot.h:31:16: sparse: sparse: Using plain integer as NULL pointer
-   command-line: note: in included file (through tools/include/nolibc/nolibc.h, tools/include/nolibc/stddef.h, arch/um/include/shared/user.h, builtin):
->> tools/include/nolibc/unistd.h:57:27: sparse: sparse: Using plain integer as NULL pointer
-   tools/include/nolibc/unistd.h:57:30: sparse: sparse: Using plain integer as NULL pointer
-   tools/include/nolibc/unistd.h:57:33: sparse: sparse: Using plain integer as NULL pointer
-   tools/include/nolibc/unistd.h:70:27: sparse: sparse: Using plain integer as NULL pointer
-   tools/include/nolibc/unistd.h:70:30: sparse: sparse: Using plain integer as NULL pointer
-   tools/include/nolibc/unistd.h:70:33: sparse: sparse: Using plain integer as NULL pointer
-   tools/include/nolibc/unistd.h:81:30: sparse: sparse: Using plain integer as NULL pointer
-   tools/include/nolibc/unistd.h:81:33: sparse: sparse: Using plain integer as NULL pointer
-   tools/include/nolibc/unistd.h:81:36: sparse: sparse: Using plain integer as NULL pointer
-   command-line: note: in included file (through tools/include/nolibc/stdio.h, tools/include/nolibc/nolibc.h, tools/include/nolibc/stddef.h, ...):
-   tools/include/nolibc/stdlib.h:56:6: sparse: sparse: symbol 'abort' redeclared with different type (different modifiers):
-   tools/include/nolibc/stdlib.h:56:6: sparse:    void extern [addressable] [noreturn] [toplevel] [unused] abort( ... )
-   tools/include/nolibc/stdlib.h:54:6: sparse: note: previously declared as:
-   tools/include/nolibc/stdlib.h:54:6: sparse:    void extern [addressable] [toplevel] abort( ... )
-   command-line: note: in included file (through tools/include/nolibc/nolibc.h, tools/include/nolibc/stddef.h, arch/um/include/shared/user.h, builtin):
-   tools/include/nolibc/getopt.h:19:6: sparse: sparse: symbol 'optarg' was not declared. Should it be static?
-   tools/include/nolibc/getopt.h:22:5: sparse: sparse: symbol 'optind' was not declared. Should it be static?
-   tools/include/nolibc/getopt.h:22:17: sparse: sparse: symbol 'opterr' was not declared. Should it be static?
-   tools/include/nolibc/getopt.h:22:29: sparse: sparse: symbol 'optopt' was not declared. Should it be static?
->> tools/include/nolibc/getopt.h:81:26: sparse: sparse: Using plain integer as NULL pointer
+smatch warnings:
+drivers/hwmon/pmbus/mp2925.c:159 mp2925_write_word_data() error: uninitialized symbol 'ret'.
 
-vim +109 tools/include/nolibc/sys.h
+vim +/ret +159 drivers/hwmon/pmbus/mp2925.c
 
-bd8c8fbb866fe5 Willy Tarreau 2022-02-07  104  
-bd8c8fbb866fe5 Willy Tarreau 2022-02-07  105  static __attribute__((unused))
-bd8c8fbb866fe5 Willy Tarreau 2022-02-07  106  void *sbrk(intptr_t inc)
-bd8c8fbb866fe5 Willy Tarreau 2022-02-07  107  {
-bd8c8fbb866fe5 Willy Tarreau 2022-02-07  108  	/* first call to find current end */
-4201cfce15fe35 Zhangjin Wu   2023-07-07 @109  	void *ret = sys_brk(0);
-4201cfce15fe35 Zhangjin Wu   2023-07-07  110  
-4201cfce15fe35 Zhangjin Wu   2023-07-07  111  	if (ret && sys_brk(ret + inc) == ret + inc)
-bd8c8fbb866fe5 Willy Tarreau 2022-02-07  112  		return ret + inc;
-bd8c8fbb866fe5 Willy Tarreau 2022-02-07  113  
-fb01ff635efd0a Willy Tarreau 2023-08-15  114  	SET_ERRNO(ENOMEM);
-fb01ff635efd0a Willy Tarreau 2023-08-15  115  	return (void *)-1;
-bd8c8fbb866fe5 Willy Tarreau 2022-02-07  116  }
-bd8c8fbb866fe5 Willy Tarreau 2022-02-07  117  
+b3a4efc88601cb Wensheng Wang 2025-09-18  133  
+b3a4efc88601cb Wensheng Wang 2025-09-18  134  static int mp2925_write_word_data(struct i2c_client *client, int page, int reg,
+b3a4efc88601cb Wensheng Wang 2025-09-18  135  				  u16 word)
+b3a4efc88601cb Wensheng Wang 2025-09-18  136  {
+b3a4efc88601cb Wensheng Wang 2025-09-18  137  	int ret;
+b3a4efc88601cb Wensheng Wang 2025-09-18  138  
+b3a4efc88601cb Wensheng Wang 2025-09-18  139  	switch (reg) {
+b3a4efc88601cb Wensheng Wang 2025-09-18  140  	case PMBUS_VIN_OV_FAULT_LIMIT:
+b3a4efc88601cb Wensheng Wang 2025-09-18  141  	case PMBUS_VIN_OV_WARN_LIMIT:
+b3a4efc88601cb Wensheng Wang 2025-09-18  142  	case PMBUS_VIN_UV_WARN_LIMIT:
+b3a4efc88601cb Wensheng Wang 2025-09-18  143  	case PMBUS_VIN_UV_FAULT_LIMIT:
+b3a4efc88601cb Wensheng Wang 2025-09-18  144  		/*
+b3a4efc88601cb Wensheng Wang 2025-09-18  145  		 * The PMBUS_VIN_OV_FAULT_LIMIT, PMBUS_VIN_OV_WARN_LIMIT,
+b3a4efc88601cb Wensheng Wang 2025-09-18  146  		 * PMBUS_VIN_UV_WARN_LIMIT and PMBUS_VIN_UV_FAULT_LIMIT
+b3a4efc88601cb Wensheng Wang 2025-09-18  147  		 * of MP2925 is linear11 format, and the exponent is a
+b3a4efc88601cb Wensheng Wang 2025-09-18  148  		 * constant value(5'b11100)Ôºå so the exponent of word
+b3a4efc88601cb Wensheng Wang 2025-09-18  149  		 * parameter should be converted to 5'b11100(0x1C).
+b3a4efc88601cb Wensheng Wang 2025-09-18  150  		 */
+b3a4efc88601cb Wensheng Wang 2025-09-18  151  		ret = pmbus_write_word_data(client, page, reg,
+b3a4efc88601cb Wensheng Wang 2025-09-18  152  					    mp2925_linear_exp_transfer(word, 0x1C));
+b3a4efc88601cb Wensheng Wang 2025-09-18  153  		if (ret < 0)
+b3a4efc88601cb Wensheng Wang 2025-09-18  154  			return ret;
+b3a4efc88601cb Wensheng Wang 2025-09-18  155  		break;
+b3a4efc88601cb Wensheng Wang 2025-09-18  156  	case PMBUS_VOUT_OV_FAULT_LIMIT:
+b3a4efc88601cb Wensheng Wang 2025-09-18  157  	case PMBUS_VOUT_UV_FAULT_LIMIT:
+b3a4efc88601cb Wensheng Wang 2025-09-18  158  		ret = pmbus_write_word_data(client, page, reg,
+b3a4efc88601cb Wensheng Wang 2025-09-18 @159  					    (ret & ~GENMASK(11, 0)) |
+b3a4efc88601cb Wensheng Wang 2025-09-18  160  				FIELD_PREP(GENMASK(11, 0),
+b3a4efc88601cb Wensheng Wang 2025-09-18  161  					   DIV_ROUND_CLOSEST(word * MP2925_VOUT_OVUV_DIV,
+b3a4efc88601cb Wensheng Wang 2025-09-18  162  							     MP2925_VOUT_OVUV_UINT)));
+b3a4efc88601cb Wensheng Wang 2025-09-18  163  		break;
+b3a4efc88601cb Wensheng Wang 2025-09-18  164  	case PMBUS_OT_FAULT_LIMIT:
+b3a4efc88601cb Wensheng Wang 2025-09-18  165  	case PMBUS_OT_WARN_LIMIT:
+b3a4efc88601cb Wensheng Wang 2025-09-18  166  		/*
+b3a4efc88601cb Wensheng Wang 2025-09-18  167  		 * The PMBUS_OT_FAULT_LIMIT and PMBUS_OT_WARN_LIMIT of
+b3a4efc88601cb Wensheng Wang 2025-09-18  168  		 * MP2925 is linear11 format, and the exponent is a
+b3a4efc88601cb Wensheng Wang 2025-09-18  169  		 * constant value(5'b00000), so the exponent of word
+b3a4efc88601cb Wensheng Wang 2025-09-18  170  		 * parameter should be converted to 5'b00000.
+b3a4efc88601cb Wensheng Wang 2025-09-18  171  		 */
+b3a4efc88601cb Wensheng Wang 2025-09-18  172  		ret = pmbus_write_word_data(client, page, reg,
+b3a4efc88601cb Wensheng Wang 2025-09-18  173  					    mp2925_linear_exp_transfer(word, 0x00));
+b3a4efc88601cb Wensheng Wang 2025-09-18  174  		if (ret < 0)
+b3a4efc88601cb Wensheng Wang 2025-09-18  175  			return ret;
+b3a4efc88601cb Wensheng Wang 2025-09-18  176  		break;
+b3a4efc88601cb Wensheng Wang 2025-09-18  177  	case PMBUS_IOUT_OC_FAULT_LIMIT:
+b3a4efc88601cb Wensheng Wang 2025-09-18  178  	case PMBUS_IOUT_OC_WARN_LIMIT:
+b3a4efc88601cb Wensheng Wang 2025-09-18  179  		/*
+b3a4efc88601cb Wensheng Wang 2025-09-18  180  		 * The PMBUS_IOUT_OC_FAULT_LIMIT and PMBUS_IOUT_OC_WARN_LIMIT
+b3a4efc88601cb Wensheng Wang 2025-09-18  181  		 * of MP2925 is linear11 format, and the exponent is a
+b3a4efc88601cb Wensheng Wang 2025-09-18  182  		 * can not be changed.
+b3a4efc88601cb Wensheng Wang 2025-09-18  183  		 */
+b3a4efc88601cb Wensheng Wang 2025-09-18  184  		ret = pmbus_read_word_data(client, page, 0xff, reg);
+b3a4efc88601cb Wensheng Wang 2025-09-18  185  		if (ret < 0)
+b3a4efc88601cb Wensheng Wang 2025-09-18  186  			return ret;
+b3a4efc88601cb Wensheng Wang 2025-09-18  187  
+b3a4efc88601cb Wensheng Wang 2025-09-18  188  		ret = pmbus_write_word_data(client, page, reg,
+b3a4efc88601cb Wensheng Wang 2025-09-18  189  					    mp2925_linear_exp_transfer(word,
+b3a4efc88601cb Wensheng Wang 2025-09-18  190  								       FIELD_GET(GENMASK(15, 11),
+b3a4efc88601cb Wensheng Wang 2025-09-18  191  										 ret)));
+b3a4efc88601cb Wensheng Wang 2025-09-18  192  		break;
+b3a4efc88601cb Wensheng Wang 2025-09-18  193  	default:
+b3a4efc88601cb Wensheng Wang 2025-09-18  194  		ret = -EINVAL;
+b3a4efc88601cb Wensheng Wang 2025-09-18  195  		break;
+b3a4efc88601cb Wensheng Wang 2025-09-18  196  	}
+b3a4efc88601cb Wensheng Wang 2025-09-18  197  
+b3a4efc88601cb Wensheng Wang 2025-09-18  198  	return ret;
+b3a4efc88601cb Wensheng Wang 2025-09-18  199  }
+b3a4efc88601cb Wensheng Wang 2025-09-18  200  
 
 -- 
 0-DAY CI Kernel Test Service
