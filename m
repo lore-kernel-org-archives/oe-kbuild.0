@@ -1,193 +1,273 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81FA13D503
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Sep 2025 13:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540051C860C
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Sep 2025 15:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758892608; cv=none; b=pn03RElOq3GxMDmF5ybg0Culv2fCLl6gQRultHZ1nI5yq3DdlhEsrO3zKHZmfT9g263TtmKHNcr74pznAhLKxdcCfoTHZV4HXA6Yd2QoBM4ePF0R3LqI56VK+N1mODG/fTxWD93ff6eQFYX1EsOWsh4SIdAe+KYWQCFY6RFKWBI=
+	t=1758898943; cv=none; b=IrwqA7HF6lA6f+DNjcWlVScwDwGdBzyN9qfXvdlfaR26E/kPzOdRSyEnIpZsKKdSdEfK6G3MrjkP0s6KdeA2QoF087z7wBQyMG4N/Js+cKPUc9vEs+Ds0m59iGKnYXh6FfR0ReLpxwf611HUdEdoi/9o/T57xNQc1++2IWjiMkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758892608; c=relaxed/simple;
-	bh=H1vbql+U0JkvnmxovHmkKYgdUOfb+d5UbmbrLDuElVE=;
+	s=arc-20240116; t=1758898943; c=relaxed/simple;
+	bh=oo01rUPnprY0CrM9lpS6G5nYPtRZQb8ZUIkDJIxRkuc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=amQSjg9G4Vi4GbYevhM5RxE1MPsY4bUWquJs7gKBkmxBdDGkaQcghgfXBhbYn6AtGFzGQCMPgxYJj4+FXCwZ8TIJuzWgP2CWEdZ+ZgNPxhZAYdjRDKhk5UbYQCDE0U8CjsbPxWbEWDCHlKCQ4YKzV9J3J4cxRfx4NOJIfJcjArY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EG/vaA8d; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=LpGcuftjFCJ1KQ072LnhuBXq485Cnr1t1zeJJSPSZfjep/PeMqOPf+Y3xX/WzPJUV+Kmu0Bkh4L8sAhXRIovgwHTYsrqjAq9Q7DRCMVmR+S6Xt+DJGLeVwKD86kQhbid9QfM42mbY8eyOnCajPASC7Ca2SY07MmNJ30MdCZQJSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xot3Zo88; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EG/vaA8d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xot3Zo88"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758892607; x=1790428607;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H1vbql+U0JkvnmxovHmkKYgdUOfb+d5UbmbrLDuElVE=;
-  b=EG/vaA8dHYjp/l9nSLymtsn7YiFRZjpfujvPIlUuLu82mPIqga0Ub3N0
-   KC7iAj42dvQroUAdacD6hS8L9w+u5EL4sBbVf7IHZMsGwIyv0ZVqHHIRI
-   j5IyGM9GPLIwf9m+lo51OhsQwUl/qRaj4wftKeQfCsGGuuk2EySvShnpg
-   GJyJUN42h0GVE/kR187JPLorgCE0M3TXrW0VmlHgWfxSbUJcnfXMljt+g
-   ruEOykygVr7lguIVyyHXScZ2Lp4IWPbu2quCwNayLgw5F3kmnb0fCV1yZ
-   aQmOHjoBDRZIVqu4wehr6WxV3jeHaA3HiDOh6kdLGGrlL126JpKGj3Bwv
-   w==;
-X-CSE-ConnectionGUID: f8s+S4VBSA+Ppb+h1Aq6fw==
-X-CSE-MsgGUID: SlbCn1wXSdC3lp81xnuedA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="72658341"
+  t=1758898941; x=1790434941;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=oo01rUPnprY0CrM9lpS6G5nYPtRZQb8ZUIkDJIxRkuc=;
+  b=Xot3Zo886C/TuPBRaQWLkY9LcQJTv6SDsU5w7F8X3ClwXfZWZsjKedGv
+   L0fh2zxK7/iBsPscR42cHImbI/+VnVthXu9CGtXj+ibHcFQSP6kMQU+4P
+   XhgS63g/xV0Dv85x7mGL9qzy2mW3vxgxestWsq6137XW/XccuS/zlYpaI
+   Bo0ee+lcki/GZ4QvQs64JV3mDM+GU7vyNxWZymnaUIMcuuSVNTz+62Wa5
+   XKuVLv6WPWSDiGPTPGsd34PiNCYszVo+bVSAtzWTPJJ1g/KVyHX9Vi/0X
+   K9q+esBRI88qQGfh/Jnm3VxqSNUVV7mBB1j287+/P2iqS/PMtHVm9AQqS
+   g==;
+X-CSE-ConnectionGUID: lVsCksnRQb60ZZTjjcmCmQ==
+X-CSE-MsgGUID: cKpfVTAYTt2ZUXutK4m7gA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="60933678"
 X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
-   d="scan'208";a="72658341"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 06:16:44 -0700
-X-CSE-ConnectionGUID: HQ3ZGoxzS56/TTMx3i73zA==
-X-CSE-MsgGUID: I9uOn/WhTnGYec0uByh4LA==
+   d="scan'208";a="60933678"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 08:02:21 -0700
+X-CSE-ConnectionGUID: pE58qtvmSMufblTl+pX4cQ==
+X-CSE-MsgGUID: fuyX03zBRNyjZJAg1MBowA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
-   d="scan'208";a="177659794"
+   d="scan'208";a="177563966"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 26 Sep 2025 06:16:44 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Sep 2025 08:02:19 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v28JV-0006Fd-0e;
-	Fri, 26 Sep 2025 13:16:41 +0000
-Date: Fri, 26 Sep 2025 21:15:49 +0800
+	id 1v29xW-0006Kv-24;
+	Fri, 26 Sep 2025 15:02:09 +0000
+Date: Fri, 26 Sep 2025 23:01:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [jarkko-tpmdd:tpm2-session 14/14]
- security/keys/trusted-keys/trusted_tpm2.c:489 tpm2_unseal_cmd() warn: this
- array is probably non-NULL. 'options->blobauth'
-Message-ID: <202509262153.FS04ywtP-lkp@intel.com>
+Subject: Re: [PATCH 2/2] iio: dac: adding support for Microchip MCP47FEB02
+Message-ID: <202509262228.MYSY2WkV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jarkko Sakkinen <jarkko@kernel.org>
+In-Reply-To: <20250922-mcp47feb02-v1-2-06cb4acaa347@microchip.com>
+References: <20250922-mcp47feb02-v1-2-06cb4acaa347@microchip.com>
+TO: Ariana Lazar <ariana.lazar@microchip.com>
+TO: Jonathan Cameron <jic23@kernel.org>
+TO: David Lechner <dlechner@baylibre.com>
+TO: "Nuno Sá" <nuno.sa@analog.com>
+TO: Andy Shevchenko <andy@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: linux-iio@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Ariana Lazar <ariana.lazar@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2-session
-head:   8443d24da35ca59b7be6056fa1ebe74070eb9e4a
-commit: 8443d24da35ca59b7be6056fa1ebe74070eb9e4a [14/14] keys, trusted: Remove redundant helper
+Hi Ariana,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 19272b37aa4f83ca52bdf9c16d5d81bdd1354494]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ariana-Lazar/dt-bindings-iio-dac-adding-support-for-Microchip-MCP47FEB02/20250922-193559
+base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+patch link:    https://lore.kernel.org/r/20250922-mcp47feb02-v1-2-06cb4acaa347%40microchip.com
+patch subject: [PATCH 2/2] iio: dac: adding support for Microchip MCP47FEB02
 :::::: branch date: 4 days ago
 :::::: commit date: 4 days ago
-config: x86_64-randconfig-r073-20250926 (https://download.01.org/0day-ci/archive/20250926/202509262153.FS04ywtP-lkp@intel.com/config)
+config: x86_64-randconfig-r073-20250926 (https://download.01.org/0day-ci/archive/20250926/202509262228.MYSY2WkV-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202509262153.FS04ywtP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509262228.MYSY2WkV-lkp@intel.com/
 
 smatch warnings:
-security/keys/trusted-keys/trusted_tpm2.c:489 tpm2_unseal_cmd() warn: this array is probably non-NULL. 'options->blobauth'
+drivers/iio/dac/mcp47feb02.c:1258 mcp47feb02_probe() error: uninitialized symbol 'vref_mv'.
+drivers/iio/dac/mcp47feb02.c:1258 mcp47feb02_probe() error: uninitialized symbol 'vref1_mv'.
 
-vim +489 security/keys/trusted-keys/trusted_tpm2.c
+vim +/vref_mv +1258 drivers/iio/dac/mcp47feb02.c
 
-2e19e10131a08d Sumit Garg      2019-10-16  437  
-2e19e10131a08d Sumit Garg      2019-10-16  438  /**
-2e19e10131a08d Sumit Garg      2019-10-16  439   * tpm2_unseal_cmd() - execute a TPM2_Unload command
-2e19e10131a08d Sumit Garg      2019-10-16  440   *
-2e19e10131a08d Sumit Garg      2019-10-16  441   * @chip: TPM chip to use
-2e19e10131a08d Sumit Garg      2019-10-16  442   * @payload: the key data in clear and encrypted form
-2e19e10131a08d Sumit Garg      2019-10-16  443   * @options: authentication values and other options
-2e19e10131a08d Sumit Garg      2019-10-16  444   * @blob_handle: blob handle
-2e19e10131a08d Sumit Garg      2019-10-16  445   *
-2e19e10131a08d Sumit Garg      2019-10-16  446   * Return: 0 on success
-2e19e10131a08d Sumit Garg      2019-10-16  447   *         -EPERM on tpm error status
-2e19e10131a08d Sumit Garg      2019-10-16  448   *         < 0 error from tpm_send
-2e19e10131a08d Sumit Garg      2019-10-16  449   */
-2e19e10131a08d Sumit Garg      2019-10-16  450  static int tpm2_unseal_cmd(struct tpm_chip *chip,
-2e19e10131a08d Sumit Garg      2019-10-16  451  			   struct trusted_key_payload *payload,
-2e19e10131a08d Sumit Garg      2019-10-16  452  			   struct trusted_key_options *options,
-2e19e10131a08d Sumit Garg      2019-10-16  453  			   u32 blob_handle)
-2e19e10131a08d Sumit Garg      2019-10-16  454  {
-5b7a67906ff10c Jarkko Sakkinen 2025-09-22  455  	struct tpm_header *head;
-2e19e10131a08d Sumit Garg      2019-10-16  456  	struct tpm_buf buf;
-2e19e10131a08d Sumit Garg      2019-10-16  457  	u16 data_len;
-5b7a67906ff10c Jarkko Sakkinen 2025-09-22  458  	int offset;
-2e19e10131a08d Sumit Garg      2019-10-16  459  	u8 *data;
-2e19e10131a08d Sumit Garg      2019-10-16  460  	int rc;
-2e19e10131a08d Sumit Garg      2019-10-16  461  
-52ce7d9731ed8f James Bottomley 2024-04-29  462  	rc = tpm2_start_auth_session(chip);
-2e19e10131a08d Sumit Garg      2019-10-16  463  	if (rc)
-2e19e10131a08d Sumit Garg      2019-10-16  464  		return rc;
-2e19e10131a08d Sumit Garg      2019-10-16  465  
-52ce7d9731ed8f James Bottomley 2024-04-29  466  	rc = tpm_buf_init(&buf, TPM2_ST_SESSIONS, TPM2_CC_UNSEAL);
-52ce7d9731ed8f James Bottomley 2024-04-29  467  	if (rc) {
-52ce7d9731ed8f James Bottomley 2024-04-29  468  		tpm2_end_auth_session(chip);
-52ce7d9731ed8f James Bottomley 2024-04-29  469  		return rc;
-52ce7d9731ed8f James Bottomley 2024-04-29  470  	}
-52ce7d9731ed8f James Bottomley 2024-04-29  471  
-52ce7d9731ed8f James Bottomley 2024-04-29  472  	tpm_buf_append_name(chip, &buf, blob_handle, NULL);
-52ce7d9731ed8f James Bottomley 2024-04-29  473  
-52ce7d9731ed8f James Bottomley 2024-04-29  474  	if (!options->policyhandle) {
-52ce7d9731ed8f James Bottomley 2024-04-29  475  		tpm_buf_append_hmac_session(chip, &buf, TPM2_SA_ENCRYPT,
-52ce7d9731ed8f James Bottomley 2024-04-29  476  					    options->blobauth,
-de66514d934d70 James Bottomley 2021-01-27  477  					    options->blobauth_len);
-52ce7d9731ed8f James Bottomley 2024-04-29  478  	} else {
-52ce7d9731ed8f James Bottomley 2024-04-29  479  		/*
-8443d24da35ca5 Jarkko Sakkinen 2025-09-22  480  		 * The policy session is generated outside the kernel, and thus
-8443d24da35ca5 Jarkko Sakkinen 2025-09-22  481  		 * the password will end up being unencrypted on the bus, as
-8443d24da35ca5 Jarkko Sakkinen 2025-09-22  482  		 * HMAC nonce cannot be calculated for it.
-52ce7d9731ed8f James Bottomley 2024-04-29  483  		 */
-8443d24da35ca5 Jarkko Sakkinen 2025-09-22  484  		tpm_buf_append_u32(&buf, 9 + options->blobauth_len);
-8443d24da35ca5 Jarkko Sakkinen 2025-09-22  485  		tpm_buf_append_u32(&buf, options->policyhandle);
-8443d24da35ca5 Jarkko Sakkinen 2025-09-22  486  		tpm_buf_append_u16(&buf, 0);
-8443d24da35ca5 Jarkko Sakkinen 2025-09-22  487  		tpm_buf_append_u8(&buf, 0);
-8443d24da35ca5 Jarkko Sakkinen 2025-09-22  488  		tpm_buf_append_u16(&buf, options->blobauth_len);
-8443d24da35ca5 Jarkko Sakkinen 2025-09-22 @489  		if (options->blobauth)
-8443d24da35ca5 Jarkko Sakkinen 2025-09-22  490  			tpm_buf_append(&buf, options->blobauth, options->blobauth_len);
-5b7a67906ff10c Jarkko Sakkinen 2025-09-22  491  		if (tpm2_chip_auth(chip)) {
-5b7a67906ff10c Jarkko Sakkinen 2025-09-22  492  			tpm_buf_append_hmac_session(chip, &buf, TPM2_SA_ENCRYPT, NULL, 0);
-5b7a67906ff10c Jarkko Sakkinen 2025-09-22  493  		} else  {
-5b7a67906ff10c Jarkko Sakkinen 2025-09-22  494  			offset = buf.handles * 4 + TPM_HEADER_SIZE;
-5b7a67906ff10c Jarkko Sakkinen 2025-09-22  495  			head = (struct tpm_header *)buf.data;
-5b7a67906ff10c Jarkko Sakkinen 2025-09-22  496  			if (tpm_buf_length(&buf) == offset)
-5b7a67906ff10c Jarkko Sakkinen 2025-09-22  497  				head->tag = cpu_to_be16(TPM2_ST_NO_SESSIONS);
-5b7a67906ff10c Jarkko Sakkinen 2025-09-22  498  		}
-52ce7d9731ed8f James Bottomley 2024-04-29  499  	}
-2e19e10131a08d Sumit Garg      2019-10-16  500  
-52ce7d9731ed8f James Bottomley 2024-04-29  501  	tpm_buf_fill_hmac_session(chip, &buf);
-8c657a0590de58 Jarkko Sakkinen 2021-01-29  502  	rc = tpm_transmit_cmd(chip, &buf, 6, "unsealing");
-52ce7d9731ed8f James Bottomley 2024-04-29  503  	rc = tpm_buf_check_hmac_response(chip, &buf, rc);
-2e19e10131a08d Sumit Garg      2019-10-16  504  
-2e19e10131a08d Sumit Garg      2019-10-16  505  	if (!rc) {
-2e19e10131a08d Sumit Garg      2019-10-16  506  		data_len = be16_to_cpup(
-2e19e10131a08d Sumit Garg      2019-10-16  507  			(__be16 *) &buf.data[TPM_HEADER_SIZE + 4]);
-e5fb5d2c5a03e2 James Bottomley 2021-01-27  508  		if (data_len < MIN_KEY_SIZE ||  data_len > MAX_KEY_SIZE) {
-2e19e10131a08d Sumit Garg      2019-10-16  509  			rc = -EFAULT;
-2e19e10131a08d Sumit Garg      2019-10-16  510  			goto out;
-2e19e10131a08d Sumit Garg      2019-10-16  511  		}
-2e19e10131a08d Sumit Garg      2019-10-16  512  
-2e19e10131a08d Sumit Garg      2019-10-16  513  		if (tpm_buf_length(&buf) < TPM_HEADER_SIZE + 6 + data_len) {
-2e19e10131a08d Sumit Garg      2019-10-16  514  			rc = -EFAULT;
-2e19e10131a08d Sumit Garg      2019-10-16  515  			goto out;
-2e19e10131a08d Sumit Garg      2019-10-16  516  		}
-2e19e10131a08d Sumit Garg      2019-10-16  517  		data = &buf.data[TPM_HEADER_SIZE + 6];
-2e19e10131a08d Sumit Garg      2019-10-16  518  
-e5fb5d2c5a03e2 James Bottomley 2021-01-27  519  		if (payload->old_format) {
-e5fb5d2c5a03e2 James Bottomley 2021-01-27  520  			/* migratable flag is at the end of the key */
-2e19e10131a08d Sumit Garg      2019-10-16  521  			memcpy(payload->key, data, data_len - 1);
-2e19e10131a08d Sumit Garg      2019-10-16  522  			payload->key_len = data_len - 1;
-2e19e10131a08d Sumit Garg      2019-10-16  523  			payload->migratable = data[data_len - 1];
-e5fb5d2c5a03e2 James Bottomley 2021-01-27  524  		} else {
-e5fb5d2c5a03e2 James Bottomley 2021-01-27  525  			/*
-e5fb5d2c5a03e2 James Bottomley 2021-01-27  526  			 * migratable flag already collected from key
-e5fb5d2c5a03e2 James Bottomley 2021-01-27  527  			 * attributes
-e5fb5d2c5a03e2 James Bottomley 2021-01-27  528  			 */
-e5fb5d2c5a03e2 James Bottomley 2021-01-27  529  			memcpy(payload->key, data, data_len);
-e5fb5d2c5a03e2 James Bottomley 2021-01-27  530  			payload->key_len = data_len;
-e5fb5d2c5a03e2 James Bottomley 2021-01-27  531  		}
-2e19e10131a08d Sumit Garg      2019-10-16  532  	}
-2e19e10131a08d Sumit Garg      2019-10-16  533  
-2e19e10131a08d Sumit Garg      2019-10-16  534  out:
-2e19e10131a08d Sumit Garg      2019-10-16  535  	tpm_buf_destroy(&buf);
-81efdd34bc4513 Jarkko Sakkinen 2025-09-22  536  	return tpm_ret_to_err(rc);
-2e19e10131a08d Sumit Garg      2019-10-16  537  }
-2e19e10131a08d Sumit Garg      2019-10-16  538  
+2e305393740054 Ariana Lazar 2025-09-22  1107  
+2e305393740054 Ariana Lazar 2025-09-22  1108  static int mcp47feb02_probe(struct i2c_client *client)
+2e305393740054 Ariana Lazar 2025-09-22  1109  {
+2e305393740054 Ariana Lazar 2025-09-22  1110  	int err, ret, vdd_mv, vref_mv, vref1_mv, i, tmp_vref, vref_ch, gain_ch;
+2e305393740054 Ariana Lazar 2025-09-22  1111  	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+2e305393740054 Ariana Lazar 2025-09-22  1112  	const struct mcp47feb02_features *info;
+2e305393740054 Ariana Lazar 2025-09-22  1113  	enum vref_mode ref_mode, ref_mode1;
+2e305393740054 Ariana Lazar 2025-09-22  1114  	struct device *dev = &client->dev;
+2e305393740054 Ariana Lazar 2025-09-22  1115  	struct mcp47feb02_data *data;
+2e305393740054 Ariana Lazar 2025-09-22  1116  	struct iio_dev *indio_dev;
+2e305393740054 Ariana Lazar 2025-09-22  1117  
+2e305393740054 Ariana Lazar 2025-09-22  1118  	indio_dev = devm_iio_device_alloc(dev, sizeof(*data));
+2e305393740054 Ariana Lazar 2025-09-22  1119  	if (!indio_dev)
+2e305393740054 Ariana Lazar 2025-09-22  1120  		return -ENOMEM;
+2e305393740054 Ariana Lazar 2025-09-22  1121  
+2e305393740054 Ariana Lazar 2025-09-22  1122  	data = iio_priv(indio_dev);
+2e305393740054 Ariana Lazar 2025-09-22  1123  	i2c_set_clientdata(client, indio_dev);
+2e305393740054 Ariana Lazar 2025-09-22  1124  	data->client = client;
+2e305393740054 Ariana Lazar 2025-09-22  1125  	info = i2c_get_match_data(client);
+2e305393740054 Ariana Lazar 2025-09-22  1126  
+2e305393740054 Ariana Lazar 2025-09-22  1127  	if (info->have_eeprom) {
+2e305393740054 Ariana Lazar 2025-09-22  1128  		data->regmap = devm_regmap_init_i2c(client, &mcp47feb02_regmap_config);
+2e305393740054 Ariana Lazar 2025-09-22  1129  		data->have_eeprom = true;
+2e305393740054 Ariana Lazar 2025-09-22  1130  	} else {
+2e305393740054 Ariana Lazar 2025-09-22  1131  		data->regmap = devm_regmap_init_i2c(client, &mcp47fvb02_regmap_config);
+2e305393740054 Ariana Lazar 2025-09-22  1132  		data->have_eeprom = false;
+2e305393740054 Ariana Lazar 2025-09-22  1133  	}
+2e305393740054 Ariana Lazar 2025-09-22  1134  
+2e305393740054 Ariana Lazar 2025-09-22  1135  	if (IS_ERR(data->regmap))
+2e305393740054 Ariana Lazar 2025-09-22  1136  		dev_err_probe(dev, PTR_ERR(data->regmap), "Error initializing i2c regmap\n");
+2e305393740054 Ariana Lazar 2025-09-22  1137  
+2e305393740054 Ariana Lazar 2025-09-22  1138  	err = mcp47feb02_parse_fw(indio_dev, info);
+2e305393740054 Ariana Lazar 2025-09-22  1139  	if (err)
+2e305393740054 Ariana Lazar 2025-09-22  1140  		return dev_err_probe(dev, err, "Error parsing devicetree data\n");
+2e305393740054 Ariana Lazar 2025-09-22  1141  
+2e305393740054 Ariana Lazar 2025-09-22  1142  	if (!info->have_ext_vref2 && data->use_vref1)
+2e305393740054 Ariana Lazar 2025-09-22  1143  		return dev_err_probe(dev, -EINVAL,
+2e305393740054 Ariana Lazar 2025-09-22  1144  				     "Second External reference is unavailable on %s\n",
+2e305393740054 Ariana Lazar 2025-09-22  1145  				     info->name);
+2e305393740054 Ariana Lazar 2025-09-22  1146  
+2e305393740054 Ariana Lazar 2025-09-22  1147  	ret = regmap_read(data->regmap, CMD_FORMAT(MCP47FEB02_VREF_REG_ADDR, READ_CMD), &vref_ch);
+2e305393740054 Ariana Lazar 2025-09-22  1148  	if (ret)
+2e305393740054 Ariana Lazar 2025-09-22  1149  		return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1150  
+2e305393740054 Ariana Lazar 2025-09-22  1151  	ret = regmap_read(data->regmap, CMD_FORMAT(MCP47FEB02_GAIN_STATUS_REG_ADDR, READ_CMD),
+2e305393740054 Ariana Lazar 2025-09-22  1152  			  &gain_ch);
+2e305393740054 Ariana Lazar 2025-09-22  1153  	if (ret)
+2e305393740054 Ariana Lazar 2025-09-22  1154  		return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1155  
+2e305393740054 Ariana Lazar 2025-09-22  1156  	gain_ch = gain_ch >> 8;
+2e305393740054 Ariana Lazar 2025-09-22  1157  
+2e305393740054 Ariana Lazar 2025-09-22  1158  	/*
+2e305393740054 Ariana Lazar 2025-09-22  1159  	 * Values stored in the nonvolatile memory will be transferred to the volatile registers
+2e305393740054 Ariana Lazar 2025-09-22  1160  	 * at startup. For safety reasons, the user receives a warning if startup values
+2e305393740054 Ariana Lazar 2025-09-22  1161  	 * do not match the ones from current devicetree configuration.
+2e305393740054 Ariana Lazar 2025-09-22  1162  	 * Nonvolatile memory can be written at any time
+2e305393740054 Ariana Lazar 2025-09-22  1163  	 */
+2e305393740054 Ariana Lazar 2025-09-22  1164  	for_each_set_bit(i, &data->active_channels_mask, data->phys_channels) {
+2e305393740054 Ariana Lazar 2025-09-22  1165  		/* VDD can be set as Vref only with Gain x1 */
+2e305393740054 Ariana Lazar 2025-09-22  1166  		if ((vref_ch & 0x03) == MCP47FEB02_VREF_VDD &&
+2e305393740054 Ariana Lazar 2025-09-22  1167  		    (gain_ch & 0x01) == MCP47FEB02_GAIN_X2) {
+2e305393740054 Ariana Lazar 2025-09-22  1168  			dev_info(dev, "vdd can be used only with gain x1\n");
+2e305393740054 Ariana Lazar 2025-09-22  1169  			ret = mcp47feb02_write_to_register(data->regmap,
+2e305393740054 Ariana Lazar 2025-09-22  1170  							   MCP47FEB02_GAIN_STATUS_REG_ADDR,
+2e305393740054 Ariana Lazar 2025-09-22  1171  							   i, MCP47FEB02_GAIN_X1);
+2e305393740054 Ariana Lazar 2025-09-22  1172  			if (ret)
+2e305393740054 Ariana Lazar 2025-09-22  1173  				return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1174  
+2e305393740054 Ariana Lazar 2025-09-22  1175  			data->chdata[i].use_2x_gain = MCP47FEB02_GAIN_X1;
+2e305393740054 Ariana Lazar 2025-09-22  1176  		}
+2e305393740054 Ariana Lazar 2025-09-22  1177  
+2e305393740054 Ariana Lazar 2025-09-22  1178  		if (data->phys_channels >= 4 && (i % 2)) {
+2e305393740054 Ariana Lazar 2025-09-22  1179  			if ((vref_ch & 0x03) == MCP47FEB02_EXTERNAL_VREF_BUFFERED &&
+2e305393740054 Ariana Lazar 2025-09-22  1180  			    data->use_vref1 && !data->vref1_buffered)
+2e305393740054 Ariana Lazar 2025-09-22  1181  				dev_info(dev, "vref1 is unbuffered\n");
+2e305393740054 Ariana Lazar 2025-09-22  1182  			else if ((vref_ch & 0x03) == MCP47FEB02_EXTERNAL_VREF_UNBUFFERED &&
+2e305393740054 Ariana Lazar 2025-09-22  1183  				 data->use_vref1 && data->vref1_buffered)
+2e305393740054 Ariana Lazar 2025-09-22  1184  				dev_info(dev, "vref1 is buffered\n");
+2e305393740054 Ariana Lazar 2025-09-22  1185  		} else {
+2e305393740054 Ariana Lazar 2025-09-22  1186  			if ((vref_ch & 0x03) == MCP47FEB02_EXTERNAL_VREF_BUFFERED &&
+2e305393740054 Ariana Lazar 2025-09-22  1187  			    data->use_vref && !data->vref_buffered)
+2e305393740054 Ariana Lazar 2025-09-22  1188  				dev_info(dev, "vref is unbuffered\n");
+2e305393740054 Ariana Lazar 2025-09-22  1189  			else if ((vref_ch & 0x03) == MCP47FEB02_EXTERNAL_VREF_UNBUFFERED &&
+2e305393740054 Ariana Lazar 2025-09-22  1190  				 data->use_vref && data->vref_buffered)
+2e305393740054 Ariana Lazar 2025-09-22  1191  				dev_info(dev, "vref is buffered\n");
+2e305393740054 Ariana Lazar 2025-09-22  1192  		}
+2e305393740054 Ariana Lazar 2025-09-22  1193  
+2e305393740054 Ariana Lazar 2025-09-22  1194  		vref_ch = vref_ch >> 2;
+2e305393740054 Ariana Lazar 2025-09-22  1195  		gain_ch = gain_ch >> 1;
+2e305393740054 Ariana Lazar 2025-09-22  1196  	}
+2e305393740054 Ariana Lazar 2025-09-22  1197  
+2e305393740054 Ariana Lazar 2025-09-22  1198  	if (data->use_vref)
+2e305393740054 Ariana Lazar 2025-09-22  1199  		ref_mode = data->vref_buffered ?
+2e305393740054 Ariana Lazar 2025-09-22  1200  			MCP47FEB02_EXTERNAL_VREF_BUFFERED : MCP47FEB02_EXTERNAL_VREF_UNBUFFERED;
+2e305393740054 Ariana Lazar 2025-09-22  1201  	else
+2e305393740054 Ariana Lazar 2025-09-22  1202  		ref_mode = MCP47FEB02_INTERNAL_BAND_GAP;
+2e305393740054 Ariana Lazar 2025-09-22  1203  
+2e305393740054 Ariana Lazar 2025-09-22  1204  	if (data->use_vref1)
+2e305393740054 Ariana Lazar 2025-09-22  1205  		ref_mode1 = data->vref1_buffered ?
+2e305393740054 Ariana Lazar 2025-09-22  1206  			MCP47FEB02_EXTERNAL_VREF_BUFFERED : MCP47FEB02_EXTERNAL_VREF_UNBUFFERED;
+2e305393740054 Ariana Lazar 2025-09-22  1207  
+2e305393740054 Ariana Lazar 2025-09-22  1208  	else
+2e305393740054 Ariana Lazar 2025-09-22  1209  		ref_mode1 =  MCP47FEB02_INTERNAL_BAND_GAP;
+2e305393740054 Ariana Lazar 2025-09-22  1210  
+2e305393740054 Ariana Lazar 2025-09-22  1211  	for_each_set_bit(i, &data->active_channels_mask, data->phys_channels) {
+2e305393740054 Ariana Lazar 2025-09-22  1212  		if (data->phys_channels >= 4 && (i % 2))
+2e305393740054 Ariana Lazar 2025-09-22  1213  			tmp_vref = ref_mode1;
+2e305393740054 Ariana Lazar 2025-09-22  1214  		else
+2e305393740054 Ariana Lazar 2025-09-22  1215  			tmp_vref = ref_mode;
+2e305393740054 Ariana Lazar 2025-09-22  1216  
+2e305393740054 Ariana Lazar 2025-09-22  1217  		ret = mcp47feb02_write_to_register(data->regmap, MCP47FEB02_VREF_REG_ADDR,
+2e305393740054 Ariana Lazar 2025-09-22  1218  						   i, tmp_vref);
+2e305393740054 Ariana Lazar 2025-09-22  1219  		if (ret)
+2e305393740054 Ariana Lazar 2025-09-22  1220  			return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1221  
+2e305393740054 Ariana Lazar 2025-09-22  1222  		data->chdata[i].ref_mode = tmp_vref;
+2e305393740054 Ariana Lazar 2025-09-22  1223  	}
+2e305393740054 Ariana Lazar 2025-09-22  1224  
+2e305393740054 Ariana Lazar 2025-09-22  1225  	indio_dev->name = id->name;
+2e305393740054 Ariana Lazar 2025-09-22  1226  	if (info->have_eeprom)
+2e305393740054 Ariana Lazar 2025-09-22  1227  		indio_dev->info = &mcp47feb02_info;
+2e305393740054 Ariana Lazar 2025-09-22  1228  	else
+2e305393740054 Ariana Lazar 2025-09-22  1229  		indio_dev->info = &mcp47fvb02_info;
+2e305393740054 Ariana Lazar 2025-09-22  1230  
+2e305393740054 Ariana Lazar 2025-09-22  1231  	ret = devm_mutex_init(dev, &data->lock);
+2e305393740054 Ariana Lazar 2025-09-22  1232  	if (ret < 0)
+2e305393740054 Ariana Lazar 2025-09-22  1233  		return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1234  
+2e305393740054 Ariana Lazar 2025-09-22  1235  	ret = devm_regulator_get_enable_read_voltage(dev, "vdd");
+2e305393740054 Ariana Lazar 2025-09-22  1236  	if (ret < 0)
+2e305393740054 Ariana Lazar 2025-09-22  1237  		return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1238  
+2e305393740054 Ariana Lazar 2025-09-22  1239  	vdd_mv = ret / 1000;
+2e305393740054 Ariana Lazar 2025-09-22  1240  
+2e305393740054 Ariana Lazar 2025-09-22  1241  	if (data->use_vref) {
+2e305393740054 Ariana Lazar 2025-09-22  1242  		ret = devm_regulator_get_enable_read_voltage(dev, "vref");
+2e305393740054 Ariana Lazar 2025-09-22  1243  		if (ret < 0)
+2e305393740054 Ariana Lazar 2025-09-22  1244  			return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1245  
+2e305393740054 Ariana Lazar 2025-09-22  1246  		vref_mv = ret / 1000;
+2e305393740054 Ariana Lazar 2025-09-22  1247  	}
+2e305393740054 Ariana Lazar 2025-09-22  1248  
+2e305393740054 Ariana Lazar 2025-09-22  1249  	if (data->use_vref1) {
+2e305393740054 Ariana Lazar 2025-09-22  1250  		ret = devm_regulator_get_enable_read_voltage(dev, "vref1");
+2e305393740054 Ariana Lazar 2025-09-22  1251  		if (ret < 0)
+2e305393740054 Ariana Lazar 2025-09-22  1252  			return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1253  
+2e305393740054 Ariana Lazar 2025-09-22  1254  		vref1_mv = ret / 1000;
+2e305393740054 Ariana Lazar 2025-09-22  1255  	}
+2e305393740054 Ariana Lazar 2025-09-22  1256  
+2e305393740054 Ariana Lazar 2025-09-22  1257  	for_each_set_bit(i, &data->active_channels_mask, data->phys_channels) {
+2e305393740054 Ariana Lazar 2025-09-22 @1258  		ret = mcp47feb02_init_scales_avail(info, data, vdd_mv, vref_mv, vref1_mv);
+2e305393740054 Ariana Lazar 2025-09-22  1259  		if (ret)
+2e305393740054 Ariana Lazar 2025-09-22  1260  			dev_err_probe(dev, ret, "failed to init scales for ch i %d\n", i);
+2e305393740054 Ariana Lazar 2025-09-22  1261  	}
+2e305393740054 Ariana Lazar 2025-09-22  1262  
+2e305393740054 Ariana Lazar 2025-09-22  1263  	err = iio_device_register(indio_dev);
+2e305393740054 Ariana Lazar 2025-09-22  1264  
+2e305393740054 Ariana Lazar 2025-09-22  1265  	return err;
+2e305393740054 Ariana Lazar 2025-09-22  1266  }
+2e305393740054 Ariana Lazar 2025-09-22  1267  
 
 -- 
 0-DAY CI Kernel Test Service
