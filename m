@@ -1,57 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A920A1BD9CE
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Sep 2025 01:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D608DF4F1
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Sep 2025 03:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758851747; cv=none; b=Zh7NL0Hpii/B+8CrXj0zABmvU5K+Gmt7UuglZzJE4RSjxlzNlDsXMsIoufLxyw9Dq8iwdS+N63zLnxQ7xUoYgh5I92C6Jqmv5co9uOduES/zs+2WzNhmlr7TeJxunVyyRszmtedMCOdybHUsFEE0csf/BbnzvddpVMcyvO7B+5Q=
+	t=1758858413; cv=none; b=FhFaaQUsHrboe+6TSaOzUToZntQxvVmW8ClsDehmaSzhDMjb3JGV1rv6n/O/HRzuDq+nyeP3XUreyO7a0TkpTDhp81YN8JiykDZPgcVNQK/PBYOSHcELNNOjiDn4WbgykeEZB9cmLMh91MMwgqxVAXgelQJ7x+VQH4otZMXfxiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758851747; c=relaxed/simple;
-	bh=JBIbZ9uApbxOFMh7YVlIi/+HpxdWm6JAcD6RZr8LUVk=;
+	s=arc-20240116; t=1758858413; c=relaxed/simple;
+	bh=Sb9BtllIwArs97SynNBqR5u9wL7kmamDu12Jgh6HA3Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oH9O8ToqGC7j69GBNlGGv1odYMc0vxPQQwnnru/3kSuxc7RUeLzCknWSqxMJdBLSGOHU14mfTKmbAAx4azUrA6JN2hxem2llyKzz1AC6vMmXhxIMEHDqMOUYh8NFuAAyh3136fH+++7XCP38jOYCnqwZR5D7xjid2gzRbtiaUHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B+qXcGb4; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=OjWPaFC71MrnhshqPSUKmsXfRhm13hRL6j535kaCX8rM3ekICtsuk4djru/7o87SEJwJwNlae+M97UFP5kVYFeEJ6YwaJao2JZnIRTHnpZ1vsi223zLpW0Tuj7SikDM+iaP16jZiV19cnH2oKnivjc0brZ/IqLNailyJsxq/xkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EkzUhL/I; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B+qXcGb4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EkzUhL/I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758851745; x=1790387745;
+  t=1758858412; x=1790394412;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JBIbZ9uApbxOFMh7YVlIi/+HpxdWm6JAcD6RZr8LUVk=;
-  b=B+qXcGb4JqkAS8KplIwygIB5FNidPTTYA3U9uNrIyy5/yzMJCtu62ok+
-   sFWdsYWj4piGNCrP+AZOa6an33vA3Aq7e2UOGJroh/TuNSeHavYEeJUBs
-   5yRhs+uL6Jj8jlw3DxHbtx59QXWmW51DuUPL2QA3LurL8VKbORGNjV02f
-   WQhbcNjrymp4CJsSMXvmRSSDRjJ/oBckM1fFw7ri2y0zF/6iIiObayIza
-   ILbFBDUWzY3P572fI1aOcw4R5BDVVJnmyc1IM6E6+B7YxWrUtZ+B6sa7l
-   G8X5bIFuaZviLh6J+eAJFgWaUt6W7BT2wXvA5FpCGAz6rcoUTjz2p9KCy
-   w==;
-X-CSE-ConnectionGUID: bdUywBOnSgSQFdtMC/D7Lw==
-X-CSE-MsgGUID: 07bxssb4T+CVu+G0HfNkKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="63814111"
-X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; 
-   d="scan'208";a="63814111"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 18:55:44 -0700
-X-CSE-ConnectionGUID: 1Ibahj2NSber9jHsk5UbUQ==
-X-CSE-MsgGUID: mxW2xP4CSw6lHe7TWve65g==
+  bh=Sb9BtllIwArs97SynNBqR5u9wL7kmamDu12Jgh6HA3Q=;
+  b=EkzUhL/I4VuxdJ0XA/mDl7kGDpG691/cyieJnYqSLAs0HPuv8ZanVa1T
+   h1ZycLuCeLkkrgVgOWyAgEXnMm6GjxPlGV1WJYbClaBZP6KRZW/as9FH/
+   uXzj0/Ad8oJBZRDFq33J39ycyJbaBV7f77qdesKDYwhmvRDjKUNAf8SqG
+   nErIRJ2Ribz8loYd886nFK3F4hPLrPu5PoN1yIKhFPOgfAZ4dOJ9Ciajq
+   VoRm0ychAHvyYigGbJkMi3+y5dACqHFu2YYh30n2SFVmbSTM/VgvEPvWM
+   7K4ef0iJds6v3czFIl8seBjBJpt7ULadr7e6DxNohhrCpl05EThuzUyT6
+   Q==;
+X-CSE-ConnectionGUID: Z6Xcs3ILTv2NdPbn1fHFGg==
+X-CSE-MsgGUID: 27lah6WHQ3GUQYBSY3FNGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="48751579"
+X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; 
+   d="scan'208";a="48751579"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 20:46:51 -0700
+X-CSE-ConnectionGUID: 9+S6E5D2SVWP3ZNbZ0JYZg==
+X-CSE-MsgGUID: e0To4AhKQJStDtr4Zupm+A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; 
-   d="scan'208";a="181785853"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 25 Sep 2025 18:55:44 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; 
+   d="scan'208";a="176777813"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 25 Sep 2025 20:46:50 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1xgT-00000000577-1WX1;
-	Fri, 26 Sep 2025 01:55:41 +0000
-Date: Fri, 26 Sep 2025 03:55:28 +0200
+	id 1v1zPz-0005s5-1v;
+	Fri, 26 Sep 2025 03:46:47 +0000
+Date: Fri, 26 Sep 2025 11:46:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 3/3] arm64: dts: rockchip: add LinkEase EasePi R1
-Message-ID: <202509260308.zG2oLCkq-lkp@intel.com>
+Subject: [robh:for-next 66/72]
+ arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mt6331regulator
+ (mediatek,mt6331-regulator): 'ldo-vio28' does not match any of the regexes:
+ '^buck-v(core2|io18|dvfs11|dvfs12|dvfs13|dvfs14)$',
+ '^ldo-(avdd32aud|vauxa32)$', '^ldo-v(dig18|emc33|ibr|mc...
+Message-ID: <202509261119.EHKg5hcr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,67 +71,48 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250925055906.83375-3-jjm2473@gmail.com>
-References: <20250925055906.83375-3-jjm2473@gmail.com>
-TO: Liangbin Lian <jjm2473@gmail.com>
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: heiko@sntech.de
-TO: quentin.schulz@cherry.de
-TO: kever.yang@rock-chips.com
-TO: naoki@radxa.com
-TO: honyuenkwun@gmail.com
-TO: inindev@gmail.com
-TO: ivan8215145640@gmail.com
-TO: neil.armstrong@linaro.org
-TO: mani@kernel.org
-TO: dsimic@manjaro.org
-TO: pbrobinson@gmail.com
-TO: alchark@gmail.com
-TO: didi.debian@cknow.org
-TO: jjm2473@gmail.com
-TO: jbx6244@gmail.com
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: "Rob Herring (Arm)" <robh@kernel.org>
 
-Hi Liangbin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on rockchip/for-next linus/master v6.17-rc7 next-20250925]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Liangbin-Lian/dt-bindings-arm-rockchip-Add-LinkEase-EasePi-R1/20250925-140131
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250925055906.83375-3-jjm2473%40gmail.com
-patch subject: [PATCH 3/3] arm64: dts: rockchip: add LinkEase EasePi R1
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: arm64-randconfig-2052-20250925 (https://download.01.org/0day-ci/archive/20250926/202509260308.zG2oLCkq-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+head:   e42136a03dca4f11547aea8a53b64b6668b45fe0
+commit: 564f33406db77184ccf4fdaf363cdb3f0e827754 [66/72] dt-bindings: regulator: mediatek,mt6331: Add missing compatible
+:::::: branch date: 30 hours ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20250925 (https://download.01.org/0day-ci/archive/20250926/202509261119.EHKg5hcr-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.4.0
-dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509260308.zG2oLCkq-lkp@intel.com/reproduce)
+dtschema version: 2025.9.dev1+g4b28bc79f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509261119.EHKg5hcr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509260308.zG2oLCkq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509261119.EHKg5hcr-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3568-easepi-r1.dtb: mmc@fe000000 (rockchip,rk3568-dw-mshc): status: 'oneOf' conditional failed, one must be fixed:
-   	['disable'] is not of type 'object'
-   	'disable' is not one of ['okay', 'disabled', 'reserved', 'fail', 'fail-needs-probe']
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-easepi-r1.dtb: mmc@fe2b0000 (rockchip,rk3568-dw-mshc): status: 'oneOf' conditional failed, one must be fixed:
-   	['disable'] is not of type 'object'
-   	'disable' is not one of ['okay', 'disabled', 'reserved', 'fail', 'fail-needs-probe']
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: syscon@10006000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pwrap@1000d000 (mediatek,mt6795-pwrap): 'mt6331' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,pwrap.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mt6331 (mediatek,mt6331): 'mt6331keys', 'mt6331regulator', 'mt6331rtc', 'mt6332-led' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mt6331 (mediatek,mt6331): 'regulators' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+>> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mt6331regulator (mediatek,mt6331-regulator): 'ldo-vio28' does not match any of the regexes: '^buck-v(core2|io18|dvfs11|dvfs12|dvfs13|dvfs14)$', '^ldo-(avdd32aud|vauxa32)$', '^ldo-v(dig18|emc33|ibr|mc|mch|mipi|rtc|sim1|sim2|sram|usb10)$', '^ldo-vcam(a|af|d|io)$', '^ldo-vgp[1234]$', '^ldo-vtcxo[12]$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6331-regulator.yaml#
+>> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mt6331regulator (mediatek,mt6331-regulator): ldo-vdig18:regulator-name:0: 'dvdd18_dig' does not match '^v(dig18|emc33|ibr|mc|mch|mipi|rtc|sim1|sim2|sram|usb)$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6331-regulator.yaml#
+>> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mt6331regulator (mediatek,mt6331-regulator): ldo-vcamio:regulator-name:0: 'vcam_io' does not match '^vcam(a|_af|d|io)$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6331-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: intpol-controller@10200620 (mediatek,mt6795-sysirq): $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: iommu@10205000 (mediatek,mt6795-m4u): 'mediatek,infracfg' is a required property
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11230000 (mediatek,mt6795-mmc): mediatek,latch-ck: 20 is greater than the maximum of 7
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11230000 (mediatek,mt6795-mmc): Unevaluated properties are not allowed ('mediatek,latch-ck' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11240000 (mediatek,mt6795-mmc): 'pinctrl-names' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
