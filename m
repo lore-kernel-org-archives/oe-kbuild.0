@@ -1,128 +1,159 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECCB242D9A
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Sep 2025 16:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F33230FC3B
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Sep 2025 18:08:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758904873; cv=none; b=a7QXUXJbvEMX+ceKDfZZKTyM18ztRajTUT4M4OI4O+ilaPWTR6LuPWU3SPLyrev79okXRIyV612Acjb1JUA6i7xYx6pwqtG5zEp5mOHZfwvGrZWzztsnWHicBdachhHtmOfexVZYgTuTPL7rv9gpKcoJMlkx8vCFml0SoMUDNtk=
+	t=1758910137; cv=none; b=VVVG3HVxBCxFMZAiaS4fsp+LBnNm9isnRrmLdN4xoyiVgFPZeO4BhrtNtopBffQ5yrzIFVfXgHPUD+qkO5fjIL0VK2TFZDL8M/90khjqMa2aNwqY422jy101AvCld3QGhKNtG+HqBMc2seIIycHMCFgub6rM2aPuIPbYwwEBGCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758904873; c=relaxed/simple;
-	bh=aVQU6Uf390VwLwgOyoJaPwfqW7aHy5b1UHicJhjquUI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hUg4/El7RvjKFRd2xsW6ELft2KyhSSUX9K5waEISKrAo/9wi3zJXGV1WR94SNjQQo7NymAfEl2FsOmi7o+afzcoa8B/mWBrHs9GxjwwtyUuYUGCY8EhLnHeHrlfG2vGfUtggKjPWtlyAbGJHNMY7V0EZpY6/HjSlwMJ2uSDYLqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fe7wcSLw; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758910137; c=relaxed/simple;
+	bh=IKCQl5z7y0WkUYE9N4RzEr0/y4eaPvNbqS2EOd4/cQ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=a5YKXoIESYA5yPUecPynOJdorzs8piNM3XB3curgXy4o+Ko3N4rLXKyO7vke6pcYttTos8nBhSJ5cHR1B84WLrF2BJZdtlKOGBAU8HEnXlN44X+ECCotWpi8HIA9Zx+skltdHXMniEifxDqg5P/rnhGDVygHPlCmVjVUpBl5o5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bo/ng6pH; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fe7wcSLw"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b2e173b8364so395471766b.1
-        for <oe-kbuild@lists.linux.dev>; Fri, 26 Sep 2025 09:41:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758904870; x=1759509670; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OhK/I355tEzWCZLpIKaGMRHfbyhnGIybWqmQS9Bgtnk=;
-        b=Fe7wcSLwSRBdQzifF/+lfU6xWvab+phYXZg51STbwXp8jmlhmkGOebSIvbJ8I9TxLw
-         GLshtTXM6mgoIYG08WNT2UbNWaaXPn1PzeUTgwAIF5kfhMh4E8geGK64I7NQ9XBpdwGM
-         sahgGQr7E06WKZLXo4fwWVn0rmHmnPLydYRFANgtzf/scwdJufWTGdRrT7R2pNzsbE3C
-         KtMz/c0C1r+wdcmONEqh66VvdEsvQK5E1JAsMWh+0DlWYwBfID7q7NDXcpCC2ID5/xdj
-         3xjl07h3tJH1YuMkA5gZDMGRMqi8El6kx92HDEmqHjmAhCjlRAFIvC54SO921CP000lg
-         UjNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758904870; x=1759509670;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OhK/I355tEzWCZLpIKaGMRHfbyhnGIybWqmQS9Bgtnk=;
-        b=RF9StTYna4W7n17wKPaXTwPxOd38TYZRJxX+x4nwxh8ujryfYrxURja3b6zg5g9cPE
-         gybcNpR3LuZKgO00Ejvab18/HaV6PA+FPr8j6zihIlvbmbeqEU3E7/fxymqFBmJ+I+lb
-         3z7sTAkbvdF7lTfGpSp81LXncRpTUSzNBacJA9tmSndfrZ5NWQaTs2RvvYHNeSXyEtZf
-         a85Vz4Rs/UUwZu6H/Njqcw+HmP2IdRRhH+AZlbwVAf7qU8rgM1uBMGQiqJIlKZBl6cBU
-         514NdCoe/WzvnQR1Ysno4HEb+oh8pF4Qf7hPj0bvT/SCg2d0x2E44Eq4Z2uRbTAAwGXO
-         lxJw==
-X-Gm-Message-State: AOJu0YyB5Q3288fL/Tt3471KahpTHx3WYw05jfpeHVinbKdSgwxE0ktt
-	B88vtj5nk4yET8Dg8+ivoW42VALEesFCaO3HgTR3isTLfpgj2AmumxO2BtrBegOXkrQcEhBo0oF
-	To99j7avV+kS+CYPXsEXHB9olOFbtxoc=
-X-Gm-Gg: ASbGncsYlaKMsLIkipwiT9/G8RL7AXv/sWRAf2/fXceaZQb70StK1o2XfA76RpY4pK3
-	mqpBxDqy+drlm01/YbD2Ovi1TURtKdErU4wkfT+j10XUOJUybkeN4Ccg0d00Jk+9RlCDG364xyq
-	Ixk7Bg4WXEFBLVuWCUwse+GfSC+XEA2EfKw9ym43w/2saosQyKN07VwqmAlv62WQCEpBjy95Pl7
-	E+eed81wMX9qhtKqqdycZOjXa+C1wVVVTTFrJ//5oKoQDYge4Ovrzw=
-X-Google-Smtp-Source: AGHT+IGiAgB3Cp3l/+LWlbB0J5SQqcA//CNAV4YTQyXTFqA9cx49Yh6QtYgAgO3MbSqw95Dgnu0URBo7YFe9FVeY/8Q=
-X-Received: by 2002:a17:907:86a9:b0:b3a:1300:e8e4 with SMTP id
- a640c23a62f3a-b3a13102ed4mr8997966b.12.1758904870081; Fri, 26 Sep 2025
- 09:41:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bo/ng6pH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758910135; x=1790446135;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IKCQl5z7y0WkUYE9N4RzEr0/y4eaPvNbqS2EOd4/cQ8=;
+  b=bo/ng6pHdoNg2u+RNJYCCNlmzw/rzTHwcufhN3xGeKAkf8YRj0TH2CF3
+   hF3Zq98PcuHoFaaVvqn9prhkrDWbvdhvjPRx/wY5nggGk4X7uasZbNXeD
+   wdbxBjaXCmef+R8U0ysIvfUQLUE9FHZNjJqX4vSSYCoN1ToI+iLG69xDG
+   tEGLycqo+Y7b3gCtL7FFzWJCJnh/9y5PqH0jpLlW/5QjPag+6zPVqS5Hs
+   7co52QZxL7w/Mmr2Op2YiGoaHT4QvFJ2Jtxjj9hEZbxAvEXA/8M6ju1ps
+   OnvVTG3Flai7buIGxhZOhA7m4OtLiLVKG8V3nll6p2vaA/PWZ+4ai3g4B
+   A==;
+X-CSE-ConnectionGUID: xguleNKhSBicrxLQxTQphg==
+X-CSE-MsgGUID: RYIiyOy9QYqUjK4DmQ/MdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61202254"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61202254"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 11:08:52 -0700
+X-CSE-ConnectionGUID: lI6zOz5NTzm8z9RrXr9Tzg==
+X-CSE-MsgGUID: YlonyVL3RZ+wrtPYh2cEnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
+   d="scan'208";a="208426496"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by orviesa002.jf.intel.com with ESMTP; 26 Sep 2025 11:08:51 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1v2CsC-000000005J3-2JfQ;
+	Fri, 26 Sep 2025 18:08:48 +0000
+Date: Fri, 26 Sep 2025 20:07:51 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 10/140]
+ arch/arm64/boot/dts/apple/t8011-j105a.dtb: /soc/i2c@20a110000: failed to
+ match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+Message-ID: <202509262029.EGtbWHXZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250924204409.1706524-2-joshua.hahnjy@gmail.com> <202509260132.awvdNKqF-lkp@intel.com>
-In-Reply-To: <202509260132.awvdNKqF-lkp@intel.com>
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-Date: Fri, 26 Sep 2025 12:40:58 -0400
-X-Gm-Features: AS18NWAvPCxQoYx4Q1NMydC8ffwXDXCS1U2zPQc-T1l-6SyQtlRE3k2R9alT660
-Message-ID: <CAN+CAwNBg+3RwAsBxOEMk6aK+tb2O45wfnJxBdxRPSBi+vHEUg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] mm/page_alloc/vmstat: Simplify refresh_cpu_vm_stats
- change detection
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Chris Mason <chris.mason@fusionio.com>, 
-	Kiryl Shutsemau <kirill@shutemov.name>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Brendan Jackman <jackmanb@google.com>, David Hildenbrand <david@redhat.com>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Michal Hocko <mhocko@suse.com>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Zi Yan <ziy@nvidia.com>, linux-kernel@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-On Fri, Sep 26, 2025 at 11:34=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
->
-> Hi Joshua,
->
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Hahn/mm-pag=
-e_alloc-vmstat-Simplify-refresh_cpu_vm_stats-change-detection/20250925-0445=
-32
-> base:   097a6c336d0080725c626fda118ecfec448acd0f
-> patch link:    https://lore.kernel.org/r/20250924204409.1706524-2-joshua.=
-hahnjy%40gmail.com
-> patch subject: [PATCH v2 1/4] mm/page_alloc/vmstat: Simplify refresh_cpu_=
-vm_stats change detection
-> config: mips-randconfig-r073-20250925 (https://download.01.org/0day-ci/ar=
-chive/20250926/202509260132.awvdNKqF-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project c=
-afc064fc7a96b3979a023ddae1da2b499d6c954)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202509260132.awvdNKqF-lkp@intel.com/
->
-> smatch warnings:
-> mm/page_alloc.c:2591 decay_pcp_high() error: uninitialized symbol 'todo'.
->
-> vim +/todo +2591 mm/page_alloc.c
->
-> 06fb80866d37b0 Joshua Hahn    2025-09-24  2564  bool decay_pcp_high(struc=
-t zone *zone, struct per_cpu_pages *pcp)
-> 51a755c56dc05a Ying Huang     2023-10-16  2565  {
-> 51a755c56dc05a Ying Huang     2023-10-16  2566          int high_min, to_=
-drain, batch;
-> 06fb80866d37b0 Joshua Hahn    2025-09-24  2567          bool todo;
->
-> needs to be initialized to false.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Nick Chan <towinchenmi@gmail.com>
+CC: Janne Grunau <j@jannau.net>
+CC: Sven Peter <sven@kernel.org>
 
-Thank you for the catch, I think Christoph also pointed out the same
-thing earlier.
-I'll be sure to fix this up in the next version! Have a great day!
-Joshua
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   703a105e4188c8c9e084375a48f08853cf64cfca
+commit: 5fe442271046eed743ee1782db097a90dafdf144 [10/140] arm64: dts: apple: t8011: Add I2C nodes
+:::::: branch date: 5 days ago
+:::::: commit date: 3 weeks ago
+config: arm64-randconfig-2052-20250919 (https://download.01.org/0day-ci/archive/20250926/202509262029.EGtbWHXZ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509262029.EGtbWHXZ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202509262029.EGtbWHXZ-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t8011-j105a.dtb: i2c@20a110000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8011-j105a.dtb: /soc/i2c@20a110000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8011-j105a.dtb: i2c@20a111000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8011-j105a.dtb: /soc/i2c@20a111000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8011-j105a.dtb: i2c@20a112000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8011-j105a.dtb: /soc/i2c@20a112000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8011-j105a.dtb: i2c@20a113000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8011-j105a.dtb: /soc/i2c@20a113000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+--
+>> arch/arm64/boot/dts/apple/t8011-j120.dtb: i2c@20a110000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8011-j120.dtb: /soc/i2c@20a110000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8011-j120.dtb: i2c@20a111000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8011-j120.dtb: /soc/i2c@20a111000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8011-j120.dtb: i2c@20a112000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8011-j120.dtb: /soc/i2c@20a112000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8011-j120.dtb: i2c@20a113000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8011-j120.dtb: /soc/i2c@20a113000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+--
+>> arch/arm64/boot/dts/apple/t8011-j121.dtb: i2c@20a110000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8011-j121.dtb: /soc/i2c@20a110000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8011-j121.dtb: i2c@20a111000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8011-j121.dtb: /soc/i2c@20a111000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8011-j121.dtb: i2c@20a112000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8011-j121.dtb: /soc/i2c@20a112000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8011-j121.dtb: i2c@20a113000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8011-j121.dtb: /soc/i2c@20a113000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+--
+   arch/arm64/boot/dts/apple/t8011-j207.dtb: i2c@20a110000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8011-j207.dtb: /soc/i2c@20a110000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8011-j207.dtb: i2c@20a111000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8011-j207.dtb: /soc/i2c@20a111000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8011-j207.dtb: i2c@20a112000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8011-j207.dtb: /soc/i2c@20a112000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8011-j207.dtb: i2c@20a113000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8011-j207.dtb: /soc/i2c@20a113000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+--
+   arch/arm64/boot/dts/apple/t8011-j208.dtb: i2c@20a110000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8011-j208.dtb: /soc/i2c@20a110000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8011-j208.dtb: i2c@20a111000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8011-j208.dtb: /soc/i2c@20a111000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8011-j208.dtb: i2c@20a112000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8011-j208.dtb: /soc/i2c@20a112000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8011-j208.dtb: i2c@20a113000 (apple,t8010-i2c): compatible:0: 'apple,t8010-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8011-j208.dtb: /soc/i2c@20a113000: failed to match any schema with compatible: ['apple,t8010-i2c', 'apple,i2c']
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
