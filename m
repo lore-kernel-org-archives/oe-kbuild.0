@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B3D231858
-	for <oe-kbuild@lists.linux.dev>; Sat, 27 Sep 2025 18:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8924C98
+	for <oe-kbuild@lists.linux.dev>; Sat, 27 Sep 2025 20:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758997385; cv=none; b=uyeQxTsxXTVKj6cBuLPacY3bBLFaV8kukBUpedPhc3i3ygsya3xyeitnXd34HYEwKf01qVM7Qw9MrI5dqHZp5LJdOXb/VoGV70gX7ePI+OAaSN96aSCSYz+6PjKmf2+vdZQC3aPAPyuMlx556+JSbY905Rkx8wqmGO7eDoiyKv4=
+	t=1759005064; cv=none; b=t+4muk9b6wZsbxzUq0+vsEw89uxC6FSw48/X4usHUT5wriM82E9JEnxrHJP8Q73neiNLTFf2eXBPktUSi1XSBoz6xDdQ7TOb7ECfqYUy+/jtoXEUmEMZM4Jn8XwyOZcvJ1IfOy8mbnVI1JIBMa4wR2ZZsVH4UoPjqDPGtRDxzjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758997385; c=relaxed/simple;
-	bh=nIOHJo5H/z3txDZ27WMwMazgAlpTzsBxWQGDgKsjy5Q=;
+	s=arc-20240116; t=1759005064; c=relaxed/simple;
+	bh=CWOsVj10omUKsJh75lJXYQMc+G6k8o2zb8pTofQvDC8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bbYwNd199mL3A1V+KtBtBm7HadYFJNVXIcxy8T4LnSgg6QExnRmas+0s07V5VEuP6JNj6en+L9SrCSGI1QI4W38YlIi2exrEPr3YtIv2Tb2u8WXwESf7tfjf9MleycxMrefCPcPz5zPks8Dcn1T5ecWEiFxMpJBZmwxoz/tddqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IxdKa+bP; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=tqkvIvIP3nqFG4WvDh0CP2K1f02NjIKBRzhckuyeKHXINOzm7FbyRZ3ii1BSI00LNq/en/RplMyhOCyuR+6zQIaTfq4bxuz0lV3honQtOmZp9Dmvi1RuR8ix5XQSE89z/s27OKq6J6NKENp5wOKwFgsadaPlMTN6uw2R//N96uM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J1U3GsAv; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IxdKa+bP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J1U3GsAv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758997383; x=1790533383;
+  t=1759005061; x=1790541061;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nIOHJo5H/z3txDZ27WMwMazgAlpTzsBxWQGDgKsjy5Q=;
-  b=IxdKa+bP9rgx5dtpSfUNNiHRxhAXiOLL9eyRP3tXx8GowSNAk4KlTC/r
-   NITr2JTK1P7TDjmWn82zM6jt4+Y1w8vMX9qSlCBMSMMksptBeFWO9NvQ1
-   82iB3hytD9gLuNPevSsstAbhp0cS4iWTB2gQjeVge+wOw1eOK/1h4VkQP
-   97iq1Q/nN4ti+whRQoinW3Kmw67+Ouw/mbIKQOhWjULvWXIf8fcH2u6+N
-   Ayp5Ibd8/dEgPa4J7MAkFa7BZa4wInH1LhfITLhCKner8WoQ8OgpwBczr
-   O9CSGgWWD2mcJqDq7PDJUyTTFS20lR1L1EpRppt2W58qaioHFIJWuBIat
-   w==;
-X-CSE-ConnectionGUID: IhdCxM+pR/2iOz1dVhOiXw==
-X-CSE-MsgGUID: 53gHQOSNTiyVSga9AC4FyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="61466716"
+  bh=CWOsVj10omUKsJh75lJXYQMc+G6k8o2zb8pTofQvDC8=;
+  b=J1U3GsAvddGgcNjvWIReq6H5YtWF+pFahS0buOgW8aK39BrMYSjNSMDT
+   Wlp5QY4jviaCiOpUZS9vIm25041wtvtk+LCFHnkWmdeoTtuMY6wMl2lQ8
+   qUMjubP1q9qkjs4vyXXGoD1H6aVJoL6Stbav9bbAipP70fGQj02pNZGAG
+   2TWwDFhmvNZkI5BR2pj1V/Gz0Eg002sU3tcaU4WzBUfvYwHDHnmTk7oFO
+   +dxuvPpIww8az2rwN590E6jBZ7/hvzlMSqc4Em5J8sNAyVbj1vJmP9/Kk
+   ZLjuFHLIu9ZFzCplXkrcNYFCGE/MgFwMMd1cav+FI4XVqxIe8Nx4X+Jn9
+   Q==;
+X-CSE-ConnectionGUID: zsvpb5dLRU6cMcKoCAOigQ==
+X-CSE-MsgGUID: UpK3Gr1lSF+w+aKyF6rBBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="78945093"
 X-IronPort-AV: E=Sophos;i="6.18,298,1751266800"; 
-   d="scan'208";a="61466716"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 11:23:01 -0700
-X-CSE-ConnectionGUID: FZDrf6ZzReq50he2Tp7I9Q==
-X-CSE-MsgGUID: 9ngzpQPRQkac0QCXu+rCzQ==
+   d="scan'208";a="78945093"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 13:31:00 -0700
+X-CSE-ConnectionGUID: LCryyWdmSSm1FVnhpg/EKA==
+X-CSE-MsgGUID: 4hQKVUo+T7y1VvoJm4yqEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,298,1751266800"; 
-   d="scan'208";a="177696908"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by orviesa007.jf.intel.com with ESMTP; 27 Sep 2025 11:23:01 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="178282789"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 27 Sep 2025 13:30:59 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2ZZR-000000005Y5-337t;
-	Sat, 27 Sep 2025 18:22:57 +0000
-Date: Sat, 27 Sep 2025 20:22:03 +0200
+	id 1v2bZJ-0007KR-0o;
+	Sat, 27 Sep 2025 20:30:57 +0000
+Date: Sun, 28 Sep 2025 04:29:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 23/140]
- arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/smc@290400000/rtc: failed to
- match any schema with compatible: ['apple,smc-rtc']
-Message-ID: <202509272041.UuWBjI7V-lkp@intel.com>
+Subject: Re: [PATCH v3 3/3] arm64: dts: nuvoton: npcm845-evb: Add peripheral
+ nodes
+Message-ID: <202509280422.9r3YWpMH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,83 +68,59 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
+In-Reply-To: <20250925200625.573902-4-tmaimon77@gmail.com>
+References: <20250925200625.573902-4-tmaimon77@gmail.com>
+TO: Tomer Maimon <tmaimon77@gmail.com>
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+TO: avifishman70@gmail.com
+TO: tali.perry1@gmail.com
+TO: joel@jms.id.au
+TO: venture@google.com
+TO: yuenn@google.com
+TO: benjaminfair@google.com
+CC: openbmc@lists.ozlabs.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Tomer Maimon <tmaimon77@gmail.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   703a105e4188c8c9e084375a48f08853cf64cfca
-commit: 94a27052ade10376b9e6992882c3685605450a56 [23/140] arm64: dts: apple: t600x: Add smc_rtc node
-:::::: branch date: 6 days ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-2052-20250919 (https://download.01.org/0day-ci/archive/20250927/202509272041.UuWBjI7V-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509272041.UuWBjI7V-lkp@intel.com/reproduce)
+Hi Tomer,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20250925]
+[cannot apply to robh/for-next v6.17-rc7 v6.17-rc6 v6.17-rc5 linus/master v6.17-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomer-Maimon/arm64-dts-nuvoton-fix-warning-and-nodes-order/20250926-041235
+base:   next-20250925
+patch link:    https://lore.kernel.org/r/20250925200625.573902-4-tmaimon77%40gmail.com
+patch subject: [PATCH v3 3/3] arm64: dts: nuvoton: npcm845-evb: Add peripheral nodes
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20250926 (https://download.01.org/0day-ci/archive/20250928/202509280422.9r3YWpMH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+dtschema version: 2025.9.dev1+g4b28bc79f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509280422.9r3YWpMH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509272041.UuWBjI7V-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509280422.9r3YWpMH-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/smc@290400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/smc@290400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/smc@290400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	'#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
---
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/smc@290400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/smc@290400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/smc@290400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	'#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
---
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/smc@290400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/smc@290400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/smc@290400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	'#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
---
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/smc@290400000: failed to match any schema with compatible: ['apple,t6000-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/smc@290400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/smc@290400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/smc@290400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	'#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
+   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /ahb/spi@fb000000: failed to match any schema with compatible: ['nuvoton,npcm845-fiu']
+   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /ahb/spi@fb002000: failed to match any schema with compatible: ['nuvoton,npcm845-fiu']
+   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /ahb/spi@c0000000: failed to match any schema with compatible: ['nuvoton,npcm845-fiu']
+   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /ahb/spi@fb001000: failed to match any schema with compatible: ['nuvoton,npcm845-fiu']
+   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: watchdog@901c (nuvoton,npcm845-wdt): Unevaluated properties are not allowed ('syscon' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/watchdog/nuvoton,npcm750-wdt.yaml#
+>> arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /ahb/bus@f0000000/i2c@86000/tmp100@48: failed to match any schema with compatible: ['tmp100']
+   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /ahb/bus@f0000000/pwm-fan-controller@103000: failed to match any schema with compatible: ['nuvoton,npcm845-pwm-fan']
+   arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dtb: /ahb/bus@f0000000/spi@201000: failed to match any schema with compatible: ['nuvoton,npcm845-pspi']
 
 -- 
 0-DAY CI Kernel Test Service
