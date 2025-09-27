@@ -1,67 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B54433AD
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Sep 2025 23:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0B226AE4
+	for <oe-kbuild@lists.linux.dev>; Sat, 27 Sep 2025 00:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758927736; cv=none; b=E8AluMFQP7O0ED/hzU7PUKWnP49GIK0r00y4nnLbwZl4L4kbzgyk49bRp/F2vgBhnwdWJiAJ/KF1y1Vw6PiQmz0aJ984LZXaV1a5z9+FMrNcHnfThLVK69OMTR9jEwT0tQfF53e7gcJeovAlAqkHJWBh0rtb+QJSUUzMZ/oKHHk=
+	t=1758931677; cv=none; b=J3FThxnxb/5NMHMz0cOJE0lLuKMGBT2zXafB6qUaHCOTEVmP1sYzZctJYi8bnaCdAdjfFRw+d/0xIiX0GmX5jn0Kf8q88XkrCtDv4mDTc/Z+p0nzBOndlYC4XSDVf2EXQ4/XodBZkQLp2NnYJXhRGEZ0anEvVh/+q5dqMHo8rQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758927736; c=relaxed/simple;
-	bh=78yHdpD2zEfpgnHrEukbLxOzCkYZ7kZMfAoIlCYC81Y=;
+	s=arc-20240116; t=1758931677; c=relaxed/simple;
+	bh=UC5V5OzEqm0BgVD5ZtYJlUiOOGPKkK1NFzXDr4tIsOs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Iekv/NieRE0RiTeusLPfgDyplIpxe1tlCAZF1BLQ4rmb0BbFr1aPUfc7TJG2afOQk1jO2uihMSpTXi27yxJblnkurDQUC711Z3+YWTaeD8gnSfXF6uwLRFg5IS4qS6KWeL/qiHGThlij5yb6zVqNeGfpvxTsdBhcgbS/0tN+QG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ieOODDe0; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=RONHamIF2osxP77yQkrRH1/V1nrvaLVad2G/ksWkDAPTRUeKACZLY1Glho9/RA1B/GdQHVYwJW1CaHJeKNP5N2VEK/OhLlJtCFdccxI04+PKz0GykmtGLh4M6Hf9jypzVEW731rvQgyQHeq1Lu6JSTNjV3tbES0gZCgN/6lGdwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DKoRTCx8; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ieOODDe0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DKoRTCx8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758927734; x=1790463734;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=78yHdpD2zEfpgnHrEukbLxOzCkYZ7kZMfAoIlCYC81Y=;
-  b=ieOODDe0nB48D5q7HOyN28eI3yKcXifYt7iXVBNVPPUGdndWyhkmjLCV
-   RloL3DgAPtAfRm/+ogGQ4LzEdg2Dm0+DSj1fdLsUSru/h/sOw3aBRtVEu
-   HE4NRfHQLRjSAzIrbxyOKkHRR9n/vtf6LVUeqtbOTdhKx/qeK2YgJZxDp
-   DFsDQLVWL6hz4Gq9Fr4hDunHBK3LKfLTwXXYxEubGM3PI6wum6pyi8kDA
-   TsimWXxOFbOZhApEwtT72v/9sZmUckxNmf7OMisRrvWP8rrgLXHiKioQQ
-   zPAAtQeLTEO1/76ZxLVTe/TG4l4UmX1IUzfz6SRTL9bXlRRyD4Il1Af5M
-   Q==;
-X-CSE-ConnectionGUID: 7jI8yO6RTkyR+ZVGB+am7A==
-X-CSE-MsgGUID: cb2mHDrXRIStlC0Wx1sKDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="63900004"
+  t=1758931675; x=1790467675;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UC5V5OzEqm0BgVD5ZtYJlUiOOGPKkK1NFzXDr4tIsOs=;
+  b=DKoRTCx88o8S15VYsuz/0leOHvErRV1Li5pOoqbzOmamS4UbNUKSj/33
+   cHSHdncd+Uba0OBKImpBPksS2foP+G/9OYG8kaJ8gbf2xA3jpQI2eKfzp
+   wDe20Ol/iRYzlWFGyR0UlpPzCX1tOfWaHDhUL9yDZzDTCDPDVKEybr8KG
+   zolpDLwC8HfBfRNCJDIAFIA2/yc9BmG1+So/DYdXOqA8jCb7POeekMmpr
+   3rmPhAoh2MR+H9y0whFP4wPujZiTC9ZU/Ixt0uetErXiQvM8V54Ag4I7U
+   cZ+TYpKSwA3k59TlYgWDivlCJjHrI0clLzYw2OaZ7vun22805OgJxvyIi
+   A==;
+X-CSE-ConnectionGUID: rdSKvXuvTL6JB8V+HGYt4w==
+X-CSE-MsgGUID: Me/xP5N0TIuS5+0TCWdDQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="60970110"
 X-IronPort-AV: E=Sophos;i="6.18,296,1751266800"; 
-   d="scan'208";a="63900004"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 16:02:13 -0700
-X-CSE-ConnectionGUID: rtE5IOJATcKbtwnItG4l5w==
-X-CSE-MsgGUID: 84unq2ieQRqYTSLtpLEO5A==
+   d="scan'208";a="60970110"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 17:07:55 -0700
+X-CSE-ConnectionGUID: rH//KKxESKGhjG7/3aQpgg==
+X-CSE-MsgGUID: sxQeiAMKSeu/Wnpfbh9XiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,296,1751266800"; 
-   d="scan'208";a="177656904"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Sep 2025 16:02:12 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+   d="scan'208";a="177300581"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by orviesa009.jf.intel.com with ESMTP; 26 Sep 2025 17:07:54 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v2HS6-0006ed-0s;
-	Fri, 26 Sep 2025 23:02:10 +0000
-Date: Sat, 27 Sep 2025 07:01:29 +0800
+	id 1v2ITf-000000005Nf-0sAr;
+	Sat, 27 Sep 2025 00:07:51 +0000
+Date: Sat, 27 Sep 2025 02:07:14 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 4/7] arm64: dts: renesas: r9a09g077: Add ADCs support
-Message-ID: <202509270619.ZcFhldYO-lkp@intel.com>
+Subject: [asahilinux:bits/000-devicetree 11/140]
+ arch/arm64/boot/dts/apple/t8015-d201.dtb: /soc/i2c@22e200000: failed to
+ match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+Message-ID: <202509270250.t1nKmes4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
@@ -69,57 +69,103 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250925224013.2146983-5-cosmin-gabriel.tanislav.xa@renesas.com>
-References: <20250925224013.2146983-5-cosmin-gabriel.tanislav.xa@renesas.com>
-TO: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-CC: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-CC: Jonathan Cameron <jic23@kernel.org>
-CC: David Lechner <dlechner@baylibre.com>
-CC: "Nuno Sá" <nuno.sa@analog.com>
-CC: Andy Shevchenko <andy@kernel.org>
-CC: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
-CC: Magnus Damm <magnus.damm@gmail.com>
-CC: linux-iio@vger.kernel.org
-CC: linux-renesas-soc@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+TO: Nick Chan <towinchenmi@gmail.com>
+CC: Janne Grunau <j@jannau.net>
+CC: Sven Peter <sven@kernel.org>
 
-Hi Cosmin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20250925]
-[cannot apply to geert-renesas-devel/next jic23-iio/togreg geert-renesas-drivers/renesas-clk arm64/for-next/core robh/for-next linus/master v6.17-rc7 v6.17-rc6 v6.17-rc5 v6.17-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cosmin-Tanislav/clk-renesas-r9a09g077-Add-ADC-modules-clock/20250926-064447
-base:   next-20250925
-patch link:    https://lore.kernel.org/r/20250925224013.2146983-5-cosmin-gabriel.tanislav.xa%40renesas.com
-patch subject: [PATCH v2 4/7] arm64: dts: renesas: r9a09g077: Add ADCs support
-:::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
-config: arm64-randconfig-051-20250926 (https://download.01.org/0day-ci/archive/20250927/202509270619.ZcFhldYO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509270619.ZcFhldYO-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   703a105e4188c8c9e084375a48f08853cf64cfca
+commit: 55c1cf8feecc1cce2203fcd6433548e213a3fa6b [11/140] arm64: dts: apple: t8015: Add I2C nodes
+:::::: branch date: 6 days ago
+:::::: commit date: 3 weeks ago
+config: arm64-randconfig-2052-20250919 (https://download.01.org/0day-ci/archive/20250927/202509270250.t1nKmes4-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509270250.t1nKmes4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509270619.ZcFhldYO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509270250.t1nKmes4-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: adc@90014000 (renesas,r9a09g077-adc): 'renesas,max-channels' does not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: adc@90014400 (renesas,r9a09g077-adc): 'renesas,max-channels' does not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dtb: adc@80008000 (renesas,r9a09g077-adc): 'renesas,max-channels' does not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml#
+   arch/arm64/boot/dts/apple/t8015-d201.dtb: i2c@22e200000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8015-d201.dtb: /soc/i2c@22e200000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8015-d201.dtb: i2c@22e204000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8015-d201.dtb: /soc/i2c@22e204000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8015-d201.dtb: i2c@22e208000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8015-d201.dtb: /soc/i2c@22e208000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8015-d201.dtb: i2c@22e20c000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8015-d201.dtb: /soc/i2c@22e20c000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+--
+>> arch/arm64/boot/dts/apple/t8015-d20.dtb: i2c@22e200000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8015-d20.dtb: /soc/i2c@22e200000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8015-d20.dtb: i2c@22e204000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8015-d20.dtb: /soc/i2c@22e204000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8015-d20.dtb: i2c@22e208000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8015-d20.dtb: /soc/i2c@22e208000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8015-d20.dtb: i2c@22e20c000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8015-d20.dtb: /soc/i2c@22e20c000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+--
+   arch/arm64/boot/dts/apple/t8015-d211.dtb: i2c@22e200000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8015-d211.dtb: /soc/i2c@22e200000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8015-d211.dtb: i2c@22e204000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8015-d211.dtb: /soc/i2c@22e204000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8015-d211.dtb: i2c@22e208000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8015-d211.dtb: /soc/i2c@22e208000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8015-d211.dtb: i2c@22e20c000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8015-d211.dtb: /soc/i2c@22e20c000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+--
+   arch/arm64/boot/dts/apple/t8015-d21.dtb: i2c@22e200000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8015-d21.dtb: /soc/i2c@22e200000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8015-d21.dtb: i2c@22e204000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8015-d21.dtb: /soc/i2c@22e204000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8015-d21.dtb: i2c@22e208000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8015-d21.dtb: /soc/i2c@22e208000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8015-d21.dtb: i2c@22e20c000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8015-d21.dtb: /soc/i2c@22e20c000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+--
+   arch/arm64/boot/dts/apple/t8015-d221.dtb: i2c@22e200000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8015-d221.dtb: /soc/i2c@22e200000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t8015-d221.dtb: i2c@22e204000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+>> arch/arm64/boot/dts/apple/t8015-d221.dtb: /soc/i2c@22e204000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8015-d221.dtb: i2c@22e208000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8015-d221.dtb: /soc/i2c@22e208000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8015-d221.dtb: i2c@22e20c000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8015-d221.dtb: /soc/i2c@22e20c000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+--
+>> arch/arm64/boot/dts/apple/t8015-d22.dtb: i2c@22e200000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8015-d22.dtb: /soc/i2c@22e200000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8015-d22.dtb: i2c@22e204000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8015-d22.dtb: /soc/i2c@22e204000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8015-d22.dtb: i2c@22e208000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8015-d22.dtb: /soc/i2c@22e208000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
+>> arch/arm64/boot/dts/apple/t8015-d22.dtb: i2c@22e20c000 (apple,t8015-i2c): compatible:0: 'apple,t8015-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t8015-d22.dtb: /soc/i2c@22e20c000: failed to match any schema with compatible: ['apple,t8015-i2c', 'apple,i2c']
 
 -- 
 0-DAY CI Kernel Test Service
