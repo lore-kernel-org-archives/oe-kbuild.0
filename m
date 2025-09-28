@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60C91E505
-	for <oe-kbuild@lists.linux.dev>; Sun, 28 Sep 2025 13:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6246C2367D7
+	for <oe-kbuild@lists.linux.dev>; Sun, 28 Sep 2025 15:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759066571; cv=none; b=QOvf353uKIuydUCpHO57Ws/GlQo65aCByFx846a0d6GiinCD90nEck/cQRK5OKk602hgIobqF2/kiWBMKElDZ68pIv062SaWLaOk0sQdyDSnN2QO1GXmjdCI2HsQVpEEBYo0az21lsarcAKUWCJBS4gQNuxhrDbS2XS+MK61ElU=
+	t=1759075073; cv=none; b=kpRQkZZryGtXlEwWulLKdYeIofBYma9RcK1KDwn+lYtGvUfxIE1TylQzu758ME/kPlukfVbXLWBiYs7w6UwQRsxk/7IJcnfCACAHTcrQzgZpftVX5TtDGLPRyijq6gFUeO41GaoxfPaT+dN1kbj70ZKCUIAZ8sTeyyx5u5LUs4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759066571; c=relaxed/simple;
-	bh=MNIhewz7mtA5ekWuwoWijoxcpajVBkOQH0zs9A+stbQ=;
+	s=arc-20240116; t=1759075073; c=relaxed/simple;
+	bh=k7ozT/0j5jI6IhqiEv2uSAMrl6QwtrTLU49klOQdVcg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H2dhM34C1p6taumQp6kWR6UtZgFHBZKeJ46qdpuI91jArIEN3iN7Y26hDVHK6sN6SCeXfPEvyB6twP/qazdeb+VUKV6vfsFIWW0Sp0dHW2dK+rUk/z/uhOKhsK7DS9nbdFhlgea5VWEaoX7TxeduEcfQX3R5CLyDqHtWdCVfHuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zv0coLnO; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=K1gPHVXECXKk7l/lAsJilRbr74DQ8/9O/LwSLKjsyjgl5ySLGRt8znAGkyDjGbcGAY2QpIvx58hXfBMyASiEjDQnMWucS6e7MwG7NT2zj3Hnl2jOk0YkFTPh3Jf0YqYvRvjCLnzvszOtgB7d6L8FoIDnOhUc4e1Ie1wuG4/jTSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eiuZz9JJ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zv0coLnO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eiuZz9JJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759066567; x=1790602567;
+  t=1759075072; x=1790611072;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MNIhewz7mtA5ekWuwoWijoxcpajVBkOQH0zs9A+stbQ=;
-  b=Zv0coLnOiXseL7VMRllvZRSOfjZp8Ds/9e4LXtOq0JaRSL9ve/5tcUKS
-   8q5j8Tygm4eqjeziY669ssC+yOAqunMmuQbJAFI0AW4CnKGAyztgHMKyh
-   NLudOl9d05usw3Kf5xhkNY/ZRJUtVo79Fbrjyzqzp9mUgVbN9qkSnFyoO
-   Sl1mD/7HP7M659sv4JMjetXe9nICx/YrDU0EAu2tnj4NwF6+sISNLFmfD
-   NlgA7dFuxD2nmUNLlJqIA84uJIN2IFXVt82XxbocPhidHrd1m13OsslSo
-   Bt/UZxwOVlBLDXeovied83BhqOINFSbF1D+U2hL0v+9jMcl8T0B3be/OZ
+  bh=k7ozT/0j5jI6IhqiEv2uSAMrl6QwtrTLU49klOQdVcg=;
+  b=eiuZz9JJzLgexXbOG20T5CSTYEGFJkawqDw40E85FuIbal3RQBPGmhTL
+   ixNVxxosDW1iQXhp9jmpuxZzVnxSjYpU7z9a49RaKaQ2JcO6VTu9LtjwI
+   GMHQf8AXvhcPJKavY6VddRTYJYNgkgIV2rf9c5asXFyTOk9y2JK1+kPS7
+   YhsKq3GzvKZLCwTkR0InLncE4iEbaZyzfukZBniMM8ZN41Be8TBWNEzbO
+   PKSS1wFoyKupvZZivY1rD7JDqyFjkdZpv1h0whGJNrwrB+AaLloTpvZM2
+   FsWpk7SiyCLayTZjRq9IbQXB8woZvtXD7hBZiuuyzj9BYLCth5UX2l5yN
    Q==;
-X-CSE-ConnectionGUID: MWyRyx5ERWaW9si1QSOcDw==
-X-CSE-MsgGUID: fl4MRe8qTla0vah1XS5EOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="61499749"
+X-CSE-ConnectionGUID: l+fWQcAcR9ywJ1GXpeV5Yw==
+X-CSE-MsgGUID: L1Na3ieiS/qUrZviEgA6Nw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="61223149"
 X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
-   d="scan'208";a="61499749"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 06:36:07 -0700
-X-CSE-ConnectionGUID: TsU9zcG4QoOxoCM7rHA0dw==
-X-CSE-MsgGUID: 2GuymWYzTwCOtuloAjfUQA==
+   d="scan'208";a="61223149"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 08:57:51 -0700
+X-CSE-ConnectionGUID: RFYGroM0QeWM98Cjz+ymdw==
+X-CSE-MsgGUID: hHluKz+WQXWxW68O3kEpcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
-   d="scan'208";a="178407020"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Sep 2025 06:36:05 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="215162667"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 28 Sep 2025 08:57:50 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2rZK-000000005f3-2Gxu;
-	Sun, 28 Sep 2025 13:36:02 +0000
-Date: Sun, 28 Sep 2025 15:35:39 +0200
+	id 1v2tm9-0007tT-08;
+	Sun, 28 Sep 2025 15:57:45 +0000
+Date: Sun, 28 Sep 2025 23:56:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 39/140]
- arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000
- (apple,t8112-dart): compatible:0: 'apple,t8112-dart' is not one of
- ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart',
- 'apple,t6000-dart']
-Message-ID: <202509281516.eKewaDeF-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [rafael-pm:bleeding-edge 201/217] include/linux/pm_runtime.h:630
+ class_pm_runtime_active_try_constructor() warn: passing zero to 'ERR_PTR'
+Message-ID: <202509282339.5cGL81At-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,146 +62,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
-CC: Hector Martin <marcan@marcan.st>
+CC: linux-acpi@vger.kernel.org
+CC: linux-pm@vger.kernel.org
+TO: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+CC: Takashi Iwai <tiwai@suse.de>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   703a105e4188c8c9e084375a48f08853cf64cfca
-commit: 7d0fa31f06c2e0ef2626a8984b2b00a31a7b19e1 [39/140] arm64: dts: apple: t8112: Add mtp device nodes for j413/j493
-:::::: branch date: 7 days ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-2051-20250919 (https://download.01.org/0day-ci/archive/20250928/202509281516.eKewaDeF-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ce5124856e019792783de9630d0c5a1f0aaf2d9d)
-dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509281516.eKewaDeF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   11c0c0dd019710f162cd5d246a4efdbaefdac48b
+commit: c160b0ae78a547a69b2990cf0756934b5cd44b87 [201/217] PCI/sysfs: Use runtime PM guard macro for auto-cleanup
+:::::: branch date: 5 hours ago
+:::::: commit date: 28 hours ago
+config: x86_64-randconfig-161-20250928 (https://download.01.org/0day-ci/archive/20250928/202509282339.5cGL81At-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509281516.eKewaDeF-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202509282339.5cGL81At-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000 (apple,t8112-dart): compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000 (apple,t8112-dart): compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: usb@382280000 (apple,t8112-dwc3): iommus: [[116, 0], [117, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: usb@382280000 (apple,t8112-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f00000 (apple,t8112-dart): compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f00000 (apple,t8112-dart): compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
---
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/smc@23e400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@24e808000 (apple,t8112-dart): compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@24e808000 (apple,t8112-dart): compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
->> arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: usb@382280000 (apple,t8112-dwc3): iommus: [[116, 0], [117, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: usb@382280000 (apple,t8112-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@382f00000 (apple,t8112-dart): compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t8112-j415.dtb: iommu@382f00000 (apple,t8112-dart): compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
---
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: pmic@e (apple,stowe-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: nvmem-layout (fixed-layout): 'boot-error-count@f702,0', 'panic-count@f702,4', 'shutdown-flag@f70f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@24e808000 (apple,t8112-dart): compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@24e808000 (apple,t8112-dart): compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: usb@382280000 (apple,t8112-dwc3): iommus: [[115, 0], [116, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: usb@382280000 (apple,t8112-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f00000 (apple,t8112-dart): compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
---
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@24e808000 (apple,t8112-dart): compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@24e808000 (apple,t8112-dart): compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: usb@382280000 (apple,t8112-dwc3): iommus: [[118, 0], [119, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: usb@382280000 (apple,t8112-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f00000 (apple,t8112-dart): compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
-   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+smatch warnings:
+include/linux/pm_runtime.h:630 class_pm_runtime_active_try_constructor() warn: passing zero to 'ERR_PTR'
+
+vim +/ERR_PTR +630 include/linux/pm_runtime.h
+
+15bcb91d7e607d Alan Stern        2010-09-25  618  
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  619  DEFINE_GUARD(pm_runtime_active, struct device *,
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  620  	     pm_runtime_get_sync(_T), pm_runtime_put(_T));
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  621  DEFINE_GUARD(pm_runtime_active_auto, struct device *,
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  622  	     pm_runtime_get_sync(_T), pm_runtime_put_autosuspend(_T));
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  623  /*
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  624   * Use the following guards with ACQUIRE()/ACQUIRE_ERR().
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  625   *
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  626   * The difference between the "_try" and "_try_enabled" variants is that the
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  627   * former do not produce an error when runtime PM is disabled for the given
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  628   * device.
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  629   */
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26 @630  DEFINE_GUARD_COND(pm_runtime_active, _try,
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  631  		  pm_runtime_get_active(_T, RPM_TRANSPARENT))
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  632  DEFINE_GUARD_COND(pm_runtime_active, _try_enabled,
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  633  		  pm_runtime_resume_and_get(_T))
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  634  DEFINE_GUARD_COND(pm_runtime_active_auto, _try,
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  635  		  pm_runtime_get_active(_T, RPM_TRANSPARENT))
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  636  DEFINE_GUARD_COND(pm_runtime_active_auto, _try_enabled,
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  637  		  pm_runtime_resume_and_get(_T))
+9a0b47ccadccdb Rafael J. Wysocki 2025-09-26  638  
+
+:::::: The code at line 630 was first introduced by commit
+:::::: 9a0b47ccadccdb73ae09f2e10af4bb2c0e6d906e PM: runtime: Add auto-cleanup macros for "resume and get" operations
+
+:::::: TO: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
