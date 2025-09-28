@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1024635
-	for <oe-kbuild@lists.linux.dev>; Sun, 28 Sep 2025 03:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384A7256C70
+	for <oe-kbuild@lists.linux.dev>; Sun, 28 Sep 2025 04:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759031045; cv=none; b=GCTj5+sJQLmyztjeVYyhHTzmIgmiCncWsE7ovZdkzBaTSDV9EuHOLDYtj5jJIQWE+MiU9TNFDo1vtkwOqM7Yw33/4rnnzH+NMZlLxo1byvKyn8aqYQJK+mvgD/lkgxfcG2sl0HbZGpQL3BD8uGm/jbgIDUbgeGBjcUFCYGSlpxU=
+	t=1759033927; cv=none; b=XR6EeY703a9l2QIchPAjxuyTQroWlLeNSyhvH2dUw6+W9R8jAaMVJWRXX6r9LIfIGugh69ubhWXEPvSV2kgGTVx+oUppVo6ucB/iYIM+PxdSD3KZaYDpUQ3lPFh0rZXkPQFD9RBnzHuK0tFK0VXZ07zA1bHYo3FP9JufdrYp1NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759031045; c=relaxed/simple;
-	bh=9vR2w8yW/pFF47G240FwbLYvwE68vcLFtJteCJu/m6s=;
+	s=arc-20240116; t=1759033927; c=relaxed/simple;
+	bh=y08bhZH6rzomJ5UsYEg02fcNBNbq88l3ZfTKkC4489M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FeaZVDy+REcxAG6Vf7eckkFAJzOoYLwY+Q9Jfd+cPgXRMsTueP7EVlwgbuL+XJ5Hyxzc57FCtxLskCaxjUOs4As8O36aGPUfLIBOP+OYf2A5nnjGSwzLIEeEX1MGJycWAdfrGhzKZHmz4vcLAWuujvYcmnOX5mQ7x7hxfapLp3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L279bptE; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=FfBaaxEcjRc/Zu2g/9GoetQmJBsl//Vti2luDXfG4RU/6H4B0ZAA0eVWz84JI7mjVVw2ebQFQjFtR1ctCrLAXSinWvtRnr1TU+qDDhtsFPHMFVLNtJcg6fqWcibtKyGb+Y09J7UJZN7elt6m5uO4ZOFJ455VsmSL5CeRZCRD4rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kCgq7IBG; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L279bptE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kCgq7IBG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759031044; x=1790567044;
+  t=1759033926; x=1790569926;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9vR2w8yW/pFF47G240FwbLYvwE68vcLFtJteCJu/m6s=;
-  b=L279bptEi7sqZrz6tLd49tjwXI5qm5FVodWfQMDuE+3YM77WD2YpG/yF
-   6ueseejjRqrE1G1zEwJszIuAUqavVOCp/CTgSzjdKQMzV5pcjY/wEdmRd
-   J5RXos3VcvcQWLyjfABMUIf30rkDFH79TRROoIrF/mn7kikrB+GW4TUCU
-   XrQ2wfMx9AKsDgpvVLwJ/YstMdIT+drKEDKiB8z81q+6SSoyy82UYoJir
-   +m7ymzX/UbEriGtwvw7OZ7ICUysbnW0taf7Vs94f6yji5lnrAkNXBqrTb
-   bjM1ycdzCz42sYa7t2Bj6oj28T3NPLONv+j9Y0OM5lYo5rD/HHfKj34mL
-   w==;
-X-CSE-ConnectionGUID: hV2jOTuXQVW4Ia/+L9xemw==
-X-CSE-MsgGUID: hK+IYDlsSK+VqLR32R+YSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="61422969"
+  bh=y08bhZH6rzomJ5UsYEg02fcNBNbq88l3ZfTKkC4489M=;
+  b=kCgq7IBGwHJmLALM9hfvvewLVn9KS0GIx7aL/AowfJ/qxYmu4eG3WR2a
+   hpyOUMkvXdwQhYVQYo8Laog7elVQmpxtsnt5+8eHhxWrdR47pn1/ZAun/
+   HTvjPf1QkXQBkDvwHYfUNyOfPeSIFHPrqCQ6VFyky+hHGx64KFQEzZEE5
+   Cml8Xw5oQAuys5Pw97xYROeIEN5IeS7KxregdPkvYdrQC3hBZEhYT09eq
+   9kSYogDk0uLOoUQCK8WOqdx2kawSSRsNyUt2fbPV2dTC02h2mbT88DW8l
+   1T6sGDmghnwrS2R58pvvGdxvQrGlA5SOVUcze3XWQjLmTNLwIPOfz2BaC
+   A==;
+X-CSE-ConnectionGUID: BiUlHlNYSi+pt7c9lTlCmw==
+X-CSE-MsgGUID: 1IaWs0CZToqwK1UzOvf5zg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="64944664"
 X-IronPort-AV: E=Sophos;i="6.18,298,1751266800"; 
-   d="scan'208";a="61422969"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 20:44:03 -0700
-X-CSE-ConnectionGUID: w1oVGo/2Shi6iJERH/nEow==
-X-CSE-MsgGUID: TkLRiztnS4q734mSmz9UNg==
+   d="scan'208";a="64944664"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 21:32:05 -0700
+X-CSE-ConnectionGUID: ROLomAI3T9OW8pATvhYc6A==
+X-CSE-MsgGUID: zxDI/SphRsOpFy9Etmz2nQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,298,1751266800"; 
-   d="scan'208";a="177873004"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Sep 2025 20:44:02 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="177988374"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 27 Sep 2025 21:32:03 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2iKO-000000005bV-16tG;
-	Sun, 28 Sep 2025 03:44:00 +0000
-Date: Sun, 28 Sep 2025 05:43:00 +0200
+	id 1v2j4q-0007Wh-2b;
+	Sun, 28 Sep 2025 04:32:00 +0000
+Date: Sun, 28 Sep 2025 12:31:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 26/140]
- arch/arm64/boot/dts/apple/t8103-j293.dtb: efuse@23d2bc000
- (apple,t8103-efuses): Unevaluated properties are not allowed
- ('efuse@430,26', 'efuse@430,29', 'efuse@430,31', 'efuse@434,15',
- 'efuse@434,21', 'efuse@434,23', 'efuse@434,9', 'efuse@438,12', 'efuse@4...
-Message-ID: <202509280537.G7tNlF4B-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [rafael-pm:bleeding-edge 197/212]
+ drivers/base/power/runtime-test.c:22 pm_runtime_depth_test() warn:
+ pm_runtime_get_sync() also returns 1 on success
+Message-ID: <202509281241.UIIOB2qJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,74 +63,233 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sven Peter <sven@svenpeter.dev>
-CC: Janne Grunau <j@jannau.net>
+CC: linux-acpi@vger.kernel.org
+CC: linux-pm@vger.kernel.org
+TO: Brian Norris <briannorris@chromium.org>
+CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   703a105e4188c8c9e084375a48f08853cf64cfca
-commit: 6c0b2152ae2916492ae80f95097886f0c7659cad [26/140] arm64: dts: apple: t8103: Add eFuses node and ATC phy fuses
-:::::: branch date: 7 days ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-2052-20250919 (https://download.01.org/0day-ci/archive/20250928/202509280537.G7tNlF4B-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509280537.G7tNlF4B-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   95b83771c9f38207ff42311ccc4739db76d19f33
+commit: 7f7acd193ba8aaa8ed07cfadc335bb17a991fd42 [197/212] PM: runtime: Add basic kunit tests for API contracts
+:::::: branch date: 16 hours ago
+:::::: commit date: 17 hours ago
+config: x86_64-randconfig-161-20250928 (https://download.01.org/0day-ci/archive/20250928/202509281241.UIIOB2qJ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509280537.G7tNlF4B-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202509281241.UIIOB2qJ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: pmic@f (apple,sera-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: nvmem-layout (fixed-layout): 'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/smc@23e400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/smc@23e400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: efuse@23d2bc000 (apple,t8103-efuses): Unevaluated properties are not allowed ('efuse@430,26', 'efuse@430,29', 'efuse@430,31', 'efuse@434,15', 'efuse@434,21', 'efuse@434,23', 'efuse@434,9', 'efuse@438,12', 'efuse@438,14', 'efuse@438,19', 'efuse@438,25', 'efuse@438,31', 'efuse@438,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: usb@382280000 (apple,t8103-dwc3): iommus: [[112, 0], [113, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: usb@382280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: usb@502280000 (apple,t8103-dwc3): iommus: [[127, 0], [128, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: pmic@f (apple,sera-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: nvmem-layout (fixed-layout): 'boot-error-count@9f02,0', 'panic-count@9f02,4', 'shutdown-flag@9f0f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8103-smc', 'apple,smc']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/smc@23e400000/gpio: failed to match any schema with compatible: ['apple,smc-gpio']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/smc@23e400000/rtc: failed to match any schema with compatible: ['apple,smc-rtc']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/smc@23e400000/reboot: failed to match any schema with compatible: ['apple,smc-reboot']
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: efuse@23d2bc000 (apple,t8103-efuses): Unevaluated properties are not allowed ('efuse@430,26', 'efuse@430,29', 'efuse@430,31', 'efuse@434,15', 'efuse@434,21', 'efuse@434,23', 'efuse@434,9', 'efuse@438,12', 'efuse@438,14', 'efuse@438,19', 'efuse@438,25', 'efuse@438,31', 'efuse@438,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: usb@382280000 (apple,t8103-dwc3): iommus: [[110, 0], [111, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: usb@382280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: usb@502280000 (apple,t8103-dwc3): iommus: [[125, 0], [126, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+New smatch warnings:
+drivers/base/power/runtime-test.c:22 pm_runtime_depth_test() warn: pm_runtime_get_sync() also returns 1 on success
+drivers/base/power/runtime-test.c:78 pm_runtime_idle_test() warn: pm_runtime_get_sync() also returns 1 on success
+drivers/base/power/runtime-test.c:182 pm_runtime_error_test() warn: pm_runtime_get_sync() also returns 1 on success
+
+Old smatch warnings:
+drivers/base/power/runtime-test.c:185 pm_runtime_error_test() warn: pm_runtime_get_sync() also returns 1 on success
+
+vim +22 drivers/base/power/runtime-test.c
+
+7f7acd193ba8aa Brian Norris 2025-09-25   12  
+7f7acd193ba8aa Brian Norris 2025-09-25   13  static void pm_runtime_depth_test(struct kunit *test)
+7f7acd193ba8aa Brian Norris 2025-09-25   14  {
+7f7acd193ba8aa Brian Norris 2025-09-25   15  	struct device *dev = kunit_device_register(test, DEVICE_NAME);
+7f7acd193ba8aa Brian Norris 2025-09-25   16  
+7f7acd193ba8aa Brian Norris 2025-09-25   17  	KUNIT_ASSERT_PTR_NE(test, NULL, dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   18  
+7f7acd193ba8aa Brian Norris 2025-09-25   19  	pm_runtime_enable(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   20  
+7f7acd193ba8aa Brian Norris 2025-09-25   21  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  @22  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_get_sync(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   23  	KUNIT_EXPECT_TRUE(test, pm_runtime_active(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   24  	KUNIT_EXPECT_EQ(test, 1, pm_runtime_get_sync(dev)); /* "already active" */
+7f7acd193ba8aa Brian Norris 2025-09-25   25  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_put_sync(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   26  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_put_sync(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   27  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   28  }
+7f7acd193ba8aa Brian Norris 2025-09-25   29  
+7f7acd193ba8aa Brian Norris 2025-09-25   30  /* Test pm_runtime_put() and friends when already suspended. */
+7f7acd193ba8aa Brian Norris 2025-09-25   31  static void pm_runtime_already_suspended_test(struct kunit *test)
+7f7acd193ba8aa Brian Norris 2025-09-25   32  {
+7f7acd193ba8aa Brian Norris 2025-09-25   33  	struct device *dev = kunit_device_register(test, DEVICE_NAME);
+7f7acd193ba8aa Brian Norris 2025-09-25   34  
+7f7acd193ba8aa Brian Norris 2025-09-25   35  	KUNIT_ASSERT_PTR_NE(test, NULL, dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   36  
+7f7acd193ba8aa Brian Norris 2025-09-25   37  	pm_runtime_enable(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   38  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   39  
+7f7acd193ba8aa Brian Norris 2025-09-25   40  	pm_runtime_get_noresume(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   41  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_barrier(dev)); /* no wakeup needed */
+7f7acd193ba8aa Brian Norris 2025-09-25   42  	pm_runtime_put(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   43  
+7f7acd193ba8aa Brian Norris 2025-09-25   44  	pm_runtime_get_noresume(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   45  	KUNIT_EXPECT_EQ(test, -EAGAIN, pm_runtime_put_sync(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   46  
+7f7acd193ba8aa Brian Norris 2025-09-25   47  	KUNIT_EXPECT_EQ(test, 1, pm_runtime_suspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   48  	KUNIT_EXPECT_EQ(test, 1, pm_runtime_autosuspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   49  	KUNIT_EXPECT_EQ(test, 1, pm_request_autosuspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   50  
+7f7acd193ba8aa Brian Norris 2025-09-25   51  	pm_runtime_get_noresume(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   52  	KUNIT_EXPECT_EQ(test, 1, pm_runtime_put_sync_autosuspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   53  
+7f7acd193ba8aa Brian Norris 2025-09-25   54  	pm_runtime_get_noresume(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   55  	pm_runtime_put_autosuspend(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   56  
+7f7acd193ba8aa Brian Norris 2025-09-25   57  	/* Grab 2 refcounts */
+7f7acd193ba8aa Brian Norris 2025-09-25   58  	pm_runtime_get_noresume(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   59  	pm_runtime_get_noresume(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   60  	/* The first put() sees usage_count 1 */
+7f7acd193ba8aa Brian Norris 2025-09-25   61  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_put_sync_autosuspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   62  	/* The second put() sees usage_count 0 but tells us "already suspended". */
+7f7acd193ba8aa Brian Norris 2025-09-25   63  	KUNIT_EXPECT_EQ(test, 1, pm_runtime_put_sync_autosuspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   64  
+7f7acd193ba8aa Brian Norris 2025-09-25   65  	/* Should have remained suspended the whole time. */
+7f7acd193ba8aa Brian Norris 2025-09-25   66  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   67  }
+7f7acd193ba8aa Brian Norris 2025-09-25   68  
+7f7acd193ba8aa Brian Norris 2025-09-25   69  static void pm_runtime_idle_test(struct kunit *test)
+7f7acd193ba8aa Brian Norris 2025-09-25   70  {
+7f7acd193ba8aa Brian Norris 2025-09-25   71  	struct device *dev = kunit_device_register(test, DEVICE_NAME);
+7f7acd193ba8aa Brian Norris 2025-09-25   72  
+7f7acd193ba8aa Brian Norris 2025-09-25   73  	KUNIT_ASSERT_PTR_NE(test, NULL, dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   74  
+7f7acd193ba8aa Brian Norris 2025-09-25   75  	pm_runtime_enable(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   76  
+7f7acd193ba8aa Brian Norris 2025-09-25   77  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  @78  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_get_sync(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   79  	KUNIT_EXPECT_TRUE(test, pm_runtime_active(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   80  	KUNIT_EXPECT_EQ(test, -EAGAIN, pm_runtime_idle(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   81  	KUNIT_EXPECT_TRUE(test, pm_runtime_active(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   82  	pm_runtime_put_noidle(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   83  	KUNIT_EXPECT_TRUE(test, pm_runtime_active(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   84  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_idle(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   85  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   86  	KUNIT_EXPECT_EQ(test, -EAGAIN, pm_runtime_idle(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   87  	KUNIT_EXPECT_EQ(test, -EAGAIN, pm_request_idle(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   88  }
+7f7acd193ba8aa Brian Norris 2025-09-25   89  
+7f7acd193ba8aa Brian Norris 2025-09-25   90  static void pm_runtime_disabled_test(struct kunit *test)
+7f7acd193ba8aa Brian Norris 2025-09-25   91  {
+7f7acd193ba8aa Brian Norris 2025-09-25   92  	struct device *dev = kunit_device_register(test, DEVICE_NAME);
+7f7acd193ba8aa Brian Norris 2025-09-25   93  
+7f7acd193ba8aa Brian Norris 2025-09-25   94  	KUNIT_ASSERT_PTR_NE(test, NULL, dev);
+7f7acd193ba8aa Brian Norris 2025-09-25   95  
+7f7acd193ba8aa Brian Norris 2025-09-25   96  	/* Never called pm_runtime_enable() */
+7f7acd193ba8aa Brian Norris 2025-09-25   97  	KUNIT_EXPECT_FALSE(test, pm_runtime_enabled(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25   98  
+7f7acd193ba8aa Brian Norris 2025-09-25   99  	/* "disabled" is treated as "active" */
+7f7acd193ba8aa Brian Norris 2025-09-25  100  	KUNIT_EXPECT_TRUE(test, pm_runtime_active(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  101  	KUNIT_EXPECT_FALSE(test, pm_runtime_suspended(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  102  
+7f7acd193ba8aa Brian Norris 2025-09-25  103  	/*
+7f7acd193ba8aa Brian Norris 2025-09-25  104  	 * Note: these "fail", but they still acquire/release refcounts, so
+7f7acd193ba8aa Brian Norris 2025-09-25  105  	 * keep them balanced.
+7f7acd193ba8aa Brian Norris 2025-09-25  106  	 */
+7f7acd193ba8aa Brian Norris 2025-09-25  107  	KUNIT_EXPECT_EQ(test, -EACCES, pm_runtime_get(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  108  	pm_runtime_put(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25  109  
+7f7acd193ba8aa Brian Norris 2025-09-25  110  	KUNIT_EXPECT_EQ(test, -EACCES, pm_runtime_get_sync(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  111  	KUNIT_EXPECT_EQ(test, -EACCES, pm_runtime_put_sync(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  112  
+7f7acd193ba8aa Brian Norris 2025-09-25  113  	KUNIT_EXPECT_EQ(test, -EACCES, pm_runtime_get(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  114  	pm_runtime_put_autosuspend(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25  115  
+7f7acd193ba8aa Brian Norris 2025-09-25  116  	KUNIT_EXPECT_EQ(test, -EACCES, pm_runtime_resume_and_get(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  117  	KUNIT_EXPECT_EQ(test, -EACCES, pm_runtime_idle(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  118  	KUNIT_EXPECT_EQ(test, -EACCES, pm_request_idle(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  119  	KUNIT_EXPECT_EQ(test, -EACCES, pm_request_resume(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  120  	KUNIT_EXPECT_EQ(test, -EACCES, pm_request_autosuspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  121  	KUNIT_EXPECT_EQ(test, -EACCES, pm_runtime_suspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  122  	KUNIT_EXPECT_EQ(test, -EACCES, pm_runtime_resume(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  123  	KUNIT_EXPECT_EQ(test, -EACCES, pm_runtime_autosuspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  124  
+7f7acd193ba8aa Brian Norris 2025-09-25  125  	/* Still disabled */
+7f7acd193ba8aa Brian Norris 2025-09-25  126  	KUNIT_EXPECT_TRUE(test, pm_runtime_active(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  127  	KUNIT_EXPECT_FALSE(test, pm_runtime_enabled(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  128  }
+7f7acd193ba8aa Brian Norris 2025-09-25  129  
+7f7acd193ba8aa Brian Norris 2025-09-25  130  static void pm_runtime_error_test(struct kunit *test)
+7f7acd193ba8aa Brian Norris 2025-09-25  131  {
+7f7acd193ba8aa Brian Norris 2025-09-25  132  	struct device *dev = kunit_device_register(test, DEVICE_NAME);
+7f7acd193ba8aa Brian Norris 2025-09-25  133  
+7f7acd193ba8aa Brian Norris 2025-09-25  134  	KUNIT_ASSERT_PTR_NE(test, NULL, dev);
+7f7acd193ba8aa Brian Norris 2025-09-25  135  
+7f7acd193ba8aa Brian Norris 2025-09-25  136  	pm_runtime_enable(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25  137  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  138  
+7f7acd193ba8aa Brian Norris 2025-09-25  139  	/* Fake a .runtime_resume() error */
+7f7acd193ba8aa Brian Norris 2025-09-25  140  	dev->power.runtime_error = -EIO;
+7f7acd193ba8aa Brian Norris 2025-09-25  141  
+7f7acd193ba8aa Brian Norris 2025-09-25  142  	/*
+7f7acd193ba8aa Brian Norris 2025-09-25  143  	 * Note: these "fail", but they still acquire/release refcounts, so
+7f7acd193ba8aa Brian Norris 2025-09-25  144  	 * keep them balanced.
+7f7acd193ba8aa Brian Norris 2025-09-25  145  	 */
+7f7acd193ba8aa Brian Norris 2025-09-25  146  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_runtime_get(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  147  	pm_runtime_put(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25  148  
+7f7acd193ba8aa Brian Norris 2025-09-25  149  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_runtime_get_sync(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  150  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_runtime_put_sync(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  151  
+7f7acd193ba8aa Brian Norris 2025-09-25  152  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_runtime_get(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  153  	pm_runtime_put_autosuspend(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25  154  
+7f7acd193ba8aa Brian Norris 2025-09-25  155  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_runtime_get(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  156  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_runtime_put_sync_autosuspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  157  
+7f7acd193ba8aa Brian Norris 2025-09-25  158  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_runtime_resume_and_get(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  159  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_runtime_idle(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  160  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_request_idle(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  161  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_request_resume(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  162  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_request_autosuspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  163  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_runtime_suspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  164  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_runtime_resume(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  165  	KUNIT_EXPECT_EQ(test, -EINVAL, pm_runtime_autosuspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  166  
+7f7acd193ba8aa Brian Norris 2025-09-25  167  	/* Error is still pending */
+7f7acd193ba8aa Brian Norris 2025-09-25  168  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  169  	KUNIT_EXPECT_EQ(test, -EIO, dev->power.runtime_error);
+7f7acd193ba8aa Brian Norris 2025-09-25  170  	/* Clear error */
+7f7acd193ba8aa Brian Norris 2025-09-25  171  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_set_suspended(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  172  	KUNIT_EXPECT_EQ(test, 0, dev->power.runtime_error);
+7f7acd193ba8aa Brian Norris 2025-09-25  173  	/* Still suspended */
+7f7acd193ba8aa Brian Norris 2025-09-25  174  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  175  
+7f7acd193ba8aa Brian Norris 2025-09-25  176  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_get(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  177  	KUNIT_EXPECT_EQ(test, 1, pm_runtime_barrier(dev)); /* resume was pending */
+7f7acd193ba8aa Brian Norris 2025-09-25  178  	pm_runtime_put(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25  179  	pm_runtime_suspend(dev); /* flush the put(), to suspend */
+7f7acd193ba8aa Brian Norris 2025-09-25  180  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  181  
+7f7acd193ba8aa Brian Norris 2025-09-25 @182  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_get_sync(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  183  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_put_sync(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  184  
+7f7acd193ba8aa Brian Norris 2025-09-25  185  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_get_sync(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  186  	pm_runtime_put_autosuspend(dev);
+7f7acd193ba8aa Brian Norris 2025-09-25  187  
+7f7acd193ba8aa Brian Norris 2025-09-25  188  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_resume_and_get(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  189  
+7f7acd193ba8aa Brian Norris 2025-09-25  190  	/*
+7f7acd193ba8aa Brian Norris 2025-09-25  191  	 * The following should all return -EAGAIN (usage is non-zero) or 1
+7f7acd193ba8aa Brian Norris 2025-09-25  192  	 * (already resumed).
+7f7acd193ba8aa Brian Norris 2025-09-25  193  	 */
+7f7acd193ba8aa Brian Norris 2025-09-25  194  	KUNIT_EXPECT_EQ(test, -EAGAIN, pm_runtime_idle(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  195  	KUNIT_EXPECT_EQ(test, -EAGAIN, pm_request_idle(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  196  	KUNIT_EXPECT_EQ(test, 1, pm_request_resume(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  197  	KUNIT_EXPECT_EQ(test, -EAGAIN, pm_request_autosuspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  198  	KUNIT_EXPECT_EQ(test, -EAGAIN, pm_runtime_suspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  199  	KUNIT_EXPECT_EQ(test, 1, pm_runtime_resume(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  200  	KUNIT_EXPECT_EQ(test, -EAGAIN, pm_runtime_autosuspend(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  201  
+7f7acd193ba8aa Brian Norris 2025-09-25  202  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_put_sync(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  203  
+7f7acd193ba8aa Brian Norris 2025-09-25  204  	/* Suspended again */
+7f7acd193ba8aa Brian Norris 2025-09-25  205  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
+7f7acd193ba8aa Brian Norris 2025-09-25  206  }
+7f7acd193ba8aa Brian Norris 2025-09-25  207  
 
 -- 
 0-DAY CI Kernel Test Service
