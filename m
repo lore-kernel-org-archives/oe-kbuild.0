@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1785A29BD83
-	for <oe-kbuild@lists.linux.dev>; Mon, 29 Sep 2025 10:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2D32EB5AF
+	for <oe-kbuild@lists.linux.dev>; Mon, 29 Sep 2025 12:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759142656; cv=none; b=MEw3BTyhbe7qLsQAFCqNfGhgf/Fo1dCx6jn/4e3UvLQIalsxexy20rIjTRz/XTqfinF3jcb0y9ZGk4EoU6o2Z7lP4ME3qMykOyhUdXWVZK1w3j6LWh5lw+21cHl7P4OhQYERTG3uMppC/1JScTxg1KsOyAfl9iHoJvzc0TbyFng=
+	t=1759148507; cv=none; b=qXasfZxeLoymwV1FIaewqKFXT3BjuuVR2FklEu4p8oUKRufuq9q3bSDmcK9szhqJ17fRv/djk9DjKE34+wNd01m9shDud2/MOJmiXSfYn1LSZiyNjuZLccySElM6U5MB9pjQbNH/adNq9h7EnwMdK/L1x78bw/7lgO9uPNwHRAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759142656; c=relaxed/simple;
-	bh=XiaLMQaNbUrGy5Z2t9uxLhPNJvUpVShkxrj6LYodXnQ=;
+	s=arc-20240116; t=1759148507; c=relaxed/simple;
+	bh=HdEMLMZbmdaYzwmyHya11/Uk7tGsr7s6NZjOfLTSYmA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T1Ktm3AzyhmiRhxPYV0NfF4SR/iJajdkLuBYBFsqtSS1wW/gcJj1Kh8uATorYKjRpB/0ULHMHrDfdY5PUnwfMFHYrAJ7oqXzquC/7iV4BG1gV1/F4HuO60dVxVWx9mL76oU62C6T44U0hM5WwoTsH1dpdDs4miR1xua97dCAWR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HXmbD/59; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=R0VhYI3JVkbYoXHU972T3ehqV8u7Oj+r5kQkHeZEoykLY6P144GdsGB/sKIdyKfFLUcbR74RnoykQ24R7w4k5TlLczUWQ9c0vApcEZZtKqPJpJf39XmO/z18hLNVyzbxtUzTMrIPGZRjTYClgTjvSrHzWmGYEZmVymntbofHZaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lch2K+Oi; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HXmbD/59"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lch2K+Oi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759142654; x=1790678654;
+  t=1759148505; x=1790684505;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XiaLMQaNbUrGy5Z2t9uxLhPNJvUpVShkxrj6LYodXnQ=;
-  b=HXmbD/59/UxJRoqtlD9LANZVxqRpBNN6f+Q40JMLjXhkuov/Kex/SJxh
-   dHU8yjxAv8YeIr+6D9JPvJX//hxxKraVXwz6XQoYWr2mwQELHuSkgNG7Z
-   iWyYgxe90r7HQjG2JT22T+q+8TIvNSnvGImavP+XmZSspOD3FLncW5q+V
-   ekDosnoRgl05VB4wAiZaTh+JrwXnDT2cPV/SGRwoNAi1VhLvZu7r8IwUd
-   HhGV32tczrDKqmb6NMeLKK5ygzOFP8detFZ1xaCa9X25p2uDBiaEZaGJ8
-   GzmFgIuKi4VwU2XZplC3rxVLI88uVsgwU8Yz5xqxcXqd2PaPcXXDslrY0
-   w==;
-X-CSE-ConnectionGUID: 0EdifYrdSLWKRBF6atATvQ==
-X-CSE-MsgGUID: xin6xIKKRWaKEjY7Z0Md+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="79027213"
+  bh=HdEMLMZbmdaYzwmyHya11/Uk7tGsr7s6NZjOfLTSYmA=;
+  b=Lch2K+OivPBuHfaLaZkJ3OWiFuwtDpZFOgsQLId9u8YgaWjZNkJmvp5C
+   CAe/B44TxQ8uWK0NDEufzDzXpw7t41WPZquIB8HzMtZ3tZq2Y3qvo+I74
+   PWvcdy5DTjAkWBbCWQsOTmzJFtjsyEQVLfmC4M1gEO1P4V0uD5VbVBEpy
+   3+wKJMB0r0qRSYWPJPvotTPWUsMqaH0hS9+vRQqfQEkeCqM2IIIcXgpyp
+   72yYbkj7qbWC51AOGL3k+c7EH2VfuFDYBDa2fP1VkWMG2MAAj2sZr7atz
+   kqgwrSHl2mTl8ZFMxBT39Zk7RRpkjfwpAP2LzMS3WolKaaA3Cmh+x7twS
+   A==;
+X-CSE-ConnectionGUID: y6z9rEIYTw2WUadi9WN/FA==
+X-CSE-MsgGUID: DmaksRYAT4WRsLzJ/yMLUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="72066080"
 X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; 
-   d="scan'208";a="79027213"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 03:44:13 -0700
-X-CSE-ConnectionGUID: zuTkf0kIQdS+Cat/2Lkybw==
-X-CSE-MsgGUID: ITTbkCtzTwmsqTgT1KsfmQ==
+   d="scan'208";a="72066080"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 05:21:44 -0700
+X-CSE-ConnectionGUID: zGgcWSXGT6ibTvwALSC03w==
+X-CSE-MsgGUID: l+qWUgmDSjy8nMSM9EedoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; 
-   d="scan'208";a="201875689"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa002.fm.intel.com with ESMTP; 29 Sep 2025 03:44:11 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="183412777"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 29 Sep 2025 05:21:42 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v3BMX-000000005pd-29Wm;
-	Mon, 29 Sep 2025 10:44:09 +0000
-Date: Mon, 29 Sep 2025 12:43:32 +0200
+	id 1v3Cst-0000FY-36;
+	Mon, 29 Sep 2025 12:21:39 +0000
+Date: Mon, 29 Sep 2025 20:20:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 38/140]
- arch/arm64/boot/dts/apple/t6001-j314c.dtb:
- /soc/spi@39b10c000/hid-transport@0: failed to match any schema with
- compatible: ['apple,spi-hid-transport']
-Message-ID: <202509291211.wjbTW11q-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [bcachefs:master 421/456] fs/bcachefs/io_write.c:1488
+ bch2_nocow_write() warn: statement has no effect 'class_printbuf_t'
+Message-ID: <202509292017.YbSv8cnF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,95 +62,205 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
+CC: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   703a105e4188c8c9e084375a48f08853cf64cfca
-commit: 878e0f5afc82e68693df9f28e0d1783083a4bde0 [38/140] arm64: dts: apple: j31[46]: Add keyboard nodes
-:::::: branch date: 8 days ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-2052-20250919 (https://download.01.org/0day-ci/archive/20250929/202509291211.wjbTW11q-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509291211.wjbTW11q-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git master
+head:   65e84e043df56f6f627de9d13a62516230d724ba
+commit: 5a0ea9850f9f94bdd10f39f9f075b144f8708bb2 [421/456] bcachefs: Convert nocow write path to new nocow locking helpers
+:::::: branch date: 16 hours ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20250929 (https://download.01.org/0day-ci/archive/20250929/202509292017.YbSv8cnF-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509291211.wjbTW11q-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202509292017.YbSv8cnF-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[156, 0], [157, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
---
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[142, 0], [143, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
---
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'fixed-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: pmic@f (apple,maverick-pmic): nvmem-layout: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'boot-error-count@6002,0', 'boot-error-stage@6003', 'boot-stage@6001', 'fault-shadow@867b', 'panic-count@6002,4', 'pm-setting@1405', 'rtc-offset@1411', 'shutdown-flag@600f,3', 'socd@8b00' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: pmic@f (apple,maverick-pmic): Unevaluated properties are not allowed ('nvmem-layout' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,spmi-nvmem.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: nvmem-layout (fixed-layout): 'boot-error-count@6002,0', 'panic-count@6002,4', 'shutdown-flag@600f,3' do not match any of the regexes: '@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/nvmem/layouts/fixed-layout.yaml#
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@702280000 (apple,t6000-dwc3): iommus: [[156, 0], [157, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@702280000 (apple,t6000-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/phy@703000000: failed to match any schema with compatible: ['apple,t6000-atcphy', 'apple,t8103-atcphy']
+New smatch warnings:
+fs/bcachefs/io_write.c:1488 bch2_nocow_write() warn: statement has no effect 'class_printbuf_t'
+fs/bcachefs/io_write.c:1488 bch2_nocow_write() warn: statement has no effect 'class_printbuf_t'
+
+Old smatch warnings:
+fs/bcachefs/io_write.c:769 bch2_write_endio() error: we previously assumed 'ca' could be null (see line 751)
+fs/bcachefs/io_write.c:952 bch2_write_prep_encoded_data() warn: missing unwind goto?
+
+vim +/class_printbuf_t +1488 fs/bcachefs/io_write.c
+
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1344  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1345  static void bch2_nocow_write(struct bch_write_op *op)
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1346  {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1347  	struct bch_fs *c = op->c;
+6bd68ec266ad71 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1348  	struct btree_trans *trans;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1349  	struct btree_iter iter;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1350  	struct bkey_s_c k;
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1351  	struct bkey_ptrs_c ptrs;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1352  	u32 snapshot;
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1353  	const struct bch_extent_ptr *stale_at;
+9432e90df1b8a5 fs/bcachefs/io_write.c Kent Overstreet 2024-06-06  1354  	int stale, ret;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1355  
+14e2523fc59d16 fs/bcachefs/io_write.c Kent Overstreet 2025-01-19  1356  	if (op->flags & BCH_WRITE_move)
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1357  		return;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1358  
+6bd68ec266ad71 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1359  	trans = bch2_trans_get(c);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1360  retry:
+6bd68ec266ad71 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1361  	bch2_trans_begin(trans);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1362  
+6bd68ec266ad71 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1363  	ret = bch2_subvolume_get_snapshot(trans, op->subvol, &snapshot);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1364  	if (unlikely(ret))
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1365  		goto err;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1366  
+6bd68ec266ad71 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1367  	bch2_trans_iter_init(trans, &iter, BTREE_ID_extents,
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1368  			     SPOS(op->pos.inode, op->pos.offset, snapshot),
+5dd8c60e1e0448 fs/bcachefs/io_write.c Kent Overstreet 2024-04-07  1369  			     BTREE_ITER_slots);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1370  	while (1) {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1371  		struct bio *bio = &op->wbio.bio;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1372  
+ca563dccb2f0fb fs/bcachefs/io_write.c Kent Overstreet 2024-04-09  1373  		ret = bch2_trans_relock(trans);
+ca563dccb2f0fb fs/bcachefs/io_write.c Kent Overstreet 2024-04-09  1374  		if (ret)
+ca563dccb2f0fb fs/bcachefs/io_write.c Kent Overstreet 2024-04-09  1375  			break;
+ca563dccb2f0fb fs/bcachefs/io_write.c Kent Overstreet 2024-04-09  1376  
+f68e453b6c94c5 fs/bcachefs/io_write.c Kent Overstreet 2025-07-30  1377  		k = bch2_btree_iter_peek_slot(&iter);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1378  		ret = bkey_err(k);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1379  		if (ret)
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1380  			break;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1381  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1382  		/* fall back to normal cow write path? */
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1383  		if (unlikely(k.k->p.snapshot != snapshot ||
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1384  			     !bch2_extent_is_writeable(op, k)))
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1385  			break;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1386  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1387  		if (bch2_keylist_realloc(&op->insert_keys,
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1388  					 op->inline_keys,
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1389  					 ARRAY_SIZE(op->inline_keys),
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1390  					 k.k->u64s))
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1391  			break;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1392  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1393  		/* Get iorefs before dropping btree locks: */
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1394  		ptrs = bch2_bkey_ptrs_c(k);
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1395  		if (!bkey_get_dev_iorefs(c, ptrs))
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1396  			goto out;
+48af853925998c fs/bcachefs/io_write.c Kent Overstreet 2024-05-03  1397  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1398  		/* Unlock before taking nocow locks, doing IO: */
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1399  		bkey_reassemble(op->insert_keys.top, k);
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1400  		k = bkey_i_to_s_c(op->insert_keys.top);
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1401  		ptrs = bch2_bkey_ptrs_c(k);
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1402  
+6bd68ec266ad71 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1403  		bch2_trans_unlock(trans);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1404  
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1405  		bch2_bkey_nocow_lock(c, ptrs, BUCKET_NOCOW_LOCK_UPDATE);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1406  
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1407  		/*
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1408  		 * This could be handled better: If we're able to trylock the
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1409  		 * nocow locks with btree locks held we know dirty pointers
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1410  		 * can't be stale
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1411  		 */
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1412  		bkey_for_each_ptr(ptrs, ptr) {
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1413  			struct bch_dev *ca = bch2_dev_have_ref(c, ptr->dev);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1414  
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1415  			int gen = bucket_gen_get(ca, PTR_BUCKET_NR(ca, ptr));
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1416  			stale = gen < 0 ? gen : gen_after(gen, ptr->gen);
+d9534cc9fc4552 fs/bcachefs/io_write.c Kent Overstreet 2023-12-30  1417  			if (unlikely(stale)) {
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1418  				stale_at = ptr;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1419  				goto err_bucket_stale;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1420  			}
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1421  
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1422  			if (ptr->unwritten)
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1423  				op->flags |= BCH_WRITE_convert_unwritten;
+d9534cc9fc4552 fs/bcachefs/io_write.c Kent Overstreet 2023-12-30  1424  		}
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1425  
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1426  		bch2_cut_front(op->pos, op->insert_keys.top);
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1427  		if (op->flags & BCH_WRITE_convert_unwritten)
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1428  			bch2_cut_back(POS(op->pos.inode, op->pos.offset + bio_sectors(bio)), op->insert_keys.top);
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1429  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1430  		bio = &op->wbio.bio;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1431  		if (k.k->p.offset < op->pos.offset + bio_sectors(bio)) {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1432  			bio = bio_split(bio, k.k->p.offset - op->pos.offset,
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1433  					GFP_KERNEL, &c->bio_write);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1434  			wbio_init(bio)->put_bio = true;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1435  			bio->bi_opf = op->wbio.bio.bi_opf;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1436  		} else {
+14e2523fc59d16 fs/bcachefs/io_write.c Kent Overstreet 2025-01-19  1437  			op->flags |= BCH_WRITE_submitted;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1438  		}
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1439  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1440  		op->pos.offset += bio_sectors(bio);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1441  		op->written += bio_sectors(bio);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1442  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1443  		bio->bi_end_io	= bch2_write_endio;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1444  		bio->bi_private	= &op->cl;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1445  		bio->bi_opf |= REQ_OP_WRITE;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1446  		closure_get(&op->cl);
+5a06cb8000addb fs/bcachefs/io_write.c Kent Overstreet 2025-03-08  1447  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1448  		bch2_submit_wbio_replicas(to_wbio(bio), c, BCH_DATA_user,
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1449  					  op->insert_keys.top, true);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1450  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1451  		bch2_keylist_push(&op->insert_keys);
+14e2523fc59d16 fs/bcachefs/io_write.c Kent Overstreet 2025-01-19  1452  		if (op->flags & BCH_WRITE_submitted)
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1453  			break;
+f68e453b6c94c5 fs/bcachefs/io_write.c Kent Overstreet 2025-07-30  1454  		bch2_btree_iter_advance(&iter);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1455  	}
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1456  out:
+363832bfd5fd98 fs/bcachefs/io_write.c Kent Overstreet 2025-07-30  1457  	bch2_trans_iter_exit(&iter);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1458  err:
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1459  	if (bch2_err_matches(ret, BCH_ERR_transaction_restart))
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1460  		goto retry;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1461  
+097cc9d0d60a36 fs/bcachefs/io_write.c Kent Overstreet 2024-11-13  1462  	bch2_trans_put(trans);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1463  	if (ret) {
+2fe208303a1140 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  1464  		bch2_write_op_error(op, op->pos.offset,
+1ccbcd32057727 fs/bcachefs/io_write.c Kent Overstreet 2025-02-10  1465  				    "%s(): btree lookup error: %s", __func__, bch2_err_str(ret));
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1466  		op->error = ret;
+14e2523fc59d16 fs/bcachefs/io_write.c Kent Overstreet 2025-01-19  1467  		op->flags |= BCH_WRITE_submitted;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1468  	}
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1469  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1470  	/* fallback to cow write path? */
+14e2523fc59d16 fs/bcachefs/io_write.c Kent Overstreet 2025-01-19  1471  	if (!(op->flags & BCH_WRITE_submitted)) {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1472  		closure_sync(&op->cl);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1473  		__bch2_nocow_write_done(op);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1474  		op->insert_keys.top = op->insert_keys.keys;
+14e2523fc59d16 fs/bcachefs/io_write.c Kent Overstreet 2025-01-19  1475  	} else if (op->flags & BCH_WRITE_sync) {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1476  		closure_sync(&op->cl);
+d4e3b928ab487a fs/bcachefs/io_write.c Kent Overstreet 2023-11-17  1477  		bch2_nocow_write_done(&op->cl.work);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1478  	} else {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1479  		/*
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1480  		 * XXX
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1481  		 * needs to run out of process context because ei_quota_lock is
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1482  		 * a mutex
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1483  		 */
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1484  		continue_at(&op->cl, bch2_nocow_write_done, index_update_wq(op));
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1485  	}
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1486  	return;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1487  err_bucket_stale:
+eb957f411913ae fs/bcachefs/io_write.c Kent Overstreet 2025-07-14 @1488  	CLASS(printbuf, buf)();
+9432e90df1b8a5 fs/bcachefs/io_write.c Kent Overstreet 2024-06-06  1489  	if (bch2_fs_inconsistent_on(stale < 0, c,
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1490  				    "pointer to invalid bucket in nocow path on device %u\n  %s",
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1491  				    stale_at->dev,
+9432e90df1b8a5 fs/bcachefs/io_write.c Kent Overstreet 2024-06-06  1492  				    (bch2_bkey_val_to_text(&buf, c, k), buf.buf))) {
+09b9c72bd4b77a fs/bcachefs/io_write.c Kent Overstreet 2025-05-28  1493  		ret = bch_err_throw(c, data_write_invalid_ptr);
+9432e90df1b8a5 fs/bcachefs/io_write.c Kent Overstreet 2024-06-06  1494  	} else {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1495  		/* We can retry this: */
+09b9c72bd4b77a fs/bcachefs/io_write.c Kent Overstreet 2025-05-28  1496  		ret = bch_err_throw(c, transaction_restart);
+9432e90df1b8a5 fs/bcachefs/io_write.c Kent Overstreet 2024-06-06  1497  	}
+9432e90df1b8a5 fs/bcachefs/io_write.c Kent Overstreet 2024-06-06  1498  
+5a0ea9850f9f94 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1499  	bch2_bkey_nocow_unlock(c, k, BUCKET_NOCOW_LOCK_UPDATE);
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1500  	bkey_for_each_ptr(ptrs, ptr)
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1501  		enumerated_ref_put(&bch2_dev_have_ref(c, ptr->dev)->io_ref[WRITE],
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1502  				   BCH_DEV_WRITE_REF_io_write);
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1503  
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1504  	/* Fall back to COW path: */
+7de858ab9f5e9d fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1505  	goto out;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1506  }
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1507  
+
+:::::: The code at line 1488 was first introduced by commit
+:::::: eb957f411913ae99722b1abd265038ed280a2b1b bcachefs: convert io_write.c to CLASS/guards
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
