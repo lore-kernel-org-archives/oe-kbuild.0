@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4D528EB
-	for <oe-kbuild@lists.linux.dev>; Mon, 29 Sep 2025 01:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB8414503B
+	for <oe-kbuild@lists.linux.dev>; Mon, 29 Sep 2025 01:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759108633; cv=none; b=jTZDULMHOzkpdxQSuH/l56BwLETaQUVO64sEhbKxPUdn6qBpKEAr8O9lNIVqPmoW+IcimjDAmqZ4NpPtwDoapstI+sya1n4hycSh1ddy4Zv/lw4BaeAapHKYcteZizfnFVvGe+SwFqmf3qd2NmEhtjv4tYGfdMHF08qTHLYZdRU=
+	t=1759108634; cv=none; b=NkXHp1hankJXFLWS62ARH8MjtXmyNATR96Hr7TJExhqQrpl7RJoj6ZLDIYIPycvYuiBT7tztoU3v59KfEDYoZmDaG54DsMHdLcmcbepie7HMovkWjonnx4yeBaEwsN1aqIy4YxWbPILGKTRgmYt7GsCw8o0aKLav9XmvKNswris=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759108633; c=relaxed/simple;
-	bh=qkTX9Am1O76psfBsMXE2OZ+hXwXTewy1xoYML3U8XOs=;
+	s=arc-20240116; t=1759108634; c=relaxed/simple;
+	bh=P7HEEViFKenB8QqEhQZHEKtrLlYTZz+rJSEsYognnYo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QBvfZ3/8E8Siby/VGmyqKVIYiWwtqPnOi+J8GLx4bacPnwOkMRuawpkUjFh9mAFEg3EkPnEet0URjykIiMmEXur0Mfqb0S1ybSOC2doyt2dTG8oUSn3L8orWJQ1ly9k2XCiFsAhIKdqcJzPH74jokjnQA9msC1Ah6HHSRSZBFBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jmc9R81q; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=bQ46oUFQosTV2d4A2HVN3AnV8NiPu7rfJUyqhpmAuj6HIHjpj19cY2aZ0ziPXaUlAEbRglAdBkuHlEbHTbKZZJIpO0LpYV67LYwEFoIgrGpttxogol2pmlOvAkGY+DSRML56o+CvC/8RsqOWg7vrnbsfcfjJXBK0Tv3qLOBr/GU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WVWaTuQF; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jmc9R81q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WVWaTuQF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759108631; x=1790644631;
+  t=1759108633; x=1790644633;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qkTX9Am1O76psfBsMXE2OZ+hXwXTewy1xoYML3U8XOs=;
-  b=jmc9R81q7SVeByGeMPk8X2wH0ny8fhN0LMQfLTteDH6vpbCo44LAEXFA
-   PdAYyBJkzTc/Os5MBnFFwvU+flZs7iklaJyvlTQk/h020i4KiSw4ObONB
-   dhnFD0guF6VmDLzs90uVzdCRizIryNWGlk6+bM0c013Kvl/RtHeW18fNC
-   mPg0gQSIMQihP13Xe2k+aMAs+4UL3ALRG/eYJLfKurCWCHUnOyNsTCdxi
-   QkEFl5xnEkg2pZp10MJ6oJE/Hduiq7sPY2qLtkbUQwwlFBMNRE9lZNKfM
-   kfk1T9aXc+KRbVCjBuKbaZXc2xM4dvjX9bOguvLpFJl5quM9cVk8u60UE
-   w==;
-X-CSE-ConnectionGUID: kwePaMzrRZmGTdRJjq4GEw==
-X-CSE-MsgGUID: fAs5XnH/QqmLoLb3aQMigg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65163058"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="65163058"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 18:17:10 -0700
-X-CSE-ConnectionGUID: xmMbxZCySn+mvJUYpOG2iA==
-X-CSE-MsgGUID: uTvntKXkSGq2l7dO+5okxQ==
+  bh=P7HEEViFKenB8QqEhQZHEKtrLlYTZz+rJSEsYognnYo=;
+  b=WVWaTuQFhmbbcylZHzJFiCIiua7e+lRp0j9aDGdwCPWZBMXkK4CNSxPZ
+   Ye2/EnCRRZunEXNkTXli7WzB5COdkUkwpZN1itVeyRgDLrt2j8pPC6tTe
+   3dx++BnmVJ+BgOi6avSSVFSKJzeF91i4DuOSw02sBnGEv4OtQ67nTnrsM
+   mhR+bzNZdN/HQiXgToAO/H5QqQdYofbSzQiGMCQf4oMonQK8hhlTmDdnm
+   M58qxjWy9cLQCVEFn6hctDe7U6EHKqH+ouDip/5jf6uDxsGxCAhDCHjdG
+   4Fv0xE2p7tak1+jQpFpkZOoaoWP3tORwbUt+DQo2iNyDgst+k1i5j4MfU
+   Q==;
+X-CSE-ConnectionGUID: xAPwv73CQKScZGIikF6osQ==
+X-CSE-MsgGUID: 7JdKOB99RLC565YQv89wjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="61518300"
+X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
+   d="scan'208";a="61518300"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 18:17:10 -0700
+X-CSE-ConnectionGUID: OtBXN4M8RqGFKSlTO+ym6g==
+X-CSE-MsgGUID: RVrNuqiiRwKwbsTMALf9jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="178151415"
+   d="scan'208";a="182086844"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 28 Sep 2025 18:17:09 -0700
+  by orviesa003.jf.intel.com with ESMTP; 28 Sep 2025 18:17:09 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v32Vm-000877-1F;
+	id 1v32Vm-000875-1A;
 	Mon, 29 Sep 2025 01:17:06 +0000
-Date: Mon, 29 Sep 2025 09:16:20 +0800
+Date: Mon, 29 Sep 2025 09:16:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [RFC net-next 5/5] dt-bindings: net: dsa: mv88e6xxx: add
- mv88e6xxx-avb-mode property
-Message-ID: <202509290933.3U8uFIji-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 1/3] gpio: mpsse: use rcu to ensure worker is torn down
+Message-ID: <202509290823.hreUi6Tp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,224 +61,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250927070724.734933-6-lukeh@padl.com>
-References: <20250927070724.734933-6-lukeh@padl.com>
-TO: Luke Howard <lukeh@padl.com>
+In-Reply-To: <20250923133304.273529-2-mstrodl@csh.rit.edu>
+References: <20250923133304.273529-2-mstrodl@csh.rit.edu>
+TO: Mary Strodl <mstrodl@csh.rit.edu>
+TO: linux-kernel@vger.kernel.org
+CC: linus.walleij@linaro.org
+CC: brgl@bgdev.pl
+CC: linux-gpio@vger.kernel.org
+CC: Mary Strodl <mstrodl@csh.rit.edu>
 
-Hi Luke,
+Hi Mary,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on brgl/gpio/for-next]
+[also build test WARNING on linus/master v6.17 next-20250926]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luke-Howard/net-dsa-mv88e6xxx-add-num_tx_queues-to-chip-info-structure/20250927-155031
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250927070724.734933-6-lukeh%40padl.com
-patch subject: [RFC net-next 5/5] dt-bindings: net: dsa: mv88e6xxx: add mv88e6xxx-avb-mode property
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-053-20250929 (https://download.01.org/0day-ci/archive/20250929/202509290933.3U8uFIji-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509290933.3U8uFIji-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mary-Strodl/gpio-mpsse-use-rcu-to-ensure-worker-is-torn-down/20250923-214710
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20250923133304.273529-2-mstrodl%40csh.rit.edu
+patch subject: [PATCH v2 1/3] gpio: mpsse: use rcu to ensure worker is torn down
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-141-20250929 (https://download.01.org/0day-ci/archive/20250929/202509290823.hreUi6Tp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509290933.3U8uFIji-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202509290823.hreUi6Tp-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/marvell/armada-3720-eDPU.dtb: /soc/bus@d0000000/watchdog@8300: failed to match any schema with compatible: ['marvell,armada-3700-wdt']
-   arch/arm64/boot/dts/marvell/armada-3720-eDPU.dtb: /soc/bus@d0000000/pinctrl@13800: failed to match any schema with compatible: ['marvell,armada3710-nb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-eDPU.dtb: pinctrl@13800 (marvell,armada3710-nb-pinctrl): reg: [[79872, 256], [80896, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-eDPU.dtb: /soc/bus@d0000000/pinctrl@13800/xtal-clk: failed to match any schema with compatible: ['marvell,armada-3700-xtal-clock']
-   arch/arm64/boot/dts/marvell/armada-3720-eDPU.dtb: /soc/bus@d0000000/pinctrl@18800: failed to match any schema with compatible: ['marvell,armada3710-sb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-eDPU.dtb: pinctrl@18800 (marvell,armada3710-sb-pinctrl): reg: [[100352, 256], [101376, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/armada-3720-eDPU.dtb: /soc/bus@d0000000/mdio@32004/switch@0: failed to match any schema with compatible: ['marvell,mv88e6190']
-   arch/arm64/boot/dts/marvell/armada-3720-eDPU.dtb: usb@58000 (marvell,armada3700-xhci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-eDPU.dtb: /soc/bus@d0000000/system-controller@5d800: failed to match any schema with compatible: ['marvell,armada-3700-usb2-host-device-misc', 'syscon']
-   arch/arm64/boot/dts/marvell/armada-3720-eDPU.dtb: usb@5e000 (marvell,armada-3700-ehci): phy-names:0: 'usb' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-eDPU.dtb: /soc/bus@d0000000/mailbox@b0000: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-mailbox']
-   arch/arm64/boot/dts/marvell/armada-3720-eDPU.dtb: /firmware/armada-3700-rwtm: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-firmware']
---
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: /soc/bus@d0000000/watchdog@8300: failed to match any schema with compatible: ['marvell,armada-3700-wdt']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: /soc/bus@d0000000/pinctrl@13800: failed to match any schema with compatible: ['marvell,armada3710-nb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: pinctrl@13800 (marvell,armada3710-nb-pinctrl): reg: [[79872, 256], [80896, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: /soc/bus@d0000000/pinctrl@13800/xtal-clk: failed to match any schema with compatible: ['marvell,armada-3700-xtal-clock']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: /soc/bus@d0000000/pinctrl@18800: failed to match any schema with compatible: ['marvell,armada3710-sb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: pinctrl@18800 (marvell,armada3710-sb-pinctrl): reg: [[100352, 256], [101376, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: /soc/bus@d0000000/mdio@32004/ethernet-switch@1: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: usb@58000 (marvell,armada3700-xhci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: /soc/bus@d0000000/system-controller@5d800: failed to match any schema with compatible: ['marvell,armada-3700-usb2-host-device-misc', 'syscon']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: usb@5e000 (marvell,armada-3700-ehci): phy-names:0: 'usb' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: usb@5e000 (marvell,armada-3700-ehci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: /soc/bus@d0000000/mailbox@b0000: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-mailbox']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: /firmware/armada-3700-rwtm: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-firmware']
---
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: /soc/bus@d0000000/watchdog@8300: failed to match any schema with compatible: ['marvell,armada-3700-wdt']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: /soc/bus@d0000000/pinctrl@13800: failed to match any schema with compatible: ['marvell,armada3710-nb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: pinctrl@13800 (marvell,armada3710-nb-pinctrl): reg: [[79872, 256], [80896, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: /soc/bus@d0000000/pinctrl@13800/xtal-clk: failed to match any schema with compatible: ['marvell,armada-3700-xtal-clock']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: /soc/bus@d0000000/pinctrl@18800: failed to match any schema with compatible: ['marvell,armada3710-sb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: pinctrl@18800 (marvell,armada3710-sb-pinctrl): reg: [[100352, 256], [101376, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: /soc/bus@d0000000/mdio@32004/ethernet-switch@1: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: usb@58000 (marvell,armada3700-xhci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: /soc/bus@d0000000/system-controller@5d800: failed to match any schema with compatible: ['marvell,armada-3700-usb2-host-device-misc', 'syscon']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: usb@5e000 (marvell,armada-3700-ehci): phy-names:0: 'usb' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: usb@5e000 (marvell,armada-3700-ehci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: /soc/bus@d0000000/mailbox@b0000: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-mailbox']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: mmc@d8000 (marvell,armada-3700-sdhci): Unevaluated properties are not allowed ('marvell,xenon-emmc' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml#
---
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: /soc/bus@d0000000/watchdog@8300: failed to match any schema with compatible: ['marvell,armada-3700-wdt']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: /soc/bus@d0000000/pinctrl@13800: failed to match any schema with compatible: ['marvell,armada3710-nb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: pinctrl@13800 (marvell,armada3710-nb-pinctrl): reg: [[79872, 256], [80896, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: /soc/bus@d0000000/pinctrl@13800/xtal-clk: failed to match any schema with compatible: ['marvell,armada-3700-xtal-clock']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: /soc/bus@d0000000/pinctrl@18800: failed to match any schema with compatible: ['marvell,armada3710-sb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: pinctrl@18800 (marvell,armada3710-sb-pinctrl): reg: [[100352, 256], [101376, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: /soc/bus@d0000000/mdio@32004/ethernet-switch@3: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: usb@58000 (marvell,armada3700-xhci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: /soc/bus@d0000000/system-controller@5d800: failed to match any schema with compatible: ['marvell,armada-3700-usb2-host-device-misc', 'syscon']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: usb@5e000 (marvell,armada-3700-ehci): phy-names:0: 'usb' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: usb@5e000 (marvell,armada-3700-ehci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: /soc/bus@d0000000/mailbox@b0000: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-mailbox']
-   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: mmc@d8000 (marvell,armada-3700-sdhci): Unevaluated properties are not allowed ('marvell,xenon-emmc' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml#
---
-   arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: /soc/bus@d0000000/watchdog@8300: failed to match any schema with compatible: ['marvell,armada-3700-wdt']
-   arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: /soc/bus@d0000000/pinctrl@13800: failed to match any schema with compatible: ['marvell,armada3710-nb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: pinctrl@13800 (marvell,armada3710-nb-pinctrl): reg: [[79872, 256], [80896, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: /soc/bus@d0000000/pinctrl@13800/xtal-clk: failed to match any schema with compatible: ['marvell,armada-3700-xtal-clock']
-   arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: /soc/bus@d0000000/pinctrl@18800: failed to match any schema with compatible: ['marvell,armada3710-sb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: pinctrl@18800 (marvell,armada3710-sb-pinctrl): reg: [[100352, 256], [101376, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: /soc/bus@d0000000/mdio@32004/ethernet-switch@1: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: usb@58000 (marvell,armada3700-xhci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: /soc/bus@d0000000/system-controller@5d800: failed to match any schema with compatible: ['marvell,armada-3700-usb2-host-device-misc', 'syscon']
-   arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: usb@5e000 (marvell,armada-3700-ehci): phy-names:0: 'usb' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: usb@5e000 (marvell,armada-3700-ehci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: /soc/bus@d0000000/mailbox@b0000: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-mailbox']
-   arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: /firmware/armada-3700-rwtm: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-firmware']
-   arch/arm64/boot/dts/marvell/armada-3720-gl-mv1000.dtb: regulator (regulator-gpio): 'gpios' is a required property
---
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: /soc/bus@d0000000/pinctrl@13800: failed to match any schema with compatible: ['marvell,armada3710-nb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: pinctrl@13800 (marvell,armada3710-nb-pinctrl): reg: [[79872, 256], [80896, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: /soc/bus@d0000000/pinctrl@13800/xtal-clk: failed to match any schema with compatible: ['marvell,armada-3700-xtal-clock']
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: connector (usb-a-connector): Unevaluated properties are not allowed ('phy-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: /soc/bus@d0000000/pinctrl@18800: failed to match any schema with compatible: ['marvell,armada3710-sb-pinctrl', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: pinctrl@18800 (marvell,armada3710-sb-pinctrl): reg: [[100352, 256], [101376, 32]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: /soc/bus@d0000000/mdio@32004/switch0@10: failed to match any schema with compatible: ['marvell,turris-mox-mv88e6190', 'marvell,mv88e6190']
->> arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: /soc/bus@d0000000/mdio@32004/switch0@2: failed to match any schema with compatible: ['marvell,turris-mox-mv88e6085', 'marvell,mv88e6085']
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: /soc/bus@d0000000/mdio@32004/switch1@11: failed to match any schema with compatible: ['marvell,turris-mox-mv88e6190', 'marvell,mv88e6190']
->> arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: /soc/bus@d0000000/mdio@32004/switch1@2: failed to match any schema with compatible: ['marvell,turris-mox-mv88e6085', 'marvell,mv88e6085']
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: /soc/bus@d0000000/mdio@32004/switch2@12: failed to match any schema with compatible: ['marvell,turris-mox-mv88e6190', 'marvell,mv88e6190']
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: /soc/bus@d0000000/mdio@32004/switch2@2: failed to match any schema with compatible: ['marvell,turris-mox-mv88e6085', 'marvell,mv88e6085']
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: usb@58000 (marvell,armada3700-xhci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: /soc/bus@d0000000/system-controller@5d800: failed to match any schema with compatible: ['marvell,armada-3700-usb2-host-device-misc', 'syscon']
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: usb@5e000 (marvell,armada-3700-ehci): phy-names:0: 'usb' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: usb@5e000 (marvell,armada-3700-ehci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dtb: /soc/bus@d0000000/mailbox@b0000: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-mailbox']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0-bus/bus@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0-bus/bus@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cpm-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0-bus/bus@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: connector (usb-a-connector): Unevaluated properties are not allowed ('phy-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1-bus/bus@f4000000/mdio@12a200/ethernet-switch@4: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: system-controller@440000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1-bus/bus@f4000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1-bus/bus@f4000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cps-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1-bus/bus@f4000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1-bus/bus@f4000000/spi@700680/flash@0: failed to match any schema with compatible: ['st,w25q32']
---
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: mmc@6e0000 (marvell,armada-ap807-sdhci): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: system-controller@6f4000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: /soc/bus@f0000000/system-controller@6f4000/pinctrl: failed to match any schema with compatible: ['marvell,ap806-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: /soc/bus@f0000000/system-controller@6f4000/clock: failed to match any schema with compatible: ['marvell,ap807-clock']
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: system-controller@6f8000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: /soc/bus@f0000000/system-controller@6f8000/thermal-sensor@80: failed to match any schema with compatible: ['marvell,armada-ap807-thermal']
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: /soc/bus@f0000000/system-controller@6f8000/clock-cpu: failed to match any schema with compatible: ['marvell,ap807-cpu-clock']
->> arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: /cp0-bus/bus@f2000000/mdio@12a200/ethernet-switch@6: failed to match any schema with compatible: ['marvell,mv88e6190']
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: system-controller@440000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: /cp0-bus/bus@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: /cp0-bus/bus@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: /cp0-bus/bus@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: usb@500000 (marvell,armada-8k-xhci): 'phys' is a dependency of 'phy-names'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-consumer.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: usb@510000 (marvell,armada-8k-xhci): 'phys' is a dependency of 'phy-names'
---
-   arch/arm64/boot/dts/marvell/armada-cp11x.dtsi:256.24-275.6: Warning (unit_address_vs_reg): /cp2-bus/bus@f6000000/system-controller@440000/gpio@140: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: system-controller@6f4000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /soc/bus@f0000000/system-controller@6f4000/pinctrl: failed to match any schema with compatible: ['marvell,ap806-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /soc/bus@f0000000/system-controller@6f4000/clock: failed to match any schema with compatible: ['marvell,ap807-clock']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: system-controller@6f8000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /soc/bus@f0000000/system-controller@6f8000/thermal-sensor@80: failed to match any schema with compatible: ['marvell,armada-ap807-thermal']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /soc/bus@f0000000/system-controller@6f8000/clock-cpu: failed to match any schema with compatible: ['marvell,ap807-cpu-clock']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0-bus/bus@f2000000/mdio@12a200/ethernet-switch@4: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: system-controller@440000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0-bus/bus@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0-bus/bus@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0-bus/bus@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
+New smatch warnings:
+drivers/gpio/gpio-mpsse.c:341 gpio_mpsse_poll() error: dereferencing freed memory 'worker' (line 342)
+drivers/gpio/gpio-mpsse.c:604 gpio_mpsse_disconnect() error: dereferencing freed memory 'worker' (line 605)
+
+Old smatch warnings:
+include/linux/mutex.h:229 class_mutex_try_constructor() warn: passing zero to 'ERR_PTR'
+
+vim +/worker +341 drivers/gpio/gpio-mpsse.c
+
+a14b0c5e3b0741 Mary Strodl 2025-09-23  303  
+a14b0c5e3b0741 Mary Strodl 2025-09-23  304  static void gpio_mpsse_poll(struct work_struct *my_work)
+c46a74ff05c0ac Mary Strodl 2024-10-09  305  {
+c46a74ff05c0ac Mary Strodl 2024-10-09  306  	unsigned long pin_mask, pin_states, flags;
+c46a74ff05c0ac Mary Strodl 2024-10-09  307  	int irq_enabled, offset, err, value, fire_irq,
+c46a74ff05c0ac Mary Strodl 2024-10-09  308  		irq, old_value[16], irq_type[16];
+a14b0c5e3b0741 Mary Strodl 2025-09-23  309  	struct mpsse_worker *worker;
+a14b0c5e3b0741 Mary Strodl 2025-09-23  310  	struct mpsse_worker *my_worker = container_of(my_work, struct mpsse_worker, work);
+a14b0c5e3b0741 Mary Strodl 2025-09-23  311  	struct mpsse_priv *priv = my_worker->priv;
+a14b0c5e3b0741 Mary Strodl 2025-09-23  312  	struct list_head destructors = LIST_HEAD_INIT(destructors);
+c46a74ff05c0ac Mary Strodl 2024-10-09  313  
+c46a74ff05c0ac Mary Strodl 2024-10-09  314  	for (offset = 0; offset < priv->gpio.ngpio; ++offset)
+c46a74ff05c0ac Mary Strodl 2024-10-09  315  		old_value[offset] = -1;
+c46a74ff05c0ac Mary Strodl 2024-10-09  316  
+a14b0c5e3b0741 Mary Strodl 2025-09-23  317  	/*
+a14b0c5e3b0741 Mary Strodl 2025-09-23  318  	 * We only want one worker. Workers race to acquire irq_race and tear
+a14b0c5e3b0741 Mary Strodl 2025-09-23  319  	 * down all other workers. This is a cond guard so that we don't deadlock
+a14b0c5e3b0741 Mary Strodl 2025-09-23  320  	 * trying to cancel a worker.
+a14b0c5e3b0741 Mary Strodl 2025-09-23  321  	 */
+a14b0c5e3b0741 Mary Strodl 2025-09-23  322  	scoped_cond_guard(mutex_try, ;, &priv->irq_race) {
+a14b0c5e3b0741 Mary Strodl 2025-09-23  323  		scoped_guard(rcu) {
+a14b0c5e3b0741 Mary Strodl 2025-09-23  324  			list_for_each_entry_rcu(worker, &priv->workers, list) {
+a14b0c5e3b0741 Mary Strodl 2025-09-23  325  				/* Don't stop ourselves */
+a14b0c5e3b0741 Mary Strodl 2025-09-23  326  				if (worker == my_worker)
+a14b0c5e3b0741 Mary Strodl 2025-09-23  327  					continue;
+a14b0c5e3b0741 Mary Strodl 2025-09-23  328  
+a14b0c5e3b0741 Mary Strodl 2025-09-23  329  				scoped_guard(raw_spinlock_irqsave, &priv->irq_spin)
+a14b0c5e3b0741 Mary Strodl 2025-09-23  330  					list_del_rcu(&worker->list);
+a14b0c5e3b0741 Mary Strodl 2025-09-23  331  
+a14b0c5e3b0741 Mary Strodl 2025-09-23  332  				/* Give worker a chance to terminate itself */
+a14b0c5e3b0741 Mary Strodl 2025-09-23  333  				atomic_set(&worker->cancelled, 1);
+a14b0c5e3b0741 Mary Strodl 2025-09-23  334  				/* Keep track of stuff to cancel */
+a14b0c5e3b0741 Mary Strodl 2025-09-23  335  				INIT_LIST_HEAD(&worker->destroy);
+a14b0c5e3b0741 Mary Strodl 2025-09-23  336  				list_add(&worker->destroy, &destructors);
+a14b0c5e3b0741 Mary Strodl 2025-09-23  337  			}
+a14b0c5e3b0741 Mary Strodl 2025-09-23  338  		}
+a14b0c5e3b0741 Mary Strodl 2025-09-23  339  		/* Make sure list consumers are finished before we tear down */
+a14b0c5e3b0741 Mary Strodl 2025-09-23  340  		synchronize_rcu();
+a14b0c5e3b0741 Mary Strodl 2025-09-23 @341  		list_for_each_entry(worker, &destructors, destroy)
+a14b0c5e3b0741 Mary Strodl 2025-09-23 @342  			gpio_mpsse_stop(worker);
+a14b0c5e3b0741 Mary Strodl 2025-09-23  343  	}
+a14b0c5e3b0741 Mary Strodl 2025-09-23  344  
+a14b0c5e3b0741 Mary Strodl 2025-09-23  345  	while ((irq_enabled = atomic_read(&priv->irq_enabled)) &&
+a14b0c5e3b0741 Mary Strodl 2025-09-23  346  	       !atomic_read(&my_worker->cancelled)) {
+c46a74ff05c0ac Mary Strodl 2024-10-09  347  		usleep_range(MPSSE_POLL_INTERVAL, MPSSE_POLL_INTERVAL + 1000);
+c46a74ff05c0ac Mary Strodl 2024-10-09  348  		/* Cleanup will trigger at the end of the loop */
+c46a74ff05c0ac Mary Strodl 2024-10-09  349  		guard(mutex)(&priv->irq_mutex);
+c46a74ff05c0ac Mary Strodl 2024-10-09  350  
+c46a74ff05c0ac Mary Strodl 2024-10-09  351  		pin_mask = 0;
+c46a74ff05c0ac Mary Strodl 2024-10-09  352  		pin_states = 0;
+c46a74ff05c0ac Mary Strodl 2024-10-09  353  		for (offset = 0; offset < priv->gpio.ngpio; ++offset) {
+c46a74ff05c0ac Mary Strodl 2024-10-09  354  			irq_type[offset] = atomic_read(&priv->irq_type[offset]);
+c46a74ff05c0ac Mary Strodl 2024-10-09  355  			if (irq_type[offset] != IRQ_TYPE_NONE &&
+c46a74ff05c0ac Mary Strodl 2024-10-09  356  			    irq_enabled & BIT(offset))
+c46a74ff05c0ac Mary Strodl 2024-10-09  357  				pin_mask |= BIT(offset);
+c46a74ff05c0ac Mary Strodl 2024-10-09  358  			else
+c46a74ff05c0ac Mary Strodl 2024-10-09  359  				old_value[offset] = -1;
+c46a74ff05c0ac Mary Strodl 2024-10-09  360  		}
+c46a74ff05c0ac Mary Strodl 2024-10-09  361  
+c46a74ff05c0ac Mary Strodl 2024-10-09  362  		err = gpio_mpsse_get_multiple(&priv->gpio, &pin_mask,
+c46a74ff05c0ac Mary Strodl 2024-10-09  363  					      &pin_states);
+c46a74ff05c0ac Mary Strodl 2024-10-09  364  		if (err) {
+c46a74ff05c0ac Mary Strodl 2024-10-09  365  			dev_err_ratelimited(&priv->intf->dev,
+c46a74ff05c0ac Mary Strodl 2024-10-09  366  					    "Error polling!\n");
+c46a74ff05c0ac Mary Strodl 2024-10-09  367  			continue;
+c46a74ff05c0ac Mary Strodl 2024-10-09  368  		}
+c46a74ff05c0ac Mary Strodl 2024-10-09  369  
+c46a74ff05c0ac Mary Strodl 2024-10-09  370  		/* Check each value */
+c46a74ff05c0ac Mary Strodl 2024-10-09  371  		for (offset = 0; offset < priv->gpio.ngpio; ++offset) {
+c46a74ff05c0ac Mary Strodl 2024-10-09  372  			if (old_value[offset] == -1)
+c46a74ff05c0ac Mary Strodl 2024-10-09  373  				continue;
+c46a74ff05c0ac Mary Strodl 2024-10-09  374  
+c46a74ff05c0ac Mary Strodl 2024-10-09  375  			fire_irq = 0;
+c46a74ff05c0ac Mary Strodl 2024-10-09  376  			value = pin_states & BIT(offset);
+c46a74ff05c0ac Mary Strodl 2024-10-09  377  
+c46a74ff05c0ac Mary Strodl 2024-10-09  378  			switch (irq_type[offset]) {
+c46a74ff05c0ac Mary Strodl 2024-10-09  379  			case IRQ_TYPE_EDGE_RISING:
+c46a74ff05c0ac Mary Strodl 2024-10-09  380  				fire_irq = value > old_value[offset];
+c46a74ff05c0ac Mary Strodl 2024-10-09  381  				break;
+c46a74ff05c0ac Mary Strodl 2024-10-09  382  			case IRQ_TYPE_EDGE_FALLING:
+c46a74ff05c0ac Mary Strodl 2024-10-09  383  				fire_irq = value < old_value[offset];
+c46a74ff05c0ac Mary Strodl 2024-10-09  384  				break;
+c46a74ff05c0ac Mary Strodl 2024-10-09  385  			case IRQ_TYPE_EDGE_BOTH:
+c46a74ff05c0ac Mary Strodl 2024-10-09  386  				fire_irq = value != old_value[offset];
+c46a74ff05c0ac Mary Strodl 2024-10-09  387  				break;
+c46a74ff05c0ac Mary Strodl 2024-10-09  388  			}
+c46a74ff05c0ac Mary Strodl 2024-10-09  389  			if (!fire_irq)
+c46a74ff05c0ac Mary Strodl 2024-10-09  390  				continue;
+c46a74ff05c0ac Mary Strodl 2024-10-09  391  
+c46a74ff05c0ac Mary Strodl 2024-10-09  392  			irq = irq_find_mapping(priv->gpio.irq.domain,
+c46a74ff05c0ac Mary Strodl 2024-10-09  393  					       offset);
+c46a74ff05c0ac Mary Strodl 2024-10-09  394  			local_irq_save(flags);
+c46a74ff05c0ac Mary Strodl 2024-10-09  395  			generic_handle_irq(irq);
+c46a74ff05c0ac Mary Strodl 2024-10-09  396  			local_irq_disable();
+c46a74ff05c0ac Mary Strodl 2024-10-09  397  			local_irq_restore(flags);
+c46a74ff05c0ac Mary Strodl 2024-10-09  398  		}
+c46a74ff05c0ac Mary Strodl 2024-10-09  399  
+c46a74ff05c0ac Mary Strodl 2024-10-09  400  		/* Sync back values so we can refer to them next tick */
+c46a74ff05c0ac Mary Strodl 2024-10-09  401  		for (offset = 0; offset < priv->gpio.ngpio; ++offset)
+c46a74ff05c0ac Mary Strodl 2024-10-09  402  			if (irq_type[offset] != IRQ_TYPE_NONE &&
+c46a74ff05c0ac Mary Strodl 2024-10-09  403  			    irq_enabled & BIT(offset))
+c46a74ff05c0ac Mary Strodl 2024-10-09  404  				old_value[offset] = pin_states & BIT(offset);
+c46a74ff05c0ac Mary Strodl 2024-10-09  405  	}
+c46a74ff05c0ac Mary Strodl 2024-10-09  406  }
+c46a74ff05c0ac Mary Strodl 2024-10-09  407  
 
 -- 
 0-DAY CI Kernel Test Service
