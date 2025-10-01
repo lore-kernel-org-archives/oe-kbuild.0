@@ -1,69 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373831D130E
-	for <oe-kbuild@lists.linux.dev>; Tue, 30 Sep 2025 20:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E06B29A1
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Oct 2025 00:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759265134; cv=none; b=rUcR1JpO9nlAj6JmNHOYiZKRZOnn8ngfk9BqgZ5HpVlXQQSloxHnmM4edSqe00NvBgGkRtMk2xu6QPkaTk4R0UohTH8xEz8jtr3UTFtbr/SYMeyu9J4lwNjXTFnzj1stAetZT2GKzvgU+k6sybP5I7hJIr99cu0obE2WVfYqSUs=
+	t=1759277195; cv=none; b=pj8SPZstXeEFtBkeO/0JHZJfEezJqcxwhQw8+ZSfkUZuu0VV8J7zDS17M4hbUqoam2RHWM7Pnp4DGzSwuUaE/8Ch6HtizlrQcNQ0i+T72Q/75VQn24RnGeuiooftRO9itj3N3GoRCarDZse1DjTaKnF9qVZaZID5obSdZ3P+26M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759265134; c=relaxed/simple;
-	bh=iwNnqXm1LzKyjqdr9Wj6LOtk6A578Kmqe7A+em406B8=;
+	s=arc-20240116; t=1759277195; c=relaxed/simple;
+	bh=JWgh/ydZrro4+4WpWucJgaa5OOtUuZ2bT6b8uYr7l6E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kz/+vMqg/pnuhUUVrIHR9be+C9tEntixy0+QJzDhrEJdj0iTuIdCFMxCeNkmQBbAYdjnC4FTe7UA36pYqDO2LrwLwZdk046kcEA+x+ZEzfrU7ggBTTpCZsS1BBgl9oDIkWu2ZLIoqudpHK8BtofhdxRQeAE4Ax+Bfx1z3XDi7jQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ICLnLilG; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=blDtf9UNSEjYKYTyCtqUr3hlXQRCdac59tvGvXkF9B1Txosfrj6KVSgaVr0VM02rAuDQqOHKzn6Q1FDqTj7kPI1FiH6wZe0S/fqNwkfjGC5evcRCVktRpR2/Wx4CqkazgAPdIhIRnN7bIeC91ekZl771xOKnDd6t03/XscxVBJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=etMj0iBJ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ICLnLilG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="etMj0iBJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759265132; x=1790801132;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=iwNnqXm1LzKyjqdr9Wj6LOtk6A578Kmqe7A+em406B8=;
-  b=ICLnLilGf8s87fYKtu973o7hOvgWuMA1UhzEQpWShUjUy2tISTKl4ZyH
-   6S67CyXsnf3xixGnObx3q6O3HK23q8pDyafPF9lnCyz6VFmoxwuX97FoI
-   OPCxoYwra3v/OcoUCrIGPOHhPE5r3tV3dYG79g3AktknHRZklPTj9s908
-   QaHoK82N7vin5qyraf7qghl9TGehZ1KQ8yq0OBbld3ZJ6pchLsxVS2BcH
-   YAewU7FzTSA/fUm2WC1QqSP8m0VdHdkYYftRMLbZzb8uhsefUcRwMGKB9
-   pI3AG0Sp1ZfW/Kj2Ked6dblpnGBHZXf+X7p3XXX3HKDnpLrhMI8pNYi0D
-   A==;
-X-CSE-ConnectionGUID: pXepmuNSSguWVaLRGDWd1w==
-X-CSE-MsgGUID: 3T4JOrA9SEq2gjJdK2Lryw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="72209849"
-X-IronPort-AV: E=Sophos;i="6.18,305,1751266800"; 
-   d="scan'208";a="72209849"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2025 13:45:31 -0700
-X-CSE-ConnectionGUID: B2oX5M8RQZSGAAcqfMKZzg==
-X-CSE-MsgGUID: fYJYAVHBSkaTD6zlSer9tw==
+  t=1759277193; x=1790813193;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JWgh/ydZrro4+4WpWucJgaa5OOtUuZ2bT6b8uYr7l6E=;
+  b=etMj0iBJSfLkX+Zc/CmMs3g7wNpyeamwQsQ8pB67HK7ywe0Mo2YCKHJP
+   izuaT8TcM7jzXTGySQmug+F5X2ylFBSonxkCICc8kFkDJ1RD9IsQofvc6
+   wFEWNg7YIIbCPLKvWuynST+JQdJjvrn52xyjC70mrWTDMeLncTrCZcXxj
+   c5QNe2YXRakbZrckG1ASUtmbeKS2GuL8Tgh0CWSnT7HwI/U1r4prY6RTg
+   0smzvqzlLq1VKcsiZZaxBKALU1OoBduTb2Hlj9IOsV1Zb2BEVNSaNKBgc
+   nEkPpV/gZP0bOPZlbTspOjQKKVwmkRI6+Lkip4h43LkVg8Ue3sMrlAkxz
+   g==;
+X-CSE-ConnectionGUID: XrcaONflSTOlKdnKWfSpdw==
+X-CSE-MsgGUID: EoZNmwGLSoeN5vSCVUucdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61590563"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61590563"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2025 17:06:33 -0700
+X-CSE-ConnectionGUID: VJnEbjJdT1Kp3YwO1sJ+IQ==
+X-CSE-MsgGUID: +gntNyMfQL26NbMtjxMtBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,305,1751266800"; 
-   d="scan'208";a="183025264"
+   d="scan'208";a="178242855"
 Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa005.fm.intel.com with ESMTP; 30 Sep 2025 13:45:30 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 30 Sep 2025 17:06:31 -0700
 Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v3hDz-000000006Lp-3xXb;
-	Tue, 30 Sep 2025 20:45:27 +0000
-Date: Tue, 30 Sep 2025 22:44:41 +0200
+	id 1v3kMX-000000006Nt-1u7T;
+	Wed, 01 Oct 2025 00:06:29 +0000
+Date: Wed, 1 Oct 2025 02:05:49 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 44/140]
- arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@31 (ti,tas5770l):
- compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-Message-ID: <202509302216.lB6XVyUR-lkp@intel.com>
+Subject: [steev:lenovo-x13s-linux-6.17.y 30/50]
+ arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: usb@a800000 (qcom,sc8280xp-dwc3):
+ #address-cells: 1 was expected
+Message-ID: <202510010232.lPbODCxm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
@@ -71,189 +69,134 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Martin Povišer" <povik+lin@cutebit.org>
-CC: Janne Grunau <j@jannau.net>
-CC: Hector Martin <marcan@marcan.st>
+TO: Steev Klimaszewski <steev@kali.org>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   703a105e4188c8c9e084375a48f08853cf64cfca
-commit: 722653dfff0105ab8b6f4b2da8bd96d3f7584771 [44/140] arm64: dts: apple: t8103*: Put in audio nodes
-:::::: branch date: 9 days ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-2052-20250919 (https://download.01.org/0day-ci/archive/20250930/202509302216.lB6XVyUR-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+tree:   https://github.com/steev/linux lenovo-x13s-linux-6.17.y
+head:   920850f32669833c7d393f69785ac16d0292a10e
+commit: 97ad2c9e3ffb17dd3274765cd11d5a9df8b3fdb3 [30/50] arm64: dts: qcom: sc8280x: Flatten the USB nodes
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: arm64-randconfig-2051-20250930 (https://download.01.org/0day-ci/archive/20251001/202510010232.lPbODCxm-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2e3389abb3a2e4ee27e40f353c5eec476a229f6)
 dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250930/202509302216.lB6XVyUR-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510010232.lPbODCxm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509302216.lB6XVyUR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510010232.lPbODCxm-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t8103-j274.dts:105.14-114.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103-j274.dts:116.14-125.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103.dtsi:477.25-486.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@31 (ti,tas5770l): compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@31 (ti,tas5770l): Unevaluated properties are not allowed ('compatible', 'ti,sdout-zero-fill' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@48 (cirrus,cs42l83): '#sound-dai-cells', 'sound-name-prefix' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@48 (cirrus,cs42l83): 'VP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@48 (cirrus,cs42l83): 'VCP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@48 (cirrus,cs42l83): 'VD_FILT-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@48 (cirrus,cs42l83): 'VL-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: codec@48 (cirrus,cs42l83): 'VA-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2b8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+>> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: usb@a800000 (qcom,sc8280xp-dwc3): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
 --
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: usb@502280000 (apple,t8103-dwc3): iommus: [[125, 0], [126, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: usb@502280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /sound: failed to match any schema with compatible: ['apple,j274-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /sound: failed to match any schema with compatible: ['apple,j274-macaudio', 'apple,macaudio']
+>> arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
 --
-   arch/arm64/boot/dts/apple/t8103-j293.dts:237.14-247.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103-j293.dts:249.14-258.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103.dtsi:477.25-486.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8103.dtsi:488.26-492.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@31 (ti,tas5770l): compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@31 (ti,tas5770l): Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,pdm-slot-no' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@32 (ti,tas5770l): compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@32 (ti,tas5770l): Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,pdm-slot-no', 'ti,sdout-pull-down' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48 (cirrus,cs42l83): '#sound-dai-cells', 'sound-name-prefix' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48 (cirrus,cs42l83): 'VP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48 (cirrus,cs42l83): 'VCP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48 (cirrus,cs42l83): 'VD_FILT-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48 (cirrus,cs42l83): 'VL-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48 (cirrus,cs42l83): 'VA-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@34 (ti,tas5770l): compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@34 (ti,tas5770l): Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,pdm-slot-no' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@35 (ti,tas5770l): compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@35 (ti,tas5770l): Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,pdm-slot-no', 'ti,sdout-pull-down' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/spi@23510c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: usb@a800000 (qcom,sc8280xp-dwc3): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
 --
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/phy@383000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: usb@502280000 (apple,t8103-dwc3): iommus: [[128, 0], [129, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: usb@502280000 (apple,t8103-dwc3): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/phy@503000000: failed to match any schema with compatible: ['apple,t8103-atcphy']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /sound: failed to match any schema with compatible: ['apple,j293-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /sound: failed to match any schema with compatible: ['apple,j293-macaudio', 'apple,macaudio']
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: usb@a800000 (qcom,sc8280xp-dwc3): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
 --
-   arch/arm64/boot/dts/apple/t8103-j313.dts:133.14-142.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103-j313.dts:144.14-153.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103.dtsi:477.25-486.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@31 (ti,tas5770l): compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@31 (ti,tas5770l): Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-zero-fill' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@34 (ti,tas5770l): compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@34 (ti,tas5770l): Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-zero-fill' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2770.yaml#
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@48 (cirrus,cs42l83): '#sound-dai-cells', 'sound-name-prefix' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@48 (cirrus,cs42l83): 'VP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@48 (cirrus,cs42l83): 'VCP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@48 (cirrus,cs42l83): 'VD_FILT-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@48 (cirrus,cs42l83): 'VL-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@48 (cirrus,cs42l83): 'VA-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/spi@23510c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2b8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp.dtsi:4240.12-4244.7: Warning (graph_child_address): /soc@0/camss@ac5a000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: usb@a800000 (qcom,sc8280xp-dwc3): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: video-codec@aa00000 (qcom,sm8350-venus): 'video-decoder' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8350-venus.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: video-codec@aa00000 (qcom,sm8350-venus): 'video-encoder' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8350-venus.yaml#
 --
-   arch/arm64/boot/dts/apple/t8103-j456.dts:109.14-118.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103.dtsi:477.25-486.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: codec@48 (cirrus,cs42l83): '#sound-dai-cells', 'sound-name-prefix' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: codec@48 (cirrus,cs42l83): 'VP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: codec@48 (cirrus,cs42l83): 'VCP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: codec@48 (cirrus,cs42l83): 'VD_FILT-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: codec@48 (cirrus,cs42l83): 'VL-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: codec@48 (cirrus,cs42l83): 'VA-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2b8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddrfa0p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p2-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddpcie0p9-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddpcie1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: usb@a800000 (qcom,sc8280xp-dwc3): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
 --
-   arch/arm64/boot/dts/apple/t8103-j457.dts:90.14-99.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8103.dtsi:477.25-486.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: codec@48 (cirrus,cs42l83): '#sound-dai-cells', 'sound-name-prefix' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: codec@48 (cirrus,cs42l83): 'VP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: codec@48 (cirrus,cs42l83): 'VCP-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: codec@48 (cirrus,cs42l83): 'VD_FILT-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: codec@48 (cirrus,cs42l83): 'VL-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: codec@48 (cirrus,cs42l83): 'VA-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2b8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d0: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@2d8: 'apple,externally-clocked' does not match any of the regexes: '^pinctrl-[0-9]+$'
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: usb@a800000 (qcom,sc8280xp-dwc3): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: video-codec@aa00000 (qcom,sm8350-venus): 'video-decoder' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8350-venus.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: video-codec@aa00000 (qcom,sm8350-venus): 'video-encoder' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8350-venus.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa0p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p2-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddpcie0p9-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddpcie1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: usb@a800000 (qcom,sc8280xp-dwc3): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
