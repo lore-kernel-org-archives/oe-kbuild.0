@@ -1,57 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2469478
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Oct 2025 05:05:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC13022D4DD
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Oct 2025 07:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759467931; cv=none; b=jALpnNhjsMPzna+f+PwpQGJStbSLJYVINp2elxh62IEHPZB1ysuB0Q45ad3LyRLIyXl5L3APiRTYyWg3hjw/sKk+hI738GjWqvJko3VQHeMzcvMsIQd1EOG0txwgwc/Y/mK/jgtLP2WT8N9bvTqkij6yq38y0rskArL4fjhlhsw=
+	t=1759475552; cv=none; b=IvQgNEsnfq18x/pbSPqEx/9uuXbUrzcHT6m/yEG3PT1aer4HZPvudlv4j6VOEfsoYlVmdvEKBQwfa7hRXpq04/Ppe4KA49hSK9imXQFhX8q/BvlEvpv3g5DdztgHYvoQODkJL0uZqozMuFn5Fs/w/k171UBK0Ok/bWJJcAe1M+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759467931; c=relaxed/simple;
-	bh=pN59mnSQK1SV0FB9detxqqJ+miVvlMDGiKhF47W6QBY=;
+	s=arc-20240116; t=1759475552; c=relaxed/simple;
+	bh=Nq58GdFtDEem6SwB02ei2XodBchMAS+1KYqwjUtuop8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KO9bsCrYiaqA8BifyQfc2WhA5z1tcfhs6ZmZKhU8+B/jgCpivPkzYQdq4Wu7Hec+es19goOkOvS9S1eNCVXTxqaXUjZqY/YnX70FIdUOhu8EnHqiacqWuiy6C8eLkuefdNJwcXSC+Cg67QlERQxYQgeNxwyZlSbFHYCh/Jn42gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LMnRHoZv; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=jhJkPm1KJEODSndV9+5gAUjbK9Xi7zJ3GJcNAF+k3KxJEkXVDD0PUa326jgs+oUK1xkMhrCJoI3JwG1wjNvrCVJGPNlBEXad7iCSAjlpsOxPlNYZAgOO3CUAiCvPXIS3fUkZpVua+Tdps+R/9HGdBTAQPK4ewy43dwbDlKIPdVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BX9vHnY+; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LMnRHoZv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759467931; x=1791003931;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pN59mnSQK1SV0FB9detxqqJ+miVvlMDGiKhF47W6QBY=;
-  b=LMnRHoZvcJmsfxfSfgU0Z/8VEruLkwY8+TZhTL3/0IVJe/dRDDWS3NkB
-   T2R/8H+V+r2EUkECu16pc18OLQh6XXyNfqfyyii8KVSWFVlClbnijjm0A
-   5Zy+6rrS7P7e3KFhyKHHPFOWBheYlNssMynNFxCQon4p2kI803+ZSL0wH
-   c7Nkul8nWbw1gll+VSN5fcQAwxLhngTvjs7X2U9Bl7iLWS49E3dV+CwKm
-   jhp/2nUy8WJ6c7u8VoOHwiY3B0ZXsguN3jlf77IWjq+cRSUk2tKOVr11y
-   SQF4nv3YIS1UzzIfTuAmqvU6CJ3Ns3B1vQnOhgpYjuRWIMnWW4om9tEUL
-   Q==;
-X-CSE-ConnectionGUID: eo+AuSpGTnaugtXwD8lvIA==
-X-CSE-MsgGUID: YorIpoDgS2K49PZpABA/Mw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61715434"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="61715434"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 22:05:30 -0700
-X-CSE-ConnectionGUID: CLPpqDHAQfWhavJdJ9kxkQ==
-X-CSE-MsgGUID: wV6z5Vp8TgSjBmRNMdqr7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,311,1751266800"; 
-   d="scan'208";a="179021549"
-Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 02 Oct 2025 22:05:28 -0700
-Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v4Xyv-0004Jv-2q;
-	Fri, 03 Oct 2025 05:05:25 +0000
-Date: Fri, 3 Oct 2025 13:04:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 11/16] scsi: qla2xxx: fix TMR failure handling
-Message-ID: <202510031227.18psESZQ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BX9vHnY+"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-46e2e6a708fso12158575e9.0
+        for <oe-kbuild@lists.linux.dev>; Fri, 03 Oct 2025 00:12:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1759475548; x=1760080348; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uSCnRN0TVsnn4XlDJr4lnfc/qA7GkQZiLOPCKbOYP1k=;
+        b=BX9vHnY+4QMUgGt70ctkq6vgA/Q4IB7o8y5xdEklQISKUbxmn5l7PYHF9yShsp/MTd
+         GZcE577B0vjDNXJa+6r6PRZgwZtE9MQkAHTgjdrFJDNNSytVow2uVRSU0n6UuNAy1BXZ
+         3QBLMysGDfnKYXb5ECaNDp6Usc1q5Aqes+SmrNiRPgIfNHpQwDT04zyCMpWlCMC7mJQn
+         N9SnUtvkLBwM1HYL2KIOI3KY4qFopBFvqxoGkx4TSG0ebKCqwRLPlilRCqG7gc9i/qL4
+         KjS9NJqGFlDTfcpTe0ILVp5zB6v9fQwaqGyT9iGMiymNVfIeo2jaYckpf1PcOEZwwZtc
+         S/jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759475548; x=1760080348;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uSCnRN0TVsnn4XlDJr4lnfc/qA7GkQZiLOPCKbOYP1k=;
+        b=OhBiCPrMjUAZfnhoGGUz4fCOQioeTktKr3N2cqWuFaq4Wb/L/mZAaTAdFc9nosVKef
+         OZh18eJpyKJ0kAH79FU3P4ldy7cFhS3A9NT9Y7cdZk6moGmwn0UzKY/Q6hnugRiOAIva
+         Xj4d+zy5/6gtKy+CGmdXwz6Z9bZc89Mgdx90p90nXjRBGKbAWJCvHwQqLHTm6NU0KjT3
+         gYPTPjsL7Q7PoF7+Ny9w0rgjPJrYHv1ejNP82/YndESdWaHZtgA/t3tLA+2xguR9DNVL
+         aTbbD27ZtcJJz69q/r97BBDsJICa3w3DAYMIUdZRcxOAgryUoiK1vIU8bHhXa4kifSOd
+         iwtg==
+X-Gm-Message-State: AOJu0Yzad9HCUdyaXNwwxhQwhb+si9ivrLgjYq5pT2pGdMcptTZUbi/c
+	/vVvVfQTGXr76IR/fgVtfwnioobhmEsyF2rCfh0YSJV043lmH/HNGGDYRkUkawP1dCKHxlAoTWl
+	R/LIY
+X-Gm-Gg: ASbGncu/nBknlGvPrr4v5Q+FLrO7ThpLu4ICC8aEIBnKRginfaeYAleSH6AKl2u6dvR
+	UtMAX3HLMCTfprP8l5J9db+SF0Rql9dddyeY2K37FxivBIJaWqTEUGO5bD23g1oKfJW9vI2DKWE
+	+sGR5GUBSoYYki/Kdv86rI3YK0gEXqjCwe6EgiQwGcwur/SNoLjF6rVw8t9LilLQzMtlFEIO+7l
+	W5yY2pOrlntwhVKd7CYixEan6US2iSnbSyFAPiXIjEDu2+2Izt2ODpwG7HOjyTWfX1Wak2SaYaq
+	+t4x7+e/f0um8reyIl0xZ3B1oLbhSwFFhK7OvgPJewpDVSWuk9dkI7WRHQDIvlPztwNkeAoiMuJ
+	Scvl2uD9t8sNZHxywYJlYal90VU+OqGrgxq94+9WESwZxTUJArlyHhiQQ
+X-Google-Smtp-Source: AGHT+IHU3kEXVjVcMp2Z6n09i/cBQpyGZp0+4YW+HtwmwbTottMW99DNAkvGnxZ+U3vyWesHy5H/KA==
+X-Received: by 2002:a05:600c:4689:b0:46e:440f:144b with SMTP id 5b1f17b1804b1-46e7110a1e8mr12499225e9.14.1759475548231;
+        Fri, 03 Oct 2025 00:12:28 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46e72359e2bsm17971515e9.13.2025.10.03.00.12.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Oct 2025 00:12:27 -0700 (PDT)
+Date: Fri, 3 Oct 2025 10:12:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu-fwspec 1/14] drivers/iommu/iommu.c:471
+ iommu_do_probe_device() error: uninitialized symbol 'ret'.
+Message-ID: <202510030445.Io6xezuL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,102 +71,95 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Message-ID: <20251003071223.LQhIIeiAG_EuYFLFPzUh0qHuXbIOlLjFYVdL1LL1t6w@z>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <f52cda16-4952-4b28-bbf7-d44f4e054490@cybernetics.com>
-References: <f52cda16-4952-4b28-bbf7-d44f4e054490@cybernetics.com>
-TO: Tony Battersby <tonyb@cybernetics.com>
-TO: Nilesh Javali <njavali@marvell.com>
-TO: GR-QLogic-Storage-Upstream@marvell.com
-TO: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-TO: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: "linux-scsi" <linux-scsi@vger.kernel.org>
-CC: target-devel@vger.kernel.org
-CC: scst-devel@lists.sourceforge.net
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC: Dmitry Bogdanov <d.bogdanov@yadro.com>
-CC: Xose Vazquez Perez <xose.vazquez@gmail.com>
-
-Hi Tony,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on e5f0a698b34ed76002dc5cff3804a61c80233a7a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tony-Battersby/Revert-scsi-qla2xxx-Perform-lockless-command-completion-in-abort-path/20250930-024814
-base:   e5f0a698b34ed76002dc5cff3804a61c80233a7a
-patch link:    https://lore.kernel.org/r/f52cda16-4952-4b28-bbf7-d44f4e054490%40cybernetics.com
-patch subject: [PATCH v2 11/16] scsi: qla2xxx: fix TMR failure handling
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-141-20251002 (https://download.01.org/0day-ci/archive/20251003/202510031227.18psESZQ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://github.com/jgunthorpe/linux iommu-fwspec
+head:   670b33a8cfd32984040c12e995134b9cb4cdf0a5
+commit: cca42a9b5325b96bfd3d74e24628511f537afbe9 [1/14] iommu: Add a probe_device_fwspec() op
+config: x86_64-randconfig-161-20251002 (https://download.01.org/0day-ci/archive/20251003/202510030445.Io6xezuL-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510031227.18psESZQ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202510030445.Io6xezuL-lkp@intel.com/
 
 New smatch warnings:
-drivers/scsi/qla2xxx/qla_target.c:5735 qlt_handle_abts_completion() error: we previously assumed 'mcmd' could be null (see line 5723)
+drivers/iommu/iommu.c:471 iommu_do_probe_device() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-drivers/scsi/qla2xxx/qla_target.c:671 qla24xx_delete_sess_fn() warn: can 'fcport' even be NULL?
+vim +/ret +471 drivers/iommu/iommu.c
 
-vim +/mcmd +5735 drivers/scsi/qla2xxx/qla_target.c
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  411  static int iommu_do_probe_device(struct device *dev)
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  412  {
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  413  	struct iommu_device *iommu;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  414  	int ret;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  415  
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  416  	lockdep_assert_held(&iommu_probe_device_lock);
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  417  
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  418  	if (dev->iommu->fwspec) {
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  419  		struct iommu_device *fwspec_iommu;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  420  
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  421  		fwspec_iommu =
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  422  			iommu_from_fwnode(dev->iommu->fwspec->iommu_fwnode);
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  423  		if (!fwspec_iommu)
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  424  			return -ENODEV;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  425  
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  426  		if (fwspec_iommu->ops->probe_device_fwspec) {
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  427  			ret = fwspec_iommu->ops->probe_device_fwspec(
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  428  				fwspec_iommu, dev);
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  429  			if (ret)
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  430  				return ret;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  431  			iommu = fwspec_iommu;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  432  		} else {
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  433  			iommu = fwspec_iommu->ops->probe_device(dev);
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  434  			if (IS_ERR(iommu))
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  435  				return PTR_ERR(iommu);
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  436  			if (WARN_ON(iommu != fwspec_iommu)) {
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  437  				ret = -EINVAL;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  438  				goto err_release;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  439  			}
 
-0691094ff3f2cfa Quinn Tran      2018-09-04  5704  
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5705  
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5706  static void qlt_handle_abts_completion(struct scsi_qla_host *vha,
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5707  	struct rsp_que *rsp, response_t *pkt)
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5708  {
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5709  	struct abts_resp_from_24xx_fw *entry =
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5710  		(struct abts_resp_from_24xx_fw *)pkt;
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5711  	u32 h = pkt->handle & ~QLA_TGT_HANDLE_MASK;
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5712  	struct qla_tgt_mgmt_cmd *mcmd;
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5713  	struct qla_hw_data *ha = vha->hw;
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5714  
-81bcf1c5cf0ee87 Bart Van Assche 2019-04-11  5715  	mcmd = qlt_ctio_to_cmd(vha, rsp, pkt->handle, pkt);
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5716  	if (mcmd == NULL && h != QLA_TGT_SKIP_HANDLE) {
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5717  		ql_dbg(ql_dbg_async, vha, 0xe064,
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5718  		    "qla_target(%d): ABTS Comp without mcmd\n",
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5719  		    vha->vp_idx);
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5720  		return;
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5721  	}
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5722  
-6b0431d6fa20bd1 Quinn Tran      2018-09-04 @5723  	if (mcmd)
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5724  		vha  = mcmd->vha;
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5725  	vha->vha_tgt.qla_tgt->abts_resp_expected--;
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5726  
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5727  	ql_dbg(ql_dbg_tgt, vha, 0xe038,
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5728  	    "ABTS_RESP_24XX: compl_status %x\n",
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5729  	    entry->compl_status);
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5730  
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5731  	if (le16_to_cpu(entry->compl_status) != ABTS_RESP_COMPL_SUCCESS) {
-7ffa5b939751b66 Bart Van Assche 2020-05-18  5732  		if (le32_to_cpu(entry->error_subcode1) == 0x1E &&
-7ffa5b939751b66 Bart Van Assche 2020-05-18  5733  		    le32_to_cpu(entry->error_subcode2) == 0) {
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5734  			if (qlt_chk_unresolv_exchg(vha, rsp->qpair, entry)) {
-74dabbbd8bb833e Tony Battersby  2025-09-29 @5735  				qlt_free_ul_mcmd(ha, mcmd);
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5736  				return;
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5737  			}
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5738  			qlt_24xx_retry_term_exchange(vha, rsp->qpair,
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5739  			    pkt, mcmd);
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5740  		} else {
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5741  			ql_dbg(ql_dbg_tgt, vha, 0xe063,
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5742  			    "qla_target(%d): ABTS_RESP_24XX failed %x (subcode %x:%x)",
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5743  			    vha->vp_idx, entry->compl_status,
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5744  			    entry->error_subcode1,
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5745  			    entry->error_subcode2);
-74dabbbd8bb833e Tony Battersby  2025-09-29  5746  			qlt_free_ul_mcmd(ha, mcmd);
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5747  		}
-e752a04e1bd14cc Bart Van Assche 2019-08-08  5748  	} else if (mcmd) {
-74dabbbd8bb833e Tony Battersby  2025-09-29  5749  		qlt_free_ul_mcmd(ha, mcmd);
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5750  	}
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5751  }
-6b0431d6fa20bd1 Quinn Tran      2018-09-04  5752  
+ret not set on this implied else path.
+
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  440  		}
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  441  	} else {
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  442  		/*
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  443  		 * At this point, relevant devices either now have a fwspec
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  444  		 * which will match ops registered with a non-NULL fwnode, or we
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  445  		 * can reasonably assume that only one of Intel, AMD, s390, PAMU
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  446  		 * or legacy SMMUv2 can be present, and that any of their
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  447  		 * registered instances has suitable ops for probing, and thus
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  448  		 * cheekily co-opt the same mechanism.
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  449  		 */
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  450  		iommu = iommu_from_fwnode(NULL);
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  451  		if (!iommu)
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  452  			return -ENODEV;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  453  		/* Non fwspec drivers must identify their instance internally */
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  454  		if (WARN_ON(!iommu->ops->probe_device))
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  455  			return -EINVAL;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  456  		iommu = iommu->ops->probe_device(dev);
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  457  		if (IS_ERR(iommu))
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  458  			return PTR_ERR(iommu);
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  459  	}
+
+ret not set in the else patch.
+
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  460  
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  461  	if (!try_module_get(iommu->ops->owner)) {
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  462  		ret = -EINVAL;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  463  		goto err_release;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  464  	}
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  465  
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  466  	dev->iommu->iommu_dev = iommu;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  467  
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  468  err_release:
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  469  	if (iommu->ops->release_device)
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  470  		iommu->ops->release_device(dev);
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01 @471  	return ret;
+cca42a9b5325b9 Jason Gunthorpe 2025-10-01  472  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
