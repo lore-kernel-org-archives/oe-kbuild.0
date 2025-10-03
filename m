@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E9E292B4B
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Oct 2025 16:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163652D7DE3
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Oct 2025 17:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759507355; cv=none; b=XUOHe1oIbtOM3mFI3pZUN5ZiU0GsXD6F1m1jAqQsWskI6714OAwrhg09Km3p8D1nmXj3wF2QhP3KlbPbGmLi8iqZLVQVulydLbsjUD0ce267HuPYt4PxkMxxIC3QS4c8MMwMZsdTB9GrEAY/bLAxaCUECVcNFaUDKfLMJN9CPZA=
+	t=1759511084; cv=none; b=WZdpnKwD3LNxe3RMM7HmwIExxP2sgJYDyYKc9Tdge00JR3Bjn8Sl4t3QXl1pUWMyJdTPO6ixZS1MfX42FUt/g0+T6oCu4xs9clPOf5ahozbp/fmR2hkrQ45FSZT+A1AwzLJm7sZdWQwusRzBDmxpsaWoReqSlxSQkBq1i9gKUYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759507355; c=relaxed/simple;
-	bh=/MCMJdhncWwFEcBIdWKlNZvvthJKXjlvmojh9C0HAs4=;
+	s=arc-20240116; t=1759511084; c=relaxed/simple;
+	bh=/pLNdd+3p5BJu+A5N/EcZ86MBqDkuToiULYIqXBl7ck=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W62nZB2cXTiMwUJfSi5GE996BpJKt68WoQ4ROJ62JM6zKc84IQlTp1FDGT0GatY8/hnqf7oLaNnynh5AWSkpf6nUckybHxin7oe001IHSeIB768CjiAOsmkEhtydHUJoij4m8k9A0Wjzu2vI+mVZHrvKwfMhqoM25p8JQL5XgT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LaoDok+1; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=D3LOg+LHVIs8rRNrHC0RbS8LHPsfbyS7fVHLK9FeFByh1UQMOTv0pu1zs8kJ2BIGY5Ot86zzbfzMfTUzUw2gBH+Rokle+guFSIEelcs3z4iF0mOsAcwABuXmFKXlhlj4Mv+G8OsZzFqHggyYAQDHWH7xPbffeoJWKdFCfq1C5mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UO6YJd1f; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LaoDok+1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UO6YJd1f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759507352; x=1791043352;
+  t=1759511082; x=1791047082;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/MCMJdhncWwFEcBIdWKlNZvvthJKXjlvmojh9C0HAs4=;
-  b=LaoDok+1ufr0ZLiT6oxvSq/4WEh6rGgm+LuhUKU1f+ncNO2IwvsRIBjW
-   ZYNBHKOUWRFyiBTk2VSP+aUkbfRk/tPDILypx3UZU5ugAolAfuZDvglYJ
-   IF4TKnMFEjn+VjIzP9fAuBmexXtPE/y0ap0C3B4A7NaSmJkq6mM5v5DAI
-   rleNlW9gkIiDTWsaRw9hUgZxq73HfWtyO8tSYKcRk1zvBvxyWeg/Z6qOs
-   PiF4xOJ3MLUcGkwD7/S96gLOClRiDefgV39AuNvPzr45JRBz/eoFaL1z4
-   2qR6uY4zFG0N6ueKGRUPvkWxG1dcCg4VhBHmTTVERXk38rRWL0BVPFgYr
-   w==;
-X-CSE-ConnectionGUID: NxfthxRCQeCl6XQElkOGKA==
-X-CSE-MsgGUID: jZvRlgk7TkSYZaCHyc+3Pw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="61678879"
-X-IronPort-AV: E=Sophos;i="6.18,312,1751266800"; 
-   d="scan'208";a="61678879"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 09:02:31 -0700
-X-CSE-ConnectionGUID: 2jxFQu+gQm6mnmZhEmMCCw==
-X-CSE-MsgGUID: yOjT92k4SyiFJvSvBhZn7Q==
+  bh=/pLNdd+3p5BJu+A5N/EcZ86MBqDkuToiULYIqXBl7ck=;
+  b=UO6YJd1fAUlUU+fbWzxoKttb3mzij0i1KeHz1aCcYS9trVzYCrrriXLK
+   3oITcT6ylkuaIJF6m7GtWHV4V6d9w/CsIfzy0uEHIRqfFmX1Kd0g9VXsM
+   BtsUIpiE/n7D+IzOnMcNDJUX1L2pEqMNffNQrjOw/zPhH92nvEsiOSazq
+   QY7ExbE65ty6tsKDv3AYiCruFufVbxcEt5yMf3yYCL6WoPmnWg5moaDvQ
+   1KjbUQ/E3ZnRKB2wmEKw7dB2fcfkWDdddh4MuqhBk0lAmCjHxIk5FIs7d
+   I5jGtqpiTP+DRlu9no2DcD6TvDK2aI7WsVToYsz/X25tK1dmx0Ilu043I
+   Q==;
+X-CSE-ConnectionGUID: KN3iNqgRQiWpzr4WPuVMWQ==
+X-CSE-MsgGUID: I/OpJPINQgO7PrC960cTUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="79443308"
+X-IronPort-AV: E=Sophos;i="6.18,313,1751266800"; 
+   d="scan'208";a="79443308"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 10:04:41 -0700
+X-CSE-ConnectionGUID: gR+VJyfBRwut1fYI/w65QQ==
+X-CSE-MsgGUID: Cv7ehwiQSA2fljqVf25nKg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,312,1751266800"; 
-   d="scan'208";a="210304999"
+X-IronPort-AV: E=Sophos;i="6.18,313,1751266800"; 
+   d="scan'208";a="179137233"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Oct 2025 09:02:28 -0700
+  by orviesa007.jf.intel.com with ESMTP; 03 Oct 2025 10:04:40 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v4iEk-0004dv-1l;
-	Fri, 03 Oct 2025 16:02:26 +0000
-Date: Sat, 4 Oct 2025 00:01:40 +0800
+	id 1v4jCv-0004lH-02;
+	Fri, 03 Oct 2025 17:04:37 +0000
+Date: Sat, 4 Oct 2025 01:04:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [RFC net-next 5/5] dt-bindings: net: dsa: mv88e6xxx: add
- mv88e6xxx-avb-mode property
-Message-ID: <202510032353.Ih0pxMv2-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 16/20] smb: client: add is_dir argument to query_path_info
+Message-ID: <202510032329.NN83GCga-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,585 +61,226 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250927070724.734933-6-lukeh@padl.com>
-References: <20250927070724.734933-6-lukeh@padl.com>
-TO: Luke Howard <lukeh@padl.com>
+In-Reply-To: <20250929132805.220558-17-ematsumiya@suse.de>
+References: <20250929132805.220558-17-ematsumiya@suse.de>
+TO: Enzo Matsumiya <ematsumiya@suse.de>
+TO: linux-cifs@vger.kernel.org
+CC: smfrench@gmail.com
+CC: pc@manguebit.com
+CC: ronniesahlberg@gmail.com
+CC: sprasad@microsoft.com
+CC: tom@talpey.com
+CC: bharathsm@microsoft.com
+CC: henrique.carvalho@suse.com
 
-Hi Luke,
+Hi Enzo,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on v6.17]
+[also build test WARNING on linus/master]
+[cannot apply to cifs/for-next next-20251003]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luke-Howard/net-dsa-mv88e6xxx-add-num_tx_queues-to-chip-info-structure/20250927-155031
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250927070724.734933-6-lukeh%40padl.com
-patch subject: [RFC net-next 5/5] dt-bindings: net: dsa: mv88e6xxx: add mv88e6xxx-avb-mode property
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm-randconfig-053-20250929 (https://download.01.org/0day-ci/archive/20251003/202510032353.Ih0pxMv2-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251003/202510032353.Ih0pxMv2-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Enzo-Matsumiya/smb-client-remove-cfids_invalidation_worker/20250929-213155
+base:   v6.17
+patch link:    https://lore.kernel.org/r/20250929132805.220558-17-ematsumiya%40suse.de
+patch subject: [PATCH 16/20] smb: client: add is_dir argument to query_path_info
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-141-20251003 (https://download.01.org/0day-ci/archive/20251003/202510032329.NN83GCga-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510032353.Ih0pxMv2-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202510032329.NN83GCga-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/imx/imx51-zii-rdu1.dtb: / (zii,imx51-rdu1): i2c-gpio: {'compatible': ['i2c-gpio'], 'pinctrl-names': ['default'], 'pinctrl-0': [[47]], 'sda-gpios': [[17, 2, 0]], 'scl-gpios': [[31, 4, 0]], 'i2c-gpio,delay-us': [50], 'status': ['okay'], '#address-cells': 1, '#size-cells': 0, 'codec@a': {'compatible': ['fsl,sgtl5000'], 'reg': [[10]], 'clocks': [[48]], 'VDDA-supply': [[49]], 'VDDIO-supply': [[50]], '#sound-dai-cells': 0, 'phandle': 57}} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
-   arch/arm/boot/dts/nxp/imx/imx51-zii-rdu1.dtb: /soc/bus@70000000/spba-bus@70000000/spi@70010000/pmic@0: failed to match any schema with compatible: ['fsl,mc13892']
-   arch/arm/boot/dts/nxp/imx/imx51-zii-rdu1.dtb: owire@83fa4000 (fsl,imx51-owire): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/w1/fsl-imx-owire.yaml#
-   arch/arm/boot/dts/nxp/imx/imx51-zii-rdu1.dtb: audmux@83fd0000 (fsl,imx51-audmux): 'aud3', 'ssi2' do not match any of the regexes: '^mux-[0-9a-z]*$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/sound/imx-audmux.yaml#
-   arch/arm/boot/dts/nxp/imx/imx51-zii-rdu1.dtb: /soc/bus@80000000/nand-controller@83fdb000: failed to match any schema with compatible: ['fsl,imx51-nand']
-   arch/arm/boot/dts/nxp/imx/imx51-zii-rdu1.dtb: nand-controller@83fdb000 (fsl,imx51-nand): #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
->> arch/arm/boot/dts/nxp/imx/imx51-zii-rdu1.dtb: /mdio/switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
---
-   arch/arm/boot/dts/nxp/imx/imx51-zii-scu2-mezz.dtb: /soc/bus@70000000/spba-bus@70000000/spi@70010000/pmic@0: failed to match any schema with compatible: ['fsl,mc13892']
-   arch/arm/boot/dts/nxp/imx/imx51-zii-scu2-mezz.dtb: owire@83fa4000 (fsl,imx51-owire): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/w1/fsl-imx-owire.yaml#
-   arch/arm/boot/dts/nxp/imx/imx51-zii-scu2-mezz.dtb: /soc/bus@80000000/nand-controller@83fdb000: failed to match any schema with compatible: ['fsl,imx51-nand']
-   arch/arm/boot/dts/nxp/imx/imx51-zii-scu2-mezz.dtb: nand-controller@83fdb000 (fsl,imx51-nand): #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
->> arch/arm/boot/dts/nxp/imx/imx51-zii-scu2-mezz.dtb: /mdio/switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
---
-   arch/arm/boot/dts/nxp/imx/imx6q-b450v3.dtb: pmic@58 (dlg,da9063): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/dlg,da9063.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-b450v3.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-b450v3.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-b450v3.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-b450v3.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-b450v3.dtb: /mdio/switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
---
-   arch/arm/boot/dts/nxp/imx/imx6q-b650v3.dtb: pmic@58 (dlg,da9063): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/dlg,da9063.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-b650v3.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-b650v3.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-b650v3.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-b650v3.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-b650v3.dtb: /mdio/switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
---
-   arch/arm/boot/dts/nxp/imx/imx6q-b850v3.dtb: pmic@58 (dlg,da9063): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/dlg,da9063.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-b850v3.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-b850v3.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-b850v3.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-b850v3.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-b850v3.dtb: /mdio/switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
---
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: iomuxc@40048000 (fsl,vf610-iomuxc): $nodename:0: 'iomuxc@40048000' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/fsl,vf610-iomuxc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: /soc/bus@40080000/ethernet@400d1000/mdio/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
---
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: iomuxc@40048000 (fsl,vf610-iomuxc): $nodename:0: 'iomuxc@40048000' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/fsl,vf610-iomuxc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /mdio-mux/mdio@1/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6190']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /mdio-mux/mdio@2/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6190']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /mdio-mux/mdio@4/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6190']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /mdio-mux/mdio@8/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6190']
---
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: iomuxc@40048000 (fsl,vf610-iomuxc): $nodename:0: 'iomuxc@40048000' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/fsl,vf610-iomuxc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: /soc/bus@40080000/ethernet@400d1000/mdio/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6190']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
---
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: iomuxc@40048000 (fsl,vf610-iomuxc): $nodename:0: 'iomuxc@40048000' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/fsl,vf610-iomuxc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: /soc/bus@40080000/ethernet@400d1000/mdio/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6190']
->> arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: /soc/bus@40080000/ethernet@400d1000/mdio/ethernet-switch@0/mdio-external: failed to match any schema with compatible: ['marvell,mv88e6xxx-mdio-external']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
---
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: iomuxc@40048000 (fsl,vf610-iomuxc): $nodename:0: 'iomuxc@40048000' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/fsl,vf610-iomuxc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: /soc/bus@40080000/ethernet@400d1000/mdio/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6190']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
---
->> Documentation/devicetree/bindings/net/dsa/marvell,mv88e6xxx.yaml: ignoring, error parsing file
---
-   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/devbus-cs0: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/devbus-cs1: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,orion-devbus']
-   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/internal-regs/wdt@20300: failed to match any schema with compatible: ['marvell,orion-wdt']
-   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: dma-controller@60900 (marvell,orion-xor): '#dma-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/dma/dma-controller.yaml#
-   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/internal-regs/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,orion-eth']
-   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/internal-regs/ethernet-controller@72000/ethernet-port@0: failed to match any schema with compatible: ['marvell,orion-eth-port']
->> arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/internal-regs/mdio-bus@72004/switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/internal-regs/pinctrl@10000: failed to match any schema with compatible: ['marvell,88f5181-pinctrl']
-   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: pinctrl@10000 (marvell,88f5181-pinctrl): pmx-pci-gpios: {'marvell,pins': ['mpp4'], 'marvell,function': ['gpio'], 'phandle': 13} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
-   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: sa-sram (mmio-sram): 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dtb: sa-sram (mmio-sram): $nodename:0: 'sa-sram' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
---
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: internal-regs (simple-bus): gpio-fan: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: /soc/internal-regs/pin-ctrl@18000: failed to match any schema with compatible: ['marvell,mv88f6710-pinctrl']
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: /soc/internal-regs/coherency-fabric@20200: failed to match any schema with compatible: ['marvell,coherency-fabric']
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-370-wdt']
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-370-pmsu']
->> arch/arm/boot/dts/marvell/armada-370-rd.dtb: /soc/internal-regs/mdio@72004/ethernet-switch@10: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: mvsdio@d4000 (marvell,orion-sdio): $nodename:0: 'mvsdio@d4000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,orion-sdio.yaml#
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: mvsdio@d4000 (marvell,orion-sdio): Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'cap-mmc-highspeed', 'cap-sd-highspeed', 'cap-sdio-irq' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,orion-sdio.yaml#
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: /soc/internal-regs/system-controller@18200: failed to match any schema with compatible: ['marvell,armada-370-xp-system-controller']
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: /soc/internal-regs/thermal@18300: failed to match any schema with compatible: ['marvell,armada370-thermal']
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: /soc/internal-regs/cpu-config@21000: failed to match any schema with compatible: ['marvell,armada-370-cpu-config']
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: /soc/internal-regs/audio-controller@30000: failed to match any schema with compatible: ['marvell,armada370-audio']
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: /soc/bootrom: failed to match any schema with compatible: ['marvell,bootrom']
-   arch/arm/boot/dts/marvell/armada-370-rd.dtb: sa-sram (mmio-sram): 'reg-names' does not match any of the regexes: '^([a-z0-9]*-)?sram(-section)?@[a-f0-9]+$', '^pinctrl-[0-9]+$'
---
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: phy@18300 (marvell,armada-380-comphy): phy@4:reg:0:0: 4 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: phy@18300 (marvell,armada-380-comphy): phy@5:reg:0:0: 5 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-380-wdt']
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: /soc/internal-regs/mpcore-soc-ctrl@20d20: failed to match any schema with compatible: ['marvell,armada-380-mpcore-soc-ctrl']
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: /soc/internal-regs/coherency-fabric@21010: failed to match any schema with compatible: ['marvell,armada-380-coherency-fabric']
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-380-pmsu']
->> arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: /soc/internal-regs/mdio@72004/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6190']
->> arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: /soc/internal-regs/mdio@72004/ethernet-switch@0/mdio-external: failed to match any schema with compatible: ['marvell,mv88e6xxx-mdio-external']
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
-   arch/arm/boot/dts/marvell/armada-381-netgear-gs110emx.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['marvell,armada-380-xhci'] is too short
-   	'generic-xhci' was expected
-   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
---
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: phy@18300 (marvell,armada-380-comphy): phy@4:reg:0:0: 4 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: phy@18300 (marvell,armada-380-comphy): phy@5:reg:0:0: 5 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-380-wdt']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/mpcore-soc-ctrl@20d20: failed to match any schema with compatible: ['marvell,armada-380-mpcore-soc-ctrl']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/coherency-fabric@21010: failed to match any schema with compatible: ['marvell,armada-380-coherency-fabric']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-380-pmsu']
->> arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/mdio@72004/ethernet-switch@4: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'no-1-8-v', 'non-removable', 'vmmc', 'wp-inverted' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-s4.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
---
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: phy@18300 (marvell,armada-380-comphy): phy@4:reg:0:0: 4 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: phy@18300 (marvell,armada-380-comphy): phy@5:reg:0:0: 5 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-380-wdt']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/mpcore-soc-ctrl@20d20: failed to match any schema with compatible: ['marvell,armada-380-mpcore-soc-ctrl']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/coherency-fabric@21010: failed to match any schema with compatible: ['marvell,armada-380-coherency-fabric']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-380-pmsu']
->> arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/mdio@72004/ethernet-switch@4: failed to match any schema with compatible: ['marvell,mv88e6190']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'no-1-8-v', 'non-removable', 'vmmc', 'wp-inverted' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-clearfog-gtr-l8.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
---
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: phy@18300 (marvell,armada-380-comphy): phy@4:reg:0:0: 4 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: phy@18300 (marvell,armada-380-comphy): phy@5:reg:0:0: 5 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-380-wdt']
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: /soc/internal-regs/mpcore-soc-ctrl@20d20: failed to match any schema with compatible: ['marvell,armada-380-mpcore-soc-ctrl']
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: /soc/internal-regs/coherency-fabric@21010: failed to match any schema with compatible: ['marvell,armada-380-coherency-fabric']
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-380-pmsu']
->> arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: /soc/internal-regs/mdio@72004/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
-   arch/arm/boot/dts/marvell/armada-385-linksys-caiman.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['marvell,armada-380-xhci'] is too short
-   	'generic-xhci' was expected
-   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
---
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: phy@18300 (marvell,armada-380-comphy): phy@4:reg:0:0: 4 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: phy@18300 (marvell,armada-380-comphy): phy@5:reg:0:0: 5 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-380-wdt']
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: /soc/internal-regs/mpcore-soc-ctrl@20d20: failed to match any schema with compatible: ['marvell,armada-380-mpcore-soc-ctrl']
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: /soc/internal-regs/coherency-fabric@21010: failed to match any schema with compatible: ['marvell,armada-380-coherency-fabric']
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-380-pmsu']
->> arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: /soc/internal-regs/mdio@72004/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
-   arch/arm/boot/dts/marvell/armada-385-linksys-cobra.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['marvell,armada-380-xhci'] is too short
-   	'generic-xhci' was expected
-   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
---
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: phy@18300 (marvell,armada-380-comphy): phy@4:reg:0:0: 4 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: phy@18300 (marvell,armada-380-comphy): phy@5:reg:0:0: 5 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-380-wdt']
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/mpcore-soc-ctrl@20d20: failed to match any schema with compatible: ['marvell,armada-380-mpcore-soc-ctrl']
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/coherency-fabric@21010: failed to match any schema with compatible: ['marvell,armada-380-coherency-fabric']
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-380-pmsu']
->> arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/mdio@72004/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'no-1-8-v', 'non-removable', 'wp-inverted' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-rango.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
---
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: phy@18300 (marvell,armada-380-comphy): phy@4:reg:0:0: 4 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: phy@18300 (marvell,armada-380-comphy): phy@5:reg:0:0: 5 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-380-wdt']
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: /soc/internal-regs/mpcore-soc-ctrl@20d20: failed to match any schema with compatible: ['marvell,armada-380-mpcore-soc-ctrl']
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: /soc/internal-regs/coherency-fabric@21010: failed to match any schema with compatible: ['marvell,armada-380-coherency-fabric']
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-380-pmsu']
->> arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: /soc/internal-regs/mdio@72004/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
-   arch/arm/boot/dts/marvell/armada-385-linksys-shelby.dtb: usb3@f0000 (marvell,armada-380-xhci): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['marvell,armada-380-xhci'] is too short
-   	'generic-xhci' was expected
-   	'marvell,armada-380-xhci' is not one of ['brcm,bcm2711-xhci']
---
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: phy@18300 (marvell,armada-380-comphy): phy@4:reg:0:0: 4 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: phy@18300 (marvell,armada-380-comphy): phy@5:reg:0:0: 5 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-380-wdt']
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/mpcore-soc-ctrl@20d20: failed to match any schema with compatible: ['marvell,armada-380-mpcore-soc-ctrl']
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/coherency-fabric@21010: failed to match any schema with compatible: ['marvell,armada-380-coherency-fabric']
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-380-pmsu']
->> arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/mdio@72004/ethernet-switch@10: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'no-1-8-v', 'non-removable' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-385-turris-omnia.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
---
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: phy@18300 (marvell,armada-380-comphy): phy@4:reg:0:0: 4 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: phy@18300 (marvell,armada-380-comphy): phy@5:reg:0:0: 5 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-380-wdt']
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/mpcore-soc-ctrl@20d20: failed to match any schema with compatible: ['marvell,armada-380-mpcore-soc-ctrl']
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/coherency-fabric@21010: failed to match any schema with compatible: ['marvell,armada-380-coherency-fabric']
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-380-pmsu']
->> arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/mdio@72004/ethernet-switch@4: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'cd-gpios', 'no-1-8-v', 'vmmc-supply', 'wp-inverted' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-388-clearfog.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
---
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: phy@18300 (marvell,armada-380-comphy): phy@4:reg:0:0: 4 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: phy@18300 (marvell,armada-380-comphy): phy@5:reg:0:0: 5 is greater than the maximum of 1
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-380-comphy.yaml#
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-380-wdt']
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/mpcore-soc-ctrl@20d20: failed to match any schema with compatible: ['marvell,armada-380-mpcore-soc-ctrl']
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/coherency-fabric@21010: failed to match any schema with compatible: ['marvell,armada-380-coherency-fabric']
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-380-pmsu']
->> arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/mdio@72004/ethernet-switch@4: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/sata@a8000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/sata@e0000: failed to match any schema with compatible: ['marvell,armada-380-ahci']
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/thermal@e8078: failed to match any schema with compatible: ['marvell,armada380-thermal']
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: sdhci@d8000 (marvell,armada-380-sdhci): $nodename:0: 'sdhci@d8000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: sdhci@d8000 (marvell,armada-380-sdhci): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: sdhci@d8000 (marvell,armada-380-sdhci): Unevaluated properties are not allowed ('bus-width', 'cd-gpios', 'no-1-8-v', 'vmmc-supply', 'wp-inverted' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/armada-388-clearfog-pro.dtb: /soc/internal-regs/audio-controller@e8000: failed to match any schema with compatible: ['marvell,armada-380-audio']
---
-   	'marvell,mv64xxx-i2c' was expected
-   	'marvell,mv78230-a0-i2c' was expected
-   	'allwinner,sun8i-v536-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/marvell,mv64xxx-i2c.yaml#
-   arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: /soc/internal-regs/pin-ctrl@18000: failed to match any schema with compatible: ['marvell,mv78230-pinctrl']
-   arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: /soc/internal-regs/coherency-fabric@20200: failed to match any schema with compatible: ['marvell,coherency-fabric']
-   arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-xp-wdt']
-   arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
-   arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-370-pmsu']
->> arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: /soc/internal-regs/mdio@72004/ethernet-switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: mvsdio@d4000 (marvell,orion-sdio): $nodename:0: 'mvsdio@d4000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,orion-sdio.yaml#
-   arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: /soc/internal-regs/system-controller@18200: failed to match any schema with compatible: ['marvell,armada-370-xp-system-controller']
-   arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: /soc/internal-regs/thermal@182b0: failed to match any schema with compatible: ['marvell,armadaxp-thermal']
-   arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: /soc/internal-regs/cpu-config@21000: failed to match any schema with compatible: ['marvell,armada-xp-cpu-config']
-   arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: /soc/bootrom: failed to match any schema with compatible: ['marvell,bootrom']
-   arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: sa-sram0 (mmio-sram): $nodename:0: 'sa-sram0' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/marvell/armada-xp-linksys-mamba.dtb: sa-sram1 (mmio-sram): $nodename:0: 'sa-sram1' does not match '^sram(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
---
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: pcie@82000000 (marvell,kirkwood-pcie): pcie@1,0:interrupts: [[9], [44]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: ocp@f1000000 (simple-bus): $nodename:0: 'ocp@f1000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: /ocp@f1000000/pin-controller@10000: failed to match any schema with compatible: ['marvell,88f6281-pinctrl']
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: /ocp@f1000000/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: /ocp@f1000000/system-controller@20000: failed to match any schema with compatible: ['marvell,orion-system-controller']
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: /ocp@f1000000/watchdog-timer@20300: failed to match any schema with compatible: ['marvell,orion-wdt']
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: /ocp@f1000000/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: /ocp@f1000000/ethernet-controller@72000/ethernet0-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
->> arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: /ocp@f1000000/mdio-bus@72004/switch@11: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: /ocp@f1000000/ethernet-controller@76000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: /ocp@f1000000/ethernet-controller@76000/ethernet1-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: /ocp@f1000000/audio-controller@a0000: failed to match any schema with compatible: ['marvell,kirkwood-audio']
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: rtc@10300 (marvell,kirkwood-rtc): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible:0: 'marvell,kirkwood-rtc' is not one of ['abracon,abb5zes3', 'abracon,abeoz9', 'aspeed,ast2400-rtc', 'aspeed,ast2500-rtc', 'aspeed,ast2600-rtc', 'cnxt,cx92755-rtc', 'dallas,ds1374', 'dallas,ds1672', 'dallas,ds3232', 'dfrobot,sd2405al', 'emmicro,em3027', 'epson,rx8010', 'epson,rx8035', 'epson,rx8111', 'epson,rx8571', 'epson,rx8581', 'google,goldfish-rtc', 'marvell,orion-rtc', 'maxim,ds1742', 'maxim,mcp795', 'microcrystal,rv3029', 'microcrystal,rv8523', 'ricoh,r2025sd', 'ricoh,r2221tl', 'ricoh,rs5c372a', 'ricoh,rs5c372b', 'ricoh,rv5c386', 'ricoh,rv5c387a', 'sii,s35390a', 'st,spear600-rtc', 'via,vt8500-rtc', 'whwave,sd3078', 'xircom,x1205']
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc'] is too long
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-4i-edge-200.dtb: /ocp@f1000000/rtc@10300: failed to match any schema with compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc']
---
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: pcie@82000000 (marvell,kirkwood-pcie): pcie@1,0:interrupts: [[9], [44]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: ocp@f1000000 (simple-bus): $nodename:0: 'ocp@f1000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: /ocp@f1000000/pin-controller@10000: failed to match any schema with compatible: ['marvell,88f6281-pinctrl']
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: /ocp@f1000000/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: /ocp@f1000000/system-controller@20000: failed to match any schema with compatible: ['marvell,orion-system-controller']
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: /ocp@f1000000/watchdog-timer@20300: failed to match any schema with compatible: ['marvell,orion-wdt']
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: /ocp@f1000000/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: /ocp@f1000000/ethernet-controller@72000/ethernet0-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
->> arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: /ocp@f1000000/mdio-bus@72004/switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: /ocp@f1000000/ethernet-controller@76000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: /ocp@f1000000/ethernet-controller@76000/ethernet1-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: /ocp@f1000000/audio-controller@a0000: failed to match any schema with compatible: ['marvell,kirkwood-audio']
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: rtc@10300 (marvell,kirkwood-rtc): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible:0: 'marvell,kirkwood-rtc' is not one of ['abracon,abb5zes3', 'abracon,abeoz9', 'aspeed,ast2400-rtc', 'aspeed,ast2500-rtc', 'aspeed,ast2600-rtc', 'cnxt,cx92755-rtc', 'dallas,ds1374', 'dallas,ds1672', 'dallas,ds3232', 'dfrobot,sd2405al', 'emmicro,em3027', 'epson,rx8010', 'epson,rx8035', 'epson,rx8111', 'epson,rx8571', 'epson,rx8581', 'google,goldfish-rtc', 'marvell,orion-rtc', 'maxim,ds1742', 'maxim,mcp795', 'microcrystal,rv3029', 'microcrystal,rv8523', 'ricoh,r2025sd', 'ricoh,r2221tl', 'ricoh,rs5c372a', 'ricoh,rs5c372b', 'ricoh,rv5c386', 'ricoh,rv5c387a', 'sii,s35390a', 'st,spear600-rtc', 'via,vt8500-rtc', 'whwave,sd3078', 'xircom,x1205']
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc'] is too long
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-dir665.dtb: /ocp@f1000000/rtc@10300: failed to match any schema with compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc']
---
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: gpio-expander@20 (semtech,sx1505q): $nodename:0: 'gpio-expander@20' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/semtech,sx1501q.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: gpio-expander@21 (semtech,sx1505q): $nodename:0: 'gpio-expander@21' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/semtech,sx1501q.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: /ocp@f1000000/i2c@11000/rtc@30: failed to match any schema with compatible: ['s35390a']
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: /ocp@f1000000/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: /ocp@f1000000/system-controller@20000: failed to match any schema with compatible: ['marvell,orion-system-controller']
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: /ocp@f1000000/watchdog-timer@20300: failed to match any schema with compatible: ['marvell,orion-wdt']
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: /ocp@f1000000/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: /ocp@f1000000/ethernet-controller@72000/ethernet0-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
->> arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: /ocp@f1000000/mdio-bus@72004/switch@10: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: /ocp@f1000000/mdio-bus@72004/switch@11: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: /ocp@f1000000/ethernet-controller@76000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: /ocp@f1000000/ethernet-controller@76000/ethernet1-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: /ocp@f1000000/audio-controller@a0000: failed to match any schema with compatible: ['marvell,kirkwood-audio']
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: rtc@10300 (marvell,kirkwood-rtc): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible:0: 'marvell,kirkwood-rtc' is not one of ['abracon,abb5zes3', 'abracon,abeoz9', 'aspeed,ast2400-rtc', 'aspeed,ast2500-rtc', 'aspeed,ast2600-rtc', 'cnxt,cx92755-rtc', 'dallas,ds1374', 'dallas,ds1672', 'dallas,ds3232', 'dfrobot,sd2405al', 'emmicro,em3027', 'epson,rx8010', 'epson,rx8035', 'epson,rx8111', 'epson,rx8571', 'epson,rx8581', 'google,goldfish-rtc', 'marvell,orion-rtc', 'maxim,ds1742', 'maxim,mcp795', 'microcrystal,rv3029', 'microcrystal,rv8523', 'ricoh,r2025sd', 'ricoh,r2221tl', 'ricoh,rs5c372a', 'ricoh,rs5c372b', 'ricoh,rv5c386', 'ricoh,rv5c387a', 'sii,s35390a', 'st,spear600-rtc', 'via,vt8500-rtc', 'whwave,sd3078', 'xircom,x1205']
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-l-50.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc'] is too long
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
---
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: pcie@82000000 (marvell,kirkwood-pcie): pcie@2,0:interrupts: [[10], [45]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: ocp@f1000000 (simple-bus): $nodename:0: 'ocp@f1000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: /ocp@f1000000/pin-controller@10000: failed to match any schema with compatible: ['marvell,88f6282-pinctrl']
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: /ocp@f1000000/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: /ocp@f1000000/system-controller@20000: failed to match any schema with compatible: ['marvell,orion-system-controller']
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: /ocp@f1000000/watchdog-timer@20300: failed to match any schema with compatible: ['marvell,orion-wdt']
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: /ocp@f1000000/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: /ocp@f1000000/ethernet-controller@72000/ethernet0-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
->> arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: /ocp@f1000000/mdio-bus@72004/switch@10: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: /ocp@f1000000/ethernet-controller@76000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: /ocp@f1000000/ethernet-controller@76000/ethernet1-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: /ocp@f1000000/audio-controller@a0000: failed to match any schema with compatible: ['marvell,kirkwood-audio']
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: /ocp@f1000000/thermal@10078: failed to match any schema with compatible: ['marvell,kirkwood-thermal']
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: rtc@10300 (marvell,kirkwood-rtc): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible:0: 'marvell,kirkwood-rtc' is not one of ['abracon,abb5zes3', 'abracon,abeoz9', 'aspeed,ast2400-rtc', 'aspeed,ast2500-rtc', 'aspeed,ast2600-rtc', 'cnxt,cx92755-rtc', 'dallas,ds1374', 'dallas,ds1672', 'dallas,ds3232', 'dfrobot,sd2405al', 'emmicro,em3027', 'epson,rx8010', 'epson,rx8035', 'epson,rx8111', 'epson,rx8571', 'epson,rx8581', 'google,goldfish-rtc', 'marvell,orion-rtc', 'maxim,ds1742', 'maxim,mcp795', 'microcrystal,rv3029', 'microcrystal,rv8523', 'ricoh,r2025sd', 'ricoh,r2221tl', 'ricoh,rs5c372a', 'ricoh,rs5c372b', 'ricoh,rv5c386', 'ricoh,rv5c387a', 'sii,s35390a', 'st,spear600-rtc', 'via,vt8500-rtc', 'whwave,sd3078', 'xircom,x1205']
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-linksys-viper.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc'] is too long
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
---
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: ocp@f1000000 (simple-bus): $nodename:0: 'ocp@f1000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: /ocp@f1000000/pin-controller@10000: failed to match any schema with compatible: ['marvell,88f6281-pinctrl']
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: flash@0 (mxicy,mx25l12805d): Unevaluated properties are not allowed ('mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: /ocp@f1000000/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: /ocp@f1000000/system-controller@20000: failed to match any schema with compatible: ['marvell,orion-system-controller']
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: /ocp@f1000000/watchdog-timer@20300: failed to match any schema with compatible: ['marvell,orion-wdt']
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: /ocp@f1000000/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: /ocp@f1000000/ethernet-controller@72000/ethernet0-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
->> arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: /ocp@f1000000/mdio-bus@72004/switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: /ocp@f1000000/ethernet-controller@76000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: /ocp@f1000000/ethernet-controller@76000/ethernet1-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: /ocp@f1000000/audio-controller@a0000: failed to match any schema with compatible: ['marvell,kirkwood-audio']
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: rtc@10300 (marvell,kirkwood-rtc): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible:0: 'marvell,kirkwood-rtc' is not one of ['abracon,abb5zes3', 'abracon,abeoz9', 'aspeed,ast2400-rtc', 'aspeed,ast2500-rtc', 'aspeed,ast2600-rtc', 'cnxt,cx92755-rtc', 'dallas,ds1374', 'dallas,ds1672', 'dallas,ds3232', 'dfrobot,sd2405al', 'emmicro,em3027', 'epson,rx8010', 'epson,rx8035', 'epson,rx8111', 'epson,rx8571', 'epson,rx8581', 'google,goldfish-rtc', 'marvell,orion-rtc', 'maxim,ds1742', 'maxim,mcp795', 'microcrystal,rv3029', 'microcrystal,rv8523', 'ricoh,r2025sd', 'ricoh,r2221tl', 'ricoh,rs5c372a', 'ricoh,rs5c372b', 'ricoh,rv5c386', 'ricoh,rv5c387a', 'sii,s35390a', 'st,spear600-rtc', 'via,vt8500-rtc', 'whwave,sd3078', 'xircom,x1205']
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc'] is too long
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-mv88f6281gtw-ge.dtb: /ocp@f1000000/rtc@10300: failed to match any schema with compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc']
---
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: ocp@f1000000 (simple-bus): $nodename:0: 'ocp@f1000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: /ocp@f1000000/pin-controller@10000: failed to match any schema with compatible: ['marvell,88f6281-pinctrl']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: pin-controller@10000 (marvell,88f6281-pinctrl): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: /ocp@f1000000/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: /ocp@f1000000/system-controller@20000: failed to match any schema with compatible: ['marvell,orion-system-controller']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: /ocp@f1000000/watchdog-timer@20300: failed to match any schema with compatible: ['marvell,orion-wdt']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: /ocp@f1000000/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: /ocp@f1000000/ethernet-controller@72000/ethernet0-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
->> arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: /ocp@f1000000/mdio-bus@72004/switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: /ocp@f1000000/ethernet-controller@76000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: /ocp@f1000000/ethernet-controller@76000/ethernet1-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: /ocp@f1000000/audio-controller@a0000: failed to match any schema with compatible: ['marvell,kirkwood-audio']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: rtc@10300 (marvell,kirkwood-rtc): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible:0: 'marvell,kirkwood-rtc' is not one of ['abracon,abb5zes3', 'abracon,abeoz9', 'aspeed,ast2400-rtc', 'aspeed,ast2500-rtc', 'aspeed,ast2600-rtc', 'cnxt,cx92755-rtc', 'dallas,ds1374', 'dallas,ds1672', 'dallas,ds3232', 'dfrobot,sd2405al', 'emmicro,em3027', 'epson,rx8010', 'epson,rx8035', 'epson,rx8111', 'epson,rx8571', 'epson,rx8581', 'google,goldfish-rtc', 'marvell,orion-rtc', 'maxim,ds1742', 'maxim,mcp795', 'microcrystal,rv3029', 'microcrystal,rv8523', 'ricoh,r2025sd', 'ricoh,r2221tl', 'ricoh,rs5c372a', 'ricoh,rs5c372b', 'ricoh,rv5c386', 'ricoh,rv5c387a', 'sii,s35390a', 'st,spear600-rtc', 'via,vt8500-rtc', 'whwave,sd3078', 'xircom,x1205']
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc'] is too long
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-z0.dtb: /ocp@f1000000/rtc@10300: failed to match any schema with compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc']
---
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: ocp@f1000000 (simple-bus): $nodename:0: 'ocp@f1000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: /ocp@f1000000/pin-controller@10000: failed to match any schema with compatible: ['marvell,88f6281-pinctrl']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: pin-controller@10000 (marvell,88f6281-pinctrl): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: /ocp@f1000000/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: /ocp@f1000000/system-controller@20000: failed to match any schema with compatible: ['marvell,orion-system-controller']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: /ocp@f1000000/watchdog-timer@20300: failed to match any schema with compatible: ['marvell,orion-wdt']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: /ocp@f1000000/ethernet-controller@72000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: /ocp@f1000000/ethernet-controller@72000/ethernet0-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
->> arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: /ocp@f1000000/mdio-bus@72004/switch@0: failed to match any schema with compatible: ['marvell,mv88e6085']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: /ocp@f1000000/ethernet-controller@76000: failed to match any schema with compatible: ['marvell,kirkwood-eth']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: /ocp@f1000000/ethernet-controller@76000/ethernet1-port@0: failed to match any schema with compatible: ['marvell,kirkwood-eth-port']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: /ocp@f1000000/audio-controller@a0000: failed to match any schema with compatible: ['marvell,kirkwood-audio']
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: rtc@10300 (marvell,kirkwood-rtc): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible:0: 'marvell,kirkwood-rtc' is not one of ['abracon,abb5zes3', 'abracon,abeoz9', 'aspeed,ast2400-rtc', 'aspeed,ast2500-rtc', 'aspeed,ast2600-rtc', 'cnxt,cx92755-rtc', 'dallas,ds1374', 'dallas,ds1672', 'dallas,ds3232', 'dfrobot,sd2405al', 'emmicro,em3027', 'epson,rx8010', 'epson,rx8035', 'epson,rx8111', 'epson,rx8571', 'epson,rx8581', 'google,goldfish-rtc', 'marvell,orion-rtc', 'maxim,ds1742', 'maxim,mcp795', 'microcrystal,rv3029', 'microcrystal,rv8523', 'ricoh,r2025sd', 'ricoh,r2221tl', 'ricoh,rs5c372a', 'ricoh,rs5c372b', 'ricoh,rv5c386', 'ricoh,rv5c387a', 'sii,s35390a', 'st,spear600-rtc', 'via,vt8500-rtc', 'whwave,sd3078', 'xircom,x1205']
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: rtc@10300 (marvell,kirkwood-rtc): compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc'] is too long
-   	from schema $id: http://devicetree.org/schemas/rtc/trivial-rtc.yaml#
-   arch/arm/boot/dts/marvell/kirkwood-rd88f6281-a.dtb: /ocp@f1000000/rtc@10300: failed to match any schema with compatible: ['marvell,kirkwood-rtc', 'marvell,orion-rtc']
+New smatch warnings:
+fs/smb/client/inode.c:1313 cifs_get_fattr() error: we previously assumed 'inode' could be null (see line 1288)
+
+Old smatch warnings:
+fs/smb/client/inode.c:1708 cifs_root_iget() warn: passing zero to 'ERR_PTR'
+fs/smb/client/inode.c:2334 cifs_mkdir() warn: passing zero to 'ERR_PTR'
+
+vim +/inode +1313 fs/smb/client/inode.c
+
+5f71ebc4129449 fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1258  
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1259  static int cifs_get_fattr(struct cifs_open_info_data *data,
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1260  			  struct super_block *sb, int xid,
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1261  			  const struct cifs_fid *fid,
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1262  			  struct cifs_fattr *fattr,
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1263  			  struct inode **inode,
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1264  			  const char *full_path)
+^1da177e4c3f41 fs/cifs/inode.c       Linus Torvalds                    2005-04-16  1265  {
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1266  	struct cifs_open_info_data tmp_data = {};
+1208ef1f76540b fs/cifs/inode.c       Pavel Shilovsky                   2012-05-27  1267  	struct cifs_tcon *tcon;
+1208ef1f76540b fs/cifs/inode.c       Pavel Shilovsky                   2012-05-27  1268  	struct TCP_Server_Info *server;
+7ffec372458d16 fs/cifs/inode.c       Jeff Layton                       2010-09-29  1269  	struct tcon_link *tlink;
+^1da177e4c3f41 fs/cifs/inode.c       Linus Torvalds                    2005-04-16  1270  	struct cifs_sb_info *cifs_sb = CIFS_SB(sb);
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1271  	void *smb1_backup_rsp_buf = NULL;
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1272  	int rc = 0;
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1273  	int tmprc = 0;
+^1da177e4c3f41 fs/cifs/inode.c       Linus Torvalds                    2005-04-16  1274  
+7ffec372458d16 fs/cifs/inode.c       Jeff Layton                       2010-09-29  1275  	tlink = cifs_sb_tlink(cifs_sb);
+7ffec372458d16 fs/cifs/inode.c       Jeff Layton                       2010-09-29  1276  	if (IS_ERR(tlink))
+7ffec372458d16 fs/cifs/inode.c       Jeff Layton                       2010-09-29  1277  		return PTR_ERR(tlink);
+1208ef1f76540b fs/cifs/inode.c       Pavel Shilovsky                   2012-05-27  1278  	tcon = tlink_tcon(tlink);
+1208ef1f76540b fs/cifs/inode.c       Pavel Shilovsky                   2012-05-27  1279  	server = tcon->ses->server;
+7ffec372458d16 fs/cifs/inode.c       Jeff Layton                       2010-09-29  1280  
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1281  	/*
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1282  	 * 1. Fetch file metadata if not provided (data)
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1283  	 */
+^1da177e4c3f41 fs/cifs/inode.c       Linus Torvalds                    2005-04-16  1284  
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1285  	if (!data) {
+65e58ef1dafb0c fs/smb/client/inode.c Enzo Matsumiya                    2025-09-29  1286  		bool is_dir = false;
+65e58ef1dafb0c fs/smb/client/inode.c Enzo Matsumiya                    2025-09-29  1287  
+65e58ef1dafb0c fs/smb/client/inode.c Enzo Matsumiya                    2025-09-29 @1288  		if (inode && *inode)
+65e58ef1dafb0c fs/smb/client/inode.c Enzo Matsumiya                    2025-09-29  1289  			is_dir = S_ISDIR((*inode)->i_mode);
+65e58ef1dafb0c fs/smb/client/inode.c Enzo Matsumiya                    2025-09-29  1290  
+8b4e285d8ce3c6 fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1291  		rc = server->ops->query_path_info(xid, tcon, cifs_sb,
+65e58ef1dafb0c fs/smb/client/inode.c Enzo Matsumiya                    2025-09-29  1292  						  full_path, &tmp_data, is_dir);
+76894f3e2f7117 fs/cifs/inode.c       Paulo Alcantara                   2022-10-03  1293  		data = &tmp_data;
+^1da177e4c3f41 fs/cifs/inode.c       Linus Torvalds                    2005-04-16  1294  	}
+0b8f18e358384a fs/cifs/inode.c       Jeff Layton                       2009-07-09  1295  
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1296  	/*
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1297  	 * 2. Convert it to internal cifs metadata (fattr)
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1298  	 */
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1299  
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1300  	switch (rc) {
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1301  	case 0:
+2e4564b31b645f fs/cifs/inode.c       Steve French                      2020-10-22  1302  		/*
+2e4564b31b645f fs/cifs/inode.c       Steve French                      2020-10-22  1303  		 * If the file is a reparse point, it is more complicated
+2e4564b31b645f fs/cifs/inode.c       Steve French                      2020-10-22  1304  		 * since we have to check if its reparse tag matches a known
+2e4564b31b645f fs/cifs/inode.c       Steve French                      2020-10-22  1305  		 * special file type e.g. symlink or fifo or char etc.
+2e4564b31b645f fs/cifs/inode.c       Steve French                      2020-10-22  1306  		 */
+5f71ebc4129449 fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1307  		if (cifs_open_data_reparse(data)) {
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1308  			rc = reparse_info_to_fattr(data, sb, xid, tcon,
+858e74876c5cbf fs/smb/client/inode.c Paulo Alcantara                   2024-01-19  1309  						   full_path, fattr);
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1310  		} else {
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1311  			cifs_open_info_to_fattr(fattr, data, sb);
+76894f3e2f7117 fs/cifs/inode.c       Paulo Alcantara                   2022-10-03  1312  		}
+ec4535b2a1d709 fs/smb/client/inode.c Paulo Alcantara                   2024-04-08 @1313  		if (!rc && *inode &&
+ec4535b2a1d709 fs/smb/client/inode.c Paulo Alcantara                   2024-04-08  1314  		    (fattr->cf_flags & CIFS_FATTR_DELETE_PENDING))
+fc20c523211a38 fs/smb/client/inode.c Meetakshi Setiya                  2024-03-14  1315  			cifs_mark_open_handles_for_deleted_file(*inode, full_path);
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1316  		break;
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1317  	case -EREMOTE:
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1318  		/* DFS link, no metadata available on this server */
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1319  		cifs_create_junction_fattr(fattr, sb);
+b9a3260f25ab5d fs/cifs/inode.c       Steve French                      2008-05-20  1320  		rc = 0;
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1321  		break;
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1322  	case -EACCES:
+fb157ed226d225 fs/cifs/inode.c       Steve French                      2022-08-01  1323  #ifdef CONFIG_CIFS_ALLOW_INSECURE_LEGACY
+1e77a8c204c9d1 fs/cifs/inode.c       Steve French                      2018-10-19  1324  		/*
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1325  		 * perm errors, try again with backup flags if possible
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1326  		 *
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1327  		 * For SMB2 and later the backup intent flag
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1328  		 * is already sent if needed on open and there
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1329  		 * is no path based FindFirst operation to use
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1330  		 * to retry with
+1e77a8c204c9d1 fs/cifs/inode.c       Steve French                      2018-10-19  1331  		 */
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1332  		if (backup_cred(cifs_sb) && is_smb1_server(server)) {
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1333  			/* for easier reading */
+76894f3e2f7117 fs/cifs/inode.c       Paulo Alcantara                   2022-10-03  1334  			FILE_ALL_INFO *fi;
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1335  			FILE_DIRECTORY_INFO *fdi;
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1336  			SEARCH_ID_FULL_DIR_INFO *si;
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1337  
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1338  			rc = cifs_backup_query_path_info(xid, tcon, sb,
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1339  							 full_path,
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1340  							 &smb1_backup_rsp_buf,
+76894f3e2f7117 fs/cifs/inode.c       Paulo Alcantara                   2022-10-03  1341  							 &fi);
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1342  			if (rc)
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1343  				goto out;
+1e77a8c204c9d1 fs/cifs/inode.c       Steve French                      2018-10-19  1344  
+76894f3e2f7117 fs/cifs/inode.c       Paulo Alcantara                   2022-10-03  1345  			move_cifs_info_to_smb2(&data->fi, fi);
+76894f3e2f7117 fs/cifs/inode.c       Paulo Alcantara                   2022-10-03  1346  			fdi = (FILE_DIRECTORY_INFO *)fi;
+76894f3e2f7117 fs/cifs/inode.c       Paulo Alcantara                   2022-10-03  1347  			si = (SEARCH_ID_FULL_DIR_INFO *)fi;
+c052e2b423f3ea fs/cifs/inode.c       Shirish Pargaonkar                2012-09-28  1348  
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1349  			cifs_dir_info_to_fattr(fattr, fdi, cifs_sb);
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1350  			fattr->cf_uniqueid = le64_to_cpu(si->UniqueId);
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1351  			/* uniqueid set, skip get inum step */
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1352  			goto handle_mnt_opt;
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1353  		} else {
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1354  			/* nothing we can do, bail out */
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1355  			goto out;
+c052e2b423f3ea fs/cifs/inode.c       Shirish Pargaonkar                2012-09-28  1356  		}
+fb157ed226d225 fs/cifs/inode.c       Steve French                      2022-08-01  1357  #else
+fb157ed226d225 fs/cifs/inode.c       Steve French                      2022-08-01  1358  		goto out;
+fb157ed226d225 fs/cifs/inode.c       Steve French                      2022-08-01  1359  #endif /* CONFIG_CIFS_ALLOW_INSECURE_LEGACY */
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1360  		break;
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1361  	default:
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1362  		cifs_dbg(FYI, "%s: unhandled err rc %d\n", __func__, rc);
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1363  		goto out;
+132ac7b77cc95a fs/cifs/inode.c       Jeff Layton                       2009-02-10  1364  	}
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1365  
+a108471b5730b5 fs/cifs/inode.c       Ross Lagerwall                    2015-12-02  1366  	/*
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1367  	 * 3. Get or update inode number (fattr->cf_uniqueid)
+a108471b5730b5 fs/cifs/inode.c       Ross Lagerwall                    2015-12-02  1368  	 */
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1369  
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1370  	cifs_set_fattr_ino(xid, tcon, sb, inode, full_path, data, fattr);
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1371  
+7ea884c77e5c97 fs/cifs/inode.c       Steve French                      2018-03-31  1372  	/*
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1373  	 * 4. Tweak fattr based on mount options
+7ea884c77e5c97 fs/cifs/inode.c       Steve French                      2018-03-31  1374  	 */
+fb157ed226d225 fs/cifs/inode.c       Steve French                      2022-08-01  1375  #ifdef CONFIG_CIFS_ALLOW_INSECURE_LEGACY
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1376  handle_mnt_opt:
+fb157ed226d225 fs/cifs/inode.c       Steve French                      2022-08-01  1377  #endif /* CONFIG_CIFS_ALLOW_INSECURE_LEGACY */
+0b8f18e358384a fs/cifs/inode.c       Jeff Layton                       2009-07-09  1378  	/* query for SFU type info if supported and needed */
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1379  	if ((fattr->cf_cifsattrs & ATTR_SYSTEM) &&
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1380  	    (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_UNX_EMUL)) {
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1381  		tmprc = cifs_sfu_type(fattr, full_path, cifs_sb, xid);
+0b8f18e358384a fs/cifs/inode.c       Jeff Layton                       2009-07-09  1382  		if (tmprc)
+f96637be081141 fs/cifs/inode.c       Joe Perches                       2013-05-04  1383  			cifs_dbg(FYI, "cifs_sfu_type failed: %d\n", tmprc);
+^1da177e4c3f41 fs/cifs/inode.c       Linus Torvalds                    2005-04-16  1384  	}
+^1da177e4c3f41 fs/cifs/inode.c       Linus Torvalds                    2005-04-16  1385  
+953f868138dbf4 fs/cifs/inode.c       Steve French                      2007-10-31  1386  	/* fill in 0777 bits from ACL */
+e2f8fbfb8d09c0 fs/cifs/inode.c       Steve French                      2019-07-19  1387  	if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_MODE_FROM_SID) {
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1388  		rc = cifs_acl_to_fattr(cifs_sb, fattr, *inode,
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1389  				       true, full_path, fid);
+01ec372cef1e5a fs/cifs/inode.c       Ronnie Sahlberg                   2020-09-03  1390  		if (rc == -EREMOTE)
+01ec372cef1e5a fs/cifs/inode.c       Ronnie Sahlberg                   2020-09-03  1391  			rc = 0;
+e2f8fbfb8d09c0 fs/cifs/inode.c       Steve French                      2019-07-19  1392  		if (rc) {
+e2f8fbfb8d09c0 fs/cifs/inode.c       Steve French                      2019-07-19  1393  			cifs_dbg(FYI, "%s: Get mode from SID failed. rc=%d\n",
+e2f8fbfb8d09c0 fs/cifs/inode.c       Steve French                      2019-07-19  1394  				 __func__, rc);
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1395  			goto out;
+e2f8fbfb8d09c0 fs/cifs/inode.c       Steve French                      2019-07-19  1396  		}
+e2f8fbfb8d09c0 fs/cifs/inode.c       Steve French                      2019-07-19  1397  	} else if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_CIFS_ACL) {
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1398  		rc = cifs_acl_to_fattr(cifs_sb, fattr, *inode,
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1399  				       false, full_path, fid);
+01ec372cef1e5a fs/cifs/inode.c       Ronnie Sahlberg                   2020-09-03  1400  		if (rc == -EREMOTE)
+01ec372cef1e5a fs/cifs/inode.c       Ronnie Sahlberg                   2020-09-03  1401  			rc = 0;
+68464b88cc0a73 fs/cifs/inode.c       Dan Carpenter via samba-technical 2019-11-26  1402  		if (rc) {
+f96637be081141 fs/cifs/inode.c       Joe Perches                       2013-05-04  1403  			cifs_dbg(FYI, "%s: Getting ACL failed with error: %d\n",
+78415d2d306bfe fs/cifs/inode.c       Shirish Pargaonkar                2010-11-27  1404  				 __func__, rc);
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1405  			goto out;
+78415d2d306bfe fs/cifs/inode.c       Shirish Pargaonkar                2010-11-27  1406  		}
+2f3017e7cc7515 fs/smb/client/inode.c Steve French                      2024-09-21  1407  	} else if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_UNX_EMUL)
+0b8f18e358384a fs/cifs/inode.c       Jeff Layton                       2009-07-09  1408  		/* fill in remaining high mode bits e.g. SUID, VTX */
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1409  		cifs_sfu_mode(fattr, full_path, cifs_sb, xid);
+2f3017e7cc7515 fs/smb/client/inode.c Steve French                      2024-09-21  1410  	else if (!(tcon->posix_extensions))
+2f3017e7cc7515 fs/smb/client/inode.c Steve French                      2024-09-21  1411  		/* clear write bits if ATTR_READONLY is set */
+2f3017e7cc7515 fs/smb/client/inode.c Steve French                      2024-09-21  1412  		if (fattr->cf_cifsattrs & ATTR_READONLY)
+2f3017e7cc7515 fs/smb/client/inode.c Steve French                      2024-09-21  1413  			fattr->cf_mode &= ~(S_IWUGO);
+2f3017e7cc7515 fs/smb/client/inode.c Steve French                      2024-09-21  1414  
+b9a3260f25ab5d fs/cifs/inode.c       Steve French                      2008-05-20  1415  
+1b12b9c15b4371 fs/cifs/inode.c       Stefan Metzmacher                 2010-08-05  1416  	/* check for Minshall+French symlinks */
+1b12b9c15b4371 fs/cifs/inode.c       Stefan Metzmacher                 2010-08-05  1417  	if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_MF_SYMLINKS) {
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1418  		tmprc = check_mf_symlink(xid, tcon, cifs_sb, fattr, full_path);
+cb084b1a9be347 fs/cifs/inode.c       Sachin Prabhu                     2013-11-25  1419  		cifs_dbg(FYI, "check_mf_symlink: %d\n", tmprc);
+1b12b9c15b4371 fs/cifs/inode.c       Stefan Metzmacher                 2010-08-05  1420  	}
+1b12b9c15b4371 fs/cifs/inode.c       Stefan Metzmacher                 2010-08-05  1421  
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1422  out:
+b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1423  	cifs_buf_release(smb1_backup_rsp_buf);
+7ffec372458d16 fs/cifs/inode.c       Jeff Layton                       2010-09-29  1424  	cifs_put_tlink(tlink);
+76894f3e2f7117 fs/cifs/inode.c       Paulo Alcantara                   2022-10-03  1425  	cifs_free_open_info(&tmp_data);
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1426  	return rc;
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1427  }
+a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1428  
 
 -- 
 0-DAY CI Kernel Test Service
