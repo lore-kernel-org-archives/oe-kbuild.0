@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1A92475CB
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Oct 2025 07:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E1125EFBE
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Oct 2025 07:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759478024; cv=none; b=QwKiu3K4v9wCJ9vJT3YfPktZxDm8OeEhsyb1hyaUyppyJbTrBhUQquxdO4kNg24pwYbxs4xi7Sa0n+w2Y0BhMZzGIbZ4kH1g7TmX5DyrB+IbSVS5CpAEiEZ3KU8AyDIKURXv7a2hfLFRm468nX4c0CTAo6V67gg7kfwMd+f2hdM=
+	t=1759478306; cv=none; b=ZtxXiJB84wHDdzrr0j9E/MLA/gfijl8bT9PPc584nCr6BOQI+vkRBk1iC4n5WTyd06fJek33ZihDOvvflmoRCfd3of/mGRtDLIdMXcBNXIAoHOTtIC0TFZlP0NFFtJf9GonHXuagYkY8n19nkr7Nd5fQ48EpI7tlO/77E1T0Fxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759478024; c=relaxed/simple;
-	bh=5ps+UcDpYWw/3DJH1UA6N40mQdd2LULwNS7cH2ki7TU=;
+	s=arc-20240116; t=1759478306; c=relaxed/simple;
+	bh=ICvnSkwTXtZ2q6ptNYbxbzmEP48GzA8srtDhuOUaKTM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PjHr5j5YyuCeAL+/tHVI0Gm6+qS8sbz7YQInOpcVY2TsePQzHUS1OcSj2SQDnqL2gIbQ/jZS0hr6KLfv41Q7XGYqfhFbIVMlrvckm0RjdcrKNLpPzhIPUte4VUwMcwrYkxK+Yr0R3bLptVJSci5V7EJJ0nPWoGhKYy6B7SWxUHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uys3U8br; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=kt5JgcjeojMQOL766pOBVwwL3vDs2jLaS9yypIqSKe5kAJ6HrXh8Dmx1vOMFBoOL/XOuXGZLwyhmgty2JYBNYliZrxv9BNlrexW3GfeN5Rg2mD4BCjYpZodg3zMNFqbmG5PRz8NzNoRAtJGIa9D3J2UXYzghs1QRvdZq64yBF0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C1Q/jATI; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uys3U8br"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759478023; x=1791014023;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5ps+UcDpYWw/3DJH1UA6N40mQdd2LULwNS7cH2ki7TU=;
-  b=Uys3U8brGBEdw4lQUJG2KAEpueRjKU4GHeNNO0rIig/r6gwsWt3zywMN
-   MUn/5WpMEr15Na0i8lD5dnLlr2rp4r6cDICborpSp/OefJlr5g5ZQJajz
-   hU74jo3Bv9bA9aeyBS4/l9cmMSMXhFSwdByPBi2ZmXdZqK6hUYftqw0e5
-   L0TY5PRRmANDTIi6lWgl8ifLz7vfcefHhMGpv3nl3IfZ/ogSDKfmt/Jzt
-   a95wfQQ/Au38QCsbUhycWjIx117JELfecNV/bapU0JsrZceEEzVXbOy6I
-   aCdxP2QInQu46x0xhQLLP4/plSTinR1h3ljH7BxUOdmVPm52uXWyPkota
-   w==;
-X-CSE-ConnectionGUID: KNW7eFIRSkC7fI2DTbafhA==
-X-CSE-MsgGUID: 96iI7cJBQ2qXitdOwZEHIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="65609620"
-X-IronPort-AV: E=Sophos;i="6.18,311,1751266800"; 
-   d="scan'208";a="65609620"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 00:53:42 -0700
-X-CSE-ConnectionGUID: EyfYCErkSdGZyI67YLEJIg==
-X-CSE-MsgGUID: yt74oTNfQ3WHXt+U5stdTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,311,1751266800"; 
-   d="scan'208";a="178355343"
-Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 03 Oct 2025 00:53:41 -0700
-Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v4abi-0004ON-0x;
-	Fri, 03 Oct 2025 07:53:38 +0000
-Date: Fri, 3 Oct 2025 15:52:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [arm:clearfog 13/13] arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb:
- m2-ful-card-power-off: $nodename:0: 'm2-ful-card-power-off' does not match
- '-hog(-[0-9]+)?$'
-Message-ID: <202510031538.tGCInMW6-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C1Q/jATI"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3ecdf2b1751so1258792f8f.0
+        for <oe-kbuild@lists.linux.dev>; Fri, 03 Oct 2025 00:58:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1759478303; x=1760083103; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wKQIE5kMOiqxVyxhsksVXgye3GZ3763KOwMOrctoVnQ=;
+        b=C1Q/jATId3/Yd6/wqOfOyXP9OvNSehpVjgTqssh1DYw6hFA7kZBbImXWOSp8X0eW0i
+         fiX0wrTNuhb/g/vhRNliMFzN1fzuVRo3ABHR7+XxP0r6HJ4qXTiSeCOgsz6XeszSchHU
+         LMqq2qgRj+pHbB/pc5ZIm7MJKmGn3WoCsspKXsm0RTU0KrNYGlCK3MezcClgkxnzLmBM
+         1srSdx7T5t0sPmifUeN7o9mqT63jvb+gGB5Oo3/bKxuBId0SKV/OX+AiuX1vxF8Ek1Jt
+         W6PaQvr2SmnvPPCMOBvB6J62A1zdrqM7albEdOpP9bK90rLMWD+FFKkA3mx5Aldt2Dne
+         ANyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759478303; x=1760083103;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wKQIE5kMOiqxVyxhsksVXgye3GZ3763KOwMOrctoVnQ=;
+        b=lR4o4XoQSyEc30Bj03cO9RAQ9Lxvbn2MZXH4kISoIIm+HNUoOAuMFc0AOdUkA/hMcX
+         PbzMqmBGyTQNdIVYfMhE+NcAgnHp27WHJ0mDqm9317gnSPdxxIC29pSL+6COHmP3moGb
+         cKGgIFosgaCLm7aOKNHLl5o+wDTij3UgXjhlPdhe+Q8KVyZ+//18ciiFlxyV2MrUbntM
+         HljXRrQFZPcESTBSaByhQjl5+XoFGtMquZF6xLm2JSxP7VVJ1Irc8hR3s7r+sEM4UCDx
+         1yue26tWinNLjoN8RLvA45X7Cq1h0xvwsZpupXcbprEGXuMjxsEIybOj38X82w46GO6W
+         wjGQ==
+X-Gm-Message-State: AOJu0YwuDb1l4RThVSjn6oIk6mp8q1mxzJFLHJGRO9eKvmXHT8NhPIA1
+	D1oLPu+CLnC2jhOTU936Nq8kT25sjKSxYooWE2lycOe9A1SxrTGtNfMsUPjsTdi590W+gK8/8Rz
+	eC6iX
+X-Gm-Gg: ASbGncuytWbnHZ1oFFfM+4xZnR3GCTRfjH3o5wQgauoEI8K9N/TTUsaQk67L6NLBUsm
+	knGAHSblJcnfrQf1QjectbdeUg2Xr2KqOM9rR+KPstKg/7OFDLxj6FleiawUL6Jo69PB7NRqeJm
+	vUArh9RLjHXW2N8nNNAWTUV3xQpL6izSnoeCHgdbGm14XDgTfGkx318XANoPazJLQy9Tqi1PUit
+	ND3/FA8CcV57NbrNL5C/TShdiHMghcF7qMBosYYz1ZnmccuJzIYr0rXgerka+kufsj8fveRmiyL
+	IXn+bmbfkCZXhK5EekADODy9XBSTkaVjDd3rOx1UgcN+uWjw21oz7VKXEESkxrG6LvU+uFq7lgw
+	/dQ3DVuFqUmT6LOboQ3Y3tqb3a64x7dIQWWOYiNVUrSL+kNAcKACpci1pO1aU/CNfKHw=
+X-Google-Smtp-Source: AGHT+IFCOtv4hauC768f/SH5npRM8KwtIVQ8biqflqNBeylk+f4+Iu9K2H28Nujr9MM47gOyTB2iTw==
+X-Received: by 2002:a05:6000:2583:b0:3ec:dd12:54d3 with SMTP id ffacd0b85a97d-42567176351mr1178108f8f.35.1759478302975;
+        Fri, 03 Oct 2025 00:58:22 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4255d8e980dsm7400242f8f.36.2025.10.03.00.58.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Oct 2025 00:58:22 -0700 (PDT)
+Date: Fri, 3 Oct 2025 10:58:19 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Qu Wenruo <wqu@suse.com>,
+	linux-btrfs@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/4] btrfs: make btrfs_repair_io_failure() handle bs > ps
+ cases without large folios
+Message-ID: <202510030550.mqFoO0Dw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,45 +73,106 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <33c39907866c148a360ff60387097fbad63a19aa.1759311101.git.wqu@suse.com>
+Message-ID: <20251003075819.DNGjdlz_VvEJjCn7ikLDiqn4WZedEN7vHpDbFEZ6UT4@z>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Hi Qu,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+kernel test robot noticed the following build warnings:
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm.git clearfog
-head:   0c321d2afb01ca78544750d2c840a22f91251682
-commit: 0c321d2afb01ca78544750d2c840a22f91251682 [13/13] arm64: dts: add SolidRun CN9130 Clearfog Base dts
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm64-randconfig-051-20251003 (https://download.01.org/0day-ci/archive/20251003/202510031538.tGCInMW6-lkp@intel.com/config)
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-make-btrfs_csum_one_bio-handle-bs-ps-without-large-folios/20251001-175128
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/33c39907866c148a360ff60387097fbad63a19aa.1759311101.git.wqu%40suse.com
+patch subject: [PATCH 2/4] btrfs: make btrfs_repair_io_failure() handle bs > ps cases without large folios
+config: powerpc64-randconfig-r071-20251002 (https://download.01.org/0day-ci/archive/20251003/202510030550.mqFoO0Dw-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251003/202510031538.tGCInMW6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510031538.tGCInMW6-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202510030550.mqFoO0Dw-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: /cp0-bus/bus@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode', 'vbus-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: spi@700680 (marvell,armada-380-spi): Unevaluated properties are not allowed ('spi-max-frequency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/marvell,orion-spi.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: gpio-expander@20 (nxp,pca9555): 'm2-ful-card-power-off' does not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
->> arch/arm64/boot/dts/marvell/cn9130-cf-pro.dtb: m2-ful-card-power-off: $nodename:0: 'm2-ful-card-power-off' does not match '-hog(-[0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
+smatch warnings:
+fs/btrfs/bio.c:914 btrfs_repair_io_failure() warn: variable dereferenced before check 'bio' (see line 894)
+
+vim +/bio +914 fs/btrfs/bio.c
+
+2d65a91734a195 Qu Wenruo         2025-10-01  855  int btrfs_repair_io_failure(struct btrfs_fs_info *fs_info, u64 ino, u64 fileoff,
+2d65a91734a195 Qu Wenruo         2025-10-01  856  			    u64 length, u64 logical, const phys_addr_t paddrs[], int mirror_num)
+bacf60e5158629 Christoph Hellwig 2022-11-15  857  {
+2d65a91734a195 Qu Wenruo         2025-10-01  858  	const u32 step = min(fs_info->sectorsize, PAGE_SIZE);
+2d65a91734a195 Qu Wenruo         2025-10-01  859  	const u32 nr_steps = DIV_ROUND_UP_POW2(length, step);
+4886ff7b50f634 Qu Wenruo         2023-03-20  860  	struct btrfs_io_stripe smap = { 0 };
+2d65a91734a195 Qu Wenruo         2025-10-01  861  	struct bio *bio = NULL;
+bacf60e5158629 Christoph Hellwig 2022-11-15  862  	int ret = 0;
+bacf60e5158629 Christoph Hellwig 2022-11-15  863  
+bacf60e5158629 Christoph Hellwig 2022-11-15  864  	ASSERT(!(fs_info->sb->s_flags & SB_RDONLY));
+bacf60e5158629 Christoph Hellwig 2022-11-15  865  	BUG_ON(!mirror_num);
+bacf60e5158629 Christoph Hellwig 2022-11-15  866  
+2d65a91734a195 Qu Wenruo         2025-10-01  867  	/* Basic alignment checks. */
+2d65a91734a195 Qu Wenruo         2025-10-01  868  	ASSERT(IS_ALIGNED(logical, fs_info->sectorsize));
+2d65a91734a195 Qu Wenruo         2025-10-01  869  	ASSERT(IS_ALIGNED(length, fs_info->sectorsize));
+2d65a91734a195 Qu Wenruo         2025-10-01  870  	ASSERT(IS_ALIGNED(fileoff, fs_info->sectorsize));
+2d65a91734a195 Qu Wenruo         2025-10-01  871  
+bacf60e5158629 Christoph Hellwig 2022-11-15  872  	if (btrfs_repair_one_zone(fs_info, logical))
+bacf60e5158629 Christoph Hellwig 2022-11-15  873  		return 0;
+bacf60e5158629 Christoph Hellwig 2022-11-15  874  
+bacf60e5158629 Christoph Hellwig 2022-11-15  875  	/*
+bacf60e5158629 Christoph Hellwig 2022-11-15  876  	 * Avoid races with device replace and make sure our bioc has devices
+bacf60e5158629 Christoph Hellwig 2022-11-15  877  	 * associated to its stripes that don't go away while we are doing the
+bacf60e5158629 Christoph Hellwig 2022-11-15  878  	 * read repair operation.
+bacf60e5158629 Christoph Hellwig 2022-11-15  879  	 */
+bacf60e5158629 Christoph Hellwig 2022-11-15  880  	btrfs_bio_counter_inc_blocked(fs_info);
+4886ff7b50f634 Qu Wenruo         2023-03-20  881  	ret = btrfs_map_repair_block(fs_info, &smap, logical, length, mirror_num);
+4886ff7b50f634 Qu Wenruo         2023-03-20  882  	if (ret < 0)
+d73a27b86fc722 Qu Wenruo         2023-01-01  883  		goto out_counter_dec;
+bacf60e5158629 Christoph Hellwig 2022-11-15  884  
+cc53bd2085c8fa David Sterba      2025-09-17  885  	if (unlikely(!smap.dev->bdev ||
+cc53bd2085c8fa David Sterba      2025-09-17  886  		     !test_bit(BTRFS_DEV_STATE_WRITEABLE, &smap.dev->dev_state))) {
+bacf60e5158629 Christoph Hellwig 2022-11-15  887  		ret = -EIO;
+bacf60e5158629 Christoph Hellwig 2022-11-15  888  		goto out_counter_dec;
+bacf60e5158629 Christoph Hellwig 2022-11-15  889  	}
+bacf60e5158629 Christoph Hellwig 2022-11-15  890  
+2d65a91734a195 Qu Wenruo         2025-10-01  891  	bio = bio_alloc(smap.dev->bdev, nr_steps, REQ_OP_WRITE | REQ_SYNC, GFP_NOFS);
+2d65a91734a195 Qu Wenruo         2025-10-01  892  	/* Backed by fs_bio_set, shouldn't fail. */
+2d65a91734a195 Qu Wenruo         2025-10-01  893  	ASSERT(bio);
+2d65a91734a195 Qu Wenruo         2025-10-01 @894  	bio->bi_iter.bi_sector = smap.physical >> SECTOR_SHIFT;
+2d65a91734a195 Qu Wenruo         2025-10-01  895  	for (int i = 0; i < nr_steps; i++) {
+2d65a91734a195 Qu Wenruo         2025-10-01  896  		ret = bio_add_page(bio, phys_to_page(paddrs[i]), step, offset_in_page(paddrs[i]));
+2d65a91734a195 Qu Wenruo         2025-10-01  897  		/* We should have allocated enough slots to contain all the different pages. */
+2d65a91734a195 Qu Wenruo         2025-10-01  898  		ASSERT(ret == step);
+2d65a91734a195 Qu Wenruo         2025-10-01  899  	}
+2d65a91734a195 Qu Wenruo         2025-10-01  900  	ret = submit_bio_wait(bio);
+bacf60e5158629 Christoph Hellwig 2022-11-15  901  	if (ret) {
+bacf60e5158629 Christoph Hellwig 2022-11-15  902  		/* try to remap that extent elsewhere? */
+4886ff7b50f634 Qu Wenruo         2023-03-20  903  		btrfs_dev_stat_inc_and_print(smap.dev, BTRFS_DEV_STAT_WRITE_ERRS);
+2d65a91734a195 Qu Wenruo         2025-10-01  904  		goto out_free_bio;
+bacf60e5158629 Christoph Hellwig 2022-11-15  905  	}
+bacf60e5158629 Christoph Hellwig 2022-11-15  906  
+2eac2ae8b214ab David Sterba      2025-06-09  907  	btrfs_info_rl(fs_info,
+bacf60e5158629 Christoph Hellwig 2022-11-15  908  		"read error corrected: ino %llu off %llu (dev %s sector %llu)",
+2d65a91734a195 Qu Wenruo         2025-10-01  909  			     ino, fileoff, btrfs_dev_name(smap.dev),
+4886ff7b50f634 Qu Wenruo         2023-03-20  910  			     smap.physical >> SECTOR_SHIFT);
+bacf60e5158629 Christoph Hellwig 2022-11-15  911  	ret = 0;
+bacf60e5158629 Christoph Hellwig 2022-11-15  912  
+2d65a91734a195 Qu Wenruo         2025-10-01  913  out_free_bio:
+2d65a91734a195 Qu Wenruo         2025-10-01 @914  	if (bio)
+
+This check could be deleted if you want.  Or you could leave it since
+it's harmless.  Up to you.  I would prefer to silence these warning by
+updating Smatch, but Smatch isn't smart enough to parse bio_alloc()
+Smatch deliberately ignores ASSERT()s.
+
+2d65a91734a195 Qu Wenruo         2025-10-01  915  		bio_put(bio);
+bacf60e5158629 Christoph Hellwig 2022-11-15  916  out_counter_dec:
+bacf60e5158629 Christoph Hellwig 2022-11-15  917  	btrfs_bio_counter_dec(fs_info);
+bacf60e5158629 Christoph Hellwig 2022-11-15  918  	return ret;
+bacf60e5158629 Christoph Hellwig 2022-11-15  919  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
