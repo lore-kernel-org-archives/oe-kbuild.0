@@ -1,318 +1,284 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C4234BA40;
-	Fri,  3 Oct 2025 09:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0E3267729
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Oct 2025 10:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759483049; cv=none; b=EphrwBsHKzbSseX7kujZy6w6xJDbanQHQl/zkKF/rmKJ3nyRpRyg3xjBB0bRhVGpTGsXdTj5oieew9qcFd8RV1a+FuLAw2LJQ/8nw2tKqrQSa7bLwh5ijnN3tRLISUV24T31ET8TKLM40WUxttk4aPUtZG8GeWmbe/0ZM/K3tHE=
+	t=1759486199; cv=none; b=FdayuovMPzIHA7sacjfhNxTXfMbCpRNj28D36bq+d4IxyavH0ImJtfUNJmud9h8NaafCcohtM8vPKI80PaPU3ZMqE5DW/OKe9zajcUTRXe6a1KxLa5s8HnaT6i9p5rZNA3XRjTKW3q+kv0/InCdQqORYYOFFLm1yWA9YHhNDdx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759483049; c=relaxed/simple;
-	bh=9wH+5HTiLT742dJW7JylMuODCvJf/1JJSy/ebaa4dcQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gxG/D8+6GWa11BmO5w2MIKaa5uJtxWZUzRHqq5wK9zs00y6le18D3z6+j8M3ZUWQavKbs1riTOUdCLn3itPE9SH9p0o7GARhbwRYlFpkvXfNxHb57YUtJMSV9dh/QtcOkDAp0ggnKiULdQXK+JtLzFmRuB2WHTu2xYBsc/wEACk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b=ZLxo/fwn; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+	s=arc-20240116; t=1759486199; c=relaxed/simple;
+	bh=LqH44gDnFWw3r0W1wKQmDkfywpwZqhDSUmydRp6BMc0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dtynIpjCk6oZD7nhWKjmJGKRyvF9phFLQD+nvuDslqqWM0vluDiEDUcHjdOARASYdg7j8Kl1h/oLmYWq+OQZnxD1/XDxJ5ieJup+sGr/NoFQIa4pNw6LU+UFssX/eQAol5eyc43vKcH30HrDEgEnW9156iPXVb6u2ls0ec+am8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gkutfdrh; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b="ZLxo/fwn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
-	s=s31663417; t=1759483036; x=1760087836; i=quwenruo.btrfs@gmx.com;
-	bh=+3TSn/8e7d/oMp6a81gFGHZwrYfqI/JJ6FXxQ7MHFPE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=ZLxo/fwnRhqMMrCis2hLoJC1uj4rdQ06AgwtiEP6euyhXyYLH+sPnt8N9eWJaFWH
-	 1CXQJYH7/DM7D+IyPjm1/OfITR0jGdXSpam7fpQAFFJsNTE0jVIOy2kb8PFEBD98o
-	 kpxpHGBehpQJXPZALZtBEQEcgHaG+bOPWZDP6lWm+xfPgCyRdSoH6Uh1NBjAFDw3i
-	 BneiIY7oIv8X4dKhuNNGuPM47haMNTDK8mfUlPxavu6vvmNfm4tyBOjFV6FKAp0yP
-	 TR5bmrsgXdXeKuaHvb9NClU83netHKNW+sBhRKuPHnGQNa+szs1dE603oFYSCjqSm
-	 NRN3tO+5TZORvGz94A==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [172.16.0.229] ([159.196.52.54]) by mail.gmx.net (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1Mlw7V-1udHqq22mB-00n4E9; Fri, 03
- Oct 2025 11:17:15 +0200
-Message-ID: <234df03b-e6fc-44c8-a28f-aa51305d87a0@gmx.com>
-Date: Fri, 3 Oct 2025 18:47:11 +0930
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gkutfdrh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759486198; x=1791022198;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LqH44gDnFWw3r0W1wKQmDkfywpwZqhDSUmydRp6BMc0=;
+  b=GkutfdrhFTEcJ4wlJhNAF9PcuQPzNqMI0GDNyLXIfkEn1qh5wzdoi6pa
+   v6RImdxm/WM8+iAU5NXdh5hXGbbw1VvEE7vLG+qscJUJsM9jSlcyQ+443
+   G02LVqvBydJiKdQAaGzyukMopIOQ+Tkxxq6Rv3gtzKrb5YKw3V01tZzMx
+   BhQSAHBnMujgCiJuaLuOSSsIdHDiEYME5uVWbKEouYXsxngS0DMWz3Ovf
+   Ly4Z6dbCWeXw2qCB4Nn7oTZdADDuicU3fBGCQwv3Np/WgBowJ2vYbhAWr
+   wv5iCQHWUvSLjnv6j0XGrZEiJOYckxhUo+y2WjeS8MkDW5S+KXfqgqXwN
+   Q==;
+X-CSE-ConnectionGUID: 1cgDpV8ARr6ddggnSSs8JA==
+X-CSE-MsgGUID: pDE6RBaoQlyz8HNNjD/rNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="61815543"
+X-IronPort-AV: E=Sophos;i="6.18,312,1751266800"; 
+   d="scan'208";a="61815543"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 03:09:57 -0700
+X-CSE-ConnectionGUID: OXrITS0BSgK0fZotF8J7zg==
+X-CSE-MsgGUID: p9NGT/yNSDyAriRWcITvlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,312,1751266800"; 
+   d="scan'208";a="179675541"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 03 Oct 2025 03:09:55 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v4cjZ-0004Tv-11;
+	Fri, 03 Oct 2025 10:09:53 +0000
+Date: Fri, 3 Oct 2025 18:09:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 2/5] i2c: mux: add support for per channel bus
+ frequency
+Message-ID: <202510031735.TE7FVj0R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] btrfs: make btrfs_repair_io_failure() handle bs > ps
- cases without large folios
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <202510030550.mqFoO0Dw-lkp@intel.com>
-Content-Language: en-US
-From: Qu Wenruo <quwenruo.btrfs@gmx.com>
-Autocrypt: addr=quwenruo.btrfs@gmx.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNIlF1IFdlbnJ1byA8cXV3ZW5ydW8uYnRyZnNAZ214LmNvbT7CwJQEEwEIAD4CGwMFCwkI
- BwIGFQgJCgsCBBYCAwECHgECF4AWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCZxF1YAUJEP5a
- sQAKCRDCPZHzoSX+qF+mB/9gXu9C3BV0omDZBDWevJHxpWpOwQ8DxZEbk9b9LcrQlWdhFhyn
- xi+l5lRziV9ZGyYXp7N35a9t7GQJndMCFUWYoEa+1NCuxDs6bslfrCaGEGG/+wd6oIPb85xo
- naxnQ+SQtYLUFbU77WkUPaaIU8hH2BAfn9ZSDX9lIxheQE8ZYGGmo4wYpnN7/hSXALD7+oun
- tZljjGNT1o+/B8WVZtw/YZuCuHgZeaFdhcV2jsz7+iGb+LsqzHuznrXqbyUQgQT9kn8ZYFNW
- 7tf+LNxXuwedzRag4fxtR+5GVvJ41Oh/eygp8VqiMAtnFYaSlb9sjia1Mh+m+OBFeuXjgGlG
- VvQFzsBNBFnVga8BCACqU+th4Esy/c8BnvliFAjAfpzhI1wH76FD1MJPmAhA3DnX5JDORcga
- CbPEwhLj1xlwTgpeT+QfDmGJ5B5BlrrQFZVE1fChEjiJvyiSAO4yQPkrPVYTI7Xj34FnscPj
- /IrRUUka68MlHxPtFnAHr25VIuOS41lmYKYNwPNLRz9Ik6DmeTG3WJO2BQRNvXA0pXrJH1fN
- GSsRb+pKEKHKtL1803x71zQxCwLh+zLP1iXHVM5j8gX9zqupigQR/Cel2XPS44zWcDW8r7B0
- q1eW4Jrv0x19p4P923voqn+joIAostyNTUjCeSrUdKth9jcdlam9X2DziA/DHDFfS5eq4fEv
- ABEBAAHCwHwEGAEIACYCGwwWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCZxF1gQUJEP5a0gAK
- CRDCPZHzoSX+qHGpB/kB8A7M7KGL5qzat+jBRoLwB0Y3Zax0QWuANVdZM3eJDlKJKJ4HKzjo
- B2Pcn4JXL2apSan2uJftaMbNQbwotvabLXkE7cPpnppnBq7iovmBw++/d8zQjLQLWInQ5kNq
- Vmi36kmq8o5c0f97QVjMryHlmSlEZ2Wwc1kURAe4lsRG2dNeAd4CAqmTw0cMIrR6R/Dpt3ma
- +8oGXJOmwWuDFKNV4G2XLKcghqrtcRf2zAGNogg3KulCykHHripG3kPKsb7fYVcSQtlt5R6v
- HZStaZBzw4PcDiaAF3pPDBd+0fIKS6BlpeNRSFG94RYrt84Qw77JWDOAZsyNfEIEE0J6LSR/
-In-Reply-To: <202510030550.mqFoO0Dw-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Qzt5jOJeY3GwaJAoXnZ+z5PDkmOGO3cpEFCRkRUPR3CCFllsnYB
- tiLEd3DAZ8JUXZgyw15tT28fD6uIzfnlhR3vufGHmZPKRF9UUHIATX3ybNTbW5ofV8HLY4h
- nr+DdWGYyH1yUaH/rCLvKk9kQFfomxRneifh2xieYKjwshNil9P/Cq2YFgNHuLbwwNuRek3
- Q2RyARJ74EQkDrfEMOuLg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Y5d4UasB+bA=;9wgmJyQkX30FBNbmN6S7lcuZQxY
- +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
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20251002-i2c-mux-v2-2-b698564cd956@gmail.com>
+References: <20251002-i2c-mux-v2-2-b698564cd956@gmail.com>
+TO: Marcus Folkesson <marcus.folkesson@gmail.com>
+TO: Wolfram Sang <wsa-dev@sang-engineering.com>
+TO: Peter Rosin <peda@axentia.se>
+TO: Michael Hennerich <michael.hennerich@analog.com>
+TO: Bartosz Golaszewski <brgl@bgdev.pl>
+TO: Andi Shyti <andi.shyti@kernel.org>
+CC: linux-i2c@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: Marcus Folkesson <marcus.folkesson@gmail.com>
 
+Hi Marcus,
 
-=E5=9C=A8 2025/10/3 17:28, Dan Carpenter =E5=86=99=E9=81=93:
-> Hi Qu,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-m=
-ake-btrfs_csum_one_bio-handle-bs-ps-without-large-folios/20251001-175128
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git =
-for-next
-> patch link:    https://lore.kernel.org/r/33c39907866c148a360ff60387097fb=
-ad63a19aa.1759311101.git.wqu%40suse.com
-> patch subject: [PATCH 2/4] btrfs: make btrfs_repair_io_failure() handle =
-bs > ps cases without large folios
-> config: powerpc64-randconfig-r071-20251002 (https://download.01.org/0day=
--ci/archive/20251003/202510030550.mqFoO0Dw-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project =
-39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new ver=
-sion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202510030550.mqFoO0Dw-lkp@intel.com/
->=20
-> smatch warnings:
-> fs/btrfs/bio.c:914 btrfs_repair_io_failure() warn: variable dereferenced=
- before check 'bio' (see line 894)
->=20
-> vim +/bio +914 fs/btrfs/bio.c
->=20
-> 2d65a91734a195 Qu Wenruo         2025-10-01  855  int btrfs_repair_io_fa=
-ilure(struct btrfs_fs_info *fs_info, u64 ino, u64 fileoff,
-> 2d65a91734a195 Qu Wenruo         2025-10-01  856  			    u64 length, u64=
- logical, const phys_addr_t paddrs[], int mirror_num)
-> bacf60e5158629 Christoph Hellwig 2022-11-15  857  {
-> 2d65a91734a195 Qu Wenruo         2025-10-01  858  	const u32 step =3D mi=
-n(fs_info->sectorsize, PAGE_SIZE);
-> 2d65a91734a195 Qu Wenruo         2025-10-01  859  	const u32 nr_steps =
-=3D DIV_ROUND_UP_POW2(length, step);
-> 4886ff7b50f634 Qu Wenruo         2023-03-20  860  	struct btrfs_io_strip=
-e smap =3D { 0 };
-> 2d65a91734a195 Qu Wenruo         2025-10-01  861  	struct bio *bio =3D N=
-ULL;
-> bacf60e5158629 Christoph Hellwig 2022-11-15  862  	int ret =3D 0;
-> bacf60e5158629 Christoph Hellwig 2022-11-15  863
-> bacf60e5158629 Christoph Hellwig 2022-11-15  864  	ASSERT(!(fs_info->sb-=
->s_flags & SB_RDONLY));
-> bacf60e5158629 Christoph Hellwig 2022-11-15  865  	BUG_ON(!mirror_num);
-> bacf60e5158629 Christoph Hellwig 2022-11-15  866
-> 2d65a91734a195 Qu Wenruo         2025-10-01  867  	/* Basic alignment ch=
-ecks. */
-> 2d65a91734a195 Qu Wenruo         2025-10-01  868  	ASSERT(IS_ALIGNED(log=
-ical, fs_info->sectorsize));
-> 2d65a91734a195 Qu Wenruo         2025-10-01  869  	ASSERT(IS_ALIGNED(len=
-gth, fs_info->sectorsize));
-> 2d65a91734a195 Qu Wenruo         2025-10-01  870  	ASSERT(IS_ALIGNED(fil=
-eoff, fs_info->sectorsize));
-> 2d65a91734a195 Qu Wenruo         2025-10-01  871
-> bacf60e5158629 Christoph Hellwig 2022-11-15  872  	if (btrfs_repair_one_=
-zone(fs_info, logical))
-> bacf60e5158629 Christoph Hellwig 2022-11-15  873  		return 0;
-> bacf60e5158629 Christoph Hellwig 2022-11-15  874
-> bacf60e5158629 Christoph Hellwig 2022-11-15  875  	/*
-> bacf60e5158629 Christoph Hellwig 2022-11-15  876  	 * Avoid races with d=
-evice replace and make sure our bioc has devices
-> bacf60e5158629 Christoph Hellwig 2022-11-15  877  	 * associated to its =
-stripes that don't go away while we are doing the
-> bacf60e5158629 Christoph Hellwig 2022-11-15  878  	 * read repair operat=
-ion.
-> bacf60e5158629 Christoph Hellwig 2022-11-15  879  	 */
-> bacf60e5158629 Christoph Hellwig 2022-11-15  880  	btrfs_bio_counter_inc=
-_blocked(fs_info);
-> 4886ff7b50f634 Qu Wenruo         2023-03-20  881  	ret =3D btrfs_map_rep=
-air_block(fs_info, &smap, logical, length, mirror_num);
-> 4886ff7b50f634 Qu Wenruo         2023-03-20  882  	if (ret < 0)
-> d73a27b86fc722 Qu Wenruo         2023-01-01  883  		goto out_counter_dec=
-;
-> bacf60e5158629 Christoph Hellwig 2022-11-15  884
-> cc53bd2085c8fa David Sterba      2025-09-17  885  	if (unlikely(!smap.de=
-v->bdev ||
-> cc53bd2085c8fa David Sterba      2025-09-17  886  		     !test_bit(BTRFS=
-_DEV_STATE_WRITEABLE, &smap.dev->dev_state))) {
-> bacf60e5158629 Christoph Hellwig 2022-11-15  887  		ret =3D -EIO;
-> bacf60e5158629 Christoph Hellwig 2022-11-15  888  		goto out_counter_dec=
-;
-> bacf60e5158629 Christoph Hellwig 2022-11-15  889  	}
-> bacf60e5158629 Christoph Hellwig 2022-11-15  890
-> 2d65a91734a195 Qu Wenruo         2025-10-01  891  	bio =3D bio_alloc(sma=
-p.dev->bdev, nr_steps, REQ_OP_WRITE | REQ_SYNC, GFP_NOFS);
-> 2d65a91734a195 Qu Wenruo         2025-10-01  892  	/* Backed by fs_bio_s=
-et, shouldn't fail. */
-> 2d65a91734a195 Qu Wenruo         2025-10-01  893  	ASSERT(bio);
-> 2d65a91734a195 Qu Wenruo         2025-10-01 @894  	bio->bi_iter.bi_secto=
-r =3D smap.physical >> SECTOR_SHIFT;
+kernel test robot noticed the following build warnings:
 
-I have no idea how to make smatch happy.
-Maybe goto out_counter_dec for the bio allocation failure branch?
+[auto build test WARNING on 22f20375f5b71f30c0d6896583b93b6e4bba7279]
 
-But that will be rejected by human reviews as it's really unnecessary.
+url:    https://github.com/intel-lab-lkp/linux/commits/Marcus-Folkesson/i2c-core-add-callback-to-change-bus-frequency/20251002-224414
+base:   22f20375f5b71f30c0d6896583b93b6e4bba7279
+patch link:    https://lore.kernel.org/r/20251002-i2c-mux-v2-2-b698564cd956%40gmail.com
+patch subject: [PATCH v2 2/5] i2c: mux: add support for per channel bus frequency
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: i386-randconfig-141-20251003 (https://download.01.org/0day-ci/archive/20251003/202510031735.TE7FVj0R-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
-> 2d65a91734a195 Qu Wenruo         2025-10-01  895  	for (int i =3D 0; i <=
- nr_steps; i++) {
-> 2d65a91734a195 Qu Wenruo         2025-10-01  896  		ret =3D bio_add_page=
-(bio, phys_to_page(paddrs[i]), step, offset_in_page(paddrs[i]));
-> 2d65a91734a195 Qu Wenruo         2025-10-01  897  		/* We should have al=
-located enough slots to contain all the different pages. */
-> 2d65a91734a195 Qu Wenruo         2025-10-01  898  		ASSERT(ret =3D=3D st=
-ep);
-> 2d65a91734a195 Qu Wenruo         2025-10-01  899  	}
-> 2d65a91734a195 Qu Wenruo         2025-10-01  900  	ret =3D submit_bio_wa=
-it(bio);
-> bacf60e5158629 Christoph Hellwig 2022-11-15  901  	if (ret) {
-> bacf60e5158629 Christoph Hellwig 2022-11-15  902  		/* try to remap that=
- extent elsewhere? */
-> 4886ff7b50f634 Qu Wenruo         2023-03-20  903  		btrfs_dev_stat_inc_a=
-nd_print(smap.dev, BTRFS_DEV_STAT_WRITE_ERRS);
-> 2d65a91734a195 Qu Wenruo         2025-10-01  904  		goto out_free_bio;
-> bacf60e5158629 Christoph Hellwig 2022-11-15  905  	}
-> bacf60e5158629 Christoph Hellwig 2022-11-15  906
-> 2eac2ae8b214ab David Sterba      2025-06-09  907  	btrfs_info_rl(fs_info=
-,
-> bacf60e5158629 Christoph Hellwig 2022-11-15  908  		"read error correcte=
-d: ino %llu off %llu (dev %s sector %llu)",
-> 2d65a91734a195 Qu Wenruo         2025-10-01  909  			     ino, fileoff, =
-btrfs_dev_name(smap.dev),
-> 4886ff7b50f634 Qu Wenruo         2023-03-20  910  			     smap.physical =
->> SECTOR_SHIFT);
-> bacf60e5158629 Christoph Hellwig 2022-11-15  911  	ret =3D 0;
-> bacf60e5158629 Christoph Hellwig 2022-11-15  912
-> 2d65a91734a195 Qu Wenruo         2025-10-01  913  out_free_bio:
-> 2d65a91734a195 Qu Wenruo         2025-10-01 @914  	if (bio)
->=20
-> This check could be deleted if you want.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202510031735.TE7FVj0R-lkp@intel.com/
 
-I can move the bio_put() call immediately after the submit_bio_wait()=20
-call, as that's also the pattern used in other locations like=20
-xfs_rw_bdev() and squashfs_bio_read_cached().
+smatch warnings:
+drivers/i2c/i2c-mux.c:506 i2c_mux_add_adapter() error: uninitialized symbol 'ret'.
 
-Thanks,
-Qu
+vim +/ret +506 drivers/i2c/i2c-mux.c
 
->  Or you could leave it since
-> it's harmless.  Up to you.  I would prefer to silence these warning by
-> updating Smatch, but Smatch isn't smart enough to parse bio_alloc()
-> Smatch deliberately ignores ASSERT()s.
->=20
-> 2d65a91734a195 Qu Wenruo         2025-10-01  915  		bio_put(bio);
-> bacf60e5158629 Christoph Hellwig 2022-11-15  916  out_counter_dec:
-> bacf60e5158629 Christoph Hellwig 2022-11-15  917  	btrfs_bio_counter_dec=
-(fs_info);
-> bacf60e5158629 Christoph Hellwig 2022-11-15  918  	return ret;
-> bacf60e5158629 Christoph Hellwig 2022-11-15  919  }
->=20
+d1ed7985b9a6b8 Peter Rosin        2016-08-25  335  
+a7ab72390b7706 Peter Rosin        2016-04-20  336  int i2c_mux_add_adapter(struct i2c_mux_core *muxc,
+fec1982d70721c Heiner Kallweit    2024-04-18  337  			u32 force_nr, u32 chan_id)
+a7ab72390b7706 Peter Rosin        2016-04-20  338  {
+a7ab72390b7706 Peter Rosin        2016-04-20  339  	struct i2c_adapter *parent = muxc->parent;
+0826374bff5741 Michael Lawnick    2010-08-11  340  	struct i2c_mux_priv *priv;
+c9449affad2ae0 Gerlando Falauto   2014-11-13  341  	char symlink_name[20];
+0826374bff5741 Michael Lawnick    2010-08-11  342  	int ret;
+0826374bff5741 Michael Lawnick    2010-08-11  343  
+a7ab72390b7706 Peter Rosin        2016-04-20  344  	if (muxc->num_adapters >= muxc->max_adapters) {
+a7ab72390b7706 Peter Rosin        2016-04-20  345  		dev_err(muxc->dev, "No room for more i2c-mux adapters\n");
+a7ab72390b7706 Peter Rosin        2016-04-20  346  		return -EINVAL;
+a7ab72390b7706 Peter Rosin        2016-04-20  347  	}
+a7ab72390b7706 Peter Rosin        2016-04-20  348  
+a7ab72390b7706 Peter Rosin        2016-04-20  349  	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+0826374bff5741 Michael Lawnick    2010-08-11  350  	if (!priv)
+a7ab72390b7706 Peter Rosin        2016-04-20  351  		return -ENOMEM;
+0826374bff5741 Michael Lawnick    2010-08-11  352  
+0826374bff5741 Michael Lawnick    2010-08-11  353  	/* Set up private adapter data */
+a7ab72390b7706 Peter Rosin        2016-04-20  354  	priv->muxc = muxc;
+0826374bff5741 Michael Lawnick    2010-08-11  355  	priv->chan_id = chan_id;
+0826374bff5741 Michael Lawnick    2010-08-11  356  
+0826374bff5741 Michael Lawnick    2010-08-11  357  	/* Need to do algo dynamically because we don't know ahead
+0826374bff5741 Michael Lawnick    2010-08-11  358  	 * of time what sort of physical adapter we'll be dealing with.
+0826374bff5741 Michael Lawnick    2010-08-11  359  	 */
+6ef91fcca8a8ba Peter Rosin        2016-05-04  360  	if (parent->algo->master_xfer) {
+6ef91fcca8a8ba Peter Rosin        2016-05-04  361  		if (muxc->mux_locked)
+614b1c3cbfb0ec Wolfram Sang       2025-06-12  362  			priv->algo.xfer = i2c_mux_master_xfer;
+6ef91fcca8a8ba Peter Rosin        2016-05-04  363  		else
+614b1c3cbfb0ec Wolfram Sang       2025-06-12  364  			priv->algo.xfer = __i2c_mux_master_xfer;
+6ef91fcca8a8ba Peter Rosin        2016-05-04  365  	}
+7168bff2cfd710 Wolfram Sang       2019-04-03  366  	if (parent->algo->master_xfer_atomic)
+614b1c3cbfb0ec Wolfram Sang       2025-06-12  367  		priv->algo.xfer_atomic = priv->algo.master_xfer;
+7168bff2cfd710 Wolfram Sang       2019-04-03  368  
+6ef91fcca8a8ba Peter Rosin        2016-05-04  369  	if (parent->algo->smbus_xfer) {
+6ef91fcca8a8ba Peter Rosin        2016-05-04  370  		if (muxc->mux_locked)
+0826374bff5741 Michael Lawnick    2010-08-11  371  			priv->algo.smbus_xfer = i2c_mux_smbus_xfer;
+6ef91fcca8a8ba Peter Rosin        2016-05-04  372  		else
+6ef91fcca8a8ba Peter Rosin        2016-05-04  373  			priv->algo.smbus_xfer = __i2c_mux_smbus_xfer;
+6ef91fcca8a8ba Peter Rosin        2016-05-04  374  	}
+7168bff2cfd710 Wolfram Sang       2019-04-03  375  	if (parent->algo->smbus_xfer_atomic)
+7168bff2cfd710 Wolfram Sang       2019-04-03  376  		priv->algo.smbus_xfer_atomic = priv->algo.smbus_xfer;
+7168bff2cfd710 Wolfram Sang       2019-04-03  377  
+0826374bff5741 Michael Lawnick    2010-08-11  378  	priv->algo.functionality = i2c_mux_functionality;
+0826374bff5741 Michael Lawnick    2010-08-11  379  
+0826374bff5741 Michael Lawnick    2010-08-11  380  	/* Now fill out new adapter structure */
+0826374bff5741 Michael Lawnick    2010-08-11  381  	snprintf(priv->adap.name, sizeof(priv->adap.name),
+0826374bff5741 Michael Lawnick    2010-08-11  382  		 "i2c-%d-mux (chan_id %d)", i2c_adapter_id(parent), chan_id);
+0826374bff5741 Michael Lawnick    2010-08-11  383  	priv->adap.owner = THIS_MODULE;
+0826374bff5741 Michael Lawnick    2010-08-11  384  	priv->adap.algo = &priv->algo;
+0826374bff5741 Michael Lawnick    2010-08-11  385  	priv->adap.algo_data = priv;
+0826374bff5741 Michael Lawnick    2010-08-11  386  	priv->adap.dev.parent = &parent->dev;
+2212a8529eb06c Elie De Brauwer    2013-12-09  387  	priv->adap.retries = parent->retries;
+2212a8529eb06c Elie De Brauwer    2013-12-09  388  	priv->adap.timeout = parent->timeout;
+dc362d50ba94ea Alexander Sverdlin 2015-06-12  389  	priv->adap.quirks = parent->quirks;
+d1ed7985b9a6b8 Peter Rosin        2016-08-25  390  	if (muxc->mux_locked)
+d1ed7985b9a6b8 Peter Rosin        2016-08-25  391  		priv->adap.lock_ops = &i2c_mux_lock_ops;
+d1ed7985b9a6b8 Peter Rosin        2016-08-25  392  	else
+d1ed7985b9a6b8 Peter Rosin        2016-08-25  393  		priv->adap.lock_ops = &i2c_parent_lock_ops;
+0826374bff5741 Michael Lawnick    2010-08-11  394  
+bc45449b144461 David Daney        2012-04-12  395  	/*
+bc45449b144461 David Daney        2012-04-12  396  	 * Try to populate the mux adapter's of_node, expands to
+bc45449b144461 David Daney        2012-04-12  397  	 * nothing if !CONFIG_OF.
+bc45449b144461 David Daney        2012-04-12  398  	 */
+a7ab72390b7706 Peter Rosin        2016-04-20  399  	if (muxc->dev->of_node) {
+b2d57b56047b99 Peter Rosin        2016-07-09  400  		struct device_node *dev_node = muxc->dev->of_node;
+b2d57b56047b99 Peter Rosin        2016-07-09  401  		struct device_node *mux_node, *child = NULL;
+bc45449b144461 David Daney        2012-04-12  402  		u32 reg;
+bc45449b144461 David Daney        2012-04-12  403  
+b2d57b56047b99 Peter Rosin        2016-07-09  404  		if (muxc->arbitrator)
+b2d57b56047b99 Peter Rosin        2016-07-09  405  			mux_node = of_get_child_by_name(dev_node, "i2c-arb");
+b2d57b56047b99 Peter Rosin        2016-07-09  406  		else if (muxc->gate)
+b2d57b56047b99 Peter Rosin        2016-07-09  407  			mux_node = of_get_child_by_name(dev_node, "i2c-gate");
+b2d57b56047b99 Peter Rosin        2016-07-09  408  		else
+b2d57b56047b99 Peter Rosin        2016-07-09  409  			mux_node = of_get_child_by_name(dev_node, "i2c-mux");
+b2d57b56047b99 Peter Rosin        2016-07-09  410  
+b2d57b56047b99 Peter Rosin        2016-07-09  411  		if (mux_node) {
+b2d57b56047b99 Peter Rosin        2016-07-09  412  			/* A "reg" property indicates an old-style DT entry */
+b2d57b56047b99 Peter Rosin        2016-07-09  413  			if (!of_property_read_u32(mux_node, "reg", &reg)) {
+b2d57b56047b99 Peter Rosin        2016-07-09  414  				of_node_put(mux_node);
+b2d57b56047b99 Peter Rosin        2016-07-09  415  				mux_node = NULL;
+b2d57b56047b99 Peter Rosin        2016-07-09  416  			}
+b2d57b56047b99 Peter Rosin        2016-07-09  417  		}
+b2d57b56047b99 Peter Rosin        2016-07-09  418  
+b2d57b56047b99 Peter Rosin        2016-07-09  419  		if (!mux_node)
+b2d57b56047b99 Peter Rosin        2016-07-09  420  			mux_node = of_node_get(dev_node);
+b2d57b56047b99 Peter Rosin        2016-07-09  421  		else if (muxc->arbitrator || muxc->gate)
+b2d57b56047b99 Peter Rosin        2016-07-09  422  			child = of_node_get(mux_node);
+b2d57b56047b99 Peter Rosin        2016-07-09  423  
+b2d57b56047b99 Peter Rosin        2016-07-09  424  		if (!child) {
+b2d57b56047b99 Peter Rosin        2016-07-09  425  			for_each_child_of_node(mux_node, child) {
+bc45449b144461 David Daney        2012-04-12  426  				ret = of_property_read_u32(child, "reg", &reg);
+bc45449b144461 David Daney        2012-04-12  427  				if (ret)
+bc45449b144461 David Daney        2012-04-12  428  					continue;
+b2d57b56047b99 Peter Rosin        2016-07-09  429  				if (chan_id == reg)
+bc45449b144461 David Daney        2012-04-12  430  					break;
+bc45449b144461 David Daney        2012-04-12  431  			}
+64f0150a54ef60 Marcus Folkesson   2025-10-02  432  		}
+64f0150a54ef60 Marcus Folkesson   2025-10-02  433  
+64f0150a54ef60 Marcus Folkesson   2025-10-02  434  		of_property_read_u32(child, "clock-frequency", &priv->adap.clock_hz);
+64f0150a54ef60 Marcus Folkesson   2025-10-02  435  
+64f0150a54ef60 Marcus Folkesson   2025-10-02  436  		/*
+64f0150a54ef60 Marcus Folkesson   2025-10-02  437  		 * Warn if the mux adapter is not parent-locked as
+64f0150a54ef60 Marcus Folkesson   2025-10-02  438  		 * this may cause issues for some hardware topologies.
+64f0150a54ef60 Marcus Folkesson   2025-10-02  439  		 */
+64f0150a54ef60 Marcus Folkesson   2025-10-02  440  		if ((priv->adap.clock_hz < parent->clock_hz) && muxc->mux_locked)
+64f0150a54ef60 Marcus Folkesson   2025-10-02  441  			dev_warn(muxc->dev,
+64f0150a54ef60 Marcus Folkesson   2025-10-02  442  				 "channel %u is slower than parent on a non parent-locked mux\n",
+64f0150a54ef60 Marcus Folkesson   2025-10-02  443  				 chan_id);
+64f0150a54ef60 Marcus Folkesson   2025-10-02  444  
+64f0150a54ef60 Marcus Folkesson   2025-10-02  445  		/* If the mux adapter has no clock-frequency property, inherit from parent */
+64f0150a54ef60 Marcus Folkesson   2025-10-02  446  		if (!priv->adap.clock_hz)
+64f0150a54ef60 Marcus Folkesson   2025-10-02  447  			priv->adap.clock_hz = parent->clock_hz;
+64f0150a54ef60 Marcus Folkesson   2025-10-02  448  
+64f0150a54ef60 Marcus Folkesson   2025-10-02  449  		/* We don't support mux adapters faster than their parent */
+64f0150a54ef60 Marcus Folkesson   2025-10-02  450  		if (priv->adap.clock_hz > parent->clock_hz) {
+64f0150a54ef60 Marcus Folkesson   2025-10-02  451  			dev_err(muxc->dev,
+64f0150a54ef60 Marcus Folkesson   2025-10-02  452  				"channel (%u) is faster (%u) than parent (%u)\n",
+64f0150a54ef60 Marcus Folkesson   2025-10-02  453  				chan_id, priv->adap.clock_hz, parent->clock_hz);
+64f0150a54ef60 Marcus Folkesson   2025-10-02  454  
+64f0150a54ef60 Marcus Folkesson   2025-10-02  455  			of_node_put(mux_node);
+64f0150a54ef60 Marcus Folkesson   2025-10-02  456  			goto err_free_priv;
+bc45449b144461 David Daney        2012-04-12  457  		}
+b2d57b56047b99 Peter Rosin        2016-07-09  458  
+b2d57b56047b99 Peter Rosin        2016-07-09  459  		priv->adap.dev.of_node = child;
+b2d57b56047b99 Peter Rosin        2016-07-09  460  		of_node_put(mux_node);
+bc45449b144461 David Daney        2012-04-12  461  	}
+bc45449b144461 David Daney        2012-04-12  462  
+8eb5c87a92c065 Dustin Byford      2015-10-23  463  	/*
+8eb5c87a92c065 Dustin Byford      2015-10-23  464  	 * Associate the mux channel with an ACPI node.
+8eb5c87a92c065 Dustin Byford      2015-10-23  465  	 */
+a7ab72390b7706 Peter Rosin        2016-04-20  466  	if (has_acpi_companion(muxc->dev))
+a7ab72390b7706 Peter Rosin        2016-04-20  467  		acpi_preset_companion(&priv->adap.dev,
+a7ab72390b7706 Peter Rosin        2016-04-20  468  				      ACPI_COMPANION(muxc->dev),
+8eb5c87a92c065 Dustin Byford      2015-10-23  469  				      chan_id);
+8eb5c87a92c065 Dustin Byford      2015-10-23  470  
+0826374bff5741 Michael Lawnick    2010-08-11  471  	if (force_nr) {
+0826374bff5741 Michael Lawnick    2010-08-11  472  		priv->adap.nr = force_nr;
+0826374bff5741 Michael Lawnick    2010-08-11  473  		ret = i2c_add_numbered_adapter(&priv->adap);
+9fce894d03a98e Peter Rosin        2017-05-15  474  		if (ret < 0) {
+8d4d159f25a79b Peter Rosin        2017-04-03  475  			dev_err(&parent->dev,
+8d4d159f25a79b Peter Rosin        2017-04-03  476  				"failed to add mux-adapter %u as bus %u (error=%d)\n",
+8d4d159f25a79b Peter Rosin        2017-04-03  477  				chan_id, force_nr, ret);
+9fce894d03a98e Peter Rosin        2017-05-15  478  			goto err_free_priv;
+9fce894d03a98e Peter Rosin        2017-05-15  479  		}
+0826374bff5741 Michael Lawnick    2010-08-11  480  	} else {
+0826374bff5741 Michael Lawnick    2010-08-11  481  		ret = i2c_add_adapter(&priv->adap);
+9fce894d03a98e Peter Rosin        2017-05-15  482  		if (ret < 0) {
+8d4d159f25a79b Peter Rosin        2017-04-03  483  			dev_err(&parent->dev,
+8d4d159f25a79b Peter Rosin        2017-04-03  484  				"failed to add mux-adapter %u (error=%d)\n",
+8d4d159f25a79b Peter Rosin        2017-04-03  485  				chan_id, ret);
+9fce894d03a98e Peter Rosin        2017-05-15  486  			goto err_free_priv;
+0826374bff5741 Michael Lawnick    2010-08-11  487  		}
+0826374bff5741 Michael Lawnick    2010-08-11  488  	}
+0826374bff5741 Michael Lawnick    2010-08-11  489  
+a7ab72390b7706 Peter Rosin        2016-04-20  490  	WARN(sysfs_create_link(&priv->adap.dev.kobj, &muxc->dev->kobj,
+a7ab72390b7706 Peter Rosin        2016-04-20  491  			       "mux_device"),
+51cf3b0e2a72bb Wolfram Sang       2014-11-13  492  	     "can't create symlink to mux device\n");
+51cf3b0e2a72bb Wolfram Sang       2014-11-13  493  
+c9449affad2ae0 Gerlando Falauto   2014-11-13  494  	snprintf(symlink_name, sizeof(symlink_name), "channel-%u", chan_id);
+a7ab72390b7706 Peter Rosin        2016-04-20  495  	WARN(sysfs_create_link(&muxc->dev->kobj, &priv->adap.dev.kobj,
+a7ab72390b7706 Peter Rosin        2016-04-20  496  			       symlink_name),
+f657c9fe268882 Wolfram Sang       2018-05-21  497  	     "can't create symlink to channel %u\n", chan_id);
+0826374bff5741 Michael Lawnick    2010-08-11  498  	dev_info(&parent->dev, "Added multiplexed i2c bus %d\n",
+0826374bff5741 Michael Lawnick    2010-08-11  499  		 i2c_adapter_id(&priv->adap));
+0826374bff5741 Michael Lawnick    2010-08-11  500  
+a7ab72390b7706 Peter Rosin        2016-04-20  501  	muxc->adapter[muxc->num_adapters++] = &priv->adap;
+a7ab72390b7706 Peter Rosin        2016-04-20  502  	return 0;
+9fce894d03a98e Peter Rosin        2017-05-15  503  
+9fce894d03a98e Peter Rosin        2017-05-15  504  err_free_priv:
+9fce894d03a98e Peter Rosin        2017-05-15  505  	kfree(priv);
+9fce894d03a98e Peter Rosin        2017-05-15 @506  	return ret;
+0826374bff5741 Michael Lawnick    2010-08-11  507  }
+a7ab72390b7706 Peter Rosin        2016-04-20  508  EXPORT_SYMBOL_GPL(i2c_mux_add_adapter);
+0826374bff5741 Michael Lawnick    2010-08-11  509  
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
