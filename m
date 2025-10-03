@@ -1,55 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163652D7DE3
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Oct 2025 17:04:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D88E2D9EE0
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Oct 2025 17:20:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759511084; cv=none; b=WZdpnKwD3LNxe3RMM7HmwIExxP2sgJYDyYKc9Tdge00JR3Bjn8Sl4t3QXl1pUWMyJdTPO6ixZS1MfX42FUt/g0+T6oCu4xs9clPOf5ahozbp/fmR2hkrQ45FSZT+A1AwzLJm7sZdWQwusRzBDmxpsaWoReqSlxSQkBq1i9gKUYA=
+	t=1759512059; cv=none; b=EgDn+XpAL4EvovgDMXivsIfSNC2zyMDyoUArko8fhQvi/vNV0TUuOudEVdcN7HY8vyAPg0Lv/8oGMeBJvRmR3Iaq7PGC07iYnUCU1E2e+y6McgQmqmvuTd7aiWuYO73mRrGvNR+cW5Bqhpi/sPqFkzA/550R2zfhF/BD82k84fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759511084; c=relaxed/simple;
-	bh=/pLNdd+3p5BJu+A5N/EcZ86MBqDkuToiULYIqXBl7ck=;
+	s=arc-20240116; t=1759512059; c=relaxed/simple;
+	bh=C9CpBLzw1pO3vtP9TOCHCa6fzRdReKRfq65D5kQW2jE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D3LOg+LHVIs8rRNrHC0RbS8LHPsfbyS7fVHLK9FeFByh1UQMOTv0pu1zs8kJ2BIGY5Ot86zzbfzMfTUzUw2gBH+Rokle+guFSIEelcs3z4iF0mOsAcwABuXmFKXlhlj4Mv+G8OsZzFqHggyYAQDHWH7xPbffeoJWKdFCfq1C5mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UO6YJd1f; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=VmjpfJy16qpcA0IbipGt5eB6Mn7EGXXbkzQyrIUCbmso/m8nnuXfW+Y7qndMhLXYJCkHjrEulaZus5fNFtOZTtittCZvHk6KCvlv3Jz0Cv9F3cgh73n3K1Y6OSckRxgfVO9bpaFmSwCQgsk56TumQCnekUJfC1lSa8FiyNi6HWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Tefqo/FV; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UO6YJd1f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759511082; x=1791047082;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/pLNdd+3p5BJu+A5N/EcZ86MBqDkuToiULYIqXBl7ck=;
-  b=UO6YJd1fAUlUU+fbWzxoKttb3mzij0i1KeHz1aCcYS9trVzYCrrriXLK
-   3oITcT6ylkuaIJF6m7GtWHV4V6d9w/CsIfzy0uEHIRqfFmX1Kd0g9VXsM
-   BtsUIpiE/n7D+IzOnMcNDJUX1L2pEqMNffNQrjOw/zPhH92nvEsiOSazq
-   QY7ExbE65ty6tsKDv3AYiCruFufVbxcEt5yMf3yYCL6WoPmnWg5moaDvQ
-   1KjbUQ/E3ZnRKB2wmEKw7dB2fcfkWDdddh4MuqhBk0lAmCjHxIk5FIs7d
-   I5jGtqpiTP+DRlu9no2DcD6TvDK2aI7WsVToYsz/X25tK1dmx0Ilu043I
-   Q==;
-X-CSE-ConnectionGUID: KN3iNqgRQiWpzr4WPuVMWQ==
-X-CSE-MsgGUID: I/OpJPINQgO7PrC960cTUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="79443308"
-X-IronPort-AV: E=Sophos;i="6.18,313,1751266800"; 
-   d="scan'208";a="79443308"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 10:04:41 -0700
-X-CSE-ConnectionGUID: gR+VJyfBRwut1fYI/w65QQ==
-X-CSE-MsgGUID: Cv7ehwiQSA2fljqVf25nKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,313,1751266800"; 
-   d="scan'208";a="179137233"
-Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 03 Oct 2025 10:04:40 -0700
-Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v4jCv-0004lH-02;
-	Fri, 03 Oct 2025 17:04:37 +0000
-Date: Sat, 4 Oct 2025 01:04:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Tefqo/FV"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3f0308469a4so1360836f8f.0
+        for <oe-kbuild@lists.linux.dev>; Fri, 03 Oct 2025 10:20:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1759512055; x=1760116855; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=K1jUhJGkvuXEQLZn2ZvNWi0i88zQ8eeDqvcxRlddFH8=;
+        b=Tefqo/FVgyiN91J3iiSx67tc58joaAmRc8pL9U+6gAi8z3qNaaEju9JOOQ+tjADVdh
+         cJ8ICE4VXyJP7sE5MoZM2+4DCW5twRhWYTR5cdA6SQzC1Aqhyp+1QYqNkTiG9W3/6O2G
+         Brl6y6M0Y8EIo554YqNEsks9ddG+r/9/C7CoTSAH8wDizdLD1+ZHC5EuOF/Ki0Ile5Cv
+         d4eINZ41rXBNf7DgfMa+hFmtxoFBhYzJQ6Jn/P0whZA9nRIkW+FlndNFvpZ2gRs/CfkU
+         w/U7agpvdhlBNzUQt2+NgblvyUnOl6QoWzmm3drpqTbHKD8fP5wCJW6Bo7h+nbcQ2oXL
+         H5Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759512055; x=1760116855;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K1jUhJGkvuXEQLZn2ZvNWi0i88zQ8eeDqvcxRlddFH8=;
+        b=WrKt5IMVkcyCXA875spLEtIA27e9otoTxgHnZSWQPk8qGNhw6Qolpu6n/yAPfPXyjW
+         C5s+L+K2jgV51cY+ChIl4dqVQjQTOURsij5e4E3zeyQlPlq4Sg9+T4WpKb5d3sb1yz4/
+         dNaI8RRkHH0Cbra/7f2HtOO4Wqcs8KKsyQyLUmK8XLL8mbUoYmIOD8Pt/UlDXzbpc1Bs
+         KW0z60SWIbNQ0bXswCgS1YFKs0sUHYyjI1RNYSkdJ0B4pldoWmEA8Rpnqu/LoeDO+0ii
+         eLcZ02KRVN3OmG/g1G2FfYaa2iGGTl6uMbt8gyKwdhBut7ljjJTHuspcRNwmnpHHJsNO
+         yWAQ==
+X-Gm-Message-State: AOJu0YxMeLmXHKc5VsD2yC8QEzSqMR0TY49IkzQQ23Fd3WwvGXo0V1mo
+	8Zi5/Aq+2kY65qjsrXSQEA/V2/GYmc7S9J8RMgoP8P8MZIf7UfVDexkzuiCSsdIlg4jkWjS0IgS
+	FtWKe
+X-Gm-Gg: ASbGncuJhFJTJTw8K8qgzfL350ae05en3zF7Woz/Kge8ijd9pkNizNXxI5r+IENRllA
+	DOE1oIw03IkPOGu2kBBXnnaCr/Tb95SHel3DAjz9TpxWzugmDZhSk/0ZDxuEYKXVd4qJ85fZl/P
+	gcxHHOC2g+Kh77tvRYnq2hjqkD5DB4EDpsDiop3yP+waCdgVOf2KyEeixhRRya+Dr96kRlCpZ+l
+	eVaEWA0eFQIi6SA3JtP6hxqtTU+HvVm7C6hw44jQk30Dvd3wUSa/pM9QwwHHwP14MlwBtoxdaPI
+	QU4LS7ia4ia4msw7Rq9cuQeOJSlUSiWEaIct+bsEkrkKYp6WP8rCN7e9zSXB2e5N4T1RwM4D+mo
+	VPDHzHO3n4xx1IYR3B/2M8nzR0Hq139P3i2A8gE32gGDe3MgHFUDl49Ug9Bt4lH8N8mk=
+X-Google-Smtp-Source: AGHT+IE9qXd8T2vmx1DiEYO/pYDUzvVktkgheDcwQex8b4BwN0UphaLhZk2mruoWTzAaN8uZMCOdzA==
+X-Received: by 2002:a05:6000:2086:b0:3ee:15c6:9a55 with SMTP id ffacd0b85a97d-425671c0c88mr2523518f8f.34.1759512054900;
+        Fri, 03 Oct 2025 10:20:54 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4255d8e980dsm9487329f8f.36.2025.10.03.10.20.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Oct 2025 10:20:54 -0700 (PDT)
+Date: Fri, 3 Oct 2025 20:20:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Enzo Matsumiya <ematsumiya@suse.de>,
+	linux-cifs@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, smfrench@gmail.com,
+	pc@manguebit.com, ronniesahlberg@gmail.com, sprasad@microsoft.com,
+	tom@talpey.com, bharathsm@microsoft.com, henrique.carvalho@suse.com
 Subject: Re: [PATCH 16/20] smb: client: add is_dir argument to query_path_info
 Message-ID: <202510032329.NN83GCga-lkp@intel.com>
 Precedence: bulk
@@ -60,57 +74,33 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20250929132805.220558-17-ematsumiya@suse.de>
-References: <20250929132805.220558-17-ematsumiya@suse.de>
-TO: Enzo Matsumiya <ematsumiya@suse.de>
-TO: linux-cifs@vger.kernel.org
-CC: smfrench@gmail.com
-CC: pc@manguebit.com
-CC: ronniesahlberg@gmail.com
-CC: sprasad@microsoft.com
-CC: tom@talpey.com
-CC: bharathsm@microsoft.com
-CC: henrique.carvalho@suse.com
+Message-ID: <20251003172050.iT6v2DkAEuz3n-ivE7ImYGmJr9bFu3C7WmDipi4Jhd0@z>
 
 Hi Enzo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on v6.17]
-[also build test WARNING on linus/master]
-[cannot apply to cifs/for-next next-20251003]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Enzo-Matsumiya/smb-client-remove-cfids_invalidation_worker/20250929-213155
 base:   v6.17
 patch link:    https://lore.kernel.org/r/20250929132805.220558-17-ematsumiya%40suse.de
 patch subject: [PATCH 16/20] smb: client: add is_dir argument to query_path_info
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
 config: i386-randconfig-141-20251003 (https://download.01.org/0day-ci/archive/20251003/202510032329.NN83GCga-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202510032329.NN83GCga-lkp@intel.com/
 
 New smatch warnings:
 fs/smb/client/inode.c:1313 cifs_get_fattr() error: we previously assumed 'inode' could be null (see line 1288)
 
-Old smatch warnings:
-fs/smb/client/inode.c:1708 cifs_root_iget() warn: passing zero to 'ERR_PTR'
-fs/smb/client/inode.c:2334 cifs_mkdir() warn: passing zero to 'ERR_PTR'
-
 vim +/inode +1313 fs/smb/client/inode.c
 
-5f71ebc4129449 fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1258  
 a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1259  static int cifs_get_fattr(struct cifs_open_info_data *data,
 a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1260  			  struct super_block *sb, int xid,
 a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1261  			  const struct cifs_fid *fid,
@@ -141,6 +131,10 @@ b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-1
 65e58ef1dafb0c fs/smb/client/inode.c Enzo Matsumiya                    2025-09-29  1286  		bool is_dir = false;
 65e58ef1dafb0c fs/smb/client/inode.c Enzo Matsumiya                    2025-09-29  1287  
 65e58ef1dafb0c fs/smb/client/inode.c Enzo Matsumiya                    2025-09-29 @1288  		if (inode && *inode)
+
+The check implies that "inode" can be NULL.  Pretty sure this
+check can be removed unless something changed out of tree.
+
 65e58ef1dafb0c fs/smb/client/inode.c Enzo Matsumiya                    2025-09-29  1289  			is_dir = S_ISDIR((*inode)->i_mode);
 65e58ef1dafb0c fs/smb/client/inode.c Enzo Matsumiya                    2025-09-29  1290  
 8b4e285d8ce3c6 fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1291  		rc = server->ops->query_path_info(xid, tcon, cifs_sb,
@@ -166,6 +160,13 @@ a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-1
 a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1311  			cifs_open_info_to_fattr(fattr, data, sb);
 76894f3e2f7117 fs/cifs/inode.c       Paulo Alcantara                   2022-10-03  1312  		}
 ec4535b2a1d709 fs/smb/client/inode.c Paulo Alcantara                   2024-04-08 @1313  		if (!rc && *inode &&
+                                                                                                                   ^^^^^^
+
+The rest of the function assumes inode is a valid pointer.
+
+regards,
+dan carpenter
+
 ec4535b2a1d709 fs/smb/client/inode.c Paulo Alcantara                   2024-04-08  1314  		    (fattr->cf_flags & CIFS_FATTR_DELETE_PENDING))
 fc20c523211a38 fs/smb/client/inode.c Meetakshi Setiya                  2024-03-14  1315  			cifs_mark_open_handles_for_deleted_file(*inode, full_path);
 b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-18  1316  		break;
@@ -280,8 +281,8 @@ b8f7442bc46e48 fs/cifs/inode.c       Aurelien Aptel                    2019-11-1
 76894f3e2f7117 fs/cifs/inode.c       Paulo Alcantara                   2022-10-03  1425  	cifs_free_open_info(&tmp_data);
 a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1426  	return rc;
 a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1427  }
-a18280e7fdea1f fs/smb/client/inode.c Paulo Alcantara                   2023-08-17  1428  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
