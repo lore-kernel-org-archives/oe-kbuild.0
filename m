@@ -1,192 +1,201 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9232DA75F
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Oct 2025 17:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A13825784A;
+	Fri,  3 Oct 2025 21:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759512418; cv=none; b=CiV+zoSkXfwwW/tXl4+YUL3zsi2kA3cAj++bac7g7YRDBdWc5HM9qVHbsy9jKsPK3kbmQqGD9PkcEKy7pMf/h31Yl/Dwp2WN0xxiDO3BaUbCKOQqdC4KkIGiz6rBKzAhTGbhbYmsOcEAxTyUwPNFw9ugv5WwEJGt2/jby9TSmX8=
+	t=1759526332; cv=none; b=pTwaDfJbs7RYPLQtevzSDAw3fTmr0J7OP1qYgRKwPw+Kk6WxEkB7twyr1Y7BF6EOMeQTnwa3d4nxgBhhRb6ztCFy8cDKMY6Byo0MqPBaQwk6oVT2bHIcDkdVlM7u/ZaVg3mdbCbrxsJPrvb14fNadu+j+mjT32zwI3c0M/2uinw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759512418; c=relaxed/simple;
-	bh=zh5P4xd+Uiyx4qvs2jttBE8pldH7Ce4MrXlsyRB53V4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Hs/7C2pMWxnv0NlQdjQsHzHL9lTRgU/ytxfu8owraBn8LQ5AYveiLevYSZVhh17PP9UZKMTiIiqeBud80CofEDhKiaWNVUiri2qMbGp8P7Xf6JDXxve4kWzu1HtaHucGwwLFVoMDzuVFE9/n6tK8Yptrz7i4xSFGyy3aDA+meas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dpDi6Yxj; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1759526332; c=relaxed/simple;
+	bh=cdi8diOKvl/kFzstYU62V3dp+byOlFAovUvaea9RHdc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lV66Ea7prahevVqrKFuS/jektciDV9sxDKEhRx0uoHFksgF6pXqYHervAM7uvqa2X9dXZlxUt2lobdWHLRUwnEIcBQVt+MYqCVt+XdMc8JQIvdiIg000I1sFx/MBwPMniYxR+Uc95RR180FTFhT+6uDk2uPreX2AIyBl+vg8EhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b=JOjGjDdY; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dpDi6Yxj"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42557c5cedcso1438741f8f.0
-        for <oe-kbuild@lists.linux.dev>; Fri, 03 Oct 2025 10:26:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1759512414; x=1760117214; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bUw0eHecy2lXmBu5aO6x5k/wtfv0EoJF8eKTBU7gf3o=;
-        b=dpDi6YxjZ9iDjdV0NLa+Px4BA2hYxqwTP2YIR/ygbSWMdF64gS6Wjx9bcF2Hy5ht7S
-         6J0p0zCCNQgF/+C6Zws1r6I+cwWTU4Xb048U3qVQ+/gK4gPquINbJWd+rxRkcVfbE/73
-         UjhySN1vQ6mkHPQKJG3h3q+QA7ybRRRMNgR3Q+cc+ymVCZnfAiPa8Ety42eSa7NtiMnK
-         2FFXO/hCi/mrcIv36W2b3LzAwUOVdP/fdFAQ2pQEUyqPk2/dl+A6aRYG2JOtMX+mdG5H
-         2sUuiUEmn/3KQ08O6yTF9qhBAIAtkpsD2cuZuZehBcrIWclvLKHqIitAESkb2HpVCOmC
-         AKKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759512414; x=1760117214;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bUw0eHecy2lXmBu5aO6x5k/wtfv0EoJF8eKTBU7gf3o=;
-        b=WgdxevVosmwggqdtbBnfBgJgl9Asgjmq88Oaty1hL5Gy3Z4nKcDB7fchcNfishFl68
-         Ccd65dvAwyVvfcv4GNhMQ54aM0bBrNxi8dk09Dws95wydLAdySAG7Fau5gMzOROYlAgT
-         YlvHxhYwd07UjVOerem92WJ2XCkJi5+E522IN6Q2y2alz+ORW0/E+H1zJs1IVq7HmoBp
-         9/FWUbq4ULxTLGw6OEDRpl5L5zNXwOhK7BurZEqIypj5OqV/2YQg6wdfKqd4FStRh/xJ
-         sS5VFaK2/at/u4dduYgZsHlZMBGFGuGwky5aNya1Wly60J0XA/dNcy9eePRG6eocztNj
-         K/ow==
-X-Gm-Message-State: AOJu0YwKNO0VyHORa4+IeHV2EkwEI3SoV4VDAjhn7eGN0yevYWPvCJx6
-	CQzs3+D20YkXk2IQeaijkGvLvgLONLpHAfx2EL049nvswI3EzoZpjTan7E3EZcYdh8Yb+9Nw1H1
-	OvOuU
-X-Gm-Gg: ASbGncsjqfV7y+SVMw30hkbD7v9SATaZuh6siEm0MXs7HluUkrFbCrE7ctYQZcnaqez
-	0MCa54rFu6hEvb4V7BM5SEfCAM0AGBEH4kCzJlOJaUsv4JdkcSreFpAISABdow+3PDlJytCuIvc
-	DQrZwbOzoTdgb6stI0k8CX9K8yqBInNZ5Whd/rAsxXwfsjMzXZUG/YHZryRg/NAvH6XT5Ge1ZCk
-	aJ4Lgsfs6JnwbGh9iFvn+2DkAU1N5dZuniW8wU+X2naalMNGPW//Jd0ZXcRmapmQ69wkKU5ijjR
-	Zz/dw2GLfrS0lYlGoIFisXLsiPu5+4khLLZT3PMmP7qMGfGfrOzQ2pQkjiXGo3J/69639tssqQh
-	LSafNUgVaVtr8N9Iksiw30S9VmFgdDTr00onaIJ4hUAST95+yTEHLGybudKSGMYR/XsU=
-X-Google-Smtp-Source: AGHT+IGOzivoWuR0fCMvvip8F1iRjXiKzQ4UZ0etIaaqMe50pe2gTdevQHs7YrJWicCC7ZtkcE+XKA==
-X-Received: by 2002:a5d:584e:0:b0:424:2158:c1a7 with SMTP id ffacd0b85a97d-4256719ea49mr2525822f8f.34.1759512413799;
-        Fri, 03 Oct 2025 10:26:53 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4255d8f01a0sm8748954f8f.48.2025.10.03.10.26.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 10:26:53 -0700 (PDT)
-Date: Fri, 3 Oct 2025 20:26:49 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Enzo Matsumiya <ematsumiya@suse.de>,
-	linux-cifs@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, smfrench@gmail.com,
-	pc@manguebit.com, ronniesahlberg@gmail.com, sprasad@microsoft.com,
-	tom@talpey.com, bharathsm@microsoft.com, henrique.carvalho@suse.com
-Subject: Re: [PATCH 13/20] smb: client: actually use cached dirs on readdir
-Message-ID: <202510032035.eEAqpgDl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b="JOjGjDdY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
+	s=s31663417; t=1759526318; x=1760131118; i=quwenruo.btrfs@gmx.com;
+	bh=ClOl3KBa/fy5rJhCOL7memoPu2mkys7ELD5JHWEkEtc=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=JOjGjDdY22NgZcABCzuruymCVxpy9JdysN3dSvJbkwSuox1Cw+GZkRdltYsBIPz9
+	 i6rc1cXkkOnycqISSuGbnVzbToAMHwUN2LQUFbAGT2kMq0KzRBMy2dJwIcvh+LGYr
+	 MRnMydwrvG/PgY8A5sXlDuFUWKEolUToKJ0TdRcN+Rtemt6VKAEpTspt8HMP7c60M
+	 0lAuJV7W+3CDvEB9RrKme9Lp4sqc4zJ17/uzI8DflKtqPDqCUcCVI3oliTYjJ3eud
+	 d0BjtCtWcHLGbhuEHZ2tdb4pcfw93yt4fGUP+0utThzzWmo1RxxYtkz8/5Yp/YLbE
+	 n8ziF96Cg7HUFOUj/w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [172.16.0.229] ([159.196.52.54]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1N8XU1-1uA1YC2NAv-00tvZE; Fri, 03
+ Oct 2025 23:18:38 +0200
+Message-ID: <e6efa85d-744d-4041-b156-9f9909ca99a0@gmx.com>
+Date: Sat, 4 Oct 2025 06:48:33 +0930
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250929132805.220558-14-ematsumiya@suse.de>
-Message-ID: <20251003172649.L32xwkDFO-QcE5khye7pfJzkVVGxqY8zzMXW54hjCZI@z>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] btrfs: make btrfs_repair_io_failure() handle bs > ps
+ cases without large folios
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Qu Wenruo <wqu@suse.com>,
+ linux-btrfs@vger.kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+References: <202510030550.mqFoO0Dw-lkp@intel.com>
+ <234df03b-e6fc-44c8-a28f-aa51305d87a0@gmx.com>
+ <aN-rOq9boL0hXZ3R@stanley.mountain>
+Content-Language: en-US
+From: Qu Wenruo <quwenruo.btrfs@gmx.com>
+Autocrypt: addr=quwenruo.btrfs@gmx.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNIlF1IFdlbnJ1byA8cXV3ZW5ydW8uYnRyZnNAZ214LmNvbT7CwJQEEwEIAD4CGwMFCwkI
+ BwIGFQgJCgsCBBYCAwECHgECF4AWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCZxF1YAUJEP5a
+ sQAKCRDCPZHzoSX+qF+mB/9gXu9C3BV0omDZBDWevJHxpWpOwQ8DxZEbk9b9LcrQlWdhFhyn
+ xi+l5lRziV9ZGyYXp7N35a9t7GQJndMCFUWYoEa+1NCuxDs6bslfrCaGEGG/+wd6oIPb85xo
+ naxnQ+SQtYLUFbU77WkUPaaIU8hH2BAfn9ZSDX9lIxheQE8ZYGGmo4wYpnN7/hSXALD7+oun
+ tZljjGNT1o+/B8WVZtw/YZuCuHgZeaFdhcV2jsz7+iGb+LsqzHuznrXqbyUQgQT9kn8ZYFNW
+ 7tf+LNxXuwedzRag4fxtR+5GVvJ41Oh/eygp8VqiMAtnFYaSlb9sjia1Mh+m+OBFeuXjgGlG
+ VvQFzsBNBFnVga8BCACqU+th4Esy/c8BnvliFAjAfpzhI1wH76FD1MJPmAhA3DnX5JDORcga
+ CbPEwhLj1xlwTgpeT+QfDmGJ5B5BlrrQFZVE1fChEjiJvyiSAO4yQPkrPVYTI7Xj34FnscPj
+ /IrRUUka68MlHxPtFnAHr25VIuOS41lmYKYNwPNLRz9Ik6DmeTG3WJO2BQRNvXA0pXrJH1fN
+ GSsRb+pKEKHKtL1803x71zQxCwLh+zLP1iXHVM5j8gX9zqupigQR/Cel2XPS44zWcDW8r7B0
+ q1eW4Jrv0x19p4P923voqn+joIAostyNTUjCeSrUdKth9jcdlam9X2DziA/DHDFfS5eq4fEv
+ ABEBAAHCwHwEGAEIACYCGwwWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCZxF1gQUJEP5a0gAK
+ CRDCPZHzoSX+qHGpB/kB8A7M7KGL5qzat+jBRoLwB0Y3Zax0QWuANVdZM3eJDlKJKJ4HKzjo
+ B2Pcn4JXL2apSan2uJftaMbNQbwotvabLXkE7cPpnppnBq7iovmBw++/d8zQjLQLWInQ5kNq
+ Vmi36kmq8o5c0f97QVjMryHlmSlEZ2Wwc1kURAe4lsRG2dNeAd4CAqmTw0cMIrR6R/Dpt3ma
+ +8oGXJOmwWuDFKNV4G2XLKcghqrtcRf2zAGNogg3KulCykHHripG3kPKsb7fYVcSQtlt5R6v
+ HZStaZBzw4PcDiaAF3pPDBd+0fIKS6BlpeNRSFG94RYrt84Qw77JWDOAZsyNfEIEE0J6LSR/
+In-Reply-To: <aN-rOq9boL0hXZ3R@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:z9W0w/aMEbBUZfUL8mNd9BCT8+hGTUtbIKrLqeUXjbIySpsQYa6
+ 2Eap3rXiY+kGFQ+nFMVieakfOz2JMyXEe6QqvAtQ9JbbJnYb4S9q9GBRq8dI09RgTINbOA6
+ kXVDSot1kKDk2XJJV5yKJw9V0OyslLSH6rRzrvnMt3JucdxCFZ7nsMksCdsVplrDh4ZDilP
+ pLCwR6bqma1BwMvkBNofA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:/+uAWj/nRIg=;GtprqLy8GiiRPtC3A4p5Yh0i8i2
+ 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
 
-Hi Enzo,
 
-kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+=E5=9C=A8 2025/10/3 20:23, Dan Carpenter =E5=86=99=E9=81=93:
+> On Fri, Oct 03, 2025 at 06:47:11PM +0930, Qu Wenruo wrote:
+>>> cc53bd2085c8fa David Sterba      2025-09-17  885  	if (unlikely(!smap.=
+dev->bdev ||
+>>> cc53bd2085c8fa David Sterba      2025-09-17  886  		     !test_bit(BTR=
+FS_DEV_STATE_WRITEABLE, &smap.dev->dev_state))) {
+>>> bacf60e5158629 Christoph Hellwig 2022-11-15  887  		ret =3D -EIO;
+>>> bacf60e5158629 Christoph Hellwig 2022-11-15  888  		goto out_counter_d=
+ec;
+>>> bacf60e5158629 Christoph Hellwig 2022-11-15  889  	}
+>>> bacf60e5158629 Christoph Hellwig 2022-11-15  890
+>>> 2d65a91734a195 Qu Wenruo         2025-10-01  891  	bio =3D bio_alloc(s=
+map.dev->bdev, nr_steps, REQ_OP_WRITE | REQ_SYNC, GFP_NOFS);
+>>> 2d65a91734a195 Qu Wenruo         2025-10-01  892  	/* Backed by fs_bio=
+_set, shouldn't fail. */
+>>> 2d65a91734a195 Qu Wenruo         2025-10-01  893  	ASSERT(bio);
+>>> 2d65a91734a195 Qu Wenruo         2025-10-01 @894  	bio->bi_iter.bi_sec=
+tor =3D smap.physical >> SECTOR_SHIFT;
+>>
+>> I have no idea how to make smatch happy.
+>=20
+> I would just delete the unnecessary NULL check,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Enzo-Matsumiya/smb-client-remove-cfids_invalidation_worker/20250929-213155
-base:   v6.17
-patch link:    https://lore.kernel.org/r/20250929132805.220558-14-ematsumiya%40suse.de
-patch subject: [PATCH 13/20] smb: client: actually use cached dirs on readdir
-config: i386-randconfig-141-20251003 (https://download.01.org/0day-ci/archive/20251003/202510032035.eEAqpgDl-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Sounds good, as all other fses are doing without a NULL check.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510032035.eEAqpgDl-lkp@intel.com/
+Thanks,
+Qu
 
-smatch warnings:
-fs/smb/client/readdir.c:1119 cifs_readdir() error: uninitialized symbol 'tcon'.
-
-vim +/tcon +1119 fs/smb/client/readdir.c
-
-be4ccdcc2575ae fs/cifs/readdir.c       Al Viro          2013-05-22  1041  int cifs_readdir(struct file *file, struct dir_context *ctx)
-^1da177e4c3f41 fs/cifs/readdir.c       Linus Torvalds   2005-04-16  1042  {
-^1da177e4c3f41 fs/cifs/readdir.c       Linus Torvalds   2005-04-16  1043  	int rc = 0;
-6d5786a34d98bf fs/cifs/readdir.c       Pavel Shilovsky  2012-06-20  1044  	unsigned int xid;
-6d5786a34d98bf fs/cifs/readdir.c       Pavel Shilovsky  2012-06-20  1045  	int i;
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1046  	struct tcon_link *tlink = NULL;
-92fc65a74a2be1 fs/cifs/readdir.c       Pavel Shilovsky  2012-09-18  1047  	struct cifs_tcon *tcon;
-ec217637e7f16d fs/smb/client/readdir.c Enzo Matsumiya   2025-09-29  1048  	struct cifsFileInfo *cifsFile = NULL;
-^1da177e4c3f41 fs/cifs/readdir.c       Linus Torvalds   2005-04-16  1049  	char *current_entry;
-^1da177e4c3f41 fs/cifs/readdir.c       Linus Torvalds   2005-04-16  1050  	int num_to_fill = 0;
-^1da177e4c3f41 fs/cifs/readdir.c       Linus Torvalds   2005-04-16  1051  	char *tmp_buf = NULL;
-^1da177e4c3f41 fs/cifs/readdir.c       Linus Torvalds   2005-04-16  1052  	char *end_of_smb;
-18295796a30cad fs/cifs/readdir.c       Jeff Layton      2009-04-30  1053  	unsigned int max_len;
-f6a9bc336b600e fs/cifs/readdir.c       Al Viro          2021-03-05  1054  	const char *full_path;
-f6a9bc336b600e fs/cifs/readdir.c       Al Viro          2021-03-05  1055  	void *page = alloc_dentry_path();
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1056  	struct cached_fid *cfid = NULL;
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1057  	struct cifs_sb_info *cifs_sb = CIFS_FILE_SB(file);
-^1da177e4c3f41 fs/cifs/readdir.c       Linus Torvalds   2005-04-16  1058  
-6d5786a34d98bf fs/cifs/readdir.c       Pavel Shilovsky  2012-06-20  1059  	xid = get_xid();
-^1da177e4c3f41 fs/cifs/readdir.c       Linus Torvalds   2005-04-16  1060  
-f6a9bc336b600e fs/cifs/readdir.c       Al Viro          2021-03-05  1061  	full_path = build_path_from_dentry(file_dentry(file), page);
-f6a9bc336b600e fs/cifs/readdir.c       Al Viro          2021-03-05  1062  	if (IS_ERR(full_path)) {
-f6a9bc336b600e fs/cifs/readdir.c       Al Viro          2021-03-05  1063  		rc = PTR_ERR(full_path);
-d1542cf6165e52 fs/cifs/readdir.c       Ronnie Sahlberg  2020-10-05  1064  		goto rddir2_exit;
-d1542cf6165e52 fs/cifs/readdir.c       Ronnie Sahlberg  2020-10-05  1065  	}
-d1542cf6165e52 fs/cifs/readdir.c       Ronnie Sahlberg  2020-10-05  1066  
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1067  	if (file->private_data == NULL) {
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1068  		tlink = cifs_sb_tlink(cifs_sb);
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1069  		if (IS_ERR(tlink))
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1070  			goto cache_not_found;
-
-tcon is not initialized yet.  private_data is NULL.
-
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1071  		tcon = tlink_tcon(tlink);
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1072  	} else {
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1073  		cifsFile = file->private_data;
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1074  		tcon = tlink_tcon(cifsFile->tlink);
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1075  	}
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1076  
-7d24f0ff5dad1f fs/smb/client/readdir.c Enzo Matsumiya   2025-09-29  1077  	rc = open_cached_dir(xid, tcon, full_path, cifs_sb, &cfid);
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1078  	cifs_put_tlink(tlink);
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1079  	if (rc)
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1080  		goto cache_not_found;
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1081  
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1082  	mutex_lock(&cfid->dirents.de_mutex);
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1083  	/*
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1084  	 * If this was reading from the start of the directory
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1085  	 * we need to initialize scanning and storing the
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1086  	 * directory content.
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1087  	 */
-72dd7961a4bb4f fs/smb/client/readdir.c Bharath SM       2025-06-11  1088  	if (ctx->pos == 0 && cfid->dirents.file == NULL) {
-72dd7961a4bb4f fs/smb/client/readdir.c Bharath SM       2025-06-11  1089  		cfid->dirents.file = file;
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1090  		cfid->dirents.pos = 2;
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1091  	}
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1092  	/*
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1093  	 * If we already have the entire directory cached then
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1094  	 * we can just serve the cache.
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1095  	 */
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1096  	if (cfid->dirents.is_valid) {
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1097  		if (!dir_emit_dots(file, ctx)) {
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1098  			mutex_unlock(&cfid->dirents.de_mutex);
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1099  			goto rddir2_exit;
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1100  		}
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1101  		emit_cached_dirents(&cfid->dirents, ctx);
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1102  		mutex_unlock(&cfid->dirents.de_mutex);
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1103  		goto rddir2_exit;
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1104  	}
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1105  	mutex_unlock(&cfid->dirents.de_mutex);
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1106  
-ec217637e7f16d fs/smb/client/readdir.c Enzo Matsumiya   2025-09-29  1107  	/* keep our cfid ref, but check if still valid after network calls */
-d87c48ce4d8951 fs/cifs/readdir.c       Ronnie Sahlberg  2022-05-10  1108  cache_not_found:
-6221ddd0f5e2dd fs/cifs/readdir.c       Suresh Jayaraman 2010-10-01  1109  	/*
-6221ddd0f5e2dd fs/cifs/readdir.c       Suresh Jayaraman 2010-10-01  1110  	 * Ensure FindFirst doesn't fail before doing filldir() for '.' and
-6221ddd0f5e2dd fs/cifs/readdir.c       Suresh Jayaraman 2010-10-01  1111  	 * '..'. Otherwise we won't be able to notify VFS in case of failure.
-6221ddd0f5e2dd fs/cifs/readdir.c       Suresh Jayaraman 2010-10-01  1112  	 */
-6221ddd0f5e2dd fs/cifs/readdir.c       Suresh Jayaraman 2010-10-01  1113  	if (file->private_data == NULL) {
-ec217637e7f16d fs/smb/client/readdir.c Enzo Matsumiya   2025-09-29  1114  		rc = initiate_cifs_search(xid, file, full_path, cfid);
-f96637be081141 fs/cifs/readdir.c       Joe Perches      2013-05-04  1115  		cifs_dbg(FYI, "initiate cifs search rc %d\n", rc);
-6221ddd0f5e2dd fs/cifs/readdir.c       Suresh Jayaraman 2010-10-01  1116  		if (rc)
-6221ddd0f5e2dd fs/cifs/readdir.c       Suresh Jayaraman 2010-10-01  1117  			goto rddir2_exit;
-ec217637e7f16d fs/smb/client/readdir.c Enzo Matsumiya   2025-09-29  1118  
-ec217637e7f16d fs/smb/client/readdir.c Enzo Matsumiya   2025-09-29 @1119  		if (tcon->status != TID_GOOD || (cfid && !cfid_is_valid(cfid))) {
-                                                                                            ^^^^^^^^^^^^
-Uninitialized?
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> but an equally valid
+> thing is to just ignore the warning.  In the kernel, all old warnings
+> are false positives.  I'm never aiming for being completely free from
+> static checker warnings because that means we have to be less ambitious
+> about what we check for.
+>=20
+> regards,
+> dan carpenter
+>=20
+>=20
 
