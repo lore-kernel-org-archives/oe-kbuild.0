@@ -1,146 +1,231 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF1A1C8630
-	for <oe-kbuild@lists.linux.dev>; Wed,  8 Oct 2025 22:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAD11A275
+	for <oe-kbuild@lists.linux.dev>; Thu,  9 Oct 2025 00:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759962753; cv=none; b=cdUVAoUa9AC2X6AUwlhlj3SWZ2Fxx716EuFsfRNkJwpuUFLSpKXUBW06TcQZfI3wX2e27kHDidB6DPLJTN//HXXzrqoGzHx0gEwbMyk/rhozvc1TFihDkbnQthD9qFIB8y9NocHUhzpP4OQJkG9GuD57aQ3lbcBB6TVAdepsTdc=
+	t=1759968468; cv=none; b=mW2XtVW+6u5oGRNlfWOvur9a4DNjm4oLjODiOqkbX7RH11kfOgN1WZMMcjBW2dy3juGYLOhwbs4Ngyw2xHLJT7riIH+AcFE76xcAztXXfTkoEojfxJASzVQO69w4eGlbax/mLOx8edsK0utkPW3XngUmNh6mwYxiMPuGtLv1wM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759962753; c=relaxed/simple;
-	bh=QLJvDD80Ts+jq/Te/fByXHFw2lX7qriJtxUTxcdfGYk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lNYWT9v957j7DvSkLlrVeZVHAY1+ws17y1dPafqUVGk56TGtscC8a751TIfeuu/lvqWlkweaqeOCX1ey076J8jAb37+6oJyK/b34uTGxQr8Ls0QmYaJ0+pbrYgBvl8eU/lcLpy7tbIKusIn05Czh81mIBk0jGqfkS9lvhckbxp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BCo1ahlk; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1759968468; c=relaxed/simple;
+	bh=0KO83wteDeyje5YBeTO4DJoMtJ61dF6pNbOf560Y+FM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rOhIU9H61I5uJZnOb0s0AK7GmfMmcqFfZzmox81fpELwonavsnzdx+mdQUhei8WQHpGOyAb3nOyZKd5y33OGJzBFgPbOlJm5M9uSq+XucoLG0eA1Knr8md11cllg4KnYbkgl0AFRrV6uN465fLaqw2DVZRz8EkE+gNlo00p0rXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WFCutjsP; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BCo1ahlk"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-71d6083cc69so3614057b3.2
-        for <oe-kbuild@lists.linux.dev>; Wed, 08 Oct 2025 15:32:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1759962750; x=1760567550; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oQg/oGPX3QlPO44vwiPmFn7QHJjEMDGpRp1ZFhGCDj0=;
-        b=BCo1ahlkmDFOAuh31L0qDjpjXuyhQKT6iUvvnC0KfmE3i7Jsm8WxxOCNSaA/kE++3l
-         m2ByAGGSxJlK0VueC8iqFTSuyGTj53cpzSQg0TNU8dEms1qLJJDEVEZFysn0puKrXwAi
-         AMOZci35qy0Ywl1oC5y//mdzn9cBcANqWf+n0PnupVW6iuf4jgDhnaCmNqo/6jNYoozb
-         YGdcZ6l8JjtSxBhJrAKDZslTqdXKanUWh30md9O1+I69CGzpFp3AGsoIGCdz8xSc0DJ6
-         fqCzOnbopZ4nVTyokwHp7imb+Q8Z8baTZpBZW3WaacSj+PR2wSYGUUJ433eTgsT79sxa
-         i2Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759962750; x=1760567550;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oQg/oGPX3QlPO44vwiPmFn7QHJjEMDGpRp1ZFhGCDj0=;
-        b=cgzUyrf5ldBdhDsG8cRfdfGqH1I8ZCXHmgycSIG2vMv8IIVkjlexZ2AT9Rm704lYeo
-         6E3+not0850oktQPahzPdbblpzmv7bwVVM59E1/BrAWCBWalboc265pr2pcAbX1PkzZ7
-         NBSbDHRTPz1FeRPsgDO29/Q03pTDa0hKZqCn11CZncPuD/7ebK9azCASjsYS8G6Mbvuq
-         QjIuOkT4UvzKUQnEtqhz6BdMqa9NC0T63WEA7APjuWApi6cokkBN5E7z3vlGYVR+x4zf
-         Q1WfSzCtULJ7XYcZdgEEhcwEVGvXBELkGykfHohi3Tw6Q5JFDPDr7UgkuL3xlqNBmNvv
-         ZrdA==
-X-Gm-Message-State: AOJu0YxKArs1aJNpfPT2/wE0ky7hYoihGNlORBmOG4TQv5+9nRNjAI0F
-	txpNvf8OzeFn3UrgphhHAB0u79mlpcnFkNpGcL7qGTkgc6eHE8U3B3jLxTsqq0jyh54ozKiYJp6
-	HhfeN27xzgvPxLWa03ZNMNKzUwaD/Qwg+FPxNZoK/
-X-Gm-Gg: ASbGncv7xmo/ggcjv2NXnO1kf274Eo8qmtcozahumXdYPDPrvBRk9RWXk/7z37DhpUl
-	Ie9soC1S4RgPaqV63pJvIu1yo/JoOOww5IJOTKGkg/pqjZnSn3LmhGq5B9X7xyeBU2hdJwbce8P
-	fNEYyxmHCsMamBZv3AzC6T7W+oUCQnj20DhPX29FGU9Zb6AxAi7+qRbQgqyG4KLc5OtCjbjv25y
-	t/4wJ8sigbvm00+Z6CyKIhldVDaeOdGy19057/s6kDRHfSmfJT5UNElXBoIriqkaEvqfEwHsfo+
-	DmY=
-X-Google-Smtp-Source: AGHT+IHIwhJ1jTa6pSoNA6/xh10XCnJ12TGkOcCTYPDGo29d1Uylhw3j/X7DZaX30WkFO3YvYercS8T1QZ1hYdEvctA=
-X-Received: by 2002:a05:690e:1551:20b0:635:4ecf:bdcc with SMTP id
- 956f58d0204a3-63ccb964b4bmr4231044d50.46.1759962749615; Wed, 08 Oct 2025
- 15:32:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WFCutjsP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759968467; x=1791504467;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0KO83wteDeyje5YBeTO4DJoMtJ61dF6pNbOf560Y+FM=;
+  b=WFCutjsPnqmPSf9u221KFUamp6BY6DcLrqSOFw7C00fUH9D0+ayZazRC
+   PBWOiSMMLZO1Bxi5t3n5rzUhOHeFqFq5ZFzesPVwk/W0wuk8sXReqN/YN
+   WZmqtYnzWg5mO3/F/AwK3b/HpaylgKjIAAi6vKfPoHpkT89Y1Ybewf3qW
+   tzgwCJGslECjhA5HmjIPXFG/RWyD7sM3nbeIzc5/1Lo29bDrqWuhlUdcs
+   W8zH06iptJ/AV/UlDU1GThjYgTsSAr/wSv09RSGol7NSkv0uqHI1oYUiu
+   DwogFemAVM/RBjxkguQKAyNO8Yu4b3HYTKY9MB9hP6dKIL7Ox+VRYf15o
+   w==;
+X-CSE-ConnectionGUID: yBhTlmdKRzOwxkpoB/KJkg==
+X-CSE-MsgGUID: wQ9rx8JeSimkBLT39T25Kg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11576"; a="62058245"
+X-IronPort-AV: E=Sophos;i="6.19,214,1754982000"; 
+   d="scan'208";a="62058245"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2025 17:07:46 -0700
+X-CSE-ConnectionGUID: eM6QzxA2RYScN5kvi+wU0Q==
+X-CSE-MsgGUID: 3m0FXCauQEyTpg3Ddvw14g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,214,1754982000"; 
+   d="scan'208";a="180388627"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by orviesa007.jf.intel.com with ESMTP; 08 Oct 2025 17:07:45 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1v6eC6-0000000086b-1HyD;
+	Thu, 09 Oct 2025 00:07:42 +0000
+Date: Thu, 9 Oct 2025 02:06:51 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [usb:usb-testing 21/23]
+ arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb:
+ usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one
+ must be fixed:
+Message-ID: <202510090234.j9Xz0E6h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250930172850.598938-1-jthoughton@google.com> <202510041919.LaZWBcDN-lkp@intel.com>
-In-Reply-To: <202510041919.LaZWBcDN-lkp@intel.com>
-From: James Houghton <jthoughton@google.com>
-Date: Wed, 8 Oct 2025 15:31:53 -0700
-X-Gm-Features: AS18NWACWefjyXnJ3mzO_5c1LrSHUfnzIGfip6tiGf7K_b7r41zRxk-Vv_BIoCI
-Message-ID: <CADrL8HXOPOhWXa9o36m5wh-YJyVoMOXyj4R0_7EdUQ6nhJ-avQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] KVM: For manual-protect GET_DIRTY_LOG, do not hold
- slots lock
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Oct 6, 2025 at 12:33=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> Hi James,
->
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/James-Houghton/KVM=
--selftests-Add-parallel-KVM_GET_DIRTY_LOG-to-dirty_log_perf_test/20251001-0=
-13306
-> base:   a6ad54137af92535cfe32e19e5f3bc1bb7dbd383
-> patch link:    https://lore.kernel.org/r/20250930172850.598938-1-jthought=
-on%40google.com
-> patch subject: [PATCH 1/2] KVM: For manual-protect GET_DIRTY_LOG, do not =
-hold slots lock
-> config: x86_64-randconfig-161-20251004 (https://download.01.org/0day-ci/a=
-rchive/20251004/202510041919.LaZWBcDN-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202510041919.LaZWBcDN-lkp@intel.com/
->
-> New smatch warnings:
-> arch/x86/kvm/../../../virt/kvm/kvm_main.c:2290 kvm_get_dirty_log_protect(=
-) error: uninitialized symbol 'flush'.
->
-> vim +/flush +2290 arch/x86/kvm/../../../virt/kvm/kvm_main.c
->
-> ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  22=
-55     n =3D kvm_dirty_bitmap_bytes(memslot);
-> 82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  22=
-56     if (!protect) {
-> 2a31b9db153530d virt/kvm/kvm_main.c    Paolo Bonzini       2018-10-23  22=
-57             /*
-> 82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  22=
-58              * Unlike kvm_get_dirty_log, we never flush, because no flus=
-h is
-> 82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  22=
-59              * needed until KVM_CLEAR_DIRTY_LOG.  There is some code
-> 82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  22=
-60              * duplication between this function and kvm_get_dirty_log, =
-but
-> 82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  22=
-61              * hopefully all architecture transition to
-> 82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  22=
-62              * kvm_get_dirty_log_protect and kvm_get_dirty_log can be
-> 82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  22=
-63              * eliminated.
-> 2a31b9db153530d virt/kvm/kvm_main.c    Paolo Bonzini       2018-10-23  22=
-64              */
-> 2a31b9db153530d virt/kvm/kvm_main.c    Paolo Bonzini       2018-10-23  22=
-65             dirty_bitmap_buffer =3D dirty_bitmap;
-> 2a31b9db153530d virt/kvm/kvm_main.c    Paolo Bonzini       2018-10-23  22=
-66     } else {
-> 82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  22=
-67             bool flush;
->
-> flush needs to be initialized to false.
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-I'll fix this and the other bug about not documenting the new
-parameter, my mistake. :(
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-usb@vger.kernel.org
+TO: Frank Li <Frank.Li@nxp.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: "Rob Herring (Arm)" <robh@kernel.org>
 
-I think in a v2 I'll also merge kvm_get_dirty_log() into
-kvm_get_dirty_log_protect(); might as well.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+head:   a2f12b1cbec103a836e3ddfde57084661591e4f3
+commit: 247b0d6f62ea306ba9f6f39055253fe3893be729 [21/23] dt-bindings: usb: add missed compatible string for arm64 layerscape
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: arm64-randconfig-2051-20251008 (https://download.01.org/0day-ci/archive/20251009/202510090234.j9Xz0E6h-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project c410e88f0f8c0654d7744d6d029009f9cb736143)
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251009/202510090234.j9Xz0E6h-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202510090234.j9Xz0E6h-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: usb@3100000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb: usb@3110000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+--
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: usb@3100000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28.dtb: usb@3110000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+--
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: usb@3100000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var1.dtb: usb@3110000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+--
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: usb@3100000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var2.dtb: usb@3110000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+--
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: usb@3100000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3.dtb: usb@3110000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+--
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: usb@3100000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: usb@3110000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+--
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: usb@3100000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var4.dtb: usb@3110000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+--
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: usb@3100000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: usb@3110000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+--
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+>> arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: usb@3100000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
+   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
+   	'fsl,ls1028a-dwc3' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: usb@3110000 (fsl,ls1028a-dwc3): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml#
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
