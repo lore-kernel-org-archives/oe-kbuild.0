@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333253F9FB
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Oct 2025 02:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F5323D7E8
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Oct 2025 03:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760062538; cv=none; b=noma10EiUMHYnS5GsnYSGNT3tar2JvK5BH++vPOZJHqYfy9bAqqI7U0eSDp8GPAnMy+h9N+2D6LXbAGkE06vXhQ7wBzMtI5D+s/xfV4Jddub9vHot1NmwsMY/q1Wzwmr3auB8rjeTzcyTaoL9cnUeSOT7VbG09novJwCrr/3rec=
+	t=1760065851; cv=none; b=UYSt4Tw2Be+W5QEQE/YLVRXi6aVZxCUrW5MFid35AjJ3w0Kr7h3j2M4v7C8Z9lu6vqnNCHH8Wvtq+AIeTyulolAOKndRhPlYWtLVWD+ntSb4s3sqSeEa/zsm0kSTwoxG/ISRh6IpNzkjAoCgTXMRZw2elVdcP2TzuH3XNdZRZl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760062538; c=relaxed/simple;
-	bh=ugO2S+xTMApQ2g7F4IQdFsAtDxYfX5UwlQC8OaGtTzY=;
+	s=arc-20240116; t=1760065851; c=relaxed/simple;
+	bh=aa0MirRIp5fJVqdE3fZmqFODnvMqytfWEmlTYgG3GUA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NKMklKBcZ0+avw6NyCqe2MNE2K9Jo4gY8Zm1Zb3VrVL60YQUQ31ARSYX/f/AVtifxzQw1QII58dGtf8FhKHCJ2yi+4WD4sOjFAL+Y39rlkOhxw3s72Ni+vMZN+yO6W9njvUTHiJ9w7oSySRFbxav2mzLqx4U9iFyB+7rUIlO+MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jj95o3/x; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=kDOTgLGMi99j/1tgamHW9HN3z1Zd2JPtHPawVYc39ZbSEZfc7JMLZOemRhGtxpTPVTdRF22n7Qd5l/CVIOfjUwIr1+BEx4XesM2zSYzmMEqnEtm1HACiK5OPat4LZtm3PStTQWD5qUTMgzVSv+NA3Awq+/ESAXoMGUcQ+pj7jbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NvFUIkYV; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jj95o3/x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NvFUIkYV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760062536; x=1791598536;
+  t=1760065849; x=1791601849;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ugO2S+xTMApQ2g7F4IQdFsAtDxYfX5UwlQC8OaGtTzY=;
-  b=jj95o3/xQwFbNRMAlRJocHO2617CT+L4fn0XoQTKQdhxOv+6wHAqVrws
-   VdlLSxRMxLygmnBSl/U/cBJlyD/2sfya7wmnWLPahBhjZ8uaCddIzP2JG
-   i3f2BkFGDFReBROw6ASC91hSes8u8w/3hiaRFRxBDW586E6C6ScuK43bE
-   EIQzJdZ3UyvRh1wveiVPBhyB+HGD840vx7jF8f/s94YNnpn11qIL5rA01
-   T1TyzvxWlhPo41SYpo6qDH5AV8TGXj0YkeN33IOn7FoCJ8TXZY1ZXEWP1
-   Vz7boi/h0Q+6q8gD2OqJK1FGUJGlrg7q3YD6QdjVn2MIxRWR/LW9Dw4Yr
-   g==;
-X-CSE-ConnectionGUID: 0M7PhSWKTka6d34yFzWd2Q==
-X-CSE-MsgGUID: jIir4nGGTJ+TKmy7wQ87kQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="61490141"
-X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="61490141"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 19:15:35 -0700
-X-CSE-ConnectionGUID: vE26CxG4QpCtZK7dSnaGhQ==
-X-CSE-MsgGUID: vzjBwLG7Qh2Fi7FgQx2ZHQ==
+  bh=aa0MirRIp5fJVqdE3fZmqFODnvMqytfWEmlTYgG3GUA=;
+  b=NvFUIkYV7Vk6lRKp08ftjJNxDEPpxTeTo5XmhXi8zNE8g1P/D3R0mvb4
+   n3kiPqYMXbeG/ZjAlv84mvtwEX5tgHypoLvA55Bsc8piNrszZoJ7FvUMD
+   5niEfA8yScYwcRjifIpuocQuJJ5G2WDwjrZPA0ffQ/r+hy0X4Ld0ea02U
+   r5iWTLnxsl9P+Ef8Ki+W9Y3+nvaIL6vkwNmIPqetMbIBDomwMP+uezknQ
+   l3axxp082okIuD43s+j9gyqJCp1046OX5YV/5rE/3CRCcRSIY+YVAu0cC
+   HB2eJexSNF+JmhrPBoG7VIJJXy7kEsJHc1W9qwDbdgSSrIGSURUFgQeCl
+   A==;
+X-CSE-ConnectionGUID: IYkF1BslTCO8pNxQGb1ijw==
+X-CSE-MsgGUID: kYMrTrpSRG+cYWa5icZT9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="73719482"
+X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
+   d="scan'208";a="73719482"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 20:10:48 -0700
+X-CSE-ConnectionGUID: TIxuZrabQRS4BH4Wd/y6fQ==
+X-CSE-MsgGUID: 3jgGWuErRNa7bCeXgi86+A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="179971242"
+X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
+   d="scan'208";a="185248826"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 09 Oct 2025 19:15:34 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 09 Oct 2025 20:10:47 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v72fL-0001t8-1t;
-	Fri, 10 Oct 2025 02:15:31 +0000
-Date: Fri, 10 Oct 2025 10:15:10 +0800
+	id 1v73Wm-00020R-2Y;
+	Fri, 10 Oct 2025 03:10:44 +0000
+Date: Fri, 10 Oct 2025 11:10:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 13427/13588]
- kernel/liveupdate/kexec_handover.c:978 kho_preserve_vmalloc() warn: missing
- error code 'err'
-Message-ID: <202510100941.GZGMq64U-lkp@intel.com>
+Subject: [hch-xfs:xfs-quota-cleanups 17/20] fs/xfs/xfs_qm.c:1417
+ xfs_qm_flush_one() error: uninitialized symbol 'error'.
+Message-ID: <202510101037.qokgCfX1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,104 +64,86 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Pasha Tatashin <pasha.tatashin@soleen.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Jason Gunthorpe <jgg@nvidia.com>
+TO: Christoph Hellwig <hch@lst.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0b2f041c47acb45db82b4e847af6e17eb66cd32d
-commit: f13bb574707674d1113a40e0b6dc4d9a143d2ec1 [13427/13588] liveupdate: kho: move to kernel/liveupdate
-:::::: branch date: 14 hours ago
-:::::: commit date: 20 hours ago
-config: x86_64-randconfig-161-20251010 (https://download.01.org/0day-ci/archive/20251010/202510100941.GZGMq64U-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   git://git.infradead.org/users/hch/xfs xfs-quota-cleanups
+head:   7bc9beb7cf78de1e9425c5bcc3e943744fa6b89a
+commit: c894f1aafc49e6d9af7695c0b7ceaa90af8f49d2 [17/20] xfs: open code xfs_qm_dquot_walk
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: powerpc-randconfig-r073-20251010 (https://download.01.org/0day-ci/archive/20251010/202510101037.qokgCfX1-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510100941.GZGMq64U-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510101037.qokgCfX1-lkp@intel.com/
 
 smatch warnings:
-kernel/liveupdate/kexec_handover.c:978 kho_preserve_vmalloc() warn: missing error code 'err'
-kernel/liveupdate/kexec_handover.c:1335 kho_release_scratch() warn: iterator 'i' not incremented
+fs/xfs/xfs_qm.c:1417 xfs_qm_flush_one() error: uninitialized symbol 'error'.
 
-vim +/err +978 kernel/liveupdate/kexec_handover.c
+vim +/error +1417 fs/xfs/xfs_qm.c
 
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  928) 
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  929) /**
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  930)  * kho_preserve_vmalloc - preserve memory allocated with vmalloc() across kexec
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  931)  * @ptr: pointer to the area in vmalloc address space
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  932)  * @preservation: placeholder for preservation metadata
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  933)  *
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  934)  * Instructs KHO to preserve the area in vmalloc address space at @ptr. The
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  935)  * physical pages mapped at @ptr will be preserved and on successful return
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  936)  * @preservation will hold the physical address of a structure that describes
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  937)  * the preservation.
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  938)  *
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  939)  * NOTE: The memory allocated with vmalloc_node() variants cannot be reliably
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  940)  * restored on the same node
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  941)  *
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  942)  * Return: 0 on success, error code on failure
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  943)  */
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  944) int kho_preserve_vmalloc(void *ptr, struct kho_vmalloc *preservation)
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  945) {
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  946) 	struct kho_vmalloc_chunk *chunk;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  947) 	struct vm_struct *vm = find_vm_area(ptr);
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  948) 	unsigned int order, flags, nr_contig_pages;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  949) 	unsigned int idx = 0;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  950) 	int err;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  951) 
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  952) 	if (!vm)
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  953) 		return -EINVAL;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  954) 
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  955) 	if (vm->flags & ~KHO_VMALLOC_SUPPORTED_FLAGS)
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  956) 		return -EOPNOTSUPP;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  957) 
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  958) 	flags = vmalloc_flags_to_kho(vm->flags);
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  959) 	order = get_vm_area_page_order(vm);
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  960) 
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  961) 	chunk = new_vmalloc_chunk(NULL);
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  962) 	if (!chunk)
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  963) 		return -ENOMEM;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  964) 	KHOSER_STORE_PTR(preservation->first, chunk);
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  965) 
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  966) 	nr_contig_pages = (1 << order);
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  967) 	for (int i = 0; i < vm->nr_pages; i += nr_contig_pages) {
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  968) 		phys_addr_t phys = page_to_phys(vm->pages[i]);
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  969) 
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  970) 		err = kho_preserve_pages(vm->pages[i], nr_contig_pages);
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  971) 		if (err)
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  972) 			goto err_free;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  973) 
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  974) 		chunk->phys[idx++] = phys;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  975) 		if (idx == ARRAY_SIZE(chunk->phys)) {
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  976) 			chunk = new_vmalloc_chunk(chunk);
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  977) 			if (!chunk)
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21 @978) 				goto err_free;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  979) 			idx = 0;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  980) 		}
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  981) 	}
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  982) 
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  983) 	preservation->total_pages = vm->nr_pages;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  984) 	preservation->flags = flags;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  985) 	preservation->order = order;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  986) 
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  987) 	return 0;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  988) 
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  989) err_free:
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  990) 	kho_vmalloc_free_chunks(preservation);
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  991) 	return err;
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  992) }
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  993) EXPORT_SYMBOL_GPL(kho_preserve_vmalloc);
-a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  994) 
+^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1367  
+b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1368  STATIC int
+b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1369  xfs_qm_flush_one(
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1370  	struct xfs_mount	*mp,
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1371  	xfs_dqtype_t		type,
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1372  	unsigned long		*idx,
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1373  	struct list_head	*buffer_list)
+b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1374  {
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1375  	struct xfs_quotainfo	*qi = mp->m_quotainfo;
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1376  	struct radix_tree_root	*tree = xfs_dquot_tree(qi, type);
+fe7257fd4b8ae9 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-04-23  1377  	struct xfs_buf		*bp = NULL;
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1378  	struct xfs_dquot	*dqp;
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1379  	int			error;
+b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1380  
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1381  	mutex_lock(&qi->qi_tree_lock);
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1382  	if (!radix_tree_gang_lookup(tree, (void **)&dqp, *idx, 1)) {
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1383  		mutex_unlock(&qi->qi_tree_lock);
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1384  		*idx = 0;
+662f80f12918cb fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1385  		return 0;
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1386  	}
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1387  
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1388  	*idx = dqp->q_id + 1;
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1389  	if (!lockref_get_not_dead(&dqp->q_lockref)) {
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1390  		mutex_unlock(&qi->qi_tree_lock);
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1391  		return -EAGAIN;
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1392  	}
+c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1393  	mutex_unlock(&qi->qi_tree_lock);
+662f80f12918cb fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1394  
+9053ad45ff46f1 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-18  1395  	mutex_lock(&dqp->q_qlock);
+b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1396  	if (!XFS_DQ_IS_DIRTY(dqp))
+b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1397  		goto out_unlock;
+b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1398  
+d62016b1a2df24 fs/xfs/xfs_qm.c       Dave Chinner      2025-06-26  1399  	xfs_qm_dqunpin_wait(dqp);
+d62016b1a2df24 fs/xfs/xfs_qm.c       Dave Chinner      2025-06-26  1400  	xfs_dqflock(dqp);
+7912e7fef2aebe fs/xfs/xfs_qm.c       Brian Foster      2017-06-14  1401  
+ca378189fdfa89 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1402  	error = xfs_dquot_use_attached_buf(dqp, &bp);
+fe7257fd4b8ae9 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-04-23  1403  	if (error)
+fe7257fd4b8ae9 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-04-23  1404  		goto out_unlock;
+ca378189fdfa89 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1405  	if (!bp) {
+ca378189fdfa89 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1406  		error = -EFSCORRUPTED;
+ca378189fdfa89 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1407  		goto out_unlock;
+ca378189fdfa89 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1408  	}
+b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1409  
+a40fe30868ba43 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1410  	error = xfs_qm_dqflush(dqp, bp);
+a40fe30868ba43 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1411  	if (!error)
+43ff2122e6492b fs/xfs/xfs_qm.c       Christoph Hellwig 2012-04-23  1412  		xfs_buf_delwri_queue(bp, buffer_list);
+fe7257fd4b8ae9 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-04-23  1413  	xfs_buf_relse(bp);
+b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1414  out_unlock:
+df288224396047 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1415  	mutex_unlock(&dqp->q_qlock);
+df288224396047 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1416  	xfs_qm_dqrele(dqp);
+b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14 @1417  	return error;
+b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1418  }
+b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1419  
 
-:::::: The code at line 978 was first introduced by commit
-:::::: a667300bd53f272a3055238bcefe108f88836270 kho: add support for preserving vmalloc allocations
+:::::: The code at line 1417 was first introduced by commit
+:::::: b84a3a96751f93071c1863f2962273973c8b8f5e xfs: remove the per-filesystem list of dquots
 
-:::::: TO: Mike Rapoport (Microsoft) <rppt@kernel.org>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Ben Myers <bpm@sgi.com>
 
 -- 
 0-DAY CI Kernel Test Service
