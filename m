@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543F225784B
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Oct 2025 19:13:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F2A1DDC33
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Oct 2025 20:36:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760123610; cv=none; b=FdVRe5nTJWK2I0qBl0pxQQfVIudNiCm2zVFjibHP8irA0Tw4qfnRlhUQPAA4mcMct5XKn+sCCt6y2ETXb0In060pDXxhB+dcomxjBsFArfeKV0Z4mr/0TxMnI3AmdMWPBbwO7QTGgZLB8s5IjLJHe26Dm8GI3JRYILyRLYY6hxQ=
+	t=1760128586; cv=none; b=alXzJ8Zwjg8kUlx8rHXhErdUOTGKvwIAGzpSi7T5WG4JUkDHkw9bN5Dlc5e7DNH1v2u2t28hu2ozkan+dfNf9vMgTOCgIOLMEN0e+y6gO3Hk0YHeWOhpCWmU8OQtUtIzh723JUKSaQ7scZ4RDvOouWszrSQIdy5VU986dMI/bgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760123610; c=relaxed/simple;
-	bh=sSw0FxIFnljXZW/qOiRziEjYR/0R8WUJSSpcFB1baXQ=;
+	s=arc-20240116; t=1760128586; c=relaxed/simple;
+	bh=xOYr6XbOy5/fqjda5llZLWygfCAocaNumD8i+MHYFrY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N+92PEHjVGY+qBbbBmxHX0Od6M+jNPJkM8x9Z2CfjjrssmD4gpA8Qlg6NRPQsW2KmZLkOg/WEORYcvVxEKhiUvHtTNZgZactcOq45rRO18s0PdSg7T4vs+3nIMb846vtx4FiBmRe5QOURMY7Nn4wxpSyyECMQzjmlXa8XTxe1Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fn0C7tFk; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=InUpCStV6pZBdjw0nysUb5DjuyxxCIJ6pNL1CGLrOoIGpwLS3CwoqvGs81FroumEJIYzC0dVthoXuJP2lpB6kTXs9CdSONig5JPV+XBQd3DwIb6wsAE9DTLk9wmRLvxkbpP38U+LkQK5NCuL+bUR3B4vSKyfoZyKwzf3vPEC6ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EX7vK2ba; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fn0C7tFk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EX7vK2ba"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760123598; x=1791659598;
+  t=1760128584; x=1791664584;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sSw0FxIFnljXZW/qOiRziEjYR/0R8WUJSSpcFB1baXQ=;
-  b=Fn0C7tFkw+/0F+wJWzwLOrFANiauwHqQyCWTyPfuTwusQ6y8iOGNKHBD
-   2pJx8xISmbg94Zj9wJX8TigpbcoGMxtEcRbajcyASrOGDtwbTN7Dr4cjP
-   m9y9Q2dhP1crGjVUB5s6qhIt7A79otCN9TxmkYlVoU8o6oCrZjwkf0L0C
-   NP3wWsB2nPopSQ6flI74pCiLi19QUjdMS8SwGBXp06gkx7l0+PviEfaBO
-   sXNm4uz5GeLNvsckmc3O5a5/4oDojUYchL58lM+J/DSwU4EjN34mQfUee
-   VgIGxUQi7i5bK8j/i7QiWyp85QbT6oVFftvOmLIOny2Wu0nIOD/aUFP3V
-   g==;
-X-CSE-ConnectionGUID: oZkVRtctQgCc1wJSDBJyOQ==
-X-CSE-MsgGUID: iHuTTWSjSZicLHo6FOIYig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="64969617"
-X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
-   d="scan'208";a="64969617"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 12:13:16 -0700
-X-CSE-ConnectionGUID: v3v9m1giTc+v2PpvrWIxDg==
-X-CSE-MsgGUID: udv6mJUtREeFLyge0KCViw==
+  bh=xOYr6XbOy5/fqjda5llZLWygfCAocaNumD8i+MHYFrY=;
+  b=EX7vK2baJBPDqFZK9roDShdVjCTthOMhOVrIQUZ0YLjLgYQWcdx40Wc5
+   3kR0WJIsZz1Mcprt0TOY2AYSLhpuCP0h7FNj4iwmbF8FxLFl6OFPYm6F5
+   q9+/OFckvTqtjWqCzltnbGjusukliPRtnFKNlck19SjfmG/T1GdWBcIRJ
+   J+l2qtaIS0HxZ3ZjrnlHGdl9sXCFwpBlM97r5TM01/cQdQXiI+Vctbm+2
+   G31x0Ysifnssolp6YN2b9Uxs9xYGmWyXCjq9Kcm+bXSBC8TLlLehB1wM4
+   +Ovnj+BuSdqt3BcKtOS+fOJu9bq8I7/h9XXYdrArdrD30M1QvKwO8GhIX
+   w==;
+X-CSE-ConnectionGUID: xxRUbXtvS6+BWD2fm4CTxA==
+X-CSE-MsgGUID: sX8JzXZ6TtmmhydbxqKP0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="64974834"
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="64974834"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 13:36:23 -0700
+X-CSE-ConnectionGUID: mOCY6eFuT5mxCPq9WKO2hA==
+X-CSE-MsgGUID: /R1kXU7iRiSLBZMDLNxG6Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
-   d="scan'208";a="180874682"
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="181012760"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Oct 2025 12:13:15 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 10 Oct 2025 13:36:22 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7IYB-00035D-38;
-	Fri, 10 Oct 2025 19:13:11 +0000
-Date: Sat, 11 Oct 2025 03:12:51 +0800
+	id 1v7Jqe-00039R-0R;
+	Fri, 10 Oct 2025 20:36:20 +0000
+Date: Sat, 11 Oct 2025 04:35:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [jgunthorpe:iommu_pt_all 35/59]
- drivers/iommu/generic_pt/fmt/../iommu_pt.h:180
- pt_iommu_armv8_16k_iova_to_phys() warn: sizeof(NUMBER)?
-Message-ID: <202510110342.mAYl5LYP-lkp@intel.com>
+Subject: [jgunthorpe:iommu_pt_all 36/59]
+ drivers/iommu/generic_pt/fmt/../iommu_pt.h:180 pt_iommu_dart_iova_to_phys()
+ warn: sizeof(NUMBER)?
+Message-ID: <202510110416.KW9IRs17-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,37 +69,23 @@ TO: Jason Gunthorpe <jgg@nvidia.com>
 
 tree:   https://github.com/jgunthorpe/linux iommu_pt_all
 head:   9c69ad5f7c8c4c920b421601258f0c8b120dd80c
-commit: b70015e0ecb2d0008893b77428d18e564182dd98 [35/59] iommupt: Add the 64 bit ARMv8 page table format
+commit: e422bd0e764d653ae378c39f3918735e7168a87f [36/59] iommupt: Add the DART v1/v2 page table format
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20251010 (https://download.01.org/0day-ci/archive/20251011/202510110342.mAYl5LYP-lkp@intel.com/config)
+config: x86_64-randconfig-161-20251010 (https://download.01.org/0day-ci/archive/20251011/202510110416.KW9IRs17-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510110342.mAYl5LYP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510110416.KW9IRs17-lkp@intel.com/
 
 New smatch warnings:
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:180 pt_iommu_armv8_16k_iova_to_phys() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:322 armv8_16k_set_dirty() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:180 pt_iommu_armv8_4k_iova_to_phys() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:322 armv8_4k_set_dirty() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:180 pt_iommu_armv8_64k_iova_to_phys() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:322 armv8_64k_set_dirty() warn: sizeof(NUMBER)?
+drivers/iommu/generic_pt/fmt/../iommu_pt.h:180 pt_iommu_dart_iova_to_phys() warn: sizeof(NUMBER)?
+drivers/iommu/generic_pt/fmt/../iommu_pt.h:322 dart_set_dirty() warn: sizeof(NUMBER)?
 
 Old smatch warnings:
-drivers/iommu/generic_pt/fmt/../pt_defs.h:208 pt_feature() warn: bitwise AND condition is false here
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:753 increase_top() error: uninitialized symbol 'table_mem'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:753 increase_top() error: uninitialized symbol 'new_level'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:702 increase_top() warn: missing unwind goto?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1114 pt_init_common() warn: bitwise AND condition is false here
-drivers/iommu/generic_pt/fmt/../pt_defs.h:208 pt_feature() warn: bitwise AND condition is false here
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:753 increase_top() error: uninitialized symbol 'table_mem'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:753 increase_top() error: uninitialized symbol 'new_level'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:702 increase_top() warn: missing unwind goto?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1114 pt_init_common() warn: bitwise AND condition is false here
 drivers/iommu/generic_pt/fmt/../pt_defs.h:208 pt_feature() warn: bitwise AND condition is false here
 drivers/iommu/generic_pt/fmt/../iommu_pt.h:753 increase_top() error: uninitialized symbol 'table_mem'.
 drivers/iommu/generic_pt/fmt/../iommu_pt.h:753 increase_top() error: uninitialized symbol 'new_level'.
