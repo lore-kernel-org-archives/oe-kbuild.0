@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220F4288AD
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Oct 2025 01:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333253F9FB
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Oct 2025 02:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760061335; cv=none; b=Wm67PjmNIspL0qkOxMrAdcpfDP7pujv+hCDOHvuNiri2HgS7uKkleCthx8Xr83IeiYhQk2pFp/fECrIPXOYUbDR6xfJ0GR/HqMfvkrDXq8tshOCZn34Ghsp6gfdmx8yWtWviMrCO+//oAjHXsn0MHcuAV6HiFH2IA1zqd5eoABY=
+	t=1760062538; cv=none; b=noma10EiUMHYnS5GsnYSGNT3tar2JvK5BH++vPOZJHqYfy9bAqqI7U0eSDp8GPAnMy+h9N+2D6LXbAGkE06vXhQ7wBzMtI5D+s/xfV4Jddub9vHot1NmwsMY/q1Wzwmr3auB8rjeTzcyTaoL9cnUeSOT7VbG09novJwCrr/3rec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760061335; c=relaxed/simple;
-	bh=zWfoSg7/cbHt7rwTgkKnVodBnNOZBmADLYyNYJw4FYk=;
+	s=arc-20240116; t=1760062538; c=relaxed/simple;
+	bh=ugO2S+xTMApQ2g7F4IQdFsAtDxYfX5UwlQC8OaGtTzY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fxguh8losph5DnFtj4D+SwvXiORZs9p3e+h3mPLWYHe9r79WIKu8oyMe+JFzLfhDStqu1TyMh5v9+QQidOyQywpbMkUgQ+8/l8fMbBg3m00Ikpf+Ht5sK768f9N8uBc6El5jbMsLUofW5id/HKHCHR8Izf4f2JzM1brFdcsQoOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QhPd9wRg; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=NKMklKBcZ0+avw6NyCqe2MNE2K9Jo4gY8Zm1Zb3VrVL60YQUQ31ARSYX/f/AVtifxzQw1QII58dGtf8FhKHCJ2yi+4WD4sOjFAL+Y39rlkOhxw3s72Ni+vMZN+yO6W9njvUTHiJ9w7oSySRFbxav2mzLqx4U9iFyB+7rUIlO+MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jj95o3/x; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QhPd9wRg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jj95o3/x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760061333; x=1791597333;
+  t=1760062536; x=1791598536;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zWfoSg7/cbHt7rwTgkKnVodBnNOZBmADLYyNYJw4FYk=;
-  b=QhPd9wRgGEkbqLRhb/HrSdMWeSC6rUtsgw2BzUZyd8CfYfyeMGqrsQmq
-   HLfaov9vXk3QPxhtMkRWQbSSUH4NxqS//30QpqcKWHoocZhTijY+K+Q3s
-   Kgncec6SnRSLdfYaGeVS3oQprwxC2koS7JDWkmZlIPR7b2SOf3IsDYZJW
-   i2cxFksfVcDk4oXr/SooMHec3/yNmCbwFML2IAB6qJWfhp6B59Lm2D946
-   0DI3gNUMF9zddJg41+ZZqB+3CYV0PKZtGtkPC48Sb3bjwd5bbCa8Ju73L
-   CrztBR1ffplEAGzHah2tbqT1SNZKjv73gfs/2VJoE2WyLlcz5wYGAa+zb
-   Q==;
-X-CSE-ConnectionGUID: rKrWt+hGSaWq1y6/vNCDyA==
-X-CSE-MsgGUID: dbRhFsXDSuiq3701v2Dnaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="72893924"
+  bh=ugO2S+xTMApQ2g7F4IQdFsAtDxYfX5UwlQC8OaGtTzY=;
+  b=jj95o3/xQwFbNRMAlRJocHO2617CT+L4fn0XoQTKQdhxOv+6wHAqVrws
+   VdlLSxRMxLygmnBSl/U/cBJlyD/2sfya7wmnWLPahBhjZ8uaCddIzP2JG
+   i3f2BkFGDFReBROw6ASC91hSes8u8w/3hiaRFRxBDW586E6C6ScuK43bE
+   EIQzJdZ3UyvRh1wveiVPBhyB+HGD840vx7jF8f/s94YNnpn11qIL5rA01
+   T1TyzvxWlhPo41SYpo6qDH5AV8TGXj0YkeN33IOn7FoCJ8TXZY1ZXEWP1
+   Vz7boi/h0Q+6q8gD2OqJK1FGUJGlrg7q3YD6QdjVn2MIxRWR/LW9Dw4Yr
+   g==;
+X-CSE-ConnectionGUID: 0M7PhSWKTka6d34yFzWd2Q==
+X-CSE-MsgGUID: jIir4nGGTJ+TKmy7wQ87kQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="61490141"
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="72893924"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 18:55:33 -0700
-X-CSE-ConnectionGUID: bezHkFE8TQOV/77r4eWvqA==
-X-CSE-MsgGUID: mT6OcAexRQWehUQ8LhYgoA==
+   d="scan'208";a="61490141"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 19:15:35 -0700
+X-CSE-ConnectionGUID: vE26CxG4QpCtZK7dSnaGhQ==
+X-CSE-MsgGUID: vzjBwLG7Qh2Fi7FgQx2ZHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="181282816"
+   d="scan'208";a="179971242"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Oct 2025 18:55:31 -0700
+  by orviesa006.jf.intel.com with ESMTP; 09 Oct 2025 19:15:34 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v72Lx-0001qy-12;
-	Fri, 10 Oct 2025 01:55:29 +0000
-Date: Fri, 10 Oct 2025 09:54:30 +0800
+	id 1v72fL-0001t8-1t;
+	Fri, 10 Oct 2025 02:15:31 +0000
+Date: Fri, 10 Oct 2025 10:15:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/bridge/synopsys/dw-dp.c:1152
- dw_dp_video_need_vsc_sdp() warn: signedness bug returning '(-22)'
-Message-ID: <202510100921.7zOL9JlU-lkp@intel.com>
+Subject: [linux-next:master 13427/13588]
+ kernel/liveupdate/kexec_handover.c:978 kho_preserve_vmalloc() warn: missing
+ error code 'err'
+Message-ID: <202510100941.GZGMq64U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,63 +65,104 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Andy Yan <andy.yan@rock-chips.com>
-CC: Dmitry Baryshkov <lumag@kernel.org>
-CC: Heiko Stuebner <heiko@sntech.de>
+TO: Pasha Tatashin <pasha.tatashin@soleen.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Jason Gunthorpe <jgg@nvidia.com>
 
-Hi Andy,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5472d60c129f75282d94ae5ad072ee6dfb7c7246
-commit: d68ba7bac9555d05e2f5b310c898b2a5c7eff174 drm/rockchip: Add RK3588 DPTX output support
-date:   6 weeks ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 weeks ago
-config: alpha-randconfig-r073-20251009 (https://download.01.org/0day-ci/archive/20251010/202510100921.7zOL9JlU-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 11.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0b2f041c47acb45db82b4e847af6e17eb66cd32d
+commit: f13bb574707674d1113a40e0b6dc4d9a143d2ec1 [13427/13588] liveupdate: kho: move to kernel/liveupdate
+:::::: branch date: 14 hours ago
+:::::: commit date: 20 hours ago
+config: x86_64-randconfig-161-20251010 (https://download.01.org/0day-ci/archive/20251010/202510100941.GZGMq64U-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510100921.7zOL9JlU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510100941.GZGMq64U-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/bridge/synopsys/dw-dp.c:1152 dw_dp_video_need_vsc_sdp() warn: signedness bug returning '(-22)'
+smatch warnings:
+kernel/liveupdate/kexec_handover.c:978 kho_preserve_vmalloc() warn: missing error code 'err'
+kernel/liveupdate/kexec_handover.c:1335 kho_release_scratch() warn: iterator 'i' not incremented
 
-Old smatch warnings:
-drivers/gpu/drm/bridge/synopsys/dw-dp.c:2080 dw_dp_bind() warn: passing zero to 'ERR_PTR'
+vim +/err +978 kernel/liveupdate/kexec_handover.c
 
-vim +1152 drivers/gpu/drm/bridge/synopsys/dw-dp.c
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  928) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  929) /**
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  930)  * kho_preserve_vmalloc - preserve memory allocated with vmalloc() across kexec
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  931)  * @ptr: pointer to the area in vmalloc address space
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  932)  * @preservation: placeholder for preservation metadata
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  933)  *
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  934)  * Instructs KHO to preserve the area in vmalloc address space at @ptr. The
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  935)  * physical pages mapped at @ptr will be preserved and on successful return
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  936)  * @preservation will hold the physical address of a structure that describes
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  937)  * the preservation.
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  938)  *
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  939)  * NOTE: The memory allocated with vmalloc_node() variants cannot be reliably
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  940)  * restored on the same node
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  941)  *
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  942)  * Return: 0 on success, error code on failure
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  943)  */
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  944) int kho_preserve_vmalloc(void *ptr, struct kho_vmalloc *preservation)
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  945) {
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  946) 	struct kho_vmalloc_chunk *chunk;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  947) 	struct vm_struct *vm = find_vm_area(ptr);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  948) 	unsigned int order, flags, nr_contig_pages;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  949) 	unsigned int idx = 0;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  950) 	int err;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  951) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  952) 	if (!vm)
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  953) 		return -EINVAL;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  954) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  955) 	if (vm->flags & ~KHO_VMALLOC_SUPPORTED_FLAGS)
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  956) 		return -EOPNOTSUPP;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  957) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  958) 	flags = vmalloc_flags_to_kho(vm->flags);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  959) 	order = get_vm_area_page_order(vm);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  960) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  961) 	chunk = new_vmalloc_chunk(NULL);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  962) 	if (!chunk)
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  963) 		return -ENOMEM;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  964) 	KHOSER_STORE_PTR(preservation->first, chunk);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  965) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  966) 	nr_contig_pages = (1 << order);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  967) 	for (int i = 0; i < vm->nr_pages; i += nr_contig_pages) {
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  968) 		phys_addr_t phys = page_to_phys(vm->pages[i]);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  969) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  970) 		err = kho_preserve_pages(vm->pages[i], nr_contig_pages);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  971) 		if (err)
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  972) 			goto err_free;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  973) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  974) 		chunk->phys[idx++] = phys;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  975) 		if (idx == ARRAY_SIZE(chunk->phys)) {
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  976) 			chunk = new_vmalloc_chunk(chunk);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  977) 			if (!chunk)
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21 @978) 				goto err_free;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  979) 			idx = 0;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  980) 		}
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  981) 	}
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  982) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  983) 	preservation->total_pages = vm->nr_pages;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  984) 	preservation->flags = flags;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  985) 	preservation->order = order;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  986) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  987) 	return 0;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  988) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  989) err_free:
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  990) 	kho_vmalloc_free_chunks(preservation);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  991) 	return err;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  992) }
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  993) EXPORT_SYMBOL_GPL(kho_preserve_vmalloc);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  994) 
 
-86eecc3a9c2e06 Andy Yan 2025-08-22  1144  
-86eecc3a9c2e06 Andy Yan 2025-08-22  1145  static bool dw_dp_video_need_vsc_sdp(struct dw_dp *dp)
-86eecc3a9c2e06 Andy Yan 2025-08-22  1146  {
-86eecc3a9c2e06 Andy Yan 2025-08-22  1147  	struct dw_dp_link *link = &dp->link;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1148  	struct dw_dp_bridge_state *state;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1149  
-86eecc3a9c2e06 Andy Yan 2025-08-22  1150  	state = dw_dp_get_bridge_state(dp);
-86eecc3a9c2e06 Andy Yan 2025-08-22  1151  	if (!state)
-86eecc3a9c2e06 Andy Yan 2025-08-22 @1152  		return -EINVAL;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1153  
-86eecc3a9c2e06 Andy Yan 2025-08-22  1154  	if (!link->vsc_sdp_supported)
-86eecc3a9c2e06 Andy Yan 2025-08-22  1155  		return false;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1156  
-86eecc3a9c2e06 Andy Yan 2025-08-22  1157  	if (state->color_format == DRM_COLOR_FORMAT_YCBCR420)
-86eecc3a9c2e06 Andy Yan 2025-08-22  1158  		return true;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1159  
-86eecc3a9c2e06 Andy Yan 2025-08-22  1160  	return false;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1161  }
-86eecc3a9c2e06 Andy Yan 2025-08-22  1162  
+:::::: The code at line 978 was first introduced by commit
+:::::: a667300bd53f272a3055238bcefe108f88836270 kho: add support for preserving vmalloc allocations
 
-:::::: The code at line 1152 was first introduced by commit
-:::::: 86eecc3a9c2e06462f6a273fcd24150b6da787de drm/bridge: synopsys: Add DW DPTX Controller support library
-
-:::::: TO: Andy Yan <andy.yan@rock-chips.com>
-:::::: CC: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+:::::: TO: Mike Rapoport (Microsoft) <rppt@kernel.org>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
