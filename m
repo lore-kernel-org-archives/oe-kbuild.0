@@ -1,164 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CE42F9C3C
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Oct 2025 21:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7507B3E1
+	for <oe-kbuild@lists.linux.dev>; Sat, 11 Oct 2025 06:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760133574; cv=none; b=MvHxyR8hCukrsveVbuRERXA5NRTjHyvwemqodEjMLDw35wBhRHkajZwQIAZ6lVEQhQrX585lvqF+UGcQLu35lynZw775R0YRcAgn4Wx3LwNNi8+/iCAxW1cbpyMYPAschZjTAfNSmYaCZRlGBKppFjtScpDRVmgYn9JVyCcAjBQ=
+	t=1760163325; cv=none; b=ANwdU8ziEyFWZ6pEWWGkyCujeswsyFqPq91TvcW6zaChYqBqCNcpGUnZ7K3ca7r1PFYygZZsCJoAbbF+xXrMvd/IfxMwuzix5hLlNEenjLY92k5HvKZ+l7IwztEiNurKuR3N5lP2HF26NSlQyfxIDNKnvO+9wTGmEWW6/kUW4Ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760133574; c=relaxed/simple;
-	bh=8lmVyDeMgSOkzJcRqNLnmv8Zd8njSn5HWH1gA/w2fNg=;
+	s=arc-20240116; t=1760163325; c=relaxed/simple;
+	bh=0xs6LSdC/oYX6ROOIc1xxHCM4BWeZAeyjatgAzGyRcU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XSYq32E0Q8TGomrTia1IHGLtMudZNsAkZy1FLR8tUE4VW4cy2psYfSaGqgOcoeLyLN2wrjcZdk2Xw3FV2TAPNDddNebNsvosXWCyCC7hxepQTYX/XNX7/ApLRbCvcwGb+5NqG6jBd8JKtTqhcZxxeAmzwEBsa+oibPYq11zB5kU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FN9UA7gX; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=BIglRV8HxLWPPv345lC5+DG2oOkHnxooBTKJaOq+U4dSH9vNrCBcaQiDHP1Htf6KD2MHskH17dNsHtBdj2wDFpgDpxuASl5yGymtIS5EgH31DpOKlw+MbnpXEAOdqQmbjxX7qHkchU4okdLqVaEeBz7fNTyE7rBPpVCfoUthHy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QshnlurF; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FN9UA7gX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QshnlurF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760133572; x=1791669572;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8lmVyDeMgSOkzJcRqNLnmv8Zd8njSn5HWH1gA/w2fNg=;
-  b=FN9UA7gXCZo/U6FVM0rly8/0zTlI8m5tDOQHA44QCr7ZfBJLNDW5PL+0
-   jkIZtQo5uhM2nabRriGQXtfiu99Sbb3QAeNEsWI1m9f8LFJy/XxrT6De4
-   gYR1TnOQrbNxWpiD/B9Y/yn5c0g/tw5/5TeHE+ppIlPxRIEQ/FQ+erzXK
-   Ij06WPNSNpc5Qwl3r3yWRiMAdHE3tBDlhy5Nx+1aUkHsVCo1id9k51+q8
-   xYOAZckws6BK1xUmoBeNUwjvaxIBctsm/7WBg20MWq0cH2v3kldE+1T6B
-   2N35lchvM3XtJwrMbSPxuSgdoKvZRbepOAomn5KdgMdznSyDQ6F0OtaV3
+  t=1760163323; x=1791699323;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0xs6LSdC/oYX6ROOIc1xxHCM4BWeZAeyjatgAzGyRcU=;
+  b=QshnlurFuScCxHlxljJOGc9pmfheye1rDQFqlgA+UZzSoKF88CbN8iH+
+   sqjl/0JIEAoXyJl8I4Hl9rCvQkrZatRqgKn0fhHyJMEF/hz+LtK0TMCd5
+   EkQfjJ4XhjpGlBiRbkAEnpE+K2Uw9fzkgozQqcnbt6ayfZc+DXzUrkyxO
+   7TUWrucfXEP2E0qpXPgBrmVcS1/hAxjiqtIrVyxvuiODPHxyxTAQrglQr
+   lKbxMoXhxKdRZOgr9rAgb20wvxyW3ZSLkd4t1nTjLvCOygmu0H87I+JJK
+   DtS/jaXho5L8gCLzVC7H1S/xHBe9dHRRO55Ndo2/SAxqzxQJeNLDXafGj
    w==;
-X-CSE-ConnectionGUID: 3uHBD8zMRWWaHU9ORKEFgQ==
-X-CSE-MsgGUID: eX85+nTIRjyMq0YD2vnoEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="62514012"
+X-CSE-ConnectionGUID: NvFZboNTSVmNDhm+uVuSmQ==
+X-CSE-MsgGUID: lhiq3skXQZKiTlmP1EF2Fg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="62417984"
 X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
-   d="scan'208";a="62514012"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 14:59:31 -0700
-X-CSE-ConnectionGUID: SeegaXpwT2ycNiMERxGZlw==
-X-CSE-MsgGUID: PqQIeSk/TaCeOx54AJAYRQ==
+   d="scan'208";a="62417984"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 23:15:20 -0700
+X-CSE-ConnectionGUID: nVzB/BxmQyuru2winGjrJA==
+X-CSE-MsgGUID: SIA0dJ+QQ+SJgB9sHMhFqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
-   d="scan'208";a="186200197"
+   d="scan'208";a="181096965"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Oct 2025 14:59:30 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 10 Oct 2025 23:15:19 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7L95-0003DJ-2A;
-	Fri, 10 Oct 2025 21:59:27 +0000
-Date: Sat, 11 Oct 2025 05:59:14 +0800
+	id 1v7Ssv-0003Yp-1V;
+	Sat, 11 Oct 2025 06:15:17 +0000
+Date: Sat, 11 Oct 2025 14:14:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [jgunthorpe:iommu_pt_all 41/59]
- drivers/iommu/generic_pt/fmt/../iommu_pt.h:799 armv8_4k_cut_mapping() warn:
- sizeof(NUMBER)?
-Message-ID: <202510110555.T4CZqm10-lkp@intel.com>
+Subject: Re: [PATCH v4 10/10] drm/panfrost: Rename panfrost_job functions to
+ reflect real role
+Message-ID: <202510111347.yceSirEP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jason Gunthorpe <jgg@nvidia.com>
+In-Reply-To: <20251001022039.1215976-11-adrian.larumbe@collabora.com>
+References: <20251001022039.1215976-11-adrian.larumbe@collabora.com>
+TO: "Adrián Larumbe" <adrian.larumbe@collabora.com>
+TO: linux-kernel@vger.kernel.org
+CC: dri-devel@lists.freedesktop.org
+CC: Steven Price <steven.price@arm.com>
+CC: Boris Brezillon <bbrezillon@kernel.org>
+CC: kernel@collabora.com
+CC: "Adrián Larumbe" <adrian.larumbe@collabora.com>
+CC: Rob Herring <robh@kernel.org>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+CC: Maxime Ripard <mripard@kernel.org>
+CC: Thomas Zimmermann <tzimmermann@suse.de>
+CC: David Airlie <airlied@gmail.com>
+CC: Simona Vetter <simona@ffwll.ch>
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt_all
-head:   9c69ad5f7c8c4c920b421601258f0c8b120dd80c
-commit: e62242285cdb70842837a9da559dceced3130664 [41/59] iommupt: Add cut_mapping op
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20251010 (https://download.01.org/0day-ci/archive/20251011/202510110555.T4CZqm10-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi Adrián,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 1a93d70801421ca506807ced45566490976d532a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panfrost-Replace-DRM-driver-allocation-method-with-newer-one/20251001-102438
+base:   1a93d70801421ca506807ced45566490976d532a
+patch link:    https://lore.kernel.org/r/20251001022039.1215976-11-adrian.larumbe%40collabora.com
+patch subject: [PATCH v4 10/10] drm/panfrost: Rename panfrost_job functions to reflect real role
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: s390-randconfig-r071-20251004 (https://download.01.org/0day-ci/archive/20251011/202510111347.yceSirEP-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510110555.T4CZqm10-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510111347.yceSirEP-lkp@intel.com/
 
-New smatch warnings:
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:799 armv8_4k_cut_mapping() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:799 riscv_64_cut_mapping() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:799 dart_cut_mapping() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:799 armv8_16k_cut_mapping() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:799 armv8_64k_cut_mapping() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:799 amdv1_cut_mapping() warn: sizeof(NUMBER)?
+smatch warnings:
+drivers/gpu/drm/panfrost/panfrost_job.c:958 panfrost_jm_close() warn: iterator 'i' not incremented
 
-Old smatch warnings:
-drivers/iommu/generic_pt/fmt/../pt_defs.h:226 pt_feature() warn: bitwise AND condition is false here
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:180 pt_iommu_armv8_4k_iova_to_phys() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:322 armv8_4k_set_dirty() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1090 increase_top() error: uninitialized symbol 'table_mem'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1090 increase_top() error: uninitialized symbol 'new_level'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1039 increase_top() warn: missing unwind goto?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1452 pt_init_common() warn: bitwise AND condition is false here
-drivers/iommu/generic_pt/fmt/../pt_defs.h:226 pt_feature() warn: bitwise AND condition is false here
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:180 pt_iommu_riscv_64_iova_to_phys() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:322 riscv_64_set_dirty() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1090 increase_top() error: uninitialized symbol 'table_mem'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1090 increase_top() error: uninitialized symbol 'new_level'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1039 increase_top() warn: missing unwind goto?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1452 pt_init_common() warn: bitwise AND condition is false here
-drivers/iommu/generic_pt/fmt/../pt_defs.h:226 pt_feature() warn: bitwise AND condition is false here
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:180 pt_iommu_dart_iova_to_phys() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:322 dart_set_dirty() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1090 increase_top() error: uninitialized symbol 'table_mem'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1090 increase_top() error: uninitialized symbol 'new_level'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1039 increase_top() warn: missing unwind goto?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1452 pt_init_common() warn: bitwise AND condition is false here
-drivers/iommu/generic_pt/fmt/../pt_defs.h:226 pt_feature() warn: bitwise AND condition is false here
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:180 pt_iommu_armv8_16k_iova_to_phys() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:322 armv8_16k_set_dirty() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1090 increase_top() error: uninitialized symbol 'table_mem'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1090 increase_top() error: uninitialized symbol 'new_level'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1039 increase_top() warn: missing unwind goto?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1452 pt_init_common() warn: bitwise AND condition is false here
-drivers/iommu/generic_pt/fmt/../pt_defs.h:226 pt_feature() warn: bitwise AND condition is false here
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:180 pt_iommu_armv8_64k_iova_to_phys() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:322 armv8_64k_set_dirty() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1090 increase_top() error: uninitialized symbol 'table_mem'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1090 increase_top() error: uninitialized symbol 'new_level'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1039 increase_top() warn: missing unwind goto?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1452 pt_init_common() warn: bitwise AND condition is false here
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:180 pt_iommu_amdv1_iova_to_phys() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:322 amdv1_set_dirty() warn: sizeof(NUMBER)?
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1090 increase_top() error: uninitialized symbol 'table_mem'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1090 increase_top() error: uninitialized symbol 'new_level'.
-drivers/iommu/generic_pt/fmt/../iommu_pt.h:1039 increase_top() warn: missing unwind goto?
+vim +/i +958 drivers/gpu/drm/panfrost/panfrost_job.c
 
-vim +799 drivers/iommu/generic_pt/fmt/../iommu_pt.h
-
-e62242285cdb70 Jason Gunthorpe 2025-04-03  780  
-e62242285cdb70 Jason Gunthorpe 2025-04-03  781  /*
-e62242285cdb70 Jason Gunthorpe 2025-04-03  782   * FIXME this is currently incompatible with active dirty tracking as we
-e62242285cdb70 Jason Gunthorpe 2025-04-03  783   * don't take care to capture or propagate the dirty bits during the mutation.
-e62242285cdb70 Jason Gunthorpe 2025-04-03  784   */
-e62242285cdb70 Jason Gunthorpe 2025-04-03  785  static int NS(cut_mapping)(struct pt_iommu *iommu_table, dma_addr_t cut_iova,
-e62242285cdb70 Jason Gunthorpe 2025-04-03  786  			   gfp_t gfp)
-e62242285cdb70 Jason Gunthorpe 2025-04-03  787  {
-e62242285cdb70 Jason Gunthorpe 2025-04-03  788  	struct pt_common *common = common_from_iommu(iommu_table);
-e62242285cdb70 Jason Gunthorpe 2025-04-03  789  	struct pt_write_attrs cut_attrs = {
-e62242285cdb70 Jason Gunthorpe 2025-04-03  790  		.gfp = gfp,
-e62242285cdb70 Jason Gunthorpe 2025-04-03  791  	};
-e62242285cdb70 Jason Gunthorpe 2025-04-03  792  	struct pt_range range;
-e62242285cdb70 Jason Gunthorpe 2025-04-03  793  	int ret;
-e62242285cdb70 Jason Gunthorpe 2025-04-03  794  
-e62242285cdb70 Jason Gunthorpe 2025-04-03  795  	ret = pt_iommu_set_prot(common, &cut_attrs, IOMMU_READ);
-e62242285cdb70 Jason Gunthorpe 2025-04-03  796  	if (ret)
-e62242285cdb70 Jason Gunthorpe 2025-04-03  797  		return ret;
-e62242285cdb70 Jason Gunthorpe 2025-04-03  798  
-e62242285cdb70 Jason Gunthorpe 2025-04-03 @799  	ret = make_range(common_from_iommu(iommu_table), &range, cut_iova, 1);
-e62242285cdb70 Jason Gunthorpe 2025-04-03  800  	if (ret)
-e62242285cdb70 Jason Gunthorpe 2025-04-03  801  		return ret;
-e62242285cdb70 Jason Gunthorpe 2025-04-03  802  
-e62242285cdb70 Jason Gunthorpe 2025-04-03  803  	return pt_walk_range(&range, __cut_mapping, &cut_attrs);
-e62242285cdb70 Jason Gunthorpe 2025-04-03  804  }
-e62242285cdb70 Jason Gunthorpe 2025-04-03  805  
+6aa8bc58ac88f3 Boris Brezillon 2025-09-17  951  
+af0a25dc419cec Adrián Larumbe  2025-10-01  952  void panfrost_jm_close(struct drm_file *file)
+6aa8bc58ac88f3 Boris Brezillon 2025-09-17  953  {
+6aa8bc58ac88f3 Boris Brezillon 2025-09-17  954  	struct panfrost_file_priv *panfrost_priv = file->driver_priv;
+6aa8bc58ac88f3 Boris Brezillon 2025-09-17  955  	struct panfrost_jm_ctx *jm_ctx;
+6aa8bc58ac88f3 Boris Brezillon 2025-09-17  956  	unsigned long i;
+6aa8bc58ac88f3 Boris Brezillon 2025-09-17  957  
+6aa8bc58ac88f3 Boris Brezillon 2025-09-17 @958  	xa_for_each(&panfrost_priv->jm_ctxs, i, jm_ctx)
+6aa8bc58ac88f3 Boris Brezillon 2025-09-17  959  		panfrost_jm_ctx_destroy(file, i);
+6aa8bc58ac88f3 Boris Brezillon 2025-09-17  960  
+6aa8bc58ac88f3 Boris Brezillon 2025-09-17  961  	xa_destroy(&panfrost_priv->jm_ctxs);
+6aa8bc58ac88f3 Boris Brezillon 2025-09-17  962  }
+6aa8bc58ac88f3 Boris Brezillon 2025-09-17  963  
 
 -- 
 0-DAY CI Kernel Test Service
