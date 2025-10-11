@@ -1,126 +1,319 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7507B3E1
-	for <oe-kbuild@lists.linux.dev>; Sat, 11 Oct 2025 06:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D6D1E480
+	for <oe-kbuild@lists.linux.dev>; Sat, 11 Oct 2025 15:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760163325; cv=none; b=ANwdU8ziEyFWZ6pEWWGkyCujeswsyFqPq91TvcW6zaChYqBqCNcpGUnZ7K3ca7r1PFYygZZsCJoAbbF+xXrMvd/IfxMwuzix5hLlNEenjLY92k5HvKZ+l7IwztEiNurKuR3N5lP2HF26NSlQyfxIDNKnvO+9wTGmEWW6/kUW4Ao=
+	t=1760196490; cv=none; b=f2vl+QKMpCQMEZ7mThZ4R0+uhUEQL8Z5zHz8zNeFSjKfJOWiXBvk69e1VQB/8oiL6V8zjbdH72AaGIRd9r0ghCpUDuPfEeg7kpkdcTJuJjAlAASP+qct4+bAd7FKSKCav3eecvG1d8fNmZ5p8IALYE1XQX60dfzO8MAE+V3e9aM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760163325; c=relaxed/simple;
-	bh=0xs6LSdC/oYX6ROOIc1xxHCM4BWeZAeyjatgAzGyRcU=;
+	s=arc-20240116; t=1760196490; c=relaxed/simple;
+	bh=w+bCnZ7ltzZo9LleBcGcuKbO51k1GjBANQ0r5y5i8uE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BIglRV8HxLWPPv345lC5+DG2oOkHnxooBTKJaOq+U4dSH9vNrCBcaQiDHP1Htf6KD2MHskH17dNsHtBdj2wDFpgDpxuASl5yGymtIS5EgH31DpOKlw+MbnpXEAOdqQmbjxX7qHkchU4okdLqVaEeBz7fNTyE7rBPpVCfoUthHy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QshnlurF; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=ms8QaOVr2G8VKkpjBvBmd78EVj4eypJZ0FLvcS9op7ooAYdKX1wozq1OK+s91VTjQd2oPiVdKPwyO2NhiYA8WefTvISgaghdCTU7LNuGAQY8unYNvIUTxBU5kceFSPI9YqS/bC7Uk0DkuXTnwWMvGAUgoxWdy0GyboI+FfBvRms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CO7cLVi3; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QshnlurF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CO7cLVi3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760163323; x=1791699323;
+  t=1760196488; x=1791732488;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=0xs6LSdC/oYX6ROOIc1xxHCM4BWeZAeyjatgAzGyRcU=;
-  b=QshnlurFuScCxHlxljJOGc9pmfheye1rDQFqlgA+UZzSoKF88CbN8iH+
-   sqjl/0JIEAoXyJl8I4Hl9rCvQkrZatRqgKn0fhHyJMEF/hz+LtK0TMCd5
-   EkQfjJ4XhjpGlBiRbkAEnpE+K2Uw9fzkgozQqcnbt6ayfZc+DXzUrkyxO
-   7TUWrucfXEP2E0qpXPgBrmVcS1/hAxjiqtIrVyxvuiODPHxyxTAQrglQr
-   lKbxMoXhxKdRZOgr9rAgb20wvxyW3ZSLkd4t1nTjLvCOygmu0H87I+JJK
-   DtS/jaXho5L8gCLzVC7H1S/xHBe9dHRRO55Ndo2/SAxqzxQJeNLDXafGj
-   w==;
-X-CSE-ConnectionGUID: NvFZboNTSVmNDhm+uVuSmQ==
-X-CSE-MsgGUID: lhiq3skXQZKiTlmP1EF2Fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="62417984"
-X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
-   d="scan'208";a="62417984"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 23:15:20 -0700
-X-CSE-ConnectionGUID: nVzB/BxmQyuru2winGjrJA==
-X-CSE-MsgGUID: SIA0dJ+QQ+SJgB9sHMhFqQ==
+  bh=w+bCnZ7ltzZo9LleBcGcuKbO51k1GjBANQ0r5y5i8uE=;
+  b=CO7cLVi36FSa+PdUwDK9iN2HS6pIojH6JBCK68oWmrwvanEjj2DljBFM
+   CjOzL9Av067zje5GCvP5MFsO1R9mdnKXc7szpLqqhWR1SeaFwX/reF1zD
+   SUZK+BnJtJFTh8BVgjTzMK1wlUYkUbdrM+Of5Fle7rsQjHedva4tmvvVj
+   fCw//WW1ynJrB12jgg+XIN+MUXuXkcrPm1yxdDY8xGNONUEDcaMoJTKn8
+   xnHtOGOlo2FqJkkrHPeGlDxcVm7XlIi2zczn9Fj9ZQPD0o0QhTg1vpFHt
+   rOsKpFcrhB4v6bd7kqCfk1WpncYl42YoAtUTWg0eKPwzm8rc3qePJvjKA
+   Q==;
+X-CSE-ConnectionGUID: w2ZJTBCOQbSlVcy6dyCVgQ==
+X-CSE-MsgGUID: bE5N9ehzQAGm5Qh38MpMZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="62274597"
+X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
+   d="scan'208";a="62274597"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 08:28:07 -0700
+X-CSE-ConnectionGUID: FBtvG+vHQfKyepSOVdD70A==
+X-CSE-MsgGUID: OY1vlBS/SNitdpknz4BRyg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
-   d="scan'208";a="181096965"
+X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
+   d="scan'208";a="185465268"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Oct 2025 23:15:19 -0700
+  by orviesa004.jf.intel.com with ESMTP; 11 Oct 2025 08:28:06 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7Ssv-0003Yp-1V;
-	Sat, 11 Oct 2025 06:15:17 +0000
-Date: Sat, 11 Oct 2025 14:14:53 +0800
+	id 1v7bVr-0003pf-29;
+	Sat, 11 Oct 2025 15:28:03 +0000
+Date: Sat, 11 Oct 2025 23:27:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v4 10/10] drm/panfrost: Rename panfrost_job functions to
- reflect real role
-Message-ID: <202510111347.yceSirEP-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 2/3] dt-bindings: PCI: qcom: Enforce check for PHY,
+ PERST# and WAKE# properties
+Message-ID: <202510112344.D4GOtHsT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251001022039.1215976-11-adrian.larumbe@collabora.com>
-References: <20251001022039.1215976-11-adrian.larumbe@collabora.com>
-TO: "Adri·n Larumbe" <adrian.larumbe@collabora.com>
-TO: linux-kernel@vger.kernel.org
-CC: dri-devel@lists.freedesktop.org
-CC: Steven Price <steven.price@arm.com>
-CC: Boris Brezillon <bbrezillon@kernel.org>
-CC: kernel@collabora.com
-CC: "Adri·n Larumbe" <adrian.larumbe@collabora.com>
-CC: Rob Herring <robh@kernel.org>
-CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-CC: Maxime Ripard <mripard@kernel.org>
-CC: Thomas Zimmermann <tzimmermann@suse.de>
-CC: David Airlie <airlied@gmail.com>
-CC: Simona Vetter <simona@ffwll.ch>
+In-Reply-To: <20251010-pci-binding-v1-2-947c004b5699@oss.qualcomm.com>
+References: <20251010-pci-binding-v1-2-947c004b5699@oss.qualcomm.com>
+TO: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+TO: Bjorn Helgaas <helgaas@kernel.org>
+TO: Lorenzo Pieralisi <lpieralisi@kernel.org>
+TO: "Krzysztof Wilczy≈Ñski" <kwilczynski@kernel.org>
+TO: Manivannan Sadhasivam <mani@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Abraham I <kishon@kernel.org>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+CC: linux-pci@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-msm@vger.kernel.org
+CC: Dmitry Baryshkov <lumag@kernel.org>
+CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Hi Adri·n,
+Hi Manivannan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 1a93d70801421ca506807ced45566490976d532a]
+[auto build test WARNING on 5472d60c129f75282d94ae5ad072ee6dfb7c7246]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panfrost-Replace-DRM-driver-allocation-method-with-newer-one/20251001-102438
-base:   1a93d70801421ca506807ced45566490976d532a
-patch link:    https://lore.kernel.org/r/20251001022039.1215976-11-adrian.larumbe%40collabora.com
-patch subject: [PATCH v4 10/10] drm/panfrost: Rename panfrost_job functions to reflect real role
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
-config: s390-randconfig-r071-20251004 (https://download.01.org/0day-ci/archive/20251011/202510111347.yceSirEP-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam/dt-bindings-PCI-Update-the-email-address-for-Manivannan-Sadhasivam/20251011-022816
+base:   5472d60c129f75282d94ae5ad072ee6dfb7c7246
+patch link:    https://lore.kernel.org/r/20251010-pci-binding-v1-2-947c004b5699%40oss.qualcomm.com
+patch subject: [PATCH 2/3] dt-bindings: PCI: qcom: Enforce check for PHY, PERST# and WAKE# properties
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: arm64-randconfig-051-20251011 (https://download.01.org/0day-ci/archive/20251011/202510112344.D4GOtHsT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+dtschema version: 2025.9.dev1+g4b28bc79f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510112344.D4GOtHsT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510111347.yceSirEP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510112344.D4GOtHsT-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/panfrost/panfrost_job.c:958 panfrost_jm_close() warn: iterator 'i' not incremented
-
-vim +/i +958 drivers/gpu/drm/panfrost/panfrost_job.c
-
-6aa8bc58ac88f3 Boris Brezillon 2025-09-17  951  
-af0a25dc419cec Adri·n Larumbe  2025-10-01  952  void panfrost_jm_close(struct drm_file *file)
-6aa8bc58ac88f3 Boris Brezillon 2025-09-17  953  {
-6aa8bc58ac88f3 Boris Brezillon 2025-09-17  954  	struct panfrost_file_priv *panfrost_priv = file->driver_priv;
-6aa8bc58ac88f3 Boris Brezillon 2025-09-17  955  	struct panfrost_jm_ctx *jm_ctx;
-6aa8bc58ac88f3 Boris Brezillon 2025-09-17  956  	unsigned long i;
-6aa8bc58ac88f3 Boris Brezillon 2025-09-17  957  
-6aa8bc58ac88f3 Boris Brezillon 2025-09-17 @958  	xa_for_each(&panfrost_priv->jm_ctxs, i, jm_ctx)
-6aa8bc58ac88f3 Boris Brezillon 2025-09-17  959  		panfrost_jm_ctx_destroy(file, i);
-6aa8bc58ac88f3 Boris Brezillon 2025-09-17  960  
-6aa8bc58ac88f3 Boris Brezillon 2025-09-17  961  	xa_destroy(&panfrost_priv->jm_ctxs);
-6aa8bc58ac88f3 Boris Brezillon 2025-09-17  962  }
-6aa8bc58ac88f3 Boris Brezillon 2025-09-17  963  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:5045.26-5118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4317.10-4327.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/qcm6490-particle-tachyon.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[127, 2, 1]]
+   	False schema does not allow [[53]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/qcm6490-particle-tachyon.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges', 'vddpe-3v3-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:5045.26-5118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4317.10-4327.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[73, 2, 1]]
+   	False schema does not allow [[53]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: pmic@2 (qcom,pm8350c): pwm:nvmem: [[366, 367]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
+   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: pwm (qcom,pm8350c-pwm): nvmem: [[366, 367]] is too short
+   	from schema $id: http://devicetree.org/schemas/leds/leds-qcom-lpg.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:5045.26-5118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4317.10-4327.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-crd.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[75, 2, 1]]
+   	False schema does not allow [[51]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-crd.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges', 'vddpe-3v3-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:5045.26-5118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4317.10-4327.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-crd-pro.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[75, 2, 1]]
+   	False schema does not allow [[51]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-crd-pro.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges', 'vddpe-3v3-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:5045.26-5118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4317.10-4327.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[75, 2, 1]]
+   	False schema does not allow [[51]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges', 'vddpe-3v3-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:5045.26-5118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4317.10-4327.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker-lte.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[75, 2, 1]]
+   	False schema does not allow [[51]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker-lte.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges', 'vddpe-3v3-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:5045.26-5118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4317.10-4327.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r1.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[75, 2, 1]]
+   	False schema does not allow [[51]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r1.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges', 'vddpe-3v3-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:5045.26-5118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4317.10-4327.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[75, 2, 1]]
+   	False schema does not allow [[51]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges', 'vddpe-3v3-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:5045.26-5118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4317.10-4327.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme-lte.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[75, 2, 1]]
+   	False schema does not allow [[51]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme-lte.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges', 'vddpe-3v3-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:5045.26-5118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4317.10-4327.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc7280-idp.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[128, 2, 1]]
+   	False schema does not allow [[51]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/sc7280-idp.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges', 'vddpe-3v3-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:5045.26-5118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4317.10-4327.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc7280-idp2.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[128, 2, 1]]
+   	False schema does not allow [[51]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/sc7280-idp2.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges', 'vddpe-3v3-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:5045.26-5118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4317.10-4327.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc7280-crd-r3.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[75, 2, 1]]
+   	False schema does not allow [[51]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/sc7280-crd-r3.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges', 'vddpe-3v3-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: dma-controller@1dc4000 (qcom,bam-v1.7.4): 'anyOf' conditional failed, one must be fixed:
+   	'qcom,powered-remotely' is a required property
+   	'num-channels' is a required property
+   	'qcom,num-ees' is a required property
+   	'clocks' is a required property
+   	'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
+>> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: pcie@1c00000 (qcom,pcie-sm8750): 'oneOf' conditional failed, one must be fixed:
+   	'phys' is a required property
+   	False schema does not allow [[148, 102, 1]]
+   	False schema does not allow [[148, 104, 0]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: pcie@1c00000 (qcom,pcie-sm8750): pcie@0: 'oneOf' conditional failed, one must be fixed:
+   	'reset-gpios' is a required property
+   	'wake-gpios' is a required property
+   	False schema does not allow [[34]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: pcie@1c00000 (qcom,pcie-sm8750): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interconnect-names', 'interconnects', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'msi-map', 'msi-map-mask', 'num-lanes', 'operating-points-v2', 'opp-table', 'pcie@0', 'perst-gpios', 'power-domains', 'ranges', 'wake-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4942.11-4952.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: pci@1c08000 (qcom,pcie-x1e80100): 'oneOf' conditional failed, one must be fixed:
+   	'perst-gpios' is a required property
+   	'wake-gpios' is a required property
+   	False schema does not allow [[53]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: pci@1c08000 (qcom,pcie-x1e80100): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'eq-presets-8gts', 'interconnect-names', 'interconnects', 'interrupt-map', 'interrupt-map-mask', 'linux,pci-domain', 'msi-map', 'num-lanes', 'pcie@0', 'phy-names', 'phys', 'power-domains', 'ranges', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4942.11-4952.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: pci@1c08000 (qcom,pcie-x1e80100): 'oneOf' conditional failed, one must be fixed:
+   	'perst-gpios' is a required property
+   	'wake-gpios' is a required property
+   	False schema does not allow [[53]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: pci@1c08000 (qcom,pcie-x1e80100): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'eq-presets-8gts', 'interconnect-names', 'interconnects', 'interrupt-map', 'interrupt-map-mask', 'linux,pci-domain', 'msi-map', 'num-lanes', 'pcie@0', 'phy-names', 'phys', 'power-domains', 'ranges', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
+--
+>> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-industrial-mezzanine.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[73, 2, 1]]
+   	False schema does not allow [[53]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-industrial-mezzanine.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-industrial-mezzanine.dtb: pmic@2 (qcom,pm8350c): pwm:nvmem: [[366, 367]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
+   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-industrial-mezzanine.dtb: pwm (qcom,pm8350c-pwm): nvmem: [[366, 367]] is too short
+   	from schema $id: http://devicetree.org/schemas/leds/leds-qcom-lpg.yaml#
+--
+>> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtb: pcie@1c08000 (qcom,pcie-sc7280): 'oneOf' conditional failed, one must be fixed:
+   	'wake-gpios' is a required property
+   	False schema does not allow [[73, 2, 1]]
+   	False schema does not allow [[53]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+>> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtb: pcie@1c08000 (qcom,pcie-sc7280): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sc7280.yaml#
+   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtb: pmic@2 (qcom,pm8350c): pwm:nvmem: [[366, 367]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
+   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtb: pwm (qcom,pm8350c-pwm): nvmem: [[366, 367]] is too short
+   	from schema $id: http://devicetree.org/schemas/leds/leds-qcom-lpg.yaml#
+--
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13-el2.dtb: pci@1c08000 (qcom,pcie-x1e80100): 'oneOf' conditional failed, one must be fixed:
+   	'perst-gpios' is a required property
+   	'wake-gpios' is a required property
+   	False schema does not allow [[53]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13-el2.dtb: pci@1c08000 (qcom,pcie-x1e80100): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'eq-presets-8gts', 'interconnect-names', 'interconnects', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'msi-map', 'num-lanes', 'pcie@0', 'phy-names', 'phys', 'power-domains', 'ranges', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
+--
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15-el2.dtb: pci@1c08000 (qcom,pcie-x1e80100): 'oneOf' conditional failed, one must be fixed:
+   	'perst-gpios' is a required property
+   	'wake-gpios' is a required property
+   	False schema does not allow [[53]]
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15-el2.dtb: pci@1c08000 (qcom,pcie-x1e80100): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'dma-coherent', 'eq-presets-8gts', 'interconnect-names', 'interconnects', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'msi-map', 'num-lanes', 'pcie@0', 'phy-names', 'phys', 'power-domains', 'ranges', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
