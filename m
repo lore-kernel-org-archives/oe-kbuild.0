@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFE534BA41
-	for <oe-kbuild@lists.linux.dev>; Mon, 13 Oct 2025 08:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451322E8B69
+	for <oe-kbuild@lists.linux.dev>; Mon, 13 Oct 2025 09:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760345483; cv=none; b=jxGqb+93F+pgiZHu5Mv0h1BNI3cznpW9nIb5dxbW/DTN8NepOKOFn3ag1RovaTUw8lQK0hWsKmWLPFp80uJyau/m3UNlNRoYydAnXj+nWK+EVD4Yw01mOTMXPIgqs1VtqP+SETJjrirO8jJHZGuOkhkb4/hTn/2hi7JBrg0hGI4=
+	t=1760347371; cv=none; b=S9mWU8LXsSlOxbl65CwPrZyjfFup1sJtArQutatevTR/82FgKf2E+jRk+fuhUywt7bECEZULW6w7OjajtGSCFvhk7bXC6rbSeKyBeLSqtwTatDXAbsyGPnr8aPr2VxXblp4CmOcIyb2opKaB2EMLuyik2Z5Bdiiu3C4qXm/D660=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760345483; c=relaxed/simple;
-	bh=9TfdCkVs6glrvhM4ri5Kr6RZ7TMO3KDY+9hV2RI1J+w=;
+	s=arc-20240116; t=1760347371; c=relaxed/simple;
+	bh=CenBEt3dKgRkjqhBJRP/9JYqmRlgH4RicISG1U8nFqk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ROBLpY+mP4j23idLg84Mk3kNgalRdiyhlS1D3w6uSnFflO+G2QYOmqzBQrQqS+P6v6EbvKdYiE/DxLxRngsdLE1Pac6jAs6Au1flHYTjB1Oh4c2kU08zQH+LQh3tCGlqJPLgRnD0t5AK04QtRhBQVWaHcm85r3YifLMA5eilgqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SChLIf6S; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=Tel7HlVz9DyHP6PATdei3c5Zb7UkHGxqLt+WBk3d01Gx8sU3r4yhMuC0o9c0TUuogziJLIT91ekKJQUAAcSKlxFsPqdz0jvUfsdTmry8EaocHdQG5ViGoQFBpozNk5EzjQNBxB5QcE/uuUBcCl/6pUU0IV8xNSj5gHLERo+Vy0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fl0Exqb1; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SChLIf6S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fl0Exqb1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760345482; x=1791881482;
+  t=1760347369; x=1791883369;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9TfdCkVs6glrvhM4ri5Kr6RZ7TMO3KDY+9hV2RI1J+w=;
-  b=SChLIf6Sf6nOJVuZ6SL3iahEz/DLuKnfUpSl4MatP07pKBs99zIhpW4g
-   SwwNGzznTjo6yc5SAWBtjmFGe0JAGB6nSyokzOSf58B2gqBX30ShRni5h
-   zbMyJwcoJKa0bBcnGTbA4KmAi1X+JRCS9ZWw6nAcD3hxztbPKyc36jQSH
-   XqO7HnV3bmjzH0CRN8MOVmY2A9ysA/nF3gtyjzjq0w1klPVKYxCPUg+Iw
-   A4n7qeRHt1KvL4dkyI0/di2R6Y6kV2IKTuq/ay56A/QC4ZjM5whLFaRYP
-   Atk/xFvM3Y/762ludDkBBHxk3uCZQftfF+wkWL7Sl9YeGA1TzcJ5cLU1u
-   A==;
-X-CSE-ConnectionGUID: DThX5rSkTtu2C4Hi4U1ORg==
-X-CSE-MsgGUID: zGNjPKlhSJu882TYqJ3MuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11580"; a="62513178"
-X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; 
-   d="scan'208";a="62513178"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 01:51:21 -0700
-X-CSE-ConnectionGUID: BP1sQVF4Q8K+1p7c0IY0rQ==
-X-CSE-MsgGUID: ygpayHQxS6KYYeynphL+VA==
+  bh=CenBEt3dKgRkjqhBJRP/9JYqmRlgH4RicISG1U8nFqk=;
+  b=Fl0Exqb18XOb1Z3hCpc5HcLwt4M/NNtt6gHNW4+Ls3Hj/kr42U9Eo0ZF
+   ftTxmUwWrxbdQjD/VpfVMGkUj4zKSdPo7Um+QgKBvLTNdyPqHiv8jrKz+
+   C5Ymf5qtDSC2sjKCxkf5gRtd0K8Lq7J1tmDNwOTUV5qguFP2X0EuGNLBM
+   kLCu6eu1DQdtZHVgv2XZf4R70XDo9ru9+YPlEwgjLXJBTUFpgM5NpLAvr
+   3YW65jeU5zkaWKBGIT0Z86/x+po/+J3Kfg9Oa+D6g4neaYF4PU70l3rWN
+   AJufvTJsQ8yRpMkXapMiAF0hLgHtWMXJ9sSlwmPpOAyZ5xPNKcqG3XYub
+   g==;
+X-CSE-ConnectionGUID: jCRHNepES16uyPz0pN6A+Q==
+X-CSE-MsgGUID: ExN7LQZsQ9qTBUdYaXdv0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66306984"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="66306984"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 02:22:46 -0700
+X-CSE-ConnectionGUID: KXFb/J6yTM+8JF7jZaoxKw==
+X-CSE-MsgGUID: i+CF4AS4SPCLbO2ZEhX7bA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; 
-   d="scan'208";a="185958557"
+   d="scan'208";a="181120394"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Oct 2025 01:51:20 -0700
+  by orviesa009.jf.intel.com with ESMTP; 13 Oct 2025 02:22:45 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8EGz-0000HT-26;
-	Mon, 13 Oct 2025 08:51:17 +0000
-Date: Mon, 13 Oct 2025 16:50:33 +0800
+	id 1v8ElP-0000Jb-0C;
+	Mon, 13 Oct 2025 09:22:43 +0000
+Date: Mon, 13 Oct 2025 17:22:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [koverstreet-bcachefs:bcachefs-testing 458/578]
- fs/bcachefs/alloc/accounting.c:962 bch2_accounting_read() error: 'jk'
- dereferencing possible ERR_PTR()
-Message-ID: <202510131654.1JCSV5ou-lkp@intel.com>
+Subject: Re: [PATCH v4 2/2] mmc: sdhci-of-dwcmshc: Add support for Eswin
+ EIC7700
+Message-ID: <202510131636.lJ5QxMpK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,154 +64,127 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+In-Reply-To: <20251011111216.570-1-hehuan1@eswincomputing.com>
+References: <20251011111216.570-1-hehuan1@eswincomputing.com>
+TO: hehuan1@eswincomputing.com
+TO: ulf.hansson@linaro.org
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+TO: jszhang@kernel.org
+TO: adrian.hunter@intel.com
+TO: p.zabel@pengutronix.de
+TO: linux-mmc@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: ningyu@eswincomputing.com
+CC: linmin@eswincomputing.com
+CC: pinkesh.vaghela@einfochips.com
+CC: xuxiang@eswincomputing.com
+CC: luyulin@eswincomputing.com
+CC: dongxuyang@eswincomputing.com
+CC: zhangsenchuan@eswincomputing.com
+CC: weishangjuan@eswincomputing.com
+CC: lizhi2@eswincomputing.com
+CC: caohang@eswincomputing.com
+CC: hehuan1@eswincomputing.com
+CC: kernel test robot <lkp@intel.com>
 
-Hi Kent,
+Hi,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   a6d7792017723e708be5b200423839ca422a3565
-commit: 0151e9a63908fe0c0e6f7393d8677b62bb3cb71c [458/578] bcachefs: move alloc files to subdir
-:::::: branch date: 3 hours ago
-:::::: commit date: 7 days ago
-config: i386-randconfig-141-20251013 (https://download.01.org/0day-ci/archive/20251013/202510131654.1JCSV5ou-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+[auto build test WARNING on linus/master]
+[also build test WARNING on ulf-hansson-mmc-mirror/next v6.18-rc1 next-20251010]
+[cannot apply to robh/for-next pza/reset/next pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/hehuan1-eswincomputing-com/dt-bindings-mmc-sdhci-of-dwcmshc-Add-Eswin-EIC7700/20251011-191312
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251011111216.570-1-hehuan1%40eswincomputing.com
+patch subject: [PATCH v4 2/2] mmc: sdhci-of-dwcmshc: Add support for Eswin EIC7700
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: s390-randconfig-r073-20251013 (https://download.01.org/0day-ci/archive/20251013/202510131636.lJ5QxMpK-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510131654.1JCSV5ou-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510131636.lJ5QxMpK-lkp@intel.com/
 
-smatch warnings:
-fs/bcachefs/alloc/accounting.c:962 bch2_accounting_read() error: 'jk' dereferencing possible ERR_PTR()
-fs/bcachefs/alloc/accounting.c:962 bch2_accounting_read() error: 'jk' dereferencing possible ERR_PTR()
-fs/bcachefs/alloc/backpointers.c:363 __bch2_backpointer_get_key() warn: passing zero to 'ERR_CAST'
-fs/bcachefs/alloc/buckets.c:578 bch2_trans_account_disk_usage_change() error: we previously assumed 'trans->disk_res' could be null (see line 550)
+New smatch warnings:
+drivers/mmc/host/sdhci-of-dwcmshc.c:1547 eic7700_init() warn: missing error code? 'ret'
 
-vim +/jk +962 fs/bcachefs/alloc/accounting.c
+Old smatch warnings:
+drivers/mmc/host/sdhci-of-dwcmshc.c:1079 cv18xx_sdhci_execute_tuning() error: uninitialized symbol 'target_min'.
+drivers/mmc/host/sdhci-of-dwcmshc.c:1079 cv18xx_sdhci_execute_tuning() error: uninitialized symbol 'target_max'.
 
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   907  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   908  /*
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   909   * At startup time, initialize the in memory accounting from the btree (and
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   910   * journal)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   911   */
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   912  int bch2_accounting_read(struct bch_fs *c)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   913  {
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   914  	struct bch_accounting_mem *acc = &c->accounting;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   915  	CLASS(btree_trans, trans)(c);
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   916  	CLASS(printbuf, buf)();
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   917  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   918  	/*
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   919  	 * We might run more than once if we rewind to start topology repair or
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   920  	 * btree node scan - and those might cause us to get different results,
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   921  	 * so we can't just skip if we've already run.
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   922  	 *
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   923  	 * Instead, zero out any accounting we have:
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   924  	 */
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   925  	scoped_guard(percpu_write, &c->mark_lock) {
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   926  		darray_for_each(acc->k, e)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   927  			percpu_memset(e->v[0], 0, sizeof(u64) * e->nr_counters);
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   928  		for_each_member_device(c, ca)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   929  			percpu_memset(ca->usage, 0, sizeof(*ca->usage));
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   930  		percpu_memset(c->usage, 0, sizeof(*c->usage));
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   931  	}
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   932  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   933  	struct journal_keys *keys = &c->journal_keys;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   934  	struct journal_key *jk = keys->data;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   935  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   936  	move_gap(keys, keys->nr);
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   937  
-73f8c1c0fb45b79 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-27   938  	/* Find the range of accounting keys from the journal: */
-73f8c1c0fb45b79 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-27   939  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   940  	while (jk < &darray_top(*keys) &&
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   941  	       __journal_key_cmp(c, BTREE_ID_accounting, 0, POS_MIN, jk) > 0)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   942  		jk++;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   943  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   944  	struct journal_key *end = jk;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   945  	while (end < &darray_top(*keys) &&
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   946  	       __journal_key_cmp(c, BTREE_ID_accounting, 0, SPOS_MAX, end) > 0)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   947  		end++;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   948  
-73f8c1c0fb45b79 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-27   949  	/*
-73f8c1c0fb45b79 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-27   950  	 * Iterate over btree and journal accounting simultaneously:
-73f8c1c0fb45b79 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-27   951  	 *
-73f8c1c0fb45b79 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-27   952  	 * We want to drop unneeded unneeded accounting deltas early - deltas
-73f8c1c0fb45b79 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-27   953  	 * that are older than the btree accounting key version, and once we've
-73f8c1c0fb45b79 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-27   954  	 * dropped old accounting deltas we can accumulate and compact deltas
-73f8c1c0fb45b79 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-27   955  	 * for the same key:
-73f8c1c0fb45b79 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-27   956  	 */
-73f8c1c0fb45b79 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-27   957  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   958  	struct btree_iter iter;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   959  	bch2_trans_iter_init(trans, &iter, BTREE_ID_accounting, POS_MIN,
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   960  			     BTREE_ITER_prefetch|BTREE_ITER_all_snapshots);
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   961  	iter.flags &= ~BTREE_ITER_with_journal;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  @962  	int ret = for_each_btree_key_continue(trans, iter,
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   963  				BTREE_ITER_prefetch|BTREE_ITER_all_snapshots, k, ({
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   964  		if (k.k->type != KEY_TYPE_accounting)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   965  			continue;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   966  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   967  		while (jk < end &&
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   968  		       __journal_key_cmp(c, BTREE_ID_accounting, 0, k.k->p, jk) > 0)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   969  			jk = accumulate_and_read_journal_accounting(trans, jk);
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   970  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   971  		while (jk < end &&
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   972  		       __journal_key_cmp(c, BTREE_ID_accounting, 0, k.k->p, jk) == 0 &&
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   973  		       bversion_cmp(journal_key_k(c, jk)->k.bversion, k.k->bversion) <= 0) {
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   974  			jk->overwritten = true;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   975  			jk++;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   976  		}
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   977  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   978  		if (jk < end &&
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   979  		    __journal_key_cmp(c, BTREE_ID_accounting, 0, k.k->p, jk) == 0)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   980  			jk = accumulate_and_read_journal_accounting(trans, jk);
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   981  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   982  		struct disk_accounting_pos acc_k;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   983  		bpos_to_disk_accounting_pos(&acc_k, k.k->p);
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   984  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   985  		if (acc_k.type >= BCH_DISK_ACCOUNTING_TYPE_NR)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   986  			break;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   987  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   988  		if (!bch2_accounting_is_mem(&acc_k)) {
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   989  			struct disk_accounting_pos next_acc;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   990  			memset(&next_acc, 0, sizeof(next_acc));
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   991  			next_acc.type = acc_k.type + 1;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   992  			struct bpos next = disk_accounting_pos_to_bpos(&next_acc);
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   993  			if (jk < end)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   994  				next = bpos_min(next, journal_key_k(c, jk)->k.p);
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   995  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   996  			/* for_each_btree_key() will still advance iterator: */
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   997  			bch2_btree_iter_set_pos(&iter, bpos_predecessor(next));
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   998  			continue;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26   999  		}
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1000  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1001  		accounting_read_key(trans, k);
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1002  	}));
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1003  	bch2_trans_iter_exit(&iter);
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1004  	if (ret)
-1d16c605cc55ef2 fs/bcachefs/disk_accounting.c Kent Overstreet 2023-11-09  1005  		return ret;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1006  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1007  	while (jk < end)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1008  		jk = accumulate_and_read_journal_accounting(trans, jk);
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1009  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1010  	bch2_trans_unlock(trans);
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1011  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1012  	struct journal_key *dst = keys->data;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1013  	darray_for_each(*keys, i)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1014  		if (!i->overwritten)
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1015  			*dst++ = *i;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1016  	keys->gap = keys->nr = dst - keys->data;
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1017  
-f7a5616144447f3 fs/bcachefs/disk_accounting.c Kent Overstreet 2025-09-26  1018  	return accounting_read_mem_fixups(trans);
-1d16c605cc55ef2 fs/bcachefs/disk_accounting.c Kent Overstreet 2023-11-09  1019  }
-1d16c605cc55ef2 fs/bcachefs/disk_accounting.c Kent Overstreet 2023-11-09  1020  
+vim +/ret +1547 drivers/mmc/host/sdhci-of-dwcmshc.c
 
-:::::: The code at line 962 was first introduced by commit
-:::::: f7a5616144447f39b56dbb9095530fbaaaa1601e bcachefs: accounting_read_mem_fixups()
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+3c5c200f02eee8 Huan He 2025-10-11  1515  
+3c5c200f02eee8 Huan He 2025-10-11  1516  static int eic7700_init(struct device *dev, struct sdhci_host *host, struct dwcmshc_priv *dwc_priv)
+3c5c200f02eee8 Huan He 2025-10-11  1517  {
+3c5c200f02eee8 Huan He 2025-10-11  1518  	u32 emmc_caps = MMC_CAP2_NO_SD | MMC_CAP2_NO_SDIO;
+3c5c200f02eee8 Huan He 2025-10-11  1519  	unsigned int val, hsp_int_status, hsp_pwr_ctrl;
+3c5c200f02eee8 Huan He 2025-10-11  1520  	struct of_phandle_args args;
+3c5c200f02eee8 Huan He 2025-10-11  1521  	struct eic7700_priv *priv;
+3c5c200f02eee8 Huan He 2025-10-11  1522  	struct regmap *hsp_regmap;
+3c5c200f02eee8 Huan He 2025-10-11  1523  	int ret;
+3c5c200f02eee8 Huan He 2025-10-11  1524  
+3c5c200f02eee8 Huan He 2025-10-11  1525  	priv = devm_kzalloc(dev, sizeof(struct eic7700_priv), GFP_KERNEL);
+3c5c200f02eee8 Huan He 2025-10-11  1526  	if (!priv)
+3c5c200f02eee8 Huan He 2025-10-11  1527  		return -ENOMEM;
+3c5c200f02eee8 Huan He 2025-10-11  1528  
+3c5c200f02eee8 Huan He 2025-10-11  1529  	dwc_priv->priv = priv;
+3c5c200f02eee8 Huan He 2025-10-11  1530  
+3c5c200f02eee8 Huan He 2025-10-11  1531  	ret = sdhci_eic7700_reset_init(dev, dwc_priv->priv);
+3c5c200f02eee8 Huan He 2025-10-11  1532  	if (ret) {
+3c5c200f02eee8 Huan He 2025-10-11  1533  		dev_err(dev, "failed to reset\n");
+3c5c200f02eee8 Huan He 2025-10-11  1534  		return ret;
+3c5c200f02eee8 Huan He 2025-10-11  1535  	}
+3c5c200f02eee8 Huan He 2025-10-11  1536  
+3c5c200f02eee8 Huan He 2025-10-11  1537  	ret = of_parse_phandle_with_fixed_args(dev->of_node, "eswin,hsp-sp-csr", 2, 0, &args);
+3c5c200f02eee8 Huan He 2025-10-11  1538  	if (ret) {
+3c5c200f02eee8 Huan He 2025-10-11  1539  		dev_err(dev, "Fail to parse 'eswin,hsp-sp-csr' phandle (%d)\n", ret);
+3c5c200f02eee8 Huan He 2025-10-11  1540  		return ret;
+3c5c200f02eee8 Huan He 2025-10-11  1541  	}
+3c5c200f02eee8 Huan He 2025-10-11  1542  
+3c5c200f02eee8 Huan He 2025-10-11  1543  	hsp_regmap = syscon_node_to_regmap(args.np);
+3c5c200f02eee8 Huan He 2025-10-11  1544  	if (IS_ERR(hsp_regmap)) {
+3c5c200f02eee8 Huan He 2025-10-11  1545  		dev_err(dev, "Failed to get regmap for 'eswin,hsp-sp-csr'\n");
+3c5c200f02eee8 Huan He 2025-10-11  1546  		of_node_put(args.np);
+3c5c200f02eee8 Huan He 2025-10-11 @1547  		return ret;
+3c5c200f02eee8 Huan He 2025-10-11  1548  	}
+3c5c200f02eee8 Huan He 2025-10-11  1549  	hsp_int_status = args.args[0];
+3c5c200f02eee8 Huan He 2025-10-11  1550  	hsp_pwr_ctrl = args.args[1];
+3c5c200f02eee8 Huan He 2025-10-11  1551  	of_node_put(args.np);
+3c5c200f02eee8 Huan He 2025-10-11  1552  	/*
+3c5c200f02eee8 Huan He 2025-10-11  1553  	 * Assert clock stability: write EIC7700_INT_CLK_STABLE to hsp_int_status.
+3c5c200f02eee8 Huan He 2025-10-11  1554  	 * This signals to the eMMC controller that platform clocks (card, ACLK,
+3c5c200f02eee8 Huan He 2025-10-11  1555  	 * BCLK, TMCLK) are enabled and stable.
+3c5c200f02eee8 Huan He 2025-10-11  1556  	 */
+3c5c200f02eee8 Huan He 2025-10-11  1557  	regmap_write(hsp_regmap, hsp_int_status, EIC7700_INT_CLK_STABLE);
+3c5c200f02eee8 Huan He 2025-10-11  1558  	/*
+3c5c200f02eee8 Huan He 2025-10-11  1559  	 * Assert voltage stability: write EIC7700_HOST_VAL_STABLE to hsp_pwr_ctrl.
+3c5c200f02eee8 Huan He 2025-10-11  1560  	 * This signals that VDD is stable and permits transition to high-speed
+3c5c200f02eee8 Huan He 2025-10-11  1561  	 * modes (e.g., UHS-I).
+3c5c200f02eee8 Huan He 2025-10-11  1562  	 */
+3c5c200f02eee8 Huan He 2025-10-11  1563  	regmap_write(hsp_regmap, hsp_pwr_ctrl, EIC7700_HOST_VAL_STABLE);
+3c5c200f02eee8 Huan He 2025-10-11  1564  
+3c5c200f02eee8 Huan He 2025-10-11  1565  	if ((host->mmc->caps2 & emmc_caps) == emmc_caps)
+3c5c200f02eee8 Huan He 2025-10-11  1566  		dwc_priv->delay_line = PHY_DELAY_CODE_EMMC;
+3c5c200f02eee8 Huan He 2025-10-11  1567  	else
+3c5c200f02eee8 Huan He 2025-10-11  1568  		dwc_priv->delay_line = PHY_DELAY_CODE_SD;
+3c5c200f02eee8 Huan He 2025-10-11  1569  
+3c5c200f02eee8 Huan He 2025-10-11  1570  	if (!of_property_read_u32(dev->of_node, "eswin,drive-impedance-ohms", &val))
+3c5c200f02eee8 Huan He 2025-10-11  1571  		priv->drive_impedance = eic7700_convert_drive_impedance_ohm(dev, val);
+3c5c200f02eee8 Huan He 2025-10-11  1572  	return 0;
+3c5c200f02eee8 Huan He 2025-10-11  1573  }
+3c5c200f02eee8 Huan He 2025-10-11  1574  
 
 -- 
 0-DAY CI Kernel Test Service
