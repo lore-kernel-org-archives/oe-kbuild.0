@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CBF4C97
-	for <oe-kbuild@lists.linux.dev>; Mon, 13 Oct 2025 00:57:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1545934BA2B
+	for <oe-kbuild@lists.linux.dev>; Mon, 13 Oct 2025 01:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760317070; cv=none; b=HbbrnPrWKqWXeMlfSu3KZpWFp2gAiIdBRfKyYR9G819/MQ4MVpJyTNc5lA4XsWmcUzpNYTCc1GvNUcDxmLVZJRuBM+vbioKjB/tVLnU9kbB8XVyZCgq4FDGJBhJSgnTFXFNYecZMrhhOVGbJ+oOC65Oq5kgVHVFRCHW27+hEj4s=
+	t=1760320110; cv=none; b=jBcwpp+18Bl4uT9Q2N4DOW6ZaFujRDvunq8yF0wYlZ0cwa1/axW2gYpMRUe6lTYCShco1PDr58xLtOHnqcurfpxZBUOgIeDjFVI5bK7Pwa5C0/v3gaG8Zw/9/9PtxWnSwPkLmxuG2wVH0m9wPcv8n1A0VEne/gwPBbB0iw0g87A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760317070; c=relaxed/simple;
-	bh=N/AwLWUN7nNooWD4bam53yZ9pXQB/oGXEa2bMhNI6Fo=;
+	s=arc-20240116; t=1760320110; c=relaxed/simple;
+	bh=GOMefqmquDhwaKWDNKcNBhFqtFiCk74W0Oc6lzmgdxs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dv0Kfs7sE+rXXGIF6yO7fWS1xLhXrOMPs8BwI901qqRHJxfN7vbjuHGqAkEFe8hycbeykhz3f5LCNHhxpOmZ6NbrjCo8W7OaKJkx08YXe2Hh9eI0CNvAF27VZzS/3ERrzwWoqStM0wvJzWk9zt6GKdzh5UGNem33Q5VypSZcfIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QUMR1Ea7; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=suVKj+S79j2GmePWTWGpmDfAKuHzTfOyskYR2DN6UPIT5kGOCR2rsnPdVVh+1g0VyMeMjpP3700UAXH0aKBxFnAoj4HOkkETN9DE8jtdWWZVIPULea+iPwEbw0/gMKeChI730nfZj1bSSoDxye2BMu5h62avX2YRT67puSVLRBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=llD+IqkT; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QUMR1Ea7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="llD+IqkT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760317069; x=1791853069;
+  t=1760320108; x=1791856108;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N/AwLWUN7nNooWD4bam53yZ9pXQB/oGXEa2bMhNI6Fo=;
-  b=QUMR1Ea7l/QIiCj5c20PXHu+lQ5BVLMZbhJ+dDRtZ7Q5B7Nt6zlLKVq0
-   EyPGKy1Fh6WjfgnCXsE34umYQmx+H4JNGOJOLmzr2jwdunpujvQFXCxuo
-   IpQtn/tXlrYVYLJNkfXdnXUPEvqNgYA3eRtavsad45fzGBT4DmLfZJsBI
-   eSj82erUBSLT0xA5FWsz5IJBcJLUMsQ/LmjPuJP++FwlV93X6LhI980RR
-   Snu4mMenGwcSLOMxhCpMXG4AtrPt0wp7IkIBHosJFa5BSmvvXEW8giz45
-   r7DeFvfMmhJSiNAMtlS67O9pOeS6SCmtBcNto4gyMi6sfVTeXB6fU6uB6
-   A==;
-X-CSE-ConnectionGUID: 7eht+gAkRU+qIy5fVPX9xQ==
-X-CSE-MsgGUID: jUff/ZqLSpiKVl/HoZueiA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11580"; a="62340093"
-X-IronPort-AV: E=Sophos;i="6.19,224,1754982000"; 
-   d="scan'208";a="62340093"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2025 17:57:49 -0700
-X-CSE-ConnectionGUID: DgxuowuVQ8WkP3YGwZTz3w==
-X-CSE-MsgGUID: pZyXnU0NTiyRXhKA3Gi07g==
+  bh=GOMefqmquDhwaKWDNKcNBhFqtFiCk74W0Oc6lzmgdxs=;
+  b=llD+IqkT0KVrEv1b69QuoZNDX2XWeyZnPwH3dtriOsYsE90URsclwOMI
+   R2niMsATicVQ5PadcWK3FpgM7reHBmh9stYxMVAIf/PakREYm0+F5G09G
+   GgZN3ffk9VRZoOkweDZCxlD3skn42AZHT2EqI0of7xPWqXwzmIb+JRZEh
+   xFD7wRNDvFl8Z7a5bIZS5rG5HHAJ7iky3t5xe4OalN5dEPyHpYVWZMBPh
+   58I60Hx7OrFco40Vd52v2skZQjGxQxFjEBFmOxSyYQt4TSgZfxyVEdiVl
+   RdaZEPhXqd6E51h91sCtxrnGT2B0Ct9vIvp2eIKO3jxLVCYP3CjgRSBFr
+   w==;
+X-CSE-ConnectionGUID: KZoapsyXRMeGa635gIPHOA==
+X-CSE-MsgGUID: a2yrgYjwTuiXXRUd3mB8Xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62368256"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62368256"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2025 18:48:27 -0700
+X-CSE-ConnectionGUID: tD3vBQDTRrO6nJd7jwvk3A==
+X-CSE-MsgGUID: EFzy0SdYRx2rLn1BGZnZ0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,224,1754982000"; 
-   d="scan'208";a="181891666"
+   d="scan'208";a="212111097"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Oct 2025 17:57:47 -0700
+  by orviesa002.jf.intel.com with ESMTP; 12 Oct 2025 18:48:26 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v86sR-000017-3A;
-	Mon, 13 Oct 2025 00:57:30 +0000
-Date: Mon, 13 Oct 2025 08:55:23 +0800
+	id 1v87fk-00005z-0A;
+	Mon, 13 Oct 2025 01:48:24 +0000
+Date: Mon, 13 Oct 2025 09:48:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v4 3/4] arm64: dts: freescale:
- moduline-display-av101hdt-a10: add backlight
-Message-ID: <202510130747.tulDMKjB-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/nios2/kernel/setup.c:151 adjust_lowmem_bounds() warn: iterator
+ 'i' not incremented
+Message-ID: <202510130947.0djhgiQF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,63 +62,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251009-max25014-v4-3-6adb2a0aa35f@gocontroll.com>
-References: <20251009-max25014-v4-3-6adb2a0aa35f@gocontroll.com>
-TO: Maud Spierings via B4 Relay <devnull+maudspierings.gocontroll.com@kernel.org>
-TO: Lee Jones <lee@kernel.org>
-TO: Daniel Thompson <danielt@kernel.org>
-TO: Jingoo Han <jingoohan1@gmail.com>
-TO: Pavel Machek <pavel@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Helge Deller <deller@gmx.de>
-TO: Shawn Guo <shawnguo@kernel.org>
-TO: Sascha Hauer <s.hauer@pengutronix.de>
-TO: Pengutronix Kernel Team <kernel@pengutronix.de>
-TO: Fabio Estevam <festevam@gmail.com>
-TO: Liam Girdwood <lgirdwood@gmail.com>
-TO: Mark Brown <broonie@kernel.org>
-CC: dri-devel@lists.freedesktop.org
-CC: linux-leds@vger.kernel.org
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: linux-fbdev@vger.kernel.org
-CC: imx@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: Maud Spierings <maudspierings@gocontroll.com>
+TO: Simon Schuster <schuster.simon@siemens-energy.com>
+CC: Dinh Nguyen <dinguyen@kernel.org>
+CC: Andreas Oetken <andreas.oetken@siemens-energy.com>
 
-Hi Maud,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 7c3ba4249a3604477ea9c077e10089ba7ddcaa03]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maud-Spierings-via-B4-Relay/dt-bindings-backlight-Add-max25014-bindings/20251010-054728
-base:   7c3ba4249a3604477ea9c077e10089ba7ddcaa03
-patch link:    https://lore.kernel.org/r/20251009-max25014-v4-3-6adb2a0aa35f%40gocontroll.com
-patch subject: [PATCH v4 3/4] arm64: dts: freescale: moduline-display-av101hdt-a10: add backlight
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-051-20251011 (https://download.01.org/0day-ci/archive/20251013/202510130747.tulDMKjB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251013/202510130747.tulDMKjB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3a8660878839faadb4f1a6dd72c3179c1df56787
+commit: a20b83cf45be2057f3d073506779e52c7fa17f94 nios2: ensure that memblock.current_limit is set when setting pfn limits
+date:   7 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 7 weeks ago
+config: nios2-randconfig-r071-20251013 (https://download.01.org/0day-ci/archive/20251013/202510130947.0djhgiQF-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510130747.tulDMKjB-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202510130947.0djhgiQF-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av101hdt-a10.dtb: backlight@6f (maxim,max25014): 'default-brightness' does not match any of the regexes: '^led@[01]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
+smatch warnings:
+arch/nios2/kernel/setup.c:151 adjust_lowmem_bounds() warn: iterator 'i' not incremented
+
+vim +/i +151 arch/nios2/kernel/setup.c
+
+7f7bc20bc41a4f Andreas Oetken 2021-02-19  144  
+a20b83cf45be20 Simon Schuster 2025-08-21  145  static void __init adjust_lowmem_bounds(void)
+a20b83cf45be20 Simon Schuster 2025-08-21  146  {
+a20b83cf45be20 Simon Schuster 2025-08-21  147  	phys_addr_t block_start, block_end;
+a20b83cf45be20 Simon Schuster 2025-08-21  148  	u64 i;
+a20b83cf45be20 Simon Schuster 2025-08-21  149  	phys_addr_t memblock_limit = 0;
+a20b83cf45be20 Simon Schuster 2025-08-21  150  
+a20b83cf45be20 Simon Schuster 2025-08-21 @151  	for_each_mem_range(i, &block_start, &block_end) {
+a20b83cf45be20 Simon Schuster 2025-08-21  152  		if (block_end > memblock_limit)
+a20b83cf45be20 Simon Schuster 2025-08-21  153  			memblock_limit = block_end;
+a20b83cf45be20 Simon Schuster 2025-08-21  154  	}
+a20b83cf45be20 Simon Schuster 2025-08-21  155  
+a20b83cf45be20 Simon Schuster 2025-08-21  156  	memblock_set_current_limit(memblock_limit);
+a20b83cf45be20 Simon Schuster 2025-08-21  157  }
+a20b83cf45be20 Simon Schuster 2025-08-21  158  
 
 -- 
 0-DAY CI Kernel Test Service
