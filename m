@@ -1,78 +1,58 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915CC3101C8
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Oct 2025 08:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9690219E97F
+	for <oe-kbuild@lists.linux.dev>; Tue, 14 Oct 2025 08:48:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760431350; cv=none; b=kEHNwqwbupZlAI8e+epYjlPbfQ3HsznW13uLbJtvO51cLOTtN1QM8jO2qhRPalZnljX6HN1YY+eBkj+VgCrQwjPrRze3kHNrcz6D7JEyc/QMK8qmABiZGfI1+fwlAAf5ABdWR5+sX+OpjsWzCNZ4umRHFtjyZHvI2PFclYYIPKs=
+	t=1760431712; cv=none; b=F0MWteTTcKKfTRLb3kusW5yzLOzsaVwZ0YDym046ThLMveiUP0uu/VoqQ9HBauggXJMhpp+DrKEi0/hhBzsYiRUWT5Gtm5aeLfPDK3T+CmcnFmqPBre9LM5jIDROLD4MUqjvGNjPRTzhHyntynovwgNeFA8RZMO1ZABqTRKVw3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760431350; c=relaxed/simple;
-	bh=HVI9WkSGPWOkAXQUy/ASJnp79EZmelndScNQlQVMQvA=;
+	s=arc-20240116; t=1760431712; c=relaxed/simple;
+	bh=yIKIlSp3FSyRk5cKOaMqsW1bR196MEgM9km146kZ9cE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=WwqyzVeQfJkAk3zaVwkJYH6NY9juMfD/Emz2r0tddVv8DtRzK/KKPNLxwvUmGdsrRrwWVSHTbdgSmbqodCTBFYQNdP67idCpMO85og+Zyp02utNAHaQkhXTv0dTrMZUuHTVST38tKAvl9oM6MGXPSa4pRW0DzDJSzugm8bXIll8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wNKWSGmB; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=lI890NLG/ppQa5NxvCcZNVw9lTRWp/qanxgZQdpp/867QNv+EmScTL9jgDzWl96OSmPy20RAzurgDLbgxrvB0kZgL5n3s6KSYMTHKDT0gCMuZ3OnTQqHlXsjUDjgiKVm66Zpdi1DKVmi2X6UHF1iA87eN+f8h8E3atQXuBm5wxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HPdZRv8r; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wNKWSGmB"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-46e34052bb7so59871315e9.2
-        for <oe-kbuild@lists.linux.dev>; Tue, 14 Oct 2025 01:42:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760431347; x=1761036147; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bux6a4GJjBSEbuQlF9lC1lsY4+VsrC6xtyeGzyjuopE=;
-        b=wNKWSGmBfW9VuvMh3d5p30jwM1Yqq4dSi8TpqcpIyW3eXvk4uYvlMALrkJ17r4xdpT
-         3B8FQjafmC4IVXY0nj6agmbAS9+X/6MoXbBKm94iCS3jnjvrZoEzolCGE/M1ZMr9LJft
-         aU/6Gf9bmEVtlCefHqS33plRQj+mMoH0ZRwrSh34M/JBgoTQynwDZqjtzLJ45v03pOfu
-         nPZiV3qilpDJTImoiY91xNYnHWO8978FlTd24wxJsJz9neaIS7fDvWgU4zwIhi6B6fGp
-         o+byHaTA3H/9fuRD9brc3DuT32Ry3o24GZydpdKplHVYXEwlk/3CI29UKCpmUuiHigLp
-         QH3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760431347; x=1761036147;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Bux6a4GJjBSEbuQlF9lC1lsY4+VsrC6xtyeGzyjuopE=;
-        b=mczpDW8HTv32YzCOlRTx0v/I6fsQgWh+7ZfeBJ2uBZDbEZ6k7DXKUgKyUUeiH5Iuj1
-         UvhecybkAB72C1Fnu/9KjQnlkKD9S29d0syBbyOmzEpXEk8aqS1QZ5x2jdL1DWyGp2FG
-         P+J/l6DAuRkS1McfmTPTmUQvGRuBBX4ISHXdMO9fpYQtBNoMMVcmJxZ2Dk5s74vINazz
-         aDP+tY+6kb20gb6Suk9dZgsQNz4Wrrc+lBZxsCmQJXWjnmXuxSyNd0BRBrbV7KN6Go09
-         9/HIejKxKjFw8ojlTF+cTxwjaBJckmz7jNY1Wqs4LunfnlfnHyIno34QbuBTrgEJyG8Q
-         OoaQ==
-X-Gm-Message-State: AOJu0YwrBU+YRHQWHxTINerXDIHJMVDUg8J9vc+auLQ11QDP44A3f8+J
-	v+UDVslVnOju4SJ7foEbLuOe/X2oluFGgUQ05b0kSJbczIO2JY6obN0GW5jWuqRD3p+4i7+ToBE
-	d0l5m
-X-Gm-Gg: ASbGncs+sn+IVtMNVv1uFpOXmyL0eOURwKRsPOhkzEMbUawi9vG/Zwl6n2nDj2YW6sQ
-	Eayvq487mhET4gdmofsWmtGp6hbkaybLPIxEjRPKQ3b87tFJIAZJa4EFVAPQdGXolfPs6yZpWnh
-	hYO5HwIe7lMbOZzhGuWdL1Bsnr6jma8Z2mrP4+o5PJThGw3MwSjczwntvWjEHlZLBm+dTTcq1Ft
-	JZc/O0gYlF1zrGIXKtwgTMM8IPseBly4fPz7BLaGkTRP0C9T/JoUe+Csos0lbAPWDc56VX1l2XW
-	pvHGyEc5yF4ieCr7C+9LX0gYxqxkTNth9TMN7vg4B6gAVV6prnAC5iQoLQgd99TfpdQ4izvX0B8
-	71vmBg48mTm1iACziUnQfQ7pg82gDP0Wmn+gmkjY0qPtAQgh8uxreZaB4gxdR+u/hiLiO0kP6
-X-Google-Smtp-Source: AGHT+IEPeQ80dYAy/EoJvHRwS61zYc5L1iet9i9NnbknYK2xCI/PKnPoz8i4rHOQpXQTbmI6ft/ptQ==
-X-Received: by 2002:a05:600c:c083:b0:46f:b32e:5292 with SMTP id 5b1f17b1804b1-46fb32e5338mr94133085e9.8.1760431346590;
-        Tue, 14 Oct 2025 01:42:26 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46fb482b99fsm234828405e9.3.2025.10.14.01.42.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 01:42:26 -0700 (PDT)
-Date: Tue, 14 Oct 2025 11:42:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, hehuan1@eswincomputing.com,
-	ulf.hansson@linaro.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, jszhang@kernel.org, adrian.hunter@intel.com,
-	p.zabel@pengutronix.de, linux-mmc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ningyu@eswincomputing.com,
-	linmin@eswincomputing.com, pinkesh.vaghela@einfochips.com,
-	xuxiang@eswincomputing.com, luyulin@eswincomputing.com,
-	dongxuyang@eswincomputing.com, zhangsenchuan@eswincomputing.com,
-	weishangjuan@eswincomputing.com, lizhi2@eswincomputing.com,
-	caohang@eswincomputing.com, hehuan1@eswincomputing.com
-Subject: Re: [PATCH v4 2/2] mmc: sdhci-of-dwcmshc: Add support for Eswin
- EIC7700
-Message-ID: <202510131636.lJ5QxMpK-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HPdZRv8r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760431709; x=1791967709;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yIKIlSp3FSyRk5cKOaMqsW1bR196MEgM9km146kZ9cE=;
+  b=HPdZRv8r87RYpwxEASkI+/jByLpStbRkth0k5v86AAXG3o480s364IBo
+   4eA5lRL/DXvbDa8JqHymkgYLLalaMx5sTuYYCXrfV50fyXRe5iSZ2CsxR
+   L8qlQMRwrBhqVd8wPpqpbNmjwXvqp2cfK1uvV6a3vk8oHtC11PDGev+Ze
+   QoRQWylT4VZRm0TBwqnpRkcz9l8Y7/uX8CsVLD1b3Q4wSDZ27bPr1ktMC
+   l7ine4yLOX2tR2SOIr7BFHQgDBjw26wU288UA45FywsXx22QThyQWaDm2
+   lcoLczx09tP6QiMafPn+dzGClf16jqjG53hzhq+UTq0lehPNOSKDggxUk
+   g==;
+X-CSE-ConnectionGUID: rRcpws1mTrCUpWFu9PUB/g==
+X-CSE-MsgGUID: A+Mn2XlhSrKopv+TsIYjlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="72854511"
+X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
+   d="scan'208";a="72854511"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 01:48:28 -0700
+X-CSE-ConnectionGUID: 75nSeqFXRcaO6S6m5vxRBg==
+X-CSE-MsgGUID: NMasiL90Qa24MdhcfnLAxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
+   d="scan'208";a="186924841"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 14 Oct 2025 01:48:27 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v8ahk-0002ZE-0k;
+	Tue, 14 Oct 2025 08:48:24 +0000
+Date: Tue, 14 Oct 2025 16:47:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [peterz-queue:perf/core 5/6] arch/x86/lib/insn-eval.c:1769
+ insn_is_nop() error: uninitialized symbol 'modrm_mod'.
+Message-ID: <202510141631.kQWSN1gd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,79 +61,137 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251011111216.570-1-hehuan1@eswincomputing.com>
-Message-ID: <20251014084222.2R8yiNJr1bilvC-m6KJ0dos3wYwX53SEDe0pKHhY3Uc@z>
 
-Hi,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Peter Zijlstra <peterz@infradead.org>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/hehuan1-eswincomputing-com/dt-bindings-mmc-sdhci-of-dwcmshc-Add-Eswin-EIC7700/20251011-191312
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251011111216.570-1-hehuan1%40eswincomputing.com
-patch subject: [PATCH v4 2/2] mmc: sdhci-of-dwcmshc: Add support for Eswin EIC7700
-config: s390-randconfig-r073-20251013 (https://download.01.org/0day-ci/archive/20251013/202510131636.lJ5QxMpK-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/core
+head:   831b95e7609de26dffe5d2659c3b5ebf406e2989
+commit: 96d15af6fdb6f5ce7665d9ba4d32b93300e7a259 [5/6] x86/insn,uprobes,alternative: Unify insn_is_nop()
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: i386-randconfig-141-20251014 (https://download.01.org/0day-ci/archive/20251014/202510141631.kQWSN1gd-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510131636.lJ5QxMpK-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202510141631.kQWSN1gd-lkp@intel.com/
 
 New smatch warnings:
-drivers/mmc/host/sdhci-of-dwcmshc.c:1547 eic7700_init() warn: missing error code? 'ret'
+arch/x86/lib/insn-eval.c:1769 insn_is_nop() error: uninitialized symbol 'modrm_mod'.
+arch/x86/lib/insn-eval.c:1776 insn_is_nop() error: uninitialized symbol 'modrm_reg'.
+arch/x86/lib/insn-eval.c:1776 insn_is_nop() error: uninitialized symbol 'modrm_rm'.
 
-vim +/ret +1547 drivers/mmc/host/sdhci-of-dwcmshc.c
+Old smatch warnings:
+arch/x86/lib/insn-eval.c:1779 insn_is_nop() error: uninitialized symbol 'modrm_mod'.
+arch/x86/lib/insn-eval.c:1797 insn_is_nop() error: uninitialized symbol 'modrm_reg'.
+arch/x86/lib/insn-eval.c:1797 insn_is_nop() error: uninitialized symbol 'modrm_rm'.
+arch/x86/lib/insn-eval.c:1818 insn_is_nop() error: uninitialized symbol 'modrm_reg'.
 
-3c5c200f02eee8 Huan He 2025-10-11  1516  static int eic7700_init(struct device *dev, struct sdhci_host *host, struct dwcmshc_priv *dwc_priv)
-3c5c200f02eee8 Huan He 2025-10-11  1517  {
-3c5c200f02eee8 Huan He 2025-10-11  1518  	u32 emmc_caps = MMC_CAP2_NO_SD | MMC_CAP2_NO_SDIO;
-3c5c200f02eee8 Huan He 2025-10-11  1519  	unsigned int val, hsp_int_status, hsp_pwr_ctrl;
-3c5c200f02eee8 Huan He 2025-10-11  1520  	struct of_phandle_args args;
-3c5c200f02eee8 Huan He 2025-10-11  1521  	struct eic7700_priv *priv;
-3c5c200f02eee8 Huan He 2025-10-11  1522  	struct regmap *hsp_regmap;
-3c5c200f02eee8 Huan He 2025-10-11  1523  	int ret;
-3c5c200f02eee8 Huan He 2025-10-11  1524  
-3c5c200f02eee8 Huan He 2025-10-11  1525  	priv = devm_kzalloc(dev, sizeof(struct eic7700_priv), GFP_KERNEL);
-3c5c200f02eee8 Huan He 2025-10-11  1526  	if (!priv)
-3c5c200f02eee8 Huan He 2025-10-11  1527  		return -ENOMEM;
-3c5c200f02eee8 Huan He 2025-10-11  1528  
-3c5c200f02eee8 Huan He 2025-10-11  1529  	dwc_priv->priv = priv;
-3c5c200f02eee8 Huan He 2025-10-11  1530  
-3c5c200f02eee8 Huan He 2025-10-11  1531  	ret = sdhci_eic7700_reset_init(dev, dwc_priv->priv);
-3c5c200f02eee8 Huan He 2025-10-11  1532  	if (ret) {
-3c5c200f02eee8 Huan He 2025-10-11  1533  		dev_err(dev, "failed to reset\n");
-3c5c200f02eee8 Huan He 2025-10-11  1534  		return ret;
-3c5c200f02eee8 Huan He 2025-10-11  1535  	}
-3c5c200f02eee8 Huan He 2025-10-11  1536  
-3c5c200f02eee8 Huan He 2025-10-11  1537  	ret = of_parse_phandle_with_fixed_args(dev->of_node, "eswin,hsp-sp-csr", 2, 0, &args);
-3c5c200f02eee8 Huan He 2025-10-11  1538  	if (ret) {
-3c5c200f02eee8 Huan He 2025-10-11  1539  		dev_err(dev, "Fail to parse 'eswin,hsp-sp-csr' phandle (%d)\n", ret);
-3c5c200f02eee8 Huan He 2025-10-11  1540  		return ret;
-3c5c200f02eee8 Huan He 2025-10-11  1541  	}
-3c5c200f02eee8 Huan He 2025-10-11  1542  
-3c5c200f02eee8 Huan He 2025-10-11  1543  	hsp_regmap = syscon_node_to_regmap(args.np);
-3c5c200f02eee8 Huan He 2025-10-11  1544  	if (IS_ERR(hsp_regmap)) {
-3c5c200f02eee8 Huan He 2025-10-11  1545  		dev_err(dev, "Failed to get regmap for 'eswin,hsp-sp-csr'\n");
-3c5c200f02eee8 Huan He 2025-10-11  1546  		of_node_put(args.np);
-3c5c200f02eee8 Huan He 2025-10-11 @1547  		return ret;
+vim +/modrm_mod +1769 arch/x86/lib/insn-eval.c
 
-return PTR_ERR(hsp_regmap);
-
-3c5c200f02eee8 Huan He 2025-10-11  1548  	}
-3c5c200f02eee8 Huan He 2025-10-11  1549  	hsp_int_status = args.args[0];
-3c5c200f02eee8 Huan He 2025-10-11  1550  	hsp_pwr_ctrl = args.args[1];
-3c5c200f02eee8 Huan He 2025-10-11  1551  	of_node_put(args.np);
-3c5c200f02eee8 Huan He 2025-10-11  1552  	/*
-3c5c200f02eee8 Huan He 2025-10-11  1553  	 * Assert clock stability: write EIC7700_INT_CLK_STABLE to hsp_int_status.
-3c5c200f02eee8 Huan He 2025-10-11  1554  	 * This signals to the eMMC controller that platform clocks (card, ACLK,
-3c5c200f02eee8 Huan He 2025-10-11  1555  	 * BCLK, TMCLK) are enabled and stable.
-3c5c200f02eee8 Huan He 2025-10-11  1556  	 */
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1679  
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1680  /*
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1681   * Recognise typical NOP patterns for both 32bit and 64bit.
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1682   *
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1683   * Notably:
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1684   *  - NOP, but not: REP NOP aka PAUSE
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1685   *  - NOPL
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1686   *  - MOV %reg, %reg
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1687   *  - LEA 0(%reg),%reg
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1688   *  - JMP +0
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1689   *
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1690   * Must not have false-positives; instructions identified as a NOP might be
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1691   * emulated as a NOP (uprobe) or Run Length Encoded in a larger NOP
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1692   * (alternatives).
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1693   *
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1694   * False-negatives are fine; need not be exhaustive.
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1695   */
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1696  bool insn_is_nop(struct insn *insn)
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1697  {
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1698  	u8 b3 = 0, x3 = 0, r3 = 0;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1699  	u8 b4 = 0, x4 = 0, r4 = 0, m = 0;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1700  	u8 modrm, modrm_mod, modrm_reg, modrm_rm;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1701  	u8 sib = 0, sib_scale, sib_index, sib_base;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1702  	u8 nrex, rex;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1703  	u8 p, rep = 0;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1704  	int i;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1705  
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1706  	if ((nrex = insn->rex_prefix.nbytes)) {
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1707  		rex = insn->rex_prefix.bytes[nrex-1];
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1708  
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1709  		r3 = !!X86_REX_R(rex);
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1710  		x3 = !!X86_REX_X(rex);
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1711  		b3 = !!X86_REX_B(rex);
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1712  		if (nrex > 1) {
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1713  			r4 = !!X86_REX2_R(rex);
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1714  			x4 = !!X86_REX2_X(rex);
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1715  			b4 = !!X86_REX2_B(rex);
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1716  			m  = !!X86_REX2_M(rex);
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1717  		}
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1718  
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1719  	} else if (insn->vex_prefix.nbytes) {
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1720  		/*
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1721  		 * Ignore VEX encoded NOPs
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1722  		 */
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1723  		return false;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1724  	}
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1725  
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1726  	if (insn->modrm.nbytes) {
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1727  		modrm = insn->modrm.bytes[0];
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1728  		modrm_mod = X86_MODRM_MOD(modrm);
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1729  		modrm_reg = X86_MODRM_REG(modrm) + 8*r3 + 16*r4;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1730  		modrm_rm  = X86_MODRM_RM(modrm)  + 8*b3 + 16*b4;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1731  		modrm = 1;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1732  	}
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1733  
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1734  	if (insn->sib.nbytes) {
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1735  		sib = insn->sib.bytes[0];
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1736  		sib_scale = X86_SIB_SCALE(sib);
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1737  		sib_index = X86_SIB_INDEX(sib) + 8*x3 + 16*x4;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1738  		sib_base  = X86_SIB_BASE(sib)  + 8*b3 + 16*b4;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1739  		sib = 1;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1740  
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1741  		modrm_rm = sib_base;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1742  	}
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1743  
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1744  	for_each_insn_prefix(insn, i, p) {
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1745  		if (p == 0xf3) /* REPE */
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1746  			rep = 1;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1747  	}
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1748  
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1749  	/*
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1750  	 * Opcode map munging:
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1751  	 *
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1752  	 * REX2: 0 - single byte opcode
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1753  	 *       1 - 0f second byte opcode
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1754  	 */
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1755  	switch (m) {
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1756  	case 0: break;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1757  	case 1: insn->opcode.value <<= 8;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1758  		insn->opcode.value |= 0x0f;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1759  		break;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1760  	default:
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1761  		return false;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1762  	}
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1763  
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1764  	switch (insn->opcode.bytes[0]) {
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1765  	case 0x0f: /* 2nd byte */
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1766  		break;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1767  
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1768  	case 0x89: /* MOV */
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05 @1769  		if (modrm_mod != 3) /* register-direct */
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1770  			return false;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1771  
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1772  		/* native size */
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1773  		if (insn->opnd_bytes != 4 * (1 + insn->x86_64))
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1774  			return false;
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05  1775  
+96d15af6fdb6f5 Peter Zijlstra 2025-09-05 @1776  		return modrm_reg == modrm_rm; /* MOV %reg, %reg */
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
