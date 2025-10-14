@@ -1,70 +1,72 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45C7305971
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Oct 2025 07:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68820272816
+	for <oe-kbuild@lists.linux.dev>; Tue, 14 Oct 2025 08:16:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760428073; cv=none; b=As5u5hUAhUmLUx6yB2/tiFytWQMriLdYDNBFjpz4CDegcmN+T++dy/skdletAXJYn7AvOqUd4l4fjNVnaiyn5zsGSx619vvyIzq2XovvDBdQrcRPQJkmjFzSuvUrUTUk1dc3zbUmkpeuBbv9ZK9l2uVrW+zVvvmcK5eYBh1n60w=
+	t=1760429766; cv=none; b=M/uRMckGNeTw6apTVw/Gqcc60mRsVbSYlz+AfMtBV7znamU3yz2+l5WhrYoJohHwzeJRUHBfN0MgRrOk4qygr1/BcwwlLQZS+ddbp3g6yk56LREuvJZb/AUw6UEcT9hCxOGSfqLLYa9SC7+uK9XjA1YXfc11eBmzgbGoe86aWts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760428073; c=relaxed/simple;
-	bh=r6AqKWJgwKUzwfxb5aq/607KfDQIExWxJAMvO8wzI/w=;
+	s=arc-20240116; t=1760429766; c=relaxed/simple;
+	bh=IS9JNZKpTFhkcU7bsV2BgbeEVETE/nyzALetZrxp9pI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EGvqSXqTbEe87M1YnDmO7TefycbRpVrteliMZIGexqDy+Uk8lbhF0GKM+6CjXdqEVPOZ3Uc5l/EYvEwgcLIu0OxNWRaRyP5ckd23ejdvhJuGDPEc0MJb/FpmFz+lHWcOLdHJ8eVGgumFrYPC7OpmIiSe6puofe57oe51d2X8+ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C5Be1vg+; arc=none smtp.client-ip=209.85.221.52
+	 Content-Disposition; b=omLuILv98lv3aGTAt5aRXwDwpOY7dmJmPNEYXrkM6Mk+4s8LHTh8UMVgQYgK+OdS2z3t6UEOMwY0iPJ1T3u69P28FgPexkGM9mhJM1NSUL4JfzALBd9TVv/yC70JRoCxYgIquJZDScvMF/5cVK6hiwUZEI7XFBWQ7OAQcts6Vt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IuUs+ud5; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C5Be1vg+"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3ece1102998so3033259f8f.2
-        for <oe-kbuild@lists.linux.dev>; Tue, 14 Oct 2025 00:47:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IuUs+ud5"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-46e29d65728so29836685e9.3
+        for <oe-kbuild@lists.linux.dev>; Tue, 14 Oct 2025 01:16:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760428069; x=1761032869; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1760429761; x=1761034561; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=h1BrabTRml53juPP0xOi+PNWI+Y0GuTwM8Zx3IM+NBw=;
-        b=C5Be1vg+FwSbmTwblnYr0giTf7agVZZNWHa8yeu/8TvktIHBmUQFP7pzMQLnu8daF8
-         Oo9ytfOFR0ub8kC9P9TqNKA3YfBkVtzJU2EW5ec1ivu3YkNoVdsAKSDZylJD8YmYRXQp
-         9k+ZutJW0RlHaPSBQrah8ivLCVxi/oes1yntwva64XbR6YF2Hn9kQcHSh86/nZ2ccyJJ
-         MiFAp7QRCUwN/7/Bu/gQAcBbP0DzeiLSx4xAuX3D6ngCvCqY6Bz4XPCx3Q0JiamWXpq2
-         yKzTGaBoYi2e9YQQ+wcn1aXP6oR07RX4e9IIAwEwOuzfOEUivf0Trgbx2HgEZpQEFwB7
-         fyNw==
+        bh=HyVJ9F0sPkvb6d9V8yvLooHwZ3md82CKflBoPN1xb5Y=;
+        b=IuUs+ud51T0qqjr4h3iq6Gvl+qIWky5wZ/WUItzWgKldm14AL74MN+vlMNTsYLee8o
+         yYCDHf3hPn0odJPdDsvIrD4WHY1xnYstXGvV7HzTShjrY9NyCquRgkPgKueOPDV+XlEy
+         25vQswYwU6cMa3eGleYOFpKsTQSxo1gl+VOlZi2q7YpA2CwdqM+sfAGCnPX8j8Sixgah
+         akKaPPCAcb6CJSbYTaHXTm+5TxBEbctlXS4u2uXA1q0WlpR5cauvHU2ddZi0RwDua2YA
+         cn4dPgKLX5DezPSvATMcBV/1WeKqAX+p7bWcD0Ddnfom5dmvLv4pomjAyizRYbPsF7qD
+         O3Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760428069; x=1761032869;
+        d=1e100.net; s=20230601; t=1760429761; x=1761034561;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h1BrabTRml53juPP0xOi+PNWI+Y0GuTwM8Zx3IM+NBw=;
-        b=ieaI1j8bu9MyAtZr6QinK2KqgOq26JBfWhbxo8dCjumBlMobII5i4c4ICoOvC6Tz2n
-         1cQaCu5/CaOSPCxPjnILi4YN1iKoONdDUkpNNvh0BnB1HNXR3bQEriVBNdyIIrQZPPD8
-         mYCj+jb07JtKoOxBPx4j0g1KcGWFENqdX6mOB6fHx5doiU6n7/+D2y1kAzWdER/+8C5R
-         y8stQGmXK9Bi2f2+ryZdEeAFF7Bo89EsuTnbRgsUzmZGNp4W2Pi+Ssq1pQlp4fDKxeRQ
-         bP7fQ4PrEAWFA8Vn4vOz8IDgfc4V63EPcGGbwkodGVQSxIQeT/PA+EGCAL2CyuP4JYdc
-         X7YQ==
-X-Gm-Message-State: AOJu0YzyczB6mSBJv/YIMkpEfEr0RCCSmL2P2zSA+DzS7TFRPzXdpQES
-	k8RDb4XAH5/8jxobB5vWlT4QNLDBB+67BYhvidvCofDyQZjounklEKyK8ES60U0WhjqlQHVBISJ
-	z9dli
-X-Gm-Gg: ASbGncvyHWyqz4QToao7axF3yPy7qbojJFoJ1juODQErJKHoT1BuFCNcl5T4AS5Kedx
-	HXSzWFflbzRlQMB2ah+gbAorzXdOwm05fWwsVcDT05tZG+OCXVQQ+/hDfvfpMziIDr8Sr48g49S
-	TO9WrEOb+E+kYY04NdMXGrLt6fnE1STLiCWQYsQcqKTlqpdwYs+hgHBuJv/kICMZe06XnrM1rZ5
-	3Iv9mR0F6Bfvq9aq6FwYBO2DtMm79U8SwCwL4hPF2/YS3/gvvLg9mwrz8l3Pz9CZJTaZUbQPONC
-	Ygt9UeDLoknKJ1qUwiRQPjB2V2/N76JJl0oVOQbPBOj+gLtnAwpbcR7V1G8/wpjI+IM0w5iJHH2
-	hj7oT4jRsb8qa/O4Ggjd7+UEN1U/ucTOt46EMNUl9+LLXQkc2mT0l1w5KZ7sSfA==
-X-Google-Smtp-Source: AGHT+IFUVMZEfYJpXScC2Iy5d5OaSQsrDfLBO3OecJ1Qe7T9+o25udt9hW35VLFmJsih7IjcCxqwnQ==
-X-Received: by 2002:a05:6000:4024:b0:3f9:6657:cdd with SMTP id ffacd0b85a97d-4266e7df967mr15000391f8f.38.1760428068639;
-        Tue, 14 Oct 2025 00:47:48 -0700 (PDT)
+        bh=HyVJ9F0sPkvb6d9V8yvLooHwZ3md82CKflBoPN1xb5Y=;
+        b=cEE4NUuXzNWR71N3jgdxr9h3JZu5+Gos+SE15Tzdxvwmy6KCgtL7PSlFL8AAVu4Z02
+         17X5+m0RT0ytctpzQZU2nF7ITysPZ3sBw83076SBunVHmpXgc4Dul1gJANAGL9umacJB
+         95OGqWTJo71k53/ZF3KeaZJAC0g0KNNKa/fiOVt/9G3ZADcKcxDdAIyIy1ZaMSx3w/RH
+         e58wKCfjKp9QAm/TBrvOo/QbgxpPXOoXJ7SGititYzjazpZqHJ0BaENveuBBLy3TDRHO
+         3rAFAyY4az/0ytXsWqs/fwdV84wQPXanm7kvwOgM8kxf0N8r86zVUdHYqy7pBFML9N1P
+         r4og==
+X-Gm-Message-State: AOJu0YwGXtMsq2DiuNuR0KtIxAeFAgZdR0rtdBsiogV8yPfj7lOv4oS4
+	50YzU/Tv7OAWScVrTpu7UcIlGDDv1rk7TB6Q1tv8Jbz7W+4QxbMCkuyKfTP8BXywrMD5F2megHd
+	QCtgx
+X-Gm-Gg: ASbGncucSjuZBvkghIOahB863UMV0idSkTSn3/HrooiCzJYZssNiCjhzf8Ukq7Gdl+z
+	F6OJkrnR999jbb+TERRXYWj8/HmALa2Ew0HGqCzQ7ewaYzwNobSXM3xmDGJSPCDwtMasVeT5R3A
+	PXb9PIgnCEp4qJ/M/Lg3mzUZLkJ3ZgWA1eF2Nflcwek1kgutugZa8vad65+RnzuQKQNXT31nGmU
+	KtZYQLUyc1OLnrF7ajAOeSZzJn6tVdY2fg/m6/HM4SilNsYC4wWBY5FUCrtw5PkiUwHFyn68mVe
+	HZapRxEQWDVg7l1uuj6ovei0TKphPrfxYyMEFkMqfRDk/onIBm68K5yW/vH+EQ4sFevy0d9GnWU
+	QMxwQkZ9HdkM0SF+CRSo02LJbff+f1CMZjQ8Qrd9jGWJ65uCNEe4=
+X-Google-Smtp-Source: AGHT+IEmRqbCSKEmZNfKWDxZ8G3ZB8/M2f4+Xn4uL3VJmZBukjyvTnhQ7J09DzuK9UCi1D9bEFsC1g==
+X-Received: by 2002:a05:600c:1d11:b0:46e:5aca:3d26 with SMTP id 5b1f17b1804b1-46fa9aef840mr173171105e9.22.1760429761023;
+        Tue, 14 Oct 2025 01:16:01 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-426ce57cc0esm22389410f8f.6.2025.10.14.00.47.47
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46fb4982b30sm224831925e9.6.2025.10.14.01.15.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 00:47:48 -0700 (PDT)
-Date: Tue, 14 Oct 2025 10:47:44 +0300
+        Tue, 14 Oct 2025 01:16:00 -0700 (PDT)
+Date: Tue, 14 Oct 2025 11:15:56 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Rex Lu <rex.lu@mediatek.com>
+To: oe-kbuild@lists.linux.dev, Pasha Tatashin <pasha.tatashin@soleen.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Felix Fietkau <nbd@nbd.name>,
-	Lorenzo Bianconi <lorenzo@kernel.org>
-Subject: drivers/net/wireless/mediatek/mt76/mt7996/mac.c:1651
- mt7996_msdu_page_get_from_cache() warn: can 'p' even be NULL?
-Message-ID: <202510100155.MS0IXhzm-lkp@intel.com>
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: [linux-next:master 13427/13588]
+ kernel/liveupdate/kexec_handover.c:978 kho_preserve_vmalloc() warn: missing
+ error code 'err'
+Message-ID: <202510100941.GZGMq64U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,49 +75,77 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20251014074744.r4CzJtnsuO7nTKLVQVu2ZO9-wy1l5yswvIYmvt-neFc@z>
+Message-ID: <20251014081556.LS2-E_XeYpryTCJadMDdKbgONNGMC1ZCz26xcIMKrhk@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ec714e371f22f716a04e6ecb2a24988c92b26911
-commit: b1e58e137b61693f12da037d2d50aca9c2140a43 wifi: mt76: mt7996: Introduce RRO MSDU callbacks
-date:   3 weeks ago
-config: x86_64-randconfig-161-20251009 (https://download.01.org/0day-ci/archive/20251010/202510100155.MS0IXhzm-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0b2f041c47acb45db82b4e847af6e17eb66cd32d
+commit: f13bb574707674d1113a40e0b6dc4d9a143d2ec1 [13427/13588] liveupdate: kho: move to kernel/liveupdate
+config: x86_64-randconfig-161-20251010 (https://download.01.org/0day-ci/archive/20251010/202510100941.GZGMq64U-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510100155.MS0IXhzm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510100941.GZGMq64U-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7996/mac.c:1651 mt7996_msdu_page_get_from_cache() warn: can 'p' even be NULL?
+smatch warnings:
+kernel/liveupdate/kexec_handover.c:978 kho_preserve_vmalloc() warn: missing error code 'err'
 
-vim +/p +1651 drivers/net/wireless/mediatek/mt76/mt7996/mac.c
+vim +/err +978 kernel/liveupdate/kexec_handover.c
 
-b1e58e137b6169 Rex Lu      2025-09-09  1641  static struct mt7996_msdu_page *
-b1e58e137b6169 Rex Lu      2025-09-09  1642  mt7996_msdu_page_get_from_cache(struct mt7996_dev *dev)
-b1e58e137b6169 Rex Lu      2025-09-09  1643  {
-b1e58e137b6169 Rex Lu      2025-09-09  1644  	struct mt7996_msdu_page *p = NULL;
-b1e58e137b6169 Rex Lu      2025-09-09  1645  
-b1e58e137b6169 Rex Lu      2025-09-09  1646  	spin_lock(&dev->wed_rro.lock);
-b1e58e137b6169 Rex Lu      2025-09-09  1647  
-b1e58e137b6169 Rex Lu      2025-09-09  1648  	if (!list_empty(&dev->wed_rro.page_cache)) {
-b1e58e137b6169 Rex Lu      2025-09-09  1649  		p = list_first_entry(&dev->wed_rro.page_cache,
-b1e58e137b6169 Rex Lu      2025-09-09  1650  				     struct mt7996_msdu_page, list);
-b1e58e137b6169 Rex Lu      2025-09-09 @1651  		if (p)
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  944) int kho_preserve_vmalloc(void *ptr, struct kho_vmalloc *preservation)
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  945) {
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  946) 	struct kho_vmalloc_chunk *chunk;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  947) 	struct vm_struct *vm = find_vm_area(ptr);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  948) 	unsigned int order, flags, nr_contig_pages;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  949) 	unsigned int idx = 0;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  950) 	int err;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  951) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  952) 	if (!vm)
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  953) 		return -EINVAL;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  954) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  955) 	if (vm->flags & ~KHO_VMALLOC_SUPPORTED_FLAGS)
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  956) 		return -EOPNOTSUPP;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  957) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  958) 	flags = vmalloc_flags_to_kho(vm->flags);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  959) 	order = get_vm_area_page_order(vm);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  960) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  961) 	chunk = new_vmalloc_chunk(NULL);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  962) 	if (!chunk)
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  963) 		return -ENOMEM;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  964) 	KHOSER_STORE_PTR(preservation->first, chunk);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  965) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  966) 	nr_contig_pages = (1 << order);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  967) 	for (int i = 0; i < vm->nr_pages; i += nr_contig_pages) {
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  968) 		phys_addr_t phys = page_to_phys(vm->pages[i]);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  969) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  970) 		err = kho_preserve_pages(vm->pages[i], nr_contig_pages);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  971) 		if (err)
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  972) 			goto err_free;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  973) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  974) 		chunk->phys[idx++] = phys;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  975) 		if (idx == ARRAY_SIZE(chunk->phys)) {
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  976) 			chunk = new_vmalloc_chunk(chunk);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  977) 			if (!chunk)
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21 @978) 				goto err_free;
 
-This NULL check is pointless.  We already ensured that the list is not
-empty.
+err = -ENOMEM;
 
-b1e58e137b6169 Rex Lu      2025-09-09  1652  			list_del(&p->list);
-b1e58e137b6169 Rex Lu      2025-09-09  1653  	}
-b1e58e137b6169 Rex Lu      2025-09-09  1654  
-b1e58e137b6169 Rex Lu      2025-09-09  1655  	spin_unlock(&dev->wed_rro.lock);
-b1e58e137b6169 Rex Lu      2025-09-09  1656  
-b1e58e137b6169 Rex Lu      2025-09-09  1657  	return p;
-b1e58e137b6169 Rex Lu      2025-09-09  1658  }
-
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  979) 			idx = 0;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  980) 		}
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  981) 	}
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  982) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  983) 	preservation->total_pages = vm->nr_pages;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  984) 	preservation->flags = flags;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  985) 	preservation->order = order;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  986) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  987) 	return 0;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  988) 
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  989) err_free:
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  990) 	kho_vmalloc_free_chunks(preservation);
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  991) 	return err;
+a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  992) }
 
 -- 
 0-DAY CI Kernel Test Service
