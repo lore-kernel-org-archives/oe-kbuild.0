@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8286A31D749
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E978131BCB5
 	for <oe-kbuild@lists.linux.dev>; Wed, 15 Oct 2025 10:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760525837; cv=none; b=CsTMCG0zAVmeLAvx/UhvJbVoaG5PB7HJ4k1secMgggTb4hWppLQZXSovi4rkQaadD4BKOVspWC7NchmCrTkBZKw6FHiiD9wUZSqxyDS4epEpL6Kbei9puVXCoFnf/28YmI2j+xcXckferSOw9DmA1p2TiOCqQyKZOnGRz3sey5E=
+	t=1760525838; cv=none; b=nJLSpMs+vGS/cyCfMD9W9Teel7q8IIVTmoStzelMZnEFe1ZSJoqAelHzeyMUHOWTCtU3XiO8TmgIBp9ZZfevyrDWpDjMdk9L7NxtohOt7FnJJyleM8n2Fs2FOegDDBalYUTTLVKQqpp1XsnwzAqziXQswYfi9Tccz1qig6rOwlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760525837; c=relaxed/simple;
-	bh=UClhi0B02/q3DX32KaVOLKKN7dvRkjOLnvVO9l2BzDM=;
+	s=arc-20240116; t=1760525838; c=relaxed/simple;
+	bh=7GKwEWESA3rAGf1fBQWf1hrCfHaRshCYcrjAVVn3WYc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E0k8suAOa1wRbwDVJkuKFMbL0Vqp//9mmgmYKAjn/zx5N+CVfr2Pby0SyKLijhEJazDnW8IdfDgpXfr5ywj/0bMH7ONja4+RLhRqj34Kiy6BLaZy/l6vxgjgLA9Z/ztZdeHAukqpzZssEBeLD6iSwWuovtIEuXEeN4ONzEDnDbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fqLCIotX; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=Y0KB1G4E8yh88FWUhK3CoWX8ayNA1k5bW1QdEhbe5UybtD080DsnwtP1P+4Q/JvUzMK3RN5J9loPa4e+RYOY3GWhDmbA7YtV8LL7CuvOqCT1GaaODfuOoWjzsP9BUgawrgWrz/GdR2rmMJaNHMhOLR4ZZiSJ7Uhc0E5KkBnCg8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iiS4HbA3; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fqLCIotX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iiS4HbA3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760525835; x=1792061835;
+  t=1760525837; x=1792061837;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UClhi0B02/q3DX32KaVOLKKN7dvRkjOLnvVO9l2BzDM=;
-  b=fqLCIotXYD4E3PyndTbXizsPM7BE90EmTLyigORGw6XOGyaOxTm9IFAd
-   MiONakWUcKU2SPbHnvF9uC7PiLcujEby0uX4V0pWRpyLIIMFnyMffQJGT
-   rKfj4FOGBxOE6LG4Byhq1dgfiKXcUVSc1yiFAK5KkYmxxa8cq5VG9F/Wd
-   bqXKU3EPWEUfkPiDB+4AvooBqVtZ25oKIee/NE7ns+fbkD8Jck5ku7Tp6
-   G3uP/kXNgmN3TQb11wHCBnZlxACImrqZgkNHajtKTUdTizhlxD2dgI8Ok
-   mbpbkGV89z8izKTg+bKVjhaJ8RQIqTosiSjklmNEwYHnY/5xJbhdqT0Ks
+  bh=7GKwEWESA3rAGf1fBQWf1hrCfHaRshCYcrjAVVn3WYc=;
+  b=iiS4HbA3BKOvoWWRaWvKuYqSvuOlOBQosG4Qwwr19wLwD5E4buwMcY4L
+   6WPRRPWdW3LsfEDcdSzevgp52Ir/+sXx95l2Zl5T0xiMqh6khXEAjRCni
+   eW22EGWsohr/ec4HZJzPL0OcBgI3cl7Qj3X/QMTVESBevLQGMHD0Ai+Ox
+   V/C5XUutw/qGsjVIWJc1xWGK6WEpG/qjwmAnS3aJtSN9ekr0atSFDBX54
+   SHJBaQ9RSdijnJLFvKpvlb9jAg741bdrlyHVY95ZadFehiNfOZmLaDnGz
+   hw6cW15KYkmgTt7Y6QN+zK1033jGDS5PgLfJ6Zi2OlJj9Q2Oph6PyerKk
    A==;
-X-CSE-ConnectionGUID: 1yHVIz8BSUKIZ51oSsA+Jw==
-X-CSE-MsgGUID: pHTzXDGsRJ2yyZ6GXZt/DQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="66559520"
+X-CSE-ConnectionGUID: /ftsktxjQky0XSmTa5XF6g==
+X-CSE-MsgGUID: gKsSD+oSR/iTMUcQ0b1/Eg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="61904861"
 X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; 
-   d="scan'208";a="66559520"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 03:57:15 -0700
-X-CSE-ConnectionGUID: s/j6YhDkTdKDVPYwADRVhA==
-X-CSE-MsgGUID: xIleJw+RQYuJGWWGh3Qhpg==
+   d="scan'208";a="61904861"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 03:57:15 -0700
+X-CSE-ConnectionGUID: eeH+Nt1uSruuRVrcMva2qQ==
+X-CSE-MsgGUID: RVzzVF5ZQQqroe2RxZgeDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; 
-   d="scan'208";a="182555575"
+   d="scan'208";a="181698458"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Oct 2025 03:57:13 -0700
+  by orviesa009.jf.intel.com with ESMTP; 15 Oct 2025 03:57:14 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8zBv-0003kh-20;
+	id 1v8zBv-0003kj-24;
 	Wed, 15 Oct 2025 10:57:11 +0000
-Date: Wed, 15 Oct 2025 18:56:25 +0800
+Date: Wed, 15 Oct 2025 18:56:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: arm: Convert Marvell CP110 System
- Controller to DT schema
-Message-ID: <202510151840.qeix075G-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [alobakin:libeth 4/6] include/net/libeth/xdp.h:1315
+ libeth_xdp_process_buff() error: we previously assumed 'xdp->data' could be
+ null (see line 1310)
+Message-ID: <202510151844.pTZiNd0P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,221 +63,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251014153021.3783485-1-robh@kernel.org>
-References: <20251014153021.3783485-1-robh@kernel.org>
-TO: "Rob Herring (Arm)" <robh@kernel.org>
+TO: Michal Kubiak <michal.kubiak@intel.com>
+CC: Alexander Lobakin <aleksander.lobakin@intel.com>
+CC: Jacob Keller <jacob.e.keller@intel.com>
 
-Hi Rob,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linusw-pinctrl/devel linusw-pinctrl/for-next krzk/for-next krzk-mem-ctrl/for-next linus/master v6.18-rc1 next-20251014]
-[cannot apply to clk/clk-next krzk-dt/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-arm-Convert-Marvell-CP110-System-Controller-to-DT-schema/20251014-235819
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251014153021.3783485-1-robh%40kernel.org
-patch subject: [PATCH] dt-bindings: arm: Convert Marvell CP110 System Controller to DT schema
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: arm64-randconfig-051-20251015 (https://download.01.org/0day-ci/archive/20251015/202510151840.qeix075G-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251015/202510151840.qeix075G-lkp@intel.com/reproduce)
+tree:   https://github.com/alobakin/linux libeth
+head:   46e7030e337bfa1856db3dd07d5ee70182c4fa7f
+commit: 691ae4cf90f480461f30e913b9102b4d94aa4ab5 [4/6] ice: switch to Page Pool
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: i386-randconfig-141-20251015 (https://download.01.org/0day-ci/archive/20251015/202510151844.pTZiNd0P-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510151840.qeix075G-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202510151844.pTZiNd0P-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: phy@120000 (marvell,comphy-cp110): 'phy@3', 'phy@4', 'phy@5' do not match any of the regexes: '^phy@[0-2]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: phy@120000 (marvell,comphy-cp110): phy@1: 'connector' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: connector (usb-a-connector): Unevaluated properties are not allowed ('phy-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: connector (usb-a-connector): Unevaluated properties are not allowed ('phy-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: system-controller@440000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/armada-7040-db.dtb: pinctrl (marvell,armada-7k-pinctrl): 'nand-rb' does not match any of the regexes: '-pins(-.+)?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/marvell,armada-7k-pinctrl.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: /soc/bus@f0000000/system-controller@6f4000/pinctrl: failed to match any schema with compatible: ['marvell,ap806-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: /soc/bus@f0000000/system-controller@6f4000/clock: failed to match any schema with compatible: ['marvell,ap806-clock']
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: system-controller@6f8000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: /soc/bus@f0000000/system-controller@6f8000/clock-cpu@278: failed to match any schema with compatible: ['marvell,ap806-cpu-clock']
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: phy@120000 (marvell,comphy-cp110): 'phy@3', 'phy@4', 'phy@5' do not match any of the regexes: '^phy@[0-2]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: system-controller@440000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: pinctrl (marvell,armada-7k-pinctrl): 'nand-rb' does not match any of the regexes: '-pins(-.+)?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/marvell,armada-7k-pinctrl.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
---
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: phy@120000 (marvell,comphy-cp110): 'phy@3', 'phy@4', 'phy@5' do not match any of the regexes: '^phy@[0-2]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: phy@120000 (marvell,comphy-cp110): phy@2: 'connector' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: connector (usb-a-connector): Unevaluated properties are not allowed ('phy-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: system-controller@440000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: pinctrl (marvell,armada-8k-cps-pinctrl): 'nand-rb' does not match any of the regexes: '-pins(-.+)?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/marvell,armada-7k-pinctrl.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1-bus/bus@f4000000/spi@700680/flash@0: failed to match any schema with compatible: ['st,w25q32']
---
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: phy@120000 (marvell,comphy-cp110): 'phy@3', 'phy@4', 'phy@5' do not match any of the regexes: '^phy@[0-2]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: phy@120000 (marvell,comphy-cp110): phy@2: 'connector' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: connector (usb-a-connector): Unevaluated properties are not allowed ('phy-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: system-controller@440000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: pinctrl (marvell,armada-8k-cps-pinctrl): 'nand-rb' does not match any of the regexes: '-pins(-.+)?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/marvell,armada-7k-pinctrl.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: /cp1-bus/bus@f4000000/spi@700680/flash@0: failed to match any schema with compatible: ['st,w25q32']
---
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: phy@120000 (marvell,comphy-cp110): 'phy@3', 'phy@4', 'phy@5' do not match any of the regexes: '^phy@[0-2]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: phy@120000 (marvell,comphy-cp110): phy@2: 'connector' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: connector (usb-a-connector): Unevaluated properties are not allowed ('phy-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: system-controller@440000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: pinctrl (marvell,armada-8k-cps-pinctrl): 'nand-rb' does not match any of the regexes: '-pins(-.+)?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/marvell,armada-7k-pinctrl.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: /soc/bus@f0000000/system-controller@6f4000/pinctrl: failed to match any schema with compatible: ['marvell,ap806-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: /soc/bus@f0000000/system-controller@6f4000/clock: failed to match any schema with compatible: ['marvell,ap807-clock']
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: system-controller@6f8000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: /soc/bus@f0000000/system-controller@6f8000/clock-cpu: failed to match any schema with compatible: ['marvell,ap807-cpu-clock']
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: phy@120000 (marvell,comphy-cp110): 'phy@3', 'phy@4', 'phy@5' do not match any of the regexes: '^phy@[0-2]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: system-controller@440000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: pinctrl (marvell,cp115-standalone-pinctrl): 'nand-rb' does not match any of the regexes: '-pins(-.+)?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/marvell,armada-7k-pinctrl.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: pca953x@21 (nxp,pca9555): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: usb-phy-1 (usb-nop-xceiv): '#phy-cells' is a required property
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /soc/bus@f0000000/system-controller@6f4000/pinctrl: failed to match any schema with compatible: ['marvell,ap806-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /soc/bus@f0000000/system-controller@6f4000/clock: failed to match any schema with compatible: ['marvell,ap807-clock']
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: system-controller@6f8000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /soc/bus@f0000000/system-controller@6f8000/clock-cpu: failed to match any schema with compatible: ['marvell,ap807-cpu-clock']
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: phy@120000 (marvell,comphy-cp110): 'phy@3', 'phy@4', 'phy@5' do not match any of the regexes: '^phy@[0-2]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: system-controller@440000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-db.dtb: pinctrl (marvell,cp115-standalone-pinctrl): 'nand-rb' does not match any of the regexes: '-pins(-.+)?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/marvell,armada-7k-pinctrl.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: pca953x@21 (nxp,pca9555): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: usb-phy-1 (usb-nop-xceiv): '#phy-cells' is a required property
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /soc/bus@f0000000/system-controller@6f4000/pinctrl: failed to match any schema with compatible: ['marvell,ap806-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /soc/bus@f0000000/system-controller@6f4000/clock: failed to match any schema with compatible: ['marvell,ap807-clock']
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: system-controller@6f8000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /soc/bus@f0000000/system-controller@6f8000/clock-cpu: failed to match any schema with compatible: ['marvell,ap807-cpu-clock']
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: phy@120000 (marvell,comphy-cp110): 'phy@3', 'phy@4', 'phy@5' do not match any of the regexes: '^phy@[0-2]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: system-controller@440000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: pinctrl (marvell,cp115-standalone-pinctrl): 'nand-rb' does not match any of the regexes: '-pins(-.+)?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/marvell,armada-7k-pinctrl.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: pca953x@21 (nxp,pca9555): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: usb-phy-1 (usb-nop-xceiv): '#phy-cells' is a required property
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: /soc/bus@f0000000/system-controller@6f4000/pinctrl: failed to match any schema with compatible: ['marvell,ap806-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: /soc/bus@f0000000/system-controller@6f4000/clock: failed to match any schema with compatible: ['marvell,ap807-clock']
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: system-controller@6f8000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: /soc/bus@f0000000/system-controller@6f8000/clock-cpu: failed to match any schema with compatible: ['marvell,ap807-cpu-clock']
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: phy@120000 (marvell,comphy-cp110): 'phy@3', 'phy@4', 'phy@5' do not match any of the regexes: '^phy@[0-2]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: system-controller@440000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: pinctrl (marvell,cp115-standalone-pinctrl): 'pintrl-names' does not match any of the regexes: '-pins(-.+)?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/marvell,armada-7k-pinctrl.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: system-controller@400000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: usb@500000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode', 'vbus-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: usb@510000 (marvell,armada-8k-xhci): Unevaluated properties are not allowed ('dr_mode' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-cf-base.dtb: spi@700680 (marvell,armada-380-spi): Unevaluated properties are not allowed ('spi-max-frequency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/marvell,orion-spi.yaml#
+smatch warnings:
+include/net/libeth/xdp.h:1315 libeth_xdp_process_buff() error: we previously assumed 'xdp->data' could be null (see line 1310)
+
+vim +1315 include/net/libeth/xdp.h
+
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1288  
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1289  /**
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1290   * libeth_xdp_process_buff - attach Rx buffer to &libeth_xdp_buff
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1291   * @xdp: XDP buffer to attach the Rx buffer to
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1292   * @fqe: Rx buffer to process
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1293   * @len: received data length from the descriptor
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1294   *
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1295   * If the XDP buffer is empty, attaches the Rx buffer as head and initializes
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1296   * the required fields. Otherwise, attaches the buffer as a frag.
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1297   * Already performs DMA sync-for-CPU and frame start prefetch
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1298   * (for head buffers only).
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1299   *
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1300   * Return: true on success, false if the descriptor must be skipped (empty or
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1301   * no space for a new frag).
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1302   */
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1303  static inline bool libeth_xdp_process_buff(struct libeth_xdp_buff *xdp,
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1304  					   const struct libeth_fqe *fqe,
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1305  					   u32 len)
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1306  {
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1307  	if (!libeth_rx_sync_for_cpu(fqe, len))
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1308  		return false;
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1309  
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12 @1310  	if (xdp->data)
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1311  		return libeth_xdp_buff_add_frag(xdp, fqe, len);
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1312  
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1313  	libeth_xdp_prepare_buff(xdp, fqe, len);
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1314  
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12 @1315  	prefetch(xdp->data);
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1316  
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1317  	return true;
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1318  }
+3ef2b0192e8ba1 Alexander Lobakin 2025-06-12  1319  
+
+:::::: The code at line 1315 was first introduced by commit
+:::::: 3ef2b0192e8ba133f597919632bd9cf196076f0b libeth: xdp: add helpers for preparing/processing &libeth_xdp_buff
+
+:::::: TO: Alexander Lobakin <aleksander.lobakin@intel.com>
+:::::: CC: Tony Nguyen <anthony.l.nguyen@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
