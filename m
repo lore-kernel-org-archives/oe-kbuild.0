@@ -1,124 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35729156678
-	for <oe-kbuild@lists.linux.dev>; Wed, 15 Oct 2025 00:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03CF84A08;
+	Wed, 15 Oct 2025 02:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760489977; cv=none; b=SjN7KadRwinDlCbKMa8fTCFBe8g5H+Q9anNjJ8G+ngh5OvOem9ycz0IhYoAPyW3XeaggfszaGE993lJbV57ipe3rwB974rxiO7ShgS0a72I9BGPTQvV/iirprOL5dhi2GuqVR7k5RXFYoe9Qwiv70XlkCKWb7Szga05UcAHCzlc=
+	t=1760496613; cv=none; b=isaKFq5U7Fi6a0r5QJI/omwy8gn2NRfCXgfhNH0kIIKlvOi2faMNBPdEcP1yeYxYaD4VP3oNhpveOD7xZNgWNQzGMSScas2hY0ZqhZrr8hK70dQIPaJVS61sB1XyMPvw8v700j1i3q6qaPfZjBedMnpR9XnvMcXcuzqR7ILM7OE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760489977; c=relaxed/simple;
-	bh=7XIU6bVVWg9z+xZ1Q679M6vYOyWJb2XGpkoVJOEbT0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VJyiMuRtQC1dds7ROS8HuWucM0hgZjhAI07hOpWc2iIKr2oqZqGn6wX8CAxakn7es7bG/V/aA/znEsxjEi7P3llg7uqpH36Af2aXClM/MgjkSOy8noRMCX0XqitHg0zyf+AE/8FAkNfMqX5Jkx4e+5B3WqWR9xfCZYVV8vxgrcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P7A8dQWI; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760496613; c=relaxed/simple;
+	bh=uZ09AO8FUvS3PHoAN1UIg/EUNrO9xZYhQBj5B5JO7Dc=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=tuf43eBXPRXYFUrVDqYxNYSuR8aVCZHURaS4LJBRZUQaghbXEk0M4B7ynAJRtDFaoNbWifd0O3xC1Yu/QPp5b33yoIqfoHAfqSPG/qtsptrts/m2DelRwZmX2pa8arwHM8zYDjrqtDjMfJnlScZRJw5rhB/n0287vto/996lSrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=0nlJ95+B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P7A8dQWI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760489976; x=1792025976;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7XIU6bVVWg9z+xZ1Q679M6vYOyWJb2XGpkoVJOEbT0Y=;
-  b=P7A8dQWIMs9N7uAbz9fwhrHdqoUSa663lbSJu0JS9qN4UuSYF13MbLpJ
-   NAlqc/5Y3h1AEIaFqoRFGFc/elC2agfVM1TUoYibGP4WpUViJHlrj4SG8
-   ANAyueAij+nzmw5Y9vaOuFVVDwubv2KPKzdRzYUxHA3eG5yqQGvKA9c7N
-   QRKlZ86pNp5q6efUZmoCbV6YhfitIC1wLq6zb/R+5VDbNkt83U/bcscsk
-   YWD8Y7kyio6sgbtnOskAGOdetIvhFHkVAtcKP2C8woAOPw+SwE0RRAmS6
-   G87bqcQ1thiWCs5bhpkqW7LAz/V6IUmQ7VYPqZapLl62TqnjbuPL2pFil
-   Q==;
-X-CSE-ConnectionGUID: mXFFrWrWRIe7E01eMnO//g==
-X-CSE-MsgGUID: 32HlF41vSEe+ASScHCqZAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="62694057"
-X-IronPort-AV: E=Sophos;i="6.19,229,1754982000"; 
-   d="scan'208";a="62694057"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 17:59:36 -0700
-X-CSE-ConnectionGUID: wQBraVt0R9qPh8PBxJ9+0A==
-X-CSE-MsgGUID: ktHQZft0S3ijTnpn/HR9Iw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,229,1754982000"; 
-   d="scan'208";a="187117743"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 14 Oct 2025 17:59:35 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v8prY-0003Jz-0S;
-	Wed, 15 Oct 2025 00:59:32 +0000
-Date: Wed, 15 Oct 2025 08:58:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: dma: Convert apm,xgene-storm-dma to DT
- schema
-Message-ID: <202510150836.kCq2PhCR-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="0nlJ95+B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4887CC4CEE7;
+	Wed, 15 Oct 2025 02:50:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1760496610;
+	bh=uZ09AO8FUvS3PHoAN1UIg/EUNrO9xZYhQBj5B5JO7Dc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=0nlJ95+Bhw11gF5P6sHbaL3cDIndYHosNII1BXzisn4R0MTRea/CVyK4kVoIPqEaC
+	 rSdFH7sBssAq0yh7mRrT041p8MIe7D6d5Fg+2s1zfBHsCznRIrVXYaWSwhv2gQwq/s
+	 GYBJCOOVzs/IgvlK3xIdVO1FE74FGqRnXDFnMnxk=
+Date: Tue, 14 Oct 2025 19:50:09 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Pasha Tatashin <pasha.tatashin@soleen.com>,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [linux-next:master 13427/13588]
+ kernel/liveupdate/kexec_handover.c:978 kho_preserve_vmalloc() warn: missing
+ error code 'err'
+Message-Id: <20251014195009.9505434cfdcc136503f08df1@linux-foundation.org>
+In-Reply-To: <202510100941.GZGMq64U-lkp@intel.com>
+References: <202510100941.GZGMq64U-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+On Tue, 14 Oct 2025 11:15:56 +0300 Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251013213037.684981-1-robh@kernel.org>
-References: <20251013213037.684981-1-robh@kernel.org>
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-TO: Vinod Koul <vkoul@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Khuong Dinh <khuong@os.amperecomputing.com>
-CC: dmaengine@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   0b2f041c47acb45db82b4e847af6e17eb66cd32d
+> commit: f13bb574707674d1113a40e0b6dc4d9a143d2ec1 [13427/13588] liveupdate: kho: move to kernel/liveupdate
+> config: x86_64-randconfig-161-20251010 (https://download.01.org/0day-ci/archive/20251010/202510100941.GZGMq64U-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202510100941.GZGMq64U-lkp@intel.com/
+> 
+> smatch warnings:
+> kernel/liveupdate/kexec_handover.c:978 kho_preserve_vmalloc() warn: missing error code 'err'
+> 
+> vim +/err +978 kernel/liveupdate/kexec_handover.c
+> 
+> ...
+>
+> a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  975) 		if (idx == ARRAY_SIZE(chunk->phys)) {
+> a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  976) 			chunk = new_vmalloc_chunk(chunk);
+> a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  977) 			if (!chunk)
+> a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21 @978) 				goto err_free;
+> 
+> err = -ENOMEM;
+> 
+> a667300bd53f27 kernel/kexec_handover.c Mike Rapoport (Microsoft  2025-09-21  979) 			idx = 0;
 
-Hi Rob,
+Thanks, I'll add this:
 
-kernel test robot noticed the following build warnings:
+--- a/kernel/liveupdate/kexec_handover.c~liveupdate-kho-move-to-kernel-liveupdate-fix
++++ a/kernel/liveupdate/kexec_handover.c
+@@ -974,8 +974,10 @@ int kho_preserve_vmalloc(void *ptr, stru
+ 		chunk->phys[idx++] = phys;
+ 		if (idx == ARRAY_SIZE(chunk->phys)) {
+ 			chunk = new_vmalloc_chunk(chunk);
+-			if (!chunk)
++			if (!chunk) {
++				err = -ENOMEM;
+ 				goto err_free;
++			}
+ 			idx = 0;
+ 		}
+ 	}
+_
 
-[auto build test WARNING on vkoul-dmaengine/next]
-[also build test WARNING on krzk-dt/for-next linus/master v6.18-rc1 next-20251014]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-dma-Convert-apm-xgene-storm-dma-to-DT-schema/20251014-053233
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20251013213037.684981-1-robh%40kernel.org
-patch subject: [PATCH] dt-bindings: dma: Convert apm,xgene-storm-dma to DT schema
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-config: arm64-randconfig-051-20251014 (https://download.01.org/0day-ci/archive/20251015/202510150836.kCq2PhCR-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251015/202510150836.kCq2PhCR-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510150836.kCq2PhCR-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/mailbox@10540000: failed to match any schema with compatible: ['apm,xgene-slimpro-mbox']
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: mmc@1c000000 (arasan,sdhci-4.9a): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000 (apm,xgene-enet): phy-handle:0: [36, 37] is too long
-   	from schema $id: http://devicetree.org/schemas/net/apm,xgene-enet.yaml#
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000 (apm,xgene-enet): Unevaluated properties are not allowed ('local-mac-address', 'phy-connection-type', 'phy-handle' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/apm,xgene-enet.yaml#
-   arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000 (apm,xgene-enet): phy-handle:0: [36, 37] is too long
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
->> arch/arm64/boot/dts/apm/apm-mustang.dtb: dma@1f270000 (apm,xgene-storm-dma): 'device_type' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dma/apm,xgene-storm-dma.yaml#
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
