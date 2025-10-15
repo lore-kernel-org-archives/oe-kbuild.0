@@ -1,82 +1,58 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1074430E857
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Oct 2025 11:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35729156678
+	for <oe-kbuild@lists.linux.dev>; Wed, 15 Oct 2025 00:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760441513; cv=none; b=N9mCSkvtSW4VZqvCxXpesLU4JlWuy+ntAm+aQscvJHdLkbcU/xbImf+vGWz173+nOMRTj2pmdLJc0EbqyikyQwRX642BU1yvV/eVyWFDvlpZGBSbpbRNIyBUV06B37EMi7TNzq7oyVSZ1/+m4I+uMW2nHD3zkmtEntS/Ys+Tpwg=
+	t=1760489977; cv=none; b=SjN7KadRwinDlCbKMa8fTCFBe8g5H+Q9anNjJ8G+ngh5OvOem9ycz0IhYoAPyW3XeaggfszaGE993lJbV57ipe3rwB974rxiO7ShgS0a72I9BGPTQvV/iirprOL5dhi2GuqVR7k5RXFYoe9Qwiv70XlkCKWb7Szga05UcAHCzlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760441513; c=relaxed/simple;
-	bh=3w4nQi9hgenkrHPxz75XSwpRlBt74vHGiJuFZQ2tndI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o67FiuIsOj01hIumw/o4ipHGC4+nJLinyhTu9jvbgQxMyYwk21tgKWaaugdxBapcdKUoDlgkxbM3ifJuaWZ7cSvmyB6THjOCcFHrVQFrjJ4yLXLyNCZ1ns2ap76o5ZRJ+/kqGiPxNdAEfQGrmqxx4G8zmzMY+IlsfDkGTSNPGuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KmdcvSRp; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1760489977; c=relaxed/simple;
+	bh=7XIU6bVVWg9z+xZ1Q679M6vYOyWJb2XGpkoVJOEbT0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VJyiMuRtQC1dds7ROS8HuWucM0hgZjhAI07hOpWc2iIKr2oqZqGn6wX8CAxakn7es7bG/V/aA/znEsxjEi7P3llg7uqpH36Af2aXClM/MgjkSOy8noRMCX0XqitHg0zyf+AE/8FAkNfMqX5Jkx4e+5B3WqWR9xfCZYVV8vxgrcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P7A8dQWI; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KmdcvSRp"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-46e4ad36541so54566175e9.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 14 Oct 2025 04:31:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760441509; x=1761046309; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ofkJNulQu/wtU9ucbaTHhfLlEv5BRzrjhZDncPD/y2M=;
-        b=KmdcvSRpV93Lq+RIxB5b917CCz+M3zE/4omy2fzIUMvZrqisrIUXTNOS9oZeakLucf
-         ZobXGq1l9lZrgk/AmgHugiExlSl0f0WvjaTZrtJDjyJjNno82BiUmv0SiwCfpmmPJA+C
-         2AF+5jrFJPlSAPVpCZK/HdwZEvIGwQ7AYS7Uk9rkFxaLxh1ftuex4mkM403HzwnvA6oE
-         bo5km6SPvkA3uroqMWGZufUxQthOQA/0bKuJ3zIK4nvyKN68bf2clXBVWyVbQySMFnub
-         w0utCVw0+B+FdznzlhbNZaSDP6pFEkyKFR+brXMk5nCQEqoXI/yE1NYHB6DOFvudU4um
-         hlBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760441509; x=1761046309;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ofkJNulQu/wtU9ucbaTHhfLlEv5BRzrjhZDncPD/y2M=;
-        b=CuCjYRPd5rjeIBNYFb9OAmBDyY4BfQQIor0AJFEoUkdORUKU/7HhSGN6XzEzfJ2kLO
-         5hmYbjkqySCt3EyzPFfVpyr9/5rBZNNEWOrZ9ab1MDt4PO1xZ5EMfxUPo9M7MzSMs1Y5
-         7T9hmxowyFEXkE6sGx0LusYIG+RmkMiMx30WxElvqjB1tXN1D/KLETHag4gVLWQnvIP0
-         mZKOaTiwTAOufpNMoSyfsJGcpShgInw9//LE6or0YclcPiGvucIZjmnUQrMgjQV73/Pl
-         1nU/g1eIuVVIYR+sMKUUu6EH4SNSk1YVu+mTR4AOs1R0CT1VRH/DbYk0hlIWf/lQ2Vo8
-         PxTA==
-X-Gm-Message-State: AOJu0Yzneepz01+ryBw1L6qqcv+N9OZC41AdSdoK9ZQTiVCCecdie+XP
-	+4zEXvug1eh2VZ2bIdunDogl6fH0JYw0tu1mOOYcvkxfRKEQkyoDqa78jCBwe55liUU=
-X-Gm-Gg: ASbGncuu8xSEyo2b8bnZGEFHamU65yLuD1untuSCL0sQTtB+TpuCnJFQxgMEhqWZNoG
-	tIkLlMa3qeeUTZ0JZRqyQ4utKhHX6ZzyChIuWmMjFCIRtTKScNLEM+0CgLd39xiBiNJuLVnetEC
-	TKz03ttHg+9kdGVEQzmCN54GdOS8XQ5Fd/mFtHfiy67itVfX/tf8uSennN0JsyVcLuwooBpJIAz
-	fL0bUw2S7ex23I8gmTTAuO2hf/o48ld41jQX9Ble7AgEcHN2dDIUSvMlWJ/1Hyyr7JXVIOWMAJr
-	+UIlH3cDMtu/dg1BK0AsDB2PTpR2l95dBz24vSM4jv3zJomq9RUyZjACdeXIHqESpxOIR+/4sZG
-	L/1TpdA9Q1luI60CydMw5721ePtqUSi7s7caifXkhWf+piX8mrV8=
-X-Google-Smtp-Source: AGHT+IE7JRJVgX/0XRZqqgOQ0IMTJn2bfv2E4RS1BB14d24blTgxq9Or2UqVDIrAHI/wbElOafShvQ==
-X-Received: by 2002:a05:6000:43c7:20b0:426:f355:7c9a with SMTP id ffacd0b85a97d-426f3557ce6mr628338f8f.25.1760441509084;
-        Tue, 14 Oct 2025 04:31:49 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46fb49c4027sm234419565e9.17.2025.10.14.04.31.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 04:31:48 -0700 (PDT)
-Date: Tue, 14 Oct 2025 14:31:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Peng Fan <peng.fan@oss.nxp.com>
-Cc: oe-kbuild@lists.linux.dev, Peng Fan <peng.fan@nxp.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Andrew Davis <afd@ti.com>,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-remoteproc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 4/7] remoteproc: core: Use cleanup.h macros to
- simplify lock handling
-Message-ID: <aO40oQkj9sT78bMV@stanley.mountain>
-References: <20251010-remoteproc-cleanup-v2-4-7cecf1bfd81c@nxp.com>
- <202510121908.7aduLIkw-lkp@intel.com>
- <20251014104511.GA14479@nxa18884-linux.ap.freescale.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P7A8dQWI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760489976; x=1792025976;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7XIU6bVVWg9z+xZ1Q679M6vYOyWJb2XGpkoVJOEbT0Y=;
+  b=P7A8dQWIMs9N7uAbz9fwhrHdqoUSa663lbSJu0JS9qN4UuSYF13MbLpJ
+   NAlqc/5Y3h1AEIaFqoRFGFc/elC2agfVM1TUoYibGP4WpUViJHlrj4SG8
+   ANAyueAij+nzmw5Y9vaOuFVVDwubv2KPKzdRzYUxHA3eG5yqQGvKA9c7N
+   QRKlZ86pNp5q6efUZmoCbV6YhfitIC1wLq6zb/R+5VDbNkt83U/bcscsk
+   YWD8Y7kyio6sgbtnOskAGOdetIvhFHkVAtcKP2C8woAOPw+SwE0RRAmS6
+   G87bqcQ1thiWCs5bhpkqW7LAz/V6IUmQ7VYPqZapLl62TqnjbuPL2pFil
+   Q==;
+X-CSE-ConnectionGUID: mXFFrWrWRIe7E01eMnO//g==
+X-CSE-MsgGUID: 32HlF41vSEe+ASScHCqZAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="62694057"
+X-IronPort-AV: E=Sophos;i="6.19,229,1754982000"; 
+   d="scan'208";a="62694057"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 17:59:36 -0700
+X-CSE-ConnectionGUID: wQBraVt0R9qPh8PBxJ9+0A==
+X-CSE-MsgGUID: ktHQZft0S3ijTnpn/HR9Iw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,229,1754982000"; 
+   d="scan'208";a="187117743"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 14 Oct 2025 17:59:35 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v8prY-0003Jz-0S;
+	Wed, 15 Oct 2025 00:59:32 +0000
+Date: Wed, 15 Oct 2025 08:58:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH] dt-bindings: dma: Convert apm,xgene-storm-dma to DT
+ schema
+Message-ID: <202510150836.kCq2PhCR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -85,47 +61,64 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251014104511.GA14479@nxa18884-linux.ap.freescale.net>
 
-On Tue, Oct 14, 2025 at 06:45:11PM +0800, Peng Fan wrote:
-> Hi Dan,
-> 
-> I am not sure, Is this false alarm?
-> 
-> On Tue, Oct 14, 2025 at 11:39:41AM +0300, Dan Carpenter wrote:
-> >Hi Peng,
-> >
-> >
-> >vim +/ret +1841 drivers/remoteproc/remoteproc_core.c
-> >
-> >70b85ef83ce3523 Fernando Guzman Lugo 2012-08-30  1829  int rproc_trigger_recovery(struct rproc *rproc)
-> >70b85ef83ce3523 Fernando Guzman Lugo 2012-08-30  1830  {
-> >7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1831  	struct device *dev = &rproc->dev;
-> >7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1832  	int ret;
-> >7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1833  
-> >c42baf6f84c7694 Peng Fan             2025-10-10  1834  	ACQUIRE(mutex_intr, lock)(&rproc->lock);
-> >c42baf6f84c7694 Peng Fan             2025-10-10  1835  	ret = ACQUIRE_ERR(mutex_intr, &lock);
-> >7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1836  	if (ret)
-> >7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1837  		return ret;
-> >7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1838  
-> >0b145574b6cd2b3 Alex Elder           2020-02-28  1839  	/* State could have changed before we got the mutex */
-> >0b145574b6cd2b3 Alex Elder           2020-02-28  1840  	if (rproc->state != RPROC_CRASHED)
-> >c42baf6f84c7694 Peng Fan             2025-10-10 @1841  		return ret;
-> >
-> >Please change this to either "return 0;" or "return -ERRORCODE;"
-> 
-> ACQUIRE_ERR should already returns 0. This change does not change the
-> assignment to ret as my understanding. Please help to see if this is false
-> alarm or I miss something?
-> 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-I guess if this was already merged then it's fine.  But "return ret" looks
-like an error path where "return 0;" is obvious.  This code will always
-trigger a Smatch warning, and I always tell people that old code has been
-reviewed so all the warnings are false positives, still someone will
-eventually change this to "return -EINVAL;" because it looks so much like
-a mistake.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20251013213037.684981-1-robh@kernel.org>
+References: <20251013213037.684981-1-robh@kernel.org>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+TO: Vinod Koul <vkoul@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Khuong Dinh <khuong@os.amperecomputing.com>
+CC: dmaengine@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
 
-regards,
-dan carpenter
+Hi Rob,
 
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on vkoul-dmaengine/next]
+[also build test WARNING on krzk-dt/for-next linus/master v6.18-rc1 next-20251014]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-dma-Convert-apm-xgene-storm-dma-to-DT-schema/20251014-053233
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20251013213037.684981-1-robh%40kernel.org
+patch subject: [PATCH] dt-bindings: dma: Convert apm,xgene-storm-dma to DT schema
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: arm64-randconfig-051-20251014 (https://download.01.org/0day-ci/archive/20251015/202510150836.kCq2PhCR-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
+dtschema version: 2025.9.dev1+g4b28bc79f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251015/202510150836.kCq2PhCR-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202510150836.kCq2PhCR-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/mailbox@10540000: failed to match any schema with compatible: ['apm,xgene-slimpro-mbox']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: mmc@1c000000 (arasan,sdhci-4.9a): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000 (apm,xgene-enet): phy-handle:0: [36, 37] is too long
+   	from schema $id: http://devicetree.org/schemas/net/apm,xgene-enet.yaml#
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000 (apm,xgene-enet): Unevaluated properties are not allowed ('local-mac-address', 'phy-connection-type', 'phy-handle' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/apm,xgene-enet.yaml#
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: ethernet@17020000 (apm,xgene-enet): phy-handle:0: [36, 37] is too long
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+>> arch/arm64/boot/dts/apm/apm-mustang.dtb: dma@1f270000 (apm,xgene-storm-dma): 'device_type' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/dma/apm,xgene-storm-dma.yaml#
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
