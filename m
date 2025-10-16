@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8511343D9E
-	for <oe-kbuild@lists.linux.dev>; Thu, 16 Oct 2025 15:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9061332D0C6
+	for <oe-kbuild@lists.linux.dev>; Thu, 16 Oct 2025 16:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760628630; cv=none; b=sxY56h7tMIy/+PK3urpm72IbWicwdLZsXSxTxhb5DNeVInVJQizxZy4WTIMV0/zq1pcbgFeQeDMkAPFrJpItk7AupuPnilCodkKJaxRLYcwR3q1XiHW+5qj6/hH2ynwsNLDu+/nqUDh3LTh6X+v3eSEKC8bVBpUbDOdirhVz3JI=
+	t=1760632944; cv=none; b=mgjODvaqU5Q1/QxqRXVn3QBKGo2BEQAbYL6H4EzMu0l2g1ClrV1CmCg3X6HOz7h+2vRzAraJMi8R2buGDjjhHxyuV3Sb0ArHPjwokosfBqhq8nzT8FgOsRJNRhzxrg2akF0sorBfA3vediA9nKi7e+1vrATE4H5sdNxVFXBme5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760628630; c=relaxed/simple;
-	bh=qHU3+ibDf8QxAUL5LAS1vYW2MBsTo6h+TEd46oPfwDY=;
+	s=arc-20240116; t=1760632944; c=relaxed/simple;
+	bh=IEyyYwWs6s8OabwLoNxhIjFyiTSQiMlG9/BtqeMYFUQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eLlJF6rV2vht1PpeJenOetj/nsSSLuZmSRI9HrBq9rvJTjZS7Bj6nOaWJk9DdPe0YJq96fzrUeJLrFqa9PyYfnC8ZN+mJWTV8Dr03UxquMpD2oeEfo3Q0P11qm7IXoq74SsEG1+nxVKcX8CVksNojFcAQSkd4dPLNAJglhKJ6+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QNRwHAcy; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=RsXiObQzKplcAtJCCNx6Z7BYkDkKRA9r4Vh/WaMIjttDGtv04IBpawLzBw5qL3fBZxaMMlAJ8WCecKWdWkO0Hq7eVGThSL7lgw19zF8GieJQF/FAP7HQN6HYzGnZWZKOHjSeklA17s80oEftzFkSCHtrxV/+sFuWEjSkrWVt5qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pv0yDos9; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QNRwHAcy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pv0yDos9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760628629; x=1792164629;
+  t=1760632943; x=1792168943;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qHU3+ibDf8QxAUL5LAS1vYW2MBsTo6h+TEd46oPfwDY=;
-  b=QNRwHAcyV1VMfBzurO+67ZS0n7l1vkdUXVoTnEZH/x6UjXX+t4WDrcKf
-   Hd1/N7htikux/tIb3VuqcRnpjp+Yt5Ib5eQ+OwrXmCJO+KhVwbFyrt7rF
-   gtHlgxbtjgKr+ELrTx7XBwYaQKc64jG0/bgPW8pmOglMaqKfi9+aF2Y9Q
-   Ruhha4Aw9CA7pji29h6xKeBYM0FONGsWFIq9Lfa/yY8HDpL+r4rlK+L2U
-   fEErHPGQ9I27xWaC8KYq6/CgpLmdbd9UQ729aDe0l8lKIHxLKiu5fXStG
-   YtetHRaGSf0m79hReu/CdpgF0Dvwj5ROZF9tfHBEdK4imYSCcMP92xR1Z
-   w==;
-X-CSE-ConnectionGUID: yAhfMYZxRFq9xRW+siakng==
-X-CSE-MsgGUID: ZMcs4RaMRDa4BGWeLKON2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="65441386"
+  bh=IEyyYwWs6s8OabwLoNxhIjFyiTSQiMlG9/BtqeMYFUQ=;
+  b=Pv0yDos9Ru7Zb2eqI/bcQ1t+zKDetfAHv0YI+Cr55ZuLwvdc/zcl80Ou
+   qozxfHCjUEUWoSdigZsyy1pf1OftUmTvnHX9R8He4B7xwSHJ14A3nx2/1
+   QycksZ4v9UXkiSr9yuEp4gp/TztY+N6dQOcF2q35oXPQgEcoM3nppGV8g
+   +NoSKWikbGQL6jlh4kJRZ1f4ZXB1qdunJ5LtySfWfrMbV1ftYdQA/IM0v
+   DqUQHnkm681utVvfffBC0OV8UQ3kHDzn9HkcwHQSenyU3kFDUwvSZ7KTO
+   D7VIr3a7eQ+rIzMpSkYwNM1HKOSfLTuNXo3P7D90sl6/wqi11diNqQlPs
+   Q==;
+X-CSE-ConnectionGUID: 3danDhNJRPWgzt0xPu3DWQ==
+X-CSE-MsgGUID: JXJfWQu4T+O/lySeCcBuFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62736826"
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="65441386"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 08:30:28 -0700
-X-CSE-ConnectionGUID: cqSNQ9B8SAS/GeCBLlPuLA==
-X-CSE-MsgGUID: 4InHXvEVTOSyUiXfLPongg==
+   d="scan'208";a="62736826"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 09:42:22 -0700
+X-CSE-ConnectionGUID: mtqXdKziQweja/pqG5djhA==
+X-CSE-MsgGUID: 5JvBXE1OSma0lRBTzdQ0GA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="213444462"
+   d="scan'208";a="182185767"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Oct 2025 08:30:27 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 16 Oct 2025 09:42:19 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9PvM-0004zD-38;
-	Thu, 16 Oct 2025 15:30:11 +0000
-Date: Thu, 16 Oct 2025 23:29:12 +0800
+	id 1v9R3P-000531-17;
+	Thu, 16 Oct 2025 16:42:16 +0000
+Date: Fri, 17 Oct 2025 00:42:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/damon/core.c:2050 damos_adjust_quota() error: uninitialized
- symbol 'cached_esz'.
-Message-ID: <202510162333.YNUPa5FO-lkp@intel.com>
+Subject: Re: Forwarded: [PATCH] ntfs3: add debug warnings for run_lock
+ initialization
+Message-ID: <202510170051.yMGKcZjz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,86 +64,90 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: SeongJae Park <sj@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+In-Reply-To: <68ee38b5.050a0220.ac43.00fd.GAE@google.com>
+References: <68ee38b5.050a0220.ac43.00fd.GAE@google.com>
+TO: syzbot <syzbot+3e58a7dc1a8c00243999@syzkaller.appspotmail.com>
+TO: linux-kernel@vger.kernel.org
+TO: syzkaller-bugs@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7ea30958b3054f5e488fa0b33c352723f7ab3a2a
-commit: a86d695193bfab3f130f9275c275e4e143dcd2e3 mm/damon: add trace event for effective size quota
-date:   3 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-141-20251016 (https://download.01.org/0day-ci/archive/20251016/202510162333.YNUPa5FO-lkp@intel.com/config)
+Hi syzbot,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.18-rc1]
+[also build test WARNING on linus/master next-20251015]
+[cannot apply to brauner-vfs/vfs.all]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/syzbot/Forwarded-PATCH-ntfs3-add-debug-warnings-for-run_lock-initialization/20251014-195051
+base:   v6.18-rc1
+patch link:    https://lore.kernel.org/r/68ee38b5.050a0220.ac43.00fd.GAE%40google.com
+patch subject: Forwarded: [PATCH] ntfs3: add debug warnings for run_lock initialization
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20251015 (https://download.01.org/0day-ci/archive/20251017/202510170051.yMGKcZjz-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510162333.YNUPa5FO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510170051.yMGKcZjz-lkp@intel.com/
 
 smatch warnings:
-mm/damon/core.c:2050 damos_adjust_quota() error: uninitialized symbol 'cached_esz'.
+fs/ntfs3/inode.c:590 ntfs_iget5() warn: variable dereferenced before IS_ERR check 'inode' (see line 590)
 
-vim +/cached_esz +2050 mm/damon/core.c
+vim +/inode +590 fs/ntfs3/inode.c
 
-a86d695193bfab3 SeongJae Park 2025-07-04  2027  
-898810e5ca54691 SeongJae Park 2022-10-26  2028  static void damos_adjust_quota(struct damon_ctx *c, struct damos *s)
-1f366e421c8f695 SeongJae Park 2021-11-05  2029  {
-2b8a248d5873343 SeongJae Park 2021-11-05  2030  	struct damos_quota *quota = &s->quota;
-898810e5ca54691 SeongJae Park 2022-10-26  2031  	struct damon_target *t;
-898810e5ca54691 SeongJae Park 2022-10-26  2032  	struct damon_region *r;
-a86d695193bfab3 SeongJae Park 2025-07-04  2033  	unsigned long cumulated_sz, cached_esz;
-38683e003153f7a SeongJae Park 2021-11-05  2034  	unsigned int score, max_score = 0;
-2b8a248d5873343 SeongJae Park 2021-11-05  2035  
-89d347a545a704e SeongJae Park 2024-02-19  2036  	if (!quota->ms && !quota->sz && list_empty(&quota->goals))
-898810e5ca54691 SeongJae Park 2022-10-26  2037  		return;
-2b8a248d5873343 SeongJae Park 2021-11-05  2038  
-2b8a248d5873343 SeongJae Park 2021-11-05  2039  	/* New charge window starts */
-2b8a248d5873343 SeongJae Park 2021-11-05  2040  	if (time_after_eq(jiffies, quota->charged_from +
-898810e5ca54691 SeongJae Park 2022-10-26  2041  				msecs_to_jiffies(quota->reset_interval))) {
-6268eac34ca30af SeongJae Park 2022-01-14  2042  		if (quota->esz && quota->charged_sz >= quota->esz)
-6268eac34ca30af SeongJae Park 2022-01-14  2043  			s->stat.qt_exceeds++;
-1cd2430300594a2 SeongJae Park 2021-11-05  2044  		quota->total_charged_sz += quota->charged_sz;
-2b8a248d5873343 SeongJae Park 2021-11-05  2045  		quota->charged_from = jiffies;
-2b8a248d5873343 SeongJae Park 2021-11-05  2046  		quota->charged_sz = 0;
-a86d695193bfab3 SeongJae Park 2025-07-04  2047  		if (trace_damos_esz_enabled())
-a86d695193bfab3 SeongJae Park 2025-07-04  2048  			cached_esz = quota->esz;
-1cd2430300594a2 SeongJae Park 2021-11-05  2049  		damos_set_effective_quota(quota);
-a86d695193bfab3 SeongJae Park 2025-07-04 @2050  		if (trace_damos_esz_enabled() && quota->esz != cached_esz)
-a86d695193bfab3 SeongJae Park 2025-07-04  2051  			damos_trace_esz(c, s, quota);
-2b8a248d5873343 SeongJae Park 2021-11-05  2052  	}
-38683e003153f7a SeongJae Park 2021-11-05  2053  
-f7d911c39cbbb88 SeongJae Park 2022-03-22  2054  	if (!c->ops.get_scheme_score)
-898810e5ca54691 SeongJae Park 2022-10-26  2055  		return;
-38683e003153f7a SeongJae Park 2021-11-05  2056  
-38683e003153f7a SeongJae Park 2021-11-05  2057  	/* Fill up the score histogram */
-304b95847f28520 SeongJae Park 2024-08-25  2058  	memset(c->regions_score_histogram, 0,
-304b95847f28520 SeongJae Park 2024-08-25  2059  			sizeof(*c->regions_score_histogram) *
-304b95847f28520 SeongJae Park 2024-08-25  2060  			(DAMOS_MAX_SCORE + 1));
-38683e003153f7a SeongJae Park 2021-11-05  2061  	damon_for_each_target(t, c) {
-38683e003153f7a SeongJae Park 2021-11-05  2062  		damon_for_each_region(r, t) {
-38683e003153f7a SeongJae Park 2021-11-05  2063  			if (!__damos_valid_target(r, s))
-38683e003153f7a SeongJae Park 2021-11-05  2064  				continue;
-898810e5ca54691 SeongJae Park 2022-10-26  2065  			score = c->ops.get_scheme_score(c, t, r, s);
-304b95847f28520 SeongJae Park 2024-08-25  2066  			c->regions_score_histogram[score] +=
-304b95847f28520 SeongJae Park 2024-08-25  2067  				damon_sz_region(r);
-38683e003153f7a SeongJae Park 2021-11-05  2068  			if (score > max_score)
-38683e003153f7a SeongJae Park 2021-11-05  2069  				max_score = score;
-38683e003153f7a SeongJae Park 2021-11-05  2070  		}
-38683e003153f7a SeongJae Park 2021-11-05  2071  	}
-38683e003153f7a SeongJae Park 2021-11-05  2072  
-38683e003153f7a SeongJae Park 2021-11-05  2073  	/* Set the min score limit */
-38683e003153f7a SeongJae Park 2021-11-05  2074  	for (cumulated_sz = 0, score = max_score; ; score--) {
-304b95847f28520 SeongJae Park 2024-08-25  2075  		cumulated_sz += c->regions_score_histogram[score];
-38683e003153f7a SeongJae Park 2021-11-05  2076  		if (cumulated_sz >= quota->esz || !score)
-38683e003153f7a SeongJae Park 2021-11-05  2077  			break;
-38683e003153f7a SeongJae Park 2021-11-05  2078  	}
-38683e003153f7a SeongJae Park 2021-11-05  2079  	quota->min_score = score;
-2b8a248d5873343 SeongJae Park 2021-11-05  2080  }
-1f366e421c8f695 SeongJae Park 2021-11-05  2081  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  561  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  562  struct inode *ntfs_iget5(struct super_block *sb, const struct MFT_REF *ref,
+82cae269cfa9530 Konstantin Komarov 2021-08-13  563                           const struct cpu_str *name)
+82cae269cfa9530 Konstantin Komarov 2021-08-13  564  {
+82cae269cfa9530 Konstantin Komarov 2021-08-13  565      struct inode *inode;
+9ca11d2cd5f563e syzbot             2025-10-14  566      unsigned long ino = ino_get(ref);
+82cae269cfa9530 Konstantin Komarov 2021-08-13  567      
+9ca11d2cd5f563e syzbot             2025-10-14  568      if (ino == 25) {
+9ca11d2cd5f563e syzbot             2025-10-14  569          printk(KERN_ERR "DEEPANSHU: ntfs_iget5 START for inode 25\n");
+9ca11d2cd5f563e syzbot             2025-10-14  570          //dump_stack();
+9ca11d2cd5f563e syzbot             2025-10-14  571      }
+9ca11d2cd5f563e syzbot             2025-10-14  572      
+9ca11d2cd5f563e syzbot             2025-10-14  573      inode = iget5_locked(sb, ino, ntfs_test_inode, ntfs_set_inode,
+82cae269cfa9530 Konstantin Komarov 2021-08-13  574                           (void *)ref);
+9ca11d2cd5f563e syzbot             2025-10-14  575      
+82cae269cfa9530 Konstantin Komarov 2021-08-13  576      if (unlikely(!inode))
+82cae269cfa9530 Konstantin Komarov 2021-08-13  577          return ERR_PTR(-ENOMEM);
+82cae269cfa9530 Konstantin Komarov 2021-08-13  578      
+9ca11d2cd5f563e syzbot             2025-10-14  579      if (inode->i_ino == 25) {
+9ca11d2cd5f563e syzbot             2025-10-14  580          printk(KERN_ERR "DEEPANSHU: After iget5_locked for inode 25, I_NEW=%d, i_state=0x%x\n", 
+9ca11d2cd5f563e syzbot             2025-10-14  581                 !!(inode->i_state & I_NEW), inode->i_state);
+9ca11d2cd5f563e syzbot             2025-10-14  582          //dump_stack();
+9ca11d2cd5f563e syzbot             2025-10-14  583      }
+9ca11d2cd5f563e syzbot             2025-10-14  584      
+82cae269cfa9530 Konstantin Komarov 2021-08-13  585      /* If this is a freshly allocated inode, need to read it now. */
+9ca11d2cd5f563e syzbot             2025-10-14  586      if (inode->i_state & I_NEW) {
+9ca11d2cd5f563e syzbot             2025-10-14  587          if (inode->i_ino == 25)
+9ca11d2cd5f563e syzbot             2025-10-14  588              printk(KERN_ERR "DEEPANSHU: Calling ntfs_read_mft for inode 25\n");
+82cae269cfa9530 Konstantin Komarov 2021-08-13  589          inode = ntfs_read_mft(inode, name, ref);
+9ca11d2cd5f563e syzbot             2025-10-14 @590          if (inode->i_ino == 25 && IS_ERR(inode))
+9ca11d2cd5f563e syzbot             2025-10-14  591              printk(KERN_ERR "DEEPANSHU: ntfs_read_mft FAILED for inode 25\n");
+9ca11d2cd5f563e syzbot             2025-10-14  592      } else if (ref->seq != ntfs_i(inode)->mi.mrec->seq) {
+9ca11d2cd5f563e syzbot             2025-10-14  593          if (inode->i_ino == 25)
+9ca11d2cd5f563e syzbot             2025-10-14  594              printk(KERN_ERR "DEEPANSHU: inode 25 seq mismatch\n");
+1fd21919de6de24 Konstantin Komarov 2024-08-22  595          iput(inode);
+1fd21919de6de24 Konstantin Komarov 2024-08-22  596          inode = ERR_PTR(-ESTALE);
+9ca11d2cd5f563e syzbot             2025-10-14  597      } else if (inode->i_ino == 25) {
+9ca11d2cd5f563e syzbot             2025-10-14  598          printk(KERN_ERR "DEEPANSHU: inode 25 found in CACHE, skipping ntfs_read_mft!\n");
+9ca11d2cd5f563e syzbot             2025-10-14  599          //dump_stack();
+82cae269cfa9530 Konstantin Komarov 2021-08-13  600      }
+82cae269cfa9530 Konstantin Komarov 2021-08-13  601  
+1fd21919de6de24 Konstantin Komarov 2024-08-22  602      if (IS_ERR(inode))
+0e8235d28f3a0e9 Konstantin Komarov 2022-10-10  603          ntfs_set_state(sb->s_fs_info, NTFS_DIRTY_ERROR);
+0e8235d28f3a0e9 Konstantin Komarov 2022-10-10  604  
+82cae269cfa9530 Konstantin Komarov 2021-08-13  605      return inode;
+82cae269cfa9530 Konstantin Komarov 2021-08-13  606  }
+82cae269cfa9530 Konstantin Komarov 2021-08-13  607  
 
 -- 
 0-DAY CI Kernel Test Service
