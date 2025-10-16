@@ -1,159 +1,183 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C988923EA86
-	for <oe-kbuild@lists.linux.dev>; Thu, 16 Oct 2025 17:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB291E5215
+	for <oe-kbuild@lists.linux.dev>; Thu, 16 Oct 2025 19:08:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760637549; cv=none; b=fQVkfDeNAS23e6NaBVDDe9nbSiaHRvh6rkp39almz1VPJP2s+vBJPpj/UkOPmLw+qbV8taFkqS35htiNrxaN2amKEj1GsYsCaDYbOwifb6JwB7Zm6xOO8fLB2u66LxrQPnKbhjEvlT5C+Zn6OWPK2Y6qOVAWz+luo1zEzys34Fs=
+	t=1760641706; cv=none; b=k/OvHlZoVwWfpcgS25y5UbE8siQMjEt6ys3qCDM5eznq7kbYEso/+h/uxB5Uj7LuCE/QyTONe2CWmNzeusp2snujz8n5ovxGCjks6faGZ2qSF46ZlD7cY5zLrPIBDZb4zcyBtDRdRaNnvyROkeYPBAbcrHWKU8nDUJQumSg2bTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760637549; c=relaxed/simple;
-	bh=vZiHA8Y6AfsK9IF3c2KBtymTA2sTHdPbid5+P3xm/ZU=;
+	s=arc-20240116; t=1760641706; c=relaxed/simple;
+	bh=w7E6hfAw5jppbVEMhJwgJ3HswTZiiQzjSzSYzsUi5rw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=QGEiyZvfDHL/98fDwTQK4viImuJgyZGPehbll1mdCmuEUpCSMcbyttf5ce4yPygcDKvkz8HNzFIVOntMg4sdt6SCepZJum6/u1z23loKsf3f/haky28UVoY/DCFn3DxPV/SdjIEKROwSlBk6fsjKhm+lQhll/7Hfn3QWDmMNyMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VPfcLCr+; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=N+fRG9T5Yos53CNwXW78hAVFHJNLjFtYPrp5IdkZp/Oy4yFRcHp5ofGfIDiDaUPxKRTjbY7P7V7/f+yOyvSNuKGOkoaR//bXf/mau0+B59RXX8SlM02sD8M8kI6Ushi5NoLi/eEXhpaSM1fGcuZ6ISKkZEjJaemCP6koUsXANOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YCj2jw7X; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VPfcLCr+"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-46b303f755aso11308625e9.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 16 Oct 2025 10:59:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760637544; x=1761242344; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5VBbCb5Q+IqNb5arOkvExMS59Z+aWDiwCrWUaHKJ2ko=;
-        b=VPfcLCr+t2H1QymuolisLr4ck5+wu85nOn613ol7XoWRsNB+/uMRpRtjaGWsAgtcvn
-         AzcN7t4Zesb4ndGLqe+Paw/HEkFh3/gVIMJgzKoy6MplwH9TAQDISTnNlbW+ftpvMyQO
-         9AUtvveSXBlo222T2dVotuLJJQ36AI/ogv/n5exMHmreu8Y3qeqOTEzTWTpMF5uuEtuL
-         7jG8te/bqyFBt0SklJrd2WQdP6D6XQ63sSElmvjjbtdOaSRhl9X9TO74si9umSPb6Gpm
-         9I7SnPJZhUuXSf2x4OZZnx95xdVDwxEEuDsPmLYO/Chfw/qsgTLmXFG2Zth8Onou7Ra6
-         4QfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760637544; x=1761242344;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5VBbCb5Q+IqNb5arOkvExMS59Z+aWDiwCrWUaHKJ2ko=;
-        b=gARNmslHu0YadBT64lod5f1T+oVxFs1jBMBQaF0anah6VNR5my0pxEGO2eKQvsK0qi
-         F3v+3GjgxHR0EWIi/ZN/ASscSjpXVhFbecSIpbSKoIBf+WxuLl70lRkJPwvEgcha3+cb
-         AmniNFdWR4zGDMc2LbMLb9oxbhPm4+wxvr0Q9SPZ1VlZPsntT212JWzxIVpGr8dAV0xT
-         AV2yQToxYq9fUrH8kasnhCSz9px3ZaLUtDzdgLtCz82d+OV2+XegWwW4Zjt4j9iNQNJy
-         gbpfoRUtkjOFJFT9MHrOuOxlKg5wyYhOOfX21Pw/1uBFKps0YEhBqT0Z8Y+8MoazYWYH
-         TD4Q==
-X-Gm-Message-State: AOJu0YyZTDgosFUj85CCWXBtT+Rh4kXT/a/pGrzJHLipKVGXBc5Feu/h
-	EBIDJywpoau15Qi+ET1naBlmXRhuyo90B/RgoUePK+xvSXcohRWS13iqDdrH02clHC5/HCZSj88
-	SACE0
-X-Gm-Gg: ASbGncvoVnHEY3uS67CFmKbiZN6Fzc4SrcUyR6pL1O8CJjFWLHldf5ArgAS+e20Xxmp
-	Yza4bjoE/L1ANK6XR/pkE8ZnaPbhf5e945zZnb0L7rjfVKi5hwSEzx7BwfocPZ7ZSkmkUpQkQHy
-	fsvKpslQiHD4NVzGic/xWnrUqlGon4zIV0lDQovvzcRQAPJTSJDqtjKURxTcn5rded8QLbhMDDR
-	reslXVkh8ENuNN1Ub80eFVO80XyhPWlGGdVursrTKMllfxObuSlLVsk5HfMN+EsvpzR33hBd/NH
-	kFvI4zKKfg9XQ271iHxC5Sv6nCZdsWRFO6COG9NRqUAP7srGytqPRYJOCrOTS1VIMsBNSG7HIfW
-	KIBGjZYCd8S4LQz/8sef8qoJ24woQ7kH4vFnyMGsHZp9QwUt/MFzjwcHCyXPoRRGtq4pjpUNcaM
-	BXUj5FSu+3kzNXUpxspP3LzyCzAls=
-X-Google-Smtp-Source: AGHT+IGNC4j+STHgH8JMZXaAiTHwQ+buEodAeaVzalRybmL2VUhCMjzU9+Zk9Y0sAYL9ikB7GrJ2sw==
-X-Received: by 2002:a05:600c:4507:b0:46f:c55a:5a8d with SMTP id 5b1f17b1804b1-4711787276dmr7996365e9.4.1760637543660;
-        Thu, 16 Oct 2025 10:59:03 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-471144239f4sm40779015e9.2.2025.10.16.10.59.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 10:59:03 -0700 (PDT)
-Date: Thu, 16 Oct 2025 20:58:59 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	syzbot <syzbot+3e58a7dc1a8c00243999@syzkaller.appspotmail.com>,
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
-	kartikey406@gmail.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: Forwarded: [PATCH] ntfs3: add debug warnings for run_lock
- initialization
-Message-ID: <202510170051.yMGKcZjz-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YCj2jw7X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760641703; x=1792177703;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=w7E6hfAw5jppbVEMhJwgJ3HswTZiiQzjSzSYzsUi5rw=;
+  b=YCj2jw7XfmrgUiDE7La2N8auAtkINS2MLD+OmU2cPN05kn2eRyLdBf1g
+   4KUC67lDn+fX6JHmI/IeCWKRJRdyEvDV9cas5kfl33OKymwB2Wlf4iq3m
+   /urHAhzxJrKm48uV6z2pTjY2Mkbeoxa/IoPsr+gl9TFNnbZEJ8/16XcSl
+   5jpOX5nQ/SXoUW98uBsZdYiyvqMxATsbPlHKHq7yiX2kkZZrqs5igHvMy
+   leO33A3HuvShPOEdubNALrl3X2jN0B1cQMvSHb7YcgkVl3s1zhnux/fhO
+   Jt2oFVB/I4gjdybA/5jYVtJmIpy8mPwbaafplBBQwhN6JOYXXHfq6AVZ9
+   Q==;
+X-CSE-ConnectionGUID: Mqo5NzFhQMyP8uUlyIZSZg==
+X-CSE-MsgGUID: Qj5kPyGpR+K5FUwytnx/Tg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="66713465"
+X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
+   d="scan'208";a="66713465"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 12:08:22 -0700
+X-CSE-ConnectionGUID: XkztIgLlTF2LQQA9H56fpw==
+X-CSE-MsgGUID: MmIh6VVPR+uglG1zqjj9Mw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
+   d="scan'208";a="213504553"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 16 Oct 2025 12:08:21 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v9TKc-0005Aj-34;
+	Thu, 16 Oct 2025 19:08:12 +0000
+Date: Fri, 17 Oct 2025 03:07:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: block/blk-cgroup.c:845 blkg_conf_open_bdev_frozen() error: we
+ previously assumed 'ctx->bdev' could be null (see line 832)
+Message-ID: <202510170324.JVGAvxHk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <68ee38b5.050a0220.ac43.00fd.GAE@google.com>
-Message-ID: <20251016175859.fp0jhNK9WI0-puBfvGvaK6GLvGvmgaqPENrK-v0toW8@z>
+Content-Transfer-Encoding: 8bit
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Nilay Shroff <nilay@linux.ibm.com>
+CC: Jens Axboe <axboe@kernel.dk>
 
-Hi syzbot,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/syzbot/Forwarded-PATCH-ntfs3-add-debug-warnings-for-run_lock-initialization/20251014-195051
-base:   v6.18-rc1
-patch link:    https://lore.kernel.org/r/68ee38b5.050a0220.ac43.00fd.GAE%40google.com
-patch subject: Forwarded: [PATCH] ntfs3: add debug warnings for run_lock initialization
-config: i386-randconfig-141-20251015 (https://download.01.org/0day-ci/archive/20251017/202510170051.yMGKcZjz-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7ea30958b3054f5e488fa0b33c352723f7ab3a2a
+commit: 9730763f4756e32520cb86778331465e8d063a8f block: correct locking order for protecting blk-wbt parameters
+date:   7 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 7 months ago
+config: x86_64-randconfig-161-20251016 (https://download.01.org/0day-ci/archive/20251017/202510170324.JVGAvxHk-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510170051.yMGKcZjz-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202510170324.JVGAvxHk-lkp@intel.com/
 
 smatch warnings:
-fs/ntfs3/inode.c:590 ntfs_iget5() warn: variable dereferenced before IS_ERR check 'inode' (see line 590)
+block/blk-cgroup.c:845 blkg_conf_open_bdev_frozen() error: we previously assumed 'ctx->bdev' could be null (see line 832)
 
-vim +/inode +590 fs/ntfs3/inode.c
+vim +845 block/blk-cgroup.c
 
-82cae269cfa9530 Konstantin Komarov 2021-08-13  562  struct inode *ntfs_iget5(struct super_block *sb, const struct MFT_REF *ref,
-82cae269cfa9530 Konstantin Komarov 2021-08-13  563                           const struct cpu_str *name)
-82cae269cfa9530 Konstantin Komarov 2021-08-13  564  {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  565      struct inode *inode;
-9ca11d2cd5f563e syzbot             2025-10-14  566      unsigned long ino = ino_get(ref);
-82cae269cfa9530 Konstantin Komarov 2021-08-13  567      
-9ca11d2cd5f563e syzbot             2025-10-14  568      if (ino == 25) {
-9ca11d2cd5f563e syzbot             2025-10-14  569          printk(KERN_ERR "DEEPANSHU: ntfs_iget5 START for inode 25\n");
-9ca11d2cd5f563e syzbot             2025-10-14  570          //dump_stack();
-9ca11d2cd5f563e syzbot             2025-10-14  571      }
-9ca11d2cd5f563e syzbot             2025-10-14  572      
-9ca11d2cd5f563e syzbot             2025-10-14  573      inode = iget5_locked(sb, ino, ntfs_test_inode, ntfs_set_inode,
-82cae269cfa9530 Konstantin Komarov 2021-08-13  574                           (void *)ref);
-9ca11d2cd5f563e syzbot             2025-10-14  575      
-82cae269cfa9530 Konstantin Komarov 2021-08-13  576      if (unlikely(!inode))
-82cae269cfa9530 Konstantin Komarov 2021-08-13  577          return ERR_PTR(-ENOMEM);
-82cae269cfa9530 Konstantin Komarov 2021-08-13  578      
-9ca11d2cd5f563e syzbot             2025-10-14  579      if (inode->i_ino == 25) {
-9ca11d2cd5f563e syzbot             2025-10-14  580          printk(KERN_ERR "DEEPANSHU: After iget5_locked for inode 25, I_NEW=%d, i_state=0x%x\n", 
-9ca11d2cd5f563e syzbot             2025-10-14  581                 !!(inode->i_state & I_NEW), inode->i_state);
-9ca11d2cd5f563e syzbot             2025-10-14  582          //dump_stack();
-9ca11d2cd5f563e syzbot             2025-10-14  583      }
-9ca11d2cd5f563e syzbot             2025-10-14  584      
-82cae269cfa9530 Konstantin Komarov 2021-08-13  585      /* If this is a freshly allocated inode, need to read it now. */
-9ca11d2cd5f563e syzbot             2025-10-14  586      if (inode->i_state & I_NEW) {
-9ca11d2cd5f563e syzbot             2025-10-14  587          if (inode->i_ino == 25)
-9ca11d2cd5f563e syzbot             2025-10-14  588              printk(KERN_ERR "DEEPANSHU: Calling ntfs_read_mft for inode 25\n");
-82cae269cfa9530 Konstantin Komarov 2021-08-13  589          inode = ntfs_read_mft(inode, name, ref);
-9ca11d2cd5f563e syzbot             2025-10-14 @590          if (inode->i_ino == 25 && IS_ERR(inode))
-                                                                ^^^^^^^^^^^^                 ^^^^^
-"inode" dereferenced before an IS_ERR() check...
-
-9ca11d2cd5f563e syzbot             2025-10-14  591              printk(KERN_ERR "DEEPANSHU: ntfs_read_mft FAILED for inode 25\n");
-9ca11d2cd5f563e syzbot             2025-10-14  592      } else if (ref->seq != ntfs_i(inode)->mi.mrec->seq) {
-9ca11d2cd5f563e syzbot             2025-10-14  593          if (inode->i_ino == 25)
-9ca11d2cd5f563e syzbot             2025-10-14  594              printk(KERN_ERR "DEEPANSHU: inode 25 seq mismatch\n");
-1fd21919de6de24 Konstantin Komarov 2024-08-22  595          iput(inode);
-1fd21919de6de24 Konstantin Komarov 2024-08-22  596          inode = ERR_PTR(-ESTALE);
-9ca11d2cd5f563e syzbot             2025-10-14  597      } else if (inode->i_ino == 25) {
-9ca11d2cd5f563e syzbot             2025-10-14  598          printk(KERN_ERR "DEEPANSHU: inode 25 found in CACHE, skipping ntfs_read_mft!\n");
-9ca11d2cd5f563e syzbot             2025-10-14  599          //dump_stack();
-82cae269cfa9530 Konstantin Komarov 2021-08-13  600      }
-82cae269cfa9530 Konstantin Komarov 2021-08-13  601  
-1fd21919de6de24 Konstantin Komarov 2024-08-22  602      if (IS_ERR(inode))
-0e8235d28f3a0e9 Konstantin Komarov 2022-10-10  603          ntfs_set_state(sb->s_fs_info, NTFS_DIRTY_ERROR);
-0e8235d28f3a0e9 Konstantin Komarov 2022-10-10  604  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  605      return inode;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  606  }
+faffaab2895914a Tejun Heo         2023-04-12  767  
+faffaab2895914a Tejun Heo         2023-04-12  768  /**
+faffaab2895914a Tejun Heo         2023-04-12  769   * blkg_conf_open_bdev - parse and open bdev for per-blkg config update
+faffaab2895914a Tejun Heo         2023-04-12  770   * @ctx: blkg_conf_ctx initialized with blkg_conf_init()
+015d254cb02b6d8 Tejun Heo         2019-08-28  771   *
+faffaab2895914a Tejun Heo         2023-04-12  772   * Parse the device node prefix part, MAJ:MIN, of per-blkg config update from
+faffaab2895914a Tejun Heo         2023-04-12  773   * @ctx->input and get and store the matching bdev in @ctx->bdev. @ctx->body is
+faffaab2895914a Tejun Heo         2023-04-12  774   * set to point past the device node prefix.
+015d254cb02b6d8 Tejun Heo         2019-08-28  775   *
+faffaab2895914a Tejun Heo         2023-04-12  776   * This function may be called multiple times on @ctx and the extra calls become
+faffaab2895914a Tejun Heo         2023-04-12  777   * NOOPs. blkg_conf_prep() implicitly calls this function. Use this function
+faffaab2895914a Tejun Heo         2023-04-12  778   * explicitly if bdev access is needed without resolving the blkcg / policy part
+faffaab2895914a Tejun Heo         2023-04-12  779   * of @ctx->input. Returns -errno on error.
+015d254cb02b6d8 Tejun Heo         2019-08-28  780   */
+faffaab2895914a Tejun Heo         2023-04-12  781  int blkg_conf_open_bdev(struct blkg_conf_ctx *ctx)
+015d254cb02b6d8 Tejun Heo         2019-08-28  782  {
+faffaab2895914a Tejun Heo         2023-04-12  783  	char *input = ctx->input;
+015d254cb02b6d8 Tejun Heo         2019-08-28  784  	unsigned int major, minor;
+22ae8ce8b89241c Christoph Hellwig 2020-11-26  785  	struct block_device *bdev;
+22ae8ce8b89241c Christoph Hellwig 2020-11-26  786  	int key_len;
+015d254cb02b6d8 Tejun Heo         2019-08-28  787  
+faffaab2895914a Tejun Heo         2023-04-12  788  	if (ctx->bdev)
+faffaab2895914a Tejun Heo         2023-04-12  789  		return 0;
+faffaab2895914a Tejun Heo         2023-04-12  790  
+015d254cb02b6d8 Tejun Heo         2019-08-28  791  	if (sscanf(input, "%u:%u%n", &major, &minor, &key_len) != 2)
+faffaab2895914a Tejun Heo         2023-04-12  792  		return -EINVAL;
+015d254cb02b6d8 Tejun Heo         2019-08-28  793  
+015d254cb02b6d8 Tejun Heo         2019-08-28  794  	input += key_len;
+015d254cb02b6d8 Tejun Heo         2019-08-28  795  	if (!isspace(*input))
+faffaab2895914a Tejun Heo         2023-04-12  796  		return -EINVAL;
+015d254cb02b6d8 Tejun Heo         2019-08-28  797  	input = skip_spaces(input);
+015d254cb02b6d8 Tejun Heo         2019-08-28  798  
+22ae8ce8b89241c Christoph Hellwig 2020-11-26  799  	bdev = blkdev_get_no_open(MKDEV(major, minor));
+22ae8ce8b89241c Christoph Hellwig 2020-11-26  800  	if (!bdev)
+faffaab2895914a Tejun Heo         2023-04-12  801  		return -ENODEV;
+22ae8ce8b89241c Christoph Hellwig 2020-11-26  802  	if (bdev_is_partition(bdev)) {
+22ae8ce8b89241c Christoph Hellwig 2020-11-26  803  		blkdev_put_no_open(bdev);
+faffaab2895914a Tejun Heo         2023-04-12  804  		return -ENODEV;
+015d254cb02b6d8 Tejun Heo         2019-08-28  805  	}
+015d254cb02b6d8 Tejun Heo         2019-08-28  806  
+a13bd91be223187 Yu Kuai           2023-04-14  807  	mutex_lock(&bdev->bd_queue->rq_qos_mutex);
+a13bd91be223187 Yu Kuai           2023-04-14  808  	if (!disk_live(bdev->bd_disk)) {
+a13bd91be223187 Yu Kuai           2023-04-14  809  		blkdev_put_no_open(bdev);
+a13bd91be223187 Yu Kuai           2023-04-14  810  		mutex_unlock(&bdev->bd_queue->rq_qos_mutex);
+a13bd91be223187 Yu Kuai           2023-04-14  811  		return -ENODEV;
+a13bd91be223187 Yu Kuai           2023-04-14  812  	}
+a13bd91be223187 Yu Kuai           2023-04-14  813  
+faffaab2895914a Tejun Heo         2023-04-12  814  	ctx->body = input;
+faffaab2895914a Tejun Heo         2023-04-12  815  	ctx->bdev = bdev;
+faffaab2895914a Tejun Heo         2023-04-12  816  	return 0;
+015d254cb02b6d8 Tejun Heo         2019-08-28  817  }
+9730763f4756e32 Nilay Shroff      2025-03-19  818  /*
+9730763f4756e32 Nilay Shroff      2025-03-19  819   * Similar to blkg_conf_open_bdev, but additionally freezes the queue,
+9730763f4756e32 Nilay Shroff      2025-03-19  820   * acquires q->elevator_lock, and ensures the correct locking order
+9730763f4756e32 Nilay Shroff      2025-03-19  821   * between q->elevator_lock and q->rq_qos_mutex.
+9730763f4756e32 Nilay Shroff      2025-03-19  822   *
+9730763f4756e32 Nilay Shroff      2025-03-19  823   * This function returns negative error on failure. On success it returns
+9730763f4756e32 Nilay Shroff      2025-03-19  824   * memflags which must be saved and later passed to blkg_conf_exit_frozen
+9730763f4756e32 Nilay Shroff      2025-03-19  825   * for restoring the memalloc scope.
+9730763f4756e32 Nilay Shroff      2025-03-19  826   */
+9730763f4756e32 Nilay Shroff      2025-03-19  827  unsigned long __must_check blkg_conf_open_bdev_frozen(struct blkg_conf_ctx *ctx)
+9730763f4756e32 Nilay Shroff      2025-03-19  828  {
+9730763f4756e32 Nilay Shroff      2025-03-19  829  	int ret;
+9730763f4756e32 Nilay Shroff      2025-03-19  830  	unsigned long memflags;
+9730763f4756e32 Nilay Shroff      2025-03-19  831  
+9730763f4756e32 Nilay Shroff      2025-03-19 @832  	if (ctx->bdev)
+9730763f4756e32 Nilay Shroff      2025-03-19  833  		return -EINVAL;
+9730763f4756e32 Nilay Shroff      2025-03-19  834  
+9730763f4756e32 Nilay Shroff      2025-03-19  835  	ret = blkg_conf_open_bdev(ctx);
+9730763f4756e32 Nilay Shroff      2025-03-19  836  	if (ret < 0)
+9730763f4756e32 Nilay Shroff      2025-03-19  837  		return ret;
+9730763f4756e32 Nilay Shroff      2025-03-19  838  	/*
+9730763f4756e32 Nilay Shroff      2025-03-19  839  	 * At this point, we haven’t started protecting anything related to QoS,
+9730763f4756e32 Nilay Shroff      2025-03-19  840  	 * so we release q->rq_qos_mutex here, which was first acquired in blkg_
+9730763f4756e32 Nilay Shroff      2025-03-19  841  	 * conf_open_bdev. Later, we re-acquire q->rq_qos_mutex after freezing
+9730763f4756e32 Nilay Shroff      2025-03-19  842  	 * the queue and acquiring q->elevator_lock to maintain the correct
+9730763f4756e32 Nilay Shroff      2025-03-19  843  	 * locking order.
+9730763f4756e32 Nilay Shroff      2025-03-19  844  	 */
+9730763f4756e32 Nilay Shroff      2025-03-19 @845  	mutex_unlock(&ctx->bdev->bd_queue->rq_qos_mutex);
+9730763f4756e32 Nilay Shroff      2025-03-19  846  
+9730763f4756e32 Nilay Shroff      2025-03-19  847  	memflags = blk_mq_freeze_queue(ctx->bdev->bd_queue);
+9730763f4756e32 Nilay Shroff      2025-03-19  848  	mutex_lock(&ctx->bdev->bd_queue->elevator_lock);
+9730763f4756e32 Nilay Shroff      2025-03-19  849  	mutex_lock(&ctx->bdev->bd_queue->rq_qos_mutex);
+9730763f4756e32 Nilay Shroff      2025-03-19  850  
+9730763f4756e32 Nilay Shroff      2025-03-19  851  	return memflags;
+9730763f4756e32 Nilay Shroff      2025-03-19  852  }
+015d254cb02b6d8 Tejun Heo         2019-08-28  853  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
