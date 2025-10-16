@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD41B1FDA8E
-	for <oe-kbuild@lists.linux.dev>; Thu, 16 Oct 2025 04:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71923254BC
+	for <oe-kbuild@lists.linux.dev>; Thu, 16 Oct 2025 09:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760588974; cv=none; b=mEJZQeYKuQe2DdU2s+nBo+TucO03eFcJKFd75pDpiPPOlKRc9OwEgoyK8ME9vLzT8KJ3qfA/LVW4CoOndhigKWXhlBG+dSEftG7amfVSAKbv2scGn4isDIGl6xmMGu9mNATxrRyQnwMzeuupMUuaWbkHYx9CkLKQA45YAviCoJM=
+	t=1760606466; cv=none; b=so79LiNQr6QkhqHY8cqkqFwEFYcICrv4CYlt2mUpNxLWi1g8BV39n6+o2tYCCjcBCPZFiiBaUpZySW1w/icsyVAspqPAkHMcHdmZPTcFSN6oNUdG32rID1v7evnS89NuO1dLjryjvtP3fqFNJmESLb8Vu7vpHhMtjRg4+XdAkGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760588974; c=relaxed/simple;
-	bh=aI0Zaob/0rta/13Szs/J+ucqv/e7SBnWt1M5B95lMKw=;
+	s=arc-20240116; t=1760606466; c=relaxed/simple;
+	bh=xoNxfuC0i6bbN+JLzO1M2XYEbmpG7k5JKbP1a0xcn04=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eYpfrPmJHnnR7UtVazsLSwkyJwdJuWNAbPMZeR/J5eS2BaTTMMprHxOc6fN3eTvheFiTBD8yaZ2/8vLQAhymXDBOISRkzJ/PjQHjMyNHTOT4+ROz86bdomzWt6zaC5V1X8Q/ZS8dqhyQdcORalMn8uQg7RVneQ9Dm0Lnzn0R3dM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P/LptNmO; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=E3t5VPso8F0sagOkijLWXwqWqXPti0EVSPVHAt/MO6G8FswB4HYMRDi/jIbyHE08yZiP8RVETFRY6mJODEpP9Fte5mEwOZadJZPSwf0tVp22gzOcZTQssjQHWD9I7gFkIrVdYJ6gW9NpjuJtw1fg1vmnyI9WPlGnnVHRBah6P9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GR1qHZ3C; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P/LptNmO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GR1qHZ3C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760588972; x=1792124972;
+  t=1760606462; x=1792142462;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aI0Zaob/0rta/13Szs/J+ucqv/e7SBnWt1M5B95lMKw=;
-  b=P/LptNmOm4eKDw64ZFqu6EVBt0SrWffZG/HSe8kBs8OB02XDAFTgoZ+A
-   Dvwf1C0XjoNS3MWHYsdGgOPK3c9krZYknmNYs4vJ7dh/Iu9pS50wNgNn/
-   Vg5rNftfF1/HrrMLHg8d7yntd9B8WVJ5nGLyHav1lklh4i8uLOXOEryx5
-   523oPsGb2uYZAWddydYTCaMow3/hd7CKz649x6Pk12PeOWVo0C5Xo6Xd0
-   S6HrzoK1KTSqAVy2lx8Xf/yI+J/wU1aUFflGdDgsY0EY2qeZEPvR6tMax
-   B1imQVyWOQWLOG9JZEOLYQOQGeV06Ij/f6IspOAtdU8bxp0uVSBPINmxw
-   Q==;
-X-CSE-ConnectionGUID: oaPjXWtLTe+SBxWvGLgy4A==
-X-CSE-MsgGUID: SjAoe84yQequ82UVdUa/JA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="65390339"
+  bh=xoNxfuC0i6bbN+JLzO1M2XYEbmpG7k5JKbP1a0xcn04=;
+  b=GR1qHZ3CluvtK7ctulYyetKRB++yr4O3toRs3SlEe6pGDa1JTy6x30Wr
+   Fx7rnq6I4K4sLDV3mtUr47zLng7mvMZ1ZFgKfQOyOxs2Izkt87+0XVbh0
+   iiK8mVM6aExc7Y7tx0twi3wwyIqS6IVeI4D7Dck7LEfkgOfsWFvmLFP0m
+   jipMvvd6p6DGL636HH876djtzqcmAts/h1fZf8GMgUx2JtQ89BJW3UGTd
+   fD3JemtBZi5Fhd1jmYvUjCRoKYK69fBzghn4z856I+mUYlR3xXmGSDnZK
+   UY36HyNJAUJQfURejeXXYbJ5SvgkKRTAWMZcajmSDitGSDIM38WXLMS0r
+   A==;
+X-CSE-ConnectionGUID: sIJPpcdwS82J4LGxXnUKcQ==
+X-CSE-MsgGUID: 3I6WPpp4TSuEis4aVJPY1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="62887880"
 X-IronPort-AV: E=Sophos;i="6.19,233,1754982000"; 
-   d="scan'208";a="65390339"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 21:29:31 -0700
-X-CSE-ConnectionGUID: edDukUpLT/Cs4bnxrbxJmw==
-X-CSE-MsgGUID: domc39bMQkOOwAybrczw/w==
+   d="scan'208";a="62887880"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 02:21:01 -0700
+X-CSE-ConnectionGUID: U/rDlD7IQs+y+VSijFaljw==
+X-CSE-MsgGUID: gafu5zebQp+OeniuOVMooA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,233,1754982000"; 
-   d="scan'208";a="186611029"
+   d="scan'208";a="182082591"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 15 Oct 2025 21:29:30 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 16 Oct 2025 02:21:00 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9FcA-0004SF-2R;
-	Thu, 16 Oct 2025 04:29:24 +0000
-Date: Thu, 16 Oct 2025 12:28:47 +0800
+	id 1v9KAM-0004eB-0N;
+	Thu, 16 Oct 2025 09:20:58 +0000
+Date: Thu, 16 Oct 2025 17:20:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v4 3/8] Bluetooth: ISO: Add support to bind to trigger
- PAST
-Message-ID: <202510161243.a1a7T6dU-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH net-next v5] dt-bindings: net: qcom: ethernet: Add
+ interconnect properties
+Message-ID: <202510161722.PmO2HWIO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,68 +62,175 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251014013308.174151-3-luiz.dentz@gmail.com>
-References: <20251014013308.174151-3-luiz.dentz@gmail.com>
-TO: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+In-Reply-To: <20251015-topic-qc_stmmac_icc_bindings-v5-1-da39126cff28@oss.qualcomm.com>
+References: <20251015-topic-qc_stmmac_icc_bindings-v5-1-da39126cff28@oss.qualcomm.com>
+TO: Konrad Dybcio <konradybcio@kernel.org>
+TO: Vinod Koul <vkoul@kernel.org>
+TO: Andrew Lunn <andrew+netdev@lunn.ch>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+TO: Eric Dumazet <edumazet@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Konrad Dybcio <konradybcio@kernel.org>
+CC: linux-arm-msm@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Sagar Cheluvegowda <quic_scheluve@quicinc.com>
+CC: Andrew Halaney <ahalaney@redhat.com>
 
-Hi Luiz,
+Hi Konrad,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bluetooth-next/master]
-[also build test WARNING on linus/master v6.18-rc1]
-[cannot apply to bluetooth/master next-20251015]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 52ba76324a9d7c39830c850999210a36ef023cde]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-hci_core-Introduce-HCI_CONN_FLAG_PAST/20251014-094058
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20251014013308.174151-3-luiz.dentz%40gmail.com
-patch subject: [PATCH v4 3/8] Bluetooth: ISO: Add support to bind to trigger PAST
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20251015 (https://download.01.org/0day-ci/archive/20251016/202510161243.a1a7T6dU-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/dt-bindings-net-qcom-ethernet-Add-interconnect-properties/20251016-002721
+base:   52ba76324a9d7c39830c850999210a36ef023cde
+patch link:    https://lore.kernel.org/r/20251015-topic-qc_stmmac_icc_bindings-v5-1-da39126cff28%40oss.qualcomm.com
+patch subject: [PATCH net-next v5] dt-bindings: net: qcom: ethernet: Add interconnect properties
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: arm64-randconfig-052-20251016 (https://download.01.org/0day-ci/archive/20251016/202510161722.PmO2HWIO-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+dtschema version: 2025.9.dev7+g3b6fdac89
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510161722.PmO2HWIO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510161243.a1a7T6dU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510161722.PmO2HWIO-lkp@intel.com/
 
-New smatch warnings:
-net/bluetooth/hci_sync.c:7286 hci_le_past_sync() warn: inconsistent returns '&hdev->lock'.
-
-Old smatch warnings:
-net/bluetooth/hci_sync.c:2622 hci_resume_advertising_sync() error: uninitialized symbol 'err'.
-
-vim +7286 net/bluetooth/hci_sync.c
-
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7268  
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7269  static int hci_le_past_sync(struct hci_dev *hdev, void *data)
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7270  {
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7271  	struct past_data *past = data;
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7272  	struct hci_cp_le_past cp;
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7273  
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7274  	hci_dev_lock(hdev);
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7275  
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7276  	if (!hci_conn_valid(hdev, past->conn) ||
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7277  	    !hci_conn_valid(hdev, past->le))
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7278  		return -ECANCELED;
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7279  
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7280  	memset(&cp, 0, sizeof(cp));
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7281  	cp.handle = cpu_to_le16(past->le->handle);
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7282  	cp.sync_handle = cpu_to_le16(past->conn->sync_handle);
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7283  
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7284  	hci_dev_unlock(hdev);
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7285  
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13 @7286  	return __hci_cmd_sync_status(hdev, HCI_OP_LE_PAST,
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7287  				     sizeof(cp), &cp, HCI_CMD_TIMEOUT);
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7288  }
-26071e0198f6b83 Luiz Augusto von Dentz 2025-10-13  7289  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/lemans.dtsi:4873.28-4934.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/lemans.dtsi:4955.28-5007.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/lemans-evk.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): interconnect-names:0: 'cpu-mac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/lemans-evk.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): interconnect-names:1: 'mac-mem' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/lemans-evk.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): interconnect-names:0: 'cpu-mac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/lemans-evk.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): interconnect-names:1: 'mac-mem' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/lemans-evk.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+--
+   arch/arm64/boot/dts/qcom/lemans.dtsi:4873.28-4934.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/lemans.dtsi:4955.28-5007.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): interconnect-names:0: 'cpu-mac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): interconnect-names:1: 'mac-mem' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): interconnect-names:0: 'cpu-mac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): interconnect-names:1: 'mac-mem' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
+--
+   arch/arm64/boot/dts/qcom/lemans.dtsi:4873.28-4934.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/lemans.dtsi:4955.28-5007.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): interconnect-names:0: 'cpu-mac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): interconnect-names:1: 'mac-mem' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): interconnect-names:0: 'cpu-mac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): interconnect-names:1: 'mac-mem' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
+--
+   arch/arm64/boot/dts/qcom/lemans.dtsi:4873.28-4934.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/lemans.dtsi:4955.28-5007.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): interconnect-names:0: 'cpu-mac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): interconnect-names:1: 'mac-mem' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): interconnect-names:0: 'cpu-mac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): interconnect-names:1: 'mac-mem' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
+--
+   arch/arm64/boot/dts/qcom/lemans.dtsi:4873.28-4934.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/lemans.dtsi:4955.28-5007.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): interconnect-names:0: 'cpu-mac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): interconnect-names:1: 'mac-mem' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): interconnect-names:0: 'cpu-mac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): interconnect-names:1: 'mac-mem' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
+--
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): interconnect-names:0: 'cpu-mac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): interconnect-names:1: 'mac-mem' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): interconnect-names:0: 'cpu-mac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): interconnect-names:1: 'mac-mem' was expected
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
