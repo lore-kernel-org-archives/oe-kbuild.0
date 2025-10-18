@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E685D23BD06
-	for <oe-kbuild@lists.linux.dev>; Sat, 18 Oct 2025 16:47:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A811B4257
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 Oct 2025 17:40:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760806049; cv=none; b=aXqvUcbvmD70jCh0t+CHj1jMhSYiK3AAnjfue0Fx6GrcJnKvXVcJ0Jy7+zpS6XZEzBBpNrbLnbtns1GwP/LSpJ3SneZV/jlXpUK+1DEtCYo3juKYeP+jC5eMRu/ON4CVv/I2j1ClC5jod5N4AX226GUPxr+91Ohr2lhV9X97HC0=
+	t=1760809235; cv=none; b=uOE6BZ6BmBHRmgTzO+3F8OT+yMreEZsTcCwcrXysAdw85OCTqEVWYTQnjqPJWsymnYt1GMueNQPKxB5QuISrxO/KTgZEvPTYWbcGFE6yL2M6qg6SA5k6/PpIXdyP5XY23Ns+4aWa0Sk7Tvw49i6MiwRbyRWX3Ce/dfMdUrsfz6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760806049; c=relaxed/simple;
-	bh=ErtWPQX/oMsWHB7X94++uTeTkBN0xv0s9AmfrAPQSrs=;
+	s=arc-20240116; t=1760809235; c=relaxed/simple;
+	bh=5neeTaIsKXsz2+eM1FG41cQyvc4aQ3YJ1F242ZHAPtY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kHe9p5mhUuums8gIVQ/hAXgUzOEp/Z4VhICtixaEVzLhm11FBwamJz8sknnB4rHkAOltQWIRlLKBiEIzCUmVcHtS2rYthf8svwRQyFgULJtxzmLiOM1ybH5c27WSHw0R3Ocs3RjbMegtil3os308tUwmTlkJzD8BXouaeAkeVeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JpM7AJGN; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=O80xmJPrMvcCvlTiyJ+B8Rqx9oqYldQl8f+17988vovVD0QeicT0PYwkg9bP3HGYruV+N10vcFfBFU0702w1dxssv66hx1sJbgDgg2gBX2UJTpvNkGzdCBpqw/Uyn8Ey90Fw1KBy6A3MRScz0PEdw3N+AX5DcXeMLN086JMFiu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bf4a3ICJ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JpM7AJGN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bf4a3ICJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760806048; x=1792342048;
+  t=1760809234; x=1792345234;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ErtWPQX/oMsWHB7X94++uTeTkBN0xv0s9AmfrAPQSrs=;
-  b=JpM7AJGNFyi7gLz7xsIS8nok13HfXpX3b2J3m/AC7DvZ1WGbE8J7/vcx
-   kPVO0xhmXVvok7MzbqP+3cXQurx+hGLDmLFmB9bE8yIiyLJxyMxksxC7Z
-   u/eb8vmWpVkJANmDXhnrzz/epuerxfstbdjrEGr4CQlUlnpkcwR1r5dvr
-   GarWZmz83cKA/JDqG18XI73+/2Ck9IeQvwNOqkdXZU7Cg88QJthcckSal
-   P+X5X+kEo0c7+LlfCQlPg9JssKqAAPBc+c4yMBJvdGoNFE+dhoS/t6mHK
-   VzrdVdvZRW6RYi0jX19TveTg+BvldEjj5USwstg1QflWk1QKigYpbbvxR
-   w==;
-X-CSE-ConnectionGUID: Q8H2QxwVRXWQVWaFbG9/Dg==
-X-CSE-MsgGUID: 85ZgVmVlRMu61HB6zfB2dQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62890663"
+  bh=5neeTaIsKXsz2+eM1FG41cQyvc4aQ3YJ1F242ZHAPtY=;
+  b=bf4a3ICJ/9fyZvXxQk4bhgpPL35MiRDjsHLlp/Bf6KZsokZ5P/fUvq0b
+   UNiBtw7JgtETME6cnK8eDjWCTzw4bcyDCeT+4zgKqTYjorARgW0H78dsI
+   wOae4OUzT6DaEz5vh+Ta4CLAOkZw1JM0EyebXmnKfve5RpWQ8ehGG9RHK
+   x5fZZvV4wIJN8c2+2zRft0kgVJDAMvVj4yL7iApcEW/Llon5F2jJmSOH5
+   zYxvwdTQq915wH+fl4Jl/iKVp/h8mvsj8CNBV6acjLecjlPY/dBDtOIoY
+   72NZ+SiffmfA5jyrP1314badbyD0UBa6EWgIkLsUmfyENPr2kfHTDzScO
+   Q==;
+X-CSE-ConnectionGUID: 0dFK8REJQuSyn5zxyi6SSA==
+X-CSE-MsgGUID: BcsRm7WFTc2aNTdvzKgfDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74111742"
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="62890663"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 09:47:27 -0700
-X-CSE-ConnectionGUID: k7hN+aAUT/Gl6H8HPfkajA==
-X-CSE-MsgGUID: VTXoFi7STV+MLl1M3vsXcQ==
+   d="scan'208";a="74111742"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 10:40:33 -0700
+X-CSE-ConnectionGUID: IL/+5cL5TSagPamf4rF9rg==
+X-CSE-MsgGUID: N/HvG9F6SbiaOmCwTZ0Rlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="187408561"
+   d="scan'208";a="182179338"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Oct 2025 09:47:26 -0700
+  by orviesa010.jf.intel.com with ESMTP; 18 Oct 2025 10:40:32 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vAA5U-0008QL-04;
-	Sat, 18 Oct 2025 16:47:24 +0000
-Date: Sun, 19 Oct 2025 00:47:22 +0800
+	id 1vAAur-0008Td-2A;
+	Sat, 18 Oct 2025 17:40:29 +0000
+Date: Sun, 19 Oct 2025 01:40:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 2/6] dt-bindings: display/msm: gpu: Document A612 GPU
-Message-ID: <202510190043.wFDJOYlA-lkp@intel.com>
+Subject: [krzk-github:track/x1e-t14s 29/127]
+ arch/arm64/boot/dts/qcom/x1e80100-dell-inspiron-14-plus-7441.dtb: /
+ (dell,inspiron-14-plus-7441): compatible: 'oneOf' conditional failed, one
+ must be fixed:
+Message-ID: <202510190143.B6sgn5T4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,60 +70,126 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251017-qcs615-spin-2-v1-2-0baa44f80905@oss.qualcomm.com>
-References: <20251017-qcs615-spin-2-v1-2-0baa44f80905@oss.qualcomm.com>
-TO: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-TO: Rob Clark <robin.clark@oss.qualcomm.com>
-TO: Sean Paul <sean@poorly.run>
-TO: Konrad Dybcio <konradybcio@kernel.org>
-TO: Dmitry Baryshkov <lumag@kernel.org>
-TO: Abhinav Kumar <abhinav.kumar@linux.dev>
-TO: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-TO: Marijn Suijten <marijn.suijten@somainline.org>
-TO: David Airlie <airlied@gmail.com>
-TO: Simona Vetter <simona@ffwll.ch>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Bjorn Andersson <andersson@kernel.org>
-CC: linux-arm-msm@vger.kernel.org
-CC: dri-devel@lists.freedesktop.org
-CC: freedreno@lists.freedesktop.org
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+TO: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+CC: Stephan Gerhold <stephan.gerhold@linaro.org>
+CC: Val Packett <val@packett.cool>
+CC: Laurentiu Tudor <laurentiu.tudor1@dell.com>
+CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+CC: Bjorn Andersson <andersson@kernel.org>
 
-Hi Akhil,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on cb6649f6217c0331b885cf787f1d175963e2a1d2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-P-Oommen/drm-msm-a6xx-Add-support-for-Adreno-612/20251018-011020
-base:   cb6649f6217c0331b885cf787f1d175963e2a1d2
-patch link:    https://lore.kernel.org/r/20251017-qcs615-spin-2-v1-2-0baa44f80905%40oss.qualcomm.com
-patch subject: [PATCH 2/6] dt-bindings: display/msm: gpu: Document A612 GPU
-:::::: branch date: 23 hours ago
-:::::: commit date: 24 hours ago
-config: arm64-randconfig-051-20251018 (https://download.01.org/0day-ci/archive/20251019/202510190043.wFDJOYlA-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
+tree:   https://github.com/krzk/linux track/x1e-t14s
+head:   737e48844988f2167f895fb3fe7a2e14a8211186
+commit: 8e3331576793333a6fadf17b06c590d03ba49d6b [29/127] arm64: dts: qcom: Add support for Dell Inspiron 7441 / Latitude 7455
+:::::: branch date: 2 days ago
+:::::: commit date: 10 days ago
+config: arm64-randconfig-052-20251018 (https://download.01.org/0day-ci/archive/20251019/202510190143.B6sgn5T4-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
 dtschema version: 2025.9.dev7+g3b6fdac89
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510190043.wFDJOYlA-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510190143.B6sgn5T4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510190043.wFDJOYlA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510190143.B6sgn5T4-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sm6115.dtsi:1908.11-1918.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: gpu@5900000 (qcom,adreno-610.0): clock-names: False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
->> arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: gpu@5900000 (qcom,adreno-610.0): clocks: False schema does not allow [[89, 13], [89, 4], [2, 150], [2, 76], [89, 7], [89, 10]]
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4883.11-4893.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1e80100-dell-inspiron-14-plus-7441.dtb: / (dell,inspiron-14-plus-7441): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['dell,inspiron-14-plus-7441', 'qcom,x1e80100'] is too short
+   	'dell,inspiron-14-plus-7441' is not one of ['qcom,apq8016-sbc', 'schneider,apq8016-hmibsc']
+   	'dell,inspiron-14-plus-7441' is not one of ['asus,sparrow', 'huawei,sturgeon', 'lg,lenok', 'samsung,matisse-wifi', 'samsung,milletwifi']
+   	'dell,inspiron-14-plus-7441' is not one of ['asus,nexus7-flo', 'lg,nexus4-mako', 'sony,xperia-yuga', 'qcom,apq8064-cm-qs600', 'qcom,apq8064-ifc6410']
+   	'dell,inspiron-14-plus-7441' is not one of ['qcom,apq8074-dragonboard']
+   	'dell,inspiron-14-plus-7441' is not one of ['qcom,apq8060-dragonboard', 'qcom,msm8660-surf']
+   	'dell,inspiron-14-plus-7441' is not one of ['qcom,apq8084-mtp', 'qcom,apq8084-sbc']
+   	'dell,inspiron-14-plus-7441' is not one of ['microsoft,dempsey', 'microsoft,makepeace', 'microsoft,moneypenny', 'motorola,falcon', 'samsung,ms013g', 'samsung,s3ve3g']
+   	'dell,inspiron-14-plus-7441' is not one of ['htc,memul', 'microsoft,superman-lte', 'microsoft,tesla', 'motorola,peregrine', 'samsung,matisselte']
+   	'dell,inspiron-14-plus-7441' is not one of ['wingtech,wt82918hd']
+--
+   	'qcom,sm8350' was expected
+   	'qcom,sm8450' was expected
+   	'qcom,sm8550' was expected
+   	'qcom,qcs8550-aim300' was expected
+   	'qcom,sm8650' was expected
+   	'qcom,sm8750' was expected
+   	'qcom,x1e001de' was expected
+   	'lenovo,thinkpad-t14s' was expected
+   	'qcom,x1p42100' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/qcom.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-dell-inspiron-14-plus-7441.dtb: /: failed to match any schema with compatible: ['dell,inspiron-14-plus-7441', 'qcom,x1e80100']
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4883.11-4893.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1e80100-dell-latitude-7455.dtb: / (dell,latitude-7455): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['dell,latitude-7455', 'qcom,x1e80100'] is too short
+   	'dell,latitude-7455' is not one of ['qcom,apq8016-sbc', 'schneider,apq8016-hmibsc']
+   	'dell,latitude-7455' is not one of ['asus,sparrow', 'huawei,sturgeon', 'lg,lenok', 'samsung,matisse-wifi', 'samsung,milletwifi']
+   	'dell,latitude-7455' is not one of ['asus,nexus7-flo', 'lg,nexus4-mako', 'sony,xperia-yuga', 'qcom,apq8064-cm-qs600', 'qcom,apq8064-ifc6410']
+   	'dell,latitude-7455' is not one of ['qcom,apq8074-dragonboard']
+   	'dell,latitude-7455' is not one of ['qcom,apq8060-dragonboard', 'qcom,msm8660-surf']
+   	'dell,latitude-7455' is not one of ['qcom,apq8084-mtp', 'qcom,apq8084-sbc']
+   	'dell,latitude-7455' is not one of ['microsoft,dempsey', 'microsoft,makepeace', 'microsoft,moneypenny', 'motorola,falcon', 'samsung,ms013g', 'samsung,s3ve3g']
+   	'dell,latitude-7455' is not one of ['htc,memul', 'microsoft,superman-lte', 'microsoft,tesla', 'motorola,peregrine', 'samsung,matisselte']
+   	'dell,latitude-7455' is not one of ['wingtech,wt82918hd']
+--
+   	'qcom,sm8350' was expected
+   	'qcom,sm8450' was expected
+   	'qcom,sm8550' was expected
+   	'qcom,qcs8550-aim300' was expected
+   	'qcom,sm8650' was expected
+   	'qcom,sm8750' was expected
+   	'qcom,x1e001de' was expected
+   	'lenovo,thinkpad-t14s' was expected
+   	'qcom,x1p42100' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/qcom.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-dell-latitude-7455.dtb: /: failed to match any schema with compatible: ['dell,latitude-7455', 'qcom,x1e80100']
+--
+>> arch/arm64/boot/dts/qcom/x1e80100-dell-inspiron-14-plus-7441-el2.dtb: / (dell,inspiron-14-plus-7441): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['dell,inspiron-14-plus-7441', 'qcom,x1e80100'] is too short
+   	'dell,inspiron-14-plus-7441' is not one of ['qcom,apq8016-sbc', 'schneider,apq8016-hmibsc']
+   	'dell,inspiron-14-plus-7441' is not one of ['asus,sparrow', 'huawei,sturgeon', 'lg,lenok', 'samsung,matisse-wifi', 'samsung,milletwifi']
+   	'dell,inspiron-14-plus-7441' is not one of ['asus,nexus7-flo', 'lg,nexus4-mako', 'sony,xperia-yuga', 'qcom,apq8064-cm-qs600', 'qcom,apq8064-ifc6410']
+   	'dell,inspiron-14-plus-7441' is not one of ['qcom,apq8074-dragonboard']
+   	'dell,inspiron-14-plus-7441' is not one of ['qcom,apq8060-dragonboard', 'qcom,msm8660-surf']
+   	'dell,inspiron-14-plus-7441' is not one of ['qcom,apq8084-mtp', 'qcom,apq8084-sbc']
+   	'dell,inspiron-14-plus-7441' is not one of ['microsoft,dempsey', 'microsoft,makepeace', 'microsoft,moneypenny', 'motorola,falcon', 'samsung,ms013g', 'samsung,s3ve3g']
+   	'dell,inspiron-14-plus-7441' is not one of ['htc,memul', 'microsoft,superman-lte', 'microsoft,tesla', 'motorola,peregrine', 'samsung,matisselte']
+   	'dell,inspiron-14-plus-7441' is not one of ['wingtech,wt82918hd']
+--
+   	'qcom,sm8350' was expected
+   	'qcom,sm8450' was expected
+   	'qcom,sm8550' was expected
+   	'qcom,qcs8550-aim300' was expected
+   	'qcom,sm8650' was expected
+   	'qcom,sm8750' was expected
+   	'qcom,x1e001de' was expected
+   	'lenovo,thinkpad-t14s' was expected
+   	'qcom,x1p42100' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/qcom.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-dell-inspiron-14-plus-7441-el2.dtb: /: failed to match any schema with compatible: ['dell,inspiron-14-plus-7441', 'qcom,x1e80100']
+--
+>> arch/arm64/boot/dts/qcom/x1e80100-dell-latitude-7455-el2.dtb: / (dell,latitude-7455): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['dell,latitude-7455', 'qcom,x1e80100'] is too short
+   	'dell,latitude-7455' is not one of ['qcom,apq8016-sbc', 'schneider,apq8016-hmibsc']
+   	'dell,latitude-7455' is not one of ['asus,sparrow', 'huawei,sturgeon', 'lg,lenok', 'samsung,matisse-wifi', 'samsung,milletwifi']
+   	'dell,latitude-7455' is not one of ['asus,nexus7-flo', 'lg,nexus4-mako', 'sony,xperia-yuga', 'qcom,apq8064-cm-qs600', 'qcom,apq8064-ifc6410']
+   	'dell,latitude-7455' is not one of ['qcom,apq8074-dragonboard']
+   	'dell,latitude-7455' is not one of ['qcom,apq8060-dragonboard', 'qcom,msm8660-surf']
+   	'dell,latitude-7455' is not one of ['qcom,apq8084-mtp', 'qcom,apq8084-sbc']
+   	'dell,latitude-7455' is not one of ['microsoft,dempsey', 'microsoft,makepeace', 'microsoft,moneypenny', 'motorola,falcon', 'samsung,ms013g', 'samsung,s3ve3g']
+   	'dell,latitude-7455' is not one of ['htc,memul', 'microsoft,superman-lte', 'microsoft,tesla', 'motorola,peregrine', 'samsung,matisselte']
+   	'dell,latitude-7455' is not one of ['wingtech,wt82918hd']
+--
+   	'qcom,sm8350' was expected
+   	'qcom,sm8450' was expected
+   	'qcom,sm8550' was expected
+   	'qcom,qcs8550-aim300' was expected
+   	'qcom,sm8650' was expected
+   	'qcom,sm8750' was expected
+   	'qcom,x1e001de' was expected
+   	'lenovo,thinkpad-t14s' was expected
+   	'qcom,x1p42100' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/qcom.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-dell-latitude-7455-el2.dtb: /: failed to match any schema with compatible: ['dell,latitude-7455', 'qcom,x1e80100']
 
 -- 
 0-DAY CI Kernel Test Service
