@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5138D277C9A
-	for <oe-kbuild@lists.linux.dev>; Sat, 18 Oct 2025 08:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F80650276
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 Oct 2025 10:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760775282; cv=none; b=nzzNYOd3QZaE7zaOCZjQs7oUE6ERiqGVFRAmsR3H9StmnGwvdLHZgXe/HUqh4aioCisC8i4ztq+rJ11uIZVCzh9w4siZzWrb6wkaT8+ZKKGWPaH95VCilhbumcbWt7hFYgX8v3oKwgWJ/k6/alZ78omT9L6ZZAdzpFQSMGhm3B4=
+	t=1760782214; cv=none; b=jBGNS3aBpr+ZCa5/fma2J7X/XblvzBCACTQKW0bv5kdgVyEaC+QpCH/B/llcHoBcCX1wPH1hxH/Z9pnBfFO4Nbb7eRJoxrIvr3yFt7NPhRRQSiYCY01aQkAwpZpYj2ZWkm8lITMwp9ttq4vMTqiTnPynH7IqdFznUEGjbD2eFd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760775282; c=relaxed/simple;
-	bh=3IQJvlAJpAB96tpHAPKFp3F9KQG1MInX7+oWAQ/zjmk=;
+	s=arc-20240116; t=1760782214; c=relaxed/simple;
+	bh=jejTM2cfEOei0XPvlpDJ2Cs135JtTjAq+eJcTYFRat8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jvXKWUMwdyyShLQD7Drxfhfgfuhy6oiTrjmkasyP7wMQVD28+b9kKt89HzcEgPlE8ILOyvjbdzYUlZvPutw5196tqNMkaNbV7THOHbhjYr8Yc5h0X/3X+/Ywz7yQzzh/D+lQTTWcX0qZ4yQhHYxWmu24ntVPMZhCjxAD6OqZy60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N65G06UZ; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=d+2Si5FQbucE0bmp8lxbL00jfOHSlq3vCXjg+6WaJuVrBOYy/nMN6ALf5i+6UM6rP0Xv0jD9llRR+ueGHkTMeszAZVKZnIqVt2MzxMjMvv1zr+Gve8+pN5WdrYTa85dFSHj2AAw8JUWwujVQje4zQovNDxNGmSlX/NQrTHwM6SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YO85XGEY; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N65G06UZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YO85XGEY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760775280; x=1792311280;
+  t=1760782212; x=1792318212;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3IQJvlAJpAB96tpHAPKFp3F9KQG1MInX7+oWAQ/zjmk=;
-  b=N65G06UZy8O6Zz/vT1Qg02qSHxxihrUtWWaCS76qPFw+YxM5e+jCa/uP
-   OiVh4AYMKDP8L7EOFNjN3/qsvqqq57hMrd9RYkTsRJpjy7xJDr9vzvZwC
-   o0WqrDzSpK10M7MepgcrxKW5BeYEdUzUp1o4Jmb1DPwHjIdnospH+flkP
-   g5c5cAMWZzDRupWruiBiV+s3KXDkrCuN5Zzp0DPAANtnYzqFlTysHrJqO
-   YalCLFqzE2ggE/ce7swH5278aRO0h2SyKXuZ1ALTiVsyeT6nKGHzirt0O
-   KGKspirrvTFR2uKs12WOYczr93e72ZXtPwbZ5CTyNzlgfsnnDTvBpK8Ig
-   w==;
-X-CSE-ConnectionGUID: opRGH1ejS3+EeALAiUGSUw==
-X-CSE-MsgGUID: aUfqgH7lRSC0O3tLV3+2TQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="73583649"
+  bh=jejTM2cfEOei0XPvlpDJ2Cs135JtTjAq+eJcTYFRat8=;
+  b=YO85XGEYZDCAU9PqhYjqTkkP9lmDZPIWtcMv26rORmwGj3T62GFDueLa
+   k8jNSRyh3fiA+w5WdY5ZgDWIkFc6OvvpiJwEyn/HGK4wcCjxrJ84pmh8L
+   znDerzERm4ym5OKKQJDucyVs17KZz80IZuliL3w9U3jXHyd2XEiCdnz+C
+   uOgSXcZsUjDmCo7mwf1msMMkNGpurj6ldc9dqqyrNy8rZV5eTOZZ9gIfR
+   49s090QQ/GwdAnbmWN3Fmq40mO0YA9tGLqFmgQOEnNVN7D48PLgnn/N9q
+   vms6WextjXGJMeheY2NTGPBz2+DrSmg6hU7pA0H+PGDeFm4G7kURt18wH
+   g==;
+X-CSE-ConnectionGUID: jc5s+akVRgetJsJcpHfX0Q==
+X-CSE-MsgGUID: ntDD/b3oSlOC8WBAH0mtHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="66852498"
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="73583649"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 01:14:39 -0700
-X-CSE-ConnectionGUID: FkoJ4trNScaSbuIJ/7OX2w==
-X-CSE-MsgGUID: ZFGJW2tCShi1OLQfHgLR2Q==
+   d="scan'208";a="66852498"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 03:10:12 -0700
+X-CSE-ConnectionGUID: K1WjtU1uQoGpSlPS7dckkQ==
+X-CSE-MsgGUID: /SmarG0sTxW420eudUOlYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="182110287"
+   d="scan'208";a="182887153"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 18 Oct 2025 01:14:38 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 18 Oct 2025 03:10:11 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vA25E-00089v-0K;
-	Sat, 18 Oct 2025 08:14:36 +0000
-Date: Sat, 18 Oct 2025 16:13:56 +0800
+	id 1vA3t3-0008D5-09;
+	Sat, 18 Oct 2025 10:10:09 +0000
+Date: Sat, 18 Oct 2025 18:09:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v6 07/11] ARM: dts: socfpga: add Mercury AA1 variants
-Message-ID: <202510181510.EyIRfTbx-lkp@intel.com>
+Subject: Re: [PATCH 3/8] ARM: dts: imx6qdl-skov-cpu fix typo interrupt
+Message-ID: <202510181737.YpvLs7w5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,92 +67,112 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251015194416.33502-8-l.rubusch@gmail.com>
-References: <20251015194416.33502-8-l.rubusch@gmail.com>
-TO: Lothar Rubusch <l.rubusch@gmail.com>
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: dinguyen@kernel.org
-TO: martin.petersen@oracle.com
-TO: pabeni@redhat.com
-TO: rostedt@goodmis.org
-TO: bhelgaas@google.com
-TO: l.rubusch@gmail.com
-CC: arnd@arndb.de
-CC: matthew.gerlach@altera.com
-CC: tien.fong.chee@altera.com
+In-Reply-To: <20251014-imx6_dts_clean_2-v1-3-508b36e5a3fd@nxp.com>
+References: <20251014-imx6_dts_clean_2-v1-3-508b36e5a3fd@nxp.com>
+TO: Frank Li <Frank.Li@nxp.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Shawn Guo <shawnguo@kernel.org>
+TO: Sascha Hauer <s.hauer@pengutronix.de>
+TO: Pengutronix Kernel Team <kernel@pengutronix.de>
+TO: Fabio Estevam <festevam@gmail.com>
+TO: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+TO: Marek Vasut <marex@denx.de>
 CC: devicetree@vger.kernel.org
+CC: imx@lists.linux.dev
+CC: linux-arm-kernel@lists.infradead.org
 CC: linux-kernel@vger.kernel.org
+CC: kernel@dh-electronics.com
+CC: Frank Li <Frank.Li@nxp.com>
 
-Hi Lothar,
+Hi Frank,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 4b17a60d1e1c2d9d2ccbd58642f6f4ac2fa364ba]
+[auto build test WARNING on 13863a59e410cab46d26751941980dc8f088b9b3]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/ARM-dts-socfpga-add-Enclustra-boot-mode-dtsi/20251016-034824
-base:   4b17a60d1e1c2d9d2ccbd58642f6f4ac2fa364ba
-patch link:    https://lore.kernel.org/r/20251015194416.33502-8-l.rubusch%40gmail.com
-patch subject: [PATCH v6 07/11] ARM: dts: socfpga: add Mercury AA1 variants
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-randconfig-051-20251016 (https://download.01.org/0day-ci/archive/20251018/202510181510.EyIRfTbx-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/ARM-dts-imx-add-power-supply-for-lcd-panel/20251015-034433
+base:   13863a59e410cab46d26751941980dc8f088b9b3
+patch link:    https://lore.kernel.org/r/20251014-imx6_dts_clean_2-v1-3-508b36e5a3fd%40nxp.com
+patch subject: [PATCH 3/8] ARM: dts: imx6qdl-skov-cpu fix typo interrupt
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm-randconfig-052-20251016 (https://download.01.org/0day-ci/archive/20251018/202510181737.YpvLs7w5-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
 dtschema version: 2025.9.dev7+g3b6fdac89
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181510.EyIRfTbx-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181737.YpvLs7w5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510181510.EyIRfTbx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510181737.YpvLs7w5-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): reset-names: 'oneOf' conditional failed, one must be fixed:
-   	['stmmaceth', 'stmmaceth-ocp'] is too long
-   	'ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('max-frame-size', 'mdio', 'phy-addr', 'phy-handle', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,axi-config', 'snps,multicast-filter-bins', 'snps,perfect-filter-entries', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): reset-names: 'oneOf' conditional failed, one must be fixed:
-   	['stmmaceth', 'stmmaceth-ocp'] is too long
-   	'ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff802000 (altr,socfpga-stmmac-a10-s10): reset-names: 'oneOf' conditional failed, one must be fixed:
-   	['stmmaceth', 'stmmaceth-ocp'] is too long
-   	'ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff802000 (altr,socfpga-stmmac-a10-s10): reset-names: 'oneOf' conditional failed, one must be fixed:
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clock-names:0: 'osc' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clock-names: ['enet_ref_pad'] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clocks: [[31]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu1_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
 --
-   	'ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/i2c@ffc02200/audio-codec@1a: failed to match any schema with compatible: ['adi,ssm2603']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: sram@ffe00000 (mmio-sram): '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: sram@ffe00000 (mmio-sram): '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: sram@ffe00000 (mmio-sram): 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: flash@0 (jedec,spi-nor): Unevaluated properties are not allowed ('partition@raw', 'u-boot,dm-pre-reloc' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: flash@0 (jedec,spi-nor): 'partition@raw' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: sysmgr@ffd06000 (altr,sys-mgr): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,sys-mgr', 'syscon'] is too long
-   	'altr,sys-mgr-s10' was expected
-   	'altr,sys-mgr' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/altera/altr,sys-mgr.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: timer0@ffc02700 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: timer1@ffc02800 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clock-names:0: 'osc' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clock-names: ['enet_ref_pad'] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clocks: [[31]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu1_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+--
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clock-names:0: 'osc' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clock-names: ['enet_ref_pad'] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clocks: [[38]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu2_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+--
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clock-names:0: 'osc' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clock-names: ['enet_ref_pad'] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clocks: [[38]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu2_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+--
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clock-names:0: 'osc' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clock-names: ['enet_ref_pad'] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clocks: [[37]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu2_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
