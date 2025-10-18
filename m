@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD8233EC
-	for <oe-kbuild@lists.linux.dev>; Sat, 18 Oct 2025 20:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E7B2561AE
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 Oct 2025 21:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760818527; cv=none; b=HX2CXq3oJ1nGYGpCnNyUMWtUsFSggY3yblN0iLEY7V1mn74byfQIj0alpmYz+IQnyBIzYt8wkemQDkOOkC47xDiF+jU794S7pn9LWFt45oxi/LQXz9JItBc89oBpGSY6/FJOIZsLBnmVqprALA9/pwli6m+JllcyYuozusFMuLA=
+	t=1760821604; cv=none; b=MSWw91SlHF5axmNs6drd2iiY53/mzVjuxHyU+7I1cKuTPSsba5W6rOJsmAwE4nBaQniH4qTi+r75tHWJenFlaxnb0YJ3XD+X7MBlShILoPszILuCklQX86DhPAMnG4iKLy/HunvC7soKEpS0cZCLVQ/Ki9UyBIUtalNxUeFb1Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760818527; c=relaxed/simple;
-	bh=yFmQ/jv8QBhgKfm1AY0Qq4xtMj2Ngm/dPp78pazYsK0=;
+	s=arc-20240116; t=1760821604; c=relaxed/simple;
+	bh=q5AJ6wL/vLF5/gJJlFTFMoY30kvUW8tcmCfDzkaXOIM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HmYZdFOISxMK6qVbIBUm3K7rdNN7bfBmPXPeQY0cSQpQqnDAo1FWCxQ0koA22ZZ/GjA59RfDeC+Io7GhwiM1OcrYv6x4p9pFAIyzAQLgvUvWaAo9zQvTcqUafMoVKgecIkoJyDlS+CIK4hCOIBvLdKLHGz10rpboivBBty7ocBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O030cQ7J; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=MD71eZQisnJzCylQtdE06CnIYHz91AhPlO3XEkF1AoMDmA4VP+kmsEIprgufIGhhH5Z6Myh5wHGhsE+RVk41bNFVXBD6W+UMD/IU+QGuvkRMR0Wdh82vCdsqGkoAGfwTM+udq6tRtohz6qB10ZR7WkzdndyyWS8b+oC01VUQMc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfQKSRSm; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O030cQ7J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfQKSRSm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760818525; x=1792354525;
+  t=1760821602; x=1792357602;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yFmQ/jv8QBhgKfm1AY0Qq4xtMj2Ngm/dPp78pazYsK0=;
-  b=O030cQ7J1iJCAJ2PsrJGVkM+/BmT9HpOEP7wMcpgIL8KgQzimoUHBrGZ
-   WphJfUOb1Ze9MLVQPF5pjgA+ewefHw8AeDqjf/WmqyLr2md1ttypER96i
-   X5ckbsx1ggBjlJfTFNpYJKNWk6aqtpWlMgwRkAvb1mgmFZbnSTQVxOBo1
-   ROpWrzbsqKdV8yBCLDWU8YHhb/m7C0UJaj8fY8WNxs/8LPp6AbgDhqN3F
-   Vr6IAnA88KWrj52RFzSIf494E7q5PCUMhkCAYxKOsJxMcb57MHBxaGZZQ
-   XpxlYugJlrxIqjHNmb/JaSpqgMHjRDex1pNbRaTtGWyKrzwjLPkMbn17O
+  bh=q5AJ6wL/vLF5/gJJlFTFMoY30kvUW8tcmCfDzkaXOIM=;
+  b=hfQKSRSmT7G0a9vbDJD3Ay0ehv/HJA4ZR1gapLx6DRHqtzPGvZiaSXL1
+   ZpelGvFxIMMYfpM+mGh6/dNSvKM9dm//z3Pqe2kPxVX8fcJW6EmZC2qlQ
+   7YAEkdYrUCJcrenfrzdOzUJKGTPZIAmOZofNPZZ0vEeogNECCoSCQP5lJ
+   XpJPW2LKt17Fuu6Qy/3E1CvdxlJq2esPSF2lF4WRmksHGtpOZiAxDM1DF
+   5safkjQVysKi3xtOo3cob+7HfOszLXxvJFCis/DaVHQ8kGoM5lxvCtkw7
+   +ks+r7ZTrdaexxXGJgrEfiY/TVHIhWKjDwzI1//99tPCjoBHdXSt205cx
    g==;
-X-CSE-ConnectionGUID: g8JbvguhSUO3xeaTcrF0TQ==
-X-CSE-MsgGUID: aN48AQoaS8ivDInnG9Qq4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="65617840"
-X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="65617840"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 13:15:24 -0700
-X-CSE-ConnectionGUID: KMlplfh/RAecinxjd0wmrg==
-X-CSE-MsgGUID: nRKHH7czS0G0inef3FqRoA==
+X-CSE-ConnectionGUID: 9xFSxQFFSzW9m/uta4LQQA==
+X-CSE-MsgGUID: ZFm3IKHBQRuxU1HgrIS4rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62906683"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62906683"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 14:06:41 -0700
+X-CSE-ConnectionGUID: vnhZdh4xQ4OhUT5M8feu+Q==
+X-CSE-MsgGUID: VCz/2eZmQIud+du8RPsDEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="188306011"
+   d="scan'208";a="183773010"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Oct 2025 13:15:23 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 18 Oct 2025 14:06:40 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vADKi-0008Zl-17;
-	Sat, 18 Oct 2025 20:15:21 +0000
-Date: Sun, 19 Oct 2025 04:14:21 +0800
+	id 1vAE8I-0008bx-23;
+	Sat, 18 Oct 2025 21:06:35 +0000
+Date: Sun, 19 Oct 2025 05:06:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 2/6] dt-bindings: display/msm: gpu: Document A612 GPU
-Message-ID: <202510190641.VeJMYqhp-lkp@intel.com>
+Subject: Re: [PATCH v5 1/4 RESEND] dt-bindings: display: tegra: document EPP,
+ ISP, MPE and TSEC for Tegra114+
+Message-ID: <202510190409.hViO9EEc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,97 +68,139 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251017-qcs615-spin-2-v1-2-0baa44f80905@oss.qualcomm.com>
-References: <20251017-qcs615-spin-2-v1-2-0baa44f80905@oss.qualcomm.com>
-TO: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-TO: Rob Clark <robin.clark@oss.qualcomm.com>
-TO: Sean Paul <sean@poorly.run>
-TO: Konrad Dybcio <konradybcio@kernel.org>
-TO: Dmitry Baryshkov <lumag@kernel.org>
-TO: Abhinav Kumar <abhinav.kumar@linux.dev>
-TO: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-TO: Marijn Suijten <marijn.suijten@somainline.org>
-TO: David Airlie <airlied@gmail.com>
-TO: Simona Vetter <simona@ffwll.ch>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20251016074152.8759-2-clamor95@gmail.com>
+References: <20251016074152.8759-2-clamor95@gmail.com>
+TO: Svyatoslav Ryhel <clamor95@gmail.com>
 TO: Rob Herring <robh@kernel.org>
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 TO: Conor Dooley <conor+dt@kernel.org>
-TO: Bjorn Andersson <andersson@kernel.org>
-CC: linux-arm-msm@vger.kernel.org
-CC: dri-devel@lists.freedesktop.org
-CC: freedreno@lists.freedesktop.org
-CC: linux-kernel@vger.kernel.org
+TO: Thierry Reding <treding@nvidia.com>
+TO: Jonathan Hunter <jonathanh@nvidia.com>
+TO: Svyatoslav Ryhel <clamor95@gmail.com>
 CC: devicetree@vger.kernel.org
-CC: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+CC: linux-tegra@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
 
-Hi Akhil,
+Hi Svyatoslav,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on cb6649f6217c0331b885cf787f1d175963e2a1d2]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.18-rc1 next-20251017]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-P-Oommen/drm-msm-a6xx-Add-support-for-Adreno-612/20251018-011020
-base:   cb6649f6217c0331b885cf787f1d175963e2a1d2
-patch link:    https://lore.kernel.org/r/20251017-qcs615-spin-2-v1-2-0baa44f80905%40oss.qualcomm.com
-patch subject: [PATCH 2/6] dt-bindings: display/msm: gpu: Document A612 GPU
-:::::: branch date: 29 hours ago
-:::::: commit date: 29 hours ago
-config: arm64-randconfig-052-20251018 (https://download.01.org/0day-ci/archive/20251019/202510190641.VeJMYqhp-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-display-tegra-document-EPP-ISP-MPE-and-TSEC-for-Tegra114/20251016-154458
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20251016074152.8759-2-clamor95%40gmail.com
+patch subject: [PATCH v5 1/4 RESEND] dt-bindings: display: tegra: document EPP, ISP, MPE and TSEC for Tegra114+
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-051-20251016 (https://download.01.org/0day-ci/archive/20251019/202510190409.hViO9EEc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
 dtschema version: 2025.9.dev7+g3b6fdac89
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510190641.VeJMYqhp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510190409.hViO9EEc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510190641.VeJMYqhp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510190409.hViO9EEc-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/qcm2290.dtsi:1891.27-1964.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@5e00000/dsi@5e94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/qcm2290.dtsi:1849.11-1859.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: gpu@5900000 (qcom,adreno-07000200): clock-names: False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
->> arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: gpu@5900000 (qcom,adreno-07000200): clocks: False schema does not allow [[86, 8], [86, 0], [29, 19], [29, 87], [86, 3], [86, 6]]
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
-   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:0: 'top' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,qcm2290-camss.yaml#
-   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:1: 'csid0' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,qcm2290-camss.yaml#
-   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:2: 'csid1' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,qcm2290-camss.yaml#
-   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:3: 'csiphy0' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,qcm2290-camss.yaml#
-   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:4: 'csiphy1' was expected
+   arch/arm64/boot/dts/nvidia/tegra210.dtsi:31.3-41: Warning (interrupt_map): /pcie@1003000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-0000.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
+>> arch/arm64/boot/dts/nvidia/tegra210-p2371-0000.dtb: tsec@54100000 (nvidia,tegra210-tsec): 'clock-names', 'reset-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra114-tsec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-0000.dtb: tsec@54500000 (nvidia,tegra210-tsec): 'clock-names', 'reset-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra114-tsec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-0000.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-0000.dtb: dma@60020000 (nvidia,tegra210-apbdma): $nodename:0: 'dma@60020000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra20-apbdma.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-0000.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra210-mc']
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-0000.dtb: external-memory-controller@7001b000 (nvidia,tegra210-emc): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra210-emc.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2371-0000.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra210-dfll']
 --
-   arch/arm64/boot/dts/qcom/sm6115.dtsi:1950.27-2021.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@5e00000/dsi@5e94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/sm6115.dtsi:1908.11-1918.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/qrb4210-rb2.dtb: gpu@5900000 (qcom,adreno-610.0): clock-names: False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
->> arch/arm64/boot/dts/qcom/qrb4210-rb2.dtb: gpu@5900000 (qcom,adreno-610.0): clocks: False schema does not allow [[111, 13], [111, 4], [48, 150], [48, 76], [111, 7], [111, 10]]
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210.dtsi:31.3-41: Warning (interrupt_map): /pcie@1003000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+   arch/arm64/boot/dts/nvidia/tegra210-p2571.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
+>> arch/arm64/boot/dts/nvidia/tegra210-p2571.dtb: tsec@54100000 (nvidia,tegra210-tsec): 'clock-names', 'reset-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra114-tsec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2571.dtb: tsec@54500000 (nvidia,tegra210-tsec): 'clock-names', 'reset-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra114-tsec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2571.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
+   arch/arm64/boot/dts/nvidia/tegra210-p2571.dtb: dma@60020000 (nvidia,tegra210-apbdma): $nodename:0: 'dma@60020000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra20-apbdma.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2571.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra210-mc']
+   arch/arm64/boot/dts/nvidia/tegra210-p2571.dtb: external-memory-controller@7001b000 (nvidia,tegra210-emc): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra210-emc.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2571.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra210-dfll']
 --
-   arch/arm64/boot/dts/qcom/sm6115.dtsi:1950.27-2021.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@5e00000/dsi@5e94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/sm6115.dtsi:1908.11-1918.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: gpu@5900000 (qcom,adreno-610.0): clock-names: False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
->> arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: gpu@5900000 (qcom,adreno-610.0): clocks: False schema does not allow [[87, 13], [87, 4], [44, 150], [44, 76], [87, 7], [87, 10]]
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+   	'nvidia,tegra186' was expected
+   	'nvidia,tegra194' was expected
+   	'nvidia,tegra234' was expected
+   	'nvidia,p3701-0008' was expected
+   	'nvidia,p3834-0008' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/tegra.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /: failed to match any schema with compatible: ['nvidia,p3450-0000', 'nvidia,tegra210']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: vi@54080000 (nvidia,tegra210-vi): 'avdd-dsi-csi-supply' does not match any of the regexes: '^csi@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vi.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: tsec@54100000 (nvidia,tegra210-tsec): 'clock-names', 'reset-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra114-tsec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: tsec@54500000 (nvidia,tegra210-tsec): 'clock-names', 'reset-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra114-tsec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: dma@60020000 (nvidia,tegra210-apbdma): $nodename:0: 'dma@60020000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra20-apbdma.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupt-parent', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: pmic@3c (maxim,max77620): reg: False schema does not allow [[60]]
+   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
 --
-   arch/arm64/boot/dts/qcom/pmi632.dtsi:189.19-201.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@1c40000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/sm6115.dtsi:1908.11-1918.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: gpu@5900000 (qcom,adreno-610.0): clock-names: False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
->> arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: gpu@5900000 (qcom,adreno-610.0): clocks: False schema does not allow [[101, 13], [101, 4], [2, 150], [2, 76], [101, 7], [101, 10]]
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /: failed to match any schema with compatible: ['google,smaug-rev8', 'google,smaug-rev7', 'google,smaug-rev6', 'google,smaug-rev5', 'google,smaug-rev4', 'google,smaug-rev3', 'google,smaug-rev2', 'google,smaug-rev1', 'google,smaug', 'nvidia,tegra210']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /: failed to match any schema with compatible: ['google,smaug-rev8', 'google,smaug-rev7', 'google,smaug-rev6', 'google,smaug-rev5', 'google,smaug-rev4', 'google,smaug-rev3', 'google,smaug-rev2', 'google,smaug-rev1', 'google,smaug', 'nvidia,tegra210']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /: failed to match any schema with compatible: ['google,smaug-rev8', 'google,smaug-rev7', 'google,smaug-rev6', 'google,smaug-rev5', 'google,smaug-rev4', 'google,smaug-rev3', 'google,smaug-rev2', 'google,smaug-rev1', 'google,smaug', 'nvidia,tegra210']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /: failed to match any schema with compatible: ['google,smaug-rev8', 'google,smaug-rev7', 'google,smaug-rev6', 'google,smaug-rev5', 'google,smaug-rev4', 'google,smaug-rev3', 'google,smaug-rev2', 'google,smaug-rev1', 'google,smaug', 'nvidia,tegra210']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /: failed to match any schema with compatible: ['google,smaug-rev8', 'google,smaug-rev7', 'google,smaug-rev6', 'google,smaug-rev5', 'google,smaug-rev4', 'google,smaug-rev3', 'google,smaug-rev2', 'google,smaug-rev1', 'google,smaug', 'nvidia,tegra210']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /: failed to match any schema with compatible: ['google,smaug-rev8', 'google,smaug-rev7', 'google,smaug-rev6', 'google,smaug-rev5', 'google,smaug-rev4', 'google,smaug-rev3', 'google,smaug-rev2', 'google,smaug-rev1', 'google,smaug', 'nvidia,tegra210']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /: failed to match any schema with compatible: ['google,smaug-rev8', 'google,smaug-rev7', 'google,smaug-rev6', 'google,smaug-rev5', 'google,smaug-rev4', 'google,smaug-rev3', 'google,smaug-rev2', 'google,smaug-rev1', 'google,smaug', 'nvidia,tegra210']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /: failed to match any schema with compatible: ['google,smaug-rev8', 'google,smaug-rev7', 'google,smaug-rev6', 'google,smaug-rev5', 'google,smaug-rev4', 'google,smaug-rev3', 'google,smaug-rev2', 'google,smaug-rev1', 'google,smaug', 'nvidia,tegra210']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /: failed to match any schema with compatible: ['google,smaug-rev8', 'google,smaug-rev7', 'google,smaug-rev6', 'google,smaug-rev5', 'google,smaug-rev4', 'google,smaug-rev3', 'google,smaug-rev2', 'google,smaug-rev1', 'google,smaug', 'nvidia,tegra210']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
+>> arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: tsec@54100000 (nvidia,tegra210-tsec): 'clock-names', 'reset-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra114-tsec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: tsec@54500000 (nvidia,tegra210-tsec): 'clock-names', 'reset-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra114-tsec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: dma@60020000 (nvidia,tegra210-apbdma): $nodename:0: 'dma@60020000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra20-apbdma.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: pmic@3c (maxim,max77620): reg: False schema does not allow [[60]]
+   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
 --
-   arch/arm64/boot/dts/qcom/sm6115.dtsi:1908.11-1918.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: gpu@5900000 (qcom,adreno-610.0): clock-names: False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
-   arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: gpu@5900000 (qcom,adreno-610.0): clocks: False schema does not allow [[89, 13], [89, 4], [2, 150], [2, 76], [89, 7], [89, 10]]
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+   	'nvidia,p3701-0008' was expected
+   	'nvidia,p3834-0008' was expected
+   	'toradex,apalis_t30-v1.1' was expected
+   	'toradex,apalis-tk1-v1.2' was expected
+   	'google,nyan-blaze-rev8' was expected
+   	'google,nyan-big-rev8' was expected
+   	'google,nyan-big-rev5' was expected
+   	'nvidia,tegra264' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/tegra.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
+>> arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: tsec@54100000 (nvidia,tegra210-tsec): 'clock-names', 'reset-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra114-tsec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: tsec@54500000 (nvidia,tegra210-tsec): 'clock-names', 'reset-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra114-tsec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: dma@60020000 (nvidia,tegra210-apbdma): $nodename:0: 'dma@60020000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra20-apbdma.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: pmic@3c (maxim,max77620): reg: False schema does not allow [[60]]
+   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
