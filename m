@@ -1,69 +1,58 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975682D7DEB
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Oct 2025 06:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C360B150997
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Oct 2025 07:10:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760942026; cv=none; b=GNvUYCdpsqL0IsxWIb36y/rq9ibdIMm05gD94lAxsdFnEc7iZFnmIfz+9B2sXnU61ZF1NTfaeYFQ4LYCr9DV+yRiC3cYO6xMyuoo2VsEmAZOxr/XK1WB4PXdkfoABInVGEtF4ZTlaQo03fADbipvk22zcZl5vPEwZtTgFwck80s=
+	t=1760944204; cv=none; b=PQcNI1rGfvAuYYuBMyi5jItU2gi9bsxpkpyxIL7jcWhJaD441GLNENWKHuCO/0jxI1+RFuCSZoH1pKS6i4qeX0yeioNIUXd2/v61glRGJ+U9r6jXo9KEqldGWw6g4UQAAR4X/SGF8TjpI0nzUfRbfGyASuJZv/N9ckxkCDlviz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760942026; c=relaxed/simple;
-	bh=mlp97g/Ep+BsSFjfD7A7N/xv9QnAORBmJOYQUYj87ZU=;
+	s=arc-20240116; t=1760944204; c=relaxed/simple;
+	bh=5ZcS5vtd88cC/n2H2YEhmeHkghmMlOBUsYZFLWeLkq4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S1VBBPZStpupmlwKlK6Yuz4P+qLJEgl5fQRsoRY5uoEN3KYS5igVMGY7c/Tg5JsXlcXI283USRQ8V8mV+HKxGYwkj5vhiHSJfvoEh3IPNzcsmz9WyZ8meLdRzD7kw6ijof6+gwLtlMxgnmD+LqRl5kFXqGstIKgJSUNPzCKqnoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PichgMW0; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=OW6g7QdMpsvXVYympNXPi5u2Xf1wHa5G7j8D37i9HM5zgplgUcRN8abZVfI02gBsTSulSjzsiMFz/ONbhs7AdP3KgKZoccf+/r5EPo/QpwhSU93TrVRG/RNZLq3ET+cH+GKzhKeUkaBQBUOjZPiocFNZepO7XJn17g+tElM/j+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hQ9M34gC; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PichgMW0"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42420c7de22so1908579f8f.1
-        for <oe-kbuild@lists.linux.dev>; Sun, 19 Oct 2025 23:33:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760942023; x=1761546823; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IjHG8CZxcYscygh+/z+/xpN6vFrGJ6ZliT2ZowMplRw=;
-        b=PichgMW0YJspYFx7jE+Lq7f3CtKnMXZTGP9gOalQvkm087p5sXd15FraMXUrgGjDUW
-         HqzSJ4DBvEm1FiRB9PnkYSU30ftib8baIkrmreMGFnrOR6bjxD22CL7oF9Vn+D5qHHug
-         E1OtmO6dc56PMBwj9jT1J8jywGjEP85Xngj1hm3RCkgS85wHT16sCJcOEPB/njq8L1Ly
-         5qZIKvzqCwb9qGP6K6DbNTD0g199D/vBUvzdmsPBWRqisjUDgjBKTd1L8BGqxQ/leOZH
-         qAYmvW+YU61Q/rfQRzQEQBIIo2F9itPDg8GC1OWuBM5JgUHXrOt94Fdl1gpLqbTo046/
-         6+1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760942023; x=1761546823;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IjHG8CZxcYscygh+/z+/xpN6vFrGJ6ZliT2ZowMplRw=;
-        b=ir4O8P07R/UYPxd1RtJVmNMFWVj819T5Fdoe3kxnKmeznNwDVJRH+ma4qaiEFxjT90
-         WPak/iQTexLJ9ZA1gJW3ul576qBYlMJ9FhWuWSsJ3bDcR+T01rUn3WABAaN6GcH1t+ml
-         iMJzuWTDxqmfnUwrgXGONwu47CEVrlX/OBdShjAs4LAlzM8CmqqNwS9TINKEulSAdQeV
-         hlC6no124Uqi6fwiaaieCBo59H5rhrVVVgG6OJw7GDc6CVihJd6owQjJfLT2XnSIiwHn
-         rkSgAMfku2kbxapr3zyOY8GR/T44Xkj9S6dwQ3BqZTq76ix4bmytShm3jAb0+NDBWlq9
-         pR5Q==
-X-Gm-Message-State: AOJu0YwFBPBdLdUdmQTE4ii8qngj+21NCKjjgCKkaJQWoGs31gGVq3rA
-	FIKpv3FUBv5ImY+bH/OgGr7Py95AHW9RQzVAR6rzqrRT6M6nmc8myWtaWFqgw5o+LS7v8gom6Nl
-	3mr43
-X-Gm-Gg: ASbGncsjw18I9IeluDJxwuWjemhHNQkcddnySar7Q5jZruKfha9Gduut/WjI0b36kT+
-	9n+1Hvlch+0Aqn6UIGR11Yh7Tt/SKVutNWtJWy19Onb57jKSdJnso4N/MT+uOHqxtxGoGpjL6dU
-	GSjpkemaW+LtmRWdw4G9DCdNJjpmvVMIm6nmCLanVgPL03bu0eOGQFb3SXiW9fiDrZLjjY7kOMT
-	D5ZtpvkTgpYb/z/TlbwZeLRSQHkceiB59HDDQhE98G88G9dd5L+m8Cb6xn+uXnOov/44ZUCy01U
-	rnQwKPzXFcIpZ8y++kmEOkSh9jLgQ7DShjZXG0kxLfJ+/3AE07aaBU7zkx2WQwQgMREpaIam0d4
-	3KFCYqrkG8LxvSWzUMLKvpoLU+L9v0YzE7KqapaKNJ2Ny5A6KB7BLiBM81M0ntQFGH8V3l/PIji
-	89pIq8DA==
-X-Google-Smtp-Source: AGHT+IF+iwxN0Wn2Qgp9zceiF70dnTKZUmoxnsQ+EXXtbsTV8HUbRMaapCpwEul2gA5BkOaWNMWH8A==
-X-Received: by 2002:a05:6000:2507:b0:427:370:20a3 with SMTP id ffacd0b85a97d-42704d96174mr8890713f8f.38.1760942022395;
-        Sun, 19 Oct 2025 23:33:42 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4710ed9e7d7sm110465655e9.3.2025.10.19.23.33.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Oct 2025 23:33:41 -0700 (PDT)
-Date: Mon, 20 Oct 2025 09:33:38 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-quota-cleanups 14/20] fs/xfs/scrub/quotacheck.c:605
- xqcheck_compare_dquot() warn: inconsistent returns '&dq->q_qlock'.
-Message-ID: <202510191855.DAo2A5zX-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hQ9M34gC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760944202; x=1792480202;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5ZcS5vtd88cC/n2H2YEhmeHkghmMlOBUsYZFLWeLkq4=;
+  b=hQ9M34gCN6JttcBvSTakzMW6BJQTxz6V4Iw/eRWzc8ZDKOg76RPBi9Mt
+   N47tcEEEaC8UWr0J5vR/MHnx49L31no/rmrDBR0T0uGtuLHspu5U4wNOk
+   63hQrYzeSOq40msNkWxe5vJMwABqliDJ+Q2P0n1WvRUKdhf+LgZo0DhdD
+   okVlZRbcv/SYi4b6d2iIjsYYHDLcpdcShTHs8hHy1cfauQ5xrT4kRZfzz
+   xP4MgJH80/EGTUzmq9pjSNZxyMN85dvotsbcrHr9mPuf6yhiRA3bt13R5
+   lyOdGRqOu0vJq+Yip1sqaPd8V/KXHWZ4+mfqhgHiyy2AEln7WiUbXunyD
+   g==;
+X-CSE-ConnectionGUID: xZ8rXDA0QK2/6XQGNVG/Pw==
+X-CSE-MsgGUID: 20UXbZpzRl+1aVCLcxipCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11587"; a="62090614"
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="62090614"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 00:10:00 -0700
+X-CSE-ConnectionGUID: s1XUN7sYTnCdGrJlNAm2oQ==
+X-CSE-MsgGUID: b6eAeg4QSsum9M68C5wrzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="182963562"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 20 Oct 2025 00:09:59 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vAk1l-0009Zv-1d;
+	Mon, 20 Oct 2025 07:09:57 +0000
+Date: Mon, 20 Oct 2025 15:09:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v3 6/6] fuse: {io-uring} Queue background requests on a
+ different core
+Message-ID: <202510201259.MevZAfl5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,86 +61,136 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20251020063338.w2pV0bUf4s_HDJfqzNcIwh_5DGfWIb1at8bdtiD1W7Y@z>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-quota-cleanups
-head:   65122be191ff384c885bb15ab86d84951a501c49
-commit: 2b4f89bdf5696bbc066f43533a17b891f4cd3ef9 [14/20] xfs: move q_qlock locking into xqcheck_compare_dquot
-config: i386-randconfig-141-20251015 (https://download.01.org/0day-ci/archive/20251019/202510191855.DAo2A5zX-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20251013-reduced-nr-ring-queues_3-v3-6-6d87c8aa31ae@ddn.com>
+References: <20251013-reduced-nr-ring-queues_3-v3-6-6d87c8aa31ae@ddn.com>
+TO: Bernd Schubert <bschubert@ddn.com>
+TO: Miklos Szeredi <miklos@szeredi.hu>
+CC: Joanne Koong <joannelkoong@gmail.com>
+CC: linux-fsdevel@vger.kernel.org
+CC: Luis Henriques <luis@igalia.com>
+CC: Gang He <dchg2000@gmail.com>
+CC: Bernd Schubert <bschubert@ddn.com>
+
+Hi Bernd,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ec714e371f22f716a04e6ecb2a24988c92b26911]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-io-uring-Add-queue-length-counters/20251014-024703
+base:   ec714e371f22f716a04e6ecb2a24988c92b26911
+patch link:    https://lore.kernel.org/r/20251013-reduced-nr-ring-queues_3-v3-6-6d87c8aa31ae%40ddn.com
+patch subject: [PATCH v3 6/6] fuse: {io-uring} Queue background requests on a different core
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: loongarch-randconfig-r072-20251019 (https://download.01.org/0day-ci/archive/20251020/202510201259.MevZAfl5-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510191855.DAo2A5zX-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202510201259.MevZAfl5-lkp@intel.com/
 
 smatch warnings:
-fs/xfs/scrub/quotacheck.c:605 xqcheck_compare_dquot() warn: inconsistent returns '&dq->q_qlock'.
+fs/fuse/dev_uring.c:1389 fuse_uring_get_queue() error: uninitialized symbol 'best_numa'.
 
-vim +605 fs/xfs/scrub/quotacheck.c
+vim +/best_numa +1389 fs/fuse/dev_uring.c
 
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  551  STATIC int
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  552  xqcheck_compare_dquot(
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  553  	struct xqcheck		*xqc,
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  554  	xfs_dqtype_t		dqtype,
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  555  	struct xfs_dquot	*dq)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  556  {
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  557  	struct xqcheck_dquot	xcdq;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  558  	struct xfarray		*counts = xqcheck_counters_for(xqc, dqtype);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  559  	int			error;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  560  
-200491875ce144f Darrick J. Wong   2024-02-22  561  	if (xchk_iscan_aborted(&xqc->iscan)) {
-200491875ce144f Darrick J. Wong   2024-02-22  562  		xchk_set_incomplete(xqc->sc);
-200491875ce144f Darrick J. Wong   2024-02-22  563  		return -ECANCELED;
-200491875ce144f Darrick J. Wong   2024-02-22  564  	}
-200491875ce144f Darrick J. Wong   2024-02-22  565  
-2b4f89bdf5696bb Christoph Hellwig 2025-09-20  566  	mutex_lock(&dq->q_qlock);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  567  	mutex_lock(&xqc->lock);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  568  	error = xfarray_load_sparse(counts, dq->q_id, &xcdq);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  569  	if (error)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  570  		goto out_unlock;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  571  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  572  	if (xcdq.icount != dq->q_ino.count)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  573  		xchk_qcheck_set_corrupt(xqc->sc, dqtype, dq->q_id);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  574  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  575  	if (xcdq.bcount != dq->q_blk.count)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  576  		xchk_qcheck_set_corrupt(xqc->sc, dqtype, dq->q_id);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  577  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  578  	if (xcdq.rtbcount != dq->q_rtb.count)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  579  		xchk_qcheck_set_corrupt(xqc->sc, dqtype, dq->q_id);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  580  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  581  	xcdq.flags |= (XQCHECK_DQUOT_COMPARE_SCANNED | XQCHECK_DQUOT_WRITTEN);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  582  	error = xfarray_store(counts, dq->q_id, &xcdq);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  583  	if (error == -EFBIG) {
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  584  		/*
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  585  		 * EFBIG means we tried to store data at too high a byte offset
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  586  		 * in the sparse array.  IOWs, we cannot complete the check and
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  587  		 * must notify userspace that the check was incomplete.  This
-200491875ce144f Darrick J. Wong   2024-02-22  588  		 * should never happen outside of the collection phase.
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  589  		 */
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  590  		xchk_set_incomplete(xqc->sc);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  591  		error = -ECANCELED;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  592  	}
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  593  	mutex_unlock(&xqc->lock);
-2b4f89bdf5696bb Christoph Hellwig 2025-09-20  594  	mutex_unlock(&dq->q_qlock);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  595  	if (error)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  596  		return error;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  597  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  598  	if (xqc->sc->sm->sm_flags & XFS_SCRUB_OFLAG_CORRUPT)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  599  		return -ECANCELED;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  600  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  601  	return 0;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  602  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  603  out_unlock:
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  604  	mutex_unlock(&xqc->lock);
-
-Needs a mutex_unlock(&dq->q_qlock);
-
-48dd9117a34fe9a Darrick J. Wong   2024-02-22 @605  	return error;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  606  }
+aca09b212467554 Bernd Schubert 2025-10-13  1302  
+aca09b212467554 Bernd Schubert 2025-10-13  1303  /*
+aca09b212467554 Bernd Schubert 2025-10-13  1304   * Get the best queue for the current CPU
+aca09b212467554 Bernd Schubert 2025-10-13  1305   */
+2482ae85881b957 Bernd Schubert 2025-10-13  1306  static struct fuse_ring_queue *fuse_uring_get_queue(struct fuse_ring *ring,
+2482ae85881b957 Bernd Schubert 2025-10-13  1307  						    bool background)
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1308  {
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1309  	unsigned int qid;
+aca09b212467554 Bernd Schubert 2025-10-13  1310  	struct fuse_ring_queue *local_queue, *best_numa, *best_global;
+aca09b212467554 Bernd Schubert 2025-10-13  1311  	int local_node;
+aca09b212467554 Bernd Schubert 2025-10-13  1312  	const struct cpumask *numa_mask, *global_mask;
+2482ae85881b957 Bernd Schubert 2025-10-13  1313  	int retries = 0;
+2482ae85881b957 Bernd Schubert 2025-10-13  1314  	int weight = -1;
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1315  
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1316  	qid = task_cpu(current);
+868e7728394dbc8 Bernd Schubert 2025-10-13  1317  	if (WARN_ONCE(qid >= ring->max_nr_queues,
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1318  		      "Core number (%u) exceeds nr queues (%zu)\n", qid,
+868e7728394dbc8 Bernd Schubert 2025-10-13  1319  		      ring->max_nr_queues))
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1320  		qid = 0;
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1321  
+aca09b212467554 Bernd Schubert 2025-10-13  1322  	local_node = cpu_to_node(qid);
+aca09b212467554 Bernd Schubert 2025-10-13  1323  	if (WARN_ON_ONCE(local_node > ring->nr_numa_nodes))
+aca09b212467554 Bernd Schubert 2025-10-13  1324  		local_node = 0;
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1325  
+2482ae85881b957 Bernd Schubert 2025-10-13  1326  	local_queue = READ_ONCE(ring->queues[qid]);
+2482ae85881b957 Bernd Schubert 2025-10-13  1327  
+2482ae85881b957 Bernd Schubert 2025-10-13  1328  retry:
+2482ae85881b957 Bernd Schubert 2025-10-13  1329  	/*
+2482ae85881b957 Bernd Schubert 2025-10-13  1330  	 * For background requests, try next CPU in same NUMA domain.
+2482ae85881b957 Bernd Schubert 2025-10-13  1331  	 * I.e. cpu-0 creates async requests, cpu-1 io processes.
+2482ae85881b957 Bernd Schubert 2025-10-13  1332  	 * Similar for foreground requests, when the local queue does not
+2482ae85881b957 Bernd Schubert 2025-10-13  1333  	 * exist - still better to always wake the same cpu id.
+2482ae85881b957 Bernd Schubert 2025-10-13  1334  	 */
+2482ae85881b957 Bernd Schubert 2025-10-13  1335  	if (background || !local_queue) {
+2482ae85881b957 Bernd Schubert 2025-10-13  1336  		numa_mask = ring->numa_registered_q_mask[local_node];
+2482ae85881b957 Bernd Schubert 2025-10-13  1337  
+2482ae85881b957 Bernd Schubert 2025-10-13  1338  		if (weight == -1)
+2482ae85881b957 Bernd Schubert 2025-10-13  1339  			weight = cpumask_weight(numa_mask);
+2482ae85881b957 Bernd Schubert 2025-10-13  1340  
+2482ae85881b957 Bernd Schubert 2025-10-13  1341  		if (weight == 0)
+2482ae85881b957 Bernd Schubert 2025-10-13  1342  			goto global;
+2482ae85881b957 Bernd Schubert 2025-10-13  1343  
+2482ae85881b957 Bernd Schubert 2025-10-13  1344  		if (weight > 1) {
+2482ae85881b957 Bernd Schubert 2025-10-13  1345  			int idx = (qid + 1) % weight;
+2482ae85881b957 Bernd Schubert 2025-10-13  1346  
+2482ae85881b957 Bernd Schubert 2025-10-13  1347  			qid = cpumask_nth(idx, numa_mask);
+2482ae85881b957 Bernd Schubert 2025-10-13  1348  		} else {
+2482ae85881b957 Bernd Schubert 2025-10-13  1349  			qid = cpumask_first(numa_mask);
+2482ae85881b957 Bernd Schubert 2025-10-13  1350  		}
+2482ae85881b957 Bernd Schubert 2025-10-13  1351  
+2482ae85881b957 Bernd Schubert 2025-10-13  1352  		local_queue = READ_ONCE(ring->queues[qid]);
+2482ae85881b957 Bernd Schubert 2025-10-13  1353  		if (WARN_ON_ONCE(!local_queue))
+2482ae85881b957 Bernd Schubert 2025-10-13  1354  			return NULL;
+2482ae85881b957 Bernd Schubert 2025-10-13  1355  	}
+2482ae85881b957 Bernd Schubert 2025-10-13  1356  
+2482ae85881b957 Bernd Schubert 2025-10-13  1357  	if (READ_ONCE(local_queue->nr_reqs) <= FURING_Q_NUMA_THRESHOLD)
+aca09b212467554 Bernd Schubert 2025-10-13  1358  		return local_queue;
+aca09b212467554 Bernd Schubert 2025-10-13  1359  
+2482ae85881b957 Bernd Schubert 2025-10-13  1360  	if (retries < FURING_NEXT_QUEUE_RETRIES && weight > retries + 1) {
+2482ae85881b957 Bernd Schubert 2025-10-13  1361  		retries++;
+2482ae85881b957 Bernd Schubert 2025-10-13  1362  		local_queue = NULL;
+2482ae85881b957 Bernd Schubert 2025-10-13  1363  		goto retry;
+2482ae85881b957 Bernd Schubert 2025-10-13  1364  	}
+2482ae85881b957 Bernd Schubert 2025-10-13  1365  
+aca09b212467554 Bernd Schubert 2025-10-13  1366  	/* Find best NUMA-local queue */
+aca09b212467554 Bernd Schubert 2025-10-13  1367  	numa_mask = ring->numa_registered_q_mask[local_node];
+aca09b212467554 Bernd Schubert 2025-10-13  1368  	best_numa = fuse_uring_best_queue(numa_mask, ring);
+aca09b212467554 Bernd Schubert 2025-10-13  1369  
+aca09b212467554 Bernd Schubert 2025-10-13  1370  	/* If NUMA queue is under threshold, use it */
+aca09b212467554 Bernd Schubert 2025-10-13  1371  	if (best_numa &&
+aca09b212467554 Bernd Schubert 2025-10-13  1372  	    READ_ONCE(best_numa->nr_reqs) <= FURING_Q_NUMA_THRESHOLD)
+aca09b212467554 Bernd Schubert 2025-10-13  1373  		return best_numa;
+aca09b212467554 Bernd Schubert 2025-10-13  1374  
+2482ae85881b957 Bernd Schubert 2025-10-13  1375  global:
+aca09b212467554 Bernd Schubert 2025-10-13  1376  	/* NUMA queues above threshold, try global queues */
+aca09b212467554 Bernd Schubert 2025-10-13  1377  	global_mask = ring->registered_q_mask;
+aca09b212467554 Bernd Schubert 2025-10-13  1378  	best_global = fuse_uring_best_queue(global_mask, ring);
+aca09b212467554 Bernd Schubert 2025-10-13  1379  
+aca09b212467554 Bernd Schubert 2025-10-13  1380  	/* Might happen during tear down */
+aca09b212467554 Bernd Schubert 2025-10-13  1381  	if (!best_global)
+aca09b212467554 Bernd Schubert 2025-10-13  1382  		return NULL;
+aca09b212467554 Bernd Schubert 2025-10-13  1383  
+aca09b212467554 Bernd Schubert 2025-10-13  1384  	/* If global queue is under double threshold, use it */
+aca09b212467554 Bernd Schubert 2025-10-13  1385  	if (READ_ONCE(best_global->nr_reqs) <= FURING_Q_GLOBAL_THRESHOLD)
+aca09b212467554 Bernd Schubert 2025-10-13  1386  		return best_global;
+aca09b212467554 Bernd Schubert 2025-10-13  1387  
+aca09b212467554 Bernd Schubert 2025-10-13  1388  	/* There is no ideal queue, stay numa_local if possible */
+aca09b212467554 Bernd Schubert 2025-10-13 @1389  	return best_numa ? best_numa : best_global;
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1390  }
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1391  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
