@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877BADDC5
-	for <oe-kbuild@lists.linux.dev>; Sun, 19 Oct 2025 23:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D0C1E3762
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Oct 2025 03:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760916726; cv=none; b=T/MdaMf6Dxcyup1zm3AvTfOGgzeXtQx2uTYZy402O+oz1Dc0K4EHLg3neskgoQuKnmr9mysiHwtE1jh67pWMA0nR/Prp4nbOP+tiaH60Dq2zI9Y48H4NAqds6scljdTCwe/YPhhgKEHN6AkCdnytNljpu7pIC7PvFCvZ86K+Vg4=
+	t=1760930356; cv=none; b=arEwHlE+BbCbkmLbxyI3rivJneVXm5PCfNgBhgJIQyz7v1rUj+M3a5VJpByDPi/jZlNPLI3P3/vSInEpv6/DB/MCBvit8cdfkF8m8xhiJzxogHMfG7+em/VryEWXE/Y8wwzqvzanIjKurXAIpRHbSYGdgCg/d/9FVE9ReXelRrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760916726; c=relaxed/simple;
-	bh=rAfaUL/EUZOAuOdkXQJVTgG7rFweqmnJQE23UaanBuc=;
+	s=arc-20240116; t=1760930356; c=relaxed/simple;
+	bh=Spd3Yhq8PInIor6jPJJG9L1s8HS2HHT2XzcQBhLmZm4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rggxLRpVTUmfkZ7lxdIoTAEDvpqijaq8OlLOPS8L/KtqX/Pd6jrwz3KsPJ5ii9SAWRmnvsgU8dq9M+1Ao6Lh3W+IC/iN+7sm53DeE3l3IjpZcJRyHme+Zu4eyAqa94WTzDU8igP6D0lo2VPrpJ73obfJDH3ZYB47dtoFYUuJxQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AmBW9Ly3; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=a/SHMMiXoted/R6bjZIEV9V4Xwu75/xBB5wihzDvKdlUNJcsanhcs+ve4PdUVGFmbibiNsrqig4wg6GhRYNv8t2fTSSZ0M353SBIrtXn0oFOM6Eaat1LfUtOK+ICGyk53xLAc2SNF25N+nv03e/mqnvkeMZoIqodc+vnNW+tRGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k2CP4yxh; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AmBW9Ly3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2CP4yxh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760916725; x=1792452725;
+  t=1760930354; x=1792466354;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rAfaUL/EUZOAuOdkXQJVTgG7rFweqmnJQE23UaanBuc=;
-  b=AmBW9Ly32eQj6lFVuCV6NPxgHzJe1i4O9rNDBKNhRz2DELoFScaSFZAf
-   fl1EhgZYcTMPeQj3HGUUFLaDHhKB/cpkFDV9m5sgrr2p+YDoZGdVa/gXi
-   EPo+QUTo3OGWY2KuVIXICX1k+kJ1VClfU1k9SW0RW3cMkChWmfCg+5ZBc
-   txuxZ5w9CqGbNDk/QFdRDRF9gLk4Dj3KpTmqkuCsao5Z6k+scHOiqaY9T
-   1FCeygRDQqf6eXO8YBc47WXc48KNasKSUTfagNU4oi1aJ7YLx+zGAqTPk
-   tpjDruX0W4wY6XHG1OK9jwxFHktuciY/LEgqkYQ/Gde16vNvyHPDjapeQ
-   A==;
-X-CSE-ConnectionGUID: 0g893DqkQjCQgs49N5iC3A==
-X-CSE-MsgGUID: anREqYKLRcmnRBNXkT27jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62945899"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62945899"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2025 16:32:03 -0700
-X-CSE-ConnectionGUID: D27keziRT+qZwlaMy1IIgg==
-X-CSE-MsgGUID: Q625yB3VReeYFRYPSBwxGg==
+  bh=Spd3Yhq8PInIor6jPJJG9L1s8HS2HHT2XzcQBhLmZm4=;
+  b=k2CP4yxhazFMyRVFdawpN1UhMqWl6cBz+hQvWgjzFJBXG5zCiFQ0Ql87
+   eTUVBIa1Nm4rBgmWBUx21DKKlU7LpC8Hol/fDTnmEAVT3iy21qZ7K9y0O
+   /DrYZ0RwBuh7595JkNg/5KVZuToPPtz/+ERjgGmuWZ3xDQmx5igsChEZS
+   6IAJqbEdioPhh4rYyF2B9qkuyX+xySmh9QIG9JzcqN1T7TieKCgfWzDW7
+   Seiu4NxPVqGX8keJYNdvx153WJoMhifpHb3k6CMBxCF4D63ImJqr31+9I
+   fvSiyZVuPdB3RGKa0Slr8CqV9w+2vl4PClbbD2xT9yJ+XLcJoMT9iYkyH
+   g==;
+X-CSE-ConnectionGUID: 0dYxnv6lQkGjkvctHRx+0w==
+X-CSE-MsgGUID: T9z5BehbQdSmxN9f042O3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11587"; a="62080636"
+X-IronPort-AV: E=Sophos;i="6.19,241,1754982000"; 
+   d="scan'208";a="62080636"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2025 20:19:14 -0700
+X-CSE-ConnectionGUID: 53RTYiNtSBaMCKspVFgi9Q==
+X-CSE-MsgGUID: kBcTXVVER0mqqIv0uEuyjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,241,1754982000"; 
-   d="scan'208";a="182748178"
+   d="scan'208";a="182930852"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 19 Oct 2025 16:32:02 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 19 Oct 2025 20:19:13 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vAcsZ-0009MP-1r;
-	Sun, 19 Oct 2025 23:31:59 +0000
-Date: Mon, 20 Oct 2025 07:31:10 +0800
+	id 1vAgQR-0009Sf-0M;
+	Mon, 20 Oct 2025 03:19:11 +0000
+Date: Mon, 20 Oct 2025 11:18:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v4 2/2] dmaengine: dw-axi-dmac: add reset control support
-Message-ID: <202510200644.cublciW5-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/xtensa/kernel/entry.S:1436:(.exception.text+0x233): dangerous
+ relocation: windowed longcall crosses 1GB boundary; return may fail:
+ make_task_dead
+Message-ID: <202510201147.QigCaeXP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,78 +63,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "xtensa: dangerous relocation"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251017102950.206443-3-a.shimko.dev@gmail.com>
-References: <20251017102950.206443-3-a.shimko.dev@gmail.com>
-TO: Artem Shimko <a.shimko.dev@gmail.com>
-TO: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-TO: Vinod Koul <vkoul@kernel.org>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
-CC: Artem Shimko <a.shimko.dev@gmail.com>
-CC: dmaengine@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
+TO: Arnd Bergmann <arnd@arndb.de>
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
-Hi Artem,
+Hi Arnd,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on vkoul-dmaengine/next]
-[also build test WARNING on pza/reset/next linus/master v6.18-rc1 next-20251017]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Artem-Shimko/dmaengine-dw-axi-dmac-simplify-PM-functions-and-use-modern-macros/20251017-183103
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20251017102950.206443-3-a.shimko.dev%40gmail.com
-patch subject: [PATCH v4 2/2] dmaengine: dw-axi-dmac: add reset control support
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: loongarch-randconfig-r072-20251019 (https://download.01.org/0day-ci/archive/20251020/202510200644.cublciW5-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   211ddde0823f1442e4ad052a2f30f050145ccada
+commit: 8d46603eeeb4c6abff1d2e49f2a6ae289dac765e media: cxd2841er: fix 64-bit division on gcc-9
+date:   11 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 11 months ago
+config: xtensa-randconfig-002-20251020 (https://download.01.org/0day-ci/archive/20251020/202510201147.QigCaeXP-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251020/202510201147.QigCaeXP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510200644.cublciW5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510201147.QigCaeXP-lkp@intel.com/
 
-New smatch warnings:
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1355 axi_dma_resume() warn: 'chip->core_clk' from clk_prepare_enable() not released on lines: 1350.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1237 dma_chan_pause() warn: inconsistent indenting
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1284 axi_chan_resume() warn: inconsistent indenting
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1355 axi_dma_resume() warn: 'chip->cfgr_clk' from clk_prepare_enable() not released on lines: 1346,1350.
+   arch/xtensa/kernel/entry.o: in function `fast_syscall_spill_registers':
+>> arch/xtensa/kernel/entry.S:1436:(.exception.text+0x233): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: make_task_dead
 
-vim +1355 drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
 
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1334  
-45fdf99125b2bf7 Artem Shimko    2025-10-17  1335  static int axi_dma_resume(struct device *dev)
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1336  {
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1337  	int ret;
-45fdf99125b2bf7 Artem Shimko    2025-10-17  1338  	struct axi_dma_chip *chip = dev_get_drvdata(dev);
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1339  
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1340  	ret = clk_prepare_enable(chip->cfgr_clk);
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1341  	if (ret < 0)
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1342  		return ret;
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1343  
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1344  	ret = clk_prepare_enable(chip->core_clk);
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1345  	if (ret < 0)
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1346  		return ret;
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1347  
-9c360f02c387f93 Artem Shimko    2025-10-17  1348  	ret = reset_control_deassert(chip->resets);
-9c360f02c387f93 Artem Shimko    2025-10-17  1349  	if (ret)
-9c360f02c387f93 Artem Shimko    2025-10-17  1350  		return ret;
-9c360f02c387f93 Artem Shimko    2025-10-17  1351  
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1352  	axi_dma_enable(chip);
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1353  	axi_dma_irq_enable(chip);
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1354  
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06 @1355  	return 0;
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1356  }
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1357  
+vim +1436 arch/xtensa/kernel/entry.S
+
+6b5a1f74e50170e Chris Zankel      2014-01-28  1413  
+6b5a1f74e50170e Chris Zankel      2014-01-28  1414  	/* We get here because of an unrecoverable error in the window
+6b5a1f74e50170e Chris Zankel      2014-01-28  1415  	 * registers, so set up a dummy frame and kill the user application.
+6b5a1f74e50170e Chris Zankel      2014-01-28  1416  	 * Note: We assume EXC_TABLE_KSTK contains a valid stack pointer.
+6b5a1f74e50170e Chris Zankel      2014-01-28  1417  	 */
+6b5a1f74e50170e Chris Zankel      2014-01-28  1418  
+6b5a1f74e50170e Chris Zankel      2014-01-28  1419  	movi	a0, 1
+6b5a1f74e50170e Chris Zankel      2014-01-28  1420  	movi	a1, 0
+6b5a1f74e50170e Chris Zankel      2014-01-28  1421  
+6b5a1f74e50170e Chris Zankel      2014-01-28  1422  	wsr	a0, windowstart
+6b5a1f74e50170e Chris Zankel      2014-01-28  1423  	wsr	a1, windowbase
+6b5a1f74e50170e Chris Zankel      2014-01-28  1424  	rsync
+6b5a1f74e50170e Chris Zankel      2014-01-28  1425  
+6b5a1f74e50170e Chris Zankel      2014-01-28  1426  	movi	a0, 0
+6b5a1f74e50170e Chris Zankel      2014-01-28  1427  
+6b5a1f74e50170e Chris Zankel      2014-01-28  1428  	rsr	a3, excsave1
+6b5a1f74e50170e Chris Zankel      2014-01-28  1429  	l32i	a1, a3, EXC_TABLE_KSTK
+6b5a1f74e50170e Chris Zankel      2014-01-28  1430  
+0b5372570b1f3fc Max Filippov      2021-05-01  1431  	movi	a4, KERNEL_PS_WOE_MASK | LOCKLEVEL
+6b5a1f74e50170e Chris Zankel      2014-01-28  1432  	wsr	a4, ps
+6b5a1f74e50170e Chris Zankel      2014-01-28  1433  	rsync
+6b5a1f74e50170e Chris Zankel      2014-01-28  1434  
+0b5372570b1f3fc Max Filippov      2021-05-01  1435  	movi	abi_arg0, SIGSEGV
+85be9ae7b630928 Eric W. Biederman 2022-01-05 @1436  	abi_call	make_task_dead
+6b5a1f74e50170e Chris Zankel      2014-01-28  1437  
+6b5a1f74e50170e Chris Zankel      2014-01-28  1438  	/* shouldn't return, so panic */
+6b5a1f74e50170e Chris Zankel      2014-01-28  1439  
+6b5a1f74e50170e Chris Zankel      2014-01-28  1440  	wsr	a0, excsave1
+2da03d4114b2587 Max Filippov      2017-12-09  1441  	call0	unrecoverable_exception		# should not return
+6b5a1f74e50170e Chris Zankel      2014-01-28  1442  1:	j	1b
+6b5a1f74e50170e Chris Zankel      2014-01-28  1443  
+6b5a1f74e50170e Chris Zankel      2014-01-28  1444  
+
+:::::: The code at line 1436 was first introduced by commit
+:::::: 85be9ae7b63092895b6e7ac87a3ef383c679866c exit/xtensa: In arch/xtensa/entry.S:Linvalid_mask call make_task_dead
+
+:::::: TO: Eric W. Biederman <ebiederm@xmission.com>
+:::::: CC: Eric W. Biederman <ebiederm@xmission.com>
 
 -- 
 0-DAY CI Kernel Test Service
