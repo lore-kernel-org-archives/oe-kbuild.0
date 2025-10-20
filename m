@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592E82BE04C
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Oct 2025 18:48:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1011EDA0B
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Oct 2025 19:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760986131; cv=none; b=mNKwVPDGdE0pKSKmH1q1uMF9tqElueLcgFf0zazT8WeHM3Yao2/ZSDbCHUyHRM1ULakYN8n8itTSoaTTkw+g9+6Lkra0Ffjt204vf8uoawoL3hi0dzpXsOgcRZN9sAIEVMoJ26mLYrDYOI4uMMh9xg1V3qWltUX3abONcIVYmGE=
+	t=1760989174; cv=none; b=i/1PElwTt2J1nw1fyWjNVD3/ezVB6aKjQes8W/ksm6O1OnZb3tFLIgTsWELz3f7FRhdodIkXbTrZATVZBwLl/yObqVPJcO3octbNyUgy1L4o5BhOXKhqSrzyBk/UH9E14aAc6hnI1oEbZo1/z+8417BrfPPMxPTcAiYTPZ4YvQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760986131; c=relaxed/simple;
-	bh=b3biMJT1Y31CAA63wAvcKtJnZ2pOM+xyNDcED56ow2s=;
+	s=arc-20240116; t=1760989174; c=relaxed/simple;
+	bh=+40L5UZhjbr8mYaMm1gW/ugl/DV1VT72ReNOw93bmiw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u/y1IymX5vNkhAJy2bK6/GCychkb+WFUx4NNX2Wba911GSpIGXM13oNGS+lreOuxQBKB0Hhgebz8crDRQ8wFn8TpPyMagpFe8tKl65ZWfg7STpKllGbOZHHtVMuYvaTBmY7Mlz+4ea7I6htZNZIq8Hx7dUoyoeJvnH+9Fz/unqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c0281BUk; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=TGW/bW/jqZWV4rrGGlwhzjhFazvDSSDiPup6aEn2bMneiTcMn1dgyS80N4eP213YYGNBaOFkH5yHG53YSjzWvNGrWGeYmRi4rWOprlcE6P241uHtWvlo7ItMfYMOWdZIWDdhnIKi+YTFIPTL5F1pKB2i8ii2+hYHZIlH0bBAyB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E1vcpxAh; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c0281BUk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E1vcpxAh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760986129; x=1792522129;
+  t=1760989171; x=1792525171;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b3biMJT1Y31CAA63wAvcKtJnZ2pOM+xyNDcED56ow2s=;
-  b=c0281BUkEcLOPCPj0AzeoM+oe/CVAVCXTpN4cyU6KReDs7sI27zmppfw
-   cNptqVveI36NjAdOBO8cRXRHRaTgGi7sZNDlhY7E3xZn1hd6MPEpBz7HX
-   ITR0TiRJk12yFOEiij5Fccjn7xcFVkisoA8Rvyrj81CrysjDs+ryF2TQA
-   VerqBVE9+mUoGZfLXcurgynD7yulxQCORLRMk8RrMglLFx0WsH+h3/34/
-   NZ4FqqfCFRK44DGL5zXn06amdoSah3mPbMvIGTFwVmlcz8AQh+Uqzfl9S
-   VvyBYGxhjk6E1stZC+/mVJRAyD5Aiye4yjPwzyRWEWOoeLpQ3AYqG/AJ+
-   g==;
-X-CSE-ConnectionGUID: prszEveAQYWRuHuIRLT7Xg==
-X-CSE-MsgGUID: 0CR6eXKsSTqhqNNf76aoVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73398494"
+  bh=+40L5UZhjbr8mYaMm1gW/ugl/DV1VT72ReNOw93bmiw=;
+  b=E1vcpxAh4fdbtwLvOaPiIBILcHceU9fRtpynnpd50Eo+PJCW4OTwPy8p
+   pjlyWZWEEHZ8zP2UqC0WeKIrhwO6vkDSUNK3Hm1onTrl76cuPi9V2EPTJ
+   avf8I0SFnDt3EUIB+OJFIwHzJrTifkoO9zJJUwM/cmFcjVWOfsLQVMwp7
+   6opzDO4pyZw1JwUxEzSw4ZtXVWoptm5v5yipjwaVGLNjNQ7NESQOIjG38
+   zBnvYZEBKOI7onEwaD8r+I57nypX5ITNqpnZ36OnmVw/Thfp49yrzQ8WT
+   EoGpApWOhiaRs4ieMc/syFPfFvm5iyjBhwmhzCiYgjcl81anJguCFp/TI
+   w==;
+X-CSE-ConnectionGUID: iDQJsT/kTh+3Su4FtohzuA==
+X-CSE-MsgGUID: j5lHnazBTtmT9PYRAXCUKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62813839"
 X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
-   d="scan'208";a="73398494"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 11:48:49 -0700
-X-CSE-ConnectionGUID: i96qoGaUTl+hus68OXGPBA==
-X-CSE-MsgGUID: MTplO0a8RSWCiPTv5/+jTg==
+   d="scan'208";a="62813839"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 12:39:31 -0700
+X-CSE-ConnectionGUID: F7qD/uZgRB29Q+MkcEIx2w==
+X-CSE-MsgGUID: sdYyjjQITnKEj6fKDo0emw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
-   d="scan'208";a="183807196"
+   d="scan'208";a="214026677"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 20 Oct 2025 11:48:47 -0700
+  by orviesa002.jf.intel.com with ESMTP; 20 Oct 2025 12:39:30 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vAuw1-000A5L-2b;
-	Mon, 20 Oct 2025 18:48:45 +0000
-Date: Tue, 21 Oct 2025 02:48:18 +0800
+	id 1vAvj5-000A7J-36;
+	Mon, 20 Oct 2025 19:39:27 +0000
+Date: Tue, 21 Oct 2025 03:39:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [openeuler:OLK-5.10 3239/3239]
- tools/power/acpi/include/acpi/platform/aclinux.h:198:9: error: missing
- binary operator before token "("
-Message-ID: <202510210250.7SqF2rX1-lkp@intel.com>
+Subject: arch/arm/boot/dts/renesas/sh73a0-kzm9g.dtb: accelerometer@1d
+ (adi,adxl345): 'interrupt-names' is a dependency of 'interrupts-extended'
+Message-ID: <202510210333.D41drhxK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,36 +63,43 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
+CC: linux-kernel@vger.kernel.org
+TO: Lothar Rubusch <l.rubusch@gmail.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   778ac52b2e93163892e99cf06ec8021b6c1bab72
-commit: d1c564ec2caf3397821e747c783bbc3600fcc782 [3239/3239] ACPI: Support ACPI_MACHINE_WIDTH for 64
-:::::: branch date: 8 hours ago
-:::::: commit date: 2 years, 8 months ago
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510210250.7SqF2rX1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   211ddde0823f1442e4ad052a2f30f050145ccada
+commit: ebf0aa3ed1dc94f2f66e19e5ea320eeacbbd518f dt-bindings: iio: accel: adxl345: add interrupt-names
+date:   10 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 10 months ago
+config: arm-randconfig-051-20251020 (https://download.01.org/0day-ci/archive/20251021/202510210333.D41drhxK-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
+dtschema version: 2025.9.dev7+g3b6fdac89
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510210333.D41drhxK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510210250.7SqF2rX1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510210333.D41drhxK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from tools/power/acpi/include/acpi/platform/acenv.h:163,
-                    from tools/power/acpi/include/acpi/acpi.h:22,
-                    from acpidbg.c:9:
->> tools/power/acpi/include/acpi/platform/aclinux.h:198:9: error: missing binary operator before token "("
-     198 |         (defined(__riscv) && (defined(__LP64__) || defined(_LP64)))
-         |         ^
-   make[3]: *** [../../Makefile.rules:24: tools/power/acpi/tools/acpidbg/acpidbg.o] Error 1
-   make[2]: *** [Makefile:18: acpidbg] Error 2
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/renesas/sh73a0-kzm9g.dtb: cache-controller@f0100000 (arm,pl310-cache): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/cache/l2c2x0.yaml#
+>> arch/arm/boot/dts/renesas/sh73a0-kzm9g.dtb: accelerometer@1d (adi,adxl345): 'interrupt-names' is a dependency of 'interrupts-extended'
+   	from schema $id: http://devicetree.org/schemas/iio/accel/adi,adxl345.yaml#
+   arch/arm/boot/dts/renesas/sh73a0-kzm9g.dtb: accelerometer@1d (adi,adxl345): interrupts-extended: [[18, 2, 4], [18, 3, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/iio/accel/adi,adxl345.yaml#
+   arch/arm/boot/dts/renesas/sh73a0-kzm9g.dtb: accelerometer@1d (adi,adxl345): Unevaluated properties are not allowed ('interrupts-extended' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/iio/accel/adi,adxl345.yaml#
+   arch/arm/boot/dts/renesas/sh73a0-kzm9g.dtb: bus@fec10000 (renesas,bsc-sh73a0): Unevaluated properties are not allowed ('ethernet@10000000' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/bus/renesas,bsc.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
