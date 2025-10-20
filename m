@@ -1,74 +1,58 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E5D2D23A5
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Oct 2025 07:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8823126DA
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Oct 2025 13:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760944566; cv=none; b=lH5mYHFQsYCjGe/FARUV/dl9WCvAxPKC8+syLBc52xFuNaetD0Rf8e2Vnx8auSEt5rhwIHKqXs/Kxcbg563skksUB737QLuGrDOuj7mqEL66NGZeSlD+6hytdJ/idzpUXJCdfvoM5BQ568gVAdH2RQOUmd9rWPVVxhtgWCTCbRk=
+	t=1760968138; cv=none; b=n+/GEi7M7fgY+937zDfOyn272BiFoNF9GCnf4wVCgqGAdwURO1zJK8uly02i7fqQhVl+zPW4PoMtuAQ/woqndoBCi7wyTR1LCF78m5ezF3BAUCy5rldNcow1GwiY1UkrKKZRiKChn0VCJK9UJcipzTKVtSKQRLeFCLTRwHgUBDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760944566; c=relaxed/simple;
-	bh=yxof3URmX9rLtpmiczmpq9jXxEYmxv/5pWBYF7OQFKE=;
+	s=arc-20240116; t=1760968138; c=relaxed/simple;
+	bh=R3L4qW/YkDHlv0VyWaP33qH1lwes6OtN9YzkExwMtuQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=e/it2XEKwH2/ScwK6Yjij5K24VP9PGzfqW8mevocvKjpQzRQwiXR1OQX/bnWLIWOhW4WytAt00LOSdP7ldMFqnzKgP0VzpEqiQLFLmV4UgJ+TABtiqv78NWcVng753o94TMfZ+H730K2zpIj4OIXCfkfkhMN2yFL71GzZVwTXzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qiE3Aywh; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=VcLPHPKykyd0459pEPUPlBo/b0EitkDA8XgGEuJcQMEaA8FmNxxS0Rij63neIYDQhzHyZuh4slADSqELOB8zJlpTyPgimTacu6M+lRSY96RVHiF0Ni0OtYYasIFnJTJLeD2LKHz2JvJyutFDWLRUJRJgbKF+gE+s3nPR/W4Unhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JUwzRART; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qiE3Aywh"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-426f1574a14so2898202f8f.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 20 Oct 2025 00:16:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760944563; x=1761549363; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z1ej+8gtsvFOBhqZuaO9KMzSX5cvqPOefoo5CYnjI/Q=;
-        b=qiE3AywhGtmaFWwxCcCmPzBVWGzXxCTi/frN5HMVNCj/Tea0PMePNAw7r8brBICriR
-         5X0FDglBaNlJgqDHjJxeB3dELSUBCjeKKkLOhja6KZIeClSwOY42i1pI60zl/4TGOEqa
-         Ndp1ZyZqG1r8uT0dlZ7IMnPm83e1a/HtU11DflMtH8OMpAh8cH7tk8LOapBnzT8UXgMs
-         LE8vuxJRAzpn3EL54yX83PjB+/jk50suZ28MtmLZ1dAilUviKxRtvKQ6Kf0eAYTBjQKZ
-         poxGmS7nSntGgDwCJ3mOrBHL6FLOKL0FNHS4rJcaZPtpJ4povYcwA9m17rIWOIb8F3Dn
-         CBFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760944563; x=1761549363;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z1ej+8gtsvFOBhqZuaO9KMzSX5cvqPOefoo5CYnjI/Q=;
-        b=ioSTr+dlSBG+hLy5DyQAlnaku9KDPQic8XNCQYebd7eVdfLIqgQkF0sjIo7H3QpP+t
-         FqIoByNkydxqija3WPP08qaYOxpp+ieaSeSBQ+cVtRmIG90nHgjea/pUOmBrg49yLceu
-         SBAnL6ZBapBbRzFIp0cgtF7PSL2Af1Cb+SQzyYfWQ/i9ztXb0ISVCwrKUWIU9O2RqR5e
-         xn256uU02Vh0G/CySPBOurWGqqmjMxULN2uJ7LFXpiFVt38OR1PCY429aOyiv5UELHx9
-         m8PisdmxtM6iTgpPAFhCzMo0eFKsWejoQzbBZWlvwiXRWBvELuAtiCjFoyzqW7nnyvWY
-         HSww==
-X-Gm-Message-State: AOJu0YzGOpXCfTFRlYu3lYzdHamEiK6LDlpQWA4G9Q9PuFv3IHSMdSdk
-	aPTQ8Ps/CvaXeO8Zcn85Vn2gMZiz2Xg3GV/waRcRS5MrdvElqHUjdWPHMtm7mjiJJ937KWvpq4Q
-	F9ktK
-X-Gm-Gg: ASbGncs+F18O/ZzIQocXzozyFTbziYizuFDFQIwweVfNL3JQum4MDxvBs3khk8qFrdS
-	NY8/JH2EH0Yk+33jv4CTwi1VHsZT9sBspNseKR8xJx2y8CfO8WKyLICbTPugO+onHp8k3GGGrPu
-	1O5DgNtIj1JH0xJRVv5f0mjvQ2Ivo/65pxvhyVpQg3pZlMUMBhrmPgs2/vHQR5t4nJjmL8NghKY
-	M1DDB7ZwE8c1bMYsb0xJmpI9nAc5wNmMNnMejyWdoqJLMXQg1duzJfI8asJHcu0x9XR6gjLOVrc
-	OGuvBcxP1qETBKmdzGaqzq1599Ka3q1OkhzZHAQtyX8FWUVIMSQ0r3IzUwzveBt9uO1mLvrwoLD
-	Kjcb8V6DXxXDy301vakJd/8jHOAtYJFKF9isWoLFjCoW6ss7epabxpdwzophO8vcXHwW5v5S4d4
-	v7o1G+MQ==
-X-Google-Smtp-Source: AGHT+IGQTm5EXLM1N/aEKkpBtHNfkR7A7sUK0vTw/Crg1lHtzbbVskltQEePc3eMuv4zrbEPcEQ0lQ==
-X-Received: by 2002:a05:600c:3e07:b0:468:7a5a:1494 with SMTP id 5b1f17b1804b1-4711787350dmr69398345e9.1.1760944562808;
-        Mon, 20 Oct 2025 00:16:02 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-471144c82c9sm216041635e9.14.2025.10.20.00.16.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 00:16:02 -0700 (PDT)
-Date: Mon, 20 Oct 2025 10:15:59 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Bernd Schubert <bschubert@ddn.com>,
-	Miklos Szeredi <miklos@szeredi.hu>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Joanne Koong <joannelkoong@gmail.com>,
-	linux-fsdevel@vger.kernel.org, Luis Henriques <luis@igalia.com>,
-	Gang He <dchg2000@gmail.com>, Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH v3 6/6] fuse: {io-uring} Queue background requests on a
- different core
-Message-ID: <202510201259.MevZAfl5-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JUwzRART"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760968137; x=1792504137;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=R3L4qW/YkDHlv0VyWaP33qH1lwes6OtN9YzkExwMtuQ=;
+  b=JUwzRART/IXefRlH8XWurUnxDscD2k0r/IhTOPLHfOAtHWxj21af7QUT
+   gG+0phelVTFvim58K/UvbOG85m3tu6XJ6F6lP2X+Dxa2OgPiFsjp/2+4c
+   1Jgz3MWYVeGe/GCLiSidmSek5W9WA7+1HTstECJS6JFYloZevnqfpGRP9
+   8Hh6WcAFaf5bgzL36jMK1jMjvOiW9ctd5FmWPtNqNToAGbwI/VXC5WpOX
+   3UMGc31L9hD4E0E80rYHs1vcAmHVdlzFfVZYzGDzO2nEeVic1ROmqZHQC
+   aEjc0IyTTRtmfCRPE6nAl51q/3Jp0BDOSbrIsjUr4aMm3m8BpxA/rAicp
+   A==;
+X-CSE-ConnectionGUID: raA7pVqPS/OKONEhVPNLeQ==
+X-CSE-MsgGUID: 7jtCi8gjQU+mjm6dKp3L9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="65696229"
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="65696229"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 06:48:56 -0700
+X-CSE-ConnectionGUID: P4rt0d1sRtCEAhFJLjfMiQ==
+X-CSE-MsgGUID: xiFGc59cR7aHbYnQ6uIFIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="183741470"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 20 Oct 2025 06:48:55 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vAqFp-0009sH-0x;
+	Mon, 20 Oct 2025 13:48:53 +0000
+Date: Mon, 20 Oct 2025 21:47:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: drivers/gpu/drm/bridge/tda998x_drv.c:1715:25: sparse: sparse:
+ unsigned value that used to be signed checked against zero?
+Message-ID: <202510202105.G5KVmw9R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -77,124 +61,107 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251013-reduced-nr-ring-queues_3-v3-6-6d87c8aa31ae@ddn.com>
-Message-ID: <20251020071559.RpQIqNiU1O5SeDFKbu4UhJRjZ6P1Fl_GYaIKisOdJwc@z>
 
-Hi Bernd,
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/bridge/tda998x_drv.c:1715:25: sparse: sparse: unsigned value that used to be signed checked against zero?"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Dmitry Baryshkov <lumag@kernel.org>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-io-uring-Add-queue-length-counters/20251014-024703
-base:   ec714e371f22f716a04e6ecb2a24988c92b26911
-patch link:    https://lore.kernel.org/r/20251013-reduced-nr-ring-queues_3-v3-6-6d87c8aa31ae%40ddn.com
-patch subject: [PATCH v3 6/6] fuse: {io-uring} Queue background requests on a different core
-config: loongarch-randconfig-r072-20251019 (https://download.01.org/0day-ci/archive/20251020/202510201259.MevZAfl5-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   211ddde0823f1442e4ad052a2f30f050145ccada
+commit: 325ba852d148434c5bcb06d513af1933a7f77b70 drm/i2c: move TDA998x driver under drivers/gpu/drm/bridge
+date:   8 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 8 months ago
+config: i386-randconfig-r113-20251020 (https://download.01.org/0day-ci/archive/20251020/202510202105.G5KVmw9R-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251020/202510202105.G5KVmw9R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510201259.MevZAfl5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510202105.G5KVmw9R-lkp@intel.com/
 
-smatch warnings:
-fs/fuse/dev_uring.c:1389 fuse_uring_get_queue() error: uninitialized symbol 'best_numa'.
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/bridge/tda998x_drv.c:1717:50: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be32 const [usertype] *p @@     got unsigned int const [usertype] * @@
+   drivers/gpu/drm/bridge/tda998x_drv.c:1717:50: sparse:     expected restricted __be32 const [usertype] *p
+   drivers/gpu/drm/bridge/tda998x_drv.c:1717:50: sparse:     got unsigned int const [usertype] *
+   drivers/gpu/drm/bridge/tda998x_drv.c:1718:52: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be32 const [usertype] *p @@     got unsigned int const [usertype] * @@
+   drivers/gpu/drm/bridge/tda998x_drv.c:1718:52: sparse:     expected restricted __be32 const [usertype] *p
+   drivers/gpu/drm/bridge/tda998x_drv.c:1718:52: sparse:     got unsigned int const [usertype] *
+>> drivers/gpu/drm/bridge/tda998x_drv.c:1715:25: sparse: sparse: unsigned value that used to be signed checked against zero?
+>> drivers/gpu/drm/bridge/tda998x_drv.c:1747:16: sparse: signed value source
 
-vim +/best_numa +1389 fs/fuse/dev_uring.c
+vim +1715 drivers/gpu/drm/bridge/tda998x_drv.c
 
-2482ae85881b957 Bernd Schubert 2025-10-13  1306  static struct fuse_ring_queue *fuse_uring_get_queue(struct fuse_ring *ring,
-2482ae85881b957 Bernd Schubert 2025-10-13  1307  						    bool background)
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1308  {
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1309  	unsigned int qid;
-aca09b212467554 Bernd Schubert 2025-10-13  1310  	struct fuse_ring_queue *local_queue, *best_numa, *best_global;
-aca09b212467554 Bernd Schubert 2025-10-13  1311  	int local_node;
-aca09b212467554 Bernd Schubert 2025-10-13  1312  	const struct cpumask *numa_mask, *global_mask;
-2482ae85881b957 Bernd Schubert 2025-10-13  1313  	int retries = 0;
-2482ae85881b957 Bernd Schubert 2025-10-13  1314  	int weight = -1;
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1315  
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1316  	qid = task_cpu(current);
-868e7728394dbc8 Bernd Schubert 2025-10-13  1317  	if (WARN_ONCE(qid >= ring->max_nr_queues,
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1318  		      "Core number (%u) exceeds nr queues (%zu)\n", qid,
-868e7728394dbc8 Bernd Schubert 2025-10-13  1319  		      ring->max_nr_queues))
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1320  		qid = 0;
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1321  
-aca09b212467554 Bernd Schubert 2025-10-13  1322  	local_node = cpu_to_node(qid);
-aca09b212467554 Bernd Schubert 2025-10-13  1323  	if (WARN_ON_ONCE(local_node > ring->nr_numa_nodes))
-aca09b212467554 Bernd Schubert 2025-10-13  1324  		local_node = 0;
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1325  
-2482ae85881b957 Bernd Schubert 2025-10-13  1326  	local_queue = READ_ONCE(ring->queues[qid]);
-2482ae85881b957 Bernd Schubert 2025-10-13  1327  
-2482ae85881b957 Bernd Schubert 2025-10-13  1328  retry:
-2482ae85881b957 Bernd Schubert 2025-10-13  1329  	/*
-2482ae85881b957 Bernd Schubert 2025-10-13  1330  	 * For background requests, try next CPU in same NUMA domain.
-2482ae85881b957 Bernd Schubert 2025-10-13  1331  	 * I.e. cpu-0 creates async requests, cpu-1 io processes.
-2482ae85881b957 Bernd Schubert 2025-10-13  1332  	 * Similar for foreground requests, when the local queue does not
-2482ae85881b957 Bernd Schubert 2025-10-13  1333  	 * exist - still better to always wake the same cpu id.
-2482ae85881b957 Bernd Schubert 2025-10-13  1334  	 */
-2482ae85881b957 Bernd Schubert 2025-10-13  1335  	if (background || !local_queue) {
-2482ae85881b957 Bernd Schubert 2025-10-13  1336  		numa_mask = ring->numa_registered_q_mask[local_node];
-2482ae85881b957 Bernd Schubert 2025-10-13  1337  
-2482ae85881b957 Bernd Schubert 2025-10-13  1338  		if (weight == -1)
-2482ae85881b957 Bernd Schubert 2025-10-13  1339  			weight = cpumask_weight(numa_mask);
-2482ae85881b957 Bernd Schubert 2025-10-13  1340  
-2482ae85881b957 Bernd Schubert 2025-10-13  1341  		if (weight == 0)
-2482ae85881b957 Bernd Schubert 2025-10-13  1342  			goto global;
+e7792ce2da5ded8 drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark        2013-01-08  1694  
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1695  static int tda998x_get_audio_ports(struct tda998x_priv *priv,
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1696  				   struct device_node *np)
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1697  {
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1698  	const u32 *port_data;
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1699  	u32 size;
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1700  	int i;
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1701  
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1702  	port_data = of_get_property(np, "audio-ports", &size);
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1703  	if (!port_data)
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1704  		return 0;
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1705  
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1706  	size /= sizeof(u32);
+7168916072b5493 drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1707  	if (size > 2 * ARRAY_SIZE(priv->audio_port_enable) || size % 2 != 0) {
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1708  		dev_err(&priv->hdmi->dev,
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1709  			"Bad number of elements in audio-ports dt-property\n");
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1710  		return -EINVAL;
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1711  	}
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1712  
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1713  	size /= 2;
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1714  
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09 @1715  	for (i = 0; i < size; i++) {
+7168916072b5493 drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1716  		unsigned int route;
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1717  		u8 afmt = be32_to_cpup(&port_data[2*i]);
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1718  		u8 ena_ap = be32_to_cpup(&port_data[2*i+1]);
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1719  
+7168916072b5493 drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1720  		switch (afmt) {
+b7c5169ab9ddc34 drivers/gpu/drm/i2c/tda998x_drv.c Dmitry Baryshkov 2025-01-13  1721  		case TDA998x_I2S:
+7168916072b5493 drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1722  			route = AUDIO_ROUTE_I2S;
+7168916072b5493 drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1723  			break;
+b7c5169ab9ddc34 drivers/gpu/drm/i2c/tda998x_drv.c Dmitry Baryshkov 2025-01-13  1724  		case TDA998x_SPDIF:
+7168916072b5493 drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1725  			route = AUDIO_ROUTE_SPDIF;
+7168916072b5493 drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1726  			break;
+7168916072b5493 drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1727  		default:
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1728  			dev_err(&priv->hdmi->dev,
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1729  				"Bad audio format %u\n", afmt);
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1730  			return -EINVAL;
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1731  		}
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1732  
+125a4f9394c769b drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1733  		if (!ena_ap) {
+125a4f9394c769b drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1734  			dev_err(&priv->hdmi->dev, "invalid zero port config\n");
+125a4f9394c769b drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1735  			continue;
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1736  		}
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1737  
+7168916072b5493 drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1738  		if (priv->audio_port_enable[route]) {
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1739  			dev_err(&priv->hdmi->dev,
+125a4f9394c769b drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1740  				"%s format already configured\n",
+125a4f9394c769b drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1741  				route == AUDIO_ROUTE_SPDIF ? "SPDIF" : "I2S");
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1742  			return -EINVAL;
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1743  		}
+7168916072b5493 drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1744  
+7168916072b5493 drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1745  		priv->audio_port_enable[route] = ena_ap;
+7168916072b5493 drivers/gpu/drm/i2c/tda998x_drv.c Russell King     2019-03-01  1746  	}
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09 @1747  	return 0;
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1748  }
+7e567624dc5a442 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha       2016-08-09  1749  
 
-best_numa not set on this path.
+:::::: The code at line 1715 was first introduced by commit
+:::::: 7e567624dc5a44276d9df253f5ca829d911b4e93 drm/i2c: tda998x: Register ASoC hdmi-codec and add audio DT binding
 
-2482ae85881b957 Bernd Schubert 2025-10-13  1343  
-2482ae85881b957 Bernd Schubert 2025-10-13  1344  		if (weight > 1) {
-2482ae85881b957 Bernd Schubert 2025-10-13  1345  			int idx = (qid + 1) % weight;
-2482ae85881b957 Bernd Schubert 2025-10-13  1346  
-2482ae85881b957 Bernd Schubert 2025-10-13  1347  			qid = cpumask_nth(idx, numa_mask);
-2482ae85881b957 Bernd Schubert 2025-10-13  1348  		} else {
-2482ae85881b957 Bernd Schubert 2025-10-13  1349  			qid = cpumask_first(numa_mask);
-2482ae85881b957 Bernd Schubert 2025-10-13  1350  		}
-2482ae85881b957 Bernd Schubert 2025-10-13  1351  
-2482ae85881b957 Bernd Schubert 2025-10-13  1352  		local_queue = READ_ONCE(ring->queues[qid]);
-2482ae85881b957 Bernd Schubert 2025-10-13  1353  		if (WARN_ON_ONCE(!local_queue))
-2482ae85881b957 Bernd Schubert 2025-10-13  1354  			return NULL;
-2482ae85881b957 Bernd Schubert 2025-10-13  1355  	}
-2482ae85881b957 Bernd Schubert 2025-10-13  1356  
-2482ae85881b957 Bernd Schubert 2025-10-13  1357  	if (READ_ONCE(local_queue->nr_reqs) <= FURING_Q_NUMA_THRESHOLD)
-aca09b212467554 Bernd Schubert 2025-10-13  1358  		return local_queue;
-aca09b212467554 Bernd Schubert 2025-10-13  1359  
-2482ae85881b957 Bernd Schubert 2025-10-13  1360  	if (retries < FURING_NEXT_QUEUE_RETRIES && weight > retries + 1) {
-2482ae85881b957 Bernd Schubert 2025-10-13  1361  		retries++;
-2482ae85881b957 Bernd Schubert 2025-10-13  1362  		local_queue = NULL;
-2482ae85881b957 Bernd Schubert 2025-10-13  1363  		goto retry;
-2482ae85881b957 Bernd Schubert 2025-10-13  1364  	}
-2482ae85881b957 Bernd Schubert 2025-10-13  1365  
-aca09b212467554 Bernd Schubert 2025-10-13  1366  	/* Find best NUMA-local queue */
-aca09b212467554 Bernd Schubert 2025-10-13  1367  	numa_mask = ring->numa_registered_q_mask[local_node];
-aca09b212467554 Bernd Schubert 2025-10-13  1368  	best_numa = fuse_uring_best_queue(numa_mask, ring);
-aca09b212467554 Bernd Schubert 2025-10-13  1369  
-aca09b212467554 Bernd Schubert 2025-10-13  1370  	/* If NUMA queue is under threshold, use it */
-aca09b212467554 Bernd Schubert 2025-10-13  1371  	if (best_numa &&
-aca09b212467554 Bernd Schubert 2025-10-13  1372  	    READ_ONCE(best_numa->nr_reqs) <= FURING_Q_NUMA_THRESHOLD)
-aca09b212467554 Bernd Schubert 2025-10-13  1373  		return best_numa;
-aca09b212467554 Bernd Schubert 2025-10-13  1374  
-2482ae85881b957 Bernd Schubert 2025-10-13  1375  global:
-aca09b212467554 Bernd Schubert 2025-10-13  1376  	/* NUMA queues above threshold, try global queues */
-aca09b212467554 Bernd Schubert 2025-10-13  1377  	global_mask = ring->registered_q_mask;
-aca09b212467554 Bernd Schubert 2025-10-13  1378  	best_global = fuse_uring_best_queue(global_mask, ring);
-aca09b212467554 Bernd Schubert 2025-10-13  1379  
-aca09b212467554 Bernd Schubert 2025-10-13  1380  	/* Might happen during tear down */
-aca09b212467554 Bernd Schubert 2025-10-13  1381  	if (!best_global)
-aca09b212467554 Bernd Schubert 2025-10-13  1382  		return NULL;
-aca09b212467554 Bernd Schubert 2025-10-13  1383  
-aca09b212467554 Bernd Schubert 2025-10-13  1384  	/* If global queue is under double threshold, use it */
-aca09b212467554 Bernd Schubert 2025-10-13  1385  	if (READ_ONCE(best_global->nr_reqs) <= FURING_Q_GLOBAL_THRESHOLD)
-aca09b212467554 Bernd Schubert 2025-10-13  1386  		return best_global;
-aca09b212467554 Bernd Schubert 2025-10-13  1387  
-aca09b212467554 Bernd Schubert 2025-10-13  1388  	/* There is no ideal queue, stay numa_local if possible */
-aca09b212467554 Bernd Schubert 2025-10-13 @1389  	return best_numa ? best_numa : best_global;
-                                                               ^^^^^^^^^
-Uninitialized
-
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1390  }
+:::::: TO: Jyri Sarha <jsarha@ti.com>
+:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
