@@ -1,145 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD58D346775
-	for <oe-kbuild@lists.linux.dev>; Tue, 21 Oct 2025 16:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22164346E4D
+	for <oe-kbuild@lists.linux.dev>; Tue, 21 Oct 2025 16:49:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761064051; cv=none; b=m5ye5Ij664856aBXfgHt2LM2hjmuVQ68NOXoStt1xJINVWjb+JiRalcGBDhMuHikJyWeCqgKEYLc4Zc4F4rX22iHDROznLT8+dsA+4G/0TwEdV8U6uwSqcku1ffu+4DbQUXXWmec+XJ+OdOW1ZLBhE72Jqy9lpixiteLgO6zry4=
+	t=1761065379; cv=none; b=OqaNWd7FuXKCvV7kG5lzePkYiJSK/1PoCO1Gkg1S5Z77FtpvKd7cDeVoufDICOu9Bg1gvig61azwK5ADXkBPQAEwufSwGiDxdVWo8F8z70GThgCADb+aTEfBmh31zJDq0Dudei8z/UXNsSRufE4WMss1pbV18dyxo/nWayjM5bU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761064051; c=relaxed/simple;
-	bh=ONIPlBZqpv0kRWbH0iq8gxEshKaPHtdws1UXdM29Ou0=;
+	s=arc-20240116; t=1761065379; c=relaxed/simple;
+	bh=g+liIPmZ1gBidqtvkpuZFdmef5DeH8f0dbiQ+jR83zY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UxfzkmbXpVjegg8vPsDm06+TBsmC5FJG5UAZN4eYCHuRJ0I5Z4EEhkz3yRjDQPH7ozTY0d/bXag4iXnBapIBngJHCeJsqQi8yYVyf+sF8e9Ga6Pmgm3U6XZWi6Gc85ztaTAgQlFFYzRdgzYiXSeLJ/CWybo0DFBHflJTsS7uxeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X5LW2ln7; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=Tz4cGN5Vh5l2Jnhi9IqFKl34mUom3x1b1e/BoTskLJIKgukJ7ezTJ5P3GnBUqYr0TCRhUuI4OLR17qEAAGDXtwLmZ4w+/U0V8t5sbgmGeZpAUtrsVEkurVC17N7HDM3nKHC4CDvQpdjV9xj5NOJZNEjxuM6ARa+P34M7QdR7R4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YCpeLZ1S; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X5LW2ln7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YCpeLZ1S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761064050; x=1792600050;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ONIPlBZqpv0kRWbH0iq8gxEshKaPHtdws1UXdM29Ou0=;
-  b=X5LW2ln7z/CfyyK9cPz5hgyecxG8dRzArOSUuQG2DngO2L+SVnySOXA5
-   BJmmC44YOumBQ7hZtXjwUqOL5OlI7RdpfPApomnJY9m0lMsvpaOcZVifD
-   3TYiS9oVv1rTOtlmOqBeCer/PN70TtqlnDN5/ubUTbVqZAar7PGdod+qC
-   Pi01HXTfn5/kOcYj3WuotNLnRfaTxDHZN/pyD5MQFlQ7PWB4V1FLyit2d
-   BBH9wtZeiAIavy8Dlt9AAscvzWRAlpZK7WEoa8P9o/ZnujbqpbSiUD8Di
-   kgLBgFuJB1yH38MhhbMs2DnL/cq6tgC7XVW2+oj6FDUslEE14H4hTosoI
-   g==;
-X-CSE-ConnectionGUID: F9PUIGndQfmJ4JwTSZQOew==
-X-CSE-MsgGUID: co7CtOEAQgu29rWO1zV7ew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66837179"
+  t=1761065379; x=1792601379;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=g+liIPmZ1gBidqtvkpuZFdmef5DeH8f0dbiQ+jR83zY=;
+  b=YCpeLZ1SYGVOukrL3oRYL2Xj+VY4h4GWl25QjVBVlHRgFm9wdDoKD7hU
+   qubrr0ebNWovdOiv+z4OSd4coEZa+gTBf6oC01ExX6Kpi8M/GbCsT4Jb8
+   zZy3EUOLPCchYLJeFqZ9gzcrk3XdO4dM+9pK6ySHFlWw5EYX2xX+1xE44
+   dn0REkI+4t0SDGWZ84wQiNiY7s5NVKLis6Q0h1h86yWPENpzbPYbamI+L
+   85LjCRK3AYZBBXHmt75eT7fVLJ3xPlYrPFpdmtKJ+EdLVdj+3KkQkTFXH
+   fvL1XXGX+gHbKByNZG9bVuZsk1gn3Pr2qLyy1T0vD1Ku3AGszT2vGw4lo
+   Q==;
+X-CSE-ConnectionGUID: xLpcYyxDTMOgrEx7lY5Agg==
+X-CSE-MsgGUID: omtPgV4XTliUmpupC8kqBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63095784"
 X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="66837179"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 09:27:29 -0700
-X-CSE-ConnectionGUID: NF7aeHwITHa+8ClYW+OAAA==
-X-CSE-MsgGUID: KaorsFBVQOujRdCVHCwOEQ==
+   d="scan'208";a="63095784"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 09:49:38 -0700
+X-CSE-ConnectionGUID: WrNHghzISPWjPO/2EZPfww==
+X-CSE-MsgGUID: 9p/aqx5vRHe25W4yC2fmrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="184034160"
+   d="scan'208";a="207310071"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Oct 2025 09:27:28 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 21 Oct 2025 09:49:35 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBFCn-000B0z-20;
-	Tue, 21 Oct 2025 16:27:25 +0000
-Date: Wed, 22 Oct 2025 00:26:55 +0800
+	id 1vBFYD-000B29-18;
+	Tue, 21 Oct 2025 16:49:33 +0000
+Date: Wed, 22 Oct 2025 00:49:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: kernel/bpf/stream.c:321:42: sparse: signed value source
-Message-ID: <202510220208.J1Tc2n2L-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 5/7] drm/client: Remove drm_client_framebuffer_delete()
+Message-ID: <202510220056.J4uIVWxn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/bpf/stream.c:321:42: sparse: signed value source"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-CC: Alexei Starovoitov <ast@kernel.org>
-CC: Eduard Zingerman <eddyz87@gmail.com>
-CC: Emil Tsalapatis <emil@etsalapatis.com>
+In-Reply-To: <20251020151402.53013-6-tzimmermann@suse.de>
+References: <20251020151402.53013-6-tzimmermann@suse.de>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+TO: jfalempe@redhat.com
+TO: javierm@redhat.com
+TO: rrameshbabu@nvidia.com
+TO: maarten.lankhorst@linux.intel.com
+TO: mripard@kernel.org
+TO: airlied@gmail.com
+TO: simona@ffwll.ch
+CC: dri-devel@lists.freedesktop.org
+CC: Thomas Zimmermann <tzimmermann@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6548d364a3e850326831799d7e3ea2d7bb97ba08
-commit: 5ab154f1463a111e1dc8fd5d31eaa7a2a71fe2e6 bpf: Introduce BPF standard streams
-date:   4 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 4 months ago
-config: um-randconfig-r123-20251021 (https://download.01.org/0day-ci/archive/20251022/202510220208.J1Tc2n2L-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510220208.J1Tc2n2L-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.18-rc2 next-20251021]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-client-Remove-pitch-from-struct-drm_client_buffer/20251020-231709
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20251020151402.53013-6-tzimmermann%40suse.de
+patch subject: [PATCH 5/7] drm/client: Remove drm_client_framebuffer_delete()
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
+config: openrisc-randconfig-r072-20251021 (https://download.01.org/0day-ci/archive/20251022/202510220056.J4uIVWxn-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510220208.J1Tc2n2L-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202510220056.J4uIVWxn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/bpf/stream.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> kernel/bpf/stream.c:321:42: sparse: signed value source
+smatch warnings:
+drivers/gpu/drm/drm_client.c:185 drm_client_buffer_delete() warn: variable dereferenced before check 'buffer' (see line 182)
 
-vim +321 kernel/bpf/stream.c
+vim +/buffer +185 drivers/gpu/drm/drm_client.c
 
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  296  
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  297  static int bpf_stream_read(struct bpf_stream *stream, void __user *buf, int len)
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  298  {
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  299  	int rem_len = len, cons_len, ret = 0;
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  300  	struct bpf_stream_elem *elem = NULL;
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  301  	struct llist_node *node;
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  302  
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  303  	mutex_lock(&stream->lock);
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  304  
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  305  	while (rem_len) {
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  306  		int pos = len - rem_len;
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  307  		bool cont;
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  308  
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  309  		node = bpf_stream_backlog_peek(stream);
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  310  		if (!node) {
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  311  			bpf_stream_backlog_fill(stream);
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  312  			node = bpf_stream_backlog_peek(stream);
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  313  		}
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  314  		if (!node)
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  315  			break;
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  316  		elem = container_of(node, typeof(*elem), node);
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  317  
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  318  		cons_len = elem->consumed_len;
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  319  		cont = bpf_stream_consume_elem(elem, &rem_len) == false;
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  320  
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03 @321  		ret = copy_to_user(buf + pos, elem->str + cons_len,
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  322  				   elem->consumed_len - cons_len);
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  323  		/* Restore in case of error. */
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  324  		if (ret) {
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  325  			ret = -EFAULT;
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  326  			elem->consumed_len = cons_len;
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  327  			break;
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  328  		}
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  329  
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  330  		if (cont)
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  331  			continue;
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  332  		bpf_stream_backlog_pop(stream);
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  333  		bpf_stream_release_capacity(stream, elem);
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  334  		bpf_stream_free_elem(elem);
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  335  	}
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  336  
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  337  	mutex_unlock(&stream->lock);
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  338  	return ret ? ret : len - rem_len;
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  339  }
-5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  340  
+c76f0f7cb546b6 Noralf Trønnes    2018-07-03  175  
+449148a7300b8b Thomas Zimmermann 2025-10-20  176  /**
+449148a7300b8b Thomas Zimmermann 2025-10-20  177   * drm_client_buffer_delete - Delete a client buffer
+449148a7300b8b Thomas Zimmermann 2025-10-20  178   * @buffer: DRM client buffer
+449148a7300b8b Thomas Zimmermann 2025-10-20  179   */
+449148a7300b8b Thomas Zimmermann 2025-10-20  180  void drm_client_buffer_delete(struct drm_client_buffer *buffer)
+c76f0f7cb546b6 Noralf Trønnes    2018-07-03  181  {
+95d6cf3a3cf1a1 Thomas Zimmermann 2025-10-20 @182  	struct drm_gem_object *gem = drm_gem_fb_get_obj(buffer->fb, 0);
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  183  	int ret;
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  184  
+449148a7300b8b Thomas Zimmermann 2025-10-20 @185  	if (!buffer)
+449148a7300b8b Thomas Zimmermann 2025-10-20  186  		return;
+449148a7300b8b Thomas Zimmermann 2025-10-20  187  
+95d6cf3a3cf1a1 Thomas Zimmermann 2025-10-20  188  	drm_gem_vunmap(gem, &buffer->map);
+95d6cf3a3cf1a1 Thomas Zimmermann 2025-10-20  189  
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  190  	ret = drm_mode_rmfb(buffer->client->dev, buffer->fb->base.id, buffer->client->file);
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  191  	if (ret)
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  192  		drm_err(buffer->client->dev,
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  193  			"Error removing FB:%u (%d)\n", buffer->fb->base.id, ret);
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  194  
+be6ee102341bc4 Emil Velikov      2020-05-15  195  	drm_gem_object_put(buffer->gem);
+c76f0f7cb546b6 Noralf Trønnes    2018-07-03  196  
+c76f0f7cb546b6 Noralf Trønnes    2018-07-03  197  	kfree(buffer);
+c76f0f7cb546b6 Noralf Trønnes    2018-07-03  198  }
+449148a7300b8b Thomas Zimmermann 2025-10-20  199  EXPORT_SYMBOL(drm_client_buffer_delete);
+c76f0f7cb546b6 Noralf Trønnes    2018-07-03  200  
 
 -- 
 0-DAY CI Kernel Test Service
