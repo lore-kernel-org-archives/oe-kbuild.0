@@ -1,57 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CB333A027
-	for <oe-kbuild@lists.linux.dev>; Tue, 21 Oct 2025 14:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565E1334C37
+	for <oe-kbuild@lists.linux.dev>; Tue, 21 Oct 2025 14:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761055803; cv=none; b=nSQ/pKHaJ3X9JgdGJshu/OjCP57/Btq3KLu43LB6ySFQ3ovb9ximN1EjRqlni9Tt75hWiXktMCSTms656KhEbMRU3Oa/KMjXNAwApzuxjkFmwMpMWKoNa27Kfc8wFIcZrsuYbS+BvGa1mNny3r70Bt/XrfJqAtCZYO/2pas+trE=
+	t=1761056111; cv=none; b=u1eCDItvfTb+kqY9MxSX1LzXTXF26m+JxJgElUork8YRq/IYDisQi8ay+rnuJtlMplQ3wMka7swAPUlEKGqeKKp7fTw5C8T9zhsR9TN5Pr1dEXCswDJUpHV58vDr4ot4jRpW6Cjqz2x8R71hS/et2FKFf++vN9AsO0kruN7BizY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761055803; c=relaxed/simple;
-	bh=bdq6dXjmmcEiMVrV7iPdouORdXREzjktO2LJmLWyc2U=;
+	s=arc-20240116; t=1761056111; c=relaxed/simple;
+	bh=wnd5bfNfiizPv1q7k3Gi47EIxiAqC/A19yc9U4Hg/CI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XDwLEd+jdUpNtFaO5Yd/T/18Pln6mAWiYElQnCkK6twhBANPmUFlzFSOEv1A0vob5FJ7DY7n3D5kn/KvqtpW4/+AR0Gi+XWSO7zRyQIu+muSN/Fu2Qqh2nDjnrBHbWAWX98gqptYVERB+PYn1AgNpbZyTKX/Yh+/SwmaYZwxbUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SXWBPD4O; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=QijA/JEo63OFXe2wkAGLLxHFSctniFrtlY5DycrxuM9M8UMEu1nsa2DyCOT6XpU9ciMJ5srdFAqpXrDdEdSDIoR0ugVAvO2+zKkkvBUmFqGpkrULwWSXaETRExOdPJi7g+pbZC7W8XvvLdt5WLzznbQDoeCcjwnzKamBp3Va0I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gsN7EJMq; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SXWBPD4O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761055801; x=1792591801;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bdq6dXjmmcEiMVrV7iPdouORdXREzjktO2LJmLWyc2U=;
-  b=SXWBPD4Oucv6ikCxaZ41FWROixmOQFFFEfmdVA+u2UXE/W0MBIkY/mc9
-   udmYl80PYHxpZF62jFhGKsPteyCX0EPeKgQdpvZ1icJQsM3IifeQt2Rtq
-   JG52xcdReCw4nKN2ldACPiAE5YU8DrWzhvebNddb1hN5nnP9Ttjw7aDiO
-   CW37dKhLj374QQH/0ColWRLpjaDIIx8GT+kbhA5LeXaXGfQ78OFFLG/Gf
-   g31Ihh6cegxHrHgbAAviNIcx1B1KT+KRRh51grLBI4xuopUj2ZZPFZe6X
-   KA97fcMPN0/c9yj6XOR7PXgDqaR0KOPg+wIfB1XGqkyp+ztjzvCqPwzmQ
-   g==;
-X-CSE-ConnectionGUID: zfP7osMFQXGg6j7XC+ls3A==
-X-CSE-MsgGUID: X13gtclBSIiGAt+Mququ5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63221765"
-X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="63221765"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 07:10:00 -0700
-X-CSE-ConnectionGUID: +KUYTr3xT+SN55Zz37BOiw==
-X-CSE-MsgGUID: c0DwhzRcQWapro4MlOZR6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="214231148"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 21 Oct 2025 07:09:58 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBD3k-000AtO-02;
-	Tue, 21 Oct 2025 14:09:56 +0000
-Date: Tue, 21 Oct 2025 22:09:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/ata/libata-scsi.c:423:27: sparse: signed value source
-Message-ID: <202510220022.loXSV3je-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gsN7EJMq"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4285169c005so312385f8f.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 21 Oct 2025 07:15:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761056106; x=1761660906; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=e/dqpTPnvV8iWWmqMGgRLH33p/ANKaib0nnfEtLriAI=;
+        b=gsN7EJMqNtcgv2ghmYgWPAVIuH0FNud1MeEicaUTQVh4RX1qB42d3gSEOqvpWBa/C8
+         JiEQ0lC+z0+koS6vgRbuayUcoIX5DA9NhN4nbR3dd9HDtWlOhIaeWH4u6vrLA3VRoL95
+         CZMHWQrJAFuU4pz5y+nd2WEkB5hLT0paYIzrrvt8sMssrDCSCBxzmwlTUECVjQMrBvZe
+         3K0fEpv+3WPsc7yVNVr5CpadAjZZs8OQrtdw+TzMFgLJxpSkxdSmhimNaky16tXjCN7A
+         Hv8Faf6Qqaxj2TK52wSGCYOzKPepRe/M6DKtGeriICQyZ9CyyLF4UYutNAsSc+luSF0e
+         6ibw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761056106; x=1761660906;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e/dqpTPnvV8iWWmqMGgRLH33p/ANKaib0nnfEtLriAI=;
+        b=VG++ryp7LsWf3P80EXuOuFxFA0VvwOiGSJ5Qrvoo+czP5yN36wGfUR77cziL03fPZ+
+         BeTRmR2DNd3lauT1Xxt1lbpYS57z9/TD7se7GshciCiOwTfl8fYg9/WzILPLemjgwjmS
+         ZpUTthVZBs7bF3EJ96WJTPgZ3RTVULWHXImMgoS1obiT5H5JJDI6+OZH2YdaVotQxEGc
+         NRdbJ+xqjK+LgBOf9zFL+Ww7HstrC/ozzpPGQ6zo9EuMdfuKl7zrsxtFOluVwrNd7NfS
+         1CcHTR/FVF8Vhk508682a9sFuSnkBYNxrkst8QiYBm5w5q2WcAcVymTif1W7mWRyfn7o
+         i1ZQ==
+X-Gm-Message-State: AOJu0Yxf0IKsB/4aehLZhnCmPi1fWO9XySqA27o8NY5cm7Pu+vI33bQJ
+	FOWG6sSGsSBuRohx61WYSorps2ag/+2A8kLGrU1v4TecTmZ38OarrjE/dIr/pNmQRmrYce1jJHH
+	P70sA
+X-Gm-Gg: ASbGncu/RUfwfMfhoFvGRnYEMcICBNUBq18PuK0eehlgWY9ZxObIxFQDZw7D6R4IcF6
+	YagulT6lu6ECdVkMy6xy37zGc/SFziBLVPmpoAkNfRX9IYygtb2hhJyXbr9E2mRM1VtYotRQw8v
+	s4qHqpYUdPfxDBunC27jW/v9NDu4Ob8AzlT78vNN2TtFNdo4gGMJotov7i1KjKTwW5WULIDtc/z
+	6LepQcMRqa9/dy7ojSNJTi94R8zOhA8UHMfu+u+OCFTgYDS01mBp1ikczpqtiPPfx82j2cPOumo
+	Nb64fpUk7EvOQ6rHm/a27rs91XYXykN2D4uOHm5OVnEXsQRx0sd00ZLc6kK/xVTfXfjQbMeezHz
+	SybgtEKW3G+hLIKIRlp+T+/eUCJNesRNkovU+h7P93DHdG0VAhez2u2Mz/fWHVOE2flSB2MFeJF
+	Y70sOZULTbKkXMP5yP
+X-Google-Smtp-Source: AGHT+IHCNZ/tdeM6x90rsmi2VCTmRefM5mCM/ZgV62wABJXCvN9MGq3+VgVSrxQSIurd14j6LlHgGg==
+X-Received: by 2002:a5d:5f82:0:b0:3fa:5925:4b07 with SMTP id ffacd0b85a97d-42704d74f9fmr10437179f8f.18.1761056106262;
+        Tue, 21 Oct 2025 07:15:06 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427f00ce3e2sm20554878f8f.47.2025.10.21.07.15.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 07:15:05 -0700 (PDT)
+Date: Tue, 21 Oct 2025 17:15:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+	Jie Zhang <quic_jiezh@quicinc.com>
+Subject: Re: [PATCH 1/6] drm/msm/a6xx: Add support for Adreno 612
+Message-ID: <202510212140.4YWihsB7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,422 +91,84 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251017-qcs615-spin-2-v1-1-0baa44f80905@oss.qualcomm.com>
+Message-ID: <20251021141502.3DOhfSmU14E5gzXwgb8JPNZ5_RtrrURTPvpASbqbQHk@z>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/ata/libata-scsi.c:423:27: sparse: signed value source"
-:::::: 
+Hi Akhil,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Tiwei Bie <tiwei.btw@antgroup.com>
-CC: Johannes Berg <johannes.berg@intel.com>
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6548d364a3e850326831799d7e3ea2d7bb97ba08
-commit: a0e2cb6a90634f3dc80f16e882a683ee5761b0b0 um: Add VFIO-based virtual PCI driver
-date:   6 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 6 months ago
-config: um-randconfig-r123-20251021 (https://download.01.org/0day-ci/archive/20251022/202510220022.loXSV3je-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510220022.loXSV3je-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-P-Oommen/drm-msm-a6xx-Add-support-for-Adreno-612/20251018-011020
+base:   cb6649f6217c0331b885cf787f1d175963e2a1d2
+patch link:    https://lore.kernel.org/r/20251017-qcs615-spin-2-v1-1-0baa44f80905%40oss.qualcomm.com
+patch subject: [PATCH 1/6] drm/msm/a6xx: Add support for Adreno 612
+config: powerpc-randconfig-r073-20251021 (https://download.01.org/0day-ci/archive/20251021/202510212140.4YWihsB7-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510220022.loXSV3je-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202510212140.4YWihsB7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/ata/libata-scsi.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/ata/libata-scsi.c:423:27: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/ata/libata-scsi.c:433:30: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/ata/libata-scsi.c:437:30: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/ata/libata-scsi.c:441:30: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/ata/libata-scsi.c:548:32: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/ata/libata-scsi.c:671:24: sparse: signed value source
---
-   drivers/char/ipmi/ipmi_devintf.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/char/ipmi/ipmi_devintf.c:149:35: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/char/ipmi/ipmi_devintf.c:166:13: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/char/ipmi/ipmi_devintf.c:234:26: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/char/ipmi/ipmi_devintf.c:256:34: sparse: signed value source
---
-   drivers/hwmon/w83793.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/hwmon/w83793.c:1370:37: sparse: signed value source
---
-   drivers/block/mtip32xx/mtip32xx.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/block/mtip32xx/mtip32xx.c:1901:40: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/block/mtip32xx/mtip32xx.c:1907:40: sparse: signed value source
---
-   drivers/misc/tps6594-pfsm.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/misc/tps6594-pfsm.c:71:21: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/misc/tps6594-pfsm.c:97:21: sparse: signed value source
---
-   drivers/nvdimm/bus.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/nvdimm/bus.c:1117:65: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/nvdimm/bus.c:1154:54: sparse: signed value source
---
-   include/linux/rio.h:204:34: sparse: sparse: array of flexible structures
-   drivers/rapidio/rio_cm.c:385:17: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:385:17: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:385:17: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:385:17: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:404:23: sparse: sparse: cast to restricted __be32
-   drivers/rapidio/rio_cm.c:404:23: sparse: sparse: cast to restricted __be32
-   drivers/rapidio/rio_cm.c:404:23: sparse: sparse: cast to restricted __be32
-   drivers/rapidio/rio_cm.c:404:23: sparse: sparse: cast to restricted __be32
-   drivers/rapidio/rio_cm.c:404:23: sparse: sparse: cast to restricted __be32
-   drivers/rapidio/rio_cm.c:404:23: sparse: sparse: cast to restricted __be32
-   drivers/rapidio/rio_cm.c:405:21: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:405:21: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:405:21: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:405:21: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:431:17: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:431:17: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:431:17: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:431:17: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:442:27: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:442:27: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:442:27: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:442:27: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:463:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:463:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:463:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:463:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:466:32: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:466:32: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:466:32: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:466:32: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:497:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:497:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:497:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:497:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:497:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:497:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:497:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:497:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:535:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:535:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:535:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:535:9: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:537:32: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:537:32: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:537:32: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:537:32: sparse: sparse: cast to restricted __be16
-   drivers/rapidio/rio_cm.c:809:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] src_id @@     got restricted __be32 [usertype] @@
-   drivers/rapidio/rio_cm.c:809:26: sparse:     expected unsigned int [usertype] src_id
-   drivers/rapidio/rio_cm.c:809:26: sparse:     got restricted __be32 [usertype]
-   drivers/rapidio/rio_cm.c:810:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dst_id @@     got restricted __be32 [usertype] @@
-   drivers/rapidio/rio_cm.c:810:26: sparse:     expected unsigned int [usertype] dst_id
-   drivers/rapidio/rio_cm.c:810:26: sparse:     got restricted __be32 [usertype]
-   drivers/rapidio/rio_cm.c:815:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dst_ch @@     got restricted __be16 [usertype] @@
-   drivers/rapidio/rio_cm.c:815:21: sparse:     expected unsigned short [usertype] dst_ch
-   drivers/rapidio/rio_cm.c:815:21: sparse:     got restricted __be16 [usertype]
-   drivers/rapidio/rio_cm.c:816:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] src_ch @@     got restricted __be16 [usertype] @@
-   drivers/rapidio/rio_cm.c:816:21: sparse:     expected unsigned short [usertype] src_ch
-   drivers/rapidio/rio_cm.c:816:21: sparse:     got restricted __be16 [usertype]
-   drivers/rapidio/rio_cm.c:817:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] msg_len @@     got restricted __be16 [usertype] @@
-   drivers/rapidio/rio_cm.c:817:22: sparse:     expected unsigned short [usertype] msg_len
-   drivers/rapidio/rio_cm.c:817:22: sparse:     got restricted __be16 [usertype]
-   drivers/rapidio/rio_cm.c:977:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] src_id @@     got restricted __be32 [usertype] @@
-   drivers/rapidio/rio_cm.c:977:26: sparse:     expected unsigned int [usertype] src_id
-   drivers/rapidio/rio_cm.c:977:26: sparse:     got restricted __be32 [usertype]
-   drivers/rapidio/rio_cm.c:978:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dst_id @@     got restricted __be32 [usertype] @@
-   drivers/rapidio/rio_cm.c:978:26: sparse:     expected unsigned int [usertype] dst_id
-   drivers/rapidio/rio_cm.c:978:26: sparse:     got restricted __be32 [usertype]
-   drivers/rapidio/rio_cm.c:983:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dst_ch @@     got restricted __be16 [usertype] @@
-   drivers/rapidio/rio_cm.c:983:21: sparse:     expected unsigned short [usertype] dst_ch
-   drivers/rapidio/rio_cm.c:983:21: sparse:     got restricted __be16 [usertype]
-   drivers/rapidio/rio_cm.c:984:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] src_ch @@     got restricted __be16 [usertype] @@
-   drivers/rapidio/rio_cm.c:984:21: sparse:     expected unsigned short [usertype] src_ch
-   drivers/rapidio/rio_cm.c:984:21: sparse:     got restricted __be16 [usertype]
-   drivers/rapidio/rio_cm.c:1032:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] src_id @@     got restricted __be32 [usertype] @@
-   drivers/rapidio/rio_cm.c:1032:26: sparse:     expected unsigned int [usertype] src_id
-   drivers/rapidio/rio_cm.c:1032:26: sparse:     got restricted __be32 [usertype]
-   drivers/rapidio/rio_cm.c:1033:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dst_id @@     got restricted __be32 [usertype] @@
-   drivers/rapidio/rio_cm.c:1033:26: sparse:     expected unsigned int [usertype] dst_id
-   drivers/rapidio/rio_cm.c:1033:26: sparse:     got restricted __be32 [usertype]
-   drivers/rapidio/rio_cm.c:1034:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dst_ch @@     got restricted __be16 [usertype] @@
-   drivers/rapidio/rio_cm.c:1034:21: sparse:     expected unsigned short [usertype] dst_ch
-   drivers/rapidio/rio_cm.c:1034:21: sparse:     got restricted __be16 [usertype]
-   drivers/rapidio/rio_cm.c:1035:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] src_ch @@     got restricted __be16 [usertype] @@
-   drivers/rapidio/rio_cm.c:1035:21: sparse:     expected unsigned short [usertype] src_ch
-   drivers/rapidio/rio_cm.c:1035:21: sparse:     got restricted __be16 [usertype]
-   drivers/rapidio/rio_cm.c:1406:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] src_id @@     got restricted __be32 [usertype] @@
-   drivers/rapidio/rio_cm.c:1406:26: sparse:     expected unsigned int [usertype] src_id
-   drivers/rapidio/rio_cm.c:1406:26: sparse:     got restricted __be32 [usertype]
-   drivers/rapidio/rio_cm.c:1407:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dst_id @@     got restricted __be32 [usertype] @@
-   drivers/rapidio/rio_cm.c:1407:26: sparse:     expected unsigned int [usertype] dst_id
-   drivers/rapidio/rio_cm.c:1407:26: sparse:     got restricted __be32 [usertype]
-   drivers/rapidio/rio_cm.c:1412:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dst_ch @@     got restricted __be16 [usertype] @@
-   drivers/rapidio/rio_cm.c:1412:21: sparse:     expected unsigned short [usertype] dst_ch
-   drivers/rapidio/rio_cm.c:1412:21: sparse:     got restricted __be16 [usertype]
-   drivers/rapidio/rio_cm.c:1413:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] src_ch @@     got restricted __be16 [usertype] @@
-   drivers/rapidio/rio_cm.c:1413:21: sparse:     expected unsigned short [usertype] src_ch
-   drivers/rapidio/rio_cm.c:1413:21: sparse:     got restricted __be16 [usertype]
-   drivers/rapidio/rio_cm.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/rapidio/rio_cm.c:1533:25: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/rapidio/rio_cm.c:1660:25: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/rapidio/rio_cm.c:1660:25: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/rapidio/rio_cm.c:1686:25: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/rapidio/rio_cm.c:1734:25: sparse: signed value source
---
-   drivers/infiniband/core/uverbs_main.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/infiniband/core/uverbs_main.c:602:51: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_main.c:642:31: sparse: signed value source
---
-   drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected int ( *handler )( ... ) @@     got int ( [noderef] * )( ... ) @@
-   drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse:     expected int ( *handler )( ... )
-   drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse:     got int ( [noderef] * )( ... )
-   drivers/infiniband/core/uverbs_ioctl.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/infiniband/core/uverbs_ioctl.c:160:13: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_ioctl.c:341:29: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_ioctl.c:449:45: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_ioctl.c:831:71: sparse: signed value source
---
-   drivers/infiniband/core/uverbs_cmd.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/infiniband/core/uverbs_cmd.c:68:26: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_cmd.c:77:56: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_cmd.c:95:33: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_cmd.c:139:33: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_cmd.c:150:13: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_cmd.c:1213:22: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_cmd.c:2065:59: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_cmd.c:2173:64: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_cmd.c:2248:56: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_cmd.c:2287:64: sparse: signed value source
-   drivers/infiniband/core/uverbs_cmd.c:3753:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3753:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3753:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3753:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3767:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3767:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3776:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3821:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3821:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3821:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3821:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3821:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3821:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3821:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3821:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3851:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3851:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3851:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3851:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3867:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3867:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3867:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3867:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3867:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3867:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3886:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3886:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3886:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3886:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3900:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3900:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3900:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3900:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3914:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3979:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3979:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3979:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3979:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3997:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3997:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3997:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3997:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:3997:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:3997:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:4022:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:4022:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:4022:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:4022:9: sparse:   also defined here
-   drivers/infiniband/core/uverbs_cmd.c:4022:9: sparse: sparse: Initializer entry defined twice
-   drivers/infiniband/core/uverbs_cmd.c:4022:9: sparse:   also defined here
---
-   drivers/infiniband/core/uverbs_std_types_device.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/infiniband/core/uverbs_std_types_device.c:310:38: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/core/uverbs_std_types_device.c:300:55: sparse: signed value source
---
-   drivers/mmc/core/block.c:2633:26: sparse: sparse: invalid assignment: |=
-   drivers/mmc/core/block.c:2633:26: sparse:    left side has type unsigned int
-   drivers/mmc/core/block.c:2633:26: sparse:    right side has type restricted blk_features_t
-   drivers/mmc/core/block.c:2635:26: sparse: sparse: invalid assignment: |=
-   drivers/mmc/core/block.c:2635:26: sparse:    left side has type unsigned int
-   drivers/mmc/core/block.c:2635:26: sparse:    right side has type restricted blk_features_t
-   drivers/mmc/core/block.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/mmc/core/block.c:505:28: sparse: signed value source
---
-   drivers/media/pci/saa7164/saa7164-encoder.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/media/pci/saa7164/saa7164-encoder.c:890:16: sparse: signed value source
---
-   drivers/media/pci/saa7164/saa7164-vbi.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/media/pci/saa7164/saa7164-vbi.c:594:16: sparse: signed value source
---
-   drivers/media/radio/si470x/radio-si470x-common.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/media/radio/si470x/radio-si470x-common.c:508:16: sparse: signed value source
---
-   drivers/staging/most/video/video.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/staging/most/video/video.c:198:16: sparse: signed value source
---
-   drivers/rapidio/devices/rio_mport_cdev.c: note: in included file:
-   include/linux/rio.h:204:34: sparse: sparse: array of flexible structures
-   drivers/rapidio/devices/rio_mport_cdev.c:2131:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *arg @@     got void [noderef] __user * @@
-   drivers/rapidio/devices/rio_mport_cdev.c:2131:56: sparse:     expected void *arg
-   drivers/rapidio/devices/rio_mport_cdev.c:2131:56: sparse:     got void [noderef] __user *
-   drivers/rapidio/devices/rio_mport_cdev.c: note: in included file (through include/linux/uaccess.h):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/rapidio/devices/rio_mport_cdev.c:2334:16: sparse: signed value source
---
-   drivers/media/test-drivers/vivid/vivid-radio-rx.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/media/test-drivers/vivid/vivid-radio-rx.c:121:40: sparse: signed value source
---
-   drivers/media/test-drivers/vivid/vivid-radio-tx.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/media/test-drivers/vivid/vivid-radio-tx.c:77:48: sparse: signed value source
---
-   drivers/infiniband/sw/rxe/rxe_verbs.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/infiniband/sw/rxe/rxe_verbs.c:341:16: sparse: signed value source
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/infiniband/sw/rxe/rxe_verbs.c: note: in included file (through include/rdma/uverbs_types.h, include/rdma/uverbs_ioctl.h):
->> include/rdma/ib_verbs.h:3019:37: sparse: signed value source
---
-   drivers/infiniband/sw/rxe/rxe_srq.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h, include/linux/sched/signal.h, ...):
-   arch/um/include/asm/uaccess.h:45:18: sparse: sparse: unsigned value that used to be signed checked against zero?
->> drivers/infiniband/sw/rxe/rxe_srq.c:84:35: sparse: signed value source
+smatch warnings:
+drivers/gpu/drm/msm/adreno/a6xx_gpu.c:641 a6xx_set_hwcg() error: uninitialized symbol 'cgc_hyst'.
 
-vim +423 drivers/ata/libata-scsi.c
+vim +/cgc_hyst +641 drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 
-d8d9129ea28e21 Tejun Heo    2010-05-15  406  
-5924b74c1cde5e Tejun Heo    2007-01-02  407  /**
-5924b74c1cde5e Tejun Heo    2007-01-02  408   *	ata_get_identity - Handler for HDIO_GET_IDENTITY ioctl
-5eb66fe05f08d5 Randy Dunlap 2009-01-20  409   *	@ap: target port
-5924b74c1cde5e Tejun Heo    2007-01-02  410   *	@sdev: SCSI device to get identify data for
-5924b74c1cde5e Tejun Heo    2007-01-02  411   *	@arg: User buffer area for identify data
-5924b74c1cde5e Tejun Heo    2007-01-02  412   *
-5924b74c1cde5e Tejun Heo    2007-01-02  413   *	LOCKING:
-5924b74c1cde5e Tejun Heo    2007-01-02  414   *	Defined by the SCSI layer.  We don't really care.
-5924b74c1cde5e Tejun Heo    2007-01-02  415   *
-5924b74c1cde5e Tejun Heo    2007-01-02  416   *	RETURNS:
-5924b74c1cde5e Tejun Heo    2007-01-02  417   *	Zero on success, negative errno on error.
-5924b74c1cde5e Tejun Heo    2007-01-02  418   */
-94be9a58d7e683 Jeff Garzik  2009-01-16  419  static int ata_get_identity(struct ata_port *ap, struct scsi_device *sdev,
-94be9a58d7e683 Jeff Garzik  2009-01-16  420  			    void __user *arg)
-5924b74c1cde5e Tejun Heo    2007-01-02  421  {
-5924b74c1cde5e Tejun Heo    2007-01-02  422  	struct ata_device *dev = ata_scsi_find_dev(ap, sdev);
-5924b74c1cde5e Tejun Heo    2007-01-02 @423  	u16 __user *dst = arg;
-5924b74c1cde5e Tejun Heo    2007-01-02  424  	char buf[40];
-5924b74c1cde5e Tejun Heo    2007-01-02  425  
-5924b74c1cde5e Tejun Heo    2007-01-02  426  	if (!dev)
-5924b74c1cde5e Tejun Heo    2007-01-02  427  		return -ENOMSG;
-5924b74c1cde5e Tejun Heo    2007-01-02  428  
-5924b74c1cde5e Tejun Heo    2007-01-02  429  	if (copy_to_user(dst, dev->id, ATA_ID_WORDS * sizeof(u16)))
-5924b74c1cde5e Tejun Heo    2007-01-02  430  		return -EFAULT;
-5924b74c1cde5e Tejun Heo    2007-01-02  431  
-5924b74c1cde5e Tejun Heo    2007-01-02  432  	ata_id_string(dev->id, buf, ATA_ID_PROD, ATA_ID_PROD_LEN);
-5924b74c1cde5e Tejun Heo    2007-01-02  433  	if (copy_to_user(dst + ATA_ID_PROD, buf, ATA_ID_PROD_LEN))
-5924b74c1cde5e Tejun Heo    2007-01-02  434  		return -EFAULT;
-5924b74c1cde5e Tejun Heo    2007-01-02  435  
-5924b74c1cde5e Tejun Heo    2007-01-02  436  	ata_id_string(dev->id, buf, ATA_ID_FW_REV, ATA_ID_FW_REV_LEN);
-5924b74c1cde5e Tejun Heo    2007-01-02  437  	if (copy_to_user(dst + ATA_ID_FW_REV, buf, ATA_ID_FW_REV_LEN))
-5924b74c1cde5e Tejun Heo    2007-01-02  438  		return -EFAULT;
-5924b74c1cde5e Tejun Heo    2007-01-02  439  
-5924b74c1cde5e Tejun Heo    2007-01-02  440  	ata_id_string(dev->id, buf, ATA_ID_SERNO, ATA_ID_SERNO_LEN);
-5924b74c1cde5e Tejun Heo    2007-01-02  441  	if (copy_to_user(dst + ATA_ID_SERNO, buf, ATA_ID_SERNO_LEN))
-5924b74c1cde5e Tejun Heo    2007-01-02  442  		return -EFAULT;
-5924b74c1cde5e Tejun Heo    2007-01-02  443  
-5924b74c1cde5e Tejun Heo    2007-01-02  444  	return 0;
-5924b74c1cde5e Tejun Heo    2007-01-02  445  }
-5924b74c1cde5e Tejun Heo    2007-01-02  446  
+4b565ca5a2cbbbb Jordan Crouse  2018-08-06  600  static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
+4b565ca5a2cbbbb Jordan Crouse  2018-08-06  601  {
+4b565ca5a2cbbbb Jordan Crouse  2018-08-06  602  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+4b565ca5a2cbbbb Jordan Crouse  2018-08-06  603  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+4b565ca5a2cbbbb Jordan Crouse  2018-08-06  604  	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+b1c53a2a2d395d4 Jonathan Marek 2020-07-10  605  	const struct adreno_reglist *reg;
+4b565ca5a2cbbbb Jordan Crouse  2018-08-06  606  	unsigned int i;
+40c297eb245b1c9 Konrad Dybcio  2024-08-28  607  	u32 cgc_delay, cgc_hyst;
+51682bc4abf4b55 Konrad Dybcio  2024-08-28  608  	u32 val, clock_cntl_on;
+4b565ca5a2cbbbb Jordan Crouse  2018-08-06  609  
+dff2f69f3e8a6ea Rob Clark      2024-06-18  610  	if (!(adreno_gpu->info->a6xx->hwcg || adreno_is_a7xx(adreno_gpu)))
+b1c53a2a2d395d4 Jonathan Marek 2020-07-10  611  		return;
+b1c53a2a2d395d4 Jonathan Marek 2020-07-10  612  
+66ffb9150b00f3f Jonathan Marek 2020-07-10  613  	if (adreno_is_a630(adreno_gpu))
+66ffb9150b00f3f Jonathan Marek 2020-07-10  614  		clock_cntl_on = 0x8aa8aa02;
+5cb9695ccef2305 Jie Zhang      2025-10-17  615  	else if (adreno_is_a610(adreno_gpu) || adreno_is_a612(adreno_gpu))
+e7fc9398e608a7b Konrad Dybcio  2023-06-16  616  		clock_cntl_on = 0xaaa8aa82;
+18397519cb62248 Konrad Dybcio  2024-02-23  617  	else if (adreno_is_a702(adreno_gpu))
+18397519cb62248 Konrad Dybcio  2024-02-23  618  		clock_cntl_on = 0xaaaaaa82;
+66ffb9150b00f3f Jonathan Marek 2020-07-10  619  	else
+66ffb9150b00f3f Jonathan Marek 2020-07-10  620  		clock_cntl_on = 0x8aa8aa82;
+66ffb9150b00f3f Jonathan Marek 2020-07-10  621  
+5cb9695ccef2305 Jie Zhang      2025-10-17  622  	if (adreno_is_a612(adreno_gpu))
+5cb9695ccef2305 Jie Zhang      2025-10-17  623  		cgc_delay = 0x11;
+5cb9695ccef2305 Jie Zhang      2025-10-17  624  	else if (adreno_is_a615_family(adreno_gpu))
+5cb9695ccef2305 Jie Zhang      2025-10-17  625  		cgc_delay = 0x111;
+5cb9695ccef2305 Jie Zhang      2025-10-17  626  	else
+5cb9695ccef2305 Jie Zhang      2025-10-17  627  		cgc_delay = 0x10111;
+5cb9695ccef2305 Jie Zhang      2025-10-17  628  
+5cb9695ccef2305 Jie Zhang      2025-10-17  629  	if (adreno_is_a612(adreno_gpu))
+5cb9695ccef2305 Jie Zhang      2025-10-17  630  		cgc_hyst = 0x55;
 
-:::::: The code at line 423 was first introduced by commit
-:::::: 5924b74c1cde5ef0246cf0dfbe689b27ffbe815b libata: implement HDIO_GET_IDENTITY
+Only initialized here and not on other paths.
 
-:::::: TO: Tejun Heo <htejun@gmail.com>
-:::::: CC: Jeff Garzik <jeff@garzik.org>
+5cb9695ccef2305 Jie Zhang      2025-10-17  631  	else if (adreno_is_a615_family(adreno_gpu))
+5cb9695ccef2305 Jie Zhang      2025-10-17  632  		cgc_delay = 0x555;
+5cb9695ccef2305 Jie Zhang      2025-10-17  633  	else
+5cb9695ccef2305 Jie Zhang      2025-10-17  634  		cgc_delay = 0x5555;
+40c297eb245b1c9 Konrad Dybcio  2024-08-28  635  
+af66706accdf5af Konrad Dybcio  2023-09-25  636  	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_MODE_CNTL,
+51682bc4abf4b55 Konrad Dybcio  2024-08-28  637  			state ? adreno_gpu->info->a6xx->gmu_cgc_mode : 0);
+af66706accdf5af Konrad Dybcio  2023-09-25  638  	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_DELAY_CNTL,
+40c297eb245b1c9 Konrad Dybcio  2024-08-28  639  			state ? cgc_delay : 0);
+af66706accdf5af Konrad Dybcio  2023-09-25  640  	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_HYST_CNTL,
+40c297eb245b1c9 Konrad Dybcio  2024-08-28 @641  			state ? cgc_hyst : 0);
+                                                                                ^^^^^^^^
+Uninitialized
+
+af66706accdf5af Konrad Dybcio  2023-09-25  642  
+dff2f69f3e8a6ea Rob Clark      2024-06-18  643  	if (!adreno_gpu->info->a6xx->hwcg) {
+d2bcca0ccccfa5e Neil Armstrong 2024-02-16  644  		gpu_write(gpu, REG_A7XX_RBBM_CLOCK_CNTL_GLOBAL, 1);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
