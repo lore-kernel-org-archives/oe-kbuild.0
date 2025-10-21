@@ -1,88 +1,58 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565E1334C37
-	for <oe-kbuild@lists.linux.dev>; Tue, 21 Oct 2025 14:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBDE2472BC
+	for <oe-kbuild@lists.linux.dev>; Tue, 21 Oct 2025 14:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761056111; cv=none; b=u1eCDItvfTb+kqY9MxSX1LzXTXF26m+JxJgElUork8YRq/IYDisQi8ay+rnuJtlMplQ3wMka7swAPUlEKGqeKKp7fTw5C8T9zhsR9TN5Pr1dEXCswDJUpHV58vDr4ot4jRpW6Cjqz2x8R71hS/et2FKFf++vN9AsO0kruN7BizY=
+	t=1761057069; cv=none; b=VPSBKADFZw0iB4lTl6cnJCd0Ek/lmO90QVOWOd9igRjLQjmM/EZZhT/av0H7gAr6rtvCB/uqhctpOpf75XokE9ha8svrfkUZKxShzA0TIeBYAM1jkYiABK9Dt9GYOCA6jkYeB3t/j/B4ISUec4Mz3rcTuVVYcV20Gn36+A2zeTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761056111; c=relaxed/simple;
-	bh=wnd5bfNfiizPv1q7k3Gi47EIxiAqC/A19yc9U4Hg/CI=;
+	s=arc-20240116; t=1761057069; c=relaxed/simple;
+	bh=QH8LzB4pgFDUvc9/hV88xSz+vKg05eit1d3/9+qVEeg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=QijA/JEo63OFXe2wkAGLLxHFSctniFrtlY5DycrxuM9M8UMEu1nsa2DyCOT6XpU9ciMJ5srdFAqpXrDdEdSDIoR0ugVAvO2+zKkkvBUmFqGpkrULwWSXaETRExOdPJi7g+pbZC7W8XvvLdt5WLzznbQDoeCcjwnzKamBp3Va0I8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gsN7EJMq; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=CtOTr2XLBHvK/xjdNYdqpN5Set/5vHv6kPrA4EPkGWgyL16MgTRKTmz5Zj9cpYUWI5mUSG4fb5H3FP3ipZEu9SQCusDI2dUNCeJRDpWK4Wu0t816+k9azORNvfX/XcePojDSZiYyCDh+JUFkpTGakk6Dz7GlAgTdLWjhKncyb1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cK+yxiRc; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gsN7EJMq"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4285169c005so312385f8f.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 21 Oct 2025 07:15:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761056106; x=1761660906; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=e/dqpTPnvV8iWWmqMGgRLH33p/ANKaib0nnfEtLriAI=;
-        b=gsN7EJMqNtcgv2ghmYgWPAVIuH0FNud1MeEicaUTQVh4RX1qB42d3gSEOqvpWBa/C8
-         JiEQ0lC+z0+koS6vgRbuayUcoIX5DA9NhN4nbR3dd9HDtWlOhIaeWH4u6vrLA3VRoL95
-         CZMHWQrJAFuU4pz5y+nd2WEkB5hLT0paYIzrrvt8sMssrDCSCBxzmwlTUECVjQMrBvZe
-         3K0fEpv+3WPsc7yVNVr5CpadAjZZs8OQrtdw+TzMFgLJxpSkxdSmhimNaky16tXjCN7A
-         Hv8Faf6Qqaxj2TK52wSGCYOzKPepRe/M6DKtGeriICQyZ9CyyLF4UYutNAsSc+luSF0e
-         6ibw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761056106; x=1761660906;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e/dqpTPnvV8iWWmqMGgRLH33p/ANKaib0nnfEtLriAI=;
-        b=VG++ryp7LsWf3P80EXuOuFxFA0VvwOiGSJ5Qrvoo+czP5yN36wGfUR77cziL03fPZ+
-         BeTRmR2DNd3lauT1Xxt1lbpYS57z9/TD7se7GshciCiOwTfl8fYg9/WzILPLemjgwjmS
-         ZpUTthVZBs7bF3EJ96WJTPgZ3RTVULWHXImMgoS1obiT5H5JJDI6+OZH2YdaVotQxEGc
-         NRdbJ+xqjK+LgBOf9zFL+Ww7HstrC/ozzpPGQ6zo9EuMdfuKl7zrsxtFOluVwrNd7NfS
-         1CcHTR/FVF8Vhk508682a9sFuSnkBYNxrkst8QiYBm5w5q2WcAcVymTif1W7mWRyfn7o
-         i1ZQ==
-X-Gm-Message-State: AOJu0Yxf0IKsB/4aehLZhnCmPi1fWO9XySqA27o8NY5cm7Pu+vI33bQJ
-	FOWG6sSGsSBuRohx61WYSorps2ag/+2A8kLGrU1v4TecTmZ38OarrjE/dIr/pNmQRmrYce1jJHH
-	P70sA
-X-Gm-Gg: ASbGncu/RUfwfMfhoFvGRnYEMcICBNUBq18PuK0eehlgWY9ZxObIxFQDZw7D6R4IcF6
-	YagulT6lu6ECdVkMy6xy37zGc/SFziBLVPmpoAkNfRX9IYygtb2hhJyXbr9E2mRM1VtYotRQw8v
-	s4qHqpYUdPfxDBunC27jW/v9NDu4Ob8AzlT78vNN2TtFNdo4gGMJotov7i1KjKTwW5WULIDtc/z
-	6LepQcMRqa9/dy7ojSNJTi94R8zOhA8UHMfu+u+OCFTgYDS01mBp1ikczpqtiPPfx82j2cPOumo
-	Nb64fpUk7EvOQ6rHm/a27rs91XYXykN2D4uOHm5OVnEXsQRx0sd00ZLc6kK/xVTfXfjQbMeezHz
-	SybgtEKW3G+hLIKIRlp+T+/eUCJNesRNkovU+h7P93DHdG0VAhez2u2Mz/fWHVOE2flSB2MFeJF
-	Y70sOZULTbKkXMP5yP
-X-Google-Smtp-Source: AGHT+IHCNZ/tdeM6x90rsmi2VCTmRefM5mCM/ZgV62wABJXCvN9MGq3+VgVSrxQSIurd14j6LlHgGg==
-X-Received: by 2002:a5d:5f82:0:b0:3fa:5925:4b07 with SMTP id ffacd0b85a97d-42704d74f9fmr10437179f8f.18.1761056106262;
-        Tue, 21 Oct 2025 07:15:06 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427f00ce3e2sm20554878f8f.47.2025.10.21.07.15.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Oct 2025 07:15:05 -0700 (PDT)
-Date: Tue, 21 Oct 2025 17:15:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Akhil P Oommen <akhilpo@oss.qualcomm.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Akhil P Oommen <akhilpo@oss.qualcomm.com>,
-	Jie Zhang <quic_jiezh@quicinc.com>
-Subject: Re: [PATCH 1/6] drm/msm/a6xx: Add support for Adreno 612
-Message-ID: <202510212140.4YWihsB7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cK+yxiRc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761057068; x=1792593068;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QH8LzB4pgFDUvc9/hV88xSz+vKg05eit1d3/9+qVEeg=;
+  b=cK+yxiRcEEQBkMsiv4beJulkvd8LVdXojoZ+fP/zrFt7YUxjBRyiGs9N
+   WpROy04cSaHRvjFg5Gtdxgbta1kToLwdUKmUs6mxc2Koq3O0mx0GWmCZU
+   zoD/sY5a5ldu6hxm4yeE1Izi4fjuszW1oBDu/YhiMZf97Q/PRKh34F1Bk
+   Y3qe6+1l1KZfS/f15r6fJRyi6vYOKVsvfFImumrDPXbLgipXhZ4uT4NJJ
+   eOjbI1pcgsV22/vK26p7nt/NDvMpCc+byVRqwLMm9Hfj8B3+xmdWtgla0
+   mNnLcsY0DJCn2KapsnwLGetpHVBtf1ugZhwmWdRF3FfinXyMjbJ5Ht3D1
+   g==;
+X-CSE-ConnectionGUID: 4Wqufw11RLefTbYkm2ClDA==
+X-CSE-MsgGUID: s/6OPkleSoO9PedZGok+cg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="80621616"
+X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
+   d="scan'208";a="80621616"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 07:31:06 -0700
+X-CSE-ConnectionGUID: 1XpNuiMSR8iswC/udY60EA==
+X-CSE-MsgGUID: dP8JtDvfS1GEjGqa9h2jJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
+   d="scan'208";a="214559493"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 21 Oct 2025 07:31:04 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBDO9-000AuF-2q;
+	Tue, 21 Oct 2025 14:31:01 +0000
+Date: Tue, 21 Oct 2025 22:30:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: arch/riscv/mm/init.c:356:39: sparse: sparse: unsigned value that
+ used to be signed checked against zero?
+Message-ID: <202510212227.MDyKeD7W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -91,84 +61,76 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251017-qcs615-spin-2-v1-1-0baa44f80905@oss.qualcomm.com>
-Message-ID: <20251021141502.3DOhfSmU14E5gzXwgb8JPNZ5_RtrrURTPvpASbqbQHk@z>
 
-Hi Akhil,
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: arch/riscv/mm/init.c:356:39: sparse: sparse: unsigned value that used to be signed checked against zero?"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Samuel Holland <samuel.holland@sifive.com>
+CC: Palmer Dabbelt <palmer@rivosinc.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-P-Oommen/drm-msm-a6xx-Add-support-for-Adreno-612/20251018-011020
-base:   cb6649f6217c0331b885cf787f1d175963e2a1d2
-patch link:    https://lore.kernel.org/r/20251017-qcs615-spin-2-v1-1-0baa44f80905%40oss.qualcomm.com
-patch subject: [PATCH 1/6] drm/msm/a6xx: Add support for Adreno 612
-config: powerpc-randconfig-r073-20251021 (https://download.01.org/0day-ci/archive/20251021/202510212140.4YWihsB7-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6548d364a3e850326831799d7e3ea2d7bb97ba08
+commit: 51b766c79a3d741fb97419c3da1c58fce5e66f0e riscv: Support CONFIG_RELOCATABLE on NOMMU
+date:   7 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 7 months ago
+config: riscv-randconfig-r111-20251021 (https://download.01.org/0day-ci/archive/20251021/202510212227.MDyKeD7W-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510212227.MDyKeD7W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510212140.4YWihsB7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510212227.MDyKeD7W-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/msm/adreno/a6xx_gpu.c:641 a6xx_set_hwcg() error: uninitialized symbol 'cgc_hyst'.
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> arch/riscv/mm/init.c:356:39: sparse: sparse: unsigned value that used to be signed checked against zero?
+>> arch/riscv/mm/init.c:345:45: sparse: signed value source
 
-vim +/cgc_hyst +641 drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+vim +356 arch/riscv/mm/init.c
 
-4b565ca5a2cbbbb Jordan Crouse  2018-08-06  600  static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
-4b565ca5a2cbbbb Jordan Crouse  2018-08-06  601  {
-4b565ca5a2cbbbb Jordan Crouse  2018-08-06  602  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-4b565ca5a2cbbbb Jordan Crouse  2018-08-06  603  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-4b565ca5a2cbbbb Jordan Crouse  2018-08-06  604  	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
-b1c53a2a2d395d4 Jonathan Marek 2020-07-10  605  	const struct adreno_reglist *reg;
-4b565ca5a2cbbbb Jordan Crouse  2018-08-06  606  	unsigned int i;
-40c297eb245b1c9 Konrad Dybcio  2024-08-28  607  	u32 cgc_delay, cgc_hyst;
-51682bc4abf4b55 Konrad Dybcio  2024-08-28  608  	u32 val, clock_cntl_on;
-4b565ca5a2cbbbb Jordan Crouse  2018-08-06  609  
-dff2f69f3e8a6ea Rob Clark      2024-06-18  610  	if (!(adreno_gpu->info->a6xx->hwcg || adreno_is_a7xx(adreno_gpu)))
-b1c53a2a2d395d4 Jonathan Marek 2020-07-10  611  		return;
-b1c53a2a2d395d4 Jonathan Marek 2020-07-10  612  
-66ffb9150b00f3f Jonathan Marek 2020-07-10  613  	if (adreno_is_a630(adreno_gpu))
-66ffb9150b00f3f Jonathan Marek 2020-07-10  614  		clock_cntl_on = 0x8aa8aa02;
-5cb9695ccef2305 Jie Zhang      2025-10-17  615  	else if (adreno_is_a610(adreno_gpu) || adreno_is_a612(adreno_gpu))
-e7fc9398e608a7b Konrad Dybcio  2023-06-16  616  		clock_cntl_on = 0xaaa8aa82;
-18397519cb62248 Konrad Dybcio  2024-02-23  617  	else if (adreno_is_a702(adreno_gpu))
-18397519cb62248 Konrad Dybcio  2024-02-23  618  		clock_cntl_on = 0xaaaaaa82;
-66ffb9150b00f3f Jonathan Marek 2020-07-10  619  	else
-66ffb9150b00f3f Jonathan Marek 2020-07-10  620  		clock_cntl_on = 0x8aa8aa82;
-66ffb9150b00f3f Jonathan Marek 2020-07-10  621  
-5cb9695ccef2305 Jie Zhang      2025-10-17  622  	if (adreno_is_a612(adreno_gpu))
-5cb9695ccef2305 Jie Zhang      2025-10-17  623  		cgc_delay = 0x11;
-5cb9695ccef2305 Jie Zhang      2025-10-17  624  	else if (adreno_is_a615_family(adreno_gpu))
-5cb9695ccef2305 Jie Zhang      2025-10-17  625  		cgc_delay = 0x111;
-5cb9695ccef2305 Jie Zhang      2025-10-17  626  	else
-5cb9695ccef2305 Jie Zhang      2025-10-17  627  		cgc_delay = 0x10111;
-5cb9695ccef2305 Jie Zhang      2025-10-17  628  
-5cb9695ccef2305 Jie Zhang      2025-10-17  629  	if (adreno_is_a612(adreno_gpu))
-5cb9695ccef2305 Jie Zhang      2025-10-17  630  		cgc_hyst = 0x55;
-
-Only initialized here and not on other paths.
-
-5cb9695ccef2305 Jie Zhang      2025-10-17  631  	else if (adreno_is_a615_family(adreno_gpu))
-5cb9695ccef2305 Jie Zhang      2025-10-17  632  		cgc_delay = 0x555;
-5cb9695ccef2305 Jie Zhang      2025-10-17  633  	else
-5cb9695ccef2305 Jie Zhang      2025-10-17  634  		cgc_delay = 0x5555;
-40c297eb245b1c9 Konrad Dybcio  2024-08-28  635  
-af66706accdf5af Konrad Dybcio  2023-09-25  636  	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_MODE_CNTL,
-51682bc4abf4b55 Konrad Dybcio  2024-08-28  637  			state ? adreno_gpu->info->a6xx->gmu_cgc_mode : 0);
-af66706accdf5af Konrad Dybcio  2023-09-25  638  	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_DELAY_CNTL,
-40c297eb245b1c9 Konrad Dybcio  2024-08-28  639  			state ? cgc_delay : 0);
-af66706accdf5af Konrad Dybcio  2023-09-25  640  	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_HYST_CNTL,
-40c297eb245b1c9 Konrad Dybcio  2024-08-28 @641  			state ? cgc_hyst : 0);
-                                                                                ^^^^^^^^
-Uninitialized
-
-af66706accdf5af Konrad Dybcio  2023-09-25  642  
-dff2f69f3e8a6ea Rob Clark      2024-06-18  643  	if (!adreno_gpu->info->a6xx->hwcg) {
-d2bcca0ccccfa5e Neil Armstrong 2024-02-16  644  		gpu_write(gpu, REG_A7XX_RBBM_CLOCK_CNTL_GLOBAL, 1);
+51b766c79a3d74 Samuel Holland 2024-10-26  328  
+51b766c79a3d74 Samuel Holland 2024-10-26  329  static void __init relocate_kernel(void)
+51b766c79a3d74 Samuel Holland 2024-10-26  330  {
+51b766c79a3d74 Samuel Holland 2024-10-26  331  	Elf64_Rela *rela = (Elf64_Rela *)&__rela_dyn_start;
+51b766c79a3d74 Samuel Holland 2024-10-26  332  	/*
+51b766c79a3d74 Samuel Holland 2024-10-26  333  	 * This holds the offset between the linked virtual address and the
+51b766c79a3d74 Samuel Holland 2024-10-26  334  	 * relocated virtual address.
+51b766c79a3d74 Samuel Holland 2024-10-26  335  	 */
+51b766c79a3d74 Samuel Holland 2024-10-26  336  	uintptr_t reloc_offset = kernel_map.virt_addr - KERNEL_LINK_ADDR;
+51b766c79a3d74 Samuel Holland 2024-10-26  337  	/*
+51b766c79a3d74 Samuel Holland 2024-10-26  338  	 * This holds the offset between kernel linked virtual address and
+51b766c79a3d74 Samuel Holland 2024-10-26  339  	 * physical address.
+51b766c79a3d74 Samuel Holland 2024-10-26  340  	 */
+51b766c79a3d74 Samuel Holland 2024-10-26  341  	uintptr_t va_kernel_link_pa_offset = KERNEL_LINK_ADDR - kernel_map.phys_addr;
+51b766c79a3d74 Samuel Holland 2024-10-26  342  
+51b766c79a3d74 Samuel Holland 2024-10-26  343  	for ( ; rela < (Elf64_Rela *)&__rela_dyn_end; rela++) {
+51b766c79a3d74 Samuel Holland 2024-10-26  344  		Elf64_Addr addr = (rela->r_offset - va_kernel_link_pa_offset);
+51b766c79a3d74 Samuel Holland 2024-10-26 @345  		Elf64_Addr relocated_addr = rela->r_addend;
+51b766c79a3d74 Samuel Holland 2024-10-26  346  
+51b766c79a3d74 Samuel Holland 2024-10-26  347  		if (rela->r_info != R_RISCV_RELATIVE)
+51b766c79a3d74 Samuel Holland 2024-10-26  348  			continue;
+51b766c79a3d74 Samuel Holland 2024-10-26  349  
+51b766c79a3d74 Samuel Holland 2024-10-26  350  		/*
+51b766c79a3d74 Samuel Holland 2024-10-26  351  		 * Make sure to not relocate vdso symbols like rt_sigreturn
+51b766c79a3d74 Samuel Holland 2024-10-26  352  		 * which are linked from the address 0 in vmlinux since
+51b766c79a3d74 Samuel Holland 2024-10-26  353  		 * vdso symbol addresses are actually used as an offset from
+51b766c79a3d74 Samuel Holland 2024-10-26  354  		 * mm->context.vdso in VDSO_OFFSET macro.
+51b766c79a3d74 Samuel Holland 2024-10-26  355  		 */
+51b766c79a3d74 Samuel Holland 2024-10-26 @356  		if (relocated_addr >= KERNEL_LINK_ADDR)
+51b766c79a3d74 Samuel Holland 2024-10-26  357  			relocated_addr += reloc_offset;
+51b766c79a3d74 Samuel Holland 2024-10-26  358  
+51b766c79a3d74 Samuel Holland 2024-10-26  359  		*(Elf64_Addr *)addr = relocated_addr;
+51b766c79a3d74 Samuel Holland 2024-10-26  360  	}
+51b766c79a3d74 Samuel Holland 2024-10-26  361  }
+51b766c79a3d74 Samuel Holland 2024-10-26  362  #endif /* CONFIG_RELOCATABLE */
+51b766c79a3d74 Samuel Holland 2024-10-26  363  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
