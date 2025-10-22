@@ -1,138 +1,139 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576DC2F3C22
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Oct 2025 07:00:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398F62FF149
+	for <oe-kbuild@lists.linux.dev>; Wed, 22 Oct 2025 08:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761116429; cv=none; b=nCtb64oPoBHNY8F9V5oW+kTDYUGX/v7rhHA8Rhrt5XBz77oVSUfz7Ca67UHnlyMNL6FJwiHB9uVoNSE3QtwEdyi8DgkAobD1Hr691Ve3UDNJQ1NOw035KM/rZOPT1/Mp8nMrsXapZpUWDFKHZ4L7kgMCwN9XU277z2a5NLz/xa0=
+	t=1761120365; cv=none; b=uGFf/xBGL1GW5EvbTm42Yvcrm2qLSpLiZ75eNRsXmJU5OcX7mbwWub6HHx0ZE9E+kZelyh6QX+MwlVpk8GaA8mar/SaqiqCZLfwaOQAe3tCkge73n2Y/yUrTanUC/74O4ABmpIgCk+2KeeKPMyglIAz+C/UA9IarOtNlz16bN68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761116429; c=relaxed/simple;
-	bh=+lkw0gmwYWxNDRxLgRFeHVaT42rdFPC5CN5TNEfZLWg=;
+	s=arc-20240116; t=1761120365; c=relaxed/simple;
+	bh=PN77JdCVjtNp+wz3vMgaof9SXFRi0WaB6b1o8lkepmU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=AfGX22ukVHpHh/KSZStR/PF/fseeV619T/2KN+KmCFKNQBnS/uqiPhKMizAmdyIQlveOQcIrQaTBcIT+DZF8aol7y89ouM7UMG/Nvi2a7rilJVDmn9EUrY81lNVqV7IDb0T93DLOuxzjtcOQQxjd5lWWLIhfkV1kakbIwirYdVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LTdMPOT/; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=oHJdwu92suBaYMvvUZq8ATCw+0LAgjigDErIJlVxjhBH29Xl90kE+tV/bepWpxUzveT5EZX7GtuDd5EhxtAPku9FxKtIGp57bwJdf+ZaQjVCHl4sFDInlyTP5ZMnEdcX+IiM9OxS329h3QBUrSvrD7xAzGfUR+nysY5DOuIQX7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BPHWsjhq; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LTdMPOT/"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-427015003eeso1602710f8f.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 22 Oct 2025 00:00:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761116416; x=1761721216; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=qv5bMEGvN9X32946bfYvNIl8D9oMhZpgA7zbomHxa9Y=;
-        b=LTdMPOT/mHdYow7m4AAYgZarBsZQlKZuSYHNyrYP67zgDb+0e10R5tLDswDS/1rToQ
-         eb+voTPtmySwwC8fj1p+LBdakxneYiUcoQx3lDlFS/ybFSVJiTOjiuPPMOwBFIo3s7BO
-         7rm4M0HJ6b6BH9j1TyqZRG6jor1+/6ZbYEQX2BG1tO69vtJgizAJ4KSIbmRp1t691DyZ
-         Y1o3wr510LtfvtAbGTYGBOgfl0+6AAj6CZB8TV0LDPygLmYsxIzrc08wJoZVW6OiK00L
-         txSFmgEaOfQVrDHDcjejTVS/xfkrVK19HkHxwSo/GNk1g7FlK4xSaM91vi5UKoVZtS4j
-         pjDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761116416; x=1761721216;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qv5bMEGvN9X32946bfYvNIl8D9oMhZpgA7zbomHxa9Y=;
-        b=P5Pn4qp12rQEwlSwKslksA2HHKhvEUFVGMGFzzllKIZBMyq2CSV5AEOn9ah0Z/2Zz3
-         pt1tNNWH2s4EKTETwi3qbGNZ49TEP5aFMJeVBvR1oenXdt1cKaCHJ3JnJG3i2WyzY7eO
-         my78wEquQL6+100Scx40F8UCSEm8HPMGVlEZu99v1Ttv1sfoSYR8sH7K0j07Hd+8NHpK
-         hsVLBnt+1uxGQdH0QR3YPu+2L2PMNsx8aQtB/QKp9x6dbyek6jH9rm9yiJbxVZYhGd9u
-         dzmiPMhg9uJt1F4HPZGzvNHl9reFEz/RAdl6iyron+lkzvdFF1gryQ6gaQ/NAZKXYNAG
-         7/Rg==
-X-Gm-Message-State: AOJu0YzfHoxNLTZLJUMlP2ZtZ/ZW1aWKhNzdLzUXp7JZqvksbu/sLbkK
-	rbzCnniWp3mKmvERb/klzVzee7yhiWVORPOQl8rUAfw55azA+0OY0sJd+8d4qolxrKD+r6k/gxz
-	UGhcK
-X-Gm-Gg: ASbGncueqb161IRBCKpB6QR6DVsKMoNjbrByICuOgLvdNqT6hUuV1MXKKn0Lo+Usv3o
-	YU05M4HotmAIwH6O1s40qaPeQzj8nZRxKsFRJbn/BMVmOtNleX0Cww7Ao/kHDHnIoC9+tPVH8k6
-	MRFwwc+f4b2ccgxCdRvC8lDs6CdPFQTYoEtCpulpnUTfQ/Hx7/xj28jhR7XZ/z6jNbAVDaZSly+
-	WrjEJXiFEcqCAhIUNpdd3TYyD69dhg9pH2tCLI/3S1Bzu0w11xoGg4IdRCtd60OAovc4PtkYtAJ
-	k4rhp2ayab03/zSD4/YZlAhEYFo1i/esI95eIFtAaOYQV8jL/ORQ1XJYkRxpVQ7t8MgcvAjqP6Q
-	NhGp2vtGakVF4rJiqplx1F+141dzhjm1r5B19WhoosW9XFr7ylN+8sqzzJTCsPt2spdQorGxe0z
-	QTpTwp5g==
-X-Google-Smtp-Source: AGHT+IF9i76yH8MCk+Tr5Mn1WkODA3/xR31W7KLUDUU/ophtp3akzS53FBIQN5I5N9gZZPPgOgtIdQ==
-X-Received: by 2002:a05:6000:2c0e:b0:405:3028:1bce with SMTP id ffacd0b85a97d-42704daed0fmr12707364f8f.32.1761116416304;
-        Wed, 22 Oct 2025 00:00:16 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427f00ce3e2sm23652718f8f.47.2025.10.22.00.00.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 00:00:15 -0700 (PDT)
-Date: Wed, 22 Oct 2025 10:00:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
-	jfalempe@redhat.com, javierm@redhat.com, rrameshbabu@nvidia.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	airlied@gmail.com, simona@ffwll.ch
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 5/7] drm/client: Remove drm_client_framebuffer_delete()
-Message-ID: <202510220056.J4uIVWxn-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BPHWsjhq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761120363; x=1792656363;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PN77JdCVjtNp+wz3vMgaof9SXFRi0WaB6b1o8lkepmU=;
+  b=BPHWsjhqvUxMVCgnSjN6yEG4GNvReuaLCV6T4hCPn8EODFP2ItTZ2ebe
+   o2swev5PDe+eZiXnCikZC0yyO4AmSc1uPYNeP94c/Jzrv05HVNhzHe93G
+   D5SgjCbQ2KyN0LgaB9PrkIn0zATBHgfXB5kHp7wUBdt/sUC6bda3KwcVH
+   OX2yByQCRiz65vnHGhRxO2imZZ5V4DWlaXodilQATWk7sXSegVAAuG32O
+   UHIp8gNsQVA5NzPtzpMaJzVq9CnYYpwPI9ZX8pQaPGaAsi2M0UnzL+n8Q
+   CtoPzxkCe//pkhyz7+l7uUEkflWxYjW7JDdEE6vlr/0RjixNk23Rm2HJf
+   g==;
+X-CSE-ConnectionGUID: mc40OUvAS6aBjCX+LFkZ8g==
+X-CSE-MsgGUID: gPiKjtYkSOm+c4ok1ybyrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62469907"
+X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
+   d="scan'208";a="62469907"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 01:06:01 -0700
+X-CSE-ConnectionGUID: Kv4fpEMKQPuTq4ID+eQgUA==
+X-CSE-MsgGUID: f6TZMNiDQYaRKsVdug8c9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
+   d="scan'208";a="214449594"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 22 Oct 2025 01:06:00 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBTr4-000C8j-0D;
+	Wed, 22 Oct 2025 08:05:58 +0000
+Date: Wed, 22 Oct 2025 16:05:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: sound/hda/codecs/side-codecs/hda_component.c:178:49-56: WARNING:
+ Consider using %pe to print PTR_ERR()
+Message-ID: <202510221520.T7PwYc0W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251020151402.53013-6-tzimmermann@suse.de>
-Message-ID: <20251022070012.n-xbJnw1dBIbZcgGlDUw70SxLjHPIow3cPg_eNDGneU@z>
 
-Hi Thomas,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Denis Arefev <arefev@swemel.ru>
+CC: Takashi Iwai <tiwai@suse.de>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-client-Remove-pitch-from-struct-drm_client_buffer/20251020-231709
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20251020151402.53013-6-tzimmermann%40suse.de
-patch subject: [PATCH 5/7] drm/client: Remove drm_client_framebuffer_delete()
-config: openrisc-randconfig-r072-20251021 (https://download.01.org/0day-ci/archive/20251022/202510220056.J4uIVWxn-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   552c50713f273b494ac6c77052032a49bc9255e2
+commit: 1cf11d80db5df805b538c942269e05a65bcaf5bc ALSA: hda: Fix missing pointer check in hda_component_manager_init function
+date:   11 days ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 11 days ago
+config: i386-randconfig-054-20251022 (https://download.01.org/0day-ci/archive/20251022/202510221520.T7PwYc0W-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510220056.J4uIVWxn-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202510221520.T7PwYc0W-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/drm_client.c:185 drm_client_buffer_delete() warn: variable dereferenced before check 'buffer' (see line 182)
+cocci warnings: (new ones prefixed by >>)
+>> sound/hda/codecs/side-codecs/hda_component.c:178:49-56: WARNING: Consider using %pe to print PTR_ERR()
 
-vim +/buffer +185 drivers/gpu/drm/drm_client.c
+vim +178 sound/hda/codecs/side-codecs/hda_component.c
 
-449148a7300b8b Thomas Zimmermann 2025-10-20  180  void drm_client_buffer_delete(struct drm_client_buffer *buffer)
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  181  {
-95d6cf3a3cf1a1 Thomas Zimmermann 2025-10-20 @182  	struct drm_gem_object *gem = drm_gem_fb_get_obj(buffer->fb, 0);
-                                                                                                        ^^^^^^^^^^
-buffer is dereferenced here
-
-82e2a75e5a640c Thomas Zimmermann 2025-10-20  183  	int ret;
-82e2a75e5a640c Thomas Zimmermann 2025-10-20  184  
-449148a7300b8b Thomas Zimmermann 2025-10-20 @185  	if (!buffer)
-                                                            ^^^^^^^
-checked too late
-
-449148a7300b8b Thomas Zimmermann 2025-10-20  186  		return;
-449148a7300b8b Thomas Zimmermann 2025-10-20  187  
-95d6cf3a3cf1a1 Thomas Zimmermann 2025-10-20  188  	drm_gem_vunmap(gem, &buffer->map);
-95d6cf3a3cf1a1 Thomas Zimmermann 2025-10-20  189  
-82e2a75e5a640c Thomas Zimmermann 2025-10-20  190  	ret = drm_mode_rmfb(buffer->client->dev, buffer->fb->base.id, buffer->client->file);
-82e2a75e5a640c Thomas Zimmermann 2025-10-20  191  	if (ret)
-82e2a75e5a640c Thomas Zimmermann 2025-10-20  192  		drm_err(buffer->client->dev,
-82e2a75e5a640c Thomas Zimmermann 2025-10-20  193  			"Error removing FB:%u (%d)\n", buffer->fb->base.id, ret);
-82e2a75e5a640c Thomas Zimmermann 2025-10-20  194  
-be6ee102341bc4 Emil Velikov      2020-05-15  195  	drm_gem_object_put(buffer->gem);
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  196  
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  197  	kfree(buffer);
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  198  }
+ec6f32bc924d1c0 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-05-08  146  
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  147  int hda_component_manager_init(struct hda_codec *cdc,
+960ccf6eafacaa4 sound/pci/hda/hda_component.c                Simon Trimmer      2024-06-17  148  			       struct hda_component_parent *parent, int count,
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  149  			       const char *bus, const char *hid,
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  150  			       const char *match_str,
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  151  			       const struct component_master_ops *ops)
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  152  {
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  153  	struct device *dev = hda_codec_dev(cdc);
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  154  	struct component_match *match = NULL;
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  155  	struct hda_scodec_match *sm;
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  156  	int ret, i;
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  157  
+2186fe21e57aada sound/pci/hda/hda_component.c                Simon Trimmer      2024-08-29  158  	if (parent->codec) {
+2186fe21e57aada sound/pci/hda/hda_component.c                Simon Trimmer      2024-08-29  159  		codec_err(cdc, "Component binding already created (SSID: %x)\n",
+2186fe21e57aada sound/pci/hda/hda_component.c                Simon Trimmer      2024-08-29  160  			  cdc->core.subsystem_id);
+2186fe21e57aada sound/pci/hda/hda_component.c                Simon Trimmer      2024-08-29  161  		return -EINVAL;
+2186fe21e57aada sound/pci/hda/hda_component.c                Simon Trimmer      2024-08-29  162  	}
+2186fe21e57aada sound/pci/hda/hda_component.c                Simon Trimmer      2024-08-29  163  	parent->codec = cdc;
+2186fe21e57aada sound/pci/hda/hda_component.c                Simon Trimmer      2024-08-29  164  
+28b329f431cef84 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-08-26  165  	mutex_init(&parent->mutex);
+28b329f431cef84 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-08-26  166  
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  167  	for (i = 0; i < count; i++) {
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  168  		sm = devm_kmalloc(dev, sizeof(*sm), GFP_KERNEL);
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  169  		if (!sm)
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  170  			return -ENOMEM;
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  171  
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  172  		sm->bus = bus;
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  173  		sm->hid = hid;
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  174  		sm->match_str = match_str;
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  175  		sm->index = i;
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  176  		component_match_add(dev, &match, hda_comp_match_dev_name, sm);
+1cf11d80db5df80 sound/hda/codecs/side-codecs/hda_component.c Denis Arefev       2025-10-09  177  		if (IS_ERR(match)) {
+1cf11d80db5df80 sound/hda/codecs/side-codecs/hda_component.c Denis Arefev       2025-10-09 @178  			codec_err(cdc, "Fail to add component %ld\n", PTR_ERR(match));
+1cf11d80db5df80 sound/hda/codecs/side-codecs/hda_component.c Denis Arefev       2025-10-09  179  			return PTR_ERR(match);
+1cf11d80db5df80 sound/hda/codecs/side-codecs/hda_component.c Denis Arefev       2025-10-09  180  		}
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  181  	}
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  182  
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  183  	ret = component_master_add_with_match(dev, ops, match);
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  184  	if (ret)
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  185  		codec_err(cdc, "Fail to register component aggregator %d\n", ret);
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  186  
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  187  	return ret;
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  188  }
+cdd30ebb1b9f361 sound/pci/hda/hda_component.c                Peter Zijlstra     2024-12-02  189  EXPORT_SYMBOL_NS_GPL(hda_component_manager_init, "SND_HDA_SCODEC_COMPONENT");
+fd895a74dc1dca3 sound/pci/hda/hda_component.c                Richard Fitzgerald 2024-01-24  190  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
