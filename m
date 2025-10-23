@@ -1,77 +1,73 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F1D2C028A
-	for <oe-kbuild@lists.linux.dev>; Thu, 23 Oct 2025 07:31:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB08F2C15A3
+	for <oe-kbuild@lists.linux.dev>; Thu, 23 Oct 2025 07:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761204675; cv=none; b=l9ENOXcPyNRbd5illK/gxPiBESz67VALAnWOjpAZdca57mKTqPCMiEkBjPwocW9uVUicSCUedNOXkYpnaCQ+5qKHCoTYLYFiQLl/u9i5QZA35YpZpoeGOLv8vfe49ALAnjelGg8/TYzsFP5EKbx/AS7PREzJ/eyMhkUcOiCs2Bk=
+	t=1761204710; cv=none; b=ttWu0Dfenxrg4SKaSV/KGgvAmpM8OLLeMlwlt+ykpRjPJOcp2FGoq0kDhezbX1rCofzVoau/m47A3j4AZB2pktCcILjGIbdbCj8duRbV721oKVBNQaHhw73vXYA/LK0iDAuescPHVaKTrQeqBZAlaP2b8gu33VKJFF3szgBrKf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761204675; c=relaxed/simple;
-	bh=aFRDzPkcK9NfGl8UTUu2FSysM7F5S+eQ7XxMTHyQQzY=;
+	s=arc-20240116; t=1761204710; c=relaxed/simple;
+	bh=JggR+4lhgxon5VrrXYFEgHKpnGz2RPpuX3MhDbFS6oA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=E76GqEZ+EPVghVnROwWPL6B7P7hj7SB93j+LSoUl6Pnpp11D9iloNsphluUWv5GXUOgtjQsbF6uWNVYwjc9h7jnsLl7AqPJ6Sq+KZCDJNXng9+/1q8k4r4Uykh13MXtbm+ezEFlSJ3GH7GM5G4OvQE3G2V71zgOW8thBPa50v5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oqm1brHr; arc=none smtp.client-ip=209.85.128.49
+	 Content-Disposition; b=YdKO9qz3TD/dB/ckAcjbQtzL/VvlnvSwP33d9sJEyCTlBmWhGPnWzfR1GAL5zvDaorXAijNGHwD4094PAQMFtKzJOzd4vcHcivLo1Jx7Vlqmb5WvlGYEcccTfTLO4+cWKZ10tIF0l4o+yPp+tmqzhdocLpwQ6PM8Mwca7gM2Ma4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V2remf0+; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oqm1brHr"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-46e6a689bd0so4450865e9.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 23 Oct 2025 00:31:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V2remf0+"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4711f156326so4034915e9.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 23 Oct 2025 00:31:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761204672; x=1761809472; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A3Zl0NzO6dgztEpIBfhUUKoZHrDlf3kwSQWoMIJPwEA=;
-        b=oqm1brHrDz5awLjuAi2EHwU9F0eDn7LFBfxCcfVWZghZuQIutIsW/GST/39Cjn5LIr
-         rxroQ90UkLnMe/WNh1BHoSA5CVlOvRLjE7umXTw7OnUyZ1uaqJ/cPK0TBZ1I6dvC3+D4
-         eZRHkEy5NdcATohmo8Z2D1QseWtAF73K2DrxMN+LzOka7Mj5eICPVBQHc8PooEPNbOWh
-         wBazBsYUuM/BUsedv6wdTgNcE4efS8HOmfkPnmnzl0r5YKzsjNCvxR4RW80iRDq6Q2TE
-         Mz7FJaAnrbzWpsFBPh32uPScAhiyMUj/V9r7nqtZbUYsa9REExEtYuAyOgxXAlld58mn
-         Svlw==
+        d=linaro.org; s=google; t=1761204706; x=1761809506; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=j7rh8SJ9gjn1LcIjZxSZPwMUci0AXXC8rNsZtSMot00=;
+        b=V2remf0+8a/OrEzstsr0X/tH16QxqGVhdl+SfF9CoBkn9Pa7X391mi/J/rzNkENDyS
+         j14Q1rM65KKp/6YMibLM5DII8jVDT48fVRDBNLycjjDShTFwHmOV2prp3TyERcgsuiRz
+         5n8gHwN7j0E/ewRtHsVMd+KfgeR/4AP2CMw/whUd3vVlwGNRWHqkUuyywKd1d4IBX92y
+         KUdCuov0+gV/5lj1E9rpRoTlVECD42VBHYU7zaY/SRtWE21wYZ3laPHQmtJWjKii3A8T
+         guiy4uLysH4zHhwxzESZYhYqE9uWipU2dBL8cOr88Ry6+52ok9gCkkvDVCSpHYlxCI3S
+         Irgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761204672; x=1761809472;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A3Zl0NzO6dgztEpIBfhUUKoZHrDlf3kwSQWoMIJPwEA=;
-        b=ZITR5u9W4xRAIUlsJBvMxtU3vZETe4JdRIku6g2cZnPDYAc3ydfesL3A26wijAT+Hz
-         3Hx5jG6RmAQys/MdjrDhYyMm4LqnxZHQlyb3pz0tP3PYsz1tVXOUJ9Tmlcp7t/VesCAU
-         LTJuHCWssTp9ngpTsCviBfTUG5hGRdnHWNM5XPxIe6mKdlfVHWWrcBPCzudNyzTZM9ic
-         xGU83RxJ26oyjB9xxgfJ0LEPnAe7DCYo7F6/pPgE6YC9toNZrL9zyMXFbmVL83kLTERf
-         Vb9/Doe1c68sihbVYRSgkM1kUBbmgwZnBPo9dYMK5dFagevzrTghjI052pRmURan5Pyp
-         z5HA==
-X-Gm-Message-State: AOJu0YyoTIwt6C+88qEIAvaz7zxaqnm/pEYGMBiRp8yjpkPs7I1vvgqs
-	lgI1dBUF2BYB1mprtAsu8aDCxtMkAqClG9xjTpZxINLVJVgT08YuMydVVI7xwPbefRJWrKtgIkH
-	akWru
-X-Gm-Gg: ASbGncvzQaiC2uJ9TnJi9fohzi34zhFU3apkSZCNy/fPX7LtT7Wgg/+1zQGHjTbqH3b
-	zc8CNBwj2U4EdG1KjpgFUxnB7uueYHF2uU/8cIfksrLMt1M2nhJAfVGxRdGsB0N/kGFXS4JrH8B
-	6WwrdDIplxodXZrWR5oNge1OetnKT88zdp66Wg6CYt0F3A/t2+ItooP+AgL+NWfVFhzz3TMSIlG
-	17Ao2bcL2ErCCL8l/PiUsQq60g0GUUTk8Y8uXlugBLaydCJtpp4GcNLVE0qf6GGYIUQNv2KJrtU
-	Q8nVzEZzXBsTzHm3bNTWD2WOv1wWTmWC4y+6zJxj9GcVrZXYEgSsPYPpSybN2MfmIz8Zqs0SR4V
-	Hxr+45av7EbTL6GRppM6m6nkT8iechq9SEb+4N+0xRN/0AfxEtre4SV7ZpGDw3n8sQ53TiqJEtu
-	xjatHfNIF3NLv/6DBB
-X-Google-Smtp-Source: AGHT+IGlhOgrTrFS3lTljK8PD6tgtfOcB8wV5TTCZ+KMjcR3xg+VWPl4LfT+6SvDqRlsNkBtYEe0Eg==
-X-Received: by 2002:a05:600c:45c9:b0:471:115e:87bd with SMTP id 5b1f17b1804b1-4711791c601mr162939935e9.26.1761204671516;
-        Thu, 23 Oct 2025 00:31:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761204706; x=1761809506;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=j7rh8SJ9gjn1LcIjZxSZPwMUci0AXXC8rNsZtSMot00=;
+        b=GvFto1d41FaXU1VhT4PzW+yhQ4wpXSbFsmiQWFbj6VAFy8K0t7CxNMax75+d83XIsO
+         trDwH6RC5KNXK4v1UgtMpk6F8a0BxU1hHdYcFjseYrfAYl61WgnrMeVP7m7V45dfU89B
+         iA/9jFd4etn+LVcQKgY4py+gG13LVdf9AbJ3qvVBUKL/elI1ORI19NL9UQjU91vR3Ojh
+         H9y5MIyoN6/eE5L4bkmrhAC3zXAUulwY0EyZGi4G2ptxoO1Vi7VSBmSTVB8xbRxHaPAg
+         vqzP/CTI7XRHDF73kIH+4zhcVRRpUZH3rQ2fCZw/lkvo2gF2rM7eWIb4LlFI9ECohigK
+         UKvA==
+X-Gm-Message-State: AOJu0YyXTTM/ebVJI2KouyvyCDltr3VdJYP91HdBwFrvQjgxanU1W1y6
+	12VRB1AWUvGmhuCnphh/WMwN3qFbGq8qCClne1Zs79wA1v5Sg3aVhw8sXaPyjcil8k/l6Sl1glx
+	LKAuj
+X-Gm-Gg: ASbGnctcL8WJFU5oicsLH6muwpgJFYkk4HKJoPZfCpjYASt/xjViDSjgYYMxxc+aHWO
+	IXFgAiV4ob5j6XCGMvbI9cZHw6SnmP9xYhC1ojjKQ3eC4rKenQ9Q91pInt+T+IoFAG4d3ajlGVk
+	HZi6YsuYPFGD0PNam0ALfKjz25U+vVp7GeeZZXbB4TWhLV0h3PPAQpzndKXwh2i7sr6NXfwZW16
+	NiQ1eq6rOiAxzOweT3y5e9mpuoInGWOanLhGumpJIMw8+gF49vv1HTyFeE8z6+R2VEZ4Gq30Bzm
+	fBpLtBD/WOiHN+hxEa9snZ5qfbKAACg82wsP8uJgMBMleEsg6nkMln5/MpYAmWQJwyoqHPaQ/bt
+	NM95lm8Lij53FyLlX+Zs7PzEz0DCH40tgYeETRdcF0Et03XhvqbiSczEM75SqeKScIdz2Qr+Yzk
+	81jw7nVxuC8wfo4rYL
+X-Google-Smtp-Source: AGHT+IESUWagdqnffAAf3bOVzRjniJgfIHxBtYyyZ9IRSdPPeiTfClecTkaGhBF5qh1fVlFvauXFYg==
+X-Received: by 2002:a05:600c:3b8d:b0:471:9da:5248 with SMTP id 5b1f17b1804b1-47117917155mr159364105e9.26.1761204705823;
+        Thu, 23 Oct 2025 00:31:45 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-475c428dafesm80214005e9.6.2025.10.23.00.31.10
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-475c428e9b2sm82179725e9.5.2025.10.23.00.31.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 00:31:11 -0700 (PDT)
-Date: Thu, 23 Oct 2025 10:31:07 +0300
+        Thu, 23 Oct 2025 00:31:45 -0700 (PDT)
+Date: Thu, 23 Oct 2025 10:31:42 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ariana Lazar <ariana.lazar@microchip.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ariana Lazar <ariana.lazar@microchip.com>
-Subject: Re: [PATCH 2/2] iio: adc: adding support for PAC1711
-Message-ID: <202510230847.CEW0lvJl-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jack Pham <jack.pham@oss.qualcomm.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: [usb:usb-testing 45/48] drivers/usb/typec/mux/ps883x.c:171
+ ps883x_sw_set() warn: inconsistent returns '&retimer->lock'.
+Message-ID: <202510231023.aJ09O6pk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,68 +76,56 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251015-pac1711-v1-2-976949e36367@microchip.com>
-Message-ID: <20251023073107.RtcJ4d4u0wPmLpkLvRtdTfXeEk3ohCyUqCvvnnkzVK4@z>
+Message-ID: <20251023073142.wuIjcDirNTTH8xqYdnBnm3DTQGFPBieDSb9EwsPhhLI@z>
 
-Hi Ariana,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ariana-Lazar/dt-bindings-iio-adc-adding-support-for-PAC1711/20251016-002337
-base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-patch link:    https://lore.kernel.org/r/20251015-pac1711-v1-2-976949e36367%40microchip.com
-patch subject: [PATCH 2/2] iio: adc: adding support for PAC1711
-config: loongarch-randconfig-r072-20251019 (https://download.01.org/0day-ci/archive/20251023/202510230847.CEW0lvJl-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+head:   93741bd104ce07a790519ecee3a331ee7cf61ae3
+commit: f83cb615cb7a615f9c15787f914a8eee1c6e93d4 [45/48] usb: typec: ps883x: Cache register settings, not Type-C mode
+config: i386-randconfig-141-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231023.aJ09O6pk-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510230847.CEW0lvJl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510231023.aJ09O6pk-lkp@intel.com/
 
-New smatch warnings:
-drivers/iio/adc/pac1711.c:473 pac1711_retrieve_data() error: uninitialized symbol 'ret'.
-drivers/iio/adc/pac1711.c:924 pac1711_read_raw() error: uninitialized symbol 'tmp'.
-drivers/iio/adc/pac1711.c:1124 pac1711_of_parse_channel_config() error: uninitialized symbol 'ret'.
+smatch warnings:
+drivers/usb/typec/mux/ps883x.c:171 ps883x_sw_set() warn: inconsistent returns '&retimer->lock'.
 
-Old smatch warnings:
-drivers/iio/adc/pac1711.c:1079 pac1711_setup_vbus_range() warn: unsigned 'ret' is never less than zero.
-drivers/iio/adc/pac1711.c:1079 pac1711_setup_vbus_range() warn: error code type promoted to positive: 'ret'
-drivers/iio/adc/pac1711.c:1102 pac1711_setup_vsense_range() warn: unsigned 'ret' is never less than zero.
-drivers/iio/adc/pac1711.c:1102 pac1711_setup_vsense_range() warn: error code type promoted to positive: 'ret'
-drivers/iio/adc/pac1711.c:1377 pac1711_probe() warn: passing positive error code '1' to 'dev_err_probe'
+vim +171 drivers/usb/typec/mux/ps883x.c
 
-vim +/ret +473 drivers/iio/adc/pac1711.c
+257a087c8b5206 Abel Vesa     2025-02-06  145  static int ps883x_sw_set(struct typec_switch_dev *sw,
+257a087c8b5206 Abel Vesa     2025-02-06  146  			 enum typec_orientation orientation)
+257a087c8b5206 Abel Vesa     2025-02-06  147  {
+257a087c8b5206 Abel Vesa     2025-02-06  148  	struct ps883x_retimer *retimer = typec_switch_get_drvdata(sw);
+257a087c8b5206 Abel Vesa     2025-02-06  149  	int ret = 0;
+257a087c8b5206 Abel Vesa     2025-02-06  150  
+257a087c8b5206 Abel Vesa     2025-02-06  151  	ret = typec_switch_set(retimer->typec_switch, orientation);
+257a087c8b5206 Abel Vesa     2025-02-06  152  	if (ret)
+257a087c8b5206 Abel Vesa     2025-02-06  153  		return ret;
+257a087c8b5206 Abel Vesa     2025-02-06  154  
+257a087c8b5206 Abel Vesa     2025-02-06  155  	mutex_lock(&retimer->lock);
+257a087c8b5206 Abel Vesa     2025-02-06  156  
+257a087c8b5206 Abel Vesa     2025-02-06  157  	if (retimer->orientation != orientation) {
+257a087c8b5206 Abel Vesa     2025-02-06  158  		retimer->orientation = orientation;
+257a087c8b5206 Abel Vesa     2025-02-06  159  
+f83cb615cb7a61 Konrad Dybcio 2025-10-14  160  		ret = regmap_assign_bits(retimer->regmap, REG_USB_PORT_CONN_STATUS_0,
+f83cb615cb7a61 Konrad Dybcio 2025-10-14  161  					 CONN_STATUS_0_ORIENTATION_REVERSED,
+f83cb615cb7a61 Konrad Dybcio 2025-10-14  162  					 orientation == TYPEC_ORIENTATION_REVERSE);
+f83cb615cb7a61 Konrad Dybcio 2025-10-14  163  		if (ret) {
+f83cb615cb7a61 Konrad Dybcio 2025-10-14  164  			dev_err(&retimer->client->dev, "failed to set orientation: %d\n", ret);
+f83cb615cb7a61 Konrad Dybcio 2025-10-14  165  			return ret;
 
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  450  static int pac1711_retrieve_data(struct pac1711_chip_info *info,
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  451  				 u32 wait_time)
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  452  {
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  453  	int ret;
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  454  
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  455  	/*
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  456  	 * check if the minimal elapsed time has passed and if so,
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  457  	 * re-read the chip, otherwise the cached info is just fine
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  458  	 */
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  459  	if (time_after(jiffies, info->chip_reg_data.jiffies_tstamp +
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  460  			msecs_to_jiffies(PAC1711_MIN_POLLING_TIME_MS))) {
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  461  		ret = pac1711_reg_snapshot(info, true, PAC1711_REFRESH_REG_ADDR,
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  462  					   wait_time);
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  463  
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  464  		/*
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  465  		 * Re-schedule the work for the read registers timeout
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  466  		 * (to prevent chip regs saturation)
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  467  		 */
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  468  		cancel_delayed_work_sync(&info->work_chip_rfsh);
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  469  		schedule_delayed_work(&info->work_chip_rfsh,
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  470  				      msecs_to_jiffies(PAC1711_MAX_RFSH_LIMIT_MS));
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  471  	}
+mutex_unlock(&retimer->lock);
 
-ret isn't initialized on the else path.
-
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  472  
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15 @473  	return ret;
-de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  474  }
+f83cb615cb7a61 Konrad Dybcio 2025-10-14  166  		}
+257a087c8b5206 Abel Vesa     2025-02-06  167  	}
+257a087c8b5206 Abel Vesa     2025-02-06  168  
+257a087c8b5206 Abel Vesa     2025-02-06  169  	mutex_unlock(&retimer->lock);
+257a087c8b5206 Abel Vesa     2025-02-06  170  
+257a087c8b5206 Abel Vesa     2025-02-06 @171  	return ret;
+257a087c8b5206 Abel Vesa     2025-02-06  172  }
 
 -- 
 0-DAY CI Kernel Test Service
