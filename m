@@ -1,195 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DC02EAD16
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Oct 2025 20:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF99A1EBA1E
+	for <oe-kbuild@lists.linux.dev>; Thu, 23 Oct 2025 01:52:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761164657; cv=none; b=AVy2G+H6EvO+FP3SVop5il9Fzvl3eTqyS3fZH5A7kN0ErxmUqswk9/9eKT+McoJ8fqlrGz68qjjzMNgJJCcLTrgs6aLGKqjJ8Lq36hNlbNNgX1Qad2mrFuS7tWJQEAJ5+729Fvik8oLX4iMl8G5rqunuNH7z77tuXlrN9OI5Dfs=
+	t=1761184327; cv=none; b=ZB1CcFuwOCl91NDKZT7o4x2V490tMZKtqaQc7oBfmvFcEN9+1VTPJSnLVHwW+nufPpt1j8VGGUuJcflARUREzg2s9eeg962GEsSbOiwTWS6oJK6lg5PGGGjvCwnO6KhkvntLLrpQgCyys6NEMOvO1gzoeZNAD0fTuIxLTuj2N8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761164657; c=relaxed/simple;
-	bh=tB/Wy2OddGt5cBwV/zvw2DFtSau367i8OUJBKN8jwGo=;
+	s=arc-20240116; t=1761184327; c=relaxed/simple;
+	bh=E3ZN83ru8ix+LnTm9yb/R9RpETgMdZcri+yzbO+dzFE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y+r0NSKcGOZ5J60ZCxpuacwedptCeLJ6Wnn7RYU/5wxY8rzCOCOHf1JlHHxgE9j+NiVn0T4msKIB4VyDbqEOZPOj1ePobllZG/i/PT3SEUZszuEUy0AGk705V/rRpN1kkALhizK/Ox2AuxHAbuALh2LQSfivseGocn/u5Rl7mZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RI+PPyoP; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=jbFNe04o7XULCR0UGiVSGH2PLiCsp5GAI/S8Ao5Knm2H+1GN8RV+pGkzpxma0OXe3e3W0tXiVomAZwGOAsnumZC2JsiGbbxh5otnXv5SR7SlPwk162KBk8llZ4ufz6OUZLL/vT9YMk7GqCxtnshLcXXLzvcnrgYeWqTbV5gdpwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FP23+7jf; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RI+PPyoP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FP23+7jf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761164656; x=1792700656;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tB/Wy2OddGt5cBwV/zvw2DFtSau367i8OUJBKN8jwGo=;
-  b=RI+PPyoPbd0272P2p6OgicGd4UBK6KD42e0v4FbYx5Iqg6o5eXAuc/LP
-   VzVB2Bz5o4tDniDacRXVD8T1WesW5IcgEWVvllDO6c0YFgi/CtHhiQjCe
-   aiTkZkKHl7AGach6dQwonAPK1sjRnM6xoyqO+QKSYCvdo8fp3hKUmu/B0
-   CMnX2rc6tjGIKLixYzvUmoCIcSQqcpQfM+J0chSuIpet67hLcTVLSkFo9
-   oe8+79w6gS+8hI2oICH1DaUfMM930UfD6rV5N3oUt+BMSN/RK0LfaMPV2
-   pSlF4vXCLgSrfp6tAYLOsHG2qrxwY8CJy2JCjA++zATQIrzc+BPpzHG/g
-   A==;
-X-CSE-ConnectionGUID: iCtFuazaTDCE7WEBR1W8ZQ==
-X-CSE-MsgGUID: qBqY2lg1R2+khNzCWiik8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74672448"
-X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="74672448"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 13:24:15 -0700
-X-CSE-ConnectionGUID: PTqScHMWTa+P3UMb+Zb8KQ==
-X-CSE-MsgGUID: SFZ0O99vTdSxEI0m7ynfkg==
+  t=1761184326; x=1792720326;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=E3ZN83ru8ix+LnTm9yb/R9RpETgMdZcri+yzbO+dzFE=;
+  b=FP23+7jfzRVaEhPrYfN7KvNuJ1R8+xHJzppiZg2ggCvq7+OVY7fH7zkJ
+   +r7zcdvBHwL7TZFsEg3RWT35UIUEpnsTiiRCmRV8fUWkOCUTVg4X6PLMI
+   DNEHKEokq91O26P8yQ9Or2aCPMarJJPI56lfZor1JCPBpE7iu02udz/94
+   kVI2qgGX9jYKs3ptxzaGThUevy5sWgUMwsy2hTrcrjARP7IEE2z051S3d
+   3kAhUxF0IEZrzXlLGWf23/oUoqqYxlyP9/N9j6hxKVFKTwkJCHfbC/COQ
+   tvFJvleMJPFfY+1sEg+G2IjFtLIeWLexsG+ftwQUPvK2Iw103QMQjhNrI
+   w==;
+X-CSE-ConnectionGUID: pUzpDLQtQvemo6SB1G5wnA==
+X-CSE-MsgGUID: 1J8WVxvzS1C6BOKlaEDQuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63238326"
+X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
+   d="scan'208";a="63238326"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 18:52:04 -0700
+X-CSE-ConnectionGUID: lOKBSQBLSXKrrl1XoIAfEg==
+X-CSE-MsgGUID: BwwSLkxORsilu8HIAb2bkA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="183670597"
+X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
+   d="scan'208";a="184508185"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 22 Oct 2025 13:24:14 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 22 Oct 2025 18:51:58 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBfNU-000ChT-04;
-	Wed, 22 Oct 2025 20:24:12 +0000
-Date: Thu, 23 Oct 2025 04:24:00 +0800
+	id 1vBkUe-000CuD-0t;
+	Thu, 23 Oct 2025 01:51:56 +0000
+Date: Thu, 23 Oct 2025 09:51:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v3 6/6] fuse: {io-uring} Queue background requests on a
- different core
-Message-ID: <202510230241.HhqkjGx6-lkp@intel.com>
+Subject: Re: [PATCH 2/2] iio: adc: adding support for PAC1711
+Message-ID: <202510230847.CEW0lvJl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251013-reduced-nr-ring-queues_3-v3-6-6d87c8aa31ae@ddn.com>
-References: <20251013-reduced-nr-ring-queues_3-v3-6-6d87c8aa31ae@ddn.com>
-TO: Bernd Schubert <bschubert@ddn.com>
-TO: Miklos Szeredi <miklos@szeredi.hu>
-CC: Joanne Koong <joannelkoong@gmail.com>
-CC: linux-fsdevel@vger.kernel.org
-CC: Luis Henriques <luis@igalia.com>
-CC: Gang He <dchg2000@gmail.com>
-CC: Bernd Schubert <bschubert@ddn.com>
+In-Reply-To: <20251015-pac1711-v1-2-976949e36367@microchip.com>
+References: <20251015-pac1711-v1-2-976949e36367@microchip.com>
+TO: Ariana Lazar <ariana.lazar@microchip.com>
+TO: Jonathan Cameron <jic23@kernel.org>
+TO: David Lechner <dlechner@baylibre.com>
+TO: "Nuno Sá" <nuno.sa@analog.com>
+TO: Andy Shevchenko <andy@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: linux-iio@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Ariana Lazar <ariana.lazar@microchip.com>
 
-Hi Bernd,
+Hi Ariana,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on ec714e371f22f716a04e6ecb2a24988c92b26911]
+[auto build test WARNING on 19272b37aa4f83ca52bdf9c16d5d81bdd1354494]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-io-uring-Add-queue-length-counters/20251014-024703
-base:   ec714e371f22f716a04e6ecb2a24988c92b26911
-patch link:    https://lore.kernel.org/r/20251013-reduced-nr-ring-queues_3-v3-6-6d87c8aa31ae%40ddn.com
-patch subject: [PATCH v3 6/6] fuse: {io-uring} Queue background requests on a different core
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-config: loongarch-randconfig-r072-20251019 (https://download.01.org/0day-ci/archive/20251023/202510230241.HhqkjGx6-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ariana-Lazar/dt-bindings-iio-adc-adding-support-for-PAC1711/20251016-002337
+base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+patch link:    https://lore.kernel.org/r/20251015-pac1711-v1-2-976949e36367%40microchip.com
+patch subject: [PATCH 2/2] iio: adc: adding support for PAC1711
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: loongarch-randconfig-r072-20251019 (https://download.01.org/0day-ci/archive/20251023/202510230847.CEW0lvJl-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510230241.HhqkjGx6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510230847.CEW0lvJl-lkp@intel.com/
 
-smatch warnings:
-fs/fuse/dev_uring.c:1389 fuse_uring_get_queue() error: uninitialized symbol 'best_numa'.
+New smatch warnings:
+drivers/iio/adc/pac1711.c:473 pac1711_retrieve_data() error: uninitialized symbol 'ret'.
+drivers/iio/adc/pac1711.c:924 pac1711_read_raw() error: uninitialized symbol 'tmp'.
+drivers/iio/adc/pac1711.c:1124 pac1711_of_parse_channel_config() error: uninitialized symbol 'ret'.
 
-vim +/best_numa +1389 fs/fuse/dev_uring.c
+Old smatch warnings:
+drivers/iio/adc/pac1711.c:1079 pac1711_setup_vbus_range() warn: unsigned 'ret' is never less than zero.
+drivers/iio/adc/pac1711.c:1079 pac1711_setup_vbus_range() warn: error code type promoted to positive: 'ret'
+drivers/iio/adc/pac1711.c:1102 pac1711_setup_vsense_range() warn: unsigned 'ret' is never less than zero.
+drivers/iio/adc/pac1711.c:1102 pac1711_setup_vsense_range() warn: error code type promoted to positive: 'ret'
+drivers/iio/adc/pac1711.c:1377 pac1711_probe() warn: passing positive error code '1' to 'dev_err_probe'
 
-aca09b212467554 Bernd Schubert 2025-10-13  1302  
-aca09b212467554 Bernd Schubert 2025-10-13  1303  /*
-aca09b212467554 Bernd Schubert 2025-10-13  1304   * Get the best queue for the current CPU
-aca09b212467554 Bernd Schubert 2025-10-13  1305   */
-2482ae85881b957 Bernd Schubert 2025-10-13  1306  static struct fuse_ring_queue *fuse_uring_get_queue(struct fuse_ring *ring,
-2482ae85881b957 Bernd Schubert 2025-10-13  1307  						    bool background)
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1308  {
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1309  	unsigned int qid;
-aca09b212467554 Bernd Schubert 2025-10-13  1310  	struct fuse_ring_queue *local_queue, *best_numa, *best_global;
-aca09b212467554 Bernd Schubert 2025-10-13  1311  	int local_node;
-aca09b212467554 Bernd Schubert 2025-10-13  1312  	const struct cpumask *numa_mask, *global_mask;
-2482ae85881b957 Bernd Schubert 2025-10-13  1313  	int retries = 0;
-2482ae85881b957 Bernd Schubert 2025-10-13  1314  	int weight = -1;
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1315  
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1316  	qid = task_cpu(current);
-868e7728394dbc8 Bernd Schubert 2025-10-13  1317  	if (WARN_ONCE(qid >= ring->max_nr_queues,
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1318  		      "Core number (%u) exceeds nr queues (%zu)\n", qid,
-868e7728394dbc8 Bernd Schubert 2025-10-13  1319  		      ring->max_nr_queues))
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1320  		qid = 0;
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1321  
-aca09b212467554 Bernd Schubert 2025-10-13  1322  	local_node = cpu_to_node(qid);
-aca09b212467554 Bernd Schubert 2025-10-13  1323  	if (WARN_ON_ONCE(local_node > ring->nr_numa_nodes))
-aca09b212467554 Bernd Schubert 2025-10-13  1324  		local_node = 0;
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1325  
-2482ae85881b957 Bernd Schubert 2025-10-13  1326  	local_queue = READ_ONCE(ring->queues[qid]);
-2482ae85881b957 Bernd Schubert 2025-10-13  1327  
-2482ae85881b957 Bernd Schubert 2025-10-13  1328  retry:
-2482ae85881b957 Bernd Schubert 2025-10-13  1329  	/*
-2482ae85881b957 Bernd Schubert 2025-10-13  1330  	 * For background requests, try next CPU in same NUMA domain.
-2482ae85881b957 Bernd Schubert 2025-10-13  1331  	 * I.e. cpu-0 creates async requests, cpu-1 io processes.
-2482ae85881b957 Bernd Schubert 2025-10-13  1332  	 * Similar for foreground requests, when the local queue does not
-2482ae85881b957 Bernd Schubert 2025-10-13  1333  	 * exist - still better to always wake the same cpu id.
-2482ae85881b957 Bernd Schubert 2025-10-13  1334  	 */
-2482ae85881b957 Bernd Schubert 2025-10-13  1335  	if (background || !local_queue) {
-2482ae85881b957 Bernd Schubert 2025-10-13  1336  		numa_mask = ring->numa_registered_q_mask[local_node];
-2482ae85881b957 Bernd Schubert 2025-10-13  1337  
-2482ae85881b957 Bernd Schubert 2025-10-13  1338  		if (weight == -1)
-2482ae85881b957 Bernd Schubert 2025-10-13  1339  			weight = cpumask_weight(numa_mask);
-2482ae85881b957 Bernd Schubert 2025-10-13  1340  
-2482ae85881b957 Bernd Schubert 2025-10-13  1341  		if (weight == 0)
-2482ae85881b957 Bernd Schubert 2025-10-13  1342  			goto global;
-2482ae85881b957 Bernd Schubert 2025-10-13  1343  
-2482ae85881b957 Bernd Schubert 2025-10-13  1344  		if (weight > 1) {
-2482ae85881b957 Bernd Schubert 2025-10-13  1345  			int idx = (qid + 1) % weight;
-2482ae85881b957 Bernd Schubert 2025-10-13  1346  
-2482ae85881b957 Bernd Schubert 2025-10-13  1347  			qid = cpumask_nth(idx, numa_mask);
-2482ae85881b957 Bernd Schubert 2025-10-13  1348  		} else {
-2482ae85881b957 Bernd Schubert 2025-10-13  1349  			qid = cpumask_first(numa_mask);
-2482ae85881b957 Bernd Schubert 2025-10-13  1350  		}
-2482ae85881b957 Bernd Schubert 2025-10-13  1351  
-2482ae85881b957 Bernd Schubert 2025-10-13  1352  		local_queue = READ_ONCE(ring->queues[qid]);
-2482ae85881b957 Bernd Schubert 2025-10-13  1353  		if (WARN_ON_ONCE(!local_queue))
-2482ae85881b957 Bernd Schubert 2025-10-13  1354  			return NULL;
-2482ae85881b957 Bernd Schubert 2025-10-13  1355  	}
-2482ae85881b957 Bernd Schubert 2025-10-13  1356  
-2482ae85881b957 Bernd Schubert 2025-10-13  1357  	if (READ_ONCE(local_queue->nr_reqs) <= FURING_Q_NUMA_THRESHOLD)
-aca09b212467554 Bernd Schubert 2025-10-13  1358  		return local_queue;
-aca09b212467554 Bernd Schubert 2025-10-13  1359  
-2482ae85881b957 Bernd Schubert 2025-10-13  1360  	if (retries < FURING_NEXT_QUEUE_RETRIES && weight > retries + 1) {
-2482ae85881b957 Bernd Schubert 2025-10-13  1361  		retries++;
-2482ae85881b957 Bernd Schubert 2025-10-13  1362  		local_queue = NULL;
-2482ae85881b957 Bernd Schubert 2025-10-13  1363  		goto retry;
-2482ae85881b957 Bernd Schubert 2025-10-13  1364  	}
-2482ae85881b957 Bernd Schubert 2025-10-13  1365  
-aca09b212467554 Bernd Schubert 2025-10-13  1366  	/* Find best NUMA-local queue */
-aca09b212467554 Bernd Schubert 2025-10-13  1367  	numa_mask = ring->numa_registered_q_mask[local_node];
-aca09b212467554 Bernd Schubert 2025-10-13  1368  	best_numa = fuse_uring_best_queue(numa_mask, ring);
-aca09b212467554 Bernd Schubert 2025-10-13  1369  
-aca09b212467554 Bernd Schubert 2025-10-13  1370  	/* If NUMA queue is under threshold, use it */
-aca09b212467554 Bernd Schubert 2025-10-13  1371  	if (best_numa &&
-aca09b212467554 Bernd Schubert 2025-10-13  1372  	    READ_ONCE(best_numa->nr_reqs) <= FURING_Q_NUMA_THRESHOLD)
-aca09b212467554 Bernd Schubert 2025-10-13  1373  		return best_numa;
-aca09b212467554 Bernd Schubert 2025-10-13  1374  
-2482ae85881b957 Bernd Schubert 2025-10-13  1375  global:
-aca09b212467554 Bernd Schubert 2025-10-13  1376  	/* NUMA queues above threshold, try global queues */
-aca09b212467554 Bernd Schubert 2025-10-13  1377  	global_mask = ring->registered_q_mask;
-aca09b212467554 Bernd Schubert 2025-10-13  1378  	best_global = fuse_uring_best_queue(global_mask, ring);
-aca09b212467554 Bernd Schubert 2025-10-13  1379  
-aca09b212467554 Bernd Schubert 2025-10-13  1380  	/* Might happen during tear down */
-aca09b212467554 Bernd Schubert 2025-10-13  1381  	if (!best_global)
-aca09b212467554 Bernd Schubert 2025-10-13  1382  		return NULL;
-aca09b212467554 Bernd Schubert 2025-10-13  1383  
-aca09b212467554 Bernd Schubert 2025-10-13  1384  	/* If global queue is under double threshold, use it */
-aca09b212467554 Bernd Schubert 2025-10-13  1385  	if (READ_ONCE(best_global->nr_reqs) <= FURING_Q_GLOBAL_THRESHOLD)
-aca09b212467554 Bernd Schubert 2025-10-13  1386  		return best_global;
-aca09b212467554 Bernd Schubert 2025-10-13  1387  
-aca09b212467554 Bernd Schubert 2025-10-13  1388  	/* There is no ideal queue, stay numa_local if possible */
-aca09b212467554 Bernd Schubert 2025-10-13 @1389  	return best_numa ? best_numa : best_global;
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1390  }
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1391  
+vim +/ret +473 drivers/iio/adc/pac1711.c
+
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  449  
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  450  static int pac1711_retrieve_data(struct pac1711_chip_info *info,
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  451  				 u32 wait_time)
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  452  {
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  453  	int ret;
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  454  
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  455  	/*
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  456  	 * check if the minimal elapsed time has passed and if so,
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  457  	 * re-read the chip, otherwise the cached info is just fine
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  458  	 */
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  459  	if (time_after(jiffies, info->chip_reg_data.jiffies_tstamp +
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  460  			msecs_to_jiffies(PAC1711_MIN_POLLING_TIME_MS))) {
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  461  		ret = pac1711_reg_snapshot(info, true, PAC1711_REFRESH_REG_ADDR,
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  462  					   wait_time);
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  463  
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  464  		/*
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  465  		 * Re-schedule the work for the read registers timeout
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  466  		 * (to prevent chip regs saturation)
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  467  		 */
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  468  		cancel_delayed_work_sync(&info->work_chip_rfsh);
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  469  		schedule_delayed_work(&info->work_chip_rfsh,
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  470  				      msecs_to_jiffies(PAC1711_MAX_RFSH_LIMIT_MS));
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  471  	}
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  472  
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15 @473  	return ret;
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  474  }
+de2a3cdfd6e76b2 Ariana Lazar 2025-10-15  475  
 
 -- 
 0-DAY CI Kernel Test Service
