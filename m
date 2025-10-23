@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2B022068B
-	for <oe-kbuild@lists.linux.dev>; Thu, 23 Oct 2025 05:18:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFC04CB5B
+	for <oe-kbuild@lists.linux.dev>; Thu, 23 Oct 2025 06:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761196725; cv=none; b=bRD0av1BcovAAtP43KWqrZRV9dTso3mhDOzHwESWno4ITuF3M2Qtxs8/3FxvKInjA7my5v31rp5tKulTx5IBHvFphKHms3cKz12lmCJpIrv6+U7qvScr03m+CoGpg1CI9HGTErTMhBNXgGzsiQ8nzKqKhclANVDRLTSlTAZy5C8=
+	t=1761199266; cv=none; b=A4g8vpJJ6SWTA6sHtFyOI8tSXidJ6eHUYOtOXtG0Qk8txBgfP2eb+OFOGofHz2B7LuglpRciFy2559bwIKSiE9os7vKENomqKXU/j2WbK0i0WXhD/no9osUbaWSlD/RGJOUw3cIyC/erDj2JRKC6Io3m3YgaaJNyXjt/GecjEEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761196725; c=relaxed/simple;
-	bh=TQun1d6GSIb/DO7cjK9ujuRpe4Mjk+lH/CW9B8aRbZg=;
+	s=arc-20240116; t=1761199266; c=relaxed/simple;
+	bh=DMPKegijgS1/weUjhEVmtku1eOyYcC4rdU3BJe32arg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ukfW25o+se/yAM2QEEl9JnRJjTREiexC+sT/b0U2nSz3BuBNwxint2BvyGEruvWb6JO3Ek8Jt6QJounR6byuPo9NJuZKcu01NO4OedmRnkkBn7+zrh6BAmyoqJOjhlcG/krCc9vh7rOWccLwhZIxR7VXsgsv/mDYh26Fr9zxMuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SEWt4zP9; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=POBSwp17D1XqIZe5AgJ3y6XCdAsGrrTPaun2CMpmxZ/iOZwB4V2CMKqn/aGBAMNa1mLo3PslOLmeqzLs51ZWhZSIWHmbozwBWKBqT7SbWMMN6PJXXcN0FasabS86ZI78SUcoM9C2FCtz00ZMS87WFbWyMHSk/6KK1vPfkdo65SI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XHDJk6KS; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SEWt4zP9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XHDJk6KS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761196724; x=1792732724;
+  t=1761199264; x=1792735264;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TQun1d6GSIb/DO7cjK9ujuRpe4Mjk+lH/CW9B8aRbZg=;
-  b=SEWt4zP9IlRPw9deLaKE4PS+VYxaWqxFQsk6nuDWiG38PBL1enhYDkyf
-   ++zNyUrmYO570V42brzFqPuRFtM6W8Hrm4raGKY6vpmwvtL+AlwYNXhh6
-   /6OvCJiB2POEhlN9nqO8gLs9w89wivHFq8NnCWM4+Wdktmnsyi0mrzGRZ
-   AnAGjSARrZ6m3/mtPkURyj+VIXi7h+joMvQc8j7X7VCiIPC55WtM9gn42
-   c+Lz1ZSgZkkgi56k9pSlzIIyDDa6u8Swmd05EiYF8qyBudbSakg8VK3Ah
-   nH5SOJAnY4JZ8u1pNTc9Fc4c4bzgP6akf2L8obeBtHsm4bm6UaDy+5gU3
-   Q==;
-X-CSE-ConnectionGUID: aD2U7MnERvCZjRfh3rNx6w==
-X-CSE-MsgGUID: R8x+Pi/lSqWvqnPTEEkPbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="80792765"
+  bh=DMPKegijgS1/weUjhEVmtku1eOyYcC4rdU3BJe32arg=;
+  b=XHDJk6KS+yCKaarNGYvpM0lFNGwWALWyoSBa1aiK/id5wBdtc/Yzjj/O
+   dIdb7VZVXZyVKgMZ/0pyjetPT9kEwl3CHPHMQ/TmLrQtlsX33OiAXpKHY
+   O3tABzHuEcLNEV6Zhe/Inb5XCgKDUCuDIJ6owX7sbDf9TWdpfiexV7vkj
+   0v+ANMKQFQjLmaRQy6Gbbx32YdjI4YB/zT69WfP5/smdnmK5ebQ4hgbdC
+   0D2Wv9MGKtQBGxuBMp0wsqZ4ysfKT4TqzU/i4mmI8NgcnulzP7z7R0mcO
+   kZk29xn5v51pmBz/3WurzaFY46SrgB+5BXCG49pVb9eZDcqHkaR1IfSoK
+   A==;
+X-CSE-ConnectionGUID: +0TWXZK4Ty+neEw7F/wr9g==
+X-CSE-MsgGUID: cz/0SalsTk+77LUHNTs9CA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74704633"
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="80792765"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 22:18:43 -0700
-X-CSE-ConnectionGUID: /xdputIXQO2oprXpK7yvvQ==
-X-CSE-MsgGUID: UX+GWG1DQv+CiSMLOArBSQ==
+   d="scan'208";a="74704633"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 23:01:04 -0700
+X-CSE-ConnectionGUID: FnYC/a8SR+m17uBLRQHmBg==
+X-CSE-MsgGUID: vnGfY8u4Tam8OYPyrTc7dQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="188460492"
+   d="scan'208";a="183768562"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Oct 2025 22:18:42 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 22 Oct 2025 23:01:02 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBnih-000D3W-33;
-	Thu, 23 Oct 2025 05:18:39 +0000
-Date: Thu, 23 Oct 2025 13:18:37 +0800
+	id 1vBoNg-000D5F-12;
+	Thu, 23 Oct 2025 06:01:00 +0000
+Date: Thu, 23 Oct 2025 14:00:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [l1k:doe 12/12] lib/spdm/req-netlink.c:123 spdm_netlink_sig_event()
- warn: missing unwind goto?
-Message-ID: <202510231302.hW7zNvXa-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpio/gpiolib-acpi-core.c:379:8-15: WARNING: Consider using
+ %pe to print PTR_ERR()
+Message-ID: <202510231350.calxvXIm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,157 +64,149 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Lukas Wunner <lukas@wunner.de>
+CC: linux-kernel@vger.kernel.org
+TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Hans de Goede <hdegoede@redhat.com>
 
-tree:   https://github.com/l1k/linux doe
-head:   7505d39770b6e267ed934902a491e499ab4e6153
-commit: 7505d39770b6e267ed934902a491e499ab4e6153 [12/12] spdm: Multicast received signatures via netlink
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
-config: loongarch-randconfig-r072-20251019 (https://download.01.org/0day-ci/archive/20251023/202510231302.hW7zNvXa-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
+Hi Andy,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   43e9ad0c55a369ecc84a4788d06a8a6bfa634f1c
+commit: 92dc572852ddcae687590cb159189004d58e382e gpiolib: acpi: Move quirks to a separate file
+date:   5 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-104-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231350.calxvXIm-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510231302.hW7zNvXa-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202510231350.calxvXIm-lkp@intel.com/
 
-smatch warnings:
-lib/spdm/req-netlink.c:123 spdm_netlink_sig_event() warn: missing unwind goto?
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpio/gpiolib-acpi-core.c:379:8-15: WARNING: Consider using %pe to print PTR_ERR()
 
-vim +123 lib/spdm/req-netlink.c
+vim +379 drivers/gpio/gpiolib-acpi-core.c
 
-7505d39770b6e26 Lukas Wunner 2024-04-11   12  
-7505d39770b6e26 Lukas Wunner 2024-04-11   13  int spdm_netlink_sig_event(struct spdm_state *spdm_state,
-7505d39770b6e26 Lukas Wunner 2024-04-11   14  			   enum spdm_reqrsp_code rsp_code, u8 slot,
-7505d39770b6e26 Lukas Wunner 2024-04-11   15  			   size_t req_nonce_off, size_t rsp_nonce_off,
-7505d39770b6e26 Lukas Wunner 2024-04-11   16  			   const char *spdm_context)
-7505d39770b6e26 Lukas Wunner 2024-04-11   17  {
-7505d39770b6e26 Lukas Wunner 2024-04-11   18  	unsigned int seq, msg_sz, nr_msgs, nr_pages, nr_frags;
-7505d39770b6e26 Lukas Wunner 2024-04-11   19  	char *devpath __free(kfree) = NULL;
-7505d39770b6e26 Lukas Wunner 2024-04-11   20  	struct sk_buff *msg;
-7505d39770b6e26 Lukas Wunner 2024-04-11   21  	struct nlattr *nla;
-7505d39770b6e26 Lukas Wunner 2024-04-11   22  	void *hdr, *ptr;
-7505d39770b6e26 Lukas Wunner 2024-04-11   23  	int rc, i;
-7505d39770b6e26 Lukas Wunner 2024-04-11   24  
-7505d39770b6e26 Lukas Wunner 2024-04-11   25  	if (!genl_has_listeners(&spdm_nl_family, &init_net, SPDM_NLGRP_SIG))
-7505d39770b6e26 Lukas Wunner 2024-04-11   26  		return 0;
-7505d39770b6e26 Lukas Wunner 2024-04-11   27  
-7505d39770b6e26 Lukas Wunner 2024-04-11   28  	devpath = kobject_get_path(&spdm_state->dev->kobj, GFP_KERNEL);
-7505d39770b6e26 Lukas Wunner 2024-04-11   29  	if (!devpath)
-7505d39770b6e26 Lukas Wunner 2024-04-11   30  		return -ENOMEM;
-7505d39770b6e26 Lukas Wunner 2024-04-11   31  
-7505d39770b6e26 Lukas Wunner 2024-04-11   32  	nr_pages = spdm_state->transcript_max / PAGE_SIZE;
-7505d39770b6e26 Lukas Wunner 2024-04-11   33  	nr_msgs = DIV_ROUND_UP(nr_pages, MAX_SKB_FRAGS);
-7505d39770b6e26 Lukas Wunner 2024-04-11   34  
-7505d39770b6e26 Lukas Wunner 2024-04-11   35  	/* Calculate exact size to avoid reallocation by netlink_trim() */
-7505d39770b6e26 Lukas Wunner 2024-04-11   36  	msg_sz = nlmsg_total_size(genlmsg_msg_size(
-7505d39770b6e26 Lukas Wunner 2024-04-11   37  			nla_total_size(strlen(devpath)) +
-7505d39770b6e26 Lukas Wunner 2024-04-11   38  			nla_total_size(sizeof(u8)) +
-7505d39770b6e26 Lukas Wunner 2024-04-11   39  			nla_total_size(sizeof(u8)) +
-7505d39770b6e26 Lukas Wunner 2024-04-11   40  			nla_total_size(sizeof(u16)) +
-7505d39770b6e26 Lukas Wunner 2024-04-11   41  			nla_total_size(sizeof(u32)) +
-7505d39770b6e26 Lukas Wunner 2024-04-11   42  			nla_total_size(sizeof(u32)) +
-7505d39770b6e26 Lukas Wunner 2024-04-11   43  			nla_total_size(sizeof(u32)) +
-7505d39770b6e26 Lukas Wunner 2024-04-11   44  			nla_total_size(SPDM_COMBINED_PREFIX_SZ) +
-7505d39770b6e26 Lukas Wunner 2024-04-11   45  			nla_total_size(0)));
-7505d39770b6e26 Lukas Wunner 2024-04-11   46  
-7505d39770b6e26 Lukas Wunner 2024-04-11   47  	msg = genlmsg_new(msg_sz, GFP_KERNEL);
-7505d39770b6e26 Lukas Wunner 2024-04-11   48  	if (!msg)
-7505d39770b6e26 Lukas Wunner 2024-04-11   49  		return -ENOMEM;
-7505d39770b6e26 Lukas Wunner 2024-04-11   50  
-7505d39770b6e26 Lukas Wunner 2024-04-11   51  	hdr = genlmsg_put(msg, 0, 0, &spdm_nl_family,
-7505d39770b6e26 Lukas Wunner 2024-04-11   52  			  nr_msgs > 1 ? NLM_F_MULTI : 0, SPDM_CMD_SIG);
-7505d39770b6e26 Lukas Wunner 2024-04-11   53  	if (!hdr) {
-7505d39770b6e26 Lukas Wunner 2024-04-11   54  		rc = -EMSGSIZE;
-7505d39770b6e26 Lukas Wunner 2024-04-11   55  		goto err_free_msg;
-7505d39770b6e26 Lukas Wunner 2024-04-11   56  	}
-7505d39770b6e26 Lukas Wunner 2024-04-11   57  
-7505d39770b6e26 Lukas Wunner 2024-04-11   58  	if (nla_put_string(msg, SPDM_A_SIG_DEVICE, devpath) ||
-7505d39770b6e26 Lukas Wunner 2024-04-11   59  	    nla_put_u8(msg, SPDM_A_SIG_RSP_CODE, rsp_code) ||
-7505d39770b6e26 Lukas Wunner 2024-04-11   60  	    nla_put_u8(msg, SPDM_A_SIG_SLOT, slot) ||
-7505d39770b6e26 Lukas Wunner 2024-04-11   61  	    nla_put_u16(msg, SPDM_A_SIG_HASH_ALGO,
-7505d39770b6e26 Lukas Wunner 2024-04-11   62  			spdm_state->base_hash_alg) ||
-7505d39770b6e26 Lukas Wunner 2024-04-11   63  	    nla_put_u32(msg, SPDM_A_SIG_SIG_OFFSET,
-7505d39770b6e26 Lukas Wunner 2024-04-11   64  			spdm_state->transcript_end - spdm_state->transcript -
-7505d39770b6e26 Lukas Wunner 2024-04-11   65  		        spdm_state->sig_len) ||
-7505d39770b6e26 Lukas Wunner 2024-04-11   66  	    nla_put_u32(msg, SPDM_A_SIG_REQ_NONCE_OFFSET, req_nonce_off) ||
-7505d39770b6e26 Lukas Wunner 2024-04-11   67  	    nla_put_u32(msg, SPDM_A_SIG_RSP_NONCE_OFFSET, rsp_nonce_off)) {
-7505d39770b6e26 Lukas Wunner 2024-04-11   68  		rc = -EMSGSIZE;
-7505d39770b6e26 Lukas Wunner 2024-04-11   69  		goto err_cancel_msg;
-7505d39770b6e26 Lukas Wunner 2024-04-11   70  	}
-7505d39770b6e26 Lukas Wunner 2024-04-11   71  
-7505d39770b6e26 Lukas Wunner 2024-04-11   72  	if (spdm_state->version >= 0x12) {
-7505d39770b6e26 Lukas Wunner 2024-04-11   73  		nla = nla_reserve(msg, SPDM_A_SIG_COMBINED_SPDM_PREFIX,
-7505d39770b6e26 Lukas Wunner 2024-04-11   74  				  SPDM_COMBINED_PREFIX_SZ);
-7505d39770b6e26 Lukas Wunner 2024-04-11   75  		if (!nla) {
-7505d39770b6e26 Lukas Wunner 2024-04-11   76  			rc = -EMSGSIZE;
-7505d39770b6e26 Lukas Wunner 2024-04-11   77  			goto err_cancel_msg;
-7505d39770b6e26 Lukas Wunner 2024-04-11   78  		}
-7505d39770b6e26 Lukas Wunner 2024-04-11   79  
-7505d39770b6e26 Lukas Wunner 2024-04-11   80  		spdm_create_combined_prefix(spdm_state->version, spdm_context,
-7505d39770b6e26 Lukas Wunner 2024-04-11   81  					    nla_data(nla));
-7505d39770b6e26 Lukas Wunner 2024-04-11   82  	}
-7505d39770b6e26 Lukas Wunner 2024-04-11   83  
-7505d39770b6e26 Lukas Wunner 2024-04-11   84  	ptr = spdm_state->transcript;
-7505d39770b6e26 Lukas Wunner 2024-04-11   85  
-7505d39770b6e26 Lukas Wunner 2024-04-11   86  	/* Loop over Netlink messages - break condition is in loop body */
-7505d39770b6e26 Lukas Wunner 2024-04-11   87  	for (seq = 1; ; seq++) {
-7505d39770b6e26 Lukas Wunner 2024-04-11   88  		nla = nla_reserve(msg, SPDM_A_SIG_TRANSCRIPT, 0);
-7505d39770b6e26 Lukas Wunner 2024-04-11   89  		if (!nla) {
-7505d39770b6e26 Lukas Wunner 2024-04-11   90  			rc = -EMSGSIZE;
-7505d39770b6e26 Lukas Wunner 2024-04-11   91  			goto err_cancel_msg;
-7505d39770b6e26 Lukas Wunner 2024-04-11   92  		}
-7505d39770b6e26 Lukas Wunner 2024-04-11   93  
-7505d39770b6e26 Lukas Wunner 2024-04-11   94  		nr_frags = min(nr_pages, MAX_SKB_FRAGS);
-7505d39770b6e26 Lukas Wunner 2024-04-11   95  		nla->nla_len = nr_frags * PAGE_SIZE;
-7505d39770b6e26 Lukas Wunner 2024-04-11   96  		nr_pages -= nr_frags;
-7505d39770b6e26 Lukas Wunner 2024-04-11   97  
-7505d39770b6e26 Lukas Wunner 2024-04-11   98  		/* Loop over fragments of this Netlink message */
-7505d39770b6e26 Lukas Wunner 2024-04-11   99  		for (i = 0; i < nr_frags; i++) {
-7505d39770b6e26 Lukas Wunner 2024-04-11  100  			struct page *page = vmalloc_to_page(ptr);
-7505d39770b6e26 Lukas Wunner 2024-04-11  101  			size_t remainder = spdm_state->transcript_end - ptr;
-7505d39770b6e26 Lukas Wunner 2024-04-11  102  			size_t sz = min(remainder, PAGE_SIZE);
-7505d39770b6e26 Lukas Wunner 2024-04-11  103  
-7505d39770b6e26 Lukas Wunner 2024-04-11  104  			get_page(page);
-7505d39770b6e26 Lukas Wunner 2024-04-11  105  			skb_add_rx_frag(msg, i, page, 0, sz, sz);
-7505d39770b6e26 Lukas Wunner 2024-04-11  106  			ptr += PAGE_SIZE;
-7505d39770b6e26 Lukas Wunner 2024-04-11  107  		}
-7505d39770b6e26 Lukas Wunner 2024-04-11  108  
-7505d39770b6e26 Lukas Wunner 2024-04-11  109  		genlmsg_end(msg, hdr);
-7505d39770b6e26 Lukas Wunner 2024-04-11  110  		rc = genlmsg_multicast(&spdm_nl_family, msg, 0,
-7505d39770b6e26 Lukas Wunner 2024-04-11  111  				       SPDM_NLGRP_SIG, GFP_KERNEL);
-7505d39770b6e26 Lukas Wunner 2024-04-11  112  		if (rc)
-7505d39770b6e26 Lukas Wunner 2024-04-11  113  			return rc;
-7505d39770b6e26 Lukas Wunner 2024-04-11  114  
-7505d39770b6e26 Lukas Wunner 2024-04-11  115  		if (nr_pages == 0) /* End of loop - entire transcript sent */
-7505d39770b6e26 Lukas Wunner 2024-04-11  116  			break;
-7505d39770b6e26 Lukas Wunner 2024-04-11  117  
-7505d39770b6e26 Lukas Wunner 2024-04-11  118  		/* Start new message for remainder of transcript */
-7505d39770b6e26 Lukas Wunner 2024-04-11  119  		msg_sz = nlmsg_total_size(genlmsg_msg_size(nla_total_size(0)));
-7505d39770b6e26 Lukas Wunner 2024-04-11  120  
-7505d39770b6e26 Lukas Wunner 2024-04-11  121  		msg = genlmsg_new(msg_sz, GFP_KERNEL);
-7505d39770b6e26 Lukas Wunner 2024-04-11  122  		if (!msg)
-7505d39770b6e26 Lukas Wunner 2024-04-11 @123  			return -ENOMEM;
-7505d39770b6e26 Lukas Wunner 2024-04-11  124  
-7505d39770b6e26 Lukas Wunner 2024-04-11  125  		hdr = genlmsg_put(msg, 0, seq, &spdm_nl_family,
-7505d39770b6e26 Lukas Wunner 2024-04-11  126  				  NLM_F_MULTI, SPDM_CMD_SIG);
-7505d39770b6e26 Lukas Wunner 2024-04-11  127  		if (!hdr) {
-7505d39770b6e26 Lukas Wunner 2024-04-11  128  			rc = -EMSGSIZE;
-7505d39770b6e26 Lukas Wunner 2024-04-11  129  			goto err_free_msg;
-7505d39770b6e26 Lukas Wunner 2024-04-11  130  		}
-7505d39770b6e26 Lukas Wunner 2024-04-11  131  	}
-7505d39770b6e26 Lukas Wunner 2024-04-11  132  
-7505d39770b6e26 Lukas Wunner 2024-04-11  133  	return 0;
-7505d39770b6e26 Lukas Wunner 2024-04-11  134  
-7505d39770b6e26 Lukas Wunner 2024-04-11  135  err_cancel_msg:
-7505d39770b6e26 Lukas Wunner 2024-04-11  136  	nlmsg_cancel(msg, hdr);
-7505d39770b6e26 Lukas Wunner 2024-04-11  137  err_free_msg:
-7505d39770b6e26 Lukas Wunner 2024-04-11  138  	nlmsg_free(msg);
-7505d39770b6e26 Lukas Wunner 2024-04-11  139  	return rc;
-7505d39770b6e26 Lukas Wunner 2024-04-11  140  }
-7505d39770b6e26 Lukas Wunner 2024-04-11  141  
+2ccb21f5516afe drivers/gpio/gpiolib-acpi.c Hans de Goede      2020-03-02  334  
+d4fc46f1739d2e drivers/gpio/gpiolib-acpi.c Hans de Goede      2019-11-14  335  /* Always returns AE_OK so that we keep looping over the resources */
+e59f5e08ece106 drivers/gpio/gpiolib-acpi.c Hans de Goede      2018-11-28  336  static acpi_status acpi_gpiochip_alloc_event(struct acpi_resource *ares,
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  337  					     void *context)
+0d1c28a449c6c2 drivers/gpio/gpiolib-acpi.c Mathias Nyman      2013-01-28  338  {
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  339  	struct acpi_gpio_chip *acpi_gpio = context;
+aa92b6f689acf1 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  340  	struct gpio_chip *chip = acpi_gpio->chip;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  341  	struct acpi_resource_gpio *agpio;
+7fc7acb9a0b0ff drivers/gpio/gpiolib-acpi.c Rafael J. Wysocki  2013-04-09  342  	acpi_handle handle, evt_handle;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  343  	struct acpi_gpio_event *event;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  344  	irq_handler_t handler = NULL;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  345  	struct gpio_desc *desc;
+0c2cae09a765b1 drivers/gpio/gpiolib-acpi.c Andy Shevchenko    2022-03-17  346  	unsigned int pin;
+0c2cae09a765b1 drivers/gpio/gpiolib-acpi.c Andy Shevchenko    2022-03-17  347  	int ret, irq;
+0d1c28a449c6c2 drivers/gpio/gpiolib-acpi.c Mathias Nyman      2013-01-28  348  
+25e3ef894eef41 drivers/gpio/gpiolib-acpi.c Andy Shevchenko    2017-05-23  349  	if (!acpi_gpio_get_irq_resource(ares, &agpio))
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  350  		return AE_OK;
+0d1c28a449c6c2 drivers/gpio/gpiolib-acpi.c Mathias Nyman      2013-01-28  351  
+58383c78425e4e drivers/gpio/gpiolib-acpi.c Linus Walleij      2015-11-04  352  	handle = ACPI_HANDLE(chip->parent);
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  353  	pin = agpio->pin_table[0];
+0d1c28a449c6c2 drivers/gpio/gpiolib-acpi.c Mathias Nyman      2013-01-28  354  
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  355  	if (pin <= 255) {
+213d266ebfb162 drivers/gpio/gpiolib-acpi.c Linus Torvalds     2022-03-19  356  		char ev_name[8];
+213d266ebfb162 drivers/gpio/gpiolib-acpi.c Linus Torvalds     2022-03-19  357  		sprintf(ev_name, "_%c%02X",
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  358  			agpio->triggering == ACPI_EDGE_SENSITIVE ? 'E' : 'L',
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  359  			pin);
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  360  		if (ACPI_SUCCESS(acpi_get_handle(handle, ev_name, &evt_handle)))
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  361  			handler = acpi_gpio_irq_handler;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  362  	}
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  363  	if (!handler) {
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  364  		if (ACPI_SUCCESS(acpi_get_handle(handle, "_EVT", &evt_handle)))
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  365  			handler = acpi_gpio_irq_handler_evt;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  366  	}
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  367  	if (!handler)
+c06632ea054c49 drivers/gpio/gpiolib-acpi.c Hans de Goede      2017-06-23  368  		return AE_OK;
+0d1c28a449c6c2 drivers/gpio/gpiolib-acpi.c Mathias Nyman      2013-01-28  369  
+b24fd5bc8e6d6b drivers/gpio/gpiolib-acpi.c Andy Shevchenko    2025-05-13  370  	if (acpi_gpio_in_ignore_list(ACPI_GPIO_IGNORE_INTERRUPT, dev_name(chip->parent), pin)) {
+5fb36a8c87d9e9 drivers/gpio/gpiolib-acpi.c Hans de Goede      2023-09-09  371  		dev_info(chip->parent, "Ignoring interrupt on pin %u\n", pin);
+5fb36a8c87d9e9 drivers/gpio/gpiolib-acpi.c Hans de Goede      2023-09-09  372  		return AE_OK;
+5fb36a8c87d9e9 drivers/gpio/gpiolib-acpi.c Hans de Goede      2023-09-09  373  	}
+5fb36a8c87d9e9 drivers/gpio/gpiolib-acpi.c Hans de Goede      2023-09-09  374  
+2e2b496cebefb9 drivers/gpio/gpiolib-acpi.c Andy Shevchenko    2020-11-11  375  	desc = acpi_request_own_gpiod(chip, agpio, 0, "ACPI:Event");
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  376  	if (IS_ERR(desc)) {
+3f86a7e090d1df drivers/gpio/gpiolib-acpi.c Hans de Goede      2019-11-14  377  		dev_err(chip->parent,
+3f86a7e090d1df drivers/gpio/gpiolib-acpi.c Hans de Goede      2019-11-14  378  			"Failed to request GPIO for pin 0x%04X, err %ld\n",
+3f86a7e090d1df drivers/gpio/gpiolib-acpi.c Hans de Goede      2019-11-14 @379  			pin, PTR_ERR(desc));
+d4fc46f1739d2e drivers/gpio/gpiolib-acpi.c Hans de Goede      2019-11-14  380  		return AE_OK;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  381  	}
+0d1c28a449c6c2 drivers/gpio/gpiolib-acpi.c Mathias Nyman      2013-01-28  382  
+e3a2e87893125b drivers/gpio/gpiolib-acpi.c Alexandre Courbot  2014-10-23  383  	ret = gpiochip_lock_as_irq(chip, pin);
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  384  	if (ret) {
+3f86a7e090d1df drivers/gpio/gpiolib-acpi.c Hans de Goede      2019-11-14  385  		dev_err(chip->parent,
+3f86a7e090d1df drivers/gpio/gpiolib-acpi.c Hans de Goede      2019-11-14  386  			"Failed to lock GPIO pin 0x%04X as interrupt, err %d\n",
+3f86a7e090d1df drivers/gpio/gpiolib-acpi.c Hans de Goede      2019-11-14  387  			pin, ret);
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  388  		goto fail_free_desc;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  389  	}
+7fc7acb9a0b0ff drivers/gpio/gpiolib-acpi.c Rafael J. Wysocki  2013-04-09  390  
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  391  	irq = gpiod_to_irq(desc);
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  392  	if (irq < 0) {
+3f86a7e090d1df drivers/gpio/gpiolib-acpi.c Hans de Goede      2019-11-14  393  		dev_err(chip->parent,
+3f86a7e090d1df drivers/gpio/gpiolib-acpi.c Hans de Goede      2019-11-14  394  			"Failed to translate GPIO pin 0x%04X to IRQ, err %d\n",
+3f86a7e090d1df drivers/gpio/gpiolib-acpi.c Hans de Goede      2019-11-14  395  			pin, irq);
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  396  		goto fail_unlock_irq;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  397  	}
+7fc7acb9a0b0ff drivers/gpio/gpiolib-acpi.c Rafael J. Wysocki  2013-04-09  398  
+e59f5e08ece106 drivers/gpio/gpiolib-acpi.c Hans de Goede      2018-11-28  399  	event = kzalloc(sizeof(*event), GFP_KERNEL);
+e59f5e08ece106 drivers/gpio/gpiolib-acpi.c Hans de Goede      2018-11-28  400  	if (!event)
+e59f5e08ece106 drivers/gpio/gpiolib-acpi.c Hans de Goede      2018-11-28  401  		goto fail_unlock_irq;
+e59f5e08ece106 drivers/gpio/gpiolib-acpi.c Hans de Goede      2018-11-28  402  
+e59f5e08ece106 drivers/gpio/gpiolib-acpi.c Hans de Goede      2018-11-28  403  	event->irqflags = IRQF_ONESHOT;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  404  	if (agpio->triggering == ACPI_LEVEL_SENSITIVE) {
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  405  		if (agpio->polarity == ACPI_ACTIVE_HIGH)
+e59f5e08ece106 drivers/gpio/gpiolib-acpi.c Hans de Goede      2018-11-28  406  			event->irqflags |= IRQF_TRIGGER_HIGH;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  407  		else
+e59f5e08ece106 drivers/gpio/gpiolib-acpi.c Hans de Goede      2018-11-28  408  			event->irqflags |= IRQF_TRIGGER_LOW;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  409  	} else {
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  410  		switch (agpio->polarity) {
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  411  		case ACPI_ACTIVE_HIGH:
+e59f5e08ece106 drivers/gpio/gpiolib-acpi.c Hans de Goede      2018-11-28  412  			event->irqflags |= IRQF_TRIGGER_RISING;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  413  			break;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  414  		case ACPI_ACTIVE_LOW:
+e59f5e08ece106 drivers/gpio/gpiolib-acpi.c Hans de Goede      2018-11-28  415  			event->irqflags |= IRQF_TRIGGER_FALLING;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  416  			break;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  417  		default:
+e59f5e08ece106 drivers/gpio/gpiolib-acpi.c Hans de Goede      2018-11-28  418  			event->irqflags |= IRQF_TRIGGER_RISING |
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  419  					   IRQF_TRIGGER_FALLING;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  420  			break;
+7fc7acb9a0b0ff drivers/gpio/gpiolib-acpi.c Rafael J. Wysocki  2013-04-09  421  		}
+7fc7acb9a0b0ff drivers/gpio/gpiolib-acpi.c Rafael J. Wysocki  2013-04-09  422  	}
+aa92b6f689acf1 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  423  
+4b01a14bac7335 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  424  	event->handle = evt_handle;
+e59f5e08ece106 drivers/gpio/gpiolib-acpi.c Hans de Goede      2018-11-28  425  	event->handler = handler;
+4b01a14bac7335 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  426  	event->irq = irq;
+2ccb21f5516afe drivers/gpio/gpiolib-acpi.c Hans de Goede      2020-03-02  427  	event->irq_is_wake = acpi_gpio_irq_is_wake(chip->parent, agpio);
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  428  	event->pin = pin;
+e46cf32ced90d0 drivers/gpio/gpiolib-acpi.c Alexandre Courbot  2014-08-19  429  	event->desc = desc;
+0d1c28a449c6c2 drivers/gpio/gpiolib-acpi.c Mathias Nyman      2013-01-28  430  
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  431  	list_add_tail(&event->node, &acpi_gpio->events);
+ca876c7483b697 drivers/gpio/gpiolib-acpi.c Benjamin Tissoires 2018-07-12  432  
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  433  	return AE_OK;
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  434  
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  435  fail_unlock_irq:
+e3a2e87893125b drivers/gpio/gpiolib-acpi.c Alexandre Courbot  2014-10-23  436  	gpiochip_unlock_as_irq(chip, pin);
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  437  fail_free_desc:
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  438  	gpiochip_free_own_desc(desc);
+6072b9dcf97870 drivers/gpio/gpiolib-acpi.c Mika Westerberg    2014-03-10  439  
+d4fc46f1739d2e drivers/gpio/gpiolib-acpi.c Hans de Goede      2019-11-14  440  	return AE_OK;
+0d1c28a449c6c2 drivers/gpio/gpiolib-acpi.c Mathias Nyman      2013-01-28  441  }
+7fc7acb9a0b0ff drivers/gpio/gpiolib-acpi.c Rafael J. Wysocki  2013-04-09  442  
+
+:::::: The code at line 379 was first introduced by commit
+:::::: 3f86a7e090d1dfb974a9dc9d44049f9bff01e6a5 gpiolib: acpi: Print pin number on acpi_gpiochip_alloc_event errors
+
+:::::: TO: Hans de Goede <hdegoede@redhat.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
