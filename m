@@ -1,58 +1,36 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [83.223.95.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111EF2FE06C
-	for <oe-kbuild@lists.linux.dev>; Thu, 23 Oct 2025 09:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4282FF14C
+	for <oe-kbuild@lists.linux.dev>; Thu, 23 Oct 2025 10:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761213538; cv=none; b=bhtf0ozoP/FLLNX5cd3g4XT0+25FW2b3bWhnELPrgqfUX+uU7hdF6vCPwD4fSt5JFNZRsTnTO3HijrdCnid5GarShigw40XAlOhHuz4DtAUkdXRF/PRNOUcnNm4/3r6CLEmAzOohf/h9S0K6Gn7/3oTKGSruwfXmf6uU1Szy7ew=
+	t=1761213971; cv=none; b=uILs5yKDQ1oVnjFx3AWn5Rmvs/nGh4P2v9w3UBCNyI1U4d+UKwnZADd5VgQW0ekDQFhFgo/bpjtaaasgcHxtA/2EosHgUA8LyV+VkDFzKHvekD801nZC0aXU3L0qKgYmNCZELM3lM2bxkwCqzHnxvuWnk19r0xUXEiqOBSG/W+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761213538; c=relaxed/simple;
-	bh=03TLApzgK6jObZo04e0qi/SMQcYSIzNv8MDPGlPLLGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u0+nxp80rX/WiNDpnaoyi6Sw3/XM0y+vVuKHNQ5aIjRnUeNMalD/Z9Yp7/eVYpCMfodvPQvWWZKDBJ83LUrzoMWveauEahXo70iBMGA/83Kb46vDWG9jDCywcun8aBtqUxT5R7zT2UQuYHxYB4w5R+e8lLNXWDE4yuF7UOl8aN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VTmw5C0T; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VTmw5C0T"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761213537; x=1792749537;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=03TLApzgK6jObZo04e0qi/SMQcYSIzNv8MDPGlPLLGw=;
-  b=VTmw5C0TW0zAZsJYG3L0g/xpiwo6DjPX+coE2Y9sL/hzffDza9UygNK+
-   0thV+d+Ux9eXhx/LsypoLkl/H/kx9GFGXZA/AJYobAMY13sV7o6COmlCp
-   tngqavM/uCbh0EJWtgEl4HdTDsSAxvoTKO+fHjHAYo4fH1jvGp6EVGxpQ
-   5gt9LBI3SVPMMDSOTvdZOuydAgCpOlGzQ3cVK6zNxR4D63f0nU0s9l8bA
-   JiE7e0ofvCq2zCx6lonEFDyxzhaKwZc4LAF0I488T2236P+281escYWKt
-   QJ7pejAlL84X2r3WAK8ruKh7Nj88evNYtLvq/icKJHif18fL3qqJEMWXT
-   w==;
-X-CSE-ConnectionGUID: 5KpboD7fQpCm8826TzXkcA==
-X-CSE-MsgGUID: IYAGw7JPTDaOjF2xew8+7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63271636"
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="63271636"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 02:58:56 -0700
-X-CSE-ConnectionGUID: la0zcxKXQe+1pN3XSo3zDg==
-X-CSE-MsgGUID: DCCw7zNYQiGqLKWcs1Gj5w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="184010776"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 23 Oct 2025 02:58:55 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBs5j-000DKf-2f;
-	Thu, 23 Oct 2025 09:58:46 +0000
-Date: Thu, 23 Oct 2025 17:58:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] arm64: dts: toshiba: tmpv7708: Align node names with DT
- bindings
-Message-ID: <202510231732.P4mUZVOB-lkp@intel.com>
+	s=arc-20240116; t=1761213971; c=relaxed/simple;
+	bh=CtkIzpdTFP8ABoEugk1bXfexmgOmZNshpcm35HDVFzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GJRM9Urp48WDJHUIW3jCPIB2U2CAA8w6DGKSV/Ky0D2S5N+tOkW0/x6CjBnCtzzVJ8SDOtalFJ29YfL3EeR0xdXHOYirPI6t34EXvROB+VLdKHjxtB5gnGni5708zVedTuD/VErDRT557DLRUogsKgrf2iVsT3JMlr2+MfMhZTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=83.223.95.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+	by bmailout1.hostsharing.net (Postfix) with ESMTPS id C45082C06647;
+	Thu, 23 Oct 2025 12:06:05 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id B34764A12; Thu, 23 Oct 2025 12:06:05 +0200 (CEST)
+Date: Thu, 23 Oct 2025 12:06:05 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild@lists.linux.dev, Dan Carpenter <error27@gmail.com>
+Subject: Re: [l1k:doe 12/12] lib/spdm/req-netlink.c:123
+ spdm_netlink_sig_event() warn: missing unwind goto?
+Message-ID: <aPn-DYB1KuZLZRfV@wunner.de>
+References: <202510231302.hW7zNvXa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,53 +39,58 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202510231302.hW7zNvXa-lkp@intel.com>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+On Thu, Oct 23, 2025 at 01:18:37PM +0800, kernel test robot wrote:
+> tree:   https://github.com/l1k/linux doe
+> head:   7505d39770b6e267ed934902a491e499ab4e6153
+> commit: 7505d39770b6e267ed934902a491e499ab4e6153 [12/12] spdm: Multicast received signatures via netlink
+[...]
+> smatch warnings:
+> lib/spdm/req-netlink.c:123 spdm_netlink_sig_event() warn: missing unwind goto?
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251022133616.74492-2-krzysztof.kozlowski@linaro.org>
-References: <20251022133616.74492-2-krzysztof.kozlowski@linaro.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
+False positive:
 
-Hi Krzysztof,
+> 7505d39770b6e26 Lukas Wunner 2024-04-11   13  int spdm_netlink_sig_event(struct spdm_state *spdm_state,
+[...]
+> 7505d39770b6e26 Lukas Wunner 2024-04-11   47  	msg = genlmsg_new(msg_sz, GFP_KERNEL);
+> 7505d39770b6e26 Lukas Wunner 2024-04-11   48  	if (!msg)
+> 7505d39770b6e26 Lukas Wunner 2024-04-11   49  		return -ENOMEM;
 
-kernel test robot noticed the following build warnings:
+New netlink message is allocated and subsequently filled with attributes.
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.18-rc2 next-20251023]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 7505d39770b6e26 Lukas Wunner 2024-04-11   86  	/* Loop over Netlink messages - break condition is in loop body */
+> 7505d39770b6e26 Lukas Wunner 2024-04-11   87  	for (seq = 1; ; seq++) {
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/arm64-dts-toshiba-tmpv7708-Align-node-names-with-DT-bindings/20251022-214637
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251022133616.74492-2-krzysztof.kozlowski%40linaro.org
-patch subject: [PATCH] arm64: dts: toshiba: tmpv7708: Align node names with DT bindings
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: arm64-randconfig-052-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231732.P4mUZVOB-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
-dtschema version: 2025.9.dev7+g3b6fdac89
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231732.P4mUZVOB-lkp@intel.com/reproduce)
+The function precalculates how many netlink messages it's going to need
+to transmit the SPDM transcript.  The transcript is a blob transmitted
+as fragments of the skb.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510231732.P4mUZVOB-lkp@intel.com/
+> 7505d39770b6e26 Lukas Wunner 2024-04-11   98  		/* Loop over fragments of this Netlink message */
+> 7505d39770b6e26 Lukas Wunner 2024-04-11   99  		for (i = 0; i < nr_frags; i++) {
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/toshiba/tmpv7708-visrobo-vrb.dtb: pinctrl@24190000 (toshiba,tmpv7708-pinctrl): spi0-pins:groups: ['spi0_grp', 'spi0_cs0_grp'] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/toshiba,visconti-pinctrl.yaml#
->> arch/arm64/boot/dts/toshiba/tmpv7708-visrobo-vrb.dtb: pinctrl@24190000 (toshiba,tmpv7708-pinctrl): spi0-pins:groups: ['spi0_grp', 'spi0_cs0_grp'] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/toshiba,visconti-pinctrl.yaml#
-   arch/arm64/boot/dts/toshiba/tmpv7708-visrobo-vrb.dtb: mmc-slot@0 (mmc-spi-slot): $nodename:0: 'mmc-slot@0' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-spi-slot.yaml#
-   arch/arm64/boot/dts/toshiba/tmpv7708-visrobo-vrb.dtb: ethernet@28000000 (toshiba,visconti-dwmac): Unevaluated properties are not allowed ('mdio0' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/toshiba,visconti-dwmac.yaml#
+The fragments are attached to the skb until the (compile-time defined)
+maximum number of fragments is reached.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 7505d39770b6e26 Lukas Wunner 2024-04-11  109  		genlmsg_end(msg, hdr);
+> 7505d39770b6e26 Lukas Wunner 2024-04-11  110  		rc = genlmsg_multicast(&spdm_nl_family, msg, 0,
+
+The message is sent out and thus implicitly discarded.
+
+> 7505d39770b6e26 Lukas Wunner 2024-04-11  115  		if (nr_pages == 0) /* End of loop - entire transcript sent */
+> 7505d39770b6e26 Lukas Wunner 2024-04-11  116  			break;
+> 7505d39770b6e26 Lukas Wunner 2024-04-11  117  
+> 7505d39770b6e26 Lukas Wunner 2024-04-11  118  		/* Start new message for remainder of transcript */
+> 7505d39770b6e26 Lukas Wunner 2024-04-11  119  		msg_sz = nlmsg_total_size(genlmsg_msg_size(nla_total_size(0)));
+> 7505d39770b6e26 Lukas Wunner 2024-04-11  120  
+> 7505d39770b6e26 Lukas Wunner 2024-04-11  121  		msg = genlmsg_new(msg_sz, GFP_KERNEL);
+> 7505d39770b6e26 Lukas Wunner 2024-04-11  122  		if (!msg)
+> 7505d39770b6e26 Lukas Wunner 2024-04-11 @123  			return -ENOMEM;
+
+If the whole SPDM transcript hasn't been sent yet (end of loop condition),
+then a new netlink message is begun.  If allocation of the message fails,
+the function may "return" directly without goto.
+
+Thanks,
+
+Lukas
