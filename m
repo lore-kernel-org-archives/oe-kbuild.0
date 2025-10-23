@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20321A267
-	for <oe-kbuild@lists.linux.dev>; Thu, 23 Oct 2025 03:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6250E224AEB
+	for <oe-kbuild@lists.linux.dev>; Thu, 23 Oct 2025 04:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761190142; cv=none; b=PGtubljWQkFV6rqHIvtAxWXJFITqjAQ5bUh51xRCEO8nyx1B205Bi9CS1wenoH4n4lycFjA+4wiLGTub79u/B6ZztSiIX9om0+vCyokbgdcWZwShNFf3wXOLci62Wz4BsRmouPuQXI7F4uF2mQELG+Rfw+ZVZSXPVWp2726ZCxo=
+	t=1761194271; cv=none; b=IpfI3m0/60yNeSueDOc7fEhGqOYlXV2Z+r2AE251Wh4mqyRsvUILA04ywNBQ+aTvLRd0VIsyxq6eEZoFEVoN8LwKBk5qCEH1E84kyVkaLe4ACN4Q+s6I4vCVHhcO/tKH0C71xXq33dORHtD3LDiBIIKis0N3FIlXd/1WEbEgOx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761190142; c=relaxed/simple;
-	bh=8ZIM5xZ6NRIrnMP/jmqDhzF6g4ilCLTy/vlOokWOBXo=;
+	s=arc-20240116; t=1761194271; c=relaxed/simple;
+	bh=iemEM8RKh3yytGnb6pmSodzD9uomrOlhYOFFL5p6Oyk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RqydFSE7T5wfp1S4e3SLzZoyifMK6PvmSupKST4f49kSMT+0Aqqtg5jbuUoLUItDKF/aOgHpLrA+42W/K4GxZHwqvh2aeX3GVxTiBn3AmT/SGklbrkrNdkfMFpR1XTDYfnKL3PkUlFR5XFCqoParet1lB8QeqdPvYni7HlRie1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fMcuzi0U; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Xeu+x2KEjhV4INN6UtL1ricY6RyMCvMhFj8l6eU5snvA5iJlTjj9ufpXdh3muVdhxPkOroyJzSK+wcEZw0K4BckJv0N8XbU6gPghR24FZzBdn6rjKf4SVxXBaI0oO6zvnJiBOUw1Wy/Fxj6+Mlux3cu5EMDcnS9FJp2RQZsIC2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=figQjFeb; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fMcuzi0U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="figQjFeb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761190140; x=1792726140;
+  t=1761194269; x=1792730269;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8ZIM5xZ6NRIrnMP/jmqDhzF6g4ilCLTy/vlOokWOBXo=;
-  b=fMcuzi0UEklkNYMKcTI8gn9l5taaudqAHZDzW5ndjP6Hqr6NSconojaD
-   kzcwnu8Vfkmd1p/egcPdEnTNY81QnhBUCs9SpydzFRTGrH4brDUWLBkq1
-   +a+U7dUCmn2iw7koqhuazPsk1xwyr8qWemRevJZjqLTQeuSIAewCaJPmv
-   L1ba0f7bmO39rpbO/1Uuz1B58+PJQAzI/NjjoXTD54Bf16OlBrR+MONE8
-   QypI9tV4JmXd75xfh/aR4Ji16bZ7GTczrUZ3GVUKWnKIVyLao0F8S5Zv7
-   2H/IFTf3gEg8Didik2P4oWBuUMH9PO2VQfCcoALRsR7lpignVqwt6x0rv
-   w==;
-X-CSE-ConnectionGUID: FVvE9mN1QRmTLZdcDrNTNw==
-X-CSE-MsgGUID: 9QZD24NJQPSpncJgBygWWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63053663"
+  bh=iemEM8RKh3yytGnb6pmSodzD9uomrOlhYOFFL5p6Oyk=;
+  b=figQjFeb1iohR9lnGXbMforuMU45dLPUWmQ9r9nRwAcBFkOzjRE/amVw
+   9VK6uQGFWjUTDtISU/jufUwLEbfyviBWf6F6hof+yJ4qD55poJODPFRQL
+   8U8MyNTU7z2Qa60ft13CspFkWgV5gDHufBguDzoycSDmn4WntdfLc1okM
+   PfIDoS5YY4QJq+EHDSV5QqPdcPcaV2hAaLg5Bg6KQXU/EcXrNIVIfQsVH
+   ThT5dgGQEzqLyH0OqxyFwwH/IaNMtFKf9oE+XuqPWV4hM/SM8cw+1HqZf
+   s9EIhdPff2GVQ9POS1aRKQSNQs42fLW2q1hthhhgVK/Ne5lzq1RTmNKuP
+   g==;
+X-CSE-ConnectionGUID: P+zwOpOITD+LyLz2lnegkQ==
+X-CSE-MsgGUID: sRZUwLAETymrfUMfEhQxtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="80790834"
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="63053663"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 20:28:59 -0700
-X-CSE-ConnectionGUID: TQuNII/kQuSHalQiIquz4w==
-X-CSE-MsgGUID: KC6+7dDuTROOErfrLwMqOA==
+   d="scan'208";a="80790834"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 21:37:49 -0700
+X-CSE-ConnectionGUID: mJJp7i9zTjOVEKFCsrycEg==
+X-CSE-MsgGUID: tXrQI/uIRAaPc/WYAtpsTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="183261661"
+   d="scan'208";a="188100888"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 22 Oct 2025 20:28:57 -0700
+  by orviesa003.jf.intel.com with ESMTP; 22 Oct 2025 21:37:48 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBm0R-000CyL-1a;
-	Thu, 23 Oct 2025 03:28:52 +0000
-Date: Thu, 23 Oct 2025 11:28:47 +0800
+	id 1vBn4z-000D27-1B;
+	Thu, 23 Oct 2025 04:37:39 +0000
+Date: Thu, 23 Oct 2025 12:35:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [net-next PATCH 2/2] net: airoha: add phylink support for GDM1
-Message-ID: <202510231344.gEaqswZl-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/crypto/xilinx/xilinx-trng.c:336:54-61: WARNING: Consider
+ using %pe to print PTR_ERR()
+Message-ID: <202510231229.Z6TduqZy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,87 +62,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/net/ethernet/airoha/airoha_eth.c:2901:24: sparse: sparse: unsigned value that used to be signed checked against zero?"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251021193315.2192359-3-ansuelsmth@gmail.com>
-References: <20251021193315.2192359-3-ansuelsmth@gmail.com>
-TO: Christian Marangi <ansuelsmth@gmail.com>
-TO: Lorenzo Bianconi <lorenzo@kernel.org>
-TO: Andrew Lunn <andrew+netdev@lunn.ch>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev@vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
-TO: Jakub Kicinski <kuba@kernel.org>
-TO: Paolo Abeni <pabeni@redhat.com>
-TO: Russell King <linux@armlinux.org.uk>
-TO: linux-arm-kernel@lists.infradead.org
-TO: linux-mediatek@lists.infradead.org
-TO: linux-kernel@vger.kernel.org
-CC: Christian Marangi <ansuelsmth@gmail.com>
+CC: linux-kernel@vger.kernel.org
+TO: Harsh Jain <h.jain@amd.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Mounika Botcha <mounika.botcha@amd.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-airoha-use-device_set_node-helper-to-setup-GDM-node/20251022-033534
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251021193315.2192359-3-ansuelsmth%40gmail.com
-patch subject: [net-next PATCH 2/2] net: airoha: add phylink support for GDM1
-:::::: branch date: 34 hours ago
-:::::: commit date: 34 hours ago
-config: um-randconfig-r111-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231344.gEaqswZl-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231344.gEaqswZl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   43e9ad0c55a369ecc84a4788d06a8a6bfa634f1c
+commit: 8979744aca8096ee5072798dfc1181606919b35d crypto: xilinx - Add TRNG driver for Versal
+date:   7 weeks ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 7 weeks ago
+config: powerpc64-randconfig-r064-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231229.Z6TduqZy-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510231344.gEaqswZl-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202510231229.Z6TduqZy-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/airoha/airoha_eth.c:2901:24: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/net/ethernet/airoha/airoha_eth.c:2900:39: sparse: signed value source
+cocci warnings: (new ones prefixed by >>)
+>> drivers/crypto/xilinx/xilinx-trng.c:336:54-61: WARNING: Consider using %pe to print PTR_ERR()
 
-vim +2901 drivers/net/ethernet/airoha/airoha_eth.c
+vim +336 drivers/crypto/xilinx/xilinx-trng.c
 
-379c35266ba60ae Christian Marangi 2025-10-21  2892  
-379c35266ba60ae Christian Marangi 2025-10-21  2893  static int airoha_setup_phylink(struct net_device *netdev)
-379c35266ba60ae Christian Marangi 2025-10-21  2894  {
-379c35266ba60ae Christian Marangi 2025-10-21  2895  	struct airoha_gdm_port *port = netdev_priv(netdev);
-379c35266ba60ae Christian Marangi 2025-10-21  2896  	struct device *dev = &netdev->dev;
-379c35266ba60ae Christian Marangi 2025-10-21  2897  	phy_interface_t phy_mode;
-379c35266ba60ae Christian Marangi 2025-10-21  2898  	struct phylink *phylink;
-379c35266ba60ae Christian Marangi 2025-10-21  2899  
-379c35266ba60ae Christian Marangi 2025-10-21  2900  	phy_mode = device_get_phy_mode(dev);
-379c35266ba60ae Christian Marangi 2025-10-21 @2901  	if (phy_mode < 0) {
-379c35266ba60ae Christian Marangi 2025-10-21  2902  		dev_err(dev, "incorrect phy-mode\n");
-379c35266ba60ae Christian Marangi 2025-10-21  2903  		return phy_mode;
-379c35266ba60ae Christian Marangi 2025-10-21  2904  	}
-379c35266ba60ae Christian Marangi 2025-10-21  2905  
-379c35266ba60ae Christian Marangi 2025-10-21  2906  	port->phylink_config.dev = dev;
-379c35266ba60ae Christian Marangi 2025-10-21  2907  	port->phylink_config.type = PHYLINK_NETDEV;
-379c35266ba60ae Christian Marangi 2025-10-21  2908  	port->phylink_config.mac_capabilities = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-379c35266ba60ae Christian Marangi 2025-10-21  2909  						MAC_10000FD;
-379c35266ba60ae Christian Marangi 2025-10-21  2910  
-379c35266ba60ae Christian Marangi 2025-10-21  2911  	__set_bit(PHY_INTERFACE_MODE_INTERNAL,
-379c35266ba60ae Christian Marangi 2025-10-21  2912  		  port->phylink_config.supported_interfaces);
-379c35266ba60ae Christian Marangi 2025-10-21  2913  
-379c35266ba60ae Christian Marangi 2025-10-21  2914  	phylink = phylink_create(&port->phylink_config, dev_fwnode(dev),
-379c35266ba60ae Christian Marangi 2025-10-21  2915  				 phy_mode, &airoha_phylink_ops);
-379c35266ba60ae Christian Marangi 2025-10-21  2916  	if (IS_ERR(phylink))
-379c35266ba60ae Christian Marangi 2025-10-21  2917  		return PTR_ERR(phylink);
-379c35266ba60ae Christian Marangi 2025-10-21  2918  
-379c35266ba60ae Christian Marangi 2025-10-21  2919  	port->phylink = phylink;
-379c35266ba60ae Christian Marangi 2025-10-21  2920  
-379c35266ba60ae Christian Marangi 2025-10-21  2921  	return 0;
-379c35266ba60ae Christian Marangi 2025-10-21  2922  }
-379c35266ba60ae Christian Marangi 2025-10-21  2923  
+8979744aca8096 Harsh Jain 2025-08-25  323  
+8979744aca8096 Harsh Jain 2025-08-25  324  static int xtrng_probe(struct platform_device *pdev)
+8979744aca8096 Harsh Jain 2025-08-25  325  {
+8979744aca8096 Harsh Jain 2025-08-25  326  	struct xilinx_rng *rng;
+8979744aca8096 Harsh Jain 2025-08-25  327  	int ret;
+8979744aca8096 Harsh Jain 2025-08-25  328  
+8979744aca8096 Harsh Jain 2025-08-25  329  	rng = devm_kzalloc(&pdev->dev, sizeof(*rng), GFP_KERNEL);
+8979744aca8096 Harsh Jain 2025-08-25  330  	if (!rng)
+8979744aca8096 Harsh Jain 2025-08-25  331  		return -ENOMEM;
+8979744aca8096 Harsh Jain 2025-08-25  332  
+8979744aca8096 Harsh Jain 2025-08-25  333  	rng->dev = &pdev->dev;
+8979744aca8096 Harsh Jain 2025-08-25  334  	rng->rng_base = devm_platform_ioremap_resource(pdev, 0);
+8979744aca8096 Harsh Jain 2025-08-25  335  	if (IS_ERR(rng->rng_base)) {
+8979744aca8096 Harsh Jain 2025-08-25 @336  		dev_err(&pdev->dev, "Failed to map resource %ld\n", PTR_ERR(rng->rng_base));
+8979744aca8096 Harsh Jain 2025-08-25  337  		return PTR_ERR(rng->rng_base);
+8979744aca8096 Harsh Jain 2025-08-25  338  	}
+8979744aca8096 Harsh Jain 2025-08-25  339  
+8979744aca8096 Harsh Jain 2025-08-25  340  	xtrng_trng_reset(rng->rng_base);
+8979744aca8096 Harsh Jain 2025-08-25  341  	ret = xtrng_reseed_internal(rng);
+8979744aca8096 Harsh Jain 2025-08-25  342  	if (ret) {
+8979744aca8096 Harsh Jain 2025-08-25  343  		dev_err(&pdev->dev, "TRNG Seed fail\n");
+8979744aca8096 Harsh Jain 2025-08-25  344  		return ret;
+8979744aca8096 Harsh Jain 2025-08-25  345  	}
+8979744aca8096 Harsh Jain 2025-08-25  346  
+8979744aca8096 Harsh Jain 2025-08-25  347  	xilinx_rng_dev = rng;
+8979744aca8096 Harsh Jain 2025-08-25  348  	mutex_init(&rng->lock);
+8979744aca8096 Harsh Jain 2025-08-25  349  	ret = crypto_register_rng(&xtrng_trng_alg);
+8979744aca8096 Harsh Jain 2025-08-25  350  	if (ret) {
+8979744aca8096 Harsh Jain 2025-08-25  351  		dev_err(&pdev->dev, "Crypto Random device registration failed: %d\n", ret);
+8979744aca8096 Harsh Jain 2025-08-25  352  		return ret;
+8979744aca8096 Harsh Jain 2025-08-25  353  	}
+8979744aca8096 Harsh Jain 2025-08-25  354  	ret = xtrng_hwrng_register(&rng->trng);
+8979744aca8096 Harsh Jain 2025-08-25  355  	if (ret) {
+8979744aca8096 Harsh Jain 2025-08-25  356  		dev_err(&pdev->dev, "HWRNG device registration failed: %d\n", ret);
+8979744aca8096 Harsh Jain 2025-08-25  357  		goto crypto_rng_free;
+8979744aca8096 Harsh Jain 2025-08-25  358  	}
+8979744aca8096 Harsh Jain 2025-08-25  359  	platform_set_drvdata(pdev, rng);
+8979744aca8096 Harsh Jain 2025-08-25  360  
+8979744aca8096 Harsh Jain 2025-08-25  361  	return 0;
+8979744aca8096 Harsh Jain 2025-08-25  362  
+8979744aca8096 Harsh Jain 2025-08-25  363  crypto_rng_free:
+8979744aca8096 Harsh Jain 2025-08-25  364  	crypto_unregister_rng(&xtrng_trng_alg);
+8979744aca8096 Harsh Jain 2025-08-25  365  
+8979744aca8096 Harsh Jain 2025-08-25  366  	return ret;
+8979744aca8096 Harsh Jain 2025-08-25  367  }
+8979744aca8096 Harsh Jain 2025-08-25  368  
 
 -- 
 0-DAY CI Kernel Test Service
