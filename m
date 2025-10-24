@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D751C860E
-	for <oe-kbuild@lists.linux.dev>; Fri, 24 Oct 2025 17:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DB2302CD1
+	for <oe-kbuild@lists.linux.dev>; Fri, 24 Oct 2025 21:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761328172; cv=none; b=tEj5tpa0as/vGUEE3yS2SGHT+l2w2VABd6V5+tCyXNpsMaANNncZbco8j6euky2ie28K/b9H49cwV0tR85zltdFWr6/FTy6Qb9YdYYT8cXn7M1nkdGwkUEJhDB7o2fLc8Uy2te5Z+0WG46Vs3uYkPRzBrV4ahDvHKF6Wr73anVE=
+	t=1761341160; cv=none; b=j6e34ezfEHikYBR+Y7JWf+SyyzN/QvaGjCNePXa2PfL0hbahGp7yV/GoUIFYbJQ73P/mhZ6n2UOHhi0vr/YU+rliDyh/KfFa3KqrBER0QFjNcS3gyCugzteJQ8UWjia2+FgZPinqiGAj3q+gt2+dtvIrhw6W/SFuNLna+erFE0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761328172; c=relaxed/simple;
-	bh=Ism4UGiqZx0Bu50BZ5qFCM/SdXDdTPgcDQ0syY+MsLw=;
+	s=arc-20240116; t=1761341160; c=relaxed/simple;
+	bh=xcq/5r3j7IsgDOLgA97AlGgQ8pKKeUS0GLAI+y+bZ6s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AC8OUsdFS9JCviHtmoneik11SHRuCvk0Eh8EejjGeCI9/UsSelqbLXYVF2Sj52ZqRmbJzcwlJtaH6APGhbe8i9rdOJVffqLvapdZ4oaKu0eQgmsoVJfnRyyZ26vaXcxeEIpmytLFln+Ek73I4aqVOM8XzjW/1jsA8OBbVRly3fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cz+ae+Io; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=g4luR3ViTBalsFexdiFw4e9OdPYmOSxhyA3LK8mBKNLqRsXavZPIq6ZbRCYxBFmEdDUs3Xij4uEI38e8wOGeuMclRvoEK0pyjXfRr0zk/o4PVB0CuUcajN+7oka7T3qmbtfar3i40xcL0T3rBZnQgiC+hi2JAD3oSU/r5v4aUns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Is9c3Ma/; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cz+ae+Io"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Is9c3Ma/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761328170; x=1792864170;
+  t=1761341158; x=1792877158;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ism4UGiqZx0Bu50BZ5qFCM/SdXDdTPgcDQ0syY+MsLw=;
-  b=Cz+ae+IoRfAyL5ASHJ8oeIWacI2gibf7eEwnaHGFkngSi3r0H90Iqso/
-   r1hPbIUSvAQwCASJLdW+1nCI9ybRMd3ogguG2IldK0MKML1qjCM7uMhO2
-   pK6MiwBHL7IyY9eEcgly2KyanMwq3fSmRCuGtHyqntTJEUOpbbP3jkKDr
-   2ONarYJ+Yi93NDlaPKbCd5HVAOPJpMugCyAmHTFhl3LaTmT+qV8rviHIm
-   stNpUqHholLsNgFiOnFW6J3ou3rDvOm4+SIgks7Xz/DN2HH7zK4v6d+PF
-   OSo23qVR2Fm4MWQ2RTK92As0+3bSm7UylpcIZO4e+glUXNwpNMyxsSE3a
-   Q==;
-X-CSE-ConnectionGUID: LklsMA2FQxG2I+hlqwziRg==
-X-CSE-MsgGUID: 9eTXTUq6Tc2RkpNx8uoRVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63549062"
+  bh=xcq/5r3j7IsgDOLgA97AlGgQ8pKKeUS0GLAI+y+bZ6s=;
+  b=Is9c3Ma/UxPEe8WWzs6/9uCUYqeEVUDL6L8Z2Mz9Z38wXBX0u4DbMcnE
+   u+HpfxzZB2KlkDn8ed9rNHH1+aRapuiW4kQKGV3qsJj8NGew+tuq49yV9
+   8Vh1l5CeektzUEfEWxDfmB/4Kfg3T/8eRbyXM9z0RHSJSc0IqxphgJAeS
+   1TWvIEuJ/Qem9oriM4Gs1hCU4X7vw53oLRV52zqiGCY6OfJy6Jt+veltN
+   1fGdaF8Is770QNy2tP8XE5Kfq/ASpnDDwtEJN9xa0fIaIAlwtfVB090EP
+   /HJri/uvcAd9w3YOk39o0d2F3M16eDiNGn1rg9SwMdUCCURgbtGy2CKYa
+   w==;
+X-CSE-ConnectionGUID: fq9scdl8QDCU47NgChz/og==
+X-CSE-MsgGUID: 4B6b2Vd3TQCbPkxKweOe5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="81153025"
 X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="63549062"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 10:49:29 -0700
-X-CSE-ConnectionGUID: 2FqR39HHQbulzX1nWsp2Yw==
-X-CSE-MsgGUID: j0fpEqNfSie/aOeEcz9r+w==
+   d="scan'208";a="81153025"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 14:25:58 -0700
+X-CSE-ConnectionGUID: AwvQ4aKkSBKUvlWSQrWdHA==
+X-CSE-MsgGUID: 1UBYiv/TTXu9tTrC3CDo4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="184968132"
+   d="scan'208";a="185290182"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Oct 2025 10:49:28 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 24 Oct 2025 14:25:56 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCLun-000Ekf-2J;
-	Fri, 24 Oct 2025 17:49:25 +0000
-Date: Sat, 25 Oct 2025 01:49:09 +0800
+	id 1vCPII-000Etr-1b;
+	Fri, 24 Oct 2025 21:25:54 +0000
+Date: Sat, 25 Oct 2025 05:25:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/resctrl/monitor.c:146:8-15: WARNING: Consider using %pe to print
- PTR_ERR()
-Message-ID: <202510250130.IGTH1hEL-lkp@intel.com>
+Subject: [peterz-queue:unwind/cleanup 12/18]
+ kernel/unwind/deferred.c:257:18-21: WARNING: Unsigned expression compared
+ with zero: bit < 0
+Message-ID: <202510250538.kFzewmPW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,98 +65,134 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: James Morse <james.morse@arm.com>
-CC: "Borislav Petkov (AMD)" <bp@alien8.de>
-CC: Reinette Chatre <reinette.chatre@intel.com>
-CC: Fenghua Yu <fenghuay@nvidia.com>
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6fab32bb6508abbb8b7b1c5498e44f0c32320ed5
-commit: 7168ae330e8105296210b2b2d31d791d5c073345 x86,fs/resctrl: Move the resctrl filesystem code to live in /fs/resctrl
-date:   5 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-102-20251024 (https://download.01.org/0day-ci/archive/20251025/202510250130.IGTH1hEL-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi Josh,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git unwind/cleanup
+head:   5a1e27bf9e59bb6b8219d32b2185991bee9545d2
+commit: acf668647a06903c5e2b0013422062691dd3c6fe [12/18] unwind_user/x86: Enable frame pointer unwinding on x86
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
+config: x86_64-randconfig-101-20251024 (https://download.01.org/0day-ci/archive/20251025/202510250538.kFzewmPW-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202510250130.IGTH1hEL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510250538.kFzewmPW-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> fs/resctrl/monitor.c:146:8-15: WARNING: Consider using %pe to print PTR_ERR()
-   fs/resctrl/monitor.c:615:8-15: WARNING: Consider using %pe to print PTR_ERR()
+>> kernel/unwind/deferred.c:257:18-21: WARNING: Unsigned expression compared with zero: bit < 0
 
-vim +146 fs/resctrl/monitor.c
+vim +257 kernel/unwind/deferred.c
 
-7168ae330e81052 James Morse 2025-05-15  126  
-7168ae330e81052 James Morse 2025-05-15  127  /*
-7168ae330e81052 James Morse 2025-05-15  128   * Check the RMIDs that are marked as busy for this domain. If the
-7168ae330e81052 James Morse 2025-05-15  129   * reported LLC occupancy is below the threshold clear the busy bit and
-7168ae330e81052 James Morse 2025-05-15  130   * decrement the count. If the busy count gets to zero on an RMID, we
-7168ae330e81052 James Morse 2025-05-15  131   * free the RMID
-7168ae330e81052 James Morse 2025-05-15  132   */
-7168ae330e81052 James Morse 2025-05-15  133  void __check_limbo(struct rdt_mon_domain *d, bool force_free)
-7168ae330e81052 James Morse 2025-05-15  134  {
-7168ae330e81052 James Morse 2025-05-15  135  	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
-7168ae330e81052 James Morse 2025-05-15  136  	u32 idx_limit = resctrl_arch_system_num_rmid_idx();
-7168ae330e81052 James Morse 2025-05-15  137  	struct rmid_entry *entry;
-7168ae330e81052 James Morse 2025-05-15  138  	u32 idx, cur_idx = 1;
-7168ae330e81052 James Morse 2025-05-15  139  	void *arch_mon_ctx;
-7168ae330e81052 James Morse 2025-05-15  140  	bool rmid_dirty;
-7168ae330e81052 James Morse 2025-05-15  141  	u64 val = 0;
-7168ae330e81052 James Morse 2025-05-15  142  
-7168ae330e81052 James Morse 2025-05-15  143  	arch_mon_ctx = resctrl_arch_mon_ctx_alloc(r, QOS_L3_OCCUP_EVENT_ID);
-7168ae330e81052 James Morse 2025-05-15  144  	if (IS_ERR(arch_mon_ctx)) {
-7168ae330e81052 James Morse 2025-05-15  145  		pr_warn_ratelimited("Failed to allocate monitor context: %ld",
-7168ae330e81052 James Morse 2025-05-15 @146  				    PTR_ERR(arch_mon_ctx));
-7168ae330e81052 James Morse 2025-05-15  147  		return;
-7168ae330e81052 James Morse 2025-05-15  148  	}
-7168ae330e81052 James Morse 2025-05-15  149  
-7168ae330e81052 James Morse 2025-05-15  150  	/*
-7168ae330e81052 James Morse 2025-05-15  151  	 * Skip RMID 0 and start from RMID 1 and check all the RMIDs that
-7168ae330e81052 James Morse 2025-05-15  152  	 * are marked as busy for occupancy < threshold. If the occupancy
-7168ae330e81052 James Morse 2025-05-15  153  	 * is less than the threshold decrement the busy counter of the
-7168ae330e81052 James Morse 2025-05-15  154  	 * RMID and move it to the free list when the counter reaches 0.
-7168ae330e81052 James Morse 2025-05-15  155  	 */
-7168ae330e81052 James Morse 2025-05-15  156  	for (;;) {
-7168ae330e81052 James Morse 2025-05-15  157  		idx = find_next_bit(d->rmid_busy_llc, idx_limit, cur_idx);
-7168ae330e81052 James Morse 2025-05-15  158  		if (idx >= idx_limit)
-7168ae330e81052 James Morse 2025-05-15  159  			break;
-7168ae330e81052 James Morse 2025-05-15  160  
-7168ae330e81052 James Morse 2025-05-15  161  		entry = __rmid_entry(idx);
-7168ae330e81052 James Morse 2025-05-15  162  		if (resctrl_arch_rmid_read(r, d, entry->closid, entry->rmid,
-7168ae330e81052 James Morse 2025-05-15  163  					   QOS_L3_OCCUP_EVENT_ID, &val,
-7168ae330e81052 James Morse 2025-05-15  164  					   arch_mon_ctx)) {
-7168ae330e81052 James Morse 2025-05-15  165  			rmid_dirty = true;
-7168ae330e81052 James Morse 2025-05-15  166  		} else {
-7168ae330e81052 James Morse 2025-05-15  167  			rmid_dirty = (val >= resctrl_rmid_realloc_threshold);
-7168ae330e81052 James Morse 2025-05-15  168  
-7168ae330e81052 James Morse 2025-05-15  169  			/*
-7168ae330e81052 James Morse 2025-05-15  170  			 * x86's CLOSID and RMID are independent numbers, so the entry's
-7168ae330e81052 James Morse 2025-05-15  171  			 * CLOSID is an empty CLOSID (X86_RESCTRL_EMPTY_CLOSID). On Arm the
-7168ae330e81052 James Morse 2025-05-15  172  			 * RMID (PMG) extends the CLOSID (PARTID) space with bits that aren't
-7168ae330e81052 James Morse 2025-05-15  173  			 * used to select the configuration. It is thus necessary to track both
-7168ae330e81052 James Morse 2025-05-15  174  			 * CLOSID and RMID because there may be dependencies between them
-7168ae330e81052 James Morse 2025-05-15  175  			 * on some architectures.
-7168ae330e81052 James Morse 2025-05-15  176  			 */
-7168ae330e81052 James Morse 2025-05-15  177  			trace_mon_llc_occupancy_limbo(entry->closid, entry->rmid, d->hdr.id, val);
-7168ae330e81052 James Morse 2025-05-15  178  		}
-7168ae330e81052 James Morse 2025-05-15  179  
-7168ae330e81052 James Morse 2025-05-15  180  		if (force_free || !rmid_dirty) {
-7168ae330e81052 James Morse 2025-05-15  181  			clear_bit(idx, d->rmid_busy_llc);
-7168ae330e81052 James Morse 2025-05-15  182  			if (!--entry->busy)
-7168ae330e81052 James Morse 2025-05-15  183  				limbo_release_entry(entry);
-7168ae330e81052 James Morse 2025-05-15  184  		}
-7168ae330e81052 James Morse 2025-05-15  185  		cur_idx = idx + 1;
-7168ae330e81052 James Morse 2025-05-15  186  	}
-7168ae330e81052 James Morse 2025-05-15  187  
-7168ae330e81052 James Morse 2025-05-15  188  	resctrl_arch_mon_ctx_free(r, QOS_L3_OCCUP_EVENT_ID, arch_mon_ctx);
-7168ae330e81052 James Morse 2025-05-15  189  }
-7168ae330e81052 James Morse 2025-05-15  190  
+b3b9cb11aa034c Steven Rostedt 2025-07-29  204  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  205  /**
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  206   * unwind_deferred_request - Request a user stacktrace on task kernel exit
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  207   * @work: Unwind descriptor requesting the trace
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  208   * @cookie: The cookie of the first request made for this task
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  209   *
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  210   * Schedule a user space unwind to be done in task work before exiting the
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  211   * kernel.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  212   *
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  213   * The returned @cookie output is the generated cookie of the very first
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  214   * request for a user space stacktrace for this task since it entered the
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  215   * kernel. It can be from a request by any caller of this infrastructure.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  216   * Its value will also be passed to the callback function.  It can be
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  217   * used to stitch kernel and user stack traces together in post-processing.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  218   *
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  219   * It's valid to call this function multiple times for the same @work within
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  220   * the same task entry context.  Each call will return the same cookie
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  221   * while the task hasn't left the kernel. If the callback is not pending
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  222   * because it has already been previously called for the same entry context,
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  223   * it will be called again with the same stack trace and cookie.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  224   *
+be3d526a5b3410 Steven Rostedt 2025-07-29  225   * Return: 0 if the callback successfully was queued.
+be3d526a5b3410 Steven Rostedt 2025-07-29  226   *         1 if the callback is pending or was already executed.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  227   *         Negative if there's an error.
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  228   *         @cookie holds the cookie of the first request by any user
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  229   */
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  230  int unwind_deferred_request(struct unwind_work *work, u64 *cookie)
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  231  {
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  232  	struct unwind_task_info *info = &current->unwind_info;
+1d49742d3279de Peter Zijlstra 2025-09-22  233  	int twa_mode = TWA_RESUME;
+be3d526a5b3410 Steven Rostedt 2025-07-29  234  	unsigned long old, bits;
+357eda2d745054 Steven Rostedt 2025-07-29  235  	unsigned long bit;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  236  	int ret;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  237  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  238  	*cookie = 0;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  239  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  240  	if ((current->flags & (PF_KTHREAD | PF_EXITING)) ||
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  241  	    !user_mode(task_pt_regs(current)))
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  242  		return -EINVAL;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  243  
+055c7060e7ca71 Steven Rostedt 2025-07-29  244  	/*
+055c7060e7ca71 Steven Rostedt 2025-07-29  245  	 * NMI requires having safe cmpxchg operations.
+055c7060e7ca71 Steven Rostedt 2025-07-29  246  	 * Trigger a warning to make it obvious that an architecture
+055c7060e7ca71 Steven Rostedt 2025-07-29  247  	 * is using this in NMI when it should not be.
+055c7060e7ca71 Steven Rostedt 2025-07-29  248  	 */
+1d49742d3279de Peter Zijlstra 2025-09-22  249  	if (in_nmi()) {
+1d49742d3279de Peter Zijlstra 2025-09-22  250  		if (WARN_ON_ONCE(!CAN_USE_IN_NMI))
+055c7060e7ca71 Steven Rostedt 2025-07-29  251  			return -EINVAL;
+1d49742d3279de Peter Zijlstra 2025-09-22  252  		twa_mode = TWA_NMI_CURRENT;
+1d49742d3279de Peter Zijlstra 2025-09-22  253  	}
+055c7060e7ca71 Steven Rostedt 2025-07-29  254  
+357eda2d745054 Steven Rostedt 2025-07-29  255  	/* Do not allow cancelled works to request again */
+357eda2d745054 Steven Rostedt 2025-07-29  256  	bit = READ_ONCE(work->bit);
+357eda2d745054 Steven Rostedt 2025-07-29 @257  	if (WARN_ON_ONCE(bit < 0))
+357eda2d745054 Steven Rostedt 2025-07-29  258  		return -EINVAL;
+357eda2d745054 Steven Rostedt 2025-07-29  259  
+357eda2d745054 Steven Rostedt 2025-07-29  260  	/* Only need the mask now */
+357eda2d745054 Steven Rostedt 2025-07-29  261  	bit = BIT(bit);
+357eda2d745054 Steven Rostedt 2025-07-29  262  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  263  	guard(irqsave)();
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  264  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  265  	*cookie = get_cookie(info);
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  266  
+d9d41f5e52d208 Peter Zijlstra 2025-09-22  267  	old = atomic_long_read(&info->unwind_mask);
+055c7060e7ca71 Steven Rostedt 2025-07-29  268  
+be3d526a5b3410 Steven Rostedt 2025-07-29  269  	/* Is this already queued or executed */
+be3d526a5b3410 Steven Rostedt 2025-07-29  270  	if (old & bit)
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  271  		return 1;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  272  
+be3d526a5b3410 Steven Rostedt 2025-07-29  273  	/*
+be3d526a5b3410 Steven Rostedt 2025-07-29  274  	 * This work's bit hasn't been set yet. Now set it with the PENDING
+be3d526a5b3410 Steven Rostedt 2025-07-29  275  	 * bit and fetch the current value of unwind_mask. If ether the
+be3d526a5b3410 Steven Rostedt 2025-07-29  276  	 * work's bit or PENDING was already set, then this is already queued
+be3d526a5b3410 Steven Rostedt 2025-07-29  277  	 * to have a callback.
+be3d526a5b3410 Steven Rostedt 2025-07-29  278  	 */
+be3d526a5b3410 Steven Rostedt 2025-07-29  279  	bits = UNWIND_PENDING | bit;
+d9d41f5e52d208 Peter Zijlstra 2025-09-22  280  	old = atomic_long_fetch_or(bits, &info->unwind_mask);
+be3d526a5b3410 Steven Rostedt 2025-07-29  281  	if (old & bits) {
+be3d526a5b3410 Steven Rostedt 2025-07-29  282  		/*
+be3d526a5b3410 Steven Rostedt 2025-07-29  283  		 * If the work's bit was set, whatever set it had better
+be3d526a5b3410 Steven Rostedt 2025-07-29  284  		 * have also set pending and queued a callback.
+be3d526a5b3410 Steven Rostedt 2025-07-29  285  		 */
+be3d526a5b3410 Steven Rostedt 2025-07-29  286  		WARN_ON_ONCE(!(old & UNWIND_PENDING));
+be3d526a5b3410 Steven Rostedt 2025-07-29  287  		return old & bit;
+be3d526a5b3410 Steven Rostedt 2025-07-29  288  	}
+be3d526a5b3410 Steven Rostedt 2025-07-29  289  
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  290  	/* The work has been claimed, now schedule it. */
+1d49742d3279de Peter Zijlstra 2025-09-22  291  	ret = task_work_add(current, &info->work, twa_mode);
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  292  
+be3d526a5b3410 Steven Rostedt 2025-07-29  293  	if (WARN_ON_ONCE(ret))
+d9d41f5e52d208 Peter Zijlstra 2025-09-22  294  		atomic_long_set(&info->unwind_mask, 0);
+be3d526a5b3410 Steven Rostedt 2025-07-29  295  
+be3d526a5b3410 Steven Rostedt 2025-07-29  296  	return ret;
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  297  }
+2dffa355f6c279 Josh Poimboeuf 2025-07-29  298  
+
+:::::: The code at line 257 was first introduced by commit
+:::::: 357eda2d745054eb737397368bc9b0f84814b0a5 unwind deferred: Use SRCU unwind_deferred_task_work()
+
+:::::: TO: Steven Rostedt <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
