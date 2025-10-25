@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099C417A2EC
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Oct 2025 01:13:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D88821C176
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Oct 2025 01:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761354819; cv=none; b=YS02YO1kZA4XIaeWSDRRE7ZEwWlZ+TxWhdLtHIwfdVWmaodZb6ee0v1nvkkeKseBLaMsrlpq/ze97X7Of9zHucOHymIDkJ9dKGvsj2AeQFVpqT8i9b+sCUPsE7FxBpBur/DZO8OQTcUw/Mkn0x8EjbQFUyAe0n5aGI7TWxiYJ/4=
+	t=1761355480; cv=none; b=OSb6/legRcf4tmdzMWnt/cZjc08EEcjHX9eT8un8HTgrjwwoz8FN6+6yi8hiauFAmruHH673o7QBEXQc6nnSns6HNyhlypq45l5JRyWlAc1vM4evBOsqMpkHtHdcqfvB8ItqVTzfTnWH2Xk54GeOXZ7rekihRKHxLQ3cFOl1OzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761354819; c=relaxed/simple;
-	bh=HTYX/h60e8Gu/3ad6OKK3P4CSxL0ZucUVGAyUFXwjFE=;
+	s=arc-20240116; t=1761355480; c=relaxed/simple;
+	bh=c7ukets4szDFC2RKIEvGgmFo4vWX7AK/4Rc6k0zSjVI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jfQme9aXy8ChIf4OY/GFvLTLl8A+sRLK+UmN0Pcb+xO3oil3Tklm3FZvmOaZt7o73boat+Biu3KxzvaUXvMnbHLdIgkBTEGfVBP/j2nnt/uNJitV6FT0oc+FMf+/18yOto6l4fM0CwvTEFwL+wD9GlsY4LVNiolpydrowNO9dmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GdreK6Nj; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=uTprCHBZ7NDazRvAvrjVF1ZussL+q/QH6m51GWlVh8h34wSY+DFAzAK3OSyf5UxUVeNPUdf1C++Eh+u398/DEcJva1kT7LzRD3MJwBTvA3GU0uhvlgiMTdBBhrBDEt59Z3Hv/NFtWacdnMcisSj2hBvcsvxmDCQK0veS8rsdKRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fHQPcSna; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GdreK6Nj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fHQPcSna"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761354818; x=1792890818;
+  t=1761355479; x=1792891479;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HTYX/h60e8Gu/3ad6OKK3P4CSxL0ZucUVGAyUFXwjFE=;
-  b=GdreK6Njh8Vpc+7DMgFe0wYdDsXwP7De+hACND2yu9EvRFycxmwzrlOJ
-   8g+jk5OIFZyiRDAHAUAz/W0wmpNSbXA9Dc9B1w36z7S1AdnEUdCRb6j5M
-   GEJPnTCYHRSJisRiPscqCUX6d9Cwu+y9l2hAo53TTWWsxJ/CY8dMAOAZZ
-   udTWfbjKgebYzvrStl5LYHDskDh9csVvzIhbPSCZ9RGywKY8y31XRMpO2
-   Manrk1J+1JMmr8rhlrKauB0whsS9AoyP39LQBWJgqPvAO3lLx5HvurMET
-   1D/OzvSsYqVzkrrV6NyD9+ZQUU2l678omVfa7s7PT52rquRAGZ6Munmme
-   w==;
-X-CSE-ConnectionGUID: eOUPAXzZRFWkOPGOZYpbWw==
-X-CSE-MsgGUID: sZFCkNxaQOCJIliO6OSpHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63237571"
+  bh=c7ukets4szDFC2RKIEvGgmFo4vWX7AK/4Rc6k0zSjVI=;
+  b=fHQPcSna0tNZ12V7XZG5GBLyvJF96xbKJg67bDIuuCJ6pKcMW02ob3Pr
+   bkaOwwzhBC+Qlm/ifRDjCNwkAHjQQ8mOxImKfrecE+hFcTgwBOZvJ+ofr
+   WBJt1on4uL5xdM/hqPv6j5iBsggMy+bivmEe4SPpVh9Vva4ZA82t6Sp6S
+   w/BDKOhLozT9WZ2U+PS+OWKLOqSl78mMVXyCIv8ufvRgKH504cLi1mS/T
+   2/YrstiHq+gc9U/R9cWOq4L85m0MwA6Uw7DevkZEB5A7RglLw72IgCYuW
+   Fg4Lul4oUtP46x7mB964R/0vFPFLpA+C49PaPsrsxRgg8bERR1pt8N9pt
+   A==;
+X-CSE-ConnectionGUID: HvW+ID6CTf66fEc8U9Ig1A==
+X-CSE-MsgGUID: JCcByQo9SPK7jVDUQ/nisQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67180994"
 X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="63237571"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 18:13:37 -0700
-X-CSE-ConnectionGUID: qJRd7blNSFSw4GrMDi+q+Q==
-X-CSE-MsgGUID: vyci0Zo1SP2uzw1vNQB0tw==
+   d="scan'208";a="67180994"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 18:24:38 -0700
+X-CSE-ConnectionGUID: XsKfQmZAR+mg+xYYxxuDPw==
+X-CSE-MsgGUID: YZ5EEo+zS9W/rGqZQDSOcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="185322634"
+   d="scan'208";a="215215860"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Oct 2025 18:13:36 -0700
+  by orviesa002.jf.intel.com with ESMTP; 24 Oct 2025 18:24:37 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCSqb-000F1p-2S;
-	Sat, 25 Oct 2025 01:13:33 +0000
-Date: Sat, 25 Oct 2025 09:13:16 +0800
+	id 1vCT1G-000F2P-2P;
+	Sat, 25 Oct 2025 01:24:34 +0000
+Date: Sat, 25 Oct 2025 09:23:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [android-common:android16-6.12-2025-09 0/2]
- drivers/md/dm-bow.c:524:21: sparse: sparse: unsigned value that used to be
- signed checked against zero?
-Message-ID: <202510250949.zYd3gKX6-lkp@intel.com>
+Subject: Re: [PATCH net-next 1/3] net: dsa: yt921x: Add STP/MST support
+Message-ID: <202510250954.SHhCZUaW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,157 +62,212 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/md/dm-bow.c:524:21: sparse: sparse: unsigned value that used to be signed checked against zero?"
+:::::: Manual check reason: "__compiletime_assert_NNN"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20251024033237.1336249-2-mmyangfl@gmail.com>
+References: <20251024033237.1336249-2-mmyangfl@gmail.com>
+TO: David Yang <mmyangfl@gmail.com>
+TO: netdev@vger.kernel.org
+CC: David Yang <mmyangfl@gmail.com>
+CC: Andrew Lunn <andrew@lunn.ch>
+CC: Vladimir Oltean <olteanv@gmail.com>
+CC: Eric Dumazet <edumazet@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Paolo Abeni <pabeni@redhat.com>
+CC: Simon Horman <horms@kernel.org>
+CC: Russell King <linux@armlinux.org.uk>
+CC: linux-kernel@vger.kernel.org
 
-Hi Paul,
+Hi David,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-09
-head:   46f9c66e9fddc7f323fbec4081d199f5e4efbce9
-commit: 7a96549fc9ff33f14b4ed1b4c5f49a0fb51ce9c9 [0/2] ANDROID: dm-bow: Fix up revert remove dm-bow
-:::::: branch date: 23 hours ago
-:::::: commit date: 1 year, 2 months ago
-config: x86_64-randconfig-122-20251025 (https://download.01.org/0day-ci/archive/20251025/202510250949.zYd3gKX6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510250949.zYd3gKX6-lkp@intel.com/reproduce)
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Yang/net-dsa-yt921x-Add-STP-MST-support/20251024-113613
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251024033237.1336249-2-mmyangfl%40gmail.com
+patch subject: [PATCH net-next 1/3] net: dsa: yt921x: Add STP/MST support
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251025/202510250954.SHhCZUaW-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510250954.SHhCZUaW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510250949.zYd3gKX6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510250954.SHhCZUaW-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/md/dm-bow.c:97:10: sparse: sparse: symbol 'range_top' was not declared. Should it be static?
-   drivers/md/dm-bow.c:148:6: sparse: sparse: symbol 'add_before' was not declared. Should it be static?
-   drivers/md/dm-bow.c:178:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:178:24: sparse:     expected int
-   drivers/md/dm-bow.c:178:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:186:32: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:186:32: sparse:     expected int
-   drivers/md/dm-bow.c:186:32: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:205:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:205:24: sparse:     expected int
-   drivers/md/dm-bow.c:205:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:282:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:282:24: sparse:     expected int
-   drivers/md/dm-bow.c:282:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:395:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:395:24: sparse:     expected int
-   drivers/md/dm-bow.c:395:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:339:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:339:24: sparse:     expected int
-   drivers/md/dm-bow.c:339:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:344:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:344:24: sparse:     expected int
-   drivers/md/dm-bow.c:344:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:350:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:350:24: sparse:     expected int
-   drivers/md/dm-bow.c:350:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:358:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:358:24: sparse:     expected int
-   drivers/md/dm-bow.c:358:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:422:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:422:24: sparse:     expected int
-   drivers/md/dm-bow.c:422:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:427:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:427:24: sparse:     expected int
-   drivers/md/dm-bow.c:427:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:437:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:437:24: sparse:     expected int
-   drivers/md/dm-bow.c:437:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:443:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:443:24: sparse:     expected int
-   drivers/md/dm-bow.c:443:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:462:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:462:24: sparse:     expected int
-   drivers/md/dm-bow.c:462:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:553:53: sparse: sparse: Using plain integer as NULL pointer
-   drivers/md/dm-bow.c:820:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:820:24: sparse:     expected int
-   drivers/md/dm-bow.c:820:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:839:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:839:24: sparse:     expected int
-   drivers/md/dm-bow.c:839:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:932:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:932:24: sparse:     expected int
-   drivers/md/dm-bow.c:932:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:968:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted blk_status_t [usertype] bi_status @@     got int [assigned] ret @@
-   drivers/md/dm-bow.c:968:32: sparse:     expected restricted blk_status_t [usertype] bi_status
-   drivers/md/dm-bow.c:968:32: sparse:     got int [assigned] ret
-   drivers/md/dm-bow.c:1096:5: sparse: sparse: symbol 'remap_unless_illegal_trim' was not declared. Should it be static?
-   drivers/md/dm-bow.c:1252:5: sparse: sparse: symbol 'dm_bow_prepare_ioctl' was not declared. Should it be static?
-   drivers/md/dm-bow.c:1284:12: sparse: sparse: symbol 'dm_bow_init' was not declared. Should it be static?
-   drivers/md/dm-bow.c:1293:6: sparse: sparse: symbol 'dm_bow_exit' was not declared. Should it be static?
->> drivers/md/dm-bow.c:524:21: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/md/dm-bow.c:523:26: sparse: signed value source
+All error/warnings (new ones prefixed by >>):
 
-vim +524 drivers/md/dm-bow.c
+>> drivers/net/dsa/yt921x.c:2154:11: warning: shift count >= width of type [-Wshift-count-overflow]
+    2154 |         mask64 = YT921X_VLAN_CTRL_STP_ID_M;
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/yt921x.h:341:37: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID_M'
+     341 | #define  YT921X_VLAN_CTRL_STP_ID_M              GENMASK(39, 36)
+         |                                                 ^~~~~~~~~~~~~~~
+   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
+      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:48:20: note: expanded from macro 'GENMASK_TYPE'
+      48 |              (type_max(t) << (l) &                              \
+         |                           ^  ~~~
+>> drivers/net/dsa/yt921x.c:2154:11: warning: shift count >= width of type [-Wshift-count-overflow]
+    2154 |         mask64 = YT921X_VLAN_CTRL_STP_ID_M;
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/yt921x.h:341:37: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID_M'
+     341 | #define  YT921X_VLAN_CTRL_STP_ID_M              GENMASK(39, 36)
+         |                                                 ^~~~~~~~~~~~~~~
+   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
+      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:49:20: note: expanded from macro 'GENMASK_TYPE'
+      49 |               type_max(t) >> (BITS_PER_TYPE(t) - 1 - (h)))))
+         |                           ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/yt921x.c:2155:11: warning: shift count >= width of type [-Wshift-count-overflow]
+    2155 |         ctrl64 = YT921X_VLAN_CTRL_STP_ID(msti->msti);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/yt921x.h:342:51: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID'
+     342 | #define   YT921X_VLAN_CTRL_STP_ID(x)                    FIELD_PREP(YT921X_VLAN_CTRL_STP_ID_M, (x))
+         |                                                         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/yt921x.h:341:37: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID_M'
+     341 | #define  YT921X_VLAN_CTRL_STP_ID_M              GENMASK(39, 36)
+         |                                                 ^
+   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
+      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
+         |                                 ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:597:22: note: expanded from macro 'compiletime_assert'
+     597 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:585:23: note: expanded from macro '_compiletime_assert'
+     585 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:577:9: note: expanded from macro '__compiletime_assert'
+     577 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   drivers/net/dsa/yt921x.c:2155:11: warning: shift count >= width of type [-Wshift-count-overflow]
+    2155 |         ctrl64 = YT921X_VLAN_CTRL_STP_ID(msti->msti);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/yt921x.h:342:51: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID'
+     342 | #define   YT921X_VLAN_CTRL_STP_ID(x)                    FIELD_PREP(YT921X_VLAN_CTRL_STP_ID_M, (x))
+         |                                                         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/yt921x.h:341:37: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID_M'
+     341 | #define  YT921X_VLAN_CTRL_STP_ID_M              GENMASK(39, 36)
+         |                                                 ^
+   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
+      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
+         |                                 ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:597:22: note: expanded from macro 'compiletime_assert'
+     597 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:585:23: note: expanded from macro '_compiletime_assert'
+     585 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:577:9: note: expanded from macro '__compiletime_assert'
+     577 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   drivers/net/dsa/yt921x.c:2155:11: warning: shift count >= width of type [-Wshift-count-overflow]
+    2155 |         ctrl64 = YT921X_VLAN_CTRL_STP_ID(msti->msti);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/yt921x.h:342:51: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID'
+     342 | #define   YT921X_VLAN_CTRL_STP_ID(x)                    FIELD_PREP(YT921X_VLAN_CTRL_STP_ID_M, (x))
+         |                                                         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/yt921x.h:341:37: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID_M'
+     341 | #define  YT921X_VLAN_CTRL_STP_ID_M              GENMASK(39, 36)
+         |                                                 ^
+   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
+      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
+         |                                 ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:597:22: note: expanded from macro 'compiletime_assert'
+     597 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:585:23: note: expanded from macro '_compiletime_assert'
+     585 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:577:9: note: expanded from macro '__compiletime_assert'
+     577 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   drivers/net/dsa/yt921x.c:2155:11: warning: shift count >= width of type [-Wshift-count-overflow]
+    2155 |         ctrl64 = YT921X_VLAN_CTRL_STP_ID(msti->msti);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/yt921x.h:342:51: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID'
+     342 | #define   YT921X_VLAN_CTRL_STP_ID(x)                    FIELD_PREP(YT921X_VLAN_CTRL_STP_ID_M, (x))
+         |                                                         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/yt921x.h:341:37: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID_M'
+     341 | #define  YT921X_VLAN_CTRL_STP_ID_M              GENMASK(39, 36)
+         |                                                 ^
+   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
+      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
+         |                                 ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:597:22: note: expanded from macro 'compiletime_assert'
+     597 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:585:23: note: expanded from macro '_compiletime_assert'
+     585 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:577:9: note: expanded from macro '__compiletime_assert'
+     577 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+>> drivers/net/dsa/yt921x.c:2155:11: error: call to '__compiletime_assert_989' declared with 'error' attribute: FIELD_PREP: mask is zero
+   drivers/net/dsa/yt921x.h:342:40: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID'
+     342 | #define   YT921X_VLAN_CTRL_STP_ID(x)                    FIELD_PREP(YT921X_VLAN_CTRL_STP_ID_M, (x))
+         |                                                         ^
+   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
+     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^
+   include/linux/bitfield.h:67:3: note: expanded from macro '__BF_FIELD_CHECK'
+      67 |                 BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
+         |                 ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:585:2: note: expanded from macro '_compiletime_assert'
+     585 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:578:4: note: expanded from macro '__compiletime_assert'
+     578 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:47:1: note: expanded from here
+      47 | __compiletime_assert_989
+         | ^
+   6 warnings and 1 error generated.
 
-dcb994383d2b16 Paul Lawrence 2023-01-25  514  
-dcb994383d2b16 Paul Lawrence 2023-01-25  515  static ssize_t state_store(struct kobject *kobj, struct kobj_attribute *attr,
-dcb994383d2b16 Paul Lawrence 2023-01-25  516  			   const char *buf, size_t count)
-dcb994383d2b16 Paul Lawrence 2023-01-25  517  {
-dcb994383d2b16 Paul Lawrence 2023-01-25  518  	struct bow_context *bc = container_of(kobj, struct bow_context,
-dcb994383d2b16 Paul Lawrence 2023-01-25  519  					      kobj_holder.kobj);
-dcb994383d2b16 Paul Lawrence 2023-01-25  520  	enum state state, original_state;
-dcb994383d2b16 Paul Lawrence 2023-01-25  521  	int ret;
-dcb994383d2b16 Paul Lawrence 2023-01-25  522  
-dcb994383d2b16 Paul Lawrence 2023-01-25  523  	state = buf[0] - '0';
-dcb994383d2b16 Paul Lawrence 2023-01-25 @524  	if (state < TRIM || state > COMMITTED) {
-dcb994383d2b16 Paul Lawrence 2023-01-25  525  		DMERR("State value %d out of range", state);
-dcb994383d2b16 Paul Lawrence 2023-01-25  526  		return -EINVAL;
-dcb994383d2b16 Paul Lawrence 2023-01-25  527  	}
-dcb994383d2b16 Paul Lawrence 2023-01-25  528  
-dcb994383d2b16 Paul Lawrence 2023-01-25  529  	mutex_lock(&bc->ranges_lock);
-dcb994383d2b16 Paul Lawrence 2023-01-25  530  	original_state = atomic_read(&bc->state);
-dcb994383d2b16 Paul Lawrence 2023-01-25  531  	if (state != original_state + 1) {
-dcb994383d2b16 Paul Lawrence 2023-01-25  532  		DMERR("Invalid state change from %d to %d",
-dcb994383d2b16 Paul Lawrence 2023-01-25  533  		      original_state, state);
-dcb994383d2b16 Paul Lawrence 2023-01-25  534  		ret = -EINVAL;
-dcb994383d2b16 Paul Lawrence 2023-01-25  535  		goto bad;
-dcb994383d2b16 Paul Lawrence 2023-01-25  536  	}
-dcb994383d2b16 Paul Lawrence 2023-01-25  537  
-dcb994383d2b16 Paul Lawrence 2023-01-25  538  	DMINFO("Switching to state %s", state == CHECKPOINT ? "Checkpoint"
-dcb994383d2b16 Paul Lawrence 2023-01-25  539  	       : state == COMMITTED ? "Committed" : "Unknown");
-dcb994383d2b16 Paul Lawrence 2023-01-25  540  
-dcb994383d2b16 Paul Lawrence 2023-01-25  541  	if (state == CHECKPOINT) {
-dcb994383d2b16 Paul Lawrence 2023-01-25  542  		ret = prepare_log(bc);
-dcb994383d2b16 Paul Lawrence 2023-01-25  543  		if (ret) {
-dcb994383d2b16 Paul Lawrence 2023-01-25  544  			DMERR("Failed to switch to checkpoint state");
-dcb994383d2b16 Paul Lawrence 2023-01-25  545  			goto bad;
-dcb994383d2b16 Paul Lawrence 2023-01-25  546  		}
-dcb994383d2b16 Paul Lawrence 2023-01-25  547  	} else if (state == COMMITTED) {
-dcb994383d2b16 Paul Lawrence 2023-01-25  548  		struct bow_range *br = find_sector0_current(bc);
-dcb994383d2b16 Paul Lawrence 2023-01-25  549  		struct bow_range *sector0_br =
-dcb994383d2b16 Paul Lawrence 2023-01-25  550  			container_of(rb_first(&bc->ranges), struct bow_range,
-dcb994383d2b16 Paul Lawrence 2023-01-25  551  				     node);
-dcb994383d2b16 Paul Lawrence 2023-01-25  552  
-dcb994383d2b16 Paul Lawrence 2023-01-25  553  		ret = copy_data(bc, br, sector0_br, 0);
-dcb994383d2b16 Paul Lawrence 2023-01-25  554  		if (ret) {
-dcb994383d2b16 Paul Lawrence 2023-01-25  555  			DMERR("Failed to switch to committed state");
-dcb994383d2b16 Paul Lawrence 2023-01-25  556  			goto bad;
-dcb994383d2b16 Paul Lawrence 2023-01-25  557  		}
-dcb994383d2b16 Paul Lawrence 2023-01-25  558  	}
-dcb994383d2b16 Paul Lawrence 2023-01-25  559  	atomic_inc(&bc->state);
-dcb994383d2b16 Paul Lawrence 2023-01-25  560  	ret = count;
-dcb994383d2b16 Paul Lawrence 2023-01-25  561  
-dcb994383d2b16 Paul Lawrence 2023-01-25  562  bad:
-dcb994383d2b16 Paul Lawrence 2023-01-25  563  	mutex_unlock(&bc->ranges_lock);
-dcb994383d2b16 Paul Lawrence 2023-01-25  564  	return ret;
-dcb994383d2b16 Paul Lawrence 2023-01-25  565  }
-dcb994383d2b16 Paul Lawrence 2023-01-25  566  
 
-:::::: The code at line 524 was first introduced by commit
-:::::: dcb994383d2b1641ebe7b518caab88d2d9dbfa72 Revert "ANDROID: dm-bow: remove dm-bow"
+vim +2155 drivers/net/dsa/yt921x.c
 
-:::::: TO: Paul Lawrence <paullawrence@google.com>
-:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
+5c1f0fbc2c12ae David Yang 2025-10-24  2139  
+5c1f0fbc2c12ae David Yang 2025-10-24  2140  static int
+5c1f0fbc2c12ae David Yang 2025-10-24  2141  yt921x_dsa_vlan_msti_set(struct dsa_switch *ds, struct dsa_bridge bridge,
+5c1f0fbc2c12ae David Yang 2025-10-24  2142  			 const struct switchdev_vlan_msti *msti)
+5c1f0fbc2c12ae David Yang 2025-10-24  2143  {
+5c1f0fbc2c12ae David Yang 2025-10-24  2144  	struct yt921x_priv *priv = to_yt921x_priv(ds);
+5c1f0fbc2c12ae David Yang 2025-10-24  2145  	u64 mask64;
+5c1f0fbc2c12ae David Yang 2025-10-24  2146  	u64 ctrl64;
+5c1f0fbc2c12ae David Yang 2025-10-24  2147  	int res;
+5c1f0fbc2c12ae David Yang 2025-10-24  2148  
+5c1f0fbc2c12ae David Yang 2025-10-24  2149  	if (!msti->vid)
+5c1f0fbc2c12ae David Yang 2025-10-24  2150  		return -EINVAL;
+5c1f0fbc2c12ae David Yang 2025-10-24  2151  	if (msti->msti <= 0 || msti->msti >= YT921X_MSTI_NUM)
+5c1f0fbc2c12ae David Yang 2025-10-24  2152  		return -EINVAL;
+5c1f0fbc2c12ae David Yang 2025-10-24  2153  
+5c1f0fbc2c12ae David Yang 2025-10-24 @2154  	mask64 = YT921X_VLAN_CTRL_STP_ID_M;
+5c1f0fbc2c12ae David Yang 2025-10-24 @2155  	ctrl64 = YT921X_VLAN_CTRL_STP_ID(msti->msti);
+5c1f0fbc2c12ae David Yang 2025-10-24  2156  
+5c1f0fbc2c12ae David Yang 2025-10-24  2157  	mutex_lock(&priv->reg_lock);
+5c1f0fbc2c12ae David Yang 2025-10-24  2158  	res = yt921x_reg64_update_bits(priv, YT921X_VLANn_CTRL(msti->vid),
+5c1f0fbc2c12ae David Yang 2025-10-24  2159  				       mask64, ctrl64);
+5c1f0fbc2c12ae David Yang 2025-10-24  2160  	mutex_unlock(&priv->reg_lock);
+5c1f0fbc2c12ae David Yang 2025-10-24  2161  
+5c1f0fbc2c12ae David Yang 2025-10-24  2162  	return res;
+5c1f0fbc2c12ae David Yang 2025-10-24  2163  }
+5c1f0fbc2c12ae David Yang 2025-10-24  2164  
 
 -- 
 0-DAY CI Kernel Test Service
