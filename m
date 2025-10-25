@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6DA2FE07D
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Oct 2025 14:54:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B77301038
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Oct 2025 14:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761404084; cv=none; b=tm4qTHR9qC1aLZhw5RC6W5OKM7KyVABp+nKb6sWw4NmBe5Yj9Wrs5il6xnu7ZwdhmitqA2DI2gOR4pAFj/dsOiAkA1r3njdU7uw0EK+7irzSNmgQrYRflGe+iJeWVFikU5pBLZDGWTZDnqInjFUhhrrs8Z2HnJiLyIjvEVcWTtE=
+	t=1761404194; cv=none; b=SXSuanl4VENkqhbQ9InRx1eXQWvOIcWi34M5jOLf3ycGWaR6mW8nc0j/YrqJF518lLOlnjc32yMiLLy15iiiRkyl8M7t4pIJajtZYk+RPsFu2ZQMxq3wGCemgi+wdNkw5denaf3JjKfcqlmlCqRwl/l3s/POlCM/fFFQkw96mMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761404084; c=relaxed/simple;
-	bh=bp1ae4Aoy6/+VffWfS+kXQeQrM3bIjKlFArvb9YZib4=;
+	s=arc-20240116; t=1761404194; c=relaxed/simple;
+	bh=T3YtIaQbsYRjkLIXAqL1kNl5k0wbB7wRDYGC2QhJjBE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g/rp3C3X+zf11HQujR4lsxK+lmtBgeO8R3alcVu+e4szBn3zbvpkdSpTmp8fxcvzNzb2gZqBZddTjzxKw0ZaNFQNA/SDVFmf110aiEK/n+8nWJDQQTFAVWTawafKBAKu4WyKjMmJw41YctF/qdSjUrd8n2LbbEQHPQFaJ0Zk5ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jYf80Di1; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=Px1zyAr7dhhxf1Ly0VUy5YkSsAoWYXm9q/7eYjz2zm6eHBIXqB/SmgeOF4GZvL1JYli9/rV89N2Ae0uSghaNa34xxRjN9lAstBB8gdmVU0cCaQhQQD/6W+HXP80DI7QSdwjx0Owhq+K/8nS9CyZxz2e7rEwDLCtG0663uC8Bvz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eRkWqVM3; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jYf80Di1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eRkWqVM3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761404080; x=1792940080;
+  t=1761404191; x=1792940191;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bp1ae4Aoy6/+VffWfS+kXQeQrM3bIjKlFArvb9YZib4=;
-  b=jYf80Di18OPsanStRqDs+8J1eUdRyq4MS6xMkMn5wO1WrKqnqNNcmJH/
-   nN4ZYkuqIqa827t/GpMN7FTm9rIxaebKVjbP36mmEhfwRZJJGGT7fAEry
-   5BXH5CDXxuugfSyyNz1fNNR7M8NW5RJUP7J0gf1s/eh9QSIIwmUhz72pc
-   LKtA9R+WRfpQ29hy3puXgmne3E8D7a+8tS1mV4eZspQssVqsLISjhnPZj
-   GNALcqll34EXqBBb9WN3TOkHBRPKgHWab5pg/GTGFxHez7Qp/KeTGiQHS
-   D+d+X27RMwtDOgQQ913m6MCI806Z5pZBssjeXG4wclOsSwbbah2Bo0POT
+  bh=T3YtIaQbsYRjkLIXAqL1kNl5k0wbB7wRDYGC2QhJjBE=;
+  b=eRkWqVM3+q8Pg7ZiXzTu2UCyQ2zp1FfXmluYUGUI3+s0tUY3OHfG9K60
+   zLogdkcPJJ+k6lniPWRjDOqXNrNPvswLB/tbQWMdllXvwIsuKJILFgwTj
+   Ikha6XsnzI95W4QHzhnn8AmApj9+64OJkd6g4E9pl2G3Jv9nikTetMy7I
+   e9sC6VxDDYKfLWVbm6MSLJgWY5cekzRE2RIfoZyDQ41NZyiumRMdsYbFY
+   o3v3ChnuML9qXBDHnbu32EfAI3GUXPUUtSVGTei4BmjDtz6/LlOMiPM/l
+   BQcd6J2xxsLzIpSlF2/3jUyFDbhokT/piVIBM+dAtU+eLvDsuvmyno9bg
    A==;
-X-CSE-ConnectionGUID: 3SCPa9erSWmzicMzMqI4WA==
-X-CSE-MsgGUID: FpAXNWrvTbuPLr1aCQAMMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="80986146"
+X-CSE-ConnectionGUID: tHNUsE2jS8S8StIFJnPrwA==
+X-CSE-MsgGUID: 1ADLCQN9SdGBVKG6sIy+Iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73844132"
 X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="80986146"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 07:54:40 -0700
-X-CSE-ConnectionGUID: b/HRuqC2RuWkTjhmQS+vsw==
-X-CSE-MsgGUID: p4TOVlaNRUymOFjf8XaknQ==
+   d="scan'208";a="73844132"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 07:56:31 -0700
+X-CSE-ConnectionGUID: LOu+jtTwSbqelawms65fQA==
+X-CSE-MsgGUID: saPBhdhKQEa3jAEMVP5d/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="221861363"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 25 Oct 2025 07:54:39 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+   d="scan'208";a="185024038"
+Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 25 Oct 2025 07:56:30 -0700
+Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vCff6-000FNB-2y;
-	Sat, 25 Oct 2025 14:54:34 +0000
-Date: Sat, 25 Oct 2025 22:54:00 +0800
+	id 1vCfgy-0000000009p-1VXB;
+	Sat, 25 Oct 2025 14:56:28 +0000
+Date: Sat, 25 Oct 2025 16:55:33 +0200
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v3 6/8] docs: move kernel-doc to tools/docs
-Message-ID: <202510252213.bpyg6p57-lkp@intel.com>
+Subject: [omap-audio:peter/linux-next-wip 8/39]
+ arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dtb:
+ /dmic-sound: failed to match any schema with compatible:
+ ['simple-audio-card']
+Message-ID: <202510251615.OJRLgCKU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,52 +65,54 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251024200834.20644-7-corbet@lwn.net>
-References: <20251024200834.20644-7-corbet@lwn.net>
-TO: Jonathan Corbet <corbet@lwn.net>
-TO: linux-doc@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-CC: Akira Yokosawa <akiyks@gmail.com>
-CC: Randy Dunlap <rdunlap@infradead.org>
-CC: Jani Nikula <jani.nikula@linux.intel.com>
-CC: Jonathan Corbet <corbet@lwn.net>
+TO: Peter Ujfalusi <peter.ujfalusi@ti.com>
 
-Hi Jonathan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on lwn/docs-next]
-[also build test ERROR on next-20251024]
-[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.18-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Corbet/docs-Move-the-features-tools-to-tools-docs/20251025-041303
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20251024200834.20644-7-corbet%40lwn.net
-patch subject: [PATCH v3 6/8] docs: move kernel-doc to tools/docs
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251025/202510252213.bpyg6p57-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510252213.bpyg6p57-lkp@intel.com/reproduce)
+tree:   https://github.com/omap-audio/linux-audio peter/linux-next-wip
+head:   afaa11afb19194ab185bd6dc6674bb42af42e59f
+commit: a00547a3d28f0c0c83cae73c54f82a569898abd2 [8/39] ASoC: simple-card: Support for selecting system clocks by ID
+:::::: branch date: 19 hours ago
+:::::: commit date: 20 hours ago
+config: riscv-randconfig-2052-20251025 (https://download.01.org/0day-ci/archive/20251025/202510251615.OJRLgCKU-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+dtschema version: 2025.9.dev7+g3b6fdac89
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510251615.OJRLgCKU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510252213.bpyg6p57-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510251615.OJRLgCKU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> /bin/bash: line 1: ./tools/docs/kernel-doc.py: No such file or directory
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dtb: /dmic-sound: failed to match any schema with compatible: ['simple-audio-card']
+--
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dtb: /dmic-sound: failed to match any schema with compatible: ['simple-audio-card']
+--
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dtb: /dmic-sound: failed to match any schema with compatible: ['simple-audio-card']
+--
+>> arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
+>> arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dtb: sound (simple-audio-card): simple-audio-card,routing: b'L2\x00Mic Bias\x00R2\x00Mic Bias\x00Mic Bias\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+--
+>> arch/riscv/boot/dts/starfive/jh7110-deepcomputing-fml13v01.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
+--
+>> arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
+--
+>> arch/riscv/boot/dts/starfive/jh7110-milkv-marscm-emmc.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
+--
+>> arch/riscv/boot/dts/starfive/jh7110-milkv-marscm-lite.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
+--
+>> arch/riscv/boot/dts/starfive/jh7110-pine64-star64.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
+--
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
+--
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
 
 -- 
 0-DAY CI Kernel Test Service
