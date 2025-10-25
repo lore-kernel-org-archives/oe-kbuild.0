@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278DE8F4A
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Oct 2025 00:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099C417A2EC
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Oct 2025 01:13:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761352359; cv=none; b=ppCluLEq2vrLRDruzOaivGEjTvbHyG9xojjR4WVu5WxEMOP3HFmW03FoCVIpyGQvUzrgG0gmkyD620pC+gbZNAN5ygp08zhbbf/+rn7N+iRcsQ57LhCQqHV71/cAdpOD5T64vsxa9DTkMAnOPdk4TPZYyOqXTdWuS882GYaA5kQ=
+	t=1761354819; cv=none; b=YS02YO1kZA4XIaeWSDRRE7ZEwWlZ+TxWhdLtHIwfdVWmaodZb6ee0v1nvkkeKseBLaMsrlpq/ze97X7Of9zHucOHymIDkJ9dKGvsj2AeQFVpqT8i9b+sCUPsE7FxBpBur/DZO8OQTcUw/Mkn0x8EjbQFUyAe0n5aGI7TWxiYJ/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761352359; c=relaxed/simple;
-	bh=pMqV5WBCQ/IZlNwbsJUTybNihOynGFJHZdS5UGo+JdU=;
+	s=arc-20240116; t=1761354819; c=relaxed/simple;
+	bh=HTYX/h60e8Gu/3ad6OKK3P4CSxL0ZucUVGAyUFXwjFE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z/fbM9JzUjK6A+bZpJxqqcug2t6Vm2eBSOWQD4vGAphUaCAH2rDKnhA1VF2RlfqV3vAXGjt6PjAQv/94hpuHnsgKMHWCv6Od98nZW6oIIgaOtf0pYfezU/GA7OW01SaeahM8C6MiBcDW/9vqjsWTkiCxJh2d+mNV+nxYFM5OKDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hl4K6R8r; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=jfQme9aXy8ChIf4OY/GFvLTLl8A+sRLK+UmN0Pcb+xO3oil3Tklm3FZvmOaZt7o73boat+Biu3KxzvaUXvMnbHLdIgkBTEGfVBP/j2nnt/uNJitV6FT0oc+FMf+/18yOto6l4fM0CwvTEFwL+wD9GlsY4LVNiolpydrowNO9dmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GdreK6Nj; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hl4K6R8r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GdreK6Nj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761352357; x=1792888357;
+  t=1761354818; x=1792890818;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pMqV5WBCQ/IZlNwbsJUTybNihOynGFJHZdS5UGo+JdU=;
-  b=hl4K6R8r84l3DmacyPVAGTcD5lKv434SFzEZCBNCtX1c4Fy30jeqdq2v
-   oc+ofWsj+Wf4qXbgzunRgs7rxSWNUXD94m5xBBzV+F8kzA3hhwuAtRm0o
-   ewx6t/WUk1Ec9FdliHgkWIvSp0qgRBP9BxSTG4p+4ZLB8ONpcxiRFfv02
-   j8JQk8p9SkevT8sl7Sk5B/kQMcBQYY+KBKZA2YnZYfurvu7Krc3e+uZVE
-   bWR/YgPuMaA0BpCHfJCCv5WZfggh+AXBbfdU6imMD48rtyTt0QkUMbFzU
-   B6i7TZUJd322xNAeMzy8FCmuCXStcMFIz5F/qBGRxEvsPQdYr4BvHUXHH
+  bh=HTYX/h60e8Gu/3ad6OKK3P4CSxL0ZucUVGAyUFXwjFE=;
+  b=GdreK6Njh8Vpc+7DMgFe0wYdDsXwP7De+hACND2yu9EvRFycxmwzrlOJ
+   8g+jk5OIFZyiRDAHAUAz/W0wmpNSbXA9Dc9B1w36z7S1AdnEUdCRb6j5M
+   GEJPnTCYHRSJisRiPscqCUX6d9Cwu+y9l2hAo53TTWWsxJ/CY8dMAOAZZ
+   udTWfbjKgebYzvrStl5LYHDskDh9csVvzIhbPSCZ9RGywKY8y31XRMpO2
+   Manrk1J+1JMmr8rhlrKauB0whsS9AoyP39LQBWJgqPvAO3lLx5HvurMET
+   1D/OzvSsYqVzkrrV6NyD9+ZQUU2l678omVfa7s7PT52rquRAGZ6Munmme
    w==;
-X-CSE-ConnectionGUID: xVP/UOGWSwyTJFjn8+/tEg==
-X-CSE-MsgGUID: T2BA2AhQRBuxjLQNqkB4Iw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66148766"
+X-CSE-ConnectionGUID: eOUPAXzZRFWkOPGOZYpbWw==
+X-CSE-MsgGUID: sZFCkNxaQOCJIliO6OSpHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63237571"
 X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="66148766"
+   d="scan'208";a="63237571"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 17:32:36 -0700
-X-CSE-ConnectionGUID: zT3CfpkeSA+agIhMB2XFTA==
-X-CSE-MsgGUID: VIG9c8foTDm0ch6k5X9Vsw==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 18:13:37 -0700
+X-CSE-ConnectionGUID: qJRd7blNSFSw4GrMDi+q+Q==
+X-CSE-MsgGUID: vyci0Zo1SP2uzw1vNQB0tw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="185316806"
+   d="scan'208";a="185322634"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Oct 2025 17:32:35 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 24 Oct 2025 18:13:36 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCSCv-000F0B-0S;
-	Sat, 25 Oct 2025 00:32:33 +0000
-Date: Sat, 25 Oct 2025 08:31:55 +0800
+	id 1vCSqb-000F1p-2S;
+	Sat, 25 Oct 2025 01:13:33 +0000
+Date: Sat, 25 Oct 2025 09:13:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/btrfs/relocation.c:1934:54-61: WARNING: Consider using %pe to
- print PTR_ERR()
-Message-ID: <202510250853.JMZnaMYZ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [android-common:android16-6.12-2025-09 0/2]
+ drivers/md/dm-bow.c:524:21: sparse: sparse: unsigned value that used to be
+ signed checked against zero?
+Message-ID: <202510250949.zYd3gKX6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,71 +63,158 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/md/dm-bow.c:524:21: sparse: sparse: unsigned value that used to be signed checked against zero?"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: David Sterba <dsterba@suse.com>
-CC: Josef Bacik <josef@toxicpanda.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2818517e3486d11c9bd55aca3e14059e4c69886
-commit: 9e0a739a9e83eb28ceb0b1e97861c88f177a7f18 btrfs: convert ASSERT(0) with handled errors to DEBUG_WARN()
-date:   5 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 months ago
-config: alpha-randconfig-r052-20251025 (https://download.01.org/0day-ci/archive/20251025/202510250853.JMZnaMYZ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
+Hi Paul,
+
+First bad commit (maybe != root cause):
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-09
+head:   46f9c66e9fddc7f323fbec4081d199f5e4efbce9
+commit: 7a96549fc9ff33f14b4ed1b4c5f49a0fb51ce9c9 [0/2] ANDROID: dm-bow: Fix up revert remove dm-bow
+:::::: branch date: 23 hours ago
+:::::: commit date: 1 year, 2 months ago
+config: x86_64-randconfig-122-20251025 (https://download.01.org/0day-ci/archive/20251025/202510250949.zYd3gKX6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510250949.zYd3gKX6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202510250853.JMZnaMYZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510250949.zYd3gKX6-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/btrfs/relocation.c:1934:54-61: WARNING: Consider using %pe to print PTR_ERR()
+sparse warnings: (new ones prefixed by >>)
+   drivers/md/dm-bow.c:97:10: sparse: sparse: symbol 'range_top' was not declared. Should it be static?
+   drivers/md/dm-bow.c:148:6: sparse: sparse: symbol 'add_before' was not declared. Should it be static?
+   drivers/md/dm-bow.c:178:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:178:24: sparse:     expected int
+   drivers/md/dm-bow.c:178:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:186:32: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:186:32: sparse:     expected int
+   drivers/md/dm-bow.c:186:32: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:205:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:205:24: sparse:     expected int
+   drivers/md/dm-bow.c:205:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:282:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:282:24: sparse:     expected int
+   drivers/md/dm-bow.c:282:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:395:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:395:24: sparse:     expected int
+   drivers/md/dm-bow.c:395:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:339:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:339:24: sparse:     expected int
+   drivers/md/dm-bow.c:339:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:344:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:344:24: sparse:     expected int
+   drivers/md/dm-bow.c:344:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:350:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:350:24: sparse:     expected int
+   drivers/md/dm-bow.c:350:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:358:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:358:24: sparse:     expected int
+   drivers/md/dm-bow.c:358:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:422:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:422:24: sparse:     expected int
+   drivers/md/dm-bow.c:422:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:427:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:427:24: sparse:     expected int
+   drivers/md/dm-bow.c:427:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:437:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:437:24: sparse:     expected int
+   drivers/md/dm-bow.c:437:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:443:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:443:24: sparse:     expected int
+   drivers/md/dm-bow.c:443:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:462:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:462:24: sparse:     expected int
+   drivers/md/dm-bow.c:462:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:553:53: sparse: sparse: Using plain integer as NULL pointer
+   drivers/md/dm-bow.c:820:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:820:24: sparse:     expected int
+   drivers/md/dm-bow.c:820:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:839:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:839:24: sparse:     expected int
+   drivers/md/dm-bow.c:839:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:932:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
+   drivers/md/dm-bow.c:932:24: sparse:     expected int
+   drivers/md/dm-bow.c:932:24: sparse:     got restricted blk_status_t [usertype]
+   drivers/md/dm-bow.c:968:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted blk_status_t [usertype] bi_status @@     got int [assigned] ret @@
+   drivers/md/dm-bow.c:968:32: sparse:     expected restricted blk_status_t [usertype] bi_status
+   drivers/md/dm-bow.c:968:32: sparse:     got int [assigned] ret
+   drivers/md/dm-bow.c:1096:5: sparse: sparse: symbol 'remap_unless_illegal_trim' was not declared. Should it be static?
+   drivers/md/dm-bow.c:1252:5: sparse: sparse: symbol 'dm_bow_prepare_ioctl' was not declared. Should it be static?
+   drivers/md/dm-bow.c:1284:12: sparse: sparse: symbol 'dm_bow_init' was not declared. Should it be static?
+   drivers/md/dm-bow.c:1293:6: sparse: sparse: symbol 'dm_bow_exit' was not declared. Should it be static?
+>> drivers/md/dm-bow.c:524:21: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/md/dm-bow.c:523:26: sparse: signed value source
 
-vim +1934 fs/btrfs/relocation.c
+vim +524 drivers/md/dm-bow.c
 
-5d4f98a28c7d334 Yan Zheng     2009-06-10  1912  
-5d4f98a28c7d334 Yan Zheng     2009-06-10  1913  static int record_reloc_root_in_trans(struct btrfs_trans_handle *trans,
-5d4f98a28c7d334 Yan Zheng     2009-06-10  1914  				      struct btrfs_root *reloc_root)
-5d4f98a28c7d334 Yan Zheng     2009-06-10  1915  {
-0b246afa62b0cf5 Jeff Mahoney  2016-06-22  1916  	struct btrfs_fs_info *fs_info = reloc_root->fs_info;
-5d4f98a28c7d334 Yan Zheng     2009-06-10  1917  	struct btrfs_root *root;
-442b1ac5244ea2d Josef Bacik   2020-01-24  1918  	int ret;
-5d4f98a28c7d334 Yan Zheng     2009-06-10  1919  
-ca84529a842f3a1 Filipe Manana 2024-07-01  1920  	if (btrfs_get_root_last_trans(reloc_root) == trans->transid)
-5d4f98a28c7d334 Yan Zheng     2009-06-10  1921  		return 0;
-5d4f98a28c7d334 Yan Zheng     2009-06-10  1922  
-a820feb546842a4 David Sterba  2020-05-15  1923  	root = btrfs_get_fs_root(fs_info, reloc_root->root_key.offset, false);
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1924  
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1925  	/*
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1926  	 * This should succeed, since we can't have a reloc root without having
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1927  	 * already looked up the actual root and created the reloc root for this
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1928  	 * root.
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1929  	 *
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1930  	 * However if there's some sort of corruption where we have a ref to a
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1931  	 * reloc root without a corresponding root this could return ENOENT.
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1932  	 */
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1933  	if (IS_ERR(root)) {
-9e0a739a9e83eb2 David Sterba  2025-04-17 @1934  		DEBUG_WARN("error %ld reading root for reloc root", PTR_ERR(root));
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1935  		return PTR_ERR(root);
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1936  	}
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1937  	if (root->reloc_root != reloc_root) {
-9e0a739a9e83eb2 David Sterba  2025-04-17  1938  		DEBUG_WARN("unexpected reloc root found");
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1939  		btrfs_err(fs_info,
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1940  			  "root %llu has two reloc roots associated with it",
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1941  			  reloc_root->root_key.offset);
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1942  		btrfs_put_root(root);
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1943  		return -EUCLEAN;
-404bccbcaa7ecb0 Josef Bacik   2021-03-12  1944  	}
-442b1ac5244ea2d Josef Bacik   2020-01-24  1945  	ret = btrfs_record_root_in_trans(trans, root);
-0024652895e3479 Josef Bacik   2020-01-24  1946  	btrfs_put_root(root);
-5d4f98a28c7d334 Yan Zheng     2009-06-10  1947  
-442b1ac5244ea2d Josef Bacik   2020-01-24  1948  	return ret;
-5d4f98a28c7d334 Yan Zheng     2009-06-10  1949  }
-5d4f98a28c7d334 Yan Zheng     2009-06-10  1950  
+dcb994383d2b16 Paul Lawrence 2023-01-25  514  
+dcb994383d2b16 Paul Lawrence 2023-01-25  515  static ssize_t state_store(struct kobject *kobj, struct kobj_attribute *attr,
+dcb994383d2b16 Paul Lawrence 2023-01-25  516  			   const char *buf, size_t count)
+dcb994383d2b16 Paul Lawrence 2023-01-25  517  {
+dcb994383d2b16 Paul Lawrence 2023-01-25  518  	struct bow_context *bc = container_of(kobj, struct bow_context,
+dcb994383d2b16 Paul Lawrence 2023-01-25  519  					      kobj_holder.kobj);
+dcb994383d2b16 Paul Lawrence 2023-01-25  520  	enum state state, original_state;
+dcb994383d2b16 Paul Lawrence 2023-01-25  521  	int ret;
+dcb994383d2b16 Paul Lawrence 2023-01-25  522  
+dcb994383d2b16 Paul Lawrence 2023-01-25  523  	state = buf[0] - '0';
+dcb994383d2b16 Paul Lawrence 2023-01-25 @524  	if (state < TRIM || state > COMMITTED) {
+dcb994383d2b16 Paul Lawrence 2023-01-25  525  		DMERR("State value %d out of range", state);
+dcb994383d2b16 Paul Lawrence 2023-01-25  526  		return -EINVAL;
+dcb994383d2b16 Paul Lawrence 2023-01-25  527  	}
+dcb994383d2b16 Paul Lawrence 2023-01-25  528  
+dcb994383d2b16 Paul Lawrence 2023-01-25  529  	mutex_lock(&bc->ranges_lock);
+dcb994383d2b16 Paul Lawrence 2023-01-25  530  	original_state = atomic_read(&bc->state);
+dcb994383d2b16 Paul Lawrence 2023-01-25  531  	if (state != original_state + 1) {
+dcb994383d2b16 Paul Lawrence 2023-01-25  532  		DMERR("Invalid state change from %d to %d",
+dcb994383d2b16 Paul Lawrence 2023-01-25  533  		      original_state, state);
+dcb994383d2b16 Paul Lawrence 2023-01-25  534  		ret = -EINVAL;
+dcb994383d2b16 Paul Lawrence 2023-01-25  535  		goto bad;
+dcb994383d2b16 Paul Lawrence 2023-01-25  536  	}
+dcb994383d2b16 Paul Lawrence 2023-01-25  537  
+dcb994383d2b16 Paul Lawrence 2023-01-25  538  	DMINFO("Switching to state %s", state == CHECKPOINT ? "Checkpoint"
+dcb994383d2b16 Paul Lawrence 2023-01-25  539  	       : state == COMMITTED ? "Committed" : "Unknown");
+dcb994383d2b16 Paul Lawrence 2023-01-25  540  
+dcb994383d2b16 Paul Lawrence 2023-01-25  541  	if (state == CHECKPOINT) {
+dcb994383d2b16 Paul Lawrence 2023-01-25  542  		ret = prepare_log(bc);
+dcb994383d2b16 Paul Lawrence 2023-01-25  543  		if (ret) {
+dcb994383d2b16 Paul Lawrence 2023-01-25  544  			DMERR("Failed to switch to checkpoint state");
+dcb994383d2b16 Paul Lawrence 2023-01-25  545  			goto bad;
+dcb994383d2b16 Paul Lawrence 2023-01-25  546  		}
+dcb994383d2b16 Paul Lawrence 2023-01-25  547  	} else if (state == COMMITTED) {
+dcb994383d2b16 Paul Lawrence 2023-01-25  548  		struct bow_range *br = find_sector0_current(bc);
+dcb994383d2b16 Paul Lawrence 2023-01-25  549  		struct bow_range *sector0_br =
+dcb994383d2b16 Paul Lawrence 2023-01-25  550  			container_of(rb_first(&bc->ranges), struct bow_range,
+dcb994383d2b16 Paul Lawrence 2023-01-25  551  				     node);
+dcb994383d2b16 Paul Lawrence 2023-01-25  552  
+dcb994383d2b16 Paul Lawrence 2023-01-25  553  		ret = copy_data(bc, br, sector0_br, 0);
+dcb994383d2b16 Paul Lawrence 2023-01-25  554  		if (ret) {
+dcb994383d2b16 Paul Lawrence 2023-01-25  555  			DMERR("Failed to switch to committed state");
+dcb994383d2b16 Paul Lawrence 2023-01-25  556  			goto bad;
+dcb994383d2b16 Paul Lawrence 2023-01-25  557  		}
+dcb994383d2b16 Paul Lawrence 2023-01-25  558  	}
+dcb994383d2b16 Paul Lawrence 2023-01-25  559  	atomic_inc(&bc->state);
+dcb994383d2b16 Paul Lawrence 2023-01-25  560  	ret = count;
+dcb994383d2b16 Paul Lawrence 2023-01-25  561  
+dcb994383d2b16 Paul Lawrence 2023-01-25  562  bad:
+dcb994383d2b16 Paul Lawrence 2023-01-25  563  	mutex_unlock(&bc->ranges_lock);
+dcb994383d2b16 Paul Lawrence 2023-01-25  564  	return ret;
+dcb994383d2b16 Paul Lawrence 2023-01-25  565  }
+dcb994383d2b16 Paul Lawrence 2023-01-25  566  
+
+:::::: The code at line 524 was first introduced by commit
+:::::: dcb994383d2b1641ebe7b518caab88d2d9dbfa72 Revert "ANDROID: dm-bow: remove dm-bow"
+
+:::::: TO: Paul Lawrence <paullawrence@google.com>
+:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
