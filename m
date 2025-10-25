@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D88821C176
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Oct 2025 01:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C9A1DF273
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Oct 2025 01:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761355480; cv=none; b=OSb6/legRcf4tmdzMWnt/cZjc08EEcjHX9eT8un8HTgrjwwoz8FN6+6yi8hiauFAmruHH673o7QBEXQc6nnSns6HNyhlypq45l5JRyWlAc1vM4evBOsqMpkHtHdcqfvB8ItqVTzfTnWH2Xk54GeOXZ7rekihRKHxLQ3cFOl1OzY=
+	t=1761356093; cv=none; b=gSairBZi55ROyHWUK/B6TmfbwGTDSeE/Ymcn4HxuZ/cf+VVw6PyABFhfqZGZ/VEdu5IucpW29+CNgm9BshUo+iOhhTC4kYXhWLRjx2Yskge77JPDDQT+FgckxgaBFLVJBLew/Cf9LbKeFlfqZqTBm7pfGZutm9icZbK/EVStoPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761355480; c=relaxed/simple;
-	bh=c7ukets4szDFC2RKIEvGgmFo4vWX7AK/4Rc6k0zSjVI=;
+	s=arc-20240116; t=1761356093; c=relaxed/simple;
+	bh=pNk2eQcmF8gALmMVJYfYlcM/YWYjpysjSxeYKObECnQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uTprCHBZ7NDazRvAvrjVF1ZussL+q/QH6m51GWlVh8h34wSY+DFAzAK3OSyf5UxUVeNPUdf1C++Eh+u398/DEcJva1kT7LzRD3MJwBTvA3GU0uhvlgiMTdBBhrBDEt59Z3Hv/NFtWacdnMcisSj2hBvcsvxmDCQK0veS8rsdKRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fHQPcSna; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=GNA/qV/ifavVqTQEIron9X933UbMMEJxCBJ64pY3X5rHSKcZV3+8L2AHnSVOR1X3Xt4QYlu9tJ6leZGXRwQ+1jmiLd6anFwC7PcBdi0J7RadLOP09n5H6YbzvO6v2bt+lduiR2bkkOTzcWBOe/KHjC0KEZLbtg4JxjizqW6mMrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ke4Yx4tZ; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fHQPcSna"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ke4Yx4tZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761355479; x=1792891479;
+  t=1761356092; x=1792892092;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c7ukets4szDFC2RKIEvGgmFo4vWX7AK/4Rc6k0zSjVI=;
-  b=fHQPcSna0tNZ12V7XZG5GBLyvJF96xbKJg67bDIuuCJ6pKcMW02ob3Pr
-   bkaOwwzhBC+Qlm/ifRDjCNwkAHjQQ8mOxImKfrecE+hFcTgwBOZvJ+ofr
-   WBJt1on4uL5xdM/hqPv6j5iBsggMy+bivmEe4SPpVh9Vva4ZA82t6Sp6S
-   w/BDKOhLozT9WZ2U+PS+OWKLOqSl78mMVXyCIv8ufvRgKH504cLi1mS/T
-   2/YrstiHq+gc9U/R9cWOq4L85m0MwA6Uw7DevkZEB5A7RglLw72IgCYuW
-   Fg4Lul4oUtP46x7mB964R/0vFPFLpA+C49PaPsrsxRgg8bERR1pt8N9pt
-   A==;
-X-CSE-ConnectionGUID: HvW+ID6CTf66fEc8U9Ig1A==
-X-CSE-MsgGUID: JCcByQo9SPK7jVDUQ/nisQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67180994"
+  bh=pNk2eQcmF8gALmMVJYfYlcM/YWYjpysjSxeYKObECnQ=;
+  b=Ke4Yx4tZJOr+VorpyAG4tHXkCzuDV/1IKfrjeI9GoIHdvWysOF58vttL
+   CjK1vHzNNuHUqn6KwQPlOnsCnvciQjkuTlQuIgHd849WHejfJaYQxCzvW
+   9FA2DJalh2HhfudCwSf9YinQms+siZniOuBGdet6igVm4v3wjPyYgH3I6
+   +g9W6nmRKMhXLd0bBOe/yjD6sF/oL+fvs3T0EF4QEgNHym0HIHvkKoI6Q
+   n0OQWd525wXiT+SAVlX3C+0gvssNn8vS7610XgIn+nXQD00EpHM6b8RmN
+   50v5xEPJnToyrXkGVWEBWlXQ4iV0wb/IATMT3EcsghnJH8SepiTghP/On
+   w==;
+X-CSE-ConnectionGUID: Q/vHYCsdSoeIyWepdPSWZw==
+X-CSE-MsgGUID: PaneN92YQ3i3MZbm3YRoaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73824727"
 X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="67180994"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 18:24:38 -0700
-X-CSE-ConnectionGUID: XsKfQmZAR+mg+xYYxxuDPw==
-X-CSE-MsgGUID: YZ5EEo+zS9W/rGqZQDSOcA==
+   d="scan'208";a="73824727"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 18:34:51 -0700
+X-CSE-ConnectionGUID: DIgWjFG3RDGEIPUgbyhNlg==
+X-CSE-MsgGUID: C/Qh9VC8QpO68bfNQz1Kfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="215215860"
+   d="scan'208";a="215471659"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 24 Oct 2025 18:24:37 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 24 Oct 2025 18:34:50 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCT1G-000F2P-2P;
-	Sat, 25 Oct 2025 01:24:34 +0000
-Date: Sat, 25 Oct 2025 09:23:56 +0800
+	id 1vCTB5-000F2s-3A;
+	Sat, 25 Oct 2025 01:34:45 +0000
+Date: Sat, 25 Oct 2025 09:34:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH net-next 1/3] net: dsa: yt921x: Add STP/MST support
-Message-ID: <202510250954.SHhCZUaW-lkp@intel.com>
+Subject: sound/hda/codecs/side-codecs/cs35l56_hda.c:256:20: sparse: sparse:
+ unsigned value that used to be signed checked against zero?
+Message-ID: <202510251128.xebXo49K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,212 +63,69 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: Manual check reason: "low confidence static check warning: sound/hda/codecs/side-codecs/cs35l56_hda.c:256:20: sparse: sparse: unsigned value that used to be signed checked against zero?"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251024033237.1336249-2-mmyangfl@gmail.com>
-References: <20251024033237.1336249-2-mmyangfl@gmail.com>
-TO: David Yang <mmyangfl@gmail.com>
-TO: netdev@vger.kernel.org
-CC: David Yang <mmyangfl@gmail.com>
-CC: Andrew Lunn <andrew@lunn.ch>
-CC: Vladimir Oltean <olteanv@gmail.com>
-CC: Eric Dumazet <edumazet@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Simon Horman <horms@kernel.org>
-CC: Russell King <linux@armlinux.org.uk>
 CC: linux-kernel@vger.kernel.org
+TO: Takashi Iwai <tiwai@suse.de>
+CC: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-Hi David,
+Hi Takashi,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Yang/net-dsa-yt921x-Add-STP-MST-support/20251024-113613
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251024033237.1336249-2-mmyangfl%40gmail.com
-patch subject: [PATCH net-next 1/3] net: dsa: yt921x: Add STP/MST support
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251025/202510250954.SHhCZUaW-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510250954.SHhCZUaW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   53abe3e1c154628cc74e33a1bfcd865656e433a5
+commit: 6014e9021b28e634935c776c0271b5cbcabdc5d6 ALSA: hda: Move codec drivers into sound/hda/codecs directory
+date:   4 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 months ago
+config: loongarch-randconfig-r123-20251024 (https://download.01.org/0day-ci/archive/20251025/202510251128.xebXo49K-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510251128.xebXo49K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510250954.SHhCZUaW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510251128.xebXo49K-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> sound/hda/codecs/side-codecs/cs35l56_hda.c:256:20: sparse: sparse: unsigned value that used to be signed checked against zero?
+   sound/hda/codecs/side-codecs/cs35l56_hda.c:252:29: sparse: signed value source
 
->> drivers/net/dsa/yt921x.c:2154:11: warning: shift count >= width of type [-Wshift-count-overflow]
-    2154 |         mask64 = YT921X_VLAN_CTRL_STP_ID_M;
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/yt921x.h:341:37: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID_M'
-     341 | #define  YT921X_VLAN_CTRL_STP_ID_M              GENMASK(39, 36)
-         |                                                 ^~~~~~~~~~~~~~~
-   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
-      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bits.h:48:20: note: expanded from macro 'GENMASK_TYPE'
-      48 |              (type_max(t) << (l) &                              \
-         |                           ^  ~~~
->> drivers/net/dsa/yt921x.c:2154:11: warning: shift count >= width of type [-Wshift-count-overflow]
-    2154 |         mask64 = YT921X_VLAN_CTRL_STP_ID_M;
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/yt921x.h:341:37: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID_M'
-     341 | #define  YT921X_VLAN_CTRL_STP_ID_M              GENMASK(39, 36)
-         |                                                 ^~~~~~~~~~~~~~~
-   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
-      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bits.h:49:20: note: expanded from macro 'GENMASK_TYPE'
-      49 |               type_max(t) >> (BITS_PER_TYPE(t) - 1 - (h)))))
-         |                           ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/yt921x.c:2155:11: warning: shift count >= width of type [-Wshift-count-overflow]
-    2155 |         ctrl64 = YT921X_VLAN_CTRL_STP_ID(msti->msti);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/yt921x.h:342:51: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID'
-     342 | #define   YT921X_VLAN_CTRL_STP_ID(x)                    FIELD_PREP(YT921X_VLAN_CTRL_STP_ID_M, (x))
-         |                                                         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/yt921x.h:341:37: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID_M'
-     341 | #define  YT921X_VLAN_CTRL_STP_ID_M              GENMASK(39, 36)
-         |                                                 ^
-   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
-      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
-         |                                 ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:597:22: note: expanded from macro 'compiletime_assert'
-     597 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:585:23: note: expanded from macro '_compiletime_assert'
-     585 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:577:9: note: expanded from macro '__compiletime_assert'
-     577 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   drivers/net/dsa/yt921x.c:2155:11: warning: shift count >= width of type [-Wshift-count-overflow]
-    2155 |         ctrl64 = YT921X_VLAN_CTRL_STP_ID(msti->msti);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/yt921x.h:342:51: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID'
-     342 | #define   YT921X_VLAN_CTRL_STP_ID(x)                    FIELD_PREP(YT921X_VLAN_CTRL_STP_ID_M, (x))
-         |                                                         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/yt921x.h:341:37: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID_M'
-     341 | #define  YT921X_VLAN_CTRL_STP_ID_M              GENMASK(39, 36)
-         |                                                 ^
-   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
-      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
-         |                                 ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:597:22: note: expanded from macro 'compiletime_assert'
-     597 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:585:23: note: expanded from macro '_compiletime_assert'
-     585 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:577:9: note: expanded from macro '__compiletime_assert'
-     577 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   drivers/net/dsa/yt921x.c:2155:11: warning: shift count >= width of type [-Wshift-count-overflow]
-    2155 |         ctrl64 = YT921X_VLAN_CTRL_STP_ID(msti->msti);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/yt921x.h:342:51: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID'
-     342 | #define   YT921X_VLAN_CTRL_STP_ID(x)                    FIELD_PREP(YT921X_VLAN_CTRL_STP_ID_M, (x))
-         |                                                         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/yt921x.h:341:37: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID_M'
-     341 | #define  YT921X_VLAN_CTRL_STP_ID_M              GENMASK(39, 36)
-         |                                                 ^
-   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
-      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
-         |                                 ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:597:22: note: expanded from macro 'compiletime_assert'
-     597 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:585:23: note: expanded from macro '_compiletime_assert'
-     585 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:577:9: note: expanded from macro '__compiletime_assert'
-     577 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   drivers/net/dsa/yt921x.c:2155:11: warning: shift count >= width of type [-Wshift-count-overflow]
-    2155 |         ctrl64 = YT921X_VLAN_CTRL_STP_ID(msti->msti);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/yt921x.h:342:51: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID'
-     342 | #define   YT921X_VLAN_CTRL_STP_ID(x)                    FIELD_PREP(YT921X_VLAN_CTRL_STP_ID_M, (x))
-         |                                                         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/yt921x.h:341:37: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID_M'
-     341 | #define  YT921X_VLAN_CTRL_STP_ID_M              GENMASK(39, 36)
-         |                                                 ^
-   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
-      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
-         |                                 ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:597:22: note: expanded from macro 'compiletime_assert'
-     597 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:585:23: note: expanded from macro '_compiletime_assert'
-     585 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:577:9: note: expanded from macro '__compiletime_assert'
-     577 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
->> drivers/net/dsa/yt921x.c:2155:11: error: call to '__compiletime_assert_989' declared with 'error' attribute: FIELD_PREP: mask is zero
-   drivers/net/dsa/yt921x.h:342:40: note: expanded from macro 'YT921X_VLAN_CTRL_STP_ID'
-     342 | #define   YT921X_VLAN_CTRL_STP_ID(x)                    FIELD_PREP(YT921X_VLAN_CTRL_STP_ID_M, (x))
-         |                                                         ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   include/linux/bitfield.h:67:3: note: expanded from macro '__BF_FIELD_CHECK'
-      67 |                 BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:585:2: note: expanded from macro '_compiletime_assert'
-     585 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:578:4: note: expanded from macro '__compiletime_assert'
-     578 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:47:1: note: expanded from here
-      47 | __compiletime_assert_989
-         | ^
-   6 warnings and 1 error generated.
+vim +256 sound/hda/codecs/side-codecs/cs35l56_hda.c
 
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  247  
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  248  static int cs35l56_hda_posture_put(struct snd_kcontrol *kcontrol,
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  249  				   struct snd_ctl_elem_value *ucontrol)
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  250  {
+483dd12dbe34c6 sound/pci/hda/cs35l56_hda.c Kuninori Morimoto 2025-05-07  251  	struct cs35l56_hda *cs35l56 = snd_kcontrol_chip(kcontrol);
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  252  	unsigned long pos = ucontrol->value.integer.value[0];
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  253  	bool changed;
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  254  	int ret;
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  255  
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21 @256  	if ((pos < CS35L56_MAIN_POSTURE_MIN) ||
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  257  	    (pos > CS35L56_MAIN_POSTURE_MAX))
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  258  		return -EINVAL;
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  259  
+634f3b4e7dde38 sound/pci/hda/cs35l56_hda.c Simon Trimmer     2024-06-18  260  	cs35l56_hda_wait_dsp_ready(cs35l56);
+634f3b4e7dde38 sound/pci/hda/cs35l56_hda.c Simon Trimmer     2024-06-18  261  
+a3ec669efcee2c sound/pci/hda/cs35l56_hda.c Stefan Binding    2025-04-07  262  	ret = regmap_update_bits_check(cs35l56->base.regmap, cs35l56->base.fw_reg->posture_number,
+a3ec669efcee2c sound/pci/hda/cs35l56_hda.c Stefan Binding    2025-04-07  263  				       CS35L56_MAIN_POSTURE_MASK, pos, &changed);
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  264  	if (ret)
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  265  		return ret;
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  266  
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  267  	return changed;
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  268  }
+73cfbfa9caea8e sound/pci/hda/cs35l56_hda.c Simon Trimmer     2023-07-21  269  
 
-vim +2155 drivers/net/dsa/yt921x.c
+:::::: The code at line 256 was first introduced by commit
+:::::: 73cfbfa9caea8eda54b4c6e49a9555533660aa1e ALSA: hda/cs35l56: Add driver for Cirrus Logic CS35L56 amplifier
 
-5c1f0fbc2c12ae David Yang 2025-10-24  2139  
-5c1f0fbc2c12ae David Yang 2025-10-24  2140  static int
-5c1f0fbc2c12ae David Yang 2025-10-24  2141  yt921x_dsa_vlan_msti_set(struct dsa_switch *ds, struct dsa_bridge bridge,
-5c1f0fbc2c12ae David Yang 2025-10-24  2142  			 const struct switchdev_vlan_msti *msti)
-5c1f0fbc2c12ae David Yang 2025-10-24  2143  {
-5c1f0fbc2c12ae David Yang 2025-10-24  2144  	struct yt921x_priv *priv = to_yt921x_priv(ds);
-5c1f0fbc2c12ae David Yang 2025-10-24  2145  	u64 mask64;
-5c1f0fbc2c12ae David Yang 2025-10-24  2146  	u64 ctrl64;
-5c1f0fbc2c12ae David Yang 2025-10-24  2147  	int res;
-5c1f0fbc2c12ae David Yang 2025-10-24  2148  
-5c1f0fbc2c12ae David Yang 2025-10-24  2149  	if (!msti->vid)
-5c1f0fbc2c12ae David Yang 2025-10-24  2150  		return -EINVAL;
-5c1f0fbc2c12ae David Yang 2025-10-24  2151  	if (msti->msti <= 0 || msti->msti >= YT921X_MSTI_NUM)
-5c1f0fbc2c12ae David Yang 2025-10-24  2152  		return -EINVAL;
-5c1f0fbc2c12ae David Yang 2025-10-24  2153  
-5c1f0fbc2c12ae David Yang 2025-10-24 @2154  	mask64 = YT921X_VLAN_CTRL_STP_ID_M;
-5c1f0fbc2c12ae David Yang 2025-10-24 @2155  	ctrl64 = YT921X_VLAN_CTRL_STP_ID(msti->msti);
-5c1f0fbc2c12ae David Yang 2025-10-24  2156  
-5c1f0fbc2c12ae David Yang 2025-10-24  2157  	mutex_lock(&priv->reg_lock);
-5c1f0fbc2c12ae David Yang 2025-10-24  2158  	res = yt921x_reg64_update_bits(priv, YT921X_VLANn_CTRL(msti->vid),
-5c1f0fbc2c12ae David Yang 2025-10-24  2159  				       mask64, ctrl64);
-5c1f0fbc2c12ae David Yang 2025-10-24  2160  	mutex_unlock(&priv->reg_lock);
-5c1f0fbc2c12ae David Yang 2025-10-24  2161  
-5c1f0fbc2c12ae David Yang 2025-10-24  2162  	return res;
-5c1f0fbc2c12ae David Yang 2025-10-24  2163  }
-5c1f0fbc2c12ae David Yang 2025-10-24  2164  
+:::::: TO: Simon Trimmer <simont@opensource.cirrus.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
