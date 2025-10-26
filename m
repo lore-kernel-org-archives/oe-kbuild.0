@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6279218C31
-	for <oe-kbuild@lists.linux.dev>; Sun, 26 Oct 2025 01:48:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536412AD3D
+	for <oe-kbuild@lists.linux.dev>; Sun, 26 Oct 2025 02:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761443341; cv=none; b=rAd6sqhMEb3hLwQaoTukBwawFFmcN/CGEylSH+OBfTleY950aVpj6jtPkMLVY3kjJ5xPUWK+9B0snmGvmfco66se8xyMaOrF9lebHXOdKFhNcg9oGCt9NGIRvkF4C2yMMVJjCBGV1Yoh1i4cR9VR7k2BReSGFLkFT7ODcCEF6+I=
+	t=1761445401; cv=none; b=VRYG9YNQOcZhxL5LVSb6q0Xc0AHWN80Uovm52ZuBPu/GJ5V9+YVwoH5nZPo7LOv4Zq2y3/A0v0vxxatZ1ddn/CEiIfMRg0cqew0JUmq7dsC7gMgClTQmpUbid0qb2PxAFUYq/BvbKG8xOZuqg8VHwUfIq4H551P06w++6HCgtLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761443341; c=relaxed/simple;
-	bh=HsI5/sQjVWS1JnElap7GsBVgBRFFAHkF9K+76zta/5c=;
+	s=arc-20240116; t=1761445401; c=relaxed/simple;
+	bh=I+alMcN0FOHsWV0YmJKOAZGeOAx8bMU/rEd4fWWHP7Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V8wRADgkuJQ17jVWPiManuk8Bqjc5qxHXWXpsWgmUKs2WRvLrhQx2zPIuUfrqkN95KhUo3BVQ5S0E7ReQmhJYwF9frsK1TobjwyI54FYySx4BR8vDIt2tOohjL/VQbv0luN49dYjiurq+7ueQa4f1Ynk7iI611JBhDh8wxfsM4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U8gkIVpe; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=dhVkKPFjPg+i9Bx69pKxCyevHPi58mGzJvAgSK9U6lm3y/Pcl6FA6bCz/yGBq9YmSpiP8eBGm9oXoK2ZgRxUT+uNyala/U6QZW9li37bcL/lRQ+5gtIfjPSb9dD2+McJQe78c0I5Qhhv5c2LoyyimpdBE49GfclPLK099sKpH8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jx4lBoz7; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U8gkIVpe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jx4lBoz7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761443339; x=1792979339;
+  t=1761445400; x=1792981400;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HsI5/sQjVWS1JnElap7GsBVgBRFFAHkF9K+76zta/5c=;
-  b=U8gkIVpep0PQmCgGbdz6WUO30csHBUcvXrKdW32c9XSf8idvhlcAUZ6j
-   YQVo7aL3H9vCGWnsdhf7QTEfydl5oGWi8iyo9cVD7tHlmjaG1CoidG409
-   pzjVflgdwiytbrXOqpXlr1fEgOnz7SvsgyBnoFzD4FsEhTNePghp1hfDi
-   kwG8nhT/XbYxe1x/iMRgnGyL0X54nrQfRNm5i/ycPEMLmX6ZLT59FUSmr
-   PlQ5vKr+SNNM9aiA3dnhR9DLR6C1mi7tcybfmDJ3Fg0At148FUxi8h3TW
-   qo0UyvcCoiEuBKA/tS9bxbdwpPMa95/hhLgeOp6KUHRF41lhxfzIcsDfa
-   Q==;
-X-CSE-ConnectionGUID: w1oj1LytTYqj/icWJ+YJgA==
-X-CSE-MsgGUID: egXNxdjrTQ6wD8bR3zEvZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="86200394"
-X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="86200394"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 18:48:59 -0700
-X-CSE-ConnectionGUID: ZFrJ+PS9TlWUqHJ76yAtyQ==
-X-CSE-MsgGUID: jB1IGSNUTOCXk9sswjqdeA==
+  bh=I+alMcN0FOHsWV0YmJKOAZGeOAx8bMU/rEd4fWWHP7Y=;
+  b=Jx4lBoz7/qeNrhmSKFpQIFtYO1L5R+FBY7+x646CO/QlM5RQNHIb4/9w
+   YeXioUns3sOlGywfvYJKQmfI6hBDzJO9Pk9ZoCVwzM12WAArel1DpNrSL
+   q0yehvIHMg2GSFy6QgEfz52Hreow23CchuK4dI/CzsjSi+uUxcPPXFJCy
+   jDVlOUTv/q2kg+V34QAtw0bVsLeT6JWKisYbcBYCz4rVD5+KxwCP36zMB
+   PiYWIz6KZ/xVbmhk6xoAQghSNsLLS3ehr56emSpwTw9XeJU7ERXxav/zV
+   paqUKtjkFFwgN+CCQ81GymhhiTdSJbuaUoKXfAbBMBZ9doEO8pgUeFC+k
+   w==;
+X-CSE-ConnectionGUID: a41SP9bwT7m0zL9bDkI5JQ==
+X-CSE-MsgGUID: ceeDZTAcSB+QQj/LbkOPUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63471534"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63471534"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 19:23:19 -0700
+X-CSE-ConnectionGUID: EDgWSq9vTdCn7dlIXZKDLg==
+X-CSE-MsgGUID: hS8lww5iSPimwvUhlpl+hA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="184436231"
+   d="scan'208";a="188791326"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 25 Oct 2025 18:48:57 -0700
+  by orviesa003.jf.intel.com with ESMTP; 25 Oct 2025 19:23:18 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCpsN-000FnN-2r;
-	Sun, 26 Oct 2025 01:48:55 +0000
-Date: Sun, 26 Oct 2025 09:48:23 +0800
+	id 1vCqPb-000Foj-1w;
+	Sun, 26 Oct 2025 02:23:15 +0000
+Date: Sun, 26 Oct 2025 10:22:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: mm/vmscan.o: error: objtool: shrink_node+0xca7: sibling call from
- callable instruction with modified stack frame
-Message-ID: <202510260954.9hiipDGh-lkp@intel.com>
+Subject: [android-common:android16-6.12-kminext 1/1] posix_timers.c:257:13:
+ warning: 'check_sig_ign' defined but not used
+Message-ID: <202510261057.CubMnZ3S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,89 +63,38 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: Peter Zijlstra <peterz@infradead.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-Hi Josh,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   72761a7e31225971d0b29d9195e0ffa986b77867
-commit: 36799069b48198e5ce92d99310060c4aecb4b3e3 objtool: Add CONFIG_OBJTOOL_WERROR
-date:   7 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 7 months ago
-config: x86_64-randconfig-102-20251026 (https://download.01.org/0day-ci/archive/20251026/202510260954.9hiipDGh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510260954.9hiipDGh-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-kminext
+head:   8979fee435bfd762771c71f3cf99f6f279038337
+commit: 32c1bffe815c9ed746ce7d84cae07da17db6bca4 [1/1] ANDROID: Compile kselftest_timers_posix_timers code
+:::::: branch date: 2 days ago
+:::::: commit date: 1 year ago
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251026/202510261057.CubMnZ3S-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510261057.CubMnZ3S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510260954.9hiipDGh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510261057.CubMnZ3S-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> mm/vmscan.o: error: objtool: shrink_node+0xca7: sibling call from callable instruction with modified stack frame
-   mm/vmscan.o: error: objtool:   shrink_node+0xda5: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0xc85: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0xd74: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0xc63: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0xb2a: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0xd58: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0xb11: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0xa82: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x8df: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x8b8: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x873: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x23c0: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x857: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x7f9: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x23a2: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x793: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x712: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x2566: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x6fa: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x6c9: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x694: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x658: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x5e7: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x5cc: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x563: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x528: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x4ea: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x2386: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x4bc: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x4a4: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x24e9: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x491: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x42a: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x2376: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x40c: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x2345: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x3ea: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x3aa: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x232a: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x37c: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x22b: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x188: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x230c: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x16a: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x134: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x10d: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0xe0: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0xb9: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x75: (branch)
-   mm/vmscan.o: error: objtool:   shrink_node+0x0: <=== (sym)
-   mm/vmscan.o: error: objtool: 1 warning(s) upgraded to errors
-   ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --static-call --uaccess --Werror --backtrace mm/vmscan.o.orig -o mm/vmscan.o
+   posix_timers.c:399:13: warning: 'check_delete' defined but not used [-Wunused-function]
+     399 | static void check_delete(void)
+         |             ^~~~~~~~~~~~
+   posix_timers.c:343:13: warning: 'check_rearm' defined but not used [-Wunused-function]
+     343 | static void check_rearm(void)
+         |             ^~~~~~~~~~~
+>> posix_timers.c:257:13: warning: 'check_sig_ign' defined but not used [-Wunused-function]
+     257 | static void check_sig_ign(int thread)
+         |             ^~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
