@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF46E189BB6
-	for <oe-kbuild@lists.linux.dev>; Sun, 26 Oct 2025 13:56:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B892FE560
+	for <oe-kbuild@lists.linux.dev>; Sun, 26 Oct 2025 19:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761486984; cv=none; b=Yy/GJHXSvv/HVfzzzSDp8mzFjNZ+NHKUROizMJTtpNyqrw0GX+qYeRFKM7bnO8sAIQWgHZTOCK729O160V5AlyimAArvCXHvk1OgBlFoHIIJi5UO5Zh/ZRAvKi2bhWMWuYqUUeVBnu3XogeAk/p9PtxM0rhA6VrcemSGGZXOZ4w=
+	t=1761506907; cv=none; b=SQQJMB69usppM4NJrIYfxjd5+g1uxxhTZ5XiNn/i1Te0MrOAkAWvu9++vldvqQd5+gRHFUw5wvxiWc3p8t97KB6ojkuIIHn0tO5NytXZFUVgdnPtMCMiivKQGf92JKZVbbEJQRnUyi23zpReV2y/o+e4i3XifUkdD3Ag4YCKdso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761486984; c=relaxed/simple;
-	bh=tv+JB3zjzu57PyMm14y8e8NPHP9d90xVhrdRVvyg0R4=;
+	s=arc-20240116; t=1761506907; c=relaxed/simple;
+	bh=4II6Dcx5T2qd9rD9bCENYbHCqVTT21QXHRn+BlWxZDI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cINty6LEiYCoiL0JLBKHfKCteCQJwvHLvVZ7EwDKMzeXpgvD4RN2NlDpnvkm9N6/MqxrA+pyzH8934oywL6Lm8nrwQyywvDLsUS+6tj6QRrje72EKYQ8BnVkXC0RsWfTWB6739g89WoFG8zYwwTzKBVObQNjnZ+Q1DeKc0ugDpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oHr+jpyJ; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Zlqh6ElSfn+/lLSLm0SaLLqNuMpKhmY18ipK5eGNoZMHkmLI04T8afPXjQ6iy8VdOMW9z1iz0kxNvAHT250H1LjAdAcCEMiHhfqRc1sG7n3y9bE0/8YYiKcbgH/Ny/Bj1IoeNIAhogqUp+7g+hk8CaoNQpnCYdCZLBOFs4PRuyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OymiV/TH; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oHr+jpyJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OymiV/TH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761486983; x=1793022983;
+  t=1761506906; x=1793042906;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tv+JB3zjzu57PyMm14y8e8NPHP9d90xVhrdRVvyg0R4=;
-  b=oHr+jpyJJofuQ/IsVRtfgDinKaL+Fb8ep12wmXZ71GZjD/N6FfstozoS
-   xeTH8qOvHIxLyLw5mRTuE6PDSrGunGTl59cPn6yyBewnvJPhC3CaYdGkt
-   a3qmWl6dxCeXf3VBMo5eYiRrR7vh9DUnWalJA6F0z7nVGXdkVHmBxlX6F
-   QO29Ax/J3qvrioLYOA2UUhRWkpxjn/0FL5G1Blxa9wqPHPGdARyLh30yS
-   AXRuRkWZeZ8mF5QRsK/gQetx4nR+ck2B1rR99aKPLEfJOV+I9u1Oj4w2j
-   3561xXeqpCj+Xkq46uR0J78KBdvw390rZqKoQsHfeFpkFJyTlb0zN2PRN
+  bh=4II6Dcx5T2qd9rD9bCENYbHCqVTT21QXHRn+BlWxZDI=;
+  b=OymiV/THsgXwnSEqgKlLrC/Vp7zzB1LjE3WoF6o1CTIEz1melAExdup5
+   ra0fVJkm8/M2JJIaUlQvKUDhHKlEFIXhzfj62Bk4BkwaryAKwaqMRS4LS
+   NEhv2nvyfOjeOskXHOjTQi69R2qdekLG39hqWsQ/4A/k3MQ7hnzWDug65
+   4RgguWFXJ5CPjepddwMRLYhhkNns8knW7a+O6zp/k+c5M2xSPQCJtEPBX
+   +l2Xr+siVob/9b8CLyEzydmHYjxeWmmcPhgDrGmUIjT5JLPFBYeaZ1G0t
+   L7rvMhvm0kWdnsGxSUa86DxYch6eNwfvMvYl/7g52vjtXLpiRrLK6DVGx
    A==;
-X-CSE-ConnectionGUID: m+y6KoJCSk68PiplZc+xVA==
-X-CSE-MsgGUID: vVE5JEjFRKKgc+2kUXs9OA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63290072"
-X-IronPort-AV: E=Sophos;i="6.19,256,1754982000"; 
-   d="scan'208";a="63290072"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 06:56:22 -0700
-X-CSE-ConnectionGUID: WhKw/auCQPmU1LgPABXHyg==
-X-CSE-MsgGUID: oERvWiAUSvCGp2upg+sbaA==
+X-CSE-ConnectionGUID: thDpROYKQUipBxMJynBOSg==
+X-CSE-MsgGUID: o5fHNRMGTmqQuMOydWZJbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62626949"
+X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; 
+   d="scan'208";a="62626949"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 12:28:25 -0700
+X-CSE-ConnectionGUID: EtzKT9XGTpe1g3p2g8Eh8w==
+X-CSE-MsgGUID: XPh2MK7YQJ2UwvYJdlTfEA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,256,1754982000"; 
-   d="scan'208";a="185585049"
+X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; 
+   d="scan'208";a="184954600"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Oct 2025 06:56:18 -0700
+  by orviesa008.jf.intel.com with ESMTP; 26 Oct 2025 12:28:24 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vD1EB-000G8j-1W;
-	Sun, 26 Oct 2025 13:56:12 +0000
-Date: Sun, 26 Oct 2025 21:55:26 +0800
+	id 1vD6Pe-000GJj-0O;
+	Sun, 26 Oct 2025 19:28:22 +0000
+Date: Mon, 27 Oct 2025 03:27:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] selftests: harness: Support KCOV.
-Message-ID: <202510262116.jwyrgplV-lkp@intel.com>
+Subject: [koverstreet-bcachefs:bcachefs-testing 468/674]
+ fs/bcachefs/fs/quota.c:117:9: sparse: sparse: unknown escape sequence: '\%'
+Message-ID: <202510270331.YrnoFhYW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,379 +63,57 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: fs/bcachefs/fs/quota.c:117:9: sparse: sparse: unknown escape sequence: '\%'"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251017084022.3721950-1-kuniyu@google.com>
-References: <20251017084022.3721950-1-kuniyu@google.com>
-TO: Kuniyuki Iwashima <kuniyu@google.com>
-TO: Shuah Khan <skhan@linuxfoundation.org>
-CC: Kuniyuki Iwashima <kuniyu@google.com>
-CC: linux-kselftest@vger.kernel.org
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-Hi Kuniyuki,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on shuah-kselftest/next]
-[also build test WARNING on shuah-kselftest/fixes kees/for-next/seccomp linus/master v6.18-rc2 next-20251024]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/selftests-harness-Support-KCOV/20251017-164507
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20251017084022.3721950-1-kuniyu%40google.com
-patch subject: [PATCH] selftests: harness: Support KCOV.
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251026/202510262116.jwyrgplV-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510262116.jwyrgplV-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   a4abf4352bcdf7adc9cf5605c5035f6441ed7576
+commit: 0e349fe46a443dc2f5f3d2b67a3cc42c12d2bf35 [468/674] bcachefs: move fs code to fs/
+:::::: branch date: 35 minutes ago
+:::::: commit date: 17 hours ago
+config: hexagon-randconfig-r121-20251026 (https://download.01.org/0day-ci/archive/20251027/202510270331.YrnoFhYW-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510270331.YrnoFhYW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510262116.jwyrgplV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510270331.YrnoFhYW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/bcachefs/fs/quota.c:117:9: sparse: sparse: unknown escape sequence: '%'
 
-   In file included from listmount_test.c:14:
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   listmount_test.c:23:1: note: in expansion of macro 'TEST'
-      23 | TEST(listmount_forward)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_listmount_forward_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   listmount_test.c:23:1: note: in expansion of macro 'TEST'
-      23 | TEST(listmount_forward)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   listmount_test.c:45:1: note: in expansion of macro 'TEST'
-      45 | TEST(listmount_backward)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_listmount_backward_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   listmount_test.c:45:1: note: in expansion of macro 'TEST'
-      45 | TEST(listmount_backward)
-         | ^~~~
->> ../../kselftest_harness.h:1251:13: warning: 'disable_kcov' defined but not used [-Wunused-function]
-    1251 | static void disable_kcov(struct __test_metadata *t, char *test_name)
-         |             ^~~~~~~~~~~~
->> ../../kselftest_harness.h:1204:13: warning: 'enable_kcov' defined but not used [-Wunused-function]
-    1204 | static void enable_kcov(struct __test_metadata *t)
-         |             ^~~~~~~~~~~
---
-   In file included from futex_wait_timeout.c:22:
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_timeout.c:82:1: note: in expansion of macro 'TEST'
-      82 | TEST(wait_bitset)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_wait_bitset_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_timeout.c:82:1: note: in expansion of macro 'TEST'
-      82 | TEST(wait_bitset)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_timeout.c:108:1: note: in expansion of macro 'TEST'
-     108 | TEST(requeue_pi)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_requeue_pi_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_timeout.c:108:1: note: in expansion of macro 'TEST'
-     108 | TEST(requeue_pi)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_timeout.c:128:1: note: in expansion of macro 'TEST'
-     128 | TEST(lock_pi)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_lock_pi_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_timeout.c:128:1: note: in expansion of macro 'TEST'
-     128 | TEST(lock_pi)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_timeout.c:162:1: note: in expansion of macro 'TEST'
-     162 | TEST(waitv)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_waitv_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_timeout.c:162:1: note: in expansion of macro 'TEST'
-     162 | TEST(waitv)
-         | ^~~~
->> ../../kselftest_harness.h:1251:13: warning: 'disable_kcov' defined but not used [-Wunused-function]
-    1251 | static void disable_kcov(struct __test_metadata *t, char *test_name)
-         |             ^~~~~~~~~~~~
->> ../../kselftest_harness.h:1204:13: warning: 'enable_kcov' defined but not used [-Wunused-function]
-    1204 | static void enable_kcov(struct __test_metadata *t)
-         |             ^~~~~~~~~~~
---
-   In file included from futex_wait_wouldblock.c:27:
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_wouldblock.c:31:1: note: in expansion of macro 'TEST'
-      31 | TEST(futex_wait_wouldblock)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_futex_wait_wouldblock_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_wouldblock.c:31:1: note: in expansion of macro 'TEST'
-      31 | TEST(futex_wait_wouldblock)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_wouldblock.c:48:1: note: in expansion of macro 'TEST'
-      48 | TEST(futex_waitv_wouldblock)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_futex_waitv_wouldblock_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_wouldblock.c:48:1: note: in expansion of macro 'TEST'
-      48 | TEST(futex_waitv_wouldblock)
-         | ^~~~
->> ../../kselftest_harness.h:1251:13: warning: 'disable_kcov' defined but not used [-Wunused-function]
-    1251 | static void disable_kcov(struct __test_metadata *t, char *test_name)
-         |             ^~~~~~~~~~~~
->> ../../kselftest_harness.h:1204:13: warning: 'enable_kcov' defined but not used [-Wunused-function]
-    1204 | static void enable_kcov(struct __test_metadata *t)
-         |             ^~~~~~~~~~~
---
-   In file included from futex_requeue_pi_signal_restart.c:30:
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_requeue_pi_signal_restart.c:98:1: note: in expansion of macro 'TEST'
-      98 | TEST(futex_requeue_pi_signal_restart)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_futex_requeue_pi_signal_restart_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_requeue_pi_signal_restart.c:98:1: note: in expansion of macro 'TEST'
-      98 | TEST(futex_requeue_pi_signal_restart)
-         | ^~~~
->> ../../kselftest_harness.h:1251:13: warning: 'disable_kcov' defined but not used [-Wunused-function]
-    1251 | static void disable_kcov(struct __test_metadata *t, char *test_name)
-         |             ^~~~~~~~~~~~
->> ../../kselftest_harness.h:1204:13: warning: 'enable_kcov' defined but not used [-Wunused-function]
-    1204 | static void enable_kcov(struct __test_metadata *t)
-         |             ^~~~~~~~~~~
---
-   In file included from futex_requeue_pi_mismatched_ops.c:28:
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_requeue_pi_mismatched_ops.c:44:1: note: in expansion of macro 'TEST'
-      44 | TEST(requeue_pi_mismatched_ops)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_requeue_pi_mismatched_ops_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_requeue_pi_mismatched_ops.c:44:1: note: in expansion of macro 'TEST'
-      44 | TEST(requeue_pi_mismatched_ops)
-         | ^~~~
->> ../../kselftest_harness.h:1251:13: warning: 'disable_kcov' defined but not used [-Wunused-function]
-    1251 | static void disable_kcov(struct __test_metadata *t, char *test_name)
-         |             ^~~~~~~~~~~~
->> ../../kselftest_harness.h:1204:13: warning: 'enable_kcov' defined but not used [-Wunused-function]
-    1204 | static void enable_kcov(struct __test_metadata *t)
-         |             ^~~~~~~~~~~
---
-   In file included from futex_wait_uninitialized_heap.c:33:
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_uninitialized_heap.c:56:1: note: in expansion of macro 'TEST'
-      56 | TEST(futex_wait_uninitialized_heap)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_futex_wait_uninitialized_heap_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_uninitialized_heap.c:56:1: note: in expansion of macro 'TEST'
-      56 | TEST(futex_wait_uninitialized_heap)
-         | ^~~~
->> ../../kselftest_harness.h:1251:13: warning: 'disable_kcov' defined but not used [-Wunused-function]
-    1251 | static void disable_kcov(struct __test_metadata *t, char *test_name)
-         |             ^~~~~~~~~~~~
->> ../../kselftest_harness.h:1204:13: warning: 'enable_kcov' defined but not used [-Wunused-function]
-    1204 | static void enable_kcov(struct __test_metadata *t)
-         |             ^~~~~~~~~~~
---
-   In file included from futex_wait_private_mapped_file.c:31:
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_private_mapped_file.c:59:1: note: in expansion of macro 'TEST'
-      59 | TEST(wait_private_mapped_file)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_wait_private_mapped_file_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait_private_mapped_file.c:59:1: note: in expansion of macro 'TEST'
-      59 | TEST(wait_private_mapped_file)
-         | ^~~~
->> ../../kselftest_harness.h:1251:13: warning: 'disable_kcov' defined but not used [-Wunused-function]
-    1251 | static void disable_kcov(struct __test_metadata *t, char *test_name)
-         |             ^~~~~~~~~~~~
->> ../../kselftest_harness.h:1204:13: warning: 'enable_kcov' defined but not used [-Wunused-function]
-    1204 | static void enable_kcov(struct __test_metadata *t)
-         |             ^~~~~~~~~~~
---
-   In file included from futex_wait.c:14:
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait.c:39:1: note: in expansion of macro 'TEST'
-      39 | TEST(private_futex)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_private_futex_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait.c:39:1: note: in expansion of macro 'TEST'
-      39 | TEST(private_futex)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait.c:65:1: note: in expansion of macro 'TEST'
-      65 | TEST(anon_page)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_anon_page_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait.c:65:1: note: in expansion of macro 'TEST'
-      65 | TEST(anon_page)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: error: initialization of 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *, char *)' from incompatible pointer type 'void (*)(struct __test_metadata *, struct __fixture_variant_metadata *)' [-Wincompatible-pointer-types]
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait.c:101:1: note: in expansion of macro 'TEST'
-     101 | TEST(file_backed)
-         | ^~~~
-   ../../kselftest_harness.h:188:25: note: (near initialization for '_file_backed_object.fn')
-     188 |                   .fn = &wrapper_##test_name, \
-         |                         ^
-   ../../kselftest_harness.h:157:25: note: in expansion of macro '__TEST_IMPL'
-     157 | #define TEST(test_name) __TEST_IMPL(test_name, -1)
-         |                         ^~~~~~~~~~~
-   futex_wait.c:101:1: note: in expansion of macro 'TEST'
-     101 | TEST(file_backed)
-         | ^~~~
->> ../../kselftest_harness.h:1251:13: warning: 'disable_kcov' defined but not used [-Wunused-function]
-    1251 | static void disable_kcov(struct __test_metadata *t, char *test_name)
-         |             ^~~~~~~~~~~~
->> ../../kselftest_harness.h:1204:13: warning: 'enable_kcov' defined but not used [-Wunused-function]
-    1204 | static void enable_kcov(struct __test_metadata *t)
-         |             ^~~~~~~~~~~
-..
+vim +117 fs/bcachefs/fs/quota.c
+
+f866870f5dbe9c fs/bcachefs/quota.c Kent Overstreet 2022-10-12  108  
+f866870f5dbe9c fs/bcachefs/quota.c Kent Overstreet 2022-10-12  109  static void qc_dqblk_to_text(struct printbuf *out, struct qc_dqblk *q)
+f866870f5dbe9c fs/bcachefs/quota.c Kent Overstreet 2022-10-12  110  {
+f866870f5dbe9c fs/bcachefs/quota.c Kent Overstreet 2022-10-12  111  	printbuf_tabstops_reset(out);
+f866870f5dbe9c fs/bcachefs/quota.c Kent Overstreet 2022-10-12  112  	printbuf_tabstop_push(out, 20);
+f866870f5dbe9c fs/bcachefs/quota.c Kent Overstreet 2022-10-12  113  
+7423330e30ab91 fs/bcachefs/quota.c Kent Overstreet 2024-04-10  114  	prt_printf(out, "d_fieldmask\t%x\n",		q->d_fieldmask);
+7423330e30ab91 fs/bcachefs/quota.c Kent Overstreet 2024-04-10  115  	prt_printf(out, "d_spc_hardlimit\t%llu\n",	q->d_spc_hardlimit);
+7423330e30ab91 fs/bcachefs/quota.c Kent Overstreet 2024-04-10  116  	prt_printf(out, "d_spc_softlimit\t%llu\n",	q->d_spc_softlimit);
+7423330e30ab91 fs/bcachefs/quota.c Kent Overstreet 2024-04-10 @117  	prt_printf(out, "d_ino_hardlimit\%llu\n",	q->d_ino_hardlimit);
+7423330e30ab91 fs/bcachefs/quota.c Kent Overstreet 2024-04-10  118  	prt_printf(out, "d_ino_softlimit\t%llu\n",	q->d_ino_softlimit);
+7423330e30ab91 fs/bcachefs/quota.c Kent Overstreet 2024-04-10  119  	prt_printf(out, "d_space\t%llu\n",		q->d_space);
+7423330e30ab91 fs/bcachefs/quota.c Kent Overstreet 2024-04-10  120  	prt_printf(out, "d_ino_count\t%llu\n",		q->d_ino_count);
+7423330e30ab91 fs/bcachefs/quota.c Kent Overstreet 2024-04-10  121  	prt_printf(out, "d_ino_timer\t%llu\n",		q->d_ino_timer);
+7423330e30ab91 fs/bcachefs/quota.c Kent Overstreet 2024-04-10  122  	prt_printf(out, "d_spc_timer\t%llu\n",		q->d_spc_timer);
+7423330e30ab91 fs/bcachefs/quota.c Kent Overstreet 2024-04-10  123  	prt_printf(out, "d_ino_warns\t%i\n",		q->d_ino_warns);
+7423330e30ab91 fs/bcachefs/quota.c Kent Overstreet 2024-04-10  124  	prt_printf(out, "d_spc_warns\t%i\n",		q->d_spc_warns);
+f866870f5dbe9c fs/bcachefs/quota.c Kent Overstreet 2022-10-12  125  }
+f866870f5dbe9c fs/bcachefs/quota.c Kent Overstreet 2022-10-12  126  
+
+:::::: The code at line 117 was first introduced by commit
+:::::: 7423330e30ab916d56ce9a9d49e37e40ead5b153 bcachefs: prt_printf() now respects \r\n\t
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
