@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DD031158A
-	for <oe-kbuild@lists.linux.dev>; Mon, 27 Oct 2025 15:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CE02D3A94
+	for <oe-kbuild@lists.linux.dev>; Mon, 27 Oct 2025 16:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761580434; cv=none; b=M+lNf5IEJlWwVImK0e9dIXfdSzT9pvc/w/fX6i2E7KD7ijppaGAylwrwmzDgFPf2gYNBJPNgc2/LUzy3M22fwXNwvhTICjMpSDbDVQ3GLkqqkHfS9hu9etk1T/pyIKbdOZp9wrGVHyYDJSfd8bAgQ8PFPA2o0K/VvtmTR3SnTfM=
+	t=1761584267; cv=none; b=fplDYtH46tGRjDWX6AnaoE0YFRrhMHW0yL6dyhT+E/fEsAhUb57lq/76gZwL8+gxnxyA7e8IDvvnbl0+HaQZsheH97u/Z2vnQHEV5CkZAXnmV3xhzZ64sriOaSGfBmnh3w0RqIAyHFRjQGUMBXZMclweQZe7hwO8L78DlDYxeiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761580434; c=relaxed/simple;
-	bh=PeQOQJk/TcWhb1++G1KbuXWnD6S9iVMm5o8qoqDHnpM=;
+	s=arc-20240116; t=1761584267; c=relaxed/simple;
+	bh=Jl3LXaGN1LOZC+Ck0DOKeLjGQUv8tTgn6qG9DKXCQck=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aMYNI8SbrkUwcjDx/wiQi8VXYgA504KjUL+xf11oymSZ1Cu2tMtLIs0j6jGG9rT2tQafkWtSKFbyKfLspxPtDxpAXK6f6/yLd3HsJysMW+Eg9XiibkqSw9IjNl/zIbcgN92G5uD0fsw0ySeB3hmzXy4XANwnZBqC7heYVJGzEEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cB8BpPUG; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=PaEjD2GlAMqbVchdGxoDLaz/DXvQaHWRCmh0iVpzcTmbox84l4jfXLwf1/sIYaWxq2c//bziuj6YN679tP0QmLmpOCxQysmRD1znjNWiKeKK5vl94pDn705gsVKczIcWFdBzrbLBxCnmSBY0Am1aPwbU8F16ME+Vura+4fkDW54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cQXqLqat; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cB8BpPUG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cQXqLqat"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761580433; x=1793116433;
+  t=1761584265; x=1793120265;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PeQOQJk/TcWhb1++G1KbuXWnD6S9iVMm5o8qoqDHnpM=;
-  b=cB8BpPUGofjMdzgRm6f48i9U7WwSaXuvGTj3c1BvdGtLa8XLmgoZJFkN
-   faaMLFMS2O1JKkWwyuNDsM/NpvTmAve6ENZafU0Myo7qFn2amwwO2gcdT
-   wxc71bhTd06gDRmNcTzSZ1g+diiClkBhKy29Zke7tGw+/5ZS/kl9pWCKi
-   oVy9BG1i+7NBPa4TZkW/aihgwmP19Db7oeK+s5OASw1wTeS92KPvEFKBw
-   PiBGxbSySILXtKf9sUjVAV+gHGg0RdgSUAyGmPOnbD4POHBGk4b+wq4ux
-   hcGLhyV/+CqgHcZdqb5f4WLPE6SMRurgqhcUxtGE4qSzHIlirQo1KvYzq
-   A==;
-X-CSE-ConnectionGUID: 9uSA22qKTfGZcqc5UaxzDA==
-X-CSE-MsgGUID: Cv6WszwLQLusdZCqM+ATuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63365657"
+  bh=Jl3LXaGN1LOZC+Ck0DOKeLjGQUv8tTgn6qG9DKXCQck=;
+  b=cQXqLqatvtzXmB9u+P6LP2t/xUmwQfiX0WVv9wCs1TDrvgZaxxv3sLF4
+   C3cNUsnwOodcgn/8IVSjfG1urZK3AxW+Dp1lMV0TpHRr6mSNV3LQGDWOn
+   joY4F99ZHqM1BFsluF3egbPgjfumFkQR6a7vGtp8KHwpadboBaZz3kJaR
+   jyxi1VjHxJaZS3qg9JCq9RZmJGWXC3IL2d7sZVEmtxVQ6Nblhkg+yDb2+
+   NciTbJnudiJUmuberWRjvyoa/pmLXeR4U32MS3rRH/Q7AJ83Rd9fiJYhn
+   hJZnIuDIsHo3/Z0+u47VpOYBJGdvSmPhpstPv3R4Ir4wckB2sWMaYov78
+   g==;
+X-CSE-ConnectionGUID: OFgcnlmzRG2Z7XfzLrfhjA==
+X-CSE-MsgGUID: wss9iCMlShe34CVS1yga6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63766379"
 X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="63365657"
+   d="scan'208";a="63766379"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 08:53:52 -0700
-X-CSE-ConnectionGUID: o0yKAmYmQV2p/jbmzap/ag==
-X-CSE-MsgGUID: WhWsNA7cTI2Wpgrto//YJw==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 09:57:44 -0700
+X-CSE-ConnectionGUID: PbX1yIuBRY6fnBbfptjhrQ==
+X-CSE-MsgGUID: oxumLgN/SsyMn4x5WGp01g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="185546764"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Oct 2025 08:53:51 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+   d="scan'208";a="185563663"
+Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 27 Oct 2025 09:57:44 -0700
+Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vDPXY-000Gx3-1t;
-	Mon, 27 Oct 2025 15:53:48 +0000
-Date: Mon, 27 Oct 2025 23:52:57 +0800
+	id 1vDQXN-000000000MT-3RVl;
+	Mon, 27 Oct 2025 16:57:41 +0000
+Date: Mon, 27 Oct 2025 17:56:53 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [arm-integrator:b4/ixp4xx-netgear-wgr826v 4/8]
- arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dtb: /
- (linksys,wrt300v2): compatible: 'oneOf' conditional failed, one must be
- fixed:
-Message-ID: <202510272322.GM8UEnbX-lkp@intel.com>
+Subject: arch/microblaze/boot/dts/system.dtb: /: failed to match any schema
+ with compatible: ['xlnx,microblaze']
+Message-ID: <202510271733.7kNamBlc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,48 +63,66 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Linus Walleij <linus.walleij@linaro.org>
+CC: linux-kernel@vger.kernel.org
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Conor Dooley <conor.dooley@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/ixp4xx-netgear-wgr826v
-head:   82097c6ad45f556e517b1b4199582fd6d24c03e4
-commit: 6e99260a22efd06abec7366c62731abeb95d9b6a [4/8] ARM: dts: Add Linksys WRT300N v2 Device Tree
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm-randconfig-052-20251024 (https://download.01.org/0day-ci/archive/20251027/202510272322.GM8UEnbX-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
+commit: 61a6ba233fe1198e9eacc9ca1d1cbdb27f70cee5 dt-bindings: Unify "fsl,liodn" type definitions
+date:   11 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 11 months ago
+config: microblaze-randconfig-2052-20251024 (https://download.01.org/0day-ci/archive/20251027/202510271733.7kNamBlc-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.5.0
 dtschema version: 2025.9.dev12+gd6be03029
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510272322.GM8UEnbX-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510271733.7kNamBlc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510272322.GM8UEnbX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510271733.7kNamBlc-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dts:95.14-147.6: Warning (avoid_unnecessary_addr_size): /soc/bus@c4000000/flash@0,0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dts:155.4-165.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dts:155.4-165.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dts:155.4-165.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dts:155.4-165.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dts:155.4-165.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dts:155.4-165.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dts:155.4-165.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dts:155.4-165.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
->> arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dtb: / (linksys,wrt300v2): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'linksys,wrt300v2' is not one of ['actiontec,mi424wr-ac', 'actiontec,mi424wr-d', 'adieng,coyote', 'arcom,vulcan', 'dlink,dsm-g600-a', 'freecom,fsg-3', 'gateway,7001', 'gateworks,gw2348', 'goramo,multilink-router', 'intel,ixdp425', 'intel,ixdpg425', 'iom,nas-100d', 'linksys,nslu2', 'linksys,wrt300nv2', 'linksys,wrv54g', 'netgear,wg302v1', 'netgear,wg302v2', 'netgear,wgr826v', 'usr,8200', 'welltech,epbx100', 'gemtek,gtwx5715']
-   	'linksys,wrt300v2' is not one of ['gateworks,gw2358', 'intel,kixrp435']
-   	'intel,ixp43x' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/intel-ixp4xx.yaml
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dtb: /: failed to match any schema with compatible: ['linksys,wrt300v2', 'intel,ixp42x']
->> arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dtb: ethernet@c8009000 (intel,ixp4xx-ethernet): 'nvmem-cell-names', 'nvmem-cells' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/intel,ixp4xx-ethernet.yaml
->> arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-wrt300nv2.dtb: ethernet@c800a000 (intel,ixp4xx-ethernet): 'nvmem-cell-names', 'nvmem-cells', 'nvmem-mac-minor-offset' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/intel,ixp4xx-ethernet.yaml
+   arch/microblaze/boot/dts/system.dts:118.16-352.5: Warning (unit_address_vs_reg): /plb@0: node has a unit name, but no reg or ranges property
+   arch/microblaze/boot/dts/system.dts:203.44-224.6: Warning (unit_address_vs_reg): /plb@0/xps-ll-temac@81c00000: node has a unit name, but no reg or ranges property
+   arch/microblaze/boot/dts/system.dts:324.17-335.6: Warning (unit_address_vs_reg): /plb@0/mpmc@90000000: node has a unit name, but no reg or ranges property
+   arch/microblaze/boot/dts/system.dts:203.44-224.6: Warning (simple_bus_reg): /plb@0/xps-ll-temac@81c00000: missing or empty reg/ranges property
+   arch/microblaze/boot/dts/system.dts:259.13-282.6: Warning (simple_bus_reg): /plb@0/gpio-leds: missing or empty reg/ranges property
+   arch/microblaze/boot/dts/system.dts:284.16-296.5: Warning (simple_bus_reg): /plb@0/gpio-restart: missing or empty reg/ranges property
+   arch/microblaze/boot/dts/system.dts:324.17-335.6: Warning (simple_bus_reg): /plb@0/mpmc@90000000: missing or empty reg/ranges property
+>> arch/microblaze/boot/dts/system.dtb: /: failed to match any schema with compatible: ['xlnx,microblaze']
+>> arch/microblaze/boot/dts/system.dtb: /cpus/cpu@0: failed to match any schema with compatible: ['xlnx,microblaze-7.10.d']
+>> arch/microblaze/boot/dts/system.dtb: plb@0 (xlnx,plb-v46-1.03.a): gpio-restart: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/microblaze/boot/dts/system.dtb: plb@0 (xlnx,plb-v46-1.03.a): gpio-leds: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/microblaze/boot/dts/system.dtb: plb@0 (xlnx,plb-v46-1.03.a): $nodename:0: 'plb@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/microblaze/boot/dts/system.dtb: /plb@0: failed to match any schema with compatible: ['xlnx,plb-v46-1.03.a', 'xlnx,plb-v46-1.00.a', 'simple-bus']
+>> arch/microblaze/boot/dts/system.dtb: /plb@0: failed to match any schema with compatible: ['xlnx,plb-v46-1.03.a', 'xlnx,plb-v46-1.00.a', 'simple-bus']
+>> arch/microblaze/boot/dts/system.dtb: /plb@0/xps-ll-temac@81c00000: failed to match any schema with compatible: ['xlnx,compound']
+   arch/microblaze/boot/dts/system.dtb: /plb@0/xps-ll-temac@81c00000/ethernet@81c00000: failed to match any schema with compatible: ['xlnx,xps-ll-temac-1.01.b', 'xlnx,xps-ll-temac-1.00.a']
+   arch/microblaze/boot/dts/system.dtb: /plb@0/xps-ll-temac@81c00000/ethernet@81c00000: failed to match any schema with compatible: ['xlnx,xps-ll-temac-1.01.b', 'xlnx,xps-ll-temac-1.00.a']
+>> arch/microblaze/boot/dts/system.dtb: i2c@81600000 (xlnx,xps-iic-2.00.a): 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml
+>> arch/microblaze/boot/dts/system.dtb: i2c@81600000 (xlnx,xps-iic-2.00.a): Unevaluated properties are not allowed ('xlnx,clk-freq', 'xlnx,family', 'xlnx,gpo-width', 'xlnx,iic-freq', 'xlnx,scl-inertial-delay', 'xlnx,sda-inertial-delay', 'xlnx,ten-bit-adr' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml
+>> arch/microblaze/boot/dts/system.dtb: gpio@81400000 (xlnx,xps-gpio-1.00.a): Unevaluated properties are not allowed ('xlnx,family', 'xlnx,is-bidir', 'xlnx,is-bidir-2' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/gpio/xlnx,gpio-xilinx.yaml
+>> arch/microblaze/boot/dts/system.dtb: gpio-leds (gpio-leds): 'green', 'heartbeat', 'red', 'yellow' do not match any of the regexes: '(^led-[0-9a-f]$|led)', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml
+>> arch/microblaze/boot/dts/system.dtb: serial@84000000 (xlnx,xps-uartlite-1.00.a): Unevaluated properties are not allowed ('clock-frequency', 'device_type', 'xlnx,baudrate', 'xlnx,family' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/xlnx,opb-uartlite.yaml
+>> arch/microblaze/boot/dts/system.dtb: /plb@0/debug@84400000: failed to match any schema with compatible: ['xlnx,mdm-1.00.d']
+   arch/microblaze/boot/dts/system.dtb: /plb@0/mpmc@90000000: failed to match any schema with compatible: ['xlnx,mpmc-4.02.a']
+   arch/microblaze/boot/dts/system.dtb: /plb@0/mpmc@90000000/sdma@84600180: failed to match any schema with compatible: ['xlnx,ll-dma-1.00.a']
+   arch/microblaze/boot/dts/system.dtb: /plb@0/interrupt-controller@81800000: failed to match any schema with compatible: ['xlnx,xps-intc-1.00.a']
 
 -- 
 0-DAY CI Kernel Test Service
