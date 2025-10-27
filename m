@@ -1,55 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682D8307ADE
-	for <oe-kbuild@lists.linux.dev>; Mon, 27 Oct 2025 14:10:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B9F30B538
+	for <oe-kbuild@lists.linux.dev>; Mon, 27 Oct 2025 14:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761574221; cv=none; b=GpSDYo6B7V0TKbS+lYt4gosQ+ACUuzz+SiuAmyWI1VaR9Dwa2WKZqvZbnvLCB50vVXXh52k+wpksIGhMXPZmDuaTHSwVu/QWyAbbrucMyDKlt7E9ooas8lOebYHH/buNRdfSwzSDUCw7orN4d920mTpOUJnWsk0ix823UJw/H70=
+	t=1761574329; cv=none; b=Wpxl4Td/VERu1n2dUUPqGDvYZ8SoeAFvlQKMBzcgbO+NilJUvxQee4jFeglU0pngbqRpnmQoiYIEhUk81bhgndsgBsOHqLV0JvHmz/zZdduIpS0tRAPwLDpM7VE7VDr1LovUPdomG9HQhpdGsuMDqHhQM0xFN+lmnoaRmhtnM50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761574221; c=relaxed/simple;
-	bh=KceX0b8jy1+AMafA5W6fgm2Jf+j/Vfz2ylNpMO1/zOQ=;
+	s=arc-20240116; t=1761574329; c=relaxed/simple;
+	bh=JpmhN5vbyn+/p8nihnTmv+9yFuL+VOmYXxPDQe6s8Bo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZmGmtJg+5Cr3sEKvGP8C9T88Ggvnw+3CN6AUjXJe7QeZ09/XaKrazzz4mtVGs/Q8S/aUizsZnOdZBrUQvf90E1MLQbKzIti0qReXaEHbyR2cicD4FoGzpyelEhlGyniBpG9smyTDoPGDw8dZ7we+gcr3HfVRMIkQrdSpLeMycuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HVxZlsl9; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=geBsKsCQa5IBRt7XkkgXfXLAZnARPwAsx+FzWhNsK5D8GSB7HHUFhR+4l7/vUW/7aETtRT5K/0pqOHYvNnlg1UwI5bgAitBxLfYYC0ARViuaDZaegvxvzBal6LYrTBFrHW3sKC014qqFfbf4WZFKSchQL+PdEVbCgZDZvneX9GQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FEULVUiV; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HVxZlsl9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761574219; x=1793110219;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KceX0b8jy1+AMafA5W6fgm2Jf+j/Vfz2ylNpMO1/zOQ=;
-  b=HVxZlsl92C1z2EsfPpFQGkR8PrPDsy8bmCuApVjrWLu1KAYjBLIBj0+b
-   Rvq8wN+f8lWnA4TE5H4jFmGbvWW/Gqf1rzZwJ7H4F07RHYzc7fg+d9lki
-   PHeZWkYHzbF4ptccFg1HS/PC+YvfvktkcKPAHvhQozv974H9BtYv3Q4d8
-   p/H28IW2wMq0FCO6157S4SFU2zQX8D7izy+Xf0xqdYLg0GC3wSqkPPnia
-   nM65iKrUssUxurArmt07goSizdV3ffY3ANftq9b1bglVb2cwuPI5xFRTe
-   7CUM9qXChMmbz8u0Mx2aFilGsy+g+b9+sIRRG/usLo0JRD24VgtgyE/62
-   A==;
-X-CSE-ConnectionGUID: Q3e9+LKlSpuJdFem4kTjgw==
-X-CSE-MsgGUID: NRtWnqZURyqvflXQXlNCSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74770619"
-X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="74770619"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 07:10:18 -0700
-X-CSE-ConnectionGUID: lRlG1BlITymeHwDoN2IjzA==
-X-CSE-MsgGUID: iZERgUOtRyOaCGZPXJotQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="189364826"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 27 Oct 2025 07:10:16 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vDNvK-000Grh-1R;
-	Mon, 27 Oct 2025 14:10:14 +0000
-Date: Mon, 27 Oct 2025 22:09:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FEULVUiV"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42557c5cedcso3191894f8f.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 27 Oct 2025 07:12:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761574325; x=1762179125; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4gIfIP5yihC7vTlY9itbu2GFZv1/1E7yjILDIsozZj0=;
+        b=FEULVUiV7efvwcr40Gx9+Abw53dWDHC3Ey2je6eXLH/3B2JHx9jSX2QWz7JHpthaYT
+         d6Lm+ab/COAuTvlf7QmKxYCrvjPb0iml7qvAUwVx1Ij3KTgziYe/MxqNcKx/XHuq71zi
+         EFfBqxvSypsAcK8QyehC38sRnxmdIlW6BsvbeM/iiDHzBO/+wQZsC7HyIeyofRs76G5x
+         PlasQtXh+rTyvskpFPRnvy5CcAISFFhfcVwCHGXJn0n1d+TnK7SnCRXX6drjDSKtZwnn
+         2nQny2gg7/US0L8DbuJ4sXXpt69GPBymrCT3YrDSU7K3gEStnAvk4GToZh/AU3J/LKKC
+         Ytew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761574325; x=1762179125;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4gIfIP5yihC7vTlY9itbu2GFZv1/1E7yjILDIsozZj0=;
+        b=WkMjzrifqpyIBs/XOIdQ/6YpFiv0aZfErO5BHw247e/q+XvtXWXnU5B7KZnRjMOjmf
+         RdQwaICoQxAYJJFiQoPMdvMSLG7x8jjfDxh9YQo//jEDu280QFdBklSS0MsAr9pudUEN
+         l98Jra+CYQQvJhMzgVwJymZBGfFGbUD3RNs7FUvuYD0pNgGlnI14B1LpuIh20Ia/d4Jl
+         LEnlOD1gZ4H89z6CnMLLOptTDcUf1mslUxt362VqTccjN49BWnO188GxV5YwxVHUIOt5
+         g1pRZt2Wlx4BaWa+YGhT9Iog0f3zgLXgHvG3VmHpRmqsufAYLqYvtWki0G9PSxtqHu2f
+         RqJg==
+X-Gm-Message-State: AOJu0Yxkm2vNkJs3jRbnCC1OtUd2xBQQapiXdbReTRGYOhWZ1+dvzIZQ
+	M4umV6QI/Qm3H2p9Flc3g+RiAafRnt07P5PUDEv9El++hFmrPIr4FfeWxfXEEM8pTs5WFG74BOE
+	K8nTo
+X-Gm-Gg: ASbGnctEHihGyRSUhE6CAwrJZm85cAwD31ice7xBsB8ulrYHOzr6n+F86oZNA5EIEOq
+	3OEPfWwCfgKF2hQsI0EMRcn+nfITzxYaCbelga/n+z1FgxikI3s9KN2nAJsoEuDMFKudCw/j0JJ
+	z9FLLKt4Y+WFr4wpI1ddZYRsrRbXwgdAtWpdkHPtKb/UOn//MEkpfg4tPBQk0UyPyGfG8aGDxkw
+	ktHyl5pr+cNSWuWyyFageiYQOquU7NO2UhPv/A0B9VG4QaeqKQb7EyyKDUzGLGNOgRYRRc42Ofu
+	W3RXmqPXYOg8JyOtmQL8Eqfzh2SPf0Ujng2bMqPgGSVNfSLg92O7Y2rPr3w0OZL/+U1oK5zSBVb
+	BQDE+A9yy6nmNLqNC/1TVjkqrq+gVRmD6gaOd575wA/zJ38Yyojp1NBK0neUjA7nPBbMHPJ0HBE
+	J0xZ1oPw==
+X-Google-Smtp-Source: AGHT+IHkgsBRbcOjdNG+k37q1tq3tc5u8M0EcaQ7C9q9qeqrzjsLZXgNXLI2c+3id09MIjkEvP860Q==
+X-Received: by 2002:a05:6000:1865:b0:425:8bd2:24de with SMTP id ffacd0b85a97d-42704d145c9mr21310881f8f.9.1761574324747;
+        Mon, 27 Oct 2025 07:12:04 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429952da12dsm14731146f8f.29.2025.10.27.07.12.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Oct 2025 07:12:03 -0700 (PDT)
+Date: Mon, 27 Oct 2025 17:12:00 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Pengjie Zhang <zhangpengjie2@huawei.com>,
+	myungjoo.ham@samsung.com, kyungmin.park@samsung.com,
+	cw00.choi@samsung.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, zhanjie9@hisilicon.com,
+	zhenglifeng1@huawei.com, lihuisong@huawei.com, yubowen8@huawei.com,
+	linhongye@h-partners.com, linuxarm@huawei.com,
+	jonathan.cameron@huawei.com, zhangpengjie2@huawei.com
 Subject: Re: [PATCH] PM / devfreq: use _visible attribute to replace
  create/remove_sysfs_files()
 Message-ID: <202510272106.x7zgW7pK-lkp@intel.com>
@@ -61,49 +79,26 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20251025135238.3576861-1-zhangpengjie2@huawei.com>
-References: <20251025135238.3576861-1-zhangpengjie2@huawei.com>
-TO: Pengjie Zhang <zhangpengjie2@huawei.com>
-TO: myungjoo.ham@samsung.com
-TO: kyungmin.park@samsung.com
-TO: cw00.choi@samsung.com
-CC: linux-pm@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: zhanjie9@hisilicon.com
-CC: zhenglifeng1@huawei.com
-CC: lihuisong@huawei.com
-CC: yubowen8@huawei.com
-CC: linhongye@h-partners.com
-CC: linuxarm@huawei.com
-CC: jonathan.cameron@huawei.com
-CC: zhangpengjie2@huawei.com
+Message-ID: <20251027141200.5socp4g7NYibTXqDX0b1cpXLBq69iOtmanvLdegMpUQ@z>
 
 Hi Pengjie,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on chanwoo/devfreq-testing]
-[also build test WARNING on linus/master v6.18-rc3 next-20251027]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Pengjie-Zhang/PM-devfreq-use-_visible-attribute-to-replace-create-remove_sysfs_files/20251025-215510
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git devfreq-testing
 patch link:    https://lore.kernel.org/r/20251025135238.3576861-1-zhangpengjie2%40huawei.com
 patch subject: [PATCH] PM / devfreq: use _visible attribute to replace create/remove_sysfs_files()
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
 config: loongarch-randconfig-r072-20251026 (https://download.01.org/0day-ci/archive/20251027/202510272106.x7zgW7pK-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202510272106.x7zgW7pK-lkp@intel.com/
 
 smatch warnings:
@@ -111,7 +106,6 @@ drivers/devfreq/devfreq.c:1927 timer_store() warn: inconsistent returns 'global 
 
 vim +1927 drivers/devfreq/devfreq.c
 
-4dc3bab8687f1e Chanwoo Choi  2020-07-02  1873  
 4dc3bab8687f1e Chanwoo Choi  2020-07-02  1874  static ssize_t timer_store(struct device *dev, struct device_attribute *attr,
 4dc3bab8687f1e Chanwoo Choi  2020-07-02  1875  			      const char *buf, size_t count)
 4dc3bab8687f1e Chanwoo Choi  2020-07-02  1876  {
@@ -130,6 +124,9 @@ vim +1927 drivers/devfreq/devfreq.c
 4dc3bab8687f1e Chanwoo Choi  2020-07-02  1889  	ret = sscanf(buf, "%16s", str_timer);
 4dc3bab8687f1e Chanwoo Choi  2020-07-02  1890  	if (ret != 1)
 4dc3bab8687f1e Chanwoo Choi  2020-07-02  1891  		return -EINVAL;
+
+mutex_unlock(&devfreq_list_lock);
+
 4dc3bab8687f1e Chanwoo Choi  2020-07-02  1892  
 4dc3bab8687f1e Chanwoo Choi  2020-07-02  1893  	for (i = 0; i < DEVFREQ_TIMER_NUM; i++) {
 4dc3bab8687f1e Chanwoo Choi  2020-07-02  1894  		if (!strncmp(timer_name[i], str_timer, DEVFREQ_NAME_LEN)) {
@@ -167,9 +164,8 @@ vim +1927 drivers/devfreq/devfreq.c
 88ea5f098ddcf4 Pengjie Zhang 2025-10-25  1926  	mutex_unlock(&devfreq_list_lock);
 4dc3bab8687f1e Chanwoo Choi  2020-07-02 @1927  	return ret ? ret : count;
 4dc3bab8687f1e Chanwoo Choi  2020-07-02  1928  }
-4dc3bab8687f1e Chanwoo Choi  2020-07-02  1929  static DEVICE_ATTR_RW(timer);
-4dc3bab8687f1e Chanwoo Choi  2020-07-02  1930  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
