@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61172D97A8
-	for <oe-kbuild@lists.linux.dev>; Mon, 27 Oct 2025 06:04:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF352D9ED1
+	for <oe-kbuild@lists.linux.dev>; Mon, 27 Oct 2025 06:14:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761545065; cv=none; b=TPSN5ySbNP5zceSjpT4jMe81hs5zo1v4qu60rwptBLJbLt21r+5eJtS13mhNhdUHNvXPX6om41W2sthIptvvqeTL9GRvvXdxnmNianFZ9YPyO4lliiIA3eCSuoNP6dRHmBIcndFCfUdVXVPGoQL1NHmFGTyY87vmG57hC0srBGo=
+	t=1761545666; cv=none; b=D/07VtyEQemXX6CC0elRRYquGJt6or5xMHdwveXmr+1a/IkUJHQzzNkhRD+TUTl2hwBbcNDM45erPFkhBfKvWcS+O5d9BahudF/1bFV4JjWBJapNefu4rPgpuobhBiliduUDWkgLUCVrLdiA2v8p7AOEEOXmR05AToHzwZNwlzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761545065; c=relaxed/simple;
-	bh=mjXKqXypeqprjE7yV/lnYzg6cGXfFydUkDFHNgFGrtc=;
+	s=arc-20240116; t=1761545666; c=relaxed/simple;
+	bh=SAXJGSWM/nhlq1KZ7Ul6JCuJ9GIHFqjR30y+fUoHCPU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Si+hs0uR4ReRl/l7YMJV27z1fj1blEdFcMksplbSIY+nMxQYa5Y2TbBCAgwz2cxPJ1RsbPwT24C52PxgFjWykTAH6Eq3reYMU3NBEgnxiE+UmweSNq6mppJX++M64NtTugZlsW0tn2JVjfT2pcBjhH22Hff6qMH3tgzR5STtReE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O3B1oRmt; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=YTkI9HGsh00eX9w4Q5VW0lO8DJ/M4aSxfygsNR6e8fmibq8xRdQdRBOzNlNGO9bjG4Gv3+OI3u118pdmZWNjwR5dfWOkcUsaDN+QAl4Jo3DqalLyj0Yo6+XxNRneZzJ0WvnNuqKUdPk5jy5rsxtqFMt8w8U3JvNPwB7jm65PdnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HbnFP0wo; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O3B1oRmt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HbnFP0wo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761545063; x=1793081063;
+  t=1761545664; x=1793081664;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mjXKqXypeqprjE7yV/lnYzg6cGXfFydUkDFHNgFGrtc=;
-  b=O3B1oRmtBz5HZxOgAlXZEWkUZL/IPE2K/ub0sBAh7Qw4yb0/BrhskclE
-   UDSXktMA/iQbuvSTPT/B/SbnD1XRl3BjiJfOnY80/SR/nT8QJ/hYUXLBm
-   3Jk8NTKde5+SzbQDDvhdTEi2GL+V7wzuxBJSkEbAJrQ2iDzyPazTvBw0G
-   oEAsQg02Ybq3o/kg+EtHpstzo9W8APSgcbJsbNrwUo+04FHpwTLuOIpLB
-   UZ9IKAOv4xBsTYbzZhbft+Y4TgQK/fws0KumuH2NSTVcMScxHu3Imd2EV
-   CCOl57RKouZLroD3Nk3DBNgL4ggEfzjhve7eD2Pv8f9Sy9aXZkKlDs0oT
-   w==;
-X-CSE-ConnectionGUID: P6AqJfODShWFmlbhgid6Iw==
-X-CSE-MsgGUID: hw3E83m+Sn+qvDQgrCW41g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63321625"
+  bh=SAXJGSWM/nhlq1KZ7Ul6JCuJ9GIHFqjR30y+fUoHCPU=;
+  b=HbnFP0wo0/2LR0BYtZU71iXrXp0haAEKy1bbPl8QmnJ3EnMok13nVoi4
+   oFK3F+XodBsQe1um1V8DjcTvXKa12sug530Hjc0eNwGwykdt5EXHnd0f5
+   28rRPVFxMshWbjK216sZAWZTqCRUzI5YhSAPsPy/EQLGdcOEXuVgJWlWq
+   qsjYjZzVNe2HuZvVljJXQ8h8TQppuGraALwNA1mgBegZq2nosVy41D+Ms
+   RuQCkFeAfnZawxrYYvzAdP6OslPK1tLnrBdvII5DUiCMR78ju9nhbzAJd
+   JSmrNdG4ZUkrql6+Q7eeSt1X3MGuR4v9RHxDLuiU3WBk59mBfyRxhgnWz
+   A==;
+X-CSE-ConnectionGUID: sT+jX5eFQQCzithJ2vC0EQ==
+X-CSE-MsgGUID: cb5ng7xRSO2/Nlg/deLkIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63322106"
 X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
-   d="scan'208";a="63321625"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 23:04:22 -0700
-X-CSE-ConnectionGUID: tc88Y6PgQauXpbJ9Q6n4jA==
-X-CSE-MsgGUID: I2vv4Ho4Qu+8AiMFBIb/9Q==
+   d="scan'208";a="63322106"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 23:14:23 -0700
+X-CSE-ConnectionGUID: JXUAtZgfSrSE2htCz0a9WA==
+X-CSE-MsgGUID: ZiUZ82ZtQaa/kKYbFy9UcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
-   d="scan'208";a="185309954"
+   d="scan'208";a="189329468"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 26 Oct 2025 23:04:21 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 Oct 2025 23:14:22 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDGL4-000GYH-3C;
-	Mon, 27 Oct 2025 06:04:18 +0000
-Date: Mon, 27 Oct 2025 14:03:20 +0800
+	id 1vDGUl-000GYj-24;
+	Mon, 27 Oct 2025 06:14:19 +0000
+Date: Mon, 27 Oct 2025 14:13:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [arm-integrator:b4/ixp4xx-netgear-wgr826v 3/8]
- arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dtb: gpio@c8004000
- (intel,ixp4xx-gpio): 'clock-hog', 'unknown-hog' do not match any of the
- regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202510271432.DHzrn9Ao-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 3108/4376]
+ drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c:684 stmmac_mdio_register()
+ error: buffer overflow 'new_bus->irq' 32 <= 32
+Message-ID: <202510271426.wQOlaeao-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,40 +63,169 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Linus Walleij <linus.walleij@linaro.org>
+TO: Heiner Kallweit <hkallweit1@gmail.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Andrew Lunn <andrew@lunn.ch>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/ixp4xx-netgear-wgr826v
-head:   82097c6ad45f556e517b1b4199582fd6d24c03e4
-commit: 2003e8d748fbb6faf3ce7809cedc486fa0a7c30f [3/8] ARM: dts: Add Netgear WGR826V Device Tree
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-randconfig-052-20251024 (https://download.01.org/0day-ci/archive/20251027/202510271432.DHzrn9Ao-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8fec172c82c2b5f6f8e47ab837c1dc91ee3d1b87
+commit: 4a107a0e836177359b861e9849a2a24ad35e9919 [3108/4376] net: stmmac: mdio: use phy_find_first to simplify stmmac_mdio_register
+:::::: branch date: 2 hours ago
+:::::: commit date: 5 days ago
+config: um-randconfig-r073-20251025 (https://download.01.org/0day-ci/archive/20251027/202510271426.wQOlaeao-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
-dtschema version: 2025.9.dev12+gd6be03029
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510271432.DHzrn9Ao-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510271432.DHzrn9Ao-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202510271426.wQOlaeao-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dts:125.4-135.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dts:125.4-135.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dts:125.4-135.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dts:125.4-135.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dts:125.4-135.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dts:125.4-135.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dts:125.4-135.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
-   arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dts:125.4-135.30: Warning (interrupt_map): /soc/pci@c0000000:interrupt-map: Missing property '#address-cells' in node /soc/gpio@c8004000, using 0 as fallback
->> arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dtb: gpio@c8004000 (intel,ixp4xx-gpio): 'clock-hog', 'unknown-hog' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/intel,ixp4xx-gpio.yaml
+smatch warnings:
+drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c:684 stmmac_mdio_register() error: buffer overflow 'new_bus->irq' 32 <= 32
+
+vim +684 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+
+6717746f33abcd drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Russell King (Oracle  2025-09-04  571) 
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  572  /**
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  573   * stmmac_mdio_register
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  574   * @ndev: net device structure
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  575   * Description: it registers the MII bus
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  576   */
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  577  int stmmac_mdio_register(struct net_device *ndev)
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  578  {
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  579  	int err = 0;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  580  	struct mii_bus *new_bus;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  581  	struct stmmac_priv *priv = netdev_priv(ndev);
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  582  	struct stmmac_mdio_bus_data *mdio_bus_data = priv->plat->mdio_bus_data;
+a7657f128c279a drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Giuseppe CAVALLARO    2016-04-01  583  	struct device_node *mdio_node = priv->plat->mdio_node;
+fbca164776e438 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Romain Perier         2017-08-10  584  	struct device *dev = ndev->dev.parent;
+ab21cf920928a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Ong Boon Leong        2022-06-15  585  	struct fwnode_handle *fixed_node;
+e80af2acdef73d drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Russell King (Oracle  2023-08-24  586) 	struct fwnode_handle *fwnode;
+4a107a0e836177 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Heiner Kallweit       2025-10-18  587  	struct phy_device *phydev;
+4a107a0e836177 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Heiner Kallweit       2025-10-18  588  	int max_addr;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  589  
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  590  	if (!mdio_bus_data)
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  591  		return 0;
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  592  
+661a868937a1cf drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Russell King (Oracle  2025-09-04  593) 	stmmac_mdio_bus_config(priv);
+6717746f33abcd drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Russell King (Oracle  2025-09-04  594) 
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  595  	new_bus = mdiobus_alloc();
+efd89b60a35d6a drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c LABBE Corentin        2017-02-08  596  	if (!new_bus)
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  597  		return -ENOMEM;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  598  
+e7f4dc3536a400 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Lunn           2016-01-06  599  	if (mdio_bus_data->irqs)
+643d60bf575daa drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Marek Vasut           2016-05-26  600  		memcpy(new_bus->irq, mdio_bus_data->irqs, sizeof(new_bus->irq));
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  601  
+90b9a5454fd2e6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Alessandro Rubini     2012-01-23  602  	new_bus->name = "stmmac";
+6fc21117b791b6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2018-08-08  603  
+6fc21117b791b6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2018-08-08  604  	if (priv->plat->has_xgmac) {
+5b0a447efff5a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Lunn           2023-01-12  605  		new_bus->read = &stmmac_xgmac2_mdio_read_c22;
+5b0a447efff5a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Lunn           2023-01-12  606  		new_bus->write = &stmmac_xgmac2_mdio_write_c22;
+5b0a447efff5a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Lunn           2023-01-12  607  		new_bus->read_c45 = &stmmac_xgmac2_mdio_read_c45;
+5b0a447efff5a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Lunn           2023-01-12  608  		new_bus->write_c45 = &stmmac_xgmac2_mdio_write_c45;
+6fc21117b791b6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2018-08-08  609  
+10857e6779054f drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Rohan G Thomas        2023-07-31  610  		if (priv->synopsys_id < DWXGMAC_CORE_2_20) {
+6fc21117b791b6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2018-08-08  611  			/* Right now only C22 phys are supported */
+6fc21117b791b6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2018-08-08  612  			max_addr = MII_XGMAC_MAX_C22ADDR + 1;
+6fc21117b791b6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2018-08-08  613  
+6fc21117b791b6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2018-08-08  614  			/* Check if DT specified an unsupported phy addr */
+6fc21117b791b6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2018-08-08  615  			if (priv->plat->phy_addr > MII_XGMAC_MAX_C22ADDR)
+6fc21117b791b6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2018-08-08  616  				dev_err(dev, "Unsupported phy_addr (max=%d)\n",
+6fc21117b791b6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2018-08-08  617  					MII_XGMAC_MAX_C22ADDR);
+10857e6779054f drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Rohan G Thomas        2023-07-31  618  		} else {
+10857e6779054f drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Rohan G Thomas        2023-07-31  619  			/* XGMAC version 2.20 onwards support 32 phy addr */
+10857e6779054f drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Rohan G Thomas        2023-07-31  620  			max_addr = PHY_MAX_ADDR;
+10857e6779054f drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Rohan G Thomas        2023-07-31  621  		}
+6fc21117b791b6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2018-08-08  622  	} else {
+3c7826d0b1066b drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Lunn           2023-01-12  623  		new_bus->read = &stmmac_mdio_read_c22;
+3c7826d0b1066b drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Lunn           2023-01-12  624  		new_bus->write = &stmmac_mdio_write_c22;
+3c7826d0b1066b drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Lunn           2023-01-12  625  		if (priv->plat->has_gmac4) {
+3c7826d0b1066b drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Lunn           2023-01-12  626  			new_bus->read_c45 = &stmmac_mdio_read_c45;
+3c7826d0b1066b drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Lunn           2023-01-12  627  			new_bus->write_c45 = &stmmac_mdio_write_c45;
+3c7826d0b1066b drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Lunn           2023-01-12  628  		}
+3c7826d0b1066b drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Lunn           2023-01-12  629  
+6fc21117b791b6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2018-08-08  630  		max_addr = PHY_MAX_ADDR;
+6fc21117b791b6 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2018-08-08  631  	}
+ac1f74a7fc1976 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Alexandre TORGUE      2016-04-28  632  
+1a981c0586c038 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Thierry Reding        2019-07-26  633  	if (mdio_bus_data->needs_reset)
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  634  		new_bus->reset = &stmmac_mdio_reset;
+1a981c0586c038 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Thierry Reding        2019-07-26  635  
+db8857bf5bd888 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Florian Fainelli      2012-01-09  636  	snprintf(new_bus->id, MII_BUS_ID_SIZE, "%s-%x",
+d56631a66c0d0c drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Srinivas Kandagatla   2012-08-30  637  		 new_bus->name, priv->plat->bus_id);
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  638  	new_bus->priv = ndev;
+351066bad6ade5 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Serge Semin           2024-07-01  639  	new_bus->phy_mask = mdio_bus_data->phy_mask | mdio_bus_data->pcs_mask;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  640  	new_bus->parent = priv->device;
+e34d65696d2ef1 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Phil Reid             2015-12-14  641  
+e34d65696d2ef1 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Phil Reid             2015-12-14  642  	err = of_mdiobus_register(new_bus, mdio_node);
+e23c0d21ce9234 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Halaney        2023-12-12  643  	if (err == -ENODEV) {
+e23c0d21ce9234 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Halaney        2023-12-12  644  		err = 0;
+e23c0d21ce9234 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Halaney        2023-12-12  645  		dev_info(dev, "MDIO bus is disabled\n");
+e23c0d21ce9234 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Halaney        2023-12-12  646  		goto bus_register_fail;
+e23c0d21ce9234 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Halaney        2023-12-12  647  	} else if (err) {
+839612d23ffd93 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Rasmus Villemoes      2022-06-02  648  		dev_err_probe(dev, err, "Cannot register the MDIO bus\n");
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  649  		goto bus_register_fail;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  650  	}
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  651  
+04d1190aca7747 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2019-11-11  652  	/* Looks like we need a dummy read for XGMAC only and C45 PHYs */
+04d1190aca7747 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2019-11-11  653  	if (priv->plat->has_xgmac)
+5b0a447efff5a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Andrew Lunn           2023-01-12  654  		stmmac_xgmac2_mdio_read_c45(new_bus, 0, 0, 0);
+04d1190aca7747 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Jose Abreu            2019-11-11  655  
+ab21cf920928a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Ong Boon Leong        2022-06-15  656  	/* If fixed-link is set, skip PHY scanning */
+e80af2acdef73d drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Russell King (Oracle  2023-08-24  657) 	fwnode = priv->plat->port_node;
+ab21cf920928a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Ong Boon Leong        2022-06-15  658  	if (!fwnode)
+ab21cf920928a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Ong Boon Leong        2022-06-15  659  		fwnode = dev_fwnode(priv->device);
+ab21cf920928a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Ong Boon Leong        2022-06-15  660  
+ab21cf920928a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Ong Boon Leong        2022-06-15  661  	if (fwnode) {
+ab21cf920928a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Ong Boon Leong        2022-06-15  662  		fixed_node = fwnode_get_named_child_node(fwnode, "fixed-link");
+ab21cf920928a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Ong Boon Leong        2022-06-15  663  		if (fixed_node) {
+ab21cf920928a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Ong Boon Leong        2022-06-15  664  			fwnode_handle_put(fixed_node);
+ab21cf920928a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Ong Boon Leong        2022-06-15  665  			goto bus_register_done;
+ab21cf920928a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Ong Boon Leong        2022-06-15  666  		}
+ab21cf920928a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Ong Boon Leong        2022-06-15  667  	}
+ab21cf920928a7 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Ong Boon Leong        2022-06-15  668  
+cc2fa619a738a0 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Phil Reid             2016-03-15  669  	if (priv->plat->phy_node || mdio_node)
+cc2fa619a738a0 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Phil Reid             2016-03-15  670  		goto bus_register_done;
+cc2fa619a738a0 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Phil Reid             2016-03-15  671  
+4a107a0e836177 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Heiner Kallweit       2025-10-18  672  	phydev = phy_find_first(new_bus);
+4a107a0e836177 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Heiner Kallweit       2025-10-18  673  	if (!phydev || phydev->mdio.addr > max_addr) {
+4a107a0e836177 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Heiner Kallweit       2025-10-18  674  		dev_warn(dev, "No PHY found\n");
+4a107a0e836177 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Heiner Kallweit       2025-10-18  675  		err = -ENODEV;
+4a107a0e836177 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Heiner Kallweit       2025-10-18  676  		goto no_phy_found;
+4a107a0e836177 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Heiner Kallweit       2025-10-18  677  	}
+cc26dc67b69a73 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c LABBE Corentin        2017-02-15  678  
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  679  	/*
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  680  	 * If an IRQ was provided to be assigned after
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  681  	 * the bus probe, do it here.
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  682  	 */
+4a107a0e836177 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Heiner Kallweit       2025-10-18  683  	if (!mdio_bus_data->irqs && mdio_bus_data->probed_phy_irq > 0) {
+4a107a0e836177 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Heiner Kallweit       2025-10-18 @684  		new_bus->irq[phydev->mdio.addr] = mdio_bus_data->probed_phy_irq;
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  685  		phydev->irq = mdio_bus_data->probed_phy_irq;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  686  	}
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  687  
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  688  	/*
+4a107a0e836177 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Heiner Kallweit       2025-10-18  689  	 * If we're going to bind the MAC to this PHY bus, and no PHY number
+4a107a0e836177 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Heiner Kallweit       2025-10-18  690  	 * was provided to the MAC, use the one probed here.
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  691  	 */
+d56631a66c0d0c drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Srinivas Kandagatla   2012-08-30  692  	if (priv->plat->phy_addr == -1)
+4a107a0e836177 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Heiner Kallweit       2025-10-18  693  		priv->plat->phy_addr = phydev->mdio.addr;
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  694  
+fbca164776e438 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Romain Perier         2017-08-10  695  	phy_attached_info(phydev);
+4751d2aa321f28 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Vladimir Oltean       2021-05-27  696  
+cc2fa619a738a0 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Phil Reid             2016-03-15  697  bus_register_done:
+3955b22b9798ae drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Giuseppe CAVALLARO    2013-02-06  698  	priv->mii = new_bus;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  699  
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  700  	return 0;
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  701  
+4751d2aa321f28 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Vladimir Oltean       2021-05-27  702  no_phy_found:
+4751d2aa321f28 drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c Vladimir Oltean       2021-05-27  703  	mdiobus_unregister(new_bus);
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  704  bus_register_fail:
+36bcfe7d74782c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe CAVALLARO    2011-07-20  705  	mdiobus_free(new_bus);
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  706  	return err;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  707  }
+47dd7a540b8a0c drivers/net/stmmac/stmmac_mdio.c                  Giuseppe Cavallaro    2009-10-14  708  
 
 -- 
 0-DAY CI Kernel Test Service
