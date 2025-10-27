@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CE02D3A94
-	for <oe-kbuild@lists.linux.dev>; Mon, 27 Oct 2025 16:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA8C312815
+	for <oe-kbuild@lists.linux.dev>; Mon, 27 Oct 2025 16:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761584267; cv=none; b=fplDYtH46tGRjDWX6AnaoE0YFRrhMHW0yL6dyhT+E/fEsAhUb57lq/76gZwL8+gxnxyA7e8IDvvnbl0+HaQZsheH97u/Z2vnQHEV5CkZAXnmV3xhzZ64sriOaSGfBmnh3w0RqIAyHFRjQGUMBXZMclweQZe7hwO8L78DlDYxeiQ=
+	t=1761584388; cv=none; b=hFKhOf7jlH9Fr9X9AmrEq4jCfyEaqJcj2zpI9Dl178mfFXJdb+93n1TP6d6fW7xPH1vuA2+/BzM9VDiwyX8qwVMkA+piVueeAQ/SO1zk41VokK1GOq/JK2SoEY1Gu6fJDIs2/T7S+LvNQfiRj3HvqxJVqZIv6smzbLQmgV5+eng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761584267; c=relaxed/simple;
-	bh=Jl3LXaGN1LOZC+Ck0DOKeLjGQUv8tTgn6qG9DKXCQck=;
+	s=arc-20240116; t=1761584388; c=relaxed/simple;
+	bh=x3l9tDpwRSpfzNsmPImnoqtuNqfYK5hQAYIqkwCsPMo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PaEjD2GlAMqbVchdGxoDLaz/DXvQaHWRCmh0iVpzcTmbox84l4jfXLwf1/sIYaWxq2c//bziuj6YN679tP0QmLmpOCxQysmRD1znjNWiKeKK5vl94pDn705gsVKczIcWFdBzrbLBxCnmSBY0Am1aPwbU8F16ME+Vura+4fkDW54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cQXqLqat; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=g29hHwSGJWaCYcBx4NAqEiKjSs1TKcjBA7r7INfvKNYOGbNgOJOs3nqhlbZifKiV9ZYkIDzzbzpfYd3QxBnCE4qWN05HaEp7bUuDOKM7qSooLcj9UO6Rgw4jTav6es7lS6oQCBzpeev1qOAtlj/EfmgjtX1JWOtXn51c1MW4BSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BZWgmbCG; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cQXqLqat"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BZWgmbCG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761584265; x=1793120265;
+  t=1761584388; x=1793120388;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jl3LXaGN1LOZC+Ck0DOKeLjGQUv8tTgn6qG9DKXCQck=;
-  b=cQXqLqatvtzXmB9u+P6LP2t/xUmwQfiX0WVv9wCs1TDrvgZaxxv3sLF4
-   C3cNUsnwOodcgn/8IVSjfG1urZK3AxW+Dp1lMV0TpHRr6mSNV3LQGDWOn
-   joY4F99ZHqM1BFsluF3egbPgjfumFkQR6a7vGtp8KHwpadboBaZz3kJaR
-   jyxi1VjHxJaZS3qg9JCq9RZmJGWXC3IL2d7sZVEmtxVQ6Nblhkg+yDb2+
-   NciTbJnudiJUmuberWRjvyoa/pmLXeR4U32MS3rRH/Q7AJ83Rd9fiJYhn
-   hJZnIuDIsHo3/Z0+u47VpOYBJGdvSmPhpstPv3R4Ir4wckB2sWMaYov78
-   g==;
-X-CSE-ConnectionGUID: OFgcnlmzRG2Z7XfzLrfhjA==
-X-CSE-MsgGUID: wss9iCMlShe34CVS1yga6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63766379"
+  bh=x3l9tDpwRSpfzNsmPImnoqtuNqfYK5hQAYIqkwCsPMo=;
+  b=BZWgmbCG0lXwBJAUPz1cuVnAInLRnJ/yR0YH62J2Kf5ofoYdPtX9Su+Y
+   NHE5/qU9F6j/IP6grpOG0Oc0KqEBpFXAdMdvjz7MpKvUspi5ZxfnJY5oO
+   weSXQAzEdahjFdg2BwbFVu68RABliPztTK7+M+EbEcaBaMr8M4nKTSbfk
+   4QxsxZw9OWCw9UwEq5ItX9WuhezJ92viUUPXpHqL9XpogX8hHOz1f5wDE
+   CWcyL7HIXF5UVl7Sqkg87NPVHvVtv+3OLaUDJgQ4jy6CrADVsljCdJnJz
+   68H7vSZ1jh3qq2108XxnFCzs70v/5Ede/UQTzBj22+9fPZfaX+dRQe/0D
+   w==;
+X-CSE-ConnectionGUID: inSMyXafRuqsBPotMUYc1A==
+X-CSE-MsgGUID: Ok2B+SVFQdyDdR/mGlXqxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73958944"
 X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="63766379"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 09:57:44 -0700
-X-CSE-ConnectionGUID: PbX1yIuBRY6fnBbfptjhrQ==
-X-CSE-MsgGUID: oxumLgN/SsyMn4x5WGp01g==
+   d="scan'208";a="73958944"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 09:59:47 -0700
+X-CSE-ConnectionGUID: 1smLyuwxTQyXAqStigF+WA==
+X-CSE-MsgGUID: ja8NFHSxRLyaqe78z/rrEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="185563663"
+   d="scan'208";a="208710048"
 Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Oct 2025 09:57:44 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 Oct 2025 09:59:43 -0700
 Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vDQXN-000000000MT-3RVl;
-	Mon, 27 Oct 2025 16:57:41 +0000
-Date: Mon, 27 Oct 2025 17:56:53 +0100
+	id 1vDQZJ-000000000MX-3aEe;
+	Mon, 27 Oct 2025 16:59:41 +0000
+Date: Mon, 27 Oct 2025 17:59:14 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/microblaze/boot/dts/system.dtb: /: failed to match any schema
- with compatible: ['xlnx,microblaze']
-Message-ID: <202510271733.7kNamBlc-lkp@intel.com>
+Subject: arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: i2c-gpio-0
+ (i2c-gpio): $nodename:0: 'i2c-gpio-0' does not match
+ '^i2c(@.+|-[a-z0-9]+)?$'
+Message-ID: <202510271755.F5FPuDP1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -78,51 +79,162 @@ commit: 61a6ba233fe1198e9eacc9ca1d1cbdb27f70cee5 dt-bindings: Unify "fsl,liodn" 
 date:   11 months ago
 :::::: branch date: 18 hours ago
 :::::: commit date: 11 months ago
-config: microblaze-randconfig-2052-20251024 (https://download.01.org/0day-ci/archive/20251027/202510271733.7kNamBlc-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.5.0
+config: loongarch-randconfig-2052-20251024 (https://download.01.org/0day-ci/archive/20251027/202510271755.F5FPuDP1-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
 dtschema version: 2025.9.dev12+gd6be03029
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510271733.7kNamBlc-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510271755.F5FPuDP1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510271733.7kNamBlc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510271755.F5FPuDP1-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/microblaze/boot/dts/system.dts:118.16-352.5: Warning (unit_address_vs_reg): /plb@0: node has a unit name, but no reg or ranges property
-   arch/microblaze/boot/dts/system.dts:203.44-224.6: Warning (unit_address_vs_reg): /plb@0/xps-ll-temac@81c00000: node has a unit name, but no reg or ranges property
-   arch/microblaze/boot/dts/system.dts:324.17-335.6: Warning (unit_address_vs_reg): /plb@0/mpmc@90000000: node has a unit name, but no reg or ranges property
-   arch/microblaze/boot/dts/system.dts:203.44-224.6: Warning (simple_bus_reg): /plb@0/xps-ll-temac@81c00000: missing or empty reg/ranges property
-   arch/microblaze/boot/dts/system.dts:259.13-282.6: Warning (simple_bus_reg): /plb@0/gpio-leds: missing or empty reg/ranges property
-   arch/microblaze/boot/dts/system.dts:284.16-296.5: Warning (simple_bus_reg): /plb@0/gpio-restart: missing or empty reg/ranges property
-   arch/microblaze/boot/dts/system.dts:324.17-335.6: Warning (simple_bus_reg): /plb@0/mpmc@90000000: missing or empty reg/ranges property
->> arch/microblaze/boot/dts/system.dtb: /: failed to match any schema with compatible: ['xlnx,microblaze']
->> arch/microblaze/boot/dts/system.dtb: /cpus/cpu@0: failed to match any schema with compatible: ['xlnx,microblaze-7.10.d']
->> arch/microblaze/boot/dts/system.dtb: plb@0 (xlnx,plb-v46-1.03.a): gpio-restart: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/microblaze/boot/dts/system.dtb: plb@0 (xlnx,plb-v46-1.03.a): gpio-leds: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/microblaze/boot/dts/system.dtb: plb@0 (xlnx,plb-v46-1.03.a): $nodename:0: 'plb@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/microblaze/boot/dts/system.dtb: /plb@0: failed to match any schema with compatible: ['xlnx,plb-v46-1.03.a', 'xlnx,plb-v46-1.00.a', 'simple-bus']
->> arch/microblaze/boot/dts/system.dtb: /plb@0: failed to match any schema with compatible: ['xlnx,plb-v46-1.03.a', 'xlnx,plb-v46-1.00.a', 'simple-bus']
->> arch/microblaze/boot/dts/system.dtb: /plb@0/xps-ll-temac@81c00000: failed to match any schema with compatible: ['xlnx,compound']
-   arch/microblaze/boot/dts/system.dtb: /plb@0/xps-ll-temac@81c00000/ethernet@81c00000: failed to match any schema with compatible: ['xlnx,xps-ll-temac-1.01.b', 'xlnx,xps-ll-temac-1.00.a']
-   arch/microblaze/boot/dts/system.dtb: /plb@0/xps-ll-temac@81c00000/ethernet@81c00000: failed to match any schema with compatible: ['xlnx,xps-ll-temac-1.01.b', 'xlnx,xps-ll-temac-1.00.a']
->> arch/microblaze/boot/dts/system.dtb: i2c@81600000 (xlnx,xps-iic-2.00.a): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml
->> arch/microblaze/boot/dts/system.dtb: i2c@81600000 (xlnx,xps-iic-2.00.a): Unevaluated properties are not allowed ('xlnx,clk-freq', 'xlnx,family', 'xlnx,gpo-width', 'xlnx,iic-freq', 'xlnx,scl-inertial-delay', 'xlnx,sda-inertial-delay', 'xlnx,ten-bit-adr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml
->> arch/microblaze/boot/dts/system.dtb: gpio@81400000 (xlnx,xps-gpio-1.00.a): Unevaluated properties are not allowed ('xlnx,family', 'xlnx,is-bidir', 'xlnx,is-bidir-2' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/xlnx,gpio-xilinx.yaml
->> arch/microblaze/boot/dts/system.dtb: gpio-leds (gpio-leds): 'green', 'heartbeat', 'red', 'yellow' do not match any of the regexes: '(^led-[0-9a-f]$|led)', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml
->> arch/microblaze/boot/dts/system.dtb: serial@84000000 (xlnx,xps-uartlite-1.00.a): Unevaluated properties are not allowed ('clock-frequency', 'device_type', 'xlnx,baudrate', 'xlnx,family' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/xlnx,opb-uartlite.yaml
->> arch/microblaze/boot/dts/system.dtb: /plb@0/debug@84400000: failed to match any schema with compatible: ['xlnx,mdm-1.00.d']
-   arch/microblaze/boot/dts/system.dtb: /plb@0/mpmc@90000000: failed to match any schema with compatible: ['xlnx,mpmc-4.02.a']
-   arch/microblaze/boot/dts/system.dtb: /plb@0/mpmc@90000000/sdma@84600180: failed to match any schema with compatible: ['xlnx,ll-dma-1.00.a']
-   arch/microblaze/boot/dts/system.dtb: /plb@0/interrupt-controller@81800000: failed to match any schema with compatible: ['xlnx,xps-intc-1.00.a']
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: i2c-gpio-0 (i2c-gpio): $nodename:0: 'i2c-gpio-0' does not match '^i2c(@.+|-[a-z0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: i2c-gpio-1 (i2c-gpio): $nodename:0: 'i2c-gpio-1' does not match '^i2c(@.+|-[a-z0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts:0:0: 12 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts:0: [12, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts: [[12, 4], [13, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,1:interrupts:0:0: 14 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,1:interrupts:0: [14, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,1:interrupts: [[14, 4], [15, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,1:interrupts:0:0: 18 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,1:interrupts:0: [18, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,2:interrupts:0:0: 19 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,2:interrupts:0: [19, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,0:interrupts:0:0: 28 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,0:interrupts:0: [28, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): hda@7,0:interrupts:0: [4, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0:0: 19 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0: [19, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bus-range', 'device_type', 'display@6,0', 'ethernet@3,0', 'ethernet@3,1', 'hda@7,0', 'pcie@9,0', 'pcie@a,0', 'pcie@b,0', 'pcie@c,0', 'pcie@d,0', 'pcie@e,0', 'sata@8,0', 'usb@4,1', 'usb@4,2' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts:0:0: 12 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts:0: [12, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts: [[12, 4], [13, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,1:interrupts:0:0: 14 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,1:interrupts:0: [14, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,1:interrupts: [[14, 4], [15, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,1:interrupts:0:0: 18 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,1:interrupts:0: [18, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,2:interrupts:0:0: 19 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,2:interrupts:0: [19, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,0:interrupts:0:0: 28 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,0:interrupts:0: [28, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): hda@7,0:interrupts:0: [4, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0:0: 19 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0: [19, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+--
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts:0:0: 12 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts:0: [12, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts: [[12, 4], [13, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,1:interrupts:0:0: 14 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,1:interrupts:0: [14, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,1:interrupts: [[14, 4], [15, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,2:interrupts:0:0: 17 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,2:interrupts:0: [17, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,2:interrupts: [[17, 4], [18, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,0:interrupts:0:0: 48 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,0:interrupts:0: [48, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@19,0:interrupts:0:0: 22 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@19,0:interrupts:0: [22, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,1:interrupts:0:0: 28 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,1:interrupts:0: [28, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): hda@7,0:interrupts:0:0: 58 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): hda@7,0:interrupts:0: [58, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0: [16, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bus-range', 'device_type', 'display@6,1', 'ethernet@3,0', 'ethernet@3,1', 'ethernet@3,2', 'hda@7,0', 'msi-parent', 'pcie@10,0', 'pcie@9,0', 'pcie@a,0', 'pcie@b,0', 'pcie@c,0', 'pcie@d,0', 'pcie@e,0', 'pcie@f,0', 'sata@8,0', 'usb@19,0', 'usb@4,0' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts:0:0: 12 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts:0: [12, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts: [[12, 4], [13, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,1:interrupts:0:0: 14 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,1:interrupts:0: [14, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,1:interrupts: [[14, 4], [15, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,2:interrupts:0:0: 17 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,2:interrupts:0: [17, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,2:interrupts: [[17, 4], [18, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,0:interrupts:0:0: 48 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,0:interrupts:0: [48, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@19,0:interrupts:0:0: 22 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@19,0:interrupts:0: [22, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,1:interrupts:0:0: 28 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,1:interrupts:0: [28, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): hda@7,0:interrupts:0:0: 58 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): hda@7,0:interrupts:0: [58, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0: [16, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
 
 -- 
 0-DAY CI Kernel Test Service
