@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348F6248F59
-	for <oe-kbuild@lists.linux.dev>; Sun, 26 Oct 2025 22:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D8A1DDC2C
+	for <oe-kbuild@lists.linux.dev>; Mon, 27 Oct 2025 00:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761518164; cv=none; b=O+smAmyi4bPvshzS/TsfhaEHBqkoF/KmUFIuch8FPqgus3HIDBeFL5nGh+uAoMMlBxSnvPK3+Pl3iJCFbMCc9qHFF/cHlJudZgddLsFY90OUXHOrrjYaDsioOaftpxevjVDnOOU9jQrJK68cIrjC/bk9w5srbxEZcq/FSU/5mpw=
+	t=1761526019; cv=none; b=S7GqKsXX16FUuhKd0cVajTtYEG0YiWgomyOMQISxhr46kbbW1rzZxpQKBxgpdCd09zweoEcEASd8gLJ8ynojQ4BxX1ktcxeARTHSXmk0cOPcPOVlhbnglXRbCjnBjdhIas5ChGTVkSwcgRv2hfC5e445svvmsqLaJsVk2hArtRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761518164; c=relaxed/simple;
-	bh=fTXyFg9JiWBx0vK9//A6ktQG+trnngFKBANLilUVgn8=;
+	s=arc-20240116; t=1761526019; c=relaxed/simple;
+	bh=ZXF/4evuM6QDSUJ2vdoygAw/jxlaMNJqRsbfUalhmJ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s8CP0LiQ9tIKnrI0kNQhPHmgUk/hC3KHKmjn3rO3alDvdjpwsjd6F6y6l1ZqZHzLSrtFqc+xZNsK3JOrav1nnFrEucMLeJj5MMil8tt5v435v+ymhbgM4c7/qWXjlkYWzJeFArgJNZM7wSjaYo2VsETUNoiAeCUDs4UsmaRXEp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GlMBrT35; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=Y6nLmhsZk8BKC91jKCUB5eErXcPG3BD0PWEw/F2dDb1nl9Qf+ELrMbPHcn61p+o/vKv3qR2B7hip3QX+QDYBlAyEU1PCXmhGnc9iL1nlt/MytmYCGUtxON5NXPqzu2uQ9INQfdmMQ9ZCBAHtHXuetzGzTYFLr+XBvW3BLYIdBVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNHNOgk9; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GlMBrT35"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNHNOgk9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761518163; x=1793054163;
+  t=1761526018; x=1793062018;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fTXyFg9JiWBx0vK9//A6ktQG+trnngFKBANLilUVgn8=;
-  b=GlMBrT35o92MiER1DnJnFFmDQ3X4HCzj8oSjZo1DSIeNSbdDZfoEqj1+
-   yaBrp1DYWzuKfAk2Jn+RjgfM2NsNQQy8MqfPIP3nPRE/K4cpqBayzLx08
-   0leCTEJBYjEYbA19slijsoKv7Ce5x7i5y180f8kvbdkX2rjql6JbFh3om
-   2UnwX/NTYlAo4BkLWLDszGzD/wVXfqpmb3rfi/eiNq7JydpN/CAHyZksc
-   BSM87pe28BEb+xf5+2aSr1RUsairBMwTGODvKFwn7xfeMJ8pkK+0VFzLG
-   SJfvx8ns7gbr7rK3nKR4/Vk3WJS4Xl380wBtQ+L+Jizpfkr6yFmkBu4th
-   w==;
-X-CSE-ConnectionGUID: qcAmm5QFSiGBMz3lAaXsmA==
-X-CSE-MsgGUID: lKaWvVGyTDadJr2c87qwvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62808456"
+  bh=ZXF/4evuM6QDSUJ2vdoygAw/jxlaMNJqRsbfUalhmJ4=;
+  b=HNHNOgk9rrjImgbz3pAOY5Zpo6ZFPWK91vf8FbaOmZbZdEnEC9hAFwqV
+   qVZwiC/S2EmZD6aziGsaqQbE+UQQBs7uneQBFZygDiVRARpT2spWZngBF
+   4Vq/HK50AqRTs0Z4DI2pIKEKoYGIKPq4aKRJuqI5LJA4Lw6HrVOzwdVIw
+   iYyg7bzMTQcbP1vj1h5sMfgQRDZGXZf5kAUHOLGWiiQI6xSjQhtcNFDTG
+   iAhn4/j9fjB6kq7HQ1Pl4KETbijil2Rn05i0Rao9jrOZXtjwJ7gUxY4qa
+   VS8E9lX904ckP05JP/bqYbR08X+A5Co5HQaf6T2RnJ83+vA9Nt5qgHEgO
+   Q==;
+X-CSE-ConnectionGUID: MRZKCTh1RwuEUq/DbvPKvw==
+X-CSE-MsgGUID: SX6/tpUcQDCBSBOFWEicig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63699750"
 X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; 
-   d="scan'208";a="62808456"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 15:36:01 -0700
-X-CSE-ConnectionGUID: 5Zg1UmdNRImZLI67eYSWiw==
-X-CSE-MsgGUID: 1ccez8liQICRZbZAEswAaw==
+   d="scan'208";a="63699750"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 17:46:57 -0700
+X-CSE-ConnectionGUID: DSvBF8LhTK+KF1p5Q7u47Q==
+X-CSE-MsgGUID: SwrlTj+uR6uq4vx1ayee/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; 
-   d="scan'208";a="184793830"
+   d="scan'208";a="184608676"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 26 Oct 2025 15:35:59 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 26 Oct 2025 17:46:56 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vD9L7-000GN1-1Q;
-	Sun, 26 Oct 2025 22:35:57 +0000
-Date: Mon, 27 Oct 2025 06:34:52 +0800
+	id 1vDBNt-000GQN-2l;
+	Mon, 27 Oct 2025 00:46:53 +0000
+Date: Mon, 27 Oct 2025 08:46:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linusw-nomadik:ux500-janice-v6.18-rc1 10/11]
- arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: i2c-gpio-2 (i2c-gpio):
- Unevaluated properties are not allowed ('#address-cells', '#size-cells',
- 'haptic@49' were unexpected)
-Message-ID: <202510270627.gWv9PIVy-lkp@intel.com>
+Subject: [koverstreet-bcachefs:bcachefs-testing 465/695]
+ fs/bcachefs/data/extents.h:551:9: sparse: sparse: unsigned value that used
+ to be signed checked against zero?
+Message-ID: <202510270839.B1aOZopI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,48 +64,76 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check warning: fs/bcachefs/data/extents.h:551:9: sparse: sparse: unsigned value that used to be signed checked against zero?"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-TO: Linus Walleij <linus.walleij@linaro.org>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadik.git ux500-janice-v6.18-rc1
-head:   ccd3929e54f44ccae885d803cc472204f661c886
-commit: e008aa373e9391a32f3bfd82d41eb847c2d2599e [10/11] ARM: dts: ux500: Add the Immersion ISA to Janice DTS
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-randconfig-052-20251024 (https://download.01.org/0day-ci/archive/20251027/202510270627.gWv9PIVy-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
-dtschema version: 2025.9.dev12+gd6be03029
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510270627.gWv9PIVy-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   175194e612187a15f7f0b1017f061a3edfe16420
+commit: 78e53242d57830619d4964261dda9934f4d18c47 [465/695] bcachefs: move data code to subdir
+:::::: branch date: 2 hours ago
+:::::: commit date: 22 hours ago
+config: powerpc-randconfig-r112-20251026 (https://download.01.org/0day-ci/archive/20251027/202510270839.B1aOZopI-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510270839.B1aOZopI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510270627.gWv9PIVy-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510270839.B1aOZopI-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: i2c-gpio-0 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'magnetometer@2e' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: current-sense-shunt (current-sense-shunt): 'io-channel-ranges' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/afe/current-sense-shunt.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: i2c-gpio-1 (i2c-gpio): $nodename:0: 'i2c-gpio-1' does not match '^i2c(@.+|-[a-z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: i2c-gpio-1 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'clock-frequency', 'touchkey@20' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: i2c-gpio-2 (i2c-gpio): $nodename:0: 'i2c-gpio-2' does not match '^i2c(@.+|-[a-z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
->> arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: i2c-gpio-2 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'haptic@49' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: i2c-gpio-3 (i2c-gpio): $nodename:0: 'i2c-gpio-3' does not match '^i2c(@.+|-[a-z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: i2c-gpio-3 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'nfc@2b' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: nfc@2b (nxp,pn544-i2c): 'clock-frequency' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/nfc/nxp,pn544.yaml
+sparse warnings: (new ones prefixed by >>)
+   fs/bcachefs/fs-io.c: note: in included file (through fs/bcachefs/alloc/buckets.h):
+>> fs/bcachefs/data/extents.h:551:9: sparse: sparse: unsigned value that used to be signed checked against zero?
+   fs/bcachefs/fs-io.c:748:16: sparse: signed value source
+>> fs/bcachefs/data/extents.h:551:9: sparse: sparse: unsigned value that used to be signed checked against zero?
+   fs/bcachefs/fs-io.c:748:16: sparse: signed value source
+--
+>> fs/bcachefs/data/copygc.c:440:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/data/copygc.c:440:21: sparse:    struct task_struct [noderef] __rcu *
+   fs/bcachefs/data/copygc.c:440:21: sparse:    struct task_struct *
+--
+   fs/bcachefs/recovery_passes.c:341:5: sparse: sparse: context imbalance in '__bch2_run_explicit_recovery_pass' - wrong count at exit
+   fs/bcachefs/recovery_passes.c: note: in included file:
+>> fs/bcachefs/data/copygc.h:11:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/data/copygc.h:11:33: sparse:    struct task_struct [noderef] __rcu *
+   fs/bcachefs/data/copygc.h:11:33: sparse:    struct task_struct *
+--
+   fs/bcachefs/recovery.c: note: in included file (through fs/bcachefs/bcachefs.h):
+   fs/bcachefs/bcachefs_format.h:633:38: sparse: sparse: array of flexible structures
+   fs/bcachefs/bcachefs_format.h:1326:38: sparse: sparse: array of flexible structures
+   fs/bcachefs/recovery.c: note: in included file:
+>> fs/bcachefs/data/copygc.h:11:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/data/copygc.h:11:33: sparse:    struct task_struct [noderef] __rcu *
+   fs/bcachefs/data/copygc.h:11:33: sparse:    struct task_struct *
+--
+   fs/bcachefs/opts.c: note: in included file:
+>> fs/bcachefs/data/copygc.h:11:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/data/copygc.h:11:33: sparse:    struct task_struct [noderef] __rcu *
+   fs/bcachefs/data/copygc.h:11:33: sparse:    struct task_struct *
+
+vim +551 fs/bcachefs/data/extents.h
+
+1c6fdbd8f2465d fs/bcachefs/extents.h Kent Overstreet 2017-03-16  546  
+792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  547  static inline bool bkey_extent_is_unwritten(struct bkey_s_c k)
+792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  548  {
+792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  549  	struct bkey_ptrs_c ptrs = bch2_bkey_ptrs_c(k);
+792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  550  
+792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13 @551  	bkey_for_each_ptr(ptrs, ptr)
+792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  552  		if (ptr->unwritten)
+792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  553  			return true;
+792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  554  	return false;
+792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  555  }
+792031116bee35 fs/bcachefs/extents.h Kent Overstreet 2022-11-13  556  
+
+:::::: The code at line 551 was first introduced by commit
+:::::: 792031116bee35e13be7c8ae8cf1b8eec141b136 bcachefs: Unwritten extents support
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
