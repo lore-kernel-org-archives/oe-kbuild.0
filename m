@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40D124676A
-	for <oe-kbuild@lists.linux.dev>; Tue, 28 Oct 2025 14:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC84415DBC1
+	for <oe-kbuild@lists.linux.dev>; Tue, 28 Oct 2025 14:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761662002; cv=none; b=jpxj1MUUeU72V3vrCWohmE6+eWtvz606tExkLgv2VmHEXAIFCsYagIM7+IX439SXorJKlVdNuKrpSfXQ2Nf9DyW/a4p4Em+mGyC3tq4dkvyBWgrNMpykS9p889OVlZBa8JHDgP5/yGW4r6LqVx5FeVZs6EmIUjg7bThOHKZ6lcM=
+	t=1761662647; cv=none; b=mY8+D/GNN7uDf8EHw+yeRdx96vm7Qw3yXT2tslMf5odgW33jWbvOmoRYBJ/fCkkAXZ+utTZGZcu9v2W7I0NbC3lgwElvkbvm/ZawhX39S6fxIHSurN4cNdLYPO/WKMGggWdrbXNzSQU/YPjgozyJbFvWv+vtNvOzIcD+GqeeZzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761662002; c=relaxed/simple;
-	bh=ozpRqwhK/3toPz7qt+MVF1EOPbDHw0cFqSfUEybNxLc=;
+	s=arc-20240116; t=1761662647; c=relaxed/simple;
+	bh=obYduYZ78QB4ZcN7dALcpPhWCrW7a4G3wU/Z3gBevWk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g5sbB8+LP3p2NLl9E/dYcNb4BiLXKVagsk0k9yAXSNQQWhojIimZmuRHNtnpuGY2jppYwGqkBX3ShHrHQMr3GYBTsC4OkeH7kKdUOnlzJ1DCLFud0LDHPJ3L+CH+M+5nqKy39vO0eZk8RefwbWogv4MChgN7UrnwjtJehy8iZEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SRtBJGvL; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=M5np329qNilQYFb8Dq1C5lRWeGwHrcT+vfThs7inhoQuMUnvoqOyHTKOiJhy5NqBogaL2r2uxJSgMbczXxNlNKTWa9ytW6umn/NvnOyo7b5sWcwk+mm80AwDg7PZ5DHA3lsQGVJwMzcNkkgCaVPCPKu/eN726mYqU9Z4IsVCzxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BS0W+om5; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SRtBJGvL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BS0W+om5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761662000; x=1793198000;
+  t=1761662646; x=1793198646;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ozpRqwhK/3toPz7qt+MVF1EOPbDHw0cFqSfUEybNxLc=;
-  b=SRtBJGvL4mDE0pIaVQod2Ro7DjXvPqnFS8dLiFbfyFHYT7nQxurRmPEB
-   x5v5fBKYwH7qvKWHJbzametS6KKisRkJisc/yX8C8M6j5z8Rh0rxXkBX4
-   Po6b+iHs2btXfm2PFR/wOpJqIvjTHWQrLvDxCnzLxeNxPURLVfbjqWUbe
-   jssNAtOdf9EG3ApCZwRBFCxuuu0KSImcZEHKMiQPeBS8ks1MKkoEFOFNz
-   l8db1lUe01csjdOOoMD2J0w5se0ZpCDeG4+rbGfWzm88cZ/uHe8ybnrwW
-   zvMViGvlDoypjSPA7O2NW+k4cf4WGPK0usxh8VKNV+2UMoRNRFOEpuiR1
-   w==;
-X-CSE-ConnectionGUID: f46mVT8NSJyKVGJqMU3DoA==
-X-CSE-MsgGUID: Gykq0C0WT8SFT1m+iBuDsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74437653"
+  bh=obYduYZ78QB4ZcN7dALcpPhWCrW7a4G3wU/Z3gBevWk=;
+  b=BS0W+om5LQe2Ugvq97KHn6eUQ3Z6K8SDNS3taykt0r+cqL3BBl9kd8AZ
+   3NFIoP0eZ8dYldtu49/xuo7PDpBYd8VI97zcjdCXZuUqHFrW/cTTlVDmC
+   mYk8t2wnsW8s3tlk3JwshEH+Egti5Noc2jHhMR1ymWMU1JFJ3V9FpzHlo
+   JfEO0ym4AS4AQpaK2/9/TlFQDb/EyiYrygB7WAa9DmXyP0BQakuezYkYS
+   LVfurMNXCOq4N1PzQEJyPVMb2WiixZjOli7VxvgLcJ1M+HHfz7PDnN8na
+   FS0V1Tq199R55HBNT/KUxkxFHiC+MmvUuRKySgWRSYkg8NEACFMvMm0qR
+   A==;
+X-CSE-ConnectionGUID: hNqCaeKNT6SQZVZVxrBzyg==
+X-CSE-MsgGUID: j049xQH4TO6hWFxiTJuEGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="89234892"
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="74437653"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 07:33:19 -0700
-X-CSE-ConnectionGUID: PvHomysDRmiDYMqGzSrx5A==
-X-CSE-MsgGUID: G6TStzQRSFOnXRgtERjf3g==
+   d="scan'208";a="89234892"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 07:44:05 -0700
+X-CSE-ConnectionGUID: /7sTRMGrSiS3U2KQE/oxbA==
+X-CSE-MsgGUID: ti+WG7ZLTOGekVuBd7q0nQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="189679132"
+   d="scan'208";a="184991697"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 28 Oct 2025 07:33:18 -0700
+  by orviesa009.jf.intel.com with ESMTP; 28 Oct 2025 07:44:04 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDkl9-000JEs-1A;
-	Tue, 28 Oct 2025 14:33:15 +0000
-Date: Tue, 28 Oct 2025 22:32:58 +0800
+	id 1vDkvZ-000JG3-2G;
+	Tue, 28 Oct 2025 14:44:01 +0000
+Date: Tue, 28 Oct 2025 22:43:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/phy/ti/phy-omap-usb2.c:442:4-11: WARNING: Consider using %pe
- to print PTR_ERR()
-Message-ID: <202510282255.6lFijMzE-lkp@intel.com>
+Subject: mm/damon/stat.c:60:21-22: WARNING opportunity for secs_to_jiffies()
+Message-ID: <202510282200.etAaEoFg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,179 +64,45 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Johan Hovold <johan@kernel.org>
-CC: Vinod Koul <vkoul@kernel.org>
-CC: Neil Armstrong <neil.armstrong@linaro.org>
-
-Hi Johan,
-
-First bad commit (maybe != root cause):
+TO: SeongJae Park <sj@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   fd57572253bc356330dbe5b233c2e1d8426c66fd
-commit: 8209b3f79703b8ff09f84a79c46ead0df7260d9f phy: ti: omap-usb2: enable compile testing
-date:   3 months ago
+commit: fabdd1e911da43cddbf17acf930171ba4b944477 mm/damon/stat: calculate and expose estimated memory bandwidth
+date:   4 months ago
 :::::: branch date: 21 hours ago
-:::::: commit date: 3 months ago
-config: sparc64-randconfig-r064-20251028 (https://download.01.org/0day-ci/archive/20251028/202510282255.6lFijMzE-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+:::::: commit date: 4 months ago
+config: s390-randconfig-r053-20251028 (https://download.01.org/0day-ci/archive/20251028/202510282200.etAaEoFg-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202510282255.6lFijMzE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510282200.etAaEoFg-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/phy/ti/phy-omap-usb2.c:442:4-11: WARNING: Consider using %pe to print PTR_ERR()
+>> mm/damon/stat.c:60:21-22: WARNING opportunity for secs_to_jiffies()
 
-vim +442 drivers/phy/ti/phy-omap-usb2.c
+vim +60 mm/damon/stat.c
 
-ad7a7acaedcf45 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  365  
-41ac7b3ab7fe1d drivers/usb/phy/omap-usb2.c    Bill Pemberton         2012-11-19  366  static int omap_usb2_probe(struct platform_device *pdev)
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  367  {
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  368  	struct omap_usb	*phy;
-5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  369  	struct phy *generic_phy;
-5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  370  	struct phy_provider *phy_provider;
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  371  	struct usb_otg *otg;
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  372  	struct device_node *node = pdev->dev.of_node;
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  373  	struct device_node *control_node;
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  374  	struct platform_device *control_pdev;
-21bf6fc47a1e45 drivers/phy/ti/phy-omap-usb2.c Rob Herring            2023-10-09  375  	const struct usb_phy_data *phy_data;
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  376  
-21bf6fc47a1e45 drivers/phy/ti/phy-omap-usb2.c Rob Herring            2023-10-09  377  	phy_data = device_get_match_data(&pdev->dev);
-21bf6fc47a1e45 drivers/phy/ti/phy-omap-usb2.c Rob Herring            2023-10-09  378  	if (!phy_data)
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  379  		return -EINVAL;
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  380  
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  381  	phy = devm_kzalloc(&pdev->dev, sizeof(*phy), GFP_KERNEL);
-0b68253d9f8d25 drivers/phy/phy-omap-usb2.c    Peter Griffin          2014-08-15  382  	if (!phy)
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  383  		return -ENOMEM;
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  384  
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  385  	otg = devm_kzalloc(&pdev->dev, sizeof(*otg), GFP_KERNEL);
-0b68253d9f8d25 drivers/phy/phy-omap-usb2.c    Peter Griffin          2014-08-15  386  	if (!otg)
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  387  		return -ENOMEM;
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  388  
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  389  	phy->dev		= &pdev->dev;
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  390  
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  391  	phy->phy.dev		= phy->dev;
-09a0168de11a4a drivers/phy/phy-omap-usb2.c    George Cherian         2014-03-06  392  	phy->phy.label		= phy_data->label;
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  393  	phy->phy.otg		= otg;
-c11747f6ce7025 drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2013-01-25  394  	phy->phy.type		= USB_PHY_TYPE_USB2;
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  395  	phy->mask		= phy_data->mask;
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  396  	phy->power_on		= phy_data->power_on;
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  397  	phy->power_off		= phy_data->power_off;
-ad7a7acaedcf45 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  398  	phy->flags		= phy_data->flags;
-ad7a7acaedcf45 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  399  
-ad7a7acaedcf45 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  400  	omap_usb2_init_errata(phy);
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  401  
-79caf207d66994 drivers/phy/ti/phy-omap-usb2.c Chunfeng Yun           2020-11-06  402  	phy->phy_base = devm_platform_ioremap_resource(pdev, 0);
-3df9fcd59fd829 drivers/phy/phy-omap-usb2.c    Himangi Saraogi        2014-07-10  403  	if (IS_ERR(phy->phy_base))
-3df9fcd59fd829 drivers/phy/phy-omap-usb2.c    Himangi Saraogi        2014-07-10  404  		return PTR_ERR(phy->phy_base);
-7e472402ca3082 drivers/phy/phy-omap-usb2.c    Austin Beam            2014-03-06  405  
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  406  	phy->syscon_phy_power = syscon_regmap_lookup_by_phandle(node,
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  407  								"syscon-phy-power");
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  408  	if (IS_ERR(phy->syscon_phy_power)) {
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  409  		dev_dbg(&pdev->dev,
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  410  			"can't get syscon-phy-power, using control device\n");
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  411  		phy->syscon_phy_power = NULL;
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  412  
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  413  		control_node = of_parse_phandle(node, "ctrl-module", 0);
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  414  		if (!control_node) {
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  415  			dev_err(&pdev->dev,
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  416  				"Failed to get control device phandle\n");
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  417  			return -EINVAL;
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  418  		}
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  419  
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  420  		control_pdev = of_find_device_by_node(control_node);
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  421  		if (!control_pdev) {
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  422  			dev_err(&pdev->dev, "Failed to get control device\n");
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  423  			return -EINVAL;
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  424  		}
-478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  425  		phy->control_dev = &control_pdev->dev;
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  426  	} else {
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  427  		if (of_property_read_u32_index(node,
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  428  					       "syscon-phy-power", 1,
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  429  					       &phy->power_reg)) {
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  430  			dev_err(&pdev->dev,
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  431  				"couldn't get power reg. offset\n");
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  432  			return -EINVAL;
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  433  		}
-9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  434  	}
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  435  
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  436  	phy->wkupclk = devm_clk_get(phy->dev, "wkupclk");
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  437  	if (IS_ERR(phy->wkupclk)) {
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  438  		if (PTR_ERR(phy->wkupclk) == -EPROBE_DEFER)
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  439  			return -EPROBE_DEFER;
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  440  
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  441  		dev_warn(&pdev->dev, "unable to get wkupclk %ld, trying old name\n",
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05 @442  			 PTR_ERR(phy->wkupclk));
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  443  		phy->wkupclk = devm_clk_get(phy->dev, "usb_phy_cm_clk32k");
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  444  
-623cb3e22c9d7e drivers/phy/ti/phy-omap-usb2.c Ye Xingchen            2023-03-23  445  		if (IS_ERR(phy->wkupclk))
-623cb3e22c9d7e drivers/phy/ti/phy-omap-usb2.c Ye Xingchen            2023-03-23  446  			return dev_err_probe(&pdev->dev, PTR_ERR(phy->wkupclk),
-623cb3e22c9d7e drivers/phy/ti/phy-omap-usb2.c Ye Xingchen            2023-03-23  447  					     "unable to get usb_phy_cm_clk32k\n");
-8836e29bad3498 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  448  
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  449  		dev_warn(&pdev->dev,
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  450  			 "found usb_phy_cm_clk32k, please fix DTS\n");
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  451  	}
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  452  
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  453  	phy->optclk = devm_clk_get(phy->dev, "refclk");
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  454  	if (IS_ERR(phy->optclk)) {
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  455  		if (PTR_ERR(phy->optclk) == -EPROBE_DEFER)
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  456  			return -EPROBE_DEFER;
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  457  
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  458  		dev_dbg(&pdev->dev, "unable to get refclk, trying old name\n");
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  459  		phy->optclk = devm_clk_get(phy->dev, "usb_otg_ss_refclk960m");
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  460  
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  461  		if (IS_ERR(phy->optclk)) {
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  462  			if (PTR_ERR(phy->optclk) != -EPROBE_DEFER) {
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  463  				dev_dbg(&pdev->dev,
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  464  					"unable to get usb_otg_ss_refclk960m\n");
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  465  			}
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  466  		} else {
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  467  			dev_warn(&pdev->dev,
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  468  				 "found usb_otg_ss_refclk960m, please fix DTS\n");
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  469  		}
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  470  	}
-ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  471  
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  472  	otg->set_host = omap_usb_set_host;
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  473  	otg->set_peripheral = omap_usb_set_peripheral;
-09a0168de11a4a drivers/phy/phy-omap-usb2.c    George Cherian         2014-03-06  474  	if (phy_data->flags & OMAP_USB2_HAS_SET_VBUS)
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  475  		otg->set_vbus = omap_usb_set_vbus;
-09a0168de11a4a drivers/phy/phy-omap-usb2.c    George Cherian         2014-03-06  476  	if (phy_data->flags & OMAP_USB2_HAS_START_SRP)
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  477  		otg->start_srp = omap_usb_start_srp;
-19c1eac2685b62 drivers/phy/phy-omap-usb2.c    Antoine Tenart         2014-10-30  478  	otg->usb_phy = &phy->phy;
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  479  
-5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  480  	platform_set_drvdata(pdev, phy);
-f20531a9aae0c7 drivers/phy/phy-omap-usb2.c    Oussama Ghorbel        2014-11-04  481  	pm_runtime_enable(phy->dev);
-5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  482  
-dbc98635e0d42f drivers/phy/phy-omap-usb2.c    Heikki Krogerus        2014-11-19  483  	generic_phy = devm_phy_create(phy->dev, NULL, &ops);
-f20531a9aae0c7 drivers/phy/phy-omap-usb2.c    Oussama Ghorbel        2014-11-04  484  	if (IS_ERR(generic_phy)) {
-f20531a9aae0c7 drivers/phy/phy-omap-usb2.c    Oussama Ghorbel        2014-11-04  485  		pm_runtime_disable(phy->dev);
-5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  486  		return PTR_ERR(generic_phy);
-f20531a9aae0c7 drivers/phy/phy-omap-usb2.c    Oussama Ghorbel        2014-11-04  487  	}
-5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  488  
-5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  489  	phy_set_drvdata(generic_phy, phy);
-86c574e4bc9d84 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  490  	omap_usb_power_off(generic_phy);
-5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  491  
-64fe1891696cde drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2014-02-17  492  	phy_provider = devm_of_phy_provider_register(phy->dev,
-64fe1891696cde drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2014-02-17  493  						     of_phy_simple_xlate);
-eb82a3d846fab0 drivers/phy/phy-omap-usb2.c    Roger Quadros          2014-07-10  494  	if (IS_ERR(phy_provider)) {
-eb82a3d846fab0 drivers/phy/phy-omap-usb2.c    Roger Quadros          2014-07-10  495  		pm_runtime_disable(phy->dev);
-64fe1891696cde drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2014-02-17  496  		return PTR_ERR(phy_provider);
-eb82a3d846fab0 drivers/phy/phy-omap-usb2.c    Roger Quadros          2014-07-10  497  	}
-64fe1891696cde drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2014-02-17  498  
-c11747f6ce7025 drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2013-01-25  499  	usb_add_phy_dev(&phy->phy);
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  500  
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  501  	return 0;
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  502  }
-657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  503  
-
-:::::: The code at line 442 was first introduced by commit
-:::::: ed31ee7cf1fea2463d9600ac91ed74691b88131f phy: ti: usb2: Fix logic on -EPROBE_DEFER
-
-:::::: TO: Roger Quadros <rogerq@ti.com>
-:::::: CC: Kishon Vijay Abraham I <kishon@ti.com>
+fabdd1e911da43 SeongJae Park 2025-06-04  53  
+fabdd1e911da43 SeongJae Park 2025-06-04  54  static int damon_stat_after_aggregation(struct damon_ctx *c)
+fabdd1e911da43 SeongJae Park 2025-06-04  55  {
+fabdd1e911da43 SeongJae Park 2025-06-04  56  	static unsigned long last_refresh_jiffies;
+fabdd1e911da43 SeongJae Park 2025-06-04  57  
+fabdd1e911da43 SeongJae Park 2025-06-04  58  	/* avoid unnecessarily frequent stat update */
+fabdd1e911da43 SeongJae Park 2025-06-04  59  	if (time_before_eq(jiffies, last_refresh_jiffies +
+fabdd1e911da43 SeongJae Park 2025-06-04 @60  				msecs_to_jiffies(5 * MSEC_PER_SEC)))
+fabdd1e911da43 SeongJae Park 2025-06-04  61  		return 0;
+fabdd1e911da43 SeongJae Park 2025-06-04  62  	last_refresh_jiffies = jiffies;
+fabdd1e911da43 SeongJae Park 2025-06-04  63  
+fabdd1e911da43 SeongJae Park 2025-06-04  64  	damon_stat_set_estimated_memory_bandwidth(c);
+fabdd1e911da43 SeongJae Park 2025-06-04  65  	return 0;
+fabdd1e911da43 SeongJae Park 2025-06-04  66  }
+fabdd1e911da43 SeongJae Park 2025-06-04  67  
 
 -- 
 0-DAY CI Kernel Test Service
