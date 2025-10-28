@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026E713FEE
-	for <oe-kbuild@lists.linux.dev>; Tue, 28 Oct 2025 04:47:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40D124676A
+	for <oe-kbuild@lists.linux.dev>; Tue, 28 Oct 2025 14:33:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761626845; cv=none; b=XhJxu+SExd8WfM5/hmJOwEneOCCPkNG1CJrsPsoWKZqPCyTA9p8GZXF7ztv7Md+hHHqvRC2rLRUTJJYo2xlRvHRGCjpdK4n+wmxwODMrBn7ahqjy+ew16xdmlZVEIhAUYntOInrSrACB1UT2NuG/DmzL39TPAi4B/z2jBnLZ+fk=
+	t=1761662002; cv=none; b=jpxj1MUUeU72V3vrCWohmE6+eWtvz606tExkLgv2VmHEXAIFCsYagIM7+IX439SXorJKlVdNuKrpSfXQ2Nf9DyW/a4p4Em+mGyC3tq4dkvyBWgrNMpykS9p889OVlZBa8JHDgP5/yGW4r6LqVx5FeVZs6EmIUjg7bThOHKZ6lcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761626845; c=relaxed/simple;
-	bh=G8uggGna+HjDGn1hG6HbpbBDqk0gZiRE/LU0vclnc1k=;
+	s=arc-20240116; t=1761662002; c=relaxed/simple;
+	bh=ozpRqwhK/3toPz7qt+MVF1EOPbDHw0cFqSfUEybNxLc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kVtgO/QAWcZhjS/wfywvmcSJwc4K+gggiZQEk49+6evQitVYj1VJNUueK+XjMhW6S0K2Gm1i1nFVidtjGgFnKRmrLMPjPrZ2NrkjgdUXAFNhnxYeT8zrGjfmNVO0ROpkmg3/3fyjsIYX+n0NGWFZCTY2JP0ARU0VVGc9QDyRes0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LsUEfLtB; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=g5sbB8+LP3p2NLl9E/dYcNb4BiLXKVagsk0k9yAXSNQQWhojIimZmuRHNtnpuGY2jppYwGqkBX3ShHrHQMr3GYBTsC4OkeH7kKdUOnlzJ1DCLFud0LDHPJ3L+CH+M+5nqKy39vO0eZk8RefwbWogv4MChgN7UrnwjtJehy8iZEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SRtBJGvL; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LsUEfLtB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SRtBJGvL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761626843; x=1793162843;
+  t=1761662000; x=1793198000;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G8uggGna+HjDGn1hG6HbpbBDqk0gZiRE/LU0vclnc1k=;
-  b=LsUEfLtBqdT2wyaWdNdfNRByz6hwaxHGpGjsTeuCL0hHxjA+aD6DXKiR
-   EmG5JMyS/+E/xrdUAy5CdFczP9+qDsxYr5RWmP4zxiUkPeKkgcYQV4SCo
-   DqZERcpVHAw+6YTDJQSEQ6KQMowozJEu5ce7GS1JKd6zn/l1HsoCjyuDC
-   lL73f5LlpdahmcV+Sql93zUBTxYkLKXdwOwUTTfh+9WWvkp8i466HCO6I
-   qIXFcES5r1gQvhGM33pTRYRHAwnW6yef9+tl1V28CxAI+gi4CygmYrMkx
-   Dhy3ylnGtoKWGzBu26EF3umfoGEM8X6EhjgkhDH61fSjQ5sdSVuHF50cB
-   g==;
-X-CSE-ConnectionGUID: qofMFSV3TOOCsSEuxLqiiw==
-X-CSE-MsgGUID: /9QgOguhSSCOq7+y3XxiTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74392413"
-X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
-   d="scan'208";a="74392413"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 21:47:22 -0700
-X-CSE-ConnectionGUID: MANwsoWlRg+XXJkdHAKy1w==
-X-CSE-MsgGUID: yaL7WIfBSP2F0QS/KIMOWQ==
+  bh=ozpRqwhK/3toPz7qt+MVF1EOPbDHw0cFqSfUEybNxLc=;
+  b=SRtBJGvL4mDE0pIaVQod2Ro7DjXvPqnFS8dLiFbfyFHYT7nQxurRmPEB
+   x5v5fBKYwH7qvKWHJbzametS6KKisRkJisc/yX8C8M6j5z8Rh0rxXkBX4
+   Po6b+iHs2btXfm2PFR/wOpJqIvjTHWQrLvDxCnzLxeNxPURLVfbjqWUbe
+   jssNAtOdf9EG3ApCZwRBFCxuuu0KSImcZEHKMiQPeBS8ks1MKkoEFOFNz
+   l8db1lUe01csjdOOoMD2J0w5se0ZpCDeG4+rbGfWzm88cZ/uHe8ybnrwW
+   zvMViGvlDoypjSPA7O2NW+k4cf4WGPK0usxh8VKNV+2UMoRNRFOEpuiR1
+   w==;
+X-CSE-ConnectionGUID: f46mVT8NSJyKVGJqMU3DoA==
+X-CSE-MsgGUID: Gykq0C0WT8SFT1m+iBuDsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74437653"
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
+   d="scan'208";a="74437653"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 07:33:19 -0700
+X-CSE-ConnectionGUID: PvHomysDRmiDYMqGzSrx5A==
+X-CSE-MsgGUID: G6TStzQRSFOnXRgtERjf3g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
-   d="scan'208";a="184941115"
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
+   d="scan'208";a="189679132"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 27 Oct 2025 21:47:21 -0700
+  by orviesa004.jf.intel.com with ESMTP; 28 Oct 2025 07:33:18 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDban-000IlB-0U;
-	Tue, 28 Oct 2025 04:46:08 +0000
-Date: Tue, 28 Oct 2025 12:43:28 +0800
+	id 1vDkl9-000JEs-1A;
+	Tue, 28 Oct 2025 14:33:15 +0000
+Date: Tue, 28 Oct 2025 22:32:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v6 4/4] irqchip/plic: add support for UltraRISC DP1000
- PLIC
-Message-ID: <202510281247.vt1Cbh3h-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/phy/ti/phy-omap-usb2.c:442:4-11: WARNING: Consider using %pe
+ to print PTR_ERR()
+Message-ID: <202510282255.6lFijMzE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,230 +64,180 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251024083647.475239-5-lzampier@redhat.com>
-References: <20251024083647.475239-5-lzampier@redhat.com>
-TO: Lucas Zampieri <lzampier@redhat.com>
-TO: linux-kernel@vger.kernel.org
-CC: Charles Mirabile <cmirabil@redhat.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Paul Walmsley <paul.walmsley@sifive.com>
-CC: Samuel Holland <samuel.holland@sifive.com>
-CC: Palmer Dabbelt <palmer@dabbelt.com>
-CC: Albert Ou <aou@eecs.berkeley.edu>
-CC: Alexandre Ghiti <alex@ghiti.fr>
-CC: Vivian Wang <dramforever@live.com>
-CC: devicetree@vger.kernel.org
-CC: linux-riscv@lists.infradead.org
-CC: Zhang Xincheng <zhangxincheng@ultrarisc.com>
-CC: Lucas Zampieri <lzampier@redhat.com>
+CC: linux-kernel@vger.kernel.org
+TO: Johan Hovold <johan@kernel.org>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Neil Armstrong <neil.armstrong@linaro.org>
 
-Hi Lucas,
+Hi Johan,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.18-rc3]
-[cannot apply to tip/irq/core next-20251027]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Zampieri/dt-bindings-vendor-prefixes-add-UltraRISC/20251024-165132
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251024083647.475239-5-lzampier%40redhat.com
-patch subject: [PATCH v6 4/4] irqchip/plic: add support for UltraRISC DP1000 PLIC
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: riscv-randconfig-r072-20251027 (https://download.01.org/0day-ci/archive/20251028/202510281247.vt1Cbh3h-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fd57572253bc356330dbe5b233c2e1d8426c66fd
+commit: 8209b3f79703b8ff09f84a79c46ead0df7260d9f phy: ti: omap-usb2: enable compile testing
+date:   3 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 3 months ago
+config: sparc64-randconfig-r064-20251028 (https://download.01.org/0day-ci/archive/20251028/202510282255.6lFijMzE-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510281247.vt1Cbh3h-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202510282255.6lFijMzE-lkp@intel.com/
 
-smatch warnings:
-drivers/irqchip/irq-sifive-plic.c:772 plic_probe() error: uninitialized symbol 'handler'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/phy/ti/phy-omap-usb2.c:442:4-11: WARNING: Consider using %pe to print PTR_ERR()
 
-vim +/handler +772 drivers/irqchip/irq-sifive-plic.c
+vim +442 drivers/phy/ti/phy-omap-usb2.c
 
-a15587277a246c Anup Patel        2024-02-22  617  
-4d936f10ff8027 Anup Patel        2024-08-20  618  static int plic_probe(struct fwnode_handle *fwnode)
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  619  {
-a15587277a246c Anup Patel        2024-02-22  620  	int error = 0, nr_contexts, nr_handlers = 0, cpu, i;
-8ec99b033147ef Anup Patel        2024-02-22  621  	unsigned long plic_quirks = 0;
-2234ae846ccb9e Anup Patel        2020-05-18  622  	struct plic_handler *handler;
-a15587277a246c Anup Patel        2024-02-22  623  	u32 nr_irqs, parent_hwirq;
-8ec99b033147ef Anup Patel        2024-02-22  624  	struct plic_priv *priv;
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  625  	irq_hw_number_t hwirq;
-4d936f10ff8027 Anup Patel        2024-08-20  626  	void __iomem *regs;
-206dd13a101196 Sunil V L         2024-08-27  627  	int id, context_id;
-206dd13a101196 Sunil V L         2024-08-27  628  	u32 gsi_base;
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  629  
-4d936f10ff8027 Anup Patel        2024-08-20  630  	if (is_of_node(fwnode)) {
-8ec99b033147ef Anup Patel        2024-02-22  631  		const struct of_device_id *id;
-8ec99b033147ef Anup Patel        2024-02-22  632  
-4d936f10ff8027 Anup Patel        2024-08-20  633  		id = of_match_node(plic_match, to_of_node(fwnode));
-8ec99b033147ef Anup Patel        2024-02-22  634  		if (id)
-8ec99b033147ef Anup Patel        2024-02-22  635  			plic_quirks = (unsigned long)id->data;
-4d936f10ff8027 Anup Patel        2024-08-20  636  
-4d936f10ff8027 Anup Patel        2024-08-20  637  		regs = of_iomap(to_of_node(fwnode), 0);
-4d936f10ff8027 Anup Patel        2024-08-20  638  		if (!regs)
-4d936f10ff8027 Anup Patel        2024-08-20  639  			return -ENOMEM;
-4d936f10ff8027 Anup Patel        2024-08-20  640  	} else {
-206dd13a101196 Sunil V L         2024-08-27  641  		regs = devm_platform_ioremap_resource(to_platform_device(fwnode->dev), 0);
-206dd13a101196 Sunil V L         2024-08-27  642  		if (IS_ERR(regs))
-206dd13a101196 Sunil V L         2024-08-27  643  			return PTR_ERR(regs);
-8ec99b033147ef Anup Patel        2024-02-22  644  	}
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  645  
-206dd13a101196 Sunil V L         2024-08-27  646  	error = plic_parse_nr_irqs_and_contexts(fwnode, &nr_irqs, &nr_contexts, &gsi_base, &id);
-95652106478030 Anup Patel        2024-02-22  647  	if (error)
-4d936f10ff8027 Anup Patel        2024-08-20  648  		goto fail_free_regs;
-95652106478030 Anup Patel        2024-02-22  649  
-4d936f10ff8027 Anup Patel        2024-08-20  650  	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-4d936f10ff8027 Anup Patel        2024-08-20  651  	if (!priv) {
-4d936f10ff8027 Anup Patel        2024-08-20  652  		error = -ENOMEM;
-4d936f10ff8027 Anup Patel        2024-08-20  653  		goto fail_free_regs;
-4d936f10ff8027 Anup Patel        2024-08-20  654  	}
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  655  
-4d936f10ff8027 Anup Patel        2024-08-20  656  	priv->fwnode = fwnode;
-dd46337ca69662 Lad Prabhakar     2022-06-30  657  	priv->plic_quirks = plic_quirks;
-95652106478030 Anup Patel        2024-02-22  658  	priv->nr_irqs = nr_irqs;
-4d936f10ff8027 Anup Patel        2024-08-20  659  	priv->regs = regs;
-206dd13a101196 Sunil V L         2024-08-27  660  	priv->gsi_base = gsi_base;
-206dd13a101196 Sunil V L         2024-08-27  661  	priv->acpi_plic_id = id;
-dd46337ca69662 Lad Prabhakar     2022-06-30  662  
-4d936f10ff8027 Anup Patel        2024-08-20  663  	priv->prio_save = bitmap_zalloc(nr_irqs, GFP_KERNEL);
-4d936f10ff8027 Anup Patel        2024-08-20  664  	if (!priv->prio_save) {
-4d936f10ff8027 Anup Patel        2024-08-20  665  		error = -ENOMEM;
-4d936f10ff8027 Anup Patel        2024-08-20  666  		goto fail_free_priv;
-4d936f10ff8027 Anup Patel        2024-08-20  667  	}
-e80f0b6a2cf302 Mason Huo         2023-04-04  668  
-6adfe8d2f5b353 Anup Patel        2019-02-12  669  	for (i = 0; i < nr_contexts; i++) {
-206dd13a101196 Sunil V L         2024-08-27  670  		error = plic_parse_context_parent(fwnode, i, &parent_hwirq, &cpu,
-206dd13a101196 Sunil V L         2024-08-27  671  						  priv->acpi_plic_id);
-a15587277a246c Anup Patel        2024-02-22  672  		if (error) {
-4d936f10ff8027 Anup Patel        2024-08-20  673  			pr_warn("%pfwP: hwirq for context%d not found\n", fwnode, i);
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  674  			continue;
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  675  		}
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  676  
-206dd13a101196 Sunil V L         2024-08-27  677  		if (is_of_node(fwnode)) {
-206dd13a101196 Sunil V L         2024-08-27  678  			context_id = i;
-206dd13a101196 Sunil V L         2024-08-27  679  		} else {
-206dd13a101196 Sunil V L         2024-08-27  680  			context_id = acpi_rintc_get_plic_context(priv->acpi_plic_id, i);
-206dd13a101196 Sunil V L         2024-08-27  681  			if (context_id == INVALID_CONTEXT) {
-206dd13a101196 Sunil V L         2024-08-27  682  				pr_warn("%pfwP: invalid context id for context%d\n", fwnode, i);
-206dd13a101196 Sunil V L         2024-08-27  683  				continue;
-206dd13a101196 Sunil V L         2024-08-27  684  			}
-206dd13a101196 Sunil V L         2024-08-27  685  		}
-206dd13a101196 Sunil V L         2024-08-27  686  
-a4c3733d32a72f Christoph Hellwig 2019-10-28  687  		/*
-a4c3733d32a72f Christoph Hellwig 2019-10-28  688  		 * Skip contexts other than external interrupts for our
-a4c3733d32a72f Christoph Hellwig 2019-10-28  689  		 * privilege level.
-a4c3733d32a72f Christoph Hellwig 2019-10-28  690  		 */
-a15587277a246c Anup Patel        2024-02-22  691  		if (parent_hwirq != RV_IRQ_EXT) {
-098fdbc3531f06 Niklas Cassel     2022-03-02  692  			/* Disable S-mode enable bits if running in M-mode. */
-098fdbc3531f06 Niklas Cassel     2022-03-02  693  			if (IS_ENABLED(CONFIG_RISCV_M_MODE)) {
-098fdbc3531f06 Niklas Cassel     2022-03-02  694  				void __iomem *enable_base = priv->regs +
-098fdbc3531f06 Niklas Cassel     2022-03-02  695  					CONTEXT_ENABLE_BASE +
-098fdbc3531f06 Niklas Cassel     2022-03-02  696  					i * CONTEXT_ENABLE_SIZE;
-098fdbc3531f06 Niklas Cassel     2022-03-02  697  
-098fdbc3531f06 Niklas Cassel     2022-03-02  698  				for (hwirq = 1; hwirq <= nr_irqs; hwirq++)
-098fdbc3531f06 Niklas Cassel     2022-03-02  699  					__plic_toggle(enable_base, hwirq, 0);
-098fdbc3531f06 Niklas Cassel     2022-03-02  700  			}
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  701  			continue;
-098fdbc3531f06 Niklas Cassel     2022-03-02  702  		}
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  703  
-fc03acaeab358c Atish Patra       2019-02-12  704  		if (cpu < 0) {
-4d936f10ff8027 Anup Patel        2024-08-20  705  			pr_warn("%pfwP: Invalid cpuid for context %d\n", fwnode, i);
-fc03acaeab358c Atish Patra       2019-02-12  706  			continue;
-fc03acaeab358c Atish Patra       2019-02-12  707  		}
-fc03acaeab358c Atish Patra       2019-02-12  708  
-9ce06497c2722a Christoph Hellwig 2019-09-03  709  		/*
-9ce06497c2722a Christoph Hellwig 2019-09-03  710  		 * When running in M-mode we need to ignore the S-mode handler.
-9ce06497c2722a Christoph Hellwig 2019-09-03  711  		 * Here we assume it always comes later, but that might be a
-9ce06497c2722a Christoph Hellwig 2019-09-03  712  		 * little fragile.
-9ce06497c2722a Christoph Hellwig 2019-09-03  713  		 */
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  714  		handler = per_cpu_ptr(&plic_handlers, cpu);
-3fecb5aac28888 Anup Patel        2019-02-12  715  		if (handler->present) {
-4d936f10ff8027 Anup Patel        2024-08-20  716  			pr_warn("%pfwP: handler already present for context %d.\n", fwnode, i);
-ccbe80bad571c2 Atish Patra       2020-03-02  717  			plic_set_threshold(handler, PLIC_DISABLE_THRESHOLD);
-9ce06497c2722a Christoph Hellwig 2019-09-03  718  			goto done;
-3fecb5aac28888 Anup Patel        2019-02-12  719  		}
-3fecb5aac28888 Anup Patel        2019-02-12  720  
-f1ad1133b18f2a Atish Patra       2020-03-02  721  		cpumask_set_cpu(cpu, &priv->lmask);
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  722  		handler->present = true;
-0d3616bbd03cdf Niklas Cassel     2022-03-02  723  		handler->hart_base = priv->regs + CONTEXT_BASE +
-206dd13a101196 Sunil V L         2024-08-27  724  			context_id * CONTEXT_SIZE;
-86c7cbf1e8d1d4 Anup Patel        2019-02-12  725  		raw_spin_lock_init(&handler->enable_lock);
-0d3616bbd03cdf Niklas Cassel     2022-03-02  726  		handler->enable_base = priv->regs + CONTEXT_ENABLE_BASE +
-206dd13a101196 Sunil V L         2024-08-27  727  			context_id * CONTEXT_ENABLE_SIZE;
-f1ad1133b18f2a Atish Patra       2020-03-02  728  		handler->priv = priv;
-e80f0b6a2cf302 Mason Huo         2023-04-04  729  
-4d936f10ff8027 Anup Patel        2024-08-20  730  		handler->enable_save = kcalloc(DIV_ROUND_UP(nr_irqs, 32),
-e80f0b6a2cf302 Mason Huo         2023-04-04  731  					       sizeof(*handler->enable_save), GFP_KERNEL);
-6eabf656048d90 Charlie Jenkins   2024-09-03  732  		if (!handler->enable_save) {
-6eabf656048d90 Charlie Jenkins   2024-09-03  733  			error = -ENOMEM;
-a15587277a246c Anup Patel        2024-02-22  734  			goto fail_cleanup_contexts;
-6eabf656048d90 Charlie Jenkins   2024-09-03  735  		}
-9ce06497c2722a Christoph Hellwig 2019-09-03  736  done:
-a1706a1c5062e0 Samuel Holland    2022-07-01  737  		for (hwirq = 1; hwirq <= nr_irqs; hwirq++) {
-86c7cbf1e8d1d4 Anup Patel        2019-02-12  738  			plic_toggle(handler, hwirq, 0);
-a1706a1c5062e0 Samuel Holland    2022-07-01  739  			writel(1, priv->regs + PRIORITY_BASE +
-a1706a1c5062e0 Samuel Holland    2022-07-01  740  				  hwirq * PRIORITY_PER_ID);
-a1706a1c5062e0 Samuel Holland    2022-07-01  741  		}
-6adfe8d2f5b353 Anup Patel        2019-02-12  742  		nr_handlers++;
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  743  	}
-8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  744  
-206dd13a101196 Sunil V L         2024-08-27  745  	priv->irqdomain = irq_domain_create_linear(fwnode, nr_irqs + 1,
-b68d0ff529a939 Anup Patel        2024-02-22  746  						   &plic_irqdomain_ops, priv);
-6eabf656048d90 Charlie Jenkins   2024-09-03  747  	if (WARN_ON(!priv->irqdomain)) {
-6eabf656048d90 Charlie Jenkins   2024-09-03  748  		error = -ENOMEM;
-a15587277a246c Anup Patel        2024-02-22  749  		goto fail_cleanup_contexts;
-6eabf656048d90 Charlie Jenkins   2024-09-03  750  	}
-b68d0ff529a939 Anup Patel        2024-02-22  751  
-2234ae846ccb9e Anup Patel        2020-05-18  752  	/*
-e306a894bd5118 Samuel Holland    2024-05-29  753  	 * We can have multiple PLIC instances so setup global state
-8ec99b033147ef Anup Patel        2024-02-22  754  	 * and register syscore operations only once after context
-8ec99b033147ef Anup Patel        2024-02-22  755  	 * handlers of all online CPUs are initialized.
-2234ae846ccb9e Anup Patel        2020-05-18  756  	 */
-e306a894bd5118 Samuel Holland    2024-05-29  757  	if (!plic_global_setup_done) {
-e306a894bd5118 Samuel Holland    2024-05-29  758  		struct irq_domain *domain;
-e306a894bd5118 Samuel Holland    2024-05-29  759  		bool global_setup = true;
-e306a894bd5118 Samuel Holland    2024-05-29  760  
-8ec99b033147ef Anup Patel        2024-02-22  761  		for_each_online_cpu(cpu) {
-8ec99b033147ef Anup Patel        2024-02-22  762  			handler = per_cpu_ptr(&plic_handlers, cpu);
-8ec99b033147ef Anup Patel        2024-02-22  763  			if (!handler->present) {
-e306a894bd5118 Samuel Holland    2024-05-29  764  				global_setup = false;
-8ec99b033147ef Anup Patel        2024-02-22  765  				break;
-8ec99b033147ef Anup Patel        2024-02-22  766  			}
-8ec99b033147ef Anup Patel        2024-02-22  767  		}
-e306a894bd5118 Samuel Holland    2024-05-29  768  
-e306a894bd5118 Samuel Holland    2024-05-29  769  		if (global_setup) {
-ada6142a99441d Charles Mirabile  2025-10-24  770  			void (*handler_fn)(struct irq_desc *) = plic_handle_irq;
-ada6142a99441d Charles Mirabile  2025-10-24  771  
-ada6142a99441d Charles Mirabile  2025-10-24 @772  			if (test_bit(PLIC_QUIRK_CP100_CLAIM_REGISTER_ERRATUM, &handler->priv->plic_quirks))
-ada6142a99441d Charles Mirabile  2025-10-24  773  				handler_fn = plic_handle_irq_cp100;
-ada6142a99441d Charles Mirabile  2025-10-24  774  
-e306a894bd5118 Samuel Holland    2024-05-29  775  			/* Find parent domain and register chained handler */
-e306a894bd5118 Samuel Holland    2024-05-29  776  			domain = irq_find_matching_fwnode(riscv_get_intc_hwnode(), DOMAIN_BUS_ANY);
-e306a894bd5118 Samuel Holland    2024-05-29  777  			if (domain)
-e306a894bd5118 Samuel Holland    2024-05-29  778  				plic_parent_irq = irq_create_mapping(domain, RV_IRQ_EXT);
-e306a894bd5118 Samuel Holland    2024-05-29  779  			if (plic_parent_irq)
-ada6142a99441d Charles Mirabile  2025-10-24  780  				irq_set_chained_handler(plic_parent_irq, handler_fn);
-e306a894bd5118 Samuel Holland    2024-05-29  781  
-ccbe80bad571c2 Atish Patra       2020-03-02  782  			cpuhp_setup_state(CPUHP_AP_IRQ_SIFIVE_PLIC_STARTING,
-ccbe80bad571c2 Atish Patra       2020-03-02  783  					  "irqchip/sifive/plic:starting",
-ccbe80bad571c2 Atish Patra       2020-03-02  784  					  plic_starting_cpu, plic_dying_cpu);
-f99b926f6543fa Anup Patel        2023-10-25  785  			register_syscore_ops(&plic_irq_syscore_ops);
-e306a894bd5118 Samuel Holland    2024-05-29  786  			plic_global_setup_done = true;
-2234ae846ccb9e Anup Patel        2020-05-18  787  		}
-8ec99b033147ef Anup Patel        2024-02-22  788  	}
-2234ae846ccb9e Anup Patel        2020-05-18  789  
+ad7a7acaedcf45 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  365  
+41ac7b3ab7fe1d drivers/usb/phy/omap-usb2.c    Bill Pemberton         2012-11-19  366  static int omap_usb2_probe(struct platform_device *pdev)
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  367  {
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  368  	struct omap_usb	*phy;
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  369  	struct phy *generic_phy;
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  370  	struct phy_provider *phy_provider;
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  371  	struct usb_otg *otg;
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  372  	struct device_node *node = pdev->dev.of_node;
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  373  	struct device_node *control_node;
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  374  	struct platform_device *control_pdev;
+21bf6fc47a1e45 drivers/phy/ti/phy-omap-usb2.c Rob Herring            2023-10-09  375  	const struct usb_phy_data *phy_data;
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  376  
+21bf6fc47a1e45 drivers/phy/ti/phy-omap-usb2.c Rob Herring            2023-10-09  377  	phy_data = device_get_match_data(&pdev->dev);
+21bf6fc47a1e45 drivers/phy/ti/phy-omap-usb2.c Rob Herring            2023-10-09  378  	if (!phy_data)
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  379  		return -EINVAL;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  380  
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  381  	phy = devm_kzalloc(&pdev->dev, sizeof(*phy), GFP_KERNEL);
+0b68253d9f8d25 drivers/phy/phy-omap-usb2.c    Peter Griffin          2014-08-15  382  	if (!phy)
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  383  		return -ENOMEM;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  384  
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  385  	otg = devm_kzalloc(&pdev->dev, sizeof(*otg), GFP_KERNEL);
+0b68253d9f8d25 drivers/phy/phy-omap-usb2.c    Peter Griffin          2014-08-15  386  	if (!otg)
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  387  		return -ENOMEM;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  388  
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  389  	phy->dev		= &pdev->dev;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  390  
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  391  	phy->phy.dev		= phy->dev;
+09a0168de11a4a drivers/phy/phy-omap-usb2.c    George Cherian         2014-03-06  392  	phy->phy.label		= phy_data->label;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  393  	phy->phy.otg		= otg;
+c11747f6ce7025 drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2013-01-25  394  	phy->phy.type		= USB_PHY_TYPE_USB2;
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  395  	phy->mask		= phy_data->mask;
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  396  	phy->power_on		= phy_data->power_on;
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  397  	phy->power_off		= phy_data->power_off;
+ad7a7acaedcf45 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  398  	phy->flags		= phy_data->flags;
+ad7a7acaedcf45 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  399  
+ad7a7acaedcf45 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  400  	omap_usb2_init_errata(phy);
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  401  
+79caf207d66994 drivers/phy/ti/phy-omap-usb2.c Chunfeng Yun           2020-11-06  402  	phy->phy_base = devm_platform_ioremap_resource(pdev, 0);
+3df9fcd59fd829 drivers/phy/phy-omap-usb2.c    Himangi Saraogi        2014-07-10  403  	if (IS_ERR(phy->phy_base))
+3df9fcd59fd829 drivers/phy/phy-omap-usb2.c    Himangi Saraogi        2014-07-10  404  		return PTR_ERR(phy->phy_base);
+7e472402ca3082 drivers/phy/phy-omap-usb2.c    Austin Beam            2014-03-06  405  
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  406  	phy->syscon_phy_power = syscon_regmap_lookup_by_phandle(node,
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  407  								"syscon-phy-power");
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  408  	if (IS_ERR(phy->syscon_phy_power)) {
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  409  		dev_dbg(&pdev->dev,
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  410  			"can't get syscon-phy-power, using control device\n");
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  411  		phy->syscon_phy_power = NULL;
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  412  
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  413  		control_node = of_parse_phandle(node, "ctrl-module", 0);
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  414  		if (!control_node) {
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  415  			dev_err(&pdev->dev,
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  416  				"Failed to get control device phandle\n");
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  417  			return -EINVAL;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  418  		}
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  419  
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  420  		control_pdev = of_find_device_by_node(control_node);
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  421  		if (!control_pdev) {
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  422  			dev_err(&pdev->dev, "Failed to get control device\n");
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  423  			return -EINVAL;
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  424  		}
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  425  		phy->control_dev = &control_pdev->dev;
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  426  	} else {
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  427  		if (of_property_read_u32_index(node,
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  428  					       "syscon-phy-power", 1,
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  429  					       &phy->power_reg)) {
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  430  			dev_err(&pdev->dev,
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  431  				"couldn't get power reg. offset\n");
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  432  			return -EINVAL;
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  433  		}
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  434  	}
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  435  
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  436  	phy->wkupclk = devm_clk_get(phy->dev, "wkupclk");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  437  	if (IS_ERR(phy->wkupclk)) {
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  438  		if (PTR_ERR(phy->wkupclk) == -EPROBE_DEFER)
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  439  			return -EPROBE_DEFER;
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  440  
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  441  		dev_warn(&pdev->dev, "unable to get wkupclk %ld, trying old name\n",
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05 @442  			 PTR_ERR(phy->wkupclk));
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  443  		phy->wkupclk = devm_clk_get(phy->dev, "usb_phy_cm_clk32k");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  444  
+623cb3e22c9d7e drivers/phy/ti/phy-omap-usb2.c Ye Xingchen            2023-03-23  445  		if (IS_ERR(phy->wkupclk))
+623cb3e22c9d7e drivers/phy/ti/phy-omap-usb2.c Ye Xingchen            2023-03-23  446  			return dev_err_probe(&pdev->dev, PTR_ERR(phy->wkupclk),
+623cb3e22c9d7e drivers/phy/ti/phy-omap-usb2.c Ye Xingchen            2023-03-23  447  					     "unable to get usb_phy_cm_clk32k\n");
+8836e29bad3498 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  448  
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  449  		dev_warn(&pdev->dev,
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  450  			 "found usb_phy_cm_clk32k, please fix DTS\n");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  451  	}
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  452  
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  453  	phy->optclk = devm_clk_get(phy->dev, "refclk");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  454  	if (IS_ERR(phy->optclk)) {
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  455  		if (PTR_ERR(phy->optclk) == -EPROBE_DEFER)
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  456  			return -EPROBE_DEFER;
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  457  
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  458  		dev_dbg(&pdev->dev, "unable to get refclk, trying old name\n");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  459  		phy->optclk = devm_clk_get(phy->dev, "usb_otg_ss_refclk960m");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  460  
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  461  		if (IS_ERR(phy->optclk)) {
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  462  			if (PTR_ERR(phy->optclk) != -EPROBE_DEFER) {
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  463  				dev_dbg(&pdev->dev,
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  464  					"unable to get usb_otg_ss_refclk960m\n");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  465  			}
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  466  		} else {
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  467  			dev_warn(&pdev->dev,
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  468  				 "found usb_otg_ss_refclk960m, please fix DTS\n");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  469  		}
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  470  	}
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  471  
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  472  	otg->set_host = omap_usb_set_host;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  473  	otg->set_peripheral = omap_usb_set_peripheral;
+09a0168de11a4a drivers/phy/phy-omap-usb2.c    George Cherian         2014-03-06  474  	if (phy_data->flags & OMAP_USB2_HAS_SET_VBUS)
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  475  		otg->set_vbus = omap_usb_set_vbus;
+09a0168de11a4a drivers/phy/phy-omap-usb2.c    George Cherian         2014-03-06  476  	if (phy_data->flags & OMAP_USB2_HAS_START_SRP)
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  477  		otg->start_srp = omap_usb_start_srp;
+19c1eac2685b62 drivers/phy/phy-omap-usb2.c    Antoine Tenart         2014-10-30  478  	otg->usb_phy = &phy->phy;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  479  
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  480  	platform_set_drvdata(pdev, phy);
+f20531a9aae0c7 drivers/phy/phy-omap-usb2.c    Oussama Ghorbel        2014-11-04  481  	pm_runtime_enable(phy->dev);
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  482  
+dbc98635e0d42f drivers/phy/phy-omap-usb2.c    Heikki Krogerus        2014-11-19  483  	generic_phy = devm_phy_create(phy->dev, NULL, &ops);
+f20531a9aae0c7 drivers/phy/phy-omap-usb2.c    Oussama Ghorbel        2014-11-04  484  	if (IS_ERR(generic_phy)) {
+f20531a9aae0c7 drivers/phy/phy-omap-usb2.c    Oussama Ghorbel        2014-11-04  485  		pm_runtime_disable(phy->dev);
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  486  		return PTR_ERR(generic_phy);
+f20531a9aae0c7 drivers/phy/phy-omap-usb2.c    Oussama Ghorbel        2014-11-04  487  	}
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  488  
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  489  	phy_set_drvdata(generic_phy, phy);
+86c574e4bc9d84 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  490  	omap_usb_power_off(generic_phy);
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  491  
+64fe1891696cde drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2014-02-17  492  	phy_provider = devm_of_phy_provider_register(phy->dev,
+64fe1891696cde drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2014-02-17  493  						     of_phy_simple_xlate);
+eb82a3d846fab0 drivers/phy/phy-omap-usb2.c    Roger Quadros          2014-07-10  494  	if (IS_ERR(phy_provider)) {
+eb82a3d846fab0 drivers/phy/phy-omap-usb2.c    Roger Quadros          2014-07-10  495  		pm_runtime_disable(phy->dev);
+64fe1891696cde drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2014-02-17  496  		return PTR_ERR(phy_provider);
+eb82a3d846fab0 drivers/phy/phy-omap-usb2.c    Roger Quadros          2014-07-10  497  	}
+64fe1891696cde drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2014-02-17  498  
+c11747f6ce7025 drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2013-01-25  499  	usb_add_phy_dev(&phy->phy);
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  500  
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  501  	return 0;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  502  }
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  503  
+
+:::::: The code at line 442 was first introduced by commit
+:::::: ed31ee7cf1fea2463d9600ac91ed74691b88131f phy: ti: usb2: Fix logic on -EPROBE_DEFER
+
+:::::: TO: Roger Quadros <rogerq@ti.com>
+:::::: CC: Kishon Vijay Abraham I <kishon@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
