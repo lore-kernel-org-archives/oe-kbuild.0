@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C9B30FC3D
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 07:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BA1311C06
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 08:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761723521; cv=none; b=Jn1m5jt3NxHBIdA0j5kP0/mtFrLQRfpbR7D6iH3CSJDLp2rkKir39oGHRf29ijB+0hZ/WdcHlfiVA2jZxgHF0U9+kKBz5QVenTQb01wLAHh5Jl94O6D/v6dZw1iw6P7a3z6QmIReADnNwiAXhSFwxT6S1Gt00wRSGMkOPC/EhpA=
+	t=1761725058; cv=none; b=AHEw/X6407nwKdEUeAa0YOkiaj/1/hkUITOc5Re3r2vguXfr+hLEvhzMxdxsnevyirpiME1PvSJw4qprZCMoVlckf84mhImo6+L9+vQzpg6MxdkZSbOrcJ71G5LDQW0vC+0HDb5G6JIaaq8aWdbpxN1qRkwFvhoUOSyM2BIOqbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761723521; c=relaxed/simple;
-	bh=V5zDopKMT6KQ2vyXe8EYhc7tIROgbWsBd34bkCXZ0zE=;
+	s=arc-20240116; t=1761725058; c=relaxed/simple;
+	bh=uzp1EYWHHmoW4L3kvoI4dvKuDc5BuLLdmJ8t7j9RfJM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KU6//zYsLdXyQvMtwW+2Nmn6TgI7cgS6mTZ2ug/BexqQZu8Z5cqZeCp5OUjv/fL4Aoi7uzBNRWHg/KML/hW6h71Xn4IPh4XxWuAOEGuiYv1Sq6lh3i6QQd9Pnik6XMnxYkzH2hq0li6U8f53AYG3BDbxEMpJDo2yWO9tVgsCy2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJqa4Ruf; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=VG6Axh8GlUsbs3nml8YRzIokSSk89a7k8Dqjc6ezyh8Na+TseqU2GwOpu9T/zojk0ftAwv1wXdu2x7ktzkXST/ysZDYpWnvqp0Iesn3N9zHdOfTHKX+/JhgO9gcnJE6Dr/EDpKBMXgRxGluycoyjHg9HUaJm/42wqninUhve0iM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=F5yb3ANJ; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJqa4Ruf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761723518; x=1793259518;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=V5zDopKMT6KQ2vyXe8EYhc7tIROgbWsBd34bkCXZ0zE=;
-  b=fJqa4Ruf0j6QlqO992w4abu0RFV11GY9R2QAy8Ga6HzMl3vBrJbHBQs6
-   DTuhGxPuOqm+DTsFf7jJP2BK9KVLMibmasSsQCdeMeAwMjjxcV1ua/h8o
-   TPe0fIqDt6Ot0/DVZ9XMLvqba5hhtcG1zvVCZBR7kKix+dUc+WRzbr9PE
-   W80tWfuN1nTKMKkJPiSKUnXtiKNWJMrVMUA78Fw2s7d96JxD8kFvnV1ni
-   Pd056XzsjKp32U6zm8+UDx0hoeX1kx+rSLwi6UZ3Uh9bmWUYN1IYgOAFn
-   Ovs+i5cMoH0mDwliGZVd3FylQM0EhwYu/+LacE0IykjZyHBIEVMGE19mm
-   w==;
-X-CSE-ConnectionGUID: 9JHQ86jhTPSapnD560Clww==
-X-CSE-MsgGUID: JXtJ4J45Rl+xTp8wLGHsrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63984020"
-X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
-   d="scan'208";a="63984020"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 00:38:36 -0700
-X-CSE-ConnectionGUID: 3BgK2NBQRO2emFfn+YwOdQ==
-X-CSE-MsgGUID: N52zekFhQMCvosA6yycuXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
-   d="scan'208";a="186040729"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Oct 2025 00:38:34 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vE0lM-000KML-2G;
-	Wed, 29 Oct 2025 07:38:32 +0000
-Date: Wed, 29 Oct 2025 15:38:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH net-next v8 2/4] ethtool: netlink: add
- ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
-Message-ID: <202510291518.WK6kF50P-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F5yb3ANJ"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47719ad0c7dso16052455e9.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 01:04:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761725054; x=1762329854; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MeET84ZbR5071Nlo4HqVWkKz0PRLXYvBE0ZTUa7ML/M=;
+        b=F5yb3ANJAfdHJXiVziJF1YSHloJJqwEXzzVsX+fw4URZ+gxMXYyx42tgn3hccybH20
+         CJgGwkLC1w36Tho+f9Dlhrh0ob0Nv1gornul35XQqaLVVKl2nHzBH9Q7U+Di7j/34ure
+         1A/mSAhCxc+jR28XtPnYehXW3axQcs4JFjo1jtYEMMeCNVMJ5vz3ZR6BUMx8xnS77K68
+         vByqZqZnZG/n7r32g3cgqTrT6irLKift42FM7hjhooi/Q7df3MAIRC2uYiduDb+c355D
+         cBXTZI667ykpTGUdGre4J7MD7xw4JzLUX9x7LcCZkM5rhgoPdiGzn2kUYrXhaRys0ZnD
+         5GJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761725054; x=1762329854;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MeET84ZbR5071Nlo4HqVWkKz0PRLXYvBE0ZTUa7ML/M=;
+        b=BqmPCxQ7Lpj6MHkTNYiD1m/sRD95/TIbY4jtCpciy7XYMX4mWIuw6iEb3W8rWhas9e
+         rVduhQdts2XAc9dWkHyipbRbL1tNf4XXLiwzSSfo5/CfvZj07s8YhFwoOYCTstVfarjA
+         kzeitoN4sxohoXuwPgsTx+JVw8gffNZ5W+1zSrf24/xoq9+I1nSBmjtIWqbjMFCiy53D
+         a/jRo6836uAW2FhMaQtlEh0kceMzrRxUhq7+GyuDDWC3W7FNQyc8N9Yk2Ubx2uaum/8f
+         Nc6PjqFYKj/vS87GNGkx5+B6t25QgPv6IQXxtn+kgQ59sBCbIW9kEzQaHM5htJBYk2mK
+         57lQ==
+X-Gm-Message-State: AOJu0Yx7nhd7tepMPcgLQcrppnJWHUoCpOHXFGvyuLfhYpnXM6Ze6efu
+	QSa3csJzbGS+09XlUeLzOHY0aVoq7ilNJmjJyidEFxDcJYXOXWU65BbuqFlIh7iCCcQ7HOUbL6N
+	HoZpe
+X-Gm-Gg: ASbGncuMqJv4ygWajs2OgCbyg8g83bZ3YghIhUEjUHS/6Ss6IEc3eVFFevevIVXaWI5
+	EatLunTX0ZUSbME1qrqGNHjaOH0NeVFdpeU+i9tVBS5UeFYwhkOrzNrTYl+8OnL4Y8wEvsp2BCe
+	D+xy6xu1m9jtvQ/MCcEYi9cEFS9IclhJDYP1aBOyi9m6em9kNoh02aYxjMr620VnycyhS55WJVX
+	mIyfTYyLdGleKXmk8/7F6z9qzqWeyVqiOq8De9e/3Jrwvhs7FG1u1pIruJ/2wL6H6f2Ylz/cLJg
+	sOYeJKdJyuZe7HjtlIWqN5iBQGASFZxm55mZmfFzjAoQ8yxDbS+IDcWfFglo862+vpJo92eXSck
+	k/OQoULUva1lCF+zoQUDHkSExUVUci+iEAh69uoH4zs6Vkba6a1W2t9vUQo3DAKiwJmGCs09N7q
+	zxuY2SXg==
+X-Google-Smtp-Source: AGHT+IH5AxEw0BxzkRq5AIJDF6jo13WbqcDfkxTxeBCSYqlOAQ7PFbsYNFTX+ktgIYzi15idoTu1VA==
+X-Received: by 2002:a05:600c:548f:b0:471:747:2116 with SMTP id 5b1f17b1804b1-4771e20e4fcmr16054485e9.41.1761725053516;
+        Wed, 29 Oct 2025 01:04:13 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4771e372a2asm35023665e9.1.2025.10.29.01.04.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Oct 2025 01:04:13 -0700 (PDT)
+Date: Wed, 29 Oct 2025 11:04:09 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Martin KaFai Lau <martin.lau@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Martin KaFai Lau <martin.lau@linux.dev>
+Subject: [martin-lau-bpf-next:ls.rqspin.v2.2 3/3]
+ kernel/bpf/bpf_local_storage.c:823 bpf_local_storage_destroy() error: we
+ previously assumed 'smap' could be null (see line 797)
+Message-ID: <202510291106.zV0JWnRE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,146 +74,123 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Message-ID: <20251029080409.F0uT_b25gwOlMDweX3vJ5ozNNNteCMdVlb3oho_Sj5c@z>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251027122801.982364-3-o.rempel@pengutronix.de>
-References: <20251027122801.982364-3-o.rempel@pengutronix.de>
-TO: Oleksij Rempel <o.rempel@pengutronix.de>
-TO: Andrew Lunn <andrew@lunn.ch>
-TO: Jakub Kicinski <kuba@kernel.org>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev@vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
-TO: Paolo Abeni <pabeni@redhat.com>
-TO: Simon Horman <horms@kernel.org>
-TO: Donald Hunter <donald.hunter@gmail.com>
-TO: Jonathan Corbet <corbet@lwn.net>
-TO: Heiner Kallweit <hkallweit1@gmail.com>
-TO: Russell King <linux@armlinux.org.uk>
-TO: Kory Maincent <kory.maincent@bootlin.com>
-TO: Maxime Chevallier <maxime.chevallier@bootlin.com>
-TO: Nishanth Menon <nm@ti.com>
-CC: Oleksij Rempel <o.rempel@pengutronix.de>
-CC: kernel@pengutronix.de
-CC: linux-kernel@vger.kernel.org
-CC: UNGLinuxDriver@microchip.com
-CC: linux-doc@vger.kernel.org
-CC: Michal Kubecek <mkubecek@suse.cz>
-CC: Roan van Dijk <roan@protonic.nl>
-
-Hi Oleksij,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/net-phy-introduce-internal-API-for-PHY-MSE-diagnostics/20251027-203543
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251027122801.982364-3-o.rempel%40pengutronix.de
-patch subject: [PATCH net-next v8 2/4] ethtool: netlink: add ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20251029 (https://download.01.org/0day-ci/archive/20251029/202510291518.WK6kF50P-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/martin.lau/bpf-next.git ls.rqspin.v2.2
+head:   b735af227349c9ef167cae8acf8bc8864e13f636
+commit: b735af227349c9ef167cae8acf8bc8864e13f636 [3/3] [DONT PUSH]
+config: i386-randconfig-r072-20251029 (https://download.01.org/0day-ci/archive/20251029/202510291106.zV0JWnRE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510291518.WK6kF50P-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202510291106.zV0JWnRE-lkp@intel.com/
 
 smatch warnings:
-net/ethtool/mse.c:285 mse_fill_reply() warn: missing unwind goto?
+kernel/bpf/bpf_local_storage.c:823 bpf_local_storage_destroy() error: we previously assumed 'smap' could be null (see line 797)
 
-vim +285 net/ethtool/mse.c
+vim +/smap +823 kernel/bpf/bpf_local_storage.c
 
-4b985539a8b706 Oleksij Rempel 2025-10-27  233  
-4b985539a8b706 Oleksij Rempel 2025-10-27  234  static int mse_fill_reply(struct sk_buff *skb,
-4b985539a8b706 Oleksij Rempel 2025-10-27  235  			  const struct ethnl_req_info *req_base,
-4b985539a8b706 Oleksij Rempel 2025-10-27  236  			  const struct ethnl_reply_data *reply_base)
-4b985539a8b706 Oleksij Rempel 2025-10-27  237  {
-4b985539a8b706 Oleksij Rempel 2025-10-27  238  	const struct mse_reply_data *data = mse_repdata(reply_base);
-4b985539a8b706 Oleksij Rempel 2025-10-27  239  	struct nlattr *nest;
-4b985539a8b706 Oleksij Rempel 2025-10-27  240  	unsigned int i;
-4b985539a8b706 Oleksij Rempel 2025-10-27  241  	int ret;
-4b985539a8b706 Oleksij Rempel 2025-10-27  242  
-4b985539a8b706 Oleksij Rempel 2025-10-27  243  	nest = nla_nest_start(skb, ETHTOOL_A_MSE_CAPABILITIES);
-4b985539a8b706 Oleksij Rempel 2025-10-27  244  	if (!nest)
-4b985539a8b706 Oleksij Rempel 2025-10-27  245  		return -EMSGSIZE;
-4b985539a8b706 Oleksij Rempel 2025-10-27  246  
-4b985539a8b706 Oleksij Rempel 2025-10-27  247  	if (data->capability.supported_caps & PHY_MSE_CAP_AVG) {
-4b985539a8b706 Oleksij Rempel 2025-10-27  248  		ret = nla_put_uint(skb,
-4b985539a8b706 Oleksij Rempel 2025-10-27  249  				   ETHTOOL_A_MSE_CAPABILITIES_MAX_AVERAGE_MSE,
-4b985539a8b706 Oleksij Rempel 2025-10-27  250  				   data->capability.max_average_mse);
-4b985539a8b706 Oleksij Rempel 2025-10-27  251  		if (ret < 0)
-4b985539a8b706 Oleksij Rempel 2025-10-27  252  			goto nla_put_nest_failure;
-4b985539a8b706 Oleksij Rempel 2025-10-27  253  	}
-4b985539a8b706 Oleksij Rempel 2025-10-27  254  
-4b985539a8b706 Oleksij Rempel 2025-10-27  255  	if (data->capability.supported_caps & (PHY_MSE_CAP_PEAK |
-4b985539a8b706 Oleksij Rempel 2025-10-27  256  					       PHY_MSE_CAP_WORST_PEAK)) {
-4b985539a8b706 Oleksij Rempel 2025-10-27  257  		ret = nla_put_uint(skb, ETHTOOL_A_MSE_CAPABILITIES_MAX_PEAK_MSE,
-4b985539a8b706 Oleksij Rempel 2025-10-27  258  				   data->capability.max_peak_mse);
-4b985539a8b706 Oleksij Rempel 2025-10-27  259  		if (ret < 0)
-4b985539a8b706 Oleksij Rempel 2025-10-27  260  			goto nla_put_nest_failure;
-4b985539a8b706 Oleksij Rempel 2025-10-27  261  	}
-4b985539a8b706 Oleksij Rempel 2025-10-27  262  
-4b985539a8b706 Oleksij Rempel 2025-10-27  263  	ret = nla_put_uint(skb, ETHTOOL_A_MSE_CAPABILITIES_REFRESH_RATE_PS,
-4b985539a8b706 Oleksij Rempel 2025-10-27  264  			   data->capability.refresh_rate_ps);
-4b985539a8b706 Oleksij Rempel 2025-10-27  265  	if (ret < 0)
-4b985539a8b706 Oleksij Rempel 2025-10-27  266  		goto nla_put_nest_failure;
-4b985539a8b706 Oleksij Rempel 2025-10-27  267  
-4b985539a8b706 Oleksij Rempel 2025-10-27  268  	ret = nla_put_uint(skb, ETHTOOL_A_MSE_CAPABILITIES_NUM_SYMBOLS,
-4b985539a8b706 Oleksij Rempel 2025-10-27  269  			   data->capability.num_symbols);
-4b985539a8b706 Oleksij Rempel 2025-10-27  270  	if (ret < 0)
-4b985539a8b706 Oleksij Rempel 2025-10-27  271  		goto nla_put_nest_failure;
-4b985539a8b706 Oleksij Rempel 2025-10-27  272  
-4b985539a8b706 Oleksij Rempel 2025-10-27  273  	nla_nest_end(skb, nest);
-4b985539a8b706 Oleksij Rempel 2025-10-27  274  
-4b985539a8b706 Oleksij Rempel 2025-10-27  275  	for (i = 0; i < data->num_snapshots; i++) {
-4b985539a8b706 Oleksij Rempel 2025-10-27  276  		const struct mse_snapshot_entry *s = &data->snapshots[i];
-4b985539a8b706 Oleksij Rempel 2025-10-27  277  		int chan_attr;
-4b985539a8b706 Oleksij Rempel 2025-10-27  278  
-4b985539a8b706 Oleksij Rempel 2025-10-27  279  		chan_attr = mse_channel_to_attr(s->channel);
-4b985539a8b706 Oleksij Rempel 2025-10-27  280  		if (chan_attr < 0)
-4b985539a8b706 Oleksij Rempel 2025-10-27  281  			return chan_attr;
-4b985539a8b706 Oleksij Rempel 2025-10-27  282  
-4b985539a8b706 Oleksij Rempel 2025-10-27  283  		nest = nla_nest_start(skb, chan_attr);
-4b985539a8b706 Oleksij Rempel 2025-10-27  284  		if (!nest)
-4b985539a8b706 Oleksij Rempel 2025-10-27 @285  			return -EMSGSIZE;
-4b985539a8b706 Oleksij Rempel 2025-10-27  286  
-4b985539a8b706 Oleksij Rempel 2025-10-27  287  		if (data->capability.supported_caps & PHY_MSE_CAP_AVG) {
-4b985539a8b706 Oleksij Rempel 2025-10-27  288  			ret = nla_put_uint(skb,
-4b985539a8b706 Oleksij Rempel 2025-10-27  289  					   ETHTOOL_A_MSE_SNAPSHOT_AVERAGE_MSE,
-4b985539a8b706 Oleksij Rempel 2025-10-27  290  					   s->snapshot.average_mse);
-4b985539a8b706 Oleksij Rempel 2025-10-27  291  			if (ret)
-4b985539a8b706 Oleksij Rempel 2025-10-27  292  				goto nla_put_nest_failure;
-4b985539a8b706 Oleksij Rempel 2025-10-27  293  		}
-4b985539a8b706 Oleksij Rempel 2025-10-27  294  		if (data->capability.supported_caps & PHY_MSE_CAP_PEAK) {
-4b985539a8b706 Oleksij Rempel 2025-10-27  295  			ret = nla_put_uint(skb, ETHTOOL_A_MSE_SNAPSHOT_PEAK_MSE,
-4b985539a8b706 Oleksij Rempel 2025-10-27  296  					   s->snapshot.peak_mse);
-4b985539a8b706 Oleksij Rempel 2025-10-27  297  			if (ret)
-4b985539a8b706 Oleksij Rempel 2025-10-27  298  				goto nla_put_nest_failure;
-4b985539a8b706 Oleksij Rempel 2025-10-27  299  		}
-4b985539a8b706 Oleksij Rempel 2025-10-27  300  		if (data->capability.supported_caps & PHY_MSE_CAP_WORST_PEAK) {
-4b985539a8b706 Oleksij Rempel 2025-10-27  301  			ret = nla_put_uint(skb,
-4b985539a8b706 Oleksij Rempel 2025-10-27  302  					   ETHTOOL_A_MSE_SNAPSHOT_WORST_PEAK_MSE,
-4b985539a8b706 Oleksij Rempel 2025-10-27  303  					   s->snapshot.worst_peak_mse);
-4b985539a8b706 Oleksij Rempel 2025-10-27  304  			if (ret)
-4b985539a8b706 Oleksij Rempel 2025-10-27  305  				goto nla_put_nest_failure;
-4b985539a8b706 Oleksij Rempel 2025-10-27  306  		}
-4b985539a8b706 Oleksij Rempel 2025-10-27  307  
-4b985539a8b706 Oleksij Rempel 2025-10-27  308  		nla_nest_end(skb, nest);
-4b985539a8b706 Oleksij Rempel 2025-10-27  309  	}
-4b985539a8b706 Oleksij Rempel 2025-10-27  310  
-4b985539a8b706 Oleksij Rempel 2025-10-27  311  	return 0;
-4b985539a8b706 Oleksij Rempel 2025-10-27  312  
-4b985539a8b706 Oleksij Rempel 2025-10-27  313  nla_put_nest_failure:
-4b985539a8b706 Oleksij Rempel 2025-10-27  314  	nla_nest_cancel(skb, nest);
-4b985539a8b706 Oleksij Rempel 2025-10-27  315  	return ret;
-4b985539a8b706 Oleksij Rempel 2025-10-27  316  }
-4b985539a8b706 Oleksij Rempel 2025-10-27  317  
+b735af227349c9 Martin KaFai Lau 2025-10-22  767  u32 bpf_local_storage_destroy(struct bpf_local_storage *local_storage)
+c83597fa5dc6b3 Yonghong Song    2022-10-25  768  {
+6ae9d5e99e1dd2 Martin KaFai Lau 2023-03-22  769  	struct bpf_local_storage_map *storage_smap;
+c83597fa5dc6b3 Yonghong Song    2022-10-25  770  	struct bpf_local_storage_elem *selem;
+b735af227349c9 Martin KaFai Lau 2025-10-22  771  	unsigned long b_flags, l_flags;
+5bd5bab76669b1 Martin KaFai Lau 2024-10-23  772  	HLIST_HEAD(free_selem_list);
+b735af227349c9 Martin KaFai Lau 2025-10-22  773  	HLIST_HEAD(free_only_list);
+c83597fa5dc6b3 Yonghong Song    2022-10-25  774  	struct hlist_node *n;
+b735af227349c9 Martin KaFai Lau 2025-10-22  775  	u32 uncharge = 0;
+c83597fa5dc6b3 Yonghong Song    2022-10-25  776  
+6ae9d5e99e1dd2 Martin KaFai Lau 2023-03-22  777  	storage_smap = rcu_dereference_check(local_storage->smap, bpf_rcu_lock_held());
+6ae9d5e99e1dd2 Martin KaFai Lau 2023-03-22  778  
+c83597fa5dc6b3 Yonghong Song    2022-10-25  779  	/* Neither the bpf_prog nor the bpf_map's syscall
+c83597fa5dc6b3 Yonghong Song    2022-10-25  780  	 * could be modifying the local_storage->list now.
+c83597fa5dc6b3 Yonghong Song    2022-10-25  781  	 * Thus, no elem can be added to or deleted from the
+c83597fa5dc6b3 Yonghong Song    2022-10-25  782  	 * local_storage->list by the bpf_prog or by the bpf_map's syscall.
+c83597fa5dc6b3 Yonghong Song    2022-10-25  783  	 *
+c83597fa5dc6b3 Yonghong Song    2022-10-25  784  	 * It is racing with bpf_local_storage_map_free() alone
+c83597fa5dc6b3 Yonghong Song    2022-10-25  785  	 * when unlinking elem from the local_storage->list and
+c83597fa5dc6b3 Yonghong Song    2022-10-25  786  	 * the map's bucket->list.
+c83597fa5dc6b3 Yonghong Song    2022-10-25  787  	 */
+b735af227349c9 Martin KaFai Lau 2025-10-22  788  
+b735af227349c9 Martin KaFai Lau 2025-10-22  789  	/* local_storage->lock must succeed. No bpf prog uses this lock now.k */
+b735af227349c9 Martin KaFai Lau 2025-10-22  790  	raw_res_spin_lock_irqsave(&local_storage->lock, l_flags);
+c83597fa5dc6b3 Yonghong Song    2022-10-25  791  	hlist_for_each_entry_safe(selem, n, &local_storage->list, snode) {
+b735af227349c9 Martin KaFai Lau 2025-10-22  792  		struct bpf_local_storage_map_bucket *b;
+b735af227349c9 Martin KaFai Lau 2025-10-22  793  		struct bpf_local_storage_map *smap;
+b735af227349c9 Martin KaFai Lau 2025-10-22  794  		long unlink_state;
+b735af227349c9 Martin KaFai Lau 2025-10-22  795  
+b735af227349c9 Martin KaFai Lau 2025-10-22  796  		smap = rcu_dereference(SDATA(selem)->smap);
+b735af227349c9 Martin KaFai Lau 2025-10-22 @797  		b = smap ? select_bucket(smap, local_storage) : NULL;
+                                                                    ^^^^
+Check for NULL
+
+b735af227349c9 Martin KaFai Lau 2025-10-22  798  		if (b && !raw_res_spin_lock_irqsave(&b->lock, b_flags)) {
+b735af227349c9 Martin KaFai Lau 2025-10-22  799  			if (selem_linked_to_map(selem)) {
+b735af227349c9 Martin KaFai Lau 2025-10-22  800  				bpf_selem_unlink_map_nolock(selem);
+b735af227349c9 Martin KaFai Lau 2025-10-22  801  				bpf_selem_unlink_storage_nolock(local_storage, selem, true, &free_selem_list);
+b735af227349c9 Martin KaFai Lau 2025-10-22  802  				raw_res_spin_unlock_irqrestore(&b->lock, b_flags);
+b735af227349c9 Martin KaFai Lau 2025-10-22  803  				continue;
+c83597fa5dc6b3 Yonghong Song    2022-10-25  804  			}
+b735af227349c9 Martin KaFai Lau 2025-10-22  805  			raw_res_spin_unlock_irqrestore(&b->lock, b_flags);
+b735af227349c9 Martin KaFai Lau 2025-10-22  806  		}
+b735af227349c9 Martin KaFai Lau 2025-10-22  807  
+b735af227349c9 Martin KaFai Lau 2025-10-22  808  		/* Failed to unlink selem->map_node. */
+b735af227349c9 Martin KaFai Lau 2025-10-22  809  		hlist_del_init_rcu(&selem->snode);
+b735af227349c9 Martin KaFai Lau 2025-10-22  810  		RCU_INIT_POINTER(selem->local_storage, NULL);
+b735af227349c9 Martin KaFai Lau 2025-10-22  811  		uncharge += selem->uncharge;
+b735af227349c9 Martin KaFai Lau 2025-10-22  812  		if (hlist_empty(&local_storage->list)) {
+b735af227349c9 Martin KaFai Lau 2025-10-22  813  			local_storage->owner = NULL; /* TODO: not needed? */
+b735af227349c9 Martin KaFai Lau 2025-10-22  814  			RCU_INIT_POINTER(*local_storage->owner_storage_ptr, NULL);
+b735af227349c9 Martin KaFai Lau 2025-10-22  815  			uncharge += sizeof(*local_storage);
+b735af227349c9 Martin KaFai Lau 2025-10-22  816  		}
+b735af227349c9 Martin KaFai Lau 2025-10-22  817  
+b735af227349c9 Martin KaFai Lau 2025-10-22  818  		unlink_state = cmpxchg(&selem->unlink_state, BPF_LS_UNLINK_NONE,
+b735af227349c9 Martin KaFai Lau 2025-10-22  819  				       BPF_LS_UNLINK_STORAGE);
+b735af227349c9 Martin KaFai Lau 2025-10-22  820  		switch (unlink_state) {
+b735af227349c9 Martin KaFai Lau 2025-10-22  821  		case BPF_LS_UNLINK_NONE:
+b735af227349c9 Martin KaFai Lau 2025-10-22  822  			/* selem is protected by rcu now */
+b735af227349c9 Martin KaFai Lau 2025-10-22 @823  			bpf_obj_free_fields(smap->map.record, SDATA(selem)->data);
+                                                                                            ^^^^^^^^^^^^^^^^
+Unchecked dereference.
+
+b735af227349c9 Martin KaFai Lau 2025-10-22  824  			break;
+b735af227349c9 Martin KaFai Lau 2025-10-22  825  		case BPF_LS_UNLINK_MAP:
+b735af227349c9 Martin KaFai Lau 2025-10-22  826  			/* we own the selem, free it. */
+b735af227349c9 Martin KaFai Lau 2025-10-22  827  			hlist_add_head(&selem->free_node, &free_only_list);
+b735af227349c9 Martin KaFai Lau 2025-10-22  828  			break;
+b735af227349c9 Martin KaFai Lau 2025-10-22  829  		default:
+b735af227349c9 Martin KaFai Lau 2025-10-22  830  			WARN_ON_ONCE(1);
+b735af227349c9 Martin KaFai Lau 2025-10-22  831  		}
+b735af227349c9 Martin KaFai Lau 2025-10-22  832  	}
+b735af227349c9 Martin KaFai Lau 2025-10-22  833  	raw_res_spin_unlock_irqrestore(&local_storage->lock, l_flags);
+c83597fa5dc6b3 Yonghong Song    2022-10-25  834  
+5bd5bab76669b1 Martin KaFai Lau 2024-10-23  835  	bpf_selem_free_list(&free_selem_list, true);
+5bd5bab76669b1 Martin KaFai Lau 2024-10-23  836  
+b735af227349c9 Martin KaFai Lau 2025-10-22  837  	hlist_for_each_entry_safe(selem, n, &free_only_list, free_node) {
+b735af227349c9 Martin KaFai Lau 2025-10-22  838  		/*
+b735af227349c9 Martin KaFai Lau 2025-10-22  839  		 * Need to go through a rcu gp:
+b735af227349c9 Martin KaFai Lau 2025-10-22  840  		 *
+b735af227349c9 Martin KaFai Lau 2025-10-22  841  		 * 1) The tcp_sock is in SLAB_TYPESAFE_BY_RCU, so need
+b735af227349c9 Martin KaFai Lau 2025-10-22  842  		 *    to free after a rcu gp.
+b735af227349c9 Martin KaFai Lau 2025-10-22  843  		 *
+b735af227349c9 Martin KaFai Lau 2025-10-22  844  		 * 2) There is still rcu reader in map_free.
+b735af227349c9 Martin KaFai Lau 2025-10-22  845  		 */
+b735af227349c9 Martin KaFai Lau 2025-10-22  846  		if (local_storage->bpf_ma)
+b735af227349c9 Martin KaFai Lau 2025-10-22  847  			call_rcu(&selem->rcu, bpf_selem_free_ma_rcu);
+b735af227349c9 Martin KaFai Lau 2025-10-22  848  		else
+b735af227349c9 Martin KaFai Lau 2025-10-22  849  			kfree_rcu(selem, rcu);
+b735af227349c9 Martin KaFai Lau 2025-10-22  850  	}
+b735af227349c9 Martin KaFai Lau 2025-10-22  851  
+b735af227349c9 Martin KaFai Lau 2025-10-22  852  	/* TODO: think about local_storage get reused immediately in bpf_mem_alloc */
+b735af227349c9 Martin KaFai Lau 2025-10-22  853  	bpf_local_storage_free(local_storage, storage_smap, true);
+b735af227349c9 Martin KaFai Lau 2025-10-22  854  
+b735af227349c9 Martin KaFai Lau 2025-10-22  855  	return uncharge;
+c83597fa5dc6b3 Yonghong Song    2022-10-25  856  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
