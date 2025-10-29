@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455A52F260C
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 17:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4608A3375B9
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 18:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761758546; cv=none; b=XilfjEd7pdd6MLh3HVkl2hHQHnsisMI4lff80cickkk5SUHQN+r3SdwJU6b2Y6+JkDwPtSyykYhTxyT99bh3XZeu4/QTsvGzHUpDCtTmoGJGHpFfQTK7YcJnbU4L66uOSkijsR7UGMEz49E3WmIebytG/+Zm9MpvAs2lhPt+Ul8=
+	t=1761762441; cv=none; b=nEEqFqA0SOaRDTqW+9H2adOMzrFgQwuJwySVgQO8z9BPLoJgC+xWcwB7GG2qidojhf3je/J/iylV+chqz+TFfh/v+/C2+oAg+Kx2D7ozWePqUXkI9o2zYNiFhupw3cwPAgmpedhlCJ4NRUkMU8FGS4gD5b1RQIqmAvXWa/ZILNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761758546; c=relaxed/simple;
-	bh=UheHhC8VCpgKoId2bAtYtm0zyjMgPP+V6YWEbGZM05g=;
+	s=arc-20240116; t=1761762441; c=relaxed/simple;
+	bh=OVwlUNN+lqzNmtBPwH5u9eG0FLwc0yUFwl2IGAV0l4Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sDjsMUnqH85KQS/b/vWlQocRLreRnkA3NQwtC0YcBPS3Ja4pZMSitZn3WzzUBTQzXcMaVH0MrXWDEbsb89N030pntT5P7Bga6xNzzGjwQnyZRmF3GUMDRaUdY4iUPPjStLoCt4S/+Go7anyTnGjn53dzVoH12Z64xXHbO280J9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VGHFrR62; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=BXKIkZm0dXwKVBaxcmSZ+92xC1heK5U4LTlAuy22YL9J0fxQCWvzOW8sXIALSjjvK0GysTOZ2TLlb9lIWATT/Jq7dlqbw0V3T3X/LretEPab5sBHFwxfcMC8k9rS1FT77lzCOQnw0HG6Fz/O3mjSD46sP7Wf0c6AOq+sT75nw8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WR3L5QdZ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VGHFrR62"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WR3L5QdZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761758544; x=1793294544;
+  t=1761762439; x=1793298439;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UheHhC8VCpgKoId2bAtYtm0zyjMgPP+V6YWEbGZM05g=;
-  b=VGHFrR624pO+c+4j/x4g3/E+MwmDsZSdaHsOkZsUDph/v1738EUH2ZsF
-   Yh5nYSrqsYRjEb7xms+42+87NZnCOVMc26gq6AqWA1u2PrIbZfc/4yn3y
-   ls3OkJNUqCgxqWlfOCHsCr7B+hjRZG32kGAK/tCjeceavcCSFEeAoV+da
-   ZcRCBuNYU1YpaFAEaCcquMJVYRmTXHzx2p4URCi7KmYExjE5kWVBh4U9H
-   1gg4D7rIh1AMFW0r0kgtOP4AaLD2l1nd1AZNc9tjn12XCztZjIum5LMMv
-   9O6qs9HuJdm4QzhkKaRnTqxU7UzEF8IJZKrxuKUEkIm97YssBiH6X8Wjq
-   g==;
-X-CSE-ConnectionGUID: M+MFxr2GTJaID0EGl9cyxQ==
-X-CSE-MsgGUID: fA0YitmdQoa3spJHhQ8meA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="63984469"
+  bh=OVwlUNN+lqzNmtBPwH5u9eG0FLwc0yUFwl2IGAV0l4Y=;
+  b=WR3L5QdZQ3JDvAsGWmANJjQ0fjy1k/mLjvZ5RJ8a5uZ1shEbfDOeSnws
+   fsf98Oiz/pCd/47YPp7Mdpd/hrat6PJqE02yLdXBkXsyqEZ7Fou3u968R
+   OdQbEfvv9oBwSaxdE4ZHpix1+jp90r1v6M8TqlNYOH+N/KOGfMQ0fFMnM
+   PH3u7CDp4B7HP9qSBbtw8A4YqrdvS58Y2IP1DJg9T2iQxg0Vcg2XNg86S
+   XN4p6kho75lA5qQ2i1WPZxBm9Aid8KjXrlfeZxM+iZDIIy6ruKgFxnbDQ
+   7KFWrtoyxKfURQu0A4dq8dxf+qBIJ5xM+zRZOjBoTsCyzBomOgRQXdTL/
+   w==;
+X-CSE-ConnectionGUID: 25s8471NTMGHpUgZ4uHeJg==
+X-CSE-MsgGUID: e11E+fnhRZW/T/7Mptkaag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="62918321"
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="63984469"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 10:22:23 -0700
-X-CSE-ConnectionGUID: 9L86FZHKQi6ShL93hDDoaw==
-X-CSE-MsgGUID: nBlW5VXnSFKuGyLgdpkyeA==
+   d="scan'208";a="62918321"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 11:27:18 -0700
+X-CSE-ConnectionGUID: 7Ok5QxBwSDeNBI+U1tKDlg==
+X-CSE-MsgGUID: 22Z9STuZQ1WEkIS1nleYOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="186179541"
+   d="scan'208";a="216601784"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Oct 2025 10:22:21 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 29 Oct 2025 11:27:17 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vE9s8-000KqD-0l;
-	Wed, 29 Oct 2025 17:22:11 +0000
-Date: Thu, 30 Oct 2025 01:21:08 +0800
+	id 1vEAt9-000L1D-0Y;
+	Wed, 29 Oct 2025 18:27:15 +0000
+Date: Thu, 30 Oct 2025 02:02:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 2226/4391]
- drivers/net/wireless/intel/iwlwifi/mld/rx.c:464 iwl_mld_decode_he_phy_data()
- error: uninitialized symbol 'nsts'.
-Message-ID: <202510300101.souVJGhV-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: fs/overlayfs/dir.c:122:4-11: WARNING: Consider using %pe to print
+ PTR_ERR()
+Message-ID: <202510300110.zNO9YJMV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,105 +64,82 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Johannes Berg <johannes.berg@intel.com>
-CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Antonio Quartulli <antonio@mandelbit.com>
+CC: Christian Brauner <brauner@kernel.org>
+CC: NeilBrown <neil@brown.name>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f9ba12abc5282bf992f9a9ae87ad814fd03a0270
-commit: 612d9bf252c65ab3ba772e7f31f8501394937ba7 [2226/4391] wifi: iwlwifi: mld: update to new sniffer API
-:::::: branch date: 15 hours ago
-:::::: commit date: 10 days ago
-config: arm64-randconfig-r071-20251028 (https://download.01.org/0day-ci/archive/20251030/202510300101.souVJGhV-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6
+commit: 672820a070ea5e6ae114f6109726a4e18313a527 ovl: properly print correct variable
+date:   3 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 3 months ago
+config: m68k-randconfig-r052-20251030 (https://download.01.org/0day-ci/archive/20251030/202510300110.zNO9YJMV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510300101.souVJGhV-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202510300110.zNO9YJMV-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wireless/intel/iwlwifi/mld/rx.c:464 iwl_mld_decode_he_phy_data() error: uninitialized symbol 'nsts'.
+cocci warnings: (new ones prefixed by >>)
+>> fs/overlayfs/dir.c:122:4-11: WARNING: Consider using %pe to print PTR_ERR()
 
-vim +/nsts +464 drivers/net/wireless/intel/iwlwifi/mld/rx.c
+vim +122 fs/overlayfs/dir.c
 
-d1e879ec600f9b Miri Korenblit 2025-02-16  430  
-612d9bf252c65a Johannes Berg  2025-10-19  431  static void
-612d9bf252c65a Johannes Berg  2025-10-19  432  iwl_mld_decode_he_phy_data(struct iwl_mld_rx_phy_data *phy_data,
-612d9bf252c65a Johannes Berg  2025-10-19  433  			   struct ieee80211_radiotap_he *he,
-612d9bf252c65a Johannes Berg  2025-10-19  434  			   struct ieee80211_radiotap_he_mu *he_mu,
-612d9bf252c65a Johannes Berg  2025-10-19  435  			   struct ieee80211_rx_status *rx_status)
-612d9bf252c65a Johannes Berg  2025-10-19  436  {
-612d9bf252c65a Johannes Berg  2025-10-19  437  	u32 rate_n_flags = phy_data->rate_n_flags;
-612d9bf252c65a Johannes Berg  2025-10-19  438  	u32 he_type = rate_n_flags & RATE_MCS_HE_TYPE_MSK;
-612d9bf252c65a Johannes Berg  2025-10-19  439  	u32 nsts;
-612d9bf252c65a Johannes Berg  2025-10-19  440  
-612d9bf252c65a Johannes Berg  2025-10-19  441  	switch (he_type) {
-612d9bf252c65a Johannes Berg  2025-10-19  442  	case RATE_MCS_HE_TYPE_TRIG:
-612d9bf252c65a Johannes Berg  2025-10-19  443  		iwl_mld_decode_he_tb_phy_data(phy_data, he, rx_status);
-612d9bf252c65a Johannes Berg  2025-10-19  444  		/* that's it, below is only for SU/MU */
-612d9bf252c65a Johannes Berg  2025-10-19  445  		return;
-612d9bf252c65a Johannes Berg  2025-10-19  446  	case RATE_MCS_HE_TYPE_MU:
-612d9bf252c65a Johannes Berg  2025-10-19  447  		iwl_mld_decode_he_mu(phy_data, he, he_mu, rx_status);
-612d9bf252c65a Johannes Berg  2025-10-19  448  
-612d9bf252c65a Johannes Berg  2025-10-19  449  		nsts = le32_get_bits(phy_data->ntfy->sigs.he.b,
-612d9bf252c65a Johannes Berg  2025-10-19  450  				     OFDM_RX_FRAME_HE_SIGB_NSTS) + 1;
-d1e879ec600f9b Miri Korenblit 2025-02-16  451  		break;
-612d9bf252c65a Johannes Berg  2025-10-19  452  	case RATE_MCS_HE_TYPE_SU:
-612d9bf252c65a Johannes Berg  2025-10-19  453  	case RATE_MCS_HE_TYPE_EXT_SU:
-d1e879ec600f9b Miri Korenblit 2025-02-16  454  		he->data1 |= cpu_to_le16(IEEE80211_RADIOTAP_HE_DATA1_BEAM_CHANGE_KNOWN);
-612d9bf252c65a Johannes Berg  2025-10-19  455  		he->data3 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a1,
-612d9bf252c65a Johannes Berg  2025-10-19  456  					 OFDM_RX_FRAME_HE_BEAM_CHANGE,
-d1e879ec600f9b Miri Korenblit 2025-02-16  457  					 IEEE80211_RADIOTAP_HE_DATA3_BEAM_CHANGE);
-612d9bf252c65a Johannes Berg  2025-10-19  458  
-612d9bf252c65a Johannes Berg  2025-10-19  459  		nsts = le32_get_bits(phy_data->ntfy->sigs.he.a1,
-612d9bf252c65a Johannes Berg  2025-10-19  460  				     OFDM_RX_FRAME_HE_NSTS) + 1;
-d1e879ec600f9b Miri Korenblit 2025-02-16  461  		break;
-d1e879ec600f9b Miri Korenblit 2025-02-16  462  	}
-612d9bf252c65a Johannes Berg  2025-10-19  463  
-612d9bf252c65a Johannes Berg  2025-10-19 @464  	rx_status->nss = nsts >> !!(rate_n_flags & RATE_MCS_STBC_MSK);
-612d9bf252c65a Johannes Berg  2025-10-19  465  
-612d9bf252c65a Johannes Berg  2025-10-19  466  	he->data1 |= cpu_to_le16(IEEE80211_RADIOTAP_HE_DATA1_LDPC_XSYMSEG_KNOWN |
-612d9bf252c65a Johannes Berg  2025-10-19  467  				 IEEE80211_RADIOTAP_HE_DATA1_DOPPLER_KNOWN);
-612d9bf252c65a Johannes Berg  2025-10-19  468  	he->data2 |= cpu_to_le16(IEEE80211_RADIOTAP_HE_DATA2_PRE_FEC_PAD_KNOWN |
-612d9bf252c65a Johannes Berg  2025-10-19  469  				 IEEE80211_RADIOTAP_HE_DATA2_PE_DISAMBIG_KNOWN |
-612d9bf252c65a Johannes Berg  2025-10-19  470  				 IEEE80211_RADIOTAP_HE_DATA2_TXOP_KNOWN |
-612d9bf252c65a Johannes Berg  2025-10-19  471  				 IEEE80211_RADIOTAP_HE_DATA2_NUM_LTF_SYMS_KNOWN);
-612d9bf252c65a Johannes Berg  2025-10-19  472  
-612d9bf252c65a Johannes Berg  2025-10-19  473  	he->data3 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a2,
-612d9bf252c65a Johannes Berg  2025-10-19  474  				 OFDM_RX_FRAME_HE_CODING_EXTRA_SYM,
-612d9bf252c65a Johannes Berg  2025-10-19  475  				 IEEE80211_RADIOTAP_HE_DATA3_LDPC_XSYMSEG);
-612d9bf252c65a Johannes Berg  2025-10-19  476  	he->data5 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a2,
-612d9bf252c65a Johannes Berg  2025-10-19  477  				 OFDM_RX_FRAME_HE_PRE_FEC_PAD_FACTOR,
-612d9bf252c65a Johannes Berg  2025-10-19  478  				 IEEE80211_RADIOTAP_HE_DATA5_PRE_FEC_PAD);
-612d9bf252c65a Johannes Berg  2025-10-19  479  	he->data5 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a2,
-612d9bf252c65a Johannes Berg  2025-10-19  480  				 OFDM_RX_FRAME_HE_PE_DISAMBIG,
-612d9bf252c65a Johannes Berg  2025-10-19  481  				 IEEE80211_RADIOTAP_HE_DATA5_PE_DISAMBIG);
-612d9bf252c65a Johannes Berg  2025-10-19  482  	he->data5 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a2,
-612d9bf252c65a Johannes Berg  2025-10-19  483  				 OFDM_RX_FRAME_HE_MU_NUM_OF_LTF_SYM,
-612d9bf252c65a Johannes Berg  2025-10-19  484  				 IEEE80211_RADIOTAP_HE_DATA5_NUM_LTF_SYMS);
-612d9bf252c65a Johannes Berg  2025-10-19  485  	he->data6 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a2,
-612d9bf252c65a Johannes Berg  2025-10-19  486  				 OFDM_RX_FRAME_HE_TXOP_DURATION,
-612d9bf252c65a Johannes Berg  2025-10-19  487  				 IEEE80211_RADIOTAP_HE_DATA6_TXOP);
-612d9bf252c65a Johannes Berg  2025-10-19  488  	he->data6 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a2,
-612d9bf252c65a Johannes Berg  2025-10-19  489  				 OFDM_RX_FRAME_HE_DOPPLER,
-612d9bf252c65a Johannes Berg  2025-10-19  490  				 IEEE80211_RADIOTAP_HE_DATA6_DOPPLER);
-612d9bf252c65a Johannes Berg  2025-10-19  491  
-612d9bf252c65a Johannes Berg  2025-10-19  492  	he->data1 |= cpu_to_le16(IEEE80211_RADIOTAP_HE_DATA1_UL_DL_KNOWN |
-612d9bf252c65a Johannes Berg  2025-10-19  493  				 IEEE80211_RADIOTAP_HE_DATA1_BSS_COLOR_KNOWN |
-612d9bf252c65a Johannes Berg  2025-10-19  494  				 IEEE80211_RADIOTAP_HE_DATA1_SPTL_REUSE_KNOWN);
-612d9bf252c65a Johannes Berg  2025-10-19  495  
-612d9bf252c65a Johannes Berg  2025-10-19  496  	he->data3 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a1,
-612d9bf252c65a Johannes Berg  2025-10-19  497  				 OFDM_RX_FRAME_HE_BSS_COLOR,
-612d9bf252c65a Johannes Berg  2025-10-19  498  				 IEEE80211_RADIOTAP_HE_DATA3_BSS_COLOR);
-612d9bf252c65a Johannes Berg  2025-10-19  499  	he->data3 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a1,
-612d9bf252c65a Johannes Berg  2025-10-19  500  				 OFDM_RX_FRAME_HE_UL_FLAG,
-612d9bf252c65a Johannes Berg  2025-10-19  501  				 IEEE80211_RADIOTAP_HE_DATA3_UL_DL);
-612d9bf252c65a Johannes Berg  2025-10-19  502  	he->data4 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a1,
-612d9bf252c65a Johannes Berg  2025-10-19  503  				 OFDM_RX_FRAME_HE_SPATIAL_REUSE,
-612d9bf252c65a Johannes Berg  2025-10-19  504  				 IEEE80211_RADIOTAP_HE_DATA4_SU_MU_SPTL_REUSE);
-d1e879ec600f9b Miri Korenblit 2025-02-16  505  }
-d1e879ec600f9b Miri Korenblit 2025-02-16  506  
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24   80  
+c21c839b8448dd4 Chengguang Xu     2020-04-24   81  static struct dentry *ovl_whiteout(struct ovl_fs *ofs)
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24   82  {
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24   83  	int err;
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24   84  	struct dentry *whiteout;
+c21c839b8448dd4 Chengguang Xu     2020-04-24   85  	struct dentry *workdir = ofs->workdir;
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24   86  	struct inode *wdir = workdir->d_inode;
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24   87  
+8afa0a736713898 NeilBrown         2025-07-16   88  	guard(mutex)(&ofs->whiteout_lock);
+8afa0a736713898 NeilBrown         2025-07-16   89  
+c21c839b8448dd4 Chengguang Xu     2020-04-24   90  	if (!ofs->whiteout) {
+8afa0a736713898 NeilBrown         2025-07-16   91  		inode_lock_nested(wdir, I_MUTEX_PARENT);
+576bb263450bbba Christian Brauner 2022-04-04   92  		whiteout = ovl_lookup_temp(ofs, workdir);
+8afa0a736713898 NeilBrown         2025-07-16   93  		if (!IS_ERR(whiteout)) {
+576bb263450bbba Christian Brauner 2022-04-04   94  			err = ovl_do_whiteout(ofs, wdir, whiteout);
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24   95  			if (err) {
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24   96  				dput(whiteout);
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24   97  				whiteout = ERR_PTR(err);
+c21c839b8448dd4 Chengguang Xu     2020-04-24   98  			}
+8afa0a736713898 NeilBrown         2025-07-16   99  		}
+8afa0a736713898 NeilBrown         2025-07-16  100  		inode_unlock(wdir);
+8afa0a736713898 NeilBrown         2025-07-16  101  		if (IS_ERR(whiteout))
+8afa0a736713898 NeilBrown         2025-07-16  102  			return whiteout;
+c21c839b8448dd4 Chengguang Xu     2020-04-24  103  		ofs->whiteout = whiteout;
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24  104  	}
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24  105  
+e4599d4b1aeff03 Amir Goldstein    2023-06-17  106  	if (!ofs->no_shared_whiteout) {
+8afa0a736713898 NeilBrown         2025-07-16  107  		inode_lock_nested(wdir, I_MUTEX_PARENT);
+576bb263450bbba Christian Brauner 2022-04-04  108  		whiteout = ovl_lookup_temp(ofs, workdir);
+8afa0a736713898 NeilBrown         2025-07-16  109  		if (!IS_ERR(whiteout)) {
+576bb263450bbba Christian Brauner 2022-04-04  110  			err = ovl_do_link(ofs, ofs->whiteout, wdir, whiteout);
+8afa0a736713898 NeilBrown         2025-07-16  111  			if (err) {
+8afa0a736713898 NeilBrown         2025-07-16  112  				dput(whiteout);
+8afa0a736713898 NeilBrown         2025-07-16  113  				whiteout = ERR_PTR(err);
+8afa0a736713898 NeilBrown         2025-07-16  114  			}
+8afa0a736713898 NeilBrown         2025-07-16  115  		}
+8afa0a736713898 NeilBrown         2025-07-16  116  		inode_unlock(wdir);
+8afa0a736713898 NeilBrown         2025-07-16  117  		if (!IS_ERR(whiteout))
+8afa0a736713898 NeilBrown         2025-07-16  118  			return whiteout;
+8afa0a736713898 NeilBrown         2025-07-16  119  		if (PTR_ERR(whiteout) != -EMLINK) {
+672820a070ea5e6 Antonio Quartulli 2025-07-21  120  			pr_warn("Failed to link whiteout - disabling whiteout inode sharing(nlink=%u, err=%lu)\n",
+672820a070ea5e6 Antonio Quartulli 2025-07-21  121  				ofs->whiteout->d_inode->i_nlink,
+672820a070ea5e6 Antonio Quartulli 2025-07-21 @122  				PTR_ERR(whiteout));
+e4599d4b1aeff03 Amir Goldstein    2023-06-17  123  			ofs->no_shared_whiteout = true;
+c21c839b8448dd4 Chengguang Xu     2020-04-24  124  		}
+c21c839b8448dd4 Chengguang Xu     2020-04-24  125  	}
+c21c839b8448dd4 Chengguang Xu     2020-04-24  126  	whiteout = ofs->whiteout;
+c21c839b8448dd4 Chengguang Xu     2020-04-24  127  	ofs->whiteout = NULL;
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24  128  	return whiteout;
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24  129  }
+e9be9d5e76e3487 Miklos Szeredi    2014-10-24  130  
 
 -- 
 0-DAY CI Kernel Test Service
