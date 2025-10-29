@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73242512E6
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 14:59:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA75F29CF5
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 15:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761749956; cv=none; b=tFY4daQHUtMAdBnrJ9qlYZ2kB3IZF25gyOZK866w0pegUbW23i5fb9jLgnsswi/q/s8QkH/D0h2ig0S0lHQa0jilImK8ITTlkIBI7lL5zpcAmUdA0NxLr13A+7dcIzn3O6GCVFOeBtUOm40K09/KtY784JzJgiPMbciVR0SVTQg=
+	t=1761750730; cv=none; b=BEkU0npc79ERupZj2eI0M2Tb73Rg9izDAN/VgtRrrh3H4ng1Y/CxQFmG/puP1X0vk0siK9unoE9svLxhQXWEmJS+cBm7pK+GrQ/eI0POtrmPwk8TNN5wKnJIXPhBOvQ3wqisT84pHg9HTvXxlHsx0tmdpNAAvN9+AhzmE23EjVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761749956; c=relaxed/simple;
-	bh=LW3utlKMUT+37q3UfdcpR0dfk88T7hz83ywrr2Tqm00=;
+	s=arc-20240116; t=1761750730; c=relaxed/simple;
+	bh=8976CCtyd+0xBJYoPhUMl8cbdp5kREZAasgtln35xLY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mNW+MPsTj/XejI+5tOkqPWWBbcbJtWZ03EeV8C4GxC83egixHAFVN/a529Le1/ylEZOrBXGxFrgHkZ+07m2Zr7aqgCC21/J6ZSi4FKPksL77PiwsQWT709rfr3HU5mw+OxvUY+0+pjgEn7J9JkT5KgEs1ELasmbPhtBRU71fm50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QWm6nX4a; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=pSUvxgzcZg7QPrVgf+yzFEwkOrK7VjcSSuScobzwk0Mkd6mW3hxHDV6PrPGUdyiKnfFnX1jlmI0yXWeyfz8/KvgMTdpNNyDuc/1fjFg97R43tLNNG1niEffBy9aoF9oqresKZAgiCUEP8n7KgHq3wfo40YczfNbrPL//tEYbEDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C3kBLjBx; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWm6nX4a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C3kBLjBx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761749955; x=1793285955;
+  t=1761750729; x=1793286729;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LW3utlKMUT+37q3UfdcpR0dfk88T7hz83ywrr2Tqm00=;
-  b=QWm6nX4acP2dnglZvSH+xRyX0IFX/DJ/JHhv6ZvnXWrcCuzgFTBe7qpy
-   dHBFT5gNGuCekkyweOQd7ftH1P1/KkKbCkyXUbnPBdt/R6FwnMBRIwKvv
-   cxv5zj6BIWcdpNWV0WgI6UbcBjLaxPX74x+h6q3HKbffCVnKsnmqOWwTS
-   VxVrp4wTnqrwbNUN5O6WufSL8PWEZot35p+iVZCTt95mDJ2hd2lfBqW+r
-   s5oWWN4KV/wxweol/SSrX3500T8OMriAlhE4xnD62FAjUeoafSgoAPU29
-   b5t31hUhn2eGW5d+jKM6SPC2AKlZSwikPmUnIHXknTk2IbPj+0CQnRFF7
-   A==;
-X-CSE-ConnectionGUID: xhTOEspoQIKRXLl7YdyIiQ==
-X-CSE-MsgGUID: 6Gg/SHQLRtq9nWzW8WJgFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="64023792"
+  bh=8976CCtyd+0xBJYoPhUMl8cbdp5kREZAasgtln35xLY=;
+  b=C3kBLjBxLkr4+WOIlreZh93WOxG1OvUX/0pRbEUZHUDqSM3oEAHrZS0I
+   BD3PHcASMper/RAaUZ83gKI6/MIFIDWeOEUMum0TPV2WK98QGFcJsV6ji
+   5xSuG/Iu+mCPeUHLs0WtmAPGF2Nk1YOLN8hfB0HmZVm5LLEJQk8je5qja
+   +sCgKderVKoRN519u0Zo6PMxob/gX5BFaY4YDEt0OipYJ3AhMKSsdV8Vd
+   Xw5DiDIXCEYQseEqr/hpMlKlNl1iIj9J1W2IeoUyelSpsVOIkFniaS6GL
+   pVsUSVeAoIO21/VY6VFJcPWSeFS8FoFhykR0WKWGO/xkyH/myOPAoBehh
+   g==;
+X-CSE-ConnectionGUID: oE8wpa0cRseQOT8eWlKsnw==
+X-CSE-MsgGUID: U3+v3bV4SmS9gRncRuTLUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="89343642"
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="64023792"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 07:59:14 -0700
-X-CSE-ConnectionGUID: g28IB3Z4TbegBSyJqtO+fg==
-X-CSE-MsgGUID: PDS/2ZejTR61SO7B0m4qAA==
+   d="scan'208";a="89343642"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 08:12:08 -0700
+X-CSE-ConnectionGUID: hLimqL7/TFKDk4BZmSp1Nw==
+X-CSE-MsgGUID: 0sLLCl6QQ8GMsubaaUUptw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="190001508"
-Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 29 Oct 2025 07:59:14 -0700
-Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+   d="scan'208";a="185390049"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 29 Oct 2025 08:12:07 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vE7dn-000000000w4-1S4l;
-	Wed, 29 Oct 2025 14:59:11 +0000
-Date: Wed, 29 Oct 2025 15:59:04 +0100
+	id 1vE7nP-000KiD-2y;
+	Wed, 29 Oct 2025 15:10:57 +0000
+Date: Wed, 29 Oct 2025 23:08:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [dinguyen:socfpga_dts_for_v6.19 15/26]
- arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb:
- ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are
- not allowed ('max-frame-size', 'mdio', 'phy-addr', 'phy-handle', 'reg',
- 'reset-names', 'resets', 'rx-fifo-depth', ...
-Message-ID: <202510291532.OUs1COOR-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c:1091
+ hclge_dbg_dump_dcb_pri() warn: '0x' prefix is redundant when # flag is used
+Message-ID: <202510292210.tyVS9Ffu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,77 +62,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Lothar Rubusch <l.rubusch@gmail.com>
-CC: Dinh Nguyen <dinguyen@kernel.org>
-CC: Andreas Buerkler <andreas.buerkler@enclustra.com>
+CC: linux-kernel@vger.kernel.org
+TO: Jijie Shao <shaojijie@huawei.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Andrew Lunn <andrew@lunn.ch>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git socfpga_dts_for_v6.19
-head:   3637309e6015b24b5d99f93c549b33e2114eb8c3
-commit: 26a0157f4c77dba26680e60106fb870d7c77e9c4 [15/26] ARM: dts: socfpga: add Mercury AA1 variants
-:::::: branch date: 2 days ago
-:::::: commit date: 9 days ago
-config: arm-randconfig-2052-20251027 (https://download.01.org/0day-ci/archive/20251029/202510291532.OUs1COOR-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-dtschema version: 2025.9.dev12+gd6be03029
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510291532.OUs1COOR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6
+commit: 2363145ad86e701481bbe884eeda5c35c9ac658c net: hns3: use seq_file for files in reg/ in debugfs
+date:   4 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 4 months ago
+config: arm64-randconfig-r071-20251028 (https://download.01.org/0day-ci/archive/20251029/202510292210.tyVS9Ffu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510291532.OUs1COOR-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202510292210.tyVS9Ffu-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): reset-names: 'oneOf' conditional failed, one must be fixed:
-   	['stmmaceth', 'stmmaceth-ocp'] is too long
-   	'ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('max-frame-size', 'mdio', 'phy-addr', 'phy-handle', 'reg', 'reset-names', 'resets', 'rx-fifo-depth', 'snps,axi-config', 'snps,multicast-filter-bins', 'snps,perfect-filter-entries', 'tx-fifo-depth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): reset-names: 'oneOf' conditional failed, one must be fixed:
-   	['stmmaceth', 'stmmaceth-ocp'] is too long
-   	'ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff802000 (altr,socfpga-stmmac-a10-s10): reset-names: 'oneOf' conditional failed, one must be fixed:
-   	['stmmaceth', 'stmmaceth-ocp'] is too long
-   	'ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff802000 (altr,socfpga-stmmac-a10-s10): reset-names: 'oneOf' conditional failed, one must be fixed:
---
-   	'ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/i2c@ffc02200/audio-codec@1a: failed to match any schema with compatible: ['adi,ssm2603']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: sram@ffe00000 (mmio-sram): '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: sram@ffe00000 (mmio-sram): '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: sram@ffe00000 (mmio-sram): 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: flash@0 (jedec,spi-nor): Unevaluated properties are not allowed ('partition@raw', 'u-boot,dm-pre-reloc' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: flash@0 (jedec,spi-nor): 'partition@raw' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: sysmgr@ffd06000 (altr,sys-mgr): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,sys-mgr', 'syscon'] is too long
-   	'altr,sys-mgr-s10' was expected
-   	'altr,sys-mgr' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/altera/altr,sys-mgr.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: timer0@ffc02700 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: timer1@ffc02800 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml
+smatch warnings:
+drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c:1091 hclge_dbg_dump_dcb_pri() warn: '0x' prefix is redundant when # flag is used
+
+vim +/0x +1091 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c
+
+365e860aa7a74a Yufeng Mo   2021-05-20  1069  
+2363145ad86e70 Jijie Shao  2025-07-14  1070  static int hclge_dbg_dump_dcb_pri(struct hclge_dev *hdev, struct seq_file *s)
+365e860aa7a74a Yufeng Mo   2021-05-20  1071  {
+2a21dab594a98c Jie Wang    2021-10-27  1072  	struct hclge_dbg_bitmap_cmd req;
+365e860aa7a74a Yufeng Mo   2021-05-20  1073  	struct hclge_desc desc;
+365e860aa7a74a Yufeng Mo   2021-05-20  1074  	u8 pri_id, pri_num;
+365e860aa7a74a Yufeng Mo   2021-05-20  1075  	int ret;
+365e860aa7a74a Yufeng Mo   2021-05-20  1076  
+365e860aa7a74a Yufeng Mo   2021-05-20  1077  	ret = hclge_tm_get_pri_num(hdev, &pri_num);
+365e860aa7a74a Yufeng Mo   2021-05-20  1078  	if (ret)
+365e860aa7a74a Yufeng Mo   2021-05-20  1079  		return ret;
+365e860aa7a74a Yufeng Mo   2021-05-20  1080  
+2363145ad86e70 Jijie Shao  2025-07-14  1081  	seq_puts(s, "pri_id  pri_mask  pri_cshaping_pass  pri_pshaping_pass\n");
+365e860aa7a74a Yufeng Mo   2021-05-20  1082  	for (pri_id = 0; pri_id < pri_num; pri_id++) {
+365e860aa7a74a Yufeng Mo   2021-05-20  1083  		ret = hclge_dbg_cmd_send(hdev, &desc, pri_id, 1,
+365e860aa7a74a Yufeng Mo   2021-05-20  1084  					 HCLGE_OPC_PRI_DFX_STS);
+365e860aa7a74a Yufeng Mo   2021-05-20  1085  		if (ret)
+365e860aa7a74a Yufeng Mo   2021-05-20  1086  			return ret;
+365e860aa7a74a Yufeng Mo   2021-05-20  1087  
+2a21dab594a98c Jie Wang    2021-10-27  1088  		req.bitmap = (u8)le32_to_cpu(desc.data[1]);
+365e860aa7a74a Yufeng Mo   2021-05-20  1089  
+2363145ad86e70 Jijie Shao  2025-07-14  1090  		seq_printf(s, "%03u     %#-10x%#-19x%#-x\n",
+2a21dab594a98c Jie Wang    2021-10-27 @1091  			   pri_id, req.bit0, req.bit1, req.bit2);
+c0ebebb9ccc136 liuzhongzhu 2018-12-15  1092  	}
+c0ebebb9ccc136 liuzhongzhu 2018-12-15  1093  
+365e860aa7a74a Yufeng Mo   2021-05-20  1094  	return 0;
+365e860aa7a74a Yufeng Mo   2021-05-20  1095  }
+365e860aa7a74a Yufeng Mo   2021-05-20  1096  
+
+:::::: The code at line 1091 was first introduced by commit
+:::::: 2a21dab594a98c338c4bfbc31864cbca15888549 net: hns3: fix data endian problem of some functions of debugfs
+
+:::::: TO: Jie Wang <wangjie125@huawei.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
