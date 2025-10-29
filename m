@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A57534F49B
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 15:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455A52F260C
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 17:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761752859; cv=none; b=eszVE5TrFvdkPDSOgDc3hHYTOpNuO64rn/mG6ozZbhNqf9mPFtZqPPRRy3PHOXqyjihC1TFSlTPcEQocP3kof0NPzHiOcllrKkikts+ljNH6meG4d6XjO04RfNdMHqJGcHyQGdxqHw/QDa9BW3IZUK86xYy7S1nEi4+dZZ6cA58=
+	t=1761758546; cv=none; b=XilfjEd7pdd6MLh3HVkl2hHQHnsisMI4lff80cickkk5SUHQN+r3SdwJU6b2Y6+JkDwPtSyykYhTxyT99bh3XZeu4/QTsvGzHUpDCtTmoGJGHpFfQTK7YcJnbU4L66uOSkijsR7UGMEz49E3WmIebytG/+Zm9MpvAs2lhPt+Ul8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761752859; c=relaxed/simple;
-	bh=3SAJoo/fq64UN6qloIymXSGUdZA3le8c1xNNggUwMuU=;
+	s=arc-20240116; t=1761758546; c=relaxed/simple;
+	bh=UheHhC8VCpgKoId2bAtYtm0zyjMgPP+V6YWEbGZM05g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WwgDls0LpEn6EOZSIbeuJTceQZs/QoZEdUS6gEycsVGmfJujvrzdl9Tcpyz4L+TCiECS0v3r9Y1G815gFS16qoJP/39IuQEx0epsUzUNLvfNVGwaYUq5aJXtZ5Ert7Iq5OVKmZ/7kTVh1rd1nYT0jZtvtNc347AG9K6+yOe21xU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T2heytLT; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=sDjsMUnqH85KQS/b/vWlQocRLreRnkA3NQwtC0YcBPS3Ja4pZMSitZn3WzzUBTQzXcMaVH0MrXWDEbsb89N030pntT5P7Bga6xNzzGjwQnyZRmF3GUMDRaUdY4iUPPjStLoCt4S/+Go7anyTnGjn53dzVoH12Z64xXHbO280J9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VGHFrR62; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T2heytLT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VGHFrR62"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761752857; x=1793288857;
+  t=1761758544; x=1793294544;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3SAJoo/fq64UN6qloIymXSGUdZA3le8c1xNNggUwMuU=;
-  b=T2heytLTdv3x24JqL4r+XvOvPX3nlBRXpls4Wwkuef3sqGb+jEDFRrF2
-   SVhBFojBe6/K41TbqQ5TIJp8xH6FTMyoji1X+Hvn5m3H+ITYm1HYSdTdU
-   1XAqePRgafPw+rBtK/xOMW29USaLWWwuxscsOeR2SqyN4AV0E8QL3sPIq
-   H5e/mog9UqtwP5r1Y5i5QaXsvBTNtokLvJsFpUJNvrQrW9cgYcudyhaVo
-   E8fihwyqj7fTYq951l//kHUWYstSP+5LOvNRV01VFUJm2VzitJgwjWN2p
-   G3MP1SE0UiE9yOQUJsqJJjjS6NC8ryrJrIpNMaZH93n0kSTCYJqzta1Df
-   A==;
-X-CSE-ConnectionGUID: 2vxoY8ItTLSflfoy9tVbKQ==
-X-CSE-MsgGUID: A0g+2ryeS0eKfVk4SbHUNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="74997134"
+  bh=UheHhC8VCpgKoId2bAtYtm0zyjMgPP+V6YWEbGZM05g=;
+  b=VGHFrR624pO+c+4j/x4g3/E+MwmDsZSdaHsOkZsUDph/v1738EUH2ZsF
+   Yh5nYSrqsYRjEb7xms+42+87NZnCOVMc26gq6AqWA1u2PrIbZfc/4yn3y
+   ls3OkJNUqCgxqWlfOCHsCr7B+hjRZG32kGAK/tCjeceavcCSFEeAoV+da
+   ZcRCBuNYU1YpaFAEaCcquMJVYRmTXHzx2p4URCi7KmYExjE5kWVBh4U9H
+   1gg4D7rIh1AMFW0r0kgtOP4AaLD2l1nd1AZNc9tjn12XCztZjIum5LMMv
+   9O6qs9HuJdm4QzhkKaRnTqxU7UzEF8IJZKrxuKUEkIm97YssBiH6X8Wjq
+   g==;
+X-CSE-ConnectionGUID: M+MFxr2GTJaID0EGl9cyxQ==
+X-CSE-MsgGUID: fA0YitmdQoa3spJHhQ8meA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="63984469"
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="74997134"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 08:47:36 -0700
-X-CSE-ConnectionGUID: gMCD9CiAS329O5W4i5Ckxg==
-X-CSE-MsgGUID: T0jSm1MyT+SNeCCqMELEFw==
+   d="scan'208";a="63984469"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 10:22:23 -0700
+X-CSE-ConnectionGUID: 9L86FZHKQi6ShL93hDDoaw==
+X-CSE-MsgGUID: nBlW5VXnSFKuGyLgdpkyeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="186447717"
+   d="scan'208";a="186179541"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Oct 2025 08:47:35 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 29 Oct 2025 10:22:21 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vE8OZ-000KkB-1s;
-	Wed, 29 Oct 2025 15:47:31 +0000
-Date: Wed, 29 Oct 2025 23:46:34 +0800
+	id 1vE9s8-000KqD-0l;
+	Wed, 29 Oct 2025 17:22:11 +0000
+Date: Thu, 30 Oct 2025 01:21:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpio/gpio-davinci.c:471:49-56: WARNING: Consider using %pe
- to print PTR_ERR()
-Message-ID: <202510292330.hzkyypWa-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 2226/4391]
+ drivers/net/wireless/intel/iwlwifi/mld/rx.c:464 iwl_mld_decode_he_phy_data()
+ error: uninitialized symbol 'nsts'.
+Message-ID: <202510300101.souVJGhV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,182 +65,105 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
+TO: Johannes Berg <johannes.berg@intel.com>
+CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
 
-Hi Bartosz,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6
-commit: 56d6ff4b8faf1c2d5c850ed8b4e5dfa6cd81413b gpio: davinci: allow building the module with COMPILE_TEST=y
-date:   1 year ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f9ba12abc5282bf992f9a9ae87ad814fd03a0270
+commit: 612d9bf252c65ab3ba772e7f31f8501394937ba7 [2226/4391] wifi: iwlwifi: mld: update to new sniffer API
 :::::: branch date: 15 hours ago
-:::::: commit date: 1 year ago
-config: powerpc-randconfig-r054-20251029 (https://download.01.org/0day-ci/archive/20251029/202510292330.hzkyypWa-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
+:::::: commit date: 10 days ago
+config: arm64-randconfig-r071-20251028 (https://download.01.org/0day-ci/archive/20251030/202510300101.souVJGhV-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202510292330.hzkyypWa-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202510300101.souVJGhV-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpio/gpio-davinci.c:471:49-56: WARNING: Consider using %pe to print PTR_ERR()
+smatch warnings:
+drivers/net/wireless/intel/iwlwifi/mld/rx.c:464 iwl_mld_decode_he_phy_data() error: uninitialized symbol 'nsts'.
 
-vim +471 drivers/gpio/gpio-davinci.c
+vim +/nsts +464 drivers/net/wireless/intel/iwlwifi/mld/rx.c
 
-0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  436  
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  437  /*
-474dad54baee8f8 arch/arm/mach-davinci/gpio.c David Brownell      2008-12-07  438   * NOTE:  for suspend/resume, probably best to make a platform_device with
-474dad54baee8f8 arch/arm/mach-davinci/gpio.c David Brownell      2008-12-07  439   * suspend_late/resume_resume calls hooking into results of the set_wake()
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  440   * calls ... so if no gpios are wakeup events the clock can be disabled,
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  441   * with outputs left at previously set levels, and so that VDD3P3V.IOPWDN0
-474dad54baee8f8 arch/arm/mach-davinci/gpio.c David Brownell      2008-12-07  442   * (dm6446) can be set appropriately for GPIOV33 pins.
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  443   */
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  444  
-eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  445  static int davinci_gpio_irq_setup(struct platform_device *pdev)
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  446  {
-58c0f5aa124534a drivers/gpio/gpio-davinci.c  Alexander Shiyan    2014-02-15  447  	unsigned	gpio, bank;
-58c0f5aa124534a drivers/gpio/gpio-davinci.c  Alexander Shiyan    2014-02-15  448  	int		irq;
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  449  	struct clk	*clk;
-474dad54baee8f8 arch/arm/mach-davinci/gpio.c David Brownell      2008-12-07  450  	u32		binten = 0;
-c1d013a70f557e0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  451  	unsigned	ngpio;
-118150f22d6b443 drivers/gpio/gpio-davinci.c  KV Sujith           2013-08-18  452  	struct device *dev = &pdev->dev;
-118150f22d6b443 drivers/gpio/gpio-davinci.c  KV Sujith           2013-08-18  453  	struct davinci_gpio_controller *chips = platform_get_drvdata(pdev);
-99e9e52de635728 arch/arm/mach-davinci/gpio.c Cyril Chemparathy   2010-05-01  454  	struct davinci_gpio_regs __iomem *g;
-6075a8b2b6c32dd drivers/gpio/gpio-davinci.c  Grygorii Strashko   2013-12-18  455  	struct irq_domain	*irq_domain = NULL;
-0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  456  	struct irq_chip *irq_chip;
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  457  	struct davinci_gpio_irq_data *irqdata;
-0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  458  	gpio_get_irq_chip_cb_t gpio_get_irq_chip;
-0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  459  
-0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  460  	/*
-0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  461  	 * Use davinci_gpio_get_irq_chip by default to handle non DT cases
-0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  462  	 */
-0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  463  	gpio_get_irq_chip = davinci_gpio_get_irq_chip;
-03a975cbcfcd0b3 drivers/gpio/gpio-davinci.c  Rob Herring         2023-10-06  464  	if (dev->of_node)
-03a975cbcfcd0b3 drivers/gpio/gpio-davinci.c  Rob Herring         2023-10-06  465  		gpio_get_irq_chip = (gpio_get_irq_chip_cb_t)device_get_match_data(dev);
-a994955cc091a8a arch/arm/mach-davinci/gpio.c Mark A. Greer       2009-04-15  466  
-d29e741cad3f8f4 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  467  	ngpio = chips->chip.ngpio;
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  468  
-d14f6f405fc7b66 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  469  	clk = devm_clk_get_enabled(dev, "gpio");
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  470  	if (IS_ERR(clk)) {
-1a9ef909acc1d2e drivers/gpio/gpio-davinci.c  Keerthy             2017-07-20 @471  		dev_err(dev, "Error %ld getting gpio clock\n", PTR_ERR(clk));
-474dad54baee8f8 arch/arm/mach-davinci/gpio.c David Brownell      2008-12-07  472  		return PTR_ERR(clk);
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  473  	}
-eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  474  
-5a431e50e9d4189 drivers/gpio/gpio-davinci.c  Vignesh Raghavendra 2024-10-02  475  	if (!chips->gpio_unbanked) {
-a1a3c2d55179274 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2017-03-04  476  		irq = devm_irq_alloc_descs(dev, -1, 0, ngpio, 0);
-9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  477  		if (irq < 0) {
-9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  478  			dev_err(dev, "Couldn't allocate IRQ numbers\n");
-9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  479  			return irq;
-9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  480  		}
-9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  481  
-310a7e60435151c drivers/gpio/gpio-davinci.c  Keerthy             2016-01-28  482  		irq_domain = irq_domain_add_legacy(dev->of_node, ngpio, irq, 0,
-9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  483  							&davinci_gpio_irq_ops,
-9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  484  							chips);
-9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  485  		if (!irq_domain) {
-9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  486  			dev_err(dev, "Couldn't register an IRQ domain\n");
-9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  487  			return -ENODEV;
-9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  488  		}
-6075a8b2b6c32dd drivers/gpio/gpio-davinci.c  Grygorii Strashko   2013-12-18  489  	}
-9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  490  
-131a10a39545cce drivers/gpio/gpio-davinci.c  Philip Avinash      2013-08-18  491  	/*
-029d14e900e7766 drivers/gpio/gpio-davinci.c  Andy Shevchenko     2023-01-12  492  	 * Arrange gpiod_to_irq() support, handling either direct IRQs or
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  493  	 * banked IRQs.  Having GPIOs in the first GPIO bank use direct
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  494  	 * IRQs, while the others use banked IRQs, would need some setup
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  495  	 * tweaks to recognize hardware which can do that.
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  496  	 */
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  497  	chips->chip.to_irq = gpio_to_irq_banked;
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  498  	chips->irq_domain = irq_domain;
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  499  
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  500  	/*
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  501  	 * AINTC can handle direct/unbanked IRQs for GPIOs, with the GPIO
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  502  	 * controller only handling trigger modes.  We currently assume no
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  503  	 * IRQ mux conflicts; gpio_irq_type_unbanked() is only for GPIOs.
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  504  	 */
-d29e741cad3f8f4 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  505  	if (chips->gpio_unbanked) {
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  506  		/* pass "bank 0" GPIO IRQs to AINTC */
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  507  		chips->chip.to_irq = gpio_to_irq_unbanked;
-d29e741cad3f8f4 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  508  
-d29e741cad3f8f4 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  509  		binten = GENMASK(chips->gpio_unbanked / 16, 0);
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  510  
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  511  		/* AINTC handles mask/unmask; GPIO handles triggering */
-eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  512  		irq = chips->irqs[0];
-0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  513  		irq_chip = gpio_get_irq_chip(irq);
-0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  514  		irq_chip->name = "GPIO-AINTC";
-0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  515  		irq_chip->irq_set_type = gpio_irq_type_unbanked;
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  516  
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  517  		/* default trigger: both edges */
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  518  		g = chips->regs[0];
-388291c3a1eb6fe drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-12-11  519  		writel_relaxed(~0, &g->set_falling);
-388291c3a1eb6fe drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-12-11  520  		writel_relaxed(~0, &g->set_rising);
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  521  
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  522  		/* set the direct IRQs up to use that irqchip */
-d29e741cad3f8f4 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  523  		for (gpio = 0; gpio < chips->gpio_unbanked; gpio++) {
-eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  524  			irq_set_chip(chips->irqs[gpio], irq_chip);
-eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  525  			irq_set_handler_data(chips->irqs[gpio], chips);
-eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  526  			irq_set_status_flags(chips->irqs[gpio],
-eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  527  					     IRQ_TYPE_EDGE_BOTH);
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  528  		}
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  529  
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  530  		goto done;
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  531  	}
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  532  
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  533  	/*
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  534  	 * Or, AINTC can handle IRQs for banks of 16 GPIO IRQs, which we
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  535  	 * then chain through our own handler.
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  536  	 */
-eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  537  	for (gpio = 0, bank = 0; gpio < ngpio; bank++, gpio += 16) {
-8f7cf8c65746d94 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-17  538  		/* disabled by default, enabled only as needed
-8f7cf8c65746d94 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-17  539  		 * There are register sets for 32 GPIOs. 2 banks of 16
-8f7cf8c65746d94 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-17  540  		 * GPIOs are covered by each set of registers hence divide by 2
-8f7cf8c65746d94 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-17  541  		 */
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  542  		g = chips->regs[bank / 2];
-388291c3a1eb6fe drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-12-11  543  		writel_relaxed(~0, &g->clr_falling);
-388291c3a1eb6fe drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-12-11  544  		writel_relaxed(~0, &g->clr_rising);
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  545  
-f299bb9527abfa6 arch/arm/mach-davinci/gpio.c Ido Yariv           2011-07-12  546  		/*
-f299bb9527abfa6 arch/arm/mach-davinci/gpio.c Ido Yariv           2011-07-12  547  		 * Each chip handles 32 gpios, and each irq bank consists of 16
-f299bb9527abfa6 arch/arm/mach-davinci/gpio.c Ido Yariv           2011-07-12  548  		 * gpio irqs. Pass the irq bank's corresponding controller to
-f299bb9527abfa6 arch/arm/mach-davinci/gpio.c Ido Yariv           2011-07-12  549  		 * the chained irq handler.
-f299bb9527abfa6 arch/arm/mach-davinci/gpio.c Ido Yariv           2011-07-12  550  		 */
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  551  		irqdata = devm_kzalloc(&pdev->dev,
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  552  				       sizeof(struct
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  553  					      davinci_gpio_irq_data),
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  554  					      GFP_KERNEL);
-d14f6f405fc7b66 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  555  		if (!irqdata)
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  556  			return -ENOMEM;
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  557  
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  558  		irqdata->regs = g;
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  559  		irqdata->bank_num = bank;
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  560  		irqdata->chip = chips;
-b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  561  
-eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  562  		irq_set_chained_handler_and_data(chips->irqs[bank],
-eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  563  						 gpio_irq_handler, irqdata);
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  564  
-474dad54baee8f8 arch/arm/mach-davinci/gpio.c David Brownell      2008-12-07  565  		binten |= BIT(bank);
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  566  	}
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  567  
-7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  568  done:
-131a10a39545cce drivers/gpio/gpio-davinci.c  Philip Avinash      2013-08-18  569  	/*
-131a10a39545cce drivers/gpio/gpio-davinci.c  Philip Avinash      2013-08-18  570  	 * BINTEN -- per-bank interrupt enable. genirq would also let these
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  571  	 * bits be set/cleared dynamically.
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  572  	 */
-388291c3a1eb6fe drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-12-11  573  	writel_relaxed(binten, gpio_base + BINTEN);
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  574  
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  575  	return 0;
-3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  576  }
-118150f22d6b443 drivers/gpio/gpio-davinci.c  KV Sujith           2013-08-18  577  
-
-:::::: The code at line 471 was first introduced by commit
-:::::: 1a9ef909acc1d2e4ded41465e4ced22291ee999a gpio: davinci: Convert prinkt to dev_err
-
-:::::: TO: Keerthy <j-keerthy@ti.com>
-:::::: CC: Linus Walleij <linus.walleij@linaro.org>
+d1e879ec600f9b Miri Korenblit 2025-02-16  430  
+612d9bf252c65a Johannes Berg  2025-10-19  431  static void
+612d9bf252c65a Johannes Berg  2025-10-19  432  iwl_mld_decode_he_phy_data(struct iwl_mld_rx_phy_data *phy_data,
+612d9bf252c65a Johannes Berg  2025-10-19  433  			   struct ieee80211_radiotap_he *he,
+612d9bf252c65a Johannes Berg  2025-10-19  434  			   struct ieee80211_radiotap_he_mu *he_mu,
+612d9bf252c65a Johannes Berg  2025-10-19  435  			   struct ieee80211_rx_status *rx_status)
+612d9bf252c65a Johannes Berg  2025-10-19  436  {
+612d9bf252c65a Johannes Berg  2025-10-19  437  	u32 rate_n_flags = phy_data->rate_n_flags;
+612d9bf252c65a Johannes Berg  2025-10-19  438  	u32 he_type = rate_n_flags & RATE_MCS_HE_TYPE_MSK;
+612d9bf252c65a Johannes Berg  2025-10-19  439  	u32 nsts;
+612d9bf252c65a Johannes Berg  2025-10-19  440  
+612d9bf252c65a Johannes Berg  2025-10-19  441  	switch (he_type) {
+612d9bf252c65a Johannes Berg  2025-10-19  442  	case RATE_MCS_HE_TYPE_TRIG:
+612d9bf252c65a Johannes Berg  2025-10-19  443  		iwl_mld_decode_he_tb_phy_data(phy_data, he, rx_status);
+612d9bf252c65a Johannes Berg  2025-10-19  444  		/* that's it, below is only for SU/MU */
+612d9bf252c65a Johannes Berg  2025-10-19  445  		return;
+612d9bf252c65a Johannes Berg  2025-10-19  446  	case RATE_MCS_HE_TYPE_MU:
+612d9bf252c65a Johannes Berg  2025-10-19  447  		iwl_mld_decode_he_mu(phy_data, he, he_mu, rx_status);
+612d9bf252c65a Johannes Berg  2025-10-19  448  
+612d9bf252c65a Johannes Berg  2025-10-19  449  		nsts = le32_get_bits(phy_data->ntfy->sigs.he.b,
+612d9bf252c65a Johannes Berg  2025-10-19  450  				     OFDM_RX_FRAME_HE_SIGB_NSTS) + 1;
+d1e879ec600f9b Miri Korenblit 2025-02-16  451  		break;
+612d9bf252c65a Johannes Berg  2025-10-19  452  	case RATE_MCS_HE_TYPE_SU:
+612d9bf252c65a Johannes Berg  2025-10-19  453  	case RATE_MCS_HE_TYPE_EXT_SU:
+d1e879ec600f9b Miri Korenblit 2025-02-16  454  		he->data1 |= cpu_to_le16(IEEE80211_RADIOTAP_HE_DATA1_BEAM_CHANGE_KNOWN);
+612d9bf252c65a Johannes Berg  2025-10-19  455  		he->data3 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a1,
+612d9bf252c65a Johannes Berg  2025-10-19  456  					 OFDM_RX_FRAME_HE_BEAM_CHANGE,
+d1e879ec600f9b Miri Korenblit 2025-02-16  457  					 IEEE80211_RADIOTAP_HE_DATA3_BEAM_CHANGE);
+612d9bf252c65a Johannes Berg  2025-10-19  458  
+612d9bf252c65a Johannes Berg  2025-10-19  459  		nsts = le32_get_bits(phy_data->ntfy->sigs.he.a1,
+612d9bf252c65a Johannes Berg  2025-10-19  460  				     OFDM_RX_FRAME_HE_NSTS) + 1;
+d1e879ec600f9b Miri Korenblit 2025-02-16  461  		break;
+d1e879ec600f9b Miri Korenblit 2025-02-16  462  	}
+612d9bf252c65a Johannes Berg  2025-10-19  463  
+612d9bf252c65a Johannes Berg  2025-10-19 @464  	rx_status->nss = nsts >> !!(rate_n_flags & RATE_MCS_STBC_MSK);
+612d9bf252c65a Johannes Berg  2025-10-19  465  
+612d9bf252c65a Johannes Berg  2025-10-19  466  	he->data1 |= cpu_to_le16(IEEE80211_RADIOTAP_HE_DATA1_LDPC_XSYMSEG_KNOWN |
+612d9bf252c65a Johannes Berg  2025-10-19  467  				 IEEE80211_RADIOTAP_HE_DATA1_DOPPLER_KNOWN);
+612d9bf252c65a Johannes Berg  2025-10-19  468  	he->data2 |= cpu_to_le16(IEEE80211_RADIOTAP_HE_DATA2_PRE_FEC_PAD_KNOWN |
+612d9bf252c65a Johannes Berg  2025-10-19  469  				 IEEE80211_RADIOTAP_HE_DATA2_PE_DISAMBIG_KNOWN |
+612d9bf252c65a Johannes Berg  2025-10-19  470  				 IEEE80211_RADIOTAP_HE_DATA2_TXOP_KNOWN |
+612d9bf252c65a Johannes Berg  2025-10-19  471  				 IEEE80211_RADIOTAP_HE_DATA2_NUM_LTF_SYMS_KNOWN);
+612d9bf252c65a Johannes Berg  2025-10-19  472  
+612d9bf252c65a Johannes Berg  2025-10-19  473  	he->data3 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a2,
+612d9bf252c65a Johannes Berg  2025-10-19  474  				 OFDM_RX_FRAME_HE_CODING_EXTRA_SYM,
+612d9bf252c65a Johannes Berg  2025-10-19  475  				 IEEE80211_RADIOTAP_HE_DATA3_LDPC_XSYMSEG);
+612d9bf252c65a Johannes Berg  2025-10-19  476  	he->data5 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a2,
+612d9bf252c65a Johannes Berg  2025-10-19  477  				 OFDM_RX_FRAME_HE_PRE_FEC_PAD_FACTOR,
+612d9bf252c65a Johannes Berg  2025-10-19  478  				 IEEE80211_RADIOTAP_HE_DATA5_PRE_FEC_PAD);
+612d9bf252c65a Johannes Berg  2025-10-19  479  	he->data5 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a2,
+612d9bf252c65a Johannes Berg  2025-10-19  480  				 OFDM_RX_FRAME_HE_PE_DISAMBIG,
+612d9bf252c65a Johannes Berg  2025-10-19  481  				 IEEE80211_RADIOTAP_HE_DATA5_PE_DISAMBIG);
+612d9bf252c65a Johannes Berg  2025-10-19  482  	he->data5 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a2,
+612d9bf252c65a Johannes Berg  2025-10-19  483  				 OFDM_RX_FRAME_HE_MU_NUM_OF_LTF_SYM,
+612d9bf252c65a Johannes Berg  2025-10-19  484  				 IEEE80211_RADIOTAP_HE_DATA5_NUM_LTF_SYMS);
+612d9bf252c65a Johannes Berg  2025-10-19  485  	he->data6 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a2,
+612d9bf252c65a Johannes Berg  2025-10-19  486  				 OFDM_RX_FRAME_HE_TXOP_DURATION,
+612d9bf252c65a Johannes Berg  2025-10-19  487  				 IEEE80211_RADIOTAP_HE_DATA6_TXOP);
+612d9bf252c65a Johannes Berg  2025-10-19  488  	he->data6 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a2,
+612d9bf252c65a Johannes Berg  2025-10-19  489  				 OFDM_RX_FRAME_HE_DOPPLER,
+612d9bf252c65a Johannes Berg  2025-10-19  490  				 IEEE80211_RADIOTAP_HE_DATA6_DOPPLER);
+612d9bf252c65a Johannes Berg  2025-10-19  491  
+612d9bf252c65a Johannes Berg  2025-10-19  492  	he->data1 |= cpu_to_le16(IEEE80211_RADIOTAP_HE_DATA1_UL_DL_KNOWN |
+612d9bf252c65a Johannes Berg  2025-10-19  493  				 IEEE80211_RADIOTAP_HE_DATA1_BSS_COLOR_KNOWN |
+612d9bf252c65a Johannes Berg  2025-10-19  494  				 IEEE80211_RADIOTAP_HE_DATA1_SPTL_REUSE_KNOWN);
+612d9bf252c65a Johannes Berg  2025-10-19  495  
+612d9bf252c65a Johannes Berg  2025-10-19  496  	he->data3 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a1,
+612d9bf252c65a Johannes Berg  2025-10-19  497  				 OFDM_RX_FRAME_HE_BSS_COLOR,
+612d9bf252c65a Johannes Berg  2025-10-19  498  				 IEEE80211_RADIOTAP_HE_DATA3_BSS_COLOR);
+612d9bf252c65a Johannes Berg  2025-10-19  499  	he->data3 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a1,
+612d9bf252c65a Johannes Berg  2025-10-19  500  				 OFDM_RX_FRAME_HE_UL_FLAG,
+612d9bf252c65a Johannes Berg  2025-10-19  501  				 IEEE80211_RADIOTAP_HE_DATA3_UL_DL);
+612d9bf252c65a Johannes Berg  2025-10-19  502  	he->data4 |= RTAP_ENC_HE(phy_data->ntfy->sigs.he.a1,
+612d9bf252c65a Johannes Berg  2025-10-19  503  				 OFDM_RX_FRAME_HE_SPATIAL_REUSE,
+612d9bf252c65a Johannes Berg  2025-10-19  504  				 IEEE80211_RADIOTAP_HE_DATA4_SU_MU_SPTL_REUSE);
+d1e879ec600f9b Miri Korenblit 2025-02-16  505  }
+d1e879ec600f9b Miri Korenblit 2025-02-16  506  
 
 -- 
 0-DAY CI Kernel Test Service
