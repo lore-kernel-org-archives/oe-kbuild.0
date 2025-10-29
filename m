@@ -1,316 +1,313 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A937E1411DE
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 02:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A72D2DAFBE
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 02:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761705034; cv=none; b=g/DmX+rxymXmHl8wYdK363wcQUd5JHg2WZBsWQE7DTKYvILj+IZyraxHahrKh9EZ2hem7LnSAr1LTrBbV1YNEbgxvAbIGWlOA3kPgD/RZiswTGDa4cxZhxTuJ6tNJz0OEuIni3Bc+8C9fKrwcYajCTAyq0uftjGDvw+mtN5l0eg=
+	t=1761705860; cv=none; b=Ls5zXlWNdms2zZXhAnd5LQj3RLgwWUofQEvE1EBUr8QKXKPbz+Y8+9tcVFQx8B1yhQXQtIRqfPKsktiaF7I1PVzsTcG3DZOMINe2UgIJdIwO9t5l6xSkzK/TFc8mPZWPKlQAFZfUBZWwGr1G+OFx98Cllp5qP/QVUgHyLY7t9MU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761705034; c=relaxed/simple;
-	bh=1SlUmIY5Dg1IT9GBgNivMEwHMZrzoaxFqDY+aR1UWeo=;
+	s=arc-20240116; t=1761705860; c=relaxed/simple;
+	bh=POu00ct8593NFyNmzw8T9vTP8CzHyNElwJ0sO+8hMK4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=agK43JBPjTDe8mTyAU+8M3nfj/OAFRDsTdEyJyFChdPojjM5avBPckhboMdI9kJFMyZKiqOJ+/zQZv/uSrYPpXCUIstx+FI6DYT67palti9G/NNwE78VCVlzc6e8V+9eFzG27bJBTK9W2alctqAIjX0WlOB+8jrbk8WGppA8U6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hv4eqrn7; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=X4fpKlqpkpGx79MzD3sa8Q+O47co5+in37gDJ7QOU3g+kZrMZ3v/glvLGvqlC+hFC1uJqSQ+aHSYsWYfpO7/ZRL81GRaONNDlqbgkP0Lec3zikOyZTJW6MaMwflE4QhLYyxfce5uEnUTjmR/2TDa9T2JMkTEqlP8LL/GtK4Z7Ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W6AoN7cn; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hv4eqrn7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W6AoN7cn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761705030; x=1793241030;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1SlUmIY5Dg1IT9GBgNivMEwHMZrzoaxFqDY+aR1UWeo=;
-  b=hv4eqrn7BsJS8eU0GfX2/04twytWbOn4h4Qybm7JVI81wiKufaxg3lx2
-   5sPkdm7Ro0DaN+pVT2MvCkF5p/ThgCmhwj6xgrtg/W1F0chDc5h0AbtY8
-   YPKbnoelDtbSfvvg2rm0YW7CTjo6iE+5lH+TEd72Fzm6Qb0RyvXaOddKX
-   gH76Lpm6qx1zLqjI5qIzPPRSP3yhqtBolvZsAnxM5m7kFAGIolKa0FJN2
-   /V43eU2hDacd9w4jSo6lI6mtac1McozhDXMGr4aSekzP9SLd84QmlfIqJ
-   2Mdt8r+nuIZbLASbn2AfI4fnfWPTq6jQ5gdk6EbFA2TEr68ayoaFmV8yK
-   Q==;
-X-CSE-ConnectionGUID: VAotdarQRI+FWiWUfWHcUg==
-X-CSE-MsgGUID: nzF3pID2T5Oa09ZrG652/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67459812"
+  t=1761705858; x=1793241858;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=POu00ct8593NFyNmzw8T9vTP8CzHyNElwJ0sO+8hMK4=;
+  b=W6AoN7cnSthf+SipKDkI5vf09P8tJVSlp4LBujHEIY5t6oRpztrjH3dn
+   XFiC+GUARBnbhUVRVT2uRT/gxUc8AysXfWQ6bWEBXAASYfxp4qP42EoNo
+   vw37uP7HpXQQBTpHXLj6IzWoXGIYWiMBhF9rxKK6YwAeqjLIty98rn4UZ
+   4Vj9ybS86qRde2JEqDRCMk1Y6ucRMDbUIZlFvmwyQwLaSOOVBgK+HfnI0
+   8xvs6j9y/OVOcE81teIdxbRO0dFVg9QFLYRrLdjRtdqhNIAX+9XKonLqc
+   nKlSEJTY1Tn+d61AAYgLbR0s3dwuN8x3vU1BiPHO7YH6zvSHVvs+UqVVP
+   w==;
+X-CSE-ConnectionGUID: kyoAAOIxQYq6BFxehg82XQ==
+X-CSE-MsgGUID: Kezh13hfSL+dmu6ZHT3Qug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="81239480"
 X-IronPort-AV: E=Sophos;i="6.19,262,1754982000"; 
-   d="scan'208";a="67459812"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 19:30:30 -0700
-X-CSE-ConnectionGUID: Ocxzppg4SYuIYPaPUMciiw==
-X-CSE-MsgGUID: noMPAxCfSPaxsWlc0IO7FQ==
+   d="scan'208";a="81239480"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 19:44:18 -0700
+X-CSE-ConnectionGUID: x425QVzCSXiFeRkVSqVStQ==
+X-CSE-MsgGUID: uNC1BE49TxOLOkUgBq5VBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,262,1754982000"; 
-   d="scan'208";a="222740977"
+   d="scan'208";a="190661530"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 28 Oct 2025 19:30:29 -0700
+  by orviesa005.jf.intel.com with ESMTP; 28 Oct 2025 19:44:16 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDvxC-000K3t-1M;
-	Wed, 29 Oct 2025 02:30:26 +0000
-Date: Wed, 29 Oct 2025 10:30:13 +0800
+	id 1vDwAY-000K4Q-0d;
+	Wed, 29 Oct 2025 02:44:14 +0000
+Date: Wed, 29 Oct 2025 10:43:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/6] x86/entry/vdso: refactor the vdso build
-Message-ID: <202510291031.ql4Glo7a-lkp@intel.com>
+Subject: [vireshk:virtio/msg-xen 12/16] net/vmw_vsock/af_vsock.c:2292
+ vsock_connectible_sendmsg() warn: inconsistent returns 'sk'.
+Message-ID: <202510291001.CGX6PpWu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251026221208.1938173-3-hpa@zytor.com>
-References: <20251026221208.1938173-3-hpa@zytor.com>
-TO: "H. Peter Anvin" <hpa@zytor.com>
-TO: "H. Peter Anvin" <hpa@zytor.com>
-TO: "Jason A. Donenfeld" <Jason@zx2c4.com>
-TO: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-TO: "Theodore Ts'o" <tytso@mit.edu>
-TO: "Thomas Weiﬂschuh" <thomas.weissschuh@linutronix.de>
-TO: Xin Li <xin@zytor.com>
-TO: Andrew Cooper <andrew.cooper3@citrix.com>
-TO: Andy Lutomirski <luto@kernel.org>
-TO: Ard Biesheuvel <ardb@kernel.org>
-TO: Borislav Petkov <bp@alien8.de>
-TO: Brian Gerst <brgerst@gmail.com>
-TO: Dave Hansen <dave.hansen@linux.intel.com>
-TO: Ingo Molnar <mingo@redhat.com>
-TO: James Morse <james.morse@arm.com>
-TO: Jarkko Sakkinen <jarkko@kernel.org>
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-TO: Kees Cook <kees@kernel.org>
-TO: Nam Cao <namcao@linutronix.de>
-TO: Oleg Nesterov <oleg@redhat.com>
-TO: Perry Yuan <perry.yuan@amd.com>
-TO: Thomas Gleixner <tglx@linutronix.de>
-TO: Thomas Huth <thuth@redhat.com>
-TO: Uros Bizjak <ubizjak@gmail.com>
-TO: linux-kernel@vger.kernel.org
-TO: linux-mm@kvack.org
-TO: linux-sgx@vger.kernel.org
-TO: x86@kernel.org
+TO: Viresh Kumar <viresh.kumar@linaro.org>
 
-Hi Peter,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on linus/master v6.18-rc3 next-20251028]
-[cannot apply to tip/x86/vdso crng-random/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/H-Peter-Anvin/x86-entry-vdso-rename-vdso_image_-to-vdso-_image/20251027-061505
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20251026221208.1938173-3-hpa%40zytor.com
-patch subject: [PATCH 2/6] x86/entry/vdso: refactor the vdso build
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20251027 (https://download.01.org/0day-ci/archive/20251029/202510291031.ql4Glo7a-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-xen
+head:   27143c677cd93a347826a8702540f4b7cdb0d14e
+commit: 8d1fc26e2f13344cd4d4f0552d6f0eaaade83913 [12/16] vsock: Add memory sharing support
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: x86_64-randconfig-161-20251029 (https://download.01.org/0day-ci/archive/20251029/202510291001.CGX6PpWu-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510291031.ql4Glo7a-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510291001.CGX6PpWu-lkp@intel.com/
 
 smatch warnings:
-arch/x86/include/uapi/../../../../lib/vdso/gettimeofday.c:308 __cvdso_clock_gettime_common() warn: right shifting more than type allows 32 vs 40
-arch/x86/include/uapi/../../../../lib/vdso/gettimeofday.c:308 __cvdso_clock_gettime_common() warn: bitwise AND condition is false here
-arch/x86/include/uapi/../../../../lib/vdso/gettimeofday.c:454 __cvdso_clock_getres_common() warn: right shifting more than type allows 32 vs 40
-arch/x86/include/uapi/../../../../lib/vdso/gettimeofday.c:454 __cvdso_clock_getres_common() warn: bitwise AND condition is false here
+net/vmw_vsock/af_vsock.c:2292 vsock_connectible_sendmsg() warn: inconsistent returns 'sk'.
 
-vim +308 arch/x86/include/uapi/../../../../lib/vdso/gettimeofday.c
+vim +/sk +2292 net/vmw_vsock/af_vsock.c
 
-cd3557a7618bf5 Thomas Weiﬂschuh   2025-07-01  286  
-fb61bdb27fd730 Thomas Weiﬂschuh   2025-07-01  287  static __always_inline bool
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  288  __cvdso_clock_gettime_common(const struct vdso_time_data *vd, clockid_t clock,
-e876f0b69dc993 Christophe Leroy   2020-02-07  289  			     struct __kernel_timespec *ts)
-00b26474c2f161 Vincenzo Frascino  2019-06-21  290  {
-886653e3663917 Anna-Maria Behnsen 2025-03-03  291  	const struct vdso_clock *vc = vd->clock_data;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  292  	u32 msk;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  293  
-1a1cd5fe881fdf Thomas Weiﬂschuh   2025-07-01  294  	if (!vdso_clockid_valid(clock))
-fb61bdb27fd730 Thomas Weiﬂschuh   2025-07-01  295  		return false;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  296  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  297  	/*
-00b26474c2f161 Vincenzo Frascino  2019-06-21  298  	 * Convert the clockid to a bitmask and use it to check which
-00b26474c2f161 Vincenzo Frascino  2019-06-21  299  	 * clocks are handled in the VDSO directly.
-00b26474c2f161 Vincenzo Frascino  2019-06-21  300  	 */
-00b26474c2f161 Vincenzo Frascino  2019-06-21  301  	msk = 1U << clock;
-8463cf80529d0f Christophe Leroy   2019-12-23  302  	if (likely(msk & VDSO_HRES))
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  303  		vc = &vc[CS_HRES_COARSE];
-8463cf80529d0f Christophe Leroy   2019-12-23  304  	else if (msk & VDSO_COARSE)
-70067ae181f302 Anna-Maria Behnsen 2025-03-03  305  		return do_coarse(vd, &vc[CS_HRES_COARSE], clock, ts);
-8463cf80529d0f Christophe Leroy   2019-12-23  306  	else if (msk & VDSO_RAW)
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  307  		vc = &vc[CS_RAW];
-cd3557a7618bf5 Thomas Weiﬂschuh   2025-07-01 @308  	else if (msk & VDSO_AUX)
-cd3557a7618bf5 Thomas Weiﬂschuh   2025-07-01  309  		return do_aux(vd, clock, ts);
-c966533f8c6c45 Andrei Vagin       2019-11-12  310  	else
-fb61bdb27fd730 Thomas Weiﬂschuh   2025-07-01  311  		return false;
-c966533f8c6c45 Andrei Vagin       2019-11-12  312  
-64c3613ce31a1a Anna-Maria Behnsen 2025-03-03  313  	return do_hres(vd, vc, clock, ts);
-502a590a170b3b Thomas Gleixner    2019-07-28  314  }
-00b26474c2f161 Vincenzo Frascino  2019-06-21  315  
-502a590a170b3b Thomas Gleixner    2019-07-28  316  static __maybe_unused int
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  317  __cvdso_clock_gettime_data(const struct vdso_time_data *vd, clockid_t clock,
-e876f0b69dc993 Christophe Leroy   2020-02-07  318  			   struct __kernel_timespec *ts)
-502a590a170b3b Thomas Gleixner    2019-07-28  319  {
-fb61bdb27fd730 Thomas Weiﬂschuh   2025-07-01  320  	bool ok;
-502a590a170b3b Thomas Gleixner    2019-07-28  321  
-fb61bdb27fd730 Thomas Weiﬂschuh   2025-07-01  322  	ok = __cvdso_clock_gettime_common(vd, clock, ts);
-fb61bdb27fd730 Thomas Weiﬂschuh   2025-07-01  323  
-fb61bdb27fd730 Thomas Weiﬂschuh   2025-07-01  324  	if (unlikely(!ok))
-00b26474c2f161 Vincenzo Frascino  2019-06-21  325  		return clock_gettime_fallback(clock, ts);
-502a590a170b3b Thomas Gleixner    2019-07-28  326  	return 0;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  327  }
-00b26474c2f161 Vincenzo Frascino  2019-06-21  328  
-e876f0b69dc993 Christophe Leroy   2020-02-07  329  static __maybe_unused int
-e876f0b69dc993 Christophe Leroy   2020-02-07  330  __cvdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
-e876f0b69dc993 Christophe Leroy   2020-02-07  331  {
-df7fcbefa71090 Thomas Weiﬂschuh   2025-02-04  332  	return __cvdso_clock_gettime_data(__arch_get_vdso_u_time_data(), clock, ts);
-e876f0b69dc993 Christophe Leroy   2020-02-07  333  }
-e876f0b69dc993 Christophe Leroy   2020-02-07  334  
-bf279849ad5953 Vincenzo Frascino  2019-08-30  335  #ifdef BUILD_VDSO32
-00b26474c2f161 Vincenzo Frascino  2019-06-21  336  static __maybe_unused int
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  337  __cvdso_clock_gettime32_data(const struct vdso_time_data *vd, clockid_t clock,
-e876f0b69dc993 Christophe Leroy   2020-02-07  338  			     struct old_timespec32 *res)
-00b26474c2f161 Vincenzo Frascino  2019-06-21  339  {
-00b26474c2f161 Vincenzo Frascino  2019-06-21  340  	struct __kernel_timespec ts;
-fb61bdb27fd730 Thomas Weiﬂschuh   2025-07-01  341  	bool ok;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  342  
-fb61bdb27fd730 Thomas Weiﬂschuh   2025-07-01  343  	ok = __cvdso_clock_gettime_common(vd, clock, &ts);
-00b26474c2f161 Vincenzo Frascino  2019-06-21  344  
-fb61bdb27fd730 Thomas Weiﬂschuh   2025-07-01  345  	if (unlikely(!ok))
-c60a32ea4f459f Thomas Gleixner    2019-07-30  346  		return clock_gettime32_fallback(clock, res);
-502a590a170b3b Thomas Gleixner    2019-07-28  347  
-fb61bdb27fd730 Thomas Weiﬂschuh   2025-07-01  348  	/* For ok == true */
-00b26474c2f161 Vincenzo Frascino  2019-06-21  349  	res->tv_sec = ts.tv_sec;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  350  	res->tv_nsec = ts.tv_nsec;
-a279235ddbe975 Vincenzo Frascino  2019-08-30  351  
-fb61bdb27fd730 Thomas Weiﬂschuh   2025-07-01  352  	return 0;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  353  }
-e876f0b69dc993 Christophe Leroy   2020-02-07  354  
-e876f0b69dc993 Christophe Leroy   2020-02-07  355  static __maybe_unused int
-e876f0b69dc993 Christophe Leroy   2020-02-07  356  __cvdso_clock_gettime32(clockid_t clock, struct old_timespec32 *res)
-e876f0b69dc993 Christophe Leroy   2020-02-07  357  {
-df7fcbefa71090 Thomas Weiﬂschuh   2025-02-04  358  	return __cvdso_clock_gettime32_data(__arch_get_vdso_u_time_data(), clock, res);
-e876f0b69dc993 Christophe Leroy   2020-02-07  359  }
-bf279849ad5953 Vincenzo Frascino  2019-08-30  360  #endif /* BUILD_VDSO32 */
-00b26474c2f161 Vincenzo Frascino  2019-06-21  361  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  362  static __maybe_unused int
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  363  __cvdso_gettimeofday_data(const struct vdso_time_data *vd,
-e876f0b69dc993 Christophe Leroy   2020-02-07  364  			  struct __kernel_old_timeval *tv, struct timezone *tz)
-00b26474c2f161 Vincenzo Frascino  2019-06-21  365  {
-886653e3663917 Anna-Maria Behnsen 2025-03-03  366  	const struct vdso_clock *vc = vd->clock_data;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  367  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  368  	if (likely(tv != NULL)) {
-00b26474c2f161 Vincenzo Frascino  2019-06-21  369  		struct __kernel_timespec ts;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  370  
-fb61bdb27fd730 Thomas Weiﬂschuh   2025-07-01  371  		if (!do_hres(vd, &vc[CS_HRES_COARSE], CLOCK_REALTIME, &ts))
-00b26474c2f161 Vincenzo Frascino  2019-06-21  372  			return gettimeofday_fallback(tv, tz);
-00b26474c2f161 Vincenzo Frascino  2019-06-21  373  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  374  		tv->tv_sec = ts.tv_sec;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  375  		tv->tv_usec = (u32)ts.tv_nsec / NSEC_PER_USEC;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  376  	}
-00b26474c2f161 Vincenzo Frascino  2019-06-21  377  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  378  	if (unlikely(tz != NULL)) {
-660fd04f931717 Thomas Gleixner    2019-11-12  379  		if (IS_ENABLED(CONFIG_TIME_NS) &&
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  380  		    vc->clock_mode == VDSO_CLOCKMODE_TIMENS)
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  381  			vd = __arch_get_vdso_u_timens_data(vd);
-660fd04f931717 Thomas Gleixner    2019-11-12  382  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  383  		tz->tz_minuteswest = vd[CS_HRES_COARSE].tz_minuteswest;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  384  		tz->tz_dsttime = vd[CS_HRES_COARSE].tz_dsttime;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  385  	}
-00b26474c2f161 Vincenzo Frascino  2019-06-21  386  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  387  	return 0;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  388  }
-00b26474c2f161 Vincenzo Frascino  2019-06-21  389  
-e876f0b69dc993 Christophe Leroy   2020-02-07  390  static __maybe_unused int
-e876f0b69dc993 Christophe Leroy   2020-02-07  391  __cvdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
-e876f0b69dc993 Christophe Leroy   2020-02-07  392  {
-df7fcbefa71090 Thomas Weiﬂschuh   2025-02-04  393  	return __cvdso_gettimeofday_data(__arch_get_vdso_u_time_data(), tv, tz);
-e876f0b69dc993 Christophe Leroy   2020-02-07  394  }
-e876f0b69dc993 Christophe Leroy   2020-02-07  395  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  396  #ifdef VDSO_HAS_TIME
-e876f0b69dc993 Christophe Leroy   2020-02-07  397  static __maybe_unused __kernel_old_time_t
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  398  __cvdso_time_data(const struct vdso_time_data *vd, __kernel_old_time_t *time)
-00b26474c2f161 Vincenzo Frascino  2019-06-21  399  {
-886653e3663917 Anna-Maria Behnsen 2025-03-03  400  	const struct vdso_clock *vc = vd->clock_data;
-660fd04f931717 Thomas Gleixner    2019-11-12  401  	__kernel_old_time_t t;
-660fd04f931717 Thomas Gleixner    2019-11-12  402  
-2d6b01bd88ccab Thomas Gleixner    2020-02-07  403  	if (IS_ENABLED(CONFIG_TIME_NS) &&
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  404  	    vc->clock_mode == VDSO_CLOCKMODE_TIMENS) {
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  405  		vd = __arch_get_vdso_u_timens_data(vd);
-886653e3663917 Anna-Maria Behnsen 2025-03-03  406  		vc = vd->clock_data;
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  407  	}
-660fd04f931717 Thomas Gleixner    2019-11-12  408  
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  409  	t = READ_ONCE(vc[CS_HRES_COARSE].basetime[CLOCK_REALTIME].sec);
-00b26474c2f161 Vincenzo Frascino  2019-06-21  410  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  411  	if (time)
-00b26474c2f161 Vincenzo Frascino  2019-06-21  412  		*time = t;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  413  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  414  	return t;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  415  }
-e876f0b69dc993 Christophe Leroy   2020-02-07  416  
-e876f0b69dc993 Christophe Leroy   2020-02-07  417  static __maybe_unused __kernel_old_time_t __cvdso_time(__kernel_old_time_t *time)
-e876f0b69dc993 Christophe Leroy   2020-02-07  418  {
-df7fcbefa71090 Thomas Weiﬂschuh   2025-02-04  419  	return __cvdso_time_data(__arch_get_vdso_u_time_data(), time);
-e876f0b69dc993 Christophe Leroy   2020-02-07  420  }
-00b26474c2f161 Vincenzo Frascino  2019-06-21  421  #endif /* VDSO_HAS_TIME */
-00b26474c2f161 Vincenzo Frascino  2019-06-21  422  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  423  #ifdef VDSO_HAS_CLOCK_GETRES
-00b26474c2f161 Vincenzo Frascino  2019-06-21  424  static __maybe_unused
-34f888e3405ace Thomas Weiﬂschuh   2025-07-01  425  bool __cvdso_clock_getres_common(const struct vdso_time_data *vd, clockid_t clock,
-e876f0b69dc993 Christophe Leroy   2020-02-07  426  				 struct __kernel_timespec *res)
-00b26474c2f161 Vincenzo Frascino  2019-06-21  427  {
-886653e3663917 Anna-Maria Behnsen 2025-03-03  428  	const struct vdso_clock *vc = vd->clock_data;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  429  	u32 msk;
-502a590a170b3b Thomas Gleixner    2019-07-28  430  	u64 ns;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  431  
-1a1cd5fe881fdf Thomas Weiﬂschuh   2025-07-01  432  	if (!vdso_clockid_valid(clock))
-34f888e3405ace Thomas Weiﬂschuh   2025-07-01  433  		return false;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  434  
-2d6b01bd88ccab Thomas Gleixner    2020-02-07  435  	if (IS_ENABLED(CONFIG_TIME_NS) &&
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  436  	    vc->clock_mode == VDSO_CLOCKMODE_TIMENS)
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  437  		vd = __arch_get_vdso_u_timens_data(vd);
-660fd04f931717 Thomas Gleixner    2019-11-12  438  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  439  	/*
-00b26474c2f161 Vincenzo Frascino  2019-06-21  440  	 * Convert the clockid to a bitmask and use it to check which
-00b26474c2f161 Vincenzo Frascino  2019-06-21  441  	 * clocks are handled in the VDSO directly.
-00b26474c2f161 Vincenzo Frascino  2019-06-21  442  	 */
-00b26474c2f161 Vincenzo Frascino  2019-06-21  443  	msk = 1U << clock;
-cdb7c5a9c897ab Christophe Leroy   2019-12-23  444  	if (msk & (VDSO_HRES | VDSO_RAW)) {
-00b26474c2f161 Vincenzo Frascino  2019-06-21  445  		/*
-00b26474c2f161 Vincenzo Frascino  2019-06-21  446  		 * Preserves the behaviour of posix_get_hrtimer_res().
-00b26474c2f161 Vincenzo Frascino  2019-06-21  447  		 */
-886653e3663917 Anna-Maria Behnsen 2025-03-03  448  		ns = READ_ONCE(vd->hrtimer_res);
-00b26474c2f161 Vincenzo Frascino  2019-06-21  449  	} else if (msk & VDSO_COARSE) {
-00b26474c2f161 Vincenzo Frascino  2019-06-21  450  		/*
-00b26474c2f161 Vincenzo Frascino  2019-06-21  451  		 * Preserves the behaviour of posix_get_coarse_res().
-00b26474c2f161 Vincenzo Frascino  2019-06-21  452  		 */
-00b26474c2f161 Vincenzo Frascino  2019-06-21  453  		ns = LOW_RES_NSEC;
-cd3557a7618bf5 Thomas Weiﬂschuh   2025-07-01 @454  	} else if (msk & VDSO_AUX) {
-cd3557a7618bf5 Thomas Weiﬂschuh   2025-07-01  455  		ns = aux_clock_resolution_ns();
-00b26474c2f161 Vincenzo Frascino  2019-06-21  456  	} else {
-34f888e3405ace Thomas Weiﬂschuh   2025-07-01  457  		return false;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  458  	}
-00b26474c2f161 Vincenzo Frascino  2019-06-21  459  
-1638b8f096ca16 Thomas Gleixner    2019-10-21  460  	if (likely(res)) {
-00b26474c2f161 Vincenzo Frascino  2019-06-21  461  		res->tv_sec = 0;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  462  		res->tv_nsec = ns;
-1638b8f096ca16 Thomas Gleixner    2019-10-21  463  	}
-34f888e3405ace Thomas Weiﬂschuh   2025-07-01  464  	return true;
-502a590a170b3b Thomas Gleixner    2019-07-28  465  }
-502a590a170b3b Thomas Gleixner    2019-07-28  466  
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2078  
+a9e29e5511b9e6 Arseny Krasnov     2021-06-11  2079  static int vsock_connectible_sendmsg(struct socket *sock, struct msghdr *msg,
+1b784140474e4f Ying Xue           2015-03-02  2080  				     size_t len)
+d021c344051af9 Andy King          2013-02-06  2081  {
+d021c344051af9 Andy King          2013-02-06  2082  	struct sock *sk;
+d021c344051af9 Andy King          2013-02-06  2083  	struct vsock_sock *vsk;
+fe502c4a38d97e Stefano Garzarella 2019-11-14  2084  	const struct vsock_transport *transport;
+d021c344051af9 Andy King          2013-02-06  2085  	ssize_t total_written;
+d021c344051af9 Andy King          2013-02-06  2086  	long timeout;
+d021c344051af9 Andy King          2013-02-06  2087  	int err;
+d021c344051af9 Andy King          2013-02-06  2088  	struct vsock_transport_send_notify_data send_data;
+499fde662f1957 WANG Cong          2017-05-19  2089  	DEFINE_WAIT_FUNC(wait, woken_wake_function);
+d021c344051af9 Andy King          2013-02-06  2090  
+d021c344051af9 Andy King          2013-02-06  2091  	sk = sock->sk;
+d021c344051af9 Andy King          2013-02-06  2092  	vsk = vsock_sk(sk);
+d021c344051af9 Andy King          2013-02-06  2093  	total_written = 0;
+d021c344051af9 Andy King          2013-02-06  2094  	err = 0;
+d021c344051af9 Andy King          2013-02-06  2095  
+d021c344051af9 Andy King          2013-02-06  2096  	if (msg->msg_flags & MSG_OOB)
+d021c344051af9 Andy King          2013-02-06  2097  		return -EOPNOTSUPP;
+d021c344051af9 Andy King          2013-02-06  2098  
+d021c344051af9 Andy King          2013-02-06  2099  	lock_sock(sk);
+d021c344051af9 Andy King          2013-02-06  2100  
+c518adafa39f37 Alexander Popov    2021-02-01  2101  	transport = vsk->transport;
+c518adafa39f37 Alexander Popov    2021-02-01  2102  
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2103  	/* Scan ancillary for SOL_VSOCK/SCM_VSOCK_SHMEM */
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2104  	if (msg->msg_controllen) {
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2105  		struct cmsghdr *cmsg;
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2106  
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2107  		/* Check transport hook */
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2108  		if (!transport || !transport->send_shmem)
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2109  			return -EOPNOTSUPP;
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2110  
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2111  		for (cmsg = CMSG_FIRSTHDR(msg); cmsg; cmsg = CMSG_NXTHDR(msg, cmsg)) {
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2112  			if (cmsg->cmsg_level == SOL_VSOCK &&
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2113  			    cmsg->cmsg_type == SCM_VSOCK_SHMEM) {
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2114  				struct vsock_shmem_desc desc;
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2115  				struct file *file;
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2116  				void *old;
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2117  
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2118  				if (cmsg->cmsg_len < CMSG_LEN(sizeof(desc)))
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2119  					return -EINVAL;
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2120  
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2121  				memcpy(&desc, CMSG_DATA(cmsg), sizeof(desc));
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2122  
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2123  				if (desc.fd < 0)
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2124  					return -EINVAL;
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2125  
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2126  				file = fget(desc.fd);
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2127  				if (!file) {
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2128  					err = -EBADF;
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2129  					goto out;
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2130  				}
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2131  
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2132  				/* publish FD's file by token */
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2133  				old = xa_store(&vsock_shmem_xa,
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2134  						(unsigned long)desc.token, file,
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2135  						GFP_KERNEL);
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2136  				if (xa_is_err(old)) {
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2137  					fput(file);
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2138  					err = xa_err(old);
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2139  					goto out;
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2140  				}
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2141  
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2142  				/* Token used previously ? */
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2143  				if (old)
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2144  					fput(old);
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2145  
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2146  				/* Receiver will create its own fd; do not leak sender's fd */
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2147  				desc.fd = -1;
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2148  
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2149  				/* send SHMEM control pkt (out-of-band) */
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2150  				err = vsk->transport->send_shmem(vsk, &desc);
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2151  				if (err < 0)
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2152  					goto out;
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2153  			}
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2154  		}
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2155  	}
+8d1fc26e2f1334 Viresh Kumar       2025-10-15  2156  
+8cb48554ad822f Arseny Krasnov     2021-06-11  2157  	/* Callers should not provide a destination with connection oriented
+8cb48554ad822f Arseny Krasnov     2021-06-11  2158  	 * sockets.
+8cb48554ad822f Arseny Krasnov     2021-06-11  2159  	 */
+d021c344051af9 Andy King          2013-02-06  2160  	if (msg->msg_namelen) {
+3b4477d2dcf270 Stefan Hajnoczi    2017-10-05  2161  		err = sk->sk_state == TCP_ESTABLISHED ? -EISCONN : -EOPNOTSUPP;
+d021c344051af9 Andy King          2013-02-06  2162  		goto out;
+d021c344051af9 Andy King          2013-02-06  2163  	}
+d021c344051af9 Andy King          2013-02-06  2164  
+d021c344051af9 Andy King          2013-02-06  2165  	/* Send data only if both sides are not shutdown in the direction. */
+d021c344051af9 Andy King          2013-02-06  2166  	if (sk->sk_shutdown & SEND_SHUTDOWN ||
+d021c344051af9 Andy King          2013-02-06  2167  	    vsk->peer_shutdown & RCV_SHUTDOWN) {
+d021c344051af9 Andy King          2013-02-06  2168  		err = -EPIPE;
+d021c344051af9 Andy King          2013-02-06  2169  		goto out;
+d021c344051af9 Andy King          2013-02-06  2170  	}
+d021c344051af9 Andy King          2013-02-06  2171  
+c0cfa2d8a788fc Stefano Garzarella 2019-11-14  2172  	if (!transport || sk->sk_state != TCP_ESTABLISHED ||
+d021c344051af9 Andy King          2013-02-06  2173  	    !vsock_addr_bound(&vsk->local_addr)) {
+d021c344051af9 Andy King          2013-02-06  2174  		err = -ENOTCONN;
+d021c344051af9 Andy King          2013-02-06  2175  		goto out;
+d021c344051af9 Andy King          2013-02-06  2176  	}
+d021c344051af9 Andy King          2013-02-06  2177  
+d021c344051af9 Andy King          2013-02-06  2178  	if (!vsock_addr_bound(&vsk->remote_addr)) {
+d021c344051af9 Andy King          2013-02-06  2179  		err = -EDESTADDRREQ;
+d021c344051af9 Andy King          2013-02-06  2180  		goto out;
+d021c344051af9 Andy King          2013-02-06  2181  	}
+d021c344051af9 Andy King          2013-02-06  2182  
+5fbfc7d2433439 Arseniy Krasnov    2023-10-10  2183  	if (msg->msg_flags & MSG_ZEROCOPY &&
+5fbfc7d2433439 Arseniy Krasnov    2023-10-10  2184  	    !vsock_msgzerocopy_allow(transport)) {
+5fbfc7d2433439 Arseniy Krasnov    2023-10-10  2185  		err = -EOPNOTSUPP;
+5fbfc7d2433439 Arseniy Krasnov    2023-10-10  2186  		goto out;
+5fbfc7d2433439 Arseniy Krasnov    2023-10-10  2187  	}
+5fbfc7d2433439 Arseniy Krasnov    2023-10-10  2188  
+d021c344051af9 Andy King          2013-02-06  2189  	/* Wait for room in the produce queue to enqueue our user's data. */
+d021c344051af9 Andy King          2013-02-06  2190  	timeout = sock_sndtimeo(sk, msg->msg_flags & MSG_DONTWAIT);
+d021c344051af9 Andy King          2013-02-06  2191  
+d021c344051af9 Andy King          2013-02-06  2192  	err = transport->notify_send_init(vsk, &send_data);
+d021c344051af9 Andy King          2013-02-06  2193  	if (err < 0)
+d021c344051af9 Andy King          2013-02-06  2194  		goto out;
+d021c344051af9 Andy King          2013-02-06  2195  
+d021c344051af9 Andy King          2013-02-06  2196  	while (total_written < len) {
+d021c344051af9 Andy King          2013-02-06  2197  		ssize_t written;
+d021c344051af9 Andy King          2013-02-06  2198  
+499fde662f1957 WANG Cong          2017-05-19  2199  		add_wait_queue(sk_sleep(sk), &wait);
+d021c344051af9 Andy King          2013-02-06  2200  		while (vsock_stream_has_space(vsk) == 0 &&
+d021c344051af9 Andy King          2013-02-06  2201  		       sk->sk_err == 0 &&
+d021c344051af9 Andy King          2013-02-06  2202  		       !(sk->sk_shutdown & SEND_SHUTDOWN) &&
+d021c344051af9 Andy King          2013-02-06  2203  		       !(vsk->peer_shutdown & RCV_SHUTDOWN)) {
+d021c344051af9 Andy King          2013-02-06  2204  
+d021c344051af9 Andy King          2013-02-06  2205  			/* Don't wait for non-blocking sockets. */
+d021c344051af9 Andy King          2013-02-06  2206  			if (timeout == 0) {
+d021c344051af9 Andy King          2013-02-06  2207  				err = -EAGAIN;
+499fde662f1957 WANG Cong          2017-05-19  2208  				remove_wait_queue(sk_sleep(sk), &wait);
+f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2209  				goto out_err;
+d021c344051af9 Andy King          2013-02-06  2210  			}
+d021c344051af9 Andy King          2013-02-06  2211  
+d021c344051af9 Andy King          2013-02-06  2212  			err = transport->notify_send_pre_block(vsk, &send_data);
+f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2213  			if (err < 0) {
+499fde662f1957 WANG Cong          2017-05-19  2214  				remove_wait_queue(sk_sleep(sk), &wait);
+f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2215  				goto out_err;
+f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2216  			}
+d021c344051af9 Andy King          2013-02-06  2217  
+d021c344051af9 Andy King          2013-02-06  2218  			release_sock(sk);
+499fde662f1957 WANG Cong          2017-05-19  2219  			timeout = wait_woken(&wait, TASK_INTERRUPTIBLE, timeout);
+d021c344051af9 Andy King          2013-02-06  2220  			lock_sock(sk);
+d021c344051af9 Andy King          2013-02-06  2221  			if (signal_pending(current)) {
+d021c344051af9 Andy King          2013-02-06  2222  				err = sock_intr_errno(timeout);
+499fde662f1957 WANG Cong          2017-05-19  2223  				remove_wait_queue(sk_sleep(sk), &wait);
+f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2224  				goto out_err;
+d021c344051af9 Andy King          2013-02-06  2225  			} else if (timeout == 0) {
+d021c344051af9 Andy King          2013-02-06  2226  				err = -EAGAIN;
+499fde662f1957 WANG Cong          2017-05-19  2227  				remove_wait_queue(sk_sleep(sk), &wait);
+f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2228  				goto out_err;
+d021c344051af9 Andy King          2013-02-06  2229  			}
+d021c344051af9 Andy King          2013-02-06  2230  		}
+499fde662f1957 WANG Cong          2017-05-19  2231  		remove_wait_queue(sk_sleep(sk), &wait);
+d021c344051af9 Andy King          2013-02-06  2232  
+d021c344051af9 Andy King          2013-02-06  2233  		/* These checks occur both as part of and after the loop
+d021c344051af9 Andy King          2013-02-06  2234  		 * conditional since we need to check before and after
+d021c344051af9 Andy King          2013-02-06  2235  		 * sleeping.
+d021c344051af9 Andy King          2013-02-06  2236  		 */
+d021c344051af9 Andy King          2013-02-06  2237  		if (sk->sk_err) {
+d021c344051af9 Andy King          2013-02-06  2238  			err = -sk->sk_err;
+f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2239  			goto out_err;
+d021c344051af9 Andy King          2013-02-06  2240  		} else if ((sk->sk_shutdown & SEND_SHUTDOWN) ||
+d021c344051af9 Andy King          2013-02-06  2241  			   (vsk->peer_shutdown & RCV_SHUTDOWN)) {
+d021c344051af9 Andy King          2013-02-06  2242  			err = -EPIPE;
+f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2243  			goto out_err;
+d021c344051af9 Andy King          2013-02-06  2244  		}
+d021c344051af9 Andy King          2013-02-06  2245  
+d021c344051af9 Andy King          2013-02-06  2246  		err = transport->notify_send_pre_enqueue(vsk, &send_data);
+d021c344051af9 Andy King          2013-02-06  2247  		if (err < 0)
+f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2248  			goto out_err;
+d021c344051af9 Andy King          2013-02-06  2249  
+d021c344051af9 Andy King          2013-02-06  2250  		/* Note that enqueue will only write as many bytes as are free
+d021c344051af9 Andy King          2013-02-06  2251  		 * in the produce queue, so we don't need to ensure len is
+d021c344051af9 Andy King          2013-02-06  2252  		 * smaller than the queue size.  It is the caller's
+d021c344051af9 Andy King          2013-02-06  2253  		 * responsibility to check how many bytes we were able to send.
+d021c344051af9 Andy King          2013-02-06  2254  		 */
+d021c344051af9 Andy King          2013-02-06  2255  
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2256  		if (sk->sk_type == SOCK_SEQPACKET) {
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2257  			written = transport->seqpacket_enqueue(vsk,
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2258  						msg, len - total_written);
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2259  		} else {
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2260  			written = transport->stream_enqueue(vsk,
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2261  					msg, len - total_written);
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2262  		}
+c43170b7e1571e Bobby Eshleman     2023-01-10  2263  
+d021c344051af9 Andy King          2013-02-06  2264  		if (written < 0) {
+c43170b7e1571e Bobby Eshleman     2023-01-10  2265  			err = written;
+f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2266  			goto out_err;
+d021c344051af9 Andy King          2013-02-06  2267  		}
+d021c344051af9 Andy King          2013-02-06  2268  
+d021c344051af9 Andy King          2013-02-06  2269  		total_written += written;
+d021c344051af9 Andy King          2013-02-06  2270  
+d021c344051af9 Andy King          2013-02-06  2271  		err = transport->notify_send_post_enqueue(
+d021c344051af9 Andy King          2013-02-06  2272  				vsk, written, &send_data);
+d021c344051af9 Andy King          2013-02-06  2273  		if (err < 0)
+f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2274  			goto out_err;
+d021c344051af9 Andy King          2013-02-06  2275  
+d021c344051af9 Andy King          2013-02-06  2276  	}
+d021c344051af9 Andy King          2013-02-06  2277  
+f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2278  out_err:
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2279  	if (total_written > 0) {
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2280  		/* Return number of written bytes only if:
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2281  		 * 1) SOCK_STREAM socket.
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2282  		 * 2) SOCK_SEQPACKET socket when whole buffer is sent.
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2283  		 */
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2284  		if (sk->sk_type == SOCK_STREAM || total_written == len)
+d021c344051af9 Andy King          2013-02-06  2285  			err = total_written;
+fbe70c480796d9 Arseny Krasnov     2021-06-11  2286  	}
+d021c344051af9 Andy King          2013-02-06  2287  out:
+8ecf0cedc08a3a Arseniy Krasnov    2023-09-11  2288  	if (sk->sk_type == SOCK_STREAM)
+8ecf0cedc08a3a Arseniy Krasnov    2023-09-11  2289  		err = sk_stream_error(sk, msg->msg_flags, err);
+8ecf0cedc08a3a Arseniy Krasnov    2023-09-11  2290  
+d021c344051af9 Andy King          2013-02-06  2291  	release_sock(sk);
+d021c344051af9 Andy King          2013-02-06 @2292  	return err;
+d021c344051af9 Andy King          2013-02-06  2293  }
+d021c344051af9 Andy King          2013-02-06  2294  
+
+:::::: The code at line 2292 was first introduced by commit
+:::::: d021c344051af91f42c5ba9fdedc176740cbd238 VSOCK: Introduce VM Sockets
+
+:::::: TO: Andy King <acking@vmware.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
