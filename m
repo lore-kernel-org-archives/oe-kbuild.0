@@ -1,285 +1,245 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E242E2DD4
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 15:13:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A57534F49B
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 15:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761750792; cv=none; b=WhIUdsoOVVc/Nrj1EzS2t7aED/M/dKin+dI+TyN2W/1TUsdSekEk597YHJpOd2itZyjN8iyDJfwj+UGg0Jxys8pGAk37x8pV5Gn480qNHjPPy9i4Q0F5r3Nwp24ZpdJVqA+7As4kOCuJKhy+KCZbKADz+jW4qrrG1WJeuQ4/xpc=
+	t=1761752859; cv=none; b=eszVE5TrFvdkPDSOgDc3hHYTOpNuO64rn/mG6ozZbhNqf9mPFtZqPPRRy3PHOXqyjihC1TFSlTPcEQocP3kof0NPzHiOcllrKkikts+ljNH6meG4d6XjO04RfNdMHqJGcHyQGdxqHw/QDa9BW3IZUK86xYy7S1nEi4+dZZ6cA58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761750792; c=relaxed/simple;
-	bh=oFOhzZoWi3DR7kDV7SK+jDQR3CIxRZLT1kfKNkn63ck=;
+	s=arc-20240116; t=1761752859; c=relaxed/simple;
+	bh=3SAJoo/fq64UN6qloIymXSGUdZA3le8c1xNNggUwMuU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uFE2iuauA3lxF514APqWxIOLZS90PbPf+mkH0L5DF/8/HewYbJ6fjYfirlx48ykAT6sqBuxeDE1o/6UqZDAuI2rVCj3/UHqIGotnOfFnWyQKrmauYavSsZjodDbfwZVoqV108YDKvQo5rap72A3qmdHrHjFhH+cW9LpgnveOOpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L0Gm5EJe; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=WwgDls0LpEn6EOZSIbeuJTceQZs/QoZEdUS6gEycsVGmfJujvrzdl9Tcpyz4L+TCiECS0v3r9Y1G815gFS16qoJP/39IuQEx0epsUzUNLvfNVGwaYUq5aJXtZ5Ert7Iq5OVKmZ/7kTVh1rd1nYT0jZtvtNc347AG9K6+yOe21xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T2heytLT; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L0Gm5EJe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T2heytLT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761750790; x=1793286790;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=oFOhzZoWi3DR7kDV7SK+jDQR3CIxRZLT1kfKNkn63ck=;
-  b=L0Gm5EJekL+QY00RfCKg01alVEejAPIOcgsIZ2/sRaL4pSvQ42iiOmcj
-   G6rZaikMbByHWJyiolhlYoHjX2TBnYC4wx+6KcCLrYpso+Ol2B1/IsuQB
-   jdi1ff5HYOlpEXiNz9Cjt2UeVJh6t0FRrfG2m3nVZ9x81F+Cz4ATXvN9f
-   6NX21SAWkbMCAlqQide+OZyDXOTYRZMDeFfS+0E+CHlhGN4/1ICHTc+8z
-   DWoBeMl7G0FPbCw/MAJMe5Z1KPwAPRnjaHaFoBx7tfHU4ZafiAfinrK66
-   TDYr1w20CbkMq/PUbK5nsul4glgJ+7lG4hR7R4vgzyrwnaCDY+Nn2rFY5
+  t=1761752857; x=1793288857;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3SAJoo/fq64UN6qloIymXSGUdZA3le8c1xNNggUwMuU=;
+  b=T2heytLTdv3x24JqL4r+XvOvPX3nlBRXpls4Wwkuef3sqGb+jEDFRrF2
+   SVhBFojBe6/K41TbqQ5TIJp8xH6FTMyoji1X+Hvn5m3H+ITYm1HYSdTdU
+   1XAqePRgafPw+rBtK/xOMW29USaLWWwuxscsOeR2SqyN4AV0E8QL3sPIq
+   H5e/mog9UqtwP5r1Y5i5QaXsvBTNtokLvJsFpUJNvrQrW9cgYcudyhaVo
+   E8fihwyqj7fTYq951l//kHUWYstSP+5LOvNRV01VFUJm2VzitJgwjWN2p
+   G3MP1SE0UiE9yOQUJsqJJjjS6NC8ryrJrIpNMaZH93n0kSTCYJqzta1Df
    A==;
-X-CSE-ConnectionGUID: 924LU4z0TFCaHYWtowGsSg==
-X-CSE-MsgGUID: nYxpl/y5RNyXrjhXKiKGeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="63759372"
+X-CSE-ConnectionGUID: 2vxoY8ItTLSflfoy9tVbKQ==
+X-CSE-MsgGUID: A0g+2ryeS0eKfVk4SbHUNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="74997134"
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="63759372"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 08:13:10 -0700
-X-CSE-ConnectionGUID: QF9EHWewSiWL8qOOwlMTLg==
-X-CSE-MsgGUID: jry+tZwzTfmTmj1u6AHnnQ==
+   d="scan'208";a="74997134"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 08:47:36 -0700
+X-CSE-ConnectionGUID: gMCD9CiAS329O5W4i5Ckxg==
+X-CSE-MsgGUID: T0jSm1MyT+SNeCCqMELEFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="222907972"
+   d="scan'208";a="186447717"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 29 Oct 2025 08:13:08 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 29 Oct 2025 08:47:35 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vE7rF-000KiJ-0u;
-	Wed, 29 Oct 2025 15:13:05 +0000
-Date: Wed, 29 Oct 2025 23:11:00 +0800
+	id 1vE8OZ-000KkB-1s;
+	Wed, 29 Oct 2025 15:47:31 +0000
+Date: Wed, 29 Oct 2025 23:46:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 2959/4731]
- drivers/pmdomain/mediatek/mtk-pm-domains.c:824 scpsys_add_one_domain()
- error: we previously assumed 'pd->data' could be null (see line 799)
-Message-ID: <202510292330.95H9QLiY-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpio/gpio-davinci.c:471:49-56: WARNING: Consider using %pe
+ to print PTR_ERR()
+Message-ID: <202510292330.hzkyypWa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-CC: Ulf Hansson <ulf.hansson@linaro.org>
-CC: "Nícolas F. R. A. Prado" <nfraprado@collabora.com>
+CC: linux-kernel@vger.kernel.org
+TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+CC: Linus Walleij <linus.walleij@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f9ba12abc5282bf992f9a9ae87ad814fd03a0270
-commit: 60a6203aef6098e7f0f25c3787ac78f02bc3bd61 [2959/4731] pmdomain: mediatek: Add support for Hardware Voter power domains
-:::::: branch date: 12 hours ago
-:::::: commit date: 7 days ago
-config: um-randconfig-r073-20251025 (https://download.01.org/0day-ci/archive/20251029/202510292330.95H9QLiY-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
+Hi Bartosz,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6
+commit: 56d6ff4b8faf1c2d5c850ed8b4e5dfa6cd81413b gpio: davinci: allow building the module with COMPILE_TEST=y
+date:   1 year ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 1 year ago
+config: powerpc-randconfig-r054-20251029 (https://download.01.org/0day-ci/archive/20251029/202510292330.hzkyypWa-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510292330.95H9QLiY-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202510292330.hzkyypWa-lkp@intel.com/
 
-New smatch warnings:
-drivers/pmdomain/mediatek/mtk-pm-domains.c:824 scpsys_add_one_domain() error: we previously assumed 'pd->data' could be null (see line 799)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpio/gpio-davinci.c:471:49-56: WARNING: Consider using %pe to print PTR_ERR()
 
-Old smatch warnings:
-drivers/pmdomain/mediatek/mtk-pm-domains.c:1192 scpsys_probe() warn: missing unwind goto?
+vim +471 drivers/gpio/gpio-davinci.c
 
-vim +824 drivers/pmdomain/mediatek/mtk-pm-domains.c
+0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  436  
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  437  /*
+474dad54baee8f8 arch/arm/mach-davinci/gpio.c David Brownell      2008-12-07  438   * NOTE:  for suspend/resume, probably best to make a platform_device with
+474dad54baee8f8 arch/arm/mach-davinci/gpio.c David Brownell      2008-12-07  439   * suspend_late/resume_resume calls hooking into results of the set_wake()
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  440   * calls ... so if no gpios are wakeup events the clock can be disabled,
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  441   * with outputs left at previously set levels, and so that VDD3P3V.IOPWDN0
+474dad54baee8f8 arch/arm/mach-davinci/gpio.c David Brownell      2008-12-07  442   * (dm6446) can be set appropriately for GPIOV33 pins.
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  443   */
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  444  
+eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  445  static int davinci_gpio_irq_setup(struct platform_device *pdev)
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  446  {
+58c0f5aa124534a drivers/gpio/gpio-davinci.c  Alexander Shiyan    2014-02-15  447  	unsigned	gpio, bank;
+58c0f5aa124534a drivers/gpio/gpio-davinci.c  Alexander Shiyan    2014-02-15  448  	int		irq;
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  449  	struct clk	*clk;
+474dad54baee8f8 arch/arm/mach-davinci/gpio.c David Brownell      2008-12-07  450  	u32		binten = 0;
+c1d013a70f557e0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  451  	unsigned	ngpio;
+118150f22d6b443 drivers/gpio/gpio-davinci.c  KV Sujith           2013-08-18  452  	struct device *dev = &pdev->dev;
+118150f22d6b443 drivers/gpio/gpio-davinci.c  KV Sujith           2013-08-18  453  	struct davinci_gpio_controller *chips = platform_get_drvdata(pdev);
+99e9e52de635728 arch/arm/mach-davinci/gpio.c Cyril Chemparathy   2010-05-01  454  	struct davinci_gpio_regs __iomem *g;
+6075a8b2b6c32dd drivers/gpio/gpio-davinci.c  Grygorii Strashko   2013-12-18  455  	struct irq_domain	*irq_domain = NULL;
+0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  456  	struct irq_chip *irq_chip;
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  457  	struct davinci_gpio_irq_data *irqdata;
+0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  458  	gpio_get_irq_chip_cb_t gpio_get_irq_chip;
+0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  459  
+0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  460  	/*
+0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  461  	 * Use davinci_gpio_get_irq_chip by default to handle non DT cases
+0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  462  	 */
+0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  463  	gpio_get_irq_chip = davinci_gpio_get_irq_chip;
+03a975cbcfcd0b3 drivers/gpio/gpio-davinci.c  Rob Herring         2023-10-06  464  	if (dev->of_node)
+03a975cbcfcd0b3 drivers/gpio/gpio-davinci.c  Rob Herring         2023-10-06  465  		gpio_get_irq_chip = (gpio_get_irq_chip_cb_t)device_get_match_data(dev);
+a994955cc091a8a arch/arm/mach-davinci/gpio.c Mark A. Greer       2009-04-15  466  
+d29e741cad3f8f4 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  467  	ngpio = chips->chip.ngpio;
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  468  
+d14f6f405fc7b66 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  469  	clk = devm_clk_get_enabled(dev, "gpio");
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  470  	if (IS_ERR(clk)) {
+1a9ef909acc1d2e drivers/gpio/gpio-davinci.c  Keerthy             2017-07-20 @471  		dev_err(dev, "Error %ld getting gpio clock\n", PTR_ERR(clk));
+474dad54baee8f8 arch/arm/mach-davinci/gpio.c David Brownell      2008-12-07  472  		return PTR_ERR(clk);
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  473  	}
+eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  474  
+5a431e50e9d4189 drivers/gpio/gpio-davinci.c  Vignesh Raghavendra 2024-10-02  475  	if (!chips->gpio_unbanked) {
+a1a3c2d55179274 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2017-03-04  476  		irq = devm_irq_alloc_descs(dev, -1, 0, ngpio, 0);
+9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  477  		if (irq < 0) {
+9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  478  			dev_err(dev, "Couldn't allocate IRQ numbers\n");
+9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  479  			return irq;
+9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  480  		}
+9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  481  
+310a7e60435151c drivers/gpio/gpio-davinci.c  Keerthy             2016-01-28  482  		irq_domain = irq_domain_add_legacy(dev->of_node, ngpio, irq, 0,
+9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  483  							&davinci_gpio_irq_ops,
+9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  484  							chips);
+9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  485  		if (!irq_domain) {
+9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  486  			dev_err(dev, "Couldn't register an IRQ domain\n");
+9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  487  			return -ENODEV;
+9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  488  		}
+6075a8b2b6c32dd drivers/gpio/gpio-davinci.c  Grygorii Strashko   2013-12-18  489  	}
+9211ff3140f24f6 drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-11-21  490  
+131a10a39545cce drivers/gpio/gpio-davinci.c  Philip Avinash      2013-08-18  491  	/*
+029d14e900e7766 drivers/gpio/gpio-davinci.c  Andy Shevchenko     2023-01-12  492  	 * Arrange gpiod_to_irq() support, handling either direct IRQs or
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  493  	 * banked IRQs.  Having GPIOs in the first GPIO bank use direct
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  494  	 * IRQs, while the others use banked IRQs, would need some setup
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  495  	 * tweaks to recognize hardware which can do that.
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  496  	 */
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  497  	chips->chip.to_irq = gpio_to_irq_banked;
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  498  	chips->irq_domain = irq_domain;
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  499  
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  500  	/*
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  501  	 * AINTC can handle direct/unbanked IRQs for GPIOs, with the GPIO
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  502  	 * controller only handling trigger modes.  We currently assume no
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  503  	 * IRQ mux conflicts; gpio_irq_type_unbanked() is only for GPIOs.
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  504  	 */
+d29e741cad3f8f4 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  505  	if (chips->gpio_unbanked) {
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  506  		/* pass "bank 0" GPIO IRQs to AINTC */
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  507  		chips->chip.to_irq = gpio_to_irq_unbanked;
+d29e741cad3f8f4 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  508  
+d29e741cad3f8f4 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  509  		binten = GENMASK(chips->gpio_unbanked / 16, 0);
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  510  
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  511  		/* AINTC handles mask/unmask; GPIO handles triggering */
+eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  512  		irq = chips->irqs[0];
+0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  513  		irq_chip = gpio_get_irq_chip(irq);
+0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  514  		irq_chip->name = "GPIO-AINTC";
+0c6feb0796ea640 drivers/gpio/gpio-davinci.c  Grygorii Strashko   2014-02-13  515  		irq_chip->irq_set_type = gpio_irq_type_unbanked;
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  516  
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  517  		/* default trigger: both edges */
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  518  		g = chips->regs[0];
+388291c3a1eb6fe drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-12-11  519  		writel_relaxed(~0, &g->set_falling);
+388291c3a1eb6fe drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-12-11  520  		writel_relaxed(~0, &g->set_rising);
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  521  
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  522  		/* set the direct IRQs up to use that irqchip */
+d29e741cad3f8f4 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  523  		for (gpio = 0; gpio < chips->gpio_unbanked; gpio++) {
+eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  524  			irq_set_chip(chips->irqs[gpio], irq_chip);
+eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  525  			irq_set_handler_data(chips->irqs[gpio], chips);
+eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  526  			irq_set_status_flags(chips->irqs[gpio],
+eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  527  					     IRQ_TYPE_EDGE_BOTH);
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  528  		}
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  529  
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  530  		goto done;
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  531  	}
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  532  
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  533  	/*
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  534  	 * Or, AINTC can handle IRQs for banks of 16 GPIO IRQs, which we
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  535  	 * then chain through our own handler.
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  536  	 */
+eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  537  	for (gpio = 0, bank = 0; gpio < ngpio; bank++, gpio += 16) {
+8f7cf8c65746d94 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-17  538  		/* disabled by default, enabled only as needed
+8f7cf8c65746d94 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-17  539  		 * There are register sets for 32 GPIOs. 2 banks of 16
+8f7cf8c65746d94 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-17  540  		 * GPIOs are covered by each set of registers hence divide by 2
+8f7cf8c65746d94 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-17  541  		 */
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  542  		g = chips->regs[bank / 2];
+388291c3a1eb6fe drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-12-11  543  		writel_relaxed(~0, &g->clr_falling);
+388291c3a1eb6fe drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-12-11  544  		writel_relaxed(~0, &g->clr_rising);
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  545  
+f299bb9527abfa6 arch/arm/mach-davinci/gpio.c Ido Yariv           2011-07-12  546  		/*
+f299bb9527abfa6 arch/arm/mach-davinci/gpio.c Ido Yariv           2011-07-12  547  		 * Each chip handles 32 gpios, and each irq bank consists of 16
+f299bb9527abfa6 arch/arm/mach-davinci/gpio.c Ido Yariv           2011-07-12  548  		 * gpio irqs. Pass the irq bank's corresponding controller to
+f299bb9527abfa6 arch/arm/mach-davinci/gpio.c Ido Yariv           2011-07-12  549  		 * the chained irq handler.
+f299bb9527abfa6 arch/arm/mach-davinci/gpio.c Ido Yariv           2011-07-12  550  		 */
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  551  		irqdata = devm_kzalloc(&pdev->dev,
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  552  				       sizeof(struct
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  553  					      davinci_gpio_irq_data),
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  554  					      GFP_KERNEL);
+d14f6f405fc7b66 drivers/gpio/gpio-davinci.c  Bartosz Golaszewski 2024-08-19  555  		if (!irqdata)
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  556  			return -ENOMEM;
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  557  
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  558  		irqdata->regs = g;
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  559  		irqdata->bank_num = bank;
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  560  		irqdata->chip = chips;
+b5cf3fd827d2e11 drivers/gpio/gpio-davinci.c  Keerthy             2017-01-13  561  
+eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  562  		irq_set_chained_handler_and_data(chips->irqs[bank],
+eb3744a2dd01cb0 drivers/gpio/gpio-davinci.c  Keerthy             2018-06-13  563  						 gpio_irq_handler, irqdata);
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  564  
+474dad54baee8f8 arch/arm/mach-davinci/gpio.c David Brownell      2008-12-07  565  		binten |= BIT(bank);
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  566  	}
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  567  
+7a36071e7954836 arch/arm/mach-davinci/gpio.c David Brownell      2009-06-25  568  done:
+131a10a39545cce drivers/gpio/gpio-davinci.c  Philip Avinash      2013-08-18  569  	/*
+131a10a39545cce drivers/gpio/gpio-davinci.c  Philip Avinash      2013-08-18  570  	 * BINTEN -- per-bank interrupt enable. genirq would also let these
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  571  	 * bits be set/cleared dynamically.
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  572  	 */
+388291c3a1eb6fe drivers/gpio/gpio-davinci.c  Lad, Prabhakar      2013-12-11  573  	writel_relaxed(binten, gpio_base + BINTEN);
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  574  
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  575  	return 0;
+3d9edf09d4525da arch/arm/mach-davinci/gpio.c Vladimir Barinov    2007-07-10  576  }
+118150f22d6b443 drivers/gpio/gpio-davinci.c  KV Sujith           2013-08-18  577  
 
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  676  
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  677  static struct
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  678  generic_pm_domain *scpsys_add_one_domain(struct scpsys *scpsys, struct device_node *node)
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  679  {
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  680  	const struct scpsys_domain_data *domain_data;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  681  	const struct scpsys_hwv_domain_data *hwv_domain_data;
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  682  	struct scpsys_domain *pd;
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  683  	struct property *prop;
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  684  	const char *clk_name;
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  685  	int i, ret, num_clks;
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  686  	struct clk *clk;
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  687  	int clk_ind = 0;
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  688  	u32 id;
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  689  
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  690  	ret = of_property_read_u32(node, "reg", &id);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  691  	if (ret) {
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  692  		dev_err(scpsys->dev, "%pOF: failed to retrieve domain id from reg: %d\n",
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  693  			node, ret);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  694  		return ERR_PTR(-EINVAL);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  695  	}
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  696  
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  697  	switch (scpsys->soc_data->type) {
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  698  	case SCPSYS_MTCMOS_TYPE_DIRECT_CTL:
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  699  		if (id >= scpsys->soc_data->num_domains) {
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  700  			dev_err(scpsys->dev, "%pOF: invalid domain id %d\n", node, id);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  701  			return ERR_PTR(-EINVAL);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  702  		}
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  703  
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  704  		domain_data = &scpsys->soc_data->domains_data[id];
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  705  		hwv_domain_data = NULL;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  706  
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  707  		if (domain_data->sta_mask == 0) {
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  708  			dev_err(scpsys->dev, "%pOF: undefined domain id %d\n", node, id);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  709  			return ERR_PTR(-EINVAL);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  710  		}
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  711  
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  712  		break;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  713  	case SCPSYS_MTCMOS_TYPE_HW_VOTER:
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  714  		if (id >= scpsys->soc_data->num_hwv_domains) {
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  715  			dev_err(scpsys->dev, "%pOF: invalid HWV domain id %d\n", node, id);
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  716  			return ERR_PTR(-EINVAL);
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  717  		}
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  718  
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  719  		domain_data = NULL;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  720  		hwv_domain_data = &scpsys->soc_data->hwv_domains_data[id];
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  721  
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  722  		break;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  723  	default:
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  724  		return ERR_PTR(-EINVAL);
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  725  	}
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  726  
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  727  	pd = devm_kzalloc(scpsys->dev, sizeof(*pd), GFP_KERNEL);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  728  	if (!pd)
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  729  		return ERR_PTR(-ENOMEM);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  730  
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  731  	pd->data = domain_data;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  732  	pd->hwv_data = hwv_domain_data;
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  733  	pd->scpsys = scpsys;
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  734  
-1b18c0558d092b2 drivers/soc/mediatek/mtk-pm-domains.c      Hsin-Yi Wang               2021-01-29  735  	if (MTK_SCPD_CAPS(pd, MTK_SCPD_DOMAIN_SUPPLY)) {
-ca824b2d69c52b3 drivers/pmdomain/mediatek/mtk-pm-domains.c Chen-Yu Tsai               2024-09-30  736  		pd->supply = devm_of_regulator_get_optional(scpsys->dev, node, "domain");
-391a2e64d757a0d drivers/pmdomain/mediatek/mtk-pm-domains.c Hongbo Li                  2024-08-28  737  		if (IS_ERR(pd->supply))
-391a2e64d757a0d drivers/pmdomain/mediatek/mtk-pm-domains.c Hongbo Li                  2024-08-28  738  			return dev_err_cast_probe(scpsys->dev, pd->supply,
-1b18c0558d092b2 drivers/soc/mediatek/mtk-pm-domains.c      Hsin-Yi Wang               2021-01-29  739  				      "%pOF: failed to get power supply.\n",
-1b18c0558d092b2 drivers/soc/mediatek/mtk-pm-domains.c      Hsin-Yi Wang               2021-01-29  740  				      node);
-1b18c0558d092b2 drivers/soc/mediatek/mtk-pm-domains.c      Hsin-Yi Wang               2021-01-29  741  	}
-1b18c0558d092b2 drivers/soc/mediatek/mtk-pm-domains.c      Hsin-Yi Wang               2021-01-29  742  
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  743  	num_clks = of_clk_get_parent_count(node);
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  744  	if (num_clks > 0) {
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  745  		/* Calculate number of subsys_clks */
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  746  		of_property_for_each_string(node, "clock-names", prop, clk_name) {
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  747  			char *subsys;
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  748  
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  749  			subsys = strchr(clk_name, '-');
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  750  			if (subsys)
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  751  				pd->num_subsys_clks++;
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  752  			else
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  753  				pd->num_clks++;
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  754  		}
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  755  
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  756  		pd->clks = devm_kcalloc(scpsys->dev, pd->num_clks, sizeof(*pd->clks), GFP_KERNEL);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  757  		if (!pd->clks)
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  758  			return ERR_PTR(-ENOMEM);
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  759  
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  760  		pd->subsys_clks = devm_kcalloc(scpsys->dev, pd->num_subsys_clks,
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  761  					       sizeof(*pd->subsys_clks), GFP_KERNEL);
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  762  		if (!pd->subsys_clks)
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  763  			return ERR_PTR(-ENOMEM);
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  764  
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  765  	}
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  766  
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  767  	for (i = 0; i < pd->num_clks; i++) {
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  768  		clk = of_clk_get(node, i);
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  769  		if (IS_ERR(clk)) {
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  770  			ret = PTR_ERR(clk);
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  771  			dev_err_probe(scpsys->dev, ret,
-385ba16dbf9edad drivers/soc/mediatek/mtk-pm-domains.c      Christophe JAILLET         2022-08-05  772  				      "%pOF: failed to get clk at index %d\n", node, i);
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  773  			goto err_put_clocks;
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  774  		}
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  775  
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  776  		pd->clks[clk_ind++].clk = clk;
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  777  	}
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  778  
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  779  	for (i = 0; i < pd->num_subsys_clks; i++) {
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  780  		clk = of_clk_get(node, i + clk_ind);
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  781  		if (IS_ERR(clk)) {
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  782  			ret = PTR_ERR(clk);
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  783  			dev_err_probe(scpsys->dev, ret,
-385ba16dbf9edad drivers/soc/mediatek/mtk-pm-domains.c      Christophe JAILLET         2022-08-05  784  				      "%pOF: failed to get clk at index %d\n", node,
-385ba16dbf9edad drivers/soc/mediatek/mtk-pm-domains.c      Christophe JAILLET         2022-08-05  785  				      i + clk_ind);
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  786  			goto err_put_subsys_clocks;
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  787  		}
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  788  
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  789  		pd->subsys_clks[i].clk = clk;
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  790  	}
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  791  
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  792  	if (scpsys->domains[id]) {
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  793  		ret = -EINVAL;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  794  		dev_err(scpsys->dev,
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  795  			"power domain with id %d already exists, check your device-tree\n", id);
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  796  		goto err_put_subsys_clocks;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  797  	}
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  798  
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25 @799  	if (pd->data && pd->data->name)
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  800  		pd->genpd.name = pd->data->name;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  801  	else if (pd->hwv_data && pd->hwv_data->name)
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  802  		pd->genpd.name = pd->hwv_data->name;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  803  	else
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  804  		pd->genpd.name = node->name;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  805  
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  806  	if (scpsys->soc_data->type == SCPSYS_MTCMOS_TYPE_DIRECT_CTL) {
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  807  		pd->genpd.power_off = scpsys_power_off;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  808  		pd->genpd.power_on = scpsys_power_on;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  809  	} else {
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  810  		pd->genpd.power_off = scpsys_hwv_power_off;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  811  		pd->genpd.power_on = scpsys_hwv_power_on;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  812  
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  813  		/* HW-Voter code can be invoked in atomic context */
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  814  		pd->genpd.flags |= GENPD_FLAG_IRQ_SAFE;
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  815  	}
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  816  
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  817  	/*
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  818  	 * Initially turn on all domains to make the domains usable
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  819  	 * with !CONFIG_PM and to get the hardware in sync with the
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  820  	 * software.  The unused domains will be switched off during
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  821  	 * late_init time.
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  822  	 */
-c1f3163d8ff36f5 drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  823  	if (MTK_SCPD_CAPS(pd, MTK_SCPD_KEEP_DEFAULT_OFF)) {
-c1f3163d8ff36f5 drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30 @824  		if (scpsys_domain_is_on(pd))
-c1f3163d8ff36f5 drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  825  			dev_warn(scpsys->dev,
-c1f3163d8ff36f5 drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  826  				 "%pOF: A default off power domain has been ON\n", node);
-c1f3163d8ff36f5 drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  827  	} else {
-60a6203aef6098e drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  828  		ret = pd->genpd.power_on(&pd->genpd);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  829  		if (ret < 0) {
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  830  			dev_err(scpsys->dev, "%pOF: failed to power on domain: %d\n", node, ret);
-f0fce06e345dc4f drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2021-06-01  831  			goto err_put_subsys_clocks;
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  832  		}
-72be1e7a447add1 drivers/soc/mediatek/mtk-pm-domains.c      Chunfeng Yun               2022-06-17  833  
-72be1e7a447add1 drivers/soc/mediatek/mtk-pm-domains.c      Chunfeng Yun               2022-06-17  834  		if (MTK_SCPD_CAPS(pd, MTK_SCPD_ALWAYS_ON))
-72be1e7a447add1 drivers/soc/mediatek/mtk-pm-domains.c      Chunfeng Yun               2022-06-17  835  			pd->genpd.flags |= GENPD_FLAG_ALWAYS_ON;
-c1f3163d8ff36f5 drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  836  	}
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  837  
-ac0ca395543af06 drivers/soc/mediatek/mtk-pm-domains.c      Chun-Jie Chen              2022-01-30  838  	if (MTK_SCPD_CAPS(pd, MTK_SCPD_ACTIVE_WAKEUP))
-ac0ca395543af06 drivers/soc/mediatek/mtk-pm-domains.c      Chun-Jie Chen              2022-01-30  839  		pd->genpd.flags |= GENPD_FLAG_ACTIVE_WAKEUP;
-ac0ca395543af06 drivers/soc/mediatek/mtk-pm-domains.c      Chun-Jie Chen              2022-01-30  840  
-c1f3163d8ff36f5 drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  841  	if (MTK_SCPD_CAPS(pd, MTK_SCPD_KEEP_DEFAULT_OFF))
-c1f3163d8ff36f5 drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  842  		pm_genpd_init(&pd->genpd, NULL, true);
-c1f3163d8ff36f5 drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  843  	else
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  844  		pm_genpd_init(&pd->genpd, NULL, false);
-c1f3163d8ff36f5 drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  845  
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  846  	scpsys->domains[id] = &pd->genpd;
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  847  
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  848  	return scpsys->pd_data.domains[id];
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  849  
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  850  err_put_subsys_clocks:
-123e8b4fd0cd999 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  851  	clk_bulk_put(pd->num_subsys_clks, pd->subsys_clks);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  852  err_put_clocks:
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  853  	clk_bulk_put(pd->num_clks, pd->clks);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  854  	return ERR_PTR(ret);
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  855  }
-59b644b01cf48d6 drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  856  
+:::::: The code at line 471 was first introduced by commit
+:::::: 1a9ef909acc1d2e4ded41465e4ced22291ee999a gpio: davinci: Convert prinkt to dev_err
 
-:::::: The code at line 824 was first introduced by commit
-:::::: c1f3163d8ff36f5b75d467bf95581b8f2319cd64 soc: mediatek: pm-domains: Add default power off flag
-
-:::::: TO: Weiyi Lu <weiyi.lu@mediatek.com>
-:::::: CC: Matthias Brugger <matthias.bgg@gmail.com>
+:::::: TO: Keerthy <j-keerthy@ti.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
