@@ -1,55 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9B72D8391
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 13:01:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F4937A3A2
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 13:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761742869; cv=none; b=GpGhGAZH5+PL9Xpd/nQFmLLtBUQw4rtxe+3SdPhglT8SvwGhlVvNoCkrg6g3QIM5Z3kVTeoFIT3/2IuMThfdBihRYSUKNCjZqDd/B5Lq83k9tWyOK9CNA2zP0WwGY/OrSMgGs9EHGklDVLzCJg9yL4R6VT7IiWduYBjI06hK1KU=
+	t=1761743101; cv=none; b=iDK2Vv4//WlULAwsKH29z8+NlBrbOjh+eDbkSHF+mfHjHTu32j0NzhdHPmylyxXZte0srY1p5z7Qbo1wRjVEGv0ll12o0yb1b1AXsuOLK9vN1wfLThsehhYo/XOHw1n4USlQWqbTBfpWqVNmhkLcoQvIy3RHGEPQjmHsE2UN7Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761742869; c=relaxed/simple;
-	bh=sGMM9KVkCaIRpGQlM0rUbruFlUMD3ACcrNgX/Ut9rBU=;
+	s=arc-20240116; t=1761743101; c=relaxed/simple;
+	bh=+4qz3t4yf4eEmZo93DiOrVVwOxTfUvszSK5N7LjvsvU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=K+97Z6oepqDzqUHkDrBVfJOvZveJ4xqoQeZEs0iJYBdsiLXp9gGJy5dkAP9itWB2mx4z5PGgSrMmHllEU3mKguxOurgZh7xc9vfueaBWF0Q9Z9Ij/qXre0o/kAeXMpsDq7wJOgJ3TQI7NLPnVLWCTjaUXOmeru2tVzIx9SDWTJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vp/4aYxj; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=ZOYR5sT53Kbn5lvregGogL7gVojvFZt53npmjGvN5vjcTtcQPPfYfYZ2/OZs45SMnsD6Pka4iOFkOxysZTFWV58KrSJZhF2h9B8+1CmR4jEs5KtP4S1ZFiWE+EJu8YxvQx1xA7pTo5wozyk3W9WG5wJYh400nD/5s83AL6krQzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MxprdOPv; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vp/4aYxj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761742867; x=1793278867;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sGMM9KVkCaIRpGQlM0rUbruFlUMD3ACcrNgX/Ut9rBU=;
-  b=Vp/4aYxjMkg1pkdrCwiVuGZ8KSUSq3oVeAjhikKqxcqZNDCYnTOz3oVX
-   ue9B3NhywahYZ2XH0HWUu3lvXd+Zm43VYC0sUKWLpKJc31J9TR/9sSUDc
-   b/0IrJMCIGEw23i9x0OaG3mHfi/Eo/ErhaRkabHR1SQeMwyM3V/45+che
-   SWlfHWfB0uybkTta3MPLXfMR+XMziZcB/xjyk7Hlv1T+6OJ3E+m+xXOu9
-   wuqxdGOscCo9RJFnsNnkoKGk8ROslJ7V+B1hE53oPp1Erh8QqnsqYSVSl
-   rqjzxfRDfzhZSFnSfGR0NmQv1945hYR+1N1rSXXVYbAFJBE2uXzpUfs3s
-   w==;
-X-CSE-ConnectionGUID: 9EP5X3M/TnCWv2kurW41dg==
-X-CSE-MsgGUID: /EL3oKtpRnWy+jhaAimusA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11596"; a="63897713"
-X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
-   d="scan'208";a="63897713"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 06:01:07 -0700
-X-CSE-ConnectionGUID: LPTRpY09TvC9aYD3DinkGg==
-X-CSE-MsgGUID: j7qiIrh3Rra4wwgaakTH0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
-   d="scan'208";a="186009931"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 29 Oct 2025 06:01:05 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vE5mt-000Kbl-35;
-	Wed, 29 Oct 2025 13:00:36 +0000
-Date: Wed, 29 Oct 2025 20:59:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MxprdOPv"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4710683a644so9763585e9.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 06:04:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761743097; x=1762347897; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PiHv0xIwo5URyh1WiOT46CGWSFLf6eNjb7offUnDh3U=;
+        b=MxprdOPvDUENdE06IW2aj8azXRTR5s4YLJZoTFTs68x5MvrO3LpA04uFsHmY4RviFC
+         Lx8xgzX8TR6DacbN2B3Uaiv2HgiKVd3kn3qhTcWOhlmR/bR74vFDCi18k2+JikvFKFPh
+         X0GVg4E47KDUrenYmc9Wj6qwuQcSxAU4P13vVrngHNk1oScXT26VWVWTXfADhSN1UHdT
+         v3tYF7HVe0ADRYEvcSBdXuwYB8VRTc2drWR2nJqagphs+wejh8IoI9rdFYdCALrUp1Sp
+         wOJfPBhaaF07pXBQcrRpZrM4MXxoy5Z/drVXcdaU2OXymhmWIztGy0VSEQbK+b6PD5kq
+         SlBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761743097; x=1762347897;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PiHv0xIwo5URyh1WiOT46CGWSFLf6eNjb7offUnDh3U=;
+        b=WQIGog/JRwWYxp/Eqk7s6Kr6zog2t3uxw/bgp6WORoNv3gLQ14t6WfVQt++pF2g81E
+         NeRBL+OP4mdXZdzZBucdbiMzWjMUEo8heIj/mmMBoUEVAHt8Nf4HubV8y0Ig1Oh+7lO4
+         EApOB9QAMowo6nqixNPNnnFP6WBeLSfv7g63QlTBdLeEDAyuF08TfYe+Ql5lIGioR5+U
+         VqbiFX6bLawM3s8CdJTM2BEG5tdCTImPYB6gdkkQWoLUBzeXubBeKqLZGeJZBksEk0Bj
+         gxIQU1DcOBPk6eYvsKNY+ib2qQhdxnv3lUkkVjvC+IkpwlB+31voklOKzJajSeSfQyw5
+         m7xg==
+X-Gm-Message-State: AOJu0Yx26rR/rVpBadU7TpDG7WgJaDOnWxiVzSnq4WT2eiBFVe6EwbXY
+	qeNZbiSEh3c9Snc6/ulMHZBY03/WFGh+vAlAg87b8yCOVM8zcfdCSS2KduGGjJBKXDe/8vPlKgg
+	RD5Ci
+X-Gm-Gg: ASbGnct6DEzdOppX2i8tNq4yfTMVV/WImyPxedLHWuLHZrwniCbBSGG5dABdQfVLHL8
+	NGwPMbrxmmkMgQad9jqdzVdRW/jlMXkTN5yp00v6FLupEv0zco91nT2ECx/PdGwP9zKGqUZ0OIl
+	pni62PIpAg53Pnz4bFm8AT2+3KxD4qARn1wBEUSugV2E9JWZhavOb6VJO+joT2dwLVlOAUiICfZ
+	SPrsKk0hsqf+GBvfib1zGr5vMnOsMGZ5oLYRoMS3QcPQ8kBA6NUFZrQ/a5H4bcMF16jryTFuO4s
+	jaGKbvijPJg7ScppPyuxmLOeT5jTLms9SKdk7VOs9PAkjF5itSvtV7D3BXntZLnwj1aWf3+7WhF
+	lsABTxkU2RpGEFMk/2yM7oCO3UkPQUPTQrahKzC5gDpQzUNOJtEKGqAtoZJe5/nUfbsF+/l2CID
+	6KBWvgrQwzLGYWOQLWPgOoNDMYEzE=
+X-Google-Smtp-Source: AGHT+IELUprTvXFy5TutsIHdtpTIaqE+eatCiHRjgq9hWYlqzQauO1k/gh5sk9oXLM4VV73mvackOg==
+X-Received: by 2002:a05:600c:608a:b0:477:ede:d2b4 with SMTP id 5b1f17b1804b1-4771813e891mr60955315e9.9.1761743096560;
+        Wed, 29 Oct 2025 06:04:56 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429952ca569sm25713025f8f.12.2025.10.29.06.04.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Oct 2025 06:04:55 -0700 (PDT)
+Date: Wed, 29 Oct 2025 16:04:52 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Austin Zheng <Austin.Zheng@amd.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Dillon Varone <dillon.varone@amd.com>, waynelin <Wayne.Lin@amd.com>
 Subject: [linux-next:master 4371/4731]
  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_util.c:118
  dml_floor() warn: if statement not indented
@@ -62,26 +75,18 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Austin Zheng <Austin.Zheng@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Dillon Varone <dillon.varone@amd.com>
-CC: waynelin <Wayne.Lin@amd.com>
+Message-ID: <20251029130452.V1AixKAVKs4jQl1m630CL06z4rPV_NtrAkq14Dc_HNI@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   f9ba12abc5282bf992f9a9ae87ad814fd03a0270
 commit: e6a8a000cfe6a1106c17ab4a47eb6dd21596968c [4371/4731] drm/amd/display: Rename dml2 to dml2_0 folder
-:::::: branch date: 10 hours ago
-:::::: commit date: 23 hours ago
 config: arm64-randconfig-r073-20251029 (https://download.01.org/0day-ci/archive/20251029/202510292021.XfUW1Zro-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202510292021.XfUW1Zro-lkp@intel.com/
 
 New smatch warnings:
@@ -120,7 +125,6 @@ drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:7954 dml_cor
 
 vim +118 drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_util.c
 
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  115  
 7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  116  dml_float_t dml_floor(dml_float_t x, dml_float_t granularity)
 7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  117  {
 7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28 @118  	if (granularity == 0)
@@ -178,14 +182,8 @@ vim +118 drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_util.c
 7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  170  {
 7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  171  	return (dml_float_t) (_log(x) / _log(base));
 7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  172  }
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  173  
-
-:::::: The code at line 118 was first introduced by commit
-:::::: 7966f319c66d9468623c6a6a017ecbc0dd79be75 drm/amd/display: Introduce DML2
-
-:::::: TO: Qingqing Zhuo <Qingqing.Zhuo@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
