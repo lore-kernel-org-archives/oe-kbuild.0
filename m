@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9EC2C1586
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 04:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65369253F39
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Oct 2025 04:40:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761710650; cv=none; b=bGNYP9V5Q7JGzSWixOqVFY1pFjbmUlURhcQa3ZJU47Q4TxWkqnfyEWnp3peFae5qgMAUt1ocZaJy45VnmWCprIQjT0yX8727z9U5OaBP8WHlQ3NNsaGOQ24oGG49lwC7QzG2tKrZGUWIp9UL/soMAtJ/FOcGb9qExFEvdkN6wfo=
+	t=1761712812; cv=none; b=NVZ1Sn/P2NQrXy/jOXUkAVTfjpvwcwFTAu/5qVygITL+eYO04RtjEUezHyts0NuN0kbd0KD+QqDAl6oEnOP2gOLHLDvkMin2A5oDp0dw4p5sUtT/zP4s/hRcfNpJaBExtYsHofyoH8H0iKQitx4jbboJndeZ2AP8XSY2qv/wZl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761710650; c=relaxed/simple;
-	bh=N97q5rPzEONiFHJQ/H4FJ14pIEp6hyMx8tv/eTdagC0=;
+	s=arc-20240116; t=1761712812; c=relaxed/simple;
+	bh=cKqcGjrYhMT+I8QcNJCv6Dods1FDD2AHVdz33ezGbZQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rQa2PJ4/WnzsXNhSuLOwm+QyBtnqIB9zObCLIv/6CFtnt0EAPERvExVBozZqY1LsKGHs6mSUqzYC4Y1m+eQZyxn1dJkWGWKl41iwlFHAL95264tAua/krxhp2QVHlD9liVv5Plda57uRReL+LfuhAZ5ei0yueHpNny5oMGsFJVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HeLARSAJ; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=DEiiVh2vcl6JicVkyS5uP6ME6PkA608GkNjmAGLVM8fctWOaXznePen18laXETQA4eksuS+UJvCQ4k8YcvjcNOhflObljDQjbOMUCA1qBEIZgdsGp/bDjQSIHzvdcz/PIZB+/9t13+JYkIvbRb3tSGHrKT8JkiuEnmu6eNU2djQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mGvkXulv; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HeLARSAJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mGvkXulv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761710649; x=1793246649;
+  t=1761712810; x=1793248810;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N97q5rPzEONiFHJQ/H4FJ14pIEp6hyMx8tv/eTdagC0=;
-  b=HeLARSAJbVp9A294689vgrCrGy0+Kmnm9WtVwqkRlJXz54s+YYWYsSqX
-   JFfmLSxRscbuJnVMbfbrEyTsxM0MnS+YW6s9ZmgnrP4azjpmCIuc4nXTb
-   AzistUmzrAwVe/OvPF89xnou6PDwNQGF6Jqz8hKFsXI3dn8gFTVvPMjZ6
-   metxZQzi/ArxBaI/8gFeoig6/Is7WVbKQAIsXO45TlMNDzGShsGTwf9V6
-   uwNHM+9NHltDzWEeE2nT3dWWgQHKALzffGAtUWNHdx5rshYAsZAhMFMfx
-   EEyoKe1CmckhBD7zmfquivThRyHXM82dpdBeaHhR8UtknsiNkxmvTJmwm
-   g==;
-X-CSE-ConnectionGUID: /hxjL6uuS528u3V/zLB/ww==
-X-CSE-MsgGUID: jJGT+qrbQZiYk5DbuKdAOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="75270263"
+  bh=cKqcGjrYhMT+I8QcNJCv6Dods1FDD2AHVdz33ezGbZQ=;
+  b=mGvkXulvR88Gocn3bjNoWmyv9mjU81cjAIW04CRRXBCsiSU/Y71luac6
+   zH8bgRdLKyuAXH0sVPsRBLOas/XjA1p9J9Kn66LvJSoTUh+LfEhzklCmj
+   1kSWUFMZp8YIu/LpFn7CSSz8/HRYtdqn8OB+QZ7OKm3VEOCq6z9yshxef
+   E4VOVmn0QYHd8e81yy0xjRAUBT2DzlePCD4skO70Tg1saCWXsjYWJCb1a
+   x1VzMpFPmdfXP8DvpaXGhzOpcLhrDoQtf7jUh0sAg/AzFl2K+wIl1ep7H
+   Ql/KzgIkf6vXfLZJ9PHIlwohFEYTk3IE6JyEzevbg8cE2lX7kDaxOU16u
+   w==;
+X-CSE-ConnectionGUID: h7vFIpcfQKeGclHCA8pBUA==
+X-CSE-MsgGUID: SIvYz/VMT/2or5oZq1S2qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="51397672"
 X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
-   d="scan'208";a="75270263"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 21:03:31 -0700
-X-CSE-ConnectionGUID: xx8TscgvTwqRG70NtoHT6g==
-X-CSE-MsgGUID: RUnUlC8RRZm1jfp/gjcnLg==
+   d="scan'208";a="51397672"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 21:40:09 -0700
+X-CSE-ConnectionGUID: 5HfhR5mGSimfBIuQxNzMRw==
+X-CSE-MsgGUID: YVE5/5iFQoqZR43sLREvCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
-   d="scan'208";a="185458570"
+   d="scan'208";a="190730481"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 28 Oct 2025 21:03:29 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 28 Oct 2025 21:40:07 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDxOm-000K7n-2G;
-	Wed, 29 Oct 2025 04:03:08 +0000
-Date: Wed, 29 Oct 2025 12:02:01 +0800
+	id 1vDxxi-000K8u-0N;
+	Wed, 29 Oct 2025 04:39:26 +0000
+Date: Wed, 29 Oct 2025 12:36:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [martin-lau-bpf-next:ls.rqspin.v2.2 3/3]
- kernel/bpf/bpf_local_storage.c:823 bpf_local_storage_destroy() error: we
- previously assumed 'smap' could be null (see line 797)
-Message-ID: <202510291106.zV0JWnRE-lkp@intel.com>
+Subject: sound/soc/codecs/tas2783-sdw.c:814 tas2783_fw_ready() error:
+ uninitialized symbol 'ret'.
+Message-ID: <202510291226.2R3fbYNh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,120 +64,162 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Martin KaFai Lau <martin.lau@linux.dev>
-TO: Martin KaFai Lau <martin.lau@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Niranjan H Y <niranjan.hy@ti.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Bard Liao <yung-chuan.liao@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/martin.lau/bpf-next.git ls.rqspin.v2.2
-head:   b735af227349c9ef167cae8acf8bc8864e13f636
-commit: b735af227349c9ef167cae8acf8bc8864e13f636 [3/3] [DONT PUSH]
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8eefed8f65cc17c31fdf4ab32292b794b34893ad
+commit: 4cc9bd8d7b32d59b86cb489a96aa8a7b9dd6a21b ASoc: tas2783A: Add soundwire based codec driver
+date:   5 weeks ago
 :::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-config: i386-randconfig-r072-20251029 (https://download.01.org/0day-ci/archive/20251029/202510291106.zV0JWnRE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+:::::: commit date: 5 weeks ago
+config: arm64-randconfig-r073-20251029 (https://download.01.org/0day-ci/archive/20251029/202510291226.2R3fbYNh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510291106.zV0JWnRE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510291226.2R3fbYNh-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/bpf_local_storage.c:823 bpf_local_storage_destroy() error: we previously assumed 'smap' could be null (see line 797)
+New smatch warnings:
+sound/soc/codecs/tas2783-sdw.c:814 tas2783_fw_ready() error: uninitialized symbol 'ret'.
+sound/soc/codecs/tas2783-sdw.c:848 tas_fu21_event() error: uninitialized symbol 'mute'.
+sound/soc/codecs/tas2783-sdw.c:870 tas_fu23_event() error: uninitialized symbol 'mute'.
 
-vim +/smap +823 kernel/bpf/bpf_local_storage.c
+Old smatch warnings:
+sound/soc/codecs/tas2783-sdw.c:1288 tas_sdw_probe() warn: passing zero to 'PTR_ERR'
 
-b735af227349c9 Martin KaFai Lau 2025-10-22  766  
-b735af227349c9 Martin KaFai Lau 2025-10-22  767  u32 bpf_local_storage_destroy(struct bpf_local_storage *local_storage)
-c83597fa5dc6b3 Yonghong Song    2022-10-25  768  {
-6ae9d5e99e1dd2 Martin KaFai Lau 2023-03-22  769  	struct bpf_local_storage_map *storage_smap;
-c83597fa5dc6b3 Yonghong Song    2022-10-25  770  	struct bpf_local_storage_elem *selem;
-b735af227349c9 Martin KaFai Lau 2025-10-22  771  	unsigned long b_flags, l_flags;
-5bd5bab76669b1 Martin KaFai Lau 2024-10-23  772  	HLIST_HEAD(free_selem_list);
-b735af227349c9 Martin KaFai Lau 2025-10-22  773  	HLIST_HEAD(free_only_list);
-c83597fa5dc6b3 Yonghong Song    2022-10-25  774  	struct hlist_node *n;
-b735af227349c9 Martin KaFai Lau 2025-10-22  775  	u32 uncharge = 0;
-c83597fa5dc6b3 Yonghong Song    2022-10-25  776  
-6ae9d5e99e1dd2 Martin KaFai Lau 2023-03-22  777  	storage_smap = rcu_dereference_check(local_storage->smap, bpf_rcu_lock_held());
-6ae9d5e99e1dd2 Martin KaFai Lau 2023-03-22  778  
-c83597fa5dc6b3 Yonghong Song    2022-10-25  779  	/* Neither the bpf_prog nor the bpf_map's syscall
-c83597fa5dc6b3 Yonghong Song    2022-10-25  780  	 * could be modifying the local_storage->list now.
-c83597fa5dc6b3 Yonghong Song    2022-10-25  781  	 * Thus, no elem can be added to or deleted from the
-c83597fa5dc6b3 Yonghong Song    2022-10-25  782  	 * local_storage->list by the bpf_prog or by the bpf_map's syscall.
-c83597fa5dc6b3 Yonghong Song    2022-10-25  783  	 *
-c83597fa5dc6b3 Yonghong Song    2022-10-25  784  	 * It is racing with bpf_local_storage_map_free() alone
-c83597fa5dc6b3 Yonghong Song    2022-10-25  785  	 * when unlinking elem from the local_storage->list and
-c83597fa5dc6b3 Yonghong Song    2022-10-25  786  	 * the map's bucket->list.
-c83597fa5dc6b3 Yonghong Song    2022-10-25  787  	 */
-b735af227349c9 Martin KaFai Lau 2025-10-22  788  
-b735af227349c9 Martin KaFai Lau 2025-10-22  789  	/* local_storage->lock must succeed. No bpf prog uses this lock now.k */
-b735af227349c9 Martin KaFai Lau 2025-10-22  790  	raw_res_spin_lock_irqsave(&local_storage->lock, l_flags);
-c83597fa5dc6b3 Yonghong Song    2022-10-25  791  	hlist_for_each_entry_safe(selem, n, &local_storage->list, snode) {
-b735af227349c9 Martin KaFai Lau 2025-10-22  792  		struct bpf_local_storage_map_bucket *b;
-b735af227349c9 Martin KaFai Lau 2025-10-22  793  		struct bpf_local_storage_map *smap;
-b735af227349c9 Martin KaFai Lau 2025-10-22  794  		long unlink_state;
-b735af227349c9 Martin KaFai Lau 2025-10-22  795  
-b735af227349c9 Martin KaFai Lau 2025-10-22  796  		smap = rcu_dereference(SDATA(selem)->smap);
-b735af227349c9 Martin KaFai Lau 2025-10-22 @797  		b = smap ? select_bucket(smap, local_storage) : NULL;
-b735af227349c9 Martin KaFai Lau 2025-10-22  798  		if (b && !raw_res_spin_lock_irqsave(&b->lock, b_flags)) {
-b735af227349c9 Martin KaFai Lau 2025-10-22  799  			if (selem_linked_to_map(selem)) {
-b735af227349c9 Martin KaFai Lau 2025-10-22  800  				bpf_selem_unlink_map_nolock(selem);
-b735af227349c9 Martin KaFai Lau 2025-10-22  801  				bpf_selem_unlink_storage_nolock(local_storage, selem, true, &free_selem_list);
-b735af227349c9 Martin KaFai Lau 2025-10-22  802  				raw_res_spin_unlock_irqrestore(&b->lock, b_flags);
-b735af227349c9 Martin KaFai Lau 2025-10-22  803  				continue;
-c83597fa5dc6b3 Yonghong Song    2022-10-25  804  			}
-b735af227349c9 Martin KaFai Lau 2025-10-22  805  			raw_res_spin_unlock_irqrestore(&b->lock, b_flags);
-b735af227349c9 Martin KaFai Lau 2025-10-22  806  		}
-b735af227349c9 Martin KaFai Lau 2025-10-22  807  
-b735af227349c9 Martin KaFai Lau 2025-10-22  808  		/* Failed to unlink selem->map_node. */
-b735af227349c9 Martin KaFai Lau 2025-10-22  809  		hlist_del_init_rcu(&selem->snode);
-b735af227349c9 Martin KaFai Lau 2025-10-22  810  		RCU_INIT_POINTER(selem->local_storage, NULL);
-b735af227349c9 Martin KaFai Lau 2025-10-22  811  		uncharge += selem->uncharge;
-b735af227349c9 Martin KaFai Lau 2025-10-22  812  		if (hlist_empty(&local_storage->list)) {
-b735af227349c9 Martin KaFai Lau 2025-10-22  813  			local_storage->owner = NULL; /* TODO: not needed? */
-b735af227349c9 Martin KaFai Lau 2025-10-22  814  			RCU_INIT_POINTER(*local_storage->owner_storage_ptr, NULL);
-b735af227349c9 Martin KaFai Lau 2025-10-22  815  			uncharge += sizeof(*local_storage);
-b735af227349c9 Martin KaFai Lau 2025-10-22  816  		}
-b735af227349c9 Martin KaFai Lau 2025-10-22  817  
-b735af227349c9 Martin KaFai Lau 2025-10-22  818  		unlink_state = cmpxchg(&selem->unlink_state, BPF_LS_UNLINK_NONE,
-b735af227349c9 Martin KaFai Lau 2025-10-22  819  				       BPF_LS_UNLINK_STORAGE);
-b735af227349c9 Martin KaFai Lau 2025-10-22  820  		switch (unlink_state) {
-b735af227349c9 Martin KaFai Lau 2025-10-22  821  		case BPF_LS_UNLINK_NONE:
-b735af227349c9 Martin KaFai Lau 2025-10-22  822  			/* selem is protected by rcu now */
-b735af227349c9 Martin KaFai Lau 2025-10-22 @823  			bpf_obj_free_fields(smap->map.record, SDATA(selem)->data);
-b735af227349c9 Martin KaFai Lau 2025-10-22  824  			break;
-b735af227349c9 Martin KaFai Lau 2025-10-22  825  		case BPF_LS_UNLINK_MAP:
-b735af227349c9 Martin KaFai Lau 2025-10-22  826  			/* we own the selem, free it. */
-b735af227349c9 Martin KaFai Lau 2025-10-22  827  			hlist_add_head(&selem->free_node, &free_only_list);
-b735af227349c9 Martin KaFai Lau 2025-10-22  828  			break;
-b735af227349c9 Martin KaFai Lau 2025-10-22  829  		default:
-b735af227349c9 Martin KaFai Lau 2025-10-22  830  			WARN_ON_ONCE(1);
-b735af227349c9 Martin KaFai Lau 2025-10-22  831  		}
-b735af227349c9 Martin KaFai Lau 2025-10-22  832  	}
-b735af227349c9 Martin KaFai Lau 2025-10-22  833  	raw_res_spin_unlock_irqrestore(&local_storage->lock, l_flags);
-c83597fa5dc6b3 Yonghong Song    2022-10-25  834  
-5bd5bab76669b1 Martin KaFai Lau 2024-10-23  835  	bpf_selem_free_list(&free_selem_list, true);
-5bd5bab76669b1 Martin KaFai Lau 2024-10-23  836  
-b735af227349c9 Martin KaFai Lau 2025-10-22  837  	hlist_for_each_entry_safe(selem, n, &free_only_list, free_node) {
-b735af227349c9 Martin KaFai Lau 2025-10-22  838  		/*
-b735af227349c9 Martin KaFai Lau 2025-10-22  839  		 * Need to go through a rcu gp:
-b735af227349c9 Martin KaFai Lau 2025-10-22  840  		 *
-b735af227349c9 Martin KaFai Lau 2025-10-22  841  		 * 1) The tcp_sock is in SLAB_TYPESAFE_BY_RCU, so need
-b735af227349c9 Martin KaFai Lau 2025-10-22  842  		 *    to free after a rcu gp.
-b735af227349c9 Martin KaFai Lau 2025-10-22  843  		 *
-b735af227349c9 Martin KaFai Lau 2025-10-22  844  		 * 2) There is still rcu reader in map_free.
-b735af227349c9 Martin KaFai Lau 2025-10-22  845  		 */
-b735af227349c9 Martin KaFai Lau 2025-10-22  846  		if (local_storage->bpf_ma)
-b735af227349c9 Martin KaFai Lau 2025-10-22  847  			call_rcu(&selem->rcu, bpf_selem_free_ma_rcu);
-b735af227349c9 Martin KaFai Lau 2025-10-22  848  		else
-b735af227349c9 Martin KaFai Lau 2025-10-22  849  			kfree_rcu(selem, rcu);
-b735af227349c9 Martin KaFai Lau 2025-10-22  850  	}
-b735af227349c9 Martin KaFai Lau 2025-10-22  851  
-b735af227349c9 Martin KaFai Lau 2025-10-22  852  	/* TODO: think about local_storage get reused immediately in bpf_mem_alloc */
-b735af227349c9 Martin KaFai Lau 2025-10-22  853  	bpf_local_storage_free(local_storage, storage_smap, true);
-b735af227349c9 Martin KaFai Lau 2025-10-22  854  
-b735af227349c9 Martin KaFai Lau 2025-10-22  855  	return uncharge;
-c83597fa5dc6b3 Yonghong Song    2022-10-25  856  }
-c83597fa5dc6b3 Yonghong Song    2022-10-25  857  
+vim +/ret +814 sound/soc/codecs/tas2783-sdw.c
+
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  747  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  748  static void tas2783_fw_ready(const struct firmware *fmw, void *context)
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  749  {
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  750  	struct tas2783_prv *tas_dev =
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  751  		(struct tas2783_prv *)context;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  752  	const u8 *buf = NULL;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  753  	s32 offset = 0, img_sz, file_blk_size, ret;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  754  	struct bin_header_t hdr;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  755  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  756  	if (!fmw || !fmw->data) {
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  757  		/* No firmware binary, devices will work in ROM mode. */
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  758  		dev_err(tas_dev->dev,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  759  			"Failed to read %s, no side-effect on driver running\n",
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  760  			tas_dev->rca_binaryname);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  761  		ret = -EINVAL;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  762  		goto out;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  763  	}
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  764  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  765  	mutex_lock(&tas_dev->pde_lock);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  766  	img_sz = fmw->size;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  767  	buf = fmw->data;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  768  	offset += FW_DL_OFFSET;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  769  	while (offset < (img_sz - FW_FL_HDR)) {
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  770  		memset(&hdr, 0, sizeof(hdr));
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  771  		offset += read_header(&buf[offset], &hdr);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  772  		dev_dbg(tas_dev->dev,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  773  			"vndr=%d, file=%d, version=%d, len=%d, off=%d\n",
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  774  			hdr.vendor_id, hdr.file_id, hdr.version,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  775  			hdr.length, offset);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  776  		/* size also includes the header */
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  777  		file_blk_size = hdr.length - FW_FL_HDR;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  778  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  779  		switch (hdr.file_id) {
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  780  		case 0:
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  781  			ret = sdw_nwrite_no_pm(tas_dev->sdw_peripheral,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  782  					       PRAM_ADDR_START, file_blk_size,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  783  					       &buf[offset]);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  784  			if (ret < 0)
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  785  				dev_err(tas_dev->dev,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  786  					"PRAM update failed: %d", ret);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  787  			break;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  788  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  789  		case 1:
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  790  			ret = sdw_nwrite_no_pm(tas_dev->sdw_peripheral,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  791  					       YRAM_ADDR_START, file_blk_size,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  792  					       &buf[offset]);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  793  			if (ret < 0)
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  794  				dev_err(tas_dev->dev,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  795  					"YRAM update failed: %d", ret);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  796  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  797  			break;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  798  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  799  		default:
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  800  			ret = -EINVAL;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  801  			dev_err(tas_dev->dev, "Unsupported file");
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  802  			break;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  803  		}
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  804  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  805  		if (ret == 0)
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  806  			offset += file_blk_size;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  807  		else
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  808  			break;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  809  	};
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  810  	mutex_unlock(&tas_dev->pde_lock);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  811  	tas2783_update_calibdata(tas_dev);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  812  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  813  out:
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12 @814  	if (!ret)
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  815  		tas_dev->fw_dl_success = true;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  816  	tas_dev->fw_dl_task_done = true;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  817  	wake_up(&tas_dev->fw_wait);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  818  	if (fmw)
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  819  		release_firmware(fmw);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  820  }
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  821  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  822  static inline s32 tas_clear_latch(struct tas2783_prv *priv)
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  823  {
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  824  	return regmap_update_bits(priv->regmap,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  825  				  TASDEV_REG_SDW(0, 0, 0x5c),
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  826  				  0x04, 0x04);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  827  }
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  828  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  829  static s32 tas_fu21_event(struct snd_soc_dapm_widget *w,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  830  			  struct snd_kcontrol *k, s32 event)
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  831  {
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  832  	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  833  	struct tas2783_prv *tas_dev = snd_soc_component_get_drvdata(component);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  834  	s32 mute;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  835  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  836  	switch (event) {
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  837  	case SND_SOC_DAPM_POST_PMU:
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  838  		mute = 0;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  839  		break;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  840  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  841  	case SND_SOC_DAPM_PRE_PMD:
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  842  		mute = 1;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  843  		break;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  844  	}
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  845  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  846  	return sdw_write_no_pm(tas_dev->sdw_peripheral,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  847  			       SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU21,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12 @848  					    TAS2783_SDCA_CTL_FU_MUTE, 1), mute);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  849  }
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  850  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  851  static s32 tas_fu23_event(struct snd_soc_dapm_widget *w,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  852  			  struct snd_kcontrol *k, s32 event)
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  853  {
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  854  	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  855  	struct tas2783_prv *tas_dev = snd_soc_component_get_drvdata(component);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  856  	s32 mute;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  857  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  858  	switch (event) {
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  859  	case SND_SOC_DAPM_POST_PMU:
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  860  		mute = 0;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  861  		break;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  862  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  863  	case SND_SOC_DAPM_PRE_PMD:
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  864  		mute = 1;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  865  		break;
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  866  	}
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  867  
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  868  	return sdw_write_no_pm(tas_dev->sdw_peripheral,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  869  			       SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU23,
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12 @870  					    TAS2783_SDCA_CTL_FU_MUTE, 1), mute);
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  871  }
+4cc9bd8d7b32d5 Niranjan H Y 2025-09-12  872  
 
 -- 
 0-DAY CI Kernel Test Service
