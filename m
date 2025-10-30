@@ -1,309 +1,276 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEE0194A65
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Oct 2025 13:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD1956B81
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Oct 2025 14:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761832552; cv=none; b=ueP2n2fxdH4l2QiPoi9+C3CydwMmuh3j5wiG97avtjE9wJQ3hpv6Kv2D5PzVb8bnWa48seSgR3gz9HaHRcNzEtTm0nkM3NLqVY19cR+s7U3c5avZ17WkYG+nKxwz5IQAqMNDG0RpiR+mq/pEEFFfOwp4Ra4NG0MHlCEb3W7bmj0=
+	t=1761833179; cv=none; b=kU4M6kJSmwGRNI2aNCbznyA4c5WMdXyqKvA3zeXjcrlpjfnOCVEO2ar3Bfjo5PGskZJsNkPwD0/xSw4xwICbBNAJBD266Jgu+Ne1NuRsV/C2aWc70sRSu2+ZM8ZEZe4Z/08i3X9H0heZediFZulge/6JEtKqLWetrCYR22k6eZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761832552; c=relaxed/simple;
-	bh=eEKrn6+P+nfUmpWCfzt6qqfGIkqEvNG8JOw/wK0u/9s=;
+	s=arc-20240116; t=1761833179; c=relaxed/simple;
+	bh=D0Cw5fVRl1yAbmVz749p45k9/80UODBsMrmCGw6tKEo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CGXBguWlTjURIIPz1ejaCU09n71tBr22oCzr9IBvxGf1pI1DfXNZwpaXJtmOC6bjRtG7sbNLC2pq2RWHHL4ylh4KdwzRb3XT+safgVeUcdt0vFSj5RoJWN+inHafZ4YwnFyDeT6M0uGL1w7otcJicBtEVzSxyAaaryPGGU2ImRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zdfj2Fyk; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=GLitZz1MFfAz3pQjfxj0gMDGhBmmvIrwnR2YBuTg35fRhgI8M39VDjToKdpv6t8U3mnbeHUfJO99LArEnhZDSf5megonIxIznarmxPul+/5SH8FB7nqNqwd/WL+wD/Q8V43U27Np94TxZhAeV0Tu2XYz8Tpmc+xs4hwLTqSNpYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GhleCt/w; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zdfj2Fyk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GhleCt/w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761832549; x=1793368549;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eEKrn6+P+nfUmpWCfzt6qqfGIkqEvNG8JOw/wK0u/9s=;
-  b=Zdfj2FykxURT/fX9WEvq1h/cZNvJpkf8GhtQTb9R8dDqewtnh1FMGObE
-   KUVVomgN80pw+DVM0gUGrtkElxz3ASdqkVd7EhxGdy1zd7aB4cll1kb/s
-   2ilpdE7r5WXGG7K+jNR919OGbbYI9whcehT8pjhrZtOB/JlzDEg5x5IoB
-   iGa3t3u/ITpYRezrw8JlTVRuFjXYdOpgGLFBWOVPyfyzRNno8GtqEWNl1
-   kNUq1w2cZsI3g3ga8YaWNaC9BeD7mA+bn9SlmEvbxed2ViFNDyBzz7QsS
-   2+7bEkUo67iLOwqrcMtTyckUzHKRamLkFy2YpgYi5k+zBhtEB7c/QK7Wd
+  t=1761833177; x=1793369177;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=D0Cw5fVRl1yAbmVz749p45k9/80UODBsMrmCGw6tKEo=;
+  b=GhleCt/wEn9R//KxJN4OKsesE4c3i+yadb26Wq89CqaPixjqSCOps19e
+   6tR2CELKfsGABeoR/VgTrOr0LuW4HEW/Ub+1svlrr8h8osON3hVevv3pB
+   t1gKrYY6uzjKZ/y8TTM/Hr64CCIhADCeXcZ17/FIamwl81A2EmF2SnVH1
+   mlGFwsOeiXWl6aguQMgSfRgoCULIEb9LPJUqWZr+Zkw8kMRq20KEr6SsT
+   x3yQGw6qAUyLSd7LpbF2Gt+PQgaLjJaEctAEI9JdZRJRLieYAHauSohPJ
+   BjeNhbfwTaNjzzRbnz2GlIdYRG6pA4tjGdzcxO75uyvmHO7CBWXFYGq43
    w==;
-X-CSE-ConnectionGUID: /PqSTjEYSgCm5ygVtc5wiA==
-X-CSE-MsgGUID: U15py6dRSSOmYI/hyelmEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="86600187"
+X-CSE-ConnectionGUID: aWV367FsRYmRXc2dESUqYw==
+X-CSE-MsgGUID: aYqhObTJR4ifgruf0WjLhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="64007378"
 X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="86600187"
+   d="scan'208";a="64007378"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 06:55:49 -0700
-X-CSE-ConnectionGUID: E/Ya35NTQ0i3WivUq/R5dA==
-X-CSE-MsgGUID: 4UDSHOGMQ/6d5Y6tkWj3Tg==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 07:06:16 -0700
+X-CSE-ConnectionGUID: tqC4WCvYQPufSWpm12ZfMg==
+X-CSE-MsgGUID: md2IP883QLyywxkukJxtqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="190319633"
+   d="scan'208";a="190322499"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 30 Oct 2025 06:55:44 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 30 Oct 2025 07:06:15 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vET7H-000M4C-1T;
-	Thu, 30 Oct 2025 13:55:04 +0000
-Date: Thu, 30 Oct 2025 21:55:01 +0800
+	id 1vETHZ-000M52-1J;
+	Thu, 30 Oct 2025 14:05:54 +0000
+Date: Thu, 30 Oct 2025 22:05:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 5/6] drm/sitronix/st7571: split up the driver into a
- common and an i2c part
-Message-ID: <202510302121.g9BHuXb7-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3064/3064] kernel/locking/mutex.c:725
+ __mutex_lock_common() error: uninitialized symbol 'ifs_clock'.
+Message-ID: <202510302214.ngbo9ZAu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251024-st7571-split-v1-5-d3092b98130f@gmail.com>
-References: <20251024-st7571-split-v1-5-d3092b98130f@gmail.com>
-TO: Marcus Folkesson <marcus.folkesson@gmail.com>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: David Airlie <airlied@gmail.com>
-TO: Simona Vetter <simona@ffwll.ch>
-CC: dri-devel@lists.freedesktop.org
-CC: linux-kernel@vger.kernel.org
-CC: Marcus Folkesson <marcus.folkesson@gmail.com>
+TO: kernel@openeuler.org
+TO: Pu Lehui <pulehui@huawei.com>
 
-Hi Marcus,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 7e73cefd2bede5408d1aeb6145261b62d85d23be]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcus-Folkesson/drm-sitronix-st7571-i2c-rename-struct-drm_device-in-st7571_device/20251024-192347
-base:   7e73cefd2bede5408d1aeb6145261b62d85d23be
-patch link:    https://lore.kernel.org/r/20251024-st7571-split-v1-5-d3092b98130f%40gmail.com
-patch subject: [PATCH 5/6] drm/sitronix/st7571: split up the driver into a common and an i2c part
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: um-randconfig-r073-20251025 (https://download.01.org/0day-ci/archive/20251030/202510302121.g9BHuXb7-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   7f38ece6b510adaa28c8e625ff574fe6357a3960
+commit: a1ad9b2ed459a3e3a4a2de50e03f53036fc7ec96 [3064/3064] interference: Add mutex interference track support
+:::::: branch date: 5 hours ago
+:::::: commit date: 4 months ago
+config: arm64-randconfig-r073-20251029 (https://download.01.org/0day-ci/archive/20251030/202510302214.ngbo9ZAu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202510302121.g9BHuXb7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510302214.ngbo9ZAu-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/sitronix/st7571.c:99 st7571_send_command_list() error: uninitialized symbol 'ret'.
-drivers/gpu/drm/sitronix/st7571.c:257 st7571_fb_update_rect_grayscale() error: uninitialized symbol 'x1'.
-drivers/gpu/drm/sitronix/st7571.c:257 st7571_fb_update_rect_grayscale() error: uninitialized symbol 'x2'.
+kernel/locking/mutex.c:725 __mutex_lock_common() error: uninitialized symbol 'ifs_clock'.
 
-vim +/ret +99 drivers/gpu/drm/sitronix/st7571.c
+vim +/ifs_clock +725 kernel/locking/mutex.c
 
-b6a4754f3a5418 Marcus Folkesson 2025-10-24   87  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24   88  static int st7571_send_command_list(struct st7571_device *st7571,
-b6a4754f3a5418 Marcus Folkesson 2025-10-24   89  				    const u8 *cmd_list, size_t len)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24   90  {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24   91  	int ret;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24   92  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24   93  	for (int i = 0; i < len; i++) {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24   94  		ret = regmap_write(st7571->regmap, ST7571_COMMAND_MODE, cmd_list[i]);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24   95  		if (ret < 0)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24   96  			return ret;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24   97  	}
-b6a4754f3a5418 Marcus Folkesson 2025-10-24   98  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  @99  	return ret;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  100  }
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  101  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  102  static inline u8 st7571_transform_xy(const char *p, int x, int y, u8 bpp)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  103  {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  104  	int xrest = x % 8;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  105  	u8 result = 0;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  106  	u8 row_len = 16 * bpp;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  107  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  108  	/*
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  109  	 * Transforms an (x, y) pixel coordinate into a vertical 8-bit
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  110  	 * column from the framebuffer. It calculates the corresponding byte in the
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  111  	 * framebuffer, extracts the bit at the given x position across 8 consecutive
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  112  	 * rows, and packs those bits into a single byte.
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  113  	 *
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  114  	 * Return an 8-bit value representing a vertical column of pixels.
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  115  	 */
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  116  	x = x / 8;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  117  	y = (y / 8) * 8;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  118  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  119  	for (int i = 0; i < 8; i++) {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  120  		int row_idx = y + i;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  121  		u8 byte = p[row_idx * row_len + x];
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  122  		u8 bit = (byte >> xrest) & 1;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  123  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  124  		result |= (bit << i);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  125  	}
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  126  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  127  	return result;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  128  }
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  129  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  130  static int st7571_set_position(struct st7571_device *st7571, int x, int y)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  131  {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  132  	u8 cmd_list[] = {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  133  		ST7571_SET_COLUMN_LSB(x),
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  134  		ST7571_SET_COLUMN_MSB(x),
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  135  		ST7571_SET_PAGE(y / ST7571_PAGE_HEIGHT),
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  136  	};
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  137  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  138  	return st7571_send_command_list(st7571, cmd_list, ARRAY_SIZE(cmd_list));
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  139  }
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  140  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  141  static int st7571_fb_clear_screen(struct st7571_device *st7571)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  142  {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  143  	u32 npixels = st7571->ncols * round_up(st7571->nlines, ST7571_PAGE_HEIGHT) * st7571->bpp;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  144  	char pixelvalue = 0x00;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  145  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  146  	st7571_set_position(st7571, 0, 0);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  147  	for (int i = 0; i < npixels; i++)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  148  		regmap_bulk_write(st7571->regmap, ST7571_DATA_MODE, &pixelvalue, 1);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  149  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  150  	return 0;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  151  }
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  152  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  153  static void st7571_prepare_buffer_monochrome(struct st7571_device *st7571,
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  154  					     const struct iosys_map *vmap,
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  155  					     struct drm_framebuffer *fb,
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  156  					     struct drm_rect *rect,
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  157  					     struct drm_format_conv_state *fmtcnv_state)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  158  {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  159  	unsigned int dst_pitch;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  160  	struct iosys_map dst;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  161  	u32 size;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  162  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  163  	switch (fb->format->format) {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  164  	case DRM_FORMAT_XRGB8888:
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  165  		dst_pitch = DIV_ROUND_UP(drm_rect_width(rect), 8);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  166  		iosys_map_set_vaddr(&dst, st7571->hwbuf);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  167  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  168  		drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  169  		break;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  170  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  171  	case DRM_FORMAT_R1:
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  172  		size = (rect->x2 - rect->x1) * (rect->y2 - rect->y1) / 8;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  173  		memcpy(st7571->hwbuf, vmap->vaddr, size);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  174  		break;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  175  	}
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  176  }
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  177  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  178  static void st7571_prepare_buffer_grayscale(struct st7571_device *st7571,
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  179  					    const struct iosys_map *vmap,
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  180  					    struct drm_framebuffer *fb,
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  181  					    struct drm_rect *rect,
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  182  					    struct drm_format_conv_state *fmtcnv_state)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  183  {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  184  	u32 size = (rect->x2 - rect->x1) * (rect->y2 - rect->y1) / 8;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  185  	unsigned int dst_pitch;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  186  	struct iosys_map dst;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  187  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  188  	switch (fb->format->format) {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  189  	case DRM_FORMAT_XRGB8888:
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  190  		dst_pitch = DIV_ROUND_UP(drm_rect_width(rect), 4);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  191  		iosys_map_set_vaddr(&dst, st7571->hwbuf);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  192  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  193  		drm_fb_xrgb8888_to_gray2(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  194  		break;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  195  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  196  	case DRM_FORMAT_R1:
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  197  		size = (rect->x2 - rect->x1) * (rect->y2 - rect->y1) / 8;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  198  		memcpy(st7571->hwbuf, vmap->vaddr, size);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  199  		break;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  200  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  201  	case DRM_FORMAT_R2:
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  202  		size = (rect->x2 - rect->x1) * (rect->y2 - rect->y1) / 4;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  203  		memcpy(st7571->hwbuf, vmap->vaddr, size);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  204  		break;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  205  	}
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  206  }
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  207  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  208  static int st7571_fb_update_rect_monochrome(struct drm_framebuffer *fb, struct drm_rect *rect)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  209  {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  210  	struct st7571_device *st7571 = drm_to_st7571(fb->dev);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  211  	char *row = st7571->row;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  212  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  213  	/* Align y to display page boundaries */
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  214  	rect->y1 = round_down(rect->y1, ST7571_PAGE_HEIGHT);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  215  	rect->y2 = min_t(unsigned int, round_up(rect->y2, ST7571_PAGE_HEIGHT), st7571->nlines);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  216  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  217  	for (int y = rect->y1; y < rect->y2; y += ST7571_PAGE_HEIGHT) {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  218  		for (int x = rect->x1; x < rect->x2; x++)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  219  			row[x] = st7571_transform_xy(st7571->hwbuf, x, y, 1);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  220  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  221  		st7571_set_position(st7571, rect->x1, y);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  222  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  223  		/* TODO: Investige why we can't write multiple bytes at once */
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  224  		for (int x = rect->x1; x < rect->x2; x++)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  225  			regmap_bulk_write(st7571->regmap, ST7571_DATA_MODE, row + x, 1);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  226  	}
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  227  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  228  	return 0;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  229  }
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  230  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  231  static int st7571_fb_update_rect_grayscale(struct drm_framebuffer *fb, struct drm_rect *rect)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  232  {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  233  	struct st7571_device *st7571 = drm_to_st7571(fb->dev);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  234  	u32 format = fb->format->format;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  235  	char *row = st7571->row;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  236  	int x1;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  237  	int x2;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  238  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  239  	/* Align y to display page boundaries */
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  240  	rect->y1 = round_down(rect->y1, ST7571_PAGE_HEIGHT);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  241  	rect->y2 = min_t(unsigned int, round_up(rect->y2, ST7571_PAGE_HEIGHT), st7571->nlines);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  242  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  243  	switch (format) {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  244  	case DRM_FORMAT_R1:
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  245  		x1 = rect->x1 * 1;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  246  		x2 = rect->x2 * 1;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  247  		break;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  248  	case DRM_FORMAT_R2:
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  249  		fallthrough;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  250  	case DRM_FORMAT_XRGB8888:
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  251  		x1 = rect->x1 * 2;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  252  		x2 = rect->x2 * 2;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  253  		break;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  254  	}
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  255  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  256  	for (int y = rect->y1; y < rect->y2; y += ST7571_PAGE_HEIGHT) {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24 @257  		for (int x = x1; x < x2; x++)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  258  			row[x] = st7571_transform_xy(st7571->hwbuf, x, y, 2);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  259  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  260  		st7571_set_position(st7571, rect->x1, y);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  261  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  262  		/* TODO: Investige why we can't write multiple bytes at once */
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  263  		for (int x = x1; x < x2; x++) {
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  264  			regmap_bulk_write(st7571->regmap, ST7571_DATA_MODE, row + x, 1);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  265  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  266  			/*
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  267  			 * As the display supports grayscale, all pixels must be written as two bits
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  268  			 * even if the format is monochrome.
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  269  			 *
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  270  			 * The bit values maps to the following grayscale:
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  271  			 * 0 0 = Black
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  272  			 * 0 1 = Dark gray
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  273  			 * 1 0 = Light gray
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  274  			 * 1 1 = White
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  275  			 *
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  276  			 * For monochrome formats, write the same value twice to get
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  277  			 * either a black or white pixel.
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  278  			 */
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  279  			if (format == DRM_FORMAT_R1)
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  280  				regmap_bulk_write(st7571->regmap, ST7571_DATA_MODE, row + x, 1);
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  281  		}
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  282  	}
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  283  
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  284  	return 0;
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  285  }
-b6a4754f3a5418 Marcus Folkesson 2025-10-24  286  
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  565  
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  566  /*
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  567   * Lock a mutex (possibly interruptible), slowpath:
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  568   */
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  569  static __always_inline int __sched
+2f064a59a11ff9 kernel/locking/mutex.c Peter Zijlstra            2021-06-11  570  __mutex_lock_common(struct mutex *lock, unsigned int state, unsigned int subclass,
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  571  		    struct lockdep_map *nest_lock, unsigned long ip,
+b0267507dfd018 kernel/mutex.c         Tetsuo Handa              2013-10-17  572  		    struct ww_acquire_ctx *ww_ctx, const bool use_ww_ctx)
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  573  {
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  574  	struct mutex_waiter waiter;
+a40ca56577f628 kernel/locking/mutex.c Waiman Long               2016-08-26  575  	struct ww_mutex *ww;
+a1ad9b2ed459a3 kernel/locking/mutex.c Pu Lehui                  2025-07-16  576  	u64 ifs_clock;
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  577  	int ret;
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  578  
+5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  579  	if (!use_ww_ctx)
+5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  580  		ww_ctx = NULL;
+5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  581  
+427b18207a87f6 kernel/locking/mutex.c Peter Zijlstra            2016-12-23  582  	might_sleep();
+ea9e0fb8fe1bdf kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  583  
+e6b4457b05f36b kernel/locking/mutex.c Peter Zijlstra            2021-06-30  584  	MUTEX_WARN_ON(lock->magic != lock);
+6c11c6e3d5e9e5 kernel/locking/mutex.c Sebastian Andrzej Siewior 2019-07-03  585  
+a40ca56577f628 kernel/locking/mutex.c Waiman Long               2016-08-26  586  	ww = container_of(lock, struct ww_mutex, base);
+5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  587  	if (ww_ctx) {
+0422e83d84ae24 kernel/locking/mutex.c Chris Wilson              2016-05-26  588  		if (unlikely(ww_ctx == READ_ONCE(ww->ctx)))
+0422e83d84ae24 kernel/locking/mutex.c Chris Wilson              2016-05-26  589  			return -EALREADY;
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  590  
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  591  		/*
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  592  		 * Reset the wounded flag after a kill. No other process can
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  593  		 * race and wound us here since they can't have a valid owner
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  594  		 * pointer if we don't have any locks held.
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  595  		 */
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  596  		if (ww_ctx->acquired == 0)
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  597  			ww_ctx->wounded = 0;
+cf702eddcd03dc kernel/locking/mutex.c Peter Zijlstra            2021-08-15  598  
+cf702eddcd03dc kernel/locking/mutex.c Peter Zijlstra            2021-08-15  599  #ifdef CONFIG_DEBUG_LOCK_ALLOC
+cf702eddcd03dc kernel/locking/mutex.c Peter Zijlstra            2021-08-15  600  		nest_lock = &ww_ctx->dep_map;
+cf702eddcd03dc kernel/locking/mutex.c Peter Zijlstra            2021-08-15  601  #endif
+0422e83d84ae24 kernel/locking/mutex.c Chris Wilson              2016-05-26  602  	}
+0422e83d84ae24 kernel/locking/mutex.c Chris Wilson              2016-05-26  603  
+41719b03091911 kernel/mutex.c         Peter Zijlstra            2009-01-14  604  	preempt_disable();
+e4c70a6629f9c7 kernel/mutex.c         Peter Zijlstra            2011-05-24  605  	mutex_acquire_nest(&lock->dep_map, subclass, 0, nest_lock, ip);
+c02260277e4720 kernel/mutex.c         Frederic Weisbecker       2009-12-02  606  
+dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  607  	trace_contention_begin(lock, LCB_F_MUTEX | LCB_F_SPIN);
+e274795ea7b7ca kernel/locking/mutex.c Peter Zijlstra            2017-01-11  608  	if (__mutex_trylock(lock) ||
+5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  609  	    mutex_optimistic_spin(lock, ww_ctx, NULL)) {
+76916515d9d84e kernel/locking/mutex.c Davidlohr Bueso           2014-07-30  610  		/* got the lock, yay! */
+3ca0ff571b092e kernel/locking/mutex.c Peter Zijlstra            2016-08-23  611  		lock_acquired(&lock->dep_map, ip);
+5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  612  		if (ww_ctx)
+3ca0ff571b092e kernel/locking/mutex.c Peter Zijlstra            2016-08-23  613  			ww_mutex_set_context_fastpath(ww, ww_ctx);
+dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  614  		trace_contention_end(lock, 0);
+ac6e60ee405aa3 kernel/mutex.c         Chris Mason               2009-01-14  615  		preempt_enable();
+ac6e60ee405aa3 kernel/mutex.c         Chris Mason               2009-01-14  616  		return 0;
+ac6e60ee405aa3 kernel/mutex.c         Chris Mason               2009-01-14  617  	}
+ac6e60ee405aa3 kernel/mutex.c         Chris Mason               2009-01-14  618  
+ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  619  	raw_spin_lock(&lock->wait_lock);
+1e820c9608eace kernel/locking/mutex.c Jason Low                 2014-06-11  620  	/*
+3ca0ff571b092e kernel/locking/mutex.c Peter Zijlstra            2016-08-23  621  	 * After waiting to acquire the wait_lock, try again.
+1e820c9608eace kernel/locking/mutex.c Jason Low                 2014-06-11  622  	 */
+659cf9f5824a12 kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  623  	if (__mutex_trylock(lock)) {
+5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  624  		if (ww_ctx)
+55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  625  			__ww_mutex_check_waiters(lock, ww_ctx);
+659cf9f5824a12 kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  626  
+ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  627  		goto skip_wait;
+659cf9f5824a12 kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  628  	}
+ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  629  
+9a11b49a805665 kernel/mutex.c         Ingo Molnar               2006-07-03  630  	debug_mutex_lock_common(lock, &waiter);
+c0afb0ffc06e6b kernel/locking/mutex.c Peter Zijlstra            2021-08-15  631  	waiter.task = current;
+b857174e68e26f kernel/locking/mutex.c Sebastian Andrzej Siewior 2021-08-19  632  	if (use_ww_ctx)
+c0afb0ffc06e6b kernel/locking/mutex.c Peter Zijlstra            2021-08-15  633  		waiter.ww_ctx = ww_ctx;
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  634  
+6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  635  	lock_contended(&lock->dep_map, ip);
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  636  
+6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  637  	if (!use_ww_ctx) {
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  638  		/* add waiting tasks to the end of the waitqueue (FIFO): */
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  639  		__mutex_add_waiter(lock, &waiter, &lock->wait_list);
+6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  640  	} else {
+55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  641  		/*
+55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  642  		 * Add in stamp order, waking up waiters that must kill
+55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  643  		 * themselves.
+55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  644  		 */
+6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  645  		ret = __ww_mutex_add_waiter(&waiter, lock, ww_ctx);
+6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  646  		if (ret)
+55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  647  			goto err_early_kill;
+6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  648  	}
+6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  649  
+642fa448ae6b3a kernel/locking/mutex.c Davidlohr Bueso           2017-01-03  650  	set_current_state(state);
+dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  651  	trace_contention_begin(lock, LCB_F_MUTEX);
+a1ad9b2ed459a3 kernel/locking/mutex.c Pu Lehui                  2025-07-16  652  	cgroup_ifs_enter_lock(&ifs_clock);
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  653  	for (;;) {
+048661a1f963e9 kernel/locking/mutex.c Peter Zijlstra            2021-06-30  654  		bool first;
+048661a1f963e9 kernel/locking/mutex.c Peter Zijlstra            2021-06-30  655  
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  656  		/*
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  657  		 * Once we hold wait_lock, we're serialized against
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  658  		 * mutex_unlock() handing the lock off to us, do a trylock
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  659  		 * before testing the error conditions to make sure we pick up
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  660  		 * the handoff.
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  661  		 */
+e274795ea7b7ca kernel/locking/mutex.c Peter Zijlstra            2017-01-11  662  		if (__mutex_trylock(lock))
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  663  			goto acquired;
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  664  
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  665  		/*
+55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  666  		 * Check for signals and kill conditions while holding
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  667  		 * wait_lock. This ensures the lock cancellation is ordered
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  668  		 * against mutex_unlock() and wake-ups do not go missing.
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  669  		 */
+3bb5f4ac55dd91 kernel/locking/mutex.c Davidlohr Bueso           2019-01-03  670  		if (signal_pending_state(state, current)) {
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  671  			ret = -EINTR;
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  672  			goto err;
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  673  		}
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  674  
+5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  675  		if (ww_ctx) {
+55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  676  			ret = __ww_mutex_check_kill(lock, &waiter, ww_ctx);
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  677  			if (ret)
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  678  				goto err;
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  679  		}
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  680  
+ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  681  		raw_spin_unlock(&lock->wait_lock);
+bd2f55361f1834 kernel/mutex.c         Thomas Gleixner           2011-03-21  682  		schedule_preempt_disabled();
+9d659ae14b545c kernel/locking/mutex.c Peter Zijlstra            2016-08-23  683  
+6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  684  		first = __mutex_waiter_is_first(lock, &waiter);
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  685  
+642fa448ae6b3a kernel/locking/mutex.c Davidlohr Bueso           2017-01-03  686  		set_current_state(state);
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  687  		/*
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  688  		 * Here we order against unlock; we must either see it change
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  689  		 * state back to RUNNING and fall through the next schedule(),
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  690  		 * or we must see its unlock and acquire.
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  691  		 */
+dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  692  		if (__mutex_trylock_or_handoff(lock, first))
+dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  693  			break;
+dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  694  
+dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  695  		if (first) {
+dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  696  			trace_contention_begin(lock, LCB_F_MUTEX | LCB_F_SPIN);
+dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  697  			if (mutex_optimistic_spin(lock, ww_ctx, &waiter))
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  698  				break;
+dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  699  			trace_contention_begin(lock, LCB_F_MUTEX);
+dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  700  		}
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  701  
+ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  702  		raw_spin_lock(&lock->wait_lock);
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  703  	}
+ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  704  	raw_spin_lock(&lock->wait_lock);
+5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  705  acquired:
+642fa448ae6b3a kernel/locking/mutex.c Davidlohr Bueso           2017-01-03  706  	__set_current_state(TASK_RUNNING);
+51587bcf31d070 kernel/locking/mutex.c Davidlohr Bueso           2015-01-19  707  
+5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  708  	if (ww_ctx) {
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  709  		/*
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  710  		 * Wound-Wait; we stole the lock (!first_waiter), check the
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  711  		 * waiters as anyone might want to wound us.
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  712  		 */
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  713  		if (!ww_ctx->is_wait_die &&
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  714  		    !__mutex_waiter_is_first(lock, &waiter))
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  715  			__ww_mutex_check_waiters(lock, ww_ctx);
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  716  	}
+08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  717  
+3a010c493271f0 kernel/locking/mutex.c Zqiang                    2021-05-17  718  	__mutex_remove_waiter(lock, &waiter);
+3ca0ff571b092e kernel/locking/mutex.c Peter Zijlstra            2016-08-23  719  
+ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  720  	debug_mutex_free_waiter(&waiter);
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  721  
+ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  722  skip_wait:
+ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  723  	/* got the lock - cleanup and rejoice! */
+c7e78cff6b7518 kernel/mutex.c         Peter Zijlstra            2008-10-16  724  	lock_acquired(&lock->dep_map, ip);
+a1ad9b2ed459a3 kernel/locking/mutex.c Pu Lehui                  2025-07-16 @725  	cgroup_ifs_leave_lock(ifs_clock, IFS_MUTEX);
+ee042be16cb455 kernel/locking/mutex.c Namhyung Kim              2022-03-22  726  	trace_contention_end(lock, 0);
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  727  
+5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  728  	if (ww_ctx)
+55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  729  		ww_mutex_lock_acquired(ww, ww_ctx);
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  730  
+ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  731  	raw_spin_unlock(&lock->wait_lock);
+41719b03091911 kernel/mutex.c         Peter Zijlstra            2009-01-14  732  	preempt_enable();
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  733  	return 0;
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  734  
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  735  err:
+642fa448ae6b3a kernel/locking/mutex.c Davidlohr Bueso           2017-01-03  736  	__set_current_state(TASK_RUNNING);
+3a010c493271f0 kernel/locking/mutex.c Zqiang                    2021-05-17  737  	__mutex_remove_waiter(lock, &waiter);
+55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  738  err_early_kill:
+a1ad9b2ed459a3 kernel/locking/mutex.c Pu Lehui                  2025-07-16  739  	cgroup_ifs_leave_lock(ifs_clock, IFS_MUTEX);
+dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  740  	trace_contention_end(lock, ret);
+ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  741  	raw_spin_unlock(&lock->wait_lock);
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  742  	debug_mutex_free_waiter(&waiter);
+5facae4f3549b5 kernel/locking/mutex.c Qian Cai                  2019-09-19  743  	mutex_release(&lock->dep_map, ip);
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  744  	preempt_enable();
+040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  745  	return ret;
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  746  }
+6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  747  
 
 -- 
 0-DAY CI Kernel Test Service
