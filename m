@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99127286419
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Oct 2025 05:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5528937A3CB
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Oct 2025 06:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761802912; cv=none; b=qeCrUQQMHa5zLA1/JppsG51vSzdCeJRNwJXUtzxDuA52OoBXqTaXzMjKID2KXMUux7x3yL4DY9WBYFsl391/sktVtdejI1uAm60xh+bHrktm6rNVTX2fxOqaHMjQcWi2myD7UAohV0uu1zfTYjQ97pPA1HzqM3fhrYX/5zR4IVI=
+	t=1761806206; cv=none; b=pvjoDkyz4euBeC2SzoTjMyaQcSvPwcGFEsNJy4uWsbLbrq8Pk/XfHHHUdDgqgmV4s3z55GIXqCOJr8b2KDh4lW3V1PgWhAsdToNNoKFotbUM2oMqQgOfSh3fV2E0OF+yjLhBE2BsYpQYE1Q59KHPbz3s5/Rnpy6szTzeCBt9IQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761802912; c=relaxed/simple;
-	bh=9ioYHljFo0efRrGvI9O9wNG0mnmdXohvcObvDbEBIxU=;
+	s=arc-20240116; t=1761806206; c=relaxed/simple;
+	bh=KZSMomokyKY3/9SlayELOZDYRdwgmuugoQWmIfKWaT8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iXvwMU0mOmEShRTQa/TGI1UaMTipaoduHM58OiLJuegAT3aMqbX82N6MrSI089lFjeMgp0lbLq9qJ+pWyjyJP6ei+Y0NThJguIEcGC7NBA0VkrjlDA4n+CRbmnkdNcq9tdxo1K4CyxE0EJ3RAXWdHxy6JqsVIiWahXuLfwxvhOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EnrvA21t; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=YqipyaG8+aLzYY5sGHR4jYFxPFeXNoKzjQhV1gZWYnP5s3TmLPouYjeuG21ncN1iiIrcgdyr7OUqEdmGnOMCyYqQKoOuNO31G35bqRROZ5/fERDXqC3daVVQa0U9g5X7qQILmDmmGa7cRWSFSiJ8IBF/qsJhYcX/up4eUTFEsP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dBnHoxpS; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EnrvA21t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBnHoxpS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761802910; x=1793338910;
+  t=1761806204; x=1793342204;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9ioYHljFo0efRrGvI9O9wNG0mnmdXohvcObvDbEBIxU=;
-  b=EnrvA21tBZwo+ABJjDbe6vlpDBe7Gof+8gEONUgIclmtUS5t8Oj5zpsj
-   hVuR2tzxnOucLh1zUoLa4XAjz7UxFvhSx2dJZne9b57H9e8FFp71um4jo
-   Yrc5MUhPDAxL/OmD45GHsUX1eLl/zxS35wG95egwigL2csq3Em4XCSZNk
-   HdAqV2NnNTdm+BW+5XFKYtRdwhtRMrEwV5jDT4+92m/MKwXrau8aA7CuA
-   mujVZOl7iTodUs8yQwWNLSo9vWk2ZC7W6ME7FzgO49QfulaqK5Bohw0vG
-   zE6LeRVphtX9v1a4KoqbXdk/8YQW8NJe297R5kZj4xGeYWAU3de7df2Il
-   Q==;
-X-CSE-ConnectionGUID: vk4uDEUARH6oe3OvY2sI0Q==
-X-CSE-MsgGUID: vEEUEKSkR2W6OalrV1tG0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="63845646"
-X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="63845646"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 22:41:49 -0700
-X-CSE-ConnectionGUID: fVUEp+yJQMCLnp+R7ljw8g==
-X-CSE-MsgGUID: +hk7nXZGQAOU53fZBBR/Fg==
+  bh=KZSMomokyKY3/9SlayELOZDYRdwgmuugoQWmIfKWaT8=;
+  b=dBnHoxpSF26rLYWdJ5rrda7BurAS7svygCxiHGGwnFJPn4P34IZPc3Bh
+   1ww5xcqylcSxGwtvhb3OTmW9wBUORaeUI61+qcWO2nA1v6IK6ZRTszkpY
+   E0zfyPSEuR4+/oK+ruy1NM9CdJ66ZieZjpIXe4CShS83eiP1EgWlLCg17
+   lC8m0QQJLm01LBCjNFPIKqRx4i2bK9TTT8E66XQkG65EQp44CQEaJCplQ
+   MS5T5LpLOJ78qgnktqXwwEaCb/c6Mw0dYo1MVfR2lHWwNJFT8m+Tb+e7I
+   cYpsHPyF7ee29W7To1s8NqKmC3HCMa8vGVJRWdFwS0icRkWrRRGcZ1MCT
+   g==;
+X-CSE-ConnectionGUID: ZmskPZQURE6dvCdb6UZahQ==
+X-CSE-MsgGUID: GbeYi6aWQCWc17Rvo147Yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="74230343"
+X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
+   d="scan'208";a="74230343"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 23:36:43 -0700
+X-CSE-ConnectionGUID: epwaxbF7QnGk34z5fKr/WA==
+X-CSE-MsgGUID: WK9N6RKDSOCfB7aKr0f5cA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="190193831"
+X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
+   d="scan'208";a="185567618"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 29 Oct 2025 22:41:49 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 29 Oct 2025 23:36:42 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vELPu-000LVU-0w;
-	Thu, 30 Oct 2025 05:41:46 +0000
-Date: Thu, 30 Oct 2025 13:40:26 +0800
+	id 1vEMH2-000LYE-0n;
+	Thu, 30 Oct 2025 06:36:40 +0000
+Date: Thu, 30 Oct 2025 14:35:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/staging/gpib/gpio/gpib_bitbang.c:1204:24-31: WARNING:
- Consider using %pe to print PTR_ERR()
-Message-ID: <202510301308.JLr3AzNZ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [openeuler:OLK-6.6 3064/3064] arch/arm64/kvm/arm.c:177
+ kvm_cap_arm_enable_hdbss() warn: iterator 'i' not incremented
+Message-ID: <202510301418.ngVZneV0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,98 +64,98 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Dave Penkler <dpenkler@gmail.com>
+TO: kernel@openeuler.org
+TO: Zhenyu Ye <yezhenyu2@huawei.com>
 
-Hi Dave,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6
-commit: 165e8cc3cfec9ef51f3376b0d49b115294f34f3b staging: gpib: Add KBUILD files for GPIB drivers
-date:   1 year, 1 month ago
-:::::: branch date: 29 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: loongarch-randconfig-r062-20251030 (https://download.01.org/0day-ci/archive/20251030/202510301308.JLr3AzNZ-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   bc2ee8a789087459d9852f01e10d2f31abf5a13d
+commit: bd6106e348d70cafe3f030ba6f60fb010f09b82e [3064/3064] arm64/kvm: using ioctl to enable/disable the HDBSS feature
+:::::: branch date: 3 hours ago
+:::::: commit date: 7 months ago
+config: arm64-randconfig-r073-20251029 (https://download.01.org/0day-ci/archive/20251030/202510301418.ngVZneV0-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202510301308.JLr3AzNZ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202510301418.ngVZneV0-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/staging/gpib/gpio/gpib_bitbang.c:1204:24-31: WARNING: Consider using %pe to print PTR_ERR()
+New smatch warnings:
+arch/arm64/kvm/arm.c:177 kvm_cap_arm_enable_hdbss() warn: iterator 'i' not incremented
 
-vim +1204 drivers/staging/gpib/gpio/gpib_bitbang.c
+Old smatch warnings:
+arch/arm64/kvm/arm.c:899 kvm_arm_halt_guest() warn: iterator 'i' not incremented
+arch/arm64/kvm/arm.c:909 kvm_arm_resume_guest() warn: iterator 'i' not incremented
+arch/arm64/kvm/arm.c:2682 kvm_mpidr_to_vcpu() warn: iterator 'i' not incremented
 
-4cd654f847693c2 Dave Penkler 2024-09-18  1163  
-4cd654f847693c2 Dave Penkler 2024-09-18  1164  static int allocate_gpios(gpib_board_t *board)
-4cd654f847693c2 Dave Penkler 2024-09-18  1165  {
-4cd654f847693c2 Dave Penkler 2024-09-18  1166  	int j, retval = 0;
-4cd654f847693c2 Dave Penkler 2024-09-18  1167  	bool error = false;
-4cd654f847693c2 Dave Penkler 2024-09-18  1168  	int table_index = 0;
-4cd654f847693c2 Dave Penkler 2024-09-18  1169  	char name[256];
-4cd654f847693c2 Dave Penkler 2024-09-18  1170  	struct gpio_desc *desc;
-4cd654f847693c2 Dave Penkler 2024-09-18  1171  	struct gpiod_lookup_table *lookup_table;
-4cd654f847693c2 Dave Penkler 2024-09-18  1172  
-4cd654f847693c2 Dave Penkler 2024-09-18  1173  	if (!board->gpib_dev) {
-4cd654f847693c2 Dave Penkler 2024-09-18  1174  		pr_err("NULL gpib dev for board\n");
-4cd654f847693c2 Dave Penkler 2024-09-18  1175  		return -ENOENT;
-4cd654f847693c2 Dave Penkler 2024-09-18  1176  	}
-4cd654f847693c2 Dave Penkler 2024-09-18  1177  
-4cd654f847693c2 Dave Penkler 2024-09-18  1178  	lookup_table = lookup_tables[0];
-4cd654f847693c2 Dave Penkler 2024-09-18  1179  	lookup_table->dev_id   = dev_name(board->gpib_dev);
-4cd654f847693c2 Dave Penkler 2024-09-18  1180  	gpiod_add_lookup_table(lookup_table);
-4cd654f847693c2 Dave Penkler 2024-09-18  1181  	dbg_printk(1, "Allocating gpios using table index %d\n", table_index);
-4cd654f847693c2 Dave Penkler 2024-09-18  1182  
-4cd654f847693c2 Dave Penkler 2024-09-18  1183  	for (j = 0 ; j < NUM_PINS ; j++) {
-4cd654f847693c2 Dave Penkler 2024-09-18  1184  		if (gpios_vector[j] < 0)
-4cd654f847693c2 Dave Penkler 2024-09-18  1185  			continue;
-4cd654f847693c2 Dave Penkler 2024-09-18  1186  		/* name not really used in gpiod_get_index() */
-4cd654f847693c2 Dave Penkler 2024-09-18  1187  		sprintf(name, "GPIO%d", gpios_vector[j]);
-4cd654f847693c2 Dave Penkler 2024-09-18  1188  try_again:
-4cd654f847693c2 Dave Penkler 2024-09-18  1189  		dbg_printk(1, "Allocating gpio %s pin no %d\n", name, gpios_vector[j]);
-4cd654f847693c2 Dave Penkler 2024-09-18  1190  		desc = gpiod_get_index(board->gpib_dev, name, gpios_vector[j], GPIOD_IN);
-4cd654f847693c2 Dave Penkler 2024-09-18  1191  
-4cd654f847693c2 Dave Penkler 2024-09-18  1192  		if (IS_ERR(desc)) {
-4cd654f847693c2 Dave Penkler 2024-09-18  1193  			gpiod_remove_lookup_table(lookup_table);
-4cd654f847693c2 Dave Penkler 2024-09-18  1194  			table_index++;
-4cd654f847693c2 Dave Penkler 2024-09-18  1195  			lookup_table = lookup_tables[table_index];
-4cd654f847693c2 Dave Penkler 2024-09-18  1196  			if (lookup_table) {
-4cd654f847693c2 Dave Penkler 2024-09-18  1197  				dbg_printk(1, "Allocation failed,  now  using table_index %d\n",
-4cd654f847693c2 Dave Penkler 2024-09-18  1198  					   table_index);
-4cd654f847693c2 Dave Penkler 2024-09-18  1199  				lookup_table->dev_id = dev_name(board->gpib_dev);
-4cd654f847693c2 Dave Penkler 2024-09-18  1200  				gpiod_add_lookup_table(lookup_table);
-4cd654f847693c2 Dave Penkler 2024-09-18  1201  				goto try_again;
-4cd654f847693c2 Dave Penkler 2024-09-18  1202  			}
-4cd654f847693c2 Dave Penkler 2024-09-18  1203  			dbg_printk(0, "Unable to obtain gpio descriptor for pin %d error %ld\n",
-4cd654f847693c2 Dave Penkler 2024-09-18 @1204  				   gpios_vector[j], PTR_ERR(desc));
-4cd654f847693c2 Dave Penkler 2024-09-18  1205  			error = true;
-4cd654f847693c2 Dave Penkler 2024-09-18  1206  			break;
-4cd654f847693c2 Dave Penkler 2024-09-18  1207  		}
-4cd654f847693c2 Dave Penkler 2024-09-18  1208  		all_descriptors[j] = desc;
-4cd654f847693c2 Dave Penkler 2024-09-18  1209  	}
-4cd654f847693c2 Dave Penkler 2024-09-18  1210  
-4cd654f847693c2 Dave Penkler 2024-09-18  1211  	if (error) { /* undo what already done */
-4cd654f847693c2 Dave Penkler 2024-09-18  1212  		release_gpios();
-4cd654f847693c2 Dave Penkler 2024-09-18  1213  		retval = -1;
-4cd654f847693c2 Dave Penkler 2024-09-18  1214  	}
-4cd654f847693c2 Dave Penkler 2024-09-18  1215  	if (lookup_table)
-4cd654f847693c2 Dave Penkler 2024-09-18  1216  		gpiod_remove_lookup_table(lookup_table);
-4cd654f847693c2 Dave Penkler 2024-09-18  1217  	// Initialize LED trigger
-4cd654f847693c2 Dave Penkler 2024-09-18  1218  	led_trigger_register_simple("gpib", &ledtrig_gpib);
-4cd654f847693c2 Dave Penkler 2024-09-18  1219  	return retval;
-4cd654f847693c2 Dave Penkler 2024-09-18  1220  }
-4cd654f847693c2 Dave Penkler 2024-09-18  1221  
+vim +/i +177 arch/arm64/kvm/arm.c
 
-:::::: The code at line 1204 was first introduced by commit
-:::::: 4cd654f847693c2c60312acfcab25936bb31aa1c staging: gpib: Add gpio bitbang GPIB driver
-
-:::::: TO: Dave Penkler <dpenkler@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+749cf76c5a363e arch/arm/kvm/arm.c   Christoffer Dall 2013-01-20  131  
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  132  static int kvm_cap_arm_enable_hdbss(struct kvm *kvm,
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  133  				    struct kvm_enable_cap *cap)
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  134  {
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  135  	unsigned long i;
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  136  	struct kvm_vcpu *vcpu;
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  137  	struct page *hdbss_pg;
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  138  	int size = cap->args[0];
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  139  
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  140  	if (!system_supports_hdbss()) {
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  141  		kvm_err("This system does not support HDBSS!\n");
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  142  		return -EINVAL;
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  143  	}
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  144  
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  145  	if (size < 0 || size > HDBSS_MAX_SIZE) {
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  146  		kvm_err("Invalid HDBSS buffer size: %d!\n", size);
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  147  		return -EINVAL;
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  148  	}
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  149  
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  150  	/* Enable the HDBSS feature if size > 0, otherwise disable it. */
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  151  	if (size) {
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  152  		kvm->enable_hdbss = true;
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  153  		kvm->arch.vtcr |= VTCR_EL2_HD | VTCR_EL2_HDBSS;
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  154  
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  155  		kvm_for_each_vcpu(i, vcpu, kvm) {
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  156  			hdbss_pg = alloc_pages(GFP_KERNEL, size);
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  157  			if (!hdbss_pg) {
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  158  				kvm_err("Alloc HDBSS buffer failed!\n");
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  159  				return -EINVAL;
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  160  			}
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  161  
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  162  			vcpu->arch.hdbss.br_el2 = HDBSSBR_EL2(page_to_phys(hdbss_pg), size);
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  163  			vcpu->arch.hdbss.prod_el2 = 0;
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  164  
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  165  			/*
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  166  			 * We should kick vcpus out of guest mode here to
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  167  			 * load new vtcr value to vtcr_el2 register when
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  168  			 * re-enter guest mode.
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  169  			 */
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  170  			kvm_vcpu_kick(vcpu);
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  171  		}
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  172  
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  173  		kvm_info("Enable HDBSS success, HDBSS buffer size: %d\n", size);
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  174  	} else if (kvm->enable_hdbss) {
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  175  		kvm->arch.vtcr &= ~(VTCR_EL2_HD | VTCR_EL2_HDBSS);
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  176  
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02 @177  		kvm_for_each_vcpu(i, vcpu, kvm) {
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  178  			/* Kick vcpus to flush hdbss buffer. */
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  179  			kvm_vcpu_kick(vcpu);
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  180  
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  181  			hdbss_pg = phys_to_page(HDBSSBR_BADDR(vcpu->arch.hdbss.br_el2));
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  182  			if (hdbss_pg)
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  183  				__free_pages(hdbss_pg, HDBSSBR_SZ(vcpu->arch.hdbss.br_el2));
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  184  
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  185  			vcpu->arch.hdbss.br_el2 = 0;
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  186  			vcpu->arch.hdbss.prod_el2 = 0;
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  187  		}
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  188  
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  189  		kvm->enable_hdbss = false;
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  190  		kvm_info("Disable HDBSS success\n");
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  191  	}
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  192  
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  193  	return 0;
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  194  }
+bd6106e348d70c arch/arm64/kvm/arm.c eillon           2025-04-02  195  
 
 -- 
 0-DAY CI Kernel Test Service
