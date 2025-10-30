@@ -1,56 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD1956B81
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Oct 2025 14:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C270363377
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Oct 2025 15:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761833179; cv=none; b=kU4M6kJSmwGRNI2aNCbznyA4c5WMdXyqKvA3zeXjcrlpjfnOCVEO2ar3Bfjo5PGskZJsNkPwD0/xSw4xwICbBNAJBD266Jgu+Ne1NuRsV/C2aWc70sRSu2+ZM8ZEZe4Z/08i3X9H0heZediFZulge/6JEtKqLWetrCYR22k6eZ8=
+	t=1761837932; cv=none; b=EhZZSfdEE5IS8b9K6dSJfYcvKYMzQitmPhrJRbnY7ZD8iEpFQYXeT8auxZPqVLkRy2v33cf8Jh5bfDBeOSfF9hhGkufiRSu7H/+GwzcBYgPnh4fgx0WHf1qMiQN2vr0IlCBFuTtqzTXpziQmDt7SQokpJYK0eMaoQr3c/YRz8HE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761833179; c=relaxed/simple;
-	bh=D0Cw5fVRl1yAbmVz749p45k9/80UODBsMrmCGw6tKEo=;
+	s=arc-20240116; t=1761837932; c=relaxed/simple;
+	bh=RNRY8IlD50y1RUaso4Vh5FuFK/pE+uQofbr9CoCc3Oc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GLitZz1MFfAz3pQjfxj0gMDGhBmmvIrwnR2YBuTg35fRhgI8M39VDjToKdpv6t8U3mnbeHUfJO99LArEnhZDSf5megonIxIznarmxPul+/5SH8FB7nqNqwd/WL+wD/Q8V43U27Np94TxZhAeV0Tu2XYz8Tpmc+xs4hwLTqSNpYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GhleCt/w; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=Z+/NKvXiXHJN6ezlto4w6pRaMf4IHe0GNMDZ6sXQ5dc95bDXpjTdogQJuDxUJ7gKGKRcI7PedGDAG18wmxblo8SqTfE2KSDvA6wDotNitEgFs6yCQsZHdnFsbHlBb/hMYtEUp+ibKP53EmayGdd0GzFN5jXtMwIkzDuwxDFFGSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iukt1++n; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GhleCt/w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761833177; x=1793369177;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=D0Cw5fVRl1yAbmVz749p45k9/80UODBsMrmCGw6tKEo=;
-  b=GhleCt/wEn9R//KxJN4OKsesE4c3i+yadb26Wq89CqaPixjqSCOps19e
-   6tR2CELKfsGABeoR/VgTrOr0LuW4HEW/Ub+1svlrr8h8osON3hVevv3pB
-   t1gKrYY6uzjKZ/y8TTM/Hr64CCIhADCeXcZ17/FIamwl81A2EmF2SnVH1
-   mlGFwsOeiXWl6aguQMgSfRgoCULIEb9LPJUqWZr+Zkw8kMRq20KEr6SsT
-   x3yQGw6qAUyLSd7LpbF2Gt+PQgaLjJaEctAEI9JdZRJRLieYAHauSohPJ
-   BjeNhbfwTaNjzzRbnz2GlIdYRG6pA4tjGdzcxO75uyvmHO7CBWXFYGq43
-   w==;
-X-CSE-ConnectionGUID: aWV367FsRYmRXc2dESUqYw==
-X-CSE-MsgGUID: aYqhObTJR4ifgruf0WjLhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="64007378"
-X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="64007378"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 07:06:16 -0700
-X-CSE-ConnectionGUID: tqC4WCvYQPufSWpm12ZfMg==
-X-CSE-MsgGUID: md2IP883QLyywxkukJxtqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="190322499"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 30 Oct 2025 07:06:15 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vETHZ-000M52-1J;
-	Thu, 30 Oct 2025 14:05:54 +0000
-Date: Thu, 30 Oct 2025 22:05:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iukt1++n"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3ee130237a8so800844f8f.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 30 Oct 2025 08:25:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761837926; x=1762442726; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ErdOiL5bsHv5RI2ff4nh9YGRnXCfvWiYoGPcJh49vjs=;
+        b=iukt1++nRCkcQpBotxxjSbUdgDKMwddpH0/faKYq2HkGu4siwLnu1pdqxv/m8PIntZ
+         4VGU6TDWHUa8wWiHpEL6iQ/MEbk8EOQMvulhhZkbfgW2wegIpTn1qFdtfA5dbpeShdlQ
+         HzyiKN7ixSEa/V4tJwKCJZYQquRyyMnoY/3j21xoGUsIeeQ+zU4nAsoAKUptiL15TBHQ
+         QKQ+AI7hh/T9kk0ObIQbpoUN/yy6zMbDAOgYWYejG63Kzd//3+suCYaV5Uj2NyD8fV7z
+         f4dEeWKLay45QgcbRjwT7cwOY32hpjjMmFQOklsHNmQwFqK1HRC2x3pRoLYZhHBe4GcT
+         vt3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761837926; x=1762442726;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ErdOiL5bsHv5RI2ff4nh9YGRnXCfvWiYoGPcJh49vjs=;
+        b=B/8YVWSAPbOg9NYsACHUllQuxVeXdzhsOd5yDmukENIHxUelNFN5LwVGVJXJnsJbZ3
+         uGFpTKvvpaSHFRAeKPNRFkFKTbo66u9onWTascK1sP5NKA+ecY2Lt24PxEZ1Px7Tqcgz
+         uAvqhL4OySEl5vVEDG6LNJAxaEESYDGJRwTRcMNdw/jYaNw3/1webUo8+U3RMHRk1TDF
+         JN4l/N1ta5ZP5TCMhU7tt2EDUnWKdUbr9NyD8RmyIjdjmcpLEGdNaIR1Q55jHFxRu+fL
+         V8NNVOVbLOQhQ8Eb/3cpuZCfgkvuG3CqqcZ1vDrWUCuf8cVcuKvTjUTppvhl58E46HNQ
+         OHGA==
+X-Gm-Message-State: AOJu0Ywy3MHnHYiu9ok1uhTJl6lgchghlXOBDwEmR0QxyJ8iu/fqfUTC
+	UCOmdHmtkcc87HKwK47kThP5zWQFZvP2NSeQ637LQ5mlv+M+mbrFxBBRQGKUeDvtWZL+U4kMFjs
+	pslx5
+X-Gm-Gg: ASbGncu3hOTn5tXfUOGNKGVj3N1A4lvYpNtDts91J0nKzPCfd3dJpp3HlLR/GpTrf5K
+	qE7S/vCNIF2kW2IKPH2YCmcoIqRLvoWS76niuTZTC5nwwpyB04DCPFcGwS7BZ7bnrhAG+09K77p
+	pQekWlUpj783ORYjcIFWosCxavzNiLaenVHGj/kbKsQnkNiTvPt66uoIMlCss10mDqfjNbNdxdD
+	VMMTE/W6WrvFzz19FDs6vs62jBBG48jqnnF+Ce//y9q9y49dUduIX4EBZcH6BxJgVIPZH+ZWO3u
+	EM71e9Svfa04Rc8wBpsNqBtISEnOR0Fc57jtx5Loluw8Eu63O3RbpR4/zirUFy1W7eePkU1F0BX
+	5+18F4bdn73/Q/jffi/iuch2JFfuVGRk8syyZCwb6bV/UTHLFJAL9tNeni39RUQxlyBus37MdHI
+	tfGJAwnIc1kSav83cl
+X-Google-Smtp-Source: AGHT+IFnIDkPjgbpU2aiqxN01fFWjb0RtFyeUOXZjVeOcjODtGzk6bsXnQoQbKAhzJEPspQXzPwMYw==
+X-Received: by 2002:a5d:5d02:0:b0:425:7c1b:9344 with SMTP id ffacd0b85a97d-429aef82f0emr6180297f8f.15.1761837925863;
+        Thu, 30 Oct 2025 08:25:25 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429952b79absm32218547f8f.3.2025.10.30.08.25.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Oct 2025 08:25:25 -0700 (PDT)
+Date: Thu, 30 Oct 2025 18:25:21 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	Pu Lehui <pulehui@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [openeuler:OLK-6.6 3064/3064] kernel/locking/mutex.c:725
  __mutex_lock_common() error: uninitialized symbol 'ifs_clock'.
 Message-ID: <202510302214.ngbo9ZAu-lkp@intel.com>
@@ -63,24 +76,18 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Pu Lehui <pulehui@huawei.com>
+Message-ID: <20251030152521.4tNSToe6YUm0UOwUrZWCgztpitFThM9LKpgLt0rgyN8@z>
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   7f38ece6b510adaa28c8e625ff574fe6357a3960
 commit: a1ad9b2ed459a3e3a4a2de50e03f53036fc7ec96 [3064/3064] interference: Add mutex interference track support
-:::::: branch date: 5 hours ago
-:::::: commit date: 4 months ago
 config: arm64-randconfig-r073-20251029 (https://download.01.org/0day-ci/archive/20251030/202510302214.ngbo9ZAu-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202510302214.ngbo9ZAu-lkp@intel.com/
 
 smatch warnings:
@@ -88,10 +95,6 @@ kernel/locking/mutex.c:725 __mutex_lock_common() error: uninitialized symbol 'if
 
 vim +/ifs_clock +725 kernel/locking/mutex.c
 
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  565  
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  566  /*
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  567   * Lock a mutex (possibly interruptible), slowpath:
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  568   */
 040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  569  static __always_inline int __sched
 2f064a59a11ff9 kernel/locking/mutex.c Peter Zijlstra            2021-06-11  570  __mutex_lock_common(struct mutex *lock, unsigned int state, unsigned int subclass,
 040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  571  		    struct lockdep_map *nest_lock, unsigned long ip,
@@ -151,6 +154,10 @@ ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  619 
 55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  625  			__ww_mutex_check_waiters(lock, ww_ctx);
 659cf9f5824a12 kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  626  
 ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  627  		goto skip_wait;
+
+goto here.
+
+
 659cf9f5824a12 kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  628  	}
 ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  629  
 9a11b49a805665 kernel/mutex.c         Ingo Molnar               2006-07-03  630  	debug_mutex_lock_common(lock, &waiter);
@@ -171,6 +178,9 @@ c0afb0ffc06e6b kernel/locking/mutex.c Peter Zijlstra            2021-08-15  633 
 6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  645  		ret = __ww_mutex_add_waiter(&waiter, lock, ww_ctx);
 6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  646  		if (ret)
 55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  647  			goto err_early_kill;
+
+Goto here.
+
 6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  648  	}
 6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  649  
 642fa448ae6b3a kernel/locking/mutex.c Davidlohr Bueso           2017-01-03  650  	set_current_state(state);
@@ -249,6 +259,8 @@ ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  722 
 ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  723  	/* got the lock - cleanup and rejoice! */
 c7e78cff6b7518 kernel/mutex.c         Peter Zijlstra            2008-10-16  724  	lock_acquired(&lock->dep_map, ip);
 a1ad9b2ed459a3 kernel/locking/mutex.c Pu Lehui                  2025-07-16 @725  	cgroup_ifs_leave_lock(ifs_clock, IFS_MUTEX);
+                                                                                                              ^^^^^^^^^
+
 ee042be16cb455 kernel/locking/mutex.c Namhyung Kim              2022-03-22  726  	trace_contention_end(lock, 0);
 6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  727  
 5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  728  	if (ww_ctx)
@@ -263,6 +275,9 @@ ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  731 
 3a010c493271f0 kernel/locking/mutex.c Zqiang                    2021-05-17  737  	__mutex_remove_waiter(lock, &waiter);
 55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  738  err_early_kill:
 a1ad9b2ed459a3 kernel/locking/mutex.c Pu Lehui                  2025-07-16  739  	cgroup_ifs_leave_lock(ifs_clock, IFS_MUTEX);
+                                                                                                              ^^^^^^^^^
+Uninitialized?
+
 dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  740  	trace_contention_end(lock, ret);
 ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  741  	raw_spin_unlock(&lock->wait_lock);
 040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  742  	debug_mutex_free_waiter(&waiter);
@@ -270,8 +285,8 @@ ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  741 
 040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  744  	preempt_enable();
 040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  745  	return ret;
 6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  746  }
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  747  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
