@@ -1,159 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D479E2E9EDD
-	for <oe-kbuild@lists.linux.dev>; Fri, 31 Oct 2025 07:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B551F2C34
+	for <oe-kbuild@lists.linux.dev>; Fri, 31 Oct 2025 10:42:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761897377; cv=none; b=Z419U2CStCpvjDkcQQOi+mbkm94jyGGC9vQNf2YVBozp+kDsyMgWHgjKY9Q38m1od95dm2ricScWNbXq1bsac64AAaXI/VtbHOdfhjaCpTulDquunNwO1F2tIjv7JWi+yQOCaDF9P9AvgVV80dwtLihcsmg3P0Nh4lnfrNMh2d8=
+	t=1761907374; cv=none; b=uKBDiqLD3MuaZYRNg0d7oHUiM59wDgBpOOmT2eB0Dxyc7fQHOjFw2mR331QH+lQVzTonkbZzBdwwQCUDDSrNQUGMbrRr79gxgEvuAViijOkb/74c6e6uWrwPDYwqcFJCVD3zSAtiQuWJKa9aupylDJkS0CgU84nz4sjEKwuen+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761897377; c=relaxed/simple;
-	bh=SfamJ6x4HypqliLvyHFjlJY8CEl+oS+iLD8REFKaQcE=;
+	s=arc-20240116; t=1761907374; c=relaxed/simple;
+	bh=L9GqcNtSNDZ0CK59BULU2JH/MfIR3nCn+hl4EVaYlTI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r/RAwEF0EOI+Q+vGwC6z6A8Ecgf8IwGZvwx8wJY/MUcH+2q+F2ZrrjGYMXMhAYTd2GXllKoKUY5UBaJZT7Et1O/rtWX2F+oUmqjEvvoYSYx1hCaHwcT7QLao9rSNvqYOoXYW1ccpJ9xDBjkiXyNOKx5R/Qw263WlqIKoBDlR08s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B6Tl+eaw; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=q0rhNJGBDl88bxO4a7fqdq8uoJSBGz4LFGntyj72vKqPY6OqUFwRfAhp13kUS6fo6x6z2MSPqNUkvnVTwpaalEZi9OTZL2DovXRMVJZhJsDoDjPa6l9GwKiP7JM+Yd4S2tJmegT0Jl2kQbi57y7NLlrCDhsyf9qZjtUndgNN6fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gNDSvVd0; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B6Tl+eaw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gNDSvVd0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761897375; x=1793433375;
+  t=1761907373; x=1793443373;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=SfamJ6x4HypqliLvyHFjlJY8CEl+oS+iLD8REFKaQcE=;
-  b=B6Tl+eaw5YmSufYgJEElDPkSkTOkIWpD6X7P8XA/c8Nx9tpRwoA9YUrj
-   b6Pdy7xFzI0NZhfblw5gQ5/EnyqsJLJGaXEW1CCc6O7Fcc/GyQyACO5Ha
-   /g+e1apk3BJ8ixgdmwYjRM1/wejipG/8+o5YZCuh3pD1QJomnJs7WC7VA
-   nnfuOTrJc/Qm1KisSk2wq0n50hRsr1pBuJERgR0JV6fBBtIlY8tqu7f5r
-   +fu48bAL2i0gHYFvgxQPngdzeBCQvCCgrDuUepVKYnYjLWQ/5rFcOOxC7
-   irIBaGQBALz1NbvXYV58oJdExMOCK2e11c5DNVESiM1gbApie8/xMNuwt
-   g==;
-X-CSE-ConnectionGUID: l6L3tN27QjquqXDZvWMfHw==
-X-CSE-MsgGUID: qrl9YKP9SIiZ/DaaHDwMoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="63938373"
-X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; 
-   d="scan'208";a="63938373"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 00:56:13 -0700
-X-CSE-ConnectionGUID: UUe7s7b6RNq8uT+m1mbSDQ==
-X-CSE-MsgGUID: 3RtMwPv+RTGPnKHejeVSPw==
+  bh=L9GqcNtSNDZ0CK59BULU2JH/MfIR3nCn+hl4EVaYlTI=;
+  b=gNDSvVd0f4RDgU1o728ih3AsujvZ075cOTXfZWAT6tQZTTzJhhhsO0j9
+   ZEeiOyDtqqWhf61RTMxtlNwedeOTeeUfJNrGPlxgoLWkE7yF3ykOmdwki
+   F72Sb0LYlt/bFog5sYDYkG2PtDRmM1SCSpT0vjpg4/cpO5I42IGR7/oFP
+   5TJZ+u5eat3WA1HMJ8DWVF9dXiIJ5pc0D9PbNiDfO1ZpHSJmCMeCyJ37A
+   5xbEfgdEuMe1NGuhLC1J1xmoJXi20Hp1K9HrCL1LBTjKki5UyaytAK6lv
+   k9TPc0vPq4FaxkF8+rAMMUUq34Fomk/0y6zp1CWvvw3WkoAHwIMf3d0Js
+   A==;
+X-CSE-ConnectionGUID: PcQj+0IyQFqcNEiACwyZBg==
+X-CSE-MsgGUID: 88V/SwJTRCub2lehd4r4Hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="67721909"
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
+   d="scan'208";a="67721909"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 03:42:52 -0700
+X-CSE-ConnectionGUID: sX4ognvPSCmlqKmSCCOFjQ==
+X-CSE-MsgGUID: aqXvbj1jTiemgkYhhKapww==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; 
-   d="scan'208";a="217008476"
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
+   d="scan'208";a="190555339"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Oct 2025 00:56:12 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 31 Oct 2025 03:42:50 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEjzW-000Msk-04;
-	Fri, 31 Oct 2025 07:56:10 +0000
-Date: Fri, 31 Oct 2025 15:55:13 +0800
+	id 1vEmZu-000N0e-1P;
+	Fri, 31 Oct 2025 10:42:05 +0000
+Date: Fri, 31 Oct 2025 18:41:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/platform/x86/lenovo/ideapad-laptop.c:447:46-51: opportunity
- for str_on_off(value)
-Message-ID: <202510311551.xjWbHTrm-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v1] drm/amdgpu: lock bo before calling
+ amdgpu_vm_bo_update_shared
+Message-ID: <202510311816.XMFlqAQY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20251028130906.6029-1-pierre-eric.pelloux-prayer@amd.com>
+References: <20251028130906.6029-1-pierre-eric.pelloux-prayer@amd.com>
+TO: "Pierre-Eric Pelloux-Prayer" <pierre-eric.pelloux-prayer@amd.com>
+TO: Alex Deucher <alexander.deucher@amd.com>
+TO: "Christian K�nig" <christian.koenig@amd.com>
+TO: David Airlie <airlied@gmail.com>
+TO: Simona Vetter <simona@ffwll.ch>
+CC: "Pierre-Eric Pelloux-Prayer" <pierre-eric.pelloux-prayer@amd.com>
+CC: amd-gfx@lists.freedesktop.org
+CC: dri-devel@lists.freedesktop.org
 CC: linux-kernel@vger.kernel.org
-TO: Mark Pearson <mpearson-lenovo@squebb.ca>
-CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Hi Mark,
+Hi Pierre-Eric,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d127176862a93c4b3216bda533d2bee170af5e71
-commit: 651b57dd40871d4d0d61fb291e7f26e2b8bd69b1 platform/x86: Move Lenovo files into lenovo subdir
-date:   5 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-101-20251031 (https://download.01.org/0day-ci/archive/20251031/202510311551.xjWbHTrm-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.18-rc3 next-20251030]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Eric-Pelloux-Prayer/drm-amdgpu-lock-bo-before-calling-amdgpu_vm_bo_update_shared/20251028-211046
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20251028130906.6029-1-pierre-eric.pelloux-prayer%40amd.com
+patch subject: [PATCH v1] drm/amdgpu: lock bo before calling amdgpu_vm_bo_update_shared
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-r071-20251031 (https://download.01.org/0day-ci/archive/20251031/202510311816.XMFlqAQY-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202510311551.xjWbHTrm-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202510311816.XMFlqAQY-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/platform/x86/lenovo/ideapad-laptop.c:447:46-51: opportunity for str_on_off(value)
-   drivers/platform/x86/lenovo/ideapad-laptop.c:452:44-49: opportunity for str_on_off(value)
-   drivers/platform/x86/lenovo/ideapad-laptop.c:454:44-49: opportunity for str_on_off(value)
-   drivers/platform/x86/lenovo/ideapad-laptop.c:456:44-49: opportunity for str_on_off(value)
-   drivers/platform/x86/lenovo/ideapad-laptop.c:458:44-49: opportunity for str_on_off(value)
-   drivers/platform/x86/lenovo/ideapad-laptop.c:463:47-52: opportunity for str_on_off(value)
-   drivers/platform/x86/lenovo/ideapad-laptop.c:465:47-52: opportunity for str_on_off(value)
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c:98 amdgpu_dma_buf_attach() warn: inconsistent returns 'bo->tbo.base.resv'.
 
-vim +447 drivers/platform/x86/lenovo/ideapad-laptop.c
+vim +98 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
 
-6c1fa8edfef815 drivers/platform/x86/ideapad-laptop.c Gergo Koteles   2024-07-25  431  
-773e3206e6a8b4 drivers/platform/x86/ideapad-laptop.c Ike Panhc       2011-09-06  432  /*
-773e3206e6a8b4 drivers/platform/x86/ideapad-laptop.c Ike Panhc       2011-09-06  433   * debugfs
-773e3206e6a8b4 drivers/platform/x86/ideapad-laptop.c Ike Panhc       2011-09-06  434   */
-773e3206e6a8b4 drivers/platform/x86/ideapad-laptop.c Ike Panhc       2011-09-06  435  static int debugfs_status_show(struct seq_file *s, void *data)
-773e3206e6a8b4 drivers/platform/x86/ideapad-laptop.c Ike Panhc       2011-09-06  436  {
-331e0ea243ed15 drivers/platform/x86/ideapad-laptop.c Zhang Rui       2013-09-25  437  	struct ideapad_private *priv = s->private;
-773e3206e6a8b4 drivers/platform/x86/ideapad-laptop.c Ike Panhc       2011-09-06  438  	unsigned long value;
-773e3206e6a8b4 drivers/platform/x86/ideapad-laptop.c Ike Panhc       2011-09-06  439  
-7cc06e729460a2 drivers/platform/x86/ideapad-laptop.c Gergo Koteles   2024-07-25  440  	guard(mutex)(&priv->vpc_mutex);
-7cc06e729460a2 drivers/platform/x86/ideapad-laptop.c Gergo Koteles   2024-07-25  441  
-331e0ea243ed15 drivers/platform/x86/ideapad-laptop.c Zhang Rui       2013-09-25  442  	if (!read_ec_data(priv->adev->handle, VPCCMD_R_BL_MAX, &value))
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  443  		seq_printf(s, "Backlight max:  %lu\n", value);
-331e0ea243ed15 drivers/platform/x86/ideapad-laptop.c Zhang Rui       2013-09-25  444  	if (!read_ec_data(priv->adev->handle, VPCCMD_R_BL, &value))
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  445  		seq_printf(s, "Backlight now:  %lu\n", value);
-331e0ea243ed15 drivers/platform/x86/ideapad-laptop.c Zhang Rui       2013-09-25  446  	if (!read_ec_data(priv->adev->handle, VPCCMD_R_BL_POWER, &value))
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03 @447  		seq_printf(s, "BL power value: %s (%lu)\n", value ? "on" : "off", value);
-65c7713a507927 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  448  
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  449  	seq_puts(s, "=====================\n");
-773e3206e6a8b4 drivers/platform/x86/ideapad-laptop.c Ike Panhc       2011-09-06  450  
-331e0ea243ed15 drivers/platform/x86/ideapad-laptop.c Zhang Rui       2013-09-25  451  	if (!read_ec_data(priv->adev->handle, VPCCMD_R_RF, &value))
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  452  		seq_printf(s, "Radio status: %s (%lu)\n", value ? "on" : "off", value);
-331e0ea243ed15 drivers/platform/x86/ideapad-laptop.c Zhang Rui       2013-09-25  453  	if (!read_ec_data(priv->adev->handle, VPCCMD_R_WIFI, &value))
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  454  		seq_printf(s, "Wifi status:  %s (%lu)\n", value ? "on" : "off", value);
-331e0ea243ed15 drivers/platform/x86/ideapad-laptop.c Zhang Rui       2013-09-25  455  	if (!read_ec_data(priv->adev->handle, VPCCMD_R_BT, &value))
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  456  		seq_printf(s, "BT status:    %s (%lu)\n", value ? "on" : "off", value);
-331e0ea243ed15 drivers/platform/x86/ideapad-laptop.c Zhang Rui       2013-09-25  457  	if (!read_ec_data(priv->adev->handle, VPCCMD_R_3G, &value))
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  458  		seq_printf(s, "3G status:    %s (%lu)\n", value ? "on" : "off", value);
-65c7713a507927 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  459  
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  460  	seq_puts(s, "=====================\n");
-773e3206e6a8b4 drivers/platform/x86/ideapad-laptop.c Ike Panhc       2011-09-06  461  
-331e0ea243ed15 drivers/platform/x86/ideapad-laptop.c Zhang Rui       2013-09-25  462  	if (!read_ec_data(priv->adev->handle, VPCCMD_R_TOUCHPAD, &value))
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  463  		seq_printf(s, "Touchpad status: %s (%lu)\n", value ? "on" : "off", value);
-331e0ea243ed15 drivers/platform/x86/ideapad-laptop.c Zhang Rui       2013-09-25  464  	if (!read_ec_data(priv->adev->handle, VPCCMD_R_CAMERA, &value))
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  465  		seq_printf(s, "Camera status:   %s (%lu)\n", value ? "on" : "off", value);
-65c7713a507927 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  466  
-ade50296186a1c drivers/platform/x86/ideapad-laptop.c Hao Wei Tee     2017-08-15  467  	seq_puts(s, "=====================\n");
-ade50296186a1c drivers/platform/x86/ideapad-laptop.c Hao Wei Tee     2017-08-15  468  
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  469  	if (!eval_gbmd(priv->adev->handle, &value))
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  470  		seq_printf(s, "GBMD: %#010lx\n", value);
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  471  	if (!eval_hals(priv->adev->handle, &value))
-7553390d4b7e63 drivers/platform/x86/ideapad-laptop.c Barnabás Pőcze  2021-02-03  472  		seq_printf(s, "HALS: %#010lx\n", value);
-773e3206e6a8b4 drivers/platform/x86/ideapad-laptop.c Ike Panhc       2011-09-06  473  
-773e3206e6a8b4 drivers/platform/x86/ideapad-laptop.c Ike Panhc       2011-09-06  474  	return 0;
-773e3206e6a8b4 drivers/platform/x86/ideapad-laptop.c Ike Panhc       2011-09-06  475  }
-334c4efd295cda drivers/platform/x86/ideapad-laptop.c Andy Shevchenko 2018-01-22  476  DEFINE_SHOW_ATTRIBUTE(debugfs_status);
-773e3206e6a8b4 drivers/platform/x86/ideapad-laptop.c Ike Panhc       2011-09-06  477  
-
-:::::: The code at line 447 was first introduced by commit
-:::::: 7553390d4b7e636d9be7913b16f4b9ae8b75df4c platform/x86: ideapad-laptop: change 'status' debugfs file format
-
-:::::: TO: Barnabás Pőcze <pobrn@protonmail.com>
-:::::: CC: Hans de Goede <hdegoede@redhat.com>
+a92741e72f91b9 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Felix Kuehling             2025-04-16   68  
+baca30fabdc9ba drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Michel D�nzer              2018-05-29   69  /**
+6e6db2722c2871 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Christian K�nig            2018-05-30   70   * amdgpu_dma_buf_attach - &dma_buf_ops.attach implementation
+baca30fabdc9ba drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Michel D�nzer              2018-05-29   71   *
+6e6db2722c2871 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Christian K�nig            2018-05-30   72   * @dmabuf: DMA-buf where we attach to
+6e6db2722c2871 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Christian K�nig            2018-05-30   73   * @attach: attachment to add
+baca30fabdc9ba drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Michel D�nzer              2018-05-29   74   *
+6e6db2722c2871 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Christian K�nig            2018-05-30   75   * Add the attachment as user to the exported DMA-buf.
+baca30fabdc9ba drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Michel D�nzer              2018-05-29   76   */
+6e6db2722c2871 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Christian K�nig            2018-05-30   77  static int amdgpu_dma_buf_attach(struct dma_buf *dmabuf,
+5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian K�nig            2018-02-16   78  				 struct dma_buf_attachment *attach)
+d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Alex Deucher               2015-04-20   79  {
+a92741e72f91b9 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Felix Kuehling             2025-04-16   80  	struct amdgpu_device *attach_adev = dma_buf_attach_adev(attach);
+6e6db2722c2871 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Christian K�nig            2018-05-30   81  	struct drm_gem_object *obj = dmabuf->priv;
+d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Alex Deucher               2015-04-20   82  	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+2333bf9ad960eb drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian K�nig            2018-03-21   83  	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+cf4f0c32099d00 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Pierre-Eric Pelloux-Prayer 2025-10-28   84  	int r;
+d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Alex Deucher               2015-04-20   85  
+a92741e72f91b9 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Felix Kuehling             2025-04-16   86  	if (!amdgpu_dmabuf_is_xgmi_accessible(attach_adev, bo) &&
+a92741e72f91b9 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Felix Kuehling             2025-04-16   87  	    pci_p2pdma_distance(adev->pdev, attach->dev, false) < 0)
+48262cd9499c9c drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Christian K�nig            2018-03-23   88  		attach->peer2peer = false;
+48262cd9499c9c drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Christian K�nig            2018-03-23   89  
+cf4f0c32099d00 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Pierre-Eric Pelloux-Prayer 2025-10-28   90  	r = dma_resv_lock(bo->tbo.base.resv, NULL);
+cf4f0c32099d00 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Pierre-Eric Pelloux-Prayer 2025-10-28   91  	if (r)
+cf4f0c32099d00 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Pierre-Eric Pelloux-Prayer 2025-10-28   92  		return r;
+cf4f0c32099d00 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Pierre-Eric Pelloux-Prayer 2025-10-28   93  
+74ef9527bd87ea drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Yunxiang Li                2024-12-19   94  	amdgpu_vm_bo_update_shared(bo);
+74ef9527bd87ea drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Yunxiang Li                2024-12-19   95  
+cf4f0c32099d00 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Pierre-Eric Pelloux-Prayer 2025-10-28   96  	dma_resv_unlock(bo->tbo.base.resv);
+cf4f0c32099d00 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Pierre-Eric Pelloux-Prayer 2025-10-28   97  
+6e6db2722c2871 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Christian K�nig            2018-05-30  @98  	return 0;
+8e94a46c177088 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Mario Kleiner              2016-11-09   99  }
+8e94a46c177088 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Mario Kleiner              2016-11-09  100  
 
 -- 
 0-DAY CI Kernel Test Service
