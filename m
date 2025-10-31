@@ -1,55 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0086347BDE
-	for <oe-kbuild@lists.linux.dev>; Fri, 31 Oct 2025 11:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05986329362
+	for <oe-kbuild@lists.linux.dev>; Fri, 31 Oct 2025 12:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761911630; cv=none; b=idQVMu2p47mEvU+GwL2U5Xo6fDzoq4f1pHOYTa29GWeNLkIkDFXGs81tQbyspDfhDLpeF1jhH8/ExfgYg0DA3rf1QcYtWfrRC6DdYaxyUj3aXeIleLt96Kq6z20a6Mhg3wFZ7Lc7xZzG8g4+9SddUYpuNhmViwVB/uubEDCUUBA=
+	t=1761912185; cv=none; b=QycVqfuB6OcWkkvqK7+2TnSOIcjpwXAL1LtlMtJ+GxnmLfCCCDSTBmnG/OeA0rX968L3fZZ2svxnA1yp02UntMQfj0i91FYmyaEWXMJmNuQrGejlrVh6aNGYvjaW5Lfh88kSov98d2svDM5w4VzuB6Z61ZeIj3iDKhmRoPZsaOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761911630; c=relaxed/simple;
-	bh=WbhVmWoe5zwoO1OCk1fthfGlN2QKBy1s1yDDly8rhMY=;
+	s=arc-20240116; t=1761912185; c=relaxed/simple;
+	bh=PWXFch9iWj81Y7YHdqTHQ6N0zNVZ/XvzRAsEPDxK8VM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LSrYOtQlyZL+4g7jPNMC3bIlQu/SPOIYXqCuCSAvqmQzf6WJeskBcLP92pK2HgyAYYV47skpZwF+YoXjm5oSLSRTdUNiTBZ7E6AdS0afW+TSDsAoNmJSZOSlmTOUJBhkUjQ05cc7YT+DEJmWzhVp4V0l4cLOXKoknj2aFkr4q50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GCy2Lh/+; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=NjeUA7feutGupnyi+MoWdXQpwXX6e4duc96hGjzyDbDlfTF8uLIOIB7hFI45uLnD647zs3rZtLo7xVIe5oqkILEdAwdGrUMbj8lgRnjDAbnYyq+9rNXnsJrbcHCC1NEihudwHzgjyZvt8MeIhJPiv7rUXnzLS8RPZ+iWfh+jD9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q27jyeKq; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GCy2Lh/+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761911628; x=1793447628;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WbhVmWoe5zwoO1OCk1fthfGlN2QKBy1s1yDDly8rhMY=;
-  b=GCy2Lh/+KpKU7x7DVXlh1J37HEiAo4/Ep0HcQ6qukaPPRsXsGx3b86zs
-   /ReggbgpD8txle9PNY6exmGqtLrQ/1V6ffWGpbdEfxHW48NKHr8vjs6Uw
-   89l3Nv+KhAC5NiBYcwTzAZ3NKoo85pX6b/Iy/cEcUgsEwKEqQvKR9egIo
-   G07KL77fAu2/h/YlzYvB0XMrcDlZN1OBesjfw0kduJiGJt2kDXTSFiyWl
-   jCkL85/CJ9EotDZs2/cpXI62hgoaupo3bP+PjWRls+x93J8eNjMC39UeU
-   R7Ltes60f88xi0+uLFZNpe2QkkIX/t27Ewn1BgEnvNZXm2UN4dJbPznDB
-   g==;
-X-CSE-ConnectionGUID: x748J1OBRpWH2IW/2uf1Pw==
-X-CSE-MsgGUID: XQKwL4BETT6RvxMo/mkiQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="64102851"
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="64102851"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 04:53:47 -0700
-X-CSE-ConnectionGUID: EcDmMgGaRXGPLHLYwvCD3w==
-X-CSE-MsgGUID: npL9l8GGSk+t0lHA9sTCMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="186097128"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 31 Oct 2025 04:53:45 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vEnhC-000N48-27;
-	Fri, 31 Oct 2025 11:53:41 +0000
-Date: Fri, 31 Oct 2025 19:53:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q27jyeKq"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47721293fd3so12639685e9.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 31 Oct 2025 05:03:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761912180; x=1762516980; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=058fYBzD0VVjBO/KTYudqsVUdV6ZykNzK8sE3/f02dI=;
+        b=Q27jyeKqPz+aGpIAe/Zjm2peVVbfKlZdElHJSmbCENndyH49TUHIfX9ddw2F3ucAoa
+         3yg7b/bJCRDBVxmPJo7l0JfCwEF6ZxUD4E2XJY69EMCtyzD5PpbNJo0osOU4c/xRfp7t
+         4ycOyWZXIZ2PL9qhD3fI5oMSy7J/Ql7wZFJEu/2sSxd6L5zGNpLAC/mvDVEfJCXE6QXh
+         QddzH0UJcp7HnbSFg6gtdUmV8r5aKUJyM2F6MXl329n6kqF18yLKIc55q1oykIvbYLUL
+         wBtOuT45LPHsoWnSF26X+U1oXBL0AZPV9ThJ9sDSfzUstCNi4ckZS9t387AkO11TQEqF
+         q+nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761912180; x=1762516980;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=058fYBzD0VVjBO/KTYudqsVUdV6ZykNzK8sE3/f02dI=;
+        b=hXsoZbrDJdTin69YMgMaGat+1tU9tBtvwiC3Tl+eKzT/KzlLULAu16aGuTKKBqW+6C
+         uPtD5vne2zQ3KTVWHKNqglJWzaO5X/jG62TirftexerolDa09Dji+B/+ZaTK1TVztANL
+         3o6illk9uEVyFmFylbhx9OdFzi2BPatXmwwDl0ZgHaQnPbyhyIt8XmULxrgnN0gernoO
+         7+HsiF/XmrCnaLZRhtKu0P5WsL9rUjsfPZ6hfkm+zf/9U341duj8uLpxpWoude0Tpix1
+         +ULbxzKAuXMx/KJlNDMnbO99cRbm/MjaVsQo/Z3txR/yUrC2wcQDVRomjvAEu3LS1u0g
+         jjiQ==
+X-Gm-Message-State: AOJu0YwnVz2Aos6n9bjCfHWswTGRoT9KvTtcIYfRuPyj4Mxjj0h4wv+8
+	hO0LRyqe/p3g2SU0IqKZVKfxT84vre9HkRppHPzf1VFVbT15ikYJqvsmHVjS8JcsfCvttuUIWX2
+	2CY+J
+X-Gm-Gg: ASbGncuGlPefHTWV3WI7C5XXMRZ8wysKNuB7xAc+Gkv9SeDleiOp8YKf8Kj4OXF6X9g
+	j58speuEyVh+bHBRCd6mHfzaNnbvJw1htbjKwImoe0PYWRbjZUEhIqKvVpqWSWAyiXRxPbY+p87
+	JMZdMOFeAkGOdKmstOp50KtnlsYK5zPRy69CO1dkUBiSYJ4FDYN61TVElPVwyvlPwftilYk5Gnq
+	uX+iyWxCreCJbFob6OmlrZVMndBNzQP/eW5J/FfQATloWnADMBPspkCkWMNH8n2aN7ikyvD5vvK
+	e4Dljsk9Qcb5k3U/mo4HOHvE0VN/LUjDeS84MKxEbTsnSotrfyactUNlPm31fqALcAAPEVUWRiK
+	4NCrHhCiNA4CQAWCsqd1mHCTeo8+VpSguiidlE5EJU7j1VmGWx1gb8LZ4NUCpNDlffSdUN442if
+	5YrfbhyEzPDLj8ZD6j
+X-Google-Smtp-Source: AGHT+IGiTJcnt0HcZ0d4L1SWtBD0hivewbU8sluORT4uOAu6UpEXdmhrV2CyPnyHPmTG6FA6oJz1Bw==
+X-Received: by 2002:a05:600c:8288:b0:45d:5c71:769d with SMTP id 5b1f17b1804b1-477300ca65amr36001285e9.8.1761912180000;
+        Fri, 31 Oct 2025 05:03:00 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429c13e16f4sm3348435f8f.27.2025.10.31.05.02.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Oct 2025 05:02:59 -0700 (PDT)
+Date: Fri, 31 Oct 2025 15:02:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-spi@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 Subject: Re: [PATCH 09/14] spi: rzv2h-rspi: add support for variable transfer
  clock
 Message-ID: <202510311957.SRNglGAw-lkp@intel.com>
@@ -61,53 +86,26 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20251028133151.1487327-10-cosmin-gabriel.tanislav.xa@renesas.com>
-References: <20251028133151.1487327-10-cosmin-gabriel.tanislav.xa@renesas.com>
-TO: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-CC: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
-CC: Magnus Damm <magnus.damm@gmail.com>
-CC: Michael Turquette <mturquette@baylibre.com>
-CC: Stephen Boyd <sboyd@kernel.org>
-CC: Philipp Zabel <p.zabel@pengutronix.de>
-CC: linux-spi@vger.kernel.org
-CC: linux-renesas-soc@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-clk@vger.kernel.org
-CC: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Message-ID: <20251031120256.7b7XAxJcN4OtbZIlFSc1W6wQEYJkDYQZzC8n-8zSNd4@z>
 
 Hi Cosmin,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on geert-renesas-drivers/renesas-clk]
-[also build test WARNING on next-20251030]
-[cannot apply to broonie-spi/for-next geert-renesas-devel/next robh/for-next linus/master v6.18-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Cosmin-Tanislav/clk-renesas-r9a09g077-add-SPI-module-clocks/20251028-213853
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
 patch link:    https://lore.kernel.org/r/20251028133151.1487327-10-cosmin-gabriel.tanislav.xa%40renesas.com
 patch subject: [PATCH 09/14] spi: rzv2h-rspi: add support for variable transfer clock
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
 config: hexagon-randconfig-r071-20251031 (https://download.01.org/0day-ci/archive/20251031/202510311957.SRNglGAw-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202510311957.SRNglGAw-lkp@intel.com/
 
 smatch warnings:
@@ -115,7 +113,6 @@ drivers/spi/spi-rzv2h-rspi.c:510 rzv2h_rspi_probe() warn: missing unwind goto?
 
 vim +510 drivers/spi/spi-rzv2h-rspi.c
 
-8b61c8919dff08 Fabrizio Castro 2025-07-04  427  
 8b61c8919dff08 Fabrizio Castro 2025-07-04  428  static int rzv2h_rspi_probe(struct platform_device *pdev)
 8b61c8919dff08 Fabrizio Castro 2025-07-04  429  {
 8b61c8919dff08 Fabrizio Castro 2025-07-04  430  	struct spi_controller *controller;
@@ -168,6 +165,9 @@ c10c8eb75d9db8 Cosmin Tanislav 2025-10-28  470  	ret = devm_reset_control_bulk_g
 8b61c8919dff08 Fabrizio Castro 2025-07-04  477  		return dev_err_probe(dev, irq_rx, "cannot get IRQ 'rx'\n");
 8b61c8919dff08 Fabrizio Castro 2025-07-04  478  
 8b61c8919dff08 Fabrizio Castro 2025-07-04  479  	ret = reset_control_bulk_deassert(RSPI_RESET_NUM, rspi->resets);
+
+deasserted here.
+
 8b61c8919dff08 Fabrizio Castro 2025-07-04  480  	if (ret)
 8b61c8919dff08 Fabrizio Castro 2025-07-04  481  		return dev_err_probe(dev, ret, "failed to deassert resets\n");
 8b61c8919dff08 Fabrizio Castro 2025-07-04  482  
@@ -191,6 +191,9 @@ c4e1a7fda7e52d Cosmin Tanislav 2025-10-28  499
 c4e1a7fda7e52d Cosmin Tanislav 2025-10-28  500  	tclk_rate = clk_round_rate(rspi->tclk, 0);
 c4e1a7fda7e52d Cosmin Tanislav 2025-10-28  501  	if (tclk_rate < 0)
 c4e1a7fda7e52d Cosmin Tanislav 2025-10-28  502  		return tclk_rate;
+
+goto quit_resets;
+
 c4e1a7fda7e52d Cosmin Tanislav 2025-10-28  503  
 8b61c8919dff08 Fabrizio Castro 2025-07-04  504  	controller->min_speed_hz = rzv2h_rspi_calc_bitrate(tclk_rate,
 8b61c8919dff08 Fabrizio Castro 2025-07-04  505  							   RSPI_SPBR_SPR_MAX,
@@ -199,6 +202,9 @@ c4e1a7fda7e52d Cosmin Tanislav 2025-10-28  507
 c4e1a7fda7e52d Cosmin Tanislav 2025-10-28  508  	tclk_rate = clk_round_rate(rspi->tclk, ULONG_MAX);
 c4e1a7fda7e52d Cosmin Tanislav 2025-10-28  509  	if (tclk_rate < 0)
 c4e1a7fda7e52d Cosmin Tanislav 2025-10-28 @510  		return tclk_rate;
+
+goto quit_resets;
+
 c4e1a7fda7e52d Cosmin Tanislav 2025-10-28  511  
 8b61c8919dff08 Fabrizio Castro 2025-07-04  512  	controller->max_speed_hz = rzv2h_rspi_calc_bitrate(tclk_rate,
 8b61c8919dff08 Fabrizio Castro 2025-07-04  513  							   RSPI_SPBR_SPR_MIN,
@@ -219,8 +225,8 @@ c4e1a7fda7e52d Cosmin Tanislav 2025-10-28  511
 8b61c8919dff08 Fabrizio Castro 2025-07-04  528  
 8b61c8919dff08 Fabrizio Castro 2025-07-04  529  	return ret;
 8b61c8919dff08 Fabrizio Castro 2025-07-04  530  }
-8b61c8919dff08 Fabrizio Castro 2025-07-04  531  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
