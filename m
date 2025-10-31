@@ -1,55 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8C22D4807
-	for <oe-kbuild@lists.linux.dev>; Fri, 31 Oct 2025 05:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A8D2E54DE
+	for <oe-kbuild@lists.linux.dev>; Fri, 31 Oct 2025 06:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761889238; cv=none; b=f0P17bEMInP6wCl5e5JCbFtPRfhrK0VJZ3sdANh3Zb8yfInea9p7SvegB6ksQOzVSLhqY2LSnlBj+TPfYPunYPfCvKuG9qvsOAvZHdkVRT8Y9JP3OC9gBrnl9BMTP2v0FS5cl+PlGZx9LvxBet79hjt6lNUp4r/kOkY6Tk4GPEo=
+	t=1761890794; cv=none; b=TeBzD1LK9gArKLbLs0kFKfw0ed8b8AWniBMA3ZMsnswSYhPXgkzKTxilszqul9Z+YE0eos2qaH6dp3RbXeaceviItpQfg3OWhmGJL4kGyFVIyiS0Bde+vU2yaTRyXs3jj4Nf9RDkYMyWImUFARJjFPk46orM4fbb1ZhYHFEIavs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761889238; c=relaxed/simple;
-	bh=700wOYMJtZ2PSmCGNREtE4+zJVpk5Pax93clcATC0CM=;
+	s=arc-20240116; t=1761890794; c=relaxed/simple;
+	bh=iUclcA8pqtFvelEx7dGTK/HeuthDZsLzc4T+Q29waF0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tffSdOS2lVrQ/RFS5IbIJtA4kjcD6B4rVwPIXe9HVApXSRBG/+l+8reTrEWIOkpg9zqounakKybcaHrBMvefzbMc3QfvNy3n2A9pIw4Ipa8fLERuBWlRlTVL9SVR5yn7bRJODzwJqMivY0x2o4nzXp580nf1EYcbQAaqhXZPy+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FzNizzS+; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=eIevi6OIu9TLLLwvnkp3H4ptHDbayQ+fA6ZVbQro6kVyJN/Ama90pwZQq/Mr51z6+ECNkBJplWwAHJQ0yybTtbCY9s2bZBnpf/HxBQHCXu2z1a8hTq6TYmoRf5MhieVyFgqRzEc7LzYWea0hTT6Zb/yVj1VOWnrLad0RVEUCwNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ScnhaF6s; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FzNizzS+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761889235; x=1793425235;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=700wOYMJtZ2PSmCGNREtE4+zJVpk5Pax93clcATC0CM=;
-  b=FzNizzS+WxKRiJPTudZiP8nf4NIeYt873tHIqc9oKap588C5heUtid9b
-   WU0vKtU2EqycvdsHjkT+jUAKwe3yPC5SLN+YM7S2jxPV0VwsgpX8iOC9z
-   s/kP5GX/rT3mrNmLwlPno7HabiTQibidw+p8Cme6qVHFyb9jJAnfzkmws
-   FrGqLyH6kMmUAv1LGm4JvCTJbVDLBHxBP9sPDRFfncemO0nffiVeBHFme
-   0dWT/CzOv/dRBVlhK7TeMVRBPE9ZEc3i9er0eSoXrGY44N6XpGDcTTPHi
-   S4VbflbEoblFgj1fKus2DC1zbjEcbObd7yegCD+qB24/+l5WWvX49Gij2
-   Q==;
-X-CSE-ConnectionGUID: RZ+kvL09SNCStJeGPBnRaw==
-X-CSE-MsgGUID: lfs22jaqTu+/rcXERIF4Yw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="67903163"
-X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; 
-   d="scan'208";a="67903163"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 22:40:34 -0700
-X-CSE-ConnectionGUID: wszR5viPTE69NcyV9+TqPw==
-X-CSE-MsgGUID: +zzGmS7fR02gjgbCV90CUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; 
-   d="scan'208";a="185835235"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 30 Oct 2025 22:40:33 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vEhsF-000Mng-0i;
-	Fri, 31 Oct 2025 05:40:31 +0000
-Date: Fri, 31 Oct 2025 13:40:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ScnhaF6s"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4711810948aso13722935e9.2
+        for <oe-kbuild@lists.linux.dev>; Thu, 30 Oct 2025 23:06:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761890790; x=1762495590; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S31zW4tLYO2rvlue+0td7fEDl19l3Xhvs1w1BlBnWxw=;
+        b=ScnhaF6ssM+k+VmDI6PhvR5lVRundUzH9eJ3OskHuTfjL8/WrBeKFGDXgYp1jssjgg
+         WcTpwlVl0Ipp/uET+k08qMCdO+lMG2fxxfmZR1z68EQ4ihnz+9EiPYrkLocJUNmwoD9o
+         iKYh9YOEmW5z60z42T6xgJ3XZgZgA1Q2w+IDVyWwtegXwS1aNPh/K22VGTghkaAchA8a
+         yBqFUM5tVyzhAtVLckqlX9RJ4T7UodFVcvdQ1euKj7OaFhTdILSU3jzrLE3Jp/5ubf9a
+         wY65dR3l7i2Vwp/PjxqtSc1cn2+VjhqPMQDXe11iA3CoNyUwLHUwXyg2uhZ5tjO4ULmR
+         QWhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761890790; x=1762495590;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S31zW4tLYO2rvlue+0td7fEDl19l3Xhvs1w1BlBnWxw=;
+        b=HS8hJD72e9GDKL6q6s2LYpf6+ONgGgBLiobfT50v4yYiyUnPcDnn4H1VT0yA5oU8fr
+         ok4xkNSgUxVEsAPudBPz3bAiYqd2yCtGXI5u+NXp8unqK8D85s9qQ5JFLi5JvP36cKxy
+         prRobDJ71NLV59fOvnZFJaU09I9J5QClIcNt2fpI0VdJwpKnKiK8lvZGf2hPIZt1DffS
+         OaATTMX2kDiOmbwQXzGWo8zf5U9YBnm9i8Az6d57EytR109SXgTk+Pg5zZsH+VfIB06T
+         nzqHOxC1rRIVLau4UFcTJCZvOC0Gti5DtD8t/pQjs6YzCwS7Wsq27D/2LvaxvY1gQmQx
+         iUcA==
+X-Gm-Message-State: AOJu0YzSiwqGZSkdIbcFL+qWK29ieGvZRuu3EbMUrmf3LVm6ukHazQOT
+	+10fwshU+jx9NpsR/t0CfBXVOdqk/zl6H5ItE5+tQXAmqc7YBihs7H9tdLFrdJ/49ioG48CWeXp
+	G7uSb
+X-Gm-Gg: ASbGncv5ucxePT/Qzixn7CTp2Cv0AuANOQGtYG6lvGVB6K5XN6ka5MnvUOxBI7CUROU
+	/QK56h4ytthwPXbvqTRa9nkJd7BultyeE+4sR+ljzCS9CjYC1iT3pHWYk6PnhPqmPnVgEHIpIyJ
+	53xLp8jWt0vDBv8VpzqARXkzy1qReotN1y9Z+7dfb7cIJ7QfcSw5fSouuTI+vsXhXRUiCuVcQxA
+	MoVfXoVEQ7uMJ7Bi6I9qOzSaoAPcSPqRCSx3UlK9UJi2LjwdvUqhXIDesEZNBO3A/lWdnTC95zY
+	kpqXKUfhn5Rj6Ogmb8dPbB/1hv11dSSbG+iVuFj0nheVBLzkmkZC7kiY77cQF89cbNxH32+60Pu
+	zg8DCi/sPEzdVPY5juYXYYZ5BnQQZ9Ny7lep1Yuhb7NIK2tIFgn8k3zh3suIjU7wX32S17jSv5W
+	UXTgY4iw==
+X-Google-Smtp-Source: AGHT+IF7Pmn8/I1Uu0Ungi0yHkUbrEk6eWlkArnT6XIaKo7yTUkZRs1jtmhZ2JGungayyN3ZORNr7g==
+X-Received: by 2002:a05:600c:3146:b0:477:fcb:225f with SMTP id 5b1f17b1804b1-477308912bbmr19027505e9.31.1761890789635;
+        Thu, 30 Oct 2025 23:06:29 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-47732ddd0a3sm14626895e9.5.2025.10.30.23.06.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Oct 2025 23:06:29 -0700 (PDT)
+Date: Fri, 31 Oct 2025 09:06:26 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Bart Van Assche <bvanassche@acm.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Avri Altman <avri.altman@sandisk.com>
 Subject: [bvanassche:ufs-lrbp-as-priv-data 27/28]
  drivers/ufs/core/ufshcd.c:7594 ufshcd_advanced_rpmb_req_handler() warn:
  inconsistent returns '&hba->clk_scaling_lock'.
@@ -62,51 +74,26 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Bart Van Assche <bvanassche@acm.org>
-CC: Avri Altman <avri.altman@sandisk.com>
+Message-ID: <20251031060626.jZbq6TQmcYknsZpQKQJaLWOb2pcRgOae4q4nDtbP7kA@z>
 
 tree:   https://github.com/bvanassche/linux ufs-lrbp-as-priv-data
 head:   f5ce986a0b77ce2944bf8314554d60eec17968e8
 commit: 226979e4eb8a5844be9fb6047a1d042bf2cd72ab [27/28] ufs: core: Move code out of ufshcd_wait_for_dev_cmd()
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
 config: x86_64-randconfig-r071-20251031 (https://download.01.org/0day-ci/archive/20251031/202510311328.Is1wMfkq-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202510311328.Is1wMfkq-lkp@intel.com/
 
 New smatch warnings:
 drivers/ufs/core/ufshcd.c:7594 ufshcd_advanced_rpmb_req_handler() warn: inconsistent returns '&hba->clk_scaling_lock'.
 drivers/ufs/core/ufshcd.c:7594 ufshcd_advanced_rpmb_req_handler() warn: inconsistent returns '&hba->dev_cmd.lock'.
 
-Old smatch warnings:
-drivers/ufs/core/ufshcd.c:6883 ufshcd_err_handler() warn: inconsistent returns '&hba->host_sem'.
-drivers/ufs/core/ufshcd.c:9464 ufshcd_setup_clocks() warn: 'clki->clk' from clk_prepare_enable() not released on lines: 9443.
-
 vim +7594 drivers/ufs/core/ufshcd.c
 
-5e0a86eed84607 drivers/scsi/ufs/ufshcd.c Avri Altman     2018-10-07  7513  
-6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7514  /**
-6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7515   * ufshcd_advanced_rpmb_req_handler - handle advanced RPMB request
-6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7516   * @hba:	per adapter instance
-6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7517   * @req_upiu:	upiu request
-6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7518   * @rsp_upiu:	upiu reply
-6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7519   * @req_ehs:	EHS field which contains Advanced RPMB Request Message
-6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7520   * @rsp_ehs:	EHS field which returns Advanced RPMB Response Message
-6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7521   * @sg_cnt:	The number of sg lists actually used
-6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7522   * @sg_list:	Pointer to SG list when DATA IN/OUT UPIU is required in ARPMB operation
-6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7523   * @dir:	DMA direction
-6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7524   *
-9ee35fd43f94bf drivers/ufs/core/ufshcd.c Bart Van Assche 2025-08-15  7525   * Return: 0 upon success; > 0 in case the UFS device reported an OCS error;
-9ee35fd43f94bf drivers/ufs/core/ufshcd.c Bart Van Assche 2025-08-15  7526   * < 0 if another error occurred.
-6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7527   */
 6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7528  int ufshcd_advanced_rpmb_req_handler(struct ufs_hba *hba, struct utp_upiu_req *req_upiu,
 6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7529  			 struct utp_upiu_req *rsp_upiu, struct ufs_ehs *req_ehs,
 6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7530  			 struct ufs_ehs *rsp_ehs, int sg_cnt, struct scatterlist *sg_list,
@@ -146,6 +133,9 @@ a33a502d50fddc drivers/ufs/core/ufshcd.c Avri Altman     2024-04-10  7549  	ufsh
 dd24291b765afb drivers/ufs/core/ufshcd.c Bart Van Assche 2023-03-06  7564  	err = ufshcd_issue_dev_cmd(hba, cmd, tag, ADVANCED_RPMB_REQ_TIMEOUT);
 226979e4eb8a58 drivers/ufs/core/ufshcd.c Bart Van Assche 2025-09-09  7565  	if (err)
 226979e4eb8a58 drivers/ufs/core/ufshcd.c Bart Van Assche 2025-09-09  7566  		return err;
+
+ufshcd_dev_man_unlock(hba) before returning.
+
 6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7567  
 226979e4eb8a58 drivers/ufs/core/ufshcd.c Bart Van Assche 2025-09-09  7568  	err = ufshcd_dev_cmd_completion(hba, lrbp);
 6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7569  	if (!err) {
@@ -175,14 +165,8 @@ ddfd7f051f4e14 drivers/ufs/core/ufshcd.c Avri Altman     2024-03-09  7592  	ufsh
 ddfd7f051f4e14 drivers/ufs/core/ufshcd.c Avri Altman     2024-03-09  7593  
 6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01 @7594  	return err ? : result;
 6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7595  }
-6ff265fc5ef660 drivers/ufs/core/ufshcd.c Bean Huo        2022-12-01  7596  
-
-:::::: The code at line 7594 was first introduced by commit
-:::::: 6ff265fc5ef660499e0edc4641647e99eed3f519 scsi: ufs: core: bsg: Add advanced RPMB support in ufs_bsg
-
-:::::: TO: Bean Huo <beanhuo@micron.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
