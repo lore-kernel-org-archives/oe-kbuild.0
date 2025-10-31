@@ -1,125 +1,133 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 004.mia.mailroute.net (004.mia.mailroute.net [199.89.3.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E79422B8A6
-	for <oe-kbuild@lists.linux.dev>; Fri, 31 Oct 2025 18:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13891285419;
+	Fri, 31 Oct 2025 18:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.3.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761933713; cv=none; b=qp1UwXPxHcmXSHdPW1+iZHluozWYkXAlhUWYPqUjuTn5XeqLCtF/LzxBxlnNxoJulQyKjqFEJYo2xN6eYV/IaAE4bAHpjaZv9SqJNTulnf6aPn61D2MBdWgpQtUfQUWD9HG8S8PbtQ25eBroMGut026+Us71RNRKU2NW/koTdnw=
+	t=1761935030; cv=none; b=LMrtVsHcHViJmht6zmL25YNrfCdLD4qfDHqJcFho4ews7MVaQ0+U2sZ+NAL7xHbItimj5Z9erK4mOv8Tfh1HOy+3czDseHCITtb3tHvgtgAk9oIdmM9GvC1MyBemASaXaZPz5kTBGYfVxRj7pQyUqzu8Nz+VQ4rhXOPApJb4tDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761933713; c=relaxed/simple;
-	bh=ADSVAiPOX6B1gSmsW9EyKAj2xSrKAsl+RxaW9LESL74=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lbi1js+54Axi6m/dY5WBk9UgfDUepP81eAzY5GnDCVxbhJcMJ9WiP1y/G5WtedjW8TvMxvslgqDWp8z26YS2UnEHNmh7IBEpE+iFahn4NWVUOqmfK0pdbwpLwVNJgazJNrDvkwc4juEM3LReTxhEkrNIiOKU12c1mrU2biPmJAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IBcKzo3j; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761935030; c=relaxed/simple;
+	bh=+sbJ8F3HRWogh8OeY2duVBJR4vM7IFRxLJUNF2ldLCk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d1ZdQN4S+Ml3FZV0w++vl1wcj5GSSQ3ozKJZfh9CZmKCCgoi/LyXaIun80j87Wc2PdCbT6RM6QQx2WnOjjl2iv9OGoYEPe039ACIryOlUAyHFnzMdEHVlawr0MneMVLkYySpKkoS1MZ7wTb5SZV2OUXftIFhFZxn6UiqgKqn+IY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=BHYRbl2+; arc=none smtp.client-ip=199.89.3.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IBcKzo3j"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-475dbb524e4so15434125e9.2
-        for <oe-kbuild@lists.linux.dev>; Fri, 31 Oct 2025 11:01:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761933710; x=1762538510; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=E6SP8H42MhuGKhf5Tf0RkAnos12jDN/g0vG2yinKCDE=;
-        b=IBcKzo3jcaoZoUyfz/Sju+UzRUCQBZnq2t5RP3RLAmQqAKwfErBkU/pQ2VoAIZqN7F
-         UX8PMyghK5aB4T/KqBBF2LTWV6c05EfOMOPpMawjCSsbljL3C4bSfmYnYNj/351BTSaZ
-         mbDi1BNPOCedAguy2uHMlrKOSZ8ix7UeDBh3MBkI8tyAQzCfyNVJPVCX5qZp5qQV/NNi
-         /8saj0sls+3KD1KHXnTRe7kE+CNuOrTEKiSmCfgVh/NtyuiKrsbPlfcKCtnibeQNcOzb
-         cUofYAbX6LwIGg8fBV1bFI3TR3QDE/kUA5Wmpcd4ANpe/we9AqGJaIYuqsvQuyF3JIgE
-         hNNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761933710; x=1762538510;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E6SP8H42MhuGKhf5Tf0RkAnos12jDN/g0vG2yinKCDE=;
-        b=E6SJpTFmeXLIGuQyofHIWcAhEhCp/FYe5BzUr6R0fsI3oLCBMOInACGM8h14KnCVQu
-         n1rqEDIzMVa8lDmEl4uSqf+17m5Q3CeHpQ7G0tKGMY1rN2C4INsh5qGbGugJ1oSfzQaI
-         dOxmuIp6h4zxXUayXGwiMXxjjpqshk/zfLeZrNQ/8PXjsB+yB9U84T2VZYwmrpLIq8Y2
-         W3ZSF7ECyFfM2BKUwITDrnCQgWozUnev3ffUDo8FI9M02bMIg4Wx+9MeqG6qg/Cf1SZ7
-         ekBra9FrAU7I0Yo74PxaVASC8SfQEI5yhyDhU0OPJw6zLRibN/qloFKH5/X0DysFZdsl
-         We3w==
-X-Gm-Message-State: AOJu0YzNuRYvxt0Vw8DozfJDux/4z1szcfP+8CDkXGjUhEw7unv/OCPU
-	GxT5RmMulEaKMGaLvu4eb8lTFYn8Ke4Nj0tuvUsJMFo+7LCAyEVR3vdC6OImjN21/Ts=
-X-Gm-Gg: ASbGncu3ClKJeWM8V8wiVZMRYdKR37dHyIv+66KwlD/zoEAvWELfBidGCs+QnZnKKCf
-	Yo/BMXWcktSCgdQYj3RXBQ/VCXrm8i3VQenrMLQonewqANlMc//aeHrdo974SdIb03y1xhKhklz
-	9fT9awYKiKEp6mj77TGlWh151Vhxbl5D8inDmd/xiSewc2Jfmu694pN8lZqzNnsUzr8WEAo6yz4
-	mWWlxzVGj8pJErgwxmr7VsHlX7dZYIW7MbPiEpKV1b9KPCrqz5qBhiDCKiByXKb0Zo5Xg0z9Klr
-	SWC7vGbMoYij8MQ8Xk0EElNZvOFXEVO1eWkTKTfp7R2nx3vubxMdn/DezXSFazpeCrP7OANCapY
-	W/E+jR0TZF2acgGEhWyqN9VFF3kqrI8HuGhakYrRV0PPYgPA5nASGkGffQxHngG93PCQXcKSEVI
-	xDGy7exA==
-X-Google-Smtp-Source: AGHT+IGwTAH43N3wM16XX7jUmA2M+gELhc+IjeuUzRi/sE3Q+QtcHc71PYNZcyiwhAqVZ69okNUHWA==
-X-Received: by 2002:a05:600c:4e09:b0:477:3012:d285 with SMTP id 5b1f17b1804b1-477307d7a25mr44275995e9.3.1761933709560;
-        Fri, 31 Oct 2025 11:01:49 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4773c2e677csm8734835e9.3.2025.10.31.11.01.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Oct 2025 11:01:49 -0700 (PDT)
-Date: Fri, 31 Oct 2025 21:01:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Avri Altman <avri.altman@sandisk.com>
-Subject: Re: [bvanassche:ufs-lrbp-as-priv-data 27/28]
- drivers/ufs/core/ufshcd.c:7594 ufshcd_advanced_rpmb_req_handler() warn:
- inconsistent returns '&hba->clk_scaling_lock'.
-Message-ID: <aQT5iXgmRCzaa_xZ@stanley.mountain>
-References: <202510311328.Is1wMfkq-lkp@intel.com>
- <5dd16de9-4594-4b42-b912-d56c3ce6868e@acm.org>
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="BHYRbl2+"
+Received: from localhost (localhost [127.0.0.1])
+	by 004.mia.mailroute.net (Postfix) with ESMTP id 4cyq9s6wb9zm0pKP;
+	Fri, 31 Oct 2025 18:23:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1761935024; x=1764527025; bh=zB1rmgUwdiozuvnR7IhHdNzq
+	9JIOa0Zu/yFnWs7LhQg=; b=BHYRbl2+8xETTSkaVl/LuobI5oGyC4XBu32vmfQ7
+	EOfdeTt/KXQxeUCYhebWiDPl/SMzxn/H0w2mB7uejXnm9q5VfFNJLiDIvOSZ9dS1
+	unm85oAY5oNOc21L03oeJ3BnqUk6qs/sNZj3AgKYIbzBSjErF5zOxbe9CwXKvGpQ
+	eyJWdYnvVjoyT9np3wZdUTzBe9vTqsqvEcgYX2VdCtwKBhpFEhxePdWxwjCs5QCz
+	ECTDiac/u8+7whb2Z/YJfhiSjhHiuGJT1eScLaxMgvNBQpdkwjiPPxkA4j4Z+nTp
+	hE5JSqSD1AmIYc06cJVUYa5V54SxocWGv9v/fKSPIZqNYw==
+X-Virus-Scanned: by MailRoute
+Received: from 004.mia.mailroute.net ([127.0.0.1])
+ by localhost (004.mia [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id cKCUum0AZ-xQ; Fri, 31 Oct 2025 18:23:44 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 004.mia.mailroute.net (Postfix) with ESMTPSA id 4cyq9n2lYRzm0ytk;
+	Fri, 31 Oct 2025 18:23:40 +0000 (UTC)
+Message-ID: <fd51be38-8000-48e8-a5a0-0289904d4756@acm.org>
+Date: Fri, 31 Oct 2025 11:23:39 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5dd16de9-4594-4b42-b912-d56c3ce6868e@acm.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [bvanassche:ufs-lrbp-as-priv-data 27/28]
+ drivers/ufs/core/ufshcd.c:7594 ufshcd_advanced_rpmb_req_handler() warn:
+ inconsistent returns '&hba->clk_scaling_lock'.
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Avri Altman <avri.altman@sandisk.com>
+References: <202510311328.Is1wMfkq-lkp@intel.com>
+ <5dd16de9-4594-4b42-b912-d56c3ce6868e@acm.org>
+ <aQT5iXgmRCzaa_xZ@stanley.mountain>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <aQT5iXgmRCzaa_xZ@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 31, 2025 at 08:57:25AM -0700, Bart Van Assche wrote:
-> On 10/30/25 11:06 PM, Dan Carpenter wrote:
-> > tree:   https://github.com/bvanassche/linux ufs-lrbp-as-priv-data
-> > head:   f5ce986a0b77ce2944bf8314554d60eec17968e8
-> > commit: 226979e4eb8a5844be9fb6047a1d042bf2cd72ab [27/28] ufs: core: Move code out of ufshcd_wait_for_dev_cmd()
-> > config: x86_64-randconfig-r071-20251031 (https://download.01.org/0day-ci/archive/20251031/202510311328.Is1wMfkq-lkp@intel.com/config)
-> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202510311328.Is1wMfkq-lkp@intel.com/
-> > 
-> > New smatch warnings:
-> > drivers/ufs/core/ufshcd.c:7594 ufshcd_advanced_rpmb_req_handler() warn: inconsistent returns '&hba->clk_scaling_lock'.
-> > drivers/ufs/core/ufshcd.c:7594 ufshcd_advanced_rpmb_req_handler() warn: inconsistent returns '&hba->dev_cmd.lock'.
+On 10/31/25 11:01 AM, Dan Carpenter wrote:
+> These are from the zero day bot so how they are generated is mysterious.
+> The zero day bot thought the patch was 3 days old.  I think someone did
+> a merge or something.
 > 
-> Hi Dan,
+> I re-ran it on that branch and there were three warnings.  The "literal
+> zero" is a style issue thing so I haven't published that check.
 > 
-> Thanks for the report. This report applies to a patch series from July
-> 10 (more than three months ago). I just pushed out the latest version of
-> this patch series to my github account. Can you please repeat your
-> analysis for https://github.com/bvanassche/linux ufs-lrbp-as-priv-data?
+> drivers/ufs/core/ufshcd.c:2955 __ufshcd_setup_cmd() warn: variable dereferenced before check 'cmd' (see line 2950)
 > 
+> drivers/ufs/core/ufshcd.c:6849 ufshcd_err_handler() warn: inconsistent returns '&hba->host_sem'.
+>    Locked on  : 6696
+>    Unlocked on: 6688,6849
+> 
+> drivers/ufs/core/ufshcd.c:9035 ufshcd_device_init() info: returning a literal zero is cleaner
 
-Hi Bart,
+Hi Dan,
 
-These are from the zero day bot so how they are generated is mysterious.
-The zero day bot thought the patch was 3 days old.  I think someone did
-a merge or something.
+The inconsistent returns issue for hba->host_sem has been fixed on 
+Martin Petersen's fixes branch but unfortunately that fix is not yet
+present on his for-next branch.
 
-I re-ran it on that branch and there were three warnings.  The "literal
-zero" is a style issue thing so I haven't published that check.
+I plan to include a fix for the "variable dereferenced before check
+'cmd'" complaint.
 
-drivers/ufs/core/ufshcd.c:2955 __ufshcd_setup_cmd() warn: variable dereferenced before check 'cmd' (see line 2950)
+Is it expected that I don't see the above reports if I run smatch
+myself? This is what I see if I run smatch (commit 2fb2b9093c5d 
+("sleep_info: The synchronize_srcu() sleeps")):
 
-drivers/ufs/core/ufshcd.c:6849 ufshcd_err_handler() warn: inconsistent returns '&hba->host_sem'.
-  Locked on  : 6696
-  Unlocked on: 6688,6849
+$ make drivers/ufs/ C=2 CHECK="smatch -p=__kernel__"
+   CHECK   scripts/mod/empty.c
+   CALL    scripts/checksyscalls.sh
+   CHECK   drivers/ufs/core/ufshcd.c
+drivers/ufs/core/ufshcd.c:1536 ufshcd_clk_scaling_suspend_work() warn: 
+ignoring unreachable code.
+drivers/ufs/core/ufshcd.c:1551 ufshcd_clk_scaling_resume_work() warn: 
+ignoring unreachable code.
+drivers/ufs/core/ufshcd.c:1616 ufshcd_devfreq_target() warn: ignoring 
+unreachable code.
+drivers/ufs/core/ufshcd.c:1761 ufshcd_suspend_clkscaling() warn: 
+ignoring unreachable code.
+drivers/ufs/core/ufshcd.c:1777 ufshcd_resume_clkscaling() warn: ignoring 
+unreachable code.
+drivers/ufs/core/ufshcd.c:1910 ufshcd_ungate_work() warn: ignoring 
+unreachable code.
+drivers/ufs/core/ufshcd.c:2095 __ufshcd_release() warn: ignoring 
+unreachable code.
+drivers/ufs/core/ufshcd.c:9450 ufshcd_setup_clocks() warn: ignoring 
+unreachable code.
+   CHECK   drivers/ufs/core/ufs-sysfs.c
+   CHECK   drivers/ufs/core/ufs-mcq.c
+   CHECK   drivers/ufs/core/ufs-debugfs.c
+   CHECK   drivers/ufs/core/ufs_bsg.c
+   CHECK   drivers/ufs/core/ufshcd-crypto.c
+   CHECK   drivers/ufs/core/ufs-fault-injection.c
+   CHECK   drivers/ufs/host/tc-dwc-g210-pci.c
+   CHECK   drivers/ufs/host/ufshcd-dwc.c
+   CHECK   drivers/ufs/host/tc-dwc-g210.c
+   CHECK   drivers/ufs/host/ufshcd-pci.c
+drivers/ufs/host/ufshcd-pci.c:45 __intel_dsm_supported() warn: always 
+true condition '(fn >= 0) => (0-u32max >= 0)'
+   CHECK   drivers/ufs/host/ufshcd-pltfrm.c
 
-drivers/ufs/core/ufshcd.c:9035 ufshcd_device_init() info: returning a literal zero is cleaner
+Thanks!
 
-regards,
-dan carpenter
+Bart.
