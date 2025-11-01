@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9222B4C79
-	for <oe-kbuild@lists.linux.dev>; Sat,  1 Nov 2025 19:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244532B2DA
+	for <oe-kbuild@lists.linux.dev>; Sat,  1 Nov 2025 21:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762023780; cv=none; b=cAo+h7jLzxt4y4bOLwZgPjCeHynxfQv+XpUSygVsxhMNAvtLHd75mw8dVVewDAEGpV/fdlIEbNxXmzb1N55gNJj8b9IGWkUonMjsq60f+w8aHJ9T6ruqf5hR0Yy74mybVJlnbaVlNcwZW/rqAr35y4tP2nDSwuNVgB5Bnf04FfQ=
+	t=1762032026; cv=none; b=Z45qsAeSIsIlUBELt6XBL9shueyiL09fjJfPA5HxOTjtafRixMNw6l5g69WzbCG9eZH46ECuYsfoAnYarn8aU1zlzBVvAyIJD6UsjLSYnZjjItwNWV7fbaz4sA6ACGSWwXp9lyBgPbcDt88bVNNCtOfBJ4L632xqLjtQBDlOhlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762023780; c=relaxed/simple;
-	bh=NhdGjKZJvwHEnXA+v0S+qltuG+iLWwetUbVocnXjcjc=;
+	s=arc-20240116; t=1762032026; c=relaxed/simple;
+	bh=J4OynAphHOiji52OwmE1PGENo4eP330qJL/qc9cb0Bg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o+XI7szw33SBCDI1mWODsO9UcCzSGuRUpxJnGhvd4cEPbsBVRtsr2g2XRJYKcxIeDnfEJpkPBQ3+vMwGKrEbOZB1l2MoE10dnM0UBwjodC6K6uLi7sf3G0vZvLrqfgTTyU48XHUz61GS+zT039fC8Nlp/GhS1WkvzO3a7PtJoHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eSvp5kBR; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=qP4Q1S6vwTPVolcc02zyUp8LwME9Eso6T/CS8DhQtNV9BH3VbjHJ+8EP2e/OcbDXF3BFXzmhedROK84cYVX2Q3Jcq/NvpxlWmudkK1CzA1rJH06L02Ii80IP5wD8q/D015PoQxgHNfKSm5n1L0zemxmxDwwbbTM6CmeDD6LBCpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lZShLD2Z; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eSvp5kBR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lZShLD2Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762023778; x=1793559778;
+  t=1762032024; x=1793568024;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NhdGjKZJvwHEnXA+v0S+qltuG+iLWwetUbVocnXjcjc=;
-  b=eSvp5kBR/4MUnYhN/JxN4BjCf42KiEpb5vszBf4HEWMGPbEWIGIpDztE
-   z1dvYOSnZZk642SrO8HBBKjSXnPFV0HAZHJNyMrlwsB1pbIfGsNG4U2vq
-   vFdpZWtZ6rsr5Y42Sh/yk7AyGwJPoMI2mlg+ZtqOod6QreHD28R4kPRHs
-   1ykAogu5IYkXM56dRKqXrqu/V7pq96aK550YrcOOTzjPFTTNxZc0YA7gZ
-   WN9hSQgj9lkxi6flUoTgYemWhaFgFaX1s/YTlG6/SjcFPrp2myRHzOsLh
-   PGND4jyyqqATXJTH4Hm292YWQ5JmMh34o0n7molUnKVx6WuVS5xBzaJph
-   A==;
-X-CSE-ConnectionGUID: chCYNK8BQTKpANdCQj92tQ==
-X-CSE-MsgGUID: 1cXA7wVQRI+mMXMTvXT0fA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="75273961"
-X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
-   d="scan'208";a="75273961"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 12:02:58 -0700
-X-CSE-ConnectionGUID: 5xsUQZsoQBe+FBfecbN6Lg==
-X-CSE-MsgGUID: of9qiEPoQIWZDuwoTjBVnQ==
+  bh=J4OynAphHOiji52OwmE1PGENo4eP330qJL/qc9cb0Bg=;
+  b=lZShLD2ZejAsdxDcj2j6dLKo9Py1AyGt1Gl4Fp0kP+f32y/CNyxU21pO
+   iGyIV/R2WPqlZcE755v7IFmz4K/Zne/AqsfZeiBTvm1/KlJcu+jrLh3pY
+   xKCuWG8X2BO2hJ1Lb9qz1Fafp4/zAZxEboYoXVzD8LyYIyMnJVPNAhIjb
+   V8YDamHYXYgxuOLdQRjkk4FjUK/OA7l63ba4EUYGnrAX9fZzfCHAYUF2p
+   wncPUDNmV5PP978CdtZyMItUphJwjT2MHlyMY5gf3Uhy/SPf/AyTExGhW
+   c1uJEg7FWEwlHYEsSPDale/tCxvqxM56+jhA6seu1pU2YdJ+Y2fm2QK28
+   Q==;
+X-CSE-ConnectionGUID: MjU/+wp8RyCPBfHy4nMbJQ==
+X-CSE-MsgGUID: gOWvjevASt6Nxl5auAAwLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64066419"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64066419"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 14:20:23 -0700
+X-CSE-ConnectionGUID: 8Sj+XtR5SAm6TD4SpJzO1A==
+X-CSE-MsgGUID: 1R4ZFXuiSTCEX1we/qZmug==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
-   d="scan'208";a="223746682"
+X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
+   d="scan'208";a="186476591"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 01 Nov 2025 12:02:56 -0700
+  by orviesa007.jf.intel.com with ESMTP; 01 Nov 2025 14:20:23 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFGsH-000ObM-2H;
-	Sat, 01 Nov 2025 19:02:53 +0000
-Date: Sun, 2 Nov 2025 03:02:33 +0800
+	id 1vFJ1C-000Oh6-1Q;
+	Sat, 01 Nov 2025 21:20:16 +0000
+Date: Sun, 2 Nov 2025 05:19:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH V3 2/7] ASoC: codecs: Rework the aw88395 driver
-Message-ID: <202511020233.9TQ2ZVHu-lkp@intel.com>
+Subject: Re: [PATCH v3] w1: therm: Fix off-by-one buffer overflow in
+ alarms_store
+Message-ID: <202511020405.22bJ76JV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,121 +64,121 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251028123357.46161-3-wangweidong.a@awinic.com>
-References: <20251028123357.46161-3-wangweidong.a@awinic.com>
-TO: wangweidong.a@awinic.com
-TO: lgirdwood@gmail.com
-TO: broonie@kernel.org
-TO: perex@perex.cz
-TO: tiwai@suse.com
-TO: srinivas.kandagatla@oss.qualcomm.com
-TO: wangweidong.a@awinic.com
-TO: arnd@arndb.de
-TO: cy_huang@richtek.com
-TO: nick.li@foursemi.com
-TO: shenghao-ding@ti.com
-TO: alexey.klimov@linaro.org
-TO: niranjan.hy@ti.com
-TO: linux@treblig.org
-TO: zhangyi@everest-semi.com
-TO: thorsten.blum@linux.dev
-TO: kuninori.morimoto.gx@renesas.com
-TO: yesanishhere@gmail.com
-TO: marco.crivellari@suse.com
-TO: ebiggers@google.com
-TO: ardb@kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-sound@vger.kernel.org
-CC: yijiangtao@awinic.com
+In-Reply-To: <20251030155614.447905-1-thorsten.blum@linux.dev>
+References: <20251030155614.447905-1-thorsten.blum@linux.dev>
+TO: Thorsten Blum <thorsten.blum@linux.dev>
+TO: David Laight <david.laight.linux@gmail.com>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Huisong Li <lihuisong@huawei.com>
+TO: Akira Shimahara <akira215corp@gmail.com>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Thorsten Blum <thorsten.blum@linux.dev>
+CC: stable@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
 
-Hi,
+Hi Thorsten,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 2103a2df654868faf4ac0924ce529b11cca729bc]
+[auto build test WARNING on krzk-w1/for-next]
+[also build test WARNING on linus/master v6.18-rc3 next-20251031]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/wangweidong-a-awinic-com/ASoC-codecs-Rework-the-awinic-driver-lib/20251028-210642
-base:   2103a2df654868faf4ac0924ce529b11cca729bc
-patch link:    https://lore.kernel.org/r/20251028123357.46161-3-wangweidong.a%40awinic.com
-patch subject: [PATCH V3 2/7] ASoC: codecs: Rework the aw88395 driver
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-141-20251101 (https://download.01.org/0day-ci/archive/20251102/202511020233.9TQ2ZVHu-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thorsten-Blum/w1-therm-Fix-off-by-one-buffer-overflow-in-alarms_store/20251031-000306
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-w1.git for-next
+patch link:    https://lore.kernel.org/r/20251030155614.447905-1-thorsten.blum%40linux.dev
+patch subject: [PATCH v3] w1: therm: Fix off-by-one buffer overflow in alarms_store
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20251101 (https://download.01.org/0day-ci/archive/20251102/202511020405.22bJ76JV-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511020233.9TQ2ZVHu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511020405.22bJ76JV-lkp@intel.com/
 
-smatch warnings:
-sound/soc/codecs/aw88395.c:635 aw88395_reg_update() error: uninitialized symbol 'ret'.
+New smatch warnings:
+drivers/w1/slaves/w1_therm.c:1846 alarms_store() warn: impossible condition '(temp < (-((~0 >> 1)) - 1)) => (s32min-s32max < s32min)'
+drivers/w1/slaves/w1_therm.c:1846 alarms_store() warn: impossible condition '(temp > ((~0 >> 1))) => (s32min-s32max > s32max)'
 
-vim +/ret +635 sound/soc/codecs/aw88395.c
+Old smatch warnings:
+drivers/w1/slaves/w1_therm.c:1856 alarms_store() warn: impossible condition '(temp < (-((~0 >> 1)) - 1)) => (s32min-s32max < s32min)'
+drivers/w1/slaves/w1_therm.c:1856 alarms_store() warn: impossible condition '(temp > ((~0 >> 1))) => (s32min-s32max > s32max)'
 
-608c1ac8f6d444 Weidong Wang 2025-10-28  576  
-608c1ac8f6d444 Weidong Wang 2025-10-28  577  static int aw88395_reg_update(struct aw_device *aw_dev,
-608c1ac8f6d444 Weidong Wang 2025-10-28  578  	unsigned char *data, unsigned int len)
-608c1ac8f6d444 Weidong Wang 2025-10-28  579  {
-608c1ac8f6d444 Weidong Wang 2025-10-28  580  	struct aw_volume_desc *vol_desc = &aw_dev->volume_desc;
-608c1ac8f6d444 Weidong Wang 2025-10-28  581  	int16_t *reg_data;
-608c1ac8f6d444 Weidong Wang 2025-10-28  582  	int data_len;
-608c1ac8f6d444 Weidong Wang 2025-10-28  583  	u16 read_vol;
-608c1ac8f6d444 Weidong Wang 2025-10-28  584  	u16 reg_val;
-608c1ac8f6d444 Weidong Wang 2025-10-28  585  	u8 reg_addr;
-608c1ac8f6d444 Weidong Wang 2025-10-28  586  	int i, ret;
-608c1ac8f6d444 Weidong Wang 2025-10-28  587  
-608c1ac8f6d444 Weidong Wang 2025-10-28  588  	reg_data = (int16_t *)data;
-608c1ac8f6d444 Weidong Wang 2025-10-28  589  	data_len = len >> 1;
-608c1ac8f6d444 Weidong Wang 2025-10-28  590  
-608c1ac8f6d444 Weidong Wang 2025-10-28  591  	if (data_len & 0x1) {
-608c1ac8f6d444 Weidong Wang 2025-10-28  592  		dev_err(aw_dev->dev, "data len:%d unsupported",	data_len);
-608c1ac8f6d444 Weidong Wang 2025-10-28  593  		return -EINVAL;
-608c1ac8f6d444 Weidong Wang 2025-10-28  594  	}
-608c1ac8f6d444 Weidong Wang 2025-10-28  595  
-608c1ac8f6d444 Weidong Wang 2025-10-28  596  	for (i = 0; i < data_len; i += 2) {
-608c1ac8f6d444 Weidong Wang 2025-10-28  597  		reg_addr = reg_data[i];
-608c1ac8f6d444 Weidong Wang 2025-10-28  598  		reg_val = reg_data[i + 1];
-608c1ac8f6d444 Weidong Wang 2025-10-28  599  
-608c1ac8f6d444 Weidong Wang 2025-10-28  600  		if (reg_addr == AW88395_SYSCTRL_REG) {
-608c1ac8f6d444 Weidong Wang 2025-10-28  601  			if (reg_val & (~AW88395_DSPBY_MASK))
-608c1ac8f6d444 Weidong Wang 2025-10-28  602  				aw_dev->dsp_cfg = AW_DEV_DSP_BYPASS;
-608c1ac8f6d444 Weidong Wang 2025-10-28  603  			else
-608c1ac8f6d444 Weidong Wang 2025-10-28  604  				aw_dev->dsp_cfg = AW_DEV_DSP_WORK;
-608c1ac8f6d444 Weidong Wang 2025-10-28  605  
-608c1ac8f6d444 Weidong Wang 2025-10-28  606  			reg_val &= (AW88395_HMUTE_MASK | AW88395_PWDN_MASK | AW88395_AMPPD_MASK |
-608c1ac8f6d444 Weidong Wang 2025-10-28  607  					AW88395_DSPBY_MASK);
-608c1ac8f6d444 Weidong Wang 2025-10-28  608  			reg_val |= (AW88395_HMUTE_DISABLE_VALUE | AW88395_PWDN_POWER_DOWN_VALUE |
-608c1ac8f6d444 Weidong Wang 2025-10-28  609  				AW88395_AMPPD_POWER_DOWN_VALUE | AW88395_DSPBY_BYPASS_VALUE);
-608c1ac8f6d444 Weidong Wang 2025-10-28  610  		}
-608c1ac8f6d444 Weidong Wang 2025-10-28  611  
-608c1ac8f6d444 Weidong Wang 2025-10-28  612  		if (reg_addr == AW88395_I2SCFG1_REG) {
-608c1ac8f6d444 Weidong Wang 2025-10-28  613  			reg_val &= AW88395_I2STXEN_MASK;
-608c1ac8f6d444 Weidong Wang 2025-10-28  614  			reg_val |= AW88395_I2STXEN_DISABLE_VALUE;
-608c1ac8f6d444 Weidong Wang 2025-10-28  615  		}
-608c1ac8f6d444 Weidong Wang 2025-10-28  616  
-608c1ac8f6d444 Weidong Wang 2025-10-28  617  		if (reg_addr == AW88395_SYSCTRL2_REG) {
-608c1ac8f6d444 Weidong Wang 2025-10-28  618  			read_vol = (reg_val & (~AW88395_VOL_MASK)) >> AW88395_VOL_START_BIT;
-608c1ac8f6d444 Weidong Wang 2025-10-28  619  			aw_dev->volume_desc.init_volume = reg_val_to_db(read_vol);
-608c1ac8f6d444 Weidong Wang 2025-10-28  620  		}
-608c1ac8f6d444 Weidong Wang 2025-10-28  621  
-608c1ac8f6d444 Weidong Wang 2025-10-28  622  		if (reg_addr == AW88395_HAGCCFG7_REG)
-608c1ac8f6d444 Weidong Wang 2025-10-28  623  			reg_val &= AW88395_AGC_DSP_CTL_MASK;
-608c1ac8f6d444 Weidong Wang 2025-10-28  624  
-608c1ac8f6d444 Weidong Wang 2025-10-28  625  		ret = regmap_write(aw_dev->regmap, reg_addr, reg_val);
-608c1ac8f6d444 Weidong Wang 2025-10-28  626  		if (ret)
-608c1ac8f6d444 Weidong Wang 2025-10-28  627  			break;
-608c1ac8f6d444 Weidong Wang 2025-10-28  628  	}
-608c1ac8f6d444 Weidong Wang 2025-10-28  629  
-608c1ac8f6d444 Weidong Wang 2025-10-28  630  	if (aw_dev->prof_cur != aw_dev->prof_index)
-608c1ac8f6d444 Weidong Wang 2025-10-28  631  		vol_desc->ctl_volume = 0;
-608c1ac8f6d444 Weidong Wang 2025-10-28  632  	else
-608c1ac8f6d444 Weidong Wang 2025-10-28  633  		aw88395_set_volume(aw_dev, vol_desc->ctl_volume);
-608c1ac8f6d444 Weidong Wang 2025-10-28  634  
-608c1ac8f6d444 Weidong Wang 2025-10-28 @635  	return ret;
-608c1ac8f6d444 Weidong Wang 2025-10-28  636  }
-608c1ac8f6d444 Weidong Wang 2025-10-28  637  
+vim +1846 drivers/w1/slaves/w1_therm.c
+
+e2c94d6f572079 Akira Shimahara 2020-05-11  1832  
+e2c94d6f572079 Akira Shimahara 2020-05-11  1833  static ssize_t alarms_store(struct device *device,
+e2c94d6f572079 Akira Shimahara 2020-05-11  1834  	struct device_attribute *attr, const char *buf, size_t size)
+e2c94d6f572079 Akira Shimahara 2020-05-11  1835  {
+e2c94d6f572079 Akira Shimahara 2020-05-11  1836  	struct w1_slave *sl = dev_to_w1_slave(device);
+e2c94d6f572079 Akira Shimahara 2020-05-11  1837  	struct therm_info info;
+e2c94d6f572079 Akira Shimahara 2020-05-11  1838  	u8 new_config_register[3];	/* array of data to be written */
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1839  	long temp;
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1840  	int ret;
+e233897b1f7a85 Yang Guang      2021-12-21  1841  	s8 tl, th;	/* 1 byte per value + temp ring order */
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1842  	const char *p = buf;
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1843  	char *endp;
+e2c94d6f572079 Akira Shimahara 2020-05-11  1844  
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1845  	temp = simple_strtol(p, &endp, 10);
+fb05eaeed51f89 Thorsten Blum   2025-10-30 @1846  	if (temp < INT_MIN || temp > INT_MAX || p == endp || *endp != ' ') {
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1847  		dev_info(device, "%s: error parsing args %d\n",
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1848  			 __func__, -EINVAL);
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1849  		goto err;
+e2c94d6f572079 Akira Shimahara 2020-05-11  1850  	}
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1851  	/* Cast to short to eliminate out of range values */
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1852  	tl = int_to_short((int)temp);
+e2c94d6f572079 Akira Shimahara 2020-05-11  1853  
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1854  	p = endp + 1;
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1855  	temp = simple_strtol(p, &endp, 10);
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1856  	if (temp < INT_MIN || temp > INT_MAX || p == endp) {
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1857  		dev_info(device, "%s: error parsing args %d\n",
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1858  			 __func__, -EINVAL);
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1859  		goto err;
+e2c94d6f572079 Akira Shimahara 2020-05-11  1860  	}
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1861  	/* Cast to short to eliminate out of range values */
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1862  	th = int_to_short((int)temp);
+e2c94d6f572079 Akira Shimahara 2020-05-11  1863  
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1864  	/* Reorder if required */
+e233897b1f7a85 Yang Guang      2021-12-21  1865  	if (tl > th)
+e233897b1f7a85 Yang Guang      2021-12-21  1866  		swap(tl, th);
+e2c94d6f572079 Akira Shimahara 2020-05-11  1867  
+e2c94d6f572079 Akira Shimahara 2020-05-11  1868  	/*
+e2c94d6f572079 Akira Shimahara 2020-05-11  1869  	 * Read the scratchpad to change only the required bits
+e2c94d6f572079 Akira Shimahara 2020-05-11  1870  	 * (th : byte 2 - tl: byte 3)
+e2c94d6f572079 Akira Shimahara 2020-05-11  1871  	 */
+e2c94d6f572079 Akira Shimahara 2020-05-11  1872  	ret = read_scratchpad(sl, &info);
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1873  	if (ret) {
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1874  		dev_info(device, "%s: error reading from the slave device %d\n",
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1875  			 __func__, ret);
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1876  		goto err;
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1877  	}
+e2c94d6f572079 Akira Shimahara 2020-05-11  1878  	new_config_register[0] = th;		/* Byte 2 */
+e2c94d6f572079 Akira Shimahara 2020-05-11  1879  	new_config_register[1] = tl;		/* Byte 3 */
+e2c94d6f572079 Akira Shimahara 2020-05-11  1880  	new_config_register[2] = info.rom[4];	/* Byte 4 */
+e2c94d6f572079 Akira Shimahara 2020-05-11  1881  
+e2c94d6f572079 Akira Shimahara 2020-05-11  1882  	/* Write data in the device RAM */
+e2c94d6f572079 Akira Shimahara 2020-05-11  1883  	if (!SLAVE_SPECIFIC_FUNC(sl)) {
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1884  		dev_info(device, "%s: Device not supported by the driver %d\n",
+e2c94d6f572079 Akira Shimahara 2020-05-11  1885  			 __func__, -ENODEV);
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1886  		goto err;
+e2c94d6f572079 Akira Shimahara 2020-05-11  1887  	}
+e2c94d6f572079 Akira Shimahara 2020-05-11  1888  
+e2c94d6f572079 Akira Shimahara 2020-05-11  1889  	ret = SLAVE_SPECIFIC_FUNC(sl)->write_data(sl, new_config_register);
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1890  	if (ret) {
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1891  		dev_info(device, "%s: error writing to the slave device %d\n",
+e2c94d6f572079 Akira Shimahara 2020-05-11  1892  			__func__, ret);
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1893  		goto err;
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1894  	}
+e2c94d6f572079 Akira Shimahara 2020-05-11  1895  
+fb05eaeed51f89 Thorsten Blum   2025-10-30  1896  err:
+e2c94d6f572079 Akira Shimahara 2020-05-11  1897  	return size;
+e2c94d6f572079 Akira Shimahara 2020-05-11  1898  }
+e2c94d6f572079 Akira Shimahara 2020-05-11  1899  
 
 -- 
 0-DAY CI Kernel Test Service
