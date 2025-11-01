@@ -1,1995 +1,276 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3ADC21D596
-	for <oe-kbuild@lists.linux.dev>; Sat,  1 Nov 2025 06:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C37219E0
+	for <oe-kbuild@lists.linux.dev>; Sat,  1 Nov 2025 07:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761978879; cv=none; b=hy3EAwqTuAGe1XGm7IgAheayAYrH+CxNXBAmIdw7OUP9WzFjbT1KN+/HwWxMvCvsFLE5HRy2zdK8fqUwfFgH2Jt/QusG/x05hNFwCof0+YNfhImlEfLinFUqsFQWfxPs063e4LGYLOIigSVdPH8IcXRq+cr9uSiEgdEGkJBO4t8=
+	t=1761983232; cv=none; b=i1nZPt1WkWYQBkzixDfwHuU4Iw7DkxvSzs7t9OptrTVg2ORQh2lWU4txPTfEzss4vKB8IxczDdhG4M+YA+o+6ftcBrVRTYC8pUssPOpiEApvfIK9ucz9wciGhCJak0EMqOdlKuRcRGbHJqdyKRsge9AiuflDhg1f2nK69MAXBvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761978879; c=relaxed/simple;
-	bh=RVMTw52jQYxuhrGIDRbyc1B2CWdpnuVXjOnxqSw8WUc=;
+	s=arc-20240116; t=1761983232; c=relaxed/simple;
+	bh=tCgeOSc2lzk7YgGMvff1FqarCozGDB8LBpe/GD9hE0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GpmbOtZpb9NIt97QN4gDE5Bc0/yPmspxRO8+89SGHwPALK95NXG79kYV5eDaY80DtB56bBHspPaPouYg4Yu1IHPdFDSGa3EJCz4mvEfIHm0bc+FfiCFerO2vKmB5YkbAXJD4EYNc3U8a64rAfKtZHUjB/4hCTnBMyJKO0+HlKP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KNNFSCbS; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=Ync9hDCkCz3/Gzt0D8W3uFNsQyTe1MPhdInl2RNEvB4mbeitO6I0CFaE6dyfFZ8xnqqIh6Rj7Flqbn2Q3ZRPBeSxjSJ08ogdzwf65ZJ0W743EBxA3q569CL5PIx9+4zSrAuQsYK/eAFTh5NzH21GdnzBgCha8VVnGJ7Cef+vOn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BbBA1YEQ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KNNFSCbS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BbBA1YEQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761978870; x=1793514870;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RVMTw52jQYxuhrGIDRbyc1B2CWdpnuVXjOnxqSw8WUc=;
-  b=KNNFSCbSKE037VA/MhR2S9hfwRq0dFaeJkxXC8IkalEjNob4hPwVnkfw
-   kNtU0i1fupUJAEZZqmBFkGxZe6p7GZ8vsUHtkU5rJBmG+UvDUHBn88sri
-   BlKEr6ZxLIlWfZtagydvR6uHTAHpnilepjNCVFfVR49+0eFvTbVJNvMWa
-   Z+Dk0NS53bnEStTUx+QQwWzk+4QEvyQxWR7Cl7eTnp9X3KDLAWZVTw18d
-   V/Qn0upamFb8A3WnOXaWABF0ivamhvtpjDV7yKDIdo9hg8e+IA/Ai4cJx
-   JE0HeeQUD+NEh7fZj1p9h4nIpG3Wf+hWXQIjOMxRv9zqhKxuryKup8F6+
-   Q==;
-X-CSE-ConnectionGUID: OLlgqbOlSvSdDWbrNfX10g==
-X-CSE-MsgGUID: KOYb8zuYRa67IEr+U5/MHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="64055431"
+  t=1761983231; x=1793519231;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tCgeOSc2lzk7YgGMvff1FqarCozGDB8LBpe/GD9hE0c=;
+  b=BbBA1YEQa6LzrdpxGB6H0MLg9o2lSS2UG3yDtQvxHW7D0ewB9nrRbrjw
+   gDiLiRdPeb59Y/k0BS4AA4NsrEScCbAOdWIgqivRe/iDMT0ukVCql6ewB
+   PoUdznQG5yduxxGJuYDHgdaIqeiXZFGCevGfA2nSfLu5fnGRaeGTW9rYq
+   sGll11s8qts955QdaBiQXbfaNxhyrrT+EW9yg2jiVyq0RGleo8A62AXFb
+   RbHOmQKgnN+mafUfPgwzHtwA+TSrGD/pFJIZ/HxPujlse0nETtIwvv0pz
+   o6z+fRn+rbAAOuA9hNTS59yMS6f2Hjla+hYH9vlphqgp04qM5nbhInj6A
+   A==;
+X-CSE-ConnectionGUID: NF9Hi9X4Sc6EUsvt64XAJA==
+X-CSE-MsgGUID: jFCJXCvgQsCrCfFWOkYaCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="64026695"
 X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; 
-   d="scan'208";a="64055431"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 23:34:28 -0700
-X-CSE-ConnectionGUID: Ns5uF25UTgGA7uIEbDtycw==
-X-CSE-MsgGUID: 04bzJcjcReOzHGAxmWcp3A==
+   d="scan'208";a="64026695"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 00:47:10 -0700
+X-CSE-ConnectionGUID: GO41l+72TwSkrjo9k71f5g==
+X-CSE-MsgGUID: ZO8z5kDvR7SPLOyMf2RRsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; 
-   d="scan'208";a="186362923"
+   d="scan'208";a="187157562"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 31 Oct 2025 23:34:26 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 01 Nov 2025 00:47:09 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vF5Bw-000Nxy-1e;
-	Sat, 01 Nov 2025 06:34:24 +0000
-Date: Sat, 1 Nov 2025 14:33:30 +0800
+	id 1vF6KI-000O0k-2g;
+	Sat, 01 Nov 2025 07:47:06 +0000
+Date: Sat, 1 Nov 2025 15:46:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [omap-audio:peter/linux-next-wip 8/39]
- arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dtb: /sound: failed
- to match any schema with compatible: ['simple-audio-card']
-Message-ID: <202511011428.nH3YwIgs-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/mmc/host/pxamci.c:657:9-16: ERROR: PTR_ERR applied after
+ initialization to constant on line 656
+Message-ID: <202511011504.s5E2ZLIJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Peter Ujfalusi <peter.ujfalusi@ti.com>
+CC: linux-kernel@vger.kernel.org
+TO: Mikko Rapeli <mikko.rapeli@linaro.org>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 
-tree:   https://github.com/omap-audio/linux-audio peter/linux-next-wip
-head:   afaa11afb19194ab185bd6dc6674bb42af42e59f
-commit: a00547a3d28f0c0c83cae73c54f82a569898abd2 [8/39] ASoC: simple-card: Support for selecting system clocks by ID
-:::::: branch date: 7 days ago
-:::::: commit date: 8 days ago
-config: arm64-randconfig-051-20251025 (https://download.01.org/0day-ci/archive/20251101/202511011428.nH3YwIgs-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-dtschema version: 2025.9.dev12+gd6be03029
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011428.nH3YwIgs-lkp@intel.com/reproduce)
+Hi Mikko,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ba36dd5ee6fd4643ebbf6ee6eefcecf0b07e35c7
+commit: 7cd8db0fb0b2bf309163d56fec585c0f9e0964d1 mmc: add COMPILE_TEST to multiple drivers
+date:   6 weeks ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 weeks ago
+config: hexagon-randconfig-r051-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011504.s5E2ZLIJ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project be2081d9457ed095c4a6ebe2a920f0f7b76369c6)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511011428.nH3YwIgs-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202511011504.s5E2ZLIJ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Left DAC\x00DACL\x00Right DAC\x00DACR\x00ADCL\x00Left ADC\x00ADCR\x00Right ADC\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Left DAC\x00DACL\x00Right DAC\x00DACR\x00ADCL\x00Left ADC\x00ADCR\x00Right ADC\x00Headphone Jack\x00HP\x00MIC2\x00Microphone Jack\x00Onboard Microphone\x00MBIAS\x00MIC1\x00Onboard Microphone\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Microphone\x00Microphone Jack\x00Microphone\x00Onboard Microphone\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Left DAC\x00DACL\x00Right DAC\x00DACR\x00ADCL\x00Left ADC\x00ADCR\x00Right ADC\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Left DAC\x00DACL\x00Right DAC\x00DACR\x00ADCL\x00Left ADC\x00ADCR\x00Right ADC\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack Left\x00Microphone\x00Microphone Jack Right\x00Headphone\x00Headphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino-emmc.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino-emmc.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack Left\x00Microphone\x00Microphone Jack Right\x00Headphone\x00Headphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Left DAC\x00DACL\x00Right DAC\x00DACR\x00ADCL\x00Left ADC\x00ADCR\x00Right ADC\x00Headphone Jack\x00HP\x00MIC2\x00Microphone Jack\x00Onboard Microphone\x00MBIAS\x00MIC1\x00Onboard Microphone\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Microphone\x00Microphone Jack\x00Microphone\x00Onboard Microphone\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Left DAC\x00DACL\x00Right DAC\x00DACR\x00Headphone Jack\x00HP\x00ADCL\x00Left ADC\x00ADCR\x00Right ADC\x00MIC2\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-plus.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-plus.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Left DAC\x00DACL\x00Right DAC\x00DACR\x00Headphone Jack\x00HP\x00ADCL\x00Left ADC\x00ADCR\x00Right ADC\x00MIC2\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Left DAC\x00DACL\x00Right DAC\x00DACR\x00Headphone Jack\x00HP\x00ADCL\x00Left ADC\x00ADCR\x00Right ADC\x00MIC2\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Internal Microphone Left\x00Microphone\x00Internal Microphone Right\x00Headphone\x00Headphone Jack\x00Speaker\x00Internal Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi:492.31-507.4: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@2: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HP\x00Internal Earpiece\x00EARPIECE\x00Internal Speaker\x00Speaker Amp OUTL\x00Internal Speaker\x00Speaker Amp OUTR\x00Speaker Amp INL\x00LINEOUT\x00Speaker Amp INR\x00LINEOUT\x00Left DAC\x00DACL\x00Right DAC\x00DACR\x00ADCL\x00Left ADC\x00ADCR\x00Right ADC\x00Internal Microphone\x00MBIAS\x00MIC1\x00Internal Microphone\x00Headset Microphone\x00HBIAS\x00MIC2\x00Headset Microphone\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Headset Microphone\x00Microphone\x00Internal Microphone\x00Headphone\x00Headphone Jack\x00Speaker\x00Internal Earpiece\x00Speaker\x00Internal Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Internal Microphone Left\x00Microphone\x00Internal Microphone Right\x00Headphone\x00Headphone Jack\x00Speaker\x00Internal Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Internal Microphone Left\x00Microphone\x00Internal Microphone Right\x00Headphone\x00Headphone Jack\x00Speaker\x00Internal Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Left DAC\x00DACL\x00Right DAC\x00DACR\x00Headphone Jack\x00HP\x00ADCL\x00Left ADC\x00ADCR\x00Right ADC\x00MIC2\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts:138.9-149.5: Warning (graph_child_address): /soc/i2c@1c2ac00/anx6345@38/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Microphone\x00Headset Microphone\x00Microphone\x00Internal Microphone\x00Speaker\x00Internal Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:183.32-196.5: Warning (unit_address_vs_reg): /sound/simple-audio-card,dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:170.15-197.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi:1217.20-1234.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1ca0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/allwinner/sun50i-h64-remix-mini-pc.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Left DAC\x00DACL\x00Right DAC\x00DACR\x00Headphone Jack\x00HP\x00ADCL\x00Left ADC\x00ADCR\x00Right ADC\x00MIC2\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi:876.32-885.7: Warning (graph_child_address): /soc/tcon-top@6510000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi:898.30-907.7: Warning (graph_child_address): /soc/tcon-top@6510000/ports/port@4: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dtb: /sound-spdif: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi:876.32-885.7: Warning (graph_child_address): /soc/tcon-top@6510000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi:898.30-907.7: Warning (graph_child_address): /soc/tcon-top@6510000/ports/port@4: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dtb: /sound-spdif: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi:876.32-885.7: Warning (graph_child_address): /soc/tcon-top@6510000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi:898.30-907.7: Warning (graph_child_address): /soc/tcon-top@6510000/ports/port@4: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6-mini.dtb: /sound-spdif: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-frdm.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Speaker\x00Speaker Ext\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-oxalis.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Speaker\x00Speaker Ext\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/fsl-ls1012a-qds.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Speaker\x00Speaker Ext\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line Out Jack\x00Microphone\x00Microphone Jack\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Speaker\x00Speaker Ext\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-rdb.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Speaker\x00Speaker Ext\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8dx-colibri-aster.dtb: /sound-card: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8dx-colibri-eval-v3.dtb: /sound-card: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8dx-colibri-iris-v2.dtb: /sound-card: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8dx-colibri-iris.dtb: /sound-card: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8mm-beacon-kit.dtb: /sound-dmic: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-beacon-kit.dtb: /sound-wm8962: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-beacon-kit.dtb: sound-wm8962 (simple-audio-card): simple-audio-card,routing: b'Headphones\x00HPOUTL\x00Headphones\x00HPOUTR\x00Speaker\x00SPKOUTL\x00Speaker\x00SPKOUTR\x00Headset Mic\x00MICBIAS\x00IN3R\x00Headset Mic\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mm-beacon-kit.dtb: /sound-hdmi: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8mm-ddr4-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-ddr4-evk.dtb: /sound-wm8524: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-ddr4-evk.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,widgets: b'Line\x00Left Line Out Jack\x00Line\x00Right Line Out Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mm-ddr4-evk.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,routing: b'Left Line Out Jack\x00LINEVOUTL\x00Right Line Out Jack\x00LINEVOUTR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HP_OUT\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mm-emtop-baseboard.dtb: /sound-wm8904: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-emtop-baseboard.dtb: sound-wm8904 (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPOUTL\x00Headphone Jack\x00HPOUTR\x00IN2L\x00Line In Jack\x00IN2R\x00Line In Jack\x00Headphone Jack\x00MICBIAS\x00IN1L\x00Headphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mm-emtop-baseboard.dtb: sound-wm8904 (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Headphone Jack\x00Headphone\x00Headphone Jack\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mm-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-evk.dtb: /sound-wm8524: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-evk.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,widgets: b'Line\x00Left Line Out Jack\x00Line\x00Right Line Out Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mm-evk.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,routing: b'Left Line Out Jack\x00LINEVOUTL\x00Right Line Out Jack\x00LINEVOUTR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mm-evkb.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-evkb.dtb: /sound-wm8524: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-evkb.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,widgets: b'Line\x00Left Line Out Jack\x00Line\x00Right Line Out Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mm-evkb.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,routing: b'Left Line Out Jack\x00LINEVOUTL\x00Right Line Out Jack\x00LINEVOUTR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dtb: /sound-ssm2518: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dahlia.dtb: /sound-card: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dahlia.dtb: sound-card (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPOUTL\x00Headphone Jack\x00HPOUTR\x00IN2L\x00Line In Jack\x00IN2R\x00Line In Jack\x00Microphone Jack\x00MICBIAS\x00IN1L\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dahlia.dtb: sound-card (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dev.dtb: /sound-card: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dev.dtb: sound-card (simple-audio-card): simple-audio-card,routing: b'Headphones\x00LHP\x00Headphones\x00RHP\x00Speaker\x00LSPK\x00Speaker\x00RSPK\x00Line Out\x00AUXOUT1\x00Line Out\x00AUXOUT2\x00LAUX\x00Line In\x00RAUX\x00Line In\x00LMICP\x00Mic In\x00RMICP\x00Mic In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dev.dtb: sound-card (simple-audio-card): simple-audio-card,widgets: b'Headphones\x00Headphones\x00Line Out\x00Line Out\x00Speaker\x00Speaker\x00Microphone\x00Mic In\x00Line\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dahlia.dtb: /sound-card: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dahlia.dtb: sound-card (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPOUTL\x00Headphone Jack\x00HPOUTR\x00IN2L\x00Line In Jack\x00IN2R\x00Line In Jack\x00Microphone Jack\x00MICBIAS\x00IN1L\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dahlia.dtb: sound-card (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dev.dtb: /sound-card: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dev.dtb: sound-card (simple-audio-card): simple-audio-card,routing: b'Headphones\x00LHP\x00Headphones\x00RHP\x00Speaker\x00LSPK\x00Speaker\x00RSPK\x00Line Out\x00AUXOUT1\x00Line Out\x00AUXOUT2\x00LAUX\x00Line In\x00RAUX\x00Line In\x00LMICP\x00Mic In\x00RMICP\x00Mic In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dev.dtb: sound-card (simple-audio-card): simple-audio-card,widgets: b'Headphones\x00Headphones\x00Line Out\x00Line Out\x00Speaker\x00Speaker\x00Microphone\x00Mic In\x00Line\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1126.11-1136.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-beacon-kit.dtb: /sound-dmic: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mn-beacon-kit.dtb: /sound-wm8962: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mn-beacon-kit.dtb: sound-wm8962 (simple-audio-card): simple-audio-card,routing: b'Headphones\x00HPOUTL\x00Headphones\x00HPOUTR\x00Speaker\x00SPKOUTL\x00Speaker\x00SPKOUTR\x00Headset Mic\x00MICBIAS\x00IN3R\x00Headset Mic\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mn-beacon-kit.dtb: /sound-hdmi: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1126.11-1136.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1126.11-1136.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-ddr3l-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1126.11-1136.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-ddr4-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: /sound-adv7535: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: /sound-dmic: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: /sound-wm8962: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: sound-wm8962 (simple-audio-card): simple-audio-card,routing: b'Headphones\x00HPOUTL\x00Headphones\x00HPOUTR\x00Speaker\x00SPKOUTL\x00Speaker\x00SPKOUTR\x00Headset Mic\x00MICBIAS\x00IN3R\x00Headset Mic\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HP_OUT\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HP_OUT\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HP_OUT\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-smarc-eval-carrier.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-smarc-eval-carrier.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPOUTL\x00Headphone Jack\x00HPOUTR\x00IN2L\x00Line In Jack\x00IN2R\x00Line In Jack\x00Headphone Jack\x00MICBIAS\x00IN1L\x00Headphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-smarc-eval-carrier.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Headphone Jack\x00Headphone\x00Headphone Jack\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8mp-toradex-smarc-dev.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-toradex-smarc-dev.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPOUTL\x00Headphone Jack\x00HPOUTR\x00IN2L\x00Line In Jack\x00IN2R\x00Line In Jack\x00Microphone Jack\x00MICBIAS\x00IN1L\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mp-toradex-smarc-dev.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Speaker\x00Speaker External\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPOUTL\x00Headphone Jack\x00HPOUTR\x00IN2L\x00Line In Jack\x00IN2R\x00Line In Jack\x00Microphone Jack\x00MICBIAS\x00IN1L\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00LHP\x00Headphones\x00RHP\x00Speaker\x00LSPK\x00Speaker\x00RSPK\x00Line Out\x00AUXOUT1\x00Line Out\x00AUXOUT2\x00LAUX\x00Line In\x00RAUX\x00Line In\x00LMICP\x00Mic In\x00RMICP\x00Mic In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphones\x00Headphones\x00Line Out\x00Line Out\x00Speaker\x00Speaker\x00Microphone\x00Mic In\x00Line\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPOUTL\x00Headphone Jack\x00HPOUTR\x00IN2L\x00Line In Jack\x00IN2R\x00Line In Jack\x00Microphone Jack\x00MICBIAS\x00IN1L\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00LHP\x00Headphones\x00RHP\x00Speaker\x00LSPK\x00Speaker\x00RSPK\x00Line Out\x00AUXOUT1\x00Line Out\x00AUXOUT2\x00LAUX\x00Line In\x00RAUX\x00Line In\x00LMICP\x00Mic In\x00RMICP\x00Mic In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphones\x00Headphones\x00Line Out\x00Line Out\x00Speaker\x00Speaker\x00Microphone\x00Mic In\x00Line\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-pcie-ep.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1280.13-1288.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mq-evk.dtb: /sound-wm8524: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mq-evk.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,widgets: b'Line\x00Left Line Out Jack\x00Line\x00Right Line Out Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mq-evk.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,routing: b'Left Line Out Jack\x00LINEVOUTL\x00Right Line Out Jack\x00LINEVOUTR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1280.13-1288.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Builtin Microphone\x00Microphone\x00Headset Microphone\x00Headphone\x00Headphones\x00Speaker\x00Builtin Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dtb: sound (simple-audio-card): simple-audio-card,routing: b'MIC_IN\x00Mic Mux OUT\x00Mic Mux IN1\x00Headset Microphone\x00Mic Mux IN2\x00Builtin Microphone\x00Mic Mux OUT\x00Mic Bias\x00Headphones\x00HP_OUT\x00Builtin Speaker\x00Speaker Amp OUTR\x00Speaker Amp INR\x00LINE_OUT\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dtb: /sound-wwan: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1280.13-1288.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphones\x00Microphone\x00Headset Mic\x00Microphone\x00Digital Mic\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00HPOUTL\x00Headphones\x00HPOUTR\x00Speaker\x00SPKOUTL\x00Speaker\x00SPKOUTR\x00Headset Mic\x00MICBIAS\x00IN3R\x00Headset Mic\x00DMICDAT\x00Digital Mic\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dtb: /sound-wwan: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1280.13-1288.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r3.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r3.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphones\x00Microphone\x00Headset Mic\x00Microphone\x00Digital Mic\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r3.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00HPOUTL\x00Headphones\x00HPOUTR\x00Speaker\x00SPKOUTL\x00Speaker\x00SPKOUTR\x00Headset Mic\x00MICBIAS\x00IN3R\x00Headset Mic\x00DMICDAT\x00Digital Mic\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r3.dtb: /sound-wwan: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1280.13-1288.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r4.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r4.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphones\x00Microphone\x00Headset Mic\x00Microphone\x00Digital Mic\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r4.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00HPOUTL\x00Headphones\x00HPOUTR\x00Speaker\x00SPKOUTL\x00Speaker\x00SPKOUTR\x00Headset Mic\x00MICBIAS\x00IN3R\x00Headset Mic\x00DMICDAT\x00Digital Mic\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r4.dtb: /sound-wwan: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1247.27-1297.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1280.13-1288.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /sound1: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: sound1 (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack Front\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /sound2: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: sound2 (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack Back\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: sound2 (simple-audio-card): simple-audio-card,routing: b'Headphone Jack Back\x00HPA1 HPLEFT\x00Headphone Jack Back\x00HPA1 HPRIGHT\x00HPA1 LEFTIN\x00HPL\x00HPA1 RIGHTIN\x00HPR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1247.27-1297.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1280.13-1288.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack Front\x00Headphone\x00Headphone Jack Back\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack Front\x00HPA1 HPLEFT\x00Headphone Jack Front\x00HPA1 HPRIGHT\x00Headphone Jack Back\x00HPA2 HPLEFT\x00Headphone Jack Back\x00HPA2 HPRIGHT\x00HPA1 LEFTIN\x00HPL\x00HPA1 RIGHTIN\x00HPR\x00HPA2 LEFTIN\x00HPL\x00HPA2 RIGHTIN\x00HPR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: /sound-carrier: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: sound-carrier (simple-audio-card): simple-audio-card,routing: b'Headphones\x00LHP\x00Headphones\x00RHP\x00Speaker\x00LSPK\x00Speaker\x00RSPK\x00Line Out\x00AUXOUT1\x00Line Out\x00AUXOUT2\x00LAUX\x00Line In\x00RAUX\x00Line In\x00LMICP\x00Mic In\x00RMICP\x00Mic In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: sound-carrier (simple-audio-card): simple-audio-card,widgets: b'Headphones\x00Headphones\x00Line Out\x00Line Out\x00Speaker\x00Speaker\x00Microphone\x00Mic In\x00Line\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: /sound-carrier: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: sound-carrier (simple-audio-card): simple-audio-card,routing: b'Headphones\x00LHP\x00Headphones\x00RHP\x00Speaker\x00LSPK\x00Speaker\x00RSPK\x00Line Out\x00AUXOUT1\x00Line Out\x00AUXOUT2\x00LAUX\x00Line In\x00RAUX\x00Line In\x00LMICP\x00Mic In\x00RMICP\x00Mic In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: sound-carrier (simple-audio-card): simple-audio-card,widgets: b'Headphones\x00Headphones\x00Line Out\x00Line Out\x00Speaker\x00Speaker\x00Microphone\x00Mic In\x00Line\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: pressure-sensor@60 (fsl,mpl3115): 'vdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: pressure-sensor@60 (fsl,mpl3115): 'vddio-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
->> arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8qxp-colibri-aster.dtb: /sound-card: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8qxp-colibri-eval-v3.dtb: /sound-card: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8qxp-colibri-iris.dtb: /sound-card: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8qxp-colibri-iris-v2.dtb: /sound-card: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8qxp-mek.dtb: pressure-sensor@60 (fsl,mpl3115): 'vdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
-   arch/arm64/boot/dts/freescale/imx8qxp-mek.dtb: pressure-sensor@60 (fsl,mpl3115): 'vddio-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
->> arch/arm64/boot/dts/freescale/imx8qxp-mek.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8ulp-9x9-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8ulp-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dts:295.10-306.6: Warning (graph_child_address): /soc@0/bus@44000000/i2c@44340000/tcpc@50/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk.dts:480.10-491.6: Warning (graph_child_address): /soc@0/bus@42000000/i2c@42530000/tcpc@50/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk.dts:513.10-524.6: Warning (graph_child_address): /soc@0/bus@42000000/i2c@42530000/tcpc@51/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx93-11x11-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Line\x00Line In\x00Line\x00Line Out\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Line Out\x00LLOUT\x00Line Out\x00RLOUT\x00Speaker\x00SPOP\x00Speaker\x00SPOM\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx943-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:513.19-536.5: Warning (simple_bus_reg): /soc/funnel: missing or empty reg/ranges property
-   arch/arm64/boot/dts/freescale/imx95.dtsi:538.23-557.5: Warning (simple_bus_reg): /soc/funnel-sys: missing or empty reg/ranges property
->> arch/arm64/boot/dts/freescale/imx95-15x15-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:513.19-536.5: Warning (simple_bus_reg): /soc/funnel: missing or empty reg/ranges property
-   arch/arm64/boot/dts/freescale/imx95.dtsi:538.23-557.5: Warning (simple_bus_reg): /soc/funnel-sys: missing or empty reg/ranges property
->> arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:513.19-536.5: Warning (simple_bus_reg): /soc/funnel: missing or empty reg/ranges property
-   arch/arm64/boot/dts/freescale/imx95.dtsi:538.23-557.5: Warning (simple_bus_reg): /soc/funnel-sys: missing or empty reg/ranges property
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts:55.18-58.4: Warning (unique_unit_address_if_enabled): /memory@80000000: duplicate unit-address (also used in node /cm7-cpu@80000000)
->> arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-13bb.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Speaker\x00Speaker Ext\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-65bb.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Speaker\x00Speaker Ext\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-7777.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Speaker\x00Speaker Ext\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-85bb.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Speaker\x00Speaker Ext\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: usb@3100000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
-   arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: usb@3110000 (fsl,ls1028a-dwc3): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ls1028a-dwc3', 'snps,dwc3'] is too long
-   	'fsl,ls1028a-dwc3' is not one of ['fsl,ls1012a-dwc3', 'fsl,ls1043a-dwc3', 'fsl,ls1046a-dwc3', 'fsl,ls1088a-dwc3', 'fsl,ls208xa-dwc3', 'fsl,lx2160a-dwc3']
-   	'fsl,ls1028a-dwc3' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,ls1028a.yaml
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/fsl-ls1028a-qds-899b.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Speaker\x00Speaker Ext\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8dxl-evk-pcie-ep.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8mm-evk-pcie-ep.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-evk-pcie-ep.dtb: /sound-wm8524: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-evk-pcie-ep.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,widgets: b'Line\x00Left Line Out Jack\x00Line\x00Right Line Out Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mm-evk-pcie-ep.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,routing: b'Left Line Out Jack\x00LINEVOUTL\x00Right Line Out Jack\x00LINEVOUTR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mm-evkb-pcie-ep.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-evkb-pcie-ep.dtb: /sound-wm8524: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-evkb-pcie-ep.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,widgets: b'Line\x00Left Line Out Jack\x00Line\x00Right Line Out Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mm-evkb-pcie-ep.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,routing: b'Left Line Out Jack\x00LINEVOUTL\x00Right Line Out Jack\x00LINEVOUTR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: /sound-peb-av-10: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: sound-peb-av-10 (simple-audio-card): simple-audio-card,routing: b'Speaker\x00SPOP\x00Speaker\x00SPOM\x00Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: sound-peb-av-10 (simple-audio-card): simple-audio-card,widgets: b'Line\x00Line In\x00Speaker\x00Speaker\x00Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av101hdt-a10.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av101hdt-a10.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Speaker\x00Speaker External\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av123z7m-n17.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mp-tx8p-ml81-moduline-display-106-av123z7m-n17.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Speaker\x00Speaker External\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-dlvds-hdmi-channel0.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-lvds-hdmi.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-dlvds-hdmi-channel0.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-lvds-hdmi.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx8mq-evk-pcie1-ep.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mq-evk-pcie1-ep.dtb: /sound-wm8524: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx8mq-evk-pcie1-ep.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,widgets: b'Line\x00Left Line Out Jack\x00Line\x00Right Line Out Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx8mq-evk-pcie1-ep.dtb: sound-wm8524 (simple-audio-card): simple-audio-card,routing: b'Left Line Out Jack\x00LINEVOUTL\x00Right Line Out Jack\x00LINEVOUTR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: pressure-sensor@60 (fsl,mpl3115): 'vdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: pressure-sensor@60 (fsl,mpl3115): 'vddio-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: pressure-sensor@60 (fsl,mpl3115): 'vdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: pressure-sensor@60 (fsl,mpl3115): 'vddio-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: pressure-sensor@60 (fsl,mpl3115): 'vdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
-   arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: pressure-sensor@60 (fsl,mpl3115): 'vddio-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
->> arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-dual.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8qxp-mek-pcie-ep.dtb: pressure-sensor@60 (fsl,mpl3115): 'vdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
-   arch/arm64/boot/dts/freescale/imx8qxp-mek-pcie-ep.dtb: pressure-sensor@60 (fsl,mpl3115): 'vddio-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
->> arch/arm64/boot/dts/freescale/imx8qxp-mek-pcie-ep.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: pressure-sensor@60 (fsl,mpl3115): 'vdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
-   arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: pressure-sensor@60 (fsl,mpl3115): 'vddio-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/iio/pressure/fsl,mpl3115.yaml
->> arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx93-9x9-qsb-i3c.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-eval-01.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-eval-01.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Line\x00Line In\x00Line\x00Line Out\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-eval-01.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Line Out\x00LLOUT\x00Line Out\x00RLOUT\x00Speaker\x00SPOP\x00Speaker\x00SPOM\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-wlbt-05.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-wlbt-05.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Line\x00Line In\x00Line\x00Line Out\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-wlbt-05.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Line Out\x00LLOUT\x00Line Out\x00RLOUT\x00Speaker\x00SPOP\x00Speaker\x00SPOM\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie0-ep.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie0-ep.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie1-ep.dtb: /sound-bt-sco: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb: tda19988@70 (nxp,tda998x): Unevaluated properties are not allowed ('clocks' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/nxp,tda998x.yaml
->> arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb: tda19988@70 (nxp,tda998x): Unevaluated properties are not allowed ('clocks' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/nxp,tda998x.yaml
-   arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb: ethernet-phy@0 (ethernet-phy-id001c.c915): compatible: ['ethernet-phy-id001c.c915', 'ethernet-phy-ieee802.3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml
->> arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb: tda19988@70 (nxp,tda998x): Unevaluated properties are not allowed ('clocks' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/nxp,tda998x.yaml
-   arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb: ethernet-phy@0 (ethernet-phy-id001c.c915): compatible: ['ethernet-phy-id001c.c915', 'ethernet-phy-ieee802.3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml
->> arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb: tda19988@70 (nxp,tda998x): Unevaluated properties are not allowed ('clocks' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/nxp,tda998x.yaml
-   arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb: ethernet-phy@0 (ethernet-phy-id001c.c915): compatible: ['ethernet-phy-id001c.c915', 'ethernet-phy-ieee802.3-c22'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml
->> arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/renesas/r8a77990-ebisu.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:84.11-93.6: Warning (graph_child_address): /soc/video@10830000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:119.11-128.6: Warning (graph_child_address): /soc/csi2@10830400/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:169.9-178.5: Warning (graph_child_address): /soc/display@10890000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dtb: sound (simple-audio-card): simple-audio-card,routing: b'L2\x00Mic Bias\x00R2\x00Mic Bias\x00Mic Bias\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:827.12-835.7: Warning (graph_child_address): /soc/video@10830000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:837.12-846.7: Warning (graph_child_address): /soc/video@10830000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:872.12-881.7: Warning (graph_child_address): /soc/csi2@10830400/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: sound (simple-audio-card): simple-audio-card,routing: b'L2\x00Mic Bias\x00R2\x00Mic Bias\x00Mic Bias\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:827.12-835.7: Warning (graph_child_address): /soc/video@10830000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:837.12-846.7: Warning (graph_child_address): /soc/video@10830000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:872.12-881.7: Warning (graph_child_address): /soc/csi2@10830400/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dtb: sound (simple-audio-card): simple-audio-card,routing: b'L2\x00Mic Bias\x00R2\x00Mic Bias\x00Mic Bias\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/renesas/r9a07g054.dtsi:832.12-840.7: Warning (graph_child_address): /soc/video@10830000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r9a07g054.dtsi:842.12-851.7: Warning (graph_child_address): /soc/video@10830000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r9a07g054.dtsi:877.12-886.7: Warning (graph_child_address): /soc/csi2@10830400/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dtb: sound (simple-audio-card): simple-audio-card,routing: b'L2\x00Mic Bias\x00R2\x00Mic Bias\x00Mic Bias\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/renesas/r8a77990-ebisu-panel-aa104xd12.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-cru-csi-ov5645.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-cru-csi-ov5645.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-cru-csi-ov5645.dtb: sound (simple-audio-card): simple-audio-card,routing: b'L2\x00Mic Bias\x00R2\x00Mic Bias\x00Mic Bias\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-du-adv7513.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-du-adv7513.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-du-adv7513.dtb: sound (simple-audio-card): simple-audio-card,routing: b'L2\x00Mic Bias\x00R2\x00Mic Bias\x00Mic Bias\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-pmod.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-pmod.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-pmod.dtb: sound (simple-audio-card): simple-audio-card,routing: b'L2\x00Mic Bias\x00R2\x00Mic Bias\x00Mic Bias\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc-cru-csi-ov5645.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc-cru-csi-ov5645.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc-cru-csi-ov5645.dtb: sound (simple-audio-card): simple-audio-card,routing: b'L2\x00Mic Bias\x00R2\x00Mic Bias\x00Mic Bias\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g044l2-smarc-cru-csi-ov5645.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/renesas/r9a07g044l2-smarc-cru-csi-ov5645.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044l2-smarc-cru-csi-ov5645.dtb: sound (simple-audio-card): simple-audio-card,routing: b'L2\x00Mic Bias\x00R2\x00Mic Bias\x00Mic Bias\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g054l2-smarc-cru-csi-ov5645.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/renesas/r9a07g054l2-smarc-cru-csi-ov5645.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/renesas/r9a07g054l2-smarc-cru-csi-ov5645.dtb: sound (simple-audio-card): simple-audio-card,routing: b'L2\x00Mic Bias\x00R2\x00Mic Bias\x00Mic Bias\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc-pmod1-type-3a.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/px30-ringneck-haikou.dtb: /i2s0-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: ethernet@ff550000 (rockchip,rk3328-gmac): Unevaluated properties are not allowed ('assigned-clock-rate' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml
->> arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: /spdif-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/px30.dtsi:472.21-486.7: Warning (graph_child_address): /syscon@ff140000/lvds/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/px30.dtsi:1142.19-1156.6: Warning (graph_child_address): /dsi@ff450000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3326-anbernic-rg351m.dtb: /rk817-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3326-anbernic-rg351m.dtb: rk817-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3326-anbernic-rg351m.dtb: rk817-sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Speaker\x00SPKO\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/rockchip/px30.dtsi:472.21-486.7: Warning (graph_child_address): /syscon@ff140000/lvds/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/px30.dtsi:1142.19-1156.6: Warning (graph_child_address): /dsi@ff450000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3326-anbernic-rg351v.dtb: /rk817-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3326-anbernic-rg351v.dtb: rk817-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3326-anbernic-rg351v.dtb: rk817-sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Speaker\x00SPKO\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/rockchip/px30.dtsi:472.21-486.7: Warning (graph_child_address): /syscon@ff140000/lvds/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/px30.dtsi:1142.19-1156.6: Warning (graph_child_address): /dsi@ff450000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3326-gameforce-chi.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3326-gameforce-chi.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Internal Speakers\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3326-gameforce-chi.dtb: sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Internal Speakers\x00Speaker Amp OUTL\x00Internal Speakers\x00Speaker Amp OUTR\x00Speaker Amp INL\x00HPOL\x00Speaker Amp INR\x00HPOR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/rockchip/px30.dtsi:472.21-486.7: Warning (graph_child_address): /syscon@ff140000/lvds/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/px30.dtsi:1142.19-1156.6: Warning (graph_child_address): /dsi@ff450000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dtb: /rk817-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dtb: rk817-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dtb: rk817-sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Speaker\x00SPKO\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/rockchip/px30.dtsi:472.21-486.7: Warning (graph_child_address): /syscon@ff140000/lvds/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/px30.dtsi:1142.19-1156.6: Warning (graph_child_address): /dsi@ff450000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3326-odroid-go2-v11.dtb: /rk817-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3326-odroid-go2-v11.dtb: rk817-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3326-odroid-go2-v11.dtb: rk817-sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Speaker\x00SPKO\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/rockchip/px30.dtsi:472.21-486.7: Warning (graph_child_address): /syscon@ff140000/lvds/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/px30.dtsi:1142.19-1156.6: Warning (graph_child_address): /dsi@ff450000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3326-odroid-go3.dtb: /rk817-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3326-odroid-go3.dtb: rk817-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3326-odroid-go3.dtb: rk817-sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Speaker\x00SPKO\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm64/boot/dts/rockchip/rk3326-odroid-go3.dtb: mux-controller (gpio-mux): 'pinctrl' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mux/gpio-mux.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: /spdif-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3328-evb.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-evb.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3328-evb.dtb: ethernet@ff550000 (rockchip,rk3328-gmac): Unevaluated properties are not allowed ('assigned-clock-rate' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c-plus.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2c-plus.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s-plus.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s-plus.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus-lts.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-orangepi-r1-plus-lts.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: /spdif-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3328-rock-pi-e.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-rock-pi-e.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dts:575.9-585.5: Warning (graph_child_address): /i2c@ff3d0000/typec-portc@22/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: /i2c@ff110000/audio-codec@1a: failed to match any schema with compatible: ['realtek,rt5651']
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: typec-portc@22 (fcs,fusb302): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: usb2phy@e450 (rockchip,rk3399-usb2phy): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: /rt5651-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dtb: rt5651-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2176.20-2178.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3399-evb.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/rockchip/rk3399-ficus.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: rt5640@1c (realtek,rt5640): Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: usb2phy@e450 (rockchip,rk3399-usb2phy): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: spdif@ff870000 (rockchip,rk3399-spdif): Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/rockchip-spdif.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: /rt5640-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: rt5640-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: pcie@0,0: wifi@0,0:interrupts:0: [8, 8] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: usb@fe900000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
---
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: pcie@0,0: wifi@0,0:interrupts:0: [8, 8] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: usb@fe900000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
---
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: pcie@0,0: wifi@0,0:reg: [[0, 0, 0, 0, 0], [50331664, 0, 0, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: wifi@0,0 (qcom,ath10k): reg: [[0, 0, 0, 0, 0], [50331664, 0, 0, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: panel@0 (innolux,p097pfg): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/panel/innolux,p097pfg.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:1947.9-1956.5: Warning (graph_child_address): /isp0@ff910000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: panel@0 (innolux,p097pfg): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/panel/innolux,p097pfg.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:1947.9-1956.5: Warning (graph_child_address): /isp0@ff910000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: panel@0 (kingdisplay,kd097d04): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple-dsi.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-hugsun-x99.dtb: bluetooth (brcm,bcm43438-bt): clock-names: 'oneOf' conditional failed, one must be fixed:
-   	['ext_clock'] is too short
-   	'extclk' was expected
-   	'txco' was expected
-   	'lpo' was expected
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/brcm,bluetooth.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-hugsun-x99.dtb: typec-portc@22 (fcs,fusb302): 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-hugsun-x99.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/rockchip/rk3399-khadas-edge.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-captain.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/rockchip/rk3399-khadas-edge-v.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-kobol-helios64.dtb: pcie@f8000000 (rockchip,rk3399-pcie): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-kobol-helios64.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-leez-p710.dtb: bluetooth (brcm,bcm43438-bt): clock-names: 'oneOf' conditional failed, one must be fixed:
-   	['ext_clock'] is too short
-   	'extclk' was expected
-   	'txco' was expected
-   	'lpo' was expected
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/brcm,bluetooth.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-leez-p710.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4.dtb: typec-portc@22 (fcs,fusb302): 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4.dtb: typec-portc@22 (fcs,fusb302): 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:1356.21-1369.4: Warning (avoid_unnecessary_addr_size): /i2c@ff3d0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-m4b.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-nanopi-neo4.dtb: typec-portc@22 (fcs,fusb302): 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-neo4.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/rockchip/rk3399-nanopi-r4s-enterprise.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-orangepi.dtb: cm32181@10 (capella,cm32181): 'vdd-supply' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-orangepi.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-orangepi.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-orangepi.dtb: usb2phy@e450 (rockchip,rk3399-usb2phy): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-orangepi.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: spi@ff1d0000 (rockchip,rk3399-spi): Unevaluated properties are not allowed ('max-freq' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-rockchip.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: usb2phy@e450 (rockchip,rk3399-usb2phy): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: /es8316-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: es8316-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dtb: es8316-sound (simple-audio-card): simple-audio-card,routing: b'MIC1\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Speaker Amplifier INL\x00HPOL\x00Speaker Amplifier INR\x00HPOR\x00Speaker\x00Speaker Amplifier OUTL\x00Speaker\x00Speaker Amplifier OUTR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:1947.9-1956.5: Warning (graph_child_address): /isp0@ff910000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:1951.11-1955.6: Warning (graph_child_address): /isp0@ff910000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:1984.9-1993.5: Warning (graph_child_address): /isp1@ff920000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:1988.11-1992.6: Warning (graph_child_address): /isp1@ff920000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: pinctrl (rockchip,rk3399-pinctrl): gpios: {'bios-disable-override-hog-pin': {'rockchip,pins': [[3, 29, 0, 190]], 'phandle': 185}, 'q7-thermal-pin': {'rockchip,pins': [[0, 3, 0, 189]], 'phandle': 184}} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /i2s0-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtb: usb-typec@22 (fcs,fusb302): 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtb: /i2c@ff160000/regulator@66: failed to match any schema with compatible: ['mps,mp8859']
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtb: usb-typec@22 (fcs,fusb302): 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dtb: usb-typec@22 (fcs,fusb302): 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dtb: /i2c@ff160000/regulator@66: failed to match any schema with compatible: ['mps,mp8859']
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dtb: usb-typec@22 (fcs,fusb302): 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11 (everest,es8388): 'DVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11 (everest,es8388): 'AVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11 (everest,es8388): 'PVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11 (everest,es8388): 'HPVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: usb-typec@22 (fcs,fusb302): 'connector' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fusb302.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: /es8388-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388-sound (simple-audio-card): simple-audio-card,routing: b'LINPUT1\x00Mic Jack\x00Headphone Amp INL\x00LOUT2\x00Headphone Amp INR\x00ROUT2\x00Headphones\x00Headphone Amp OUTL\x00Headphones\x00Headphone Amp OUTR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dtb: pmic: vsel1-gpio: {'rockchip,pins': [[1, 17, 0, 194]], 'phandle': 138} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
-   arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dtb: pmic: vsel2-gpio: {'rockchip,pins': [[1, 14, 0, 194]], 'phandle': 139} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dtb: /rk809-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/rockchip/rk3399-rock960.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/rockchip/rk3399-sapphire.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /i2c@ff110000/rt5651@1a: failed to match any schema with compatible: ['realtek,rt5651']
->> arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: /rt5651-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb: rt5651-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/rockchip/rk3399pro-rock-pi-n10.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-d.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-d.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-d.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Internal Speakers\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-d.dtb: sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Internal Speakers\x00Speaker Amp OUTL\x00Internal Speakers\x00Speaker Amp OUTR\x00Speaker Amp INL\x00HPOL\x00Speaker Amp INR\x00HPOR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-s.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-s.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-s.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Internal Speakers\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-s.dtb: sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Internal Speakers\x00Speaker Amp OUTL\x00Internal Speakers\x00Speaker Amp OUTR\x00Speaker Amp INL\x00HPOL\x00Speaker Amp INR\x00HPOR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353p.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353p.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353p.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Internal Speakers\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353p.dtb: sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Internal Speakers\x00Speaker Amp OUTL\x00Internal Speakers\x00Speaker Amp OUTR\x00Speaker Amp INL\x00HPOL\x00Speaker Amp INR\x00HPOR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353ps.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353ps.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353ps.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Internal Speakers\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353ps.dtb: sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Internal Speakers\x00Speaker Amp OUTL\x00Internal Speakers\x00Speaker Amp OUTR\x00Speaker Amp INL\x00HPOL\x00Speaker Amp INR\x00HPOR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353v.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353v.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353v.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Internal Speakers\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353v.dtb: sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Internal Speakers\x00SPKO\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353vs.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353vs.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353vs.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Internal Speakers\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353vs.dtb: sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Internal Speakers\x00SPKO\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Internal Speakers\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dtb: sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Internal Speakers\x00Speaker Amp OUTL\x00Internal Speakers\x00Speaker Amp OUTR\x00Speaker Amp INL\x00HPOL\x00Speaker Amp INR\x00HPOR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-orangepi-3b-v1.1.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-orangepi-3b-v1.1.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-orangepi-3b-v2.1.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-orangepi-3b-v2.1.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3566-pinenote.dtsi:488.10-499.6: Warning (graph_child_address): /i2c@fe5c0000/tcpc@60/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: usb2phy@fe8a0000 (rockchip,rk3568-usb2phy): otg-port: 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphones\x00Speaker\x00Internal Speakers\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v0.1.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v0.1.dtb: /rk817-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v0.1.dtb: rk817-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Internal Speakers\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v0.1.dtb: rk817-sound (simple-audio-card): simple-audio-card,routing: b'MICR\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Internal Speakers\x00Speaker Amplifier OUTL\x00Internal Speakers\x00Speaker Amplifier OUTR\x00Speaker Amplifier INL\x00HPOL\x00Speaker Amplifier INR\x00HPOR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v2.0.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v2.0.dtb: /rk817-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v2.0.dtb: rk817-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Internal Speakers\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v2.0.dtb: rk817-sound (simple-audio-card): simple-audio-card,routing: b'MICR\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Internal Speakers\x00Speaker Amplifier OUTL\x00Internal Speakers\x00Speaker Amplifier OUTR\x00Speaker Amplifier INL\x00HPOL\x00Speaker Amplifier INR\x00HPOR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb10max3.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb10max3.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb10max3.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphones\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb20sx.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb20sx.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb20sx.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphones\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb30.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb30.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb30.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphones\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphones\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-x55.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-x55.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-x55.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphones\x00Speaker\x00Internal Speakers\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-x55.dtb: sound (simple-audio-card): simple-audio-card,routing: b'MICL\x00Mic Jack\x00Headphones\x00HPOL\x00Headphones\x00HPOR\x00Internal Speakers\x00Speaker Amp OUTL\x00Internal Speakers\x00Speaker Amp OUTR\x00Speaker Amp INL\x00HPOL\x00Speaker Amp INR\x00HPOR\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dtb: /rk817-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dtb: /spdif-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-quartz64-b.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-quartz64-b.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-radxa-cm3-io.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3566-radxa-cm3-io.dtb: wifi@1 (brcm,bcm43455-fmac): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['brcm,bcm43455-fmac'] is too short
-   	'brcm,bcm43455-fmac' is not one of ['brcm,bcm4329-fmac', 'pci14e4,43dc', 'pci14e4,4464', 'pci14e4,4488', 'pci14e4,4425', 'pci14e4,4433', 'pci14e4,4434', 'pci14e4,449d']
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-radxa-zero-3e.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-radxa-zero-3w.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-roc-pc.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-roc-pc.dtb: /rk809-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-rock-3c.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-soquartz-blade.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-soquartz-cm4.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-soquartz-model-a.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-box-demo.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-box-demo.dtb: /spdif-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-lckfb-tspi.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3566-lckfb-tspi.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-lubancat-1.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-nanopi-r3s.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: touchscreen@48 (ti,tsc2007): 'ti,rt-thr' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2007.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: /rk809-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: touchscreen@48 (ti,tsc2007): 'ti,rt-thr' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2007.yaml
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: /rk809-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-easepi-r1.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: /rk809-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-fastrhino-r66s.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-fastrhino-r68s.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-hinlink-h66k.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-hinlink-h68k.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-lubancat-2.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-mecsbc.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3568-mecsbc.dtb: /tas2562-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-nanopi-r5c.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-nanopi-r5s.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /rk809-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: rk809-sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphones\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: rk809-sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00HPOL\x00Headphones\x00HPOR\x00Speaker\x00SPKO\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3568-photonicat.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-radxa-e25.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-roc-pc.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: /rk809-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-rock-3b.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3568-rock-3b.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5.dtb: /pdm-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: /es8388-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: es8388-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Headphone Mic\x00Microphone\x00Mic Pads\x00Headphone\x00Headphone\x00Line Out\x00Line Out\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: es8388-sound (simple-audio-card): simple-audio-card,routing: b'Headphone\x00LOUT1\x00Headphone\x00ROUT1\x00Line Out\x00LOUT2\x00Line Out\x00ROUT2\x00RINPUT1\x00Headphone Mic\x00LINPUT2\x00Mic Pads\x00RINPUT2\x00Mic Pads\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dtb: es8388-sound (simple-audio-card): simple-audio-card,pin-switches: b'Headphone\x00Line Out\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: /es8388-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: es8388-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Headphone Mic\x00Microphone\x00Mic Pads\x00Headphone\x00Headphone\x00Line Out\x00Line Out\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: es8388-sound (simple-audio-card): simple-audio-card,routing: b'Headphone\x00LOUT1\x00Headphone\x00ROUT1\x00Line Out\x00LOUT2\x00Line Out\x00ROUT2\x00RINPUT1\x00Headphone Mic\x00LINPUT2\x00Mic Pads\x00RINPUT2\x00Mic Pads\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: es8388-sound (simple-audio-card): simple-audio-card,pin-switches: b'Headphone\x00Line Out\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3576-luckfox-omni3576.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00HPOL\x00Headphones\x00HPOR\x00IN1P\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts:1410.7-1418.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: analog-sound (simple-audio-card): simple-audio-card,pin-switches: b'Headphones\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: analog-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Microphone\x00Onboard Microphone\x00Headphone\x00Headphones\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-evb2-v10.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-evb2-v10.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dts:626.7-634.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: analog-sound (simple-audio-card): simple-audio-card,pin-switches: b'Headphones\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: analog-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Microphone\x00Onboard Microphone\x00Headphone\x00Headphones\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: analog-sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00HPOL\x00Headphones\x00HPOR\x00MIC1\x00Microphone Jack\x00Microphone Jack\x00micbias1\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dtb: /spdif-sound: failed to match any schema with compatible: ['simple-audio-card']
---
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts:1112.7-1119.4: Warning (avoid_unnecessary_addr_size): /usb@fc000000/port: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts:1127.7-1134.4: Warning (avoid_unnecessary_addr_size): /usb@fc400000/port: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts:1112.7-1119.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts:1127.7-1134.4: Warning (graph_child_address): /usb@fc400000/port: graph node has single child node 'endpoint', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588-mnt-reform2.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-mnt-reform2.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: sound (simple-audio-card): simple-audio-card,pin-switches: b'Headphones\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphones\x00Headphones\x00Speaker\x00Speaker\x00Microphone\x00Internal Microphone\x00Microphone\x00Headset Microphone\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00LHP\x00Headphones\x00RHP\x00Speaker\x00LSPK\x00Speaker\x00RSPK\x00LMICP\x00Headset Microphone\x00RMICP\x00Internal Microphone\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Microphone\x00Onboard Microphone\x00Headphone\x00Headphones\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Onboard Microphone\x00Microphone\x00Microphone Jack\x00Speaker\x00Speaker\x00Headphone\x00Headphones\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00LOUT1\x00Headphones\x00ROUT1\x00Speaker\x00LOUT2\x00Speaker\x00ROUT2\x00Headphones\x00Headphones Amp OUTL\x00Headphones\x00Headphones Amp OUTR\x00Headphones Amp INL\x00LOUT1\x00Headphones Amp INR\x00ROUT1\x00Speaker\x00Speaker Amp OUTL\x00Speaker\x00Speaker Amp OUTR\x00Speaker Amp INL\x00LOUT2\x00Speaker Amp INR\x00ROUT2\x00LINPUT1\x00Microphone Jack\x00RINPUT1\x00Microphone Jack\x00LINPUT2\x00Onboard Microphone\x00RINPUT2\x00Onboard Microphone\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-ultra.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-ultra.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-ultra.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-ultra.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Microphone\x00Onboard Microphone\x00Headphone\x00Headphones\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Onboard Microphone\x00Microphone\x00Microphone Jack\x00Speaker\x00Speaker\x00Headphone\x00Headphones\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00LOUT1\x00Headphones\x00ROUT1\x00Speaker\x00LOUT2\x00Speaker\x00ROUT2\x00Headphones\x00Headphones Amp OUTL\x00Headphones\x00Headphones Amp OUTR\x00Headphones Amp INL\x00LOUT1\x00Headphones Amp INR\x00ROUT1\x00Speaker\x00Speaker Amp OUTL\x00Speaker\x00Speaker Amp OUTR\x00Speaker Amp INL\x00LOUT2\x00Speaker Amp INR\x00ROUT2\x00LINPUT1\x00Microphone Jack\x00RINPUT1\x00Microphone Jack\x00LINPUT2\x00Onboard Microphone\x00RINPUT2\x00Onboard Microphone\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/rockchip/rk3588-roc-rt.dts:1060.7-1068.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3588-roc-rt.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-roc-rt.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-roc-rt.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-roc-rt.dtb: analog-sound (simple-audio-card): simple-audio-card,routing: b'Speaker\x00LOUT2\x00Speaker\x00ROUT2\x00Headphones Amplifier INL\x00LOUT1\x00Headphones Amplifier INR\x00ROUT1\x00Headphones\x00Headphones Amplifier OUTL\x00Headphones\x00Headphones Amplifier OUTR\x00LINPUT1\x00Microphone Jack\x00RINPUT1\x00Microphone Jack\x00LINPUT2\x00Onboard Microphone\x00RINPUT2\x00Onboard Microphone\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-roc-rt.dtb: analog-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Microphone\x00Onboard Microphone\x00Headphone\x00Headphones\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts:1240.7-1248.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5t.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /i2s3-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
-   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts:1172.7-1180.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: analog-sound (simple-audio-card): simple-audio-card,pin-switches: b'Headphones\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: analog-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Microphone\x00Onboard Microphone\x00Headphone\x00Headphones\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dts:1375.7-1382.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: analog-sound (simple-audio-card): simple-audio-card,pin-switches: b'Headphones\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: analog-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Microphone\x00Onboard Microphone\x00Headphone\x00Headphones\x00Speaker\x00Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: analog-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Microphone\x00Onboard Microphone\x00Headphone\x00Headphones\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: analog-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Microphone\x00Onboard Microphone\x00Headphone\x00Headphones\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-roc-pc.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588s-roc-pc.dtb: /analog-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588s-roc-pc.dtb: analog-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Microphone\x00Onboard Microphone\x00Headphone\x00Headphones\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/px30-ringneck-haikou-haikou-lvds-9904379.dtb: /i2s0-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/px30-ringneck-haikou-haikou-video-demo.dtb: /i2s0-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou-haikou-video-demo.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou-haikou-video-demo.dtb: pinctrl (rockchip,rk3399-pinctrl): gpios: {'bios-disable-override-hog-pin': {'rockchip,pins': [[3, 29, 0, 190]], 'phandle': 185}, 'q7-thermal-pin': {'rockchip,pins': [[0, 3, 0, 189]], 'phandle': 184}} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
->> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou-haikou-video-demo.dtb: /i2s0-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: panel@0 (jasonic,jt240mhqs-hwt-ek-e3): compatible: ['jasonic,jt240mhqs-hwt-ek-e3', 'sitronix,st7789v'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/panel/sitronix,st7789v.yaml
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: touchscreen@55 (sitronix,st1624): compatible:0: 'sitronix,st1624' is not one of ['sitronix,st1232', 'sitronix,st1633']
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/sitronix,st1232.yaml
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: touchscreen@55 (sitronix,st1624): compatible: ['sitronix,st1624', 'sitronix,st1633'] is too long
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/sitronix,st1232.yaml
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: touchscreen@55 (sitronix,st1624): Unevaluated properties are not allowed ('wakeup-source' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/sitronix,st1232.yaml
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: /i2c@fe5a0000/touchscreen@55: failed to match any schema with compatible: ['sitronix,st1624', 'sitronix,st1633']
->> arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: /pdm-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /hdmi-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: /es8388-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: es8388-sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Headphone Mic\x00Microphone\x00Mic Pads\x00Headphone\x00Headphone\x00Line Out\x00Line Out\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: es8388-sound (simple-audio-card): simple-audio-card,routing: b'Headphone\x00LOUT1\x00Headphone\x00ROUT1\x00Line Out\x00LOUT2\x00Line Out\x00ROUT2\x00RINPUT1\x00Headphone Mic\x00LINPUT2\x00Mic Pads\x00RINPUT2\x00Mic Pads\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5-v1.2-wifibt.dtb: es8388-sound (simple-audio-card): simple-audio-card,pin-switches: b'Headphone\x00Line Out\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-wifi.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-wifi.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-wifi.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-wifi.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-ethernet-switch.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar-ethernet-switch.dtb: switch@5f (microchip,ksz9896): pinctrl-names: ['default'] is too short
-   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-ethernet-switch.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-ep.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-srns.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
-   Traceback (most recent call last):
-   File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-   resource = registry._retrieve(uri)
-   File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-   return DRAFT201909.create_resource(self.schemas[uri])
-   ~~~~~~~~~~~~^^^^^
-   KeyError: 'http://devicetree.org/schemas/sound/simple-card.yaml'
---
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou-haikou-video-demo.dtb: /hdmi0-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou-haikou-video-demo.dtb: /hdmi1-sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou-haikou-video-demo.dtb: /i2s3-sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/tesla/fsd-evb.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/tesla/fsd-evb.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Line\x00Line Out\x00Line\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/tesla/fsd-evb.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Line Out\x00LLOUT\x00Line Out\x00RLOUT\x00MIC2L\x00Line In\x00MIC2R\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am625-beagleplay.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/ti/k3-am625-phyboard-lyra-rdk.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am625-phyboard-lyra-rdk.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphone Jack\x00Speaker\x00External Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am625-phyboard-lyra-rdk.dtb: sound (simple-audio-card): simple-audio-card,routing: b'MIC3R\x00Mic Jack\x00Mic Jack\x00Mic Bias\x00Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00External Speaker\x00SPOP\x00External Speaker\x00SPOM\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am625-sk.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am625-sk.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am625-sk.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dahlia.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dahlia.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPOUTL\x00Headphone Jack\x00HPOUTR\x00IN2L\x00Line In Jack\x00IN2R\x00Line In Jack\x00Microphone Jack\x00MICBIAS\x00IN1L\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dahlia.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dev.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dev.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00LHP\x00Headphones\x00RHP\x00Speaker\x00LSPK\x00Speaker\x00RSPK\x00Line Out\x00AUXOUT1\x00Line Out\x00AUXOUT2\x00LAUX\x00Line In\x00RAUX\x00Line In\x00LMICP\x00Mic In\x00RMICP\x00Mic In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am625-verdin-nonwifi-dev.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphones\x00Headphones\x00Line Out\x00Line Out\x00Speaker\x00Speaker\x00Microphone\x00Mic In\x00Line\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dahlia.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dahlia.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPOUTL\x00Headphone Jack\x00HPOUTR\x00IN2L\x00Line In Jack\x00IN2R\x00Line In Jack\x00Microphone Jack\x00MICBIAS\x00IN1L\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dahlia.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dev.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dev.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00LHP\x00Headphones\x00RHP\x00Speaker\x00LSPK\x00Speaker\x00RSPK\x00Line Out\x00AUXOUT1\x00Line Out\x00AUXOUT2\x00LAUX\x00Line In\x00RAUX\x00Line In\x00LMICP\x00Mic In\x00RMICP\x00Mic In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am625-verdin-wifi-dev.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphones\x00Headphones\x00Line Out\x00Line Out\x00Speaker\x00Speaker\x00Microphone\x00Mic In\x00Line\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am6254atl-sk.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am6254atl-sk.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am6254atl-sk.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62a7-phyboard-lyra-rdk.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62a7-phyboard-lyra-rdk.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Mic Jack\x00Headphone\x00Headphone Jack\x00Speaker\x00External Speaker\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62a7-phyboard-lyra-rdk.dtb: sound (simple-audio-card): simple-audio-card,routing: b'MIC3R\x00Mic Jack\x00Mic Jack\x00Mic Bias\x00Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00External Speaker\x00SPOP\x00External Speaker\x00SPOM\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62p5-sk.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62p5-verdin-nonwifi-dahlia.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62p5-verdin-nonwifi-dahlia.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPOUTL\x00Headphone Jack\x00HPOUTR\x00IN2L\x00Line In Jack\x00IN2R\x00Line In Jack\x00Microphone Jack\x00MICBIAS\x00IN1L\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62p5-verdin-nonwifi-dahlia.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62p5-verdin-nonwifi-dev.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62p5-verdin-nonwifi-dev.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00LHP\x00Headphones\x00RHP\x00Speaker\x00LSPK\x00Speaker\x00RSPK\x00Line Out\x00AUXOUT1\x00Line Out\x00AUXOUT2\x00LAUX\x00Line In\x00RAUX\x00Line In\x00LMICP\x00Mic In\x00RMICP\x00Mic In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62p5-verdin-nonwifi-dev.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphones\x00Headphones\x00Line Out\x00Line Out\x00Speaker\x00Speaker\x00Microphone\x00Mic In\x00Line\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62p5-verdin-wifi-dahlia.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62p5-verdin-wifi-dahlia.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPOUTL\x00Headphone Jack\x00HPOUTR\x00IN2L\x00Line In Jack\x00IN2R\x00Line In Jack\x00Microphone Jack\x00MICBIAS\x00IN1L\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62p5-verdin-wifi-dahlia.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Microphone\x00Microphone Jack\x00Headphone\x00Headphone Jack\x00Line\x00Line In Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62p5-verdin-wifi-dev.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62p5-verdin-wifi-dev.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphones\x00LHP\x00Headphones\x00RHP\x00Speaker\x00LSPK\x00Speaker\x00RSPK\x00Line Out\x00AUXOUT1\x00Line Out\x00AUXOUT2\x00LAUX\x00Line In\x00RAUX\x00Line In\x00LMICP\x00Mic In\x00RMICP\x00Mic In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62p5-verdin-wifi-dev.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphones\x00Headphones\x00Line Out\x00Line Out\x00Speaker\x00Speaker\x00Microphone\x00Mic In\x00Line\x00Line In\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-j722s-evm.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am625-beagleplay-csi2-ov5640.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/ti/k3-am625-beagleplay-csi2-tevi-ov5640.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
---
->> arch/arm64/boot/dts/ti/k3-am625-sk-csi2-imx219.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am625-sk-csi2-imx219.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am625-sk-csi2-imx219.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am625-sk-csi2-ov5640.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am625-sk-csi2-ov5640.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am625-sk-csi2-ov5640.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am625-sk-csi2-tevi-ov5640.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am625-sk-csi2-tevi-ov5640.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am625-sk-csi2-tevi-ov5640.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am625-sk-hdmi-audio.dtb: /sound-sii9022: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am625-sk-hdmi-audio.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am625-sk-hdmi-audio.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am625-sk-hdmi-audio.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62-lp-sk-hdmi-audio.dtb: /sound-sii9022: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62-lp-sk-hdmi-audio.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62-lp-sk-hdmi-audio.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62-lp-sk-hdmi-audio.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62a7-sk-csi2-imx219.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62a7-sk-csi2-imx219.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62a7-sk-csi2-imx219.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62a7-sk-csi2-ov5640.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62a7-sk-csi2-ov5640.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62a7-sk-csi2-ov5640.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62a7-sk-hdmi-audio.dtb: /sound-sii9022: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62a7-sk-hdmi-audio.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62a7-sk-hdmi-audio.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62a7-sk-hdmi-audio.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62p5-sk-csi2-imx219.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62p5-sk-csi2-imx219.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62p5-sk-csi2-imx219.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62p5-sk-csi2-ov5640.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62p5-sk-csi2-ov5640.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62p5-sk-csi2-ov5640.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-am62p5-sk-csi2-tevi-ov5640.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-am62p5-sk-csi2-tevi-ov5640.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-am62p5-sk-csi2-tevi-ov5640.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-tevi-ov5640.dtb: /sound: failed to match any schema with compatible: ['simple-audio-card']
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-tevi-ov5640.dtb: sound (simple-audio-card): simple-audio-card,widgets: b'Headphone\x00Headphone Jack\x00Line\x00Line In\x00Microphone\x00Microphone Jack\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-tevi-ov5640.dtb: sound (simple-audio-card): simple-audio-card,routing: b'Headphone Jack\x00HPLOUT\x00Headphone Jack\x00HPROUT\x00LINE1L\x00Line In\x00LINE1R\x00Line In\x00MIC3R\x00Microphone Jack\x00Microphone Jack\x00Mic Bias\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+cocci warnings: (new ones prefixed by >>)
+>> drivers/mmc/host/pxamci.c:657:9-16: ERROR: PTR_ERR applied after initialization to constant on line 656
+   drivers/mmc/host/pxamci.c:709:28-35: ERROR: PTR_ERR applied after initialization to constant on line 708
+
+vim +657 drivers/mmc/host/pxamci.c
+
+e6027b467cd5b11 drivers/mmc/host/pxamci.c Daniel Mack        2012-07-28  605  
+3ae5eaec1d2d9c0 drivers/mmc/pxamci.c      Russell King       2005-11-09  606  static int pxamci_probe(struct platform_device *pdev)
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  607  {
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  608  	struct mmc_host *mmc;
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  609  	struct pxamci_host *host = NULL;
+23f3ff72bc6f051 drivers/mmc/host/pxamci.c Daniel Mack        2018-07-03  610  	struct device *dev = &pdev->dev;
+6b3348f9e6eb35d drivers/mmc/host/pxamci.c Robert Jarzmik     2018-06-17  611  	struct resource *r;
+38a8dda908683c3 drivers/mmc/host/pxamci.c Daniel Mack        2018-07-03  612  	int ret, irq;
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  613  
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  614  	irq = platform_get_irq(pdev, 0);
+07e7716c746dd4e drivers/mmc/host/pxamci.c Robert Jarzmik     2016-02-08  615  	if (irq < 0)
+07e7716c746dd4e drivers/mmc/host/pxamci.c Robert Jarzmik     2016-02-08  616  		return irq;
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  617  
+58c40f3faf742c1 drivers/mmc/host/pxamci.c Binbin Zhou        2025-06-03  618  	mmc = devm_mmc_alloc_host(dev, sizeof(*host));
+58c40f3faf742c1 drivers/mmc/host/pxamci.c Binbin Zhou        2025-06-03  619  	if (!mmc)
+58c40f3faf742c1 drivers/mmc/host/pxamci.c Binbin Zhou        2025-06-03  620  		return -ENOMEM;
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  621  
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  622  	mmc->ops = &pxamci_ops;
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  623  
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  624  	/*
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  625  	 * We can do SG-DMA, but we don't because we never know how much
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  626  	 * data we successfully wrote to the card.
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  627  	 */
+a36274e0184193e drivers/mmc/host/pxamci.c Martin K. Petersen 2010-09-10  628  	mmc->max_segs = NR_SG;
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  629  
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  630  	/*
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  631  	 * Our hardware DMA can handle a maximum of one page per SG entry.
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  632  	 */
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  633  	mmc->max_seg_size = PAGE_SIZE;
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  634  
+fe4a3c7a20f14d8 drivers/mmc/pxamci.c      Pierre Ossman      2006-11-21  635  	/*
+fe2dc44eac1223a drivers/mmc/host/pxamci.c Nicolas Pitre      2007-09-24  636  	 * Block length register is only 10 bits before PXA27x.
+fe4a3c7a20f14d8 drivers/mmc/pxamci.c      Pierre Ossman      2006-11-21  637  	 */
+0ffcbfd54ea81ca drivers/mmc/host/pxamci.c Eric Miao          2008-09-11  638  	mmc->max_blk_size = cpu_is_pxa25x() ? 1023 : 2048;
+fe4a3c7a20f14d8 drivers/mmc/pxamci.c      Pierre Ossman      2006-11-21  639  
+55db890a838c7b3 drivers/mmc/pxamci.c      Pierre Ossman      2006-11-21  640  	/*
+55db890a838c7b3 drivers/mmc/pxamci.c      Pierre Ossman      2006-11-21  641  	 * Block count register is 16 bits.
+55db890a838c7b3 drivers/mmc/pxamci.c      Pierre Ossman      2006-11-21  642  	 */
+55db890a838c7b3 drivers/mmc/pxamci.c      Pierre Ossman      2006-11-21  643  	mmc->max_blk_count = 65535;
+55db890a838c7b3 drivers/mmc/pxamci.c      Pierre Ossman      2006-11-21  644  
+fa3a5115469c2d1 drivers/mmc/host/pxamci.c Daniel Mack        2018-06-30  645  	ret = pxamci_of_init(pdev, mmc);
+fa3a5115469c2d1 drivers/mmc/host/pxamci.c Daniel Mack        2018-06-30  646  	if (ret)
+58c40f3faf742c1 drivers/mmc/host/pxamci.c Binbin Zhou        2025-06-03  647  		return ret;
+fa3a5115469c2d1 drivers/mmc/host/pxamci.c Daniel Mack        2018-06-30  648  
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  649  	host = mmc_priv(mmc);
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  650  	host->mmc = mmc;
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  651  	host->pdata = pdev->dev.platform_data;
+d8cb70d10a2d4e6 drivers/mmc/host/pxamci.c Russell King       2007-10-26  652  	host->clkrt = CLKRT_OFF;
+ebebd9b0a1463d5 drivers/mmc/host/pxamci.c Russell King       2007-08-20  653  
+23f3ff72bc6f051 drivers/mmc/host/pxamci.c Daniel Mack        2018-07-03  654  	host->clk = devm_clk_get(dev, NULL);
+ebebd9b0a1463d5 drivers/mmc/host/pxamci.c Russell King       2007-08-20  655  	if (IS_ERR(host->clk)) {
+ebebd9b0a1463d5 drivers/mmc/host/pxamci.c Russell King       2007-08-20 @656  		host->clk = NULL;
+58c40f3faf742c1 drivers/mmc/host/pxamci.c Binbin Zhou        2025-06-03 @657  		return PTR_ERR(host->clk);
+ebebd9b0a1463d5 drivers/mmc/host/pxamci.c Russell King       2007-08-20  658  	}
+ebebd9b0a1463d5 drivers/mmc/host/pxamci.c Russell King       2007-08-20  659  
+ebebd9b0a1463d5 drivers/mmc/host/pxamci.c Russell King       2007-08-20  660  	host->clkrate = clk_get_rate(host->clk);
+ebebd9b0a1463d5 drivers/mmc/host/pxamci.c Russell King       2007-08-20  661  
+ebebd9b0a1463d5 drivers/mmc/host/pxamci.c Russell King       2007-08-20  662  	/*
+ebebd9b0a1463d5 drivers/mmc/host/pxamci.c Russell King       2007-08-20  663  	 * Calculate minimum clock rate, rounding up.
+ebebd9b0a1463d5 drivers/mmc/host/pxamci.c Russell King       2007-08-20  664  	 */
+ebebd9b0a1463d5 drivers/mmc/host/pxamci.c Russell King       2007-08-20  665  	mmc->f_min = (host->clkrate + 63) / 64;
+fa3f99384c20751 drivers/mmc/host/pxamci.c Haojian Zhuang     2009-08-31  666  	mmc->f_max = (mmc_has_26MHz()) ? 26000000 : host->clkrate;
+ebebd9b0a1463d5 drivers/mmc/host/pxamci.c Russell King       2007-08-20  667  
+61951fd6cb49593 drivers/mmc/host/pxamci.c Daniel Mack        2018-06-30  668  	ret = pxamci_init_ocr(host);
+61951fd6cb49593 drivers/mmc/host/pxamci.c Daniel Mack        2018-06-30  669  	if (ret < 0)
+58c40f3faf742c1 drivers/mmc/host/pxamci.c Binbin Zhou        2025-06-03  670  		return ret;
+8385f9cb7f12ef6 drivers/mmc/host/pxamci.c Daniel Ribeiro     2009-05-21  671  
+de3ee99b097dd51 drivers/mmc/host/pxamci.c Linus Walleij      2017-09-20  672  	mmc->caps = 0;
+5d3ad4e8a12e538 drivers/mmc/host/pxamci.c Bridge Wu          2007-09-25  673  	host->cmdat = 0;
+0ffcbfd54ea81ca drivers/mmc/host/pxamci.c Eric Miao          2008-09-11  674  	if (!cpu_is_pxa25x()) {
+5d3ad4e8a12e538 drivers/mmc/host/pxamci.c Bridge Wu          2007-09-25  675  		mmc->caps |= MMC_CAP_4_BIT_DATA | MMC_CAP_SDIO_IRQ;
+5d3ad4e8a12e538 drivers/mmc/host/pxamci.c Bridge Wu          2007-09-25  676  		host->cmdat |= CMDAT_SDIO_INT_EN;
+fa3f99384c20751 drivers/mmc/host/pxamci.c Haojian Zhuang     2009-08-31  677  		if (mmc_has_26MHz())
+64eb036af42d381 drivers/mmc/host/pxamci.c Bridge Wu          2007-12-13  678  			mmc->caps |= MMC_CAP_MMC_HIGHSPEED |
+64eb036af42d381 drivers/mmc/host/pxamci.c Bridge Wu          2007-12-13  679  				     MMC_CAP_SD_HIGHSPEED;
+5d3ad4e8a12e538 drivers/mmc/host/pxamci.c Bridge Wu          2007-09-25  680  	}
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  681  
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  682  	spin_lock_init(&host->lock);
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  683  	host->imask = MMC_I_MASK_ALL;
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  684  
+c89a869b67dc6c2 drivers/mmc/host/pxamci.c Yangtao Li         2023-07-04  685  	host->base = devm_platform_get_and_ioremap_resource(pdev, 0, &r);
+58c40f3faf742c1 drivers/mmc/host/pxamci.c Binbin Zhou        2025-06-03  686  	if (IS_ERR(host->base))
+58c40f3faf742c1 drivers/mmc/host/pxamci.c Binbin Zhou        2025-06-03  687  		return PTR_ERR(host->base);
+c89a869b67dc6c2 drivers/mmc/host/pxamci.c Yangtao Li         2023-07-04  688  	host->res = r;
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  689  
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  690  	/*
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  691  	 * Ensure that the host controller is shut down, and setup
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  692  	 * with our defaults.
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  693  	 */
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  694  	pxamci_stop_clock(host);
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  695  	writel(0, host->base + MMC_SPI);
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  696  	writel(64, host->base + MMC_RESTO);
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  697  	writel(host->imask, host->base + MMC_I_MASK);
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  698  
+23f3ff72bc6f051 drivers/mmc/host/pxamci.c Daniel Mack        2018-07-03  699  	ret = devm_request_irq(dev, irq, pxamci_irq, 0,
+07e7716c746dd4e drivers/mmc/host/pxamci.c Robert Jarzmik     2016-02-08  700  			       DRIVER_NAME, host);
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  701  	if (ret)
+58c40f3faf742c1 drivers/mmc/host/pxamci.c Binbin Zhou        2025-06-03  702  		return ret;
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  703  
+3ae5eaec1d2d9c0 drivers/mmc/pxamci.c      Russell King       2005-11-09  704  	platform_set_drvdata(pdev, mmc);
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  705  
+e1ebb456ae4cd86 drivers/mmc/host/pxamci.c Peter Ujfalusi     2019-12-17  706  	host->dma_chan_rx = dma_request_chan(dev, "rx");
+e1ebb456ae4cd86 drivers/mmc/host/pxamci.c Peter Ujfalusi     2019-12-17  707  	if (IS_ERR(host->dma_chan_rx)) {
+e1ebb456ae4cd86 drivers/mmc/host/pxamci.c Peter Ujfalusi     2019-12-17  708  		host->dma_chan_rx = NULL;
+58c40f3faf742c1 drivers/mmc/host/pxamci.c Binbin Zhou        2025-06-03  709  		return dev_err_probe(dev, PTR_ERR(host->dma_chan_rx),
+58c40f3faf742c1 drivers/mmc/host/pxamci.c Binbin Zhou        2025-06-03  710  				     "unable to request rx dma channel\n");
+6464b7140951193 drivers/mmc/host/pxamci.c Daniel Mack        2015-06-06  711  	}
+6464b7140951193 drivers/mmc/host/pxamci.c Daniel Mack        2015-06-06  712  
+e1ebb456ae4cd86 drivers/mmc/host/pxamci.c Peter Ujfalusi     2019-12-17  713  	host->dma_chan_tx = dma_request_chan(dev, "tx");
+e1ebb456ae4cd86 drivers/mmc/host/pxamci.c Peter Ujfalusi     2019-12-17  714  	if (IS_ERR(host->dma_chan_tx)) {
+23f3ff72bc6f051 drivers/mmc/host/pxamci.c Daniel Mack        2018-07-03  715  		dev_err(dev, "unable to request tx dma channel\n");
+e1ebb456ae4cd86 drivers/mmc/host/pxamci.c Peter Ujfalusi     2019-12-17  716  		ret = PTR_ERR(host->dma_chan_tx);
+e1ebb456ae4cd86 drivers/mmc/host/pxamci.c Peter Ujfalusi     2019-12-17  717  		host->dma_chan_tx = NULL;
+9a788c6b78802b4 drivers/mmc/host/pxamci.c Bridge Wu          2007-12-14  718  		goto out;
+9a788c6b78802b4 drivers/mmc/host/pxamci.c Bridge Wu          2007-12-14  719  	}
+9a788c6b78802b4 drivers/mmc/host/pxamci.c Bridge Wu          2007-12-14  720  
+b405db6c015fe8e drivers/mmc/host/pxamci.c Robert Jarzmik     2009-06-23  721  	if (host->pdata) {
+38a8dda908683c3 drivers/mmc/host/pxamci.c Daniel Mack        2018-07-03  722  		host->detect_delay_ms = host->pdata->detect_delay_ms;
+38a8dda908683c3 drivers/mmc/host/pxamci.c Daniel Mack        2018-07-03  723  
+f54005b508b9a9d drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  724  		host->power = devm_gpiod_get_optional(dev, "power", GPIOD_OUT_LOW);
+f54005b508b9a9d drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  725  		if (IS_ERR(host->power)) {
+d7b819b5d33869d drivers/mmc/host/pxamci.c Zhihao Cheng       2020-11-21  726  			ret = PTR_ERR(host->power);
+f54005b508b9a9d drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  727  			dev_err(dev, "Failed requesting gpio_power\n");
+b405db6c015fe8e drivers/mmc/host/pxamci.c Robert Jarzmik     2009-06-23  728  			goto out;
+b405db6c015fe8e drivers/mmc/host/pxamci.c Robert Jarzmik     2009-06-23  729  		}
+38a8dda908683c3 drivers/mmc/host/pxamci.c Daniel Mack        2018-07-03  730  
+c914a27c92f91fe drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  731  		/* FIXME: should we pass detection delay to debounce? */
+d0052ad90e712aa drivers/mmc/host/pxamci.c Michał Mirosław    2019-12-11  732  		ret = mmc_gpiod_request_cd(mmc, "cd", 0, false, 0);
+c914a27c92f91fe drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  733  		if (ret && ret != -ENOENT) {
+c914a27c92f91fe drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  734  			dev_err(dev, "Failed requesting gpio_cd\n");
+c914a27c92f91fe drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  735  			goto out;
+c914a27c92f91fe drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  736  		}
+c914a27c92f91fe drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  737  
+9073d10b0989735 drivers/mmc/host/pxamci.c Michał Mirosław    2019-12-11  738  		if (!host->pdata->gpio_card_ro_invert)
+9073d10b0989735 drivers/mmc/host/pxamci.c Michał Mirosław    2019-12-11  739  			mmc->caps2 |= MMC_CAP2_RO_ACTIVE_HIGH;
+9073d10b0989735 drivers/mmc/host/pxamci.c Michał Mirosław    2019-12-11  740  
+d0052ad90e712aa drivers/mmc/host/pxamci.c Michał Mirosław    2019-12-11  741  		ret = mmc_gpiod_request_ro(mmc, "wp", 0, 0);
+c914a27c92f91fe drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  742  		if (ret && ret != -ENOENT) {
+c914a27c92f91fe drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  743  			dev_err(dev, "Failed requesting gpio_ro\n");
+c914a27c92f91fe drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  744  			goto out;
+c914a27c92f91fe drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  745  		}
+9073d10b0989735 drivers/mmc/host/pxamci.c Michał Mirosław    2019-12-11  746  		if (!ret)
+c914a27c92f91fe drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  747  			host->use_ro_gpio = true;
+b405db6c015fe8e drivers/mmc/host/pxamci.c Robert Jarzmik     2009-06-23  748  
+38a8dda908683c3 drivers/mmc/host/pxamci.c Daniel Mack        2018-07-03  749  		if (host->pdata->init)
+23f3ff72bc6f051 drivers/mmc/host/pxamci.c Daniel Mack        2018-07-03  750  			host->pdata->init(dev, pxamci_detect_irq, mmc);
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  751  
+f54005b508b9a9d drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  752  		if (host->power && host->pdata->setpower)
+23f3ff72bc6f051 drivers/mmc/host/pxamci.c Daniel Mack        2018-07-03  753  			dev_warn(dev, "gpio_power and setpower() both defined\n");
+c914a27c92f91fe drivers/mmc/host/pxamci.c Linus Walleij      2018-12-02  754  		if (host->use_ro_gpio && host->pdata->get_ro)
+23f3ff72bc6f051 drivers/mmc/host/pxamci.c Daniel Mack        2018-07-03  755  			dev_warn(dev, "gpio_ro and get_ro() both defined\n");
+38a8dda908683c3 drivers/mmc/host/pxamci.c Daniel Mack        2018-07-03  756  	}
+b405db6c015fe8e drivers/mmc/host/pxamci.c Robert Jarzmik     2009-06-23  757  
+80e1ef3afb8bfbe drivers/mmc/host/pxamci.c Yang Yingliang     2022-11-01  758  	ret = mmc_add_host(mmc);
+80e1ef3afb8bfbe drivers/mmc/host/pxamci.c Yang Yingliang     2022-11-01  759  	if (ret) {
+80e1ef3afb8bfbe drivers/mmc/host/pxamci.c Yang Yingliang     2022-11-01  760  		if (host->pdata && host->pdata->exit)
+80e1ef3afb8bfbe drivers/mmc/host/pxamci.c Yang Yingliang     2022-11-01  761  			host->pdata->exit(dev, mmc);
+80e1ef3afb8bfbe drivers/mmc/host/pxamci.c Yang Yingliang     2022-11-01  762  		goto out;
+80e1ef3afb8bfbe drivers/mmc/host/pxamci.c Yang Yingliang     2022-11-01  763  	}
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  764  
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  765  	return 0;
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  766  
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  767  out:
+6464b7140951193 drivers/mmc/host/pxamci.c Daniel Mack        2015-06-06  768  	if (host->dma_chan_rx)
+6464b7140951193 drivers/mmc/host/pxamci.c Daniel Mack        2015-06-06  769  		dma_release_channel(host->dma_chan_rx);
+6464b7140951193 drivers/mmc/host/pxamci.c Daniel Mack        2015-06-06  770  	if (host->dma_chan_tx)
+6464b7140951193 drivers/mmc/host/pxamci.c Daniel Mack        2015-06-06  771  		dma_release_channel(host->dma_chan_tx);
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  772  	return ret;
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  773  }
+^1da177e4c3f415 drivers/mmc/pxamci.c      Linus Torvalds     2005-04-16  774  
+
+:::::: The code at line 657 was first introduced by commit
+:::::: 58c40f3faf742c11070d38571dfe4de33b914246 mmc: pxamci: Use devm_mmc_alloc_host() helper
+
+:::::: TO: Binbin Zhou <zhoubinbin@loongson.cn>
+:::::: CC: Ulf Hansson <ulf.hansson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
