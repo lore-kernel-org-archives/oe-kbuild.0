@@ -1,116 +1,147 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB37269D17
-	for <oe-kbuild@lists.linux.dev>; Sat,  1 Nov 2025 17:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974F51339A4
+	for <oe-kbuild@lists.linux.dev>; Sat,  1 Nov 2025 17:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762017163; cv=none; b=BcqvP0CWe9PvIMHni2D8O4BKtKckQhUbV4fzomLDEgtaKN2DxYdszM0iubfbkowrEBZNH/N/3DKUhMMYQ68zbUzKC32gvi8ks1GdTLULbEEH4ETBScN/HfiTTAC0P6UHDkhlz0fci3doswwaTlQBOy55/H4i79sO8jxgoFvOoaI=
+	t=1762017477; cv=none; b=VyQpjFT6Tlpp9/T+BesjDi6holyCVyMcPcRgrOVBhCiDQzx+g5nRAV80wMqBP8AaiL+L+rKG1NVYQWacLdlh+/v0dZNTbhI+xgfXxterAbD7/Qi9M9R/ykDqF325qnn0Bg1kIO2IPf20GLEZ+kWdXGCI70Ru6e9jIrISGeyDnlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762017163; c=relaxed/simple;
-	bh=DyINKo0/YhKkpS7w4FALHV7Q/e/QT/TgdizweYFgq2A=;
+	s=arc-20240116; t=1762017477; c=relaxed/simple;
+	bh=rqCBrAojpS73Pjzqi8Q5EjbqRNB8/OXs6gsWwFRAVVM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W38bdSbfr7X1HJjdcH9puslFOXZHOvjnZB5FTEVlmiRWU8WFAenBrH+GB9wFQBx7oZ4z2LI1HW8eI7+9BcsZPWVih51IFKUKHo2qd53FphlTWToD7SKb5ghlqylKWpHK1mhtT133C7WHqE9CgmK1bhgUTYOkm48kdjaOpumpyOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DKQgGa7a; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=URf/INR7kDIRlTRaKyDXK+UWSz0WFZ6zMbpjFsYSB/mYFnydHh508NHj2xRl2NgfZfj35tP4DyfWONBZEnWCqTjpPHWj5AMSfRE5Bd+WEBIDiL3D4X2K+in1wsu0M2tVFrE5v92dILsNl8O2byg64TDtFf3dLvAleq5nMsBGpBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ol4sK5Vz; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DKQgGa7a"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-429c8632fcbso329764f8f.1
-        for <oe-kbuild@lists.linux.dev>; Sat, 01 Nov 2025 10:12:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762017160; x=1762621960; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lvWsBmCdH58+zYk8ZHfU1SN4734pPMBJNCa1nK1eTy4=;
-        b=DKQgGa7aHkis15i2sCq3zz0CRR7Oi9Jjh94Q+flVrQmLVmxyBIznku5NEkv6QTXewe
-         trnTxCZ3AcclYUiEbU5l1QdOYgSbHRDSUaMNj2oS9A1RlWz0oLjBQNnkxISerPg4YZtB
-         ausYKXTZsqVmkwvtG5ElqgIITkhJTtCaAQ7w65GoiDNcktllQjQaCY7SY/SeEaY31jUn
-         TIMRMEyYNVo60s9Qev0UH2XAGuVopTi0AxlPWALNZHLgctR3vABhK5fbIPRD+U8h5DSN
-         XiyBlirREW6W0y9kVxPS/n6mdaJC8K3ZjGKcQT921M7XrXIB/7T5O4lhIM001qycSLX6
-         QwRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762017160; x=1762621960;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lvWsBmCdH58+zYk8ZHfU1SN4734pPMBJNCa1nK1eTy4=;
-        b=oCHP192mCNkD+nLsoMs0YNKi/vIZ7iXiPcSxLXAiFy6z4EhFaq9JHozkxbr5sqyES5
-         y9z7xXByBojWpv9R5l/ZSiuR3XWkaFSWyuSgLScVIADoc1ZfhpekztH8s/V5GgOjgrBZ
-         H4o5vAlvvm2oLXGgPBb/trp5Gm/XE9WfxqOf/daDzninh6/ftD/suhs4XANtmMdfHx11
-         /f45EseuI5oJ2b5rM9e6LkupHUtlBtxkjigkah4L/SFC85XI10P6VfhjdTQY6jCm52IB
-         A/qyaCAS2aIw2huVyvbVvstP/x9eEMWJCR7zLAqma0JWbY62oSnnqOZhg5EX6tgk02cH
-         qQ6A==
-X-Gm-Message-State: AOJu0Yx7Qid5r+CDR6ZfjZ24k7Jv9kd14TX0IJ69DmqG+/Q+/OIrMhfW
-	2AC8a1pMaDAorm8s83K6XushG01pLfjXbjqKZ+1tQUMXx1v/sIlD8JSboP2vxW3hxZF3aAlfbrh
-	uY8Gv
-X-Gm-Gg: ASbGnctQK05lWndmDplyOwCfEsGZkjqVPfz4v5bXx8sLWfxxVTZFA9YDfYQ3O7K37pn
-	Nz2iVLIK5vD6JmBeBrpoD60FRxazS9GyjFhG/BindNOtDyzRIUrABdGpe2//IvduuVKvdSTTXCU
-	qvFDtA0vwu+odjjiZIaKzjJHLj8u238GhgpVw8bCsFvL8b72DGYUBYVm2/y4/B6W1peNSFKn7WA
-	iTbCoaxWrL+nq6VU+oX4aJjmZAFp58usAR//auyIA8eSHC2zuQBPUJ21Q6hVllwIWSPhZj7OuEy
-	76mCLngGNKDalYwTI2n9S/3OmeI45fNlzQdDjj/KgCiMKPPghldBcW3hp3EJlqEBgScVSloP/V6
-	xpGDcN4if4Z7DUg/YQwd9EvXjXEHqnTi+S6t9KD5bMOOKzByJW1HjWYghhOP+PN0PqpZFEuB4H9
-	iwHPw/xTZqyfTzIuLF
-X-Google-Smtp-Source: AGHT+IFszts67rjuc+tAypA5oGV+Ow5/fn6H7/oMZqJjYkvzSnkBEM/NgpDq4zQAGXmVfaip/KC1yw==
-X-Received: by 2002:a05:6000:1841:b0:425:7e38:419f with SMTP id ffacd0b85a97d-429bd68876cmr6663084f8f.16.1762017159777;
-        Sat, 01 Nov 2025 10:12:39 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429c1125ad0sm10230829f8f.13.2025.11.01.10.12.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Nov 2025 10:12:39 -0700 (PDT)
-Date: Sat, 1 Nov 2025 20:12:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Viresh Kumar <viresh.kumar@linaro.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:virtio/msg-xen 9/17] net/vmw_vsock/af_vsock.c:2164
- vsock_connectible_sendmsg() warn: passing a valid pointer to 'PTR_ERR'
-Message-ID: <202511011754.hK4vDkZ2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ol4sK5Vz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762017475; x=1793553475;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rqCBrAojpS73Pjzqi8Q5EjbqRNB8/OXs6gsWwFRAVVM=;
+  b=Ol4sK5Vzobx0jtivYumFPeqVlPufHy67okmfNnyU3ucEMEvOxrXggECE
+   QJHXOFSaow5iX00Xtd+7U7c6sAgYtPD/1hJeP/13q08Ank6VbS48nJOLa
+   I3t80Jg00uZgkYfzAOv1qyIln/L+smK9l5bgQhYfmHZlb4vDpPyW+b91i
+   wL2RaYI/hl6OTTVE1iQ/YKhxkvC7KEP4VFzpQmtCZ+FTZ4+CkrVkR6AO/
+   A83n5WaOYytAt5DWakfCqIw8QQebevPA9tAVhG8GX3yEfw/rzEUPcyCcz
+   vBabThQsteHj9XY8MKridavCDzv2BLSwKOSAGTRU6Tx+9IxpFEtmxg0Rt
+   w==;
+X-CSE-ConnectionGUID: GpFXLiZ7QHm3KCIG97WWSA==
+X-CSE-MsgGUID: uYE4DjIdSlOE6y8CjfN4gA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="75606019"
+X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
+   d="scan'208";a="75606019"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 10:17:55 -0700
+X-CSE-ConnectionGUID: FmKMPLADQFywv1aUtYAGqw==
+X-CSE-MsgGUID: 8QsIAnEIRAOjE2MvKyfJZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
+   d="scan'208";a="186162333"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 01 Nov 2025 10:17:53 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vFFEd-000OWW-2H;
+	Sat, 01 Nov 2025 17:17:51 +0000
+Date: Sun, 2 Nov 2025 01:17:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 3/6] platform/x86: lenovo-wmi-{capdata,other}: Support
+ multiple Capability Data
+Message-ID: <202511020004.reA5tdqa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Message-ID: <20251101171235.CO-uBVtwCazvtzNlTsNmpltUfSWXK-AEwjCw7N7wRwM@z>
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-xen
-head:   cdc52122313863bdce40a9403e5ccf7ca915fc36
-commit: 49768ad0eb9d67ed71368ca9295185dd000674a1 [9/17] vsock: Add memory sharing support
-config: powerpc-randconfig-r071-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011754.hK4vDkZ2-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.5.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20251030193955.107148-4-i@rong.moe>
+References: <20251030193955.107148-4-i@rong.moe>
+TO: Rong Zhang <i@rong.moe>
+TO: Mark Pearson <mpearson-lenovo@squebb.ca>
+TO: "Derek J. Clark" <derekjohn.clark@gmail.com>
+TO: Armin Wolf <W_Armin@gmx.de>
+TO: Hans de Goede <hansg@kernel.org>
+TO: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+CC: Rong Zhang <i@rong.moe>
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: platform-driver-x86@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-hwmon@vger.kernel.org
+
+Hi Rong,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rong-Zhang/platform-x86-lenovo-wmi-helpers-convert-returned-4B-buffer-into-u32/20251031-034358
+base:   e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6
+patch link:    https://lore.kernel.org/r/20251030193955.107148-4-i%40rong.moe
+patch subject: [PATCH v2 3/6] platform/x86: lenovo-wmi-{capdata,other}: Support multiple Capability Data
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20251101 (https://download.01.org/0day-ci/archive/20251102/202511020004.reA5tdqa-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511011754.hK4vDkZ2-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202511020004.reA5tdqa-lkp@intel.com/
 
 smatch warnings:
-net/vmw_vsock/af_vsock.c:2164 vsock_connectible_sendmsg() warn: passing a valid pointer to 'PTR_ERR'
+drivers/platform/x86/lenovo/wmi-capdata.c:405 lwmi_cd_match_add_all() warn: variable dereferenced before IS_ERR check 'matchptr' (see line 395)
 
-vim +/PTR_ERR +2164 net/vmw_vsock/af_vsock.c
+vim +/matchptr +405 drivers/platform/x86/lenovo/wmi-capdata.c
 
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2156  					/* Token used previously ? */
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2157  					if (old)
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2158  						fput(old);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2159  				} else {
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2160  					/* The fd must belong to a dma-buf */
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2161  					struct dma_buf *dbuf = dma_buf_get(fd);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2162  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2163  					if (IS_ERR(dbuf) || !dbuf->ops->shmem) {
-49768ad0eb9d67 Viresh Kumar       2025-10-15 @2164  						err = PTR_ERR(dbuf);
-
-Imagine dbuf->ops->shmem is NULL, then dbug would be a valid pointer
-so we can't pass it to PTR_ERR().
-
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2165  						goto out;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2166  					}
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2167  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2168  					err = dbuf->ops->shmem(dbuf, &desc);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2169  					if (err)
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  381  
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  382  /**
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  383   * lwmi_cd_match_add_all() - Add all match rule for the master driver.
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  384   * @master: Pointer to the master device.
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  385   * @matchptr: Pointer to the returned component_match pointer.
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  386   *
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  387   * Adds all component matches to the list stored in @matchptr for the @master
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  388   * device. @matchptr must be initialized to NULL. This matches all available
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  389   * capdata types on the machine.
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  390   */
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  391  void lwmi_cd_match_add_all(struct device *master, struct component_match **matchptr)
+e1a5fe662b5931 drivers/platform/x86/lenovo/wmi-capdata01.c Derek J. Clark 2025-07-01  392  {
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  393  	int i;
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  394  
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31 @395  	if (WARN_ON(*matchptr))
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  396  		return;
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  397  
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  398  	for (i = 0; i < ARRAY_SIZE(lwmi_cd_table); i++) {
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  399  		if (!lwmi_cd_table[i].guid_string ||
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  400  		    !wmi_has_guid(lwmi_cd_table[i].guid_string))
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  401  			continue;
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  402  
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  403  		component_match_add(master, matchptr, lwmi_cd_match,
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  404  				    (void *)&lwmi_cd_table[i].type);
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31 @405  		if (IS_ERR(matchptr))
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  406  			return;
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  407  	}
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  408  
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  409  	if (!*matchptr) {
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  410  		pr_warn("a master driver requested capability data, but nothing is available\n");
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  411  		*matchptr = ERR_PTR(-ENODEV);
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  412  	}
+e1a5fe662b5931 drivers/platform/x86/lenovo/wmi-capdata01.c Derek J. Clark 2025-07-01  413  }
+6afc07a60a5d91 drivers/platform/x86/lenovo/wmi-capdata.c   Rong Zhang     2025-10-31  414  EXPORT_SYMBOL_NS_GPL(lwmi_cd_match_add_all, "LENOVO_WMI_CD");
+e1a5fe662b5931 drivers/platform/x86/lenovo/wmi-capdata01.c Derek J. Clark 2025-07-01  415  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
