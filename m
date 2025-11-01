@@ -1,184 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244532B2DA
-	for <oe-kbuild@lists.linux.dev>; Sat,  1 Nov 2025 21:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1FF5733E
+	for <oe-kbuild@lists.linux.dev>; Sat,  1 Nov 2025 23:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762032026; cv=none; b=Z45qsAeSIsIlUBELt6XBL9shueyiL09fjJfPA5HxOTjtafRixMNw6l5g69WzbCG9eZH46ECuYsfoAnYarn8aU1zlzBVvAyIJD6UsjLSYnZjjItwNWV7fbaz4sA6ACGSWwXp9lyBgPbcDt88bVNNCtOfBJ4L632xqLjtQBDlOhlY=
+	t=1762040961; cv=none; b=Cob19cf0Qpm3H/PS1n3dkCtWXMGt3yEKFgE/dw0iYEMN7VQkKfKptF7zT3kykzEu5KrMUP6RccJQDz9su8Yv6wC8Xfzi1Ocw6GNi3Ca/Sf3SO3Jj0hUKF+9jiYKNdA1hT+50YhDJJvYr4f0cQ+8Bn6l1QFTUBPXFr4TE9oZhpvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762032026; c=relaxed/simple;
-	bh=J4OynAphHOiji52OwmE1PGENo4eP330qJL/qc9cb0Bg=;
+	s=arc-20240116; t=1762040961; c=relaxed/simple;
+	bh=nYlX1rAku0DD1L50R3IjunTxnNFch5xBxdNvjsQQNNY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qP4Q1S6vwTPVolcc02zyUp8LwME9Eso6T/CS8DhQtNV9BH3VbjHJ+8EP2e/OcbDXF3BFXzmhedROK84cYVX2Q3Jcq/NvpxlWmudkK1CzA1rJH06L02Ii80IP5wD8q/D015PoQxgHNfKSm5n1L0zemxmxDwwbbTM6CmeDD6LBCpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lZShLD2Z; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=hU+ZBOgsf36wsqaiX7ZUFV1hOc1JGXBB7e6wlhga+7wgGS08x8N5SlweQFC/0LXYbZzVEq8ZcJx54xC6yzbDm5w7msU5PZ9/CXyCeEiB7FydOQ8KRhNAqW2LS1KzX4oN0ZXCrcSPA1kY2aVaePorTyFNG9wllO1rZoLsy1XR+lI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZK5kjF/J; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lZShLD2Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZK5kjF/J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762032024; x=1793568024;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J4OynAphHOiji52OwmE1PGENo4eP330qJL/qc9cb0Bg=;
-  b=lZShLD2ZejAsdxDcj2j6dLKo9Py1AyGt1Gl4Fp0kP+f32y/CNyxU21pO
-   iGyIV/R2WPqlZcE755v7IFmz4K/Zne/AqsfZeiBTvm1/KlJcu+jrLh3pY
-   xKCuWG8X2BO2hJ1Lb9qz1Fafp4/zAZxEboYoXVzD8LyYIyMnJVPNAhIjb
-   V8YDamHYXYgxuOLdQRjkk4FjUK/OA7l63ba4EUYGnrAX9fZzfCHAYUF2p
-   wncPUDNmV5PP978CdtZyMItUphJwjT2MHlyMY5gf3Uhy/SPf/AyTExGhW
-   c1uJEg7FWEwlHYEsSPDale/tCxvqxM56+jhA6seu1pU2YdJ+Y2fm2QK28
+  t=1762040959; x=1793576959;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nYlX1rAku0DD1L50R3IjunTxnNFch5xBxdNvjsQQNNY=;
+  b=ZK5kjF/JKDpTzDtEkzWCUy6IqORd9FCLeuMX6ywSdUEV/836P/4M2u4T
+   hfe4Ms5d5beXFUKjx68mj8v8XTKuskCXbD9ee0P6rhwn96Hk+GYUvbR2N
+   oFa+bEFSSiSlbJvMYuT/XitbBUWuXQq13/2VK/Vn4zIkG8JYEpfeuw5I9
+   JvVe3tihYokLWqoYFw+FvpXlv725opH88T4oK8gWlHk08xCxVAstoPTdG
+   5cC5i5T6gudguA8Ierh25zTh7u6R4kvoQEVMydtV1bh0kglZh6k6Qm4aM
+   yubOMss4Id5aZDtHfFsZDC/XVeWawikoVFTOEvAHcUkZnX5VbxYzpNglK
    Q==;
-X-CSE-ConnectionGUID: MjU/+wp8RyCPBfHy4nMbJQ==
-X-CSE-MsgGUID: gOWvjevASt6Nxl5auAAwLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64066419"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64066419"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 14:20:23 -0700
-X-CSE-ConnectionGUID: 8Sj+XtR5SAm6TD4SpJzO1A==
-X-CSE-MsgGUID: 1R4ZFXuiSTCEX1we/qZmug==
+X-CSE-ConnectionGUID: GiNPxJMFTjC5XLYOkln0zw==
+X-CSE-MsgGUID: szl0dRyZRdyyEGyiOClWxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="64314417"
+X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
+   d="scan'208";a="64314417"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 16:49:19 -0700
+X-CSE-ConnectionGUID: uJ/56S/xRrmrqa562Fgilw==
+X-CSE-MsgGUID: Uh0dHmjQRqOG/1QC0tFeIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
-   d="scan'208";a="186476591"
+   d="scan'208";a="186682315"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 01 Nov 2025 14:20:23 -0700
+  by orviesa008.jf.intel.com with ESMTP; 01 Nov 2025 16:49:18 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFJ1C-000Oh6-1Q;
-	Sat, 01 Nov 2025 21:20:16 +0000
-Date: Sun, 2 Nov 2025 05:19:46 +0800
+	id 1vFLLP-000OnQ-29;
+	Sat, 01 Nov 2025 23:49:15 +0000
+Date: Sun, 2 Nov 2025 07:48:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v3] w1: therm: Fix off-by-one buffer overflow in
- alarms_store
-Message-ID: <202511020405.22bJ76JV-lkp@intel.com>
+Subject: Re: [PATCH 1/4] cgroup: Rename cgroup lifecycle hooks to
+ cgroup_task_*()
+Message-ID: <202511020700.T6Khwk6p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251030155614.447905-1-thorsten.blum@linux.dev>
-References: <20251030155614.447905-1-thorsten.blum@linux.dev>
-TO: Thorsten Blum <thorsten.blum@linux.dev>
-TO: David Laight <david.laight.linux@gmail.com>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Huisong Li <lihuisong@huawei.com>
-TO: Akira Shimahara <akira215corp@gmail.com>
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Thorsten Blum <thorsten.blum@linux.dev>
-CC: stable@vger.kernel.org
+In-Reply-To: <20251029061918.4179554-2-tj@kernel.org>
+References: <20251029061918.4179554-2-tj@kernel.org>
+TO: Tejun Heo <tj@kernel.org>
+TO: David Vernet <void@manifault.com>
+TO: Andrea Righi <arighi@nvidia.com>
+TO: Changwoo Min <changwoo@igalia.com>
+CC: Dan Schatzberg <dschatzberg@meta.com>
+CC: Peter Zijlstra <peterz@infradead.org>
 CC: linux-kernel@vger.kernel.org
+CC: cgroups@vger.kernel.org
+CC: sched-ext@lists.linux.dev
+CC: Tejun Heo <tj@kernel.org>
 
-Hi Thorsten,
+Hi Tejun,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on krzk-w1/for-next]
-[also build test WARNING on linus/master v6.18-rc3 next-20251031]
+[auto build test WARNING on tip/sched/core]
+[also build test WARNING on tj-cgroup/for-next kees/for-next/execve akpm-mm/mm-everything linus/master v6.18-rc3 next-20251031]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thorsten-Blum/w1-therm-Fix-off-by-one-buffer-overflow-in-alarms_store/20251031-000306
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-w1.git for-next
-patch link:    https://lore.kernel.org/r/20251030155614.447905-1-thorsten.blum%40linux.dev
-patch subject: [PATCH v3] w1: therm: Fix off-by-one buffer overflow in alarms_store
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20251101 (https://download.01.org/0day-ci/archive/20251102/202511020405.22bJ76JV-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tejun-Heo/cgroup-Move-dying_tasks-cleanup-from-cgroup_task_release-to-cgroup_task_free/20251029-151950
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20251029061918.4179554-2-tj%40kernel.org
+patch subject: [PATCH 1/4] cgroup: Rename cgroup lifecycle hooks to cgroup_task_*()
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-141-20251101 (https://download.01.org/0day-ci/archive/20251102/202511020700.T6Khwk6p-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511020405.22bJ76JV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511020700.T6Khwk6p-lkp@intel.com/
 
-New smatch warnings:
-drivers/w1/slaves/w1_therm.c:1846 alarms_store() warn: impossible condition '(temp < (-((~0 >> 1)) - 1)) => (s32min-s32max < s32min)'
-drivers/w1/slaves/w1_therm.c:1846 alarms_store() warn: impossible condition '(temp > ((~0 >> 1))) => (s32min-s32max > s32max)'
+smatch warnings:
+kernel/cgroup/cgroup.c:7009 cgroup_task_exit() warn: iterator 'i' not incremented
 
-Old smatch warnings:
-drivers/w1/slaves/w1_therm.c:1856 alarms_store() warn: impossible condition '(temp < (-((~0 >> 1)) - 1)) => (s32min-s32max < s32min)'
-drivers/w1/slaves/w1_therm.c:1856 alarms_store() warn: impossible condition '(temp > ((~0 >> 1))) => (s32min-s32max > s32max)'
+vim +/i +7009 kernel/cgroup/cgroup.c
 
-vim +1846 drivers/w1/slaves/w1_therm.c
-
-e2c94d6f572079 Akira Shimahara 2020-05-11  1832  
-e2c94d6f572079 Akira Shimahara 2020-05-11  1833  static ssize_t alarms_store(struct device *device,
-e2c94d6f572079 Akira Shimahara 2020-05-11  1834  	struct device_attribute *attr, const char *buf, size_t size)
-e2c94d6f572079 Akira Shimahara 2020-05-11  1835  {
-e2c94d6f572079 Akira Shimahara 2020-05-11  1836  	struct w1_slave *sl = dev_to_w1_slave(device);
-e2c94d6f572079 Akira Shimahara 2020-05-11  1837  	struct therm_info info;
-e2c94d6f572079 Akira Shimahara 2020-05-11  1838  	u8 new_config_register[3];	/* array of data to be written */
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1839  	long temp;
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1840  	int ret;
-e233897b1f7a85 Yang Guang      2021-12-21  1841  	s8 tl, th;	/* 1 byte per value + temp ring order */
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1842  	const char *p = buf;
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1843  	char *endp;
-e2c94d6f572079 Akira Shimahara 2020-05-11  1844  
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1845  	temp = simple_strtol(p, &endp, 10);
-fb05eaeed51f89 Thorsten Blum   2025-10-30 @1846  	if (temp < INT_MIN || temp > INT_MAX || p == endp || *endp != ' ') {
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1847  		dev_info(device, "%s: error parsing args %d\n",
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1848  			 __func__, -EINVAL);
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1849  		goto err;
-e2c94d6f572079 Akira Shimahara 2020-05-11  1850  	}
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1851  	/* Cast to short to eliminate out of range values */
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1852  	tl = int_to_short((int)temp);
-e2c94d6f572079 Akira Shimahara 2020-05-11  1853  
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1854  	p = endp + 1;
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1855  	temp = simple_strtol(p, &endp, 10);
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1856  	if (temp < INT_MIN || temp > INT_MAX || p == endp) {
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1857  		dev_info(device, "%s: error parsing args %d\n",
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1858  			 __func__, -EINVAL);
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1859  		goto err;
-e2c94d6f572079 Akira Shimahara 2020-05-11  1860  	}
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1861  	/* Cast to short to eliminate out of range values */
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1862  	th = int_to_short((int)temp);
-e2c94d6f572079 Akira Shimahara 2020-05-11  1863  
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1864  	/* Reorder if required */
-e233897b1f7a85 Yang Guang      2021-12-21  1865  	if (tl > th)
-e233897b1f7a85 Yang Guang      2021-12-21  1866  		swap(tl, th);
-e2c94d6f572079 Akira Shimahara 2020-05-11  1867  
-e2c94d6f572079 Akira Shimahara 2020-05-11  1868  	/*
-e2c94d6f572079 Akira Shimahara 2020-05-11  1869  	 * Read the scratchpad to change only the required bits
-e2c94d6f572079 Akira Shimahara 2020-05-11  1870  	 * (th : byte 2 - tl: byte 3)
-e2c94d6f572079 Akira Shimahara 2020-05-11  1871  	 */
-e2c94d6f572079 Akira Shimahara 2020-05-11  1872  	ret = read_scratchpad(sl, &info);
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1873  	if (ret) {
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1874  		dev_info(device, "%s: error reading from the slave device %d\n",
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1875  			 __func__, ret);
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1876  		goto err;
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1877  	}
-e2c94d6f572079 Akira Shimahara 2020-05-11  1878  	new_config_register[0] = th;		/* Byte 2 */
-e2c94d6f572079 Akira Shimahara 2020-05-11  1879  	new_config_register[1] = tl;		/* Byte 3 */
-e2c94d6f572079 Akira Shimahara 2020-05-11  1880  	new_config_register[2] = info.rom[4];	/* Byte 4 */
-e2c94d6f572079 Akira Shimahara 2020-05-11  1881  
-e2c94d6f572079 Akira Shimahara 2020-05-11  1882  	/* Write data in the device RAM */
-e2c94d6f572079 Akira Shimahara 2020-05-11  1883  	if (!SLAVE_SPECIFIC_FUNC(sl)) {
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1884  		dev_info(device, "%s: Device not supported by the driver %d\n",
-e2c94d6f572079 Akira Shimahara 2020-05-11  1885  			 __func__, -ENODEV);
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1886  		goto err;
-e2c94d6f572079 Akira Shimahara 2020-05-11  1887  	}
-e2c94d6f572079 Akira Shimahara 2020-05-11  1888  
-e2c94d6f572079 Akira Shimahara 2020-05-11  1889  	ret = SLAVE_SPECIFIC_FUNC(sl)->write_data(sl, new_config_register);
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1890  	if (ret) {
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1891  		dev_info(device, "%s: error writing to the slave device %d\n",
-e2c94d6f572079 Akira Shimahara 2020-05-11  1892  			__func__, ret);
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1893  		goto err;
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1894  	}
-e2c94d6f572079 Akira Shimahara 2020-05-11  1895  
-fb05eaeed51f89 Thorsten Blum   2025-10-30  1896  err:
-e2c94d6f572079 Akira Shimahara 2020-05-11  1897  	return size;
-e2c94d6f572079 Akira Shimahara 2020-05-11  1898  }
-e2c94d6f572079 Akira Shimahara 2020-05-11  1899  
+5edee61edeaaeb kernel/cgroup.c        Tejun Heo                  2012-10-16  6974  
+b4f48b6363c81c kernel/cgroup.c        Paul Menage                2007-10-18  6975  /**
+e0a9a9a24088de kernel/cgroup/cgroup.c Tejun Heo                  2025-10-28  6976   * cgroup_task_exit - detach cgroup from exiting task
+b4f48b6363c81c kernel/cgroup.c        Paul Menage                2007-10-18  6977   * @tsk: pointer to task_struct of exiting process
+b4f48b6363c81c kernel/cgroup.c        Paul Menage                2007-10-18  6978   *
+e7c7b1d85dc164 kernel/cgroup/cgroup.c Michal Koutný              2019-10-04  6979   * Description: Detach cgroup from @tsk.
+b4f48b6363c81c kernel/cgroup.c        Paul Menage                2007-10-18  6980   *
+b4f48b6363c81c kernel/cgroup.c        Paul Menage                2007-10-18  6981   */
+e0a9a9a24088de kernel/cgroup/cgroup.c Tejun Heo                  2025-10-28  6982  void cgroup_task_exit(struct task_struct *tsk)
+b4f48b6363c81c kernel/cgroup.c        Paul Menage                2007-10-18  6983  {
+30159ec7a9db7f kernel/cgroup.c        Tejun Heo                  2013-06-25  6984  	struct cgroup_subsys *ss;
+5abb8855734fd7 kernel/cgroup.c        Tejun Heo                  2013-06-12  6985  	struct css_set *cset;
+d41d5a01631af8 kernel/cgroup.c        Peter Zijlstra             2011-02-07  6986  	int i;
+817929ec274bcf kernel/cgroup.c        Paul Menage                2007-10-18  6987  
+82d6489d0fed2e kernel/cgroup.c        Daniel Bristot de Oliveira 2016-06-22  6988  	spin_lock_irq(&css_set_lock);
+5153faac18d293 kernel/cgroup/cgroup.c Tejun Heo                  2019-10-24  6989  
+5153faac18d293 kernel/cgroup/cgroup.c Tejun Heo                  2019-10-24  6990  	WARN_ON_ONCE(list_empty(&tsk->cg_list));
+5153faac18d293 kernel/cgroup/cgroup.c Tejun Heo                  2019-10-24  6991  	cset = task_css_set(tsk);
+f6d7d049c17a29 kernel/cgroup.c        Tejun Heo                  2015-10-15  6992  	css_set_move_task(tsk, cset, NULL, false);
+73a7242a06ff99 kernel/cgroup/cgroup.c Waiman Long                2017-06-13  6993  	cset->nr_tasks--;
+6fe960147e08e9 kernel/cgroup/cgroup.c Oleg Nesterov              2024-06-17  6994  	/* matches the signal->live check in css_task_iter_advance() */
+6fe960147e08e9 kernel/cgroup/cgroup.c Oleg Nesterov              2024-06-17  6995  	if (thread_group_leader(tsk) && atomic_read(&tsk->signal->live))
+6fe960147e08e9 kernel/cgroup/cgroup.c Oleg Nesterov              2024-06-17  6996  		list_add_tail(&tsk->cg_list, &cset->dying_tasks);
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin             2019-04-19  6997  
+6c24849f5515e4 kernel/cgroup/cgroup.c Juri Lelli                 2023-05-08  6998  	if (dl_task(tsk))
+6c24849f5515e4 kernel/cgroup/cgroup.c Juri Lelli                 2023-05-08  6999  		dec_dl_tasks_cs(tsk);
+6c24849f5515e4 kernel/cgroup/cgroup.c Juri Lelli                 2023-05-08  7000  
+96b9c592def5d7 kernel/cgroup/cgroup.c Roman Gushchin             2019-04-26  7001  	WARN_ON_ONCE(cgroup_task_frozen(tsk));
+f4f809f66b7545 kernel/cgroup/cgroup.c Roman Gushchin             2021-05-10  7002  	if (unlikely(!(tsk->flags & PF_KTHREAD) &&
+f4f809f66b7545 kernel/cgroup/cgroup.c Roman Gushchin             2021-05-10  7003  		     test_bit(CGRP_FREEZE, &task_dfl_cgroup(tsk)->flags)))
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin             2019-04-19  7004  		cgroup_update_frozen(task_dfl_cgroup(tsk));
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin             2019-04-19  7005  
+82d6489d0fed2e kernel/cgroup.c        Daniel Bristot de Oliveira 2016-06-22  7006  	spin_unlock_irq(&css_set_lock);
+817929ec274bcf kernel/cgroup.c        Paul Menage                2007-10-18  7007  
+3ed80a62bf959d kernel/cgroup.c        Tejun Heo                  2014-02-08  7008  	/* see cgroup_post_fork() for details */
+b4e0eeafba61b1 kernel/cgroup.c        Tejun Heo                  2016-02-22 @7009  	do_each_subsys_mask(ss, i, have_exit_callback) {
+2e91fa7f6d451e kernel/cgroup.c        Tejun Heo                  2015-10-15  7010  		ss->exit(tsk);
+b4e0eeafba61b1 kernel/cgroup.c        Tejun Heo                  2016-02-22  7011  	} while_each_subsys_mask();
+d41d5a01631af8 kernel/cgroup.c        Peter Zijlstra             2011-02-07  7012  }
+d41d5a01631af8 kernel/cgroup.c        Peter Zijlstra             2011-02-07  7013  
 
 -- 
 0-DAY CI Kernel Test Service
