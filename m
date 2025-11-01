@@ -1,58 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF65228689F
-	for <oe-kbuild@lists.linux.dev>; Sat,  1 Nov 2025 09:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2B6244668
+	for <oe-kbuild@lists.linux.dev>; Sat,  1 Nov 2025 17:10:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761988892; cv=none; b=s0obcL6p5W8kZwMYH96ssT7rQqgzRL1h8qAWIndcb1FjzDwZqYuqMQIyfscgJQQSXa4K+6YTB6D9BuOja68ePMh+ifFq6uzIK3s/NnknJFNoIBRd7KatHO3Yw5Rr8pwVjxTVMD5yqfL1mNWRuyf1TR/rdo0JIDtN9ZQvHS38fJM=
+	t=1762017041; cv=none; b=Ld6zrtAM+AUGXNX6N46O5V6roj+omCCaozeDYURsD2VBFDvlfsBLOkDEFN8lsqxpJoB3SKzQMGSKfuHFOqe2UDF3l0WG8JIVsIx9Ty19g8tdt1kQ8KF17T6R+8L+JbTx2UWxCa1yc7pxsks2CbkOFfRxMtHLSNe3gsPWYg6ystQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761988892; c=relaxed/simple;
-	bh=zIJokIZ9UZ5DO/0eONZKLnIZp6ZCzWjtAzEw2kRwAZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ck6HYEN3CyoNVzYTRVRqGomBqKMz1WPxXoeZf6fDHN+GCdyonMr8ER9siLa7BcBV15ZSpgg6uQcqiuZOxKkmzOVGbmRqa7kvqWRowCyJDC0j3210eIZrl0aDY5PUjpYL66DvdRV+UZFE02/xBmAN77UbfL+SZ+nGkH3IXOVPlUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mJrKQjHb; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762017041; c=relaxed/simple;
+	bh=ZU+B8diip8WEbhgeqZgVBl0jAv+RKTsNJeccgokeMwo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KHNGTaZqzR040Vg3oCDvPyH6+sW7HsD/nzWWnXiT/j9Hj0GcncVBGI9iY071ofvU1ycRZlq9SHDiChYZKgxmfFc3gSoQFxSzhk5CRQb2Luk/Xj3+5wf23UIwChXq/Ln3PwNGolgEurAQbl9Kpc0GXQF93dxSyi9eNFl3tLbsp1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hFZpDGWC; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mJrKQjHb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761988890; x=1793524890;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zIJokIZ9UZ5DO/0eONZKLnIZp6ZCzWjtAzEw2kRwAZQ=;
-  b=mJrKQjHbxb4Bvdw9PZPoIpLlsQSGSvSQxWenPCX1Y0SWW/T+pqgHphdi
-   uwziVQSVdkA0huE7qa8NLGXQ3jQZoJWYNj12N3iKh8JO9yfWNS0zADMO5
-   5EPoDrj7Ui06xttYY1+x3Wa0zHBU0I1R7x1Cdx4mhY6dPB6ejYxma1vD0
-   8EnIMie00HTAHglXOrk12k5T4/Kktz/9ui5N5tD/wiDp4RGDmUnhi94rJ
-   2Om6dp0Uf0u6K6SyqG6vfsud8/lfP7o3pqilLCOyeqs+QltJaCFbVSwc2
-   fOgEr9DB6Jp4cXW+8JUpTVFkNbtkqFUmwuyzvN7uSwPXfk1SmCTx/MaIL
-   w==;
-X-CSE-ConnectionGUID: JXJh6p1gSQWu5g4v2WW5dg==
-X-CSE-MsgGUID: sucH45+cRj+DU6s2CLv5kw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="75590020"
-X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; 
-   d="scan'208";a="75590020"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 02:21:30 -0700
-X-CSE-ConnectionGUID: yhWqZpbQTTyVAWPzY1zzLQ==
-X-CSE-MsgGUID: qbG/y03dSee1tTEPgwfk4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; 
-   d="scan'208";a="186884301"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 01 Nov 2025 02:21:28 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vF7nJ-000O4j-0L;
-	Sat, 01 Nov 2025 09:21:09 +0000
-Date: Sat, 1 Nov 2025 17:20:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [vireshk:virtio/msg-xen 9/17] net/vmw_vsock/af_vsock.c:2164
- vsock_connectible_sendmsg() warn: passing a valid pointer to 'PTR_ERR'
-Message-ID: <202511011754.hK4vDkZ2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hFZpDGWC"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4770e7062b5so22929205e9.2
+        for <oe-kbuild@lists.linux.dev>; Sat, 01 Nov 2025 10:10:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1762017038; x=1762621838; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uq74eKvJ0jeposcEtzO5+GUodFFYwYCHHX7U8DBS+Cg=;
+        b=hFZpDGWCowl4kGGSTXKs0ygJTBQEnUkhdNC2LeN9p1Xk0G1g5sfWnSXEyU/RzBx/iq
+         cIfDVbK/3nz7hKjqwqRMVmqWwbRXhqJtyzaj2cCZb0xVZUMvbcw7ltOUH0mr1gKeCTca
+         KMzIftgsBDdDybDrcl4t4CGDzu2Kx6y28mKVWnBvUBtPdN3mmPFjun8jMBo20s+KbNLx
+         SfoTwXvvFYPXqsc7DPKE0aAU5HM/OMGbNsib6cFBtOjeNYBQizCvyOI8z0uePF+LMHo+
+         NYcLj14To/bV61Ayog+hJ7LAL/qtn0VqOfajo2A93IUAyTBSVtGEABQN4EwUbZVPZyF5
+         0JLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762017038; x=1762621838;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Uq74eKvJ0jeposcEtzO5+GUodFFYwYCHHX7U8DBS+Cg=;
+        b=enGiLcX0jP5ghbZsx3gWrRhEX4uVA7oKpFSjn6buWkWRwU3A3+DosTAl3mIKwgyqY/
+         MdhAIgl9kxiJobZjtAhCYamnUSzZ2G+eHiRwcRvLqYlDzSLBnIucr+lBUujGsJzkPoay
+         qH5q4DOB+0B0v19htBfr3Zl9d8bYtuiAGO4ftivK1by6x8NPKLbPe34YaZz+wraR4mWp
+         WYbWKT2g4ZImc6ryunx7mwaEDLQmu4LqG9RpWB8E+j+eWvOnQMlt9DtOW/1XjJi41RxR
+         id2mScQ42oiQsq7GsNmqGnaGdjGI4BnOqLexAJV/v2X7Mn0eoznkgLiKzAgk92Ntu2r1
+         X60w==
+X-Gm-Message-State: AOJu0YyOGHXuGqXRpmUF+eP/7xbv7ObdHu19ieMDEBI+4MokRJfKFjT3
+	hq+CuNKfZweNDlPstA0DreQmbFeb2Q9J1c9UBJinid7x70Xa0qNcs/kzarPKh/d2Fu4=
+X-Gm-Gg: ASbGncsrp9+qMGIL2pZvNTyPT9G50c1ppaDz64rtG5GDoOy0HW9Zzim0JpC+SOFXEC3
+	ENtz1iTylwZmEbPXgc9IiLazaBwiQKM1G/Uku3n0tTX8PwxqRpYWAUFTFQNaQxrdtz5b+0LDzab
+	gNSngKDDbCvy8ijph833CMp3otQKmF3OpPahoJ/fU43Xi0w5Zm+xPLWyagWpYoPRYtgllE1Tz+u
+	+Dw/ASQ06U/iIsUqgj/D/hhvGlAmkYaA8zEtgpoqoh0ExLprNjqTW2eIpgVE7zb7DAsG5RusA72
+	/rHurCE3GFiJFTWhrPrIb+GcUuRk5FMyouR3Cpli/Q42M4f5aTauJDdU+1RCI8zn5aslQLICJNw
+	f07kttVrb+7gAyBUJfoYR3UHLPXElVLf58jWEcfEoP9MAeZ8xD2Nb1iX5Ss5wfhroJkA0H0d+Dq
+	ALzWVokwUajP0MORV/
+X-Google-Smtp-Source: AGHT+IGv0uSR0v1hhSAx2GYRMsDrrYeSeRA7g62Ym9r2SphEpFPHMIVpJ6YWfLDNq7gaovk4mD9ryQ==
+X-Received: by 2002:a05:600d:4393:b0:46e:32a5:bd8d with SMTP id 5b1f17b1804b1-477331db3ccmr40988945e9.3.1762017033060;
+        Sat, 01 Nov 2025 10:10:33 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4773c2e677csm58418305e9.3.2025.11.01.10.10.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Nov 2025 10:10:32 -0700 (PDT)
+Date: Sat, 1 Nov 2025 20:10:28 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Avri Altman <avri.altman@sandisk.com>
+Subject: Re: [bvanassche:ufs-lrbp-as-priv-data 27/28]
+ drivers/ufs/core/ufshcd.c:7594 ufshcd_advanced_rpmb_req_handler() warn:
+ inconsistent returns '&hba->clk_scaling_lock'.
+Message-ID: <aQY_BE1SlUh8jxkq@stanley.mountain>
+References: <202510311328.Is1wMfkq-lkp@intel.com>
+ <5dd16de9-4594-4b42-b912-d56c3ce6868e@acm.org>
+ <aQT5iXgmRCzaa_xZ@stanley.mountain>
+ <fd51be38-8000-48e8-a5a0-0289904d4756@acm.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,268 +78,60 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <fd51be38-8000-48e8-a5a0-0289904d4756@acm.org>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Viresh Kumar <viresh.kumar@linaro.org>
+On Fri, Oct 31, 2025 at 11:23:39AM -0700, Bart Van Assche wrote:
+> On 10/31/25 11:01 AM, Dan Carpenter wrote:
+> > These are from the zero day bot so how they are generated is mysterious.
+> > The zero day bot thought the patch was 3 days old.  I think someone did
+> > a merge or something.
+> > 
+> > I re-ran it on that branch and there were three warnings.  The "literal
+> > zero" is a style issue thing so I haven't published that check.
+> > 
+> > drivers/ufs/core/ufshcd.c:2955 __ufshcd_setup_cmd() warn: variable dereferenced before check 'cmd' (see line 2950)
+> > 
+> > drivers/ufs/core/ufshcd.c:6849 ufshcd_err_handler() warn: inconsistent returns '&hba->host_sem'.
+> >    Locked on  : 6696
+> >    Unlocked on: 6688,6849
+> > 
+> > drivers/ufs/core/ufshcd.c:9035 ufshcd_device_init() info: returning a literal zero is cleaner
+> 
+> Hi Dan,
+> 
+> The inconsistent returns issue for hba->host_sem has been fixed on Martin
+> Petersen's fixes branch but unfortunately that fix is not yet
+> present on his for-next branch.
+> 
+> I plan to include a fix for the "variable dereferenced before check
+> 'cmd'" complaint.
+> 
+> Is it expected that I don't see the above reports if I run smatch
+> myself? This is what I see if I run smatch (commit 2fb2b9093c5d
+> ("sleep_info: The synchronize_srcu() sleeps")):
+> 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-xen
-head:   cdc52122313863bdce40a9403e5ccf7ca915fc36
-commit: 49768ad0eb9d67ed71368ca9295185dd000674a1 [9/17] vsock: Add memory sharing support
-:::::: branch date: 4 hours ago
-:::::: commit date: 23 hours ago
-config: powerpc-randconfig-r071-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011754.hK4vDkZ2-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.5.0
+Yes.  The dereference happens inside a function so you need to have built
+the cross function database to see that one.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511011754.hK4vDkZ2-lkp@intel.com/
+It's not hard, but it takes a while.  smatch_scripts/build_kernel_data.sh
+You might need to rebuild it twice to see the warning...
 
-smatch warnings:
-net/vmw_vsock/af_vsock.c:2164 vsock_connectible_sendmsg() warn: passing a valid pointer to 'PTR_ERR'
+https://staticthinking.wordpress.com/2023/05/02/the-cross-function-db/
 
-vim +/PTR_ERR +2164 net/vmw_vsock/af_vsock.c
+> $ make drivers/ufs/ C=2 CHECK="smatch -p=__kernel__"
+>   CHECK   scripts/mod/empty.c
+>   CALL    scripts/checksyscalls.sh
+>   CHECK   drivers/ufs/core/ufshcd.c
+> drivers/ufs/core/ufshcd.c:1536 ufshcd_clk_scaling_suspend_work() warn:
+> ignoring unreachable code.
 
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2082  
-a9e29e5511b9e6 Arseny Krasnov     2021-06-11  2083  static int vsock_connectible_sendmsg(struct socket *sock, struct msghdr *msg,
-1b784140474e4f Ying Xue           2015-03-02  2084  				     size_t len)
-d021c344051af9 Andy King          2013-02-06  2085  {
-d021c344051af9 Andy King          2013-02-06  2086  	struct sock *sk;
-d021c344051af9 Andy King          2013-02-06  2087  	struct vsock_sock *vsk;
-fe502c4a38d97e Stefano Garzarella 2019-11-14  2088  	const struct vsock_transport *transport;
-d021c344051af9 Andy King          2013-02-06  2089  	ssize_t total_written;
-d021c344051af9 Andy King          2013-02-06  2090  	long timeout;
-d021c344051af9 Andy King          2013-02-06  2091  	int err;
-d021c344051af9 Andy King          2013-02-06  2092  	struct vsock_transport_send_notify_data send_data;
-499fde662f1957 WANG Cong          2017-05-19  2093  	DEFINE_WAIT_FUNC(wait, woken_wake_function);
-d021c344051af9 Andy King          2013-02-06  2094  
-d021c344051af9 Andy King          2013-02-06  2095  	sk = sock->sk;
-d021c344051af9 Andy King          2013-02-06  2096  	vsk = vsock_sk(sk);
-d021c344051af9 Andy King          2013-02-06  2097  	total_written = 0;
-d021c344051af9 Andy King          2013-02-06  2098  	err = 0;
-d021c344051af9 Andy King          2013-02-06  2099  
-d021c344051af9 Andy King          2013-02-06  2100  	if (msg->msg_flags & MSG_OOB)
-d021c344051af9 Andy King          2013-02-06  2101  		return -EOPNOTSUPP;
-d021c344051af9 Andy King          2013-02-06  2102  
-d021c344051af9 Andy King          2013-02-06  2103  	lock_sock(sk);
-d021c344051af9 Andy King          2013-02-06  2104  
-c518adafa39f37 Alexander Popov    2021-02-01  2105  	transport = vsk->transport;
-c518adafa39f37 Alexander Popov    2021-02-01  2106  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2107  	/* Scan ancillary for SOL_VSOCK/SCM_VSOCK_SHMEM */
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2108  	if (msg->msg_controllen) {
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2109  		struct cmsghdr *cmsg;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2110  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2111  		/* Check transport hook */
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2112  		if (!transport || !transport->send_shmem) {
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2113  			err = -EOPNOTSUPP;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2114  			goto out;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2115  		}
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2116  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2117  		for (cmsg = CMSG_FIRSTHDR(msg); cmsg; cmsg = CMSG_NXTHDR(msg, cmsg)) {
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2118  			if (cmsg->cmsg_level == SOL_VSOCK &&
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2119  			    cmsg->cmsg_type == SCM_VSOCK_SHMEM) {
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2120  				struct vsock_shmem_desc desc = {};
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2121  				struct file *file;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2122  				void *old;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2123  				int fd;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2124  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2125  				if (cmsg->cmsg_len < CMSG_LEN(sizeof(fd))) {
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2126  					err = -EINVAL;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2127  					goto out;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2128  				}
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2129  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2130  				memcpy(&fd, CMSG_DATA(cmsg), sizeof(fd));
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2131  				if (fd < 0) {
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2132  					err = -EINVAL;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2133  					goto out;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2134  				}
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2135  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2136  				desc.fd = fd;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2137  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2138  				/* Loopback-only: published file */
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2139  				if (vsk->transport == transport_local) {
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2140  					file = fget(fd);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2141  					if (!file) {
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2142  						err = -EBADF;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2143  						goto out;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2144  					}
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2145  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2146  					/* publish FD's file by token */
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2147  					old = xa_store(&vsock_shmem_xa,
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2148  						       (unsigned long)fd, file,
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2149  						       GFP_KERNEL);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2150  					if (xa_is_err(old)) {
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2151  						fput(file);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2152  						err = xa_err(old);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2153  						goto out;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2154  					}
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2155  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2156  					/* Token used previously ? */
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2157  					if (old)
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2158  						fput(old);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2159  				} else {
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2160  					/* The fd must belong to a dma-buf */
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2161  					struct dma_buf *dbuf = dma_buf_get(fd);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2162  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2163  					if (IS_ERR(dbuf) || !dbuf->ops->shmem) {
-49768ad0eb9d67 Viresh Kumar       2025-10-15 @2164  						err = PTR_ERR(dbuf);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2165  						goto out;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2166  					}
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2167  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2168  					err = dbuf->ops->shmem(dbuf, &desc);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2169  					if (err)
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2170  						goto out;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2171  				}
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2172  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2173  				/* send SHMEM control pkt (out-of-band) */
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2174  				err = vsk->transport->send_shmem(vsk, &desc);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2175  				if (err < 0)
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2176  					goto out;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2177  			}
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2178  		}
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2179  	}
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2180  
-8cb48554ad822f Arseny Krasnov     2021-06-11  2181  	/* Callers should not provide a destination with connection oriented
-8cb48554ad822f Arseny Krasnov     2021-06-11  2182  	 * sockets.
-8cb48554ad822f Arseny Krasnov     2021-06-11  2183  	 */
-d021c344051af9 Andy King          2013-02-06  2184  	if (msg->msg_namelen) {
-3b4477d2dcf270 Stefan Hajnoczi    2017-10-05  2185  		err = sk->sk_state == TCP_ESTABLISHED ? -EISCONN : -EOPNOTSUPP;
-d021c344051af9 Andy King          2013-02-06  2186  		goto out;
-d021c344051af9 Andy King          2013-02-06  2187  	}
-d021c344051af9 Andy King          2013-02-06  2188  
-d021c344051af9 Andy King          2013-02-06  2189  	/* Send data only if both sides are not shutdown in the direction. */
-d021c344051af9 Andy King          2013-02-06  2190  	if (sk->sk_shutdown & SEND_SHUTDOWN ||
-d021c344051af9 Andy King          2013-02-06  2191  	    vsk->peer_shutdown & RCV_SHUTDOWN) {
-d021c344051af9 Andy King          2013-02-06  2192  		err = -EPIPE;
-d021c344051af9 Andy King          2013-02-06  2193  		goto out;
-d021c344051af9 Andy King          2013-02-06  2194  	}
-d021c344051af9 Andy King          2013-02-06  2195  
-c0cfa2d8a788fc Stefano Garzarella 2019-11-14  2196  	if (!transport || sk->sk_state != TCP_ESTABLISHED ||
-d021c344051af9 Andy King          2013-02-06  2197  	    !vsock_addr_bound(&vsk->local_addr)) {
-d021c344051af9 Andy King          2013-02-06  2198  		err = -ENOTCONN;
-d021c344051af9 Andy King          2013-02-06  2199  		goto out;
-d021c344051af9 Andy King          2013-02-06  2200  	}
-d021c344051af9 Andy King          2013-02-06  2201  
-d021c344051af9 Andy King          2013-02-06  2202  	if (!vsock_addr_bound(&vsk->remote_addr)) {
-d021c344051af9 Andy King          2013-02-06  2203  		err = -EDESTADDRREQ;
-d021c344051af9 Andy King          2013-02-06  2204  		goto out;
-d021c344051af9 Andy King          2013-02-06  2205  	}
-d021c344051af9 Andy King          2013-02-06  2206  
-5fbfc7d2433439 Arseniy Krasnov    2023-10-10  2207  	if (msg->msg_flags & MSG_ZEROCOPY &&
-5fbfc7d2433439 Arseniy Krasnov    2023-10-10  2208  	    !vsock_msgzerocopy_allow(transport)) {
-5fbfc7d2433439 Arseniy Krasnov    2023-10-10  2209  		err = -EOPNOTSUPP;
-5fbfc7d2433439 Arseniy Krasnov    2023-10-10  2210  		goto out;
-5fbfc7d2433439 Arseniy Krasnov    2023-10-10  2211  	}
-5fbfc7d2433439 Arseniy Krasnov    2023-10-10  2212  
-d021c344051af9 Andy King          2013-02-06  2213  	/* Wait for room in the produce queue to enqueue our user's data. */
-d021c344051af9 Andy King          2013-02-06  2214  	timeout = sock_sndtimeo(sk, msg->msg_flags & MSG_DONTWAIT);
-d021c344051af9 Andy King          2013-02-06  2215  
-d021c344051af9 Andy King          2013-02-06  2216  	err = transport->notify_send_init(vsk, &send_data);
-d021c344051af9 Andy King          2013-02-06  2217  	if (err < 0)
-d021c344051af9 Andy King          2013-02-06  2218  		goto out;
-d021c344051af9 Andy King          2013-02-06  2219  
-d021c344051af9 Andy King          2013-02-06  2220  	while (total_written < len) {
-d021c344051af9 Andy King          2013-02-06  2221  		ssize_t written;
-d021c344051af9 Andy King          2013-02-06  2222  
-499fde662f1957 WANG Cong          2017-05-19  2223  		add_wait_queue(sk_sleep(sk), &wait);
-d021c344051af9 Andy King          2013-02-06  2224  		while (vsock_stream_has_space(vsk) == 0 &&
-d021c344051af9 Andy King          2013-02-06  2225  		       sk->sk_err == 0 &&
-d021c344051af9 Andy King          2013-02-06  2226  		       !(sk->sk_shutdown & SEND_SHUTDOWN) &&
-d021c344051af9 Andy King          2013-02-06  2227  		       !(vsk->peer_shutdown & RCV_SHUTDOWN)) {
-d021c344051af9 Andy King          2013-02-06  2228  
-d021c344051af9 Andy King          2013-02-06  2229  			/* Don't wait for non-blocking sockets. */
-d021c344051af9 Andy King          2013-02-06  2230  			if (timeout == 0) {
-d021c344051af9 Andy King          2013-02-06  2231  				err = -EAGAIN;
-499fde662f1957 WANG Cong          2017-05-19  2232  				remove_wait_queue(sk_sleep(sk), &wait);
-f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2233  				goto out_err;
-d021c344051af9 Andy King          2013-02-06  2234  			}
-d021c344051af9 Andy King          2013-02-06  2235  
-d021c344051af9 Andy King          2013-02-06  2236  			err = transport->notify_send_pre_block(vsk, &send_data);
-f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2237  			if (err < 0) {
-499fde662f1957 WANG Cong          2017-05-19  2238  				remove_wait_queue(sk_sleep(sk), &wait);
-f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2239  				goto out_err;
-f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2240  			}
-d021c344051af9 Andy King          2013-02-06  2241  
-d021c344051af9 Andy King          2013-02-06  2242  			release_sock(sk);
-499fde662f1957 WANG Cong          2017-05-19  2243  			timeout = wait_woken(&wait, TASK_INTERRUPTIBLE, timeout);
-d021c344051af9 Andy King          2013-02-06  2244  			lock_sock(sk);
-d021c344051af9 Andy King          2013-02-06  2245  			if (signal_pending(current)) {
-d021c344051af9 Andy King          2013-02-06  2246  				err = sock_intr_errno(timeout);
-499fde662f1957 WANG Cong          2017-05-19  2247  				remove_wait_queue(sk_sleep(sk), &wait);
-f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2248  				goto out_err;
-d021c344051af9 Andy King          2013-02-06  2249  			} else if (timeout == 0) {
-d021c344051af9 Andy King          2013-02-06  2250  				err = -EAGAIN;
-499fde662f1957 WANG Cong          2017-05-19  2251  				remove_wait_queue(sk_sleep(sk), &wait);
-f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2252  				goto out_err;
-d021c344051af9 Andy King          2013-02-06  2253  			}
-d021c344051af9 Andy King          2013-02-06  2254  		}
-499fde662f1957 WANG Cong          2017-05-19  2255  		remove_wait_queue(sk_sleep(sk), &wait);
-d021c344051af9 Andy King          2013-02-06  2256  
-d021c344051af9 Andy King          2013-02-06  2257  		/* These checks occur both as part of and after the loop
-d021c344051af9 Andy King          2013-02-06  2258  		 * conditional since we need to check before and after
-d021c344051af9 Andy King          2013-02-06  2259  		 * sleeping.
-d021c344051af9 Andy King          2013-02-06  2260  		 */
-d021c344051af9 Andy King          2013-02-06  2261  		if (sk->sk_err) {
-d021c344051af9 Andy King          2013-02-06  2262  			err = -sk->sk_err;
-f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2263  			goto out_err;
-d021c344051af9 Andy King          2013-02-06  2264  		} else if ((sk->sk_shutdown & SEND_SHUTDOWN) ||
-d021c344051af9 Andy King          2013-02-06  2265  			   (vsk->peer_shutdown & RCV_SHUTDOWN)) {
-d021c344051af9 Andy King          2013-02-06  2266  			err = -EPIPE;
-f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2267  			goto out_err;
-d021c344051af9 Andy King          2013-02-06  2268  		}
-d021c344051af9 Andy King          2013-02-06  2269  
-d021c344051af9 Andy King          2013-02-06  2270  		err = transport->notify_send_pre_enqueue(vsk, &send_data);
-d021c344051af9 Andy King          2013-02-06  2271  		if (err < 0)
-f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2272  			goto out_err;
-d021c344051af9 Andy King          2013-02-06  2273  
-d021c344051af9 Andy King          2013-02-06  2274  		/* Note that enqueue will only write as many bytes as are free
-d021c344051af9 Andy King          2013-02-06  2275  		 * in the produce queue, so we don't need to ensure len is
-d021c344051af9 Andy King          2013-02-06  2276  		 * smaller than the queue size.  It is the caller's
-d021c344051af9 Andy King          2013-02-06  2277  		 * responsibility to check how many bytes we were able to send.
-d021c344051af9 Andy King          2013-02-06  2278  		 */
-d021c344051af9 Andy King          2013-02-06  2279  
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2280  		if (sk->sk_type == SOCK_SEQPACKET) {
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2281  			written = transport->seqpacket_enqueue(vsk,
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2282  						msg, len - total_written);
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2283  		} else {
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2284  			written = transport->stream_enqueue(vsk,
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2285  					msg, len - total_written);
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2286  		}
-c43170b7e1571e Bobby Eshleman     2023-01-10  2287  
-d021c344051af9 Andy King          2013-02-06  2288  		if (written < 0) {
-c43170b7e1571e Bobby Eshleman     2023-01-10  2289  			err = written;
-f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2290  			goto out_err;
-d021c344051af9 Andy King          2013-02-06  2291  		}
-d021c344051af9 Andy King          2013-02-06  2292  
-d021c344051af9 Andy King          2013-02-06  2293  		total_written += written;
-d021c344051af9 Andy King          2013-02-06  2294  
-d021c344051af9 Andy King          2013-02-06  2295  		err = transport->notify_send_post_enqueue(
-d021c344051af9 Andy King          2013-02-06  2296  				vsk, written, &send_data);
-d021c344051af9 Andy King          2013-02-06  2297  		if (err < 0)
-f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2298  			goto out_err;
-d021c344051af9 Andy King          2013-02-06  2299  
-d021c344051af9 Andy King          2013-02-06  2300  	}
-d021c344051af9 Andy King          2013-02-06  2301  
-f7f9b5e7f8eccf Claudio Imbrenda   2016-03-22  2302  out_err:
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2303  	if (total_written > 0) {
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2304  		/* Return number of written bytes only if:
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2305  		 * 1) SOCK_STREAM socket.
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2306  		 * 2) SOCK_SEQPACKET socket when whole buffer is sent.
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2307  		 */
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2308  		if (sk->sk_type == SOCK_STREAM || total_written == len)
-d021c344051af9 Andy King          2013-02-06  2309  			err = total_written;
-fbe70c480796d9 Arseny Krasnov     2021-06-11  2310  	}
-d021c344051af9 Andy King          2013-02-06  2311  out:
-8ecf0cedc08a3a Arseniy Krasnov    2023-09-11  2312  	if (sk->sk_type == SOCK_STREAM)
-8ecf0cedc08a3a Arseniy Krasnov    2023-09-11  2313  		err = sk_stream_error(sk, msg->msg_flags, err);
-8ecf0cedc08a3a Arseniy Krasnov    2023-09-11  2314  
-d021c344051af9 Andy King          2013-02-06  2315  	release_sock(sk);
-d021c344051af9 Andy King          2013-02-06  2316  	return err;
-d021c344051af9 Andy King          2013-02-06  2317  }
-d021c344051af9 Andy King          2013-02-06  2318  
+This isn't supposed to show up.  It's seems to not be parsing scoped
+guard correctly...  I can't reproduce it.  I think I'm on the same kernel
+and Smatch release that you are on but I still can't reproduce it.  It's
+not something I have seen from the kbuild-bot either.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards,
+dan carpenter
+
+
