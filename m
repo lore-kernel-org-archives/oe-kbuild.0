@@ -1,221 +1,228 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B111926A1C4
-	for <oe-kbuild@lists.linux.dev>; Sun,  2 Nov 2025 10:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A478A1B87C0
+	for <oe-kbuild@lists.linux.dev>; Sun,  2 Nov 2025 10:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762077608; cv=none; b=j6MQaKTSaCQP0B3o6aqETOIqNJm8zUU8xD9sgyMFmUUs+XhPIwCklh9clfT5Y6LkBX6FoJm5+K4P+Cif+fT2NogC9bVUjyTH9LgfDR/k6QOxlyr1p13bfdmEUyYhaxuQMTzb7oFSGh8XtpMYfgJM1a2ErhNBEnwfT/naRw2jwag=
+	t=1762079240; cv=none; b=bm24uWO3twRI5/CSdSeq6AMXTZiuX7GfqPJ0Mc7HTBgCrLN9QjvtoJtbVJcHO2iR2ec4P2sjbGqF9I3+fEAPtOKZDN3UajMP5ojqcJv1f2yQVuvxVWiaiojSdB/PFeXcqcLISspAByPdyT22BGhtHmdWXko8heP5qaKiT1T+f/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762077608; c=relaxed/simple;
-	bh=nBxCYxD0sLTtEpBQhu3TDTHvv4GPYUZANeSd6JK4LiM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IWYTKAaX+VVFTxdFbLeDOTuj+SspItjVm0R4ruxHAOGXKXQ59KPSWomoOF7vu44sFDwU4GY9CoX6iVoTTLHVkQn1Zp/2NyVtZEqDyuF/E8p5P4Wi5twNuouQ1y55ZV2TMsW0/fjiYIyo/3CizRwdspCuBOucO6QdJCssCEN99ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LZeXOJM1; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762079240; c=relaxed/simple;
+	bh=DIXgPz8+cDB6gHVdRvMSHJYfWzi/y011uM3iIlCDVXU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tnbmTBqja+rIwY0++HWltr6qyBxo0ACdiIhF5+RLCxhhLsL39Kngp5wUsM5qCGSn9dbKEKk1LE9BmrUbeGoynJzb4n0ZdoNaDBb0I971rxGFMn2YHERmdrdLdAuzfhLB7uxKzSjsA6CyveSE1m5vzNm8+05VprBILjEU83ttXv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccxww4hd; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LZeXOJM1"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-640b0639dabso770214a12.3
-        for <oe-kbuild@lists.linux.dev>; Sun, 02 Nov 2025 02:00:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762077604; x=1762682404; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DVZpy55Yd7iT8ERHYRvSfdnx47RmCaBaV5nSwaxqOJ4=;
-        b=LZeXOJM1h8n6XdwgQhgGHxWzalRCUYrkPRw6YaWzkdEECYMGkWmHqusjhU2ib69vcc
-         8cdDYvWlk4b4gLBnoeJEKusKbee41Tr0zMyCOsixCSxk5m+7Jj/w02G2a0er8V0uG6/7
-         jgDMz+NJGLcUwNucVjIrJblRMoPqWZagavPmBi06GMXfa1D3VndP0nqhIUwmgcVjbq6L
-         BXGmdv1R1gROf+dThyu3EOMQNEhgPUBTo541SD/gvHyyjhur2DEYYMLbNR9gIRmk1SwB
-         wTGb97vW/UeCu6J9wdDuK6fyW+Q9FBOCBctzLhhAOWvMpbarU5JINKkYnRc6Vbu+A6RP
-         7vGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762077604; x=1762682404;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DVZpy55Yd7iT8ERHYRvSfdnx47RmCaBaV5nSwaxqOJ4=;
-        b=J+stdHh2GNqR3pgEV0ENSWb8qpS+2C8yHQQu2No2R88jBWo/uEP3b6UvxXEO2EjFqe
-         P8JhK+zPsSoi7sJwFjMXc2HR3lU4yNdoUP/tNVShqOFuBDwdQyYU4wPFDSa6f8PTYCFD
-         9ENBKUCsWH+1cFF0cyfS5WbJbdE8q84qcptYYyDBhQfX2+yNKOxAEx8bqBH+l2FmsjB7
-         UJY+M3FpZApB42jcNpNXPXi8w1aGTLKM1b92som2/pfXdxG+Bms9lLBAvHTmJajrCE0I
-         YjfOzs3ep3SgU9U/L35oHPB3TfMb/rfBnJqqzGcPRLcOOG+pwSgBn466h5hrtto13A6W
-         WoKA==
-X-Gm-Message-State: AOJu0YyulOUwp3lHQ7ft4eQjz0yX046hUu9j/0laQWmIK38gwWRWScFV
-	aJfv9Oo/LDUqPiwmroG3b1xPSKJL59acqgAZJzgtEoNN/dFKhhgOXIeSe3grGEATzEHTAgOT57v
-	CXM+7IFP/BfL8Vvx0f0RvptnnLSLq+/E=
-X-Gm-Gg: ASbGncu2ciK9szhYg26nLmZANGne55EEpHGVd1w/95yYnpKfkenjbyzN23Vzc6edyXT
-	Jh8G6CtPJRs92qWCQI335JmXKKKcmxKdkLSQIYJU96xnF4+UnixUfc2QqEyZxz/8utevo1pN0r/
-	kGk4+oqj73bpLrVE48iTL5A9WLBY3TBieg49T64hry2JwO5YriR7lhO1VxVVf71VvA6QyptzDcD
-	Y+SDyZXBuUMuDQaceFOd77jIPPOT6uGosTwW0qjS2wpf+xWA1nISB1W7wOgB9qByz2pYNYZx9/g
-	9HwKgS5zuXga+5aZJ1Y=
-X-Google-Smtp-Source: AGHT+IFEH8jsZjQafTUVO/TEfvIzCIsb3Pcud9ukwPrVm6Ztp4IndvVlHlThgbhw4VZKJPdajE0xT0xUUtpyoeYFtj0=
-X-Received: by 2002:a05:6402:2809:b0:63b:f238:8fe2 with SMTP id
- 4fb4d7f45d1cf-64077015c29mr7333942a12.21.1762077603878; Sun, 02 Nov 2025
- 02:00:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ccxww4hd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762079238; x=1793615238;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DIXgPz8+cDB6gHVdRvMSHJYfWzi/y011uM3iIlCDVXU=;
+  b=ccxww4hdfIJnSnFYaVvAk1T8/o9wb3aZ2HnaXpOkNQ/LtQ4XRsGNdwNT
+   uFVo9H8s5Ow4PPXMo9YGXnfsAKBZ08wgBunIK/M+l4HNB2Gw5m3EytsVM
+   Btmzk+fbNCqDvfQ0dPoH61/JkC6dUgOlrA0Xdy9Y78yAf1T39THsEajSZ
+   AT9g54QGp0Twvcli4zISABDcDlV4uCLxSh8SAuoSArwWiK152SDXtTS6M
+   qj63wib9cgwwa05mvfAIcR8Uk4OQ7DSLPV4VHe9OQK0hf2cVOzXNNHXrT
+   5c8gCmp17jLajONPIgX8ZkbjypZhFesZcWKfoq1DB7T7C03JdOsxbzZKF
+   A==;
+X-CSE-ConnectionGUID: EtpHKJFwTnqIOkdURCxEDw==
+X-CSE-MsgGUID: Y3gxci7uR7WHpAnH/I++ZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="68040150"
+X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
+   d="scan'208";a="68040150"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 02:27:18 -0800
+X-CSE-ConnectionGUID: 3TPEc67BR56+nPRcimHYaw==
+X-CSE-MsgGUID: OV3jm97qQFiBbcW4sgk5Bg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
+   d="scan'208";a="185861298"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 02 Nov 2025 02:27:17 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vFVIo-000P9N-1A;
+	Sun, 02 Nov 2025 10:27:14 +0000
+Date: Sun, 2 Nov 2025 18:26:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [tip:timers/core 18/21] kernel/time/timer_migration.c:1729
+ tmigr_setup_groups() error: we previously assumed 'start' could be null (see
+ line 1630)
+Message-ID: <202511021844.fnt0Jwdp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251029234353.1321957-5-neilb@ownmail.net> <202511021406.Tv3dcpn5-lkp@intel.com>
-In-Reply-To: <202511021406.Tv3dcpn5-lkp@intel.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sun, 2 Nov 2025 10:59:52 +0100
-X-Gm-Features: AWmQ_blkoXREpWDLxsdzeMY_8zMOO_hU7_rJh64Nz8Ib6B4vrj-gB-b9MPrdPRo
-Message-ID: <CAOQ4uxgaANjJXdhiQamgop8cicWXZ7Er2CWW3W7w-VgNMn9OVw@mail.gmail.com>
-Subject: Re: [PATCH v4 04/14] VFS/nfsd/cachefiles/ovl: add start_creating()
- and end_creating()
-To: Dan Carpenter <dan.carpenter@linaro.org>, NeilBrown <neilb@ownmail.net>, 
-	Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild@lists.linux.dev, Alexander Viro <viro@zeniv.linux.org.uk>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	Jeff Layton <jlayton@kernel.org>, Chris Mason <chris.mason@fusionio.com>, 
-	David Sterba <dsterba@suse.com>, David Howells <dhowells@redhat.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Tyler Hicks <code@tyhicks.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Chuck Lever <chuck.lever@oracle.com>, Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Steve French <smfrench@gmail.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Carlos Maiolino <cem@kernel.org>, John Johansen <john.johansen@canonical.com>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Mateusz Guzik <mjguzik@gmail.com>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Stefan Berger <stefanb@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Nov 2, 2025 at 10:08=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> Hi NeilBrown,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/debugfs-=
-rename-end_creating-to-debugfs_end_creating/20251030-075146
-> base:   driver-core/driver-core-testing
-> patch link:    https://lore.kernel.org/r/20251029234353.1321957-5-neilb%4=
-0ownmail.net
-> patch subject: [PATCH v4 04/14] VFS/nfsd/cachefiles/ovl: add start_creati=
-ng() and end_creating()
-> config: x86_64-randconfig-161-20251101 (https://download.01.org/0day-ci/a=
-rchive/20251102/202511021406.Tv3dcpn5-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202511021406.Tv3dcpn5-lkp@intel.com/
->
-> smatch warnings:
-> fs/overlayfs/dir.c:130 ovl_whiteout() error: uninitialized symbol 'whiteo=
-ut'.
-> fs/overlayfs/dir.c:130 ovl_whiteout() warn: passing zero to 'PTR_ERR'
->
-> vim +/whiteout +130 fs/overlayfs/dir.c
->
-> c21c839b8448dd Chengguang Xu     2020-04-24   97  static struct dentry *o=
-vl_whiteout(struct ovl_fs *ofs)
-> e9be9d5e76e348 Miklos Szeredi    2014-10-24   98  {
-> e9be9d5e76e348 Miklos Szeredi    2014-10-24   99        int err;
-> 807b78b0fffc23 NeilBrown         2025-10-30  100        struct dentry *wh=
-iteout, *link;
-> c21c839b8448dd Chengguang Xu     2020-04-24  101        struct dentry *wo=
-rkdir =3D ofs->workdir;
-> e9be9d5e76e348 Miklos Szeredi    2014-10-24  102        struct inode *wdi=
-r =3D workdir->d_inode;
-> e9be9d5e76e348 Miklos Szeredi    2014-10-24  103
-> 8afa0a73671389 NeilBrown         2025-07-16  104        guard(mutex)(&ofs=
-->whiteout_lock);
-> 8afa0a73671389 NeilBrown         2025-07-16  105
-> c21c839b8448dd Chengguang Xu     2020-04-24  106        if (!ofs->whiteou=
-t) {
-> 807b78b0fffc23 NeilBrown         2025-10-30  107                whiteout =
-=3D ovl_start_creating_temp(ofs, workdir);
-> 8afa0a73671389 NeilBrown         2025-07-16  108                if (IS_ER=
-R(whiteout))
-> 8afa0a73671389 NeilBrown         2025-07-16  109                        r=
-eturn whiteout;
->
-> white out is not an error pointer.
->
-> 807b78b0fffc23 NeilBrown         2025-10-30  110                err =3D o=
-vl_do_whiteout(ofs, wdir, whiteout);
-> 807b78b0fffc23 NeilBrown         2025-10-30  111                if (!err)
-> 807b78b0fffc23 NeilBrown         2025-10-30  112                        o=
-fs->whiteout =3D dget(whiteout);
-> 807b78b0fffc23 NeilBrown         2025-10-30  113                end_creat=
-ing(whiteout, workdir);
-> 807b78b0fffc23 NeilBrown         2025-10-30  114                if (err)
-> 807b78b0fffc23 NeilBrown         2025-10-30  115                        r=
-eturn ERR_PTR(err);
-> e9be9d5e76e348 Miklos Szeredi    2014-10-24  116        }
->
-> whiteout not set on else path
->
-> e9be9d5e76e348 Miklos Szeredi    2014-10-24  117
-> e4599d4b1aeff0 Amir Goldstein    2023-06-17  118        if (!ofs->no_shar=
-ed_whiteout) {
-> 807b78b0fffc23 NeilBrown         2025-10-30  119                link =3D =
-ovl_start_creating_temp(ofs, workdir);
-> 807b78b0fffc23 NeilBrown         2025-10-30  120                if (IS_ER=
-R(link))
-> 807b78b0fffc23 NeilBrown         2025-10-30  121                        r=
-eturn link;
-> 807b78b0fffc23 NeilBrown         2025-10-30  122                err =3D o=
-vl_do_link(ofs, ofs->whiteout, wdir, link);
-> 807b78b0fffc23 NeilBrown         2025-10-30  123                if (!err)
-> 807b78b0fffc23 NeilBrown         2025-10-30  124                        w=
-hiteout =3D dget(link);
->
-> It's set here, but then returned on line 127.
->
-> 807b78b0fffc23 NeilBrown         2025-10-30  125                end_creat=
-ing(link, workdir);
-> 807b78b0fffc23 NeilBrown         2025-10-30  126                if (!err)
-> 807b78b0fffc23 NeilBrown         2025-10-30  127                        r=
-eturn whiteout;;
->
-> nit: double ;;
->
-> 807b78b0fffc23 NeilBrown         2025-10-30  128
-> 807b78b0fffc23 NeilBrown         2025-10-30  129                if (err !=
-=3D -EMLINK) {
-> 672820a070ea5e Antonio Quartulli 2025-07-21 @130                        p=
-r_warn("Failed to link whiteout - disabling whiteout inode sharing(nlink=3D=
-%u, err=3D%lu)\n",
-> 672820a070ea5e Antonio Quartulli 2025-07-21  131                         =
-       ofs->whiteout->d_inode->i_nlink,
-> 672820a070ea5e Antonio Quartulli 2025-07-21  132                         =
-       PTR_ERR(whiteout));
->
-> whiteout is either valid or uninitialized.  For some reason
-> Smatch thinks whiteout can be NULL, I suspect because of
-> the NULL check in dget().
->
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: x86@kernel.org
+TO: Frederic Weisbecker <frederic@kernel.org>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
-That looks like "rebase race" with the fix commit 672820a070ea5e
-("ovl: properly print correct variable").
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/core
+head:   ba14500e4bfcab5e841fbf8d7fcbbc80e98d6b9e
+commit: 5eb579dfd46b4949117ecb0f1ba2f12d3dc9a6f2 [18/21] timers/migration: Fix imbalanced NUMA trees
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: sparc64-randconfig-r072-20251102 (https://download.01.org/0day-ci/archive/20251102/202511021844.fnt0Jwdp-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
 
-The fix is no longer correct, but also no longer needed because of
-early return on lookup error in line 121.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202511021844.fnt0Jwdp-lkp@intel.com/
 
-This implies that there is also a change of behavior in this patch
-causing that an error in lookup will not have a warning.
+smatch warnings:
+kernel/time/timer_migration.c:1729 tmigr_setup_groups() error: we previously assumed 'start' could be null (see line 1630)
 
-I have no problem with this change, because the warning text
-indicated it was intended to refer to errors in linking.
+vim +/start +1729 kernel/time/timer_migration.c
 
-Long story short, patch needs to go back to using err here for
-printing the link error.
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1618  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1619  static int tmigr_setup_groups(unsigned int cpu, unsigned int node,
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1620  			      struct tmigr_group *start, bool activate)
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1621  {
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1622  	struct tmigr_group *group, *child, **stack;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1623  	int i, top = 0, err = 0, start_lvl = 0;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1624  	bool root_mismatch = false;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1625  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1626  	stack = kcalloc(tmigr_hierarchy_levels, sizeof(*stack), GFP_KERNEL);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1627  	if (!stack)
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1628  		return -ENOMEM;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1629  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24 @1630  	if (start) {
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1631  		stack[start->level] = start;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1632  		start_lvl = start->level + 1;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1633  	}
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1634  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1635  	if (tmigr_root)
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1636  		root_mismatch = tmigr_root->numa_node != node;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1637  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1638  	for (i = start_lvl; i < tmigr_hierarchy_levels; i++) {
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1639  		group = tmigr_get_group(cpu, node, i);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1640  		if (IS_ERR(group)) {
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1641  			err = PTR_ERR(group);
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1642  			i--;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1643  			break;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1644  		}
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1645  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1646  		top = i;
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1647  		stack[i] = group;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1648  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1649  		/*
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1650  		 * When booting only less CPUs of a system than CPUs are
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1651  		 * available, not all calculated hierarchy levels are required,
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1652  		 * unless a node mismatch is detected.
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1653  		 *
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1654  		 * The loop is aborted as soon as the highest level, which might
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1655  		 * be different from tmigr_hierarchy_levels, contains only a
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1656  		 * single group, unless the nodes mismatch below tmigr_crossnode_level
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1657  		 */
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1658  		if (group->parent)
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1659  			break;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1660  		if ((!root_mismatch || i >= tmigr_crossnode_level) &&
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1661  		    list_is_singular(&tmigr_level_list[i]))
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1662  			break;
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1663  	}
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1664  
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1665  	/* Assert single root without parent */
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1666  	if (WARN_ON_ONCE(i >= tmigr_hierarchy_levels))
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1667  		return -EINVAL;
+868c9037df626b Frederic Weisbecker 2025-02-05  1668  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1669  	for (; i >= start_lvl; i--) {
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1670  		group = stack[i];
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1671  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1672  		if (err < 0) {
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1673  			list_del(&group->list);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1674  			kfree(group);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1675  			continue;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1676  		}
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1677  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1678  		WARN_ON_ONCE(i != group->level);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1679  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1680  		/*
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1681  		 * Update tmc -> group / child -> group connection
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1682  		 */
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1683  		if (i == 0) {
+10a0e6f3d3db7d Anna-Maria Behnsen  2024-07-17  1684  			struct tmigr_cpu *tmc = per_cpu_ptr(&tmigr_cpu, cpu);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1685  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1686  			tmc->tmgroup = group;
+835a9a67f54f01 Anna-Maria Behnsen  2024-07-16  1687  			tmc->groupmask = BIT(group->num_children++);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1688  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1689  			tmigr_init_root(group, activate);
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1690  
+36e40df35d2c18 Anna-Maria Behnsen  2024-02-22  1691  			trace_tmigr_connect_cpu_parent(tmc);
+36e40df35d2c18 Anna-Maria Behnsen  2024-02-22  1692  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1693  			/* There are no children that need to be connected */
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1694  			continue;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1695  		} else {
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1696  			child = stack[i - 1];
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1697  			tmigr_connect_child_parent(child, group, activate);
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1698  		}
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1699  	}
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1700  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1701  	if (err < 0)
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1702  		goto out;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1703  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1704  	if (activate) {
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1705  		struct tmigr_walk data;
+868c9037df626b Frederic Weisbecker 2025-02-05  1706  
+868c9037df626b Frederic Weisbecker 2025-02-05  1707  		/*
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1708  		 * To prevent inconsistent states, active children need to be active in
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1709  		 * the new parent as well. Inactive children are already marked inactive
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1710  		 * in the parent group:
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1711  		 *
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1712  		 * * When new groups were created by tmigr_setup_groups() starting from
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1713  		 *   the lowest level, then they are not active. They will be set active
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1714  		 *   when the new online CPU comes active.
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1715  		 *
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1716  		 * * But if new groups above the current top level are required, it is
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1717  		 *   mandatory to propagate the active state of the already existing
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1718  		 *   child to the new parents. So tmigr_active_up() activates the
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1719  		 *   new parents while walking up from the old root to the new.
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1720  		 *
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1721  		 * * It is ensured that @start is active, as this setup path is
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1722  		 *   executed in hotplug prepare callback. This is executed by an
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1723  		 *   already connected and !idle CPU. Even if all other CPUs go idle,
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1724  		 *   the CPU executing the setup will be responsible up to current top
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1725  		 *   level group. And the next time it goes inactive, it will release
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1726  		 *   the new childmask and parent to subsequent walkers through this
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1727  		 *   @child. Therefore propagate active state unconditionally.
+10a0e6f3d3db7d Anna-Maria Behnsen  2024-07-17  1728  		 */
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24 @1729  		WARN_ON_ONCE(!start->parent);
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1730  		data.childmask = start->groupmask;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1731  		__walk_groups_from(tmigr_active_up, &data, start, start->parent);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1732  	}
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1733  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1734  	/* Root update */
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1735  	if (list_is_singular(&tmigr_level_list[top])) {
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1736  		group = list_first_entry(&tmigr_level_list[top],
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1737  					 typeof(*group), list);
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1738  		WARN_ON_ONCE(group->parent);
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1739  		if (tmigr_root) {
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1740  			/* Old root should be the same or below */
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1741  			WARN_ON_ONCE(tmigr_root->level > top);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1742  		}
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1743  		tmigr_root = group;
+d7ad05c86e2191 Levi Yun            2024-05-06  1744  	}
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1745  out:
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1746  	kfree(stack);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1747  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1748  	return err;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1749  }
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1750  
 
-Thanks,
-Amir.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
