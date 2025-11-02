@@ -1,97 +1,58 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9C626656F
-	for <oe-kbuild@lists.linux.dev>; Sun,  2 Nov 2025 09:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772A7DDC5
+	for <oe-kbuild@lists.linux.dev>; Sun,  2 Nov 2025 09:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762074644; cv=none; b=X6qRL94bnbOe1rhfaibf8pc3a+yN5OdnRxoj7i5R77l0dyYECoeT5NNx0aDAVqIAUqlxqUiaad6qFszRCEZInnNv4EgiU+vP8U1j00Rf1UN1Gku6rL0bXzZbJ2fptDEkyYbFHKIIrTZ0sF1iudFBmy/3s+fJNIMuZijcmQYPlaA=
+	t=1762077370; cv=none; b=PzZTWQh0h/eb1OYsA8lFe71/+x1G26APsabCLJco5aFRkiSzxPBWdyukosvftwYY1oSODs5RGI9ZZ+N/oDEoXdNXoOuqWEYbQ2Tf0bTOHnIWNqvbdPSmY0/fZCL7p0dXIPVJWPd4tW2lSYlUq4djvn2tgAvdRlJlGRcEgjsKPpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762074644; c=relaxed/simple;
-	bh=qD5/FoCTLkyARa5AQA/+l/GmKs4cQP/TjyJXRCDh7V4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ryns+WQbdMMInlIfIMZLrt2SNzBpICus7vZ71H6T8iOJMZE3QmcCu8SYg8/5gGuJ7hdN1gTl4dzztF1sEtRSXXSz1+mibXA+hLNlQe4bTbDsOuw5YNVmxpJw135CCTXv+xH56Zc2QMAn7McaGiSmMiwIdQ9DfDyZLRwN45AoeSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YdPFoWPU; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1762077370; c=relaxed/simple;
+	bh=+eI5qHJxL/ctInAZm5QiRJcgi/22MJevrFNAy4852P8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rv1ZE9q9ZpxIKPmTbIC/+qlk+qsppMwHJRxBsdBTNSa6ZW2TuwKXB0XoXan84ElQxpawL/Wqay7v8C3iq6zevT/btTaI5C4Jk+z3fdZ6f9WBKwfjdTwMyXMCXthqyhdG+DS5Vz9x0PL7+Mo23xrB7sdFbpMiH5ssfWOKtdNsIaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q+sRbHMl; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YdPFoWPU"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-474975af41dso26018255e9.2
-        for <oe-kbuild@lists.linux.dev>; Sun, 02 Nov 2025 01:10:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762074641; x=1762679441; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=m7cGnlggGwCStKE++4amSGBWkBioEl4HVTFZyJlNXgM=;
-        b=YdPFoWPUkO7Mrrw5ahpjSwtCb6B+yxPkMHRig6bYHPCETqC0Ee6VvQuShjqLvrXKzs
-         1w4zcJW0DW/hxP9rvG2IS4wdx4QO6nn4u2tzH9eV5OtRZriy+/KvwnljjpebQ4eTZcQS
-         JE7MN16Nn+ELo+oZhaTUIJDCz0ueXLSTOG0MU3iaq+5zwW+ZaU6J6XBDUgkEgqRscbr0
-         e+lqn1rsWYSms69xV1BNDMNg1XqkVJdyWmTNAkjw/sfoN5EA8ufYtItK5afIxVnriJQA
-         CzQRxxH9VaaJ6JyBNBUtvg3hD2dHtFN6ndNA3SbLhRqK2UHLh/t7+t9eN+eAxe9Z1sf5
-         24uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762074641; x=1762679441;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m7cGnlggGwCStKE++4amSGBWkBioEl4HVTFZyJlNXgM=;
-        b=LKIrxWBR2+Am5gERyI3NXXf7q0m0fvPW8QcJcInbXFz+IscYzCtTH27VDUwDEX3RTV
-         h2CTRAXXoeed01knmzTkgVfuXiFiw3o8gIa2Bkg2gFywr7/0nFqKFgNxlJtbUTGEKQvJ
-         Go77J0aIGqwVDi2PGgf3KNhd4J4UqgAEtS1w8c4C2srPJL4/QY2uaq0RMoN/OGPSql7C
-         U408yBlpWN0IlTACBO12ZVR4T9os93QoJInFGqThFDAHCkV0tp5L36I+P+8vW6+HtHSa
-         T3DTh5fpsq6y0RUcSvY9dPzoS73hNVfNSFLcswB2Juh7oL27fPWzqvmFw5T4BPZanYd+
-         DNJg==
-X-Gm-Message-State: AOJu0Yz+/TZHMOEHDv554Z0VMX6An/56VzQgjk92xH2hazCkkt6m0JFq
-	a194S7HOe6NABwZrT1jX5lILvtFhxH/v4JzeoTX4z6bCXvSvW9zIIBdv6hOA5gLBXrnTy/HR2Q7
-	ykB5r
-X-Gm-Gg: ASbGncurH6RT3PPL+ei23tIeGrSjgCZCVqSCnMbWcz3Mdav7qI0uhgWMO3zAGtalJA/
-	Dkn2+VZKmYlwvsNVVkmtvPPIMxpDe2+uRuUMb7sSKdiPCsu/0Nu4z/VBPaJFKNVvDgBPCJsMX6d
-	6Lw6llHZxkTBSAWuNPkHbxbu77dZvsZ43W2j8wFFOhDbeevCzyTs9kN92vgM79h7IUVLJ3hVnun
-	lYkqHZIZYdaA0K3lo/FNjPRNrK4OerOUBBdo/TOkf62dsNOB4KO0Gx4dECegxtpejlW2IFJkB/K
-	f4Q+HuHD36iur3vvhOduk7b2E65BeEROvWcAyDuEzSg7x5jAaiUDIuleou7wHVnZyiQQ1Gc5bmq
-	l7Y9lOgjidehDX2PEjR8w1vcqg52tfvGIBujv4ILk8SvnNti+iXyu345uOwg0k70HSnpsTPrG6o
-	CQ/q88En8lycd0oR+v
-X-Google-Smtp-Source: AGHT+IECHyILSrbd0QXTTRGviLOb/cK2qhNsm2Df6/6M1eVjARvdq8vgt6DKUnfZZFhEiuN3prCXvw==
-X-Received: by 2002:a05:600c:828c:b0:476:651d:27e6 with SMTP id 5b1f17b1804b1-477308a8967mr82981805e9.36.1762074640521;
-        Sun, 02 Nov 2025 01:10:40 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429c6ac1645sm8714761f8f.12.2025.11.02.01.10.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Nov 2025 01:10:40 -0800 (PST)
-Date: Sun, 2 Nov 2025 12:10:36 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, NeilBrown <neilb@ownmail.net>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>,
-	Chris Mason <chris.mason@fusionio.com>,
-	David Sterba <dsterba@suse.com>,
-	David Howells <dhowells@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Tyler Hicks <code@tyhicks.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Namjae Jeon <linkinjeon@kernel.org>,
-	Steve French <smfrench@gmail.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	John Johansen <john.johansen@canonical.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Stefan Berger <stefanb@linux.ibm.com>
-Subject: Re: [PATCH v4 04/14] VFS/nfsd/cachefiles/ovl: add start_creating()
- and end_creating()
-Message-ID: <aQcgDOjZqJqkKNXa@stanley.mountain>
-References: <20251029234353.1321957-5-neilb@ownmail.net>
- <202511021406.Tv3dcpn5-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q+sRbHMl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762077367; x=1793613367;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+eI5qHJxL/ctInAZm5QiRJcgi/22MJevrFNAy4852P8=;
+  b=Q+sRbHMlW4bSPv96fn2uRlhO66GR1/RjgMTB8HvC3XZeLkdLgjGwUlJh
+   PTC92zb6GQ5Oh7moEBHAGFqKh4UdYnfCXHU5NjO0N1sv3mP3NmZtmZgs3
+   sSuVxdsvMqhgoNJ3UPOmUTsftiwlJSRfpnSGZ3DzEdpaxTOfu4LPJ8Gdq
+   Vs88Bnql/YGSvjyNgE0ECq+y472GeBmWvo0AHxTQpUpMIiozL3tTxXyZr
+   ZCL7bHBshiGnIulaUfyDEoSLPgKB+OE/LxmGAc7I3JVUeJRxzc3+DSxR4
+   SI3kDZejUmpAPoefsKn74E7W6Ymj9a16VbUX+Z6NaF8L+NQ2mEdi/oqdK
+   Q==;
+X-CSE-ConnectionGUID: zU9whabVQgSAmd8UiKyAaQ==
+X-CSE-MsgGUID: OrWvZ3u8SDyBUDNs442gmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="74781955"
+X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
+   d="scan'208";a="74781955"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 01:56:05 -0800
+X-CSE-ConnectionGUID: V+WJZBzrS26kZDwEcDQkgw==
+X-CSE-MsgGUID: 42ki9FMXTDWI66qybPl/Sg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
+   d="scan'208";a="186767873"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 02 Nov 2025 01:56:03 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vFUob-000P7u-0s;
+	Sun, 02 Nov 2025 09:56:01 +0000
+Date: Sun, 2 Nov 2025 17:55:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v3 3/3] i3c: dw: Add runtime PM disable quirk for Altera
+ Agilex5
+Message-ID: <202511021736.dMgTLxNl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -100,53 +61,141 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202511021406.Tv3dcpn5-lkp@intel.com>
 
-On Sun, Nov 02, 2025 at 12:08:47PM +0300, Dan Carpenter wrote:
-> Hi NeilBrown,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/debugfs-rename-end_creating-to-debugfs_end_creating/20251030-075146
-> base:   driver-core/driver-core-testing
-> patch link:    https://lore.kernel.org/r/20251029234353.1321957-5-neilb%40ownmail.net
-> patch subject: [PATCH v4 04/14] VFS/nfsd/cachefiles/ovl: add start_creating() and end_creating()
-> config: x86_64-randconfig-161-20251101 (https://download.01.org/0day-ci/archive/20251102/202511021406.Tv3dcpn5-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202511021406.Tv3dcpn5-lkp@intel.com/
-> 
-> smatch warnings:
-> fs/overlayfs/dir.c:130 ovl_whiteout() error: uninitialized symbol 'whiteout'.
-> fs/overlayfs/dir.c:130 ovl_whiteout() warn: passing zero to 'PTR_ERR'
-> 
-> vim +/whiteout +130 fs/overlayfs/dir.c
-> 
-> c21c839b8448dd Chengguang Xu     2020-04-24   97  static struct dentry *ovl_whiteout(struct ovl_fs *ofs)
-> e9be9d5e76e348 Miklos Szeredi    2014-10-24   98  {
-> e9be9d5e76e348 Miklos Szeredi    2014-10-24   99  	int err;
-> 807b78b0fffc23 NeilBrown         2025-10-30  100  	struct dentry *whiteout, *link;
-> c21c839b8448dd Chengguang Xu     2020-04-24  101  	struct dentry *workdir = ofs->workdir;
-> e9be9d5e76e348 Miklos Szeredi    2014-10-24  102  	struct inode *wdir = workdir->d_inode;
-> e9be9d5e76e348 Miklos Szeredi    2014-10-24  103  
-> 8afa0a73671389 NeilBrown         2025-07-16  104  	guard(mutex)(&ofs->whiteout_lock);
-> 8afa0a73671389 NeilBrown         2025-07-16  105  
-> c21c839b8448dd Chengguang Xu     2020-04-24  106  	if (!ofs->whiteout) {
-> 807b78b0fffc23 NeilBrown         2025-10-30  107  		whiteout = ovl_start_creating_temp(ofs, workdir);
-> 8afa0a73671389 NeilBrown         2025-07-16  108  		if (IS_ERR(whiteout))
-> 8afa0a73671389 NeilBrown         2025-07-16  109  			return whiteout;
-> 
-> white out is not an error pointer.
-> 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <81ec74bab4ed1e843709ad95acfe2757b737abb4.1761901158.git.adrianhoyin.ng@altera.com>
+References: <81ec74bab4ed1e843709ad95acfe2757b737abb4.1761901158.git.adrianhoyin.ng@altera.com>
+TO: adrianhoyin.ng@altera.com
+TO: alexandre.belloni@bootlin.com
+TO: Frank.Li@nxp.com
+TO: wsa+renesas@sang-engineering.com
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+TO: dinguyen@kernel.org
+TO: linux-i3c@lists.infradead.org
+TO: devicetree@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: adrianhoyin.ng@altera.com
 
-I meant after this return statement...
+Hi,
 
-regards,
-dan carpenter
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.18-rc3 next-20251031]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/adrianhoyin-ng-altera-com/dt-bindings-i3c-snps-Add-Altera-Agilex5-SoC-compatible/20251031-172044
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/81ec74bab4ed1e843709ad95acfe2757b737abb4.1761901158.git.adrianhoyin.ng%40altera.com
+patch subject: [PATCH v3 3/3] i3c: dw: Add runtime PM disable quirk for Altera Agilex5
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20251101 (https://download.01.org/0day-ci/archive/20251102/202511021736.dMgTLxNl-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202511021736.dMgTLxNl-lkp@intel.com/
+
+smatch warnings:
+drivers/i3c/master/dw-i3c-master.c:907 dw_i3c_master_daa() error: uninitialized symbol 'ret'.
+
+vim +/ret +907 drivers/i3c/master/dw-i3c-master.c
+
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  824  
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  825  static int dw_i3c_master_daa(struct i3c_master_controller *m)
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  826  {
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  827  	struct dw_i3c_master *master = to_dw_i3c_master(m);
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  828  	struct dw_i3c_xfer *xfer;
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  829  	struct dw_i3c_cmd *cmd;
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  830  	u32 olddevs, newdevs;
+e89cc14e96a99c9 Wolfram Sang     2025-01-07  831  	u8 last_addr = 0;
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  832  	int ret, pos;
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  833  
+aa761a77390896d Adrian Ng Ho Yin 2025-10-31  834  	if (!(master->quirks & DW_I3C_DISABLE_RUNTIME_PM_QUIRK)) {
+62fe9d06f5709ca Aniket           2024-07-08  835  		ret = pm_runtime_resume_and_get(master->dev);
+62fe9d06f5709ca Aniket           2024-07-08  836  		if (ret < 0) {
+62fe9d06f5709ca Aniket           2024-07-08  837  			dev_err(master->dev,
+62fe9d06f5709ca Aniket           2024-07-08  838  				"<%s> cannot resume i3c bus master, err: %d\n",
+62fe9d06f5709ca Aniket           2024-07-08  839  				__func__, ret);
+62fe9d06f5709ca Aniket           2024-07-08  840  			return ret;
+62fe9d06f5709ca Aniket           2024-07-08  841  		}
+aa761a77390896d Adrian Ng Ho Yin 2025-10-31  842  	}
+62fe9d06f5709ca Aniket           2024-07-08  843  
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  844  	olddevs = ~(master->free_pos);
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  845  
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  846  	/* Prepare DAT before launching DAA. */
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  847  	for (pos = 0; pos < master->maxdevs; pos++) {
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  848  		if (olddevs & BIT(pos))
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  849  			continue;
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  850  
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  851  		ret = i3c_master_get_free_addr(m, last_addr + 1);
+62fe9d06f5709ca Aniket           2024-07-08  852  		if (ret < 0) {
+62fe9d06f5709ca Aniket           2024-07-08  853  			ret = -ENOSPC;
+62fe9d06f5709ca Aniket           2024-07-08  854  			goto rpm_out;
+62fe9d06f5709ca Aniket           2024-07-08  855  		}
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  856  
+e2d43101f61d6e7 Jeremy Kerr      2023-03-30  857  		master->devs[pos].addr = ret;
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  858  		last_addr = ret;
+e89cc14e96a99c9 Wolfram Sang     2025-01-07  859  
+e89cc14e96a99c9 Wolfram Sang     2025-01-07  860  		ret |= parity8(ret) ? 0 : BIT(7);
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  861  
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  862  		writel(DEV_ADDR_TABLE_DYNAMIC_ADDR(ret),
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  863  		       master->regs +
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  864  		       DEV_ADDR_TABLE_LOC(master->datstartaddr, pos));
+62fe9d06f5709ca Aniket           2024-07-08  865  
+62fe9d06f5709ca Aniket           2024-07-08  866  		ret = 0;
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  867  	}
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  868  
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  869  	xfer = dw_i3c_master_alloc_xfer(master, 1);
+62fe9d06f5709ca Aniket           2024-07-08  870  	if (!xfer) {
+62fe9d06f5709ca Aniket           2024-07-08  871  		ret = -ENOMEM;
+62fe9d06f5709ca Aniket           2024-07-08  872  		goto rpm_out;
+62fe9d06f5709ca Aniket           2024-07-08  873  	}
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  874  
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  875  	pos = dw_i3c_master_get_free_pos(master);
+13462ba1815db5a Tom Rix          2022-01-08  876  	if (pos < 0) {
+13462ba1815db5a Tom Rix          2022-01-08  877  		dw_i3c_master_free_xfer(xfer);
+62fe9d06f5709ca Aniket           2024-07-08  878  		ret = pos;
+62fe9d06f5709ca Aniket           2024-07-08  879  		goto rpm_out;
+13462ba1815db5a Tom Rix          2022-01-08  880  	}
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  881  	cmd = &xfer->cmds[0];
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  882  	cmd->cmd_hi = 0x1;
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  883  	cmd->cmd_lo = COMMAND_PORT_DEV_COUNT(master->maxdevs - pos) |
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  884  		      COMMAND_PORT_DEV_INDEX(pos) |
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  885  		      COMMAND_PORT_CMD(I3C_CCC_ENTDAA) |
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  886  		      COMMAND_PORT_ADDR_ASSGN_CMD |
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  887  		      COMMAND_PORT_TOC |
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  888  		      COMMAND_PORT_ROC;
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  889  
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  890  	dw_i3c_master_enqueue_xfer(master, xfer);
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  891  	if (!wait_for_completion_timeout(&xfer->comp, XFER_TIMEOUT))
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  892  		dw_i3c_master_dequeue_xfer(master, xfer);
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  893  
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  894  	newdevs = GENMASK(master->maxdevs - cmd->rx_len - 1, 0);
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  895  	newdevs &= ~olddevs;
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  896  
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  897  	for (pos = 0; pos < master->maxdevs; pos++) {
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  898  		if (newdevs & BIT(pos))
+e2d43101f61d6e7 Jeremy Kerr      2023-03-30  899  			i3c_master_add_i3c_dev_locked(m, master->devs[pos].addr);
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  900  	}
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  901  
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  902  	dw_i3c_master_free_xfer(xfer);
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  903  
+62fe9d06f5709ca Aniket           2024-07-08  904  rpm_out:
+aa761a77390896d Adrian Ng Ho Yin 2025-10-31  905  	if (!(master->quirks & DW_I3C_DISABLE_RUNTIME_PM_QUIRK))
+62fe9d06f5709ca Aniket           2024-07-08  906  		pm_runtime_put_autosuspend(master->dev);
+62fe9d06f5709ca Aniket           2024-07-08 @907  	return ret;
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  908  }
+1dd728f5d4d4b8b Vitor Soares     2018-11-13  909  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
