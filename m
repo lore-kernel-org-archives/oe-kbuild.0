@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BEBA8C11
-	for <oe-kbuild@lists.linux.dev>; Sun,  2 Nov 2025 01:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E241F1537
+	for <oe-kbuild@lists.linux.dev>; Sun,  2 Nov 2025 01:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762045511; cv=none; b=uPc4Zk3Zcz3dVQ0O4xv3cSClB0cB525ZeZAuLEDTrFI60kZ8EIyHeqiA6NlLt1gmGf5U13J2hfU4TkETA4GQWRMenVs7Hk2cyvDaWmKT1sda4Pjnsw6gbfaFuYPIzgfgN78Qi8UUsU9dNTD/Aqh7JwKaBz5fQalTPxfh/VVSy8I=
+	t=1762046799; cv=none; b=PH3Uibk2lvjs1TSVAtTjkecrzy2tUM+P7GU8Ts8LeXqx0R7xOmvt9N7xsUK3F6oAZ3GaVy26Bh+/nvzpdiajBHNijneQP2ttb9WFqSGhm46hUEWoltSYIrtrW04/Hml7hNxxA4Mvs9lUqnVP9tKqB85rHsikmhF7ehFhCyCPuV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762045511; c=relaxed/simple;
-	bh=RP/j5gItOJevMdif/nLUPwL2RtC7Rz2XXkl2MNx/avk=;
+	s=arc-20240116; t=1762046799; c=relaxed/simple;
+	bh=0EiiXzw8WwWRp8JZE0l/joV2Eawhgc+EXMBS9VuAc9s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NoYa939BDlj6yUh+1+y9C9ASn49kCjo4IkR8/y0hfSUzKhdQYZ2L9sfaxnPEUAbeISSG6/3a1hdfAHMowqHQpOU8RRmZ8LPE8LsrFJNLucF+baa+K49EnAIjPvTq/XQ8/e76xKVvAQaqxGm/dV1qZPCsQ7yhJG/HEptmDfr8oVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WXL4IlCs; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=WaxLNIr7ozx/BIbSYle0rxTKwqamXBWfZlplis39lUBvHauz5hcfFQM/8Ur7+pvjqlqpDKDLCNEwpRPxSZZZHRrutNOWHuRBbGsVYtF6ey7UO0yj1N33wTeJXirbINGWLFXEdN/SolCmLksR7oVCdYlAKGV8qw1tq8wFdSvJ6b8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nFEWww3s; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WXL4IlCs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nFEWww3s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762045510; x=1793581510;
+  t=1762046797; x=1793582797;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RP/j5gItOJevMdif/nLUPwL2RtC7Rz2XXkl2MNx/avk=;
-  b=WXL4IlCsJWi08ab4UT7WHTjA099NyHdCCakdj8jRBZRNzeGojP+rSztU
-   ZkaOS/UU8M/Znrcz7SDLXZD5Y8S9BJdn4u+rBE/C14fQX5VBNyZeWrkAD
-   Rl+pRdRxDOQm0Hrf+WPJuvOj6sIbiMPVKTiouPj5Gipstb8OTiRlOpZPz
-   Th0Wa0ykYdV17L4TmYD5K2HCebyivffp6DhsaS4FSQ8tltLXSQDa1FMDJ
-   6LoLInwC0bCNlybgOdv9nAmS+teOoDEOpY4krb944c94Pg8iOS2NWJDnY
-   FfQFtKO7Z303la0wPLHXkUEPFmezhmiLt7YnpfA9FwcCHCjpM4OfR4s5I
-   g==;
-X-CSE-ConnectionGUID: O9uNp18WQbKYmPF6ihmigQ==
-X-CSE-MsgGUID: vFkMroADTfqT4tWp+3L/Yg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="74459109"
+  bh=0EiiXzw8WwWRp8JZE0l/joV2Eawhgc+EXMBS9VuAc9s=;
+  b=nFEWww3suk2sWJlXvBuqyMSoHFd3LUhLvZQvheuGRuU5s8uvzxkrCvFq
+   wZ8ASAnBGOIHWX98TOaqm53uzjjmnB39x60sV3rops/vVQBKwjYXJYg/W
+   UFeFp+6BHLS+spWbOn115iznMZEq1Ao7RZtTTaZpTWyTYqM4W4jtMJs7y
+   2Dv5NkpGgrxAR826o0KiXe8Gfpyd2vGOBQN9dCp2vY30C/9GIU7nS6GHD
+   fFyfCYwAEuogW1spDwC003kfYgTmdWX+1VjMfVCbJQp7CC5msydiVWk1I
+   fkRwVqxdAODyBrzvT0OUCB+k4V0MDNwGUyUxHQ1yn+OxmbggQKuc25+OE
+   w==;
+X-CSE-ConnectionGUID: kHrSQfVDShSshUAbYRtPag==
+X-CSE-MsgGUID: 9lAVOSfERhe/CFpFGdlKFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="64266004"
 X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
-   d="scan'208";a="74459109"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 18:05:06 -0700
-X-CSE-ConnectionGUID: 0Uaw1I1xR+uphy77zGeWEw==
-X-CSE-MsgGUID: pRLJD18yRfm9ssbgI6o5vg==
+   d="scan'208";a="64266004"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 18:26:36 -0700
+X-CSE-ConnectionGUID: myMM6PgFSNmaV/mOhQR8zw==
+X-CSE-MsgGUID: eCKt/jgUSdWW+wIecmsR8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
-   d="scan'208";a="186502443"
+   d="scan'208";a="187004191"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 01 Nov 2025 18:05:04 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 01 Nov 2025 18:26:35 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFMWk-000OrI-0d;
-	Sun, 02 Nov 2025 01:05:02 +0000
-Date: Sun, 2 Nov 2025 09:04:21 +0800
+	id 1vFMrU-000OsO-0t;
+	Sun, 02 Nov 2025 01:26:29 +0000
+Date: Sun, 2 Nov 2025 09:25:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 32/32] drm/vkms: Introduce configfs for dynamic
- connector creation
-Message-ID: <202511020805.EYA4N7yV-lkp@intel.com>
+Subject: Re: [PATCH v4 2/2] audit: include source and destination ports to
+ NETFILTER_PKT
+Message-ID: <202511020905.3A5Sbhb2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,111 +64,169 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251029-vkms-all-config-v2-32-be20b9bf146e@bootlin.com>
-References: <20251029-vkms-all-config-v2-32-be20b9bf146e@bootlin.com>
-TO: Louis Chauvet <louis.chauvet@bootlin.com>
-TO: Haneen Mohammed <hamohammed.sa@gmail.com>
-TO: Simona Vetter <simona@ffwll.ch>
-TO: Melissa Wen <melissa.srw@gmail.com>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: David Airlie <airlied@gmail.com>
-TO: jose.exposito89@gmail.com
-TO: Jonathan Corbet <corbet@lwn.net>
-CC: victoria@system76.com
-CC: sebastian.wick@redhat.com
-CC: thomas.petazzoni@bootlin.com
-CC: dri-devel@lists.freedesktop.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-doc@vger.kernel.org
-CC: Louis Chauvet <louis.chauvet@bootlin.com>
+In-Reply-To: <6ac2baf0d5ae176cbd3279a4dff9e2c7750c6d45.1761918165.git.rrobaina@redhat.com>
+References: <6ac2baf0d5ae176cbd3279a4dff9e2c7750c6d45.1761918165.git.rrobaina@redhat.com>
+TO: Ricardo Robaina <rrobaina@redhat.com>
+TO: audit@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: netfilter-devel@vger.kernel.org
+TO: coreteam@netfilter.org
+CC: paul@paul-moore.com
+CC: eparis@redhat.com
+CC: fw@strlen.de
+CC: pablo@netfilter.org
+CC: kadlec@netfilter.org
+CC: Ricardo Robaina <rrobaina@redhat.com>
 
-Hi Louis,
+Hi Ricardo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 57fe8285dc4764171fa9eb1f153cae3bb313d6fc]
+[auto build test WARNING on pcmoore-audit/next]
+[also build test WARNING on netfilter-nf/main linus/master v6.18-rc3 next-20251031]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/drm-drm_mode_config-Add-helper-to-get-plane-type-name/20251030-023647
-base:   57fe8285dc4764171fa9eb1f153cae3bb313d6fc
-patch link:    https://lore.kernel.org/r/20251029-vkms-all-config-v2-32-be20b9bf146e%40bootlin.com
-patch subject: [PATCH v2 32/32] drm/vkms: Introduce configfs for dynamic connector creation
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-161-20251101 (https://download.01.org/0day-ci/archive/20251102/202511020805.EYA4N7yV-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ricardo-Robaina/audit-add-audit_log_packet_ip4-and-audit_log_packet_ip6-helper-functions/20251031-220605
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git next
+patch link:    https://lore.kernel.org/r/6ac2baf0d5ae176cbd3279a4dff9e2c7750c6d45.1761918165.git.rrobaina%40redhat.com
+patch subject: [PATCH v4 2/2] audit: include source and destination ports to NETFILTER_PKT
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: i386-randconfig-141-20251102 (https://download.01.org/0day-ci/archive/20251102/202511020905.3A5Sbhb2-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511020805.EYA4N7yV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511020905.3A5Sbhb2-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/vkms/vkms_configfs.c:1409 connector_enabled_store() warn: inconsistent returns '&connector->dev->lock'.
+smatch warnings:
+kernel/audit.c:2555 audit_log_packet_ip4() warn: statement has no effect 'struct'
+kernel/audit.c:2616 audit_log_packet_ip6() warn: statement has no effect 'struct'
 
-Old smatch warnings:
-drivers/gpu/drm/vkms/vkms_configfs.c:226 make_crtc_group() error: dereferencing freed memory 'crtc' (line 225)
-drivers/gpu/drm/vkms/vkms_configfs.c:986 make_plane_group() error: dereferencing freed memory 'plane' (line 985)
-drivers/gpu/drm/vkms/vkms_configfs.c:1100 make_encoder_group() error: dereferencing freed memory 'encoder' (line 1099)
-drivers/gpu/drm/vkms/vkms_configfs.c:1577 make_connector_group() error: dereferencing freed memory 'connector' (line 1576)
-drivers/gpu/drm/vkms/vkms_configfs.c:1693 make_device_group() error: dereferencing freed memory 'dev' (line 1692)
+vim +/struct +2555 kernel/audit.c
 
-vim +1409 drivers/gpu/drm/vkms/vkms_configfs.c
-
-6dc93929c68749 Louis Chauvet 2025-10-29  1360  
-6dc93929c68749 Louis Chauvet 2025-10-29  1361  static ssize_t connector_enabled_store(struct config_item *item,
-6dc93929c68749 Louis Chauvet 2025-10-29  1362  				       const char *page, size_t count)
-6dc93929c68749 Louis Chauvet 2025-10-29  1363  {
-6dc93929c68749 Louis Chauvet 2025-10-29  1364  	struct vkms_configfs_connector *connector;
-6dc93929c68749 Louis Chauvet 2025-10-29  1365  	struct vkms_config_connector *connector_cfg;
-6dc93929c68749 Louis Chauvet 2025-10-29  1366  	bool enabled, was_enabled;
-6dc93929c68749 Louis Chauvet 2025-10-29  1367  
-6dc93929c68749 Louis Chauvet 2025-10-29  1368  	connector = connector_item_to_vkms_configfs_connector(item);
-6dc93929c68749 Louis Chauvet 2025-10-29  1369  	connector_cfg = connector->config;
-6dc93929c68749 Louis Chauvet 2025-10-29  1370  
-6dc93929c68749 Louis Chauvet 2025-10-29  1371  	if (kstrtobool(page, &enabled))
-6dc93929c68749 Louis Chauvet 2025-10-29  1372  		return -EINVAL;
-6dc93929c68749 Louis Chauvet 2025-10-29  1373  	scoped_guard(mutex, &connector->dev->lock) {
-6dc93929c68749 Louis Chauvet 2025-10-29  1374  		if (!connector->dev->enabled) {
-6dc93929c68749 Louis Chauvet 2025-10-29  1375  			vkms_config_connector_set_enabled(connector_cfg, enabled);
-6dc93929c68749 Louis Chauvet 2025-10-29  1376  		} else {
-6dc93929c68749 Louis Chauvet 2025-10-29  1377  			// Only dynamic connector can be enabled/disabled at runtime
-6dc93929c68749 Louis Chauvet 2025-10-29  1378  			if (!connector_cfg->dynamic)
-6dc93929c68749 Louis Chauvet 2025-10-29  1379  				return -EBUSY;
-6dc93929c68749 Louis Chauvet 2025-10-29  1380  
-6dc93929c68749 Louis Chauvet 2025-10-29  1381  			was_enabled = vkms_config_connector_is_enabled(connector_cfg);
-6dc93929c68749 Louis Chauvet 2025-10-29  1382  			vkms_config_connector_set_enabled(connector_cfg, enabled);
-6dc93929c68749 Louis Chauvet 2025-10-29  1383  
-6dc93929c68749 Louis Chauvet 2025-10-29  1384  			// Resulting configuration is invalid (missing encoder for example)
-6dc93929c68749 Louis Chauvet 2025-10-29  1385  			// Early return to avoid drm core issue
-6dc93929c68749 Louis Chauvet 2025-10-29  1386  			if (!vkms_config_is_valid(connector->dev->config)) {
-6dc93929c68749 Louis Chauvet 2025-10-29  1387  				count = -EINVAL;
-6dc93929c68749 Louis Chauvet 2025-10-29  1388  				goto rollback;
-6dc93929c68749 Louis Chauvet 2025-10-29  1389  			}
-6dc93929c68749 Louis Chauvet 2025-10-29  1390  
-6dc93929c68749 Louis Chauvet 2025-10-29  1391  			if (!was_enabled && enabled) {
-6dc93929c68749 Louis Chauvet 2025-10-29  1392  				// Adding the connector
-6dc93929c68749 Louis Chauvet 2025-10-29  1393  				connector_cfg->connector = vkms_connector_hot_add(connector->dev->config->dev,
-6dc93929c68749 Louis Chauvet 2025-10-29  1394  										  connector_cfg);
-6dc93929c68749 Louis Chauvet 2025-10-29  1395  				if (IS_ERR(connector_cfg->connector)) {
-6dc93929c68749 Louis Chauvet 2025-10-29  1396  					count = PTR_ERR(connector_cfg->connector);
-6dc93929c68749 Louis Chauvet 2025-10-29  1397  					goto rollback;
-6dc93929c68749 Louis Chauvet 2025-10-29  1398  				}
-6dc93929c68749 Louis Chauvet 2025-10-29  1399  			} else if (was_enabled && !enabled) {
-6dc93929c68749 Louis Chauvet 2025-10-29  1400  				vkms_connector_hot_remove(connector->dev->config->dev,
-6dc93929c68749 Louis Chauvet 2025-10-29  1401  							  connector_cfg->connector);
-6dc93929c68749 Louis Chauvet 2025-10-29  1402  			}
-6dc93929c68749 Louis Chauvet 2025-10-29  1403  		}
-6dc93929c68749 Louis Chauvet 2025-10-29  1404  	}
-6dc93929c68749 Louis Chauvet 2025-10-29  1405  	return count;
-6dc93929c68749 Louis Chauvet 2025-10-29  1406  
-6dc93929c68749 Louis Chauvet 2025-10-29  1407  rollback:
-6dc93929c68749 Louis Chauvet 2025-10-29  1408  	vkms_config_connector_set_enabled(connector_cfg, was_enabled);
-6dc93929c68749 Louis Chauvet 2025-10-29 @1409  	return count;
-6dc93929c68749 Louis Chauvet 2025-10-29  1410  }
-6dc93929c68749 Louis Chauvet 2025-10-29  1411  
+4b7d248b3a1de4 Richard Guy Briggs 2019-01-22  2543  
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2544  bool audit_log_packet_ip4(struct audit_buffer *ab, struct sk_buff *skb)
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2545  {
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2546  	struct iphdr _iph;
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2547  	const struct iphdr *ih;
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2548  
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2549  	ih = skb_header_pointer(skb, skb_network_offset(skb), sizeof(_iph), &_iph);
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2550  	if (!ih)
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2551  		return false;
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2552  
+3139583951cf29 Ricardo Robaina    2025-10-31  2553  	switch (ih->protocol) {
+3139583951cf29 Ricardo Robaina    2025-10-31  2554  	case IPPROTO_TCP:
+3139583951cf29 Ricardo Robaina    2025-10-31 @2555  		struct tcphdr _tcph;
+3139583951cf29 Ricardo Robaina    2025-10-31  2556  		const struct tcphdr *th;
+3139583951cf29 Ricardo Robaina    2025-10-31  2557  
+3139583951cf29 Ricardo Robaina    2025-10-31  2558  		th = skb_header_pointer(skb, skb_transport_offset(skb), sizeof(_tcph), &_tcph);
+3139583951cf29 Ricardo Robaina    2025-10-31  2559  		if (!th)
+3139583951cf29 Ricardo Robaina    2025-10-31  2560  			return false;
+3139583951cf29 Ricardo Robaina    2025-10-31  2561  
+3139583951cf29 Ricardo Robaina    2025-10-31  2562  		audit_log_format(ab, " saddr=%pI4 daddr=%pI4 proto=%hhu sport=%hu dport=%hu",
+3139583951cf29 Ricardo Robaina    2025-10-31  2563  				 &ih->saddr, &ih->daddr, ih->protocol,
+3139583951cf29 Ricardo Robaina    2025-10-31  2564  				 ntohs(th->source), ntohs(th->dest));
+3139583951cf29 Ricardo Robaina    2025-10-31  2565  		break;
+3139583951cf29 Ricardo Robaina    2025-10-31  2566  	case IPPROTO_UDP:
+3139583951cf29 Ricardo Robaina    2025-10-31  2567  	case IPPROTO_UDPLITE:
+3139583951cf29 Ricardo Robaina    2025-10-31  2568  		struct udphdr _udph;
+3139583951cf29 Ricardo Robaina    2025-10-31  2569  		const struct udphdr *uh;
+3139583951cf29 Ricardo Robaina    2025-10-31  2570  
+3139583951cf29 Ricardo Robaina    2025-10-31  2571  		uh = skb_header_pointer(skb, skb_transport_offset(skb), sizeof(_udph), &_udph);
+3139583951cf29 Ricardo Robaina    2025-10-31  2572  		if (!uh)
+3139583951cf29 Ricardo Robaina    2025-10-31  2573  			return false;
+3139583951cf29 Ricardo Robaina    2025-10-31  2574  
+3139583951cf29 Ricardo Robaina    2025-10-31  2575  		audit_log_format(ab, " saddr=%pI4 daddr=%pI4 proto=%hhu sport=%hu dport=%hu",
+3139583951cf29 Ricardo Robaina    2025-10-31  2576  				 &ih->saddr, &ih->daddr, ih->protocol,
+3139583951cf29 Ricardo Robaina    2025-10-31  2577  				 ntohs(uh->source), ntohs(uh->dest));
+3139583951cf29 Ricardo Robaina    2025-10-31  2578  		break;
+3139583951cf29 Ricardo Robaina    2025-10-31  2579  	case IPPROTO_SCTP:
+3139583951cf29 Ricardo Robaina    2025-10-31  2580  		struct sctphdr _sctph;
+3139583951cf29 Ricardo Robaina    2025-10-31  2581  		const struct sctphdr *sh;
+3139583951cf29 Ricardo Robaina    2025-10-31  2582  
+3139583951cf29 Ricardo Robaina    2025-10-31  2583  		sh = skb_header_pointer(skb, skb_transport_offset(skb), sizeof(_sctph), &_sctph);
+3139583951cf29 Ricardo Robaina    2025-10-31  2584  		if (!sh)
+3139583951cf29 Ricardo Robaina    2025-10-31  2585  			return false;
+3139583951cf29 Ricardo Robaina    2025-10-31  2586  
+3139583951cf29 Ricardo Robaina    2025-10-31  2587  		audit_log_format(ab, " saddr=%pI4 daddr=%pI4 proto=%hhu sport=%hu dport=%hu",
+3139583951cf29 Ricardo Robaina    2025-10-31  2588  				 &ih->saddr, &ih->daddr, ih->protocol,
+3139583951cf29 Ricardo Robaina    2025-10-31  2589  				 ntohs(sh->source), ntohs(sh->dest));
+3139583951cf29 Ricardo Robaina    2025-10-31  2590  		break;
+3139583951cf29 Ricardo Robaina    2025-10-31  2591  	default:
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2592  		audit_log_format(ab, " saddr=%pI4 daddr=%pI4 proto=%hhu",
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2593  				 &ih->saddr, &ih->daddr, ih->protocol);
+3139583951cf29 Ricardo Robaina    2025-10-31  2594  	}
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2595  
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2596  	return true;
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2597  }
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2598  EXPORT_SYMBOL(audit_log_packet_ip4);
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2599  
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2600  bool audit_log_packet_ip6(struct audit_buffer *ab, struct sk_buff *skb)
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2601  {
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2602  	struct ipv6hdr _ip6h;
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2603  	const struct ipv6hdr *ih;
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2604  	u8 nexthdr;
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2605  	__be16 frag_off;
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2606  
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2607  	ih = skb_header_pointer(skb, skb_network_offset(skb), sizeof(_ip6h), &_ip6h);
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2608  	if (!ih)
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2609  		return false;
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2610  
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2611  	nexthdr = ih->nexthdr;
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2612  	ipv6_skip_exthdr(skb, skb_network_offset(skb) + sizeof(_ip6h), &nexthdr, &frag_off);
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2613  
+3139583951cf29 Ricardo Robaina    2025-10-31  2614  	switch (nexthdr) {
+3139583951cf29 Ricardo Robaina    2025-10-31  2615  	case IPPROTO_TCP:
+3139583951cf29 Ricardo Robaina    2025-10-31 @2616  		struct tcphdr _tcph;
+3139583951cf29 Ricardo Robaina    2025-10-31  2617  		const struct tcphdr *th;
+3139583951cf29 Ricardo Robaina    2025-10-31  2618  
+3139583951cf29 Ricardo Robaina    2025-10-31  2619  		th = skb_header_pointer(skb, skb_transport_offset(skb), sizeof(_tcph), &_tcph);
+3139583951cf29 Ricardo Robaina    2025-10-31  2620  		if (!th)
+3139583951cf29 Ricardo Robaina    2025-10-31  2621  			return false;
+3139583951cf29 Ricardo Robaina    2025-10-31  2622  
+3139583951cf29 Ricardo Robaina    2025-10-31  2623  		audit_log_format(ab, " saddr=%pI6c daddr=%pI6c proto=%hhu sport=%hu dport=%hu",
+3139583951cf29 Ricardo Robaina    2025-10-31  2624  				 &ih->saddr, &ih->daddr, nexthdr,
+3139583951cf29 Ricardo Robaina    2025-10-31  2625  				 ntohs(th->source), ntohs(th->dest));
+3139583951cf29 Ricardo Robaina    2025-10-31  2626  		break;
+3139583951cf29 Ricardo Robaina    2025-10-31  2627  	case IPPROTO_UDP:
+3139583951cf29 Ricardo Robaina    2025-10-31  2628  	case IPPROTO_UDPLITE:
+3139583951cf29 Ricardo Robaina    2025-10-31  2629  		struct udphdr _udph;
+3139583951cf29 Ricardo Robaina    2025-10-31  2630  		const struct udphdr *uh;
+3139583951cf29 Ricardo Robaina    2025-10-31  2631  
+3139583951cf29 Ricardo Robaina    2025-10-31  2632  		uh = skb_header_pointer(skb, skb_transport_offset(skb), sizeof(_udph), &_udph);
+3139583951cf29 Ricardo Robaina    2025-10-31  2633  		if (!uh)
+3139583951cf29 Ricardo Robaina    2025-10-31  2634  			return false;
+3139583951cf29 Ricardo Robaina    2025-10-31  2635  
+3139583951cf29 Ricardo Robaina    2025-10-31  2636  		audit_log_format(ab, " saddr=%pI6c daddr=%pI6c proto=%hhu sport=%hu dport=%hu",
+3139583951cf29 Ricardo Robaina    2025-10-31  2637  				 &ih->saddr, &ih->daddr, nexthdr,
+3139583951cf29 Ricardo Robaina    2025-10-31  2638  				 ntohs(uh->source), ntohs(uh->dest));
+3139583951cf29 Ricardo Robaina    2025-10-31  2639  		break;
+3139583951cf29 Ricardo Robaina    2025-10-31  2640  	case IPPROTO_SCTP:
+3139583951cf29 Ricardo Robaina    2025-10-31  2641  		struct sctphdr _sctph;
+3139583951cf29 Ricardo Robaina    2025-10-31  2642  		const struct sctphdr *sh;
+3139583951cf29 Ricardo Robaina    2025-10-31  2643  
+3139583951cf29 Ricardo Robaina    2025-10-31  2644  		sh = skb_header_pointer(skb, skb_transport_offset(skb), sizeof(_sctph), &_sctph);
+3139583951cf29 Ricardo Robaina    2025-10-31  2645  		if (!sh)
+3139583951cf29 Ricardo Robaina    2025-10-31  2646  			return false;
+3139583951cf29 Ricardo Robaina    2025-10-31  2647  
+3139583951cf29 Ricardo Robaina    2025-10-31  2648  		audit_log_format(ab, " saddr=%pI6c daddr=%pI6c proto=%hhu sport=%hu dport=%hu",
+3139583951cf29 Ricardo Robaina    2025-10-31  2649  				 &ih->saddr, &ih->daddr, nexthdr,
+3139583951cf29 Ricardo Robaina    2025-10-31  2650  				 ntohs(sh->source), ntohs(sh->dest));
+3139583951cf29 Ricardo Robaina    2025-10-31  2651  		break;
+3139583951cf29 Ricardo Robaina    2025-10-31  2652  	default:
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2653  		audit_log_format(ab, " saddr=%pI6c daddr=%pI6c proto=%hhu",
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2654  				 &ih->saddr, &ih->daddr, nexthdr);
+3139583951cf29 Ricardo Robaina    2025-10-31  2655  	}
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2656  
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2657  	return true;
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2658  }
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2659  EXPORT_SYMBOL(audit_log_packet_ip6);
+3280a1e8d8a110 Ricardo Robaina    2025-10-31  2660  
 
 -- 
 0-DAY CI Kernel Test Service
