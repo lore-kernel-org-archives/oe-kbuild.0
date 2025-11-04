@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A88630F808
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Nov 2025 07:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D14148850
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Nov 2025 09:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762242456; cv=none; b=ULR2eGPpwC+uk/kdkb0lCiC/Rye0n+ntheQHqOtjAgoJHio9saPeV/ki1AwxoSpcChmGbvBGzd5kQm0NcSG5L8VrHzDYLTLjtkPShyY2UnQGgIX2tsTV09kkn2TQP0tiOrn5q2sdS3+3Vl9RHg6yngHxcS6oIJwIie0B746Aeh0=
+	t=1762248795; cv=none; b=M7FBmobyDoP9edeOigjEuxtbQKKjVf4+1Vs6lP/uBIFQDKjleDmic1f81QyxWi1X34YXiH0l4DOA2TbJleV+IkF5OIOpH0mD5GoU9xkSZR45reh8FIM8criOCsUTk7qrI8n7bUjgmmqEbUI6MUmDtUQwQ6eulZXBWthggz2tUbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762242456; c=relaxed/simple;
-	bh=UUIMqNkx2g13KdUrroWMffiRWx380/VXncGALBENg1o=;
+	s=arc-20240116; t=1762248795; c=relaxed/simple;
+	bh=RXxDWOy8t116i9vztAV85njYTX5Cm/ZjiIcPIaYo7qA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uXfB7pHt7/whxBnRbm7y428KN3VsfdRif0ByC4OgDNdqpPqFvyZ+VcSd6OwQKETsO5Yy3bMaFmOK15xGz++Y9DQS1DBDnDeyQlLhUdLvizQWn2aT+4ozVci82Ihr/KHf/sWcATTUGD3mijEfMmFc6iloMQiYTS4KaSGCa1jMcoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M+GLaruB; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=n1enI4MCFdteWDXA55QTC4Mp/R5wqo0NzeAMfojuXymOj2sYpAEdo3YoIsmTpxOt/bpkrj4tt8M+eJluU6vbbG3C9kOp037nZXBacpN07nXJx3/mbR6q+rwAfMVspsRkZHMw54DHkiogRUYZPPvVaTCWw2Y1D+4y+R4Olv1uy7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R55dSWMu; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M+GLaruB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R55dSWMu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762242455; x=1793778455;
+  t=1762248794; x=1793784794;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UUIMqNkx2g13KdUrroWMffiRWx380/VXncGALBENg1o=;
-  b=M+GLaruBVEjxHjh7GrdyIB+0JZ4JDWkUqOFwJUaHtCwIjRkf442z28d/
-   /E576vTLva8GP7/oVbm8DMnJ8Cd/2XhNlPPMSve8HHxoDMDp3dY1h/Vnl
-   ET05t0H02y8pgGvAqU1l8d9RgcVyRnMfDwD62sVe6jlieWdFRF2Aj03Zf
-   1zKA6EwqvkbbXEYg2jXMqpg5OhWSf5UhP/ZcUMfNWVYcvhRViTepzQgrF
-   EaP6fWjfVxutxJxnxY+SKUoS6pubreiGBQnG9a6K+g3AHOVKBuNsfocoh
-   liXQPLkMWUJz5I1T0stfIqcmyUJPOmwWkOEWOJUVp2w9CcpfflUVsAGPq
-   Q==;
-X-CSE-ConnectionGUID: vpuH/9GnQQ2zR2yR3cJeog==
-X-CSE-MsgGUID: rx92Vl3QRQSU4q2+t4l6DA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="75778922"
+  bh=RXxDWOy8t116i9vztAV85njYTX5Cm/ZjiIcPIaYo7qA=;
+  b=R55dSWMuR0Xm9m/rphCSgvOGLEsvvd2kgxA5avBQMChiRGWnNYgudiwd
+   YPNw3jm3cfqWo4DBECHDUwiWkfb3X3UeBrJ6UpB+GXLACnA59L/SOyzf1
+   +I4PFobXmliaqVgmWZeOfdCklN/oQ81ti1GHpOSwlO8nXFLkH1Xh3TXbE
+   dhCPSEE/A+fM3pUpjubAOEm5NPBaTH6cLQdGS2MbGww2v5CY5s1voYiGz
+   3qL88Cdor2halnnxYNxfwEQS2wRELnXFFpzB5m6MrP4FoMIAI45UK3B/q
+   Qb/PjCV/TtKp+mUu/MKlTtjzLVM0IVLUM/Ku+bHqNGmhleid1S75Wte0r
+   g==;
+X-CSE-ConnectionGUID: Xu56qCcaTVCdIjl48r6JWA==
+X-CSE-MsgGUID: xc/D3vnWQfuhZZKNNrTMew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="74630468"
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="75778922"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 23:47:34 -0800
-X-CSE-ConnectionGUID: 8R6qds6ZRAGqMzqYCCMakw==
-X-CSE-MsgGUID: GaCtcJbSRS6tGFIz7BPRdw==
+   d="scan'208";a="74630468"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 01:33:14 -0800
+X-CSE-ConnectionGUID: TvmES2OnT3+GTOAFKs7qvw==
+X-CSE-MsgGUID: 1FdPp1UsSRW2J+Rut4+fFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="210593760"
+   d="scan'208";a="191420971"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Nov 2025 23:47:31 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 04 Nov 2025 01:33:11 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGBlJ-000R48-2H;
-	Tue, 04 Nov 2025 07:47:29 +0000
-Date: Tue, 4 Nov 2025 15:47:23 +0800
+	id 1vGDPZ-000RCk-1X;
+	Tue, 04 Nov 2025 09:33:09 +0000
+Date: Tue, 4 Nov 2025 17:33:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [avpatel:riscv_trace_support_v2 48/58]
- drivers/hwtracing/rvtrace/rvtrace-platform.c:83 rvtrace_of_parse_outconns()
- error: we previously assumed 'pdata->outconns' could be null (see line 29)
-Message-ID: <202511041509.Nqw6F4Fn-lkp@intel.com>
+Subject: [brauner-github:kernel-6.19.cred 16/39] fs/backing-file.c:351
+ backing_file_mmap() error: uninitialized symbol 'ret'.
+Message-ID: <202511041714.3Oqu6b3i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,106 +64,64 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Anup Patel <apatel@ventanamicro.com>
-CC: Mayuresh Chitale <mchitale@ventanamicro.com>
+CC: Christian Brauner <christianvanbrauner@gmail.com>
+TO: Christian Brauner <brauner@kernel.org>
+CC: Amir Goldstein <amir73il@gmail.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v2
-head:   41e2962102e2318916f87f0ed7eb297a6b3224d3
-commit: 23eb544f3ac1c85fd63c43865b4429cbcfd35e63 [48/58] rvtrace: Initial implementation of driver framework
-:::::: branch date: 25 hours ago
-:::::: commit date: 5 days ago
-config: riscv-randconfig-r071-20251103 (https://download.01.org/0day-ci/archive/20251104/202511041509.Nqw6F4Fn-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.1.0
+tree:   https://github.com/brauner/linux.git kernel-6.19.cred
+head:   59e578cf86c391d6595e005247ebefd4f371242c
+commit: 4e5d527a5e962d0f0e7b5fa317e582354e730477 [16/39] backing-file: use credential guards for mmap
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: sparc-randconfig-r073-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041714.3Oqu6b3i-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511041509.Nqw6F4Fn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511041714.3Oqu6b3i-lkp@intel.com/
 
-smatch warnings:
-drivers/hwtracing/rvtrace/rvtrace-platform.c:83 rvtrace_of_parse_outconns() error: we previously assumed 'pdata->outconns' could be null (see line 29)
+New smatch warnings:
+fs/backing-file.c:351 backing_file_mmap() error: uninitialized symbol 'ret'.
 
-vim +83 drivers/hwtracing/rvtrace/rvtrace-platform.c
+Old smatch warnings:
+fs/backing-file.c:209 backing_file_read_iter() error: uninitialized symbol 'ret'.
+fs/backing-file.c:297 backing_file_splice_read() error: uninitialized symbol 'ret'.
 
-23eb544f3ac1c8 Anup Patel 2025-07-10  14  
-23eb544f3ac1c8 Anup Patel 2025-07-10  15  static int rvtrace_of_parse_outconns(struct rvtrace_platform_data *pdata)
-23eb544f3ac1c8 Anup Patel 2025-07-10  16  {
-23eb544f3ac1c8 Anup Patel 2025-07-10  17  	struct device_node *parent, *ep_node, *rep_node, *rdev_node;
-23eb544f3ac1c8 Anup Patel 2025-07-10  18  	struct rvtrace_connection *conn;
-23eb544f3ac1c8 Anup Patel 2025-07-10  19  	struct of_endpoint ep, rep;
-23eb544f3ac1c8 Anup Patel 2025-07-10  20  	int ret = 0, i = 0;
-23eb544f3ac1c8 Anup Patel 2025-07-10  21  
-23eb544f3ac1c8 Anup Patel 2025-07-10  22  	parent = of_get_child_by_name(dev_of_node(pdata->dev), "out-ports");
-23eb544f3ac1c8 Anup Patel 2025-07-10  23  	if (!parent)
-23eb544f3ac1c8 Anup Patel 2025-07-10  24  		return 0;
-23eb544f3ac1c8 Anup Patel 2025-07-10  25  
-23eb544f3ac1c8 Anup Patel 2025-07-10  26  	pdata->nr_outconns = of_graph_get_endpoint_count(parent);
-23eb544f3ac1c8 Anup Patel 2025-07-10  27  	pdata->outconns = devm_kcalloc(pdata->dev, pdata->nr_outconns,
-23eb544f3ac1c8 Anup Patel 2025-07-10  28  				       sizeof(*pdata->outconns), GFP_KERNEL);
-23eb544f3ac1c8 Anup Patel 2025-07-10 @29  	if (!pdata->outconns) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  30  		ret = -ENOMEM;
-23eb544f3ac1c8 Anup Patel 2025-07-10  31  		goto done;
-23eb544f3ac1c8 Anup Patel 2025-07-10  32  	}
-23eb544f3ac1c8 Anup Patel 2025-07-10  33  
-23eb544f3ac1c8 Anup Patel 2025-07-10  34  	for_each_endpoint_of_node(parent, ep_node) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  35  		conn = devm_kzalloc(pdata->dev, sizeof(*conn), GFP_KERNEL);
-23eb544f3ac1c8 Anup Patel 2025-07-10  36  		if (!conn) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  37  			of_node_put(ep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  38  			ret = -ENOMEM;
-23eb544f3ac1c8 Anup Patel 2025-07-10  39  			break;
-23eb544f3ac1c8 Anup Patel 2025-07-10  40  		}
-23eb544f3ac1c8 Anup Patel 2025-07-10  41  
-23eb544f3ac1c8 Anup Patel 2025-07-10  42  		ret = of_graph_parse_endpoint(ep_node, &ep);
-23eb544f3ac1c8 Anup Patel 2025-07-10  43  		if (ret) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  44  			of_node_put(ep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  45  			break;
-23eb544f3ac1c8 Anup Patel 2025-07-10  46  		}
-23eb544f3ac1c8 Anup Patel 2025-07-10  47  
-23eb544f3ac1c8 Anup Patel 2025-07-10  48  		rep_node = of_graph_get_remote_endpoint(ep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  49  		if (!rep_node) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  50  			ret = -ENODEV;
-23eb544f3ac1c8 Anup Patel 2025-07-10  51  			of_node_put(ep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  52  			break;
-23eb544f3ac1c8 Anup Patel 2025-07-10  53  		}
-23eb544f3ac1c8 Anup Patel 2025-07-10  54  		rdev_node = of_graph_get_port_parent(rep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  55  
-23eb544f3ac1c8 Anup Patel 2025-07-10  56  		ret = of_graph_parse_endpoint(rep_node, &rep);
-23eb544f3ac1c8 Anup Patel 2025-07-10  57  		if (ret) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  58  			of_node_put(ep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  59  			break;
-23eb544f3ac1c8 Anup Patel 2025-07-10  60  		}
-23eb544f3ac1c8 Anup Patel 2025-07-10  61  
-23eb544f3ac1c8 Anup Patel 2025-07-10  62  		conn->src_port = ep.port;
-23eb544f3ac1c8 Anup Patel 2025-07-10  63  		conn->src_fwnode = dev_fwnode(pdata->dev);
-23eb544f3ac1c8 Anup Patel 2025-07-10  64  		/* The 'src_comp' is set by rvtrace_register_component() */
-23eb544f3ac1c8 Anup Patel 2025-07-10  65  		conn->src_comp = NULL;
-23eb544f3ac1c8 Anup Patel 2025-07-10  66  		conn->dest_port = rep.port;
-23eb544f3ac1c8 Anup Patel 2025-07-10  67  		conn->dest_fwnode = of_fwnode_handle(rdev_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  68  		fwnode_handle_get(conn->dest_fwnode);
-23eb544f3ac1c8 Anup Patel 2025-07-10  69  		conn->dest_comp = rvtrace_find_by_fwnode(conn->dest_fwnode);
-23eb544f3ac1c8 Anup Patel 2025-07-10  70  		if (!conn->dest_comp) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  71  			ret = -EPROBE_DEFER;
-23eb544f3ac1c8 Anup Patel 2025-07-10  72  			of_node_put(ep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  73  			break;
-23eb544f3ac1c8 Anup Patel 2025-07-10  74  		}
-23eb544f3ac1c8 Anup Patel 2025-07-10  75  
-23eb544f3ac1c8 Anup Patel 2025-07-10  76  		pdata->outconns[i] = conn;
-23eb544f3ac1c8 Anup Patel 2025-07-10  77  		i++;
-23eb544f3ac1c8 Anup Patel 2025-07-10  78  	}
-23eb544f3ac1c8 Anup Patel 2025-07-10  79  
-23eb544f3ac1c8 Anup Patel 2025-07-10  80  done:
-23eb544f3ac1c8 Anup Patel 2025-07-10  81  	if (ret) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  82  		for (i = 0; i < pdata->nr_outconns; i++) {
-23eb544f3ac1c8 Anup Patel 2025-07-10 @83  			conn = pdata->outconns[i];
-23eb544f3ac1c8 Anup Patel 2025-07-10  84  			if (conn && conn->dest_fwnode)
-23eb544f3ac1c8 Anup Patel 2025-07-10  85  				fwnode_handle_put(conn->dest_fwnode);
-23eb544f3ac1c8 Anup Patel 2025-07-10  86  		}
-23eb544f3ac1c8 Anup Patel 2025-07-10  87  	}
-23eb544f3ac1c8 Anup Patel 2025-07-10  88  	of_node_put(parent);
-23eb544f3ac1c8 Anup Patel 2025-07-10  89  	return ret;
-23eb544f3ac1c8 Anup Patel 2025-07-10  90  }
-23eb544f3ac1c8 Anup Patel 2025-07-10  91  
+vim +/ret +351 fs/backing-file.c
+
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  330  
+f567377e406c03 Amir Goldstein    2023-10-13  331  int backing_file_mmap(struct file *file, struct vm_area_struct *vma,
+f567377e406c03 Amir Goldstein    2023-10-13  332  		      struct backing_file_ctx *ctx)
+f567377e406c03 Amir Goldstein    2023-10-13  333  {
+2957fa4931a3b6 Amir Goldstein    2024-11-26  334  	struct file *user_file = vma->vm_file;
+f567377e406c03 Amir Goldstein    2023-10-13  335  	int ret;
+f567377e406c03 Amir Goldstein    2023-10-13  336  
+48b50624aec454 Miklos Szeredi    2024-10-21  337  	if (WARN_ON_ONCE(!(file->f_mode & FMODE_BACKING)))
+f567377e406c03 Amir Goldstein    2023-10-13  338  		return -EIO;
+f567377e406c03 Amir Goldstein    2023-10-13  339  
+b013ed403197f3 Lorenzo Stoakes   2025-06-16  340  	if (!can_mmap_file(file))
+f567377e406c03 Amir Goldstein    2023-10-13  341  		return -ENODEV;
+f567377e406c03 Amir Goldstein    2023-10-13  342  
+f567377e406c03 Amir Goldstein    2023-10-13  343  	vma_set_file(vma, file);
+f567377e406c03 Amir Goldstein    2023-10-13  344  
+4e5d527a5e962d Christian Brauner 2025-11-03  345  	scoped_with_creds(ctx->cred)
+20ca475d9860e1 Lorenzo Stoakes   2025-06-16  346  		ret = vfs_mmap(vma->vm_file, vma);
+f567377e406c03 Amir Goldstein    2023-10-13  347  
+f567377e406c03 Amir Goldstein    2023-10-13  348  	if (ctx->accessed)
+2957fa4931a3b6 Amir Goldstein    2024-11-26  349  		ctx->accessed(user_file);
+f567377e406c03 Amir Goldstein    2023-10-13  350  
+f567377e406c03 Amir Goldstein    2023-10-13 @351  	return ret;
+f567377e406c03 Amir Goldstein    2023-10-13  352  }
+f567377e406c03 Amir Goldstein    2023-10-13  353  EXPORT_SYMBOL_GPL(backing_file_mmap);
+f567377e406c03 Amir Goldstein    2023-10-13  354  
+
+:::::: The code at line 351 was first introduced by commit
+:::::: f567377e406c032fff0799bde4fdf4a977529b84 fs: factor out backing_file_mmap() helper
+
+:::::: TO: Amir Goldstein <amir73il@gmail.com>
+:::::: CC: Amir Goldstein <amir73il@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
