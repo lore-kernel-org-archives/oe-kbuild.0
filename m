@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25F814EC73
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Nov 2025 03:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEDA72614
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Nov 2025 05:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762226137; cv=none; b=Xy6jNwn7E84gysE7Tk2l+fDFjtHxR0hHgpiQOTsfAWaILZCsgfayw00as8n3QA6FmiJ5vq35sAJ5zXT6f9glaq1a+vVu91tYttFv5d/nS2mqoml3RQUmjzJWu7iDJJH550AxwVrXP6SCerhvRdSGCjxZ4RCUzZJkz2Tc5keikMQ=
+	t=1762234875; cv=none; b=GJtoQr9KeujK9fOX4SPJrkrbZBRZEuhYiRhn0cdBfog2+nE7iahtPiiPiXQaCmjsYbHmWJY4H1e8A3dK+1LvxP8MHFgwvvalaGFmG8V+kIabCrgZ9dYIbIwKmfuv+FM4gfbkRGmmmsK9JG5y7D+LGUqxOFbJpdISO4gIQZNDcHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762226137; c=relaxed/simple;
-	bh=q55iD40274/B/LRQ0BCWV++MVJtfFeBc4dp58HMnet4=;
+	s=arc-20240116; t=1762234875; c=relaxed/simple;
+	bh=ZWvKAzbBTaplN4WoHoHwCqf47X0zSetZEePC52RbrZM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aK8S1LhxiHhc9jBR+6+BvoAM5+ADqmsAKVxtbE2/RKMyykgC3L4W4J4SQxdpmikVlddjL0w2zcj5H3K6ptuwGowogPSJSg0we0+Z85UZzK6SDDEqUATS4aRNChQISWB4e8GCPQ58CcF9DhELN12GFlD3YLrTuexcXmBHxF2e8Us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3gJaPrg; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=l3DJbOdWPXyZ6gAavZq1RNwa5mXbiFjLOZxwpmOQQVnQuzQL75OHGQaI1r9rsb7/D38qqOccYeLuW/s0dQjVNERQf7fFtnoZ+quX5dfzxsfjIzIutFs7muNloeeL5GtMP237XFFIY/AztrABYfStYGHqRxybm36sY3iXCaekg0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CuK9bA0l; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3gJaPrg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CuK9bA0l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762226135; x=1793762135;
+  t=1762234873; x=1793770873;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q55iD40274/B/LRQ0BCWV++MVJtfFeBc4dp58HMnet4=;
-  b=I3gJaPrg6KrWjH3nNvhnGSOgeBYP9u98P/VMIw9enQozZuQ/9Tb4EdK8
-   BlSbjSJbDDEBOq+U5w4oN9Z7IvN24taQFWgxAHoVSVCL/r0cGfSBHaaSF
-   VZLh/G1oAGpwForckPx3h0+ShKSEqZ6K4uewBXLG5hIZuiPxxStz3m4bC
-   Rgunl29GgJdPRr61TJ3WEspCNqYV0ctHqT7DiO5yMwsbqGek0RdbUyyO3
-   Klug67+LKDQ/12/DNaJ64yGGr1ihm6QR71jc1aaJD/QrhMs1L6xtQDJRA
-   4R7SXgh+3rBCJqi8RuyRJH7ntgXni0H3WG8X4w1MnOdvLo2v1ne5o2p2L
-   w==;
-X-CSE-ConnectionGUID: ii+aBglJS4SxJqmPRJ4A4w==
-X-CSE-MsgGUID: SgfO9dQbQdazpksK0DEuvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="63516153"
+  bh=ZWvKAzbBTaplN4WoHoHwCqf47X0zSetZEePC52RbrZM=;
+  b=CuK9bA0lnv7XrK0FbEKvuLackVPg4HfNBf6NkWWZ7h6yueQmXVy+Um9K
+   fL9IqNMNyDWq8kXyEqU9WdE0C6xoM/o9atlwjAFYUWffk5Wp4DexVVIXn
+   Pyu4lLeTHP0q56yo3grD3NK9sKq54tvefQgnQ5CoQ5AoEgbMSq0fU0Haj
+   ezHHFo5hS02SxRLP93FHj4ijD65U7Q82qcxHFQQ3d19JQY7eOJxj+hqDC
+   R9n1fjZu4Edo8zdPcQ1me2Y4z6/olhIlD+OXNQz7XgUe+uWqBX8QTniXL
+   ePI6AP1MXdrMR7J9z9ozmQQzXoN+Y79y5U1mCrPOa6wr38VSZnk56qkMd
+   g==;
+X-CSE-ConnectionGUID: 3SiKwRpVQwajDwIpcdw3Pg==
+X-CSE-MsgGUID: AG0znMWdT16o7zgNGrC4KA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="86947800"
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="63516153"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 19:15:35 -0800
-X-CSE-ConnectionGUID: oOdiISlvRdCl9YNq41OpQQ==
-X-CSE-MsgGUID: O6C/doJIRj6m61nVJ1ciMg==
+   d="scan'208";a="86947800"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 21:41:12 -0800
+X-CSE-ConnectionGUID: LXlg2oo1QYiXLWieFgTSOg==
+X-CSE-MsgGUID: C5qUU9PpT66oAbijP84Y+A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="186280344"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 03 Nov 2025 19:15:34 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 03 Nov 2025 21:41:11 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vG7Uz-000Qo0-1v;
-	Tue, 04 Nov 2025 03:14:53 +0000
-Date: Tue, 4 Nov 2025 11:13:56 +0800
+	id 1vG9n3-000Qxa-15;
+	Tue, 04 Nov 2025 05:41:09 +0000
+Date: Tue, 4 Nov 2025 13:40:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [avpatel:riscv_trace_support_v2 39/58]
- drivers/firmware/riscv/riscv_sbi_sse.c:717 sse_ghes_handler() error: we
- previously assumed 'cb' could be null (see line 718)
-Message-ID: <202511041114.4M7JPo19-lkp@intel.com>
+Subject: [brauner-github:kernel-6.19.cred 12/39] fs/backing-file.c:209
+ backing_file_read_iter() error: uninitialized symbol 'ret'.
+Message-ID: <202511041355.mEBz2euY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,46 +62,62 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Himanshu Chauhan <hchauhan@ventanamicro.com>
-CC: Anup Patel <anup@brainfault.org>
+CC: Christian Brauner <christianvanbrauner@gmail.com>
+TO: Christian Brauner <brauner@kernel.org>
+CC: Amir Goldstein <amir73il@gmail.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v2
-head:   41e2962102e2318916f87f0ed7eb297a6b3224d3
-commit: 7a78f3d24d5d385aad5e5540aab849569f2335cd [39/58] riscv: Add functions to register ghes having SSE notification
-:::::: branch date: 20 hours ago
-:::::: commit date: 5 days ago
-config: riscv-randconfig-r071-20251103 (https://download.01.org/0day-ci/archive/20251104/202511041114.4M7JPo19-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.1.0
+tree:   https://github.com/brauner/linux.git kernel-6.19.cred
+head:   59e578cf86c391d6595e005247ebefd4f371242c
+commit: b9455f57e32048146ad5b98fb477b96eba6e8ffd [12/39] backing-file: use credential guards for reads
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: sparc-randconfig-r073-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041355.mEBz2euY-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511041114.4M7JPo19-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511041355.mEBz2euY-lkp@intel.com/
 
-New smatch warnings:
-drivers/firmware/riscv/riscv_sbi_sse.c:717 sse_ghes_handler() error: we previously assumed 'cb' could be null (see line 718)
+smatch warnings:
+fs/backing-file.c:209 backing_file_read_iter() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-drivers/firmware/riscv/riscv_sbi_sse.c:507 sse_event_register() error: uninitialized symbol 'preferred_hart'.
+vim +/ret +209 fs/backing-file.c
 
-vim +/cb +717 drivers/firmware/riscv/riscv_sbi_sse.c
+b9455f57e320481 Christian Brauner 2025-11-03  186  
+b9455f57e320481 Christian Brauner 2025-11-03  187  ssize_t backing_file_read_iter(struct file *file, struct iov_iter *iter,
+b9455f57e320481 Christian Brauner 2025-11-03  188  			       struct kiocb *iocb, int flags,
+b9455f57e320481 Christian Brauner 2025-11-03  189  			       struct backing_file_ctx *ctx)
+b9455f57e320481 Christian Brauner 2025-11-03  190  {
+b9455f57e320481 Christian Brauner 2025-11-03  191  	ssize_t ret;
+b9455f57e320481 Christian Brauner 2025-11-03  192  
+b9455f57e320481 Christian Brauner 2025-11-03  193  	if (WARN_ON_ONCE(!(file->f_mode & FMODE_BACKING)))
+b9455f57e320481 Christian Brauner 2025-11-03  194  		return -EIO;
+b9455f57e320481 Christian Brauner 2025-11-03  195  
+b9455f57e320481 Christian Brauner 2025-11-03  196  	if (!iov_iter_count(iter))
+b9455f57e320481 Christian Brauner 2025-11-03  197  		return 0;
+b9455f57e320481 Christian Brauner 2025-11-03  198  
+b9455f57e320481 Christian Brauner 2025-11-03  199  	if (iocb->ki_flags & IOCB_DIRECT &&
+b9455f57e320481 Christian Brauner 2025-11-03  200  	    !(file->f_mode & FMODE_CAN_ODIRECT))
+b9455f57e320481 Christian Brauner 2025-11-03  201  		return -EINVAL;
+b9455f57e320481 Christian Brauner 2025-11-03  202  
+b9455f57e320481 Christian Brauner 2025-11-03  203  	scoped_with_creds(ctx->cred)
+b9455f57e320481 Christian Brauner 2025-11-03  204  		do_backing_file_read_iter(file, iter, iocb, flags);
+a6293b3e285cd0d Amir Goldstein    2023-11-22  205  
+a6293b3e285cd0d Amir Goldstein    2023-11-22  206  	if (ctx->accessed)
+48b50624aec454c Miklos Szeredi    2024-10-21  207  		ctx->accessed(iocb->ki_filp);
+a6293b3e285cd0d Amir Goldstein    2023-11-22  208  
+a6293b3e285cd0d Amir Goldstein    2023-11-22 @209  	return ret;
+a6293b3e285cd0d Amir Goldstein    2023-11-22  210  }
+a6293b3e285cd0d Amir Goldstein    2023-11-22  211  EXPORT_SYMBOL_GPL(backing_file_read_iter);
+a6293b3e285cd0d Amir Goldstein    2023-11-22  212  
 
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  711  
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  712  static int sse_ghes_handler(u32 event_num, void *arg, struct pt_regs *regs)
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  713  {
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  714  	struct sse_ghes_event_data *ev_data = arg;
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  715  	struct sse_ghes_callback *cb = NULL;
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  716  
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29 @717  	list_for_each_entry(cb, &ev_data->callback_list, head) {
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29 @718  		if (cb && cb->ghes && cb->callback) {
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  719  			cb->callback(ev_data->event_num, cb->ghes, regs);
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  720  		}
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  721  	}
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  722  
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  723  	return 0;
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  724  }
-7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  725  
+:::::: The code at line 209 was first introduced by commit
+:::::: a6293b3e285cd0d7692141d7981a5f144f0e2f0b fs: factor out backing_file_{read,write}_iter() helpers
+
+:::::: TO: Amir Goldstein <amir73il@gmail.com>
+:::::: CC: Amir Goldstein <amir73il@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
