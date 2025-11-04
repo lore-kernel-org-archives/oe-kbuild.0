@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEDA72614
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Nov 2025 05:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6010530ACE4
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Nov 2025 07:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762234875; cv=none; b=GJtoQr9KeujK9fOX4SPJrkrbZBRZEuhYiRhn0cdBfog2+nE7iahtPiiPiXQaCmjsYbHmWJY4H1e8A3dK+1LvxP8MHFgwvvalaGFmG8V+kIabCrgZ9dYIbIwKmfuv+FM4gfbkRGmmmsK9JG5y7D+LGUqxOFbJpdISO4gIQZNDcHo=
+	t=1762241974; cv=none; b=cP5fAqo5kyvwHh9NvnOgcxQhtnmiLUKzXzyMmFnufnZ+EAB9fEIoMHybn9eFJkKCh6Z9WcOHSQV5u8FsxwCpe5NSRqUeTNC9tb3b673vslfYVBC2XTo2dWWhd0TgBjvsZrU5sxjb0gpeJN3kAhiNAxkcbqo5L2nmVTlfq8YzhoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762234875; c=relaxed/simple;
-	bh=ZWvKAzbBTaplN4WoHoHwCqf47X0zSetZEePC52RbrZM=;
+	s=arc-20240116; t=1762241974; c=relaxed/simple;
+	bh=FzqxWsUq4ixAoBlVlGCv4hvSwTPVspRT6bO9JfSNMcc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l3DJbOdWPXyZ6gAavZq1RNwa5mXbiFjLOZxwpmOQQVnQuzQL75OHGQaI1r9rsb7/D38qqOccYeLuW/s0dQjVNERQf7fFtnoZ+quX5dfzxsfjIzIutFs7muNloeeL5GtMP237XFFIY/AztrABYfStYGHqRxybm36sY3iXCaekg0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CuK9bA0l; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=CHzudewHjnUPatAxGl2shykUx3M16Z0PrWRyNqi70GOo9gv54jIsDgKXcNPTDH4v9V+jdMug1JiyDmQPTeDL4NEoRhwMiLrS7fd+rWIc45WTpH4zwW44AJy2oaonZGUUpO37uKBvpJkI3KpLg6wMOZ88Nx3WAgQidvGpReeQXe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TSaBQE7q; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CuK9bA0l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TSaBQE7q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762234873; x=1793770873;
+  t=1762241972; x=1793777972;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZWvKAzbBTaplN4WoHoHwCqf47X0zSetZEePC52RbrZM=;
-  b=CuK9bA0lnv7XrK0FbEKvuLackVPg4HfNBf6NkWWZ7h6yueQmXVy+Um9K
-   fL9IqNMNyDWq8kXyEqU9WdE0C6xoM/o9atlwjAFYUWffk5Wp4DexVVIXn
-   Pyu4lLeTHP0q56yo3grD3NK9sKq54tvefQgnQ5CoQ5AoEgbMSq0fU0Haj
-   ezHHFo5hS02SxRLP93FHj4ijD65U7Q82qcxHFQQ3d19JQY7eOJxj+hqDC
-   R9n1fjZu4Edo8zdPcQ1me2Y4z6/olhIlD+OXNQz7XgUe+uWqBX8QTniXL
-   ePI6AP1MXdrMR7J9z9ozmQQzXoN+Y79y5U1mCrPOa6wr38VSZnk56qkMd
+  bh=FzqxWsUq4ixAoBlVlGCv4hvSwTPVspRT6bO9JfSNMcc=;
+  b=TSaBQE7qddk0XAUjbVOSLxAnfyu32Fd3ifNG8SqOtFGBXZDf/R1Nt9gY
+   to6O3POkjLR0K/UpgIdPSMwBdQlIJ6pHIi+bOZvK+4Ev88czh0fB6oESX
+   2AbIoQXcuTphk7HbGQxpJCNlG0Ib4eWHRPly5zeKoZrson4RBXm2ecmys
+   h3ziCoVReFwSDtqj9+gqus+hO3XU/YOhYOgg2xCeCLEDPYcmWd67HPyZJ
+   eIdRp9zqvKB+4vyGAqbn8I1tPI+VDOYn/FvMY8EKPFmAuH0IVAUYlGJbW
+   I4etZQFCg4X1pdc2nCEq3rsLGqoNCnqeU6TahnED4VnBHX83E8C0EKr5E
    g==;
-X-CSE-ConnectionGUID: 3SiKwRpVQwajDwIpcdw3Pg==
-X-CSE-MsgGUID: AG0znMWdT16o7zgNGrC4KA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="86947800"
+X-CSE-ConnectionGUID: aC57T5HvRJK4UMoBLebrqw==
+X-CSE-MsgGUID: VOC1rw/URrCkaabFoCuW3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="81958294"
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="86947800"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 21:41:12 -0800
-X-CSE-ConnectionGUID: LXlg2oo1QYiXLWieFgTSOg==
-X-CSE-MsgGUID: C5qUU9PpT66oAbijP84Y+A==
+   d="scan'208";a="81958294"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 23:39:32 -0800
+X-CSE-ConnectionGUID: UuKwAYLaS8KSkK29Z844/A==
+X-CSE-MsgGUID: b0/JHEuET7+pbMn3FwV/Mg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
+   d="scan'208";a="217897670"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Nov 2025 21:41:11 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 03 Nov 2025 23:39:31 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vG9n3-000Qxa-15;
-	Tue, 04 Nov 2025 05:41:09 +0000
-Date: Tue, 4 Nov 2025 13:40:09 +0800
+	id 1vGBdC-000R3W-2n;
+	Tue, 04 Nov 2025 07:39:12 +0000
+Date: Tue, 4 Nov 2025 15:36:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [brauner-github:kernel-6.19.cred 12/39] fs/backing-file.c:209
- backing_file_read_iter() error: uninitialized symbol 'ret'.
-Message-ID: <202511041355.mEBz2euY-lkp@intel.com>
+Subject: [brauner-github:kernel-6.19.cred 14/39] fs/backing-file.c:297
+ backing_file_splice_read() error: uninitialized symbol 'ret'.
+Message-ID: <202511041555.7Uif8uYv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,53 +70,50 @@ CC: Amir Goldstein <amir73il@gmail.com>
 
 tree:   https://github.com/brauner/linux.git kernel-6.19.cred
 head:   59e578cf86c391d6595e005247ebefd4f371242c
-commit: b9455f57e32048146ad5b98fb477b96eba6e8ffd [12/39] backing-file: use credential guards for reads
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
-config: sparc-randconfig-r073-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041355.mEBz2euY-lkp@intel.com/config)
+commit: 2f4578e9ab5536bffe1b1287b6346b15f1e08e2c [14/39] backing-file: use credential guards for splice read
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: sparc-randconfig-r073-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041555.7Uif8uYv-lkp@intel.com/config)
 compiler: sparc-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511041355.mEBz2euY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511041555.7Uif8uYv-lkp@intel.com/
 
-smatch warnings:
+New smatch warnings:
+fs/backing-file.c:297 backing_file_splice_read() error: uninitialized symbol 'ret'.
+
+Old smatch warnings:
 fs/backing-file.c:209 backing_file_read_iter() error: uninitialized symbol 'ret'.
 
-vim +/ret +209 fs/backing-file.c
+vim +/ret +297 fs/backing-file.c
 
-b9455f57e320481 Christian Brauner 2025-11-03  186  
-b9455f57e320481 Christian Brauner 2025-11-03  187  ssize_t backing_file_read_iter(struct file *file, struct iov_iter *iter,
-b9455f57e320481 Christian Brauner 2025-11-03  188  			       struct kiocb *iocb, int flags,
-b9455f57e320481 Christian Brauner 2025-11-03  189  			       struct backing_file_ctx *ctx)
-b9455f57e320481 Christian Brauner 2025-11-03  190  {
-b9455f57e320481 Christian Brauner 2025-11-03  191  	ssize_t ret;
-b9455f57e320481 Christian Brauner 2025-11-03  192  
-b9455f57e320481 Christian Brauner 2025-11-03  193  	if (WARN_ON_ONCE(!(file->f_mode & FMODE_BACKING)))
-b9455f57e320481 Christian Brauner 2025-11-03  194  		return -EIO;
-b9455f57e320481 Christian Brauner 2025-11-03  195  
-b9455f57e320481 Christian Brauner 2025-11-03  196  	if (!iov_iter_count(iter))
-b9455f57e320481 Christian Brauner 2025-11-03  197  		return 0;
-b9455f57e320481 Christian Brauner 2025-11-03  198  
-b9455f57e320481 Christian Brauner 2025-11-03  199  	if (iocb->ki_flags & IOCB_DIRECT &&
-b9455f57e320481 Christian Brauner 2025-11-03  200  	    !(file->f_mode & FMODE_CAN_ODIRECT))
-b9455f57e320481 Christian Brauner 2025-11-03  201  		return -EINVAL;
-b9455f57e320481 Christian Brauner 2025-11-03  202  
-b9455f57e320481 Christian Brauner 2025-11-03  203  	scoped_with_creds(ctx->cred)
-b9455f57e320481 Christian Brauner 2025-11-03  204  		do_backing_file_read_iter(file, iter, iocb, flags);
-a6293b3e285cd0d Amir Goldstein    2023-11-22  205  
-a6293b3e285cd0d Amir Goldstein    2023-11-22  206  	if (ctx->accessed)
-48b50624aec454c Miklos Szeredi    2024-10-21  207  		ctx->accessed(iocb->ki_filp);
-a6293b3e285cd0d Amir Goldstein    2023-11-22  208  
-a6293b3e285cd0d Amir Goldstein    2023-11-22 @209  	return ret;
-a6293b3e285cd0d Amir Goldstein    2023-11-22  210  }
-a6293b3e285cd0d Amir Goldstein    2023-11-22  211  EXPORT_SYMBOL_GPL(backing_file_read_iter);
-a6293b3e285cd0d Amir Goldstein    2023-11-22  212  
+a6293b3e285cd0 Amir Goldstein    2023-11-22  280  
+48b50624aec454 Miklos Szeredi    2024-10-21  281  ssize_t backing_file_splice_read(struct file *in, struct kiocb *iocb,
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  282  				 struct pipe_inode_info *pipe, size_t len,
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  283  				 unsigned int flags,
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  284  				 struct backing_file_ctx *ctx)
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  285  {
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  286  	ssize_t ret;
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  287  
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  288  	if (WARN_ON_ONCE(!(in->f_mode & FMODE_BACKING)))
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  289  		return -EIO;
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  290  
+2f4578e9ab5536 Christian Brauner 2025-11-03  291  	scoped_with_creds(ctx->cred)
+48b50624aec454 Miklos Szeredi    2024-10-21  292  		ret = vfs_splice_read(in, &iocb->ki_pos, pipe, len, flags);
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  293  
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  294  	if (ctx->accessed)
+48b50624aec454 Miklos Szeredi    2024-10-21  295  		ctx->accessed(iocb->ki_filp);
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  296  
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13 @297  	return ret;
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  298  }
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  299  EXPORT_SYMBOL_GPL(backing_file_splice_read);
+9b7e9e2f5d5c3d Amir Goldstein    2023-10-13  300  
 
-:::::: The code at line 209 was first introduced by commit
-:::::: a6293b3e285cd0d7692141d7981a5f144f0e2f0b fs: factor out backing_file_{read,write}_iter() helpers
+:::::: The code at line 297 was first introduced by commit
+:::::: 9b7e9e2f5d5c3d079ec46bc71b114012e362ea6e fs: factor out backing_file_splice_{read,write}() helpers
 
 :::::: TO: Amir Goldstein <amir73il@gmail.com>
 :::::: CC: Amir Goldstein <amir73il@gmail.com>
