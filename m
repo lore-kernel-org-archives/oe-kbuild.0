@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6D2310655
-	for <oe-kbuild@lists.linux.dev>; Wed,  5 Nov 2025 11:40:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA3E314D35
+	for <oe-kbuild@lists.linux.dev>; Wed,  5 Nov 2025 12:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762342846; cv=none; b=GGGqIOsnMeOth01COEJ2nDA7HcWlK2lZK42cmOXq8rR0W3+OEgdUZ+35olsnDZTgnTq1p670HfMwWi1RULgqwESNAMVJ9v667UAkpFOCozsoETaZTA7YU2i14A1KXA3B7dkNv87xt7/McY7Sn0vq8Ouk9Lv16zj/PtgwunblDW4=
+	t=1762346527; cv=none; b=MUTfYMUu68YfoUyXv4QNOd7UgB1DcEj2ZPfDKKE9ZR6Fal1RdnO5zFmj7MlJcdpB1efB1DD1yWJaTZP0Jaz5jRTqwFKSisanyTtRYg1/3aj21HfMnKGc3SyVvy2MuMq+iNw8Xu56LJGth516hw5PfwDQ7GRm8lS/BipG+ajluV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762342846; c=relaxed/simple;
-	bh=kwE4G6Wb9nCFNn1HmayU6XzZly366NEAP1Ahx+WwUn4=;
+	s=arc-20240116; t=1762346527; c=relaxed/simple;
+	bh=MAG5oFKNNwt/wA8ZafWZvY8lsKhu8vnsl84PVV7Xzio=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SyyUlatGZsCHyzOcqGd6jFYbyQ0Yze3JxWheGSggJ901ZQuzZok4P8GsNInlC8Pp8AAatELwUmnA5iVyicNAosYJWd9TZtJztnerEWh26EAtgJf20SXExMptpF6txsr0baL1oFl47oZhIWywqTb4F51R+OzWTEmsZ5e9rloMm6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aF2Sqbim; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=k9QyoW1ERgjHUDND6NTNaQJWlIx1c+osgHerpATmV6/BRnNbGQz/IJOOCVzS+8FemiMO7kVOQ2L6hWRRUH24Mfa5+juXs7Rvd5Ns7cVhRaWgRUFSUS/XxAwiPQYuRvaDCNq90Yb8NKjxwlBZnKPf3368gZW7TsTm4t6e6gnR9u0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rct0N+kW; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aF2Sqbim"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rct0N+kW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762342844; x=1793878844;
+  t=1762346524; x=1793882524;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kwE4G6Wb9nCFNn1HmayU6XzZly366NEAP1Ahx+WwUn4=;
-  b=aF2Sqbim3MKzJaAA0BCwtSxBqxB/1nw14QGZHfZ++EcxkHKPAFQRiCE5
-   KBB3185bXPEahRjqYosy9OwirIvDupOdTqzhZP1pXHvWVGvlOlkt+JsMQ
-   Lxfs60Z4WUruoQPCBSHzhmCNiJMVEUrc8R/7zYKEs45rcj8mLnQxNNUU7
-   Qf0tSzHj+1H1lvQK+V5JRfp2rAajKAQ8lo7Btdn3WI7XpOTkQw6rMQMZu
-   DBDHPL3GjxpeEPZlkGGrBJfrd1mChnh+1GBCWdoaz8Hrrphq3DgKE1/Xg
-   k5XH9Ybrh7OuUrF9cx2T+gH4u2MuHDJhLa3naNNpZjURdiz4MBX1NyQ9x
-   g==;
-X-CSE-ConnectionGUID: GW0wm3ptTKiOlSbPr+aqXQ==
-X-CSE-MsgGUID: pxdEJ0E7Tyqp+j8FpEFLmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="68292260"
+  bh=MAG5oFKNNwt/wA8ZafWZvY8lsKhu8vnsl84PVV7Xzio=;
+  b=Rct0N+kWWolQIqntlS6drD/Bxvx82qb8WGiOFdLAdpV5+x7DOz4O60Le
+   qF3curlQg4sOLXetL89tEC1B5jXpBJcyDXlx21yWC7BMbWNWE4caUyUD0
+   ahWLCbH0tgK8M1uWTaLW3Mq+trpF3adZzKPXzR4njO0amFptLWJ72XfFl
+   sTt2DNRambWQ+uAYwlwcY2lYXnxuSgB+9z6+fv4Q7fpGez6rP3Rl8w7u4
+   KKZ0rnE6BE6oNHfLp+RFeHW+NGIcoLgKCWYOLEjgoPhGMx9EpWOOH0ZN3
+   /e4fQFh4dVI36rzRCJi2amE7w65xpBy/ZSbOn7oPLrxI65BHsvhjLrpg9
+   A==;
+X-CSE-ConnectionGUID: dNrsw6yQRdOLGhwJF0PlXg==
+X-CSE-MsgGUID: hF/47HMoRA2xWucMQ4ib0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64385554"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="68292260"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 03:40:10 -0800
-X-CSE-ConnectionGUID: /hkS3pxjSyG1nEhB0gaEHg==
-X-CSE-MsgGUID: ny/jCWwbT5qRYwM1SikNMg==
+   d="scan'208";a="64385554"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 04:42:04 -0800
+X-CSE-ConnectionGUID: S/+x2oQAT7CFSMgpGkZ0nw==
+X-CSE-MsgGUID: m+cfrxGnSj+LS0D0heHP4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
-   d="scan'208";a="218076572"
+   d="scan'208";a="191801475"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 05 Nov 2025 03:40:09 -0800
+  by orviesa004.jf.intel.com with ESMTP; 05 Nov 2025 04:42:03 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGbrt-000SVI-0U;
-	Wed, 05 Nov 2025 11:40:04 +0000
-Date: Wed, 5 Nov 2025 19:39:32 +0800
+	id 1vGcps-000SYe-2X;
+	Wed, 05 Nov 2025 12:42:00 +0000
+Date: Wed, 5 Nov 2025 20:41:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 4206/6507] drivers/xen/grant-dma-ops.c:174
- xen_grant_dma_map_phys() warn: mask and shift to zero: expr='offset >> 12'
-Message-ID: <202511051942.WvTQThiM-lkp@intel.com>
+Subject: [linux-next:master 5952/6507] fs/btrfs/bio.c:740
+ btrfs_submit_chunk() warn: variable dereferenced before check 'inode' (see
+ line 665)
+Message-ID: <202511052053.zZZ5GjNx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,76 +65,158 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Leon Romanovsky <leonro@nvidia.com>
-CC: Marek Szyprowski <m.szyprowski@samsung.com>
-CC: Jason Gunthorpe <jgg@nvidia.com>
+TO: Qu Wenruo <wqu@suse.com>
+CC: David Sterba <dsterba@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   84d39fb9d529f27d2f3d295430d1be0abdae7a6d
-commit: 936a9f0cb16b0646143f8e05afab458adc51d0a0 [4206/6507] xen: swiotlb: Convert mapping routine to rely on physical address
-:::::: branch date: 6 hours ago
-:::::: commit date: 7 days ago
-config: x86_64-randconfig-161-20251104 (https://download.01.org/0day-ci/archive/20251105/202511051942.WvTQThiM-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+commit: b61fb56b832da658b61f93b6fe0daa5663baef81 [5952/6507] btrfs: remove btrfs_bio::fs_info by extracting it from btrfs_bio::inode
+:::::: branch date: 7 hours ago
+:::::: commit date: 31 hours ago
+config: um-randconfig-r073-20251105 (https://download.01.org/0day-ci/archive/20251105/202511052053.zZZ5GjNx-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511051942.WvTQThiM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511052053.zZZ5GjNx-lkp@intel.com/
 
 smatch warnings:
-drivers/xen/grant-dma-ops.c:174 xen_grant_dma_map_phys() warn: mask and shift to zero: expr='offset >> 12'
+fs/btrfs/bio.c:740 btrfs_submit_chunk() warn: variable dereferenced before check 'inode' (see line 665)
 
-vim +174 drivers/xen/grant-dma-ops.c
+vim +/inode +740 fs/btrfs/bio.c
 
-d6aca3504c7ded Juergen Gross        2022-06-02  165  
-936a9f0cb16b06 Leon Romanovsky      2025-10-15  166  static dma_addr_t xen_grant_dma_map_phys(struct device *dev, phys_addr_t phys,
-936a9f0cb16b06 Leon Romanovsky      2025-10-15  167  					 size_t size,
-d6aca3504c7ded Juergen Gross        2022-06-02  168  					 enum dma_data_direction dir,
-d6aca3504c7ded Juergen Gross        2022-06-02  169  					 unsigned long attrs)
-d6aca3504c7ded Juergen Gross        2022-06-02  170  {
-d6aca3504c7ded Juergen Gross        2022-06-02  171  	struct xen_grant_dma_data *data;
-936a9f0cb16b06 Leon Romanovsky      2025-10-15  172  	unsigned long offset = offset_in_page(phys);
-a383dcb1cca830 Oleksandr Tyshchenko 2022-10-08  173  	unsigned long dma_offset = xen_offset_in_page(offset),
-a383dcb1cca830 Oleksandr Tyshchenko 2022-10-08 @174  			pfn_offset = XEN_PFN_DOWN(offset);
-a383dcb1cca830 Oleksandr Tyshchenko 2022-10-08  175  	unsigned int i, n_pages = XEN_PFN_UP(dma_offset + size);
-d6aca3504c7ded Juergen Gross        2022-06-02  176  	grant_ref_t grant;
-d6aca3504c7ded Juergen Gross        2022-06-02  177  	dma_addr_t dma_handle;
-d6aca3504c7ded Juergen Gross        2022-06-02  178  
-936a9f0cb16b06 Leon Romanovsky      2025-10-15  179  	if (unlikely(attrs & DMA_ATTR_MMIO))
-936a9f0cb16b06 Leon Romanovsky      2025-10-15  180  		return DMA_MAPPING_ERROR;
-936a9f0cb16b06 Leon Romanovsky      2025-10-15  181  
-d6aca3504c7ded Juergen Gross        2022-06-02  182  	if (WARN_ON(dir == DMA_NONE))
-d6aca3504c7ded Juergen Gross        2022-06-02  183  		return DMA_MAPPING_ERROR;
-d6aca3504c7ded Juergen Gross        2022-06-02  184  
-d6aca3504c7ded Juergen Gross        2022-06-02  185  	data = find_xen_grant_dma_data(dev);
-d6aca3504c7ded Juergen Gross        2022-06-02  186  	if (!data)
-d6aca3504c7ded Juergen Gross        2022-06-02  187  		return DMA_MAPPING_ERROR;
-d6aca3504c7ded Juergen Gross        2022-06-02  188  
-d6aca3504c7ded Juergen Gross        2022-06-02  189  	if (unlikely(data->broken))
-d6aca3504c7ded Juergen Gross        2022-06-02  190  		return DMA_MAPPING_ERROR;
-d6aca3504c7ded Juergen Gross        2022-06-02  191  
-d6aca3504c7ded Juergen Gross        2022-06-02  192  	if (gnttab_alloc_grant_reference_seq(n_pages, &grant))
-d6aca3504c7ded Juergen Gross        2022-06-02  193  		return DMA_MAPPING_ERROR;
-d6aca3504c7ded Juergen Gross        2022-06-02  194  
-d6aca3504c7ded Juergen Gross        2022-06-02  195  	for (i = 0; i < n_pages; i++) {
-d6aca3504c7ded Juergen Gross        2022-06-02  196  		gnttab_grant_foreign_access_ref(grant + i, data->backend_domid,
-936a9f0cb16b06 Leon Romanovsky      2025-10-15  197  				pfn_to_gfn(page_to_xen_pfn(phys_to_page(phys)) + i + pfn_offset),
-875553e317b28e Oleksandr Tyshchenko 2022-10-08  198  				dir == DMA_TO_DEVICE);
-d6aca3504c7ded Juergen Gross        2022-06-02  199  	}
-d6aca3504c7ded Juergen Gross        2022-06-02  200  
-875553e317b28e Oleksandr Tyshchenko 2022-10-08  201  	dma_handle = grant_to_dma(grant) + dma_offset;
-d6aca3504c7ded Juergen Gross        2022-06-02  202  
-d6aca3504c7ded Juergen Gross        2022-06-02  203  	return dma_handle;
-d6aca3504c7ded Juergen Gross        2022-06-02  204  }
-d6aca3504c7ded Juergen Gross        2022-06-02  205  
+b35243a447b9fe Christoph Hellwig  2024-08-26  661  
+ae42a154ca8972 Christoph Hellwig  2023-03-07  662  static bool btrfs_submit_chunk(struct btrfs_bio *bbio, int mirror_num)
+103c19723c80bf Christoph Hellwig  2022-11-15  663  {
+d5e4377d505189 Christoph Hellwig  2023-01-21  664  	struct btrfs_inode *inode = bbio->inode;
+b61fb56b832da6 Qu Wenruo          2025-10-29 @665  	struct btrfs_fs_info *fs_info = inode->root->fs_info;
+ae42a154ca8972 Christoph Hellwig  2023-03-07  666  	struct bio *bio = &bbio->bio;
+adbe7e388e4239 Anand Jain         2023-04-15  667  	u64 logical = bio->bi_iter.bi_sector << SECTOR_SHIFT;
+103c19723c80bf Christoph Hellwig  2022-11-15  668  	u64 length = bio->bi_iter.bi_size;
+103c19723c80bf Christoph Hellwig  2022-11-15  669  	u64 map_length = length;
+921603c76246a7 Christoph Hellwig  2022-12-12  670  	bool use_append = btrfs_use_zone_append(bbio);
+103c19723c80bf Christoph Hellwig  2022-11-15  671  	struct btrfs_io_context *bioc = NULL;
+103c19723c80bf Christoph Hellwig  2022-11-15  672  	struct btrfs_io_stripe smap;
+beaa7cdb6a1fef David Sterba       2025-04-23  673  	blk_status_t status;
+9c0b0807ece11e David Sterba       2025-04-23  674  	int ret;
+103c19723c80bf Christoph Hellwig  2022-11-15  675  
+b61fb56b832da6 Qu Wenruo          2025-10-29  676  	if (bbio->is_scrub || btrfs_is_data_reloc_root(inode->root))
+f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  677  		smap.rst_search_commit_root = true;
+f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  678  	else
+f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  679  		smap.rst_search_commit_root = false;
+9acaa64187f9b4 Johannes Thumshirn 2023-09-14  680  
+103c19723c80bf Christoph Hellwig  2022-11-15  681  	btrfs_bio_counter_inc_blocked(fs_info);
+9c0b0807ece11e David Sterba       2025-04-23  682  	ret = btrfs_map_block(fs_info, btrfs_op(bio), logical, &map_length,
+9fb2acc2fe07f1 Qu Wenruo          2023-09-17  683  			      &bioc, &smap, &mirror_num);
+9c0b0807ece11e David Sterba       2025-04-23  684  	if (ret) {
+9c0b0807ece11e David Sterba       2025-04-23  685  		status = errno_to_blk_status(ret);
+c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  686  		btrfs_bio_counter_dec(fs_info);
+c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  687  		goto end_bbio;
+103c19723c80bf Christoph Hellwig  2022-11-15  688  	}
+103c19723c80bf Christoph Hellwig  2022-11-15  689  
+852eee62d31abd Christoph Hellwig  2023-01-21  690  	map_length = min(map_length, length);
+d5e4377d505189 Christoph Hellwig  2023-01-21  691  	if (use_append)
+b35243a447b9fe Christoph Hellwig  2024-08-26  692  		map_length = btrfs_append_map_length(bbio, map_length);
+d5e4377d505189 Christoph Hellwig  2023-01-21  693  
+103c19723c80bf Christoph Hellwig  2022-11-15  694  	if (map_length < length) {
+c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  695  		struct btrfs_bio *split;
+c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  696  
+c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  697  		split = btrfs_split_bio(fs_info, bbio, map_length);
+c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  698  		if (IS_ERR(split)) {
+beaa7cdb6a1fef David Sterba       2025-04-23  699  			status = errno_to_blk_status(PTR_ERR(split));
+c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  700  			btrfs_bio_counter_dec(fs_info);
+c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  701  			goto end_bbio;
+c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  702  		}
+c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  703  		bbio = split;
+2cef0c79bb81d8 Christoph Hellwig  2023-03-07  704  		bio = &bbio->bio;
+103c19723c80bf Christoph Hellwig  2022-11-15  705  	}
+103c19723c80bf Christoph Hellwig  2022-11-15  706  
+1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  707  	/*
+1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  708  	 * Save the iter for the end_io handler and preload the checksums for
+1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  709  	 * data reads.
+1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  710  	 */
+fbe960877b6f43 Christoph Hellwig  2023-05-31  711  	if (bio_op(bio) == REQ_OP_READ && is_data_bbio(bbio)) {
+0d3acb25e70d5f Christoph Hellwig  2023-01-21  712  		bbio->saved_iter = bio->bi_iter;
+9c0b0807ece11e David Sterba       2025-04-23  713  		ret = btrfs_lookup_bio_sums(bbio);
+9c0b0807ece11e David Sterba       2025-04-23  714  		status = errno_to_blk_status(ret);
+beaa7cdb6a1fef David Sterba       2025-04-23  715  		if (status)
+10d9d8c3512f16 Qu Wenruo          2024-08-17  716  			goto fail;
+1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  717  	}
+7276aa7d38255b Christoph Hellwig  2023-01-21  718  
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  719  	if (btrfs_op(bio) == BTRFS_MAP_WRITE) {
+d5e4377d505189 Christoph Hellwig  2023-01-21  720  		if (use_append) {
+d5e4377d505189 Christoph Hellwig  2023-01-21  721  			bio->bi_opf &= ~REQ_OP_WRITE;
+d5e4377d505189 Christoph Hellwig  2023-01-21  722  			bio->bi_opf |= REQ_OP_ZONE_APPEND;
+69ccf3f4244abc Christoph Hellwig  2023-01-21  723  		}
+69ccf3f4244abc Christoph Hellwig  2023-01-21  724  
+9c48bcec47c8dd Johannes Thumshirn 2024-12-16  725  		if (is_data_bbio(bbio) && bioc && bioc->use_rst) {
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  726  			/*
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  727  			 * No locking for the list update, as we only add to
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  728  			 * the list in the I/O submission path, and list
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  729  			 * iteration only happens in the completion path, which
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  730  			 * can't happen until after the last submission.
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  731  			 */
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  732  			btrfs_get_bioc(bioc);
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  733  			list_add_tail(&bioc->rst_ordered_entry, &bbio->ordered->bioc_list);
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  734  		}
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  735  
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  736  		/*
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  737  		 * Csum items for reloc roots have already been cloned at this
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  738  		 * point, so they are handled as part of the no-checksum case.
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  739  		 */
+4317ff0056bedf Qu Wenruo          2023-03-23 @740  		if (inode && !(inode->flags & BTRFS_INODE_NODATASUM) &&
+169aaaf2e0be61 Qu Wenruo          2024-06-14  741  		    !test_bit(BTRFS_FS_STATE_NO_DATA_CSUMS, &fs_info->fs_state) &&
+d5e4377d505189 Christoph Hellwig  2023-01-21  742  		    !btrfs_is_data_reloc_root(inode->root)) {
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  743  			if (should_async_write(bbio) &&
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  744  			    btrfs_wq_submit_bio(bbio, bioc, &smap, mirror_num))
+852eee62d31abd Christoph Hellwig  2023-01-21  745  				goto done;
+103c19723c80bf Christoph Hellwig  2022-11-15  746  
+9c0b0807ece11e David Sterba       2025-04-23  747  			ret = btrfs_bio_csum(bbio);
+9c0b0807ece11e David Sterba       2025-04-23  748  			status = errno_to_blk_status(ret);
+beaa7cdb6a1fef David Sterba       2025-04-23  749  			if (status)
+10d9d8c3512f16 Qu Wenruo          2024-08-17  750  				goto fail;
+cebae292e0c32a Johannes Thumshirn 2024-06-07  751  		} else if (use_append ||
+cebae292e0c32a Johannes Thumshirn 2024-06-07  752  			   (btrfs_is_zoned(fs_info) && inode &&
+cebae292e0c32a Johannes Thumshirn 2024-06-07  753  			    inode->flags & BTRFS_INODE_NODATASUM)) {
+853b5727c93dae David Sterba       2025-04-23  754  			ret = btrfs_alloc_dummy_sum(bbio);
+853b5727c93dae David Sterba       2025-04-23  755  			status = errno_to_blk_status(ret);
+beaa7cdb6a1fef David Sterba       2025-04-23  756  			if (status)
+10d9d8c3512f16 Qu Wenruo          2024-08-17  757  				goto fail;
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  758  		}
+103c19723c80bf Christoph Hellwig  2022-11-15  759  	}
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  760  
+22b4ef50dc1d11 David Sterba       2024-08-27  761  	btrfs_submit_bio(bio, bioc, &smap, mirror_num);
+852eee62d31abd Christoph Hellwig  2023-01-21  762  done:
+852eee62d31abd Christoph Hellwig  2023-01-21  763  	return map_length == length;
+9ba0004bd95e05 Christoph Hellwig  2023-01-21  764  
+9ba0004bd95e05 Christoph Hellwig  2023-01-21  765  fail:
+9ba0004bd95e05 Christoph Hellwig  2023-01-21  766  	btrfs_bio_counter_dec(fs_info);
+10d9d8c3512f16 Qu Wenruo          2024-08-17  767  	/*
+10d9d8c3512f16 Qu Wenruo          2024-08-17  768  	 * We have split the original bbio, now we have to end both the current
+10d9d8c3512f16 Qu Wenruo          2024-08-17  769  	 * @bbio and remaining one, as the remaining one will never be submitted.
+10d9d8c3512f16 Qu Wenruo          2024-08-17  770  	 */
+10d9d8c3512f16 Qu Wenruo          2024-08-17  771  	if (map_length < length) {
+10d9d8c3512f16 Qu Wenruo          2024-08-17  772  		struct btrfs_bio *remaining = bbio->private;
+10d9d8c3512f16 Qu Wenruo          2024-08-17  773  
+10d9d8c3512f16 Qu Wenruo          2024-08-17  774  		ASSERT(bbio->bio.bi_pool == &btrfs_clone_bioset);
+10d9d8c3512f16 Qu Wenruo          2024-08-17  775  		ASSERT(remaining);
+10d9d8c3512f16 Qu Wenruo          2024-08-17  776  
+beaa7cdb6a1fef David Sterba       2025-04-23  777  		btrfs_bio_end_io(remaining, status);
+10d9d8c3512f16 Qu Wenruo          2024-08-17  778  	}
+c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  779  end_bbio:
+beaa7cdb6a1fef David Sterba       2025-04-23  780  	btrfs_bio_end_io(bbio, status);
+852eee62d31abd Christoph Hellwig  2023-01-21  781  	/* Do not submit another chunk */
+852eee62d31abd Christoph Hellwig  2023-01-21  782  	return true;
+852eee62d31abd Christoph Hellwig  2023-01-21  783  }
+852eee62d31abd Christoph Hellwig  2023-01-21  784  
 
-:::::: The code at line 174 was first introduced by commit
-:::::: a383dcb1cca8305497877119fba0a320f41fe853 xen/virtio: Convert PAGE_SIZE/PAGE_SHIFT/PFN_UP to Xen counterparts
+:::::: The code at line 740 was first introduced by commit
+:::::: 4317ff0056bedfc472202bf4ccf72d51094d6ade btrfs: introduce btrfs_bio::fs_info member
 
-:::::: TO: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-:::::: CC: Juergen Gross <jgross@suse.com>
+:::::: TO: Qu Wenruo <wqu@suse.com>
+:::::: CC: David Sterba <dsterba@suse.com>
 
 -- 
 0-DAY CI Kernel Test Service
