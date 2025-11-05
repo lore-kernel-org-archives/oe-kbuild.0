@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E971018AFD
-	for <oe-kbuild@lists.linux.dev>; Wed,  5 Nov 2025 04:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914E6271443
+	for <oe-kbuild@lists.linux.dev>; Wed,  5 Nov 2025 08:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762317131; cv=none; b=XpOTnoINk+UKjxtJlKjc2cVYGWwwD53buWK1WmSU+V/1k3Vh1k23+YItJT0sHFq3QpID3+75e2MGfWkE1sBf+OBLnWDDgcV6TQaG9uTwNynbep7IfDlWK2cBG8hhvxwXVymrQGUtfN/C2/U50JJkFjaOv+VjzHN7OX96+j3sF64=
+	t=1762330845; cv=none; b=ViedXYBiRHkwluAqF1tUQuGRPzXc7mgeB8+ekeJnMuw7BHzJoQWaR1rT9hvOm6oB2mqOft3s4F79fm+36qhHstz+E+eEIr4Sn6QMkbg4WIZyck9S5eYyWxTl8WvGsBtNOwN1f0vks3YoJVgl7MjN56g9duAD4VjAvGl+AIHXp1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762317131; c=relaxed/simple;
-	bh=3iMDIgsvVdGFehRMs9Woz94lE0GrW61T8e3lWoBUHRM=;
+	s=arc-20240116; t=1762330845; c=relaxed/simple;
+	bh=hXEPMnuuZZb9dKG4f1AWszZN8Wl0EMt4rrTxlDPRVoE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=klgy2nItlWIoQfmw5RrHI6K+hFlPf2AJ1loKP27mfFvfrzKF1TEjAUz6Q5AMqYSHbOVnJgPVkvDQagxsFVgsxu8mH7I+feKb/DDuctmxpq4MdWCIQOIAHqL8Bk7zEtxCGGH17c3Q1QAap8CsoIcWzgjr3QqDRIKpDoOJJdJYkSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qo5JUAGl; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=O+ga08UJwaCbpD/AqHvmdLWPrfjGwmr4jo8HqyIZc+IVCxGsLg7/Nvb3CLhPOAn5boasi6xW5ZD9pJ3ruBTacj2YY3kok1b2b3xtJFwh0Td37MgFluju2cw1tnb7vYIU8etouJDqG/1yIT++ZKtbEwsDfXBcht3b3VWtFqFNx+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lg1VtWSY; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qo5JUAGl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lg1VtWSY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762317129; x=1793853129;
+  t=1762330844; x=1793866844;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3iMDIgsvVdGFehRMs9Woz94lE0GrW61T8e3lWoBUHRM=;
-  b=Qo5JUAGl0E474AHo1VsqMyt6rKWxNkV8f6fCkkYujfZ9GMeQPDaBWmtA
-   bYtxF6n15dd2SdoEC5K6shuk4Q6zHJXvlTamidpzK0e9wn/y+nu0qXtOW
-   ZSmj+tX38Jg5VRxoLhjNprfvVy8r4Fr5QrAOpDt5+r5bObahiIN0rzjqs
-   XtKTlEoX/N79IvdApQBp0bXXT3NMLYrOgmOAwqT8zacUx9LQMS2/uM4Zn
-   4zK6SXZ0sEwE57fiikXfZOezAApu13jKNZq6eQkIC8N/HZ5BM0x8fcw6F
-   7wMIEj2hSDbx25n0sQwzmb4no5sA/GpySLE07QhQUF+H8AeJGv6Wg+/wU
-   w==;
-X-CSE-ConnectionGUID: PmbPrg8ZT+i495BkYr8KDA==
-X-CSE-MsgGUID: KwBU75ukSBCrmETw7LtqFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="75029671"
-X-IronPort-AV: E=Sophos;i="6.19,280,1754982000"; 
-   d="scan'208";a="75029671"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 20:32:09 -0800
-X-CSE-ConnectionGUID: sZv6j83uTy+0dQiFQ3TSiA==
-X-CSE-MsgGUID: oOqvc3GZRa+cS9ZFZ7gJQg==
+  bh=hXEPMnuuZZb9dKG4f1AWszZN8Wl0EMt4rrTxlDPRVoE=;
+  b=Lg1VtWSYTBcfuw4w9LaMrVOaH+XzPVaPnKVNFSfn+cZAGhos6gLN8Op8
+   SrYvYdJdQiSZKVuYB+nACcnzGP20ntjb7AYd/anzzr3eoiTSS2z9S5Wvr
+   9HxtMN3r8QmG4urh16LiSSF/Th5YhpgXZwqjEAGxHX7xS5n3M2ZE/IusV
+   uZHfNFHWkIuZcG+2QGff1LZPegrAAtu5P41VgcuYtzvP4RSQQCBwDq1lP
+   04Kol/la4W384WIBDf0TirCxG1WlD728EQvfyjBQJ4KUUo7gSGKDgYVC3
+   lie+YbwGJi5bZLcHn76L44UJU5eLU4/Y2DqVZqPOxfEAzFYlxHJemunMS
+   A==;
+X-CSE-ConnectionGUID: 2GhQtYUoTemL6QE2SOw47Q==
+X-CSE-MsgGUID: uLs6H92GTb2AnrzYvziDMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="68091510"
+X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
+   d="scan'208";a="68091510"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 00:20:43 -0800
+X-CSE-ConnectionGUID: qCCDFjFmTOCPE/MKLamOOQ==
+X-CSE-MsgGUID: 1OnI6IszTT+4UwSkyCdQOw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,280,1754982000"; 
-   d="scan'208";a="187647882"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Nov 2025 20:32:08 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
+   d="scan'208";a="187081265"
+Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 05 Nov 2025 00:20:42 -0800
+Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vGVAs-000SAO-2i;
-	Wed, 05 Nov 2025 04:31:16 +0000
-Date: Wed, 5 Nov 2025 12:30:54 +0800
+	id 1vGYkx-000000002Ue-3Gsv;
+	Wed, 05 Nov 2025 08:20:39 +0000
+Date: Wed, 5 Nov 2025 09:20:05 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 5/6] of: add infra to parse iommu-map per IOMMU cell count
-Message-ID: <202511051256.fSouTFuY-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /: failed to match
+ any schema with compatible: ['lantiq,xway', 'lantiq,danube']
+Message-ID: <202511050941.miPNLDxQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,82 +62,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <74d4ddf90c0fb485fda1feec5116dc38e5fd23cf.1762235099.git.charan.kalla@oss.qualcomm.com>
-References: <74d4ddf90c0fb485fda1feec5116dc38e5fd23cf.1762235099.git.charan.kalla@oss.qualcomm.com>
-TO: Charan Teja Kalla <charan.kalla@oss.qualcomm.com>
-TO: robin.murphy@arm.com
-TO: will@kernel.org
-TO: joro@8bytes.org
-TO: robh@kernel.org
-TO: dmitry.baryshkov@oss.qualcomm.com
-TO: konrad.dybcio@oss.qualcomm.com
-TO: bjorn.andersson@oss.qualcomm.com
-TO: bod@kernel.org
-TO: conor+dt@kernel.org
-TO: krzk+dt@kernel.org
-TO: saravanak@google.com
-TO: prakash.gupta@oss.qualcomm.com
-TO: vikash.garodia@oss.qualcomm.com
-CC: iommu@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: Charan Teja Kalla <charan.kalla@oss.qualcomm.com>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Conor Dooley <conor.dooley@microchip.com>
 
-Hi Charan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.18-rc4 next-20251104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Charan-Teja-Kalla/of-create-a-wrapper-for-of_map_id/20251104-170223
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/74d4ddf90c0fb485fda1feec5116dc38e5fd23cf.1762235099.git.charan.kalla%40oss.qualcomm.com
-patch subject: [PATCH 5/6] of: add infra to parse iommu-map per IOMMU cell count
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: hexagon-randconfig-r072-20251105 (https://download.01.org/0day-ci/archive/20251105/202511051256.fSouTFuY-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   284922f4c563aa3a8558a00f2a05722133237fe8
+commit: 61a6ba233fe1198e9eacc9ca1d1cbdb27f70cee5 dt-bindings: Unify "fsl,liodn" type definitions
+date:   11 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 11 months ago
+config: mips-randconfig-2051-20251031 (https://download.01.org/0day-ci/archive/20251105/202511050941.miPNLDxQ-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.3.0
+dtschema version: 2025.9.dev13+gc72762e0c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511050941.miPNLDxQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511051256.fSouTFuY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511050941.miPNLDxQ-lkp@intel.com/
 
-smatch warnings:
-drivers/of/base.c:2130 of_iommu_map_id_cell_count() error: uninitialized symbol 'legacy_iommu_cells'.
-
-vim +/legacy_iommu_cells +2130 drivers/of/base.c
-
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2110  
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2111  /**
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2112   * of_iommu_map_id_cell_count - Determine the cell count for iommu-map parsing.
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2113   *
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2114   * @map: pointer to the iommu-map property that needs to be translated.
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2115   * @map_len: length of @map in bytes.
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2116   *
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2117   * Use #iommu-cells property while parsing iommu-map. Detect and use legacy
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2118   * case where iommu-map is parsed as if cells = 1.
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2119   *
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2120   * Return: number of cells that the caller should be considered while parsing
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2121   * the @map. It is > 0 for success, 0 for failure.
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2122   */
-5288ad2aeeeb419 Charan Teja Kalla 2025-11-04  2123  static int of_iommu_map_id_cell_count(const __be32 *map, int map_len, u32 cells)
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2124  {
-5288ad2aeeeb419 Charan Teja Kalla 2025-11-04  2125  	u32 legacy_iommu_cells;
-5288ad2aeeeb419 Charan Teja Kalla 2025-11-04  2126  
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2127  	if (map_len % 4 != 0)
-5288ad2aeeeb419 Charan Teja Kalla 2025-11-04  2128  		legacy_iommu_cells = of_iommu_map_id_legacy_cell_count(map, map_len);
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2129  
-5288ad2aeeeb419 Charan Teja Kalla 2025-11-04 @2130  	return legacy_iommu_cells ? : of_iommu_map_id_actual_cell_count(map, map_len, cells);
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2131  }
-c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2132  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/mips/boot/dts/lantiq/danube.dtsi:8.9-10.5: Warning (unit_address_vs_reg): /cpus/cpu@0: node has a unit name, but no reg or ranges property
+   arch/mips/boot/dts/lantiq/danube.dtsi:93.21-103.5: Warning (simple_bus_reg): /fpi@10000000/pci@e105400: simple-bus unit address format error, expected "7000000"
+   arch/mips/boot/dts/lantiq/danube_easy50712.dts:107.4-109.6: Warning (interrupt_map): /fpi@10000000/pci@e105400:interrupt-map: property size (28) too small, expected > 40
+   lantiq,groups: size (6) error for type uint32
+   lantiq,groups: size (5) error for type uint32
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /: failed to match any schema with compatible: ['lantiq,xway', 'lantiq,danube']
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /: failed to match any schema with compatible: ['lantiq,xway', 'lantiq,danube']
+   arch/mips/boot/dts/lantiq/danube_easy50712.dtb: / (lantiq,xway): 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: cpus: cpu@0: 'cache-level' is a required property
+   	from schema $id: http://devicetree.org/schemas/cpus.yaml
+   arch/mips/boot/dts/lantiq/danube_easy50712.dtb: cpus: '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/cpus.yaml
+   arch/mips/boot/dts/lantiq/danube_easy50712.dtb: cpus: '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/cpus.yaml
+   arch/mips/boot/dts/lantiq/danube_easy50712.dtb: cpu@0 (mips,mips24Kc): 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/mips/cpus.yaml
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: biu@1f800000 (lantiq,biu): $nodename:0: 'biu@1f800000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /biu@1f800000: failed to match any schema with compatible: ['lantiq,biu', 'simple-bus']
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /biu@1f800000/icu@80200: failed to match any schema with compatible: ['lantiq,icu']
+   arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /biu@1f800000/watchdog@803f0: failed to match any schema with compatible: ['lantiq,wdt']
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /sram@1f000000: failed to match any schema with compatible: ['lantiq,sram']
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /sram@1f000000/eiu@101000: failed to match any schema with compatible: ['lantiq,eiu-xway']
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: cgu@103000 (lantiq,cgu-xway): '#clock-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mips/lantiq/lantiq,cgu.yaml
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /sram@1f000000/rcu@203000: failed to match any schema with compatible: ['lantiq,rcu-xway']
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: fpi@10000000 (lantiq,fpi): $nodename:0: 'fpi@10000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /fpi@10000000: failed to match any schema with compatible: ['lantiq,fpi', 'simple-bus']
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /fpi@10000000/gptu@e100a00: failed to match any schema with compatible: ['lantiq,gptu-xway']
+   arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /fpi@10000000/serial@e100c00: failed to match any schema with compatible: ['lantiq,asc']
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /fpi@10000000/pci@e105400: failed to match any schema with compatible: ['lantiq,pci-xway']
+   arch/mips/boot/dts/lantiq/danube_easy50712.dtb: pci@e105400 (lantiq,pci-xway): 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /fpi@10000000/localbus@0: failed to match any schema with compatible: ['lantiq,localbus', 'simple-bus']
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /fpi@10000000/localbus@0/nor-boot@0: failed to match any schema with compatible: ['lantiq,nor']
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: /fpi@10000000/pinmux@e100b10: failed to match any schema with compatible: ['lantiq,danube-pinctrl']
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: exin: lantiq,groups: b'exin1\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>> arch/mips/boot/dts/lantiq/danube_easy50712.dtb: pci: lantiq,groups: b'gnt1\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/mips/boot/dts/lantiq/danube_easy50712.dtb: etop@e180000 (lantiq,etop-xway): 'mac-address' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/lantiq,etop-xway.yaml
+   arch/mips/boot/dts/lantiq/danube_easy50712.dtb: etop@e180000 (lantiq,etop-xway): $nodename:0: 'etop@e180000' does not match '^ethernet@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/net/lantiq,etop-xway.yaml
+   arch/mips/boot/dts/lantiq/danube_easy50712.dtb: etop@e180000 (lantiq,etop-xway): 'interrupt-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/lantiq,etop-xway.yaml
+   arch/mips/boot/dts/lantiq/danube_easy50712.dtb: etop@e180000 (lantiq,etop-xway): 'lantiq,tx-burst-length' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/lantiq,etop-xway.yaml
+   arch/mips/boot/dts/lantiq/danube_easy50712.dtb: etop@e180000 (lantiq,etop-xway): 'lantiq,rx-burst-length' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
