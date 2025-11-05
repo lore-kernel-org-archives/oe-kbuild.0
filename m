@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B954532D0C6
-	for <oe-kbuild@lists.linux.dev>; Wed,  5 Nov 2025 17:21:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15FE11F4615
+	for <oe-kbuild@lists.linux.dev>; Wed,  5 Nov 2025 18:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762363289; cv=none; b=TQqFxo2VQapQStjh+2Zg9QraMjxmWs25wsb+gba8otVSsaJufMhlycZGUWBxltSt+f2Tl3etzyomuQZPg4QMrKU9uMEhW4JD9nUKLY+5GJ2l68qDMC0W7hsXtQTucmtHoC8ZDBMHY0NrLuCcUstJ3Mh9OdNzLzUVq/66Tf0Ua4o=
+	t=1762365910; cv=none; b=ewJYIcSZ5jczlYcp9N0waCJ6JGwoZFjQ0zfhSQWz0q7xEmhxIhhaAKkFwIOOtXourRJzgnVBZ0wGlaD15M3jbWCSAcF/6gmTXnO7Am0ZlwBeApFxoDkXJqxSVEenYsmhgeQTwO3EqKoGGvSDZ5WgQmjOXU9WIYgVm/jNR2LD3S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762363289; c=relaxed/simple;
-	bh=R1Ual9MzgJsdMBh4X+jYcjGNG6EbAtdZ9KPN2AmfaPM=;
+	s=arc-20240116; t=1762365910; c=relaxed/simple;
+	bh=/auzepDC2bzNjJz1uM+nJI+V8JMkpsVaEyOBc3QJjPY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QqZ0GSHJaOYmtOx9TmY+yShrOKNWHFCiHnHYLYdHZEWXSSOV3RkRhMwBS40ayi4MqM/cMoviHTh+BjNsFEE9xYxw//HmrN0N9JioMvo/41waqq3YrddL08fZr926Mkdxh5aZwVSGC6PiWQVWzCZ40ni705etZKp1w2yQ26vyzp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iuv3IzlF; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=YHDbj14w6xXbWr2lqxs+JCiQz0kN3uHK4JTnomzZNe0I7KztI2x99xR2pZNZ6dte4MVzclhVCV+QWUWXPFN1kkQiVRO6DGkvuYyz0Ea98ZWwuSkfkB2GqUcsZWq2xdzj1D7Dx5eA1j0LlrrEv8WH+xDu9b9R3XaaeuuIhE7TWsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZDKi2n2r; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iuv3IzlF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZDKi2n2r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762363286; x=1793899286;
+  t=1762365909; x=1793901909;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R1Ual9MzgJsdMBh4X+jYcjGNG6EbAtdZ9KPN2AmfaPM=;
-  b=Iuv3IzlF0JLAMf60uQLXu65lFKCIgq0bGM7u2ViL7hC4cHVbcliu2J6k
-   7rtr2L181Zm2IW922Vebangg4XshUUB9Ehwcb6wU0lXSelNiEgO7TLrQ3
-   3qh04ikd/6DMhfWscD5hekCNL1wOEniJ/55hm1+GY99AlHQgAj1BWeWqw
-   4a0Mr0KmTnfmkZEsqkHDeyKjR9hywjepnIXohBTWCyPyfBtlxRvT/3YWM
-   82D/4LuROA3XL3qzf2CItmWmVr1lWjoUbJ0dLrzzUCG3pCY1tOeGjvObQ
-   3icHD/+kJNTiFPCuOlPKw6i8bYehcMbYy3FZk4tJ0rGGtQUODk/YtrUpO
-   g==;
-X-CSE-ConnectionGUID: 3nUAkXGRRxqcwndCpoFieg==
-X-CSE-MsgGUID: BneH/idWSO2yWJS9oVvJig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="63691017"
+  bh=/auzepDC2bzNjJz1uM+nJI+V8JMkpsVaEyOBc3QJjPY=;
+  b=ZDKi2n2rlXU7xsI4K3uDJY3cExirDXSKw5TLQQF9VXkplaZgoKvH/AjY
+   fvNXKYId1/v3FscKjGYTyNOVbpj7MT4Rb6SiOpoNuQz1sy3K4zLdmVoUD
+   jCAyZWAeg75CBtQS2ltkfXMRosrmiRfCvtuG1nhj7uzFyReagHrP/QDYb
+   YgOYZq5NMnmll3zbpLoiaMHeuANB+81UU6JRmiItlBQtp1s6qlZ+xwUTF
+   8lKZalUhfqvTw/FbPjPcT+EsD6vAHa5n5QQqL9F326Et6yPRUgTJ/AR6w
+   hoyc0OlcTp5oix0LyumDnN9zyH5tH9/1b3qkXblGIMb/kf8+B0jLAB/YX
+   A==;
+X-CSE-ConnectionGUID: 10j0MoTYQcqcXWRTSWXgUw==
+X-CSE-MsgGUID: UpXvkHYER6e+Y3PCgerWaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="52058471"
 X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="63691017"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 09:21:25 -0800
-X-CSE-ConnectionGUID: hnvw+T/OT/CI7/4VEWfNtw==
-X-CSE-MsgGUID: m0CfkAMBT12BLOeL1LMuBQ==
+   d="scan'208";a="52058471"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 10:05:07 -0800
+X-CSE-ConnectionGUID: aXP0bPWeSgq9C5sukPCmcQ==
+X-CSE-MsgGUID: ZEwFnNDjQuKhHpIKe1AFDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="192686509"
+   d="scan'208";a="188244605"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 05 Nov 2025 09:21:24 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 05 Nov 2025 10:05:07 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGhAx-000SvM-0u;
-	Wed, 05 Nov 2025 17:20:25 +0000
-Date: Thu, 6 Nov 2025 01:16:48 +0800
+	id 1vGhrL-000Sxj-1b;
+	Wed, 05 Nov 2025 18:04:13 +0000
+Date: Thu, 6 Nov 2025 01:58:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH net-next v6 3/6] net: devmem: prepare for autorelease rx
- token management
-Message-ID: <202511060119.MAzcsLoN-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [sean-jc:x86/svm_handler_nospec 5/5] arch/x86/kvm/svm/svm.c:3469:10:
+ error: call to '__compiletime_assert_1102' declared with 'error' attribute:
+ BUILD_BUG_ON failed: sizeof(_i) > sizeof(long)
+Message-ID: <202511060102.saDUWCMZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,101 +63,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3@meta.com>
-References: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3@meta.com>
-TO: Bobby Eshleman <bobbyeshleman@gmail.com>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev@vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
-TO: Jakub Kicinski <kuba@kernel.org>
-TO: Paolo Abeni <pabeni@redhat.com>
-TO: Simon Horman <horms@kernel.org>
-TO: Kuniyuki Iwashima <kuniyu@google.com>
-TO: Willem de Bruijn <willemb@google.com>
-TO: Neal Cardwell <ncardwell@google.com>
-TO: David Ahern <dsahern@kernel.org>
-TO: Arnd Bergmann <arnd@arndb.de>
-TO: Jonathan Corbet <corbet@lwn.net>
-TO: Andrew Lunn <andrew+netdev@lunn.ch>
-TO: Shuah Khan <skhan@linuxfoundation.org>
-TO: Mina Almasry <almasrymina@google.com>
-CC: linux-kernel@vger.kernel.org
-CC: linux-arch@vger.kernel.org
-CC: linux-doc@vger.kernel.org
-CC: linux-kselftest@vger.kernel.org
-CC: Stanislav Fomichev <sdf@fomichev.me>
-CC: Bobby Eshleman <bobbyeshleman@meta.com>
+TO: Sean Christopherson <seanjc@google.com>
 
-Hi Bobby,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 255d75ef029f33f75fcf5015052b7302486f7ad2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/net-devmem-rename-tx_vec-to-vec-in-dmabuf-binding/20251105-092703
-base:   255d75ef029f33f75fcf5015052b7302486f7ad2
-patch link:    https://lore.kernel.org/r/20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3%40meta.com
-patch subject: [PATCH net-next v6 3/6] net: devmem: prepare for autorelease rx token management
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: openrisc-randconfig-r073-20251105 (https://download.01.org/0day-ci/archive/20251106/202511060119.MAzcsLoN-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 10.5.0
+tree:   https://github.com/sean-jc/linux x86/svm_handler_nospec
+head:   bac6bf1a9360d8301e58c5ea06be70c71a665b75
+commit: bac6bf1a9360d8301e58c5ea06be70c71a665b75 [5/5] KVM: SVM: Harden exit_code against being used in Spectre-like attacks
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-052-20251105 (https://download.01.org/0day-ci/archive/20251106/202511060102.saDUWCMZ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060102.saDUWCMZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511060119.MAzcsLoN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511060102.saDUWCMZ-lkp@intel.com/
 
-New smatch warnings:
-net/core/sock.c:1107 sock_devmem_dontneed_manual_release() error: uninitialized symbol 'ret'.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-net/core/sock.c:1114 sock_devmem_dontneed_manual_release() error: uninitialized symbol 'ret'.
-net/core/sock.c:1118 sock_devmem_dontneed_manual_release() error: uninitialized symbol 'ret'.
+>> arch/x86/kvm/svm/svm.c:3469:10: error: call to '__compiletime_assert_1102' declared with 'error' attribute: BUILD_BUG_ON failed: sizeof(_i) > sizeof(long)
+    3469 |         index = array_index_nospec(exit_code, ARRAY_SIZE(svm_exit_handlers));
+         |                 ^
+   include/linux/nospec.h:61:2: note: expanded from macro 'array_index_nospec'
+      61 |         BUILD_BUG_ON(sizeof(_i) > sizeof(long));                        \
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:585:2: note: expanded from macro '_compiletime_assert'
+     585 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:578:4: note: expanded from macro '__compiletime_assert'
+     578 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:247:1: note: expanded from here
+     247 | __compiletime_assert_1102
+         | ^
+   1 error generated.
 
-vim +/ret +1107 net/core/sock.c
 
-678f6e28b5f6fc Mina Almasry   2024-09-10  1085  
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1086  static noinline_for_stack int
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1087  sock_devmem_dontneed_manual_release(struct sock *sk, struct dmabuf_token *tokens,
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1088  				    unsigned int num_tokens)
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1089  {
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1090  	struct net_iov *niov;
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1091  	unsigned int i, j;
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1092  	netmem_ref netmem;
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1093  	unsigned int token;
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1094  	int num_frags = 0;
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1095  	int ret;
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1096  
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1097  	if (!sk->sk_devmem_info.binding)
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1098  		return -EINVAL;
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1099  
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1100  	for (i = 0; i < num_tokens; i++) {
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1101  		for (j = 0; j < tokens[i].token_count; j++) {
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1102  			token = tokens[i].token_start + j;
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1103  			if (token >= sk->sk_devmem_info.binding->dmabuf->size / PAGE_SIZE)
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1104  				break;
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1105  
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1106  			if (++num_frags > MAX_DONTNEED_FRAGS)
-45aa39492cf4dd Bobby Eshleman 2025-11-04 @1107  				return ret;
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1108  
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1109  			niov = sk->sk_devmem_info.binding->vec[token];
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1110  			if (atomic_dec_and_test(&niov->uref)) {
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1111  				netmem = net_iov_to_netmem(niov);
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1112  				WARN_ON_ONCE(!napi_pp_put_page(netmem));
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1113  			}
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1114  			ret++;
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1115  		}
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1116  	}
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1117  
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1118  	atomic_sub(ret, &sk->sk_devmem_info.outstanding_urefs);
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1119  
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1120  	return ret;
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1121  }
-45aa39492cf4dd Bobby Eshleman 2025-11-04  1122  
+vim +3469 arch/x86/kvm/svm/svm.c
+
+3f10c846f8f9e6a arch/x86/kvm/svm.c     Joerg Roedel        2010-05-05  3445  
+63129754178c551 arch/x86/kvm/svm/svm.c Paolo Bonzini       2021-03-02  3446  int svm_invoke_exit_handler(struct kvm_vcpu *vcpu, u64 exit_code)
+e9093fd49285ff7 arch/x86/kvm/svm/svm.c Tom Lendacky        2020-12-10  3447  {
+bac6bf1a9360d83 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3448  	u64 index;
+bac6bf1a9360d83 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3449  
+aefb2f2e619b6c3 arch/x86/kvm/svm/svm.c Breno Leitao        2023-11-21  3450  #ifdef CONFIG_MITIGATION_RETPOLINE
+e9093fd49285ff7 arch/x86/kvm/svm/svm.c Tom Lendacky        2020-12-10  3451  	if (exit_code == SVM_EXIT_MSR)
+63129754178c551 arch/x86/kvm/svm/svm.c Paolo Bonzini       2021-03-02  3452  		return msr_interception(vcpu);
+e9093fd49285ff7 arch/x86/kvm/svm/svm.c Tom Lendacky        2020-12-10  3453  	else if (exit_code == SVM_EXIT_VINTR)
+63129754178c551 arch/x86/kvm/svm/svm.c Paolo Bonzini       2021-03-02  3454  		return interrupt_window_interception(vcpu);
+e9093fd49285ff7 arch/x86/kvm/svm/svm.c Tom Lendacky        2020-12-10  3455  	else if (exit_code == SVM_EXIT_INTR)
+63129754178c551 arch/x86/kvm/svm/svm.c Paolo Bonzini       2021-03-02  3456  		return intr_interception(vcpu);
+fa662c9080732b1 arch/x86/kvm/svm/svm.c Manali Shukla       2025-01-28  3457  	else if (exit_code == SVM_EXIT_HLT || exit_code == SVM_EXIT_IDLE_HLT)
+5ff3a351f687fdd arch/x86/kvm/svm/svm.c Sean Christopherson 2021-02-04  3458  		return kvm_emulate_halt(vcpu);
+e9093fd49285ff7 arch/x86/kvm/svm/svm.c Tom Lendacky        2020-12-10  3459  	else if (exit_code == SVM_EXIT_NPF)
+63129754178c551 arch/x86/kvm/svm/svm.c Paolo Bonzini       2021-03-02  3460  		return npf_interception(vcpu);
+bb5081f4abf2d91 arch/x86/kvm/svm/svm.c Peng Hao            2025-03-06  3461  #ifdef CONFIG_KVM_AMD_SEV
+bb5081f4abf2d91 arch/x86/kvm/svm/svm.c Peng Hao            2025-03-06  3462  	else if (exit_code == SVM_EXIT_VMGEXIT)
+bb5081f4abf2d91 arch/x86/kvm/svm/svm.c Peng Hao            2025-03-06  3463  		return sev_handle_vmgexit(vcpu);
+bb5081f4abf2d91 arch/x86/kvm/svm/svm.c Peng Hao            2025-03-06  3464  #endif
+e9093fd49285ff7 arch/x86/kvm/svm/svm.c Tom Lendacky        2020-12-10  3465  #endif
+ac308129168b5f9 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3466  	if (exit_code >= ARRAY_SIZE(svm_exit_handlers))
+ac308129168b5f9 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3467  		goto unexpected_vmexit;
+ac308129168b5f9 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3468  
+bac6bf1a9360d83 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03 @3469  	index = array_index_nospec(exit_code, ARRAY_SIZE(svm_exit_handlers));
+bac6bf1a9360d83 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3470  	if (!svm_exit_handlers[index])
+ac308129168b5f9 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3471  		goto unexpected_vmexit;
+ac308129168b5f9 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3472  
+bac6bf1a9360d83 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3473  	return svm_exit_handlers[index](vcpu);
+3f6d53e912cf057 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3474  
+3f6d53e912cf057 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3475  unexpected_vmexit:
+3f6d53e912cf057 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3476  	dump_vmcb(vcpu);
+3f6d53e912cf057 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3477  	kvm_prepare_unexpected_reason_exit(vcpu, exit_code);
+3f6d53e912cf057 arch/x86/kvm/svm/svm.c Sean Christopherson 2025-11-03  3478  	return 0;
+e9093fd49285ff7 arch/x86/kvm/svm/svm.c Tom Lendacky        2020-12-10  3479  }
+e9093fd49285ff7 arch/x86/kvm/svm/svm.c Tom Lendacky        2020-12-10  3480  
 
 -- 
 0-DAY CI Kernel Test Service
