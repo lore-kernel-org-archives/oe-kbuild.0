@@ -1,58 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE51E2D7391
-	for <oe-kbuild@lists.linux.dev>; Wed,  5 Nov 2025 13:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC01232E6B6
+	for <oe-kbuild@lists.linux.dev>; Wed,  5 Nov 2025 14:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762347798; cv=none; b=YZBl0SCTSk755GFpukFQXyw33UUxedpLZmGPka7Rd2AMN1i5U2KLlKFVBhQJQjSSDTNeZZoEIwKrhGYYqkJvN4PSzCmvL2fEHDWF2cD0lTKSMJoXsC+tOqAhcWQ1t8f55JkSLZigmtThSed/7d+ebHU5QLG5DO0rKm0j0IjzFEE=
+	t=1762354756; cv=none; b=d9/mF1s1RRHzbauBkFKUHxx9lcHkmm196dp8A4vVfTaOuSGLG+D4pBjMtwcmJEUhevaKbbeiR3xY642lMbWmjWu7xfAVDpfy0T+8uLDpchuL14NtuxvM0g4cdTY6zafkS/hjRMKoIaPuFgDgqeXtG+wKbvf/I4rHevg2hy8Enj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762347798; c=relaxed/simple;
-	bh=VvB6KGlDOFFUPc6PPCG/SfDvqdlS6HVTguRkjHbYbOQ=;
+	s=arc-20240116; t=1762354756; c=relaxed/simple;
+	bh=en7TeJlKBrx/C+nM4gOVy8baN0W/O3amap3OUmtB08E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hcc9NgxbaSNwubQI0Ys1/pXWuKs6xUvcLlt7CQs0CfUZjhCeKAh6LaxOk4n5wamDrKzhA1HGRUTTTUPQGMsqFKN9xDk8KrSsyw/mYJl3SXNKuIyfmFH3OEntsfPhbJftSNitcxcmcZ2FqKWIn8QBkqHpz+ZYfWMiOh/YY60nXV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OuK8Jp/H; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=BIXqC3ylrFDJfwaZZyqXErkku17aEArODzqFE0KhK8OzUP3B0Vwujn58pTrbnO3P/VxCH1XtoZfOSzgaWMDstRl+qde1Pl+Wq3yi3GLcnbAWQeu2UojbW02vdtJX7Z+sy60AICz/GXqLIeQx7Sn7Ti9+oaI+Dzw2lzr5YCbUcYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ck4FNE+2; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OuK8Jp/H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762347797; x=1793883797;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VvB6KGlDOFFUPc6PPCG/SfDvqdlS6HVTguRkjHbYbOQ=;
-  b=OuK8Jp/HVB/BcKSjhvvvZgl8BHhNg+metYH/+mizTJeaaA1RRHvooVh8
-   a0NoWr4iwIO0UPGBdBK3ITcDJnZpsLFAIIU4DBJRDmDLC8CkPJ4IUCKaE
-   WUr+nJmsERh6oPPSRibIF2l3eCL69qI2ZCsDh8XhQ+IIW2rZWxKp5zid5
-   tRlz+nkoVlvMgp/jZ8bZWtekrI8cPY5uS+b4iJ2OK3hVQ8/uQFB5nzBaw
-   o1hiE06t314K49yIHYXD0RjASU6aiZkWE1mbV0u2FIegT5z8dEie6rcOT
-   Nf3VAfqrrUohWCmy/yyX6FITQCXesfzX9vpxF29OKejQrzN0YOpC6ABs4
-   g==;
-X-CSE-ConnectionGUID: u1rLG/WdSS289e6fhQ2l3g==
-X-CSE-MsgGUID: Nhc9Z/SGS86lyT8AQ5Ijsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="64560295"
-X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
-   d="scan'208";a="64560295"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 05:03:16 -0800
-X-CSE-ConnectionGUID: FH8klGesTEmF2GIkzgc/Bg==
-X-CSE-MsgGUID: YFgoYTtqSLe5x3g67NSv1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
-   d="scan'208";a="187900037"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Nov 2025 05:03:15 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vGdAK-000Sa2-25;
-	Wed, 05 Nov 2025 13:03:10 +0000
-Date: Wed, 5 Nov 2025 21:02:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 6061/6507] fs/erofs/fileio.c:65
- erofs_fileio_rq_submit() error: uninitialized symbol 'ret'.
-Message-ID: <202511052057.dU1s9Y6h-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ck4FNE+2"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-64034284521so11620723a12.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 05 Nov 2025 06:59:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1762354750; x=1762959550; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=s1Ufgq26KO/UiFTVQ2dwsBFNMe828bkTGONCB7/Nzc8=;
+        b=ck4FNE+2bczvF+og4ewooss/H8+bOx3n28TDiqZSi5ThxDNge6kAVA5yZy6a+x3J8g
+         QPl8XcC7uNLMWGqwKrk7ze6qW3fU/NZKcoG1DSJq5VRyUVM8U+xqv5K7F91Irqwl+lPA
+         JXAlX91UIAHMarg0N1eSiI7PYWguvMpMQhNS9qgKjONSZGY2xSTaHdcFjsZwyjWTDlcl
+         lvAh2joFZnYeXjVIEI7yNCG8CVWl2Zeu9xICi++la+9xaj/8llSIvlYia7nNB8aEU0y8
+         Oh7hhEr5nYjBJnOBDmR2Gmwf6fTTLPXmuu3YA7yzfv2PPNNgPFA1T+QqSENXZrzOeZmc
+         CiZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762354750; x=1762959550;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=s1Ufgq26KO/UiFTVQ2dwsBFNMe828bkTGONCB7/Nzc8=;
+        b=VbZVulamuwoEmrZEGBG69REJ7ur0oD3HQkOfDAhnIdy8bQCi47DV1V28VkpPcjDjZb
+         1TTJxeOZ+MWYLJxDl/tX2XeMI23Vx5Xi0X8X6BzBV0V2RxSbC8eGOLZa3zvrfDVPF8XU
+         q1/kyqd3e/Gm7ersG0Ugk7QVbdXcNbMQlHZVWe1VufJ/AgMEcJQXeYcMxbfU22okBO7t
+         xHSCm0GReC4GI8eW3Uro+pqBo8Klt+SMVEIe+pR/X+O6LEH4Em0QZ/mC+gNaLUJQUlCT
+         yzdTPTIViOg9G8Ke3Okl6j8hYG/+Xpx9x82D40JndwDtdqbKf/jbwOshzgw/shJiRCf6
+         mAoQ==
+X-Gm-Message-State: AOJu0YxRNmH95YLNkfPevYw1L3YrOz3STDKPsDYYME6oocsQSoeRQFGg
+	FswQ69kBmvie/SuSEsca0JjA/13kNH4hXGjVBu6OQckkmlJEGbIMVsVfby9n/JgUqRsstPxHS15
+	Sa0xZ
+X-Gm-Gg: ASbGncuTa5aku6yaD+u9ZSZ2ThTBdv69trMPo9CFqDSY5G5EPTHwX1c3cPqTobsixZ2
+	7jznksZ7/dvM9RKg1xJgPgbkt+83SLFsc7Hvo52pdnzxGweQj5pSbFyIvZw5usXHOTYMgeK3Uc9
+	07QAUfVlMmeGEHSaJk+p+oeIYw39hisZlxxfeAZdHy9BUEhAIf8+9jPIIMtcORFlqV5AAjFcNk0
+	gCfBolYSp5Mbs/F23OL5nUpXl12bx+ZBGoviIZobGDCXOWL0KLpS23azGdj72E0knOW2crmXCff
+	j39WMLgT81Zf3Y6OU+yEJSOC7QzZn/uYMQhDOw62owaOxPAAMSsOYguOmsbZ3TkxGZcB2XGtgWJ
+	Quv6lUbsBWNMuEb2UyIfdUQid6BLUfkITYHv4bXOisYXUIZ2Z7C4Te2gzYngGBn/+szOheexcOI
+	2qoPlYavB+P7h4
+X-Google-Smtp-Source: AGHT+IGEbVOfoRG0NwUxUVx0a5u94ZVJ5b6JB4ndJ053yQljV9xOuZD9inglS4LiJinn4sWEM84qBw==
+X-Received: by 2002:a17:906:6a1a:b0:b6d:55ee:506d with SMTP id a640c23a62f3a-b72656bf24bmr350804766b.65.1762354750093;
+        Wed, 05 Nov 2025 06:59:10 -0800 (PST)
+Received: from localhost ([87.213.113.147])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72676121b1sm207002366b.75.2025.11.05.06.59.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Nov 2025 06:59:09 -0800 (PST)
+Date: Wed, 5 Nov 2025 17:59:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+	Aaron Kling <webgeek1234@gmail.com>
+Subject: Re: [PATCH v6] memory: tegra210: Support interconnect framework
+Message-ID: <246ce503-015e-4c2a-b979-24086df2646c@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,60 +78,100 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251027-t210-actmon-p2-v6-1-1c4bd227d676@gmail.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Christian Brauner <brauner@kernel.org>
-CC: Amir Goldstein <amir73il@gmail.com>
+Hi Aaron,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   84d39fb9d529f27d2f3d295430d1be0abdae7a6d
-commit: 5e88d1aadcd20a8e2cf317839cac0c94006cee64 [6061/6507] erofs: use credential guards
-:::::: branch date: 7 hours ago
-:::::: commit date: 25 hours ago
-config: parisc-randconfig-r071-20251105 (https://download.01.org/0day-ci/archive/20251105/202511052057.dU1s9Y6h-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.5.0
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Kling-via-B4-Relay/memory-tegra210-Support-interconnect-framework/20251028-015017
+base:   211ddde0823f1442e4ad052a2f30f050145ccada
+patch link:    https://lore.kernel.org/r/20251027-t210-actmon-p2-v6-1-1c4bd227d676%40gmail.com
+patch subject: [PATCH v6] memory: tegra210: Support interconnect framework
+config: arm-randconfig-r071-20251102 (https://download.01.org/0day-ci/archive/20251103/202511030812.rbcbrDyU-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511052057.dU1s9Y6h-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202511030812.rbcbrDyU-lkp@intel.com/
 
-smatch warnings:
-fs/erofs/fileio.c:65 erofs_fileio_rq_submit() error: uninitialized symbol 'ret'.
+New smatch warnings:
+drivers/memory/tegra/tegra210-emc-core.c:1984 tegra210_emc_opp_table_init() warn: passing zero to 'dev_err_probe'
+drivers/memory/tegra/tegra210-emc-core.c:1985 tegra210_emc_opp_table_init() warn: missing error code 'err'
 
-vim +/ret +65 fs/erofs/fileio.c
+Old smatch warnings:
+drivers/memory/tegra/tegra210-emc-core.c:1989 tegra210_emc_opp_table_init() warn: passing zero to 'dev_err_probe'
+drivers/memory/tegra/tegra210-emc-core.c:1997 tegra210_emc_opp_table_init() warn: passing zero to 'dev_err_probe'
 
-ce63cb62d794c9 Gao Xiang         2024-09-05  47  
-ce63cb62d794c9 Gao Xiang         2024-09-05  48  static void erofs_fileio_rq_submit(struct erofs_fileio_rq *rq)
-ce63cb62d794c9 Gao Xiang         2024-09-05  49  {
-ce63cb62d794c9 Gao Xiang         2024-09-05  50  	struct iov_iter iter;
-ce63cb62d794c9 Gao Xiang         2024-09-05  51  	int ret;
-ce63cb62d794c9 Gao Xiang         2024-09-05  52  
-ce63cb62d794c9 Gao Xiang         2024-09-05  53  	if (!rq)
-ce63cb62d794c9 Gao Xiang         2024-09-05  54  		return;
-ce63cb62d794c9 Gao Xiang         2024-09-05  55  	rq->iocb.ki_pos = rq->bio.bi_iter.bi_sector << SECTOR_SHIFT;
-ce63cb62d794c9 Gao Xiang         2024-09-05  56  	rq->iocb.ki_ioprio = get_current_ioprio();
-ce63cb62d794c9 Gao Xiang         2024-09-05  57  	rq->iocb.ki_complete = erofs_fileio_ki_complete;
-6422cde1b0d5a3 Gao Xiang         2024-12-12  58  	if (test_opt(&EROFS_SB(rq->sb)->opt, DIRECT_IO) &&
-6422cde1b0d5a3 Gao Xiang         2024-12-12  59  	    rq->iocb.ki_filp->f_mode & FMODE_CAN_ODIRECT)
-6422cde1b0d5a3 Gao Xiang         2024-12-12  60  		rq->iocb.ki_flags = IOCB_DIRECT;
-ce63cb62d794c9 Gao Xiang         2024-09-05  61  	iov_iter_bvec(&iter, ITER_DEST, rq->bvecs, rq->bio.bi_vcnt,
-ce63cb62d794c9 Gao Xiang         2024-09-05  62  		      rq->bio.bi_iter.bi_size);
-5e88d1aadcd20a Christian Brauner 2025-11-03  63  	scoped_with_creds(rq->iocb.ki_filp->f_cred)
-ce63cb62d794c9 Gao Xiang         2024-09-05  64  		ret = vfs_iocb_iter_read(rq->iocb.ki_filp, &rq->iocb, &iter);
-ce63cb62d794c9 Gao Xiang         2024-09-05 @65  	if (ret != -EIOCBQUEUED)
-ce63cb62d794c9 Gao Xiang         2024-09-05  66  		erofs_fileio_ki_complete(&rq->iocb, ret);
-ce63cb62d794c9 Gao Xiang         2024-09-05  67  }
-ce63cb62d794c9 Gao Xiang         2024-09-05  68  
+vim +/dev_err_probe +1984 drivers/memory/tegra/tegra210-emc-core.c
 
-:::::: The code at line 65 was first introduced by commit
-:::::: ce63cb62d794c98c7631c2296fa845f2a8d0a4a1 erofs: support unencoded inodes for fileio
+7b344327c279ff Aaron Kling 2025-10-27  1958  static int tegra210_emc_opp_table_init(struct tegra210_emc *emc)
+7b344327c279ff Aaron Kling 2025-10-27  1959  {
+7b344327c279ff Aaron Kling 2025-10-27  1960  	u32 hw_version = BIT(tegra_sku_info.soc_speedo_id);
+7b344327c279ff Aaron Kling 2025-10-27  1961  	struct dev_pm_opp *opp;
+7b344327c279ff Aaron Kling 2025-10-27  1962  	unsigned long rate;
+7b344327c279ff Aaron Kling 2025-10-27  1963  	int opp_token, err, max_opps, i;
+7b344327c279ff Aaron Kling 2025-10-27  1964  
+7b344327c279ff Aaron Kling 2025-10-27  1965  	err = dev_pm_opp_set_supported_hw(emc->dev, &hw_version, 1);
+7b344327c279ff Aaron Kling 2025-10-27  1966  	if (err < 0)
+7b344327c279ff Aaron Kling 2025-10-27  1967  		return dev_err_probe(emc->dev, err, "failed to set OPP supported HW\n");
+7b344327c279ff Aaron Kling 2025-10-27  1968  
+7b344327c279ff Aaron Kling 2025-10-27  1969  	opp_token = err;
+7b344327c279ff Aaron Kling 2025-10-27  1970  
+7b344327c279ff Aaron Kling 2025-10-27  1971  	err = dev_pm_opp_of_add_table(emc->dev);
+7b344327c279ff Aaron Kling 2025-10-27  1972  	if (err) {
+7b344327c279ff Aaron Kling 2025-10-27  1973  		if (err == -ENODEV)
+7b344327c279ff Aaron Kling 2025-10-27  1974  			dev_err_probe(emc->dev, err,
+7b344327c279ff Aaron Kling 2025-10-27  1975  				      "OPP table not found, please update your device tree\n");
+7b344327c279ff Aaron Kling 2025-10-27  1976  		else
+7b344327c279ff Aaron Kling 2025-10-27  1977  			dev_err_probe(emc->dev, err, "failed to add OPP table\n");
+7b344327c279ff Aaron Kling 2025-10-27  1978  
+7b344327c279ff Aaron Kling 2025-10-27  1979  		goto put_hw_table;
+7b344327c279ff Aaron Kling 2025-10-27  1980  	}
+7b344327c279ff Aaron Kling 2025-10-27  1981  
+7b344327c279ff Aaron Kling 2025-10-27  1982  	max_opps = dev_pm_opp_get_opp_count(emc->dev);
+7b344327c279ff Aaron Kling 2025-10-27  1983  	if (max_opps <= 0) {
+7b344327c279ff Aaron Kling 2025-10-27 @1984  		dev_err_probe(emc->dev, err, "Failed to add OPPs\n");
 
-:::::: TO: Gao Xiang <hsiangkao@linux.alibaba.com>
-:::::: CC: Gao Xiang <hsiangkao@linux.alibaba.com>
+If max_opps being zero is an error then we need to set the error
+then we need to set the error code.  If it's not an error, then
+we shouldn't print an error code.
+
+7b344327c279ff Aaron Kling 2025-10-27 @1985  		goto remove_table;
+7b344327c279ff Aaron Kling 2025-10-27  1986  	}
+7b344327c279ff Aaron Kling 2025-10-27  1987  
+7b344327c279ff Aaron Kling 2025-10-27  1988  	if (emc->num_timings != max_opps) {
+7b344327c279ff Aaron Kling 2025-10-27  1989  		dev_err_probe(emc->dev, err, "OPP table does not match emc table\n");
+7b344327c279ff Aaron Kling 2025-10-27  1990  		goto remove_table;
+7b344327c279ff Aaron Kling 2025-10-27  1991  	}
+7b344327c279ff Aaron Kling 2025-10-27  1992  
+7b344327c279ff Aaron Kling 2025-10-27  1993  	for (i = 0; i < emc->num_timings; i++) {
+7b344327c279ff Aaron Kling 2025-10-27  1994  		rate = emc->timings[i].rate * 1000;
+7b344327c279ff Aaron Kling 2025-10-27  1995  		opp = dev_pm_opp_find_freq_exact(emc->dev, rate, true);
+7b344327c279ff Aaron Kling 2025-10-27  1996  		if (IS_ERR(opp)) {
+7b344327c279ff Aaron Kling 2025-10-27  1997  			dev_err_probe(emc->dev, err, "Rate %lu not found in OPP table\n", rate);
+7b344327c279ff Aaron Kling 2025-10-27  1998  			goto remove_table;
+7b344327c279ff Aaron Kling 2025-10-27  1999  		}
+7b344327c279ff Aaron Kling 2025-10-27  2000  
+7b344327c279ff Aaron Kling 2025-10-27  2001  		dev_pm_opp_put(opp);
+7b344327c279ff Aaron Kling 2025-10-27  2002  	}
+7b344327c279ff Aaron Kling 2025-10-27  2003  
+7b344327c279ff Aaron Kling 2025-10-27  2004  	dev_info_once(emc->dev, "OPP HW ver. 0x%x, current clock rate %lu MHz\n",
+7b344327c279ff Aaron Kling 2025-10-27  2005  		      hw_version, clk_get_rate(emc->clk) / 1000000);
+7b344327c279ff Aaron Kling 2025-10-27  2006  
+7b344327c279ff Aaron Kling 2025-10-27  2007  	return 0;
+7b344327c279ff Aaron Kling 2025-10-27  2008  
+7b344327c279ff Aaron Kling 2025-10-27  2009  remove_table:
+7b344327c279ff Aaron Kling 2025-10-27  2010  	dev_pm_opp_of_remove_table(emc->dev);
+7b344327c279ff Aaron Kling 2025-10-27  2011  put_hw_table:
+7b344327c279ff Aaron Kling 2025-10-27  2012  	dev_pm_opp_put_supported_hw(opp_token);
+7b344327c279ff Aaron Kling 2025-10-27  2013  
+7b344327c279ff Aaron Kling 2025-10-27  2014  	return err;
+7b344327c279ff Aaron Kling 2025-10-27  2015  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
