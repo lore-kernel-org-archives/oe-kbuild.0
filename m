@@ -1,180 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041F52DAFAA
-	for <oe-kbuild@lists.linux.dev>; Wed,  5 Nov 2025 21:58:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF13221E097
+	for <oe-kbuild@lists.linux.dev>; Wed,  5 Nov 2025 23:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762379935; cv=none; b=RgOFa2v5LmGFpBJdB2Bva593rfGejWgWYz/cu9VKlnTGMiU+qoK0Bg5w4cHfP0VGPRgys/tf89HtPU0uVYRbrY9Zr28rqK/9jSBRe856Zq/0/qlimAJ6awW9nrt91SeQsWk2ESxaDMiCfk34fq5irnnNjIUxMVDRwo7B0KoJevc=
+	t=1762384482; cv=none; b=bCE26tLOClfFtCmjWPwRr1Eb1IBeZLhX4NAWeEDT7XDnKaElYYmL0MutqdTgGC+RZXSCNU4owrOmm45r6r723x0i3Po0WO59fFkWsIvaKCjICD01oEePJz6mC9xXriA5yDPbQeChQ2j8KBRYlZbyR0wzZryhQD39hwPyJ3Z+fSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762379935; c=relaxed/simple;
-	bh=mS1E58E4irpkjwMUkQrhMoynDRYqvmwtnlw0NmUge20=;
+	s=arc-20240116; t=1762384482; c=relaxed/simple;
+	bh=uf535fQO/FS0U1Jufpp8ll10xTRap8401hcvSvVL/RQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sf5FcDwnmnvvTinZDFzaU6FrJDn7/JNBnqv47yAPUeZH1r7wmFTAEWoB0zGCXdNV+5mTxDv0rRxEH7zzy2YV+t0QPWPtRkdMXn/QTeQr30jLWeugdjklgB21UE9jTfP/oP0oHZVfYWA6/81/xE5grqzxRQrTRUA4lyla+F4JYnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j6nCckj6; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=YjwUpePqNwpyBPy+Hd+4014f3HtUTOgJVVpb+I8fu9cr0ZDXp+E90GtGXJNGgToqlz0SpsWtgpg3FZedKgMJWTaAze7Qp6gjWVMcVcsSS6HhH1Eu4lzT5//pIGmPCwM5Fp8G5gNgtpCcJv5BHS9aFV03Kjqjjd5Grr5YwpkQa0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kM4hTZxq; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j6nCckj6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kM4hTZxq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762379934; x=1793915934;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mS1E58E4irpkjwMUkQrhMoynDRYqvmwtnlw0NmUge20=;
-  b=j6nCckj6f7Ewa4buAxrhzoPqy6NWb6W0S6IQM8i4aJJdknFl3hK++4/z
-   ZmLYzaZ9dT5FwOkuTe6CXCOFIYu7LZ7nxhV5l23o1EA3Oi+JI71Ij+cQt
-   o+xR1nCBqG57b53NacE3nOgBfdDO1lOmoR810hbVGhBpZgjPb6A2+TXdd
-   ALrY7wKRKtu/TOXEVh2HZvY5iy4R6sgU6HF9H8OgJdHz6e6k1TW7yVKLx
-   3c1hzdrGGgjzCdp7TnyR7gUjHaVYedMoak26gRMb9GBXZn93wLesWW9oB
-   rLqA92QQBDtLSaDPqLECFkfHY6uabaod6QSV4SZrpCpk31iA3dnXlB2Ts
-   A==;
-X-CSE-ConnectionGUID: Xrb9XFzCTOK1Qj4fBwMuvg==
-X-CSE-MsgGUID: 0EcU4NgqQGqL+J4q8TtjQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="64545212"
-X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="64545212"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 13:58:54 -0800
-X-CSE-ConnectionGUID: jdCjM74HQF6x6yTzgDDGdw==
-X-CSE-MsgGUID: D2bY5esHSga+f8di15vzrg==
+  t=1762384480; x=1793920480;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uf535fQO/FS0U1Jufpp8ll10xTRap8401hcvSvVL/RQ=;
+  b=kM4hTZxqOS0Lam8XLiebhD5/o+FeSIFOtClFxWBLVfRlxZGGEldIJAHe
+   j2jsUmHVA76YMgsFFkU2zA8daK0TeMrqepBviZ30K686JNTiGVJX3pwsJ
+   zsqgOS+BTZkdCRBQOhDiGD62hu5/JvOJF9RtfoKC1PYCZb2tAToBh9wDN
+   u+xC6xD4tgSFcBGXTYjJpXXOT+2MOTYJQgnAa1O/voTnObBuuH5mVkpUb
+   PNTqvrKDAN2y/VtnSH+J+XgunCMVBnQC/Oenh7ZRPcFkjlXEjdDRnkMD9
+   9aFXbIP/A8mnB0t3dI0+PYt2pdvNBeUNDI1Tj50z2xz8bWTp4ZuTQDuRg
+   w==;
+X-CSE-ConnectionGUID: i8NUJbdzSimivGopo4XLEQ==
+X-CSE-MsgGUID: gPX+SPqbTQeQMmoRYrnR5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="64547140"
+X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
+   d="scan'208";a="64547140"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 15:10:19 -0800
+X-CSE-ConnectionGUID: vUXyed9NSOy53qrp5X436g==
+X-CSE-MsgGUID: Mpj2obNKRK+Uq9tc0S+PNw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="192747840"
-Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 05 Nov 2025 13:58:53 -0800
-Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
+   d="scan'208";a="187537064"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 05 Nov 2025 15:10:19 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGlWk-000000002j2-1vD3;
-	Wed, 05 Nov 2025 21:58:50 +0000
-Date: Wed, 5 Nov 2025 22:58:40 +0100
+	id 1vGmdZ-000TDo-1q;
+	Wed, 05 Nov 2025 23:10:02 +0000
+Date: Thu, 6 Nov 2025 07:08:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [alexandrebelloni:rtc-misc 15/19]
- arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: pinmux@800 (pinctrl-single):
- 'pinmux_i2c1_pins', 'pinmux_rtc_nint_pins', 'spi1_pins_s0' do not match any
- of the regexes: '-pins(-[0-9]+)?$|-pin$', '^pinctrl-[0-9]+$'
-Message-ID: <202511052211.85cQpGJm-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v4 04/28] drm/xe/pf: Add save/restore control state stubs
+ and connect to debugfs
+Message-ID: <202511060745.V5s5AlIB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+In-Reply-To: <20251105151027.540712-5-michal.winiarski@intel.com>
+References: <20251105151027.540712-5-michal.winiarski@intel.com>
+TO: "Michał Winiarski" <michal.winiarski@intel.com>
+TO: Alex Williamson <alex@shazbot.org>
+TO: Lucas De Marchi <lucas.demarchi@intel.com>
+TO: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+TO: Rodrigo Vivi <rodrigo.vivi@intel.com>
+TO: Jason Gunthorpe <jgg@ziepe.ca>
+TO: Yishai Hadas <yishaih@nvidia.com>
+TO: Kevin Tian <kevin.tian@intel.com>
+TO: Shameer Kolothum <skolothumtho@nvidia.com>
+TO: intel-xe@lists.freedesktop.org
+TO: linux-kernel@vger.kernel.org
+TO: kvm@vger.kernel.org
+TO: Matthew Brost <matthew.brost@intel.com>
+TO: Michal Wajdeczko <michal.wajdeczko@intel.com>
+CC: dri-devel@lists.freedesktop.org
+CC: Jani Nikula <jani.nikula@linux.intel.com>
+CC: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+CC: Tvrtko Ursulin <tursulin@ursulin.net>
+CC: David Airlie <airlied@gmail.com>
+CC: Simona Vetter <simona@ffwll.ch>
+CC: Lukasz Laguna <lukasz.laguna@intel.com>
+CC: Christoph Hellwig <hch@infradead.org>
+CC: "Michał Winiarski" <michal.winiarski@intel.com>
 
-tree:   https://github.com/alexandrebelloni/linux rtc-misc
-head:   0d52d57ce82d23435901c63fd2ba89eb449d0a53
-commit: 22c4a5f1d0bde0e39e26a13d2e90954765bf6698 [15/19] RTCs on BBB
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm-randconfig-2052-20251102 (https://download.01.org/0day-ci/archive/20251105/202511052211.85cQpGJm-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
-dtschema version: 2025.9.dev13+gc72762e0c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511052211.85cQpGJm-lkp@intel.com/reproduce)
+Hi Michał,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on next-20251105]
+[cannot apply to awilliam-vfio/next awilliam-vfio/for-linus drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.18-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Winiarski/drm-xe-pf-Remove-GuC-version-check-for-migration-support/20251105-234203
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20251105151027.540712-5-michal.winiarski%40intel.com
+patch subject: [PATCH v4 04/28] drm/xe/pf: Add save/restore control state stubs and connect to debugfs
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: alpha-randconfig-r072-20251106 (https://download.01.org/0day-ci/archive/20251106/202511060745.V5s5AlIB-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511052211.85cQpGJm-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202511060745.V5s5AlIB-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@0/prcm@0/prm@1100: failed to match any schema with compatible: ['ti,am3-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@0/prcm@0/prm@1200: failed to match any schema with compatible: ['ti,am3-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@0/prcm@0/prm@1200: failed to match any schema with compatible: ['ti,am3-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@b000/i2c@0/pmic@24: failed to match any schema with compatible: ['ti,tps65217']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@b000/i2c@0/pmic@24/pwrbutton: failed to match any schema with compatible: ['ti,tps65217-pwrbutton']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: scm@0 (ti,am3-scm): clockdomains: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: scm@0 (ti,am3-scm): $nodename:0: 'scm@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@10000/scm@0: failed to match any schema with compatible: ['ti,am3-scm', 'simple-bus']
->> arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: pinmux@800 (pinctrl-single): 'pinmux_i2c1_pins', 'pinmux_rtc_nint_pins', 'spi1_pins_s0' do not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: scm_conf@0 (syscon): clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: scm_conf@0 (syscon): phy-gmii-sel: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: scm_conf@0 (syscon): $nodename:0: 'scm_conf@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@10000/scm@0/control@620: failed to match any schema with compatible: ['ti,am335x-usb-ctrl-module']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@10000/scm@0/dma-router@f90: failed to match any schema with compatible: ['ti,am335x-edma-crossbar']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@35000/wdt@0: failed to match any schema with compatible: ['ti,omap3-wdt']
---
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: segment@0 (simple-pm-bus): $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: /ocp/interconnect@48000000/segment@0/target-module@60000/mmc@0: failed to match any schema with compatible: ['ti,am335-sdhci']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: segment@100000 (simple-pm-bus): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: segment@100000 (simple-pm-bus): $nodename:0: 'segment@100000' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
->> arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: /ocp/interconnect@48000000/segment@100000/target-module@a0000/spi@0/rtc@0: failed to match any schema with compatible: ['nxp,rtc-pcf2123']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: /ocp/interconnect@48000000/segment@100000/target-module@d8000/mmc@0: failed to match any schema with compatible: ['ti,am335-sdhci']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: segment@200000 (simple-pm-bus): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: segment@200000 (simple-pm-bus): $nodename:0: 'segment@200000' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: /ocp/interconnect@48000000/segment@200000/target-module@0/mpu@0: failed to match any schema with compatible: ['ti,omap3-mpu']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb: segment@300000 (simple-pm-bus): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
---
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@0/prcm@0/prm@1100: failed to match any schema with compatible: ['ti,am3-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@0/prcm@0/prm@1200: failed to match any schema with compatible: ['ti,am3-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@0/prcm@0/prm@1200: failed to match any schema with compatible: ['ti,am3-prm-inst', 'ti,omap-prm-inst']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@b000/i2c@0/pmic@24: failed to match any schema with compatible: ['ti,tps65217']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@b000/i2c@0/pmic@24/pwrbutton: failed to match any schema with compatible: ['ti,tps65217-pwrbutton']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: scm@0 (ti,am3-scm): clockdomains: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: scm@0 (ti,am3-scm): $nodename:0: 'scm@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@10000/scm@0: failed to match any schema with compatible: ['ti,am3-scm', 'simple-bus']
->> arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: pinmux@800 (pinctrl-single): 'pinmux_i2c1_pins', 'pinmux_rtc_nint_pins', 'spi1_pins_s0' do not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: scm_conf@0 (syscon): phy-gmii-sel: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: scm_conf@0 (syscon): clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: scm_conf@0 (syscon): $nodename:0: 'scm_conf@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@10000/scm@0/control@620: failed to match any schema with compatible: ['ti,am335x-usb-ctrl-module']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@10000/scm@0/dma-router@f90: failed to match any schema with compatible: ['ti,am335x-edma-crossbar']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: /ocp/interconnect@44c00000/segment@200000/target-module@35000/wdt@0: failed to match any schema with compatible: ['ti,omap3-wdt']
---
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: segment@0 (simple-pm-bus): $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: /ocp/interconnect@48000000/segment@0/target-module@60000/mmc@0: failed to match any schema with compatible: ['ti,am335-sdhci']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: segment@100000 (simple-pm-bus): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: segment@100000 (simple-pm-bus): $nodename:0: 'segment@100000' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
->> arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: /ocp/interconnect@48000000/segment@100000/target-module@a0000/spi@0/rtc@0: failed to match any schema with compatible: ['nxp,rtc-pcf2123']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: /ocp/interconnect@48000000/segment@100000/target-module@d8000/mmc@0: failed to match any schema with compatible: ['ti,am335-sdhci']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: segment@200000 (simple-pm-bus): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: segment@200000 (simple-pm-bus): $nodename:0: 'segment@200000' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: /ocp/interconnect@48000000/segment@200000/target-module@0/mpu@0: failed to match any schema with compatible: ['ti,omap3-mpu']
-   arch/arm/boot/dts/ti/omap/am335x-boneblack-wireless.dtb: segment@300000 (simple-pm-bus): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
+smatch warnings:
+drivers/gpu/drm/xe/xe_sriov_pf_control.c:198 xe_sriov_pf_control_finish_save_vf() error: uninitialized symbol 'ret'.
+drivers/gpu/drm/xe/xe_sriov_pf_control.c:222 xe_sriov_pf_control_trigger_restore_vf() error: uninitialized symbol 'ret'.
+drivers/gpu/drm/xe/xe_sriov_pf_control.c:246 xe_sriov_pf_control_finish_restore_vf() error: uninitialized symbol 'ret'.
+
+vim +/ret +198 drivers/gpu/drm/xe/xe_sriov_pf_control.c
+
+33b59ab90959e2 Michał Winiarski 2025-11-05  176  
+33b59ab90959e2 Michał Winiarski 2025-11-05  177  /**
+33b59ab90959e2 Michał Winiarski 2025-11-05  178   * xe_sriov_pf_control_finish_save_vf - Complete a VF migration data SAVE sequence on all GTs.
+33b59ab90959e2 Michał Winiarski 2025-11-05  179   * @xe: the &xe_device
+33b59ab90959e2 Michał Winiarski 2025-11-05  180   * @vfid: the VF identifier
+33b59ab90959e2 Michał Winiarski 2025-11-05  181   *
+33b59ab90959e2 Michał Winiarski 2025-11-05  182   * This function is for PF only.
+33b59ab90959e2 Michał Winiarski 2025-11-05  183   *
+33b59ab90959e2 Michał Winiarski 2025-11-05  184   * Return: 0 on success or a negative error code on failure.
+33b59ab90959e2 Michał Winiarski 2025-11-05  185   */
+33b59ab90959e2 Michał Winiarski 2025-11-05  186  int xe_sriov_pf_control_finish_save_vf(struct xe_device *xe, unsigned int vfid)
+33b59ab90959e2 Michał Winiarski 2025-11-05  187  {
+33b59ab90959e2 Michał Winiarski 2025-11-05  188  	struct xe_gt *gt;
+33b59ab90959e2 Michał Winiarski 2025-11-05  189  	unsigned int id;
+33b59ab90959e2 Michał Winiarski 2025-11-05  190  	int ret;
+33b59ab90959e2 Michał Winiarski 2025-11-05  191  
+33b59ab90959e2 Michał Winiarski 2025-11-05  192  	for_each_gt(gt, xe, id) {
+33b59ab90959e2 Michał Winiarski 2025-11-05  193  		ret = xe_gt_sriov_pf_control_finish_save_vf(gt, vfid);
+33b59ab90959e2 Michał Winiarski 2025-11-05  194  		if (ret)
+33b59ab90959e2 Michał Winiarski 2025-11-05  195  			break;
+33b59ab90959e2 Michał Winiarski 2025-11-05  196  	}
+33b59ab90959e2 Michał Winiarski 2025-11-05  197  
+33b59ab90959e2 Michał Winiarski 2025-11-05 @198  	return ret;
+33b59ab90959e2 Michał Winiarski 2025-11-05  199  }
+33b59ab90959e2 Michał Winiarski 2025-11-05  200  
+33b59ab90959e2 Michał Winiarski 2025-11-05  201  /**
+33b59ab90959e2 Michał Winiarski 2025-11-05  202   * xe_sriov_pf_control_trigger_restore_vf - Start a VF migration data RESTORE sequence on all GTs.
+33b59ab90959e2 Michał Winiarski 2025-11-05  203   * @xe: the &xe_device
+33b59ab90959e2 Michał Winiarski 2025-11-05  204   * @vfid: the VF identifier
+33b59ab90959e2 Michał Winiarski 2025-11-05  205   *
+33b59ab90959e2 Michał Winiarski 2025-11-05  206   * This function is for PF only.
+33b59ab90959e2 Michał Winiarski 2025-11-05  207   *
+33b59ab90959e2 Michał Winiarski 2025-11-05  208   * Return: 0 on success or a negative error code on failure.
+33b59ab90959e2 Michał Winiarski 2025-11-05  209   */
+33b59ab90959e2 Michał Winiarski 2025-11-05  210  int xe_sriov_pf_control_trigger_restore_vf(struct xe_device *xe, unsigned int vfid)
+33b59ab90959e2 Michał Winiarski 2025-11-05  211  {
+33b59ab90959e2 Michał Winiarski 2025-11-05  212  	struct xe_gt *gt;
+33b59ab90959e2 Michał Winiarski 2025-11-05  213  	unsigned int id;
+33b59ab90959e2 Michał Winiarski 2025-11-05  214  	int ret;
+33b59ab90959e2 Michał Winiarski 2025-11-05  215  
+33b59ab90959e2 Michał Winiarski 2025-11-05  216  	for_each_gt(gt, xe, id) {
+33b59ab90959e2 Michał Winiarski 2025-11-05  217  		ret = xe_gt_sriov_pf_control_trigger_restore_vf(gt, vfid);
+33b59ab90959e2 Michał Winiarski 2025-11-05  218  		if (ret)
+33b59ab90959e2 Michał Winiarski 2025-11-05  219  			return ret;
+33b59ab90959e2 Michał Winiarski 2025-11-05  220  	}
+33b59ab90959e2 Michał Winiarski 2025-11-05  221  
+33b59ab90959e2 Michał Winiarski 2025-11-05 @222  	return ret;
+33b59ab90959e2 Michał Winiarski 2025-11-05  223  }
+33b59ab90959e2 Michał Winiarski 2025-11-05  224  
+33b59ab90959e2 Michał Winiarski 2025-11-05  225  /**
+33b59ab90959e2 Michał Winiarski 2025-11-05  226   * xe_sriov_pf_control_wait_restore_vf - Complete a VF migration data RESTORE sequence in all GTs.
+33b59ab90959e2 Michał Winiarski 2025-11-05  227   * @xe: the &xe_device
+33b59ab90959e2 Michał Winiarski 2025-11-05  228   * @vfid: the VF identifier
+33b59ab90959e2 Michał Winiarski 2025-11-05  229   *
+33b59ab90959e2 Michał Winiarski 2025-11-05  230   * This function is for PF only.
+33b59ab90959e2 Michał Winiarski 2025-11-05  231   *
+33b59ab90959e2 Michał Winiarski 2025-11-05  232   * Return: 0 on success or a negative error code on failure.
+33b59ab90959e2 Michał Winiarski 2025-11-05  233   */
+33b59ab90959e2 Michał Winiarski 2025-11-05  234  int xe_sriov_pf_control_finish_restore_vf(struct xe_device *xe, unsigned int vfid)
+33b59ab90959e2 Michał Winiarski 2025-11-05  235  {
+33b59ab90959e2 Michał Winiarski 2025-11-05  236  	struct xe_gt *gt;
+33b59ab90959e2 Michał Winiarski 2025-11-05  237  	unsigned int id;
+33b59ab90959e2 Michał Winiarski 2025-11-05  238  	int ret;
+33b59ab90959e2 Michał Winiarski 2025-11-05  239  
+33b59ab90959e2 Michał Winiarski 2025-11-05  240  	for_each_gt(gt, xe, id) {
+33b59ab90959e2 Michał Winiarski 2025-11-05  241  		ret = xe_gt_sriov_pf_control_finish_restore_vf(gt, vfid);
+33b59ab90959e2 Michał Winiarski 2025-11-05  242  		if (ret)
+33b59ab90959e2 Michał Winiarski 2025-11-05  243  			break;
+33b59ab90959e2 Michał Winiarski 2025-11-05  244  	}
+33b59ab90959e2 Michał Winiarski 2025-11-05  245  
+33b59ab90959e2 Michał Winiarski 2025-11-05 @246  	return ret;
 
 -- 
 0-DAY CI Kernel Test Service
