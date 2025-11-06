@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27984D531
-	for <oe-kbuild@lists.linux.dev>; Thu,  6 Nov 2025 13:10:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D7730F7EE
+	for <oe-kbuild@lists.linux.dev>; Thu,  6 Nov 2025 13:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762434607; cv=none; b=qtEC1Gl+jCEbAZDSFdgs3d0DbT7gW8YgoJclPx2XleVROSb5F+RKUoCc2BYqDsBXV7edcldWkJlEm5E/OBuTTkx7l5kmyPuiAt5Nt760U1sEnxxNEQGhNoqPt44kRFVTF0SaeyfezGmloq2OTqhigQQQfEoaXJ2DxkRQwdtP8bY=
+	t=1762434616; cv=none; b=ZcMNJO/uLxXeSIU5P1Fr8ajTHEzYdueygdv+Ghj6ZduDLKPNAw/glluLIh/DD1Q1JthMRBWQD60U0PtHsNH4KwHbLuJ1Xgl/O7DUpb1Vll0u5nB0zyUpndnoxS7UOgZ3niuuBOM3hHmJRJz9geJrjN1Oo8PRpf8n1OwdQZwv+Nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762434607; c=relaxed/simple;
-	bh=6SV7JtssF8q8QjBgfKDXdp7k08MTrfAdisiaxbATDbs=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ipk0E46DZqp8yocLADMQ4l5Y5GpxSMJWqS87hCpg7HIi4XL+BrRYo0U+ZhcNSMr02yX6vx54CndD5gX4FacsFbqltjuC+eVM3FcAab78/JjaycXX08MxcnoTZb5LS5CAOSQXTWAMNwcFmEd36BG2G+o3/rk6fTb0Hb3Dy6JUkIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CH4oAC1m; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762434616; c=relaxed/simple;
+	bh=QVY/AYM5oY5fMTDiOLcTDfmGhegxKbaFzRVX886wGAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kyWijFuuzTVU1NziQe+m7QM+mE2WzyV6J0qD5WBet6mWQRFhcegg8vXQwMhPpbcjmX82xQEEozb/kdyaruyeT3ws5PlRbf+nMQ6l7M4qLyNrifH8SEwccG2fweVcrZvs0uUiW5GxiuyvTL9f4HT0gMyGPotxw4OCW+klI3fIPYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MQMMDQcc; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CH4oAC1m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762434606; x=1793970606;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=6SV7JtssF8q8QjBgfKDXdp7k08MTrfAdisiaxbATDbs=;
-  b=CH4oAC1mtEJki/i0zg7mhpUcCcYsrAjQhNDUFWUYJpw8Rx/6fbLS9HQ3
-   YfyLhdVS+Q5SGhI/+XkmsNhxYnUqXgxfVPNr10KXeTv7c4H34l4JpqlQb
-   BuKuJoNns0RrXRfJDrn938rSpxVsX7KTzw+NSd4pY4u2Q4/svHLvMjE6U
-   U219G3n5DQWbAl6ETkpMCAlSCxrmAzxHtXYSATzgx9CZvQdm73XliUy4J
-   +wfvqcGoHh6FsNQ2EtkQ4bNvwRVkLYcOzBzoJhCj+hIq4z3NNcgD2tUIR
-   L4sJgwSotfUBuZr34pkqO3bSl13zTTJHdvISQAOQjJwDGXkoT07QfnOcu
-   Q==;
-X-CSE-ConnectionGUID: nEXK++g/RO67xJoz04ebrw==
-X-CSE-MsgGUID: WHdvfabUTCOvytVoGxONgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="64719321"
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="64719321"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 05:10:05 -0800
-X-CSE-ConnectionGUID: iFtK709ITAKzGyVyS/uObA==
-X-CSE-MsgGUID: NIdWTBWtTnyiUEHAhA50Mg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="192923111"
-Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 06 Nov 2025 05:10:06 -0800
-Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vGzkZ-000000002zm-0HWR
-	for oe-kbuild@lists.linux.dev;
-	Thu, 06 Nov 2025 13:10:03 +0000
-Date: Thu, 6 Nov 2025 14:09:38 +0100
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Subject: [viro-vfs:untested.efivarfs 14/54] checkpatch: WARNING: Possible
- repeated word: 'in'
-Message-ID: <202511061423.PwiwrOeW-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MQMMDQcc"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b3e7cc84b82so184313466b.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 06 Nov 2025 05:10:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1762434612; x=1763039412; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=t28efrrGHhAa89xd4/lbe98NRmddX9nmQ/RG7kZgsm4=;
+        b=MQMMDQccDYzbGOMx9ONqQEbw5vk2nW9L+3642mHn33lJVMoADfsw95SgyVc3NNjg01
+         SxSbP/ajvc0lU2oXFE7mr5DkKHtdAxVGE1GoVvnJlC6nJK2vSBfvpfczTMMdAfGkt/S0
+         tx/REU70WzrlYuCN4A/qEdY3zEizDuPnOgwDnNc0LTvjxuRA+kQM/y5/ajhPPnHiXInN
+         TeWf4avsgrh3pXRDR5w9J7DPHD9cvbYdzFAKkwMcZto+9t3vWdDN3TKZITi9eWa/VSIS
+         dbK+r2xuI1fgBhuhqw2Pd6U0Ry9C4QDqrO3I8npOWER0ETaTKknjV5CDGpWCq+lDBiED
+         n33w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762434612; x=1763039412;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=t28efrrGHhAa89xd4/lbe98NRmddX9nmQ/RG7kZgsm4=;
+        b=sa5yT0IbTtRUBfAZijqFyYIl1Nxgcw6N8ZzJ7IrUufw8bkfAQiJVOSGs0M/n68fKrS
+         O/EuK6bjmmbKUMP/IvuXELOxHhHqeLtD0Q1K4UJcogVwAiotX7cUKg6krQ4yFXlFgWmY
+         3uvwSKOqDg0C3kaoXAxGPt100UwEbWMpdKtD+fykHuRCVmM//M7RFHHqz7pwmYbIabX9
+         m7Bm++i2nlA77f9oF38A1lIWufu7NbbQrSyTf23Ug9zEf4BicNoMROWSK27iGcsq//re
+         MaoCdUB2F1TYo2XFapc3Q5Ps6InCnXk610u770Y0aCU7/IuXMaZ/Xb6qaS3iGPi5grMv
+         CVhQ==
+X-Gm-Message-State: AOJu0YxSNl9UEngaHVMwUffYmXUe1DbmiUNF/bxlemgWwgtrj5IUXOgW
+	uZnka6dxRI3dtfhp2HXbEGJkOSpRdJVElAzKC1opl84z1C95ywbw3DCdRGLKN0asOWZF+ywF+m3
+	XQoZz
+X-Gm-Gg: ASbGncsItNKZItsZmzp9pCxhnzMJenfuaYdcrh5pPNP3fBCFMU6C1rY26GPo7xvS3u9
+	Jw5aMWD8+slc4nuK2hY/j65fDUEUK0r09TjVeKEnsgZUsp7P5MTSaDdjVDlffOJDqAKBgCjqFDt
+	WblT4yCmUq5l9VmFNsLDA5IYobxh+eP4VaNEkTrlQovUzMs5AD/Y38aCjpwf1nPgreTyNiqf9jA
+	yUF+Z5QXDcF+1iJPwJTKkkEWF0kvHPzMrgS97zcNGYKCPkBKa2tj74apAC2qXup08w5awYk3M8s
+	wl/FFiwfpzQs+4LL27xDDBofEpCGBNZePVj918Fq7FIFOlKHg97+nFlPtpyWy11UBlZfkeFR2Uj
+	YfHfzeTN4lFsgJTnB7EIEzB7+RTyafHXh+08aMag4dKb81cCoQp0VfX0mM0Uah+pSQlooEheAeZ
+	UCwZfPOWw0O37t
+X-Google-Smtp-Source: AGHT+IGDC3NDQYPTkkfUUoVyM/sJxUdHO2Lpp1MzeugUZlOM8vLQhbQSiv+7msu1x/Jy2tsYDRamhg==
+X-Received: by 2002:a17:906:c103:b0:b6d:50f7:a805 with SMTP id a640c23a62f3a-b7265607354mr700966366b.59.1762434612174;
+        Thu, 06 Nov 2025 05:10:12 -0800 (PST)
+Received: from localhost ([87.213.113.147])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72896848a5sm207325966b.57.2025.11.06.05.10.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 05:10:11 -0800 (PST)
+Date: Thu, 6 Nov 2025 16:10:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dmitry Baryshkov <lumag@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Rob Clark <robin.clark@oss.qualcomm.com>
+Subject: drivers/gpu/drm/msm/msm_kms.c:251 msm_drm_kms_uninit() warn:
+ variable dereferenced before check 'kms' (see line 235)
+Message-ID: <9412d8fc-7bb8-456f-9911-8443303497a5@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,30 +75,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence checkpatch report"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Al Viro <viro@zeniv.linux.org.uk>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git untested.efivarfs
-head:   36051c77301534759fd96e906ea11c5d09bdf81f
-commit: b77f12500f1a5085f851c24e0b0bc5c73f53272f [14/54] convert mqueue
-reproduce: (https://download.01.org/0day-ci/archive/20251106/202511061423.PwiwrOeW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dc77806cf3b4788d328fddf245e86c5b529f31a2
+commit: a409b78fcdf724422fa030bd5ef177ebf3b7608a drm/msm: move wq handling to KMS code
+config: powerpc64-randconfig-r073-20251106 (https://download.01.org/0day-ci/archive/20251106/202511061924.Y0EaYmPu-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511061423.PwiwrOeW-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202511061924.Y0EaYmPu-lkp@intel.com/
 
-# many are suggestions rather than must-fix
+smatch warnings:
+drivers/gpu/drm/msm/msm_kms.c:251 msm_drm_kms_uninit() warn: variable dereferenced before check 'kms' (see line 235)
 
-WARNING:REPEATED_WORD: Possible repeated word: 'in'
-#7: 
-persistent in in mqueue_create_attr() and discardable in mqueue_unlink()
+vim +/kms +251 drivers/gpu/drm/msm/msm_kms.c
+
+506efcba31296e Dmitry Baryshkov 2023-10-09  220  void msm_drm_kms_uninit(struct device *dev)
+506efcba31296e Dmitry Baryshkov 2023-10-09  221  {
+506efcba31296e Dmitry Baryshkov 2023-10-09  222  	struct platform_device *pdev = to_platform_device(dev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  223  	struct msm_drm_private *priv = platform_get_drvdata(pdev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  224  	struct drm_device *ddev = priv->dev;
+506efcba31296e Dmitry Baryshkov 2023-10-09  225  	struct msm_kms *kms = priv->kms;
+506efcba31296e Dmitry Baryshkov 2023-10-09  226  	int i;
+506efcba31296e Dmitry Baryshkov 2023-10-09  227  
+506efcba31296e Dmitry Baryshkov 2023-10-09  228  	BUG_ON(!kms);
+506efcba31296e Dmitry Baryshkov 2023-10-09  229  
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05  230  	/* We must cancel and cleanup any pending vblank enable/disable
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05  231  	 * work before msm_irq_uninstall() to avoid work re-enabling an
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05  232  	 * irq after uninstall has disabled it.
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05  233  	 */
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05  234  
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05 @235  	flush_workqueue(kms->wq);
+                                                                        ^^^^^^^
+Dereferenced
+
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05  236  
+506efcba31296e Dmitry Baryshkov 2023-10-09  237  	/* clean up event worker threads */
+506efcba31296e Dmitry Baryshkov 2023-10-09  238  	for (i = 0; i < priv->num_crtcs; i++) {
+506efcba31296e Dmitry Baryshkov 2023-10-09  239  		if (priv->event_thread[i].worker)
+506efcba31296e Dmitry Baryshkov 2023-10-09  240  			kthread_destroy_worker(priv->event_thread[i].worker);
+506efcba31296e Dmitry Baryshkov 2023-10-09  241  	}
+506efcba31296e Dmitry Baryshkov 2023-10-09  242  
+506efcba31296e Dmitry Baryshkov 2023-10-09  243  	drm_kms_helper_poll_fini(ddev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  244  
+506efcba31296e Dmitry Baryshkov 2023-10-09  245  	msm_disp_snapshot_destroy(ddev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  246  
+506efcba31296e Dmitry Baryshkov 2023-10-09  247  	pm_runtime_get_sync(dev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  248  	msm_irq_uninstall(ddev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  249  	pm_runtime_put_sync(dev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  250  
+506efcba31296e Dmitry Baryshkov 2023-10-09 @251  	if (kms && kms->funcs)
+                                                            ^^^
+Checked too late.
+
+506efcba31296e Dmitry Baryshkov 2023-10-09  252  		kms->funcs->destroy(kms);
+506efcba31296e Dmitry Baryshkov 2023-10-09  253  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
