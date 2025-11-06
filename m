@@ -1,202 +1,257 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from flow-b4-smtp.messagingengine.com (flow-b4-smtp.messagingengine.com [202.12.124.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF13221E097
-	for <oe-kbuild@lists.linux.dev>; Wed,  5 Nov 2025 23:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B10013D521;
+	Thu,  6 Nov 2025 00:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762384482; cv=none; b=bCE26tLOClfFtCmjWPwRr1Eb1IBeZLhX4NAWeEDT7XDnKaElYYmL0MutqdTgGC+RZXSCNU4owrOmm45r6r723x0i3Po0WO59fFkWsIvaKCjICD01oEePJz6mC9xXriA5yDPbQeChQ2j8KBRYlZbyR0wzZryhQD39hwPyJ3Z+fSI=
+	t=1762390420; cv=none; b=PWoVGYjZXn2ekXzwAwAxWfB2Ks8qEPtcM/xwa//8zdS37/QMeSErXoCh7174LPtHaTLJ3L1Hu7wDtn/74tDrGXS9WdGWgNeqtZu1j8uwhsBzYLammlpNJB5fifBGONosIEpIBYkNRyRSCoqFa9YwtxQHogIId2KZj+tJbvZ38Kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762384482; c=relaxed/simple;
-	bh=uf535fQO/FS0U1Jufpp8ll10xTRap8401hcvSvVL/RQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YjwUpePqNwpyBPy+Hd+4014f3HtUTOgJVVpb+I8fu9cr0ZDXp+E90GtGXJNGgToqlz0SpsWtgpg3FZedKgMJWTaAze7Qp6gjWVMcVcsSS6HhH1Eu4lzT5//pIGmPCwM5Fp8G5gNgtpCcJv5BHS9aFV03Kjqjjd5Grr5YwpkQa0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kM4hTZxq; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762390420; c=relaxed/simple;
+	bh=TzrOJWRTbh7msYotwzy/SyrEreFMAa3VOyZxfcnWujU=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=Ne895zkY4R4N0Iw3fcIxdT46NhSNkgzre4MvdjPIs8FaIA3luIvl1vOtFA5Y+t1tlPC4uUfNsIU6Vq+8Zt0ImUXfdbIRIvhi580o6XS7zB46Gf1nI1x6LaNk5awxH+1wZXHrtK/IcSeQ0ADQKWcOPbrg1BXlBKE4wLaxj/jk04I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=NAr8JS/3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LSaRr0kq; arc=none smtp.client-ip=202.12.124.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kM4hTZxq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762384480; x=1793920480;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=uf535fQO/FS0U1Jufpp8ll10xTRap8401hcvSvVL/RQ=;
-  b=kM4hTZxqOS0Lam8XLiebhD5/o+FeSIFOtClFxWBLVfRlxZGGEldIJAHe
-   j2jsUmHVA76YMgsFFkU2zA8daK0TeMrqepBviZ30K686JNTiGVJX3pwsJ
-   zsqgOS+BTZkdCRBQOhDiGD62hu5/JvOJF9RtfoKC1PYCZb2tAToBh9wDN
-   u+xC6xD4tgSFcBGXTYjJpXXOT+2MOTYJQgnAa1O/voTnObBuuH5mVkpUb
-   PNTqvrKDAN2y/VtnSH+J+XgunCMVBnQC/Oenh7ZRPcFkjlXEjdDRnkMD9
-   9aFXbIP/A8mnB0t3dI0+PYt2pdvNBeUNDI1Tj50z2xz8bWTp4ZuTQDuRg
-   w==;
-X-CSE-ConnectionGUID: i8NUJbdzSimivGopo4XLEQ==
-X-CSE-MsgGUID: gPX+SPqbTQeQMmoRYrnR5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="64547140"
-X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
-   d="scan'208";a="64547140"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 15:10:19 -0800
-X-CSE-ConnectionGUID: vUXyed9NSOy53qrp5X436g==
-X-CSE-MsgGUID: Mpj2obNKRK+Uq9tc0S+PNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
-   d="scan'208";a="187537064"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 05 Nov 2025 15:10:19 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vGmdZ-000TDo-1q;
-	Wed, 05 Nov 2025 23:10:02 +0000
-Date: Thu, 6 Nov 2025 07:08:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v4 04/28] drm/xe/pf: Add save/restore control state stubs
- and connect to debugfs
-Message-ID: <202511060745.V5s5AlIB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="NAr8JS/3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LSaRr0kq"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailflow.stl.internal (Postfix) with ESMTP id 9D30013005BF;
+	Wed,  5 Nov 2025 19:53:36 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Wed, 05 Nov 2025 19:53:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1762390416; x=1762397616; bh=KaR5D0R2IqTiUpqIio9Ha+v4jRl+XG/S1Kt
+	/8EZGKTY=; b=NAr8JS/3M+2IUJ3D+p7usRL4At+2mUcGbp8GRf7LO0VCv1h7vbx
+	wStmrsUlM4Lql5V3ApSpllB6JzKByOEe0opp3oedLRIY0UmwNZwJCqTKUf+RsO/J
+	AHWdkTXHQZzx2AsexBmTRPLLKHb5SQ8U3EZ2ng7Lr5NkJ5UqJCgtD2FCp8BMlmJN
+	xXE9E74VKK8ZOyq5h/o5LAWwQxmwn/6/iEYETgXC+6okz/kJvy9YXhB7KVUVe28V
+	WGpwlVBU+g0hYnUH/o8Ov/sknMWtud1cpKRWaEf25TGVPOYkxHoPOAP+cxJRW4ph
+	B8AC/oX4F8Pb8niP3FF4ZXL+dgbcgm9+7Fw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762390416; x=
+	1762397616; bh=KaR5D0R2IqTiUpqIio9Ha+v4jRl+XG/S1Kt/8EZGKTY=; b=L
+	SaRr0kqpJF2YPTK/LzJGUT2N52Bkjt4Gcq2NKN+l+uyPbuSwlSJ3VbwJRzr52/hv
+	WSYnFef3jPogb2K8CiM8sfdqVE26U3y0mER6E5HiyKRveI3LA68FSVqzg6IgiR/s
+	7cm4furRaj1J4fmn/IX0AXNAyfnd99HUuaH1AYQaVPblrsLpe3DYA2oJ6jJouhA6
+	FJVTmQ2+a5FP8KUIpnhO0NFq7NNxTjWc2zB3ICYTJIlp3/GuO5qSu/mOzN4o9NV3
+	odU2VSlRA0AJNlkabcX5MAAHk3UXwZ6d2Pi4Nd6Iuz7/8KTD8viLBbR6a3jwtfDy
+	enm3pTOrCBL4mfF/MRIdA==
+X-ME-Sender: <xms:jfELadkNHXTjssrASPiJD75WnXJCpgF2V6_hoEN2kIlds9qZGIAqtw>
+    <xme:jfELaU8muodkf1a0aKqMSbCdR7LDzmwIIAYcUQIJVTR4dKWGb86H2_TeSAo9mIIUG
+    cReJ-f-V8oJBRWPEEMhho_GGJ09FR2T_pNpIAfuSicFAd5OPw>
+X-ME-Received: <xmr:jfELac5l1pgGGuA_2dZTl2s6yp2UEtcwwA-RfIYg3WSlOxJXd53ePPw9olVmeLH7o075HatuDFzN2LbAwck-02an7ayuoJMyUcDDva39ESr1>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeehfeelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
+    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
+    epheehjedthfegiedufeefgeevkeffhfduveegteektefhhefggeduieehieekgffgnecu
+    ffhomhgrihhnpehgihhtqdhstghmrdgtohhmpdhgihhthhhusgdrtghomhdpkhgvrhhnvg
+    hlrdhorhhgpddtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
+    mhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggprhgtphhtth
+    hopeefgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvhhirhhoseiivghnihhv
+    rdhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlse
+    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghouggvsehthihhihgtkhhs
+    rdgtohhmpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtth
+    hopehjrggtkhesshhushgvrdgtiidprhgtphhtthhopegushhtvghrsggrsehsuhhsvgdr
+    tghomhdprhgtphhtthhopehomhhoshhnrggtvgesrhgvughhrghtrdgtohhmpdhrtghpth
+    htohepohhkohhrnhhivghvsehrvgguhhgrthdrtghomhdprhgtphhtthhopeguhhhofigv
+    lhhlshesrhgvughhrghtrdgtohhm
+X-ME-Proxy: <xmx:jfELacrRi4SgsbizRE6AUTaXXftMlnCM-POU0yBQzCAR4ZtCP6A0UQ>
+    <xmx:jfELaQDGu_Zo9JNMX7hV9V_a53rIl7FDsAen1DvAXsbwc3MpaMp0QA>
+    <xmx:jfELadNCuR4RjpuVTK8umiuv_uM4nn8kRMGDGsSNVvhJ5OfcuiGbiw>
+    <xmx:jfELaXmIOb0G1hyib2CfAFFBkesRVPIgwESw-xdlSFXE0L17LasaAg>
+    <xmx:kPELaZ_1AUytM_IrMFErhME7e8Cb_3Om39m8SYINOJSdpjPX_6Yk5pBG>
+Feedback-ID: iab3e480c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 5 Nov 2025 19:53:25 -0500 (EST)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+From: NeilBrown <neilb@ownmail.net>
+To: "Amir Goldstein" <amir73il@gmail.com>
+Cc: "Dan Carpenter" <dan.carpenter@linaro.org>,
+ "Christian Brauner" <brauner@kernel.org>, oe-kbuild@lists.linux.dev,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev, "Jan Kara" <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, "Jeff Layton" <jlayton@kernel.org>,
+ "Chris Mason" <chris.mason@fusionio.com>,
+ "David Sterba" <dsterba@suse.com>, "David Howells" <dhowells@redhat.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Danilo Krummrich" <dakr@kernel.org>, "Tyler Hicks" <code@tyhicks.com>,
+ "Miklos Szeredi" <miklos@szeredi.hu>,
+ "Chuck Lever" <chuck.lever@oracle.com>,
+ "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Steve French" <smfrench@gmail.com>,
+ "Sergey Senozhatsky" <senozhatsky@chromium.org>,
+ "Carlos Maiolino" <cem@kernel.org>,
+ "John Johansen" <john.johansen@canonical.com>,
+ "Paul Moore" <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>,
+ "Stephen Smalley" <stephen.smalley.work@gmail.com>,
+ "Ondrej Mosnacek" <omosnace@redhat.com>,
+ "Mateusz Guzik" <mjguzik@gmail.com>,
+ "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>,
+ "Stefan Berger" <stefanb@linux.ibm.com>
+Subject: Re: [PATCH v4 04/14] VFS/nfsd/cachefiles/ovl: add start_creating()
+ and end_creating()
+In-reply-to:
+ <CAOQ4uxgaANjJXdhiQamgop8cicWXZ7Er2CWW3W7w-VgNMn9OVw@mail.gmail.com>
+References: <20251029234353.1321957-5-neilb@ownmail.net>,
+ <202511021406.Tv3dcpn5-lkp@intel.com>,
+ <CAOQ4uxgaANjJXdhiQamgop8cicWXZ7Er2CWW3W7w-VgNMn9OVw@mail.gmail.com>
+Date: Thu, 06 Nov 2025 11:53:21 +1100
+Message-id: <176239040101.634289.7648391031383720166@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251105151027.540712-5-michal.winiarski@intel.com>
-References: <20251105151027.540712-5-michal.winiarski@intel.com>
-TO: "Michał Winiarski" <michal.winiarski@intel.com>
-TO: Alex Williamson <alex@shazbot.org>
-TO: Lucas De Marchi <lucas.demarchi@intel.com>
-TO: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-TO: Rodrigo Vivi <rodrigo.vivi@intel.com>
-TO: Jason Gunthorpe <jgg@ziepe.ca>
-TO: Yishai Hadas <yishaih@nvidia.com>
-TO: Kevin Tian <kevin.tian@intel.com>
-TO: Shameer Kolothum <skolothumtho@nvidia.com>
-TO: intel-xe@lists.freedesktop.org
-TO: linux-kernel@vger.kernel.org
-TO: kvm@vger.kernel.org
-TO: Matthew Brost <matthew.brost@intel.com>
-TO: Michal Wajdeczko <michal.wajdeczko@intel.com>
-CC: dri-devel@lists.freedesktop.org
-CC: Jani Nikula <jani.nikula@linux.intel.com>
-CC: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-CC: Tvrtko Ursulin <tursulin@ursulin.net>
-CC: David Airlie <airlied@gmail.com>
-CC: Simona Vetter <simona@ffwll.ch>
-CC: Lukasz Laguna <lukasz.laguna@intel.com>
-CC: Christoph Hellwig <hch@infradead.org>
-CC: "Michał Winiarski" <michal.winiarski@intel.com>
+On Sun, 02 Nov 2025, Amir Goldstein wrote:
+> On Sun, Nov 2, 2025 at 10:08=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+> >
+> > Hi NeilBrown,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/debugfs-=
+rename-end_creating-to-debugfs_end_creating/20251030-075146
+> > base:   driver-core/driver-core-testing
+> > patch link:    https://lore.kernel.org/r/20251029234353.1321957-5-neilb%4=
+0ownmail.net
+> > patch subject: [PATCH v4 04/14] VFS/nfsd/cachefiles/ovl: add start_creati=
+ng() and end_creating()
+> > config: x86_64-randconfig-161-20251101 (https://download.01.org/0day-ci/a=
+rchive/20251102/202511021406.Tv3dcpn5-lkp@intel.com/config)
+> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
+227cb60147a26a1eeb4fb06e3b505e9c7261)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202511021406.Tv3dcpn5-lkp@intel.com/
+> >
+> > smatch warnings:
+> > fs/overlayfs/dir.c:130 ovl_whiteout() error: uninitialized symbol 'whiteo=
+ut'.
+> > fs/overlayfs/dir.c:130 ovl_whiteout() warn: passing zero to 'PTR_ERR'
+> >
+> > vim +/whiteout +130 fs/overlayfs/dir.c
+> >
+> > c21c839b8448dd Chengguang Xu     2020-04-24   97  static struct dentry *o=
+vl_whiteout(struct ovl_fs *ofs)
+> > e9be9d5e76e348 Miklos Szeredi    2014-10-24   98  {
+> > e9be9d5e76e348 Miklos Szeredi    2014-10-24   99        int err;
+> > 807b78b0fffc23 NeilBrown         2025-10-30  100        struct dentry *wh=
+iteout, *link;
+> > c21c839b8448dd Chengguang Xu     2020-04-24  101        struct dentry *wo=
+rkdir =3D ofs->workdir;
+> > e9be9d5e76e348 Miklos Szeredi    2014-10-24  102        struct inode *wdi=
+r =3D workdir->d_inode;
+> > e9be9d5e76e348 Miklos Szeredi    2014-10-24  103
+> > 8afa0a73671389 NeilBrown         2025-07-16  104        guard(mutex)(&ofs=
+->whiteout_lock);
+> > 8afa0a73671389 NeilBrown         2025-07-16  105
+> > c21c839b8448dd Chengguang Xu     2020-04-24  106        if (!ofs->whiteou=
+t) {
+> > 807b78b0fffc23 NeilBrown         2025-10-30  107                whiteout =
+=3D ovl_start_creating_temp(ofs, workdir);
+> > 8afa0a73671389 NeilBrown         2025-07-16  108                if (IS_ER=
+R(whiteout))
+> > 8afa0a73671389 NeilBrown         2025-07-16  109                        r=
+eturn whiteout;
+> >
+> > white out is not an error pointer.
+> >
+> > 807b78b0fffc23 NeilBrown         2025-10-30  110                err =3D o=
+vl_do_whiteout(ofs, wdir, whiteout);
+> > 807b78b0fffc23 NeilBrown         2025-10-30  111                if (!err)
+> > 807b78b0fffc23 NeilBrown         2025-10-30  112                        o=
+fs->whiteout =3D dget(whiteout);
+> > 807b78b0fffc23 NeilBrown         2025-10-30  113                end_creat=
+ing(whiteout, workdir);
+> > 807b78b0fffc23 NeilBrown         2025-10-30  114                if (err)
+> > 807b78b0fffc23 NeilBrown         2025-10-30  115                        r=
+eturn ERR_PTR(err);
+> > e9be9d5e76e348 Miklos Szeredi    2014-10-24  116        }
+> >
+> > whiteout not set on else path
+> >
+> > e9be9d5e76e348 Miklos Szeredi    2014-10-24  117
+> > e4599d4b1aeff0 Amir Goldstein    2023-06-17  118        if (!ofs->no_shar=
+ed_whiteout) {
+> > 807b78b0fffc23 NeilBrown         2025-10-30  119                link =3D =
+ovl_start_creating_temp(ofs, workdir);
+> > 807b78b0fffc23 NeilBrown         2025-10-30  120                if (IS_ER=
+R(link))
+> > 807b78b0fffc23 NeilBrown         2025-10-30  121                        r=
+eturn link;
+> > 807b78b0fffc23 NeilBrown         2025-10-30  122                err =3D o=
+vl_do_link(ofs, ofs->whiteout, wdir, link);
+> > 807b78b0fffc23 NeilBrown         2025-10-30  123                if (!err)
+> > 807b78b0fffc23 NeilBrown         2025-10-30  124                        w=
+hiteout =3D dget(link);
+> >
+> > It's set here, but then returned on line 127.
+> >
+> > 807b78b0fffc23 NeilBrown         2025-10-30  125                end_creat=
+ing(link, workdir);
+> > 807b78b0fffc23 NeilBrown         2025-10-30  126                if (!err)
+> > 807b78b0fffc23 NeilBrown         2025-10-30  127                        r=
+eturn whiteout;;
+> >
+> > nit: double ;;
+> >
+> > 807b78b0fffc23 NeilBrown         2025-10-30  128
+> > 807b78b0fffc23 NeilBrown         2025-10-30  129                if (err !=
+=3D -EMLINK) {
+> > 672820a070ea5e Antonio Quartulli 2025-07-21 @130                        p=
+r_warn("Failed to link whiteout - disabling whiteout inode sharing(nlink=3D%u=
+, err=3D%lu)\n",
+> > 672820a070ea5e Antonio Quartulli 2025-07-21  131                         =
+       ofs->whiteout->d_inode->i_nlink,
+> > 672820a070ea5e Antonio Quartulli 2025-07-21  132                         =
+       PTR_ERR(whiteout));
+> >
+> > whiteout is either valid or uninitialized.  For some reason
+> > Smatch thinks whiteout can be NULL, I suspect because of
+> > the NULL check in dget().
+> >
+>=20
+> That looks like "rebase race" with the fix commit 672820a070ea5e
+> ("ovl: properly print correct variable").
+>=20
+> The fix is no longer correct, but also no longer needed because of
+> early return on lookup error in line 121.
+>=20
+> This implies that there is also a change of behavior in this patch
+> causing that an error in lookup will not have a warning.
+>=20
+> I have no problem with this change, because the warning text
+> indicated it was intended to refer to errors in linking.
+>=20
+> Long story short, patch needs to go back to using err here for
+> printing the link error.
 
-Hi Michał,
+Thanks.  I've revised that patch to use 'err' and '%d'.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-xe/drm-xe-next]
-[also build test WARNING on next-20251105]
-[cannot apply to awilliam-vfio/next awilliam-vfio/for-linus drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.18-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Winiarski/drm-xe-pf-Remove-GuC-version-check-for-migration-support/20251105-234203
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20251105151027.540712-5-michal.winiarski%40intel.com
-patch subject: [PATCH v4 04/28] drm/xe/pf: Add save/restore control state stubs and connect to debugfs
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: alpha-randconfig-r072-20251106 (https://download.01.org/0day-ci/archive/20251106/202511060745.V5s5AlIB-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511060745.V5s5AlIB-lkp@intel.com/
-
-smatch warnings:
-drivers/gpu/drm/xe/xe_sriov_pf_control.c:198 xe_sriov_pf_control_finish_save_vf() error: uninitialized symbol 'ret'.
-drivers/gpu/drm/xe/xe_sriov_pf_control.c:222 xe_sriov_pf_control_trigger_restore_vf() error: uninitialized symbol 'ret'.
-drivers/gpu/drm/xe/xe_sriov_pf_control.c:246 xe_sriov_pf_control_finish_restore_vf() error: uninitialized symbol 'ret'.
-
-vim +/ret +198 drivers/gpu/drm/xe/xe_sriov_pf_control.c
-
-33b59ab90959e2 Michał Winiarski 2025-11-05  176  
-33b59ab90959e2 Michał Winiarski 2025-11-05  177  /**
-33b59ab90959e2 Michał Winiarski 2025-11-05  178   * xe_sriov_pf_control_finish_save_vf - Complete a VF migration data SAVE sequence on all GTs.
-33b59ab90959e2 Michał Winiarski 2025-11-05  179   * @xe: the &xe_device
-33b59ab90959e2 Michał Winiarski 2025-11-05  180   * @vfid: the VF identifier
-33b59ab90959e2 Michał Winiarski 2025-11-05  181   *
-33b59ab90959e2 Michał Winiarski 2025-11-05  182   * This function is for PF only.
-33b59ab90959e2 Michał Winiarski 2025-11-05  183   *
-33b59ab90959e2 Michał Winiarski 2025-11-05  184   * Return: 0 on success or a negative error code on failure.
-33b59ab90959e2 Michał Winiarski 2025-11-05  185   */
-33b59ab90959e2 Michał Winiarski 2025-11-05  186  int xe_sriov_pf_control_finish_save_vf(struct xe_device *xe, unsigned int vfid)
-33b59ab90959e2 Michał Winiarski 2025-11-05  187  {
-33b59ab90959e2 Michał Winiarski 2025-11-05  188  	struct xe_gt *gt;
-33b59ab90959e2 Michał Winiarski 2025-11-05  189  	unsigned int id;
-33b59ab90959e2 Michał Winiarski 2025-11-05  190  	int ret;
-33b59ab90959e2 Michał Winiarski 2025-11-05  191  
-33b59ab90959e2 Michał Winiarski 2025-11-05  192  	for_each_gt(gt, xe, id) {
-33b59ab90959e2 Michał Winiarski 2025-11-05  193  		ret = xe_gt_sriov_pf_control_finish_save_vf(gt, vfid);
-33b59ab90959e2 Michał Winiarski 2025-11-05  194  		if (ret)
-33b59ab90959e2 Michał Winiarski 2025-11-05  195  			break;
-33b59ab90959e2 Michał Winiarski 2025-11-05  196  	}
-33b59ab90959e2 Michał Winiarski 2025-11-05  197  
-33b59ab90959e2 Michał Winiarski 2025-11-05 @198  	return ret;
-33b59ab90959e2 Michał Winiarski 2025-11-05  199  }
-33b59ab90959e2 Michał Winiarski 2025-11-05  200  
-33b59ab90959e2 Michał Winiarski 2025-11-05  201  /**
-33b59ab90959e2 Michał Winiarski 2025-11-05  202   * xe_sriov_pf_control_trigger_restore_vf - Start a VF migration data RESTORE sequence on all GTs.
-33b59ab90959e2 Michał Winiarski 2025-11-05  203   * @xe: the &xe_device
-33b59ab90959e2 Michał Winiarski 2025-11-05  204   * @vfid: the VF identifier
-33b59ab90959e2 Michał Winiarski 2025-11-05  205   *
-33b59ab90959e2 Michał Winiarski 2025-11-05  206   * This function is for PF only.
-33b59ab90959e2 Michał Winiarski 2025-11-05  207   *
-33b59ab90959e2 Michał Winiarski 2025-11-05  208   * Return: 0 on success or a negative error code on failure.
-33b59ab90959e2 Michał Winiarski 2025-11-05  209   */
-33b59ab90959e2 Michał Winiarski 2025-11-05  210  int xe_sriov_pf_control_trigger_restore_vf(struct xe_device *xe, unsigned int vfid)
-33b59ab90959e2 Michał Winiarski 2025-11-05  211  {
-33b59ab90959e2 Michał Winiarski 2025-11-05  212  	struct xe_gt *gt;
-33b59ab90959e2 Michał Winiarski 2025-11-05  213  	unsigned int id;
-33b59ab90959e2 Michał Winiarski 2025-11-05  214  	int ret;
-33b59ab90959e2 Michał Winiarski 2025-11-05  215  
-33b59ab90959e2 Michał Winiarski 2025-11-05  216  	for_each_gt(gt, xe, id) {
-33b59ab90959e2 Michał Winiarski 2025-11-05  217  		ret = xe_gt_sriov_pf_control_trigger_restore_vf(gt, vfid);
-33b59ab90959e2 Michał Winiarski 2025-11-05  218  		if (ret)
-33b59ab90959e2 Michał Winiarski 2025-11-05  219  			return ret;
-33b59ab90959e2 Michał Winiarski 2025-11-05  220  	}
-33b59ab90959e2 Michał Winiarski 2025-11-05  221  
-33b59ab90959e2 Michał Winiarski 2025-11-05 @222  	return ret;
-33b59ab90959e2 Michał Winiarski 2025-11-05  223  }
-33b59ab90959e2 Michał Winiarski 2025-11-05  224  
-33b59ab90959e2 Michał Winiarski 2025-11-05  225  /**
-33b59ab90959e2 Michał Winiarski 2025-11-05  226   * xe_sriov_pf_control_wait_restore_vf - Complete a VF migration data RESTORE sequence in all GTs.
-33b59ab90959e2 Michał Winiarski 2025-11-05  227   * @xe: the &xe_device
-33b59ab90959e2 Michał Winiarski 2025-11-05  228   * @vfid: the VF identifier
-33b59ab90959e2 Michał Winiarski 2025-11-05  229   *
-33b59ab90959e2 Michał Winiarski 2025-11-05  230   * This function is for PF only.
-33b59ab90959e2 Michał Winiarski 2025-11-05  231   *
-33b59ab90959e2 Michał Winiarski 2025-11-05  232   * Return: 0 on success or a negative error code on failure.
-33b59ab90959e2 Michał Winiarski 2025-11-05  233   */
-33b59ab90959e2 Michał Winiarski 2025-11-05  234  int xe_sriov_pf_control_finish_restore_vf(struct xe_device *xe, unsigned int vfid)
-33b59ab90959e2 Michał Winiarski 2025-11-05  235  {
-33b59ab90959e2 Michał Winiarski 2025-11-05  236  	struct xe_gt *gt;
-33b59ab90959e2 Michał Winiarski 2025-11-05  237  	unsigned int id;
-33b59ab90959e2 Michał Winiarski 2025-11-05  238  	int ret;
-33b59ab90959e2 Michał Winiarski 2025-11-05  239  
-33b59ab90959e2 Michał Winiarski 2025-11-05  240  	for_each_gt(gt, xe, id) {
-33b59ab90959e2 Michał Winiarski 2025-11-05  241  		ret = xe_gt_sriov_pf_control_finish_restore_vf(gt, vfid);
-33b59ab90959e2 Michał Winiarski 2025-11-05  242  		if (ret)
-33b59ab90959e2 Michał Winiarski 2025-11-05  243  			break;
-33b59ab90959e2 Michał Winiarski 2025-11-05  244  	}
-33b59ab90959e2 Michał Winiarski 2025-11-05  245  
-33b59ab90959e2 Michał Winiarski 2025-11-05 @246  	return ret;
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+NeilBrown
