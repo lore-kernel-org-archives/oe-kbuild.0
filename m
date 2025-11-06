@@ -1,105 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483F1280329
-	for <oe-kbuild@lists.linux.dev>; Thu,  6 Nov 2025 17:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A832926ED29
+	for <oe-kbuild@lists.linux.dev>; Thu,  6 Nov 2025 22:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762451426; cv=none; b=h21KBQMtKiFxi1vUfbNh2hqqtibQ/o26f7wacf4lD+fIH/p8/zjw9V5nSAo7c3eXiBVNMWDZkrytelOBw8YOqAExl2MKZNIXly+iKLiQbiiHAsTPq4hcc0Tt+G61f68zR+wfwwznf4mZBdszCkwYznycYIS5DzHmGr80VJ8mN5g=
+	t=1762467856; cv=none; b=qJvwCyJ3mmrx5qld6QPMOH8tMnwLedoUwgoygLTkq5aA2rFOnkkbpiGR0DppQx4qfxA3swtOBZTb1fenUAaH34IblgI8OLvZMoFRGrGC37zctAlOIp/GkQG35SpfeEYTxjluY7HRNP06UvWrFDJlw2a9cKgN8zINZOYlQXBGfMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762451426; c=relaxed/simple;
-	bh=qzhI9+URfNWbqE5zCw+LeJhYdEcE5WIvYvUPAvFFsVI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DdfdumqdddVqcSqZ8YGNtdN0lXT0LnGgS0wEp98noFPSFV61vMkekBFN8UuHd5kK00uFeLDCv+2GuDMRi+ZuTY+ol8Jq/ec9VfEh/IHs/JdF8rWQpNym9WuL5XNHWBfOynl/3tiwq6b0Bp9owb4iDqGPBx893CUTddg2R4osob4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cJ9VHHDd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762467856; c=relaxed/simple;
+	bh=hkcq6Ve6B3aS/dVC3zznu+zKbsI9rzRIGCKadXhUU68=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=inb2E0WSOxkQQngtpvQUKUFKYJFF01hqf/Gr9RpaoIvvVyfohU4XqtQMUWVhv/r14tIz0qoKtm97ME0/yCjMU/761zvg88+HBhAC/Ah2YTWRYuP5V62keXp1O4lVR+n/sqm8VhXe8fcQLclU9vJEixQ6YktOaoayZF8iGN2TfAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U902Zk8W; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cJ9VHHDd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDF72C4AF0C
-	for <oe-kbuild@lists.linux.dev>; Thu,  6 Nov 2025 17:50:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762451426;
-	bh=qzhI9+URfNWbqE5zCw+LeJhYdEcE5WIvYvUPAvFFsVI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cJ9VHHDdg2JOOWFmSm0BOAFzcriV2YwximQPq9/ep7LyD2xSKW1cQJZJTGe8pXGSk
-	 p+RB+HIrgqG9fSkt1luL01RBH+eLfCoHSqFUf2PTU4+/VXQjts9yFMbrj7oLx5NEDt
-	 d+7mFw+Ic3k6VXE6SfqTRdqqahNf4Du4GkjRlqYtLeSYped/A7kyBLPiMzbxx2yYGU
-	 3QUC6Mdwi/BSBmDpF6wpsBwaaaymCjxGfjEbAqIRPL3g9/te1JgbmZXfAgtHGPIpnh
-	 qjdLeZSKatmqGV+3FoSuIpfZXUJoyISJUAFNg03UjkVbinjiD8qHGsWa1wSVMnAESL
-	 KPIBqGFKfkzjA==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5943d20f352so1313086e87.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 06 Nov 2025 09:50:25 -0800 (PST)
-X-Gm-Message-State: AOJu0YxGjuR5/RzPu0OBTNayS4BjGWbmp7XsuQIdi1NCX4MUFKncEHt5
-	xdFE26M/FeQKkxwagopgPtoU0Zvr6NFYSy1sUpcqLQZ70yDB9CPGvN/9vaQG/4Li44s6hwbOAP8
-	rFdQtqe5nVsvnUWlnkNCb/PSNCqbJDQM=
-X-Google-Smtp-Source: AGHT+IGvVKXBW2KL0UZrApxnN9UEVenMr25iwuRuIyvqU+cz6fvJPWSZOlISCL0iXLWtlMzUylvIHuJfQ5Kg0YHvPDk=
-X-Received: by 2002:a05:6512:3b2a:b0:594:2c42:abaf with SMTP id
- 2adb3069b0e04-59456b86178mr13804e87.34.1762451424356; Thu, 06 Nov 2025
- 09:50:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U902Zk8W"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762467855; x=1794003855;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hkcq6Ve6B3aS/dVC3zznu+zKbsI9rzRIGCKadXhUU68=;
+  b=U902Zk8WQQuAkuq5ZYLdeWL4GKLLyKMt3Cosx6HWgCFpBgQH9pd2Okoj
+   FE901LSwabPUtlP8VGwgMW5BbrTPokf7jT622JWzTMU8nXkDOYuZdZ8zs
+   VfMhniSdZG7tFYPTlHSwhR8F9IJhQO1u2tCCgG9M5IzQAFGh3In3y+MMf
+   dWsN+f5fBkPjDOxjKPoXtPppTci4XVv73a1Gv8+EDEUen/R9Xn05rSaap
+   Oa65X3zq7va7oCULcx7YrbFj4b0DQ7BymDhuM2991mPnbMZh2YiFIoLAF
+   oAm0gBqQ5PW2Tcx786+EavPQtaHAw1QPT8Rh8G9GRBHhgvOGe/4Wk+fmu
+   g==;
+X-CSE-ConnectionGUID: yDBY2MiKQSyEFqwXEBiVuw==
+X-CSE-MsgGUID: 1ky7GPYeT328m9QqrLsseA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="64316379"
+X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
+   d="scan'208";a="64316379"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 14:24:14 -0800
+X-CSE-ConnectionGUID: CUGtAKapTmm8IWoSK52elA==
+X-CSE-MsgGUID: +u/TI73sScqS6OlH/z7z0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
+   d="scan'208";a="187600188"
+Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 06 Nov 2025 14:24:12 -0800
+Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vH8Om-0000000037k-40SC;
+	Thu, 06 Nov 2025 22:24:08 +0000
+Date: Thu, 6 Nov 2025 23:23:39 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [morimoto:renesas-lts/v6.18-rc3-2025-10-30-x5h-ironhide 14/21]
+ arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: scp@c1000000 (mmio-sram):
+ 'scp-shmem@60000', 'scp-shmem@60300' do not match any of the regexes:
+ '^([a-z0-9]*-)?sram(-section)?@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+Message-ID: <202511062314.qw37jaGx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251102001411.108385-1-francescopompo2@gmail.com> <68a428fd-aad8-4540-a509-d33ba116b5b9@suswa.mountain>
-In-Reply-To: <68a428fd-aad8-4540-a509-d33ba116b5b9@suswa.mountain>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Thu, 6 Nov 2025 18:50:12 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXHZioMA21NM_Ddg+U0siyxzTkGWjYiY_jUNP=QXvu1jdw@mail.gmail.com>
-X-Gm-Features: AWmQ_blPPZZMTzAdP0WTqwb-_oGGhHcoCn-JzrpnjtP5TVNcu0FwPOmFemn4gfU
-Message-ID: <CAMj1kXHZioMA21NM_Ddg+U0siyxzTkGWjYiY_jUNP=QXvu1jdw@mail.gmail.com>
-Subject: Re: [PATCH] efistub/smbios: Add fallback for SMBIOS record lookup
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Francesco Pompo <francescopompo2@gmail.com>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, linux-efi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-On Thu, 6 Nov 2025 at 14:08, Dan Carpenter <dan.carpenter@linaro.org> wrote:
->
-> Hi Francesco,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Francesco-Pompo/efistub-smbios-Add-fallback-for-SMBIOS-record-lookup/20251102-081803
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
-> patch link:    https://lore.kernel.org/r/20251102001411.108385-1-francescopompo2%40gmail.com
-> patch subject: [PATCH] efistub/smbios: Add fallback for SMBIOS record lookup
-> config: i386-randconfig-141-20251103 (https://download.01.org/0day-ci/archive/20251104/202511040131.8yGeRa6u-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202511040131.8yGeRa6u-lkp@intel.com/
->
-> smatch warnings:
-> drivers/firmware/efi/libstub/smbios.c:55 verify_ep_int_checksum() error: buffer overflow 'ptr' 5 <= 14
->
-> vim +/ptr +55 drivers/firmware/efi/libstub/smbios.c
->
-> d45578057224c4 Francesco Pompo 2025-11-02  48  static bool verify_ep_int_checksum(const struct smbios_entry_point *ep)
-> d45578057224c4 Francesco Pompo 2025-11-02  49  {
-> d45578057224c4 Francesco Pompo 2025-11-02  50   const u8 *ptr = (u8 *)&ep->int_anchor;
-> d45578057224c4 Francesco Pompo 2025-11-02  51   u8 sum = 0;
-> d45578057224c4 Francesco Pompo 2025-11-02  52   int i;
-> d45578057224c4 Francesco Pompo 2025-11-02  53
-> d45578057224c4 Francesco Pompo 2025-11-02  54   for (i = 0; i < 15; i++)
-> d45578057224c4 Francesco Pompo 2025-11-02 @55           sum += ptr[i];
->
-> This loop reads across a bunch of struct members.  We would normally
-> use a struct_group() to say that all the struct members are grouped
-> together.
->
-> d45578057224c4 Francesco Pompo 2025-11-02  56
-> d45578057224c4 Francesco Pompo 2025-11-02  57   return sum == 0;
-> d45578057224c4 Francesco Pompo 2025-11-02  58  }
->
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC: Vinh Nguyen <vinh.nguyen.xz@renesas.com>
+CC: Hai Pham <hai.pham.ud@renesas.com>
 
-Please report issues against the version of the patch that is actually
-in -next, rather than random versions from the mailing list.
+tree:   https://github.com/morimoto/linux renesas-lts/v6.18-rc3-2025-10-30-x5h-ironhide
+head:   80827640973fc37984dca63282497d3787866053
+commit: e15df229e2d08b776a90738770455a006aa8b9b4 [14/21] arm64: renesas: r8a78000: enable to use SCP
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: arm64-randconfig-2052-20251106 (https://download.01.org/0day-ci/archive/20251106/202511062314.qw37jaGx-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+dtschema version: 2025.9.dev13+gc72762e0c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511062314.qw37jaGx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202511062314.qw37jaGx-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: serial@c0710000 (renesas,hscif-r8a78000): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/renesas,hscif.yaml
+   arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: serial@c0710000 (renesas,hscif-r8a78000): 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/renesas,hscif.yaml
+>> arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: scp@c1000000 (mmio-sram): 'scp-shmem@60000', 'scp-shmem@60300' do not match any of the regexes: '^([a-z0-9]*-)?sram(-section)?@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml
+>> arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: scp@c1000000 (mmio-sram): $nodename:0: 'scp@c1000000' does not match '^sram(@.*)?'
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
