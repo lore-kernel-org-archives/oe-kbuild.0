@@ -1,257 +1,95 @@
-Received: from flow-b4-smtp.messagingengine.com (flow-b4-smtp.messagingengine.com [202.12.124.139])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B10013D521;
-	Thu,  6 Nov 2025 00:53:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8658830CD89
+	for <oe-kbuild@lists.linux.dev>; Thu,  6 Nov 2025 09:42:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762390420; cv=none; b=PWoVGYjZXn2ekXzwAwAxWfB2Ks8qEPtcM/xwa//8zdS37/QMeSErXoCh7174LPtHaTLJ3L1Hu7wDtn/74tDrGXS9WdGWgNeqtZu1j8uwhsBzYLammlpNJB5fifBGONosIEpIBYkNRyRSCoqFa9YwtxQHogIId2KZj+tJbvZ38Kg=
+	t=1762422126; cv=none; b=jq7AB9hGy/NZFsvJW8bUXr0LnN3prl2qj7ig1nfFqlpM0V7OA7FeLEYOmMzftmq87/UL8nbZ66qVxQdBDMqAQXNaGM87nojX/4xJJR/Rryye6cJu9Xpu5lMljAomlfBmxAij5aaq8YxpW790ZN7fP2eJvVfnm9H6x8h+pYjtDq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762390420; c=relaxed/simple;
-	bh=TzrOJWRTbh7msYotwzy/SyrEreFMAa3VOyZxfcnWujU=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=Ne895zkY4R4N0Iw3fcIxdT46NhSNkgzre4MvdjPIs8FaIA3luIvl1vOtFA5Y+t1tlPC4uUfNsIU6Vq+8Zt0ImUXfdbIRIvhi580o6XS7zB46Gf1nI1x6LaNk5awxH+1wZXHrtK/IcSeQ0ADQKWcOPbrg1BXlBKE4wLaxj/jk04I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=NAr8JS/3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LSaRr0kq; arc=none smtp.client-ip=202.12.124.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1762422126; c=relaxed/simple;
+	bh=cI5wYj7+CwqsHo06i/ihWn2OUYk/w4dpnaPzbW5qYJ0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OsgKnBW3unTF0xynYDlLN6u+QTT0l7BsZjWNkHaTxWoSsC2Qi6MwKsP09xO5BCgKUgzAKmARs+ppRygrG0iGObahCsHuNSRr7FXILnic6Pvy2w27AeiuExhy4E+S/LzEIpZAkQ9SOxXhbhef3RfMhH1pa/4Cm1fOhX3ntB3Fv2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QFkQs8HA; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="NAr8JS/3";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LSaRr0kq"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailflow.stl.internal (Postfix) with ESMTP id 9D30013005BF;
-	Wed,  5 Nov 2025 19:53:36 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Wed, 05 Nov 2025 19:53:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1762390416; x=1762397616; bh=KaR5D0R2IqTiUpqIio9Ha+v4jRl+XG/S1Kt
-	/8EZGKTY=; b=NAr8JS/3M+2IUJ3D+p7usRL4At+2mUcGbp8GRf7LO0VCv1h7vbx
-	wStmrsUlM4Lql5V3ApSpllB6JzKByOEe0opp3oedLRIY0UmwNZwJCqTKUf+RsO/J
-	AHWdkTXHQZzx2AsexBmTRPLLKHb5SQ8U3EZ2ng7Lr5NkJ5UqJCgtD2FCp8BMlmJN
-	xXE9E74VKK8ZOyq5h/o5LAWwQxmwn/6/iEYETgXC+6okz/kJvy9YXhB7KVUVe28V
-	WGpwlVBU+g0hYnUH/o8Ov/sknMWtud1cpKRWaEf25TGVPOYkxHoPOAP+cxJRW4ph
-	B8AC/oX4F8Pb8niP3FF4ZXL+dgbcgm9+7Fw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762390416; x=
-	1762397616; bh=KaR5D0R2IqTiUpqIio9Ha+v4jRl+XG/S1Kt/8EZGKTY=; b=L
-	SaRr0kqpJF2YPTK/LzJGUT2N52Bkjt4Gcq2NKN+l+uyPbuSwlSJ3VbwJRzr52/hv
-	WSYnFef3jPogb2K8CiM8sfdqVE26U3y0mER6E5HiyKRveI3LA68FSVqzg6IgiR/s
-	7cm4furRaj1J4fmn/IX0AXNAyfnd99HUuaH1AYQaVPblrsLpe3DYA2oJ6jJouhA6
-	FJVTmQ2+a5FP8KUIpnhO0NFq7NNxTjWc2zB3ICYTJIlp3/GuO5qSu/mOzN4o9NV3
-	odU2VSlRA0AJNlkabcX5MAAHk3UXwZ6d2Pi4Nd6Iuz7/8KTD8viLBbR6a3jwtfDy
-	enm3pTOrCBL4mfF/MRIdA==
-X-ME-Sender: <xms:jfELadkNHXTjssrASPiJD75WnXJCpgF2V6_hoEN2kIlds9qZGIAqtw>
-    <xme:jfELaU8muodkf1a0aKqMSbCdR7LDzmwIIAYcUQIJVTR4dKWGb86H2_TeSAo9mIIUG
-    cReJ-f-V8oJBRWPEEMhho_GGJ09FR2T_pNpIAfuSicFAd5OPw>
-X-ME-Received: <xmr:jfELac5l1pgGGuA_2dZTl2s6yp2UEtcwwA-RfIYg3WSlOxJXd53ePPw9olVmeLH7o075HatuDFzN2LbAwck-02an7ayuoJMyUcDDva39ESr1>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeehfeelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epheehjedthfegiedufeefgeevkeffhfduveegteektefhhefggeduieehieekgffgnecu
-    ffhomhgrihhnpehgihhtqdhstghmrdgtohhmpdhgihhthhhusgdrtghomhdpkhgvrhhnvg
-    hlrdhorhhgpddtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
-    mhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggprhgtphhtth
-    hopeefgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvhhirhhoseiivghnihhv
-    rdhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlse
-    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghouggvsehthihhihgtkhhs
-    rdgtohhmpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtth
-    hopehjrggtkhesshhushgvrdgtiidprhgtphhtthhopegushhtvghrsggrsehsuhhsvgdr
-    tghomhdprhgtphhtthhopehomhhoshhnrggtvgesrhgvughhrghtrdgtohhmpdhrtghpth
-    htohepohhkohhrnhhivghvsehrvgguhhgrthdrtghomhdprhgtphhtthhopeguhhhofigv
-    lhhlshesrhgvughhrghtrdgtohhm
-X-ME-Proxy: <xmx:jfELacrRi4SgsbizRE6AUTaXXftMlnCM-POU0yBQzCAR4ZtCP6A0UQ>
-    <xmx:jfELaQDGu_Zo9JNMX7hV9V_a53rIl7FDsAen1DvAXsbwc3MpaMp0QA>
-    <xmx:jfELadNCuR4RjpuVTK8umiuv_uM4nn8kRMGDGsSNVvhJ5OfcuiGbiw>
-    <xmx:jfELaXmIOb0G1hyib2CfAFFBkesRVPIgwESw-xdlSFXE0L17LasaAg>
-    <xmx:kPELaZ_1AUytM_IrMFErhME7e8Cb_3Om39m8SYINOJSdpjPX_6Yk5pBG>
-Feedback-ID: iab3e480c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 5 Nov 2025 19:53:25 -0500 (EST)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QFkQs8HA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762422124; x=1793958124;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=cI5wYj7+CwqsHo06i/ihWn2OUYk/w4dpnaPzbW5qYJ0=;
+  b=QFkQs8HA5r22Po4EC6IvkNOAr220KBzccdc1ceSZ2zQRtfD3Mvb2efac
+   bsDrlw98VngWIX83g+fy3ZMCYZBu7TljTDjM49911FyQkR7aoNrWX1BoS
+   Om0shNJVBzg7ERzGABeBOegnA3yPIw3CF5c8yxCIXc4d69SB00UK6E/DP
+   zMKjlCX0/aVmXjHT2Y5SUdixpmSQ7rFpdpo1ScT/BGD2kxAXw3gxOiw0G
+   r+IdRXsGUw/pZl6T4kimLqqUtgD+PnV85e6FF4F/i6dtEVZ6/Xxle2RXd
+   KP1bq0PDBvQLfmTuKW7uoFAEp2z0bS/tJ35DOZ9/0aEw5GKP+wpFHZJu2
+   A==;
+X-CSE-ConnectionGUID: UTlzgcIBQaeznqTNh8s8oQ==
+X-CSE-MsgGUID: /9oyRLRTQKeY+FgUOquvkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="63565083"
+X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
+   d="scan'208";a="63565083"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 01:42:03 -0800
+X-CSE-ConnectionGUID: FWvY/xdQSUWUuebDAWbvzw==
+X-CSE-MsgGUID: i/umM8XDRPGnG9Y/qCM+pg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
+   d="scan'208";a="187658044"
+Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 06 Nov 2025 01:42:02 -0800
+Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vGwVD-000000002v6-2gPv
+	for oe-kbuild@lists.linux.dev;
+	Thu, 06 Nov 2025 09:41:59 +0000
+Date: Thu, 6 Nov 2025 10:41:22 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Subject: [viro-vfs:untested.efivarfs 3/54] checkpatch: ERROR: code indent
+ should use tabs where possible
+Message-ID: <202511061011.dAIUolTE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Amir Goldstein" <amir73il@gmail.com>
-Cc: "Dan Carpenter" <dan.carpenter@linaro.org>,
- "Christian Brauner" <brauner@kernel.org>, oe-kbuild@lists.linux.dev,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev, "Jan Kara" <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, "Jeff Layton" <jlayton@kernel.org>,
- "Chris Mason" <chris.mason@fusionio.com>,
- "David Sterba" <dsterba@suse.com>, "David Howells" <dhowells@redhat.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- "Danilo Krummrich" <dakr@kernel.org>, "Tyler Hicks" <code@tyhicks.com>,
- "Miklos Szeredi" <miklos@szeredi.hu>,
- "Chuck Lever" <chuck.lever@oracle.com>,
- "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Namjae Jeon" <linkinjeon@kernel.org>,
- "Steve French" <smfrench@gmail.com>,
- "Sergey Senozhatsky" <senozhatsky@chromium.org>,
- "Carlos Maiolino" <cem@kernel.org>,
- "John Johansen" <john.johansen@canonical.com>,
- "Paul Moore" <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- "Stephen Smalley" <stephen.smalley.work@gmail.com>,
- "Ondrej Mosnacek" <omosnace@redhat.com>,
- "Mateusz Guzik" <mjguzik@gmail.com>,
- "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>,
- "Stefan Berger" <stefanb@linux.ibm.com>
-Subject: Re: [PATCH v4 04/14] VFS/nfsd/cachefiles/ovl: add start_creating()
- and end_creating()
-In-reply-to:
- <CAOQ4uxgaANjJXdhiQamgop8cicWXZ7Er2CWW3W7w-VgNMn9OVw@mail.gmail.com>
-References: <20251029234353.1321957-5-neilb@ownmail.net>,
- <202511021406.Tv3dcpn5-lkp@intel.com>,
- <CAOQ4uxgaANjJXdhiQamgop8cicWXZ7Er2CWW3W7w-VgNMn9OVw@mail.gmail.com>
-Date: Thu, 06 Nov 2025 11:53:21 +1100
-Message-id: <176239040101.634289.7648391031383720166@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 02 Nov 2025, Amir Goldstein wrote:
-> On Sun, Nov 2, 2025 at 10:08=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
-> >
-> > Hi NeilBrown,
-> >
-> > kernel test robot noticed the following build warnings:
-> >
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/debugfs-=
-rename-end_creating-to-debugfs_end_creating/20251030-075146
-> > base:   driver-core/driver-core-testing
-> > patch link:    https://lore.kernel.org/r/20251029234353.1321957-5-neilb%4=
-0ownmail.net
-> > patch subject: [PATCH v4 04/14] VFS/nfsd/cachefiles/ovl: add start_creati=
-ng() and end_creating()
-> > config: x86_64-randconfig-161-20251101 (https://download.01.org/0day-ci/a=
-rchive/20251102/202511021406.Tv3dcpn5-lkp@intel.com/config)
-> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202511021406.Tv3dcpn5-lkp@intel.com/
-> >
-> > smatch warnings:
-> > fs/overlayfs/dir.c:130 ovl_whiteout() error: uninitialized symbol 'whiteo=
-ut'.
-> > fs/overlayfs/dir.c:130 ovl_whiteout() warn: passing zero to 'PTR_ERR'
-> >
-> > vim +/whiteout +130 fs/overlayfs/dir.c
-> >
-> > c21c839b8448dd Chengguang Xu     2020-04-24   97  static struct dentry *o=
-vl_whiteout(struct ovl_fs *ofs)
-> > e9be9d5e76e348 Miklos Szeredi    2014-10-24   98  {
-> > e9be9d5e76e348 Miklos Szeredi    2014-10-24   99        int err;
-> > 807b78b0fffc23 NeilBrown         2025-10-30  100        struct dentry *wh=
-iteout, *link;
-> > c21c839b8448dd Chengguang Xu     2020-04-24  101        struct dentry *wo=
-rkdir =3D ofs->workdir;
-> > e9be9d5e76e348 Miklos Szeredi    2014-10-24  102        struct inode *wdi=
-r =3D workdir->d_inode;
-> > e9be9d5e76e348 Miklos Szeredi    2014-10-24  103
-> > 8afa0a73671389 NeilBrown         2025-07-16  104        guard(mutex)(&ofs=
-->whiteout_lock);
-> > 8afa0a73671389 NeilBrown         2025-07-16  105
-> > c21c839b8448dd Chengguang Xu     2020-04-24  106        if (!ofs->whiteou=
-t) {
-> > 807b78b0fffc23 NeilBrown         2025-10-30  107                whiteout =
-=3D ovl_start_creating_temp(ofs, workdir);
-> > 8afa0a73671389 NeilBrown         2025-07-16  108                if (IS_ER=
-R(whiteout))
-> > 8afa0a73671389 NeilBrown         2025-07-16  109                        r=
-eturn whiteout;
-> >
-> > white out is not an error pointer.
-> >
-> > 807b78b0fffc23 NeilBrown         2025-10-30  110                err =3D o=
-vl_do_whiteout(ofs, wdir, whiteout);
-> > 807b78b0fffc23 NeilBrown         2025-10-30  111                if (!err)
-> > 807b78b0fffc23 NeilBrown         2025-10-30  112                        o=
-fs->whiteout =3D dget(whiteout);
-> > 807b78b0fffc23 NeilBrown         2025-10-30  113                end_creat=
-ing(whiteout, workdir);
-> > 807b78b0fffc23 NeilBrown         2025-10-30  114                if (err)
-> > 807b78b0fffc23 NeilBrown         2025-10-30  115                        r=
-eturn ERR_PTR(err);
-> > e9be9d5e76e348 Miklos Szeredi    2014-10-24  116        }
-> >
-> > whiteout not set on else path
-> >
-> > e9be9d5e76e348 Miklos Szeredi    2014-10-24  117
-> > e4599d4b1aeff0 Amir Goldstein    2023-06-17  118        if (!ofs->no_shar=
-ed_whiteout) {
-> > 807b78b0fffc23 NeilBrown         2025-10-30  119                link =3D =
-ovl_start_creating_temp(ofs, workdir);
-> > 807b78b0fffc23 NeilBrown         2025-10-30  120                if (IS_ER=
-R(link))
-> > 807b78b0fffc23 NeilBrown         2025-10-30  121                        r=
-eturn link;
-> > 807b78b0fffc23 NeilBrown         2025-10-30  122                err =3D o=
-vl_do_link(ofs, ofs->whiteout, wdir, link);
-> > 807b78b0fffc23 NeilBrown         2025-10-30  123                if (!err)
-> > 807b78b0fffc23 NeilBrown         2025-10-30  124                        w=
-hiteout =3D dget(link);
-> >
-> > It's set here, but then returned on line 127.
-> >
-> > 807b78b0fffc23 NeilBrown         2025-10-30  125                end_creat=
-ing(link, workdir);
-> > 807b78b0fffc23 NeilBrown         2025-10-30  126                if (!err)
-> > 807b78b0fffc23 NeilBrown         2025-10-30  127                        r=
-eturn whiteout;;
-> >
-> > nit: double ;;
-> >
-> > 807b78b0fffc23 NeilBrown         2025-10-30  128
-> > 807b78b0fffc23 NeilBrown         2025-10-30  129                if (err !=
-=3D -EMLINK) {
-> > 672820a070ea5e Antonio Quartulli 2025-07-21 @130                        p=
-r_warn("Failed to link whiteout - disabling whiteout inode sharing(nlink=3D%u=
-, err=3D%lu)\n",
-> > 672820a070ea5e Antonio Quartulli 2025-07-21  131                         =
-       ofs->whiteout->d_inode->i_nlink,
-> > 672820a070ea5e Antonio Quartulli 2025-07-21  132                         =
-       PTR_ERR(whiteout));
-> >
-> > whiteout is either valid or uninitialized.  For some reason
-> > Smatch thinks whiteout can be NULL, I suspect because of
-> > the NULL check in dget().
-> >
->=20
-> That looks like "rebase race" with the fix commit 672820a070ea5e
-> ("ovl: properly print correct variable").
->=20
-> The fix is no longer correct, but also no longer needed because of
-> early return on lookup error in line 121.
->=20
-> This implies that there is also a change of behavior in this patch
-> causing that an error in lookup will not have a warning.
->=20
-> I have no problem with this change, because the warning text
-> indicated it was intended to refer to errors in linking.
->=20
-> Long story short, patch needs to go back to using err here for
-> printing the link error.
+:::::: 
+:::::: Manual check reason: "low confidence checkpatch report"
+:::::: 
 
-Thanks.  I've revised that patch to use 'err' and '%d'.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Al Viro <viro@zeniv.linux.org.uk>
 
-NeilBrown
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git untested.efivarfs
+head:   36051c77301534759fd96e906ea11c5d09bdf81f
+commit: 5aaad153df2076254f2db4b4e328aa5d9ebfe66e [3/54] new helper: simple_remove_by_name()
+reproduce: (https://download.01.org/0day-ci/archive/20251106/202511061011.dAIUolTE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511061011.dAIUolTE-lkp@intel.com/
+
+# many are suggestions rather than must-fix
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#53: FILE: fs/libfs.c:659:
++                           void (*callback)(struct dentry *))$
+
+ERROR:CODE_INDENT: code indent should use tabs where possible
+#77: FILE: include/linux/fs.h:3635:
++                              void (*callback)(struct dentry *));$
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
