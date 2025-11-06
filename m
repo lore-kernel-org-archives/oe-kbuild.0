@@ -1,71 +1,72 @@
 Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D7730F7EE
-	for <oe-kbuild@lists.linux.dev>; Thu,  6 Nov 2025 13:10:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA31346783
+	for <oe-kbuild@lists.linux.dev>; Thu,  6 Nov 2025 14:54:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762434616; cv=none; b=ZcMNJO/uLxXeSIU5P1Fr8ajTHEzYdueygdv+Ghj6ZduDLKPNAw/glluLIh/DD1Q1JthMRBWQD60U0PtHsNH4KwHbLuJ1Xgl/O7DUpb1Vll0u5nB0zyUpndnoxS7UOgZ3niuuBOM3hHmJRJz9geJrjN1Oo8PRpf8n1OwdQZwv+Nc=
+	t=1762440869; cv=none; b=lgVq3KgnGBcBLz8ZiVrrnRCOx53hgzhGi5XvRfBqJ5jMkEsCMzC3PIsHFGKPszMMQHhkoxKKZehN8/tpTE/6Se9krjlTHisqWEp56vLvTT+jREhjfxjJzqRfZp9WVhzH9jtTiyaBhbPZdlxP3FyLnNdzDart59NzFzothhTn37o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762434616; c=relaxed/simple;
-	bh=QVY/AYM5oY5fMTDiOLcTDfmGhegxKbaFzRVX886wGAU=;
+	s=arc-20240116; t=1762440869; c=relaxed/simple;
+	bh=o+/PQFG3orNQPH2Wmqzbip5DQ+AWN7J8e8scPBdzoHA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kyWijFuuzTVU1NziQe+m7QM+mE2WzyV6J0qD5WBet6mWQRFhcegg8vXQwMhPpbcjmX82xQEEozb/kdyaruyeT3ws5PlRbf+nMQ6l7M4qLyNrifH8SEwccG2fweVcrZvs0uUiW5GxiuyvTL9f4HT0gMyGPotxw4OCW+klI3fIPYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MQMMDQcc; arc=none smtp.client-ip=209.85.218.42
+	 Content-Disposition; b=QIe170hvyph2Fe7dRK9OLHP0RahgrfDxtZkIyxT44Ywvos/n4fwxd8t7QXYImRnipoJsXhuIEsNQ4Ig7U50MArcrksdXilvCubLn0lMqEmliz9Pgl9EwPG9PUDmbBwlCiDkF60GrM67guZAND7tvX/3/dL3gbEb1YFn9F8oQu8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cx+XLsuX; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MQMMDQcc"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b3e7cc84b82so184313466b.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 06 Nov 2025 05:10:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cx+XLsuX"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b3e9d633b78so181186366b.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 06 Nov 2025 06:54:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762434612; x=1763039412; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1762440865; x=1763045665; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=t28efrrGHhAa89xd4/lbe98NRmddX9nmQ/RG7kZgsm4=;
-        b=MQMMDQccDYzbGOMx9ONqQEbw5vk2nW9L+3642mHn33lJVMoADfsw95SgyVc3NNjg01
-         SxSbP/ajvc0lU2oXFE7mr5DkKHtdAxVGE1GoVvnJlC6nJK2vSBfvpfczTMMdAfGkt/S0
-         tx/REU70WzrlYuCN4A/qEdY3zEizDuPnOgwDnNc0LTvjxuRA+kQM/y5/ajhPPnHiXInN
-         TeWf4avsgrh3pXRDR5w9J7DPHD9cvbYdzFAKkwMcZto+9t3vWdDN3TKZITi9eWa/VSIS
-         dbK+r2xuI1fgBhuhqw2Pd6U0Ry9C4QDqrO3I8npOWER0ETaTKknjV5CDGpWCq+lDBiED
-         n33w==
+        bh=MC4EJk+crq3INwyh+anBHhYJkKhseB8yhr9wZcX7VEo=;
+        b=cx+XLsuXbkW1/GYZrzx+3Rvr+RmUJoSbfk/O8TmrqWvoospYjjkLpGe7jtygLQBhEP
+         Gnv7dJT/BwTSJ/9VP9uwpTQK6PMiRfYvFSwGDrsIFelI0/tTpJ+R0l6bcus23WF1sB9z
+         YgsN94JCMxhMqWHfiM6/SHLiZhaUVVOdG0TdvzRY6Gb3auxzDWmWCKqk0ZPdVPy7QhwO
+         rPc5G+ZxvI1JLruk36rRAt2sLRVm8t+KsirG1so66hqW+1N1Ja4wS/EcYWb8PyeGbTst
+         nSRAwVs4Dg4YWqozk02Xq0NeTNIlTj/dIjaPPb2vYg7++zeq/3fQfEPwPBpZJe+1qaT1
+         f4mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762434612; x=1763039412;
+        d=1e100.net; s=20230601; t=1762440865; x=1763045665;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t28efrrGHhAa89xd4/lbe98NRmddX9nmQ/RG7kZgsm4=;
-        b=sa5yT0IbTtRUBfAZijqFyYIl1Nxgcw6N8ZzJ7IrUufw8bkfAQiJVOSGs0M/n68fKrS
-         O/EuK6bjmmbKUMP/IvuXELOxHhHqeLtD0Q1K4UJcogVwAiotX7cUKg6krQ4yFXlFgWmY
-         3uvwSKOqDg0C3kaoXAxGPt100UwEbWMpdKtD+fykHuRCVmM//M7RFHHqz7pwmYbIabX9
-         m7Bm++i2nlA77f9oF38A1lIWufu7NbbQrSyTf23Ug9zEf4BicNoMROWSK27iGcsq//re
-         MaoCdUB2F1TYo2XFapc3Q5Ps6InCnXk610u770Y0aCU7/IuXMaZ/Xb6qaS3iGPi5grMv
-         CVhQ==
-X-Gm-Message-State: AOJu0YxSNl9UEngaHVMwUffYmXUe1DbmiUNF/bxlemgWwgtrj5IUXOgW
-	uZnka6dxRI3dtfhp2HXbEGJkOSpRdJVElAzKC1opl84z1C95ywbw3DCdRGLKN0asOWZF+ywF+m3
-	XQoZz
-X-Gm-Gg: ASbGncsItNKZItsZmzp9pCxhnzMJenfuaYdcrh5pPNP3fBCFMU6C1rY26GPo7xvS3u9
-	Jw5aMWD8+slc4nuK2hY/j65fDUEUK0r09TjVeKEnsgZUsp7P5MTSaDdjVDlffOJDqAKBgCjqFDt
-	WblT4yCmUq5l9VmFNsLDA5IYobxh+eP4VaNEkTrlQovUzMs5AD/Y38aCjpwf1nPgreTyNiqf9jA
-	yUF+Z5QXDcF+1iJPwJTKkkEWF0kvHPzMrgS97zcNGYKCPkBKa2tj74apAC2qXup08w5awYk3M8s
-	wl/FFiwfpzQs+4LL27xDDBofEpCGBNZePVj918Fq7FIFOlKHg97+nFlPtpyWy11UBlZfkeFR2Uj
-	YfHfzeTN4lFsgJTnB7EIEzB7+RTyafHXh+08aMag4dKb81cCoQp0VfX0mM0Uah+pSQlooEheAeZ
-	UCwZfPOWw0O37t
-X-Google-Smtp-Source: AGHT+IGDC3NDQYPTkkfUUoVyM/sJxUdHO2Lpp1MzeugUZlOM8vLQhbQSiv+7msu1x/Jy2tsYDRamhg==
-X-Received: by 2002:a17:906:c103:b0:b6d:50f7:a805 with SMTP id a640c23a62f3a-b7265607354mr700966366b.59.1762434612174;
-        Thu, 06 Nov 2025 05:10:12 -0800 (PST)
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MC4EJk+crq3INwyh+anBHhYJkKhseB8yhr9wZcX7VEo=;
+        b=YqqAItuvgK+b8hgIjE5OFPo+PvTdRAbL4jViPxIhppszR3iS1ZVe6ppEfGEzHPKbVt
+         wMNOJm+NEQ9bBOhyjFeRZdOwJbcG9JyJzvJmGHSvw3jq1bde4EgC/4gbDbuVy9PBYa3J
+         5ZAsYG/mb7zmu2FbagpXKMcUINNPWbL4YooVoS1SeKuAo49GQMWqlBOECqL5iHO2TWJx
+         QtuDY0F4Pu3YIPdvBO3ybt8fJ9UG3kX87GiMXKemuocx/aASDqVXR1hBh7IuYNE+5swz
+         Yyi3CPWnXIulCXwxWeosb0r6vTEcqq5DxRM2tMXu8HXodHAfyVSK/orzS58lvFSAWmMP
+         Tdfw==
+X-Gm-Message-State: AOJu0YzlLbOFQtwKNddUfUBxskem/1YElEXQVAQ/mlPDy1Z6DqlaAT6C
+	UfSHHKjspvUIJr3UJv4as3wfmHRfg+MwFrB8QcbA7WYaLe0/BU0L2P1XBCDO9fuAnVF4BC+MSMw
+	0LB3s
+X-Gm-Gg: ASbGncuhOuqoLehSHqZVWgpICKZAoSrPhJAFBTY7i6WxZ6w0o/NYaJK82zkqwzHsU/H
+	cWRLI4a8iOinQbBrG4xT1FU+KU0L7rboJ5WXayRxgQBSBQm5vxJoLnNLU9hV2Nci0mOwbVptxso
+	ANUT39L81ou26FZwpoVgUrBcxKONGsmzRFfD1X+BFxTESIG9mY8zPeUDE5WuHIi8njtVi2sJUqJ
+	8DF26437h6Jb1GCR2a2kDymZJb1OEIRN7MXObrTzcBgE5w92PMdHXuMsEBkLDdH5yrvZtuhe4+f
+	0ih2lgnIfjelsLXw68ZHdNdtHR40zHUIphFTSzccEi5t4ApcleCbt5CY7VlY8bwGu29aLY1byca
+	cE1CbZAj7V2bL4IeMHpnMIs12DAQh84QReZgDzx15Xzs2r95Y1alU6rYVasxcLysn/gFblMdLXa
+	GF7gpAGxWK7/AG
+X-Google-Smtp-Source: AGHT+IGsGkbjm4cQhd58PPhX8sj6kHaV3UG6B6SZQr32M8vl46qcUsdwyT7k6jVd0sZpwEdnmU+gdA==
+X-Received: by 2002:a17:907:7f14:b0:b72:7a86:e497 with SMTP id a640c23a62f3a-b72892ac754mr401480466b.5.1762440865437;
+        Thu, 06 Nov 2025 06:54:25 -0800 (PST)
 Received: from localhost ([87.213.113.147])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72896848a5sm207325966b.57.2025.11.06.05.10.11
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72896c814esm227285166b.68.2025.11.06.06.54.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 05:10:11 -0800 (PST)
-Date: Thu, 6 Nov 2025 16:10:10 +0300
+        Thu, 06 Nov 2025 06:54:25 -0800 (PST)
+Date: Thu, 6 Nov 2025 17:54:23 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dmitry Baryshkov <lumag@kernel.org>
+To: oe-kbuild@lists.linux.dev, Himanshu Chauhan <hchauhan@ventanamicro.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Rob Clark <robin.clark@oss.qualcomm.com>
-Subject: drivers/gpu/drm/msm/msm_kms.c:251 msm_drm_kms_uninit() warn:
- variable dereferenced before check 'kms' (see line 235)
-Message-ID: <9412d8fc-7bb8-456f-9911-8443303497a5@suswa.mountain>
+	Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_trace_support_v2 39/58]
+ drivers/firmware/riscv/riscv_sbi_sse.c:717 sse_ghes_handler() error: we
+ previously assumed 'cb' could be null (see line 718)
+Message-ID: <ad9d6bc3-9b91-443d-8799-4709a961b5b5@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,63 +76,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dc77806cf3b4788d328fddf245e86c5b529f31a2
-commit: a409b78fcdf724422fa030bd5ef177ebf3b7608a drm/msm: move wq handling to KMS code
-config: powerpc64-randconfig-r073-20251106 (https://download.01.org/0day-ci/archive/20251106/202511061924.Y0EaYmPu-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
+tree:   https://github.com/avpatel/linux.git riscv_trace_support_v2
+head:   41e2962102e2318916f87f0ed7eb297a6b3224d3
+commit: 7a78f3d24d5d385aad5e5540aab849569f2335cd [39/58] riscv: Add functions to register ghes having SSE notification
+config: riscv-randconfig-r071-20251103 (https://download.01.org/0day-ci/archive/20251104/202511041114.4M7JPo19-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511061924.Y0EaYmPu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511041114.4M7JPo19-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/msm/msm_kms.c:251 msm_drm_kms_uninit() warn: variable dereferenced before check 'kms' (see line 235)
+New smatch warnings:
+drivers/firmware/riscv/riscv_sbi_sse.c:717 sse_ghes_handler() error: we previously assumed 'cb' could be null (see line 718)
 
-vim +/kms +251 drivers/gpu/drm/msm/msm_kms.c
+vim +/cb +717 drivers/firmware/riscv/riscv_sbi_sse.c
 
-506efcba31296e Dmitry Baryshkov 2023-10-09  220  void msm_drm_kms_uninit(struct device *dev)
-506efcba31296e Dmitry Baryshkov 2023-10-09  221  {
-506efcba31296e Dmitry Baryshkov 2023-10-09  222  	struct platform_device *pdev = to_platform_device(dev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  223  	struct msm_drm_private *priv = platform_get_drvdata(pdev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  224  	struct drm_device *ddev = priv->dev;
-506efcba31296e Dmitry Baryshkov 2023-10-09  225  	struct msm_kms *kms = priv->kms;
-506efcba31296e Dmitry Baryshkov 2023-10-09  226  	int i;
-506efcba31296e Dmitry Baryshkov 2023-10-09  227  
-506efcba31296e Dmitry Baryshkov 2023-10-09  228  	BUG_ON(!kms);
-506efcba31296e Dmitry Baryshkov 2023-10-09  229  
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05  230  	/* We must cancel and cleanup any pending vblank enable/disable
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05  231  	 * work before msm_irq_uninstall() to avoid work re-enabling an
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05  232  	 * irq after uninstall has disabled it.
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05  233  	 */
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05  234  
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05 @235  	flush_workqueue(kms->wq);
-                                                                        ^^^^^^^
-Dereferenced
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  712  static int sse_ghes_handler(u32 event_num, void *arg, struct pt_regs *regs)
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  713  {
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  714  	struct sse_ghes_event_data *ev_data = arg;
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  715  	struct sse_ghes_callback *cb = NULL;
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  716  
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29 @717  	list_for_each_entry(cb, &ev_data->callback_list, head) {
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29 @718  		if (cb && cb->ghes && cb->callback) {
+                                                                    ^^
+This NULL check should be deleted.  List iterators cannot be NULL.
 
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05  236  
-506efcba31296e Dmitry Baryshkov 2023-10-09  237  	/* clean up event worker threads */
-506efcba31296e Dmitry Baryshkov 2023-10-09  238  	for (i = 0; i < priv->num_crtcs; i++) {
-506efcba31296e Dmitry Baryshkov 2023-10-09  239  		if (priv->event_thread[i].worker)
-506efcba31296e Dmitry Baryshkov 2023-10-09  240  			kthread_destroy_worker(priv->event_thread[i].worker);
-506efcba31296e Dmitry Baryshkov 2023-10-09  241  	}
-506efcba31296e Dmitry Baryshkov 2023-10-09  242  
-506efcba31296e Dmitry Baryshkov 2023-10-09  243  	drm_kms_helper_poll_fini(ddev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  244  
-506efcba31296e Dmitry Baryshkov 2023-10-09  245  	msm_disp_snapshot_destroy(ddev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  246  
-506efcba31296e Dmitry Baryshkov 2023-10-09  247  	pm_runtime_get_sync(dev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  248  	msm_irq_uninstall(ddev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  249  	pm_runtime_put_sync(dev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  250  
-506efcba31296e Dmitry Baryshkov 2023-10-09 @251  	if (kms && kms->funcs)
-                                                            ^^^
-Checked too late.
-
-506efcba31296e Dmitry Baryshkov 2023-10-09  252  		kms->funcs->destroy(kms);
-506efcba31296e Dmitry Baryshkov 2023-10-09  253  }
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  719  			cb->callback(ev_data->event_num, cb->ghes, regs);
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  720  		}
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  721  	}
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  722  
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  723  	return 0;
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  724  }
 
 -- 
 0-DAY CI Kernel Test Service
