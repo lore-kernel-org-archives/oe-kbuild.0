@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3F2286D5C
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Nov 2025 06:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500C31F3FE2
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Nov 2025 07:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762498487; cv=none; b=dKrs6xp2k7EdUrN+8QPV71AsPNEfD4rEpKSDaMwmDCWZVZ/xx8iYbmZbLkPvOpD5UhQumsH36zYAqcnSuKmOuZLSyfBU/xeoB3saithbuKOwKId6ChkibbVRQuNg7c2Y0iQFEVfTm97+kT45QsbWXXkNBR/h8BjWg3IJKbEO5KI=
+	t=1762499930; cv=none; b=KRUe0Ft2ptbt4/TCi0QvDYkor2hPlCfCgtiROgyqh/tXsz7KyqHbwuZLkO10x3fjaTKNRrISh3qQ4+DQ8CbrVJ57BAXQLWxISUAGgwefVA65d5TX48L30/RHplcMDooImgHYQcGkvYyMV9arBwgQfFiOzQhdR59tWkc9ZkUX1p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762498487; c=relaxed/simple;
-	bh=8vkSFv8i09DS6k3XisYD0DqfniiDnODx8311o5ujNZE=;
+	s=arc-20240116; t=1762499930; c=relaxed/simple;
+	bh=D5/dCptSjKP16GzqBkpfMqjSh7KIOUzL8wjo1pEE52Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Tp1P1uN3T7VfNeuz9VrQdkRupmDx5u4dRxUu0xsTqbiVrKbPWDFDoliOlrtktEK7237yI7MGwNmEQmmlaY3zjBlK+RBFlpXPl/KHUoV7LGpFXdd7mNft6G1U7pcbfojmveoL+1/hyHKtU2f2cZy4RY/ci25iNZgmMXrEBaxJhO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ji7vkaB0; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=K8QkGIh648sEKKtkBxc7Ehn++Jv0XXwN5cOq+Lua8+nyg3T+bGq+E72tp6WXcVkiD5VKPt7zLMxSIWFARJ01EeLME/X0BPY1UNm8oPmLdscDMt4WA7gOUFIkoIhOvTlxCfqW+6MKOU0fJ8cS8sQRdarYPrmDApv+YvBi3Ah5DiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QxcSf6uq; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ji7vkaB0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QxcSf6uq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762498486; x=1794034486;
+  t=1762499928; x=1794035928;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8vkSFv8i09DS6k3XisYD0DqfniiDnODx8311o5ujNZE=;
-  b=Ji7vkaB0uYTdtMmDnGSQOXgn8F6pWMAw2Y9vsAshXDdJkeHT2TFAQAb2
-   6GpcsMunwE1f2DS7IwxjNWxHBp/ZoJTorxKxoM1JiSq1yE+8reMOE/Gx9
-   gjz2+/yklDI3+tSiNLSu8HCXzs6sL5w/Q1M4GvufaQiEROGmbsQIufJB6
-   BkFNnumvO5PzFFEXWk5pYzNzxCWbk3pjaggTjnSQ4vUsLTnvO2Npyvhfk
-   hhHTNLbYjHF2HsEGvZx86tjhKURXAvgOAQD3gn8sx48m+nRfxXO38A/5o
-   qxVTYD9bQV9BxF5vJPez2NoVfF/GeDTTIBNesQyMHDxL4ipWM7cM4sT1d
-   A==;
-X-CSE-ConnectionGUID: wfqN4MyhSBaPQqrrvGrswA==
-X-CSE-MsgGUID: IHs1e+pQQhO3gOm3Kic4dA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="75255858"
-X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
-   d="scan'208";a="75255858"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 22:54:45 -0800
-X-CSE-ConnectionGUID: p7LiwNVDStGhmwE3n5Fl+w==
-X-CSE-MsgGUID: V6uPtgobTl2P4bpt3FUrjw==
+  bh=D5/dCptSjKP16GzqBkpfMqjSh7KIOUzL8wjo1pEE52Y=;
+  b=QxcSf6uqrvEUpI1GUBTu8waTOrdj2WeaoRvmkQiCZsOr8N5B2Z6pdCPg
+   k27LG8w4zPTSoUPk+fTg/iMPxjV57HFvdhG9nRFH52S8TW5TdL5M/VTyp
+   qt6F1XrTA6JztmpnyJ4kB9dawtERQHnoAVKPgSgEpFEH5qX9nR3s+sfVj
+   CEpLEYLdxdhteBNJ5QnJ23t4AM90hIt7ootxFK11OLPREaqHLuKRxSXFY
+   PLjbWIDqavkcYham4EpuOXDeG2MHvVvCQzJZVpas+oSYjvfnfe+Ni+7pA
+   6SFKePY6f5yHh1OhBDVet/Jw7kGYFP6huKzFEsZfLfc8EBPnNh0E+QHyd
+   Q==;
+X-CSE-ConnectionGUID: mRydMxHOSjKXO4mf35dttw==
+X-CSE-MsgGUID: AF01cABUS5SGIzxHXOwAIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64574031"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64574031"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 23:18:47 -0800
+X-CSE-ConnectionGUID: DzxOQ+JISfai/bMz2AiFow==
+X-CSE-MsgGUID: w0lzZzjtRIaz0DNcvPJqHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
-   d="scan'208";a="187270537"
+   d="scan'208";a="193006325"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 06 Nov 2025 22:54:45 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 06 Nov 2025 23:18:45 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHGMr-000Uos-21;
-	Fri, 07 Nov 2025 06:54:41 +0000
-Date: Fri, 7 Nov 2025 14:54:24 +0800
+	id 1vHGk7-000Upc-1X;
+	Fri, 07 Nov 2025 07:18:43 +0000
+Date: Fri, 7 Nov 2025 15:18:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/usb/qcom/mixer_usb_offload.c:154 snd_usb_offload_create_ctl()
- error: uninitialized symbol 'ret'.
-Message-ID: <202511071440.nFqObUzj-lkp@intel.com>
+Subject: Re: [PATCH 3/5] tracing: Have tracer option be instance specific
+Message-ID: <202511071533.domGENBS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,84 +63,81 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <20251105161935.545400234@kernel.org>
+References: <20251105161935.545400234@kernel.org>
+TO: Steven Rostedt <rostedt@goodmis.org>
+TO: linux-kernel@vger.kernel.org
+TO: linux-trace-kernel@vger.kernel.org
+CC: Masami Hiramatsu <mhiramat@kernel.org>
+CC: Mark Rutland <mark.rutland@arm.com>
+CC: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4a0c9b3391999818e2c5b93719699b255be1f682
-commit: a67656f011d18c58a1e5c6744ba7d6061b5bfd3b ALSA: usb-audio: qcom: Add USB offload route kcontrol
-date:   7 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 7 months ago
-config: arc-randconfig-r072-20251107 (https://download.01.org/0day-ci/archive/20251107/202511071440.nFqObUzj-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.3.0
+Hi Steven,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on trace/for-next]
+[cannot apply to linus/master v6.18-rc4 next-20251107]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Remove-dummy-options-and-flags/20251106-010511
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20251105161935.545400234%40kernel.org
+patch subject: [PATCH 3/5] tracing: Have tracer option be instance specific
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-r072-20251107 (https://download.01.org/0day-ci/archive/20251107/202511071533.domGENBS-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511071440.nFqObUzj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511071533.domGENBS-lkp@intel.com/
 
 smatch warnings:
-sound/usb/qcom/mixer_usb_offload.c:154 snd_usb_offload_create_ctl() error: uninitialized symbol 'ret'.
+kernel/trace/trace.c:6313 tracing_set_tracer() warn: iterator used outside loop: 't'
 
-vim +/ret +154 sound/usb/qcom/mixer_usb_offload.c
+vim +/t +6313 kernel/trace/trace.c
 
-a67656f011d18c Wesley Cheng 2025-04-09  100  
-a67656f011d18c Wesley Cheng 2025-04-09  101  /**
-a67656f011d18c Wesley Cheng 2025-04-09  102   * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
-a67656f011d18c Wesley Cheng 2025-04-09  103   * @chip: USB SND chip device
-a67656f011d18c Wesley Cheng 2025-04-09  104   * @bedev: Reference to USB backend DAI device
-a67656f011d18c Wesley Cheng 2025-04-09  105   *
-a67656f011d18c Wesley Cheng 2025-04-09  106   * Creates a sound control for a USB audio device, so that applications can
-a67656f011d18c Wesley Cheng 2025-04-09  107   * query for if there is an available USB audio offload path, and which
-a67656f011d18c Wesley Cheng 2025-04-09  108   * card is managing it.
-a67656f011d18c Wesley Cheng 2025-04-09  109   */
-a67656f011d18c Wesley Cheng 2025-04-09  110  int snd_usb_offload_create_ctl(struct snd_usb_audio *chip, struct device *bedev)
-a67656f011d18c Wesley Cheng 2025-04-09  111  {
-a67656f011d18c Wesley Cheng 2025-04-09  112  	struct snd_kcontrol_new *chip_kctl;
-a67656f011d18c Wesley Cheng 2025-04-09  113  	struct snd_usb_substream *subs;
-a67656f011d18c Wesley Cheng 2025-04-09  114  	struct snd_usb_stream *as;
-a67656f011d18c Wesley Cheng 2025-04-09  115  	char ctl_name[48];
-a67656f011d18c Wesley Cheng 2025-04-09  116  	int ret;
-a67656f011d18c Wesley Cheng 2025-04-09  117  
-a67656f011d18c Wesley Cheng 2025-04-09  118  	list_for_each_entry(as, &chip->pcm_list, list) {
-a67656f011d18c Wesley Cheng 2025-04-09  119  		subs = &as->substream[SNDRV_PCM_STREAM_PLAYBACK];
-a67656f011d18c Wesley Cheng 2025-04-09  120  		if (!subs->ep_num || as->pcm_index > 0xff)
-a67656f011d18c Wesley Cheng 2025-04-09  121  			continue;
-a67656f011d18c Wesley Cheng 2025-04-09  122  
-a67656f011d18c Wesley Cheng 2025-04-09  123  		chip_kctl = &snd_usb_offload_mapped_card_ctl;
-a67656f011d18c Wesley Cheng 2025-04-09  124  		chip_kctl->count = 1;
-a67656f011d18c Wesley Cheng 2025-04-09  125  		/*
-a67656f011d18c Wesley Cheng 2025-04-09  126  		 * Store the associated USB SND card number and PCM index for
-a67656f011d18c Wesley Cheng 2025-04-09  127  		 * the kctl.
-a67656f011d18c Wesley Cheng 2025-04-09  128  		 */
-a67656f011d18c Wesley Cheng 2025-04-09  129  		chip_kctl->private_value = as->pcm_index |
-a67656f011d18c Wesley Cheng 2025-04-09  130  					  chip->card->number << 16;
-a67656f011d18c Wesley Cheng 2025-04-09  131  		sprintf(ctl_name, "USB Offload Playback Card Route PCM#%d",
-a67656f011d18c Wesley Cheng 2025-04-09  132  			as->pcm_index);
-a67656f011d18c Wesley Cheng 2025-04-09  133  		chip_kctl->name = ctl_name;
-a67656f011d18c Wesley Cheng 2025-04-09  134  		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl, bedev));
-a67656f011d18c Wesley Cheng 2025-04-09  135  		if (ret < 0)
-a67656f011d18c Wesley Cheng 2025-04-09  136  			break;
-a67656f011d18c Wesley Cheng 2025-04-09  137  
-a67656f011d18c Wesley Cheng 2025-04-09  138  		chip_kctl = &snd_usb_offload_mapped_pcm_ctl;
-a67656f011d18c Wesley Cheng 2025-04-09  139  		chip_kctl->count = 1;
-a67656f011d18c Wesley Cheng 2025-04-09  140  		/*
-a67656f011d18c Wesley Cheng 2025-04-09  141  		 * Store the associated USB SND card number and PCM index for
-a67656f011d18c Wesley Cheng 2025-04-09  142  		 * the kctl.
-a67656f011d18c Wesley Cheng 2025-04-09  143  		 */
-a67656f011d18c Wesley Cheng 2025-04-09  144  		chip_kctl->private_value = as->pcm_index |
-a67656f011d18c Wesley Cheng 2025-04-09  145  					  chip->card->number << 16;
-a67656f011d18c Wesley Cheng 2025-04-09  146  		sprintf(ctl_name, "USB Offload Playback PCM Route PCM#%d",
-a67656f011d18c Wesley Cheng 2025-04-09  147  			as->pcm_index);
-a67656f011d18c Wesley Cheng 2025-04-09  148  		chip_kctl->name = ctl_name;
-a67656f011d18c Wesley Cheng 2025-04-09  149  		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl, bedev));
-a67656f011d18c Wesley Cheng 2025-04-09  150  		if (ret < 0)
-a67656f011d18c Wesley Cheng 2025-04-09  151  			break;
-a67656f011d18c Wesley Cheng 2025-04-09  152  	}
-a67656f011d18c Wesley Cheng 2025-04-09  153  
-a67656f011d18c Wesley Cheng 2025-04-09 @154  	return ret;
+ef9188bcc6ca1d8 Mark-PK Tsai             2022-04-26  6284  
+9c5b9d3d65e4858 Masami Hiramatsu         2020-01-11  6285  int tracing_set_tracer(struct trace_array *tr, const char *buf)
+09d23a1d8a82e81 Steven Rostedt (Red Hat  2015-02-03  6286) {
+4699bbb369ba1d3 Steven Rostedt           2025-11-05  6287  	struct tracer *trace;
+4699bbb369ba1d3 Steven Rostedt           2025-11-05  6288  	struct tracers *t;
+12883efb670c28d Steven Rostedt (Red Hat  2013-03-05  6289) #ifdef CONFIG_TRACER_MAX_TRACE
+34600f0e9c33c9c Steven Rostedt           2013-01-22  6290  	bool had_max_tr;
+12883efb670c28d Steven Rostedt (Red Hat  2013-03-05  6291) #endif
+d33b10c0c73adca Steven Rostedt           2024-12-24  6292  	int ret;
+bc0c38d139ec7fc Steven Rostedt           2008-05-12  6293  
+d33b10c0c73adca Steven Rostedt           2024-12-24  6294  	guard(mutex)(&trace_types_lock);
+1027fcb206a0fb8 Steven Rostedt           2009-03-12  6295  
+7a1d1e4b9639ff0 Steven Rostedt (Google   2024-06-12  6296) 	update_last_data(tr);
+7a1d1e4b9639ff0 Steven Rostedt (Google   2024-06-12  6297) 
+a1f157c7a3bb342 Zheng Yejian             2023-09-06  6298  	if (!tr->ring_buffer_expanded) {
+2b6080f28c7cc3e Steven Rostedt           2012-05-11  6299  		ret = __tracing_resize_ring_buffer(tr, trace_buf_size,
+438ced1720b5840 Vaibhav Nagarnaik        2012-02-02  6300  						RING_BUFFER_ALL_CPUS);
+73c5162aa362a54 Steven Rostedt           2009-03-11  6301  		if (ret < 0)
+d33b10c0c73adca Steven Rostedt           2024-12-24  6302  			return ret;
+73c5162aa362a54 Steven Rostedt           2009-03-11  6303  		ret = 0;
+73c5162aa362a54 Steven Rostedt           2009-03-11  6304  	}
+73c5162aa362a54 Steven Rostedt           2009-03-11  6305  
+4699bbb369ba1d3 Steven Rostedt           2025-11-05  6306  	list_for_each_entry(t, &tr->tracers, list) {
+4699bbb369ba1d3 Steven Rostedt           2025-11-05  6307  		if (strcmp(t->tracer->name, buf) == 0)
+bc0c38d139ec7fc Steven Rostedt           2008-05-12  6308  			break;
+bc0c38d139ec7fc Steven Rostedt           2008-05-12  6309  	}
+d33b10c0c73adca Steven Rostedt           2024-12-24  6310  	if (!t)
+d33b10c0c73adca Steven Rostedt           2024-12-24  6311  		return -EINVAL;
+d33b10c0c73adca Steven Rostedt           2024-12-24  6312  
+4699bbb369ba1d3 Steven Rostedt           2025-11-05 @6313  	if (t->tracer == tr->current_trace)
+d33b10c0c73adca Steven Rostedt           2024-12-24  6314  		return 0;
+bc0c38d139ec7fc Steven Rostedt           2008-05-12  6315  
+4699bbb369ba1d3 Steven Rostedt           2025-11-05  6316  	trace = t->tracer;
+4699bbb369ba1d3 Steven Rostedt           2025-11-05  6317  
 
 -- 
 0-DAY CI Kernel Test Service
