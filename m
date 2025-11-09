@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D55D171C9
-	for <oe-kbuild@lists.linux.dev>; Sun,  9 Nov 2025 14:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3642D6400
+	for <oe-kbuild@lists.linux.dev>; Sun,  9 Nov 2025 15:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762698777; cv=none; b=ZKy7Fu/v1Wu9QAPVRvtLfuDBFYQoJNQszceqwg7VhM2MmxRsCBBA7DbP9UZyVx7gTFjKXr5ZZVYPO1s8fECChq+uAudS3w5rERl0P3I0joXx8jZ9dIiBEy4n2vLTHHEyZY59Ig86cQfwIK7E8VJlx0lcAGUtDRE4HvnKxMT7Vmo=
+	t=1762700640; cv=none; b=iK20YK6K9EKGda9lleV4jVYZulR8IP+sGJklPBROKppij5OTgOPHElRvjohFgv1eNUCUAznQoKGXUuShBxGRwG4sj3xcDVH5W2alMV8r4q+rxhx+HiI6EQc+w0cPHRYf/3PFmTZ+Cq+FdNCvR6CxUmkPjOjJu4CFaCvEvbfJT3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762698777; c=relaxed/simple;
-	bh=kFaAlWkx/Pf3O80GyPTKcb2pKgguBGw11uxhmbYiSxE=;
+	s=arc-20240116; t=1762700640; c=relaxed/simple;
+	bh=CEdha+MsJ7O+s+14RRBx9O5D5tNI7D3vK8GI3xMD99M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=orHZL/8X+C3QSagmlJyJrEMBwgd8Lr/02WkKmyouXHDm5etTWPyvabFXA64UfjFuuGcs1T6Jo2UTTLCaTdp44trhHBMc/Ak9AO75+Uc1y5UZIXY2umv4YQ5bC+wFLoTUpSjq5Fdo3cBaMfJH10k4NVg3bxXU2bc04XZ/31ntczQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TlFpdMfu; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=UTUpHFvkwyJ1EkxP8AgYxrheiyrhEBBBCA1pfBl4ow3KLExDQQhdGR08IGbyThh72nMdj6oKDvpn7LY6l2df6gwRTI8Ur4BDKe/8h/6LOIFk4NOiV6vvLB3tqtHvx1QNdCbjXnamleoXxhundOZ2F2VqS0lIKtqvl4MmOlHEHsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EtBbac0w; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TlFpdMfu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EtBbac0w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762698776; x=1794234776;
+  t=1762700639; x=1794236639;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kFaAlWkx/Pf3O80GyPTKcb2pKgguBGw11uxhmbYiSxE=;
-  b=TlFpdMfuIGz+plpcj2W8y6y0vHsSGAUwmM6TNodVIiHDR0PHkOee0gY0
-   cSSkS/i3hZl2cn3VHg4GSoscS4916zVcm3W2zabWpj5q22nAmiziTYzfT
-   JKWOYFbAKTob/VDU8au9gg8+MjzMVufKcAy1Tr3ts1v3tvkTNdDzOVGZB
-   hfsUionUr9C960pjk3NF7CiWirvtwR96VdB4rAnaZGJNgvtU8mWY6YZwy
-   c7T61jfqDliubHZkgL4O10h+FRnhy4HteBx07kOS2XiqfbsYyewW+7802
-   Kio8ehRfJ9bOGIQDEGeWl3aWKnnX+lgCqJFkIxJ8NnXijvp1LMSxfcFnX
-   w==;
-X-CSE-ConnectionGUID: Kd+vWpDmRASSw7PmWaCvTQ==
-X-CSE-MsgGUID: MyP5zlY5SPSivch7IfPC2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11607"; a="82169814"
+  bh=CEdha+MsJ7O+s+14RRBx9O5D5tNI7D3vK8GI3xMD99M=;
+  b=EtBbac0wIK9tCBQ8XaAWJPSmF1oUByc4glIJIcczMRkMnYU5pZ7OUluB
+   OCFdDIY1tIwxj3umaJQuWANU2mc2eN0uYtbM4QN9AxcMbixrLFXYHnFqF
+   A2sIDOX5GK5JHlHHpow1AhfC0ioAvYy/TlrWH90yayc15TGTE1adP0e7y
+   IZJvXpusMNx/9JEgJp0R+a+3taG07Rix1/3qAl51FdIMcMcTI3Mj9/+99
+   qVwtSn2NR+aRbxw80hsQaM4dS7I3BZbRFA1ghh939G2dtw3NNqKfcAKEH
+   RROg3tfGQcikDnq8ty5h/50Sy4P/9vy0IVlhstO1TaGX+qulhQ3BMwSrs
+   A==;
+X-CSE-ConnectionGUID: 5eh7zfUtSMuwpGjbEgqtxA==
+X-CSE-MsgGUID: IFPiHyXtT1qt5UX6zpfBkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="64472580"
 X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
-   d="scan'208";a="82169814"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 06:32:56 -0800
-X-CSE-ConnectionGUID: bYxfD5YSTQe7WrIPq5CQuQ==
-X-CSE-MsgGUID: vkt45GPDTFWv73KRd8dDYQ==
+   d="scan'208";a="64472580"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 07:03:59 -0800
+X-CSE-ConnectionGUID: tbMX6SuwRHKnOnYoBW8osw==
+X-CSE-MsgGUID: qd9IrQ7BQTOBePprsQnFNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
-   d="scan'208";a="193484383"
+   d="scan'208";a="187724519"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Nov 2025 06:32:53 -0800
+  by orviesa006.jf.intel.com with ESMTP; 09 Nov 2025 07:03:57 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vI6TL-00024B-2T;
-	Sun, 09 Nov 2025 14:32:51 +0000
-Date: Sun, 9 Nov 2025 22:32:03 +0800
+	id 1vI6xO-00025H-36;
+	Sun, 09 Nov 2025 15:03:54 +0000
+Date: Sun, 9 Nov 2025 23:03:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/clk/zynqmp/divider.c:140 zynqmp_clk_divider_determine_rate()
- error: uninitialized symbol 'bestdiv'.
-Message-ID: <202511092201.t8NglRub-lkp@intel.com>
+Subject: [pci:controller/dwc 4/4]
+ drivers/pci/controller/dwc/pcie-designware-host.c:1178
+ dw_pcie_suspend_noirq() error: uninitialized symbol 'ret'.
+Message-ID: <202511092213.AlpOPvkg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,92 +65,88 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Brian Masney <bmasney@redhat.com>
+CC: linux-pci@vger.kernel.org
+TO: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   439fc29dfd3b9c072dfff292d91cfa2f6cfb702b
-commit: 0f9cf96a01fd8cb690292a5c24fbfda5c6dd47b2 clk: zynqmp: divider: convert from round_rate() to determine_rate()
-date:   9 weeks ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 9 weeks ago
-config: arm64-randconfig-r072-20251109 (https://download.01.org/0day-ci/archive/20251109/202511092201.t8NglRub-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b9ea93cd5c37fb6d606502fd01208dd48330549d)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/dwc
+head:   e8fe6b3413a1b92b4bc0f0182ea4b49ee369541b
+commit: e8fe6b3413a1b92b4bc0f0182ea4b49ee369541b [4/4] PCI: dwc: Check for the device presence during suspend and resume
+:::::: branch date: 29 hours ago
+:::::: commit date: 29 hours ago
+config: x86_64-randconfig-161-20251109 (https://download.01.org/0day-ci/archive/20251109/202511092213.AlpOPvkg-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511092201.t8NglRub-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511092213.AlpOPvkg-lkp@intel.com/
 
-New smatch warnings:
-drivers/clk/zynqmp/divider.c:140 zynqmp_clk_divider_determine_rate() error: uninitialized symbol 'bestdiv'.
+smatch warnings:
+drivers/pci/controller/dwc/pcie-designware-host.c:1178 dw_pcie_suspend_noirq() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-drivers/clk/zynqmp/divider.c:96 zynqmp_clk_divider_recalc_rate() error: uninitialized symbol 'div'.
-drivers/clk/zynqmp/divider.c:98 zynqmp_clk_divider_recalc_rate() error: uninitialized symbol 'div'.
-drivers/clk/zynqmp/divider.c:142 zynqmp_clk_divider_determine_rate() error: uninitialized symbol 'bestdiv'.
+vim +/ret +1178 drivers/pci/controller/dwc/pcie-designware-host.c
 
-vim +/bestdiv +140 drivers/clk/zynqmp/divider.c
+e1a4ec1a9520bf Frank Li              2024-04-18  1128  
+4774faf854f534 Frank Li              2023-08-21  1129  int dw_pcie_suspend_noirq(struct dw_pcie *pci)
+4774faf854f534 Frank Li              2023-08-21  1130  {
+4774faf854f534 Frank Li              2023-08-21  1131  	u8 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
+4774faf854f534 Frank Li              2023-08-21  1132  	u32 val;
+112aba9a79345a Richard Zhu           2024-12-10  1133  	int ret;
+4774faf854f534 Frank Li              2023-08-21  1134  
+e8fe6b3413a1b9 Manivannan Sadhasivam 2025-11-07  1135  	if (!pci_root_ports_have_device(pci->pp.bridge->bus))
+e8fe6b3413a1b9 Manivannan Sadhasivam 2025-11-07  1136  		goto stop_link;
+e8fe6b3413a1b9 Manivannan Sadhasivam 2025-11-07  1137  
+4774faf854f534 Frank Li              2023-08-21  1138  	/*
+4774faf854f534 Frank Li              2023-08-21  1139  	 * If L1SS is supported, then do not put the link into L2 as some
+4774faf854f534 Frank Li              2023-08-21  1140  	 * devices such as NVMe expect low resume latency.
+4774faf854f534 Frank Li              2023-08-21  1141  	 */
+4774faf854f534 Frank Li              2023-08-21  1142  	if (dw_pcie_readw_dbi(pci, offset + PCI_EXP_LNKCTL) & PCI_EXP_LNKCTL_ASPM_L1)
+4774faf854f534 Frank Li              2023-08-21  1143  		return 0;
+4774faf854f534 Frank Li              2023-08-21  1144  
+112aba9a79345a Richard Zhu           2024-12-10  1145  	if (pci->pp.ops->pme_turn_off) {
+4774faf854f534 Frank Li              2023-08-21  1146  		pci->pp.ops->pme_turn_off(&pci->pp);
+112aba9a79345a Richard Zhu           2024-12-10  1147  	} else {
+e1a4ec1a9520bf Frank Li              2024-04-18  1148  		ret = dw_pcie_pme_turn_off(pci);
+e1a4ec1a9520bf Frank Li              2024-04-18  1149  		if (ret)
+e1a4ec1a9520bf Frank Li              2024-04-18  1150  			return ret;
+112aba9a79345a Richard Zhu           2024-12-10  1151  	}
+4774faf854f534 Frank Li              2023-08-21  1152  
+112aba9a79345a Richard Zhu           2024-12-10  1153  	ret = read_poll_timeout(dw_pcie_get_ltssm, val,
+112aba9a79345a Richard Zhu           2024-12-10  1154  				val == DW_PCIE_LTSSM_L2_IDLE ||
+112aba9a79345a Richard Zhu           2024-12-10  1155  				val <= DW_PCIE_LTSSM_DETECT_WAIT,
+4774faf854f534 Frank Li              2023-08-21  1156  				PCIE_PME_TO_L2_TIMEOUT_US/10,
+4774faf854f534 Frank Li              2023-08-21  1157  				PCIE_PME_TO_L2_TIMEOUT_US, false, pci);
+4774faf854f534 Frank Li              2023-08-21  1158  	if (ret) {
+112aba9a79345a Richard Zhu           2024-12-10  1159  		/* Only log message when LTSSM isn't in DETECT or POLL */
+4774faf854f534 Frank Li              2023-08-21  1160  		dev_err(pci->dev, "Timeout waiting for L2 entry! LTSSM: 0x%x\n", val);
+4774faf854f534 Frank Li              2023-08-21  1161  		return ret;
+4774faf854f534 Frank Li              2023-08-21  1162  	}
+4774faf854f534 Frank Li              2023-08-21  1163  
+112aba9a79345a Richard Zhu           2024-12-10  1164  	/*
+112aba9a79345a Richard Zhu           2024-12-10  1165  	 * Per PCIe r6.0, sec 5.3.3.2.1, software should wait at least
+112aba9a79345a Richard Zhu           2024-12-10  1166  	 * 100ns after L2/L3 Ready before turning off refclock and
+112aba9a79345a Richard Zhu           2024-12-10  1167  	 * main power. This is harmless when no endpoint is connected.
+112aba9a79345a Richard Zhu           2024-12-10  1168  	 */
+112aba9a79345a Richard Zhu           2024-12-10  1169  	udelay(1);
+112aba9a79345a Richard Zhu           2024-12-10  1170  
+e8fe6b3413a1b9 Manivannan Sadhasivam 2025-11-07  1171  stop_link:
+86a016e278b78c Richard Zhu           2024-12-10  1172  	dw_pcie_stop_link(pci);
+aea370b2aec9d3 Yoshihiro Shimoda     2023-12-20  1173  	if (pci->pp.ops->deinit)
+aea370b2aec9d3 Yoshihiro Shimoda     2023-12-20  1174  		pci->pp.ops->deinit(&pci->pp);
+4774faf854f534 Frank Li              2023-08-21  1175  
+4774faf854f534 Frank Li              2023-08-21  1176  	pci->suspended = true;
+4774faf854f534 Frank Li              2023-08-21  1177  
+4774faf854f534 Frank Li              2023-08-21 @1178  	return ret;
+4774faf854f534 Frank Li              2023-08-21  1179  }
+4774faf854f534 Frank Li              2023-08-21  1180  EXPORT_SYMBOL_GPL(dw_pcie_suspend_noirq);
+4774faf854f534 Frank Li              2023-08-21  1181  
 
-3fde0e16d016ec Jolly Shah       2018-10-08  112  
-3fde0e16d016ec Jolly Shah       2018-10-08  113  /**
-3fde0e16d016ec Jolly Shah       2018-10-08  114   * zynqmp_clk_divider_round_rate() - Round rate of divider clock
-3fde0e16d016ec Jolly Shah       2018-10-08  115   * @hw:			handle between common and hardware-specific interfaces
-3fde0e16d016ec Jolly Shah       2018-10-08  116   * @rate:		rate of clock to be set
-3fde0e16d016ec Jolly Shah       2018-10-08  117   * @prate:		rate of parent clock
-3fde0e16d016ec Jolly Shah       2018-10-08  118   *
-3fde0e16d016ec Jolly Shah       2018-10-08  119   * Return: 0 on success else error+reason
-3fde0e16d016ec Jolly Shah       2018-10-08  120   */
-0f9cf96a01fd8c Brian Masney     2025-08-28  121  static int zynqmp_clk_divider_determine_rate(struct clk_hw *hw,
-0f9cf96a01fd8c Brian Masney     2025-08-28  122  					     struct clk_rate_request *req)
-3fde0e16d016ec Jolly Shah       2018-10-08  123  {
-3fde0e16d016ec Jolly Shah       2018-10-08  124  	struct zynqmp_clk_divider *divider = to_zynqmp_clk_divider(hw);
-3fde0e16d016ec Jolly Shah       2018-10-08  125  	const char *clk_name = clk_hw_get_name(hw);
-3fde0e16d016ec Jolly Shah       2018-10-08  126  	u32 clk_id = divider->clk_id;
-3fde0e16d016ec Jolly Shah       2018-10-08  127  	u32 div_type = divider->div_type;
-3fde0e16d016ec Jolly Shah       2018-10-08  128  	u32 bestdiv;
-3fde0e16d016ec Jolly Shah       2018-10-08  129  	int ret;
-1fe15be1fb6135 Jay Buddhabhatti 2023-11-29  130  	u8 width;
-3fde0e16d016ec Jolly Shah       2018-10-08  131  
-3fde0e16d016ec Jolly Shah       2018-10-08  132  	/* if read only, just return current value */
-3fde0e16d016ec Jolly Shah       2018-10-08  133  	if (divider->flags & CLK_DIVIDER_READ_ONLY) {
-0667a8d144bc83 Rajan Vaja       2020-04-24  134  		ret = zynqmp_pm_clock_getdivider(clk_id, &bestdiv);
-3fde0e16d016ec Jolly Shah       2018-10-08  135  
-3fde0e16d016ec Jolly Shah       2018-10-08  136  		if (ret)
-4917394e0c765e Michael Tretter  2022-01-19  137  			pr_debug("%s() get divider failed for %s, ret = %d\n",
-3fde0e16d016ec Jolly Shah       2018-10-08  138  				 __func__, clk_name, ret);
-3fde0e16d016ec Jolly Shah       2018-10-08  139  		if (div_type == TYPE_DIV1)
-3fde0e16d016ec Jolly Shah       2018-10-08 @140  			bestdiv = bestdiv & 0xFFFF;
-3fde0e16d016ec Jolly Shah       2018-10-08  141  		else
-3fde0e16d016ec Jolly Shah       2018-10-08  142  			bestdiv  = bestdiv >> 16;
-3fde0e16d016ec Jolly Shah       2018-10-08  143  
-34bbe036170785 Tejas Patel      2019-12-04  144  		if (divider->flags & CLK_DIVIDER_POWER_OF_TWO)
-34bbe036170785 Tejas Patel      2019-12-04  145  			bestdiv = 1 << bestdiv;
-34bbe036170785 Tejas Patel      2019-12-04  146  
-0f9cf96a01fd8c Brian Masney     2025-08-28  147  		req->rate = DIV_ROUND_UP_ULL((u64)req->best_parent_rate, bestdiv);
-0f9cf96a01fd8c Brian Masney     2025-08-28  148  
-0f9cf96a01fd8c Brian Masney     2025-08-28  149  		return 0;
-3fde0e16d016ec Jolly Shah       2018-10-08  150  	}
-3fde0e16d016ec Jolly Shah       2018-10-08  151  
-1fe15be1fb6135 Jay Buddhabhatti 2023-11-29  152  	width = fls(divider->max_div);
-4ebd92d2e228ce Rajan Vaja       2019-12-04  153  
-0f9cf96a01fd8c Brian Masney     2025-08-28  154  	req->rate = divider_round_rate(hw, req->rate, &req->best_parent_rate,
-0f9cf96a01fd8c Brian Masney     2025-08-28  155  				       NULL, width, divider->flags);
-0541e0217ac8da Rajan Vaja       2020-03-02  156  
-0f9cf96a01fd8c Brian Masney     2025-08-28  157  	if (divider->is_frac && (clk_hw_get_flags(hw) & CLK_SET_RATE_PARENT) &&
-0f9cf96a01fd8c Brian Masney     2025-08-28  158  	    (req->rate % req->best_parent_rate))
-0f9cf96a01fd8c Brian Masney     2025-08-28  159  		req->best_parent_rate = req->rate;
-3fde0e16d016ec Jolly Shah       2018-10-08  160  
-0f9cf96a01fd8c Brian Masney     2025-08-28  161  	return 0;
-3fde0e16d016ec Jolly Shah       2018-10-08  162  }
-3fde0e16d016ec Jolly Shah       2018-10-08  163  
+:::::: The code at line 1178 was first introduced by commit
+:::::: 4774faf854f53461fd22daa73f3881fe11b6b755 PCI: dwc: Implement generic suspend/resume functionality
 
-:::::: The code at line 140 was first introduced by commit
-:::::: 3fde0e16d016ecb273f0fa404b5d56b947fc0576 drivers: clk: Add ZynqMP clock driver
-
-:::::: TO: Jolly Shah <jolly.shah@xilinx.com>
-:::::: CC: Michal Simek <michal.simek@xilinx.com>
+:::::: TO: Frank Li <Frank.Li@nxp.com>
+:::::: CC: Lorenzo Pieralisi <lpieralisi@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
