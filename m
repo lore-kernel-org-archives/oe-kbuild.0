@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D2130103F
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Nov 2025 23:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF8814F9FB
+	for <oe-kbuild@lists.linux.dev>; Sun,  9 Nov 2025 00:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762557040; cv=none; b=Zc2oC2LBJcnIleRywnv16ifje2exP9+2NA9rToIWN1/aI2Etq+kaDs/YNTlbeeDEiOIsFSFw1vm4jpb1qNnWea9ot1FM5sGB3ougGkYsw04uZFvYTpB66TTgXQegBHpECwXd0QWJoJjWPXqg1T+4dvzYdt9YOejJ7N3BvSsoFBo=
+	t=1762647310; cv=none; b=R+pN4dohxzPa86sBj3h1fkdIMY34h1I771Iu4iaYuOPi+mmOhyzmwlt4V5z8n6iJg25tCpj1JH8ih2KeCLLDcFudXz58JaQndNZgJfaVRj274Vy62IsT2nGpZkHwkS0Rtzb6TfzxXIHKGtzVfZ0YzG4jT7i6giq33kupxPzPLhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762557040; c=relaxed/simple;
-	bh=eChjeKM+LeynRWGEchNlGD2lC6YweyTx9IO6SQQ+A3Q=;
+	s=arc-20240116; t=1762647310; c=relaxed/simple;
+	bh=D/5vboyFdKcVoqt864gwxxvSF6/ywg+jc+IzxzqMoWw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eHD9Fa17vMslhr+iR5o+BXtgMQ9FZFmF+qjrumlGS9WAZ7yEx7p2SvhfwqhyHHWnzhZCOnxk//FqtrOwMwOl9tB03uOp4rBwZ644TGviNgv82NHtnL+F673HAKZfICXUOqr/dmX+VYosiu3Ib6sTclt+GXOEWVV4bAMKqFtTLVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T4SFucU8; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=T+RYeZeswdDi+vTP2Xq2v2OBeYa63ix6U4onG5nCgRZDt1XO8xVYUxVOR8R8x2GU6pTlYkCzSYrrYnbX0UuBsW+7tTGwxN0QlVHH9siyQCBHYRIUzp4kw8S7yh51RORANijZCtiC9N68DriXEbYgsdymPm7lr2GtV0Lf2kZKUcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CeS9q5NR; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T4SFucU8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CeS9q5NR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762557038; x=1794093038;
+  t=1762647307; x=1794183307;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eChjeKM+LeynRWGEchNlGD2lC6YweyTx9IO6SQQ+A3Q=;
-  b=T4SFucU8Gc9OejgFWTEqt+EcBbKrgtImAUFHE0kSd+UNEuTvD+9DZv0+
-   2vXRycp8lMGciWAukvM3Q+Q5zJ+IptHVsv+G06ZT6VU21WFqgrsRIBGPH
-   3WMPjny4jTBWFyRvNGhmriQDqVqpz0G9shgwRtmZBQDSgHjkJgOSnVqJx
-   YTpD2tLpaxpEKQ/7KjXJe1lWEpCsyAXxru6CCMI8YZrr8ym3cKj4peekh
-   J+dY5SpYDJSE6bl5EN3RY/XhD79EZ8rgJ962msk+pUBAyWcCX8bDZTWjG
-   SggNbbIYuaHuQ3CfJjgz0hFDgfhgQIpLJT/UIxR/+haNeVmQ+mrb5ucmo
-   Q==;
-X-CSE-ConnectionGUID: XFnHF9o2TjCB3s46j35EeQ==
-X-CSE-MsgGUID: EwllcakqTgmVNSXoTD8a3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="64409657"
-X-IronPort-AV: E=Sophos;i="6.19,288,1754982000"; 
-   d="scan'208";a="64409657"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 15:10:38 -0800
-X-CSE-ConnectionGUID: McGn9HtdTo+7vveZSbN93Q==
-X-CSE-MsgGUID: JFEMw5ZxSOyFwpBZi6HcXg==
+  bh=D/5vboyFdKcVoqt864gwxxvSF6/ywg+jc+IzxzqMoWw=;
+  b=CeS9q5NRRYPnofvZR3KnzYpQUGQ2kSQxtc7MrWy7vbdbUNdOQ1MXyb1o
+   YdZLkRefWMSf9922IpTKe6y0iC+IEIOlv9RbtoscatcT0Ri2ARMjMEN8a
+   qt8s8kgGWDXPAe5Uk/TuarJ8usDt0T93nmmj0rkey5b5b34xTuYSw+QJm
+   E5vUnpraXB49Mo4blJqUCtMwg7DJzMsoXAtm0gMi85mG2bJ8sbMtNEScF
+   XrDxP+LnvdtMi5iOEH7DK9evUNmfNTHEBPbLy62Jexm9MSeglTxc15v8t
+   qVv7BlHKh10oXfRI9vvRxJ/FrBHDWIjLvsrAap1cEDKhToYwAx/6AClfo
+   g==;
+X-CSE-ConnectionGUID: S1t47j5bTFyzv1NcT22ISw==
+X-CSE-MsgGUID: 5c3/s5O0RZmplV0Zgowwlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11607"; a="52312189"
+X-IronPort-AV: E=Sophos;i="6.19,290,1754982000"; 
+   d="scan'208";a="52312189"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2025 16:15:06 -0800
+X-CSE-ConnectionGUID: lw47x/E8QwuLnqriPtjYZw==
+X-CSE-MsgGUID: L3dSFpGgT+mmGvB1alfCvA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,290,1754982000"; 
+   d="scan'208";a="193531076"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Nov 2025 15:10:35 -0800
+  by orviesa005.jf.intel.com with ESMTP; 08 Nov 2025 16:15:05 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHVbF-0000S7-1m;
-	Fri, 07 Nov 2025 23:10:33 +0000
-Date: Sat, 8 Nov 2025 07:09:56 +0800
+	id 1vHt5D-0001be-0t;
+	Sun, 09 Nov 2025 00:15:03 +0000
+Date: Sun, 9 Nov 2025 08:15:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [koverstreet-bcachefs:bcachefs-testing 738/769]
- fs/bcachefs/init/recovery.c:687 __bch2_fs_recovery() warn: variable
- dereferenced before check 'clean' (see line 619)
-Message-ID: <202511080726.p1M7HLaN-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [openeuler:OLK-6.6 3124/3124] arch/loongarch/kernel/efi.c:220:22:
+ sparse: sparse: unsigned value that used to be signed checked against zero?
+Message-ID: <202511090850.eZ2zNZPj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,325 +62,183 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: arch/loongarch/kernel/efi.c:220:22: sparse: sparse: unsigned value that used to be signed checked against zero?"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+TO: kernel@openeuler.org
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   b03e9e378570732f3d301bcf3be415010f3d2888
-commit: 4f8305ce7dfa6f1c5aee499b7e0c6778f34f2750 [738/769] bcachefs: bch2_fs_recovery() -> try()
-:::::: branch date: 7 hours ago
-:::::: commit date: 24 hours ago
-config: openrisc-randconfig-r073-20251108 (https://download.01.org/0day-ci/archive/20251108/202511080726.p1M7HLaN-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 10.5.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   66984acf4b16f28a2cc0d5d6186b4b6bbfd92e26
+commit: 221e2e8bdbb851a519df0bac5a44298dae2b4612 [3124/3124] LoongArch: add kernel setvirtmap for runtime
+:::::: branch date: 2 days ago
+:::::: commit date: 1 year, 11 months ago
+config: loongarch-randconfig-r134-20251108 (https://download.01.org/0day-ci/archive/20251109/202511090850.eZ2zNZPj-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d78e0ded5215824a63ac04fb87effd9eacf875eb)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251109/202511090850.eZ2zNZPj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511080726.p1M7HLaN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511090850.eZ2zNZPj-lkp@intel.com/
 
-smatch warnings:
-fs/bcachefs/init/recovery.c:687 __bch2_fs_recovery() warn: variable dereferenced before check 'clean' (see line 619)
+sparse warnings: (new ones prefixed by >>)
+   arch/loongarch/kernel/efi.c:98:9: sparse: sparse: undefined identifier '__builtin_loongarch_csrwr_d'
+   arch/loongarch/kernel/efi.c:98:9: sparse: sparse: cast from unknown type
+   arch/loongarch/kernel/efi.c:153:9: sparse: sparse: undefined identifier '__builtin_loongarch_csrwr_d'
+   arch/loongarch/kernel/efi.c:153:9: sparse: sparse: cast from unknown type
+>> arch/loongarch/kernel/efi.c:220:22: sparse: sparse: unsigned value that used to be signed checked against zero?
+   arch/loongarch/kernel/efi.c:219:33: sparse: signed value source
 
-vim +/clean +687 fs/bcachefs/init/recovery.c
+vim +220 arch/loongarch/kernel/efi.c
 
-1c6fdbd8f2465d fs/bcachefs/recovery.c      Kent Overstreet 2017-03-16  609  
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  610  static int __bch2_fs_recovery(struct bch_fs *c)
-1c6fdbd8f2465d fs/bcachefs/recovery.c      Kent Overstreet 2017-03-16  611  {
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  612  	struct bch_sb_field_clean *clean __free(kfree) = NULL;
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  613  	struct journal_start_info journal_start = {};
-4932e07ea04bcc fs/bcachefs/recovery.c      Kent Overstreet 2021-04-24  614  	int ret = 0;
-1c6fdbd8f2465d fs/bcachefs/recovery.c      Kent Overstreet 2017-03-16  615  
-a37ad1a3aba957 fs/bcachefs/recovery.c      Kent Overstreet 2023-08-05  616  	if (c->sb.clean) {
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  617  		clean = errptr_try(bch2_read_superblock_clean(c));
-1dd7f9d98de074 fs/bcachefs/recovery.c      Kent Overstreet 2019-04-04  618  
-1c6fdbd8f2465d fs/bcachefs/recovery.c      Kent Overstreet 2017-03-16 @619  		bch_info(c, "recovering from clean shutdown, journal seq %llu",
-1c6fdbd8f2465d fs/bcachefs/recovery.c      Kent Overstreet 2017-03-16  620  			 le64_to_cpu(clean->journal_seq));
-8e7d3f6a43f5c9 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-02  621  
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  622  		try(bch2_sb_journal_sort(c));
-a37ad1a3aba957 fs/bcachefs/recovery.c      Kent Overstreet 2023-08-05  623  	} else {
-0a84a066f9a145 fs/bcachefs/recovery.c      Kent Overstreet 2021-11-15  624  		bch_info(c, "recovering from unclean shutdown");
-a37ad1a3aba957 fs/bcachefs/recovery.c      Kent Overstreet 2023-08-05  625  	}
-1c6fdbd8f2465d fs/bcachefs/recovery.c      Kent Overstreet 2017-03-16  626  
-45150765d307c1 fs/bcachefs/recovery.c      Kent Overstreet 2024-04-26  627  	bch2_journal_pos_from_member_info_resume(c);
-45150765d307c1 fs/bcachefs/recovery.c      Kent Overstreet 2024-04-26  628  
-4dcd90b6d1b76b fs/bcachefs/recovery.c      Kent Overstreet 2024-03-30  629  	if (!c->sb.clean || c->opts.retain_recovery_info) {
-ce6201c456571d fs/bcachefs/recovery.c      Kent Overstreet 2022-03-21  630  		struct genradix_iter iter;
-ce6201c456571d fs/bcachefs/recovery.c      Kent Overstreet 2022-03-21  631  		struct journal_replay **i;
-1dd7f9d98de074 fs/bcachefs/recovery.c      Kent Overstreet 2019-04-04  632  
-365f64f36c55b7 fs/bcachefs/recovery.c      Kent Overstreet 2022-01-04  633  		bch_verbose(c, "starting journal read");
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  634  		try(bch2_journal_read(c, &journal_start));
-1c6fdbd8f2465d fs/bcachefs/recovery.c      Kent Overstreet 2017-03-16  635  
-e0de429a3ab5f9 fs/bcachefs/recovery.c      Kent Overstreet 2022-12-01  636  		/*
-e0de429a3ab5f9 fs/bcachefs/recovery.c      Kent Overstreet 2022-12-01  637  		 * note: cmd_list_journal needs the blacklist table fully up to date so
-e0de429a3ab5f9 fs/bcachefs/recovery.c      Kent Overstreet 2022-12-01  638  		 * it can asterisk ignored journal entries:
-e0de429a3ab5f9 fs/bcachefs/recovery.c      Kent Overstreet 2022-12-01  639  		 */
-e0de429a3ab5f9 fs/bcachefs/recovery.c      Kent Overstreet 2022-12-01  640  		if (c->opts.read_journal_only)
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  641  			return 0;
-e0de429a3ab5f9 fs/bcachefs/recovery.c      Kent Overstreet 2022-12-01  642  
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  643  		if (mustfix_fsck_err_on(c->sb.clean && !journal_start.clean,
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  644  					c, clean_but_journal_not_empty,
-932aa837453ada fs/bcachefs/recovery.c      Kent Overstreet 2019-03-11  645  					"filesystem marked clean but journal not empty")) {
-19dd3172b0002a fs/bcachefs/recovery.c      Kent Overstreet 2021-04-04  646  			c->sb.compat &= ~(1ULL << BCH_COMPAT_alloc_info);
-932aa837453ada fs/bcachefs/recovery.c      Kent Overstreet 2019-03-11  647  			SET_BCH_SB_CLEAN(c->disk_sb.sb, false);
-932aa837453ada fs/bcachefs/recovery.c      Kent Overstreet 2019-03-11  648  			c->sb.clean = false;
-932aa837453ada fs/bcachefs/recovery.c      Kent Overstreet 2019-03-11  649  		}
-1dd7f9d98de074 fs/bcachefs/recovery.c      Kent Overstreet 2019-04-04  650  
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  651  		struct jset *last_journal_entry = NULL;
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  652  		genradix_for_each_reverse(&c->journal_entries, iter, i)
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  653  			if (!journal_replay_ignore(*i)) {
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  654  				last_journal_entry = &(*i)->j;
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  655  				break;
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  656  			}
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  657  
-adbcada43fa791 fs/bcachefs/recovery.c      Kent Overstreet 2020-11-14  658  		if (!last_journal_entry) {
-b65db750e2bb92 fs/bcachefs/recovery.c      Kent Overstreet 2023-10-24  659  			fsck_err_on(!c->sb.clean, c,
-b65db750e2bb92 fs/bcachefs/recovery.c      Kent Overstreet 2023-10-24  660  				    dirty_but_no_journal_entries,
-b65db750e2bb92 fs/bcachefs/recovery.c      Kent Overstreet 2023-10-24  661  				    "no journal entries found");
-1ba8a796b427d3 fs/bcachefs/recovery.c      Kent Overstreet 2022-12-14  662  			if (clean)
-adbcada43fa791 fs/bcachefs/recovery.c      Kent Overstreet 2020-11-14  663  				goto use_clean;
-1ba8a796b427d3 fs/bcachefs/recovery.c      Kent Overstreet 2022-12-14  664  
-1ba8a796b427d3 fs/bcachefs/recovery.c      Kent Overstreet 2022-12-14  665  			genradix_for_each_reverse(&c->journal_entries, iter, i)
-1ba8a796b427d3 fs/bcachefs/recovery.c      Kent Overstreet 2022-12-14  666  				if (*i) {
-1ba8a796b427d3 fs/bcachefs/recovery.c      Kent Overstreet 2022-12-14  667  					last_journal_entry = &(*i)->j;
-2cce3752cec5a8 fs/bcachefs/recovery.c      Kent Overstreet 2024-02-25  668  					(*i)->ignore_blacklisted = false;
-2cce3752cec5a8 fs/bcachefs/recovery.c      Kent Overstreet 2024-02-25  669  					(*i)->ignore_not_dirty= false;
-5a53f851e6fe0e fs/bcachefs/recovery.c      Kent Overstreet 2023-11-03  670  					/*
-5a53f851e6fe0e fs/bcachefs/recovery.c      Kent Overstreet 2023-11-03  671  					 * This was probably a NO_FLUSH entry,
-5a53f851e6fe0e fs/bcachefs/recovery.c      Kent Overstreet 2023-11-03  672  					 * so last_seq was garbage - but we know
-5a53f851e6fe0e fs/bcachefs/recovery.c      Kent Overstreet 2023-11-03  673  					 * we're only using a single journal
-5a53f851e6fe0e fs/bcachefs/recovery.c      Kent Overstreet 2023-11-03  674  					 * entry, set it here:
-5a53f851e6fe0e fs/bcachefs/recovery.c      Kent Overstreet 2023-11-03  675  					 */
-5a53f851e6fe0e fs/bcachefs/recovery.c      Kent Overstreet 2023-11-03  676  					(*i)->j.last_seq = (*i)->j.seq;
-1ba8a796b427d3 fs/bcachefs/recovery.c      Kent Overstreet 2022-12-14  677  					break;
-1ba8a796b427d3 fs/bcachefs/recovery.c      Kent Overstreet 2022-12-14  678  				}
-1dd7f9d98de074 fs/bcachefs/recovery.c      Kent Overstreet 2019-04-04  679  		}
-1dd7f9d98de074 fs/bcachefs/recovery.c      Kent Overstreet 2019-04-04  680  
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  681  		try(bch2_journal_keys_sort(c));
-d07343561e263f fs/bcachefs/recovery.c      Kent Overstreet 2019-04-11  682  
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  683  		if (c->sb.clean && last_journal_entry)
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  684  			try(bch2_verify_superblock_clean(c, &clean, last_journal_entry));
-1c6fdbd8f2465d fs/bcachefs/recovery.c      Kent Overstreet 2017-03-16  685  	} else {
-adbcada43fa791 fs/bcachefs/recovery.c      Kent Overstreet 2020-11-14  686  use_clean:
-adbcada43fa791 fs/bcachefs/recovery.c      Kent Overstreet 2020-11-14 @687  		if (!clean) {
-adbcada43fa791 fs/bcachefs/recovery.c      Kent Overstreet 2020-11-14  688  			bch_err(c, "no superblock clean section found");
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  689  			return bch_err_throw(c, fsck_repair_impossible);
-adbcada43fa791 fs/bcachefs/recovery.c      Kent Overstreet 2020-11-14  690  
-adbcada43fa791 fs/bcachefs/recovery.c      Kent Overstreet 2020-11-14  691  		}
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  692  
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  693  		journal_start.start_seq = le64_to_cpu(clean->journal_seq) + 1;
-1dd7f9d98de074 fs/bcachefs/recovery.c      Kent Overstreet 2019-04-04  694  	}
-1dd7f9d98de074 fs/bcachefs/recovery.c      Kent Overstreet 2019-04-04  695  
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  696  	c->journal_replay_seq_start	= journal_start.seq_read_start;
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  697  	c->journal_replay_seq_end	= journal_start.seq_read_end;
-78328fec704e31 fs/bcachefs/recovery.c      Kent Overstreet 2023-07-08  698  
-877da05ffb13c1 fs/bcachefs/recovery.c      Kent Overstreet 2021-07-30  699  	zero_out_btree_mem_ptr(&c->journal_keys);
-877da05ffb13c1 fs/bcachefs/recovery.c      Kent Overstreet 2021-07-30  700  
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  701  	try(journal_replay_early(c, clean));
-1dd7f9d98de074 fs/bcachefs/recovery.c      Kent Overstreet 2019-04-04  702  
-f0a5f22957fbf9 fs/bcachefs/recovery.c      Kent Overstreet 2025-07-14  703  	scoped_guard(rwsem_write, &c->state_lock)
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  704  		try(bch2_fs_resize_on_mount(c));
-0ca375b1779f22 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-15  705  
-0ca375b1779f22 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-15  706  	if (c->sb.features & BIT_ULL(BCH_FEATURE_small_image)) {
-0ca375b1779f22 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-15  707  		bch_info(c, "filesystem is an unresized image file, mounting ro");
-0ca375b1779f22 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-15  708  		c->opts.read_only = true;
-0ca375b1779f22 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-15  709  	}
-0ca375b1779f22 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-15  710  
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  711  	if (!c->opts.read_only &&
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  712  	    (c->sb.features & BIT_ULL(BCH_FEATURE_no_alloc_info))) {
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  713  		bch_info(c, "mounting a filesystem with no alloc info read-write; will recreate");
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  714  
-00fa283a41fedc fs/bcachefs/recovery.c      Kent Overstreet 2024-12-10  715  		bch2_reconstruct_alloc(c);
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  716  	} else if (c->opts.reconstruct_alloc) {
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  717  		bch2_journal_log_msg(c, "dropping alloc info");
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  718  		bch_info(c, "dropping and reconstructing all alloc info");
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  719  
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  720  		bch2_reconstruct_alloc(c);
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  721  	}
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  722  
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  723  	if (c->sb.features & BIT_ULL(BCH_FEATURE_no_alloc_info)) {
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  724  		/* We can't go RW to fix errors without alloc info */
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  725  		if (c->opts.fix_errors == FSCK_FIX_yes ||
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  726  		    c->opts.fix_errors == FSCK_FIX_ask)
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  727  			c->opts.fix_errors = FSCK_FIX_no;
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  728  		if (c->opts.errors == BCH_ON_ERROR_fix_safe)
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  729  			c->opts.errors = BCH_ON_ERROR_continue;
-203852d9db68e1 fs/bcachefs/recovery.c      Kent Overstreet 2025-04-03  730  	}
-00fa283a41fedc fs/bcachefs/recovery.c      Kent Overstreet 2024-12-10  731  
-9b6e2f1e7036d6 fs/bcachefs/recovery.c      Kent Overstreet 2022-01-04  732  	/*
-9b6e2f1e7036d6 fs/bcachefs/recovery.c      Kent Overstreet 2022-01-04  733  	 * After an unclean shutdown, skip then next few journal sequence
-9b6e2f1e7036d6 fs/bcachefs/recovery.c      Kent Overstreet 2022-01-04  734  	 * numbers as they may have been referenced by btree writes that
-9b6e2f1e7036d6 fs/bcachefs/recovery.c      Kent Overstreet 2022-01-04  735  	 * happened before their corresponding journal writes - those btree
-9b6e2f1e7036d6 fs/bcachefs/recovery.c      Kent Overstreet 2022-01-04  736  	 * writes need to be ignored, by skipping and blacklisting the next few
-9b6e2f1e7036d6 fs/bcachefs/recovery.c      Kent Overstreet 2022-01-04  737  	 * journal sequence numbers:
-9b6e2f1e7036d6 fs/bcachefs/recovery.c      Kent Overstreet 2022-01-04  738  	 */
-9b6e2f1e7036d6 fs/bcachefs/recovery.c      Kent Overstreet 2022-01-04  739  	if (!c->sb.clean)
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  740  		journal_start.start_seq += JOURNAL_BUF_NR * 4;
-9b6e2f1e7036d6 fs/bcachefs/recovery.c      Kent Overstreet 2022-01-04  741  
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  742  	if (journal_start.seq_read_end &&
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  743  	    journal_start.seq_read_end + 1 != journal_start.start_seq) {
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  744  		u64 blacklist_seq = journal_start.seq_read_end + 1;
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  745  		try(bch2_journal_log_msg(c, "blacklisting entries %llu-%llu",
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  746  					 blacklist_seq, journal_start.start_seq));
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  747  		try(bch2_journal_seq_blacklist_add(c, blacklist_seq, journal_start.start_seq));
-f707e3d8f41e77 fs/bcachefs/recovery.c      Kent Overstreet 2019-06-18  748  	}
-1dd7f9d98de074 fs/bcachefs/recovery.c      Kent Overstreet 2019-04-04  749  
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  750  	try(bch2_journal_log_msg(c, "starting journal at entry %llu, replaying %llu-%llu",
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  751  				 journal_start.start_seq,
-8548df42b64298 fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  752  				 journal_start.seq_read_start,
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  753  				 journal_start.seq_read_end));
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  754  	try(bch2_fs_journal_start(&c->journal, journal_start));
-42b72e0ba226fa fs/bcachefs/recovery.c      Kent Overstreet 2019-01-24  755  
-1cab5a82cc67a0 fs/bcachefs/recovery.c      Kent Overstreet 2022-04-21  756  	/*
-1cab5a82cc67a0 fs/bcachefs/recovery.c      Kent Overstreet 2022-04-21  757  	 * Skip past versions that might have possibly been used (as nonces),
-1cab5a82cc67a0 fs/bcachefs/recovery.c      Kent Overstreet 2022-04-21  758  	 * but hadn't had their pointers written:
-1cab5a82cc67a0 fs/bcachefs/recovery.c      Kent Overstreet 2022-04-21  759  	 */
-1cab5a82cc67a0 fs/bcachefs/recovery.c      Kent Overstreet 2022-04-21  760  	if (c->sb.encryption_type && !c->sb.clean)
-1cab5a82cc67a0 fs/bcachefs/recovery.c      Kent Overstreet 2022-04-21  761  		atomic64_add(1 << 16, &c->key_version);
-1cab5a82cc67a0 fs/bcachefs/recovery.c      Kent Overstreet 2022-04-21  762  
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  763  	try(read_btree_roots(c));
-1c6fdbd8f2465d fs/bcachefs/recovery.c      Kent Overstreet 2017-03-16  764  
-7773df19c35fab fs/bcachefs/recovery.c      Kent Overstreet 2024-04-25  765  	set_bit(BCH_FS_btree_running, &c->flags);
-7773df19c35fab fs/bcachefs/recovery.c      Kent Overstreet 2024-04-25  766  
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  767  	try(bch2_sb_set_upgrade_extra(c));
-7773df19c35fab fs/bcachefs/recovery.c      Kent Overstreet 2024-04-25  768  
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  769  	try(bch2_run_recovery_passes(c, 0));
-14b393ee768e83 fs/bcachefs/recovery.c      Kent Overstreet 2021-03-16  770  
-ef4f6c322bf4ca fs/bcachefs/recovery.c      Kent Overstreet 2024-10-31  771  	/*
-ef4f6c322bf4ca fs/bcachefs/recovery.c      Kent Overstreet 2024-10-31  772  	 * Normally set by the appropriate recovery pass: when cleared, this
-ef4f6c322bf4ca fs/bcachefs/recovery.c      Kent Overstreet 2024-10-31  773  	 * indicates we're in early recovery and btree updates should be done by
-ef4f6c322bf4ca fs/bcachefs/recovery.c      Kent Overstreet 2024-10-31  774  	 * being applied to the journal replay keys. _Must_ be cleared before
-ef4f6c322bf4ca fs/bcachefs/recovery.c      Kent Overstreet 2024-10-31  775  	 * multithreaded use:
-ef4f6c322bf4ca fs/bcachefs/recovery.c      Kent Overstreet 2024-10-31  776  	 */
-ef4f6c322bf4ca fs/bcachefs/recovery.c      Kent Overstreet 2024-10-31  777  	set_bit(BCH_FS_may_go_rw, &c->flags);
-367cad09664aaf fs/bcachefs/recovery.c      Kent Overstreet 2025-05-10  778  	clear_bit(BCH_FS_in_fsck, &c->flags);
-d55ddf6e7a81e1 fs/bcachefs/recovery.c      Kent Overstreet 2023-12-31  779  
-6d12d7ace99ec7 fs/bcachefs/recovery.c      Kent Overstreet 2024-09-22  780  	/* in case we don't run journal replay, i.e. norecovery mode */
-6d12d7ace99ec7 fs/bcachefs/recovery.c      Kent Overstreet 2024-09-22  781  	set_bit(BCH_FS_accounting_replay_done, &c->flags);
-6d12d7ace99ec7 fs/bcachefs/recovery.c      Kent Overstreet 2024-09-22  782  
-c1f618f4f7cc7b fs/bcachefs/recovery.c      Kent Overstreet 2024-11-29  783  	bch2_async_btree_node_rewrites_flush(c);
-c1f618f4f7cc7b fs/bcachefs/recovery.c      Kent Overstreet 2024-11-29  784  
-4fe0eeeae47732 fs/bcachefs/recovery.c      Kent Overstreet 2024-03-28  785  	/* fsync if we fixed errors */
-a34bc56df7c8a5 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-05  786  	bool errors_fixed = test_bit(BCH_FS_errors_fixed, &c->flags) ||
-a34bc56df7c8a5 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-05  787  		test_bit(BCH_FS_errors_fixed_silent, &c->flags);
-a34bc56df7c8a5 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-05  788  
-a34bc56df7c8a5 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-05  789  	if (errors_fixed) {
-4fe0eeeae47732 fs/bcachefs/recovery.c      Kent Overstreet 2024-03-28  790  		bch2_journal_flush_all_pins(&c->journal);
-4fe0eeeae47732 fs/bcachefs/recovery.c      Kent Overstreet 2024-03-28  791  		bch2_journal_meta(&c->journal);
-4fe0eeeae47732 fs/bcachefs/recovery.c      Kent Overstreet 2024-03-28  792  	}
-4fe0eeeae47732 fs/bcachefs/recovery.c      Kent Overstreet 2024-03-28  793  
-b56b787c7d5e83 fs/bcachefs/recovery.c      Kent Overstreet 2023-08-02  794  	/* If we fixed errors, verify that fs is actually clean now: */
-b56b787c7d5e83 fs/bcachefs/recovery.c      Kent Overstreet 2023-08-02  795  	if (IS_ENABLED(CONFIG_BCACHEFS_DEBUG) &&
-a34bc56df7c8a5 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-05  796  	    errors_fixed &&
-3c471b65889aa2 fs/bcachefs/recovery.c      Kent Overstreet 2023-11-26  797  	    !test_bit(BCH_FS_errors_not_fixed, &c->flags) &&
-3c471b65889aa2 fs/bcachefs/recovery.c      Kent Overstreet 2023-11-26  798  	    !test_bit(BCH_FS_error, &c->flags)) {
-30418de09e6bda fs/bcachefs/recovery.c      Kent Overstreet 2023-11-13  799  		bch2_flush_fsck_errs(c);
-30418de09e6bda fs/bcachefs/recovery.c      Kent Overstreet 2023-11-13  800  
-b56b787c7d5e83 fs/bcachefs/recovery.c      Kent Overstreet 2023-08-02  801  		bch_info(c, "Fixed errors, running fsck a second time to verify fs is clean");
-a34bc56df7c8a5 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-05  802  		errors_fixed = test_bit(BCH_FS_errors_fixed, &c->flags);
-3c471b65889aa2 fs/bcachefs/recovery.c      Kent Overstreet 2023-11-26  803  		clear_bit(BCH_FS_errors_fixed, &c->flags);
-a34bc56df7c8a5 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-05  804  		clear_bit(BCH_FS_errors_fixed_silent, &c->flags);
-b56b787c7d5e83 fs/bcachefs/recovery.c      Kent Overstreet 2023-08-02  805  
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  806  		try(bch2_run_recovery_passes(c, BCH_RECOVERY_PASS_check_alloc_info));
-b56b787c7d5e83 fs/bcachefs/recovery.c      Kent Overstreet 2023-08-02  807  
-a34bc56df7c8a5 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-05  808  		if (errors_fixed ||
-3c471b65889aa2 fs/bcachefs/recovery.c      Kent Overstreet 2023-11-26  809  		    test_bit(BCH_FS_errors_not_fixed, &c->flags)) {
-b56b787c7d5e83 fs/bcachefs/recovery.c      Kent Overstreet 2023-08-02  810  			bch_err(c, "Second fsck run was not clean");
-3c471b65889aa2 fs/bcachefs/recovery.c      Kent Overstreet 2023-11-26  811  			set_bit(BCH_FS_errors_not_fixed, &c->flags);
-b56b787c7d5e83 fs/bcachefs/recovery.c      Kent Overstreet 2023-08-02  812  		}
-b56b787c7d5e83 fs/bcachefs/recovery.c      Kent Overstreet 2023-08-02  813  
-a34bc56df7c8a5 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-05  814  		if (errors_fixed)
-3c471b65889aa2 fs/bcachefs/recovery.c      Kent Overstreet 2023-11-26  815  			set_bit(BCH_FS_errors_fixed, &c->flags);
-b56b787c7d5e83 fs/bcachefs/recovery.c      Kent Overstreet 2023-08-02  816  	}
-b56b787c7d5e83 fs/bcachefs/recovery.c      Kent Overstreet 2023-08-02  817  
-7b512638e03a1d fs/bcachefs/recovery.c      Kent Overstreet 2019-03-29  818  	if (enabled_qtypes(c)) {
-619f5bee86b558 fs/bcachefs/recovery.c      Kent Overstreet 2019-04-17  819  		bch_verbose(c, "reading quotas");
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  820  		try(bch2_fs_quota_read(c));
-7b512638e03a1d fs/bcachefs/recovery.c      Kent Overstreet 2019-03-29  821  		bch_verbose(c, "quotas done");
-7b512638e03a1d fs/bcachefs/recovery.c      Kent Overstreet 2019-03-29  822  	}
-7b512638e03a1d fs/bcachefs/recovery.c      Kent Overstreet 2019-03-29  823  
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  824  	scoped_guard(mutex, &c->sb_lock) {
-ab69169ea6ba22 fs/bcachefs/recovery.c      Kent Overstreet 2025-08-02  825  		struct bch_sb_field_ext *ext = bch2_sb_field_get(c->disk_sb.sb, ext);
-ab69169ea6ba22 fs/bcachefs/recovery.c      Kent Overstreet 2025-08-02  826  		bool write_sb = false;
-8b16413cda7c46 fs/bcachefs/recovery.c      Kent Overstreet 2023-12-29  827  
-f87bf892ea9848 fs/bcachefs/recovery.c      Kent Overstreet 2023-12-29  828  		if (BCH_SB_VERSION_UPGRADE_COMPLETE(c->disk_sb.sb) != le16_to_cpu(c->disk_sb.sb->version)) {
-f87bf892ea9848 fs/bcachefs/recovery.c      Kent Overstreet 2023-12-29  829  			SET_BCH_SB_VERSION_UPGRADE_COMPLETE(c->disk_sb.sb, le16_to_cpu(c->disk_sb.sb->version));
-932aa837453ada fs/bcachefs/recovery.c      Kent Overstreet 2019-03-11  830  			write_sb = true;
-932aa837453ada fs/bcachefs/recovery.c      Kent Overstreet 2019-03-11  831  		}
-932aa837453ada fs/bcachefs/recovery.c      Kent Overstreet 2019-03-11  832  
-3c471b65889aa2 fs/bcachefs/recovery.c      Kent Overstreet 2023-11-26  833  		if (!test_bit(BCH_FS_error, &c->flags) &&
-8b16413cda7c46 fs/bcachefs/recovery.c      Kent Overstreet 2023-12-29  834  		    !(c->disk_sb.sb->compat[0] & cpu_to_le64(1ULL << BCH_COMPAT_alloc_info))) {
-c0ebe3e48c75ab fs/bcachefs/recovery.c      Kent Overstreet 2021-05-23  835  			c->disk_sb.sb->compat[0] |= cpu_to_le64(1ULL << BCH_COMPAT_alloc_info);
-932aa837453ada fs/bcachefs/recovery.c      Kent Overstreet 2019-03-11  836  			write_sb = true;
-26609b619fa230 fs/bcachefs/recovery.c      Kent Overstreet 2018-11-01  837  		}
-26609b619fa230 fs/bcachefs/recovery.c      Kent Overstreet 2018-11-01  838  
-0a34c058fca84b fs/bcachefs/recovery.c      Kent Overstreet 2024-03-30  839  		if (!test_bit(BCH_FS_error, &c->flags) &&
-27fcec6c27caec fs/bcachefs/recovery.c      Kent Overstreet 2024-03-30  840  		    !bch2_is_zero(ext->errors_silent, sizeof(ext->errors_silent))) {
-8b16413cda7c46 fs/bcachefs/recovery.c      Kent Overstreet 2023-12-29  841  			memset(ext->errors_silent, 0, sizeof(ext->errors_silent));
-8b16413cda7c46 fs/bcachefs/recovery.c      Kent Overstreet 2023-12-29  842  			write_sb = true;
-8b16413cda7c46 fs/bcachefs/recovery.c      Kent Overstreet 2023-12-29  843  		}
-8b16413cda7c46 fs/bcachefs/recovery.c      Kent Overstreet 2023-12-29  844  
-55936afe11077a fs/bcachefs/recovery.c      Kent Overstreet 2024-03-15  845  		if (c->opts.fsck &&
-55936afe11077a fs/bcachefs/recovery.c      Kent Overstreet 2024-03-15  846  		    !test_bit(BCH_FS_error, &c->flags) &&
-68708efcac7119 fs/bcachefs/recovery.c      Kent Overstreet 2025-05-10  847  		    c->recovery.pass_done == BCH_RECOVERY_PASS_NR - 1 &&
-55936afe11077a fs/bcachefs/recovery.c      Kent Overstreet 2024-03-15  848  		    ext->btrees_lost_data) {
-55936afe11077a fs/bcachefs/recovery.c      Kent Overstreet 2024-03-15  849  			ext->btrees_lost_data = 0;
-55936afe11077a fs/bcachefs/recovery.c      Kent Overstreet 2024-03-15  850  			write_sb = true;
-55936afe11077a fs/bcachefs/recovery.c      Kent Overstreet 2024-03-15  851  		}
-55936afe11077a fs/bcachefs/recovery.c      Kent Overstreet 2024-03-15  852  
-0bc166ff564f9e fs/bcachefs/recovery.c      Kent Overstreet 2019-03-28  853  		if (c->opts.fsck &&
-3c471b65889aa2 fs/bcachefs/recovery.c      Kent Overstreet 2023-11-26  854  		    !test_bit(BCH_FS_error, &c->flags) &&
-3c471b65889aa2 fs/bcachefs/recovery.c      Kent Overstreet 2023-11-26  855  		    !test_bit(BCH_FS_errors_not_fixed, &c->flags)) {
-0bc166ff564f9e fs/bcachefs/recovery.c      Kent Overstreet 2019-03-28  856  			SET_BCH_SB_HAS_ERRORS(c->disk_sb.sb, 0);
-aae15aafcd43ec fs/bcachefs/recovery.c      Kent Overstreet 2021-04-24  857  			SET_BCH_SB_HAS_TOPOLOGY_ERRORS(c->disk_sb.sb, 0);
-932aa837453ada fs/bcachefs/recovery.c      Kent Overstreet 2019-03-11  858  			write_sb = true;
-0bc166ff564f9e fs/bcachefs/recovery.c      Kent Overstreet 2019-03-28  859  		}
-932aa837453ada fs/bcachefs/recovery.c      Kent Overstreet 2019-03-11  860  
-f04158290d8bdd fs/bcachefs/recovery.c      Kent Overstreet 2024-04-20  861  		if (bch2_blacklist_entries_gc(c))
-f04158290d8bdd fs/bcachefs/recovery.c      Kent Overstreet 2024-04-20  862  			write_sb = true;
-f04158290d8bdd fs/bcachefs/recovery.c      Kent Overstreet 2024-04-20  863  
-4053532afa1c08 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-07  864  		if (!(c->sb.compat & BIT_ULL(BCH_COMPAT_no_stale_ptrs)) &&
-4053532afa1c08 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-07  865  		    (c->recovery.passes_complete & BIT_ULL(BCH_RECOVERY_PASS_check_extents)) &&
-4053532afa1c08 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-07  866  		    (c->recovery.passes_complete & BIT_ULL(BCH_RECOVERY_PASS_check_indirect_extents))) {
-4053532afa1c08 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-07  867  			c->disk_sb.sb->compat[0] |= cpu_to_le64(BIT_ULL(BCH_COMPAT_no_stale_ptrs));
-4053532afa1c08 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-07  868  			write_sb = true;
-4053532afa1c08 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-07  869  		}
-4053532afa1c08 fs/bcachefs/recovery.c      Kent Overstreet 2025-09-07  870  
-932aa837453ada fs/bcachefs/recovery.c      Kent Overstreet 2019-03-11  871  		if (write_sb)
-932aa837453ada fs/bcachefs/recovery.c      Kent Overstreet 2019-03-11  872  			bch2_write_super(c);
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  873  	}
-1dd7f9d98de074 fs/bcachefs/recovery.c      Kent Overstreet 2019-04-04  874  
-d93cf6858fe67a fs/bcachefs/recovery.c      Kent Overstreet 2021-12-27  875  	if (!(c->sb.compat & (1ULL << BCH_COMPAT_extents_above_btree_updates_done)) ||
-73bd774d28d2b2 fs/bcachefs/recovery.c      Kent Overstreet 2023-07-06  876  	    c->sb.version_min < bcachefs_metadata_version_btree_ptr_sectors_written) {
-d93cf6858fe67a fs/bcachefs/recovery.c      Kent Overstreet 2021-12-27  877  		struct bch_move_stats stats;
-d93cf6858fe67a fs/bcachefs/recovery.c      Kent Overstreet 2021-12-27  878  
-b2d1d56b1d34bc fs/bcachefs/recovery.c      Kent Overstreet 2022-11-13  879  		bch2_move_stats_init(&stats, "recovery");
-d93cf6858fe67a fs/bcachefs/recovery.c      Kent Overstreet 2021-12-27  880  
-f0a5f22957fbf9 fs/bcachefs/recovery.c      Kent Overstreet 2025-07-14  881  		CLASS(printbuf, buf)();
-fbf9270817249b fs/bcachefs/recovery.c      Kent Overstreet 2023-11-16  882  		bch2_version_to_text(&buf, c->sb.version_min);
-fbf9270817249b fs/bcachefs/recovery.c      Kent Overstreet 2023-11-16  883  		bch_info(c, "scanning for old btree nodes: min_version %s", buf.buf);
-fbf9270817249b fs/bcachefs/recovery.c      Kent Overstreet 2023-11-16  884  
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  885  		try(bch2_fs_read_write_early(c));
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  886  		try(bch2_scan_old_btree_nodes(c, &stats));
-d93cf6858fe67a fs/bcachefs/recovery.c      Kent Overstreet 2021-12-27  887  		bch_info(c, "scanning for old btree nodes done");
-d93cf6858fe67a fs/bcachefs/recovery.c      Kent Overstreet 2021-12-27  888  	}
-d93cf6858fe67a fs/bcachefs/recovery.c      Kent Overstreet 2021-12-27  889  
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  890  	if (test_bit(BCH_FS_need_delete_dead_snapshots, &c->flags) &&
-62719cf33c3ad6 fs/bcachefs/recovery.c      Kent Overstreet 2023-12-23  891  	    !c->opts.nochanges) {
-4ab35c34d5ab25 fs/bcachefs/recovery.c      Kent Overstreet 2022-07-14  892  		bch2_fs_read_write_early(c);
-4ab35c34d5ab25 fs/bcachefs/recovery.c      Kent Overstreet 2022-07-14  893  		bch2_delete_dead_snapshots_async(c);
-4ab35c34d5ab25 fs/bcachefs/recovery.c      Kent Overstreet 2022-07-14  894  	}
-4932e07ea04bcc fs/bcachefs/recovery.c      Kent Overstreet 2021-04-24  895  fsck_err:
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  896  	return ret;
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  897  }
-4f8305ce7dfa6f fs/bcachefs/init/recovery.c Kent Overstreet 2025-10-30  898  
-
-:::::: The code at line 687 was first introduced by commit
-:::::: adbcada43fa79197224b5a522b1faaf222b43bcd bcachefs: Don't require flush/fua on every journal write
-
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+221e2e8bdbb851 liuyun      2023-12-02   85  
+221e2e8bdbb851 liuyun      2023-12-02   86  static void __init efi_map_pgt(void)
+221e2e8bdbb851 liuyun      2023-12-02   87  {
+221e2e8bdbb851 liuyun      2023-12-02   88  	unsigned long node;
+221e2e8bdbb851 liuyun      2023-12-02   89  	unsigned long start, end;
+221e2e8bdbb851 liuyun      2023-12-02   90  	unsigned long start_pfn, end_pfn;
+221e2e8bdbb851 liuyun      2023-12-02   91  
+221e2e8bdbb851 liuyun      2023-12-02   92  	pgd_efi = memblock_alloc_low(PAGE_SIZE, PAGE_SIZE);
+221e2e8bdbb851 liuyun      2023-12-02   93  	if (!pgd_efi) {
+221e2e8bdbb851 liuyun      2023-12-02   94  		pr_err("alloc efi pgd failed!\n");
+221e2e8bdbb851 liuyun      2023-12-02   95  		return;
+221e2e8bdbb851 liuyun      2023-12-02   96  	}
+221e2e8bdbb851 liuyun      2023-12-02   97  	pgd_init(pgd_efi);
+221e2e8bdbb851 liuyun      2023-12-02  @98  	csr_write64((long)pgd_efi, LOONGARCH_CSR_PGDL);
+221e2e8bdbb851 liuyun      2023-12-02   99  
+221e2e8bdbb851 liuyun      2023-12-02  100  	/* Low Memory, Cached */
+221e2e8bdbb851 liuyun      2023-12-02  101  	efimap_populate_hugepages(0, SZ_256M, PAGE_KERNEL);
+221e2e8bdbb851 liuyun      2023-12-02  102  
+221e2e8bdbb851 liuyun      2023-12-02  103  	for_each_node_mask(node, node_possible_map) {
+221e2e8bdbb851 liuyun      2023-12-02  104  		/* MMIO Registers, Uncached */
+221e2e8bdbb851 liuyun      2023-12-02  105  		efimap_populate_hugepages(SZ_256M | (node << 44),
+221e2e8bdbb851 liuyun      2023-12-02  106  				SZ_512M | (node << 44), PAGE_KERNEL_SUC);
+221e2e8bdbb851 liuyun      2023-12-02  107  
+221e2e8bdbb851 liuyun      2023-12-02  108  		get_pfn_range_for_nid(node, &start_pfn, &end_pfn);
+221e2e8bdbb851 liuyun      2023-12-02  109  		start = ALIGN_DOWN(start_pfn << PAGE_SHIFT, PMD_SIZE);
+221e2e8bdbb851 liuyun      2023-12-02  110  		end = ALIGN(end_pfn << PAGE_SHIFT, PMD_SIZE);
+221e2e8bdbb851 liuyun      2023-12-02  111  
+221e2e8bdbb851 liuyun      2023-12-02  112  		/* System memory, Cached */
+221e2e8bdbb851 liuyun      2023-12-02  113  		efimap_populate_hugepages(node ? start : SZ_512M, end, PAGE_KERNEL);
+221e2e8bdbb851 liuyun      2023-12-02  114  	}
+221e2e8bdbb851 liuyun      2023-12-02  115  }
+221e2e8bdbb851 liuyun      2023-12-02  116  
+221e2e8bdbb851 liuyun      2023-12-02  117  static int __init efimap_free_pgt(unsigned long start, unsigned long end)
+221e2e8bdbb851 liuyun      2023-12-02  118  {
+221e2e8bdbb851 liuyun      2023-12-02  119  	unsigned long addr;
+221e2e8bdbb851 liuyun      2023-12-02  120  	unsigned long next;
+221e2e8bdbb851 liuyun      2023-12-02  121  	pud_t *pud;
+221e2e8bdbb851 liuyun      2023-12-02  122  	pmd_t *pmd;
+221e2e8bdbb851 liuyun      2023-12-02  123  
+221e2e8bdbb851 liuyun      2023-12-02  124  	for (addr = start; addr < end; addr = next) {
+221e2e8bdbb851 liuyun      2023-12-02  125  		next = pmd_addr_end(addr, end);
+221e2e8bdbb851 liuyun      2023-12-02  126  
+221e2e8bdbb851 liuyun      2023-12-02  127  		pud = pud_offset((p4d_t *)pgd_efi + pgd_index(addr), addr);
+221e2e8bdbb851 liuyun      2023-12-02  128  		if (!pud_present(*pud))
+221e2e8bdbb851 liuyun      2023-12-02  129  			continue;
+221e2e8bdbb851 liuyun      2023-12-02  130  		pmd = pmd_offset(pud, addr);
+221e2e8bdbb851 liuyun      2023-12-02  131  		memblock_free(pmd, PAGE_SIZE);
+221e2e8bdbb851 liuyun      2023-12-02  132  		pud_clear(pud);
+221e2e8bdbb851 liuyun      2023-12-02  133  	}
+221e2e8bdbb851 liuyun      2023-12-02  134  	return 0;
+221e2e8bdbb851 liuyun      2023-12-02  135  }
+221e2e8bdbb851 liuyun      2023-12-02  136  
+221e2e8bdbb851 liuyun      2023-12-02  137  static void __init efi_unmap_pgt(void)
+221e2e8bdbb851 liuyun      2023-12-02  138  {
+221e2e8bdbb851 liuyun      2023-12-02  139  	unsigned long node;
+221e2e8bdbb851 liuyun      2023-12-02  140  	unsigned long start, end;
+221e2e8bdbb851 liuyun      2023-12-02  141  	unsigned long start_pfn, end_pfn;
+221e2e8bdbb851 liuyun      2023-12-02  142  
+221e2e8bdbb851 liuyun      2023-12-02  143  	for_each_node_mask(node, node_possible_map) {
+221e2e8bdbb851 liuyun      2023-12-02  144  		get_pfn_range_for_nid(node, &start_pfn, &end_pfn);
+221e2e8bdbb851 liuyun      2023-12-02  145  		start = ALIGN_DOWN(start_pfn << PAGE_SHIFT, PMD_SIZE);
+221e2e8bdbb851 liuyun      2023-12-02  146  		end = ALIGN(end_pfn << PAGE_SHIFT, PMD_SIZE);
+221e2e8bdbb851 liuyun      2023-12-02  147  
+221e2e8bdbb851 liuyun      2023-12-02  148  		/* Free pagetable memory */
+221e2e8bdbb851 liuyun      2023-12-02  149  		efimap_free_pgt(start, end);
+221e2e8bdbb851 liuyun      2023-12-02  150  	}
+221e2e8bdbb851 liuyun      2023-12-02  151  
+221e2e8bdbb851 liuyun      2023-12-02  152  	memblock_free(pgd_efi, PAGE_SIZE);
+221e2e8bdbb851 liuyun      2023-12-02  153  	csr_write64((long)invalid_pg_dir, LOONGARCH_CSR_PGDL);
+221e2e8bdbb851 liuyun      2023-12-02  154  	local_flush_tlb_all();
+221e2e8bdbb851 liuyun      2023-12-02  155  }
+221e2e8bdbb851 liuyun      2023-12-02  156  
+221e2e8bdbb851 liuyun      2023-12-02  157  /*
+221e2e8bdbb851 liuyun      2023-12-02  158   * set_virtual_map() - create a virtual mapping for the EFI memory map and call
+221e2e8bdbb851 liuyun      2023-12-02  159   * efi_set_virtual_address_map enter virtual for runtime service
+221e2e8bdbb851 liuyun      2023-12-02  160   *
+221e2e8bdbb851 liuyun      2023-12-02  161   * This function populates the virt_addr fields of all memory region descriptors
+221e2e8bdbb851 liuyun      2023-12-02  162   * in @memory_map whose EFI_MEMORY_RUNTIME attribute is set. Those descriptors
+221e2e8bdbb851 liuyun      2023-12-02  163   * are also copied to @runtime_map, and their total count is returned in @count.
+221e2e8bdbb851 liuyun      2023-12-02  164   */
+221e2e8bdbb851 liuyun      2023-12-02  165  static int __init set_virtual_map(void)
+221e2e8bdbb851 liuyun      2023-12-02  166  {
+221e2e8bdbb851 liuyun      2023-12-02  167  	efi_status_t status;
+221e2e8bdbb851 liuyun      2023-12-02  168  	int count = 0;
+221e2e8bdbb851 liuyun      2023-12-02  169  	unsigned int size;
+221e2e8bdbb851 liuyun      2023-12-02  170  	unsigned long attr;
+221e2e8bdbb851 liuyun      2023-12-02  171  	efi_runtime_services_t *rt;
+221e2e8bdbb851 liuyun      2023-12-02  172  	efi_set_virtual_address_map_t *svam;
+221e2e8bdbb851 liuyun      2023-12-02  173  	efi_memory_desc_t *in, runtime_map[32];
+221e2e8bdbb851 liuyun      2023-12-02  174  
+221e2e8bdbb851 liuyun      2023-12-02  175  	size = sizeof(efi_memory_desc_t);
+221e2e8bdbb851 liuyun      2023-12-02  176  
+221e2e8bdbb851 liuyun      2023-12-02  177  	for_each_efi_memory_desc(in) {
+221e2e8bdbb851 liuyun      2023-12-02  178  		attr = in->attribute;
+221e2e8bdbb851 liuyun      2023-12-02  179  		if (!(attr & EFI_MEMORY_RUNTIME))
+221e2e8bdbb851 liuyun      2023-12-02  180  			continue;
+221e2e8bdbb851 liuyun      2023-12-02  181  
+221e2e8bdbb851 liuyun      2023-12-02  182  		if (attr & (EFI_MEMORY_WB | EFI_MEMORY_WT))
+221e2e8bdbb851 liuyun      2023-12-02  183  			in->virt_addr = TO_CACHE(in->phys_addr);
+221e2e8bdbb851 liuyun      2023-12-02  184  		else
+221e2e8bdbb851 liuyun      2023-12-02  185  			in->virt_addr = TO_UNCACHE(in->phys_addr);
+221e2e8bdbb851 liuyun      2023-12-02  186  
+221e2e8bdbb851 liuyun      2023-12-02  187  		memcpy(&runtime_map[count++], in, size);
+221e2e8bdbb851 liuyun      2023-12-02  188  	}
+221e2e8bdbb851 liuyun      2023-12-02  189  
+221e2e8bdbb851 liuyun      2023-12-02  190  	rt = early_memremap_ro((unsigned long)efi_systab->runtime, sizeof(*rt));
+221e2e8bdbb851 liuyun      2023-12-02  191  
+221e2e8bdbb851 liuyun      2023-12-02  192  	/* Install the new virtual address map */
+221e2e8bdbb851 liuyun      2023-12-02  193  	svam = rt->set_virtual_address_map;
+221e2e8bdbb851 liuyun      2023-12-02  194  
+221e2e8bdbb851 liuyun      2023-12-02  195  	efi_map_pgt();
+221e2e8bdbb851 liuyun      2023-12-02  196  
+221e2e8bdbb851 liuyun      2023-12-02  197  	status = svam(size * count, size, efi.memmap.desc_version,
+221e2e8bdbb851 liuyun      2023-12-02  198  			(efi_memory_desc_t *)TO_PHYS((unsigned long)runtime_map));
+221e2e8bdbb851 liuyun      2023-12-02  199  
+221e2e8bdbb851 liuyun      2023-12-02  200  	efi_unmap_pgt();
+221e2e8bdbb851 liuyun      2023-12-02  201  	if (status != EFI_SUCCESS)
+221e2e8bdbb851 liuyun      2023-12-02  202  		return -1;
+221e2e8bdbb851 liuyun      2023-12-02  203  
+221e2e8bdbb851 liuyun      2023-12-02  204  	return 0;
+221e2e8bdbb851 liuyun      2023-12-02  205  }
+221e2e8bdbb851 liuyun      2023-12-02  206  
+628c3bb40e9a8c Huacai Chen 2022-05-31  207  void __init efi_runtime_init(void)
+628c3bb40e9a8c Huacai Chen 2022-05-31  208  {
+221e2e8bdbb851 liuyun      2023-12-02  209  	efi_status_t status;
+221e2e8bdbb851 liuyun      2023-12-02  210  
+88d4d957edc707 Binbin Zhou 2022-12-10  211  	if (!efi_enabled(EFI_BOOT) || !efi_systab->runtime)
+628c3bb40e9a8c Huacai Chen 2022-05-31  212  		return;
+628c3bb40e9a8c Huacai Chen 2022-05-31  213  
+628c3bb40e9a8c Huacai Chen 2022-05-31  214  	if (efi_runtime_disabled()) {
+628c3bb40e9a8c Huacai Chen 2022-05-31  215  		pr_info("EFI runtime services will be disabled.\n");
+628c3bb40e9a8c Huacai Chen 2022-05-31  216  		return;
+628c3bb40e9a8c Huacai Chen 2022-05-31  217  	}
+628c3bb40e9a8c Huacai Chen 2022-05-31  218  
+221e2e8bdbb851 liuyun      2023-12-02  219  	status = set_virtual_map();
+221e2e8bdbb851 liuyun      2023-12-02 @220  	if (status < 0)
+221e2e8bdbb851 liuyun      2023-12-02  221  		return;
+221e2e8bdbb851 liuyun      2023-12-02  222  
+221e2e8bdbb851 liuyun      2023-12-02  223  	efi.runtime = READ_ONCE(efi_systab->runtime);
+628c3bb40e9a8c Huacai Chen 2022-05-31  224  	efi.runtime_version = (unsigned int)efi.runtime->hdr.revision;
+628c3bb40e9a8c Huacai Chen 2022-05-31  225  
+628c3bb40e9a8c Huacai Chen 2022-05-31  226  	efi_native_runtime_setup();
+628c3bb40e9a8c Huacai Chen 2022-05-31  227  	set_bit(EFI_RUNTIME_SERVICES, &efi.flags);
+628c3bb40e9a8c Huacai Chen 2022-05-31  228  }
+628c3bb40e9a8c Huacai Chen 2022-05-31  229  
 
 -- 
 0-DAY CI Kernel Test Service
