@@ -1,167 +1,137 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9A2315789
-	for <oe-kbuild@lists.linux.dev>; Mon, 10 Nov 2025 15:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B7E2F29
+	for <oe-kbuild@lists.linux.dev>; Mon, 10 Nov 2025 22:18:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762787532; cv=none; b=WxsdysqFp8zobuW8LqSF/bywueBQOUZUbpXksGnEwu0V+Nc8ah8/NdWpnzsae97agvXxBJGyZDc5Uu2CBqH1mB0WAYrHp37S58EwkWlGmFfFvxL6tK618n1z7BoXPNyFBjij+JERB82/pg9fU7BZ10QlBemicCMRDN0dj3BDfdo=
+	t=1762813132; cv=none; b=Oxizb/H6UBC6Q2X76G1ChJ078cEwQaNO3s+qIaChFe6+GWTd+TJJ8OSu1wNcXh6RYUzIOhwCqRFFcLhotJQa8R78h0hjjrxYO1sf6RkTPVI7xqF3joYxnnJyaaYvF3REj6K2UkA0CZcouAk5z8Avf3svhWTaVX0MexVnliJDP0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762787532; c=relaxed/simple;
-	bh=3cCPL1lzQr1Z1p9yEMS4KMTJa2SNzOgrBffr4a2imQM=;
+	s=arc-20240116; t=1762813132; c=relaxed/simple;
+	bh=i/mKtoHCf4IOJsDFMRBepsclp21Nj4Kl4VK/RST5hqI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M63KrluBLHcjmNYJfm1RX8LQxbvoWIv1psS4K4Lo80iwQ+XZ9lyVpGFDG2uiUcBR9jD85dcI2HbYgTvvVqsGi0HOt1OE+bJnF6wDi6xboNiREbeudoBhdtgL0a6J5wm5oX2453rIHxqkf5sSyuZ07iBp4U2ls+LCr0YRklC0YSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YBaShcc6; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=nx3i+YNZPhBCEVg9G4jqZoBfhLenT1f7GNw7HBLEcXnbAkfP4HPktcO7oppMayEftkM7sIQlZR9HTI1a0yJSQdNMRX6bqzTR1quVbuKAM5tTZ6tgnszvIaIi3l+1ACVcnUqfBByyer3kr8sUHBTkxusRCr4NH6pG9/r/NiLEAeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJYYloCo; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YBaShcc6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJYYloCo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762787530; x=1794323530;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3cCPL1lzQr1Z1p9yEMS4KMTJa2SNzOgrBffr4a2imQM=;
-  b=YBaShcc6T+HFeRmEHD21a1n5LBitDz//IbcLwQMZAGdxaYTf88wS5o6t
-   X5959wFnnaS3aC1kXLCcBMpHmOiXYBFiAYfGDUkCoxmcHo2j4nXBzR10N
-   FydtNfIXq+3iC2BUh3BnNGD0yAOe2RaZLwvA5GjCwPv7w6nBxy390o/7U
-   JHipLUWiApNLlZAbUvRL6UwO8msZHTHup8Ts3vkFp+OCaiqFw4t9+qe4M
-   o2EknUHWmTlDRiVHCyH7LBxYxwEr6/TzI5+bGFF8Um/EXUqrhbeZ7YfHt
-   YWJQbKSFBp2tiHnHtlBuhmkSkdx4A7u4KIEBb/HxQtjjWWvs/HYuHhFOH
+  t=1762813130; x=1794349130;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=i/mKtoHCf4IOJsDFMRBepsclp21Nj4Kl4VK/RST5hqI=;
+  b=UJYYloCoi3b++lJudh81QOdgGiWlekrn9lSv1X7i3BNIVVKV5bhYheCX
+   zgp9QNz77Xku1Dns8cHMlpV5AOjL0iDl/yO+XGJeQWpPxFLFvbCuGLKcS
+   2wb3rPLjIyorP5CxOSbzxQHJStlJdKzMhYnJlGmkOKyF8fFwk2pBXhGzp
+   3MFCz5oyd4asHyyxgIPFGmVg4WSxw+MLOgMRvKs5MXnRR7SZU3QXgWATR
+   GiJoneBF83koYvEr0SMY0tVhde0ajyr05xlgrIBm77VBF3iTPPsYG5IXT
+   aq2PEXuZIMvANCssTXpwnWmeXHEmrd2RuNjNrCmASzbxBsum+iSfLBe8o
    g==;
-X-CSE-ConnectionGUID: SVpr8KQMQ364nMfFrqW0mA==
-X-CSE-MsgGUID: F1Qf8RVSR5+yrUnXPxbmGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75943605"
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="75943605"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 07:12:03 -0800
-X-CSE-ConnectionGUID: nhKCiVklRfexQv6kFeJkjA==
-X-CSE-MsgGUID: U2hssOybRee9Fs5HpQtmjw==
+X-CSE-ConnectionGUID: AyiJdBCuSh6saSwJl58UZw==
+X-CSE-MsgGUID: 5p0syGPCRbaV2wyewLKTsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75975352"
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
+   d="scan'208";a="75975352"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 14:18:48 -0800
+X-CSE-ConnectionGUID: nVcsDt9nTsylvyEXf6dHiA==
+X-CSE-MsgGUID: ZXQf0zUAQXCUEEJhokYhMg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="189416222"
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
+   d="scan'208";a="193045068"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 10 Nov 2025 07:11:58 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 10 Nov 2025 14:18:46 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vITYh-0000aN-3C;
-	Mon, 10 Nov 2025 15:11:55 +0000
-Date: Mon, 10 Nov 2025 23:11:29 +0800
+	id 1vIaDk-00014x-0R;
+	Mon, 10 Nov 2025 22:18:44 +0000
+Date: Tue, 11 Nov 2025 06:18:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 3/3] drm/syncobj: Add a fast path to
- drm_syncobj_array_find
-Message-ID: <202511102233.GPoKgaPv-lkp@intel.com>
+Subject: [chao:bugfix/common 3/3] fs/f2fs/segment.c:3075 change_curseg()
+ error: uninitialized symbol 'sum_node'.
+Message-ID: <202511110657.uXJDPyWL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251106132645.28208-4-tvrtko.ursulin@igalia.com>
-References: <20251106132645.28208-4-tvrtko.ursulin@igalia.com>
-TO: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-TO: dri-devel@lists.freedesktop.org
-CC: kernel-dev@igalia.com
-CC: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-CC: "Maíra Canal" <mcanal@igalia.com>
+CC: Chao Yu <chao@kernel.org>
+TO: Chao Yu <chao@kernel.org>
 
-Hi Tvrtko,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.18-rc5 next-20251110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-syncobj-Use-vmemdup_array_user-in-drm_syncobj_array_find/20251106-212904
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20251106132645.28208-4-tvrtko.ursulin%40igalia.com
-patch subject: [PATCH 3/3] drm/syncobj: Add a fast path to drm_syncobj_array_find
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-141-20251110 (https://download.01.org/0day-ci/archive/20251110/202511102233.GPoKgaPv-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
+head:   b7778d525fe14d1d671a7036ab62a3b72488a4f9
+commit: b7778d525fe14d1d671a7036ab62a3b72488a4f9 [3/3] [WIP] f2fs: cache entire summary block in curseg
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-161-20251110 (https://download.01.org/0day-ci/archive/20251111/202511110657.uXJDPyWL-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511102233.GPoKgaPv-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511110657.uXJDPyWL-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/drm_syncobj.c:1339 drm_syncobj_array_find() warn: missing unwind goto?
+New smatch warnings:
+fs/f2fs/segment.c:3075 change_curseg() error: uninitialized symbol 'sum_node'.
 
-vim +1339 drivers/gpu/drm/drm_syncobj.c
+Old smatch warnings:
+fs/f2fs/segment.c:827 __remove_dirty_segment() warn: check sign expansion for '-1'
 
-5e60a10eaebab9 Dave Airlie    2017-08-25  1309  
-3e6fb72d6cef6a Faith Ekstrand 2017-08-25  1310  static int drm_syncobj_array_find(struct drm_file *file_private,
-9e5544627339ec Ville Syrjälä  2017-09-01  1311  				  void __user *user_handles,
-9e5544627339ec Ville Syrjälä  2017-09-01  1312  				  uint32_t count_handles,
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1313  				  uint32_t *stack_handles,
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1314  				  struct drm_syncobj **stack_syncobjs,
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1315  				  u32 stack_count,
-3e6fb72d6cef6a Faith Ekstrand 2017-08-25  1316  				  struct drm_syncobj ***syncobjs_out)
-5e60a10eaebab9 Dave Airlie    2017-08-25  1317  {
-3e6fb72d6cef6a Faith Ekstrand 2017-08-25  1318  	uint32_t i, *handles;
-e7aca5031a2fb5 Faith Ekstrand 2017-08-25  1319  	struct drm_syncobj **syncobjs;
-3e6fb72d6cef6a Faith Ekstrand 2017-08-25  1320  	int ret;
-5e60a10eaebab9 Dave Airlie    2017-08-25  1321  
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1322  	if (count_handles > stack_count) {
-b4ebe6f6bf86ff Tvrtko Ursulin 2025-11-06  1323  		handles = memdup_array_user(user_handles, count_handles,
-b4ebe6f6bf86ff Tvrtko Ursulin 2025-11-06  1324  					    sizeof(*handles));
-b4ebe6f6bf86ff Tvrtko Ursulin 2025-11-06  1325  		if (IS_ERR(handles))
-b4ebe6f6bf86ff Tvrtko Ursulin 2025-11-06  1326  			return PTR_ERR(handles);
-5e60a10eaebab9 Dave Airlie    2017-08-25  1327  
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1328  		syncobjs = kmalloc_array(count_handles, sizeof(*syncobjs),
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1329  					 GFP_KERNEL);
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1330  		if (!syncobjs) {
-5e60a10eaebab9 Dave Airlie    2017-08-25  1331  			ret = -ENOMEM;
-5e60a10eaebab9 Dave Airlie    2017-08-25  1332  			goto err_free_handles;
-5e60a10eaebab9 Dave Airlie    2017-08-25  1333  		}
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1334  	} else {
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1335  		handles = stack_handles;
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1336  		syncobjs = stack_syncobjs;
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1337  		if (copy_from_user(handles, user_handles,
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1338  				   count_handles * sizeof(*handles)))
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06 @1339  			return -EFAULT;
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1340  	}
-5e60a10eaebab9 Dave Airlie    2017-08-25  1341  
-3e6fb72d6cef6a Faith Ekstrand 2017-08-25  1342  	for (i = 0; i < count_handles; i++) {
-e7aca5031a2fb5 Faith Ekstrand 2017-08-25  1343  		syncobjs[i] = drm_syncobj_find(file_private, handles[i]);
-e7aca5031a2fb5 Faith Ekstrand 2017-08-25  1344  		if (!syncobjs[i]) {
-e7aca5031a2fb5 Faith Ekstrand 2017-08-25  1345  			ret = -ENOENT;
-3e6fb72d6cef6a Faith Ekstrand 2017-08-25  1346  			goto err_put_syncobjs;
-5e60a10eaebab9 Dave Airlie    2017-08-25  1347  		}
-e7aca5031a2fb5 Faith Ekstrand 2017-08-25  1348  	}
-5e60a10eaebab9 Dave Airlie    2017-08-25  1349  
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1350  	if (handles != stack_handles)
-3e6fb72d6cef6a Faith Ekstrand 2017-08-25  1351  		kfree(handles);
-3e6fb72d6cef6a Faith Ekstrand 2017-08-25  1352  	*syncobjs_out = syncobjs;
-3e6fb72d6cef6a Faith Ekstrand 2017-08-25  1353  	return 0;
-5e60a10eaebab9 Dave Airlie    2017-08-25  1354  
-3e6fb72d6cef6a Faith Ekstrand 2017-08-25  1355  err_put_syncobjs:
-e7aca5031a2fb5 Faith Ekstrand 2017-08-25  1356  	while (i-- > 0)
-e7aca5031a2fb5 Faith Ekstrand 2017-08-25  1357  		drm_syncobj_put(syncobjs[i]);
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1358  	if (syncobjs != stack_syncobjs)
-e7aca5031a2fb5 Faith Ekstrand 2017-08-25  1359  		kfree(syncobjs);
-5e60a10eaebab9 Dave Airlie    2017-08-25  1360  err_free_handles:
-6cbb5aa2c8c162 Tvrtko Ursulin 2025-11-06  1361  	if (handles != stack_handles)
-5e60a10eaebab9 Dave Airlie    2017-08-25  1362  		kfree(handles);
-5e60a10eaebab9 Dave Airlie    2017-08-25  1363  
-5e60a10eaebab9 Dave Airlie    2017-08-25  1364  	return ret;
-5e60a10eaebab9 Dave Airlie    2017-08-25  1365  }
-3e6fb72d6cef6a Faith Ekstrand 2017-08-25  1366  
+vim +/sum_node +3075 fs/f2fs/segment.c
+
+61461fc921b756 Chao Yu                 2021-03-24  3038  
+0a8165d7c2cf13 Jaegeuk Kim             2012-11-29  3039  /*
+351df4b2011573 Jaegeuk Kim             2012-11-02  3040   * This function always allocates a used segment(from dirty seglist) by SSR
+351df4b2011573 Jaegeuk Kim             2012-11-02  3041   * manner, so it should recover the existing segment information of valid blocks
+351df4b2011573 Jaegeuk Kim             2012-11-02  3042   */
+245930617c9bd8 Zhiguo Niu              2024-03-11  3043  static int change_curseg(struct f2fs_sb_info *sbi, int type)
+351df4b2011573 Jaegeuk Kim             2012-11-02  3044  {
+351df4b2011573 Jaegeuk Kim             2012-11-02  3045  	struct dirty_seglist_info *dirty_i = DIRTY_I(sbi);
+351df4b2011573 Jaegeuk Kim             2012-11-02  3046  	struct curseg_info *curseg = CURSEG_I(sbi, type);
+351df4b2011573 Jaegeuk Kim             2012-11-02  3047  	unsigned int new_segno = curseg->next_segno;
+b7778d525fe14d Chao Yu                 2025-11-08  3048  	bool exchange_sumblk = GET_SEC_FROM_SEG(sbi, curseg->segno) !=
+b7778d525fe14d Chao Yu                 2025-11-08  3049  				GET_SEC_FROM_SEG(sbi, new_segno);
+351df4b2011573 Jaegeuk Kim             2012-11-02  3050  
+b7778d525fe14d Chao Yu                 2025-11-08  3051  	if (curseg->inited && exchange_sumblk)
+e9b020f3803a13 Daeho Jeong             2025-11-04  3052  		write_sum_page(sbi, curseg->sum_blk, curseg->segno);
+093749e296e29a Chao Yu                 2020-08-04  3053  
+351df4b2011573 Jaegeuk Kim             2012-11-02  3054  	__set_test_and_inuse(sbi, new_segno);
+351df4b2011573 Jaegeuk Kim             2012-11-02  3055  
+351df4b2011573 Jaegeuk Kim             2012-11-02  3056  	mutex_lock(&dirty_i->seglist_lock);
+351df4b2011573 Jaegeuk Kim             2012-11-02  3057  	__remove_dirty_segment(sbi, new_segno, PRE);
+351df4b2011573 Jaegeuk Kim             2012-11-02  3058  	__remove_dirty_segment(sbi, new_segno, DIRTY);
+351df4b2011573 Jaegeuk Kim             2012-11-02  3059  	mutex_unlock(&dirty_i->seglist_lock);
+351df4b2011573 Jaegeuk Kim             2012-11-02  3060  
+351df4b2011573 Jaegeuk Kim             2012-11-02  3061  	reset_curseg(sbi, type, 1);
+351df4b2011573 Jaegeuk Kim             2012-11-02  3062  	curseg->alloc_type = SSR;
+453e2ff8e4ff27 Chao Yu                 2021-04-13  3063  	curseg->next_blkoff = __next_free_blkoff(sbi, curseg->segno, 0);
+351df4b2011573 Jaegeuk Kim             2012-11-02  3064  
+b7778d525fe14d Chao Yu                 2025-11-08  3065  	if (exchange_sumblk) {
+b7778d525fe14d Chao Yu                 2025-11-08  3066  		struct f2fs_summary_block *sum_node;
+b7778d525fe14d Chao Yu                 2025-11-08  3067  		struct folio *sum_folio;
+b7778d525fe14d Chao Yu                 2025-11-08  3068  
+0e1073f850fce4 Matthew Wilcox (Oracle  2025-03-31  3069) 		sum_folio = f2fs_get_sum_folio(sbi, new_segno);
+0e1073f850fce4 Matthew Wilcox (Oracle  2025-03-31  3070) 		if (IS_ERR(sum_folio)) {
+86f33603f8c515 Jaegeuk Kim             2020-10-02  3071  			/* GC won't be able to use stale summary pages by cp_error */
+b7778d525fe14d Chao Yu                 2025-11-08  3072  			memset(curseg->sum_blk, 0, F2FS_BLKSIZE);
+0e1073f850fce4 Matthew Wilcox (Oracle  2025-03-31  3073) 			return PTR_ERR(sum_folio);
+86f33603f8c515 Jaegeuk Kim             2020-10-02  3074  		}
+b7778d525fe14d Chao Yu                 2025-11-08 @3075  		memcpy(curseg->sum_blk, sum_node, F2FS_BLKSIZE);
+0e1073f850fce4 Matthew Wilcox (Oracle  2025-03-31  3076) 		f2fs_folio_put(sum_folio, true);
+b7778d525fe14d Chao Yu                 2025-11-08  3077  	}
+245930617c9bd8 Zhiguo Niu              2024-03-11  3078  	return 0;
+351df4b2011573 Jaegeuk Kim             2012-11-02  3079  }
+351df4b2011573 Jaegeuk Kim             2012-11-02  3080  
 
 -- 
 0-DAY CI Kernel Test Service
