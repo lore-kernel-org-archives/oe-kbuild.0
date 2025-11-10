@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A081F4174
-	for <oe-kbuild@lists.linux.dev>; Sun,  9 Nov 2025 18:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD6F1A58D
+	for <oe-kbuild@lists.linux.dev>; Mon, 10 Nov 2025 00:33:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762711827; cv=none; b=JoV83GYQpHwCW7p2sgGQldYy3CPSVPL/o3iE1XIHxGllzqUs39XYsGfX5u3yENpnQTyrybS4WAibzwN4t9GdgGy56I/oA3x4MGZ6b5EvH7JI1TyVjGNwbe/QjPPoWi+ZqQUMzZ45F0z8y2ZrMO7VOMsnlbWoaoYY9yXoIr4tXcc=
+	t=1762734835; cv=none; b=LS8Dk7OWtTyak+3aRH+iQZ9VVu+4ZWDG6WI+ESQaDFHrrZWc3Rrj4sVYLtaU+WHonwqw/ImLFMVmiORD7eTGqe5HZwA3E3FNdGuqvw13H/5abVHSvsEaHn7RtSS69u3sVF61DSKSthcT8N24weA1ljL+YzrpyPU0r7u9wlGFjxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762711827; c=relaxed/simple;
-	bh=l807Kcf73YUUEx/XPNbxC0hJxCOOmruhxcOVa/brZ+M=;
+	s=arc-20240116; t=1762734835; c=relaxed/simple;
+	bh=jd8lfHdLSGZrpZkRxjFhMnnby2XDmDKf6QZgJfBljt8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hrzaeNnV+uAYv9ZPwDN0UvGvV/AiAv3vU9AoMlpSmBkhiLfJW0m7w7c+skKaZrADwIdoVg95uGgzumRddUeMwDX59c4WsV2a4ZJNratZyFVrlU2x7/pnvTUsHqr7AuPhz3F8YO/qKdr0f2CXRJuyavTdbJB0sMNHaR7VhTqmmCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LCEBbgnw; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=kZMmGTefrOVFdbmWJU29joJ9kYEEcqGqMSycr4eAVr9N3R7PSWHyFSa3ycWWvfXI/nmAHTR9OUPgj0lhv1YuKC5uoSHoN3RmcRATbTNeAJLDNqudIRYVgzDiELI1Lbn1fFpQpiDG+U2aTdSrSa5UJ3KrvTDB7XcYU8Y0hZFvrek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MbtONt+q; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LCEBbgnw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MbtONt+q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762711825; x=1794247825;
+  t=1762734833; x=1794270833;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l807Kcf73YUUEx/XPNbxC0hJxCOOmruhxcOVa/brZ+M=;
-  b=LCEBbgnwcbsg7WhMHP6GxkweJNlls14Cu2h9qdlf8Sfsc9uGfXSrKRUP
-   fOEXPburq2fOtBM30+yLlq0Q0BJji6UiCPnYL1gWFR4jWXll9k/2MNms0
-   O71AuSKWUtABKXN0lqgbNjdr0IVckYJMAq43uMHcmbsra7gEHzlojF/fX
-   k+1igchwQjboACuIve1JE0k7bMHCQt9Wl8vbb7Yy5H5ULAjeqB+eSdm5q
-   tPkAIowMd0gsbIv+ScKFWUyI34pEU3NjqOyNo0etndDI3FOaSqNDsnAhB
-   0TGuQMUdNZYUU0NO+vNJYIP0lyo94hks+SiYZ/di39zftLj/anpGelQOl
-   w==;
-X-CSE-ConnectionGUID: U+Ou4ILLRLqslVpI/rsE3Q==
-X-CSE-MsgGUID: /aZhHtCbQjKfDodKVSQssQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="75466807"
+  bh=jd8lfHdLSGZrpZkRxjFhMnnby2XDmDKf6QZgJfBljt8=;
+  b=MbtONt+qeF1VLG5fECUGwzT4ZUNs/GuPTlMvj1yLrCrT1Trp88twUFmW
+   9UjEIba+nnTQ/UcNi1Mv2ZWqT7OL4LTBaV6nMSk6LXGettmxYZsRRSDqQ
+   HABC8k55jYudQTvOXGIrZgjSHLlNSpF/YtSaVZf7IfUFLxHY326DWzENg
+   ZS9atH0nSDRYOJQquUKn9pHkqWXMaQjb7wj3Olc0AH79lYY3bcLzEvYhy
+   XytAik3m0r9UnBq5aUpEUoXfAh7MnHQ+Idrqj34QU62SUgiS1H5vaD16R
+   zIYWOt7ExsTZfdSViGYzB0HLKbn/4AWZ2F80P/QRwAuicS9DUtxBELZGw
+   A==;
+X-CSE-ConnectionGUID: 4OLkbbIxSf6IrSmDq1f8nw==
+X-CSE-MsgGUID: uwXnTXVKS5iD4f3g/j9AUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="90257179"
 X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
-   d="scan'208";a="75466807"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 10:10:24 -0800
-X-CSE-ConnectionGUID: EyzVMLTBQv+9s0K3IbxMcg==
-X-CSE-MsgGUID: mjEruZM7ReWGMpA7PssulA==
+   d="scan'208";a="90257179"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 16:33:52 -0800
+X-CSE-ConnectionGUID: 5m13n8hETVe2bQRcntSLWw==
+X-CSE-MsgGUID: cHg2cvY6Th6rzUVaXrFbWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
-   d="scan'208";a="192882523"
-Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Nov 2025 10:10:23 -0800
-Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
+   d="scan'208";a="193554461"
+Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 09 Nov 2025 16:33:51 -0800
+Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vI9rp-0002Id-13;
-	Sun, 09 Nov 2025 18:10:21 +0000
-Date: Mon, 10 Nov 2025 02:09:47 +0800
+	id 1vIFqv-000000003wy-1M2h;
+	Mon, 10 Nov 2025 00:33:49 +0000
+Date: Mon, 10 Nov 2025 01:33:00 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v6 11/11] vfio/nvgrace: Support get_dmabuf_phys
-Message-ID: <202511100152.SyE9Mhps-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /: failed to match
+ any schema with compatible: ['tplink,tl-wr1043nd-v1', 'qca,ar9132']
+Message-ID: <202511100143.08KTI5Ny-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,88 +62,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251102-dmabuf-vfio-v6-11-d773cff0db9f@nvidia.com>
-References: <20251102-dmabuf-vfio-v6-11-d773cff0db9f@nvidia.com>
-TO: Leon Romanovsky <leon@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Conor Dooley <conor.dooley@microchip.com>
 
-Hi Leon,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 3a8660878839faadb4f1a6dd72c3179c1df56787]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Romanovsky/PCI-P2PDMA-Separate-the-mmap-support-from-the-core-logic/20251102-160355
-base:   3a8660878839faadb4f1a6dd72c3179c1df56787
-patch link:    https://lore.kernel.org/r/20251102-dmabuf-vfio-v6-11-d773cff0db9f%40nvidia.com
-patch subject: [PATCH v6 11/11] vfio/nvgrace: Support get_dmabuf_phys
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: arm64-randconfig-r072-20251109 (https://download.01.org/0day-ci/archive/20251110/202511100152.SyE9Mhps-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b9ea93cd5c37fb6d606502fd01208dd48330549d)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e9a6fb0bcdd7609be6969112f3fbfcce3b1d4a7c
+commit: 61a6ba233fe1198e9eacc9ca1d1cbdb27f70cee5 dt-bindings: Unify "fsl,liodn" type definitions
+date:   12 months ago
+:::::: branch date: 83 minutes ago
+:::::: commit date: 12 months ago
+config: mips-randconfig-2051-20251110 (https://download.01.org/0day-ci/archive/20251110/202511100143.08KTI5Ny-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0ba7bfc34fa292a34b31f6338464744b5cad58a3)
+dtschema version: 2025.9.dev13+gc72762e0c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511100143.08KTI5Ny-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511100152.SyE9Mhps-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511100143.08KTI5Ny-lkp@intel.com/
 
-New smatch warnings:
-drivers/vfio/pci/nvgrace-gpu/main.c:706 nvgrace_get_dmabuf_phys() warn: '*provider' is an error pointer or valid
-
-Old smatch warnings:
-drivers/vfio/pci/nvgrace-gpu/main.c:720 nvgrace_get_dmabuf_phys() warn: '*provider' is an error pointer or valid
-drivers/vfio/pci/nvgrace-gpu/main.c:794 nvgrace_gpu_fetch_memory_property() warn: impossible condition '(*pmemphys > ((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1)))))) => (0-u64max > u64max)'
-drivers/vfio/pci/nvgrace-gpu/main.c:802 nvgrace_gpu_fetch_memory_property() warn: impossible condition '(*pmemlength > ((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1)))))) => (0-u64max > u64max)'
-
-vim +706 drivers/vfio/pci/nvgrace-gpu/main.c
-
-701ab935859fcfd Ankit Agrawal   2024-02-20  686  
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  687  static int nvgrace_get_dmabuf_phys(struct vfio_pci_core_device *core_vdev,
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  688  				   struct p2pdma_provider **provider,
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  689  				   unsigned int region_index,
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  690  				   struct dma_buf_phys_vec *phys_vec,
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  691  				   struct vfio_region_dma_range *dma_ranges,
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  692  				   size_t nr_ranges)
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  693  {
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  694  	struct nvgrace_gpu_pci_core_device *nvdev = container_of(
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  695  		core_vdev, struct nvgrace_gpu_pci_core_device, core_device);
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  696  	struct pci_dev *pdev = core_vdev->pdev;
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  697  
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  698  	if (nvdev->resmem.memlength && region_index == RESMEM_REGION_INDEX) {
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  699  		/*
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  700  		 * The P2P properties of the non-BAR memory is the same as the
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  701  		 * BAR memory, so just use the provider for index 0. Someday
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  702  		 * when CXL gets P2P support we could create CXLish providers
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  703  		 * for the non-BAR memory.
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  704  		 */
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  705  		*provider = pcim_p2pdma_provider(pdev, 0);
-d7ddf63944708fb Jason Gunthorpe 2025-11-02 @706  		if (!*provider)
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  707  			return -EINVAL;
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  708  		return vfio_pci_core_fill_phys_vec(phys_vec, dma_ranges,
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  709  						   nr_ranges,
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  710  						   nvdev->resmem.memphys,
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  711  						   nvdev->resmem.memlength);
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  712  	} else if (region_index == USEMEM_REGION_INDEX) {
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  713  		/*
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  714  		 * This is actually cachable memory and isn't treated as P2P in
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  715  		 * the chip. For now we have no way to push cachable memory
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  716  		 * through everything and the Grace HW doesn't care what caching
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  717  		 * attribute is programmed into the SMMU. So use BAR 0.
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  718  		 */
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  719  		*provider = pcim_p2pdma_provider(pdev, 0);
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  720  		if (!*provider)
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  721  			return -EINVAL;
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  722  		return vfio_pci_core_fill_phys_vec(phys_vec, dma_ranges,
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  723  						   nr_ranges,
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  724  						   nvdev->usemem.memphys,
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  725  						   nvdev->usemem.memlength);
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  726  	}
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  727  	return vfio_pci_core_get_dmabuf_phys(core_vdev, provider, region_index,
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  728  					     phys_vec, dma_ranges, nr_ranges);
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  729  }
-d7ddf63944708fb Jason Gunthorpe 2025-11-02  730  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /: failed to match any schema with compatible: ['tplink,tl-wr1043nd-v1', 'qca,ar9132']
+>> arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /: failed to match any schema with compatible: ['tplink,tl-wr1043nd-v1', 'qca,ar9132']
+   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /interrupt-controller: failed to match any schema with compatible: ['qca,ar9132-cpu-intc', 'qca,ar7100-cpu-intc']
+   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /interrupt-controller: failed to match any schema with compatible: ['qca,ar9132-cpu-intc', 'qca,ar7100-cpu-intc']
+>> arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: uart@18020000 (ns8250): $nodename:0: 'uart@18020000' does not match '^serial(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml
+   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: uart@18020000 (ns8250): Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml
+   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/apb/gpio@18040000: failed to match any schema with compatible: ['qca,ar9132-gpio', 'qca,ar7100-gpio']
+   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/apb/gpio@18040000: failed to match any schema with compatible: ['qca,ar9132-gpio', 'qca,ar7100-gpio']
+   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/apb/pll-controller@18050000: failed to match any schema with compatible: ['qca,ar9132-pll', 'qca,ar9130-pll']
+   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/apb/pll-controller@18050000: failed to match any schema with compatible: ['qca,ar9132-pll', 'qca,ar9130-pll']
+>> arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: wdt@18060008 (qca,ar7130-wdt): $nodename:0: 'wdt@18060008' does not match '^(timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/qca,ar7130-wdt.yaml
+>> arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: wdt@18060008 (qca,ar7130-wdt): Unevaluated properties are not allowed ('clock-names', 'clocks', 'interrupts' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/watchdog/qca,ar7130-wdt.yaml
+   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/apb/interrupt-controller@18060010: failed to match any schema with compatible: ['qca,ar9132-misc-intc', 'qca,ar7100-misc-intc']
+   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/apb/interrupt-controller@18060010: failed to match any schema with compatible: ['qca,ar9132-misc-intc', 'qca,ar7100-misc-intc']
+>> arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/spi@1f000000: failed to match any schema with compatible: ['qca,ar9132-spi', 'qca,ar7100-spi']
+>> arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/spi@1f000000: failed to match any schema with compatible: ['qca,ar9132-spi', 'qca,ar7100-spi']
+>> arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/spi@1f000000/flash@0: failed to match any schema with compatible: ['s25sl064a']
+   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /usb-phy: failed to match any schema with compatible: ['qca,ar7100-usb-phy']
+--
+   arch/mips/boot/dts/qca/ar9331.dtsi:263.21-274.5: Warning (simple_bus_reg): /ahb/usb@1b000100: simple-bus unit address format error, expected "1b000000"
+   arch/mips/boot/dts/qca/ar9331.dtsi:158.25-259.7: Warning (avoid_unnecessary_addr_size): /ahb/ethernet@1a000000/mdio/switch@10: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/mips/boot/dts/qca/ar9331_dpt_module.dtb: /: failed to match any schema with compatible: ['dptechnics,dpt-module']
+   arch/mips/boot/dts/qca/ar9331_dpt_module.dtb: /interrupt-controller: failed to match any schema with compatible: ['qca,ar7100-cpu-intc']
+   arch/mips/boot/dts/qca/ar9331_dpt_module.dtb: /ahb/apb/gpio@18040000: failed to match any schema with compatible: ['qca,ar7100-gpio']
+   arch/mips/boot/dts/qca/ar9331_dpt_module.dtb: /ahb/apb/pll-controller@18050000: failed to match any schema with compatible: ['qca,ar9330-pll']
+   arch/mips/boot/dts/qca/ar9331_dpt_module.dtb: /ahb/apb/interrupt-controller@18060010: failed to match any schema with compatible: ['qca,ar7240-misc-intc']
+>> arch/mips/boot/dts/qca/ar9331_dpt_module.dtb: reset-controller@1806001c (qca,ar7100-reset): compatible:0: 'qca,ar7100-reset' is not one of ['qca,ar9132-reset', 'qca,ar9331-reset']
+   	from schema $id: http://devicetree.org/schemas/reset/qca,ar7100-reset.yaml
+>> arch/mips/boot/dts/qca/ar9331_dpt_module.dtb: reset-controller@1806001c (qca,ar7100-reset): compatible: ['qca,ar7100-reset'] is too short
+   	from schema $id: http://devicetree.org/schemas/reset/qca,ar7100-reset.yaml
+>> arch/mips/boot/dts/qca/ar9331_dpt_module.dtb: switch@10 (qca,ar9331-switch): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/qca,ar9331.yaml
+>> arch/mips/boot/dts/qca/ar9331_dpt_module.dtb: /ahb/spi@1f000000: failed to match any schema with compatible: ['qca,ar7100-spi']
+>> arch/mips/boot/dts/qca/ar9331_dpt_module.dtb: w25q128@0 (winbond,w25q128): $nodename:0: 'w25q128@0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
+>> arch/mips/boot/dts/qca/ar9331_dpt_module.dtb: w25q128@0 (winbond,w25q128): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
+   arch/mips/boot/dts/qca/ar9331_dpt_module.dtb: /usb-phy: failed to match any schema with compatible: ['qca,ar7100-usb-phy']
+--
+   arch/mips/boot/dts/qca/ar9331.dtsi:263.21-274.5: Warning (simple_bus_reg): /ahb/usb@1b000100: simple-bus unit address format error, expected "1b000000"
+   arch/mips/boot/dts/qca/ar9331.dtsi:158.25-259.7: Warning (avoid_unnecessary_addr_size): /ahb/ethernet@1a000000/mdio/switch@10: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/mips/boot/dts/qca/ar9331_dragino_ms14.dtb: /: failed to match any schema with compatible: ['dragino,ms14']
+   arch/mips/boot/dts/qca/ar9331_dragino_ms14.dtb: /interrupt-controller: failed to match any schema with compatible: ['qca,ar7100-cpu-intc']
+   arch/mips/boot/dts/qca/ar9331_dragino_ms14.dtb: /ahb/apb/gpio@18040000: failed to match any schema with compatible: ['qca,ar7100-gpio']
+   arch/mips/boot/dts/qca/ar9331_dragino_ms14.dtb: /ahb/apb/pll-controller@18050000: failed to match any schema with compatible: ['qca,ar9330-pll']
+   arch/mips/boot/dts/qca/ar9331_dragino_ms14.dtb: /ahb/apb/interrupt-controller@18060010: failed to match any schema with compatible: ['qca,ar7240-misc-intc']
+>> arch/mips/boot/dts/qca/ar9331_dragino_ms14.dtb: reset-controller@1806001c (qca,ar7100-reset): compatible:0: 'qca,ar7100-reset' is not one of ['qca,ar9132-reset', 'qca,ar9331-reset']
+   	from schema $id: http://devicetree.org/schemas/reset/qca,ar7100-reset.yaml
+>> arch/mips/boot/dts/qca/ar9331_dragino_ms14.dtb: reset-controller@1806001c (qca,ar7100-reset): compatible: ['qca,ar7100-reset'] is too short
+   	from schema $id: http://devicetree.org/schemas/reset/qca,ar7100-reset.yaml
+>> arch/mips/boot/dts/qca/ar9331_dragino_ms14.dtb: /ahb/spi@1f000000: failed to match any schema with compatible: ['qca,ar7100-spi']
+>> arch/mips/boot/dts/qca/ar9331_dragino_ms14.dtb: w25q128@0 (winbond,w25q128): $nodename:0: 'w25q128@0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
+>> arch/mips/boot/dts/qca/ar9331_dragino_ms14.dtb: w25q128@0 (winbond,w25q128): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
+   arch/mips/boot/dts/qca/ar9331_dragino_ms14.dtb: /usb-phy: failed to match any schema with compatible: ['qca,ar7100-usb-phy']
+--
+   arch/mips/boot/dts/qca/ar9331.dtsi:263.21-274.5: Warning (simple_bus_reg): /ahb/usb@1b000100: simple-bus unit address format error, expected "1b000000"
+   arch/mips/boot/dts/qca/ar9331.dtsi:158.25-259.7: Warning (avoid_unnecessary_addr_size): /ahb/ethernet@1a000000/mdio/switch@10: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/mips/boot/dts/qca/ar9331_omega.dtb: /: failed to match any schema with compatible: ['onion,omega']
+   arch/mips/boot/dts/qca/ar9331_omega.dtb: /interrupt-controller: failed to match any schema with compatible: ['qca,ar7100-cpu-intc']
+   arch/mips/boot/dts/qca/ar9331_omega.dtb: /ahb/apb/gpio@18040000: failed to match any schema with compatible: ['qca,ar7100-gpio']
+   arch/mips/boot/dts/qca/ar9331_omega.dtb: /ahb/apb/pll-controller@18050000: failed to match any schema with compatible: ['qca,ar9330-pll']
+   arch/mips/boot/dts/qca/ar9331_omega.dtb: /ahb/apb/interrupt-controller@18060010: failed to match any schema with compatible: ['qca,ar7240-misc-intc']
+>> arch/mips/boot/dts/qca/ar9331_omega.dtb: reset-controller@1806001c (qca,ar7100-reset): compatible:0: 'qca,ar7100-reset' is not one of ['qca,ar9132-reset', 'qca,ar9331-reset']
+   	from schema $id: http://devicetree.org/schemas/reset/qca,ar7100-reset.yaml
+>> arch/mips/boot/dts/qca/ar9331_omega.dtb: reset-controller@1806001c (qca,ar7100-reset): compatible: ['qca,ar7100-reset'] is too short
+   	from schema $id: http://devicetree.org/schemas/reset/qca,ar7100-reset.yaml
+>> arch/mips/boot/dts/qca/ar9331_omega.dtb: /ahb/spi@1f000000: failed to match any schema with compatible: ['qca,ar7100-spi']
+>> arch/mips/boot/dts/qca/ar9331_omega.dtb: w25q128@0 (winbond,w25q128): $nodename:0: 'w25q128@0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
+>> arch/mips/boot/dts/qca/ar9331_omega.dtb: w25q128@0 (winbond,w25q128): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
+   arch/mips/boot/dts/qca/ar9331_omega.dtb: /usb-phy: failed to match any schema with compatible: ['qca,ar7100-usb-phy']
+--
+   arch/mips/boot/dts/qca/ar9331.dtsi:263.21-274.5: Warning (simple_bus_reg): /ahb/usb@1b000100: simple-bus unit address format error, expected "1b000000"
+   arch/mips/boot/dts/qca/ar9331.dtsi:158.25-259.7: Warning (avoid_unnecessary_addr_size): /ahb/ethernet@1a000000/mdio/switch@10: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/mips/boot/dts/qca/ar9331_openembed_som9331_board.dtb: /: failed to match any schema with compatible: ['openembed,som9331']
+   arch/mips/boot/dts/qca/ar9331_openembed_som9331_board.dtb: /interrupt-controller: failed to match any schema with compatible: ['qca,ar7100-cpu-intc']
+   arch/mips/boot/dts/qca/ar9331_openembed_som9331_board.dtb: /ahb/apb/gpio@18040000: failed to match any schema with compatible: ['qca,ar7100-gpio']
+   arch/mips/boot/dts/qca/ar9331_openembed_som9331_board.dtb: /ahb/apb/pll-controller@18050000: failed to match any schema with compatible: ['qca,ar9330-pll']
+   arch/mips/boot/dts/qca/ar9331_openembed_som9331_board.dtb: /ahb/apb/interrupt-controller@18060010: failed to match any schema with compatible: ['qca,ar7240-misc-intc']
+>> arch/mips/boot/dts/qca/ar9331_openembed_som9331_board.dtb: reset-controller@1806001c (qca,ar7100-reset): compatible:0: 'qca,ar7100-reset' is not one of ['qca,ar9132-reset', 'qca,ar9331-reset']
+   	from schema $id: http://devicetree.org/schemas/reset/qca,ar7100-reset.yaml
+>> arch/mips/boot/dts/qca/ar9331_openembed_som9331_board.dtb: reset-controller@1806001c (qca,ar7100-reset): compatible: ['qca,ar7100-reset'] is too short
+   	from schema $id: http://devicetree.org/schemas/reset/qca,ar7100-reset.yaml
+>> arch/mips/boot/dts/qca/ar9331_openembed_som9331_board.dtb: switch@10 (qca,ar9331-switch): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/qca,ar9331.yaml
+>> arch/mips/boot/dts/qca/ar9331_openembed_som9331_board.dtb: /ahb/spi@1f000000: failed to match any schema with compatible: ['qca,ar7100-spi']
+>> arch/mips/boot/dts/qca/ar9331_openembed_som9331_board.dtb: w25q64@0 (winbond,w25q64): $nodename:0: 'w25q64@0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
+>> arch/mips/boot/dts/qca/ar9331_openembed_som9331_board.dtb: w25q64@0 (winbond,w25q64): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
+   arch/mips/boot/dts/qca/ar9331_openembed_som9331_board.dtb: /usb-phy: failed to match any schema with compatible: ['qca,ar7100-usb-phy']
+--
+   arch/mips/boot/dts/qca/ar9331.dtsi:263.21-274.5: Warning (simple_bus_reg): /ahb/usb@1b000100: simple-bus unit address format error, expected "1b000000"
+   arch/mips/boot/dts/qca/ar9331.dtsi:158.25-259.7: Warning (avoid_unnecessary_addr_size): /ahb/ethernet@1a000000/mdio/switch@10: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/mips/boot/dts/qca/ar9331_tl_mr3020.dtb: /: failed to match any schema with compatible: ['tplink,tl-mr3020']
+   arch/mips/boot/dts/qca/ar9331_tl_mr3020.dtb: /interrupt-controller: failed to match any schema with compatible: ['qca,ar7100-cpu-intc']
+   arch/mips/boot/dts/qca/ar9331_tl_mr3020.dtb: /ahb/apb/gpio@18040000: failed to match any schema with compatible: ['qca,ar7100-gpio']
+   arch/mips/boot/dts/qca/ar9331_tl_mr3020.dtb: /ahb/apb/pll-controller@18050000: failed to match any schema with compatible: ['qca,ar9330-pll']
+   arch/mips/boot/dts/qca/ar9331_tl_mr3020.dtb: /ahb/apb/interrupt-controller@18060010: failed to match any schema with compatible: ['qca,ar7240-misc-intc']
+>> arch/mips/boot/dts/qca/ar9331_tl_mr3020.dtb: reset-controller@1806001c (qca,ar7100-reset): compatible:0: 'qca,ar7100-reset' is not one of ['qca,ar9132-reset', 'qca,ar9331-reset']
+   	from schema $id: http://devicetree.org/schemas/reset/qca,ar7100-reset.yaml
+>> arch/mips/boot/dts/qca/ar9331_tl_mr3020.dtb: reset-controller@1806001c (qca,ar7100-reset): compatible: ['qca,ar7100-reset'] is too short
+   	from schema $id: http://devicetree.org/schemas/reset/qca,ar7100-reset.yaml
+>> arch/mips/boot/dts/qca/ar9331_tl_mr3020.dtb: /ahb/spi@1f000000: failed to match any schema with compatible: ['qca,ar7100-spi']
+>> arch/mips/boot/dts/qca/ar9331_tl_mr3020.dtb: s25sl032p@0 (spansion,s25sl032p): $nodename:0: 's25sl032p@0' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
+>> arch/mips/boot/dts/qca/ar9331_tl_mr3020.dtb: s25sl032p@0 (spansion,s25sl032p): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['spansion,s25sl032p', 'jedec,spi-nor'] is too long
+   	'spansion,s25sl032p' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
+   	'spansion,s25sl032p' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
+   	'jedec,spi-nor' was expected
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
+>> arch/mips/boot/dts/qca/ar9331_tl_mr3020.dtb: s25sl032p@0 (spansion,s25sl032p): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
+>> arch/mips/boot/dts/qca/ar9331_tl_mr3020.dtb: /ahb/spi@1f000000/s25sl032p@0: failed to match any schema with compatible: ['spansion,s25sl032p', 'jedec,spi-nor']
+   arch/mips/boot/dts/qca/ar9331_tl_mr3020.dtb: /usb-phy: failed to match any schema with compatible: ['qca,ar7100-usb-phy']
 
 -- 
 0-DAY CI Kernel Test Service
