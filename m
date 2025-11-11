@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B7E2F29
-	for <oe-kbuild@lists.linux.dev>; Mon, 10 Nov 2025 22:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A71529ACF7
+	for <oe-kbuild@lists.linux.dev>; Tue, 11 Nov 2025 06:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762813132; cv=none; b=Oxizb/H6UBC6Q2X76G1ChJ078cEwQaNO3s+qIaChFe6+GWTd+TJJ8OSu1wNcXh6RYUzIOhwCqRFFcLhotJQa8R78h0hjjrxYO1sf6RkTPVI7xqF3joYxnnJyaaYvF3REj6K2UkA0CZcouAk5z8Avf3svhWTaVX0MexVnliJDP0Q=
+	t=1762841454; cv=none; b=rDyT/tq9C36RMRJpYJ3LWZ7pBhDekeU4sX+sEQpRqiR6TUDIa9lo9vwVMSWUJwRGH01Nxpbsp/D57ko1YvdG5H15MMMAepafD90LS8EcWvOyq5ddYkzoobSymFC4rGJWLs+59EwZnUeAmTc/xOO4KJGeAVOgdXZewO8Wwq3sVvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762813132; c=relaxed/simple;
-	bh=i/mKtoHCf4IOJsDFMRBepsclp21Nj4Kl4VK/RST5hqI=;
+	s=arc-20240116; t=1762841454; c=relaxed/simple;
+	bh=Frh4w6+Vty6lYGHbh7R5q9eMCF5dfdH632ltahP5lYI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nx3i+YNZPhBCEVg9G4jqZoBfhLenT1f7GNw7HBLEcXnbAkfP4HPktcO7oppMayEftkM7sIQlZR9HTI1a0yJSQdNMRX6bqzTR1quVbuKAM5tTZ6tgnszvIaIi3l+1ACVcnUqfBByyer3kr8sUHBTkxusRCr4NH6pG9/r/NiLEAeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJYYloCo; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=NR1ElhHWAXtTitNafg4IhDpNDpSoILOyd9+zpO5fEonrtWwZUwCdLRRJTarJHxY7v8v5WUg1NrL3bVRFR0hXPXZsMw9na3d8+ht5rJ5yNSAKKSs1dDw2qW1C0OO/kLTq6oi+ClF1ciy0ltH5l9vt/Fpbx2p9Z9EzyK+q1Z795fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=avL6mtJQ; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJYYloCo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="avL6mtJQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762813130; x=1794349130;
+  t=1762841453; x=1794377453;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i/mKtoHCf4IOJsDFMRBepsclp21Nj4Kl4VK/RST5hqI=;
-  b=UJYYloCoi3b++lJudh81QOdgGiWlekrn9lSv1X7i3BNIVVKV5bhYheCX
-   zgp9QNz77Xku1Dns8cHMlpV5AOjL0iDl/yO+XGJeQWpPxFLFvbCuGLKcS
-   2wb3rPLjIyorP5CxOSbzxQHJStlJdKzMhYnJlGmkOKyF8fFwk2pBXhGzp
-   3MFCz5oyd4asHyyxgIPFGmVg4WSxw+MLOgMRvKs5MXnRR7SZU3QXgWATR
-   GiJoneBF83koYvEr0SMY0tVhde0ajyr05xlgrIBm77VBF3iTPPsYG5IXT
-   aq2PEXuZIMvANCssTXpwnWmeXHEmrd2RuNjNrCmASzbxBsum+iSfLBe8o
-   g==;
-X-CSE-ConnectionGUID: AyiJdBCuSh6saSwJl58UZw==
-X-CSE-MsgGUID: 5p0syGPCRbaV2wyewLKTsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75975352"
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="75975352"
+  bh=Frh4w6+Vty6lYGHbh7R5q9eMCF5dfdH632ltahP5lYI=;
+  b=avL6mtJQptwMnAEOvPawPjpPVrEPwT6mh2cW2ERNFvPTIxv9veYilfl2
+   uCw1NEJLbUofVA34ztftzOBPj2+nhIjzSONH4mNUpxlIsj97/BFCgjwv1
+   f++rjRBVonvDyVgo85F6A0j4wVbsKq49NYDa/enRH9zicA5QMZsTEfm+U
+   CoaIpKsVxA7qNdBPpJLMoohKkOYBDgKRxS127Um2qG7VtUSd4YP3L+sj3
+   QvJxtkfVqnriMUZ825e20KVwsA8NOpGAeVT5o803TsuGrEvwzt8Z7dQyG
+   gPa/JKa9YuZR3pllW8xAz6or0EmThE8kWBfTJ17EVeLRdwndEuFRxwlrC
+   w==;
+X-CSE-ConnectionGUID: 4iWp74yTToCoh/lUxJhqSQ==
+X-CSE-MsgGUID: qm0wTZTUQfmaQZ+i0TcPBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82295596"
+X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
+   d="scan'208";a="82295596"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 14:18:48 -0800
-X-CSE-ConnectionGUID: nVcsDt9nTsylvyEXf6dHiA==
-X-CSE-MsgGUID: ZXQf0zUAQXCUEEJhokYhMg==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 22:10:52 -0800
+X-CSE-ConnectionGUID: OUgcyZJcT4202XtiFlcS8Q==
+X-CSE-MsgGUID: atBZdbqQRWWUB7H3ga/NxQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="193045068"
+X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
+   d="scan'208";a="193128287"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Nov 2025 14:18:46 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 10 Nov 2025 22:10:50 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIaDk-00014x-0R;
-	Mon, 10 Nov 2025 22:18:44 +0000
-Date: Tue, 11 Nov 2025 06:18:09 +0800
+	id 1vIhaa-0002pE-1B;
+	Tue, 11 Nov 2025 06:10:48 +0000
+Date: Tue, 11 Nov 2025 14:10:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [chao:bugfix/common 3/3] fs/f2fs/segment.c:3075 change_curseg()
- error: uninitialized symbol 'sum_node'.
-Message-ID: <202511110657.uXJDPyWL-lkp@intel.com>
+Subject: [hying-caritas:opt-wp-tlb-r4a 2/2] mm/msync.c:90 __do_sys_msync()
+ warn: comparison of a potentially tagged address (__do_sys_msync, -2,
+ __UNIQUE_ID_x_738)
+Message-ID: <202511111337.IH4NKMmM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,74 +65,110 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Chao Yu <chao@kernel.org>
-TO: Chao Yu <chao@kernel.org>
+TO: Huang Ying <ying.huang@linux.alibaba.com>
+CC: Ryan Roberts <ryan.roberts@arm.com>
+CC: Barry Song <baohua@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
-head:   b7778d525fe14d1d671a7036ab62a3b72488a4f9
-commit: b7778d525fe14d1d671a7036ab62a3b72488a4f9 [3/3] [WIP] f2fs: cache entire summary block in curseg
+tree:   https://github.com/hying-caritas/linux.git opt-wp-tlb-r4a
+head:   3b89d4b2cf3904502e36a709eb851c8cbae916f9
+commit: 3b89d4b2cf3904502e36a709eb851c8cbae916f9 [2/2] arm64, tlbflush: don't TLBI broadcast if page reused in write fault
 :::::: branch date: 3 days ago
 :::::: commit date: 3 days ago
-config: x86_64-randconfig-161-20251110 (https://download.01.org/0day-ci/archive/20251111/202511110657.uXJDPyWL-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+config: arm64-randconfig-r072-20251111 (https://download.01.org/0day-ci/archive/20251111/202511111337.IH4NKMmM-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 996639d6ebb86ff15a8c99b67f1c2e2117636ae7)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511110657.uXJDPyWL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511111337.IH4NKMmM-lkp@intel.com/
 
-New smatch warnings:
-fs/f2fs/segment.c:3075 change_curseg() error: uninitialized symbol 'sum_node'.
+smatch warnings:
+mm/msync.c:90 __do_sys_msync() warn: comparison of a potentially tagged address (__do_sys_msync, -2, __UNIQUE_ID_x_738)
+mm/msync.c:90 __do_sys_msync() warn: comparison of a potentially tagged address (__do_sys_msync, -2, __UNIQUE_ID_x_738)
 
-Old smatch warnings:
-fs/f2fs/segment.c:827 __remove_dirty_segment() warn: check sign expansion for '-1'
+vim +90 mm/msync.c
 
-vim +/sum_node +3075 fs/f2fs/segment.c
+^1da177e4c3f41 Linus Torvalds     2005-04-16  17  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  18  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  19   * MS_SYNC syncs the entire file - including mappings.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  20   *
+204ec841fbea3e Peter Zijlstra     2006-09-25  21   * MS_ASYNC does not start I/O (it used to, up to 2.5.67).
+204ec841fbea3e Peter Zijlstra     2006-09-25  22   * Nor does it marks the relevant pages dirty (it used to up to 2.6.17).
+204ec841fbea3e Peter Zijlstra     2006-09-25  23   * Now it doesn't do anything, since dirty pages are properly tracked.
+204ec841fbea3e Peter Zijlstra     2006-09-25  24   *
+204ec841fbea3e Peter Zijlstra     2006-09-25  25   * The application may now run fsync() to
+^1da177e4c3f41 Linus Torvalds     2005-04-16  26   * write out the dirty pages and wait on the writeout and check the result.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  27   * Or the application may run fadvise(FADV_DONTNEED) against the fd to start
+^1da177e4c3f41 Linus Torvalds     2005-04-16  28   * async writeout immediately.
+16538c40776b8b Amos Waterland     2006-03-24  29   * So by _not_ starting I/O in MS_ASYNC we provide complete flexibility to
+^1da177e4c3f41 Linus Torvalds     2005-04-16  30   * applications.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  31   */
+6a6160a7b5c27b Heiko Carstens     2009-01-14  32  SYSCALL_DEFINE3(msync, unsigned long, start, size_t, len, int, flags)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  33  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  34  	unsigned long end;
+204ec841fbea3e Peter Zijlstra     2006-09-25  35  	struct mm_struct *mm = current->mm;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  36  	struct vm_area_struct *vma;
+676758bdb7bfca Andrew Morton      2006-03-24  37  	int unmapped_error = 0;
+676758bdb7bfca Andrew Morton      2006-03-24  38  	int error = -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  39  
+057d3389108eda Andrey Konovalov   2019-09-25  40  	start = untagged_addr(start);
+057d3389108eda Andrey Konovalov   2019-09-25  41  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  42  	if (flags & ~(MS_ASYNC | MS_INVALIDATE | MS_SYNC))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  43  		goto out;
+b0d61c7e56815b Alexander Kuleshov 2015-11-05  44  	if (offset_in_page(start))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  45  		goto out;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  46  	if ((flags & MS_ASYNC) && (flags & MS_SYNC))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  47  		goto out;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  48  	error = -ENOMEM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  49  	len = (len + ~PAGE_MASK) & PAGE_MASK;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  50  	end = start + len;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  51  	if (end < start)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  52  		goto out;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  53  	error = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  54  	if (end == start)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  55  		goto out;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  56  	/*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  57  	 * If the interval [start,end) covers some unmapped address ranges,
+f6899bc03cbadc Nikita Ermakov     2021-04-29  58  	 * just ignore them, but return -ENOMEM at the end. Besides, if the
+f6899bc03cbadc Nikita Ermakov     2021-04-29  59  	 * flag is MS_ASYNC (w/o MS_INVALIDATE) the result would be -ENOMEM
+f6899bc03cbadc Nikita Ermakov     2021-04-29  60  	 * anyway and there is nothing left to do, so return immediately.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  61  	 */
+d8ed45c5dcd455 Michel Lespinasse  2020-06-08  62  	mmap_read_lock(mm);
+204ec841fbea3e Peter Zijlstra     2006-09-25  63  	vma = find_vma(mm, start);
+204ec841fbea3e Peter Zijlstra     2006-09-25  64  	for (;;) {
+9c50823eebf7c2 Andrew Morton      2006-03-24  65  		struct file *file;
+7fc34a62ca4434 Matthew Wilcox     2014-06-04  66  		loff_t fstart, fend;
+9c50823eebf7c2 Andrew Morton      2006-03-24  67  
+204ec841fbea3e Peter Zijlstra     2006-09-25  68  		/* Still start < end. */
+204ec841fbea3e Peter Zijlstra     2006-09-25  69  		error = -ENOMEM;
+204ec841fbea3e Peter Zijlstra     2006-09-25  70  		if (!vma)
+204ec841fbea3e Peter Zijlstra     2006-09-25  71  			goto out_unlock;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  72  		/* Here start < vma->vm_end. */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  73  		if (start < vma->vm_start) {
+f6899bc03cbadc Nikita Ermakov     2021-04-29  74  			if (flags == MS_ASYNC)
+f6899bc03cbadc Nikita Ermakov     2021-04-29  75  				goto out_unlock;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  76  			start = vma->vm_start;
+204ec841fbea3e Peter Zijlstra     2006-09-25  77  			if (start >= end)
+9c50823eebf7c2 Andrew Morton      2006-03-24  78  				goto out_unlock;
+204ec841fbea3e Peter Zijlstra     2006-09-25  79  			unmapped_error = -ENOMEM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  80  		}
+204ec841fbea3e Peter Zijlstra     2006-09-25  81  		/* Here vma->vm_start <= start < vma->vm_end. */
+204ec841fbea3e Peter Zijlstra     2006-09-25  82  		if ((flags & MS_INVALIDATE) &&
+204ec841fbea3e Peter Zijlstra     2006-09-25  83  				(vma->vm_flags & VM_LOCKED)) {
+204ec841fbea3e Peter Zijlstra     2006-09-25  84  			error = -EBUSY;
+9c50823eebf7c2 Andrew Morton      2006-03-24  85  			goto out_unlock;
+9c50823eebf7c2 Andrew Morton      2006-03-24  86  		}
+9c50823eebf7c2 Andrew Morton      2006-03-24  87  		file = vma->vm_file;
+496a8e68654a5f Namjae Jeon        2014-07-02  88  		fstart = (start - vma->vm_start) +
+496a8e68654a5f Namjae Jeon        2014-07-02  89  			 ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
+7fc34a62ca4434 Matthew Wilcox     2014-06-04 @90  		fend = fstart + (min(end, vma->vm_end) - start) - 1;
 
-61461fc921b756 Chao Yu                 2021-03-24  3038  
-0a8165d7c2cf13 Jaegeuk Kim             2012-11-29  3039  /*
-351df4b2011573 Jaegeuk Kim             2012-11-02  3040   * This function always allocates a used segment(from dirty seglist) by SSR
-351df4b2011573 Jaegeuk Kim             2012-11-02  3041   * manner, so it should recover the existing segment information of valid blocks
-351df4b2011573 Jaegeuk Kim             2012-11-02  3042   */
-245930617c9bd8 Zhiguo Niu              2024-03-11  3043  static int change_curseg(struct f2fs_sb_info *sbi, int type)
-351df4b2011573 Jaegeuk Kim             2012-11-02  3044  {
-351df4b2011573 Jaegeuk Kim             2012-11-02  3045  	struct dirty_seglist_info *dirty_i = DIRTY_I(sbi);
-351df4b2011573 Jaegeuk Kim             2012-11-02  3046  	struct curseg_info *curseg = CURSEG_I(sbi, type);
-351df4b2011573 Jaegeuk Kim             2012-11-02  3047  	unsigned int new_segno = curseg->next_segno;
-b7778d525fe14d Chao Yu                 2025-11-08  3048  	bool exchange_sumblk = GET_SEC_FROM_SEG(sbi, curseg->segno) !=
-b7778d525fe14d Chao Yu                 2025-11-08  3049  				GET_SEC_FROM_SEG(sbi, new_segno);
-351df4b2011573 Jaegeuk Kim             2012-11-02  3050  
-b7778d525fe14d Chao Yu                 2025-11-08  3051  	if (curseg->inited && exchange_sumblk)
-e9b020f3803a13 Daeho Jeong             2025-11-04  3052  		write_sum_page(sbi, curseg->sum_blk, curseg->segno);
-093749e296e29a Chao Yu                 2020-08-04  3053  
-351df4b2011573 Jaegeuk Kim             2012-11-02  3054  	__set_test_and_inuse(sbi, new_segno);
-351df4b2011573 Jaegeuk Kim             2012-11-02  3055  
-351df4b2011573 Jaegeuk Kim             2012-11-02  3056  	mutex_lock(&dirty_i->seglist_lock);
-351df4b2011573 Jaegeuk Kim             2012-11-02  3057  	__remove_dirty_segment(sbi, new_segno, PRE);
-351df4b2011573 Jaegeuk Kim             2012-11-02  3058  	__remove_dirty_segment(sbi, new_segno, DIRTY);
-351df4b2011573 Jaegeuk Kim             2012-11-02  3059  	mutex_unlock(&dirty_i->seglist_lock);
-351df4b2011573 Jaegeuk Kim             2012-11-02  3060  
-351df4b2011573 Jaegeuk Kim             2012-11-02  3061  	reset_curseg(sbi, type, 1);
-351df4b2011573 Jaegeuk Kim             2012-11-02  3062  	curseg->alloc_type = SSR;
-453e2ff8e4ff27 Chao Yu                 2021-04-13  3063  	curseg->next_blkoff = __next_free_blkoff(sbi, curseg->segno, 0);
-351df4b2011573 Jaegeuk Kim             2012-11-02  3064  
-b7778d525fe14d Chao Yu                 2025-11-08  3065  	if (exchange_sumblk) {
-b7778d525fe14d Chao Yu                 2025-11-08  3066  		struct f2fs_summary_block *sum_node;
-b7778d525fe14d Chao Yu                 2025-11-08  3067  		struct folio *sum_folio;
-b7778d525fe14d Chao Yu                 2025-11-08  3068  
-0e1073f850fce4 Matthew Wilcox (Oracle  2025-03-31  3069) 		sum_folio = f2fs_get_sum_folio(sbi, new_segno);
-0e1073f850fce4 Matthew Wilcox (Oracle  2025-03-31  3070) 		if (IS_ERR(sum_folio)) {
-86f33603f8c515 Jaegeuk Kim             2020-10-02  3071  			/* GC won't be able to use stale summary pages by cp_error */
-b7778d525fe14d Chao Yu                 2025-11-08  3072  			memset(curseg->sum_blk, 0, F2FS_BLKSIZE);
-0e1073f850fce4 Matthew Wilcox (Oracle  2025-03-31  3073) 			return PTR_ERR(sum_folio);
-86f33603f8c515 Jaegeuk Kim             2020-10-02  3074  		}
-b7778d525fe14d Chao Yu                 2025-11-08 @3075  		memcpy(curseg->sum_blk, sum_node, F2FS_BLKSIZE);
-0e1073f850fce4 Matthew Wilcox (Oracle  2025-03-31  3076) 		f2fs_folio_put(sum_folio, true);
-b7778d525fe14d Chao Yu                 2025-11-08  3077  	}
-245930617c9bd8 Zhiguo Niu              2024-03-11  3078  	return 0;
-351df4b2011573 Jaegeuk Kim             2012-11-02  3079  }
-351df4b2011573 Jaegeuk Kim             2012-11-02  3080  
+:::::: The code at line 90 was first introduced by commit
+:::::: 7fc34a62ca4434a79c68e23e70ed26111b7a4cf8 mm/msync.c: sync only the requested range in msync()
+
+:::::: TO: Matthew Wilcox <matthew.r.wilcox@intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
