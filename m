@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A71529ACF7
-	for <oe-kbuild@lists.linux.dev>; Tue, 11 Nov 2025 06:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A857233BBAA
+	for <oe-kbuild@lists.linux.dev>; Tue, 11 Nov 2025 11:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762841454; cv=none; b=rDyT/tq9C36RMRJpYJ3LWZ7pBhDekeU4sX+sEQpRqiR6TUDIa9lo9vwVMSWUJwRGH01Nxpbsp/D57ko1YvdG5H15MMMAepafD90LS8EcWvOyq5ddYkzoobSymFC4rGJWLs+59EwZnUeAmTc/xOO4KJGeAVOgdXZewO8Wwq3sVvs=
+	t=1762859607; cv=none; b=qYqmKIcSI+P6olQvC9yF8s4S00DBIVfh2BoQYzIteE0blYmaB4B3yHilPInx7QHYtdTN678RoMnnxifc/cMG6Qz6mV9L/E8uKNb7V2qeeiI82XUa1UVI6ImJiiXUkYgAmnWiIVhxybYwf3bhAs0cMnHZPTBVu6Vp070EwqCNI2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762841454; c=relaxed/simple;
-	bh=Frh4w6+Vty6lYGHbh7R5q9eMCF5dfdH632ltahP5lYI=;
+	s=arc-20240116; t=1762859607; c=relaxed/simple;
+	bh=/3OVid7HHqWQy52wLcdz9ExHmxjGzuRfHoI3pL8UCms=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NR1ElhHWAXtTitNafg4IhDpNDpSoILOyd9+zpO5fEonrtWwZUwCdLRRJTarJHxY7v8v5WUg1NrL3bVRFR0hXPXZsMw9na3d8+ht5rJ5yNSAKKSs1dDw2qW1C0OO/kLTq6oi+ClF1ciy0ltH5l9vt/Fpbx2p9Z9EzyK+q1Z795fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=avL6mtJQ; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=jFeogIbzRWEIhJrp8ryxlt8gcpFwhvAwx/I7Bq+1G2gndHk660ruhLCnwicKYup0y/UQ6cYpnUbYkf2y4EQutyiW5yW6K6M9nfQeT5Q3fzGIhwGuUhkJYTvwa89wQxYD7T+aRPLVfCRUVl/sZQuS61TUY3/V1Qeju9Wsm0zlFQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ouebqtrf; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="avL6mtJQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ouebqtrf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762841453; x=1794377453;
+  t=1762859605; x=1794395605;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Frh4w6+Vty6lYGHbh7R5q9eMCF5dfdH632ltahP5lYI=;
-  b=avL6mtJQptwMnAEOvPawPjpPVrEPwT6mh2cW2ERNFvPTIxv9veYilfl2
-   uCw1NEJLbUofVA34ztftzOBPj2+nhIjzSONH4mNUpxlIsj97/BFCgjwv1
-   f++rjRBVonvDyVgo85F6A0j4wVbsKq49NYDa/enRH9zicA5QMZsTEfm+U
-   CoaIpKsVxA7qNdBPpJLMoohKkOYBDgKRxS127Um2qG7VtUSd4YP3L+sj3
-   QvJxtkfVqnriMUZ825e20KVwsA8NOpGAeVT5o803TsuGrEvwzt8Z7dQyG
-   gPa/JKa9YuZR3pllW8xAz6or0EmThE8kWBfTJ17EVeLRdwndEuFRxwlrC
-   w==;
-X-CSE-ConnectionGUID: 4iWp74yTToCoh/lUxJhqSQ==
-X-CSE-MsgGUID: qm0wTZTUQfmaQZ+i0TcPBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82295596"
-X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
-   d="scan'208";a="82295596"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 22:10:52 -0800
-X-CSE-ConnectionGUID: OUgcyZJcT4202XtiFlcS8Q==
-X-CSE-MsgGUID: atBZdbqQRWWUB7H3ga/NxQ==
+  bh=/3OVid7HHqWQy52wLcdz9ExHmxjGzuRfHoI3pL8UCms=;
+  b=OuebqtrfAKI6LKd8rD82mfq0aLgtAL1c3JWrZQYYaYJPAb6MTfP4HrXH
+   CTdfEQHUt3wiejMXHn0PYc3YGw/+ccnO1nP7yn7uKleWHk9MBh2XLqHOM
+   jygcegAq0pd2+Py8xmFg7ChpdcCKOOR4HGB9Y0kFUMsNF/FCUePoFxYdw
+   WrBEYbWe44XX3obT6n9a0ZtUWmnPlRJhaFTSWfj1F9gt5bts5E7X27Kr7
+   oUxny3ANjCwlylozEN8FGRo7LXPMHFvNShRz+KBb33jVhlMv73etkqm2u
+   KVpl/Wvlv/K6QHwVw7xBIs89QswX4gBIIZ/YidWpUHdSgBGqaB4Lsn+zz
+   g==;
+X-CSE-ConnectionGUID: GRPpKv5wTv2Xm4RzG1RS3g==
+X-CSE-MsgGUID: wUPncIzbTHq3n6Rdj7TfeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="68780602"
+X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
+   d="scan'208";a="68780602"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 03:13:24 -0800
+X-CSE-ConnectionGUID: wPAzKOPmRIinQjbXH5HDvA==
+X-CSE-MsgGUID: 29YD/RNlRuG6Y0kNiP38Tw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
-   d="scan'208";a="193128287"
+X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
+   d="scan'208";a="226199633"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Nov 2025 22:10:50 -0800
+  by orviesa001.jf.intel.com with ESMTP; 11 Nov 2025 03:13:24 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIhaa-0002pE-1B;
-	Tue, 11 Nov 2025 06:10:48 +0000
-Date: Tue, 11 Nov 2025 14:10:42 +0800
+	id 1vImJN-000353-16;
+	Tue, 11 Nov 2025 11:13:21 +0000
+Date: Tue, 11 Nov 2025 19:12:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [hying-caritas:opt-wp-tlb-r4a 2/2] mm/msync.c:90 __do_sys_msync()
- warn: comparison of a potentially tagged address (__do_sys_msync, -2,
- __UNIQUE_ID_x_738)
-Message-ID: <202511111337.IH4NKMmM-lkp@intel.com>
+Subject: drivers/staging/gpib/cb7210/cb7210.c:314 fifo_write() warn: iterator
+ 'i' not incremented
+Message-ID: <202511111943.KTHvjFjo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,110 +64,126 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Huang Ying <ying.huang@linux.alibaba.com>
-CC: Ryan Roberts <ryan.roberts@arm.com>
-CC: Barry Song <baohua@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Dave Penkler <dpenkler@gmail.com>
 
-tree:   https://github.com/hying-caritas/linux.git opt-wp-tlb-r4a
-head:   3b89d4b2cf3904502e36a709eb851c8cbae916f9
-commit: 3b89d4b2cf3904502e36a709eb851c8cbae916f9 [2/2] arm64, tlbflush: don't TLBI broadcast if page reused in write fault
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-r072-20251111 (https://download.01.org/0day-ci/archive/20251111/202511111337.IH4NKMmM-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 996639d6ebb86ff15a8c99b67f1c2e2117636ae7)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4427259cc7f7571a157fbc9b5011e1ef6fe0a4a8
+commit: 165e8cc3cfec9ef51f3376b0d49b115294f34f3b staging: gpib: Add KBUILD files for GPIB drivers
+date:   1 year, 1 month ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: parisc-randconfig-r073-20251111 (https://download.01.org/0day-ci/archive/20251111/202511111943.KTHvjFjo-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511111337.IH4NKMmM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511111943.KTHvjFjo-lkp@intel.com/
 
-smatch warnings:
-mm/msync.c:90 __do_sys_msync() warn: comparison of a potentially tagged address (__do_sys_msync, -2, __UNIQUE_ID_x_738)
-mm/msync.c:90 __do_sys_msync() warn: comparison of a potentially tagged address (__do_sys_msync, -2, __UNIQUE_ID_x_738)
+New smatch warnings:
+drivers/staging/gpib/cb7210/cb7210.c:314 fifo_write() warn: iterator 'i' not incremented
 
-vim +90 mm/msync.c
+Old smatch warnings:
+drivers/staging/gpib/cb7210/cb7210.c:1060 cb_isa_attach() warn: 'config->ibbase' from __request_region() not released on lines: 1056.
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  17  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  18  /*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  19   * MS_SYNC syncs the entire file - including mappings.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  20   *
-204ec841fbea3e Peter Zijlstra     2006-09-25  21   * MS_ASYNC does not start I/O (it used to, up to 2.5.67).
-204ec841fbea3e Peter Zijlstra     2006-09-25  22   * Nor does it marks the relevant pages dirty (it used to up to 2.6.17).
-204ec841fbea3e Peter Zijlstra     2006-09-25  23   * Now it doesn't do anything, since dirty pages are properly tracked.
-204ec841fbea3e Peter Zijlstra     2006-09-25  24   *
-204ec841fbea3e Peter Zijlstra     2006-09-25  25   * The application may now run fsync() to
-^1da177e4c3f41 Linus Torvalds     2005-04-16  26   * write out the dirty pages and wait on the writeout and check the result.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  27   * Or the application may run fadvise(FADV_DONTNEED) against the fd to start
-^1da177e4c3f41 Linus Torvalds     2005-04-16  28   * async writeout immediately.
-16538c40776b8b Amos Waterland     2006-03-24  29   * So by _not_ starting I/O in MS_ASYNC we provide complete flexibility to
-^1da177e4c3f41 Linus Torvalds     2005-04-16  30   * applications.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  31   */
-6a6160a7b5c27b Heiko Carstens     2009-01-14  32  SYSCALL_DEFINE3(msync, unsigned long, start, size_t, len, int, flags)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  33  {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  34  	unsigned long end;
-204ec841fbea3e Peter Zijlstra     2006-09-25  35  	struct mm_struct *mm = current->mm;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  36  	struct vm_area_struct *vma;
-676758bdb7bfca Andrew Morton      2006-03-24  37  	int unmapped_error = 0;
-676758bdb7bfca Andrew Morton      2006-03-24  38  	int error = -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  39  
-057d3389108eda Andrey Konovalov   2019-09-25  40  	start = untagged_addr(start);
-057d3389108eda Andrey Konovalov   2019-09-25  41  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  42  	if (flags & ~(MS_ASYNC | MS_INVALIDATE | MS_SYNC))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  43  		goto out;
-b0d61c7e56815b Alexander Kuleshov 2015-11-05  44  	if (offset_in_page(start))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  45  		goto out;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  46  	if ((flags & MS_ASYNC) && (flags & MS_SYNC))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  47  		goto out;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  48  	error = -ENOMEM;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  49  	len = (len + ~PAGE_MASK) & PAGE_MASK;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  50  	end = start + len;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  51  	if (end < start)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  52  		goto out;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  53  	error = 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  54  	if (end == start)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  55  		goto out;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  56  	/*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  57  	 * If the interval [start,end) covers some unmapped address ranges,
-f6899bc03cbadc Nikita Ermakov     2021-04-29  58  	 * just ignore them, but return -ENOMEM at the end. Besides, if the
-f6899bc03cbadc Nikita Ermakov     2021-04-29  59  	 * flag is MS_ASYNC (w/o MS_INVALIDATE) the result would be -ENOMEM
-f6899bc03cbadc Nikita Ermakov     2021-04-29  60  	 * anyway and there is nothing left to do, so return immediately.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  61  	 */
-d8ed45c5dcd455 Michel Lespinasse  2020-06-08  62  	mmap_read_lock(mm);
-204ec841fbea3e Peter Zijlstra     2006-09-25  63  	vma = find_vma(mm, start);
-204ec841fbea3e Peter Zijlstra     2006-09-25  64  	for (;;) {
-9c50823eebf7c2 Andrew Morton      2006-03-24  65  		struct file *file;
-7fc34a62ca4434 Matthew Wilcox     2014-06-04  66  		loff_t fstart, fend;
-9c50823eebf7c2 Andrew Morton      2006-03-24  67  
-204ec841fbea3e Peter Zijlstra     2006-09-25  68  		/* Still start < end. */
-204ec841fbea3e Peter Zijlstra     2006-09-25  69  		error = -ENOMEM;
-204ec841fbea3e Peter Zijlstra     2006-09-25  70  		if (!vma)
-204ec841fbea3e Peter Zijlstra     2006-09-25  71  			goto out_unlock;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  72  		/* Here start < vma->vm_end. */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  73  		if (start < vma->vm_start) {
-f6899bc03cbadc Nikita Ermakov     2021-04-29  74  			if (flags == MS_ASYNC)
-f6899bc03cbadc Nikita Ermakov     2021-04-29  75  				goto out_unlock;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  76  			start = vma->vm_start;
-204ec841fbea3e Peter Zijlstra     2006-09-25  77  			if (start >= end)
-9c50823eebf7c2 Andrew Morton      2006-03-24  78  				goto out_unlock;
-204ec841fbea3e Peter Zijlstra     2006-09-25  79  			unmapped_error = -ENOMEM;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  80  		}
-204ec841fbea3e Peter Zijlstra     2006-09-25  81  		/* Here vma->vm_start <= start < vma->vm_end. */
-204ec841fbea3e Peter Zijlstra     2006-09-25  82  		if ((flags & MS_INVALIDATE) &&
-204ec841fbea3e Peter Zijlstra     2006-09-25  83  				(vma->vm_flags & VM_LOCKED)) {
-204ec841fbea3e Peter Zijlstra     2006-09-25  84  			error = -EBUSY;
-9c50823eebf7c2 Andrew Morton      2006-03-24  85  			goto out_unlock;
-9c50823eebf7c2 Andrew Morton      2006-03-24  86  		}
-9c50823eebf7c2 Andrew Morton      2006-03-24  87  		file = vma->vm_file;
-496a8e68654a5f Namjae Jeon        2014-07-02  88  		fstart = (start - vma->vm_start) +
-496a8e68654a5f Namjae Jeon        2014-07-02  89  			 ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
-7fc34a62ca4434 Matthew Wilcox     2014-06-04 @90  		fend = fstart + (min(end, vma->vm_end) - start) - 1;
+vim +/i +314 drivers/staging/gpib/cb7210/cb7210.c
 
-:::::: The code at line 90 was first introduced by commit
-:::::: 7fc34a62ca4434a79c68e23e70ed26111b7a4cf8 mm/msync.c: sync only the requested range in msync()
+e9dc69956d4d9b Dave Penkler 2024-09-18  261  
+e9dc69956d4d9b Dave Penkler 2024-09-18  262  static int fifo_write(gpib_board_t *board, uint8_t *buffer, size_t length, size_t *bytes_written)
+e9dc69956d4d9b Dave Penkler 2024-09-18  263  {
+e9dc69956d4d9b Dave Penkler 2024-09-18  264  	size_t count = 0;
+e9dc69956d4d9b Dave Penkler 2024-09-18  265  	ssize_t retval = 0;
+e9dc69956d4d9b Dave Penkler 2024-09-18  266  	struct cb7210_priv *cb_priv = board->private_data;
+e9dc69956d4d9b Dave Penkler 2024-09-18  267  	struct nec7210_priv *nec_priv = &cb_priv->nec7210_priv;
+e9dc69956d4d9b Dave Penkler 2024-09-18  268  	unsigned int num_bytes, i;
+e9dc69956d4d9b Dave Penkler 2024-09-18  269  	unsigned long flags;
+e9dc69956d4d9b Dave Penkler 2024-09-18  270  
+e9dc69956d4d9b Dave Penkler 2024-09-18  271  	*bytes_written = 0;
+e9dc69956d4d9b Dave Penkler 2024-09-18  272  	if (cb_priv->fifo_iobase == 0) {
+e9dc69956d4d9b Dave Penkler 2024-09-18  273  		pr_err("cb7210: fifo iobase is zero!\n");
+e9dc69956d4d9b Dave Penkler 2024-09-18  274  		return -EINVAL;
+e9dc69956d4d9b Dave Penkler 2024-09-18  275  	}
+e9dc69956d4d9b Dave Penkler 2024-09-18  276  	if (length == 0)
+e9dc69956d4d9b Dave Penkler 2024-09-18  277  		return 0;
+e9dc69956d4d9b Dave Penkler 2024-09-18  278  
+e9dc69956d4d9b Dave Penkler 2024-09-18  279  	clear_bit(DEV_CLEAR_BN, &nec_priv->state);
+e9dc69956d4d9b Dave Penkler 2024-09-18  280  	clear_bit(BUS_ERROR_BN, &nec_priv->state);
+e9dc69956d4d9b Dave Penkler 2024-09-18  281  
+e9dc69956d4d9b Dave Penkler 2024-09-18  282  	output_fifo_enable(board, 1);
+e9dc69956d4d9b Dave Penkler 2024-09-18  283  
+e9dc69956d4d9b Dave Penkler 2024-09-18  284  	while (count < length) {
+e9dc69956d4d9b Dave Penkler 2024-09-18  285  		// wait until byte is ready to be sent
+e9dc69956d4d9b Dave Penkler 2024-09-18  286  		if (wait_event_interruptible(board->wait,
+e9dc69956d4d9b Dave Penkler 2024-09-18  287  					     cb_priv->out_fifo_half_empty ||
+e9dc69956d4d9b Dave Penkler 2024-09-18  288  					     output_fifo_empty(cb_priv) ||
+e9dc69956d4d9b Dave Penkler 2024-09-18  289  					     test_bit(DEV_CLEAR_BN, &nec_priv->state) ||
+e9dc69956d4d9b Dave Penkler 2024-09-18  290  					     test_bit(BUS_ERROR_BN, &nec_priv->state) ||
+e9dc69956d4d9b Dave Penkler 2024-09-18  291  					     test_bit(TIMO_NUM, &board->status))) {
+e9dc69956d4d9b Dave Penkler 2024-09-18  292  			pr_warn("cb7210: fifo wait interrupted\n");
+e9dc69956d4d9b Dave Penkler 2024-09-18  293  			retval = -ERESTARTSYS;
+e9dc69956d4d9b Dave Penkler 2024-09-18  294  			break;
+e9dc69956d4d9b Dave Penkler 2024-09-18  295  		}
+e9dc69956d4d9b Dave Penkler 2024-09-18  296  		if (test_bit(TIMO_NUM, &board->status) ||
+e9dc69956d4d9b Dave Penkler 2024-09-18  297  		    test_bit(DEV_CLEAR_BN, &nec_priv->state) ||
+e9dc69956d4d9b Dave Penkler 2024-09-18  298  		    test_bit(BUS_ERROR_BN, &nec_priv->state))
+e9dc69956d4d9b Dave Penkler 2024-09-18  299  			break;
+e9dc69956d4d9b Dave Penkler 2024-09-18  300  
+e9dc69956d4d9b Dave Penkler 2024-09-18  301  		if (output_fifo_empty(cb_priv))
+e9dc69956d4d9b Dave Penkler 2024-09-18  302  			num_bytes = cb7210_fifo_size - cb7210_fifo_width;
+e9dc69956d4d9b Dave Penkler 2024-09-18  303  		else
+e9dc69956d4d9b Dave Penkler 2024-09-18  304  			num_bytes = cb7210_fifo_size / 2;
+e9dc69956d4d9b Dave Penkler 2024-09-18  305  		if (num_bytes + count > length)
+e9dc69956d4d9b Dave Penkler 2024-09-18  306  			num_bytes = length - count;
+e9dc69956d4d9b Dave Penkler 2024-09-18  307  		if (num_bytes % cb7210_fifo_width) {
+e9dc69956d4d9b Dave Penkler 2024-09-18  308  			pr_err("cb7210: bug! %s with odd number of bytes\n", __func__);
+e9dc69956d4d9b Dave Penkler 2024-09-18  309  			retval = -EINVAL;
+e9dc69956d4d9b Dave Penkler 2024-09-18  310  			break;
+e9dc69956d4d9b Dave Penkler 2024-09-18  311  		}
+e9dc69956d4d9b Dave Penkler 2024-09-18  312  
+e9dc69956d4d9b Dave Penkler 2024-09-18  313  		spin_lock_irqsave(&board->spinlock, flags);
+e9dc69956d4d9b Dave Penkler 2024-09-18 @314  		for (i = 0; i < num_bytes / cb7210_fifo_width; i++) {
+e9dc69956d4d9b Dave Penkler 2024-09-18  315  			u16 word;
+e9dc69956d4d9b Dave Penkler 2024-09-18  316  
+e9dc69956d4d9b Dave Penkler 2024-09-18  317  			word = buffer[count++] & 0xff;
+e9dc69956d4d9b Dave Penkler 2024-09-18  318  			word |= (buffer[count++] << 8) & 0xff00;
+e9dc69956d4d9b Dave Penkler 2024-09-18  319  			outw(word, cb_priv->fifo_iobase + CDOR);
+e9dc69956d4d9b Dave Penkler 2024-09-18  320  		}
+e9dc69956d4d9b Dave Penkler 2024-09-18  321  		cb_priv->out_fifo_half_empty = 0;
+e9dc69956d4d9b Dave Penkler 2024-09-18  322  		cb7210_write_byte(cb_priv, cb_priv->hs_mode_bits |
+e9dc69956d4d9b Dave Penkler 2024-09-18  323  				  HS_CLR_EOI_EMPTY_INT | HS_CLR_HF_INT, HS_MODE);
+e9dc69956d4d9b Dave Penkler 2024-09-18  324  		cb7210_write_byte(cb_priv, cb_priv->hs_mode_bits, HS_MODE);
+e9dc69956d4d9b Dave Penkler 2024-09-18  325  		spin_unlock_irqrestore(&board->spinlock, flags);
+e9dc69956d4d9b Dave Penkler 2024-09-18  326  	}
+e9dc69956d4d9b Dave Penkler 2024-09-18  327  	// wait last byte has been sent
+e9dc69956d4d9b Dave Penkler 2024-09-18  328  	if (wait_event_interruptible(board->wait,
+e9dc69956d4d9b Dave Penkler 2024-09-18  329  				     output_fifo_empty(cb_priv) ||
+e9dc69956d4d9b Dave Penkler 2024-09-18  330  				     test_bit(DEV_CLEAR_BN, &nec_priv->state) ||
+e9dc69956d4d9b Dave Penkler 2024-09-18  331  				     test_bit(BUS_ERROR_BN, &nec_priv->state) ||
+e9dc69956d4d9b Dave Penkler 2024-09-18  332  				     test_bit(TIMO_NUM, &board->status))) {
+e9dc69956d4d9b Dave Penkler 2024-09-18  333  		pr_err("cb7210: wait for last byte interrupted\n");
+e9dc69956d4d9b Dave Penkler 2024-09-18  334  		retval = -ERESTARTSYS;
+e9dc69956d4d9b Dave Penkler 2024-09-18  335  	}
+e9dc69956d4d9b Dave Penkler 2024-09-18  336  	if (test_bit(TIMO_NUM, &board->status))
+e9dc69956d4d9b Dave Penkler 2024-09-18  337  		retval = -ETIMEDOUT;
+e9dc69956d4d9b Dave Penkler 2024-09-18  338  	if (test_bit(BUS_ERROR_BN, &nec_priv->state))
+e9dc69956d4d9b Dave Penkler 2024-09-18  339  		retval = -EIO;
+e9dc69956d4d9b Dave Penkler 2024-09-18  340  	if (test_bit(DEV_CLEAR_BN, &nec_priv->state))
+e9dc69956d4d9b Dave Penkler 2024-09-18  341  		retval = -EINTR;
+e9dc69956d4d9b Dave Penkler 2024-09-18  342  
+e9dc69956d4d9b Dave Penkler 2024-09-18  343  	output_fifo_enable(board, 0);
+e9dc69956d4d9b Dave Penkler 2024-09-18  344  
+e9dc69956d4d9b Dave Penkler 2024-09-18  345  	*bytes_written = count;
+e9dc69956d4d9b Dave Penkler 2024-09-18  346  	return retval;
+e9dc69956d4d9b Dave Penkler 2024-09-18  347  }
+e9dc69956d4d9b Dave Penkler 2024-09-18  348  
 
-:::::: TO: Matthew Wilcox <matthew.r.wilcox@intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: The code at line 314 was first introduced by commit
+:::::: e9dc69956d4d9bf4a81d35995ce9229ff5e4cad5 staging: gpib: Add Computer Boards GPIB driver
+
+:::::: TO: Dave Penkler <dpenkler@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
