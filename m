@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6616314B8F
-	for <oe-kbuild@lists.linux.dev>; Thu, 13 Nov 2025 21:25:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302B2314A6A
+	for <oe-kbuild@lists.linux.dev>; Thu, 13 Nov 2025 21:25:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763069120; cv=none; b=ZzilWC5qV0xHksLSAQcaYpR14UQ3Trw4Iw+qWPQJ4xgq9mCqOmembI8cFdnsNQ1IhpXQWPxscyKyQ4B1Av6xfFdFwlQKHgIQJvIKJH2Pnx7s8i6m2FHqiy/T4tPo0FZ6FumHpJWgrVpoxn6HlntNRKCEt7K5oPTPE5pYC0JGKgg=
+	t=1763069120; cv=none; b=dy0IoGsSLRq+DgnW0OHy1lUDWUT/Cqa3bdIVrm5nkmSQuGJ+lZRyVrCC36U+Ihws3FLugYqEUpqopcDUOs0nFYDTnaYa/EaRMS/w9/w8Xpem1dazL3dnia4z7JLckaeigT1W7lWdRH9oABurZdvMCPmdXX76ftGnuOuQCbXqw6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763069120; c=relaxed/simple;
-	bh=4Z474QPBhug7A3NequwtbwIRe9T9VqzJ3fRt8aJZbxc=;
+	bh=kqw0XpZxDfZMyqevaciefrI3E3ObtA5EcwUUn/sbALs=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WP755X+jQnkxxTnkiIoadR7zWIAjCMo0oMn3fgWtDebaYVtGDnJdqvvDK1tzYGacZDwBuwbJxjcGhWkEKzqRQfcejne87Mny66Dll3o+V6mR9jSYPA+wo9dJCHstPdGeIoOz2BR34pZTdWfzwlF/9YD/hOnE19p1xBjhXngvTFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hxn2mBha; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=PaMDyD1LZL4g9A3uMJEp9YUuLevkccsRJYsqkSVe6saK2SPP02w0wnWSjNLkS559hKRam4t+qg+QxgJAS6Zq7EZaZUH2zIO/OHnjNCE0YWfrcxXou34JrbQlybLdhzZCIs9O3Eon7nGTAm7HtNDGeEfB6t2+OQw/VKoNQ1sFFJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FlmdlyLj; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hxn2mBha"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FlmdlyLj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1763069119; x=1794605119;
   h=date:from:to:subject:message-id:mime-version;
-  bh=4Z474QPBhug7A3NequwtbwIRe9T9VqzJ3fRt8aJZbxc=;
-  b=Hxn2mBhaY3GdbwufjxmDSyi0MhjZo1+cMHGlzJqb0h9ghc6d/HgNcYqL
-   vCfDJ/M0OHdaURYpuo+FU1X/JLOFLYW8nMMqN15Lfe96NJIK98xknia3D
-   Ezz8qMExq1gKL5hzp4+eLsQdKLPBdoeWnCKXZlPNatML1udq4NgOGjsxz
-   fwazXwh+eKAXaqh+kzvQl6aDrlO6+4eTGsDVccWtWc21TbTmqPhkYo9/2
-   7TGIC5xmZszsLNGheKQZpgNQpw+liSfcv7bTHJULaV/3vDhMuGcurVwy6
-   shw4tSj7wnC2Izs4C9CBm6KoiJ5af35qxbLiyXdGxgbeyPNEheNOiKz+T
-   Q==;
-X-CSE-ConnectionGUID: KN8opcgHRJiLWKfyMuVkfA==
-X-CSE-MsgGUID: yQaUNVoOT9mGe8uB65CwUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="69013577"
+  bh=kqw0XpZxDfZMyqevaciefrI3E3ObtA5EcwUUn/sbALs=;
+  b=FlmdlyLjY+R9jQ70y0PXX1VO05RGBLhk0pwWGQ9RaQ7j17v2vHkdI2TG
+   jf6siwtYkxt72irsUJORvMkuQ+wb1FRsr0KE8QugXn0Fej5EPFuCi8U5X
+   ZQ6C9RsSs0SnC2/a+tKE9Hpc5EPBBNFDDf7BLFMg6pqm+mHTPlADESqt1
+   XKof5Fyz0P5SQcZiXRNlLFE9rCKa1nsWZXNpDTo0U8MjmYZ0NJHklTN8N
+   Bfb281yHSp1NtjNTGFbhrhbRhwOLRai78DkDDWQ1jFjGstJrF3ePR1giN
+   KYLmLE+KoZNs2nbzMGM8D4SmUnfFJppp2S8Nk1IK653yAXHcvF2HBPfuI
+   g==;
+X-CSE-ConnectionGUID: oGbHJmP0TSCKNWTzGeS83w==
+X-CSE-MsgGUID: STUZoexhQZyt1wUEdy73hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="69013578"
 X-IronPort-AV: E=Sophos;i="6.19,303,1754982000"; 
-   d="scan'208";a="69013577"
+   d="scan'208";a="69013578"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 13:25:16 -0800
-X-CSE-ConnectionGUID: eFFaSrJVQaqWXIHdTyItDA==
-X-CSE-MsgGUID: QyAsmmoqQ8mLebhZ28IcSQ==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 13:25:17 -0800
+X-CSE-ConnectionGUID: bG5R4xfdSLKzRQI6vetf5A==
+X-CSE-MsgGUID: nDEQJvGjTJqMYsc2AY6QqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,303,1754982000"; 
-   d="scan'208";a="189613459"
+   d="scan'208";a="189613460"
 Received: from igk-lkp-server01.igk.intel.com (HELO 230842de89ac) ([10.211.93.152])
   by orviesa007.jf.intel.com with ESMTP; 13 Nov 2025 13:25:16 -0800
 Received: from kbuild by 230842de89ac with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vJeob-0000000018O-2H0v
+	id 1vJeob-0000000018U-2ZCX
 	for oe-kbuild@lists.linux.dev;
 	Thu, 13 Nov 2025 21:25:13 +0000
-Date: Thu, 13 Nov 2025 22:25:07 +0100
+Date: Thu, 13 Nov 2025 22:25:08 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [bcachefs:bcachefs-testing 23/867] checkpatch:
- ERROR:TRAILING_WHITESPACE: trailing whitespace
-Message-ID: <202511131834.6gDPsl1m-lkp@intel.com>
+Subject: [bcachefs:bcachefs-testing 61/867] checkpatch: ERROR:SPACING: spaces
+ required around that ':' (ctx:VxW)
+Message-ID: <202511131849.gUgYMP32-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,25 +68,26 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Alan Huang <mmpgouride@gmail.com>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
 tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
 head:   d6f7060a241d49e7821348ad12081f19d3581b92
-commit: 42966b100de9467eda997003464e0492e54d75f1 [23/867] bcachefs: Refactor trans->mem allocation
-:::::: branch date: 75 minutes ago
+commit: fd005a371f1c1fae495136b222700f426439dc5d [61/867] bcachefs: c->loglevel
+:::::: branch date: 79 minutes ago
 :::::: commit date: 3 weeks ago
-reproduce: (https://download.01.org/0day-ci/archive/20251113/202511131834.6gDPsl1m-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20251113/202511131849.gUgYMP32-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511131834.6gDPsl1m-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511131849.gUgYMP32-lkp@intel.com/
 
 # many are suggestions rather than must-fix
 
-ERROR:TRAILING_WHITESPACE: trailing whitespace
-#24: FILE: fs/bcachefs/btree_iter.c:3247:
-+^I$
+ERROR:SPACING: spaces required around that ':' (ctx:VxW)
+#81: FILE: fs/bcachefs/super.c:108:
++	unsigned loglevel_opt = c->loglevel ?: c->opts.verbose ? 7: 6;
+ 	                                                          ^
 
 -- 
 0-DAY CI Kernel Test Service
