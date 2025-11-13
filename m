@@ -1,162 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8422D2384
-	for <oe-kbuild@lists.linux.dev>; Wed, 12 Nov 2025 05:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D59287246
+	for <oe-kbuild@lists.linux.dev>; Thu, 13 Nov 2025 04:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762925053; cv=none; b=DAdu9CenbEplOEmcZYVepaIxiIXs8rtsgp7pDEY3Jf0FAQqst8Ri76t+Jl9OYCIbhGZO8a8qSjPmZ7tzrFM938jlq4p9e4jBfXFCCb5ebpq7kzgbwwZBdFe85rF1zM6Muth4vu07AwAukiXIWEJWc7Fuuys5dSDBwCKkm8naLeM=
+	t=1763009424; cv=none; b=aeF6TOfcNU7c+rlUongKDhRaPWVURs5VqTHqsnKsLl9/8LerGQmEtqN3Hbcz5Gmq/byGx5bo+TaanxhUGnuh+EkadtlOyESLZa6drgIPBdAgDTz3O1TUpF1Cjzv43+h0Asm2+CysQOmt2wAPbE+0JS8fBzkVRzhALMNQzZKz5B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762925053; c=relaxed/simple;
-	bh=HwsT7rqcjZTWUGrO3OJaVvFwWR75vHhvb8oMtVW5fjU=;
+	s=arc-20240116; t=1763009424; c=relaxed/simple;
+	bh=toNfXEXW8heWRtPzIC8lFazNNvzq5tXjdmdYxixTnfU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lR7DiKNbxxVkE8AEdMFMDVKKOqhgV75LeeGugI0HwfWCPJQs8E3mezGD1yAdG3/P2vspb1SVufSBIodhUf5sTH+MTPNBV2e4vGFX1B2v1it+w5U8sDMPm8JWyyifyEO+GC+5APMYnrzPHB/IzRiQgy4slGhfMWEWqDviDfKjhvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fom9Vq00; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=QPnuSaSHVXUXpLjMS0yk5nf8DtLalsA5SIIO5n2YHB+matnhUmJnfCZZxjHrRwMIFe7oLVrQeb19HivNVFPZvk1i65VqmY9zexvJzYZ9D5gYfPo4J5rLf2lk1ELFvsH7fnIMPXEiCciRZDWJ8+Z0/dHHwewe/3uz0bG2Tc5IqBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Stm/yqj7; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fom9Vq00"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Stm/yqj7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762925051; x=1794461051;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=HwsT7rqcjZTWUGrO3OJaVvFwWR75vHhvb8oMtVW5fjU=;
-  b=fom9Vq00AV9Kk/EFhXrydfz49T08OxBoxNsG31CYyHxIH8k7coVGyQYs
-   UofS31FKnT4uC1b9U7nOnyJzlfPm4Vih8dy/C2s/P7UayAxVdvK6szWB5
-   xOIwK0ZMgE3n2VR3V7fVnydKrBa5Zf0XaxM1TMuUdDXArRBAVKTiNZk09
-   grrALWQ2gp7xNjaT9dwf+/WW2mnZnlj+NeRSnplpEiSOi/y4PRQbvhxk2
-   Y5s5gl3kvLgGDCfogSojLAEC21nGTcXZfH+UtV+EYlXUusAKNmmtb+Okr
-   kK0gSYOx4qSDANz/c/PHM9i+8fl7ODDT2nAm+EL26RPxXeq5xLAQEhxqA
-   A==;
-X-CSE-ConnectionGUID: 2/2WV6AYTfmUvSd1OSR0yQ==
-X-CSE-MsgGUID: s7dddz6bSdKlw3fZRk8Dpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="68844407"
-X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
-   d="scan'208";a="68844407"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 21:24:10 -0800
-X-CSE-ConnectionGUID: 9lUHHtJ0Tr+fHMlXVN+Dtg==
-X-CSE-MsgGUID: yvFauDybTI6vP6dJOcXTmQ==
+  t=1763009423; x=1794545423;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=toNfXEXW8heWRtPzIC8lFazNNvzq5tXjdmdYxixTnfU=;
+  b=Stm/yqj73TJITERaP1z3BROWnLuCqK9bvC6XdAuWYOJB91tnyyjQRrKe
+   A7qucgvaKVeMCxkyPh1f6uiaFTmX1vit060L7chu68zF8WJqgKgNsInTL
+   l9Hmif6G4Gr+yvjI/ErYzlo44mzt4TP2KWyhP3kqktUq9jalA7xjqCeIR
+   hih6vdVw5kqyZyq3PPxQifaVyRbsmWlxa8S/o7YtOe+AgkLHrT6Qkisx2
+   9aQHYVBgNFUkmVD2M7lgOUpihFn7c9Z5PuUzYD0OkKWeFT4eimIgyL4Rp
+   CGMyVh7COIwbH7H5Vc8wdJOJMlOZ53zGy5OV23CtzNvYb5BHLM375bayQ
+   Q==;
+X-CSE-ConnectionGUID: Aan28OaIQC22Qc39RgvNmQ==
+X-CSE-MsgGUID: vVuk7X2lSxC2A0+HgO1mVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="67681463"
+X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
+   d="scan'208";a="67681463"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 20:50:22 -0800
+X-CSE-ConnectionGUID: Get8AhLRTw6gsR3JmD/g8w==
+X-CSE-MsgGUID: pAtT9CgqQqaBNPIwWX6QlQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
-   d="scan'208";a="194331792"
-Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 11 Nov 2025 21:24:09 -0800
-Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
+   d="scan'208";a="188653340"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 12 Nov 2025 20:50:21 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJ3Kx-000000004HM-0HAK;
-	Wed, 12 Nov 2025 05:24:07 +0000
-Date: Wed, 12 Nov 2025 06:24:06 +0100
+	id 1vJPHm-0004t3-2o;
+	Thu, 13 Nov 2025 04:50:18 +0000
+Date: Thu, 13 Nov 2025 12:49:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [powerpc:next-test 11/17] arch/powerpc/boot/dts/ac14xx.dtb:
- /soc@80000000/watchdog@900: failed to match any schema with compatible:
- ['fsl,mpc5121-wdt']
-Message-ID: <202511120646.XRCyyPAr-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [melver:ctx-analysis/dev 23/35] drivers/tty/serial/lpc32xx_hs.c:148
+ lpc32xx_hsuart_console_write() error: uninitialized symbol 'flags'.
+Message-ID: <202511122112.A6iMxAab-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linuxppc-dev@lists.ozlabs.org
-TO: "J. Neuschäfer" <j.ne@posteo.net>
-CC: Madhavan Srinivasan <maddy@linux.ibm.com>
-CC: Christophe Leroy <christophe.leroy@csgroup.eu>
+TO: elver@google.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next-test
-head:   2617bd81ae54128e63e764c48935e572e3dee501
-commit: 0070b2cbfe7389159669c3a5bb23d2ef89043055 [11/17] powerpc: 512x: Rename wdt@ node to watchdog@
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: powerpc-randconfig-2051-20251112 (https://download.01.org/0day-ci/archive/20251112/202511120646.XRCyyPAr-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 00d2780cca3438c3f2ce56a2f9d5549bbcb67131)
-dtschema version: 2025.9.dev13+gc72762e0c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251112/202511120646.XRCyyPAr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ctx-analysis/dev
+head:   a5e647f51df9e4ab2bb1f4321e95362a72d2a5e1
+commit: e6405909f26757d5cf56346039e501cc194e3b9f [23/35] compiler-context-analysis: Remove __cond_lock() function-like helper
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: microblaze-randconfig-r072-20251112 (https://download.01.org/0day-ci/archive/20251112/202511122112.A6iMxAab-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511120646.XRCyyPAr-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202511122112.A6iMxAab-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/ac14xx.dtb: /nfc@40000000: failed to match any schema with compatible: ['fsl,mpc5121-nfc']
-   arch/powerpc/boot/dts/ac14xx.dtb: /localbus@80000020: failed to match any schema with compatible: ['fsl,mpc5121-localbus']
-   arch/powerpc/boot/dts/ac14xx.dtb: /localbus@80000020/fram@1,0: failed to match any schema with compatible: ['ifm,ac14xx-fram', 'linux,uio-pdrv-genirq']
-   arch/powerpc/boot/dts/ac14xx.dtb: /localbus@80000020/fram@1,0: failed to match any schema with compatible: ['ifm,ac14xx-fram', 'linux,uio-pdrv-genirq']
-   arch/powerpc/boot/dts/ac14xx.dtb: /localbus@80000020/asi@2,0: failed to match any schema with compatible: ['ifm,ac14xx-asi-fpga']
-   arch/powerpc/boot/dts/ac14xx.dtb: /localbus@80000020/netx@3,0: failed to match any schema with compatible: ['ifm,netx']
-   arch/powerpc/boot/dts/ac14xx.dtb: /localbus@80000020/safety@5,0: failed to match any schema with compatible: ['ifm,safety']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000: failed to match any schema with compatible: ['fsl,mpc5121-immr']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/interrupt-controller@c00: failed to match any schema with compatible: ['fsl,mpc5121-ipic', 'fsl,ipic']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/interrupt-controller@c00: failed to match any schema with compatible: ['fsl,mpc5121-ipic', 'fsl,ipic']
->> arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/watchdog@900: failed to match any schema with compatible: ['fsl,mpc5121-wdt']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/rtc@a00: failed to match any schema with compatible: ['fsl,mpc5121-rtc']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/reset@e00: failed to match any schema with compatible: ['fsl,mpc5121-reset']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/clock@f00: failed to match any schema with compatible: ['fsl,mpc5121rev2-clock', 'fsl,mpc5121-clock']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/clock@f00: failed to match any schema with compatible: ['fsl,mpc5121rev2-clock', 'fsl,mpc5121-clock']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/pmc@1000: failed to match any schema with compatible: ['fsl,mpc5121-pmc']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/can@1300: failed to match any schema with compatible: ['fsl,mpc5121-mscan']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/can@1380: failed to match any schema with compatible: ['fsl,mpc5121-mscan']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/sdhc@1500: failed to match any schema with compatible: ['fsl,mpc5121-sdhc']
-   arch/powerpc/boot/dts/ac14xx.dtb: i2c@1700 (fsl,mpc5121-i2c): Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml
---
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /mbx@20000000: failed to match any schema with compatible: ['fsl,mpc5121-mbx']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /sram@30000000: failed to match any schema with compatible: ['fsl,mpc5121-sram']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /nfc@40000000: failed to match any schema with compatible: ['fsl,mpc5121-nfc']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /localbus@80000020: failed to match any schema with compatible: ['fsl,mpc5121-localbus']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /localbus@80000020/board-control@2,0: failed to match any schema with compatible: ['fsl,mpc5121ads-cpld']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /localbus@80000020/pic@2,a: failed to match any schema with compatible: ['fsl,mpc5121ads-cpld-pic']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /soc@80000000: failed to match any schema with compatible: ['fsl,mpc5121-immr']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /soc@80000000/interrupt-controller@c00: failed to match any schema with compatible: ['fsl,mpc5121-ipic', 'fsl,ipic']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /soc@80000000/interrupt-controller@c00: failed to match any schema with compatible: ['fsl,mpc5121-ipic', 'fsl,ipic']
->> arch/powerpc/boot/dts/mpc5121ads.dtb: /soc@80000000/watchdog@900: failed to match any schema with compatible: ['fsl,mpc5121-wdt']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /soc@80000000/rtc@a00: failed to match any schema with compatible: ['fsl,mpc5121-rtc']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /soc@80000000/reset@e00: failed to match any schema with compatible: ['fsl,mpc5121-reset']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /soc@80000000/clock@f00: failed to match any schema with compatible: ['fsl,mpc5121-clock']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /soc@80000000/pmc@1000: failed to match any schema with compatible: ['fsl,mpc5121-pmc']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: gpio@1100 (fsl,mpc5121-gpio): '#gpio-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /soc@80000000/can@1300: failed to match any schema with compatible: ['fsl,mpc5121-mscan']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /soc@80000000/can@1380: failed to match any schema with compatible: ['fsl,mpc5121-mscan']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: /soc@80000000/sdhc@1500: failed to match any schema with compatible: ['fsl,mpc5121-sdhc']
-   arch/powerpc/boot/dts/mpc5121ads.dtb: i2c@1700 (fsl,mpc5121-i2c): Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
---
-   arch/powerpc/boot/dts/pdm360ng.dtb: /sram@30000000: failed to match any schema with compatible: ['fsl,mpc5121-sram']
-   arch/powerpc/boot/dts/pdm360ng.dtb: /nfc@40000000: failed to match any schema with compatible: ['fsl,mpc5121-nfc']
-   arch/powerpc/boot/dts/pdm360ng.dtb: /localbus@80000020: failed to match any schema with compatible: ['fsl,mpc5121-localbus']
-   arch/powerpc/boot/dts/pdm360ng.dtb: mram0@2,0 (mtd-ram): $nodename:0: 'mram0@2,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
-   arch/powerpc/boot/dts/pdm360ng.dtb: mram1@2,10000 (mtd-ram): $nodename:0: 'mram1@2,10000' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml
-   arch/powerpc/boot/dts/pdm360ng.dtb: /soc@80000000: failed to match any schema with compatible: ['fsl,mpc5121-immr']
-   arch/powerpc/boot/dts/pdm360ng.dtb: /soc@80000000/interrupt-controller@c00: failed to match any schema with compatible: ['fsl,mpc5121-ipic', 'fsl,ipic']
-   arch/powerpc/boot/dts/pdm360ng.dtb: /soc@80000000/interrupt-controller@c00: failed to match any schema with compatible: ['fsl,mpc5121-ipic', 'fsl,ipic']
->> arch/powerpc/boot/dts/pdm360ng.dtb: /soc@80000000/watchdog@900: failed to match any schema with compatible: ['fsl,mpc5121-wdt']
-   arch/powerpc/boot/dts/pdm360ng.dtb: /soc@80000000/rtc@a00: failed to match any schema with compatible: ['fsl,mpc5121-rtc']
-   arch/powerpc/boot/dts/pdm360ng.dtb: /soc@80000000/reset@e00: failed to match any schema with compatible: ['fsl,mpc5121-reset']
-   arch/powerpc/boot/dts/pdm360ng.dtb: /soc@80000000/clock@f00: failed to match any schema with compatible: ['fsl,mpc5121-clock']
-   arch/powerpc/boot/dts/pdm360ng.dtb: /soc@80000000/pmc@1000: failed to match any schema with compatible: ['fsl,mpc5121-pmc']
-   arch/powerpc/boot/dts/pdm360ng.dtb: gpio@1100 (fsl,mpc5121-gpio): '#gpio-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml
-   arch/powerpc/boot/dts/pdm360ng.dtb: /soc@80000000/can@1300: failed to match any schema with compatible: ['fsl,mpc5121-mscan']
-   arch/powerpc/boot/dts/pdm360ng.dtb: /soc@80000000/can@1380: failed to match any schema with compatible: ['fsl,mpc5121-mscan']
-   arch/powerpc/boot/dts/pdm360ng.dtb: /soc@80000000/sdhc@1500: failed to match any schema with compatible: ['fsl,mpc5121-sdhc']
-   arch/powerpc/boot/dts/pdm360ng.dtb: i2c@1700 (fsl,mpc5121-i2c): Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
+New smatch warnings:
+drivers/tty/serial/lpc32xx_hs.c:148 lpc32xx_hsuart_console_write() error: uninitialized symbol 'flags'.
+mm/slub.c:3460 alloc_single_from_new_slab() error: uninitialized symbol 'flags'.
+mm/slub.c:3530 get_partial_node() error: uninitialized symbol 'flags'.
+drivers/tty/serial/sunplus-uart.c:526 sunplus_console_write() error: uninitialized symbol 'flags'.
+
+Old smatch warnings:
+arch/microblaze/include/asm/thread_info.h:85 current_thread_info() error: uninitialized symbol 'sp'.
+
+vim +/flags +148 drivers/tty/serial/lpc32xx_hs.c
+
+596f93f50e2d1a Roland Stigge             2012-06-11  130  
+596f93f50e2d1a Roland Stigge             2012-06-11  131  static void lpc32xx_hsuart_console_write(struct console *co, const char *s,
+596f93f50e2d1a Roland Stigge             2012-06-11  132  					 unsigned int count)
+596f93f50e2d1a Roland Stigge             2012-06-11  133  {
+596f93f50e2d1a Roland Stigge             2012-06-11  134  	struct lpc32xx_hsuart_port *up = &lpc32xx_hs_ports[co->index];
+596f93f50e2d1a Roland Stigge             2012-06-11  135  	unsigned long flags;
+596f93f50e2d1a Roland Stigge             2012-06-11  136  	int locked = 1;
+596f93f50e2d1a Roland Stigge             2012-06-11  137  
+596f93f50e2d1a Roland Stigge             2012-06-11  138  	touch_nmi_watchdog();
+6ba52968601ad3 Sebastian Andrzej Siewior 2024-03-01  139  	if (oops_in_progress)
+6ba52968601ad3 Sebastian Andrzej Siewior 2024-03-01  140  		locked = uart_port_trylock_irqsave(&up->port, &flags);
+596f93f50e2d1a Roland Stigge             2012-06-11  141  	else
+6ba52968601ad3 Sebastian Andrzej Siewior 2024-03-01  142  		uart_port_lock_irqsave(&up->port, &flags);
+596f93f50e2d1a Roland Stigge             2012-06-11  143  
+596f93f50e2d1a Roland Stigge             2012-06-11  144  	uart_console_write(&up->port, s, count, lpc32xx_hsuart_console_putchar);
+596f93f50e2d1a Roland Stigge             2012-06-11  145  	wait_for_xmit_empty(&up->port);
+596f93f50e2d1a Roland Stigge             2012-06-11  146  
+596f93f50e2d1a Roland Stigge             2012-06-11  147  	if (locked)
+6ba52968601ad3 Sebastian Andrzej Siewior 2024-03-01 @148  		uart_port_unlock_irqrestore(&up->port, flags);
+596f93f50e2d1a Roland Stigge             2012-06-11  149  }
+596f93f50e2d1a Roland Stigge             2012-06-11  150  
+
+:::::: The code at line 148 was first introduced by commit
+:::::: 6ba52968601ad3851d0b1da7dbe227b47a7dc918 serial: lpc32xx_hs: Use uart_prepare_sysrq_char() to handle sysrq.
+
+:::::: TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
