@@ -1,151 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBE1303C97
-	for <oe-kbuild@lists.linux.dev>; Thu, 13 Nov 2025 04:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782642940B
+	for <oe-kbuild@lists.linux.dev>; Thu, 13 Nov 2025 04:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763009607; cv=none; b=EFxtYLYoG8BFyX2uwDdmO1z0Yo5QTiDIys93NuvuOHWr7GuSHt/5gUsQ2FHLTjQlJLBJ3mk/1wQX4Njlk0Uwg8ixBk2d22g81uwt4zCexpHJNQH7JiNj3HyO6jEO7TOOtC/vy+2BQJtgs8EPRL+y6ndKC6n7C5AHf5ucOCZaNh4=
+	t=1763009665; cv=none; b=Wm2uHV7uVzTVUficY1W46/tvhStnTsmFnP+N0C5PZy6mVvkvGTFd5lUZP7kwpypvilBrt2Tgg/S980XMlCIPwm4gsuFETVFU9JHtYs2YU6hjjCKBRM6PwAYj1yGOTG3l0vnGGGUiNpINO27tRgd/bgmyHqMRFogefLj/ywYulS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763009607; c=relaxed/simple;
-	bh=I1ErXkTBK1qYwxhQJHOASRvvo2F89S1ITEmux3EgAjE=;
+	s=arc-20240116; t=1763009665; c=relaxed/simple;
+	bh=y2GfP1tlTxDDU+0kFDVowkK5PiYk7GdJC7mdKKOyjwI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SEWYda0FgWxUywDk8Id4nYIn5kOzaiciCzzwdQSnmQuUTe594NS6rGoqR2xCuGMzuutdb1aUM9jAES42rh6BIrpdDYjkvQlY4/jc/RTy0r5lygp2f7qQZvQ7v2zTq17CVbeteagQWy+mb+vuWhgnJYuO/4BUt2AVGhwfPmY51iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j7FIw36x; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=V1qhpwYIsmw3d/FvXfCz/4U+OG25O6e1fQIafP7s+Kap/pwP2SoZaLnvoav8/XtAblUXRa/eSU4BhwM3Wn45c/YkvMiZymu3mQ1TemSLZNKa9Ok/lIQSt6DKI5BAnTMYRMGhxeWyyiEkWG7WgIRHBQ4MQZCU4A212uDOrrykxMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z+NZ9pGV; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j7FIw36x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z+NZ9pGV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763009606; x=1794545606;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=I1ErXkTBK1qYwxhQJHOASRvvo2F89S1ITEmux3EgAjE=;
-  b=j7FIw36xJE8U7zBAMQISOCxCNVy5fplNZ+P1juoERNX1o0gojqpfCAWT
-   N+oT43d0t2FWiiRsrIvA6kYiHB32eAwZ9iXq66oOMj488PSTcOjjFbvJh
-   Sz8OcWqktcol3vYhUwKDfCWjYMnjS1VLwAy6p6dFKcp34bEA7rCWfeHSn
-   yL56E6aeK3ysqTUY1mJI+Wk3nJ+NpCVWJkt2ROnIuYoqPYuGIhmw8POHR
-   N9JmoK2H6DBo85wgvdc1IzaNmarfPJaSfvocYhGb1US21a3z+E2FkoR6s
-   VRxmhIwzPYPg6753B9LQfl8y8ZluOqMe4xncInVAGDOhZo4rhYwJC9p09
-   g==;
-X-CSE-ConnectionGUID: wdVfsI1pQLyo96+Bb7cgkg==
-X-CSE-MsgGUID: 7wAeq2Q1T/21spBKF569rw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="65175890"
+  t=1763009664; x=1794545664;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=y2GfP1tlTxDDU+0kFDVowkK5PiYk7GdJC7mdKKOyjwI=;
+  b=Z+NZ9pGVAzXx1nqB0ZzIhd2RgYLvVt9CVma0HaeCaSutz99Fh8D5Pd4k
+   plcIdE2DpmpGIChRlj+mHJp8vPX2S0X1F8m3lCbOSdewrBRgjX93X0PnO
+   TwZHNZsnI4GETj7ITTsvbExZr8ckvoyv6mMQdHfKCrEo+CtiSePe0cPD2
+   T+5FSV537w7Wg9GfHRVyLlI8ohFfL5LDIZeuhgAjMfTpDDcfRi3cHuexW
+   r3Mq3wqYhLuEKwZ6xD/CHaV1UuNLX/tqwgrsJ+oio8xCGsACIQPLET0b2
+   an9r48M7HeYejEjvRG58exvI9wXYIiE7rYDSoZa0ILsFThaH8n6jcCXwL
+   A==;
+X-CSE-ConnectionGUID: t2LqszNWStqmhdTKkQIVPg==
+X-CSE-MsgGUID: d4pPubfaTby6QbnlLoixvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="82480160"
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="65175890"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 20:53:23 -0800
-X-CSE-ConnectionGUID: L2hSTCkORG+zYk9RSQ1zOQ==
-X-CSE-MsgGUID: rAKJnOkzTCuca8dmQbUAig==
+   d="scan'208";a="82480160"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 20:54:24 -0800
+X-CSE-ConnectionGUID: BJVr4MqFQrWWFVdBpMzXfg==
+X-CSE-MsgGUID: hrdwEyXDRnauL+2AHHEyiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="190138865"
+   d="scan'208";a="189415505"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Nov 2025 20:53:21 -0800
+  by orviesa007.jf.intel.com with ESMTP; 12 Nov 2025 20:54:22 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJPKh-0004u1-1M;
-	Thu, 13 Nov 2025 04:53:19 +0000
-Date: Thu, 13 Nov 2025 12:53:17 +0800
+	id 1vJPLf-0004uj-2C;
+	Thu, 13 Nov 2025 04:54:19 +0000
+Date: Thu, 13 Nov 2025 12:53:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:mirror-chromeos-5.10-arcvm 1/1]
- drivers/gpu/drm/ttm/ttm_resource.c:116
- ttm_resource_manager_force_list_clean() error: uninitialized symbol 'ret'.
-Message-ID: <202511131258.s4rE5rUy-lkp@intel.com>
+Subject: Re: [net-next 10/12] bng_en: Add initial support for ethtool stats
+ display
+Message-ID: <202511131205.f7BCX6ef-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20251111205829.97579-11-bhargava.marreddy@broadcom.com>
+References: <20251111205829.97579-11-bhargava.marreddy@broadcom.com>
+TO: Bhargava Marreddy <bhargava.marreddy@broadcom.com>
+TO: davem@davemloft.net
+TO: edumazet@google.com
+TO: kuba@kernel.org
+TO: pabeni@redhat.com
+TO: andrew+netdev@lunn.ch
+TO: horms@kernel.org
+CC: netdev@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: michael.chan@broadcom.com
+CC: pavan.chebbi@broadcom.com
+CC: vsrama-krishna.nemani@broadcom.com
+CC: vikas.gupta@broadcom.com
+CC: Bhargava Marreddy <bhargava.marreddy@broadcom.com>
+CC: Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   4fc4507b1c87bd379cb8574bee9caba08e53542a
-commit: 495948bdf32e2c16c1e51b6d6782e4f54dba77f5 [1/1] drm/ttm: Should to return the evict error
-:::::: branch date: 2 days ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-141-20251113 (https://download.01.org/0day-ci/archive/20251113/202511131258.s4rE5rUy-lkp@intel.com/config)
+Hi Bhargava,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bhargava-Marreddy/bng_en-Query-PHY-and-report-link-status/20251112-050616
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251111205829.97579-11-bhargava.marreddy%40broadcom.com
+patch subject: [net-next 10/12] bng_en: Add initial support for ethtool stats display
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
+config: x86_64-randconfig-161-20251113 (https://download.01.org/0day-ci/archive/20251113/202511131205.f7BCX6ef-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511131258.s4rE5rUy-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511131205.f7BCX6ef-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/ttm/ttm_resource.c:116 ttm_resource_manager_force_list_clean() error: uninitialized symbol 'ret'.
+drivers/net/ethernet/broadcom/bnge/bnge_hwrm_lib.c:1543 bnge_hwrm_port_qstats_ext() warn: missing error code? 'rc'
 
-vim +/ret +116 drivers/gpu/drm/ttm/ttm_resource.c
+vim +/rc +1543 drivers/net/ethernet/broadcom/bnge/bnge_hwrm_lib.c
 
-b2458726b38cb6 Christian König 2020-08-03   76  
-b2458726b38cb6 Christian König 2020-08-03   77  /*
-b2458726b38cb6 Christian König 2020-08-03   78   * ttm_resource_manager_force_list_clean
-b2458726b38cb6 Christian König 2020-08-03   79   *
-b2458726b38cb6 Christian König 2020-08-03   80   * @bdev - device to use
-b2458726b38cb6 Christian König 2020-08-03   81   * @man - manager to use
-b2458726b38cb6 Christian König 2020-08-03   82   *
-b2458726b38cb6 Christian König 2020-08-03   83   * Force all the objects out of a memory manager until clean.
-b2458726b38cb6 Christian König 2020-08-03   84   * Part of memory manager cleanup sequence.
-b2458726b38cb6 Christian König 2020-08-03   85   */
-b2458726b38cb6 Christian König 2020-08-03   86  int ttm_resource_manager_force_list_clean(struct ttm_bo_device *bdev,
-b2458726b38cb6 Christian König 2020-08-03   87  					  struct ttm_resource_manager *man)
-b2458726b38cb6 Christian König 2020-08-03   88  {
-b2458726b38cb6 Christian König 2020-08-03   89  	struct ttm_operation_ctx ctx = {
-b2458726b38cb6 Christian König 2020-08-03   90  		.interruptible = false,
-b2458726b38cb6 Christian König 2020-08-03   91  		.no_wait_gpu = false,
-b2458726b38cb6 Christian König 2020-08-03   92  		.flags = TTM_OPT_FLAG_FORCE_ALLOC
-b2458726b38cb6 Christian König 2020-08-03   93  	};
-b2458726b38cb6 Christian König 2020-08-03   94  	struct ttm_bo_global *glob = &ttm_bo_glob;
-b2458726b38cb6 Christian König 2020-08-03   95  	struct dma_fence *fence;
-b2458726b38cb6 Christian König 2020-08-03   96  	int ret;
-b2458726b38cb6 Christian König 2020-08-03   97  	unsigned i;
-b2458726b38cb6 Christian König 2020-08-03   98  
-b2458726b38cb6 Christian König 2020-08-03   99  	/*
-b2458726b38cb6 Christian König 2020-08-03  100  	 * Can't use standard list traversal since we're unlocking.
-b2458726b38cb6 Christian König 2020-08-03  101  	 */
-b2458726b38cb6 Christian König 2020-08-03  102  
-b2458726b38cb6 Christian König 2020-08-03  103  	spin_lock(&glob->lru_lock);
-b2458726b38cb6 Christian König 2020-08-03  104  	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
-b2458726b38cb6 Christian König 2020-08-03  105  		while (!list_empty(&man->lru[i])) {
-b2458726b38cb6 Christian König 2020-08-03  106  			spin_unlock(&glob->lru_lock);
-b2458726b38cb6 Christian König 2020-08-03  107  			ret = ttm_mem_evict_first(bdev, man, NULL, &ctx,
-b2458726b38cb6 Christian König 2020-08-03  108  						  NULL);
-b2458726b38cb6 Christian König 2020-08-03  109  			if (ret)
-b2458726b38cb6 Christian König 2020-08-03  110  				return ret;
-b2458726b38cb6 Christian König 2020-08-03  111  			spin_lock(&glob->lru_lock);
-b2458726b38cb6 Christian König 2020-08-03  112  		}
-b2458726b38cb6 Christian König 2020-08-03  113  	}
-b2458726b38cb6 Christian König 2020-08-03  114  	spin_unlock(&glob->lru_lock);
-b2458726b38cb6 Christian König 2020-08-03  115  
-495948bdf32e2c Emily Deng      2025-06-03 @116  	if (ret && ret != -ENOENT)
-495948bdf32e2c Emily Deng      2025-06-03  117  		return ret;
-495948bdf32e2c Emily Deng      2025-06-03  118  
-b2458726b38cb6 Christian König 2020-08-03  119  	spin_lock(&man->move_lock);
-b2458726b38cb6 Christian König 2020-08-03  120  	fence = dma_fence_get(man->move);
-b2458726b38cb6 Christian König 2020-08-03  121  	spin_unlock(&man->move_lock);
-b2458726b38cb6 Christian König 2020-08-03  122  
-b2458726b38cb6 Christian König 2020-08-03  123  	if (fence) {
-b2458726b38cb6 Christian König 2020-08-03  124  		ret = dma_fence_wait(fence, false);
-b2458726b38cb6 Christian König 2020-08-03  125  		dma_fence_put(fence);
-b2458726b38cb6 Christian König 2020-08-03  126  		if (ret)
-b2458726b38cb6 Christian König 2020-08-03  127  			return ret;
-b2458726b38cb6 Christian König 2020-08-03  128  	}
-b2458726b38cb6 Christian König 2020-08-03  129  
-b2458726b38cb6 Christian König 2020-08-03  130  	return 0;
-b2458726b38cb6 Christian König 2020-08-03  131  }
-b2458726b38cb6 Christian König 2020-08-03  132  EXPORT_SYMBOL(ttm_resource_manager_force_list_clean);
-b2458726b38cb6 Christian König 2020-08-03  133  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1467  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1468  int bnge_hwrm_port_qstats_ext(struct bnge_dev *bd, u8 flags)
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1469  {
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1470  	struct hwrm_queue_pri2cos_qcfg_output *resp_qc;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1471  	struct bnge_net *bn = netdev_priv(bd->netdev);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1472  	struct hwrm_queue_pri2cos_qcfg_input *req_qc;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1473  	struct hwrm_port_qstats_ext_output *resp_qs;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1474  	struct hwrm_port_qstats_ext_input *req_qs;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1475  	struct bnge_pf_info *pf = &bd->pf;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1476  	u32 tx_stat_size;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1477  	int rc;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1478  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1479  	if (!(bn->flags & BNGE_FLAG_PORT_STATS_EXT))
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1480  		return 0;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1481  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1482  	if (flags && !(bd->fw_cap & BNGE_FW_CAP_EXT_HW_STATS_SUPPORTED))
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1483  		return -EOPNOTSUPP;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1484  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1485  	rc = bnge_hwrm_req_init(bd, req_qs, HWRM_PORT_QSTATS_EXT);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1486  	if (rc)
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1487  		return rc;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1488  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1489  	req_qs->flags = flags;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1490  	req_qs->port_id = cpu_to_le16(pf->port_id);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1491  	req_qs->rx_stat_size = cpu_to_le16(sizeof(struct rx_port_stats_ext));
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1492  	req_qs->rx_stat_host_addr =
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1493  		cpu_to_le64(bn->rx_port_stats_ext.hw_stats_map);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1494  	tx_stat_size = bn->tx_port_stats_ext.hw_stats ?
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1495  		       sizeof(struct tx_port_stats_ext) : 0;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1496  	req_qs->tx_stat_size = cpu_to_le16(tx_stat_size);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1497  	req_qs->tx_stat_host_addr =
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1498  		cpu_to_le64(bn->tx_port_stats_ext.hw_stats_map);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1499  	resp_qs = bnge_hwrm_req_hold(bd, req_qs);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1500  	rc = bnge_hwrm_req_send(bd, req_qs);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1501  	if (!rc) {
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1502  		bn->fw_rx_stats_ext_size =
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1503  			le16_to_cpu(resp_qs->rx_stat_size) / 8;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1504  		bn->fw_tx_stats_ext_size = tx_stat_size ?
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1505  			le16_to_cpu(resp_qs->tx_stat_size) / 8 : 0;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1506  	} else {
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1507  		bn->fw_rx_stats_ext_size = 0;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1508  		bn->fw_tx_stats_ext_size = 0;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1509  	}
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1510  	bnge_hwrm_req_drop(bd, req_qs);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1511  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1512  	if (flags)
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1513  		return rc;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1514  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1515  	if (bn->fw_tx_stats_ext_size <=
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1516  	    offsetof(struct tx_port_stats_ext, pfc_pri0_tx_duration_us) / 8) {
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1517  		bn->pri2cos_valid = 0;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1518  		return rc;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1519  	}
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1520  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1521  	rc = bnge_hwrm_req_init(bd, req_qc, HWRM_QUEUE_PRI2COS_QCFG);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1522  	if (rc)
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1523  		return rc;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1524  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1525  	req_qc->flags = cpu_to_le32(QUEUE_PRI2COS_QCFG_REQ_FLAGS_IVLAN);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1526  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1527  	resp_qc = bnge_hwrm_req_hold(bd, req_qc);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1528  	rc = bnge_hwrm_req_send(bd, req_qc);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1529  	if (!rc) {
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1530  		u8 *pri2cos;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1531  		int i, j;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1532  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1533  		pri2cos = &resp_qc->pri0_cos_queue_id;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1534  		for (i = 0; i < 8; i++) {
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1535  			u8 queue_id = pri2cos[i];
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1536  			u8 queue_idx;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1537  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1538  			/* Per port queue IDs start from 0, 10, 20, etc */
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1539  			queue_idx = queue_id % 10;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1540  			if (queue_idx > BNGE_MAX_QUEUE) {
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1541  				bn->pri2cos_valid = false;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1542  				bnge_hwrm_req_drop(bd, req_qc);
+345531fc4de01ab Bhargava Marreddy 2025-11-12 @1543  				return rc;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1544  			}
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1545  			for (j = 0; j < bd->max_q; j++) {
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1546  				if (bd->q_ids[j] == queue_id)
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1547  					bn->pri2cos_idx[i] = queue_idx;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1548  			}
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1549  		}
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1550  		bn->pri2cos_valid = true;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1551  	}
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1552  	bnge_hwrm_req_drop(bd, req_qc);
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1553  
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1554  	return rc;
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1555  }
+345531fc4de01ab Bhargava Marreddy 2025-11-12  1556  
 
 -- 
 0-DAY CI Kernel Test Service
