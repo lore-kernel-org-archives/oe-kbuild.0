@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190143246F3
-	for <oe-kbuild@lists.linux.dev>; Thu, 13 Nov 2025 21:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5902C324705
+	for <oe-kbuild@lists.linux.dev>; Thu, 13 Nov 2025 21:29:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763069359; cv=none; b=kDuqSNHYJQqgzwN4eAbTCUxxOLOotlOCB25prS3Ae1IFB2dH2fmxNrbXwYTL2ufBJVg81n7DUVsDd4t4791ca5pbkWYQXeIUgwwG+oLvP0MTX7pQ2X1aw1FU3AfyNb6DbZ/m8qY8xyLfn/vBb4xjKHr8RkMNIQv6P4pko6sSq3c=
+	t=1763069360; cv=none; b=FQcd/qYnNzO/XNzOzNtXruzTbyXragg6zMn9xC70egWgiemSj8f8/ycJ6XnJ0QVDg5QOBtxIiWe/Jqn8ZvW4Aee1baaKw54OL6zpMpvrr2CT0yWeFdC6EijThGZBIlComPGOCVd/INdatSxXLbj2oAixzcK3eLU/APOW+3cBwzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763069359; c=relaxed/simple;
-	bh=HbDVaYfa8nJG/ZYBqJC/iNcEDtp790Jp6JTjBF1yauc=;
+	s=arc-20240116; t=1763069360; c=relaxed/simple;
+	bh=hFXnE54YRRbzALfRcC7/dAVz8L2yTdU4FESfhqE8pIA=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TLsqYpla8Vn/2ehWEG45QNZCtyloztFGcsNyoSiXjLLZUDRck9Udazjl27rhlBEo7jBkffooBMpJjSA+Xcz+9qnY45vJzoKCCL8YxP36R7jfC51Dt410z/B+soRdsDfRjtgZ2wdgpLAkwJQxVVeMA+biAuGA4f3eEuSLJhgbjnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SLxbElQo; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=nsW0nqPu7SdEy/Q9vScXHhQtmICB6uDkahfqdOrL9+VcswlcADHRLAYLzFhWiuX0JoziucGKl1I369QHrB4UUzrLUh5HgwQCR0+yJqcJ7Kfdg6knqoqSFZlDBnrM1BuH9lk6+SThCBrFQnTIGeg7uy8pc16BkCozMoxr1h9QU0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LXw78FkN; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SLxbElQo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LXw78FkN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763069358; x=1794605358;
+  t=1763069359; x=1794605359;
   h=date:from:to:subject:message-id:mime-version;
-  bh=HbDVaYfa8nJG/ZYBqJC/iNcEDtp790Jp6JTjBF1yauc=;
-  b=SLxbElQoFl/70CNSpF5B1k6udjEWgu5ty6sJksIq/+3Kymrj1rNE7jI4
-   u1Iy/MQz8LFp6OkyrI3c3+4Q7tSPTNyb/vqe9s2Q8Mubq/wGUYD2YlmCg
-   fz3WbaleDjSkWUPNsRvJNyC+ekouvb+lCwwPPO8lS9ray2WJQZt9txXRT
-   gqNJ+tks1CfQoxaZWfeuV3ZUszAukF1sExFvVNcJthDgWnA9vOD1deQsw
-   JWFiy5EnHLKL2xrZbMLaON1Hi8ZfVLTKoD+Hj40YgNfMPkwX2wVENwgIA
-   Z1R0OjZr72yViei4SDHyVzcOmwuzpTe1MtgDF4F9pFgr+IW7fnPBYpfd1
-   A==;
-X-CSE-ConnectionGUID: H3kVqiY+TV+TZbDGePMDCQ==
-X-CSE-MsgGUID: ZOKtu7ZbRsGTwSBjHbKaLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="64167533"
+  bh=hFXnE54YRRbzALfRcC7/dAVz8L2yTdU4FESfhqE8pIA=;
+  b=LXw78FkNYW1J0W/emwJSuRXASkWYWotHHS7RI/26nuIjtT5GOj6UkT5W
+   5zgWgwFgqRDbxV0DXzA02Ut7unmpMkhmyRIpQGRWZZx3ZRW83ZYtUWzIZ
+   XgNjR5Cqn/YXoWTohXTFNmgGzdBzMeQPcc9o0zr78rql6RfYvdQKAx4zB
+   li2FX2p5yqMCxs4sC7gTwDHxl0sJwbOAIWpXsBdBikPTlohdFpB3YgpaE
+   A9ELRl3FJUt+b4TqDECmMIvpTsWhO2UaqVtXR5SS7Et0cOFf6nD9SM/70
+   CUa7k5ZW6h0dMj5fxG/q5nIjfPkBvA88YH9IUiEcx6thK0zPip53I/3FU
+   w==;
+X-CSE-ConnectionGUID: jN/95EXlQCq9OS/PLXo8Bg==
+X-CSE-MsgGUID: 6Jd204PLSf+Uc74ArB1eLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="90637561"
 X-IronPort-AV: E=Sophos;i="6.19,303,1754982000"; 
-   d="scan'208";a="64167533"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 13:29:17 -0800
-X-CSE-ConnectionGUID: PDauE3rwRFKR9s5hU7eflw==
-X-CSE-MsgGUID: hD0nwzfIRaqc3Dig/QQDcA==
+   d="scan'208";a="90637561"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 13:29:17 -0800
+X-CSE-ConnectionGUID: uz/DkxFbRpms7Jie7QhYhw==
+X-CSE-MsgGUID: kcclqUi+TdGZz4KD+Wg++w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,303,1754982000"; 
-   d="scan'208";a="194744322"
+   d="scan'208";a="189244555"
 Received: from igk-lkp-server01.igk.intel.com (HELO 230842de89ac) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 13 Nov 2025 13:29:17 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 13 Nov 2025 13:29:17 -0800
 Received: from kbuild by 230842de89ac with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vJesU-000000001AT-2wYo
+	id 1vJesU-000000001Ae-46jJ
 	for oe-kbuild@lists.linux.dev;
 	Thu, 13 Nov 2025 21:29:14 +0000
-Date: Thu, 13 Nov 2025 22:28:22 +0100
+Date: Thu, 13 Nov 2025 22:28:26 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [bcachefs:bcachefs-testing 672/867] checkpatch:
- ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-Message-ID: <202511131954.Hy16oEgM-lkp@intel.com>
+Subject: [bcachefs:bcachefs-testing 845/867] checkpatch: ERROR:SPACING: space
+ required after that ',' (ctx:VxO)
+Message-ID: <202511132014.SSf6qJM2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,26 +72,27 @@ TO: Kent Overstreet <kent.overstreet@linux.dev>
 
 tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
 head:   d6f7060a241d49e7821348ad12081f19d3581b92
-commit: b715146063133aefd7b8088356ab782584d83c55 [672/867] bcachefs: str_hash_dup_entries()
+commit: 463dd6744558757e5667fae2d5da73c918424f1b [845/867] bcachefs: REBALANCE_SCAN_pending
 :::::: branch date: 3 hours ago
-:::::: commit date: 3 weeks ago
-reproduce: (https://download.01.org/0day-ci/archive/20251113/202511131954.Hy16oEgM-lkp@intel.com/reproduce)
+:::::: commit date: 20 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20251113/202511132014.SSf6qJM2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511131954.Hy16oEgM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511132014.SSf6qJM2-lkp@intel.com/
 
 # many are suggestions rather than must-fix
 
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#57: FILE: fs/bcachefs/fs/str_hash.c:245:
-+	switch (ret) {
-+		case 0:
-[...]
-+		case 1:
-[...]
-+		case 2:
+ERROR:SPACING: space required after that ',' (ctx:VxO)
+#40: FILE: fs/bcachefs/alloc/disk_groups.c:477:
++	scoped_guard(mutex,&c->sb_lock) {
+ 	                  ^
+
+ERROR:SPACING: space required before that '&' (ctx:OxV)
+#40: FILE: fs/bcachefs/alloc/disk_groups.c:477:
++	scoped_guard(mutex,&c->sb_lock) {
+ 	                   ^
 
 -- 
 0-DAY CI Kernel Test Service
