@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC5B19A2A3
-	for <oe-kbuild@lists.linux.dev>; Fri, 14 Nov 2025 13:50:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FAA326D4A
+	for <oe-kbuild@lists.linux.dev>; Fri, 14 Nov 2025 15:02:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763128244; cv=none; b=MHOEewZ478UEJKEh6ZalZsDE0LxSpA2OwcXN6GbQJw2yLed53s1bvLK+RL4HHtAw42WApjkjkle0eTo2G4b5LLlOnRY8ojnCfnIMwx5+MFPh1FZ5XVdALo3hUgaKInJT073Iw5+MDIohVN3vix40FHObpBwXGUdjJOPg6cfZwN0=
+	t=1763132571; cv=none; b=M9BroAP2ugwVzsk58tabgsk+UPUv24cEwCMVY5157xFLN/0wVXrgz8sAPqdr+vHFvQViiPZKYbqV5ZnOP1OdKTSw/S81tspVV8CR6eSVbffRBjjgc5dzs4qLstVsFEd1aOZaFMqAQmW6VgMz+l1VPXzOgRxErUODCKYnYHXQ76w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763128244; c=relaxed/simple;
-	bh=FUcbZJqwnFufc9Ky75+xT01NeAX8uBjwvAWfRt4JdW4=;
+	s=arc-20240116; t=1763132571; c=relaxed/simple;
+	bh=vo3GHOqXnsKNip8ibWsz5zR5qo4DtnGmLQP04/I7nw0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=drwSPmmfskWR3dg1zQSz5KASELP5UfbwMsdUBmDQYtUUOxQCnBhVmHOki1i69jXp2aA4EUnTN30WsEHsYplWCANXVEVxA/gcT6aoyiMm+eh/3hnxMtxb2tSrLk/KwPiT3kRoil3CRlGw0OIavYYZIfsNtoAgJwbGsO3x4/4y/4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAvrlFVI; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=flMM+LXg4oUVuaLYnm2UrSFUfyGCXYnIEiUZ0Fo2u/1Ap8VU4fb+CKyDy3Rxtljuob7LE/i738rZy7LZ2HgYj91xajZtiP5YIhogOp8jBE8WKcKXdzecxJt9Ny/LakJ/S4dt49CLTD2AHqjj8NXQUqVsqiOYBwSuaKMCko24EZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PvveRbJK; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAvrlFVI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PvveRbJK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763128243; x=1794664243;
+  t=1763132569; x=1794668569;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FUcbZJqwnFufc9Ky75+xT01NeAX8uBjwvAWfRt4JdW4=;
-  b=bAvrlFVI6Q/4/uOx6PRD+3Tf0U/0OceVA2TuAit0CI1C/V+edh7x6Jz8
-   EQLQF7VY4MozYZDCdgI1Q4WjyXZw2ElNZFVMuoSSKXdBmVPgNXCzjI4W6
-   9O6tQX8CaZn48ooekkv7T9Agmj7o4CudkYQgdAs4e5VtHQVysp4E3yWEJ
-   rlFvvXBddLlP8hDP9odROq8DcOqywxjU+ez6I3/8593KhT1+T/zx4XnRB
-   ObV6JrrjkX27zIlIPt7gTY/lILuL3nw9j/VjR1TUDLXU8VNzFwA7DHIAc
-   gnIeS2eFOYW4e+MM18SeCsDHazu3NlRR3suTY/W31bTxc2szcdZj6dCoM
-   A==;
-X-CSE-ConnectionGUID: vTYQdUhLS7CG2QEX57x2qQ==
-X-CSE-MsgGUID: 6+SVFTwuR3mJsN3K81CHmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="76567223"
+  bh=vo3GHOqXnsKNip8ibWsz5zR5qo4DtnGmLQP04/I7nw0=;
+  b=PvveRbJKXSoSTgzJ2Y4g269EYpjCS8w8ma9Blm/K+77deHE5Dua71ov5
+   EU7dYvUg1DGFuUE8E/AspNOdXhZDxKCPS/SgRz4Mi6e10rw0xk27m1FVS
+   KdEb0IvXbvnY6uOI8n+PvO6Yltd/L1q/fSP6ztGPEiFo7hJRo2DtFGPbF
+   4s+bReuSvu9N7xNs2ISqKqkwxpPNpsRsj3Q9pWjk+w50EiZO8CVwCsGMj
+   /HAXM61pz7P0C6KTQHrWeFr1/EO1+H/0afS/OUvThlld9gzQz0o7TVRLu
+   PlEk521XspdPqzWF9+MumhP/C73b0YZja3Cu4WkvhPVjpwU3+h7jFQsFw
+   Q==;
+X-CSE-ConnectionGUID: g/h+3DKnSsSWuzcualkXOg==
+X-CSE-MsgGUID: X3YgHFrqT9qqMsWNpZZQqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="76688682"
 X-IronPort-AV: E=Sophos;i="6.19,305,1754982000"; 
-   d="scan'208";a="76567223"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 05:50:42 -0800
-X-CSE-ConnectionGUID: 0BD0J081RcqnRY6OxyqYtg==
-X-CSE-MsgGUID: v5EfZ5R7Qaipfv0dJPh/+w==
+   d="scan'208";a="76688682"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 07:02:49 -0800
+X-CSE-ConnectionGUID: iGVqYMpbRj+MO3FSKhpP7A==
+X-CSE-MsgGUID: GdCfd/CrSlqhS540I33p6Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,305,1754982000"; 
-   d="scan'208";a="220651220"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Nov 2025 05:50:41 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 14 Nov 2025 07:02:48 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJuCE-0006d3-2f;
-	Fri, 14 Nov 2025 13:50:38 +0000
-Date: Fri, 14 Nov 2025 21:50:28 +0800
+	id 1vJvK1-0006gx-1x;
+	Fri, 14 Nov 2025 15:02:45 +0000
+Date: Fri, 14 Nov 2025 23:02:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [brauner-github:work.ovl.cred.guard 36/46] fs/overlayfs/xattrs.c:116
- ovl_listxattr() error: uninitialized symbol 'res'.
-Message-ID: <202511142122.7Q85tM6H-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [android-common:android14-kiwi-6.1 0/24] mm/userfaultfd.c:806:13-14:
+ WARNING opportunity for swap()
+Message-ID: <202511142239.aNPhAVn2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,81 +62,50 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Christian Brauner <christianvanbrauner@gmail.com>
-TO: Christian Brauner <brauner@kernel.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://github.com/brauner/linux.git work.ovl.cred.guard
-head:   74fa97e66e24a79a77ee469a7e8305f2013edd1f
-commit: 0e45897d287fe16fb2a2fd8ba049477cd01798ed [36/46] ovl: port ovl_listxattr() to cred guard
-:::::: branch date: 17 hours ago
-:::::: commit date: 26 hours ago
-config: parisc-randconfig-r072-20251114 (https://download.01.org/0day-ci/archive/20251114/202511142122.7Q85tM6H-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.5.0
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   2c86a387b0237cd5ce34ef10bd2c404debac3955
+commit: 5025ad140e977654afb4896e2882bfc7fd6e48a5 [0/24] BACKPORT: userfaultfd: UFFDIO_MOVE uABI
+:::::: branch date: 27 hours ago
+:::::: commit date: 1 year, 7 months ago
+config: i386-randconfig-053-20251114 (https://download.01.org/0day-ci/archive/20251114/202511142239.aNPhAVn2-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511142122.7Q85tM6H-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202511142239.aNPhAVn2-lkp@intel.com/
 
-New smatch warnings:
-fs/overlayfs/xattrs.c:116 ovl_listxattr() error: uninitialized symbol 'res'.
+cocci warnings: (new ones prefixed by >>)
+>> mm/userfaultfd.c:806:13-14: WARNING opportunity for swap()
 
-Old smatch warnings:
-fs/overlayfs/xattrs.c:49 ovl_xattr_set() error: uninitialized symbol 'err'.
+vim +806 mm/userfaultfd.c
 
-vim +/res +116 fs/overlayfs/xattrs.c
-
-420a62dde6ebca Amir Goldstein    2023-10-10  104  
-420a62dde6ebca Amir Goldstein    2023-10-10  105  ssize_t ovl_listxattr(struct dentry *dentry, char *list, size_t size)
-420a62dde6ebca Amir Goldstein    2023-10-10  106  {
-420a62dde6ebca Amir Goldstein    2023-10-10  107  	struct dentry *realdentry = ovl_dentry_real(dentry);
-dad02fad84cbce Alexander Larsson 2023-08-15  108  	struct ovl_fs *ofs = OVL_FS(dentry->d_sb);
-420a62dde6ebca Amir Goldstein    2023-10-10  109  	ssize_t res;
-420a62dde6ebca Amir Goldstein    2023-10-10  110  	size_t len;
-420a62dde6ebca Amir Goldstein    2023-10-10  111  	char *s;
-dad02fad84cbce Alexander Larsson 2023-08-15  112  	size_t prefix_len, name_len;
-420a62dde6ebca Amir Goldstein    2023-10-10  113  
-0e45897d287fe1 Christian Brauner 2025-11-12  114  	with_ovl_creds(dentry->d_sb)
-420a62dde6ebca Amir Goldstein    2023-10-10  115  		res = vfs_listxattr(realdentry, list, size);
-420a62dde6ebca Amir Goldstein    2023-10-10 @116  	if (res <= 0 || size == 0)
-420a62dde6ebca Amir Goldstein    2023-10-10  117  		return res;
-420a62dde6ebca Amir Goldstein    2023-10-10  118  
-dad02fad84cbce Alexander Larsson 2023-08-15  119  	prefix_len = ofs->config.userxattr ?
-dad02fad84cbce Alexander Larsson 2023-08-15  120  		OVL_XATTR_USER_PREFIX_LEN : OVL_XATTR_TRUSTED_PREFIX_LEN;
-dad02fad84cbce Alexander Larsson 2023-08-15  121  
-420a62dde6ebca Amir Goldstein    2023-10-10  122  	/* filter out private xattrs */
-420a62dde6ebca Amir Goldstein    2023-10-10  123  	for (s = list, len = res; len;) {
-420a62dde6ebca Amir Goldstein    2023-10-10  124  		size_t slen = strnlen(s, len) + 1;
-420a62dde6ebca Amir Goldstein    2023-10-10  125  
-420a62dde6ebca Amir Goldstein    2023-10-10  126  		/* underlying fs providing us with an broken xattr list? */
-420a62dde6ebca Amir Goldstein    2023-10-10  127  		if (WARN_ON(slen > len))
-420a62dde6ebca Amir Goldstein    2023-10-10  128  			return -EIO;
-420a62dde6ebca Amir Goldstein    2023-10-10  129  
-420a62dde6ebca Amir Goldstein    2023-10-10  130  		len -= slen;
-420a62dde6ebca Amir Goldstein    2023-10-10  131  		if (!ovl_can_list(dentry->d_sb, s)) {
-420a62dde6ebca Amir Goldstein    2023-10-10  132  			res -= slen;
-420a62dde6ebca Amir Goldstein    2023-10-10  133  			memmove(s, s + slen, len);
-dad02fad84cbce Alexander Larsson 2023-08-15  134  		} else if (ovl_is_escaped_xattr(dentry->d_sb, s)) {
-dad02fad84cbce Alexander Larsson 2023-08-15  135  			res -= OVL_XATTR_ESCAPE_PREFIX_LEN;
-dad02fad84cbce Alexander Larsson 2023-08-15  136  			name_len = slen - prefix_len - OVL_XATTR_ESCAPE_PREFIX_LEN;
-dad02fad84cbce Alexander Larsson 2023-08-15  137  			s += prefix_len;
-dad02fad84cbce Alexander Larsson 2023-08-15  138  			memmove(s, s + OVL_XATTR_ESCAPE_PREFIX_LEN, name_len + len);
-dad02fad84cbce Alexander Larsson 2023-08-15  139  			s += name_len;
-420a62dde6ebca Amir Goldstein    2023-10-10  140  		} else {
-420a62dde6ebca Amir Goldstein    2023-10-10  141  			s += slen;
-420a62dde6ebca Amir Goldstein    2023-10-10  142  		}
-420a62dde6ebca Amir Goldstein    2023-10-10  143  	}
-420a62dde6ebca Amir Goldstein    2023-10-10  144  
-420a62dde6ebca Amir Goldstein    2023-10-10  145  	return res;
-420a62dde6ebca Amir Goldstein    2023-10-10  146  }
-420a62dde6ebca Amir Goldstein    2023-10-10  147  
-
-:::::: The code at line 116 was first introduced by commit
-:::::: 420a62dde6ebca7bc22e6c57c9cb25d7967ff1ea ovl: Move xattr support to new xattrs.c file
-
-:::::: TO: Amir Goldstein <amir73il@gmail.com>
-:::::: CC: Amir Goldstein <amir73il@gmail.com>
+5025ad140e9776 Andrea Arcangeli 2023-12-06  794  
+5025ad140e9776 Andrea Arcangeli 2023-12-06  795  
+5025ad140e9776 Andrea Arcangeli 2023-12-06  796  void double_pt_lock(spinlock_t *ptl1,
+5025ad140e9776 Andrea Arcangeli 2023-12-06  797  		    spinlock_t *ptl2)
+5025ad140e9776 Andrea Arcangeli 2023-12-06  798  	__acquires(ptl1)
+5025ad140e9776 Andrea Arcangeli 2023-12-06  799  	__acquires(ptl2)
+5025ad140e9776 Andrea Arcangeli 2023-12-06  800  {
+5025ad140e9776 Andrea Arcangeli 2023-12-06  801  	spinlock_t *ptl_tmp;
+5025ad140e9776 Andrea Arcangeli 2023-12-06  802  
+5025ad140e9776 Andrea Arcangeli 2023-12-06  803  	if (ptl1 > ptl2) {
+5025ad140e9776 Andrea Arcangeli 2023-12-06  804  		/* exchange ptl1 and ptl2 */
+5025ad140e9776 Andrea Arcangeli 2023-12-06  805  		ptl_tmp = ptl1;
+5025ad140e9776 Andrea Arcangeli 2023-12-06 @806  		ptl1 = ptl2;
+5025ad140e9776 Andrea Arcangeli 2023-12-06  807  		ptl2 = ptl_tmp;
+5025ad140e9776 Andrea Arcangeli 2023-12-06  808  	}
+5025ad140e9776 Andrea Arcangeli 2023-12-06  809  	/* lock in virtual address order to avoid lock inversion */
+5025ad140e9776 Andrea Arcangeli 2023-12-06  810  	spin_lock(ptl1);
+5025ad140e9776 Andrea Arcangeli 2023-12-06  811  	if (ptl1 != ptl2)
+5025ad140e9776 Andrea Arcangeli 2023-12-06  812  		spin_lock_nested(ptl2, SINGLE_DEPTH_NESTING);
+5025ad140e9776 Andrea Arcangeli 2023-12-06  813  	else
+5025ad140e9776 Andrea Arcangeli 2023-12-06  814  		__acquire(ptl2);
+5025ad140e9776 Andrea Arcangeli 2023-12-06  815  }
+5025ad140e9776 Andrea Arcangeli 2023-12-06  816  
 
 -- 
 0-DAY CI Kernel Test Service
