@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085581684B4
-	for <oe-kbuild@lists.linux.dev>; Fri, 14 Nov 2025 00:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5359425C80D
+	for <oe-kbuild@lists.linux.dev>; Fri, 14 Nov 2025 01:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763078909; cv=none; b=e0LI/bIvsNJ1ENUxMaMStcWpxthCg3K1W49s2HlhkHETN4BCfsvEj0eUIKmkwIjw458wF/slsYetLs9P9gtiYmDavSakgU4HSYS4F/G4g9OmvWPGboJ318vdwPbXGpDh45LAJqcl/humR5T3eFvfYwFN3PRKOE//wmThco0gbLk=
+	t=1763083903; cv=none; b=bV5vmvF7p0FOuNTuTiwJD29DeAzGPnFnK8GceRyUhl74pvXLqRg6WwfOWcReIZnIMfrDl0itPi8/U2l6vm1ajaME2BopFJyzhVCcqMwTXE9P480xnFeP6GUU8WAqBVZSvMbUA8YsZLnRo6Atcqj1gDxz6+bfPgSk4n+8mBKcoME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763078909; c=relaxed/simple;
-	bh=bPgLBNiF3fmbvj1mgh7JMGQKmksrP1njQ4LDjNQPDP4=;
+	s=arc-20240116; t=1763083903; c=relaxed/simple;
+	bh=glCj+qqwtpZO4eh2AW9oehLLKBB8K6mjVcOiK8oOAqU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kEKbIkbpdfb/LBzzfSwVAKPcPh04FkEVQ3VR6JTZVDLkkmXBqoQqt5Zpr0Q0irLDchlbEQ0ld75H1vXcT+ArfarBhvZRzMRdQvMdTrLpDxkylmohTFJxRNAieZAmBiBBozcb0bq/YYepcVD4rP+t+4JoG++6KPyNmGiqgs7+Tn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YsSBJ8IN; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=WlDBSVBFp6H76m5G88n4e/7S9UIjDUE/c+D/EG5ZswRyaG8ceTsnKxH0NbsIx1xZCWHagP94iQGsYGPmTXPZo20tZUyUOal0oKnYioEb4h9nwgDlFxzhOdbZhH5s8zeVROyJSkeieniEPWufER5tHOA5v0ScZTRwGpO1kZSnE9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FwSQdJuk; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YsSBJ8IN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FwSQdJuk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763078906; x=1794614906;
+  t=1763083902; x=1794619902;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bPgLBNiF3fmbvj1mgh7JMGQKmksrP1njQ4LDjNQPDP4=;
-  b=YsSBJ8INGAtphs8CYu7T3uMeEfj7o6FGCFfW/aSxxMr0CWCb3mWA2I4G
-   SiZt90OQ+q2a2/o/dnR9/oyepzay3hNWJcWkqHTa7I1Eyx0QQwp6nEFn9
-   gTNq3dc86xZqWHwg7X/mIC4IimLGsleFKMnjOZosDqPaAUkIR+iW2mC/I
-   pcp2AWxjlFgmU76AqLyktykUw52Y0qCIgPGpd0BjugkXJETGw1XHNdLwU
-   3FKXT4AZFUCKBmH3/mKSjv+Da6vJHksJb7j2+MmizF/7AELvzWcWVfLdi
-   QTncB8s4OPPTYDKvjLzTbfRm1gaFYFXCkQ9pcOjJX4IFgw/jRgz4Z5KQH
+  bh=glCj+qqwtpZO4eh2AW9oehLLKBB8K6mjVcOiK8oOAqU=;
+  b=FwSQdJuk98IpFIOR9edk/8qGbc8kAvbi6rXnzHPMwdw10TbPYG5ErPYD
+   QUUfLyxN7dAjop+1QwXLFKgwmTQosk2zdi2wvzsSLw6vHrOHkto+mudg6
+   wpH2twMBo/MhJl3CzSikYh73JEdPVkt4uKr16Ev53dkXgqRENx1UAi2ov
+   eHZJ8/vFs+Nzty0JBqoXZpsL7e3kQd3kMd3ugUzvU9GxKZpIXtq7wh+H8
+   ldDpYNzCOBvYgIB+6XfSVesHeXBrZSVosAG9b6Ly3GK086D5t+l36lKzt
+   WtZYTY7yGkJnOF3ECE5MfC5v/TWJbMQZcN1KQ72F/dnLlQ+omfZY4CwVE
    g==;
-X-CSE-ConnectionGUID: WlZb8C3xRYS78CQBko7vCw==
-X-CSE-MsgGUID: 2kaHv0E6TbqLWLGfEbLDNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="82566110"
+X-CSE-ConnectionGUID: SKD0w/WwRWqhwzsoImWAGw==
+X-CSE-MsgGUID: b08Dm/ozRCeWPZn02SeK3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="69027830"
 X-IronPort-AV: E=Sophos;i="6.19,303,1754982000"; 
-   d="scan'208";a="82566110"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 16:08:25 -0800
-X-CSE-ConnectionGUID: qlGkJ7HjRt6xfYa0MQ5xHQ==
-X-CSE-MsgGUID: /RqRU7HMR06cGKErOSU8/w==
+   d="scan'208";a="69027830"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 17:31:34 -0800
+X-CSE-ConnectionGUID: 4oXSCQB3Tyusl2mMTEy5vA==
+X-CSE-MsgGUID: zk4qbWxaT/2PQZRY9uh7+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,303,1754982000"; 
-   d="scan'208";a="226971905"
+   d="scan'208";a="194787964"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 Nov 2025 16:08:24 -0800
+  by orviesa005.jf.intel.com with ESMTP; 13 Nov 2025 17:31:32 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJhMT-00060F-1A;
-	Fri, 14 Nov 2025 00:08:21 +0000
-Date: Fri, 14 Nov 2025 08:07:54 +0800
+	id 1vJiev-000633-22;
+	Fri, 14 Nov 2025 01:31:29 +0000
+Date: Fri, 14 Nov 2025 09:31:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [brauner-github:work.ovl.cred.guard 7/46] fs/overlayfs/dir.c:654
- ovl_create_or_link() error: uninitialized symbol 'err'.
-Message-ID: <202511140805.FxiiRvrt-lkp@intel.com>
+Subject: [brauner-github:work.ovl.cred.guard 10/46] fs/overlayfs/dir.c:1366
+ ovl_create_tmpfile() error: uninitialized symbol 'err'.
+Message-ID: <202511140922.NgEZJrH6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,76 +69,79 @@ TO: Christian Brauner <brauner@kernel.org>
 
 tree:   https://github.com/brauner/linux.git work.ovl.cred.guard
 head:   74fa97e66e24a79a77ee469a7e8305f2013edd1f
-commit: 939c09f73a75c0d72556ea38b91e6fb9cfa5af5a [7/46] ovl: port ovl_create_or_link() to cred guard
-:::::: branch date: 3 hours ago
-:::::: commit date: 13 hours ago
-config: parisc-randconfig-r072-20251114 (https://download.01.org/0day-ci/archive/20251114/202511140805.FxiiRvrt-lkp@intel.com/config)
+commit: b4b1703d18a590cf8c9c08ec8e416c9bfc4a42b6 [10/46] ovl: port ovl_create_tmpfile() to cred guard
+:::::: branch date: 4 hours ago
+:::::: commit date: 14 hours ago
+config: parisc-randconfig-r072-20251114 (https://download.01.org/0day-ci/archive/20251114/202511140922.NgEZJrH6-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 11.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202511140805.FxiiRvrt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511140922.NgEZJrH6-lkp@intel.com/
 
-smatch warnings:
+New smatch warnings:
+fs/overlayfs/dir.c:1366 ovl_create_tmpfile() error: uninitialized symbol 'err'.
+
+Old smatch warnings:
 fs/overlayfs/dir.c:654 ovl_create_or_link() error: uninitialized symbol 'err'.
 
-vim +/err +654 fs/overlayfs/dir.c
+vim +/err +1366 fs/overlayfs/dir.c
 
-9a87907de3597a Miklos Szeredi    2024-05-02  610  
-51f7e52dc94346 Miklos Szeredi    2016-07-29  611  static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
-471ec5dcf4e712 Amir Goldstein    2018-05-16  612  			      struct ovl_cattr *attr, bool origin)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  613  {
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  614  	int err;
-939c09f73a75c0 Christian Brauner 2025-11-12  615  	const struct cred *new_cred __free(put_cred) = NULL;
-ea3dad18dc5f77 Amir Goldstein    2017-07-11  616  	struct dentry *parent = dentry->d_parent;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  617  
-939c09f73a75c0 Christian Brauner 2025-11-12  618  	scoped_class(override_creds_ovl, old_cred, dentry->d_sb) {
-ea3dad18dc5f77 Amir Goldstein    2017-07-11  619  		/*
-ea3dad18dc5f77 Amir Goldstein    2017-07-11  620  		 * When linking a file with copy up origin into a new parent, mark the
-ea3dad18dc5f77 Amir Goldstein    2017-07-11  621  		 * new parent dir "impure".
-ea3dad18dc5f77 Amir Goldstein    2017-07-11  622  		 */
-ea3dad18dc5f77 Amir Goldstein    2017-07-11  623  		if (origin) {
-ea3dad18dc5f77 Amir Goldstein    2017-07-11  624  			err = ovl_set_impure(parent, ovl_dentry_upper(parent));
-ea3dad18dc5f77 Amir Goldstein    2017-07-11  625  			if (err)
-939c09f73a75c0 Christian Brauner 2025-11-12  626  				return err;
-ea3dad18dc5f77 Amir Goldstein    2017-07-11  627  		}
-ea3dad18dc5f77 Amir Goldstein    2017-07-11  628  
-5b0db51215e895 Zhang Tianci      2022-09-01  629  		if (!attr->hardlink) {
-5b0db51215e895 Zhang Tianci      2022-09-01  630  			/*
-5b0db51215e895 Zhang Tianci      2022-09-01  631  			 * In the creation cases(create, mkdir, mknod, symlink),
-5b0db51215e895 Zhang Tianci      2022-09-01  632  			 * ovl should transfer current's fs{u,g}id to underlying
-5b0db51215e895 Zhang Tianci      2022-09-01  633  			 * fs. Because underlying fs want to initialize its new
-5b0db51215e895 Zhang Tianci      2022-09-01  634  			 * inode owner using current's fs{u,g}id. And in this
-5b0db51215e895 Zhang Tianci      2022-09-01  635  			 * case, the @inode is a new inode that is initialized
-5b0db51215e895 Zhang Tianci      2022-09-01  636  			 * in inode_init_owner() to current's fs{u,g}id. So use
-5b0db51215e895 Zhang Tianci      2022-09-01  637  			 * the inode's i_{u,g}id to override the cred's fs{u,g}id.
-5b0db51215e895 Zhang Tianci      2022-09-01  638  			 *
-5b0db51215e895 Zhang Tianci      2022-09-01  639  			 * But in the other hardlink case, ovl_link() does not
-5b0db51215e895 Zhang Tianci      2022-09-01  640  			 * create a new inode, so just use the ovl mounter's
-5b0db51215e895 Zhang Tianci      2022-09-01  641  			 * fs{u,g}id.
-5b0db51215e895 Zhang Tianci      2022-09-01  642  			 */
-939c09f73a75c0 Christian Brauner 2025-11-12  643  			new_cred = ovl_setup_cred_for_create(dentry, inode, attr->mode, old_cred);
-939c09f73a75c0 Christian Brauner 2025-11-12  644  			if (IS_ERR(new_cred))
-939c09f73a75c0 Christian Brauner 2025-11-12  645  				return PTR_ERR(new_cred);
-711747e204ead1 Amir Goldstein    2024-11-14  646  		}
-d0e13f5bbe4be7 Miklos Szeredi    2016-06-15  647  
-c412ce49839609 Miklos Szeredi    2016-12-16  648  		if (!ovl_dentry_is_whiteout(dentry))
-939c09f73a75c0 Christian Brauner 2025-11-12  649  			return ovl_create_upper(dentry, inode, attr);
-939c09f73a75c0 Christian Brauner 2025-11-12  650  
-939c09f73a75c0 Christian Brauner 2025-11-12  651  		return ovl_create_over_whiteout(dentry, inode, attr);
-5b0db51215e895 Zhang Tianci      2022-09-01  652  
-939c09f73a75c0 Christian Brauner 2025-11-12  653  	}
-e9be9d5e76e348 Miklos Szeredi    2014-10-24 @654  	return err;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  655  }
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  656  
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  1322  
+9a87907de3597a Miklos Szeredi    2024-05-02  1323  static int ovl_create_tmpfile(struct file *file, struct dentry *dentry,
+9a87907de3597a Miklos Szeredi    2024-05-02  1324  			      struct inode *inode, umode_t mode)
+9a87907de3597a Miklos Szeredi    2024-05-02  1325  {
+b4b1703d18a590 Christian Brauner 2025-11-12  1326  	const struct cred *new_cred __free(put_cred) = NULL;
+9a87907de3597a Miklos Szeredi    2024-05-02  1327  	struct path realparentpath;
+9a87907de3597a Miklos Szeredi    2024-05-02  1328  	struct file *realfile;
+87a8a76c34a2ae Amir Goldstein    2024-10-07  1329  	struct ovl_file *of;
+9a87907de3597a Miklos Szeredi    2024-05-02  1330  	struct dentry *newdentry;
+9a87907de3597a Miklos Szeredi    2024-05-02  1331  	/* It's okay to set O_NOATIME, since the owner will be current fsuid */
+9a87907de3597a Miklos Szeredi    2024-05-02  1332  	int flags = file->f_flags | OVL_OPEN_FLAGS;
+9a87907de3597a Miklos Szeredi    2024-05-02  1333  	int err;
+9a87907de3597a Miklos Szeredi    2024-05-02  1334  
+b4b1703d18a590 Christian Brauner 2025-11-12  1335  	scoped_class(override_creds_ovl, old_cred, dentry->d_sb) {
+711747e204ead1 Amir Goldstein    2024-11-14  1336  		new_cred = ovl_setup_cred_for_create(dentry, inode, mode, old_cred);
+b4b1703d18a590 Christian Brauner 2025-11-12  1337  		if (IS_ERR(new_cred))
+b4b1703d18a590 Christian Brauner 2025-11-12  1338  			return PTR_ERR(new_cred);
+9a87907de3597a Miklos Szeredi    2024-05-02  1339  
+9a87907de3597a Miklos Szeredi    2024-05-02  1340  		ovl_path_upper(dentry->d_parent, &realparentpath);
+b4b1703d18a590 Christian Brauner 2025-11-12  1341  		realfile = backing_tmpfile_open(&file->f_path, flags,
+b4b1703d18a590 Christian Brauner 2025-11-12  1342  						&realparentpath, mode,
+b4b1703d18a590 Christian Brauner 2025-11-12  1343  						current_cred());
+9a87907de3597a Miklos Szeredi    2024-05-02  1344  		err = PTR_ERR_OR_ZERO(realfile);
+b4b1703d18a590 Christian Brauner 2025-11-12  1345  		pr_debug("tmpfile/open(%pd2, 0%o) = %i\n",
+b4b1703d18a590 Christian Brauner 2025-11-12  1346  			 realparentpath.dentry, mode, err);
+9a87907de3597a Miklos Szeredi    2024-05-02  1347  		if (err)
+b4b1703d18a590 Christian Brauner 2025-11-12  1348  			return err;
+9a87907de3597a Miklos Szeredi    2024-05-02  1349  
+87a8a76c34a2ae Amir Goldstein    2024-10-07  1350  		of = ovl_file_alloc(realfile);
+87a8a76c34a2ae Amir Goldstein    2024-10-07  1351  		if (!of) {
+87a8a76c34a2ae Amir Goldstein    2024-10-07  1352  			fput(realfile);
+b4b1703d18a590 Christian Brauner 2025-11-12  1353  			return -ENOMEM;
+87a8a76c34a2ae Amir Goldstein    2024-10-07  1354  		}
+87a8a76c34a2ae Amir Goldstein    2024-10-07  1355  
+9a87907de3597a Miklos Szeredi    2024-05-02  1356  		/* ovl_instantiate() consumes the newdentry reference on success */
+9a87907de3597a Miklos Szeredi    2024-05-02  1357  		newdentry = dget(realfile->f_path.dentry);
+9a87907de3597a Miklos Szeredi    2024-05-02  1358  		err = ovl_instantiate(dentry, inode, newdentry, false, file);
+9a87907de3597a Miklos Szeredi    2024-05-02  1359  		if (!err) {
+87a8a76c34a2ae Amir Goldstein    2024-10-07  1360  			file->private_data = of;
+9a87907de3597a Miklos Szeredi    2024-05-02  1361  		} else {
+9a87907de3597a Miklos Szeredi    2024-05-02  1362  			dput(newdentry);
+87a8a76c34a2ae Amir Goldstein    2024-10-07  1363  			ovl_file_free(of);
+9a87907de3597a Miklos Szeredi    2024-05-02  1364  		}
+b4b1703d18a590 Christian Brauner 2025-11-12  1365  	}
+9a87907de3597a Miklos Szeredi    2024-05-02 @1366  	return err;
+9a87907de3597a Miklos Szeredi    2024-05-02  1367  }
+9a87907de3597a Miklos Szeredi    2024-05-02  1368  
 
-:::::: The code at line 654 was first introduced by commit
-:::::: e9be9d5e76e34872f0c37d72e25bc27fe9e2c54c overlay filesystem
+:::::: The code at line 1366 was first introduced by commit
+:::::: 9a87907de3597a339cc129229d1a20bc7365ea5f ovl: implement tmpfile
 
-:::::: TO: Miklos Szeredi <mszeredi@suse.cz>
-:::::: CC: Miklos Szeredi <mszeredi@suse.cz>
+:::::: TO: Miklos Szeredi <mszeredi@redhat.com>
+:::::: CC: Miklos Szeredi <mszeredi@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
