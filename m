@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025F4284888
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Nov 2025 18:26:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57878EEC0
+	for <oe-kbuild@lists.linux.dev>; Sat, 15 Nov 2025 22:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763231202; cv=none; b=HeV0h7VNNXGy+I14s3nwbiMBboRNCNw7dwJLUISavApgzpKJRwhmzeU7YXcR2Kh7Ns0DgnX+c/DvfpZcaGSHIc8IQCtB3ufS/0jTl9+eLaxqOCixWewM2Xw0G6FeKJwAi7iH1IOQAGw2r2KeSZtbDpGnvwAgSNiyeZ6Fu4cefgc=
+	t=1763245261; cv=none; b=JgyQiz9sXH7b58BDIRRuZ03X8bpzIB3kINz5xC2xcOh0kT92TQiD5pNe/W6Hi5Tg7wQ2mfhuNIdaV5NulLUJatSN9sPdpiypG//Oq722TISVFizRhIE3qcRJ7r5EVzt/cxkWvoJv/g4xRYttcUGMWu2nO+wQIK9OuL9Q/5AkLMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763231202; c=relaxed/simple;
-	bh=005P1snRXpSYFUFcn5RkLUJYyxgp4gmP5ex9UL/MJwI=;
+	s=arc-20240116; t=1763245261; c=relaxed/simple;
+	bh=xO19o01M7wY8Hlz/vE9rPfUDsAeCzHvm2SKaHhf1vfI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TWEZKB6AFBC5jcIEWHU5ffufgPdVJy3kEQY9ONdP2agbC78hZDXHdGZhmpsAom6gmiCCpEntTveNxBoWARDO3S3j8MaQ1drLVV9h4TG5slvdFDhbqLvn4tueqSB+qi7DC7coRBrqkz15op49qbk6g4ySMwU7oqNAtctlIuenWMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AOB0em/S; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=Gl0sWgAoBA5gBYCsWV9SFI+1uzHSoywicTEb1SxvJo28TEstUajMWXM+riVGqVr+G2DpIAK95VEqOffqGidWcGVwPiQliarapAPUZNFTqOKscOGGPcmjn7iNDT5T0s+Xh0mvpXbhILk1WQVrT19lzIcxuo7Vb0KNvlATsQKtbtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EeSvHKxG; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AOB0em/S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EeSvHKxG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763231201; x=1794767201;
+  t=1763245260; x=1794781260;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=005P1snRXpSYFUFcn5RkLUJYyxgp4gmP5ex9UL/MJwI=;
-  b=AOB0em/Sr6o/pd5kCcoAfNQ9k1tWiZYXctHQr8tGwfDLI4zJY+HjA0Ei
-   koWBk6pnLbaMz7yMRQ/CqjDJv24lNZ56N1SevKLk8rVFsTZDCjRSnFQWq
-   UlWczQw5yKkrUyUYoOXO5i5jwbBzKkPmckWZzPXoHGBCR03f4XhPlVJnW
-   EfbpBuqY4ilBwfPI8hhf8TOq71X/uSsJzPahX7jzBHmSP5pRcALtUN0Xt
-   LurS8rO9sSmcjttkmJFhP9tQSV7ifkb6Ht1uHMZ8AKLmrFMH7L1I9ThZO
-   GhpBO5veaLOpVZS6Z024av06/3gXToM3we6wHWNXt8EkoriRyZDKL+MO0
-   g==;
-X-CSE-ConnectionGUID: odsh5RENRSCpvZE+TjPqXw==
-X-CSE-MsgGUID: C/S2G6qTSKWuztohKXbOZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65228884"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="65228884"
+  bh=xO19o01M7wY8Hlz/vE9rPfUDsAeCzHvm2SKaHhf1vfI=;
+  b=EeSvHKxGs22fR1c4QjJyLwKKtZXX6vHVU1+mKIxDykUGiT1oK9atp9vj
+   Nx/69SG9NsKl99kpNxeBdJpwDLvCZm4M3gEp4bX/RqkOwHepZ2LYFFd+v
+   92eoXsbk9TXFrNIkuz76rcN5KCQqkh8MpaTO8RdZjMJ9NV7HFLjydem37
+   sW2R4MEERRqfKFZ+jVoHklxmRyCoJwJUT8ZDIDwn0WrXivA900NM+BZyT
+   a/3m5+xF0xMVSUe4OMGTLPhh3JBnlfTi4eaKmAdT06r1e8xVuSIr+W6XX
+   QKubrJbvYvWRh06thRmccTR3BhbILtmwLv9ehFeAQxf1dJY+t9IRF+3aV
+   w==;
+X-CSE-ConnectionGUID: VtC3L8e9S/+DpWmICg51Dg==
+X-CSE-MsgGUID: HTXRqV+TRo+0mdON3TIrfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11614"; a="65009681"
+X-IronPort-AV: E=Sophos;i="6.19,308,1754982000"; 
+   d="scan'208";a="65009681"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2025 10:26:40 -0800
-X-CSE-ConnectionGUID: zSEKINIBQaqUOSCP0REf5g==
-X-CSE-MsgGUID: WCndHabKTkK44Pvo1C22dw==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2025 14:20:59 -0800
+X-CSE-ConnectionGUID: UkMaxHVZTHiZOU+vkCKkIQ==
+X-CSE-MsgGUID: T3xlj4CwTUCuO5MkEXWFNg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,307,1754982000"; 
-   d="scan'208";a="220959758"
+X-IronPort-AV: E=Sophos;i="6.19,308,1754982000"; 
+   d="scan'208";a="220987304"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Nov 2025 10:26:38 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 15 Nov 2025 14:20:58 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vKKyq-0008At-17;
-	Sat, 15 Nov 2025 18:26:36 +0000
-Date: Sun, 16 Nov 2025 02:25:46 +0800
+	id 1vKOdb-0008In-2w;
+	Sat, 15 Nov 2025 22:20:55 +0000
+Date: Sun, 16 Nov 2025 06:20:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 7022/8918] fs/xfs/xfs_trans_dquot.c:696:5-15:
- second lock on line 704
-Message-ID: <202511160221.O3Jq4Jwa-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/net/ethernet/jme.o: warning: objtool: jme_check_link:
+ unexpected end of section .text
+Message-ID: <202511160652.o5se3Cj0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,106 +62,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
-CC: Carlos Maiolino <cem@kernel.org>
-CC: "Darrick J. Wong" <djwong@kernel.org>
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0f2995693867bfb26197b117cd55624ddc57582f
-commit: 6129b088e1f10938b86f44948ad698b39dd19faa [7022/8918] xfs: remove xfs_dqunlock and friends
-:::::: branch date: 2 days ago
-:::::: commit date: 4 days ago
-config: nios2-randconfig-r061-20251115 (https://download.01.org/0day-ci/archive/20251116/202511160221.O3Jq4Jwa-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
+CC: Ingo Molnar <mingo@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f824272b6e3fe24950abc527136e8140f67b0b23
+commit: c5995abe15476798b2e2f0163a33404c41aafc8f objtool: Improve error handling
+date:   8 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 8 months ago
+config: x86_64-randconfig-003-20251116 (https://download.01.org/0day-ci/archive/20251116/202511160652.o5se3Cj0-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251116/202511160652.o5se3Cj0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202511160221.O3Jq4Jwa-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511160652.o5se3Cj0-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_trans_dquot.c:696:5-15: second lock on line 704
-   fs/xfs/xfs_trans_dquot.c:696:5-15: second lock on line 713
-   fs/xfs/xfs_trans_dquot.c:704:5-15: second lock on line 713
+All warnings (new ones prefixed by >>):
 
-vim +696 fs/xfs/xfs_trans_dquot.c
-
-200491875ce144 fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2024-02-22  653  
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  654  /*
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  655   * Release the reservations, and adjust the dquots accordingly.
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  656   * This is called only when the transaction is being aborted. If by
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  657   * any chance we have done dquot modifications incore (ie. deltas) already,
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  658   * we simply throw those away, since that's the expected behavior
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  659   * when a transaction is curtailed without a commit.
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  660   */
-7d095257e32121 fs/xfs/quota/xfs_trans_dquot.c Christoph Hellwig   2009-06-08  661  void
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  662  xfs_trans_unreserve_and_mod_dquots(
-07137e925fa951 fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2024-12-02  663  	struct xfs_trans	*tp,
-07137e925fa951 fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2024-12-02  664  	bool			already_locked)
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  665  {
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  666  	int			i, j;
-aefe69a45d8490 fs/xfs/xfs_trans_dquot.c       Pavel Reichl        2019-11-12  667  	struct xfs_dquot	*dqp;
-078f4a7d31092a fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2019-04-17  668  	struct xfs_dqtrx	*qtrx, *qa;
-667a9291c5b383 fs/xfs/xfs_trans_dquot.c       Thiago Farina       2012-11-12  669  	bool			locked;
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  670  
-04a58620a17cb1 fs/xfs/xfs_trans_dquot.c       Kaixu Xia           2020-12-03  671  	if (!tp->t_dqinfo)
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  672  		return;
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  673  
-0e6436d99e730f fs/xfs/xfs_trans_dquot.c       Chandra Seetharaman 2013-06-27  674  	for (j = 0; j < XFS_QM_TRANS_DQTYPES; j++) {
-0e6436d99e730f fs/xfs/xfs_trans_dquot.c       Chandra Seetharaman 2013-06-27  675  		qa = tp->t_dqinfo->dqs[j];
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  676  
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  677  		for (i = 0; i < XFS_QM_TRANS_MAXDQS; i++) {
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  678  			qtrx = &qa[i];
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  679  			/*
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  680  			 * We assume that the array of dquots is filled
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  681  			 * sequentially, not sparsely.
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  682  			 */
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  683  			if ((dqp = qtrx->qt_dquot) == NULL)
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  684  				break;
-200491875ce144 fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2024-02-22  685  
-200491875ce144 fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2024-02-22  686  			xfs_trans_unreserve_and_mod_dquots_hook(tp, dqp);
-200491875ce144 fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2024-02-22  687  
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  688  			/*
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  689  			 * Unreserve the original reservation. We don't care
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  690  			 * about the number of blocks used field, or deltas.
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  691  			 * Also we don't bother to zero the fields.
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  692  			 */
-07137e925fa951 fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2024-12-02  693  			locked = already_locked;
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  694  			if (qtrx->qt_blk_res) {
-07137e925fa951 fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2024-12-02  695  				if (!locked) {
-6129b088e1f109 fs/xfs/xfs_trans_dquot.c       Christoph Hellwig   2025-11-10 @696  					mutex_lock(&dqp->q_qlock);
-667a9291c5b383 fs/xfs/xfs_trans_dquot.c       Thiago Farina       2012-11-12  697  					locked = true;
-07137e925fa951 fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2024-12-02  698  				}
-784e80f5640db9 fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2020-07-14  699  				dqp->q_blk.reserved -=
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  700  					(xfs_qcnt_t)qtrx->qt_blk_res;
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  701  			}
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  702  			if (qtrx->qt_ino_res) {
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  703  				if (!locked) {
-6129b088e1f109 fs/xfs/xfs_trans_dquot.c       Christoph Hellwig   2025-11-10 @704  					mutex_lock(&dqp->q_qlock);
-667a9291c5b383 fs/xfs/xfs_trans_dquot.c       Thiago Farina       2012-11-12  705  					locked = true;
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  706  				}
-784e80f5640db9 fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2020-07-14  707  				dqp->q_ino.reserved -=
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  708  					(xfs_qcnt_t)qtrx->qt_ino_res;
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  709  			}
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  710  
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  711  			if (qtrx->qt_rtblk_res) {
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  712  				if (!locked) {
-6129b088e1f109 fs/xfs/xfs_trans_dquot.c       Christoph Hellwig   2025-11-10  713  					mutex_lock(&dqp->q_qlock);
-667a9291c5b383 fs/xfs/xfs_trans_dquot.c       Thiago Farina       2012-11-12  714  					locked = true;
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  715  				}
-784e80f5640db9 fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2020-07-14  716  				dqp->q_rtb.reserved -=
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  717  					(xfs_qcnt_t)qtrx->qt_rtblk_res;
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  718  			}
-07137e925fa951 fs/xfs/xfs_trans_dquot.c       Darrick J. Wong     2024-12-02  719  			if (locked && !already_locked)
-6129b088e1f109 fs/xfs/xfs_trans_dquot.c       Christoph Hellwig   2025-11-10  720  				mutex_unlock(&dqp->q_qlock);
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  721  
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  722  		}
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  723  	}
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  724  }
-^1da177e4c3f41 fs/xfs/quota/xfs_trans_dquot.c Linus Torvalds      2005-04-16  725  
+>> drivers/net/ethernet/jme.o: warning: objtool: jme_check_link: unexpected end of section .text
 
 -- 
 0-DAY CI Kernel Test Service
