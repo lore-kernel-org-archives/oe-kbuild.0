@@ -1,69 +1,59 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBF03074B4
-	for <oe-kbuild@lists.linux.dev>; Tue, 18 Nov 2025 07:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A4F3009C7
+	for <oe-kbuild@lists.linux.dev>; Tue, 18 Nov 2025 08:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763451513; cv=none; b=Gvb9P351A74q+qKM8TzqhjKBJGmkxZSA9WZNghURsjUkJKqW9BfkCmFO3lwemnAItOJ6AGw539AmV8lOEfwtyu98dZr7z+wsmG1uwLAhlLw2aQs6Szn5kYgMGYoA6JVF8UXnywX6nxx0wz0JyNdM7PI3jrmIm+ayP/BCRmENkEg=
+	t=1763455687; cv=none; b=E1csca/SVzAC/qxZsF7bSTUdQuOZksqDr8ZZnGq+vbFp2aeodWbs5ARUNlQC6ED62WSk4p39OSgos8dwP7gVZfUAooyRc39kR1RhN0uk1nesnsMq1NQaGhbui6dF6MNAkzqtLUMm+pwcAi59NHv4V1dC2xnmVyKSluD/kLx3Lz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763451513; c=relaxed/simple;
-	bh=vhx1ohIKCP6r6AADI9y2QaQlz9ks6bQd/Nyr/fHa7lw=;
+	s=arc-20240116; t=1763455687; c=relaxed/simple;
+	bh=NLTzyaM3Hw+UKIYCQ3VvKfYBLvHU2w8ZuSkhz4o8f44=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=E7zuUpNMmUd95ZgYqLqvsqancs/9/BCJLsMpUZqYt/nr7vXD5T8uVwKHmA0uy97t+hJa/etU3Nv2RflaZVaP0AFwGDpGsKQhX1bN1f0wqP9mAiI4Qp+qR7K0QthmxBUE9YCqKmo4nJRvC6TcAAuss5QqJLSgHGTFTI8PddAcV3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZjRyRmNp; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=huWxxMmqEzbvwCmbsjM1TPwQ/AzoSFeCrmBgQhl//+tSKshLZHswtGn4ZdzN6By8aoTkrq8W2IP6Xaa7rKukin/NCCF17hEG5XB5A36D5+CHbSUSJ3OKiIt2XxNR9OI5dS8SmAmyTsW0FOuOBzW6ta1wkbbAwggAsQEIW0NxfOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OEQXK9NK; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZjRyRmNp"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-42b3c965df5so3012753f8f.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 17 Nov 2025 23:38:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763451509; x=1764056309; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HFNHNm7IeCb6cY7zTmVQXU33zq3Wgzba7sFu0fg8i5U=;
-        b=ZjRyRmNpsswoGuze5uFZFWgcQUkKmU/vsuqcLegO0JyLisjJw7I81PLOG4t0wK35Qs
-         QyudqpbiNUJCXdbQniL/3Ov1wpz0rfv8mOV8IFi7B0P500S/L2fW4WeQkCBvwfqwQFUA
-         eN82eJau0zBh2fJkl/mLBZExHWXXMkgMdUbHjLhIy/FPWF3vVf+/0dgb84D6Hfe8+Y2O
-         NWz2SL0uYBTn+rPdEb2dVhoqd06jJwVNpa4DzA29XZdd8bByxw9doKiWC8OSp8dr/6XY
-         VzVNx8pOqUFtzXA63BnBFV9V3qH/bno24k0HCCLHjSLuYz/MjbdUTM9hmuixKjlBGefj
-         oUNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763451509; x=1764056309;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HFNHNm7IeCb6cY7zTmVQXU33zq3Wgzba7sFu0fg8i5U=;
-        b=iTObUbmaNq3pqVCYmKOZ+Khw3/BnIBxLUBSJ679Y3kHSyf5IiGVGZLxinLoCLuBvPQ
-         H/2Qkl+exmfkLkSh1VAunFfLXiFzIXrdscOwwarJ+nzyZR9QC11ePeyIB2ssexSdvqUs
-         Oa2k0sLq/+Vg9Ae4jmJkf9TxDg53zUZNbx5kpZXe8AhOqYEi2F3AauZdor3eRBTIrvZd
-         EzQMVMryYPcGoQOWXljMDdSVubKHQCBzITM8YVsfd1PhEr+lzM2Noz+JgO6H9mwXmn6+
-         AxVw0yzHQZNVI2LJ8oo+Oz0+EQL3CESlJFrncFQPpazG2CdA1Ta0Uxtiz8M6TR5jdRjF
-         Ohgg==
-X-Gm-Message-State: AOJu0YyKvbu3VhHfiEaPzN2ZQhOY6TRc7JCZCYB+WYf9K8f66t88Pp0X
-	hYVsJ9KbVG6oiWRpaxx+Vu97VwCnfLtc1R3/DokOgQ3wCnpfW3AP8BevjM136CY5vGl+ndxlNsP
-	nPRCA
-X-Gm-Gg: ASbGnctEBdM6vDQdaadRxEDnCyHSpyXeY+PO968edm7ds7B9w3uWi/VuvU5aAH540GS
-	WgF5EU4tJM2AkUbXWZoZbL4CO4xWbQMnYMrtQ9jmIsQ3rzQLdfFlWRcbRhA4se6GlCiofBrMOSq
-	gvjg4dDiHk5lLOAUMNPbosXQ6QE0KCd1EaBiYAdPG+lKGfl0LVL6S+W0fwFjzToAHybdKuy90Cc
-	tkwKEwhbR3yJYJcDBf4VsKt0SaagQR/Fs+fD3zSeHsfuNyNqVFGebqMsns5Xmk2ZkOV4xTMLaru
-	QY9q/2mYtgd7iwCeUwsLTlFgbrKfTp9QzpoXNYwKzWl7NYNaBgKPPfpUOQBwd6J/9eXkmC6/K0i
-	VjvZeRop4O8M1QjRrU7qASsEVLeCeOu7lcrnXwcsAjBxSBdz3bz8tMZUz8OOAolKDZCwAZ8PsCY
-	RJMuQrGh5XzyT9HK/VjrA+PXKEyxQ=
-X-Google-Smtp-Source: AGHT+IFj9gXhg+qiuF9yfOS2M1bldyX0bAh2TnErtT9EPdUljqt0IrxN7ae8IT4H95dn6d0qiXVKuw==
-X-Received: by 2002:a05:6000:2509:b0:429:bca4:6b3c with SMTP id ffacd0b85a97d-42b59345769mr12612005f8f.9.1763451508964;
-        Mon, 17 Nov 2025 23:38:28 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42b53f1fd50sm30297675f8f.38.2025.11.17.23.38.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 23:38:28 -0800 (PST)
-Date: Tue, 18 Nov 2025 10:38:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Zhiping Zhang <zhipingz@meta.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 2/2] Set steering-tag directly for PCIe P2P memory access
-Message-ID: <202511171603.TwX3hgKc-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OEQXK9NK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763455685; x=1794991685;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NLTzyaM3Hw+UKIYCQ3VvKfYBLvHU2w8ZuSkhz4o8f44=;
+  b=OEQXK9NKUb/iN11RSD+orBKdJ14w5Tk1/6j99F/5GEtM5mOIx+IKEcpu
+   WZ8Tr2kxGUXSEGCw2sIW/vBL+TO5gGqX2euxVJc9HZxmieOhzx7CfpWud
+   PNLg89hI9XUIkx1/E/npnzdG16d26SPqpSr78t/UIK6bKRvm1lH4Kl1AC
+   ZWQN73aHTsgvxNVueet680801a+vawQbuhoyOQiWxfTdSVZ0RVItzktFq
+   e7hza1eNjKtsqwjHMKtRwbFBQYrjregl56K9SGV06kus088EW60triulB
+   5cNIohgyktQ15uZsd1upi39DxYQ2988k3in0GhQhlXOvU+6Iv7AXrpNkV
+   g==;
+X-CSE-ConnectionGUID: OVRGwR/XQjGh2IpyhPYQsA==
+X-CSE-MsgGUID: DUF2whvFQSuTriWUIAaT+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="76573727"
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
+   d="scan'208";a="76573727"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 00:48:02 -0800
+X-CSE-ConnectionGUID: obXEVJpYRJSCC2tJWMbSlw==
+X-CSE-MsgGUID: u09KhfqPR0yC1a7gE42fcA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
+   d="scan'208";a="195615252"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 18 Nov 2025 00:48:02 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vLHNX-0001W7-1y;
+	Tue, 18 Nov 2025 08:47:59 +0000
+Date: Tue, 18 Nov 2025 16:47:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [melver:ctx-analysis/dev 8/35]
+ drivers/tty/serial/ma35d1_serial.c:587 ma35d1serial_console_write() error:
+ uninitialized symbol 'flags'.
+Message-ID: <202511181637.6QISxcYm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,98 +62,84 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251113213712.776234-3-zhipingz@meta.com>
-Message-ID: <20251118073825.YHK8QDRRaJM7JUbDJHen4kbxN1cNGY2daigGe_vyf1Q@z>
 
-Hi Zhiping,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: elver@google.com
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhiping-Zhang/Set-steering-tag-directly-for-PCIe-P2P-memory-access/20251114-054930
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20251113213712.776234-3-zhipingz%40meta.com
-patch subject: [RFC 2/2] Set steering-tag directly for PCIe P2P memory access
-config: x86_64-randconfig-161-20251117 (https://download.01.org/0day-ci/archive/20251117/202511171603.TwX3hgKc-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ctx-analysis/dev
+head:   171c60881ab1f2e223402792a86f1241143252ad
+commit: 54cae7211bb4787e86543044548efc1daccddedb [8/35] locking/rwlock, spinlock: Support Clang's context analysis
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: m68k-randconfig-r071-20251118 (https://download.01.org/0day-ci/archive/20251118/202511181637.6QISxcYm-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511171603.TwX3hgKc-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202511181637.6QISxcYm-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/lib/st.c:139 mlx5_st_alloc_index() error: uninitialized symbol 'ret'.
+New smatch warnings:
+drivers/tty/serial/ma35d1_serial.c:587 ma35d1serial_console_write() error: uninitialized symbol 'flags'.
 
-vim +/ret +139 drivers/net/ethernet/mellanox/mlx5/core/lib/st.c
+Old smatch warnings:
+arch/m68k/include/asm/io_no.h:50 __cf_internalio() warn: always true condition '(addr <= 3758096384 + 536870912 - 1) => (0-u32max <= u32max)'
 
-888a7776f4fb04 Yishai Hadas  2025-07-17   82  int mlx5_st_alloc_index(struct mlx5_core_dev *dev, enum tph_mem_type mem_type,
-1f035dcb026b8a Zhiping Zhang 2025-11-13   83  			unsigned int cpu_uid, u16 *st_index, u16 direct_st_val)
-888a7776f4fb04 Yishai Hadas  2025-07-17   84  {
-888a7776f4fb04 Yishai Hadas  2025-07-17   85  	struct mlx5_st_idx_data *idx_data;
-888a7776f4fb04 Yishai Hadas  2025-07-17   86  	struct mlx5_st *st = dev->st;
-888a7776f4fb04 Yishai Hadas  2025-07-17   87  	unsigned long index;
-888a7776f4fb04 Yishai Hadas  2025-07-17   88  	u32 xa_id;
-888a7776f4fb04 Yishai Hadas  2025-07-17   89  	u16 tag;
-888a7776f4fb04 Yishai Hadas  2025-07-17   90  	int ret;
-888a7776f4fb04 Yishai Hadas  2025-07-17   91  
-888a7776f4fb04 Yishai Hadas  2025-07-17   92  	if (!st)
-888a7776f4fb04 Yishai Hadas  2025-07-17   93  		return -EOPNOTSUPP;
-888a7776f4fb04 Yishai Hadas  2025-07-17   94  
-1f035dcb026b8a Zhiping Zhang 2025-11-13   95  	if (mem_type == TPH_MEM_TYPE_P2P)
-1f035dcb026b8a Zhiping Zhang 2025-11-13   96  		tag = direct_st_val;
+vim +/flags +587 drivers/tty/serial/ma35d1_serial.c
 
-ret not set.
+930cbf92db0184 Jacky Huang     2023-06-19  546  
+930cbf92db0184 Jacky Huang     2023-06-19  547  /*
+930cbf92db0184 Jacky Huang     2023-06-19  548   *  Print a string to the serial port trying not to disturb
+930cbf92db0184 Jacky Huang     2023-06-19  549   *  any possible real use of the port...
+930cbf92db0184 Jacky Huang     2023-06-19  550   *
+930cbf92db0184 Jacky Huang     2023-06-19  551   *  The console_lock must be held when we get here.
+930cbf92db0184 Jacky Huang     2023-06-19  552   */
+930cbf92db0184 Jacky Huang     2023-06-19  553  static void ma35d1serial_console_write(struct console *co, const char *s, u32 count)
+930cbf92db0184 Jacky Huang     2023-06-19  554  {
+f0b9d97a77fa8f Andi Shyti      2023-12-04  555  	struct uart_ma35d1_port *up;
+930cbf92db0184 Jacky Huang     2023-06-19  556  	unsigned long flags;
+930cbf92db0184 Jacky Huang     2023-06-19  557  	int locked = 1;
+930cbf92db0184 Jacky Huang     2023-06-19  558  	u32 ier;
+930cbf92db0184 Jacky Huang     2023-06-19  559  
+f0b9d97a77fa8f Andi Shyti      2023-12-04  560  	if ((co->index < 0) || (co->index >= MA35_UART_NR)) {
+6b64f8e360c00f Colin Ian King  2023-12-08  561  		pr_warn("Failed to write on console port %x, out of range\n",
+f0b9d97a77fa8f Andi Shyti      2023-12-04  562  			co->index);
+f0b9d97a77fa8f Andi Shyti      2023-12-04  563  		return;
+f0b9d97a77fa8f Andi Shyti      2023-12-04  564  	}
+f0b9d97a77fa8f Andi Shyti      2023-12-04  565  
+f0b9d97a77fa8f Andi Shyti      2023-12-04  566  	up = &ma35d1serial_ports[co->index];
+f0b9d97a77fa8f Andi Shyti      2023-12-04  567  
+930cbf92db0184 Jacky Huang     2023-06-19  568  	if (up->port.sysrq)
+930cbf92db0184 Jacky Huang     2023-06-19  569  		locked = 0;
+930cbf92db0184 Jacky Huang     2023-06-19  570  	else if (oops_in_progress)
+1b42626add3950 Thomas Gleixner 2023-09-14  571  		locked = uart_port_trylock_irqsave(&up->port, &flags);
+930cbf92db0184 Jacky Huang     2023-06-19  572  	else
+1b42626add3950 Thomas Gleixner 2023-09-14  573  		uart_port_lock_irqsave(&up->port, &flags);
+930cbf92db0184 Jacky Huang     2023-06-19  574  
+930cbf92db0184 Jacky Huang     2023-06-19  575  	/*
+930cbf92db0184 Jacky Huang     2023-06-19  576  	 *  First save the IER then disable the interrupts
+930cbf92db0184 Jacky Huang     2023-06-19  577  	 */
+930cbf92db0184 Jacky Huang     2023-06-19  578  	ier = serial_in(up, MA35_IER_REG);
+930cbf92db0184 Jacky Huang     2023-06-19  579  	serial_out(up, MA35_IER_REG, 0);
+930cbf92db0184 Jacky Huang     2023-06-19  580  
+930cbf92db0184 Jacky Huang     2023-06-19  581  	uart_console_write(&up->port, s, count, ma35d1serial_console_putchar);
+930cbf92db0184 Jacky Huang     2023-06-19  582  
+930cbf92db0184 Jacky Huang     2023-06-19  583  	wait_for_xmitr(up);
+930cbf92db0184 Jacky Huang     2023-06-19  584  	serial_out(up, MA35_IER_REG, ier);
+930cbf92db0184 Jacky Huang     2023-06-19  585  
+930cbf92db0184 Jacky Huang     2023-06-19  586  	if (locked)
+1b42626add3950 Thomas Gleixner 2023-09-14 @587  		uart_port_unlock_irqrestore(&up->port, flags);
+930cbf92db0184 Jacky Huang     2023-06-19  588  }
+930cbf92db0184 Jacky Huang     2023-06-19  589  
 
-1f035dcb026b8a Zhiping Zhang 2025-11-13   97  	else {
-888a7776f4fb04 Yishai Hadas  2025-07-17   98  		ret = pcie_tph_get_cpu_st(dev->pdev, mem_type, cpu_uid, &tag);
-888a7776f4fb04 Yishai Hadas  2025-07-17   99  		if (ret)
-888a7776f4fb04 Yishai Hadas  2025-07-17  100  			return ret;
-1f035dcb026b8a Zhiping Zhang 2025-11-13  101  	}
-888a7776f4fb04 Yishai Hadas  2025-07-17  102  
-888a7776f4fb04 Yishai Hadas  2025-07-17  103  	mutex_lock(&st->lock);
-888a7776f4fb04 Yishai Hadas  2025-07-17  104  
-888a7776f4fb04 Yishai Hadas  2025-07-17  105  	xa_for_each(&st->idx_xa, index, idx_data) {
-888a7776f4fb04 Yishai Hadas  2025-07-17  106  		if (tag == idx_data->tag) {
-888a7776f4fb04 Yishai Hadas  2025-07-17  107  			refcount_inc(&idx_data->usecount);
-888a7776f4fb04 Yishai Hadas  2025-07-17  108  			*st_index = index;
-888a7776f4fb04 Yishai Hadas  2025-07-17  109  			goto end;
+:::::: The code at line 587 was first introduced by commit
+:::::: 1b42626add395027818ad8bfd45f5bdf6e063107 serial: ma35d1: Use port lock wrappers
 
-This needs a ret = 0;
-
-888a7776f4fb04 Yishai Hadas  2025-07-17  110  		}
-888a7776f4fb04 Yishai Hadas  2025-07-17  111  	}
-888a7776f4fb04 Yishai Hadas  2025-07-17  112  
-888a7776f4fb04 Yishai Hadas  2025-07-17  113  	idx_data = kzalloc(sizeof(*idx_data), GFP_KERNEL);
-888a7776f4fb04 Yishai Hadas  2025-07-17  114  	if (!idx_data) {
-888a7776f4fb04 Yishai Hadas  2025-07-17  115  		ret = -ENOMEM;
-888a7776f4fb04 Yishai Hadas  2025-07-17  116  		goto end;
-888a7776f4fb04 Yishai Hadas  2025-07-17  117  	}
-888a7776f4fb04 Yishai Hadas  2025-07-17  118  
-888a7776f4fb04 Yishai Hadas  2025-07-17  119  	refcount_set(&idx_data->usecount, 1);
-888a7776f4fb04 Yishai Hadas  2025-07-17  120  	idx_data->tag = tag;
-888a7776f4fb04 Yishai Hadas  2025-07-17  121  
-888a7776f4fb04 Yishai Hadas  2025-07-17  122  	ret = xa_alloc(&st->idx_xa, &xa_id, idx_data, st->index_limit, GFP_KERNEL);
-888a7776f4fb04 Yishai Hadas  2025-07-17  123  	if (ret)
-888a7776f4fb04 Yishai Hadas  2025-07-17  124  		goto clean_idx_data;
-888a7776f4fb04 Yishai Hadas  2025-07-17  125  
-888a7776f4fb04 Yishai Hadas  2025-07-17  126  	ret = pcie_tph_set_st_entry(dev->pdev, xa_id, tag);
-888a7776f4fb04 Yishai Hadas  2025-07-17  127  	if (ret)
-888a7776f4fb04 Yishai Hadas  2025-07-17  128  		goto clean_idx_xa;
-888a7776f4fb04 Yishai Hadas  2025-07-17  129  
-888a7776f4fb04 Yishai Hadas  2025-07-17  130  	*st_index = xa_id;
-888a7776f4fb04 Yishai Hadas  2025-07-17  131  	goto end;
-888a7776f4fb04 Yishai Hadas  2025-07-17  132  
-888a7776f4fb04 Yishai Hadas  2025-07-17  133  clean_idx_xa:
-888a7776f4fb04 Yishai Hadas  2025-07-17  134  	xa_erase(&st->idx_xa, xa_id);
-888a7776f4fb04 Yishai Hadas  2025-07-17  135  clean_idx_data:
-888a7776f4fb04 Yishai Hadas  2025-07-17  136  	kfree(idx_data);
-888a7776f4fb04 Yishai Hadas  2025-07-17  137  end:
-888a7776f4fb04 Yishai Hadas  2025-07-17  138  	mutex_unlock(&st->lock);
-888a7776f4fb04 Yishai Hadas  2025-07-17 @139  	return ret;
-888a7776f4fb04 Yishai Hadas  2025-07-17  140  }
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
