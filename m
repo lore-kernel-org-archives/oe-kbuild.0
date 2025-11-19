@@ -1,92 +1,71 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A75F35A137
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 12:33:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FC0314B69
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 12:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763555587; cv=none; b=W7HTbE4EHzsG4wpM6k7SxbBPUGp07RdKKjyOQY88cmPQ3KeofomACa/6Ul/To+3OTqqkiLL/ZSr4z/N1JVH+y3nj6RyCPLDE/+XTQ8EsVByMUFbzB1aOa3KuvLl2Sk//RucLgr8WwtlwGQNmqNgjtJZ9m1SCDkcZej+2PuPJEBw=
+	t=1763555769; cv=none; b=KPkIht52mtjtsNxoVyFZb7s6r1mtcCa3w2EPuekXQPLG/eo9YeATykaTjgTMHVex2OdPg7XX5yuUbb65y2QeyvLBtEOjL8d3Ui9Vax3FUXaorjKze/uWc/LCyNS0wlXD+bYWFz7ybSVfYt/8E/MR6BWkCB7jbDKGx4N0LE18bzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763555587; c=relaxed/simple;
-	bh=h5hE7JIAPU5pXe6K4zFsETPItlQfALgrvHbOOEg4bic=;
+	s=arc-20240116; t=1763555769; c=relaxed/simple;
+	bh=EnMfEZ4QkIAdynBjiahHjs3Z6HB/axdMWtZKOM/vCas=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=dfO5fZrAj5O8h6Sx68kVPTptbosUsqo6ClzZPdO3wCoq5moV/ZbsAzGka8z3nCSRx9I4ufqbINlNhmjhmpWSLAMEdFtpmzcCj1R6jwmGuEjQWsgNPBFkfaLiAruKf5BTjfR3oFRDiL6bCIYMAuWhKhAWbjxyzRo75QwlvdXCh2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rusD6656; arc=none smtp.client-ip=209.85.221.53
+	 Content-Disposition; b=nQePevixY2RBup2uPyYutRZBWOOHfTGbLBJXCZ5+mYJ8is5pYoxNPF4jjokOPr0WYWM1M+tqUHWfghjnKL6wzszktu41wRNhYumAn6SdhTPcbtSXRGMWTv0KSgxu/etBdpc3vxC3IfEQxFI6w7cTbzECE4fHixpL3Uz7J9rm/Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tVxdLG4y; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rusD6656"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42b3c965ca9so3442229f8f.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 04:33:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tVxdLG4y"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4775e891b5eso34936475e9.2
+        for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 04:36:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763555582; x=1764160382; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TTpDJIyzlLD2mZZm8NPvuWPGVRMC0dlRU8JeQpSiDFg=;
-        b=rusD6656EfPX/UPHdTgaD53cNcrjek3aO/vNXS/1f7mI9+p0b2H5MSUI4bdiqL3W+F
-         /katDl2jdhdqAASBpbYfj0dJjLlom82YQ1OSOCo8ReM2Spz27eVeA0SJCSSyF5bdBj9H
-         9hqx97a8rE/HMxBuV7DqNn4ikQwlFZn+I/UTWxF/5UlUn8wWZ/4FVi56Lfl/dHvgxJtk
-         KK8TyyvKXKIaifgTxG+IIOrYPgO3c/wWevN7SG/IfPrk2DC8KcCb+WZvkXLqN3LEWBPr
-         OHv/FB90PBQUt2JHqO2fLAR5z6ZabAwQYCOXakXiJ0z8myka826/EidkcFOs50U1RNgW
-         Z1ww==
+        d=linaro.org; s=google; t=1763555765; x=1764160565; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=12KHTdCj9uQ2KXxVz6vWKPRafgjTPXAyRlFxqpBHLk0=;
+        b=tVxdLG4yLcCW5O4pS+P+g2h2Efj1IApFDer0Mn/5dMF3cax1YpSXvrpJFdxPeJ7bok
+         4MYRqcikPL3mdgEQdoDUhQIkfdjG08qEJv5hbGQI0HtVwl6769AisyaEWEqm6jI5v6Vm
+         GLgid8z4fGu1BLRTGRvEZg+HEWNwdYbV4zM0vJ4ob3FPKuIP1UPovHVHj4mc22tVy58d
+         2YHmGo+8QNGtLtW4E21IIvjIXp0QJg9NdVAI7Emt8DzM252w0cFZ8UuVPYVJhF36iyK2
+         vBwaDOJsMADHUESc60OW2pyieUi4rjm2F3mmNp/sx0dXJPCfNjcEAPtylwRHHvigINdT
+         4aOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763555582; x=1764160382;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TTpDJIyzlLD2mZZm8NPvuWPGVRMC0dlRU8JeQpSiDFg=;
-        b=aESjehIu1Y0udQAy+WClYQu8fDH+aGQd3YYLN178mpu/YHmXrTq619/K57TWwoQ8JZ
-         D8O9Lc0PRztxlQeebwPils0sfTzK/aRjIlB2U86078P9AGJJdGiDBTRA0J0asEpDR/KE
-         jbFwXwi0v70mGFjDqoKQyWhIFW4+2P4ldaQK05yDPc3CxyeUZo9//3d+DXMs2cH7bFAn
-         ibZK0BGfzORHF4p8MtN35h5flzbgJPt0+0KiTGn+8BKl5pGXGksoGcCDIimZA9KU6ufV
-         vIzHCd1DBMRTeOrbU4tHG+8w1+B/fBLZOuevHRin+w76IFgrt0Mp/20ZzmFdZ+Oua6a6
-         1xJA==
-X-Gm-Message-State: AOJu0YwDsdmOGFcw0vyWx2LJOzdGLOGlSsbYM9NBbx24T9lzn+9tFCKw
-	OgkI2iOfrxNGBKLkrBmnaHPu/PrmC5S4CdRlkeztQKaUvA4IxGsqec08tyyFI3JyIMJSH+UpoBo
-	Hjg9P
-X-Gm-Gg: ASbGncvB6stjBzq/qAMalNC4dAP+AMzQUnpo88bzxrMIH/hwdZUcimtVRun4p1RHzIr
-	U0Jhn+wwNsO/y35LWMdtNAI1Vp80J2/BtPoapuudanpCQ4N+B7CjlhjgR6hBA0Y1Rs0TKfyKTxV
-	bfZDmwvpNJ8B1aAC7UuBxluQ2C2KpHwoBrJA2GKdG9i5xNTKNH8BEk8avKZvHo4+nruxPV3dg35
-	bExaIuj3HWei8fYH7CDpzhqnRq6/AfiyI9eJyIvehLoXZrDKx44nE0lPPU83M7QNqZpiXkr/mF0
-	ZB9DNrSeMj1TF/vudk43XQ2uZTg3bE1rMtP/Bv4+z7pCR/koAkDMZXm3spLvXnNW0V3pViJVaaC
-	dheDaEfeMQe7BgMO7h/h+FPEShZDBeFZHRm8AEkU7fciI9F352eESCw61ut49Im55F4ZjArfkPN
-	NchwwXmvKRbTXwc2PuJZwGvydJNME=
-X-Google-Smtp-Source: AGHT+IGX99Lme1dSXVbOZlFEGGelrzxBBzInRwek/nqf1UQyJWFcp3FI0tP47t+mBlkjZGEp/hXjJg==
-X-Received: by 2002:a5d:5d0a:0:b0:42b:3062:c647 with SMTP id ffacd0b85a97d-42cb1f387bemr2370775f8f.21.1763555581987;
-        Wed, 19 Nov 2025 04:33:01 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763555765; x=1764160565;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=12KHTdCj9uQ2KXxVz6vWKPRafgjTPXAyRlFxqpBHLk0=;
+        b=BjnocvgkHDmFal6ESqA0WNRqENSXlet0k2iwTKs06yfN3cQbS4ecStzl/9bVvfuWgJ
+         Cewuc5jYiSLfP6Xn5xij+SrcedVoXdDibXUinfZ/gbQMCr2teQrKcwPA80e2Gge2FdDI
+         c/VNg1zWtazaGG5+uTWrK1SJskKvM6N2UZlQmIM69+1l/6scTETEuStuT8UoRjtveOyS
+         7m8g+NwQTcwb2EgQiyPbXeVeWXBaU3kiNmWfxITIG1BeGPrOWkode663OOWzp6kd3V7x
+         BATOIjKnHfED8hnHkZLMopRYpEbtZdh17onjqQYUc4lb1awcCRegZ+7/Z2JurpgJ9DWE
+         OArQ==
+X-Gm-Message-State: AOJu0Yyv00svp0S9d18EZF8OOcaZMc64jh5RHg8vvpdwEI4EnCmdJeXB
+	tJwJPsUvet2lVohyiNLWT/Ybt/c4r2EoSFr0g86rsNf+LL6BGQtd/0ZY7lnt1MSdKRNrkBDvybx
+	eeV9Q
+X-Gm-Gg: ASbGnctYXt1wva4dab/0ailA/m0GJj9gY4H5+Q2ogpl2oVWFy/XqxSCH1bUJ3Xfbeu6
+	hoRqeXNUrKW513VTVG1SyYuigU2Qrpmwz6IWJyWESeVo6UCU9Z8RGWklEcyk8CYkuOdo+yAi+UC
+	2d5PdRbZL4aHJZaFLlTXO1zCm4A08bXIayobcYgYFnPmLU93GDrOe3wQ0U8yKQZOaxdkNOZGVaN
+	WzJD3r7ccMGr4FKpowMMyY+CrEkG8kbckIFyYKJS9w4nBQ/1Gj+wdBsPYUDWHHL8RyUOwjJ/oI9
+	NUkm6Yd9VJND8sl2eIOIsZw1fjINCYfNGGhRRPg4D1whLYet/qJyvYUn6BuFwMmVw5e1u1u7p34
+	RG+MdBAK3ig1KPX7VKggKR6SZYGrwLzeqz7d0mzKKi37tyh9We0Evt+2KJRh/eSpGqNiLF95gJv
+	vx3FSW9LQmLlLic4D6n7t3x7oNMecV0+Zt0TbPXw==
+X-Google-Smtp-Source: AGHT+IFWB53ZXOS4PvwKC7P6NjsFE5FiZi+2vXWb0i5n9X/h6mk/TDgvGSLdIXDkxsKDnEKsOWeDPg==
+X-Received: by 2002:a05:600c:8b22:b0:477:7a1a:4b81 with SMTP id 5b1f17b1804b1-4778fe57115mr186037325e9.9.1763555764772;
+        Wed, 19 Nov 2025 04:36:04 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42c961f6e64sm24385786f8f.27.2025.11.19.04.33.00
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42c9628ebacsm24992839f8f.30.2025.11.19.04.36.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 04:33:01 -0800 (PST)
-Date: Wed, 19 Nov 2025 15:32:57 +0300
+        Wed, 19 Nov 2025 04:36:04 -0800 (PST)
+Date: Wed, 19 Nov 2025 15:36:00 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Balbir Singh <balbirs@nvidia.com>,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	dri-devel@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Balbir Singh <balbirs@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Ralph Campbell <rcampbell@nvidia.com>,
-	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Francois Dugast <francois.dugast@intel.com>
-Subject: Re: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
-Message-ID: <202511151216.rhK2ItOb-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Frank Wunderlich <frank-w@public-files.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.18-rc_new 42/108]
+ drivers/net/phy/as21xxx.c:1176 aeon_c45_an_config_aneg() error:
+ uninitialized symbol 'changed'.
+Message-ID: <202511151513.Hnqzn6wc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -95,228 +74,62 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251114012228.2634882-1-balbirs@nvidia.com>
-Message-ID: <20251119123257.IbSa6CP_KdMWlgH5VwbtUJxyN6MVzhFPnrtGc6U8zdw@z>
+Message-ID: <20251119123600.j8pVLAAlKoY6t5irS0zZYzj5uG_G8gi9EW2kPjnBVl0@z>
 
-Hi Balbir,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Balbir-Singh/mm-huge_memory-c-introduce-folio_split_unmapped/20251114-093541
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251114012228.2634882-1-balbirs%40nvidia.com
-patch subject: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
-config: i386-randconfig-141-20251115 (https://download.01.org/0day-ci/archive/20251115/202511151216.rhK2ItOb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.18-rc_new
+head:   eb43ba8536a5d22d51b0f384a239728b30ede362
+commit: d16e92f56bf7e04bc87f39d34d70b47969767b11 [42/108] net: phy: as21: try the driver from mtk-sdk
+config: nios2-randconfig-r071-20251114 (https://download.01.org/0day-ci/archive/20251115/202511151513.Hnqzn6wc-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511151216.rhK2ItOb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511151513.Hnqzn6wc-lkp@intel.com/
 
-smatch warnings:
-mm/huge_memory.c:4044 __folio_split() error: uninitialized symbol 'end'.
-mm/huge_memory.c:4052 __folio_split() error: we previously assumed 'mapping' could be null (see line 4046)
+New smatch warnings:
+drivers/net/phy/as21xxx.c:1176 aeon_c45_an_config_aneg() error: uninitialized symbol 'changed'.
 
-vim +/end +4044 mm/huge_memory.c
+Old smatch warnings:
+drivers/net/phy/as21xxx.c:549 aeon_ipc_send_cmd() warn: unsigned 'val' is never less than zero.
+drivers/net/phy/as21xxx.c:557 aeon_ipc_send_cmd() warn: unsigned 'val' is never less than zero.
 
-6384dd1d18de7b Zi Yan                  2025-03-07  3908  static int __folio_split(struct folio *folio, unsigned int new_order,
-58729c04cf1092 Zi Yan                  2025-03-07  3909  		struct page *split_at, struct page *lock_at,
-f6b1f167ffe29f Balbir Singh            2025-11-14  3910  		struct list_head *list, enum split_type split_type)
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3911  {
-58729c04cf1092 Zi Yan                  2025-03-07  3912  	XA_STATE(xas, &folio->mapping->i_pages, folio->index);
-6c7de9c83be68b Zi Yan                  2025-07-18  3913  	struct folio *end_folio = folio_next(folio);
-5d65c8d758f259 Barry Song              2024-08-24  3914  	bool is_anon = folio_test_anon(folio);
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3915  	struct address_space *mapping = NULL;
-5d65c8d758f259 Barry Song              2024-08-24  3916  	struct anon_vma *anon_vma = NULL;
-8ec26327c18e1d Wei Yang                2025-10-10  3917  	int old_order = folio_order(folio);
-6c7de9c83be68b Zi Yan                  2025-07-18  3918  	struct folio *new_folio, *next;
-391dc7f40590d7 Zi Yan                  2025-07-18  3919  	int nr_shmem_dropped = 0;
-391dc7f40590d7 Zi Yan                  2025-07-18  3920  	int remap_flags = 0;
-504e070dc08f75 Yang Shi                2021-06-15  3921  	int extra_pins, ret;
-006d3ff27e884f Hugh Dickins            2018-11-30  3922  	pgoff_t end;
-478d134e9506c7 Xu Yu                   2022-04-28  3923  	bool is_hzp;
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3924  
-714b056c832106 Zi Yan                  2025-07-17  3925  	VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
-714b056c832106 Zi Yan                  2025-07-17  3926  	VM_WARN_ON_ONCE_FOLIO(!folio_test_large(folio), folio);
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3927  
-58729c04cf1092 Zi Yan                  2025-03-07  3928  	if (folio != page_folio(split_at) || folio != page_folio(lock_at))
-1412ecb3d256e5 Zi Yan                  2024-03-07  3929  		return -EINVAL;
-1412ecb3d256e5 Zi Yan                  2024-03-07  3930  
-8ec26327c18e1d Wei Yang                2025-10-10  3931  	if (new_order >= old_order)
-c010d47f107f60 Zi Yan                  2024-02-26  3932  		return -EINVAL;
-58729c04cf1092 Zi Yan                  2025-03-07  3933  
-aa27253af32c74 Wei Yang                2025-11-06  3934  	if (!folio_split_supported(folio, new_order, split_type, /* warn = */ true))
-6a50c9b512f773 Ran Xiaokai             2024-06-07  3935  		return -EINVAL;
-c010d47f107f60 Zi Yan                  2024-02-26  3936  
-5beaee54a324ba Matthew Wilcox (Oracle  2024-03-26  3937) 	is_hzp = is_huge_zero_folio(folio);
-4737edbbdd4958 Naoya Horiguchi         2023-04-06  3938  	if (is_hzp) {
-4737edbbdd4958 Naoya Horiguchi         2023-04-06  3939  		pr_warn_ratelimited("Called split_huge_page for huge zero page\n");
-478d134e9506c7 Xu Yu                   2022-04-28  3940  		return -EBUSY;
-4737edbbdd4958 Naoya Horiguchi         2023-04-06  3941  	}
-478d134e9506c7 Xu Yu                   2022-04-28  3942  
-3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  3943) 	if (folio_test_writeback(folio))
-59807685a7e77e Ying Huang              2017-09-06  3944  		return -EBUSY;
-59807685a7e77e Ying Huang              2017-09-06  3945  
-5d65c8d758f259 Barry Song              2024-08-24  3946  	if (is_anon) {
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3947  		/*
-c1e8d7c6a7a682 Michel Lespinasse       2020-06-08  3948  		 * The caller does not necessarily hold an mmap_lock that would
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3949  		 * prevent the anon_vma disappearing so we first we take a
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3950  		 * reference to it and then lock the anon_vma for write. This
-2f031c6f042cb8 Matthew Wilcox (Oracle  2022-01-29  3951) 		 * is similar to folio_lock_anon_vma_read except the write lock
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3952  		 * is taken to serialise against parallel split or collapse
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3953  		 * operations.
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3954  		 */
-29eea9b5a9c9ec Matthew Wilcox (Oracle  2022-09-02  3955) 		anon_vma = folio_get_anon_vma(folio);
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3956  		if (!anon_vma) {
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3957  			ret = -EBUSY;
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3958  			goto out;
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3959  		}
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3960  		anon_vma_lock_write(anon_vma);
-3d4c0d98eb8572 Balbir Singh            2025-10-01  3961  		mapping = NULL;
+vim +/changed +1176 drivers/net/phy/as21xxx.c
 
-end is not initialized for anonymous folios.
+830877d89edcd83 Christian Marangi 2025-05-17  1148  
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1149  static int aeon_c45_an_config_aneg(struct phy_device *phydev)
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1150  {
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1151  	int changed, ret;
 
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3962  	} else {
-e220917fa50774 Luis Chamberlain        2024-08-22  3963  		unsigned int min_order;
-6a3edd29395631 Yin Fengwei             2022-08-10  3964  		gfp_t gfp;
-6a3edd29395631 Yin Fengwei             2022-08-10  3965  
-3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  3966) 		mapping = folio->mapping;
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3967  
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3968  		/* Truncated ? */
-6384dd1d18de7b Zi Yan                  2025-03-07  3969  		/*
-6384dd1d18de7b Zi Yan                  2025-03-07  3970  		 * TODO: add support for large shmem folio in swap cache.
-6384dd1d18de7b Zi Yan                  2025-03-07  3971  		 * When shmem is in swap cache, mapping is NULL and
-6384dd1d18de7b Zi Yan                  2025-03-07  3972  		 * folio_test_swapcache() is true.
-6384dd1d18de7b Zi Yan                  2025-03-07  3973  		 */
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3974  		if (!mapping) {
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3975  			ret = -EBUSY;
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3976  			goto out;
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3977  		}
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3978  
-e220917fa50774 Luis Chamberlain        2024-08-22  3979  		min_order = mapping_min_folio_order(folio->mapping);
-e220917fa50774 Luis Chamberlain        2024-08-22  3980  		if (new_order < min_order) {
-e220917fa50774 Luis Chamberlain        2024-08-22  3981  			ret = -EINVAL;
-e220917fa50774 Luis Chamberlain        2024-08-22  3982  			goto out;
-e220917fa50774 Luis Chamberlain        2024-08-22  3983  		}
-e220917fa50774 Luis Chamberlain        2024-08-22  3984  
-6a3edd29395631 Yin Fengwei             2022-08-10  3985  		gfp = current_gfp_context(mapping_gfp_mask(mapping) &
-6a3edd29395631 Yin Fengwei             2022-08-10  3986  							GFP_RECLAIM_MASK);
-6a3edd29395631 Yin Fengwei             2022-08-10  3987  
-0201ebf274a306 David Howells           2023-06-28  3988  		if (!filemap_release_folio(folio, gfp)) {
-6a3edd29395631 Yin Fengwei             2022-08-10  3989  			ret = -EBUSY;
-6a3edd29395631 Yin Fengwei             2022-08-10  3990  			goto out;
-6a3edd29395631 Yin Fengwei             2022-08-10  3991  		}
-6a3edd29395631 Yin Fengwei             2022-08-10  3992  
-3c844d850e4486 Wei Yang                2025-11-06  3993  		if (split_type == SPLIT_TYPE_UNIFORM) {
-58729c04cf1092 Zi Yan                  2025-03-07  3994  			xas_set_order(&xas, folio->index, new_order);
-8ec26327c18e1d Wei Yang                2025-10-10  3995  			xas_split_alloc(&xas, folio, old_order, gfp);
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3996) 			if (xas_error(&xas)) {
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3997) 				ret = xas_error(&xas);
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3998) 				goto out;
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3999) 			}
-58729c04cf1092 Zi Yan                  2025-03-07  4000  		}
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4001) 
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4002  		anon_vma = NULL;
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4003  		i_mmap_lock_read(mapping);
-006d3ff27e884f Hugh Dickins            2018-11-30  4004  
-006d3ff27e884f Hugh Dickins            2018-11-30  4005  		/*
-58729c04cf1092 Zi Yan                  2025-03-07  4006  		 *__split_unmapped_folio() may need to trim off pages beyond
-58729c04cf1092 Zi Yan                  2025-03-07  4007  		 * EOF: but on 32-bit, i_size_read() takes an irq-unsafe
-58729c04cf1092 Zi Yan                  2025-03-07  4008  		 * seqlock, which cannot be nested inside the page tree lock.
-58729c04cf1092 Zi Yan                  2025-03-07  4009  		 * So note end now: i_size itself may be changed at any moment,
-58729c04cf1092 Zi Yan                  2025-03-07  4010  		 * but folio lock is good enough to serialize the trimming.
-006d3ff27e884f Hugh Dickins            2018-11-30  4011  		 */
-006d3ff27e884f Hugh Dickins            2018-11-30  4012  		end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE);
-d144bf6205342a Hugh Dickins            2021-09-02  4013  		if (shmem_mapping(mapping))
-d144bf6205342a Hugh Dickins            2021-09-02  4014  			end = shmem_fallocend(mapping->host, end);
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4015  	}
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4016  
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4017  	/*
-684555aacc90d7 Matthew Wilcox (Oracle  2022-09-02  4018) 	 * Racy check if we can split the page, before unmap_folio() will
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4019  	 * split PMDs
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4020  	 */
-8710f6ed34e7bc David Hildenbrand       2024-08-02  4021  	if (!can_split_folio(folio, 1, &extra_pins)) {
-fd4a7ac32918d3 Baolin Wang             2022-10-24  4022  		ret = -EAGAIN;
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4023  		goto out_unlock;
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4024  	}
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4025  
-684555aacc90d7 Matthew Wilcox (Oracle  2022-09-02  4026) 	unmap_folio(folio);
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4027  
-b6769834aac1d4 Alex Shi                2020-12-15  4028  	/* block interrupt reentry in xa_lock and spinlock */
-b6769834aac1d4 Alex Shi                2020-12-15  4029  	local_irq_disable();
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4030  	if (mapping) {
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4031  		/*
-3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  4032) 		 * Check if the folio is present in page cache.
-3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  4033) 		 * We assume all tail are present too, if folio is there.
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4034  		 */
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4035) 		xas_lock(&xas);
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4036) 		xas_reset(&xas);
-391dc7f40590d7 Zi Yan                  2025-07-18  4037  		if (xas_load(&xas) != folio) {
-391dc7f40590d7 Zi Yan                  2025-07-18  4038  			ret = -EAGAIN;
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4039  			goto fail;
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4040  		}
-391dc7f40590d7 Zi Yan                  2025-07-18  4041  	}
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4042  
-f6b1f167ffe29f Balbir Singh            2025-11-14  4043  	ret = __folio_freeze_and_split_unmapped(folio, new_order, split_at, &xas, mapping,
-f6b1f167ffe29f Balbir Singh            2025-11-14 @4044  						true, list, split_type, end, extra_pins);
-                                                                                                                                ^^^
-Passing uninitialized variables isn't allowed unless the function is
-inlined.  It triggers a UBSan warning at runtime as well.
+changed is never initialized to false, only true.
 
-391dc7f40590d7 Zi Yan                  2025-07-18  4045  fail:
-6c7de9c83be68b Zi Yan                  2025-07-18 @4046  	if (mapping)
-6c7de9c83be68b Zi Yan                  2025-07-18  4047  		xas_unlock(&xas);
-6c7de9c83be68b Zi Yan                  2025-07-18  4048  
-6c7de9c83be68b Zi Yan                  2025-07-18  4049  	local_irq_enable();
-6c7de9c83be68b Zi Yan                  2025-07-18  4050  
-391dc7f40590d7 Zi Yan                  2025-07-18  4051  	if (nr_shmem_dropped)
-391dc7f40590d7 Zi Yan                  2025-07-18 @4052  		shmem_uncharge(mapping->host, nr_shmem_dropped);
-
-Smatch complains that mapping can be NULL, but this is false positive
-because nr_shmem_dropped is always zero.
-
-6c7de9c83be68b Zi Yan                  2025-07-18  4053  
-958fea4c1e2eb6 Balbir Singh            2025-10-01  4054  	if (!ret && is_anon && !folio_is_device_private(folio))
-391dc7f40590d7 Zi Yan                  2025-07-18  4055  		remap_flags = RMP_USE_SHARED_ZEROPAGE;
-958fea4c1e2eb6 Balbir Singh            2025-10-01  4056  
-8ec26327c18e1d Wei Yang                2025-10-10  4057  	remap_page(folio, 1 << old_order, remap_flags);
-6c7de9c83be68b Zi Yan                  2025-07-18  4058  
-6c7de9c83be68b Zi Yan                  2025-07-18  4059  	/*
-6c7de9c83be68b Zi Yan                  2025-07-18  4060  	 * Unlock all after-split folios except the one containing
-6c7de9c83be68b Zi Yan                  2025-07-18  4061  	 * @lock_at page. If @folio is not split, it will be kept locked.
-6c7de9c83be68b Zi Yan                  2025-07-18  4062  	 */
-391dc7f40590d7 Zi Yan                  2025-07-18  4063  	for (new_folio = folio; new_folio != end_folio; new_folio = next) {
-6c7de9c83be68b Zi Yan                  2025-07-18  4064  		next = folio_next(new_folio);
-6c7de9c83be68b Zi Yan                  2025-07-18  4065  		if (new_folio == page_folio(lock_at))
-6c7de9c83be68b Zi Yan                  2025-07-18  4066  			continue;
-6c7de9c83be68b Zi Yan                  2025-07-18  4067  
-6c7de9c83be68b Zi Yan                  2025-07-18  4068  		folio_unlock(new_folio);
-6c7de9c83be68b Zi Yan                  2025-07-18  4069  		/*
-6c7de9c83be68b Zi Yan                  2025-07-18  4070  		 * Subpages may be freed if there wasn't any mapping
-6c7de9c83be68b Zi Yan                  2025-07-18  4071  		 * like if add_to_swap() is running on a lru page that
-6c7de9c83be68b Zi Yan                  2025-07-18  4072  		 * had its mapping zapped. And freeing these pages
-6c7de9c83be68b Zi Yan                  2025-07-18  4073  		 * requires taking the lru_lock so we do the put_page
-6c7de9c83be68b Zi Yan                  2025-07-18  4074  		 * of the tail pages after the split is complete.
-6c7de9c83be68b Zi Yan                  2025-07-18  4075  		 */
-6c7de9c83be68b Zi Yan                  2025-07-18  4076  		free_folio_and_swap_cache(new_folio);
-6c7de9c83be68b Zi Yan                  2025-07-18  4077  	}
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4078  
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4079  out_unlock:
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4080  	if (anon_vma) {
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4081  		anon_vma_unlock_write(anon_vma);
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4082  		put_anon_vma(anon_vma);
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4083  	}
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4084  	if (mapping)
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4085  		i_mmap_unlock_read(mapping);
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4086  out:
-69a37a8ba1b408 Matthew Wilcox (Oracle  2022-06-08  4087) 	xas_destroy(&xas);
-8ec26327c18e1d Wei Yang                2025-10-10  4088  	if (old_order == HPAGE_PMD_ORDER)
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4089  		count_vm_event(!ret ? THP_SPLIT_PAGE : THP_SPLIT_PAGE_FAILED);
-8ec26327c18e1d Wei Yang                2025-10-10  4090  	count_mthp_stat(old_order, !ret ? MTHP_STAT_SPLIT : MTHP_STAT_SPLIT_FAILED);
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4091  	return ret;
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4092  }
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1152  	u32 adv;
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1153  	linkmode_and(phydev->advertising, phydev->advertising,
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1154  		     phydev->supported);
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1155  	//changed = genphy_config_eee_advert(phydev);
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1156  	adv = linkmode_adv_to_mii_adv_t(phydev->advertising);
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1157  	ret = phy_modify_mmd(phydev, MDIO_MMD_AN, MDIO_AN_ADVERTISE,
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1158  				  ADVERTISE_ALL | ADVERTISE_100BASE4 |
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1159  					  ADVERTISE_PAUSE_CAP |
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1160  					  ADVERTISE_PAUSE_ASYM,
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1161  				  adv);
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1162  	if (ret < 0)
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1163  		return ret;
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1164  	if (ret > 0)
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1165  		changed = 1;
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1166  	adv = linkmode_adv_to_mii_10gbt_adv_t(phydev->advertising);
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1167  	ret = phy_modify_mmd(phydev, MDIO_MMD_AN, MDIO_AN_10GBT_CTRL,
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1168  				  MDIO_AN_10GBT_CTRL_ADV10G |
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1169  					  MDIO_AN_10GBT_CTRL_ADV5G |
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1170  					  MDIO_AN_10GBT_CTRL_ADV2_5G,
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1171  				  adv);
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1172  	if (ret < 0)
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1173  		return ret;
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1174  	if (ret > 0)
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1175  		changed = 1;
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11 @1176  	return changed;
+d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1177  }
 
 -- 
 0-DAY CI Kernel Test Service
