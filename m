@@ -1,99 +1,149 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23183612FD
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 13:36:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A2A34F262
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 13:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763559407; cv=none; b=sevq3rxggkmopyPhdTUMls/Fnst1LfdeLIbXKKZ+pfwiywm6BGmPeJCZs5l8LG8vhBO6kivrwRIWH9TYbjJXG4Y5/ueSz6GLOiJgik53HwtKLCeO1N1GYTZu9uZ1fL7zOqsXmrS3y7oiiswDs2wtoSTi5S7amKOg2Gp8LF3GLMU=
+	t=1763559555; cv=none; b=QMzSAHGFaJ3DtKIZMfI4GiWDzqJ4K7bB9G1rl+qsY8aRe4+PBCDT7YRNTbO8s/OqEAA/Ktcfz4Sc6i60QUgY/ivdZa+xBx0AB+Bcs7l/B56NuhsXIfFrzALEJWTDc/mEQIa9v2kanCPW91bmNIKgcQhAv9oTj3TqSx+SWgW5ea8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763559407; c=relaxed/simple;
-	bh=GeLGHgCDjsKTwDnSqyacgMo//EZ7m64+j5vZ6s9BwyQ=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:Date:
-	 Message-ID:Content-Type; b=AK+bcVPWOODDzUowniMHpiifKaF+igJcmggR3ZqlFXbIfHWeOp0UUk4jbLB/80k3nR39ujkCz1SDjKMQUZGFkHUmDNRkJKuk59PH1jsXWyQj+VyzG3jWA0MuekAtJ6+vR6Z8YLzp2nk1Nml42UwmKv+emCP28ynSnEhP0aIkiNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KV8wICLK; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1763559555; c=relaxed/simple;
+	bh=FXe73Ep9sD5rBsT34++3bbbhdAQxQqAf05cgTTcvnL0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YfvshTPBmsVf+sXgVlrdl0nxKHeazigXTr4p9IPeT1vTLYHWTlbRepcgVaAZvmPhUkWRtaFqLvcniwhsIFc9BmSVFNFXmkjWwIW5Vv8N6luyBnP8aQW+mSO5J0omJRzAYRcDhq6qRCcWRSKHNjV8qYiqvUByhsiRrgyOzo5aMns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GI/wLjj9; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KV8wICLK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1763559404;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=53Tcv51IXqdYwcXhvl6+xnbnHXLHniNAPQvOyeubBUk=;
-	b=KV8wICLKlFw4RpgLtWIkxnmFclwMXYKXuGWLtL44n/W84Pw8Xnycj5hUsBm0p8b85fJ+QJ
-	WkbGSou0JXrySZXYzoRgvhqqD4Hm0LdZu9eXSNiuY+PRK1u+Mjdg0vxQd0Ms9qDFQOovjC
-	XG+Q54kjAHirUsTfb1aIDqmvOYjZD7s=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-369-FBklytfKMBaV802EZZ66Dg-1; Wed,
- 19 Nov 2025 08:36:41 -0500
-X-MC-Unique: FBklytfKMBaV802EZZ66Dg-1
-X-Mimecast-MFC-AGG-ID: FBklytfKMBaV802EZZ66Dg_1763559400
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5485C18AB419;
-	Wed, 19 Nov 2025 13:36:40 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.42.28.5])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F0040195419F;
-	Wed, 19 Nov 2025 13:36:37 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <202511150702.M9d2Y8G2-lkp@intel.com>
-References: <202511150702.M9d2Y8G2-lkp@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: dhowells@redhat.com, Steve French <sfrench@samba.org>,
-    paalcant@redhat.com, oe-kbuild@lists.linux.dev, lkp@intel.com,
-    oe-kbuild-all@lists.linux.dev
-Subject: Re: [dhowells-fs:cifs-next 5/9] fs/smb/client/transport.c:1071 compound_send_recv() error: we previously assumed 'resp_iov' could be null (see line 1049)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GI/wLjj9"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-429c4c65485so5614726f8f.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 05:39:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1763559552; x=1764164352; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/m614NLZ+hzZen13q8+FXmSjyAZ3+3CWaMrWQ9wAjhE=;
+        b=GI/wLjj9Ku3Br3WsEgwFtC6hmS1HnY025Nx4IcVnQUntvwRcFjfKIjalWTE+B/aByr
+         YVtuGFULIB/NHs72snHpE+FRmnIyZjDE27Yysf9WCq3dUNfYityHqyqeZ3pYYe4fReg2
+         iQrD7c2MUZ0HvmmdvGj0oY4uYo7KqYEmdSmjBz8qRGtIjPTT3k0ktozlDEu3ofDXM1cp
+         c5vKXLOLFGp9ciaErjv5xhhXgsJ6yb/XuXxhoiuqIKhISV0n/yAMsMVZaD5dxjGQJfaC
+         IRHFIfAkPAF73O31myzi1klcXWzHu8vbyPvv+rkxSg/NuWbeBkio0WOM9RHps/1FIQQg
+         5LwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763559552; x=1764164352;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/m614NLZ+hzZen13q8+FXmSjyAZ3+3CWaMrWQ9wAjhE=;
+        b=KxOhIz2OCS8x5WJ5T8efEkUyR9ItI8y699cUgU+0f2CpjDR3Vsob0PoRFfmPehDT3v
+         KCnDmkjwLIKhRsrDCmBt1HvqBnJ11auzhKvAS4JEw+/idbsE5DH5Ortar3eaX9paICV9
+         FjyYcW1Y6lqfoymWo6EqxyAuwnfbqC1OC61WsaS0AGl9y9EIhwzEgamDVnhQYxv7Ed06
+         hgdg1h5sI9bOjtYIuGSudH93Yv0+Y69md5MT3O7kcbALNcys6SFqqC63uT1TFnbQomBj
+         xiO0O6MplDo96jPLvXh2MS3YDGcOpaTq65Ph0ctQJaplVMCLIhGGG0mRf8aEZRri/v6i
+         ZsJw==
+X-Gm-Message-State: AOJu0YwCFXA1hMXMN1o6dirZaeBh0TQEdNqk73e2Pwtr1jLW6SR32Gf9
+	iKl0W2Qtha2GvL8uuAeqHZYBMdpnPuyiLVCbf45cFKkFxQ9su9t3l99ZgXzvdy4xwLYzzfYNRrK
+	UTIdk
+X-Gm-Gg: ASbGncu1nJok4UweG3A8juX0rAxrdLwFgXoKBVEM7L+x9bnW15le+lH3s0wYEi2J002
+	fDF+T73BleZBsPviOtNCRGsUkZBivTSc0rr7p6VX4FbeWg+5r+EJbLuaVnuSsC99ez+HkjXPNqI
+	2wyM2bnj9Q9x3sPXCW59qY8iRUuBybzX8GuReLY9RcseISTAx2qwsXkXvx4uV23AFuPy/dqTdMT
+	xLclViwbFuyA3KsL3T+ZtqUxJc5whM3rVRm1aKyaqhG6xMCkvzq5SX8piiVC/mzpqtYDXdXBKgo
+	PvP0+CJo4w6SckoQaZT6UwInQ7dIv6WAO9Yj7I3h/f9lM8LHPoWEgI1YYUHa0JQVCr5yGcpRmZ6
+	cG2IcljN0dV2EYbZsTtkuZ19YQBa0QG6rZlqwcYplo0hV3pZT3b57DCcvKc2oDa3r7mr9RH3KFO
+	IbnA+W7PD40+mVXl7q
+X-Google-Smtp-Source: AGHT+IFywsvJ/Kkcb7CQTl669p0Qc8+79pdM+TJngb4nmXeXInYt0w/EpAge1FlITmi/iKuYtFhIyg==
+X-Received: by 2002:a5d:64e9:0:b0:42b:4139:579f with SMTP id ffacd0b85a97d-42b593424d1mr22618315f8f.25.1763559551955;
+        Wed, 19 Nov 2025 05:39:11 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42b53e846afsm37165279f8f.13.2025.11.19.05.39.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 05:39:11 -0800 (PST)
+Date: Wed, 19 Nov 2025 16:39:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Pavel Zhigulin <Pavel.Zhigulin@kaspersky.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Paolo Abeni <pabeni@redhat.com>
+Subject: [linux-next:master 9725/10183]
+ drivers/net/ethernet/qlogic/qede/qede_fp.c:989 qede_tpa_end() error: testing
+ array offset 'i' after use.
+Message-ID: <202511192128.aqouWvbT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Wed, 19 Nov 2025 13:36:36 +0000
-Message-ID: <2449461.1763559396@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: CiLWDVDWRuDcLU_vlO9Cugd2GR_zyItz_0LoTWjRxzI_1763559400
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2449460.1763559396.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20251119133908.CBXJAPy_jgLWwpjOO5SVAQwlnSg6lzDP5rzQRkuiOGM@z>
 
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fe4d0dea039f2befb93f27569593ec209843b0f5
+commit: 896f1a2493b59beb2b5ccdf990503dbb16cb2256 [9725/10183] net: qlogic/qede: fix potential out-of-bounds read in qede_tpa_cont() and qede_tpa_end()
+config: xtensa-randconfig-r073-20251119 (https://download.01.org/0day-ci/archive/20251119/202511192128.aqouWvbT-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
 
-> smatch warnings:
-> fs/smb/client/transport.c:1071 compound_send_recv() error: we previously =
-assumed 'resp_iov' could be null (see line 1049)
->=20
-> vim +/resp_iov +1071 fs/smb/client/transport.c
-> ...
-> dd3cd8709ed5f4 fs/cifs/transport.c       Shyam Prasad N     2022-04-07  1=
-069  =09if ((ses->ses_status =3D=3D SES_NEW) || (optype & CIFS_NEG_OP) || (=
-optype & CIFS_SESS_OP)) {
-> cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1=
-070  =09=09struct kvec iov =3D {
-> cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10 @1=
-071  =09=09=09.iov_base =3D resp_iov[0].iov_base,
-> cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1=
-072  =09=09=09.iov_len =3D resp_iov[0].iov_len
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202511192128.aqouWvbT-lkp@intel.com/
 
-Whilst that is true, this is guarded by by the if-statement on line 1069 th=
-at
-limits it to only certain operations that are guaranteed to have a response
-buffer.  At least, I think this is the case, so I've cc'd Steve and Paulo t=
-o
-confirm.
+New smatch warnings:
+drivers/net/ethernet/qlogic/qede/qede_fp.c:989 qede_tpa_end() error: testing array offset 'i' after use.
+drivers/net/ethernet/qlogic/qede/qede_fp.c:964 qede_tpa_cont() error: testing array offset 'i' after use.
 
-David
+Old smatch warnings:
+arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
+
+vim +/i +989 drivers/net/ethernet/qlogic/qede/qede_fp.c
+
+cdda926d409869 Mintz, Yuval   2017-01-01   958  static inline void qede_tpa_cont(struct qede_dev *edev,
+cdda926d409869 Mintz, Yuval   2017-01-01   959  				 struct qede_rx_queue *rxq,
+cdda926d409869 Mintz, Yuval   2017-01-01   960  				 struct eth_fast_path_rx_tpa_cont_cqe *cqe)
+cdda926d409869 Mintz, Yuval   2017-01-01   961  {
+cdda926d409869 Mintz, Yuval   2017-01-01   962  	int i;
+cdda926d409869 Mintz, Yuval   2017-01-01   963  
+896f1a2493b59b Pavel Zhigulin 2025-11-13  @964  	for (i = 0; cqe->len_list[i] && i < ARRAY_SIZE(cqe->len_list); i++)
+                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This needs to be done the other way to avoid an off-by-one access.
+
+	i < ARRAY_SIZE(cqe->len_list) && cqe->len_list[i]
+
+cdda926d409869 Mintz, Yuval   2017-01-01   965  		qede_fill_frag_skb(edev, rxq, cqe->tpa_agg_index,
+cdda926d409869 Mintz, Yuval   2017-01-01   966  				   le16_to_cpu(cqe->len_list[i]));
+cdda926d409869 Mintz, Yuval   2017-01-01   967  
+cdda926d409869 Mintz, Yuval   2017-01-01   968  	if (unlikely(i > 1))
+cdda926d409869 Mintz, Yuval   2017-01-01   969  		DP_ERR(edev,
+cdda926d409869 Mintz, Yuval   2017-01-01   970  		       "Strange - TPA cont with more than a single len_list entry\n");
+cdda926d409869 Mintz, Yuval   2017-01-01   971  }
+cdda926d409869 Mintz, Yuval   2017-01-01   972  
+10a0176e4e6eb6 Mintz, Yuval   2017-04-07   973  static int qede_tpa_end(struct qede_dev *edev,
+cdda926d409869 Mintz, Yuval   2017-01-01   974  			struct qede_fastpath *fp,
+cdda926d409869 Mintz, Yuval   2017-01-01   975  			struct eth_fast_path_rx_tpa_end_cqe *cqe)
+cdda926d409869 Mintz, Yuval   2017-01-01   976  {
+cdda926d409869 Mintz, Yuval   2017-01-01   977  	struct qede_rx_queue *rxq = fp->rxq;
+cdda926d409869 Mintz, Yuval   2017-01-01   978  	struct qede_agg_info *tpa_info;
+cdda926d409869 Mintz, Yuval   2017-01-01   979  	struct sk_buff *skb;
+cdda926d409869 Mintz, Yuval   2017-01-01   980  	int i;
+cdda926d409869 Mintz, Yuval   2017-01-01   981  
+cdda926d409869 Mintz, Yuval   2017-01-01   982  	tpa_info = &rxq->tpa_info[cqe->tpa_agg_index];
+cdda926d409869 Mintz, Yuval   2017-01-01   983  	skb = tpa_info->skb;
+cdda926d409869 Mintz, Yuval   2017-01-01   984  
+8a8633978b842c Manish Chopra  2018-05-17   985  	if (tpa_info->buffer.page_offset == PAGE_SIZE)
+8a8633978b842c Manish Chopra  2018-05-17   986  		dma_unmap_page(rxq->dev, tpa_info->buffer.mapping,
+8a8633978b842c Manish Chopra  2018-05-17   987  			       PAGE_SIZE, rxq->data_direction);
+8a8633978b842c Manish Chopra  2018-05-17   988  
+896f1a2493b59b Pavel Zhigulin 2025-11-13  @989  	for (i = 0; cqe->len_list[i] && i < ARRAY_SIZE(cqe->len_list); i++)
+                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Same.
+
+cdda926d409869 Mintz, Yuval   2017-01-01   990  		qede_fill_frag_skb(edev, rxq, cqe->tpa_agg_index,
+cdda926d409869 Mintz, Yuval   2017-01-01   991  				   le16_to_cpu(cqe->len_list[i]));
+cdda926d409869 Mintz, Yuval   2017-01-01   992  	if (unlikely(i > 1))
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
