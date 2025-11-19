@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90407315D55
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 20:04:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A090729E11E
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 20:14:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763582688; cv=none; b=l7uY8ilyXGD5ZxIl10UDHIhNgNmGCFz4zvOKPaYh05frJcu29NCOgkSLdh9AHV6H4EWBDiukA5c+Jb5a7mqDGYkFeKkR+T6A5mw6xNEk+xKjDPAdhfW5MPBCdxQmxXKSDUv93kwqztY3nhwAYgYKKwPBWkhBehYrydkaX82p1yw=
+	t=1763583277; cv=none; b=hV/m6wmMceuUUGkywFhb6svQiVf4/8ypFhMP9CigzZ+kG7h77JlnhQjOWXek7Kc9DljWaZ9iAIE/CypI17IbqtW37KGGiNJz91WEX+ofjbFKPeyzv0mbR4LivLXIVGAb+WUpH4n70HZd/umUpK9T0I1gEWN47PwlSsShX7mV8H4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763582688; c=relaxed/simple;
-	bh=LzXFxa4q5ET5k4JZkYK/LlIbm7g1A7RRJ1lSgrrJ/vM=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DULLyEMKYbd7h3wUFcQCF44Fwj84FZk5KowIZy47d8GFfBC2ml3iua7cSv2HOC9nbIA6yobg7iMJa5PeS/3kf20XspsBxNX0JRonsDAdwaLWtUUvmIpCVW+dqQ5rTvqOPSGzMPg9WS+r+wyGhttBuPGbxO/2sufzZy5uXpRTzSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YNgQ+4do; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1763583277; c=relaxed/simple;
+	bh=Idexk3Nha9wWNYg3A/7jlhmER99sPDBdHSpEZ98YYG4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=G0F2AsvasrDS8C4TzmJiggvr2ajkiTJ9K43kU7cGj9hisZzK/9r0hhdsCEVex3oP05LTp2gxgAjdDnNI9Kvax0sKnkEmFktdaPUdZ+e9w3LUqi6YEMI/ElK6UY3zdqqYSGTc8fK3ZmET99504+slPDLvtJekGLFWOOQJLQMVnec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cE/1RpA/; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YNgQ+4do"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cE/1RpA/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763582686; x=1795118686;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=LzXFxa4q5ET5k4JZkYK/LlIbm7g1A7RRJ1lSgrrJ/vM=;
-  b=YNgQ+4doQ33vUHW+n6jIaqdNEqRuBUfgGBDF4yHMfFNFJqFOUIGiuK+S
-   gErTp8q4S2uE4Wpfi3HT6cdhRYzn6t1WM7SJ9X5PojlcD7lAKQ6h4ek/s
-   i4o6F6Fc2orqh6Gipxj0Nkzwri/M1sw8Q6deHsquj9mjdA/XIoM6WhFv2
-   uH4RvYGKwSPMKZfXvtIW3ZN7iL7uRPZf+RWrTKKw+5Z/I8POpyfk297Px
-   1J0DGPldl8HtsyWCIRTvXE4q2wH1qGmLZxWC/p/KHqEV4zjp3XHG8It6d
-   56Ju9zNfnPTjpjMB6R0AcbT/Fc3IDVI4+4KTjRcs3DUUYN4AnlTWF0zjk
-   A==;
-X-CSE-ConnectionGUID: NMhAek4TR7CTqzUkVVQ75g==
-X-CSE-MsgGUID: 48FZk6IxQYeia1dW0HTuyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="83262404"
+  t=1763583275; x=1795119275;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Idexk3Nha9wWNYg3A/7jlhmER99sPDBdHSpEZ98YYG4=;
+  b=cE/1RpA/KINTsGopc8kPVrjR2QfKhY9t7+QLFPal9776AbQ1G8cCz5U4
+   S38nlSEqj+1rXZf67cjteKg10nRCtdCuQxjgRFouDdzN2Xzk/AGkht2xh
+   zmUWYwi6Gq4LjsrgJW9WazxAR5BnurPYqNSx+JO/GtjX/83IU8kPYWkoS
+   opLouJvz5Cl0e7D4fim+MLxwl213mjZ3Yec2r995O+u/rp6h5j2RuWwmR
+   7XwfQ1l3uy/v9JwFOepa3EWszGfobVJUlegdYTgIC7JfEjucWGe9Avu0V
+   boHYMTreAyN9PNLDU+u9GQQ7LIPFpZOY7pF1lUkogzKb0pDnUvtucMD40
+   Q==;
+X-CSE-ConnectionGUID: ieNLYndpRharigLjvQN8Aw==
+X-CSE-MsgGUID: erZ8sOECToOhKgOIIan63g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="69507927"
 X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; 
-   d="scan'208";a="83262404"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 12:04:44 -0800
-X-CSE-ConnectionGUID: jlwWdDlGRP6ZiWC4I1k4zw==
-X-CSE-MsgGUID: EM67hcHpSP+MJwOW7Eb7fw==
+   d="scan'208";a="69507927"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 12:14:35 -0800
+X-CSE-ConnectionGUID: vqzmTH8QTNubR9JXiIkvEg==
+X-CSE-MsgGUID: t9rHgo+dRR2s/BkA2BtMrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; 
-   d="scan'208";a="214516125"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9c39a92d400b) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Nov 2025 12:04:43 -0800
-Received: from kbuild by 9c39a92d400b with local (Exim 4.98.2)
+   d="scan'208";a="191593284"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 19 Nov 2025 12:14:34 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLoPx-000000001I7-1ZAo
-	for oe-kbuild@lists.linux.dev;
-	Wed, 19 Nov 2025 20:04:41 +0000
-Date: Wed, 19 Nov 2025 21:04:39 +0100
+	id 1vLoZU-0003Gn-0U;
+	Wed, 19 Nov 2025 20:14:32 +0000
+Date: Thu, 20 Nov 2025 04:13:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 270/301] checkpatch:
- WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-Message-ID: <202511192127.PjgNUjs2-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 5886/10183] fs/ext4/move_extent.o: warning:
+ objtool: mext_folio_mkuptodate+0x6c: unreachable instruction
+Message-ID: <202511200423.3XVoDcKs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,31 +63,32 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "loongarch: unreachable instruction"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: Zhang Yi <yi.zhang@huawei.com>
+CC: "Theodore Ts'o" <tytso@mit.edu>
+CC: Jan Kara <jack@suse.cz>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   358b4c20d9bd90f783a5bf7273e770d827c14138
-commit: ed8c1ef868e02dc4375d19c4547cee51e81de3dc [270/301] CHROMIUM: uprev kbase to Mali DDK r54p1
-:::::: branch date: 15 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fe4d0dea039f2befb93f27569593ec209843b0f5
+commit: 37cb211f97f8a0d30d7195d6c427f3233fa0271f [5886/10183] ext4: rename mext_page_mkuptodate() to mext_folio_mkuptodate()
+:::::: branch date: 16 hours ago
 :::::: commit date: 13 days ago
-reproduce: (https://download.01.org/0day-ci/archive/20251119/202511192127.PjgNUjs2-lkp@intel.com/reproduce)
+config: loongarch-randconfig-r071-20251118 (https://download.01.org/0day-ci/archive/20251120/202511200423.3XVoDcKs-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511200423.3XVoDcKs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511192127.PjgNUjs2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511200423.3XVoDcKs-lkp@intel.com/
 
-# many are suggestions rather than must-fix
+All warnings (new ones prefixed by >>):
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#12935: FILE: drivers/gpu/arm/mali/backend/gpu/mali_kbase_pm_driver.c:1801:
-+				/* Allow clock gating within the GPU and prevent it
-+			 * from being seen as active during sleep.
+>> fs/ext4/move_extent.o: warning: objtool: mext_folio_mkuptodate+0x6c: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
