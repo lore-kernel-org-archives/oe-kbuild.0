@@ -1,73 +1,58 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A2A34F262
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 13:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6208C1C8FBA
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 15:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763559555; cv=none; b=QMzSAHGFaJ3DtKIZMfI4GiWDzqJ4K7bB9G1rl+qsY8aRe4+PBCDT7YRNTbO8s/OqEAA/Ktcfz4Sc6i60QUgY/ivdZa+xBx0AB+Bcs7l/B56NuhsXIfFrzALEJWTDc/mEQIa9v2kanCPW91bmNIKgcQhAv9oTj3TqSx+SWgW5ea8=
+	t=1763566268; cv=none; b=am9lYylUYLAHDXroYUVgJM9Cr8aCMp5kCLD3JgqjJhZ6ytmaqwQqSL1lNfd3D1JUoOKC6vCZXyXpUIEWcEwYr6rc8M+e0logS4ixNNdU7S5ljELLQny29hQEo7s1VW3jDTxpQrPYDoZpDdK4ylHBqqzdvMMHY7FpeXFgoKd2Hz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763559555; c=relaxed/simple;
-	bh=FXe73Ep9sD5rBsT34++3bbbhdAQxQqAf05cgTTcvnL0=;
+	s=arc-20240116; t=1763566268; c=relaxed/simple;
+	bh=SDm8b91O7yy+hPVy83bdCV0MuMZLIFeBSNLjQFaAONc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YfvshTPBmsVf+sXgVlrdl0nxKHeazigXTr4p9IPeT1vTLYHWTlbRepcgVaAZvmPhUkWRtaFqLvcniwhsIFc9BmSVFNFXmkjWwIW5Vv8N6luyBnP8aQW+mSO5J0omJRzAYRcDhq6qRCcWRSKHNjV8qYiqvUByhsiRrgyOzo5aMns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GI/wLjj9; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=B6PYfLTIozZakb6MpRnUf0CPNwZ3ezuXYcRJNHSmmi7IvJzfuRxnqDq34sUIgGKeGw6N2ZDXHTxuyNBnIqIYoWvH3j9n2LWnrX2Gu4tpGKieb5dQ+aBzA2xKGc8lDJMiUujQ0YG+5tAUuixoH1u5ofUoUyVjcxu7MQ+qFFzBE2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FpKuc28i; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GI/wLjj9"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-429c4c65485so5614726f8f.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 05:39:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763559552; x=1764164352; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/m614NLZ+hzZen13q8+FXmSjyAZ3+3CWaMrWQ9wAjhE=;
-        b=GI/wLjj9Ku3Br3WsEgwFtC6hmS1HnY025Nx4IcVnQUntvwRcFjfKIjalWTE+B/aByr
-         YVtuGFULIB/NHs72snHpE+FRmnIyZjDE27Yysf9WCq3dUNfYityHqyqeZ3pYYe4fReg2
-         iQrD7c2MUZ0HvmmdvGj0oY4uYo7KqYEmdSmjBz8qRGtIjPTT3k0ktozlDEu3ofDXM1cp
-         c5vKXLOLFGp9ciaErjv5xhhXgsJ6yb/XuXxhoiuqIKhISV0n/yAMsMVZaD5dxjGQJfaC
-         IRHFIfAkPAF73O31myzi1klcXWzHu8vbyPvv+rkxSg/NuWbeBkio0WOM9RHps/1FIQQg
-         5LwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763559552; x=1764164352;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/m614NLZ+hzZen13q8+FXmSjyAZ3+3CWaMrWQ9wAjhE=;
-        b=KxOhIz2OCS8x5WJ5T8efEkUyR9ItI8y699cUgU+0f2CpjDR3Vsob0PoRFfmPehDT3v
-         KCnDmkjwLIKhRsrDCmBt1HvqBnJ11auzhKvAS4JEw+/idbsE5DH5Ortar3eaX9paICV9
-         FjyYcW1Y6lqfoymWo6EqxyAuwnfbqC1OC61WsaS0AGl9y9EIhwzEgamDVnhQYxv7Ed06
-         hgdg1h5sI9bOjtYIuGSudH93Yv0+Y69md5MT3O7kcbALNcys6SFqqC63uT1TFnbQomBj
-         xiO0O6MplDo96jPLvXh2MS3YDGcOpaTq65Ph0ctQJaplVMCLIhGGG0mRf8aEZRri/v6i
-         ZsJw==
-X-Gm-Message-State: AOJu0YwCFXA1hMXMN1o6dirZaeBh0TQEdNqk73e2Pwtr1jLW6SR32Gf9
-	iKl0W2Qtha2GvL8uuAeqHZYBMdpnPuyiLVCbf45cFKkFxQ9su9t3l99ZgXzvdy4xwLYzzfYNRrK
-	UTIdk
-X-Gm-Gg: ASbGncu1nJok4UweG3A8juX0rAxrdLwFgXoKBVEM7L+x9bnW15le+lH3s0wYEi2J002
-	fDF+T73BleZBsPviOtNCRGsUkZBivTSc0rr7p6VX4FbeWg+5r+EJbLuaVnuSsC99ez+HkjXPNqI
-	2wyM2bnj9Q9x3sPXCW59qY8iRUuBybzX8GuReLY9RcseISTAx2qwsXkXvx4uV23AFuPy/dqTdMT
-	xLclViwbFuyA3KsL3T+ZtqUxJc5whM3rVRm1aKyaqhG6xMCkvzq5SX8piiVC/mzpqtYDXdXBKgo
-	PvP0+CJo4w6SckoQaZT6UwInQ7dIv6WAO9Yj7I3h/f9lM8LHPoWEgI1YYUHa0JQVCr5yGcpRmZ6
-	cG2IcljN0dV2EYbZsTtkuZ19YQBa0QG6rZlqwcYplo0hV3pZT3b57DCcvKc2oDa3r7mr9RH3KFO
-	IbnA+W7PD40+mVXl7q
-X-Google-Smtp-Source: AGHT+IFywsvJ/Kkcb7CQTl669p0Qc8+79pdM+TJngb4nmXeXInYt0w/EpAge1FlITmi/iKuYtFhIyg==
-X-Received: by 2002:a5d:64e9:0:b0:42b:4139:579f with SMTP id ffacd0b85a97d-42b593424d1mr22618315f8f.25.1763559551955;
-        Wed, 19 Nov 2025 05:39:11 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42b53e846afsm37165279f8f.13.2025.11.19.05.39.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 05:39:11 -0800 (PST)
-Date: Wed, 19 Nov 2025 16:39:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Pavel Zhigulin <Pavel.Zhigulin@kaspersky.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Paolo Abeni <pabeni@redhat.com>
-Subject: [linux-next:master 9725/10183]
- drivers/net/ethernet/qlogic/qede/qede_fp.c:989 qede_tpa_end() error: testing
- array offset 'i' after use.
-Message-ID: <202511192128.aqouWvbT-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FpKuc28i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763566266; x=1795102266;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SDm8b91O7yy+hPVy83bdCV0MuMZLIFeBSNLjQFaAONc=;
+  b=FpKuc28iAASBWkkPK2+CjvQOTNswFQF2iAHwdkWljpWjZtnZSbdt/hIL
+   OIyemSzcUqxQzS9MeqPk0I3tBFTC3m92wNHKqm7YUtJl52J1jvdgOHbIn
+   js2tMPhlu8sANFeEWFHq6e9fHyA36ceOdwKjmNy5muTZZ4IHZ35HBDGra
+   6UKZ2UEXZ/nQ7UHJzmFTM3bKizsaSU/JyjI/hlCfht+MdWAUQThSKPEGY
+   QBpSdq1Vv6FukzE4h6pLaYG9cOmicCXaln1fmH35i0bkWphfOrCcOnaIJ
+   CV2RpdTSKwAC9M2sspeobNqa0UprdkIvtuMRSDvoaRWcxsV/bHJlNKZR6
+   A==;
+X-CSE-ConnectionGUID: IPbG9zzwSgSK+0Cub2w/qw==
+X-CSE-MsgGUID: 7NZepcxxSbmVPgJNczzTaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="64618832"
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="64618832"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 07:31:04 -0800
+X-CSE-ConnectionGUID: BteBwQNdSCqfJUxRlJC5QA==
+X-CSE-MsgGUID: Ehgwu6yQSVKANK3ly6Wj8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="190874624"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 19 Nov 2025 07:31:03 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vLk97-00031n-1I;
+	Wed, 19 Nov 2025 15:31:01 +0000
+Date: Wed, 19 Nov 2025 23:30:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH 1/3] efi: Wrap screen_info in efi_screen_info so
+ edid_info can be added later
+Message-ID: <202511192342.UzJyMpC8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -76,74 +61,89 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20251119133908.CBXJAPy_jgLWwpjOO5SVAQwlnSg6lzDP5rzQRkuiOGM@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fe4d0dea039f2befb93f27569593ec209843b0f5
-commit: 896f1a2493b59beb2b5ccdf990503dbb16cb2256 [9725/10183] net: qlogic/qede: fix potential out-of-bounds read in qede_tpa_cont() and qede_tpa_end()
-config: xtensa-randconfig-r073-20251119 (https://download.01.org/0day-ci/archive/20251119/202511192128.aqouWvbT-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
+:::::: 
+:::::: Manual check reason: "maintainer prefers to test the version of patch actually in efi/next"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20251119123011.1187249-6-ardb+git@google.com>
+References: <20251119123011.1187249-6-ardb+git@google.com>
+TO: Ard Biesheuvel <ardb+git@google.com>
+TO: linux-efi@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Ard Biesheuvel <ardb@kernel.org>
+CC: Thomas Zimmermann <tzimmermann@suse.de>
+CC: Javier Martinez Canillas <javierm@redhat.com>
+
+Hi Ard,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on efi/next]
+[also build test ERROR on tip/x86/core drm-misc/drm-misc-next linus/master v6.18-rc6 next-20251119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel/efi-Wrap-screen_info-in-efi_screen_info-so-edid_info-can-be-added-later/20251119-203437
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
+patch link:    https://lore.kernel.org/r/20251119123011.1187249-6-ardb%2Bgit%40google.com
+patch subject: [PATCH 1/3] efi: Wrap screen_info in efi_screen_info so edid_info can be added later
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20251119/202511192342.UzJyMpC8-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511192342.UzJyMpC8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511192128.aqouWvbT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511192342.UzJyMpC8-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/qlogic/qede/qede_fp.c:989 qede_tpa_end() error: testing array offset 'i' after use.
-drivers/net/ethernet/qlogic/qede/qede_fp.c:964 qede_tpa_cont() error: testing array offset 'i' after use.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
+   drivers/firmware/efi/efi-init.c: In function 'init_screen_info':
+>> drivers/firmware/efi/efi-init.c:79:17: error: 'efi_screen_info' undeclared (first use in this function)
+      79 |                 efi_screen_info = *si;
+         |                 ^~~~~~~~~~~~~~~
+   drivers/firmware/efi/efi-init.c:79:17: note: each undeclared identifier is reported only once for each function it appears in
 
-vim +/i +989 drivers/net/ethernet/qlogic/qede/qede_fp.c
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARCH_HAS_ELF_CORE_EFLAGS
+   Depends on [n]: BINFMT_ELF [=n] && ELF_CORE [=y]
+   Selected by [y]:
+   - RISCV [=y]
 
-cdda926d409869 Mintz, Yuval   2017-01-01   958  static inline void qede_tpa_cont(struct qede_dev *edev,
-cdda926d409869 Mintz, Yuval   2017-01-01   959  				 struct qede_rx_queue *rxq,
-cdda926d409869 Mintz, Yuval   2017-01-01   960  				 struct eth_fast_path_rx_tpa_cont_cqe *cqe)
-cdda926d409869 Mintz, Yuval   2017-01-01   961  {
-cdda926d409869 Mintz, Yuval   2017-01-01   962  	int i;
-cdda926d409869 Mintz, Yuval   2017-01-01   963  
-896f1a2493b59b Pavel Zhigulin 2025-11-13  @964  	for (i = 0; cqe->len_list[i] && i < ARRAY_SIZE(cqe->len_list); i++)
-                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This needs to be done the other way to avoid an off-by-one access.
 
-	i < ARRAY_SIZE(cqe->len_list) && cqe->len_list[i]
+vim +/efi_screen_info +79 drivers/firmware/efi/efi-init.c
 
-cdda926d409869 Mintz, Yuval   2017-01-01   965  		qede_fill_frag_skb(edev, rxq, cqe->tpa_agg_index,
-cdda926d409869 Mintz, Yuval   2017-01-01   966  				   le16_to_cpu(cqe->len_list[i]));
-cdda926d409869 Mintz, Yuval   2017-01-01   967  
-cdda926d409869 Mintz, Yuval   2017-01-01   968  	if (unlikely(i > 1))
-cdda926d409869 Mintz, Yuval   2017-01-01   969  		DP_ERR(edev,
-cdda926d409869 Mintz, Yuval   2017-01-01   970  		       "Strange - TPA cont with more than a single len_list entry\n");
-cdda926d409869 Mintz, Yuval   2017-01-01   971  }
-cdda926d409869 Mintz, Yuval   2017-01-01   972  
-10a0176e4e6eb6 Mintz, Yuval   2017-04-07   973  static int qede_tpa_end(struct qede_dev *edev,
-cdda926d409869 Mintz, Yuval   2017-01-01   974  			struct qede_fastpath *fp,
-cdda926d409869 Mintz, Yuval   2017-01-01   975  			struct eth_fast_path_rx_tpa_end_cqe *cqe)
-cdda926d409869 Mintz, Yuval   2017-01-01   976  {
-cdda926d409869 Mintz, Yuval   2017-01-01   977  	struct qede_rx_queue *rxq = fp->rxq;
-cdda926d409869 Mintz, Yuval   2017-01-01   978  	struct qede_agg_info *tpa_info;
-cdda926d409869 Mintz, Yuval   2017-01-01   979  	struct sk_buff *skb;
-cdda926d409869 Mintz, Yuval   2017-01-01   980  	int i;
-cdda926d409869 Mintz, Yuval   2017-01-01   981  
-cdda926d409869 Mintz, Yuval   2017-01-01   982  	tpa_info = &rxq->tpa_info[cqe->tpa_agg_index];
-cdda926d409869 Mintz, Yuval   2017-01-01   983  	skb = tpa_info->skb;
-cdda926d409869 Mintz, Yuval   2017-01-01   984  
-8a8633978b842c Manish Chopra  2018-05-17   985  	if (tpa_info->buffer.page_offset == PAGE_SIZE)
-8a8633978b842c Manish Chopra  2018-05-17   986  		dma_unmap_page(rxq->dev, tpa_info->buffer.mapping,
-8a8633978b842c Manish Chopra  2018-05-17   987  			       PAGE_SIZE, rxq->data_direction);
-8a8633978b842c Manish Chopra  2018-05-17   988  
-896f1a2493b59b Pavel Zhigulin 2025-11-13  @989  	for (i = 0; cqe->len_list[i] && i < ARRAY_SIZE(cqe->len_list); i++)
-                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Same.
-
-cdda926d409869 Mintz, Yuval   2017-01-01   990  		qede_fill_frag_skb(edev, rxq, cqe->tpa_agg_index,
-cdda926d409869 Mintz, Yuval   2017-01-01   991  				   le16_to_cpu(cqe->len_list[i]));
-cdda926d409869 Mintz, Yuval   2017-01-01   992  	if (unlikely(i > 1))
+b8466fe82b7921 drivers/firmware/efi/efi-init.c Arnd Bergmann  2023-10-17  68  
+801820bee9bccb drivers/firmware/efi/arm-init.c Ard Biesheuvel 2016-04-25  69  static void __init init_screen_info(void)
+801820bee9bccb drivers/firmware/efi/arm-init.c Ard Biesheuvel 2016-04-25  70  {
+eb46f4cdac42fa drivers/firmware/efi/efi-init.c Ard Biesheuvel 2025-11-19  71  	struct efi_screen_info *si;
+732ea9db9d8a6a drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-10-11  72  
+732ea9db9d8a6a drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-10-11  73  	if (screen_info_table != EFI_INVALID_TABLE_ADDR) {
+732ea9db9d8a6a drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-10-11  74  		si = early_memremap(screen_info_table, sizeof(*si));
+732ea9db9d8a6a drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-10-11  75  		if (!si) {
+732ea9db9d8a6a drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-10-11  76  			pr_err("Could not map screen_info config table\n");
+732ea9db9d8a6a drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-10-11  77  			return;
+732ea9db9d8a6a drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-10-11  78  		}
+eb46f4cdac42fa drivers/firmware/efi/efi-init.c Ard Biesheuvel 2025-11-19 @79  		efi_screen_info = *si;
+eb46f4cdac42fa drivers/firmware/efi/efi-init.c Ard Biesheuvel 2025-11-19  80  		si->screen_info = (struct screen_info){};
+732ea9db9d8a6a drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-10-11  81  		early_memunmap(si, sizeof(*si));
+732ea9db9d8a6a drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-10-11  82  
+732ea9db9d8a6a drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-10-11  83  		if (memblock_is_map_memory(screen_info.lfb_base))
+732ea9db9d8a6a drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-10-11  84  			memblock_mark_nomap(screen_info.lfb_base,
+732ea9db9d8a6a drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-10-11  85  					    screen_info.lfb_size);
+8b3a149db461d3 drivers/firmware/efi/efi-init.c Ard Biesheuvel 2023-03-12  86  
+8b3a149db461d3 drivers/firmware/efi/efi-init.c Ard Biesheuvel 2023-03-12  87  		if (IS_ENABLED(CONFIG_EFI_EARLYCON))
+8b3a149db461d3 drivers/firmware/efi/efi-init.c Ard Biesheuvel 2023-03-12  88  			efi_earlycon_reprobe();
+732ea9db9d8a6a drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-10-11  89  	}
+801820bee9bccb drivers/firmware/efi/arm-init.c Ard Biesheuvel 2016-04-25  90  }
+801820bee9bccb drivers/firmware/efi/arm-init.c Ard Biesheuvel 2016-04-25  91  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
