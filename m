@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BC933F8B7
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 09:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373102EA158
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 10:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763544868; cv=none; b=NrV12KJOfimgX0lr2pLAzbhKxq4uV/MgLWQmaCLK5NcuWk17WFyGHE0cJDfCgDEGZdCRU1Wb6heAyaeB2k+1sOAfxvE/fy6KsAHL5BXg9Ldl38K9SKWQcKFiTjUJ7v85XuFDPXTqLhrJWH5C3FD7RWsapu/L2KD5Ph+MDRpi2Bo=
+	t=1763548664; cv=none; b=jjbyRxtuB3oYrM3LQDyBblQCTV1zyPH+Rz2QQAjBo0u55CwgZcQjEYbdKWn8Tofgnu5w9KWOpg2iSdG5vCrRZZId8z/MMzgLTMVYEdWAn5Hok7WRtihvCTrcnftBCWMc4D8qBVa0mx8WjvtEzB0bW6eeXBdmDTskTX6ToMuxuC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763544868; c=relaxed/simple;
-	bh=Vnq9hWMrdCHM5UazCUUcEYJ1dP0iADpqPNI+31HJr9g=;
+	s=arc-20240116; t=1763548664; c=relaxed/simple;
+	bh=fNpxUluKyWmqzu78z9w0HvOCcG+EL6M0SDEZvHdS+Vo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=idZKFwtuxGlHnM7cs/HtkbpkhEYG1qd3+VthPtt3kQcOs6pQio7MVJc8u+MN6hIlVUIb7iC+3guK41bcR5sRy8MyBHxixNVw04V73QbaZmbCCUd7Yv8nF1R41gpPr6V5WEwbefbf3JuoSonngubnBFke6puA2kjKWv449vi99C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gXZJwtUr; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=XIepQv4iWdLz6WroEw/nc+W9sqCSH6zKWF3G+ram37CYcpgcHeNuXiH1pNSOpQlYuHo48UkBd832Tkjst9b0TLF/i9TRVRUa2r7V9NGWMdXkLFtjoDAlohxtxbTGhfLecB04kRSItroQbMamgk4A34pFo2Xi/oDKbVmB2d3irz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QI5eQh5M; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gXZJwtUr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QI5eQh5M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763544867; x=1795080867;
+  t=1763548662; x=1795084662;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vnq9hWMrdCHM5UazCUUcEYJ1dP0iADpqPNI+31HJr9g=;
-  b=gXZJwtUrIIVC81eTn7wduv+WDKYpw+sga1CFhmYhPZTvfZl9GZOcU7Dw
-   5C6QchJmDupjJNdcxEJ3wFui/8gVXOp6HWgM4dFKurHI0KaUxmAWohprB
-   /Q+utj2LZTbo1YpzTBB2z1NIAtq0xT4yxGWsTuSiiqI4BUHB2Pbg8gGSC
-   KHqA+U7WEY1zWRxFNYymegJ/yLgkOWVjdCslBNFiON8VXuLU3UcA2vBpk
-   9Zp2OW9xAOicl/lTa11aZoCEVbbR9QGuRFDSVF2A4stuvxJGUPtX7LaMh
-   vsOCmAXLJEIpo0TTjyhtStDmJsnOXQct1GEjrb+5f4iTvYgswL8bQyK2C
-   Q==;
-X-CSE-ConnectionGUID: HqMAaUilTVeBUbQhj+Kk5w==
-X-CSE-MsgGUID: Yj1TmjB6TNWR5BBM12eaHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="77038019"
+  bh=fNpxUluKyWmqzu78z9w0HvOCcG+EL6M0SDEZvHdS+Vo=;
+  b=QI5eQh5Mv81Wwk0wCdGQJyyyPSXo1z1JwkTljG6JU+Mh4CFHkYs2TqI5
+   8m6SAr4LqmuKiHomxvZfo3donsu+T4v4wWlwo9z4K+hcJ7wPrmJCy7uKl
+   T9PZFGmsDYhlJo9ECmjFpKNq50NM1q0ry9RzbLYZZLHgV6C7/YU+WLIEX
+   JAnt2hAv2EYOwa8HGKgw4scz2bGNPZ4/NrGNqGmT0nc5C1ka77I9Vlt6P
+   uMyuu4VSmmDRo72X4QyHNClnek0r5raplFAHeTRh22R5uL1cgBYV6YMGW
+   AuDfGEHcrqAE0XbJR5Y/d4kToffet5xs3Pmfsm1+/BDwshz43/uWZLIlu
+   g==;
+X-CSE-ConnectionGUID: E8Zmyr6RQSGLS5YVHQR26A==
+X-CSE-MsgGUID: 675AbVetQpiXFbFiM0eAqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="64782718"
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="77038019"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 01:34:26 -0800
-X-CSE-ConnectionGUID: TaWOmzpITO2rKSpkWkg/HA==
-X-CSE-MsgGUID: Tk0CURpNQrCLLWPd9bQPTA==
+   d="scan'208";a="64782718"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 02:37:37 -0800
+X-CSE-ConnectionGUID: IJXLRLH1SAeyXW+wx1p74A==
+X-CSE-MsgGUID: SE9IjQd3QIu7lm/g0O3Mfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="195950171"
+   d="scan'208";a="228366671"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Nov 2025 01:34:25 -0800
+  by orviesa001.jf.intel.com with ESMTP; 19 Nov 2025 02:37:34 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLeZz-0002fN-10;
-	Wed, 19 Nov 2025 09:34:23 +0000
-Date: Wed, 19 Nov 2025 17:33:30 +0800
+	id 1vLfZ5-0002m9-17;
+	Wed, 19 Nov 2025 10:37:31 +0000
+Date: Wed, 19 Nov 2025 18:36:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [jpoimboe:objtool-split-fix 3/4] block/bio.o: warning: objtool:
- bvec_alloc+0x4e: panic() missing __noreturn in .c/.h or NORETURN() in
- noreturns.h
-Message-ID: <202511191759.y7jedeO3-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2] crypto: sa2ul: Add error handling for DMA metadata
+ retrieval
+Message-ID: <202511191706.iBCITtX2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,83 +62,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
+In-Reply-To: <20251117023117.90-1-vulab@iscas.ac.cn>
+References: <20251117023117.90-1-vulab@iscas.ac.cn>
+TO: Haotian Zhang <vulab@iscas.ac.cn>
+TO: herbert@gondor.apana.org.au
+TO: davem@davemloft.net
+CC: linux-crypto@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Haotian Zhang <vulab@iscas.ac.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-split-fix
-head:   0bef6d9464b6e3f95945b07ed48571e9c323987a
-commit: 270f4606de3bda5ae7882f56ee52ad76fd5e8089 [3/4] objtool: Improve alias handling
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 hours ago
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251119/202511191759.y7jedeO3-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511191759.y7jedeO3-lkp@intel.com/reproduce)
+Hi Haotian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master linus/master v6.18-rc6 next-20251119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haotian-Zhang/crypto-sa2ul-Add-error-handling-for-DMA-metadata-retrieval/20251117-103258
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20251117023117.90-1-vulab%40iscas.ac.cn
+patch subject: [PATCH v2] crypto: sa2ul: Add error handling for DMA metadata retrieval
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: m68k-randconfig-r073-20251119 (https://download.01.org/0day-ci/archive/20251119/202511191706.iBCITtX2-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511191759.y7jedeO3-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202511191706.iBCITtX2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/crypto/sa2ul.c:1064 sa_aes_dma_in_callback() warn: 'mdptr' can also be NULL
+drivers/crypto/sa2ul.c:1394 sa_sha_dma_in_callback() warn: 'mdptr' can also be NULL
+drivers/crypto/sa2ul.c:1709 sa_aead_dma_in_callback() warn: 'mdptr' can also be NULL
 
->> block/bio.o: warning: objtool: bvec_alloc+0x4e: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: blk_next_bio+0x4f: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: bio_alloc_bioset+0x183: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: zero_fill_bio_iter+0x28: unreachable instruction
->> block/bio.o: warning: objtool: bio_truncate+0xfc: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: bio_free+0x37: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: bio_add_vmalloc_chunk+0x2c: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: bio_add_vmalloc+0x38: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: __bio_release_pages+0xa6: unreachable instruction
->> block/bio.o: warning: objtool: bio_iov_iter_get_pages+0x63: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: submit_bio_wait+0x39: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: bdev_rw_virt+0x27: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: bio_await_chain+0x38: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: bio_wait_end_io+0xd: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: bio_endio+0x68: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: __bio_advance+0x87: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: bio_copy_data_iter+0x2b: unreachable instruction
->> block/bio.o: warning: objtool: bio_free_pages+0x6b: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->> block/bio.o: warning: objtool: bio_set_pages_dirty+0x9e: unreachable instruction
->> block/bio.o: warning: objtool: bio_check_pages_dirty+0x1dd: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   block/bio.o: warning: objtool: bio_split+0x1a3: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   block/bio.o: warning: objtool: bio_trim+0xea: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   block/bio.o: warning: objtool: bioset_exit+0x20: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   block/bio.o: warning: objtool: bioset_init+0x85: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   block/bio.o: warning: objtool: bio_alloc_rescue+0x16: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   block/bio.o: warning: objtool: init_bio+0x5f: panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
---
->> block/blk-core.o: warning: objtool: blk_dev_init(): unexpected end of section .init.text
---
->> fs/nsfs.o: warning: objtool: nsfs_init(): unexpected end of section .init.text
---
->> fs/pidfs.o: warning: objtool: pidfs_init(): unexpected end of section .init.text
---
->> fs/anon_inodes.o: warning: objtool: anon_inode_init(): unexpected end of section .init.text
---
->> fs/aio.o: warning: objtool: aio_setup(): unexpected end of section .init.text
---
-   init/main.o: warning: objtool: do_initcalls() falls through to next function do_initcall_level()
-   init/main.o: warning: objtool: rest_init() falls through to next function kernel_init()
->> init/main.o: warning: objtool: kernel_init(): unexpected end of section .ref.text
---
->> kernel/exit.o: warning: objtool: make_task_dead() falls through to next function refcount_inc()
---
->> kernel/reboot.o: warning: objtool: __x64_sys_reboot() falls through to next function ctrl_alt_del()
---
->> mm/slab_common.o: warning: objtool: __kmem_cache_create_args() falls through to next function kmem_buckets_create()
-   mm/slab_common.o: warning: objtool: create_boot_cache() falls through to next function setup_kmalloc_cache_index_table()
->> mm/slab_common.o: warning: objtool: create_kmalloc_cache(): unexpected end of section .init.text
---
->> mm/memblock.o: warning: objtool: __memblock_alloc_or_panic() falls through to next function memblock_reserved_size()
->> mm/memblock.o: warning: objtool: memblock_double_array() falls through to next function memblock_merge_regions()
-..
+vim +/mdptr +1064 drivers/crypto/sa2ul.c
+
+00c9211f60db2d Peter Ujfalusi 2020-09-23  1038  
+7694b6ca649fea Keerthy        2020-07-13  1039  static void sa_aes_dma_in_callback(void *data)
+7694b6ca649fea Keerthy        2020-07-13  1040  {
+aedf818b1f1965 Yu Zhe         2023-03-17  1041  	struct sa_rx_data *rxd = data;
+7694b6ca649fea Keerthy        2020-07-13  1042  	struct skcipher_request *req;
+7694b6ca649fea Keerthy        2020-07-13  1043  	u32 *result;
+7694b6ca649fea Keerthy        2020-07-13  1044  	__be32 *mdptr;
+7694b6ca649fea Keerthy        2020-07-13  1045  	size_t ml, pl;
+7694b6ca649fea Keerthy        2020-07-13  1046  	int i;
+7694b6ca649fea Keerthy        2020-07-13  1047  
+00c9211f60db2d Peter Ujfalusi 2020-09-23  1048  	sa_sync_from_device(rxd);
+7694b6ca649fea Keerthy        2020-07-13  1049  	req = container_of(rxd->req, struct skcipher_request, base);
+7694b6ca649fea Keerthy        2020-07-13  1050  
+7694b6ca649fea Keerthy        2020-07-13  1051  	if (req->iv) {
+7694b6ca649fea Keerthy        2020-07-13  1052  		mdptr = (__be32 *)dmaengine_desc_get_metadata_ptr(rxd->tx_in, &pl,
+7694b6ca649fea Keerthy        2020-07-13  1053  							       &ml);
+90d79e983588a8 Haotian Zhang  2025-11-17  1054  		if (IS_ERR(mdptr)) {
+90d79e983588a8 Haotian Zhang  2025-11-17  1055  			dev_err(rxd->ddev, "Failed to get AES RX metadata pointer: %ld\n",
+90d79e983588a8 Haotian Zhang  2025-11-17  1056  				PTR_ERR(mdptr));
+90d79e983588a8 Haotian Zhang  2025-11-17  1057  			sa_free_sa_rx_data(rxd);
+90d79e983588a8 Haotian Zhang  2025-11-17  1058  			skcipher_request_complete(req, PTR_ERR(mdptr));
+90d79e983588a8 Haotian Zhang  2025-11-17  1059  			return;
+90d79e983588a8 Haotian Zhang  2025-11-17  1060  		}
+7694b6ca649fea Keerthy        2020-07-13  1061  		result = (u32 *)req->iv;
+7694b6ca649fea Keerthy        2020-07-13  1062  
+7694b6ca649fea Keerthy        2020-07-13  1063  		for (i = 0; i < (rxd->enc_iv_size / 4); i++)
+7694b6ca649fea Keerthy        2020-07-13 @1064  			result[i] = be32_to_cpu(mdptr[i + rxd->iv_idx]);
+7694b6ca649fea Keerthy        2020-07-13  1065  	}
+7694b6ca649fea Keerthy        2020-07-13  1066  
+00c9211f60db2d Peter Ujfalusi 2020-09-23  1067  	sa_free_sa_rx_data(rxd);
+7694b6ca649fea Keerthy        2020-07-13  1068  
+7694b6ca649fea Keerthy        2020-07-13  1069  	skcipher_request_complete(req, 0);
+7694b6ca649fea Keerthy        2020-07-13  1070  }
+7694b6ca649fea Keerthy        2020-07-13  1071  
 
 -- 
 0-DAY CI Kernel Test Service
