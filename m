@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E6E32ABCA
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 23:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F4222F16E
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 23:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763593856; cv=none; b=F6DHpdTV9T/2zUO7+xXHcCNnuV0JdlvvGefglU+e5sy0QqIzd0OAQcMOHg+jnhlFzSOn3BQwIjAlG9acLHHZnh8UPD25ZkrIR30gp1JzZRlKbPhmgokTXEkwjLsZhQwYXMRJQLGNxY1GV+aJTj50yLczFrXsFKaOsr4ixfmCCHY=
+	t=1763594027; cv=none; b=Yj2HalykI4/4mc9KOC7QLineqEcyI6KfZeZ8ky60+tZBLnm8ikUjgRRR9wmu0OVt1CxOKiNiIJuK+McMtHgR45ZGa4RjQt9CZsDulTpCZnsPQzGmIAE2bjgSlXapBbqXNwxB8dLjj99nsYkPoheibLfh32US2V1rigQpJvH/17s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763593856; c=relaxed/simple;
-	bh=xWUE/cUN/bw8h1+J5dykSB6GCns/xZd+7N1U7J4TVnw=;
+	s=arc-20240116; t=1763594027; c=relaxed/simple;
+	bh=21aoDUVet/L/7u8fSaZjAXrhPkDJgb8nN4ZQCGqQbwU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jKAOKFJ51akfOCPnYo1s1PWCeuujeTZn1IpEuGHqnZaOIctNzM/IM9igoiHflrIlLtvbnYxPm04LkPjifBNLXAiEfvrXSIzvpLMbZWFhMt4WNQzJL4cOHS2eG5czGihI1du0G+JGj8mOxyEaADaVcfQeouIcEfKutvz7VjvjlPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zlu6A0gN; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=XWQGU4X58gT7O1hAeTwOq0JhS/FpGHh9LwpHZdAcgMK8vzalCxP/1WNaYz3H6M6XpHgtrc84gzZFvMUt18is1LFPCFqVIgel3ud/xSXxkZd+ahLTisTUYIQr7qMBsZIpGrFHaJVyEa7/gtGwetZ2M6NBTVAjxJYd2SeogebtIco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aB8qeTui; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zlu6A0gN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aB8qeTui"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763593854; x=1795129854;
+  t=1763594026; x=1795130026;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xWUE/cUN/bw8h1+J5dykSB6GCns/xZd+7N1U7J4TVnw=;
-  b=Zlu6A0gNshcJVgdDxzA7NsknubAx6z+JEsMeEFOaHVUtxdopHz4KruiZ
-   xaJkmBSo3q6P7sOoNLAk9WssEeduAIN/tsEsoetZCDUUlkOZv/FvvU4+v
-   wOQYZgHif0TvfWjqvigrfbxw4ej3ZeTkFax49WyiQx8Yov6/1yIRUDXLN
-   avY/fQvp3v588/6lXEJxes57s8xK9E/GN21HaoxkMx6GulHYxLSm2c8aS
-   DLxMcFC6CrP0oraOaz8e5b4uknNnSgPeI/QlX1TwoPlQ7waHEPoJITBV/
-   KHTK9fxpsvWkRs5yG0+yTW6WE9ZYb1T2X9VOd7go36jJI6AfrPLgPizqV
+  bh=21aoDUVet/L/7u8fSaZjAXrhPkDJgb8nN4ZQCGqQbwU=;
+  b=aB8qeTuinxLcl5WBZv61GhLzxdEaqsGsFXTTS0/RsFPmEkCi1H0kxw6l
+   zChBXM1/KoRZkQBk5TaFK1y2sTkkdS6M3SWIw4oTrDbJEWelJAq5vxgXs
+   A+Qj5V2xzsdlqMQKO/z7FbCB4qScpqpU29H2gfqaU6k1SxtFK4MZxUUSY
+   +BNua0jVwd20rA07nqOBmOnsHoYOlhsAEHc1/pGA9LG5TnD5NoaiAJBqJ
+   MlQw+ymXD8xz8WhgTWBE7JLdaIeZv1EHJmlWov+Rq6v58vCc6KwTnbR0D
+   +spZOcZWwMs7RoPOpS9oFoibxYGHC60se70VXYXyp40FvysLtCvoKdoJD
    w==;
-X-CSE-ConnectionGUID: HazzpZl2Qeq4Htptm77jSg==
-X-CSE-MsgGUID: e1QIz4qYSo6y8ZkXM6LA9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="65354401"
+X-CSE-ConnectionGUID: IBrmHd7/QB+cWGDIWx6tsA==
+X-CSE-MsgGUID: gQjTCYt+QiSjwqv8ByMKZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="53225221"
 X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; 
-   d="scan'208";a="65354401"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 15:10:52 -0800
-X-CSE-ConnectionGUID: QIX89ZjyRN6qyfZG99eR5A==
-X-CSE-MsgGUID: KGFLYXi2Q4aenPJIxdU97g==
+   d="scan'208";a="53225221"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 15:13:46 -0800
+X-CSE-ConnectionGUID: yeknbnfHS0eDy01nzBDlkg==
+X-CSE-MsgGUID: EA3uRm28QxKEE950K0Mkmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; 
-   d="scan'208";a="191990179"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Nov 2025 15:10:50 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+   d="scan'208";a="191454092"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9c39a92d400b) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 19 Nov 2025 15:13:44 -0800
+Received: from kbuild by 9c39a92d400b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vLrK4-0003P5-1Y;
-	Wed, 19 Nov 2025 23:10:48 +0000
-Date: Thu, 20 Nov 2025 07:10:09 +0800
+	id 1vLrMs-000000001Jv-2df3;
+	Wed, 19 Nov 2025 23:13:42 +0000
+Date: Thu, 20 Nov 2025 00:12:58 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH v1 05/11] Bluetooth: btnxpuart: Add TLS host hello
- handshake implementation
-Message-ID: <202511200650.6IddJ89j-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [drm-msm:msm-next-external-fixes 4/15]
+ arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: gpu@5900000
+ (qcom,adreno-07000200): False schema does not allow ['core', 'iface',
+ 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
+Message-ID: <202511200045.V6nbDD3t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,130 +64,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251118142025.1982263-6-neeraj.sanjaykale@nxp.com>
-References: <20251118142025.1982263-6-neeraj.sanjaykale@nxp.com>
-TO: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>
-TO: marcel@holtmann.org
-TO: luiz.dentz@gmail.com
-CC: linux-bluetooth@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: amitkumar.karwar@nxp.com
-CC: sherry.sun@nxp.com
-CC: dmitrii.lebed@nxp.com
-CC: neeraj.sanjaykale@nxp.com
+TO: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+CC: Rob Clark <robin.clark@oss.qualcomm.com>
 
-Hi Neeraj,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bluetooth/master]
-[also build test WARNING on bluetooth-next/master linus/master v6.18-rc6 next-20251119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Neeraj-Sanjay-Kale/Bluetooth-btnxpuart-Add-firmware-metadata-parsing-for-secure-interface/20251118-223605
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/20251118142025.1982263-6-neeraj.sanjaykale%40nxp.com
-patch subject: [PATCH v1 05/11] Bluetooth: btnxpuart: Add TLS host hello handshake implementation
-:::::: branch date: 33 hours ago
-:::::: commit date: 33 hours ago
-config: x86_64-randconfig-103-20251119 (https://download.01.org/0day-ci/archive/20251120/202511200650.6IddJ89j-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://gitlab.freedesktop.org/drm/msm.git msm-next-external-fixes
+head:   77ba0b6bffeda9c77ad47346e25351d36ede44e6
+commit: 0f2e9535242b495cda6e0b8c7bd08286c79480df [4/15] dt-bindings: display/msm: gpu: Document A612 GPU
+:::::: branch date: 3 days ago
+:::::: commit date: 4 days ago
+config: arm64-randconfig-2052-20251119 (https://download.01.org/0day-ci/archive/20251120/202511200045.V6nbDD3t-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+dtschema version: 2025.9.dev17+geee71adb5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511200045.V6nbDD3t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202511200650.6IddJ89j-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511200045.V6nbDD3t-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/bluetooth/btnxpuart.c:1781:12-13: WARNING opportunity for kfree_sensitive/kvfree_sensitive (memset at line 1780)
-
-vim +1781 drivers/bluetooth/btnxpuart.c
-
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1708  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1709  static struct sk_buff *nxp_host_do_hello(struct hci_dev *hdev)
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1710  {
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1711  	struct btnxpuart_dev *nxpdev = hci_get_drvdata(hdev);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1712  	union nxp_tls_host_hello_payload tls_hello;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1713  	struct nxp_tls_host_hello *host_hello = &tls_hello.host_hello;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1714  	struct ecdh p = {0};
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1715  	u8 *buf = NULL;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1716  	unsigned int buf_len;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1717  	struct sk_buff *skb;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1718  	int ret;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1719  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1720  	nxp_tls_hdr_init(&host_hello->hdr, sizeof(*host_hello), NXP_TLS_HOST_HELLO);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1721  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1722  	host_hello->sig_alg = cpu_to_le16(NXP_TLS_ECDSA_SECP256R1_SHA256);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1723  	host_hello->key_exchange_type = cpu_to_le16(NXP_TLS_ECDHE_SECP256R1);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1724  	host_hello->cipher_suite = cpu_to_le16(NXP_TLS_AES_128_GCM_SHA256);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1725  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1726  	get_random_bytes(host_hello->random, sizeof(host_hello->random));
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1727  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1728  	/* Generate random private key */
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1729  	p.key_size = 32;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1730  	p.key = kzalloc(p.key_size, GFP_KERNEL);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1731  	if (!p.key)
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1732  		return ERR_PTR(-ENOMEM);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1733  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1734  	get_random_bytes(p.key, p.key_size);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1735  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1736  	buf_len = crypto_ecdh_key_len(&p);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1737  	buf = kzalloc(buf_len, GFP_KERNEL);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1738  	if (!buf) {
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1739  		ret = -ENOMEM;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1740  		goto free_key;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1741  	}
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1742  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1743  	ret = crypto_ecdh_encode_key(buf, buf_len, &p);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1744  	if (ret) {
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1745  		bt_dev_err(hdev, "crypto_ecdh_encode_key() failed");
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1746  		goto free_buf;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1747  	}
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1748  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1749  	ret = crypto_kpp_set_secret(nxpdev->crypto.kpp, buf, buf_len);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1750  	if (ret) {
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1751  		bt_dev_err(hdev, "crypto_kpp_set_secret() failed");
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1752  		goto free_buf;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1753  	}
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1754  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1755  	ret = nxp_generate_ecdh_public_key(nxpdev->crypto.kpp, host_hello->pubkey);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1756  	if (ret) {
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1757  		bt_dev_err(hdev, "Failed to generate ECDH public key: %d", ret);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1758  		goto free_buf;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1759  	}
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1760  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1761  	ret = crypto_shash_update(nxpdev->crypto.tls_handshake_hash_desc,
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1762  				  (u8 *)host_hello, sizeof(*host_hello));
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1763  	if (ret) {
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1764  		bt_dev_err(hdev, "Failed to update handshake hash: %d", ret);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1765  		goto free_buf;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1766  	}
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1767  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1768  	tls_hello.msg_type = 0;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1769  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1770  	skb = __hci_cmd_sync(hdev, HCI_NXP_SHI_ENCRYPT, sizeof(tls_hello),
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1771  			     tls_hello.buf, HCI_CMD_TIMEOUT);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1772  	if (IS_ERR(skb)) {
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1773  		bt_dev_err(hdev, "Host Hello command failed: %ld", PTR_ERR(skb));
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1774  		ret = PTR_ERR(skb);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1775  	}
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1776  
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1777  free_buf:
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1778  	kfree(buf);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1779  free_key:
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18 @1780  	memset(p.key, 0, p.key_size);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18 @1781  	kfree(p.key);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1782  	if (ret)
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1783  		return ERR_PTR(ret);
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1784  	else
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1785  		return skb;
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1786  }
-9e92c12afdb6eb Neeraj Sanjay Kale 2025-11-18  1787  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/qcm2290.dtsi:1891.27-1964.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@5e00000/dsi@5e94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/qcm2290.dtsi:1849.11-1859.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: gpu@5900000 (qcom,adreno-07000200): False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+>> arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: gpu@5900000 (qcom,adreno-07000200): False schema does not allow [[86, 8], [86, 0], [29, 19], [29, 87], [86, 3], [86, 6]]
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:0: 'top' was expected
+   	from schema $id: http://devicetree.org/schemas/media/qcom,qcm2290-camss.yaml
+   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:1: 'csid0' was expected
+   	from schema $id: http://devicetree.org/schemas/media/qcom,qcm2290-camss.yaml
+   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:2: 'csid1' was expected
+   	from schema $id: http://devicetree.org/schemas/media/qcom,qcm2290-camss.yaml
+   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:3: 'csiphy0' was expected
+   	from schema $id: http://devicetree.org/schemas/media/qcom,qcm2290-camss.yaml
+   arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:4: 'csiphy1' was expected
+--
+   arch/arm64/boot/dts/qcom/sm6115.dtsi:1950.27-2021.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@5e00000/dsi@5e94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sm6115.dtsi:1908.11-1918.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/qrb4210-rb2.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+>> arch/arm64/boot/dts/qcom/qrb4210-rb2.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow [[111, 13], [111, 4], [48, 150], [48, 76], [111, 7], [111, 10]]
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+--
+   arch/arm64/boot/dts/qcom/sm6115.dtsi:1950.27-2021.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@5e00000/dsi@5e94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sm6115.dtsi:1908.11-1918.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+>> arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow [[87, 13], [87, 4], [44, 150], [44, 76], [87, 7], [87, 10]]
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+--
+   arch/arm64/boot/dts/qcom/pmi632.dtsi:189.19-201.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@1c40000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sm6115.dtsi:1908.11-1918.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+>> arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow [[101, 13], [101, 4], [2, 150], [2, 76], [101, 7], [101, 10]]
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+--
+   arch/arm64/boot/dts/qcom/sm6115.dtsi:1908.11-1918.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+>> arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow [[89, 13], [89, 4], [2, 150], [2, 76], [89, 7], [89, 10]]
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
 
 -- 
 0-DAY CI Kernel Test Service
