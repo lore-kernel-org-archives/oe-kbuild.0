@@ -1,80 +1,75 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93AE62F6933
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 12:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F6A333742
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 12:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763555949; cv=none; b=LDodSxtVVG55Z1sP7r9FQjh+sqrYwyhI98GtgBUMZXCGwd7WZakdkEPUHTgpd+IqDIgtnfhCNvMv1PyMrfYAspvQJIPs7B2Vzm2YMzuVVP9wQLfPKLXWrDErQssMekVc1ZBbuklP1DvbrtsFwlKXHHi29y7rwsYsVWzuHkki85A=
+	t=1763556113; cv=none; b=cx/FmJK3vm7SHl2olnUOuAVKLb++eVTSoXB1asfvqoq8EgimzTq1ql4Mjswdsz9YiH6M5PhQEUC0cSizvvmAx9I0F8AmBZhj/nsKaKSEHzfM7GEwL3SoBQPb9Y7EsT/fq2jLyu94dyD7RL0mQb76Ae8mACGeHsNXAzNN3QaTBDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763555949; c=relaxed/simple;
-	bh=5gFeZNgqrsMX6jwOkCEQwUdo7/X9FYun+sRtuOCorE8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N5RBlAvdWHcHFY/V9+UsDYLhht6jfqPztzqWQYx3N4BeDUyU19tU9lMOVZK3CNoRvN6JpoBBDE27UUccKayFdz9Nu116oIg5sY3+7m6CuJo1pHBo0ZLXLRTm8agLAnjj0/DRphP9bdJ0f95Dhvwem6xMTJKEf7cDWs52WjgJ49M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=APm3CLBC; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763556113; c=relaxed/simple;
+	bh=Pruivijvad7aFnsUBCc2JgwxgpOVvtj91o1Ox/7AbLs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=GphWGS58dYH68q8u3KcF0nyVWReyMYWQU88zquuiw2+o58u9JwoKESNWtxetxGJ/5Owzl+Dnfy9yloTt5cXX26YExsb8XEjny2d2hXWTj5jTr9bCVTG3WTKHoWMHsYh3ZNj7RNOTS2xWZKFTkY9fexhl2hDc2/bijxPqN+VBgBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jHM19gDS; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="APm3CLBC"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-640bd9039fbso11255769a12.2
-        for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 04:39:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jHM19gDS"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59577c4c7c1so771143e87.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 19 Nov 2025 04:41:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763555946; x=1764160746; darn=lists.linux.dev;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CHvebzZNHtF5Uirfhl1zM1fOdHCkj14yEnqWrebk/Qs=;
-        b=APm3CLBCJOgcyd4P3ylL7OewcRYjgSWK8XL0zqPuEuEMxerVs54U6H+rPzYmIX9fK4
-         9i8zzTIzsN8yXSAWMehWej34BRoVWrIOApEH6FZtD3mKCrQYK9wDpIpuog862SzTAdoE
-         SZqI+t3Ksg+K+4v/v1yzmvNJQEUT7pfMkwmWi8hvC2EAsrupDpJEhzA8sD/v0DtZuNmv
-         LFyuC4SQ1NFqHMYumlM2LiEzIJWhxi4bSLa1MOC3EcnBQk/pT1/P68S5EftSwg9s2hdC
-         yqKVcTImsCJi/fdM4+8rK1XbSsoVYeA8Lp86X/PklWeuL1VT/czj6aH7rT4r0ehCHWbc
-         84/A==
+        d=linaro.org; s=google; t=1763556108; x=1764160908; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cqaNfGBajUlIexaUVfmPu0iXh8haQirgtAK0qMIGmPw=;
+        b=jHM19gDSwkVX0IfJhzaoKQOTSJ+MuGiCO0Me+XJX+lMEx+ndDOhKlxleSWOp9c4hFG
+         Ayl9QCdHGw0+gW571tEKUMa9RSqPboL7IUdZEjTrusY2fZGu13I5FdlfXIR0eP3bAaM7
+         GN3khnrh8WpHU03+hXL9qmWflrZE3CpNuvtcSILZ1zRKl7fz+NNaS+fJGt+7FJz3wrl0
+         pQOdrFGmzdTf+LC7ZiauRZ7p/sNc+lY0oiU1WjuiP0hEzL5/Yc5qo/vJGyt3fjJ07HKo
+         rt630LIt7HIfuhVhERPzL3tKiNJGGwpgBC3pEmWnouEGq4CTlgSNb2xGYdvQk9HWV2dy
+         Oz4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763555946; x=1764160746;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CHvebzZNHtF5Uirfhl1zM1fOdHCkj14yEnqWrebk/Qs=;
-        b=jkabG/CPmy5ZcjxMggIC/7YpUNEUz6ZVTdLPrKxfwvwIQCssb23YHVzk4FVdOZxDDV
-         qySoP2n0GobJrpip406E8bEWUAEJ2Vw3BrDiZl0xlT4Oda34CrF6yXeRopk+s4pbxOwF
-         Z6sr562S3F54zZ/YPTAtEqo6ck3JZlxWVc0S89GUh7VazGcawIS1saO8WIzMPQtGpB6L
-         UtZ/8H+WVrQ2PPUqXIwfrA6sQShJ/XDRAdf1jjUTFB/uTjkBWSHnKaQun8pjCOKBJiLF
-         FLJVAuqR6EJiWXcDS1dJa/Fp4kalgsENcGmtXUPsp1MRfAkqlf6md76MI0wNCmfAwNFQ
-         0Uxw==
-X-Gm-Message-State: AOJu0Ywiu2LMkNzKq/9VhhmPHDKURBWV4NNtYfSfyxKC7CQwez/mTtRJ
-	1hCXBCphWynLaeA4TGUI8oSnC97Bf6xuzXkuzy+J46621QV/ThRsMT4P
-X-Gm-Gg: ASbGncunD/bgjnpXC5824puIkL9rKskU3r1Eut52BwrLKH9eZVz2nbAo2HZvctMScEM
-	yZejQ1eYglSNCI4+umxTH6PGJ19PabFmVRPtvDZ5Q6tN4ebL1kzcWesZZ0dvkb5PaXLdCto+k6a
-	nUv7BPIJnpE6trg4p0oY+IMHEUQkZHJZ+Qk8mf0rCo+opGmuobSVrUGoZf5PyLab8V9x91+C3Zw
-	I3Q/6kXCh7b3vDr9donKuvlXdAIzDzFqLgYl4mB3xuWMhf9JfzCGqKGkHRozYJI3g6njuHLeL4t
-	xPoMkHTZI1kvw2X44n1mw8uSUCrK93lZMKMtiQx9Pjb57xjHdN3m9Gdo1IVyL6yhK0SBQccgt1n
-	9E/ISLkKNUS+SCUJagMbd0UPjQJEQgGCzX0MXRp1svVlotDc65QJYuO54kILU6N4S76DPSoocO2
-	QvDIdRDyDqrxnCcpfPo8AeAV8J
-X-Google-Smtp-Source: AGHT+IH6kOS0l+EUbnypOaJgGizNY/obs0hzloB1TKPSHs9xqLDPIWs5NS3ucRiDjUds0rraP+UpiA==
-X-Received: by 2002:a05:6402:354d:b0:640:ef03:82c9 with SMTP id 4fb4d7f45d1cf-6451e36df53mr2153224a12.11.1763555945740;
-        Wed, 19 Nov 2025 04:39:05 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6433a3f96e2sm14975912a12.16.2025.11.19.04.39.05
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 19 Nov 2025 04:39:05 -0800 (PST)
-Date: Wed, 19 Nov 2025 12:39:05 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Wei Yang <richard.weiyang@gmail.com>,
-	willy@infradead.org, akpm@linux-foundation.org, david@kernel.org,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@suse.cz,
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com, ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com, npache@redhat.com,
-	ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org,
-	lance.yang@linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH] mm/huge_memory: consolidate order-related checks into
- folio_split_supported()
-Message-ID: <20251119123905.ak67ykufvfr4iulr@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20251114075703.10434-1-richard.weiyang@gmail.com>
- <202511151652.GKPwEctt-lkp@intel.com>
+        d=1e100.net; s=20230601; t=1763556108; x=1764160908;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cqaNfGBajUlIexaUVfmPu0iXh8haQirgtAK0qMIGmPw=;
+        b=MNXpag/CE4phOgxIDarnQs4GlVcYCGfpfvJ7xfUio8Hlu/bq0/FHcuMsaxydcWpnbN
+         V+bRVEreagt85c3R5My7+HDiNRUTw7IjASCMJAmwC+0pp48+HpXFZQKajiFRN3dXMJIK
+         4Iy7EyStKDXVk+8fR/lEUKenTqOtKzr6TAt/Z0kifb+llCif9YnvVQNCSSOa4ZQTiVeN
+         xLIggLkdMxcZFnEJ8gDpuw0fBdhI7zs5pYfEq8XAw0fIWz94fBCwnrZm1oJ4Aht6H5Pz
+         8+a/AubnAIfO8PXU62Ra6yUAmOWUmcT2UO6fuK0SXXOh1ktmAaNLGOh/wBeCUAvz0aYK
+         8/1w==
+X-Gm-Message-State: AOJu0YxaWUd3Yhf97oTIfrYauHnqYUjZ90NblDTPAparakIi9pMCeYll
+	B7uR0anMEsXKgK4oC5CcMasjE1HRxYDXvOXl1JhWY/8zB3iiQe0ngIPxl22ymET/f+DttYjqJW6
+	gSCJt
+X-Gm-Gg: ASbGncu4ozblb0jB4Y3BYH9T52M05MK9Kxl8u6FqBukvyDXHbAz57D1hD9g4owKSTlt
+	EYqgUEou2AVLnMafyR4TwGWMXWGBmrW8diUErWRkSLUiHT2uR1kEDjXQeIMVhZSunM+Nsg0g0X1
+	gWn9UpsuvXtUCT4NReyqPbWU3bsYGHkScPy+zoedqFQT7sQYrzS6PsMO6s7Ux3yArh/o26vqxuj
+	EiTCb2kRRwL+eAVUbwixXqWDGM8nqWs4waIC3/X4GH8T3fUQRgfLhf2a4/6jHEka5hQgyqewS3K
+	dAX6pefDncPexa3V0q9WDaqlkkgzBfx2rtkMjjg9TZZ8pSN7A5UYwi/iQF3xi+two0TagEtChC6
+	FG1IuJNuLYii+/P5BaQJFH3RIN/94+zXW5jtYtwW1Qxr6ON0tbj+KtACNM/i4P0DZzatBFEDd4F
+	J7MK3GrnQSTJNmGIM+
+X-Google-Smtp-Source: AGHT+IGgG9JwgGKJ3aKQY4BUnqqvqt+Oxcxat25JrhW0w3XxBuj8j1nqWa4ogvFwuEprR6Opl3Q7pw==
+X-Received: by 2002:a05:6512:ac6:b0:57b:56d8:95a1 with SMTP id 2adb3069b0e04-59651cb11cdmr771821e87.19.1763556108220;
+        Wed, 19 Nov 2025 04:41:48 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 2adb3069b0e04-595803ac925sm4694070e87.10.2025.11.19.04.41.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 04:41:47 -0800 (PST)
+Date: Wed, 19 Nov 2025 15:41:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, libaokun@huaweicloud.com,
+	linux-ext4@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, tytso@mit.edu,
+	adilger.kernel@dilger.ca, jack@suse.cz,
+	linux-kernel@vger.kernel.org, kernel@pankajraghav.com,
+	mcgrof@kernel.org, ebiggers@kernel.org, willy@infradead.org,
+	yi.zhang@huawei.com, yangerkun@huawei.com, chengzhihao1@huawei.com,
+	libaokun1@huawei.com, libaokun@huaweicloud.com
+Subject: Re: [PATCH v3 21/24] ext4: make data=journal support large block size
+Message-ID: <202511161433.qI6uGU0m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -83,60 +78,125 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202511151652.GKPwEctt-lkp@intel.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20251111142634.3301616-22-libaokun@huaweicloud.com>
+Message-ID: <20251119124144.WejuoG1WaSqQa_kqXZgp-LpejnK54SW0bhYj1aLeGX4@z>
 
-On Wed, Nov 19, 2025 at 03:37:09PM +0300, Dan Carpenter wrote:
->Hi Wei,
->
->kernel test robot noticed the following build warnings:
->
->url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Yang/mm-huge_memory-consolidate-order-related-checks-into-folio_split_supported/20251114-155833
->base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
->patch link:    https://lore.kernel.org/r/20251114075703.10434-1-richard.weiyang%40gmail.com
->patch subject: [PATCH] mm/huge_memory: consolidate order-related checks into folio_split_supported()
->config: i386-randconfig-141-20251115 (https://download.01.org/0day-ci/archive/20251115/202511151652.GKPwEctt-lkp@intel.com/config)
->compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
->
->If you fix the issue in a separate patch/commit (i.e. not just a new version of
->the same patch/commit), kindly add following tags
->| Reported-by: kernel test robot <lkp@intel.com>
->| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
->| Closes: https://lore.kernel.org/r/202511151652.GKPwEctt-lkp@intel.com/
->
->smatch warnings:
->mm/huge_memory.c:3696 folio_split_supported() warn: signedness bug returning '(-22)'
->
->vim +3696 mm/huge_memory.c
->
->aa27253af32c74 Wei Yang 2025-11-06  3690  bool folio_split_supported(struct folio *folio, unsigned int new_order,
->                                          ^^^^
->This is a bool function.
->
->aa27253af32c74 Wei Yang 2025-11-06  3691  		enum split_type split_type, bool warns)
->58729c04cf1092 Zi Yan   2025-03-07  3692  {
->ab62f1bb0caaa5 Wei Yang 2025-11-14  3693  	const int old_order = folio_order(folio);
->ab62f1bb0caaa5 Wei Yang 2025-11-14  3694  
->ab62f1bb0caaa5 Wei Yang 2025-11-14  3695  	if (new_order >= old_order)
->ab62f1bb0caaa5 Wei Yang 2025-11-14 @3696  		return -EINVAL;
+Hi,
 
-Thanks, this is noticed.
+kernel test robot noticed the following build warnings:
 
->
->s/-EINVAL/false/
->
->ab62f1bb0caaa5 Wei Yang 2025-11-14  3697  
->58729c04cf1092 Zi Yan   2025-03-07  3698  	if (folio_test_anon(folio)) {
->58729c04cf1092 Zi Yan   2025-03-07  3699  		/* order-1 is not supported for anonymous THP. */
->58729c04cf1092 Zi Yan   2025-03-07  3700  		VM_WARN_ONCE(warns && new_order == 1,
->58729c04cf1092 Zi Yan   2025-03-07  3701  				"Cannot split to order-1 folio");
->28753037121116 Zi Yan   2025-11-05  3702  		if (new_order == 1)
->28753037121116 Zi Yan   2025-11-05  3703  			return false;
->
->-- 
->0-DAY CI Kernel Test Service
->https://github.com/intel/lkp-tests/wiki
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/libaokun-huaweicloud-com/ext4-remove-page-offset-calculation-in-ext4_block_zero_page_range/20251111-224944
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20251111142634.3301616-22-libaokun%40huaweicloud.com
+patch subject: [PATCH v3 21/24] ext4: make data=journal support large block size
+config: arm64-randconfig-r071-20251114 (https://download.01.org/0day-ci/archive/20251116/202511161433.qI6uGU0m-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202511161433.qI6uGU0m-lkp@intel.com/
+
+New smatch warnings:
+fs/ext4/inode.c:6612 ext4_change_inode_journal_flag() warn: inconsistent returns '&inode->i_mapping->invalidate_lock'.
+
+vim +6612 fs/ext4/inode.c
+
+617ba13b31fbf5 Mingming Cao       2006-10-11  6527  int ext4_change_inode_journal_flag(struct inode *inode, int val)
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6528  {
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6529  	journal_t *journal;
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6530  	handle_t *handle;
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6531  	int err;
+00d873c17e29cc Jan Kara           2023-05-04  6532  	int alloc_ctx;
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6533  
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6534  	/*
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6535  	 * We have to be very careful here: changing a data block's
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6536  	 * journaling status dynamically is dangerous.  If we write a
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6537  	 * data block to the journal, change the status and then delete
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6538  	 * that block, we risk forgetting to revoke the old log record
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6539  	 * from the journal and so a subsequent replay can corrupt data.
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6540  	 * So, first we make sure that the journal is empty and that
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6541  	 * nobody is changing anything.
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6542  	 */
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6543  
+617ba13b31fbf5 Mingming Cao       2006-10-11  6544  	journal = EXT4_JOURNAL(inode);
+0390131ba84fd3 Frank Mayhar       2009-01-07  6545  	if (!journal)
+0390131ba84fd3 Frank Mayhar       2009-01-07  6546  		return 0;
+d699594dc151c6 Dave Hansen        2007-07-18  6547  	if (is_journal_aborted(journal))
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6548  		return -EROFS;
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6549  
+17335dcc471199 Dmitry Monakhov    2012-09-29  6550  	/* Wait for all existing dio workers */
+17335dcc471199 Dmitry Monakhov    2012-09-29  6551  	inode_dio_wait(inode);
+17335dcc471199 Dmitry Monakhov    2012-09-29  6552  
+4c54659269ecb7 Daeho Jeong        2016-04-25  6553  	/*
+4c54659269ecb7 Daeho Jeong        2016-04-25  6554  	 * Before flushing the journal and switching inode's aops, we have
+4c54659269ecb7 Daeho Jeong        2016-04-25  6555  	 * to flush all dirty data the inode has. There can be outstanding
+4c54659269ecb7 Daeho Jeong        2016-04-25  6556  	 * delayed allocations, there can be unwritten extents created by
+4c54659269ecb7 Daeho Jeong        2016-04-25  6557  	 * fallocate or buffered writes in dioread_nolock mode covered by
+4c54659269ecb7 Daeho Jeong        2016-04-25  6558  	 * dirty data which can be converted only after flushing the dirty
+4c54659269ecb7 Daeho Jeong        2016-04-25  6559  	 * data (and journalled aops don't know how to handle these cases).
+4c54659269ecb7 Daeho Jeong        2016-04-25  6560  	 */
+d4f5258eae7b38 Jan Kara           2021-02-04  6561  	filemap_invalidate_lock(inode->i_mapping);
+4c54659269ecb7 Daeho Jeong        2016-04-25  6562  	err = filemap_write_and_wait(inode->i_mapping);
+4c54659269ecb7 Daeho Jeong        2016-04-25  6563  	if (err < 0) {
+d4f5258eae7b38 Jan Kara           2021-02-04  6564  		filemap_invalidate_unlock(inode->i_mapping);
+4c54659269ecb7 Daeho Jeong        2016-04-25  6565  		return err;
+4c54659269ecb7 Daeho Jeong        2016-04-25  6566  	}
+f893fb965834e9 Baokun Li          2025-11-11  6567  	/* Before switch the inode journalling mode evict all the page cache. */
+f893fb965834e9 Baokun Li          2025-11-11  6568  	truncate_pagecache(inode, 0);
+4c54659269ecb7 Daeho Jeong        2016-04-25  6569  
+00d873c17e29cc Jan Kara           2023-05-04  6570  	alloc_ctx = ext4_writepages_down_write(inode->i_sb);
+dab291af8d6307 Mingming Cao       2006-10-11  6571  	jbd2_journal_lock_updates(journal);
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6572  
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6573  	/*
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6574  	 * OK, there are no updates running now, and all cached data is
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6575  	 * synced to disk.  We are now in a completely consistent state
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6576  	 * which doesn't have anything in the journal, and we know that
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6577  	 * no filesystem updates are running, so it is safe to modify
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6578  	 * the inode's in-core data-journaling state flag now.
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6579  	 */
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6580  
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6581  	if (val)
+12e9b892002d9a Dmitry Monakhov    2010-05-16  6582  		ext4_set_inode_flag(inode, EXT4_INODE_JOURNAL_DATA);
+5872ddaaf05bf2 Yongqiang Yang     2011-12-28  6583  	else {
+01d5d96542fd4e Leah Rumancik      2021-05-18  6584  		err = jbd2_journal_flush(journal, 0);
+4f879ca687a5f2 Jan Kara           2014-10-30  6585  		if (err < 0) {
+4f879ca687a5f2 Jan Kara           2014-10-30  6586  			jbd2_journal_unlock_updates(journal);
+00d873c17e29cc Jan Kara           2023-05-04  6587  			ext4_writepages_up_write(inode->i_sb, alloc_ctx);
+4f879ca687a5f2 Jan Kara           2014-10-30  6588  			return err;
+
+filemap_invalidate_unlock(inode->i_mapping) before returning?
+
+4f879ca687a5f2 Jan Kara           2014-10-30  6589  		}
+12e9b892002d9a Dmitry Monakhov    2010-05-16  6590  		ext4_clear_inode_flag(inode, EXT4_INODE_JOURNAL_DATA);
+5872ddaaf05bf2 Yongqiang Yang     2011-12-28  6591  	}
+617ba13b31fbf5 Mingming Cao       2006-10-11  6592  	ext4_set_aops(inode);
+f893fb965834e9 Baokun Li          2025-11-11  6593  	ext4_set_inode_mapping_order(inode);
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6594  
+dab291af8d6307 Mingming Cao       2006-10-11  6595  	jbd2_journal_unlock_updates(journal);
+00d873c17e29cc Jan Kara           2023-05-04  6596  	ext4_writepages_up_write(inode->i_sb, alloc_ctx);
+d4f5258eae7b38 Jan Kara           2021-02-04  6597  	filemap_invalidate_unlock(inode->i_mapping);
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6598  
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6599  	/* Finally we can mark the inode as dirty. */
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6600  
+9924a92a8c2175 Theodore Ts'o      2013-02-08  6601  	handle = ext4_journal_start(inode, EXT4_HT_INODE, 1);
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6602  	if (IS_ERR(handle))
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6603  		return PTR_ERR(handle);
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6604  
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  6605  	ext4_fc_mark_ineligible(inode->i_sb,
+e85c81ba8859a4 Xin Yin            2022-01-17  6606  		EXT4_FC_REASON_JOURNAL_FLAG_CHANGE, handle);
+617ba13b31fbf5 Mingming Cao       2006-10-11  6607  	err = ext4_mark_inode_dirty(handle, inode);
+0390131ba84fd3 Frank Mayhar       2009-01-07  6608  	ext4_handle_sync(handle);
+617ba13b31fbf5 Mingming Cao       2006-10-11  6609  	ext4_journal_stop(handle);
+617ba13b31fbf5 Mingming Cao       2006-10-11  6610  	ext4_std_error(inode->i_sb, err);
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6611  
+ac27a0ec112a08 Dave Kleikamp      2006-10-11 @6612  	return err;
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  6613  }
 
 -- 
-Wei Yang
-Help you, Help me
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
