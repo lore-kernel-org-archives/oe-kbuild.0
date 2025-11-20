@@ -1,189 +1,97 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01D8194A6C;
-	Thu, 20 Nov 2025 01:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41163247DE1
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Nov 2025 03:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763601692; cv=none; b=a2F0hoIPZ5bMYy229QJsJyvJ49ETguB530tYzY/9EjIsevx5Oh44XDZYYcR5+xB/y1cw+sq3KgFhRiuG0KGwq9GjNVEEiP5BIVx4oNNENrfXDv+07o50v3E9X6Zv79tox1T7l12/pX51RuvrNt3FwC4RSMci41gOxES1ToxIYb0=
+	t=1763608251; cv=none; b=TgawBvLctVI0XhA6cYWGgkcChNvWzwV4kO7AAd+SwUWc2f+9Wa1t5Vp3FHjU9tIucqmOwwJ/KoCCPvsi4LvEX/6jk9JQhOARSa1jfpCliiTJo8w/b/7N3DITada4rvoIYttHxXlNzNg2tuIG0ywTpAoCP5lK6OZS2GnFndfV/bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763601692; c=relaxed/simple;
-	bh=i4wxgjtKrhIGUq1NanlDCU86AlRZgyMavb9FCRKldVE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=FJFEIUi2Wg0LXZo6eG+XXsrrDInZELlSoas9FGj6Zx4g3MjbSvele7T9tk9EzARWYhJ4/pT/Cc0JmfyIOto6z1WYAe3ius0ardoena67yanIiqBne/orPZpC+Svp8tc3JBrduFvWj5W1HBz/GDJKRZIDMPxsvwA59Ly6yfVlS38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=X9PjzlxR; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1763608251; c=relaxed/simple;
+	bh=yeNr7LzcXdejL+7KVY/MXU5ADAdB2MampVj/QOQebFw=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TWIE/jTipqQ/MdHSrHqZZMXCAWwyivXedoWn0KbpeQvI4un11OwTSwGZtTlPNbTqbyBtoUod6lucymgHkhDAzOA+5GK7JHWSTNXNfMojdkVdKLqAcw/1uDXon9JXxsJF4gH55Q5i+Cs5dBuZKY31U2eb/sQ7q4OW9fC6TgkmOPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n8V7lVYO; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="X9PjzlxR"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=CxjUVIcD25U44jI58/lzCsIjg0A1Iaqvili4aT6WUXI=;
-	b=X9PjzlxRsZ10KV8qrPgal2nX+zn1MXl5hPfPl0OoOu63Uxvh63+z+ThgVanBK4Z/C7oNMyXgB
-	mjRa914Wc+DPOhOQbWLAVOj+o6yGFne9YD1hX9qw1fvvS8wYn41dcKHAL70VjN7lWLHA+ElaFdz
-	jmAsSrZ+8lWmSjFDQIS644U=
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dBgWM0D9lznTV8;
-	Thu, 20 Nov 2025 09:19:59 +0800 (CST)
-Received: from dggpemf500013.china.huawei.com (unknown [7.185.36.188])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2F7FD1A016C;
-	Thu, 20 Nov 2025 09:21:26 +0800 (CST)
-Received: from [127.0.0.1] (10.174.178.254) by dggpemf500013.china.huawei.com
- (7.185.36.188) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 20 Nov
- 2025 09:21:24 +0800
-Message-ID: <ce363839-18af-4372-b7c2-e08cb053e403@huawei.com>
-Date: Thu, 20 Nov 2025 09:21:23 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n8V7lVYO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763608249; x=1795144249;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=yeNr7LzcXdejL+7KVY/MXU5ADAdB2MampVj/QOQebFw=;
+  b=n8V7lVYO7hrV1cMIDZWx7Uy2FWB6AzV4UHAAJXy3O6Z84TojDCJRxGeJ
+   XBguuWVDv2J0uowrq5HDOxLtlbtnwcXfXGCAaqiaqEQDXXZtSP+vROX2N
+   v6rfFMTPNgOvnHJkQGvRIIoZgbnL+v+m0GZOcne8sHN+f8Tff8vfY754Y
+   TTXSmPS84qBeNwbaHU6w/cXip8UhDD5RHb4s7HOW6BMKWlYsRawsKZM8G
+   ToQDjzEQV3GtRAXTb4zjD6PCAnCfrFHsQhGogqLLpeZFcAlcZ7sKSvrQ7
+   3g73Vb0M7eQVJZzTyvjR+yR9xwoJgWdLZXjEONcOw3xPZoU+A/OSWZqcO
+   A==;
+X-CSE-ConnectionGUID: WjPOZlQ7Qvah2i2ao58tHw==
+X-CSE-MsgGUID: 7rxytMvfTcitaUmqB4FePA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="69532795"
+X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
+   d="scan'208";a="69532795"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 19:10:48 -0800
+X-CSE-ConnectionGUID: zYD+mhOITImudCUxYe5fag==
+X-CSE-MsgGUID: i8DQzYKRSKmua1iPm/Maug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
+   d="scan'208";a="190488208"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9c39a92d400b) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 19 Nov 2025 19:10:47 -0800
+Received: from kbuild by 9c39a92d400b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vLv4H-000000001NP-1FYS
+	for oe-kbuild@lists.linux.dev;
+	Thu, 20 Nov 2025 03:10:45 +0000
+Date: Thu, 20 Nov 2025 04:09:47 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Subject: [linux-review:Mark-Harmstone/btrfs-add-definitions-and-constants-for-remap-tree/20251115-030744
+ 10/16] checkpatch: WARNING:BRACES: braces {} are not necessary for any arm
+ of this statement
+Message-ID: <202511200437.xTwGzvHq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 21/24] ext4: make data=journal support large block size
-To: Dan Carpenter <dan.carpenter@linaro.org>
-CC: <oe-kbuild@lists.linux.dev>, <libaokun@huaweicloud.com>,
-	<linux-ext4@vger.kernel.org>, <lkp@intel.com>,
-	<oe-kbuild-all@lists.linux.dev>, <tytso@mit.edu>, <adilger.kernel@dilger.ca>,
-	<jack@suse.cz>, <linux-kernel@vger.kernel.org>, <kernel@pankajraghav.com>,
-	<mcgrof@kernel.org>, <ebiggers@kernel.org>, <willy@infradead.org>,
-	<yi.zhang@huawei.com>, <yangerkun@huawei.com>, <chengzhihao1@huawei.com>,
-	Baokun Li <libaokun1@huawei.com>
-References: <202511161433.qI6uGU0m-lkp@intel.com>
-Content-Language: en-GB
-From: Baokun Li <libaokun1@huawei.com>
-In-Reply-To: <202511161433.qI6uGU0m-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- dggpemf500013.china.huawei.com (7.185.36.188)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2025-11-19 20:41, Dan Carpenter wrote:
-> Hi,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/libaokun-huaweicloud-com/ext4-remove-page-offset-calculation-in-ext4_block_zero_page_range/20251111-224944
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-> patch link:    https://lore.kernel.org/r/20251111142634.3301616-22-libaokun%40huaweicloud.com
-> patch subject: [PATCH v3 21/24] ext4: make data=journal support large block size
-> config: arm64-randconfig-r071-20251114 (https://download.01.org/0day-ci/archive/20251116/202511161433.qI6uGU0m-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202511161433.qI6uGU0m-lkp@intel.com/
->
-> New smatch warnings:
-> fs/ext4/inode.c:6612 ext4_change_inode_journal_flag() warn: inconsistent returns '&inode->i_mapping->invalidate_lock'.
->
-> vim +6612 fs/ext4/inode.c
->
-> 617ba13b31fbf5 Mingming Cao       2006-10-11  6527  int ext4_change_inode_journal_flag(struct inode *inode, int val)
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6528  {
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6529  	journal_t *journal;
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6530  	handle_t *handle;
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6531  	int err;
-> 00d873c17e29cc Jan Kara           2023-05-04  6532  	int alloc_ctx;
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6533  
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6534  	/*
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6535  	 * We have to be very careful here: changing a data block's
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6536  	 * journaling status dynamically is dangerous.  If we write a
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6537  	 * data block to the journal, change the status and then delete
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6538  	 * that block, we risk forgetting to revoke the old log record
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6539  	 * from the journal and so a subsequent replay can corrupt data.
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6540  	 * So, first we make sure that the journal is empty and that
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6541  	 * nobody is changing anything.
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6542  	 */
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6543  
-> 617ba13b31fbf5 Mingming Cao       2006-10-11  6544  	journal = EXT4_JOURNAL(inode);
-> 0390131ba84fd3 Frank Mayhar       2009-01-07  6545  	if (!journal)
-> 0390131ba84fd3 Frank Mayhar       2009-01-07  6546  		return 0;
-> d699594dc151c6 Dave Hansen        2007-07-18  6547  	if (is_journal_aborted(journal))
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6548  		return -EROFS;
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6549  
-> 17335dcc471199 Dmitry Monakhov    2012-09-29  6550  	/* Wait for all existing dio workers */
-> 17335dcc471199 Dmitry Monakhov    2012-09-29  6551  	inode_dio_wait(inode);
-> 17335dcc471199 Dmitry Monakhov    2012-09-29  6552  
-> 4c54659269ecb7 Daeho Jeong        2016-04-25  6553  	/*
-> 4c54659269ecb7 Daeho Jeong        2016-04-25  6554  	 * Before flushing the journal and switching inode's aops, we have
-> 4c54659269ecb7 Daeho Jeong        2016-04-25  6555  	 * to flush all dirty data the inode has. There can be outstanding
-> 4c54659269ecb7 Daeho Jeong        2016-04-25  6556  	 * delayed allocations, there can be unwritten extents created by
-> 4c54659269ecb7 Daeho Jeong        2016-04-25  6557  	 * fallocate or buffered writes in dioread_nolock mode covered by
-> 4c54659269ecb7 Daeho Jeong        2016-04-25  6558  	 * dirty data which can be converted only after flushing the dirty
-> 4c54659269ecb7 Daeho Jeong        2016-04-25  6559  	 * data (and journalled aops don't know how to handle these cases).
-> 4c54659269ecb7 Daeho Jeong        2016-04-25  6560  	 */
-> d4f5258eae7b38 Jan Kara           2021-02-04  6561  	filemap_invalidate_lock(inode->i_mapping);
-> 4c54659269ecb7 Daeho Jeong        2016-04-25  6562  	err = filemap_write_and_wait(inode->i_mapping);
-> 4c54659269ecb7 Daeho Jeong        2016-04-25  6563  	if (err < 0) {
-> d4f5258eae7b38 Jan Kara           2021-02-04  6564  		filemap_invalidate_unlock(inode->i_mapping);
-> 4c54659269ecb7 Daeho Jeong        2016-04-25  6565  		return err;
-> 4c54659269ecb7 Daeho Jeong        2016-04-25  6566  	}
-> f893fb965834e9 Baokun Li          2025-11-11  6567  	/* Before switch the inode journalling mode evict all the page cache. */
-> f893fb965834e9 Baokun Li          2025-11-11  6568  	truncate_pagecache(inode, 0);
-> 4c54659269ecb7 Daeho Jeong        2016-04-25  6569  
-> 00d873c17e29cc Jan Kara           2023-05-04  6570  	alloc_ctx = ext4_writepages_down_write(inode->i_sb);
-> dab291af8d6307 Mingming Cao       2006-10-11  6571  	jbd2_journal_lock_updates(journal);
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6572  
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6573  	/*
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6574  	 * OK, there are no updates running now, and all cached data is
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6575  	 * synced to disk.  We are now in a completely consistent state
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6576  	 * which doesn't have anything in the journal, and we know that
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6577  	 * no filesystem updates are running, so it is safe to modify
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6578  	 * the inode's in-core data-journaling state flag now.
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6579  	 */
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6580  
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6581  	if (val)
-> 12e9b892002d9a Dmitry Monakhov    2010-05-16  6582  		ext4_set_inode_flag(inode, EXT4_INODE_JOURNAL_DATA);
-> 5872ddaaf05bf2 Yongqiang Yang     2011-12-28  6583  	else {
-> 01d5d96542fd4e Leah Rumancik      2021-05-18  6584  		err = jbd2_journal_flush(journal, 0);
-> 4f879ca687a5f2 Jan Kara           2014-10-30  6585  		if (err < 0) {
-> 4f879ca687a5f2 Jan Kara           2014-10-30  6586  			jbd2_journal_unlock_updates(journal);
-> 00d873c17e29cc Jan Kara           2023-05-04  6587  			ext4_writepages_up_write(inode->i_sb, alloc_ctx);
-> 4f879ca687a5f2 Jan Kara           2014-10-30  6588  			return err;
->
-> filemap_invalidate_unlock(inode->i_mapping) before returning?
+:::::: 
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: 
 
-Oops! You nailed it. My bad, I totally forgot that unlock here, which
-definitely left the lock unbalanced. I'll get that fixed up in v3.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Mark Harmstone <mark@harmstone.com>
 
-Thanks a ton for doing the testing!
+tree:   https://github.com/intel-lab-lkp/linux/commits/Mark-Harmstone/btrfs-add-definitions-and-constants-for-remap-tree/20251115-030744
+head:   1f7e6feb5bbf14f724eae768e8b48751fc3a9309
+commit: f2493f4f5268aab219804677f1386ca879455d53 [10/16] btrfs: handle setting up relocation of block group with remap-tree
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+reproduce: (https://download.01.org/0day-ci/archive/20251120/202511200437.xTwGzvHq-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202511200437.xTwGzvHq-lkp@intel.com/
 
-Cheers,
-Baokun
+# many are suggestions rather than must-fix
 
->
-> 4f879ca687a5f2 Jan Kara           2014-10-30  6589  		}
-> 12e9b892002d9a Dmitry Monakhov    2010-05-16  6590  		ext4_clear_inode_flag(inode, EXT4_INODE_JOURNAL_DATA);
-> 5872ddaaf05bf2 Yongqiang Yang     2011-12-28  6591  	}
-> 617ba13b31fbf5 Mingming Cao       2006-10-11  6592  	ext4_set_aops(inode);
-> f893fb965834e9 Baokun Li          2025-11-11  6593  	ext4_set_inode_mapping_order(inode);
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6594  
-> dab291af8d6307 Mingming Cao       2006-10-11  6595  	jbd2_journal_unlock_updates(journal);
-> 00d873c17e29cc Jan Kara           2023-05-04  6596  	ext4_writepages_up_write(inode->i_sb, alloc_ctx);
-> d4f5258eae7b38 Jan Kara           2021-02-04  6597  	filemap_invalidate_unlock(inode->i_mapping);
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6598  
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6599  	/* Finally we can mark the inode as dirty. */
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6600  
-> 9924a92a8c2175 Theodore Ts'o      2013-02-08  6601  	handle = ext4_journal_start(inode, EXT4_HT_INODE, 1);
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6602  	if (IS_ERR(handle))
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6603  		return PTR_ERR(handle);
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6604  
-> aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  6605  	ext4_fc_mark_ineligible(inode->i_sb,
-> e85c81ba8859a4 Xin Yin            2022-01-17  6606  		EXT4_FC_REASON_JOURNAL_FLAG_CHANGE, handle);
-> 617ba13b31fbf5 Mingming Cao       2006-10-11  6607  	err = ext4_mark_inode_dirty(handle, inode);
-> 0390131ba84fd3 Frank Mayhar       2009-01-07  6608  	ext4_handle_sync(handle);
-> 617ba13b31fbf5 Mingming Cao       2006-10-11  6609  	ext4_journal_stop(handle);
-> 617ba13b31fbf5 Mingming Cao       2006-10-11  6610  	ext4_std_error(inode->i_sb, err);
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6611  
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11 @6612  	return err;
-> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6613  }
->
+WARNING:BRACES: braces {} are not necessary for any arm of this statement
+#696: FILE: fs/btrfs/relocation.c:4637:
++	if (should_relocate_using_remap_tree(bg)) {
+[...]
++	} else {
+[...]
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
