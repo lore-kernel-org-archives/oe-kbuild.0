@@ -1,58 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A00930BB8F
-	for <oe-kbuild@lists.linux.dev>; Thu, 20 Nov 2025 15:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584D334EF02
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Nov 2025 15:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763652572; cv=none; b=YAyWADd6W/VtnN/KZQjlJ4F3AiJpJsjImHXitVRqnCjVRuxPXbR5605GeIMhwhupqqtt/xOlRT31gIHLBjd3xUF3oEtXXB01stF7Ag7uTV0ECoKidfT14mSkCn6By/qdXcqmje3GR14Q8hlN2uIbi8GOSN8vic16qf0ucVPyT1Q=
+	t=1763653350; cv=none; b=Oyy4VtapxtuLb4ImAtpDVZQgmI4jI743WrPafNvQTFqMlgWAIoGRJxPknvdKEt/7g0NI013odlwWc98cgv7EQIg+sOB+yoAkhHfxMbHbiq3GPHMz7GPnPrZKJ2PjXwMjarKwXpFmziytMyE5NYWsc5d8a9paOnz4+s18B/suhkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763652572; c=relaxed/simple;
-	bh=WK34La5ULZsn18whZQOYbmx/3a416rJXOHueOIsTSjE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bFX4I/kd8OQPfCiyhm5IarrTRp9XUMnAMXj45LYRApNYjGqLWLke/Z23BJlLwT4gtffcK49+q6nC+kS+NT1bOkPxfgHW/Jt5/iFrf7vIXxn31qHH6qN9CGiyq7UUbVC69lke3+mtBp4gkr8+mP3ku2xRuAp/vJf/Pdm4ZtsiLv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZRp1OWoK; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763653350; c=relaxed/simple;
+	bh=jqc1pIyMAxigE7tZset0OOfL6VF1aHdRg4wAWz7wfVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eYahzKVFIX8bMNFmG5CTQNGJQODrBesYjt/MVVu5FtUwSXDpXE5K56Y2p16vIbBJJwqop6eQ2NTI5FUvv7UqBNVKnRKm+oCMwDwD6N/n+aomMH4+kZi+S7hlndjn9pZ5uVWHPNOclKmOPAf5J3IKVJE8dhFRTDIIh2C6eQ4b8xM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=TtpYxeQW; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZRp1OWoK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763652570; x=1795188570;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WK34La5ULZsn18whZQOYbmx/3a416rJXOHueOIsTSjE=;
-  b=ZRp1OWoKR0p7PNwoYqODFmAf1Mtpvg1X3Ad+a0AB9sN668axDSbzYsku
-   RWmQtePbszpArCQDeIc/txAwGLHbCTebKjuBrFP55/TgAi3xzx/onNish
-   x1gDxi1G1jpXecr6NsN0cp5W53mnw97ad8d6htYhVrr2suSl0oKiTOWS5
-   EmNPJkSRHhZUZ5RWRWxPqf2Y5XzMswXL0wULrjvF9KZarzCC1W7rVFggT
-   0kqsBu2SCiwgzE0jOPQ2ot3smRTqMcnoLLilxA//YPdCFhW0vsIWUwVVo
-   Zv151ON0mMos1m5eYJvjxlH7fTPC/vLN9bANFHwtavBTVroqCaKw9HuVP
-   w==;
-X-CSE-ConnectionGUID: 64PHw6WIT1S9zi9KE9bM1Q==
-X-CSE-MsgGUID: VrtuD/E0QIi9r2a0RHH6pA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="64733747"
-X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; 
-   d="scan'208";a="64733747"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 07:29:29 -0800
-X-CSE-ConnectionGUID: 6XfQEEa8QrGKdjuGXkrDJQ==
-X-CSE-MsgGUID: A9RQvbNjTnyNyzLpzEC1WQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; 
-   d="scan'208";a="196371070"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Nov 2025 07:29:29 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vM6b8-0004BX-2C;
-	Thu, 20 Nov 2025 15:29:26 +0000
-Date: Thu, 20 Nov 2025 23:29:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] kbuild: fix compilation of dtb specified on command-line
- without make rule
-Message-ID: <202511202330.fSUeokem-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="TtpYxeQW"
+Received: from macsyma.thunk.org ([104.135.218.154])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 5AKFf5Xa020346
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Nov 2025 10:41:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1763653275; bh=PwK25/DM8jyeo/BvfK6O5K39WyPp+rYvJyaLpKyDbuI=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=TtpYxeQWgnqXOecP7qSvrH8Rt1E0fj801JxicjCD7vnBuS29cvctMe1itDRfYRJIt
+	 //kPQ8sVpQ8cloF9zF5XJQTJrUpeCrkjlTLhEaVKj4POjyoHFExAxaL0rXc0Mlzbo4
+	 9pUJWVc0XBy7OM59/0V3NnqTBJeFuQCFMJgaqmHSYlUqBW3BBctAvGhOIQdixtOFuP
+	 lmhUcieU+aHejv79Y0cbs+bGlq6BEf7MIJHUyTR1ZWg8LcV3U5MIBvluKlByDa+Z/8
+	 QT3yflfmiHx2rUdNCCzFTGX+oHyyU2H5YREKeklz+ii92XKSKO9e+ss2GyzNECgpf8
+	 vgkJ5eu8T30ig==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 0F87B4C0AD99; Thu, 20 Nov 2025 10:41:05 -0500 (EST)
+Date: Thu, 20 Nov 2025 10:41:04 -0500
+From: "Theodore Tso" <tytso@mit.edu>
+To: Baokun Li <libaokun1@huawei.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+        libaokun@huaweicloud.com, linux-ext4@vger.kernel.org, lkp@intel.com,
+        oe-kbuild-all@lists.linux.dev, adilger.kernel@dilger.ca, jack@suse.cz,
+        linux-kernel@vger.kernel.org, kernel@pankajraghav.com,
+        mcgrof@kernel.org, ebiggers@kernel.org, willy@infradead.org,
+        yi.zhang@huawei.com, yangerkun@huawei.com, chengzhihao1@huawei.com
+Subject: Re: [PATCH v3 21/24] ext4: make data=journal support large block size
+Message-ID: <20251120154104.GA13687@macsyma-3.local>
+References: <202511161433.qI6uGU0m-lkp@intel.com>
+ <ce363839-18af-4372-b7c2-e08cb053e403@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,49 +54,15 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ce363839-18af-4372-b7c2-e08cb053e403@huawei.com>
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
+On Thu, Nov 20, 2025 at 09:21:23AM +0800, Baokun Li wrote:
+> 
+> Oops! You nailed it. My bad, I totally forgot that unlock here, which
+> definitely left the lock unbalanced. I'll get that fixed up in v3.
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251120140645.478623-1-thomas.de_schampheleire@nokia.com>
-References: <20251120140645.478623-1-thomas.de_schampheleire@nokia.com>
-TO: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
-TO: linux-kbuild@vger.kernel.org
-CC: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
-CC: Masahiro Yamada <masahiroy@kernel.org>
-CC: Nathan Chancellor <nathan@kernel.org>
-CC: Nicolas Schier <nsc@kernel.org>
-CC: linux-kernel@vger.kernel.org
+I think you meant v4 (since the current patch series are v3 :-).  When
+do you think you might be able to get the next version of this patch
+series ready?  I think we're almost ready to land this feature!
 
-Hi Thomas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on deab487e0f9b39ae4603e22d7d00908ebfc9753c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-De-Schampheleire/kbuild-fix-compilation-of-dtb-specified-on-command-line-without-make-rule/20251120-220837
-base:   deab487e0f9b39ae4603e22d7d00908ebfc9753c
-patch link:    https://lore.kernel.org/r/20251120140645.478623-1-thomas.de_schampheleire%40nokia.com
-patch subject: [PATCH] kbuild: fix compilation of dtb specified on command-line without make rule
-:::::: branch date: 75 minutes ago
-:::::: commit date: 75 minutes ago
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20251120/202511202330.fSUeokem-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511202330.fSUeokem-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511202330.fSUeokem-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> make[3]: *** No rule to make target 'arch/openrisc/boot/dts/dtbs-list', needed by '.builtin-dtbs-list'.
-   make[3]: Target '__default' not remade because of errors.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+       	       	       	     	    	     - Ted
