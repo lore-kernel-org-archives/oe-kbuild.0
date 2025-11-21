@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E048C2D6E42
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Nov 2025 21:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFD02EA732
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Nov 2025 21:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763760227; cv=none; b=Dlwo2qGpRZafS0FghIq4/uZgmhlRUO4hH6GRQkI7RErnNIifp+RGPq7THJiZlUcoOck+3o5sF4nIupWZvHMu4CY1E2C/y8BPdYP65OMiz9/1rrTiHqVRzb0zmp7ufRmt5GVcKSJnhLXtNw2j28plY/o9LO1BeqLwwuhJoUQSNj0=
+	t=1763762151; cv=none; b=bslnRDpBEoQYRByp58qXaEfMYIvWfyEoagqYJi0hHMe1QygxqaQ4ozwQ/LTomx10r5fKJNWUS2GPcjaOA7aHfju2fHkSp/8ck+x4ce48kTaXsfuzj7RzMK6OjCIHDfhJWg7VfjRnkPBLkH/XKEhDuxTa4fEeZAkqT/jMI63hWSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763760227; c=relaxed/simple;
-	bh=pxE4GrXMd5CskSxI/FcFJ7APtPrkTBvVdHPqThajglo=;
+	s=arc-20240116; t=1763762151; c=relaxed/simple;
+	bh=QsnbBRDA6Ak04+/vFmMIYlI5WaZ8lX0y9NByt7ex6v4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cHJzMMwwfNWjYl5SuBo94NGGjJih4jTYsvhppz3gXC0oCaAuf3TIieJ1qsbHRl+mzi8naxzXFKUu0MGfka2mUizvWxv/FXbwBF4JfLwmHWFY+rDADesDeAWu9O5lYFPSdTuHGF4ysRqMrZ5yjdWqZJK+TzqK6BVrhOGjZLPJHW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hw5zO/Vi; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Yt4iXqYau1V81VT+PHGhPhahR26BqlzW4Pvzn57jvXV63bP5zOOd2+QR6AWkbkHNPVFA0pC2nBjSIyJRQE2rPd8knNKNngqRnhq92/+6d4SGKDSibx9OSwR8D+5WeOXu78skbXzJvo1oH0H7afrYil5vyQq23OrtAeZ2oD8tvvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kyRqj3jV; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hw5zO/Vi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kyRqj3jV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763760226; x=1795296226;
+  t=1763762149; x=1795298149;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pxE4GrXMd5CskSxI/FcFJ7APtPrkTBvVdHPqThajglo=;
-  b=hw5zO/Vi2cPCEwUSfwq6bCOXpWQgXROiQcSdIuRXmcKOSZTM1OhYyIHK
-   kb3llXBTQuYpHOTojxMtEte6DlAwLhCz65Im4CMWtJ3tueIYXRPllYA6G
-   9mATA86L0+/gUcfr+nqsiFTdhF7KAbKuS3xSnWz72jNUZuGSaRY+300HX
-   kMZx1FgvcDsYyhvrpSNRpPhNQJLPkZl/88fuT4nxM8whemUvC6etPJ2kE
-   AL3Wd+RtmYOe+yHg1bJ8mssO5oKNhfR0nfX/jjZ4rHSmhTy3FstfbgyBq
-   nnqaXoCS4vg60Zo9h3xgil0Zi3LZCKNZvXqiQ3nWNA+JeetN+rADk5BDU
-   Q==;
-X-CSE-ConnectionGUID: DTi15qyqRTm6l+L07xdNMQ==
-X-CSE-MsgGUID: WG8HoNZsSX+ENFVwBE2V2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="83482374"
+  bh=QsnbBRDA6Ak04+/vFmMIYlI5WaZ8lX0y9NByt7ex6v4=;
+  b=kyRqj3jVzsGHqWZVJgcuZZHrO3Foc30GOChCkPQsS50Bcb0y1eydX/74
+   iPI9KnUHg4gd0JahrtzjbkTqPg7arvPBQUtU8D9P1j7vuUJFQHoO+gZou
+   cMIiaX2ZS3XEKsTCSaVgGWedsk53c1TQCM+tfMZi5qfCrTRLa8+Dt0HKR
+   YDXCht6wCyKaqCsfK2QVz/0TeCeWEeFCpq7QpPc2edZL30F5wFwmObRiU
+   Rci4hdbqswyTs5ChTG9/d+71eKlPhNIUp0fxd1bHZjbbEBGlR7K1pFZbS
+   NGH2tV1ksR3SrssDUe35VPuQH95xdvNJOFHXPfmCZOwP01NYzLxOJCrF4
+   w==;
+X-CSE-ConnectionGUID: 81e5YebATqauBSwjwY4k/A==
+X-CSE-MsgGUID: 8e926WciS6Sm9BC5mjVaHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="88513560"
 X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
-   d="scan'208";a="83482374"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 13:23:45 -0800
-X-CSE-ConnectionGUID: BpeNQlzDSHiDNzrW7sTO9g==
-X-CSE-MsgGUID: P72Pa1TwQ6W4ASuoltE6gg==
+   d="scan'208";a="88513560"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 13:55:49 -0800
+X-CSE-ConnectionGUID: PZuq0ua6Q5uqchTtQSi4Tw==
+X-CSE-MsgGUID: 6tyGSiAOR7Sx2DKu2OXx8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
-   d="scan'208";a="191092780"
+   d="scan'208";a="196265674"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 21 Nov 2025 13:23:44 -0800
+  by orviesa004.jf.intel.com with ESMTP; 21 Nov 2025 13:55:48 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMYbV-0006tL-28;
-	Fri, 21 Nov 2025 21:23:41 +0000
-Date: Sat, 22 Nov 2025 05:23:37 +0800
+	id 1vMZ6W-0006up-37;
+	Fri, 21 Nov 2025 21:55:44 +0000
+Date: Sat, 22 Nov 2025 05:55:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: error[E0609]: no field `ki_filp` on type `bindings::kiocb`
-Message-ID: <202511220552.RXFzXD0E-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [brauner-github:work.fd.prepare.scoped 16/52] fs/open.c:1424
+ do_sys_openat2() error: uninitialized symbol 'tmp'.
+Message-ID: <202511220547.BX8AdVlr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,58 +62,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "um-randconfig-001-20251121 results in a lot of rust failure"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Alice Ryhl <aliceryhl@google.com>
-CC: Andreas Hindborg <a.hindborg@kernel.org>
+CC: Christian Brauner <christianvanbrauner@gmail.com>
+TO: Christian Brauner <brauner@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2eba5e05d9bcf4cdea995ed51b0f07ba0275794a
-commit: 5e15de179a204ce26623d8468283ac04a0dc672f rust: fs: add Kiocb struct
-date:   3 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 3 months ago
-config: um-randconfig-001-20251121 (https://download.01.org/0day-ci/archive/20251122/202511220552.RXFzXD0E-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220552.RXFzXD0E-lkp@intel.com/reproduce)
+tree:   https://github.com/brauner/linux.git work.fd.prepare.scoped
+head:   09ba3707485de081133d97c9bdc7fa364d318f46
+commit: a290be3972f9df5a58b630e081d53caa1305ca1c [16/52] open: convert do_sys_openat2() to FD_PREPARE()
+:::::: branch date: 4 hours ago
+:::::: commit date: 33 hours ago
+config: loongarch-randconfig-r072-20251122 (https://download.01.org/0day-ci/archive/20251122/202511220547.BX8AdVlr-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511220552.RXFzXD0E-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202511220547.BX8AdVlr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/open.c:1424 do_sys_openat2() error: uninitialized symbol 'tmp'.
 
->> error[E0609]: no field `ki_filp` on type `bindings::kiocb`
-   --> rust/kernel/fs/kiocb.rs:52:51
-   |
-   52 |         let private = unsafe { (*(*self.as_raw()).ki_filp).private_data };
-   |                                                   ^^^^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `ki_pos` on type `bindings::kiocb`
-   --> rust/kernel/fs/kiocb.rs:60:35
-   |
-   60 |         unsafe { (*self.as_raw()).ki_pos }
-   |                                   ^^^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `ki_pos` on type `bindings::kiocb`
-   --> rust/kernel/fs/kiocb.rs:66:40
-   |
-   66 |         unsafe { &mut (*self.as_raw()).ki_pos }
-   |                                        ^^^^^^ unknown field
-   |
-   = note: available field is: `_address`
+vim +/tmp +1424 fs/open.c
+
+73d049a40fc6269 Al Viro             2011-03-11  1419  
+29d80d506b18384 Yuichiro Tsuji      2025-01-21  1420  static int do_sys_openat2(int dfd, const char __user *filename,
+fddb5d430ad9fa9 Aleksa Sarai        2020-01-18  1421  			  struct open_how *how)
+^1da177e4c3f415 Linus Torvalds      2005-04-16  1422  {
+47c805dc2d2dff6 Al Viro             2011-02-23  1423  	struct open_flags op;
+a290be3972f9df5 Christian Brauner   2025-11-18 @1424  	struct filename *tmp __free(putname);
+a290be3972f9df5 Christian Brauner   2025-11-18  1425  	int err;
+f9652e10c12b43d Al Viro             2013-06-11  1426  
+d5a05a5a44a983e Mateusz Guzik       2025-03-20  1427  	err = build_open_flags(how, &op);
+d5a05a5a44a983e Mateusz Guzik       2025-03-20  1428  	if (unlikely(err))
+d5a05a5a44a983e Mateusz Guzik       2025-03-20  1429  		return err;
+f9652e10c12b43d Al Viro             2013-06-11  1430  
+f9652e10c12b43d Al Viro             2013-06-11  1431  	tmp = getname(filename);
+f9652e10c12b43d Al Viro             2013-06-11  1432  	if (IS_ERR(tmp))
+f9652e10c12b43d Al Viro             2013-06-11  1433  		return PTR_ERR(tmp);
+ef3daeda7b58f04 Yoav Zach           2005-06-23  1434  
+a290be3972f9df5 Christian Brauner   2025-11-18  1435  	FD_PREPARE(fdf, how->flags, do_filp_open(dfd, tmp, &op)) {
+a290be3972f9df5 Christian Brauner   2025-11-18  1436  		if (fd_prepare_failed(fdf))
+a290be3972f9df5 Christian Brauner   2025-11-18  1437  			return fd_prepare_error(fdf);
+a290be3972f9df5 Christian Brauner   2025-11-18  1438  
+a290be3972f9df5 Christian Brauner   2025-11-18  1439  		return fd_publish(fdf);
+fed2fc18a4567d6 Telemaque Ndizihiwe 2005-06-23  1440  	}
+^1da177e4c3f415 Linus Torvalds      2005-04-16  1441  }
+e922efc342d565a Miklos Szeredi      2005-09-06  1442  
 
 -- 
 0-DAY CI Kernel Test Service
