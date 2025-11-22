@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741C5253F11
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Nov 2025 02:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648DC19DF6A
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Nov 2025 03:08:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763778148; cv=none; b=glfjRRovYJsMyzDNzwWpztWGT2L4g0f+lbeHxIkQFYJd0G9oVEPWUH+OWbKA+8a7BFUKU0jRBzoPmUIlH57jies6akOe7OFFRKiHAkphOd1WYCfmJffR4sn7W3iR9mDhWqV7VFPfkYS5hk0PXbUvQ7kEafgOvcdXq7hr6pssnqs=
+	t=1763780908; cv=none; b=fJWrZNhdDBTpqlWWtC2lg0XPpxQ3hIvslr3wc6Vs795gF/c25AoLJI5kYzEkLVfYu0q9q31z1jGAQ1sGXIzgDEWTq6QnNF30CCBRuzsgkECmjdgnpdZNsSM1hfkV0LaE+b1kr5lt8M3JEc8J6B3pLpr+BlBIwfKocSoG8rI3la0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763778148; c=relaxed/simple;
-	bh=STQ5c4FWLdxZ3YL7rOAIREvML/YkKQWPdKkXQSFv7Jk=;
+	s=arc-20240116; t=1763780908; c=relaxed/simple;
+	bh=OuX3uB9YnPnvRII6Nz2yvHMgm34BiZmQP7Bib0qZCp8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fSESjeapranB2NHqIhkk4aHrtrYwDJSsIxg+iF9PZXffeedTVA9m1rDuR1bYOzoPVTDsTnxkFZBvYi0VCejfOzMLlz02a1lHri1DAj6V2466HLdMHmRHvH3jHMKH0wDbJrsw0vUy+z862Y9QdQ684bNI0FI0iMJYT6Ms6BAS6Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W3c/pAxD; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=rVhiZE/YljCePQf3sBFE3P1LmpR+37wfjVVgh8vILFsmvQcJH0W4AE9jG9GKa8g82bcKCy++kblCQTRgwgQCEbVidFgKiGy8FRKHVVVohR59XDxhS/LyCu5AhtdrVGJo60CmmcWPM50ttrVUYiqOLbBOlWBqDVgOAraJHd7SLTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E7wElpE9; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W3c/pAxD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E7wElpE9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763778147; x=1795314147;
+  t=1763780906; x=1795316906;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=STQ5c4FWLdxZ3YL7rOAIREvML/YkKQWPdKkXQSFv7Jk=;
-  b=W3c/pAxDUClCeE+NkjiCD+1jHJ0S9iE6gehaOgCh6nWAY5q2asLvfM2d
-   IYOI4cBKvs9YWQbLMJNOR3jMuFkLjMEm1Xry1hagm/ZPZMGhXyJ4gghF/
-   RDwwCN5OP4oAgTj248KnM0AY4c/ixke4q1x8shZ4bJ7HYD/6mFhEB9xfS
-   21AjacMun6hGLmfhd4xYroGnU/Fn+byp/wTAjNUtfrw9CCEPNBJfhjwcm
-   7NhmtvKrpg+/9oolIuIMvs1K0cawBjZXlCjp5PEQAFQMtlwmx8l5quEkO
-   rS31hqWKR5H2xqnm1/TTmS3Tm7LOw2Xe48Wo9Ycuyibe2V3r6tpSQZd8v
-   Q==;
-X-CSE-ConnectionGUID: HiYX2yOrRDqzjwPsjhD9/A==
-X-CSE-MsgGUID: 9wSOtOChRViE7rBrYxAO9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="65917573"
+  bh=OuX3uB9YnPnvRII6Nz2yvHMgm34BiZmQP7Bib0qZCp8=;
+  b=E7wElpE9MuwS8A5uvTPK92wJgjBJVRrZ/Df5Td1DT3UvROU6oP16uSwJ
+   pcpoh5yO5BB5e/LrzKj+RB5NCCcopgSojA7ZGMdTN5d/TCV5xpylQC7xL
+   LRVkAvE2WM7msa0xAlZwzFDgvr+vztfuVWqUFIfttLQCq4Fy8g1NZMrsY
+   kXZG+QItRcukDHg4yoMarUgvNBI7pgkxzlqkANC0qFCksRCRrpTygbkq2
+   Uw05XXXMKOGhPzrO9cdzCul9GXy0uEioEKWKYD6iM2A9ctRtvZ7kv0y67
+   iGwQE4cnrlj9vaCXz51r2Rr4N6FlBsoM6sPdo4suMGEUuKMT0DczHzLJG
+   w==;
+X-CSE-ConnectionGUID: r/Fo8iL8Q9+hBAR+bUvmnw==
+X-CSE-MsgGUID: PkhpdzFNSUqWYBFFPXRfGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="69741691"
 X-IronPort-AV: E=Sophos;i="6.20,217,1758610800"; 
-   d="scan'208";a="65917573"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 18:22:26 -0800
-X-CSE-ConnectionGUID: ircf4lDKQxquYPMNt81TqQ==
-X-CSE-MsgGUID: csBTwSgDSZKqDNWPzqOlxA==
+   d="scan'208";a="69741691"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 19:08:25 -0800
+X-CSE-ConnectionGUID: /aHHLSiuSFGF3mOGwDS5lg==
+X-CSE-MsgGUID: KaN8OiY2TnOOlfLkGFGyGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,217,1758610800"; 
-   d="scan'208";a="222475620"
+   d="scan'208";a="192312404"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9c39a92d400b) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 21 Nov 2025 18:22:25 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 21 Nov 2025 19:08:25 -0800
 Received: from kbuild by 9c39a92d400b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vMdGY-000000001zz-0XJ8;
-	Sat, 22 Nov 2025 02:22:22 +0000
-Date: Sat, 22 Nov 2025 03:21:49 +0100
+	id 1vMdz4-0000000020Z-36Oz;
+	Sat, 22 Nov 2025 03:08:22 +0000
+Date: Sat, 22 Nov 2025 04:07:51 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 9005/11041]
- tools/testing/selftests/../../../tools/include/asm-generic/bitsperlong.h:14:2:
- error: #error Inconsistent word size. Check asm/bitsperlong.h
-Message-ID: <202511220329.dCluJOea-lkp@intel.com>
+Subject: [android-common:android12-5.4 5/5]
+ drivers/power/supply/power_supply_sysfs.c:111:57: warning:
+ initializer-string for array of 'char' truncates NUL terminator but
+ destination lacks 'nonstring' attribute (32 chars into 31 available)
+Message-ID: <202511220439.HR64VCt8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,61 +70,111 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Heiko Carstens <hca@linux.ibm.com>
-CC: Arnd Bergmann <arnd@arndb.de>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d724c6f85e80a23ed46b7ebc6e38b527c09d64f5
-commit: 3db5cf9354710c3b9268af74a0dca88514279453 [9005/11041] s390/uapi: Remove 31 bit support from uapi header files
-:::::: branch date: 20 hours ago
-:::::: commit date: 5 days ago
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251122/202511220329.dCluJOea-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220329.dCluJOea-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   b2957a0ebc3b9949475a442f9e8ab64ccaa6e087
+commit: 34b830881d43fb698761c1c45df62cf19c6aa363 [5/5] UPSTREAM: power: supply: core: Cleanup power supply sysfs attribute list
+:::::: branch date: 5 days ago
+:::::: commit date: 5 years ago
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251122/202511220439.HR64VCt8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220439.HR64VCt8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511220329.dCluJOea-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511220439.HR64VCt8-lkp@intel.com/
 
-Note: the linux-next/master HEAD d724c6f85e80a23ed46b7ebc6e38b527c09d64f5 builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
-
-   In file included from usr/include/asm/bitsperlong.h:7,
-                    from usr/include/asm-generic/int-ll64.h:12,
-                    from usr/include/asm/types.h:11,
-                    from tools/testing/selftests/../../../tools/include/linux/bitops.h:5,
-                    from include/s390/facility.h:14,
-                    from lib/s390/facility.c:11:
->> tools/testing/selftests/../../../tools/include/asm-generic/bitsperlong.h:14:2: error: #error Inconsistent word size. Check asm/bitsperlong.h
-      14 | #error Inconsistent word size. Check asm/bitsperlong.h
-         |  ^~~~~
-   In file included from tools/testing/selftests/../../../tools/include/linux/types.h:7,
-                    from tools/testing/selftests/../../../tools/include/linux/compiler.h:157,
-                    from tools/testing/selftests/../../../tools/include/linux/build_bug.h:5,
-                    from tools/testing/selftests/../../../tools/include/linux/bits.h:30,
-                    from tools/testing/selftests/../../../tools/include/linux/bitops.h:14:
-   /opt/cross/gcc-15.1.0-nolibc/s390-linux/lib/gcc/s390-linux/15.1.0/include/stdint.h:11:16: fatal error: stdint.h: No such file or directory
-      11 | # include_next <stdint.h>
-         |                ^~~~~~~~~~
-   compilation terminated.
+>> drivers/power/supply/power_supply_sysfs.c:111:57: warning: initializer-string for array of 'char' truncates NUL terminator but destination lacks 'nonstring' attribute (32 chars into 31 available) [-Wunterminated-string-initialization]
+     111 |         POWER_SUPPLY_ATTR(CHARGE_CONTROL_START_THRESHOLD),
+         |                                                         ^
+   drivers/power/supply/power_supply_sysfs.c:33:23: note: in definition of macro 'POWER_SUPPLY_ATTR'
+      33 |         .attr_name = #_name "\0",       \
+         |                       ^~~~~
 
 
-vim +14 tools/testing/selftests/../../../tools/include/asm-generic/bitsperlong.h
+vim +111 drivers/power/supply/power_supply_sysfs.c
 
-bb9707077b4ee5 Arnaldo Carvalho de Melo 2016-07-12  12  
-2a00f026a15d16 Arnaldo Carvalho de Melo 2016-07-13  13  #if BITS_PER_LONG != __BITS_PER_LONG
-bb9707077b4ee5 Arnaldo Carvalho de Melo 2016-07-12 @14  #error Inconsistent word size. Check asm/bitsperlong.h
-bb9707077b4ee5 Arnaldo Carvalho de Melo 2016-07-12  15  #endif
-bb9707077b4ee5 Arnaldo Carvalho de Melo 2016-07-12  16  
-
-:::::: The code at line 14 was first introduced by commit
-:::::: bb9707077b4ee5f77bc9939b057ff8a0d410296f tools: Copy the bitsperlong.h files from the kernel
-
-:::::: TO: Arnaldo Carvalho de Melo <acme@redhat.com>
-:::::: CC: Arnaldo Carvalho de Melo <acme@redhat.com>
+105df60f207301 David Lechner 2017-05-15   73  
+34b830881d43fb Mathew King   2020-05-04   74  static struct power_supply_attr power_supply_attrs[] = {
+34b830881d43fb Mathew King   2020-05-04   75  	/* Properties of type `int' */
+34b830881d43fb Mathew King   2020-05-04   76  	POWER_SUPPLY_ATTR(STATUS),
+34b830881d43fb Mathew King   2020-05-04   77  	POWER_SUPPLY_ATTR(CHARGE_TYPE),
+34b830881d43fb Mathew King   2020-05-04   78  	POWER_SUPPLY_ATTR(HEALTH),
+34b830881d43fb Mathew King   2020-05-04   79  	POWER_SUPPLY_ATTR(PRESENT),
+34b830881d43fb Mathew King   2020-05-04   80  	POWER_SUPPLY_ATTR(ONLINE),
+34b830881d43fb Mathew King   2020-05-04   81  	POWER_SUPPLY_ATTR(AUTHENTIC),
+34b830881d43fb Mathew King   2020-05-04   82  	POWER_SUPPLY_ATTR(TECHNOLOGY),
+34b830881d43fb Mathew King   2020-05-04   83  	POWER_SUPPLY_ATTR(CYCLE_COUNT),
+34b830881d43fb Mathew King   2020-05-04   84  	POWER_SUPPLY_ATTR(VOLTAGE_MAX),
+34b830881d43fb Mathew King   2020-05-04   85  	POWER_SUPPLY_ATTR(VOLTAGE_MIN),
+34b830881d43fb Mathew King   2020-05-04   86  	POWER_SUPPLY_ATTR(VOLTAGE_MAX_DESIGN),
+34b830881d43fb Mathew King   2020-05-04   87  	POWER_SUPPLY_ATTR(VOLTAGE_MIN_DESIGN),
+34b830881d43fb Mathew King   2020-05-04   88  	POWER_SUPPLY_ATTR(VOLTAGE_NOW),
+34b830881d43fb Mathew King   2020-05-04   89  	POWER_SUPPLY_ATTR(VOLTAGE_AVG),
+34b830881d43fb Mathew King   2020-05-04   90  	POWER_SUPPLY_ATTR(VOLTAGE_OCV),
+34b830881d43fb Mathew King   2020-05-04   91  	POWER_SUPPLY_ATTR(VOLTAGE_BOOT),
+34b830881d43fb Mathew King   2020-05-04   92  	POWER_SUPPLY_ATTR(CURRENT_MAX),
+34b830881d43fb Mathew King   2020-05-04   93  	POWER_SUPPLY_ATTR(CURRENT_NOW),
+34b830881d43fb Mathew King   2020-05-04   94  	POWER_SUPPLY_ATTR(CURRENT_AVG),
+34b830881d43fb Mathew King   2020-05-04   95  	POWER_SUPPLY_ATTR(CURRENT_BOOT),
+34b830881d43fb Mathew King   2020-05-04   96  	POWER_SUPPLY_ATTR(POWER_NOW),
+34b830881d43fb Mathew King   2020-05-04   97  	POWER_SUPPLY_ATTR(POWER_AVG),
+34b830881d43fb Mathew King   2020-05-04   98  	POWER_SUPPLY_ATTR(CHARGE_FULL_DESIGN),
+34b830881d43fb Mathew King   2020-05-04   99  	POWER_SUPPLY_ATTR(CHARGE_EMPTY_DESIGN),
+34b830881d43fb Mathew King   2020-05-04  100  	POWER_SUPPLY_ATTR(CHARGE_FULL),
+34b830881d43fb Mathew King   2020-05-04  101  	POWER_SUPPLY_ATTR(CHARGE_EMPTY),
+34b830881d43fb Mathew King   2020-05-04  102  	POWER_SUPPLY_ATTR(CHARGE_NOW),
+34b830881d43fb Mathew King   2020-05-04  103  	POWER_SUPPLY_ATTR(CHARGE_AVG),
+34b830881d43fb Mathew King   2020-05-04  104  	POWER_SUPPLY_ATTR(CHARGE_COUNTER),
+34b830881d43fb Mathew King   2020-05-04  105  	POWER_SUPPLY_ATTR(CONSTANT_CHARGE_CURRENT),
+34b830881d43fb Mathew King   2020-05-04  106  	POWER_SUPPLY_ATTR(CONSTANT_CHARGE_CURRENT_MAX),
+34b830881d43fb Mathew King   2020-05-04  107  	POWER_SUPPLY_ATTR(CONSTANT_CHARGE_VOLTAGE),
+34b830881d43fb Mathew King   2020-05-04  108  	POWER_SUPPLY_ATTR(CONSTANT_CHARGE_VOLTAGE_MAX),
+34b830881d43fb Mathew King   2020-05-04  109  	POWER_SUPPLY_ATTR(CHARGE_CONTROL_LIMIT),
+34b830881d43fb Mathew King   2020-05-04  110  	POWER_SUPPLY_ATTR(CHARGE_CONTROL_LIMIT_MAX),
+34b830881d43fb Mathew King   2020-05-04 @111  	POWER_SUPPLY_ATTR(CHARGE_CONTROL_START_THRESHOLD),
+34b830881d43fb Mathew King   2020-05-04  112  	POWER_SUPPLY_ATTR(CHARGE_CONTROL_END_THRESHOLD),
+34b830881d43fb Mathew King   2020-05-04  113  	POWER_SUPPLY_ATTR(INPUT_CURRENT_LIMIT),
+34b830881d43fb Mathew King   2020-05-04  114  	POWER_SUPPLY_ATTR(INPUT_VOLTAGE_LIMIT),
+34b830881d43fb Mathew King   2020-05-04  115  	POWER_SUPPLY_ATTR(INPUT_POWER_LIMIT),
+34b830881d43fb Mathew King   2020-05-04  116  	POWER_SUPPLY_ATTR(ENERGY_FULL_DESIGN),
+34b830881d43fb Mathew King   2020-05-04  117  	POWER_SUPPLY_ATTR(ENERGY_EMPTY_DESIGN),
+34b830881d43fb Mathew King   2020-05-04  118  	POWER_SUPPLY_ATTR(ENERGY_FULL),
+34b830881d43fb Mathew King   2020-05-04  119  	POWER_SUPPLY_ATTR(ENERGY_EMPTY),
+34b830881d43fb Mathew King   2020-05-04  120  	POWER_SUPPLY_ATTR(ENERGY_NOW),
+34b830881d43fb Mathew King   2020-05-04  121  	POWER_SUPPLY_ATTR(ENERGY_AVG),
+34b830881d43fb Mathew King   2020-05-04  122  	POWER_SUPPLY_ATTR(CAPACITY),
+34b830881d43fb Mathew King   2020-05-04  123  	POWER_SUPPLY_ATTR(CAPACITY_ALERT_MIN),
+34b830881d43fb Mathew King   2020-05-04  124  	POWER_SUPPLY_ATTR(CAPACITY_ALERT_MAX),
+34b830881d43fb Mathew King   2020-05-04  125  	POWER_SUPPLY_ATTR(CAPACITY_LEVEL),
+34b830881d43fb Mathew King   2020-05-04  126  	POWER_SUPPLY_ATTR(TEMP),
+34b830881d43fb Mathew King   2020-05-04  127  	POWER_SUPPLY_ATTR(TEMP_MAX),
+34b830881d43fb Mathew King   2020-05-04  128  	POWER_SUPPLY_ATTR(TEMP_MIN),
+34b830881d43fb Mathew King   2020-05-04  129  	POWER_SUPPLY_ATTR(TEMP_ALERT_MIN),
+34b830881d43fb Mathew King   2020-05-04  130  	POWER_SUPPLY_ATTR(TEMP_ALERT_MAX),
+34b830881d43fb Mathew King   2020-05-04  131  	POWER_SUPPLY_ATTR(TEMP_AMBIENT),
+34b830881d43fb Mathew King   2020-05-04  132  	POWER_SUPPLY_ATTR(TEMP_AMBIENT_ALERT_MIN),
+34b830881d43fb Mathew King   2020-05-04  133  	POWER_SUPPLY_ATTR(TEMP_AMBIENT_ALERT_MAX),
+34b830881d43fb Mathew King   2020-05-04  134  	POWER_SUPPLY_ATTR(TIME_TO_EMPTY_NOW),
+34b830881d43fb Mathew King   2020-05-04  135  	POWER_SUPPLY_ATTR(TIME_TO_EMPTY_AVG),
+34b830881d43fb Mathew King   2020-05-04  136  	POWER_SUPPLY_ATTR(TIME_TO_FULL_NOW),
+34b830881d43fb Mathew King   2020-05-04  137  	POWER_SUPPLY_ATTR(TIME_TO_FULL_AVG),
+34b830881d43fb Mathew King   2020-05-04  138  	POWER_SUPPLY_ATTR(TYPE),
+34b830881d43fb Mathew King   2020-05-04  139  	POWER_SUPPLY_ATTR(USB_TYPE),
+34b830881d43fb Mathew King   2020-05-04  140  	POWER_SUPPLY_ATTR(SCOPE),
+34b830881d43fb Mathew King   2020-05-04  141  	POWER_SUPPLY_ATTR(PRECHARGE_CURRENT),
+34b830881d43fb Mathew King   2020-05-04  142  	POWER_SUPPLY_ATTR(CHARGE_TERM_CURRENT),
+34b830881d43fb Mathew King   2020-05-04  143  	POWER_SUPPLY_ATTR(CALIBRATE),
+34b830881d43fb Mathew King   2020-05-04  144  	/* Properties of type `const char *' */
+34b830881d43fb Mathew King   2020-05-04  145  	POWER_SUPPLY_ATTR(MODEL_NAME),
+34b830881d43fb Mathew King   2020-05-04  146  	POWER_SUPPLY_ATTR(MANUFACTURER),
+34b830881d43fb Mathew King   2020-05-04  147  	POWER_SUPPLY_ATTR(SERIAL_NUMBER),
+34b830881d43fb Mathew King   2020-05-04  148  };
+34b830881d43fb Mathew King   2020-05-04  149  
 
 -- 
 0-DAY CI Kernel Test Service
