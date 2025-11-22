@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136601B81CA
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Nov 2025 13:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DAA26ED46
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Nov 2025 14:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763817697; cv=none; b=oTL7sAqnBUFQDyXGIFDIn4kQR1JjUpeo6aou5LPbO9acXySxF14z1NOHgt7kV8C+XN5VOftwmES6eZ/uUZeXqW4Suo0kruqJukJTJxDqN4QON6rusPkrsYr7OKvDyLP43nTCwPXlHNFu1WAnVwy8s+e1LvfQ71GXv0M+MldjB9E=
+	t=1763821313; cv=none; b=WFtFiulQyewnta5UoKbV9oG7zuJVIQdanV1rG2Hg8obF7mGOME1yGldWTCY8mpDwOiVZ/Dbg7W/mH9wdN0JfFz3FWS5lNt8GGnJN+MjJvGgQXpglurJbks8l3DBHgBHny/M8N+dtdhBFBrSbGXugq4EkWNrAX604rMD2IJdPJak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763817697; c=relaxed/simple;
-	bh=1KkqGIJj1mPYgBS6ID8FLdd51BdYQx9dPoPplFLXI/0=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iygbgX32UAZX68wK1ijwgG3kV0Ug39hFvliHhnz8kwp5tn78mdk+10GGjFSQNMqts5elcScb0fnd6MyAVQ7uFTp3fgKhhm8PcZ4DSJMXB+e8dkFldW/2TVCDZc6LdeIF8AxTTCqZO5d6Gniei5xOKhNh05xRazYJMyiXDy3EVvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HyGy5lTT; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1763821313; c=relaxed/simple;
+	bh=4tcn3XO20ghsx446Km3ReMKyjdkZTVxQm9phm6v+uJA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BLZxyyI3zRx4tUlhaQWACOVmO9fMxx5BkX2juOgXrIVCYjTZ+j726gDOmPYr4QuEcxqsh9F+qm5RLfdFinvbuKF/6oet+p8PagqAC4LfNWP5xBu6G9mUEW3Ks3O+vU3tqRK9ZQKiQ5l9djYWK+naCVeSpgWoYoD5yfAE2X5N+H0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I6pXXRUz; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HyGy5lTT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6pXXRUz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763817696; x=1795353696;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=1KkqGIJj1mPYgBS6ID8FLdd51BdYQx9dPoPplFLXI/0=;
-  b=HyGy5lTTgZqG1zGmpOgy6wnsT6FTlu8lLB0sT9RQv7JUOEnjpDskJjnZ
-   gjxqeQmDgnzCbCPGljMt/xHkCxtUWoPdiC6Qf+znFBWt2/+4BIWfi9j63
-   5g5A3UIQG/j/W33AV2ZL0XAOhN05aaILjDEEtCIf4o+H3HMZEQDcv0vgp
-   x1dy0G8yCw3HWcwZfHqQrJoQ+D6HlPyUrFUYIVPsqGd4DCHzRPdKmAGUt
-   IJu0uALKTQAHffr/YMDuQeawvbVc6ikSnofYQaLgwcXdNVMxHBKMboml6
-   +WVOWpaUcxVJxS4DNvc4TlciGY5BGHOfgIbqx4BGXxQjqIgvklKd7e2cf
-   g==;
-X-CSE-ConnectionGUID: /5RCrzsYTsiyDfMD6cErgw==
-X-CSE-MsgGUID: YLUPnXqIQL2HWx9MDzq9zQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="65931893"
+  t=1763821310; x=1795357310;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4tcn3XO20ghsx446Km3ReMKyjdkZTVxQm9phm6v+uJA=;
+  b=I6pXXRUzBCldyXijRgAQVMUYTEvclVVXaJM7oJ2b4puxECckOXb0qMic
+   3pp/cSwKFQSLxVKgAhnSGa9/HL8GeLM5CVxUnlYbYUUJ/WMl4dm/BdXzx
+   OCv3pl63lqB0LZzHkTFZpUqIoR6uBWukw9AH+JIdLm/4lfQI/9sFczGEp
+   F4S2Ejuk4WW2Far9dK+jOYyykKmYy7yVnNqgPJSBrealCt7t7w/Pxj4Vj
+   gCwAjF9vPzZG2GOqlV37+xlqKMVPoJiW+076ymFO+CxRTmfjkSaW0EwyG
+   yF9rMRFoSjdbqzFsD4qqAuA8rdjOGTlAhLqWtaoPUvizg6S5QmFmHjYaj
+   w==;
+X-CSE-ConnectionGUID: 8AHo6VYaRd2bsY6EYRKhEA==
+X-CSE-MsgGUID: rZjJsOoTTGyZn8PYVgMOwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="66052594"
 X-IronPort-AV: E=Sophos;i="6.20,218,1758610800"; 
-   d="scan'208";a="65931893"
+   d="scan'208";a="66052594"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 05:21:36 -0800
-X-CSE-ConnectionGUID: 1robHrY3Q/6i4dqrnldLNw==
-X-CSE-MsgGUID: raSkHYd7RXSZakyYoFah4w==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 06:21:49 -0800
+X-CSE-ConnectionGUID: k+Py4TDPSwih3h1Se6Qkvw==
+X-CSE-MsgGUID: Brgop6VQS7KgbjsYDJXwCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,218,1758610800"; 
-   d="scan'208";a="222871892"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9c39a92d400b) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 22 Nov 2025 05:21:35 -0800
-Received: from kbuild by 9c39a92d400b with local (Exim 4.98.2)
+   d="scan'208";a="222878661"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Nov 2025 06:21:48 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMnYS-000000002AN-4A5o
-	for oe-kbuild@lists.linux.dev;
-	Sat, 22 Nov 2025 13:21:32 +0000
-Date: Sat, 22 Nov 2025 14:21:19 +0100
+	id 1vMoUk-0007aF-00;
+	Sat, 22 Nov 2025 14:21:46 +0000
+Date: Sat, 22 Nov 2025 22:21:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.18-jumbo 111/124] checkpatch:
- WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-Message-ID: <202511221410.lVBbVCRa-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 6608/11041]
+ tools/testing/selftests/hid/tools/include/vmlinux.h:42868:3: error:
+ declaration does not declare anything
+Message-ID: <202511222209.CmfOK2uR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,31 +64,44 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Wunderlich <frank-w@public-files.de>
+TO: Christian Brauner <brauner@kernel.org>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.18-jumbo
-head:   75dad9228908d3efbf1d989ac0a93cc0a7ef84de
-commit: 6cb262c96bdceb0e6762d52adc2d7eac383010ea [111/124] arm64: dts: mediatek: mt7987: Add Bananapi-R4 Lite
-:::::: branch date: 6 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d724c6f85e80a23ed46b7ebc6e38b527c09d64f5
+commit: a657bc8a75cf40c3d0814fe6488ba4af56528f42 [6608/11041] nstree: switch to new structures
+:::::: branch date: 32 hours ago
 :::::: commit date: 11 days ago
-reproduce: (https://download.01.org/0day-ci/archive/20251122/202511221410.lVBbVCRa-lkp@intel.com/reproduce)
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251122/202511222209.CmfOK2uR-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511222209.CmfOK2uR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511221410.lVBbVCRa-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511222209.CmfOK2uR-lkp@intel.com/
 
-# many are suggestions rather than must-fix
+Note: the linux-next/master HEAD d724c6f85e80a23ed46b7ebc6e38b527c09d64f5 builds fine.
+      It may have been fixed somewhere.
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#1686: FILE: arch/arm64/boot/dts/mediatek/mt7987a.dtsi:363:
-+			/*
-+			* - pwm0 1  : PWM0@PIN13
+All errors (new ones prefixed by >>):
+
+   In file included from progs/hid.c:3:
+   In file included from progs/hid_bpf_helpers.h:28:
+>> tools/testing/selftests/hid/tools/include/vmlinux.h:42868:3: error: declaration does not declare anything [-Werror,-Wmissing-declarations]
+    42868 |                 struct ns_tree;
+          |                 ^~~~~~~~~~~~~~
+   progs/hid.c:503:24: error: incomplete definition of type 'struct hid_device'
+     503 |         int hid = hid_ctx->hid->id;
+         |                   ~~~~~~~~~~~~^
+   progs/hid_bpf_helpers.h:59:9: note: forward declaration of 'struct hid_device'
+      59 |         struct hid_device *hid;
+         |                ^
+   2 errors generated.
 
 -- 
 0-DAY CI Kernel Test Service
