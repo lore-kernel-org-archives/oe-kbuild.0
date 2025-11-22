@@ -1,67 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E7118027
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Nov 2025 14:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39047F9C0
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Nov 2025 14:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763822574; cv=none; b=ezTQx4goonzkKyfWqWmbWX2GFFIMApb01C6z2D1Yzic3xQvNdelUzx5ohBernXZI1xOXIvHKknVHdMHC/yOm51Zm0E2gT7A2ERuNP7PMI6l1qAtSwriX9FwiA3U+DOebG7Ghf3LWOhGeqYCZxK046BWxU9kThSrfYhvPpqjRDZE=
+	t=1763823280; cv=none; b=eUSh0p25zhM2R9Hs8++XBel/zU0YLM4aSfkJSogEGRHj+tapsl3Tc7NjV2l/lRpoiaDM2EMFyytyMEhuYQ2g8GzN3ERI4J2g8yrwjg/lZabAuSVpBF5V5yuWj+32ub6RIMJFE/w3Rbmnu/MCjs24ADB4yUb3jFxDAnkBgh+OFdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763822574; c=relaxed/simple;
-	bh=ZDhrlSrdr2O+VSKDOAryx8vPC48UZi0asM/tNXTQQmc=;
+	s=arc-20240116; t=1763823280; c=relaxed/simple;
+	bh=0Ncbaj6Y839OUzveImafauyFcKT4hBhkTa+PdsU6EMI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bCLlENRA5kaYOXlpzAqayR4S9SXb6UM02qF1b6R4WBVlrhD420NtjFlvVlxZEzx2GDjR4KOb+by5A7TuqeF6XcDR9G9u+irn7ASgYKxkET7WfJdRx7QdkTz3clf343vnzbBTt+1bF3xE47wyZBN6U+AVksUBrsrPYiATLxd+XNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huRX7s9r; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=VrmlBu1hnXIqCKeg7TMy7HxbqVeimOlEu1OzbRXn/cFj6auZoLc795+ZVmWC/szZaU9Jo9iiXmXpeTFntgYL+hZPPZlQrxtsr5s7RHpCCBma1F206UKJCFV47DNJcNQoqRYkINBnFJUyjRjrQVqed5/rQOmMlCju0+/fhChNoO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A7jGrlF9; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huRX7s9r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A7jGrlF9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763822572; x=1795358572;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ZDhrlSrdr2O+VSKDOAryx8vPC48UZi0asM/tNXTQQmc=;
-  b=huRX7s9rHOtiBRx2E1LS7sqtnpoitl95bP3gqnXSwfe07fe8I4y/JbcA
-   xzOLjir3cW7lFG7FjBTU9zdW4ATKTMjYZpDPKS0EA9lSpDuuF90F1pjwV
-   H/ICYk2IYxgYeBsBOWvjXB8tgu8XKOeVg8s2kJrgX9Rf5UxM/X3Pv/xTV
-   eLr0aKQQPTwQhCqYOFQr8euTwluGxiM3ZBjKYNJplMnO2AgF4rKAkfbzu
-   RDy8K5a2VyHnJFn3HPruYujahp9FTT59NKRONXbRgY43oXCxuOdcDYJ0f
-   b0MBD9B1UsyUnwKi80sDRV1EApdm18kk8wuhAMMK7YFECbZQTX3eVoe3q
+  t=1763823278; x=1795359278;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0Ncbaj6Y839OUzveImafauyFcKT4hBhkTa+PdsU6EMI=;
+  b=A7jGrlF9+3a5PAgZS3L6aetKTWmt9QyxhoYiFmyO9amTpaypj0xBpSnz
+   zg5oSYVxMemZTA5oKrgkt2QTP9VoHre8dOVia+Z5zUzUATrReKqb5xaOo
+   lGmgjB98TW4pTwi1xA9AJ1RpgSyfdI/jVfvvvL5x69Wfgi7nuOsNrdKTu
+   Mx97uEUCLMt3xTzvPhR2qhldzrnQo05/z8XPvChG3wxo1xT9c4kUyAAsX
+   QGbNRD5Y3r4ohgBazFOPWNB7T0iTjYz73B1Imu4VZStO3qf2bvXcz/lfj
+   daD3g6tuU1MDz+x2O5Ow256bzAYb77gLuhQ7Wrvo3qdguYyOtLz9J+8lH
    w==;
-X-CSE-ConnectionGUID: 8t1hfQ2zTeyIuPemICFgKg==
-X-CSE-MsgGUID: bfWetKClQLe+LWiP0flu6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="65921786"
+X-CSE-ConnectionGUID: BwfrME5mTlKKBKFO3rz+tQ==
+X-CSE-MsgGUID: TYPqoWdYQse+hUVWEBk0Xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="77253601"
 X-IronPort-AV: E=Sophos;i="6.20,218,1758610800"; 
-   d="scan'208";a="65921786"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 06:42:51 -0800
-X-CSE-ConnectionGUID: P6cAehUISuGuJ/ss5UOxYw==
-X-CSE-MsgGUID: AzMM838GQu2LwU7arDJ22w==
+   d="scan'208";a="77253601"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 06:54:37 -0800
+X-CSE-ConnectionGUID: Ip7WATZKSB2t87Sg5wCglQ==
+X-CSE-MsgGUID: 0+dphcMaTXKq8jSpGtPrdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,218,1758610800"; 
-   d="scan'208";a="191960385"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 22 Nov 2025 06:42:50 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+   d="scan'208";a="192051115"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9c39a92d400b) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 22 Nov 2025 06:54:37 -0800
+Received: from kbuild by 9c39a92d400b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vMop6-0007bP-0h;
-	Sat, 22 Nov 2025 14:42:48 +0000
-Date: Sat, 22 Nov 2025 22:42:15 +0800
+	id 1vMp0U-000000002BP-0O9N;
+	Sat, 22 Nov 2025 14:54:34 +0000
+Date: Sat, 22 Nov 2025 15:53:46 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v3 07/18] vfio: selftests: Eliminate overly chatty logging
-Message-ID: <202511222214.BiU6tURK-lkp@intel.com>
+Subject: [jolsa-perf:uprobe_mov 6/7] arch/x86/kernel/uprobes.c:1496:36:
+ warning: unused variable 'opt_xol_ops'
+Message-ID: <202511221532.SZLHW3DG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "low confidence bisect report"
@@ -69,64 +68,43 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251121181429.1421717-8-dmatlack@google.com>
-References: <20251121181429.1421717-8-dmatlack@google.com>
-TO: David Matlack <dmatlack@google.com>
-TO: Alex Williamson <alex@shazbot.org>
-CC: Alex Mastro <amastro@fb.com>
-CC: David Matlack <dmatlack@google.com>
-CC: Jason Gunthorpe <jgg@nvidia.com>
-CC: Josh Hilke <jrhilke@google.com>
-CC: kvm@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-kselftest@vger.kernel.org
-CC: Raghavendra Rao Ananta <rananta@google.com>
-CC: Vipin Sharma <vipinsh@google.com>
+TO: Jiri Olsa <jolsa@kernel.org>
 
-Hi David,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on fa804aa4ac1b091ef2ec2981f08a1c28aaeba8e7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Matlack/vfio-selftests-Move-run-sh-into-scripts-directory/20251122-022109
-base:   fa804aa4ac1b091ef2ec2981f08a1c28aaeba8e7
-patch link:    https://lore.kernel.org/r/20251121181429.1421717-8-dmatlack%40google.com
-patch subject: [PATCH v3 07/18] vfio: selftests: Eliminate overly chatty logging
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251122/202511222214.BiU6tURK-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511222214.BiU6tURK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_mov
+head:   a54768cce1f5e7bc78f6e0278b90acdb53f896fc
+commit: 9f17ca62d1b3abb147d790291196f02fe3723367 [6/7] opt
+:::::: branch date: 2 weeks ago
+:::::: commit date: 3 weeks ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251122/202511221532.SZLHW3DG-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511221532.SZLHW3DG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511222214.BiU6tURK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511221532.SZLHW3DG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from tools/testing/selftests/vfio/lib/vfio_pci_driver.c:2:
->> tools/testing/selftests/vfio/lib/include/../../../kselftest.h:53:10: fatal error: errno.h: No such file or directory
-      53 | #include <errno.h>
-         |          ^~~~~~~~~
-   compilation terminated.
+   arch/x86/kernel/uprobes.c:1488:36: warning: unused variable 'mov_xol_ops' [-Wunused-const-variable]
+    1488 | static const struct uprobe_xol_ops mov_xol_ops = {
+         |                                    ^~~~~~~~~~~
+   arch/x86/kernel/uprobes.c:1492:36: warning: unused variable 'sub_xol_ops' [-Wunused-const-variable]
+    1492 | static const struct uprobe_xol_ops sub_xol_ops = {
+         |                                    ^~~~~~~~~~~
+>> arch/x86/kernel/uprobes.c:1496:36: warning: unused variable 'opt_xol_ops' [-Wunused-const-variable]
+    1496 | static const struct uprobe_xol_ops opt_xol_ops = {
+         |                                    ^~~~~~~~~~~
+   3 warnings generated.
 
 
-vim +53 tools/testing/selftests/vfio/lib/include/../../../kselftest.h
+vim +/opt_xol_ops +1496 arch/x86/kernel/uprobes.c
 
-7fb2c3ea28bf7b7 Shuah Khan     2014-10-03  51  
-9e38be732da8fe3 Mark Brown     2023-04-06  52  #ifndef NOLIBC
-fc2e634e997d84f Aleksa Sarai   2019-07-20 @53  #include <errno.h>
-7fb2c3ea28bf7b7 Shuah Khan     2014-10-03  54  #include <stdlib.h>
-7fb2c3ea28bf7b7 Shuah Khan     2014-10-03  55  #include <unistd.h>
-151b2732111f074 Paul Elder     2017-06-28  56  #include <stdarg.h>
-f2662ec26b26adb André Almeida  2025-09-17  57  #include <stdbool.h>
-907f33028871fa7 Mark Brown     2023-09-28  58  #include <string.h>
-a18261d71bbc625 Tycho Andersen 2019-01-18  59  #include <stdio.h>
-6d029c25b71f2de Oleg Nesterov  2024-04-09  60  #include <sys/utsname.h>
-9e38be732da8fe3 Mark Brown     2023-04-06  61  #endif
-7fb2c3ea28bf7b7 Shuah Khan     2014-10-03  62  
+8161bb24402c28 Jiri Olsa 2025-11-01  1495  
+9f17ca62d1b3ab Jiri Olsa 2025-11-01 @1496  static const struct uprobe_xol_ops opt_xol_ops = {
+9f17ca62d1b3ab Jiri Olsa 2025-11-01  1497  	.emulate  = optimized_emulate,
+9f17ca62d1b3ab Jiri Olsa 2025-11-01  1498  };
+9f17ca62d1b3ab Jiri Olsa 2025-11-01  1499  
 
 -- 
 0-DAY CI Kernel Test Service
