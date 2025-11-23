@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F968824BD
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Nov 2025 05:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E48F1A285
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Nov 2025 06:14:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763877231; cv=none; b=e5UY7wbKzrrwI/h9KdQ6SE01FdKI1wOh/UwisW9COD0e8NMRfZjKI/NE2oROW5wyRVpMTazO1ZOmu06MrrAfq00zKlNvQMIXz5uA/kEcdxkbmqTiZFfa6cU9hdcLhsaY5tBSHSBXLiv+qTOTCXzP9PUDvhJgsrcARUGTKP5aFRk=
+	t=1763878491; cv=none; b=WCFuDhl06wDnnKVwsYrUle4LuUycerON3gtf/1L8qxGeJm+/eGbPDmYpTwkya7nge5+7eXpVTxJq3gzqPHLHPDospCk689j6m7Lwu6IfTg48nyWoPFskhVta2hokpelQAGlA0sDwVoqdnnrY5dUNvMQp0Pbcy5GWhUlmhu0a4+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763877231; c=relaxed/simple;
-	bh=rsvTA1Er9EGjy2Uf9azazbkH8+FRewVxoldqCUlklsY=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W6kj5knZGGhswI4UtJaGatZ1cSay360BoCH8hiYWOD5gTeUIF4qaH3BEd+3CNsYy3USTuJY3zSp7lp6MIODKLdinKF0bwaGaUvRkBwpPGf85gDl6BFbearvScuedk4rIVsYv2e0tpZC/p7+6UemAVRUaU6gDzM44PJ95GnQQBgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hPfdvTuK; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1763878491; c=relaxed/simple;
+	bh=MtW+bfdcmxQhIahJTFbn3smJIRBhArx+mIeURsut5wE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cAKhRRzQWczjP7gnrdpFS7SNhpm8a4RBILVOd7bOLtVb7wPBAA4wXGWzkaxyt3kcLF15AOoYm3fgzcT/P9Glyr4E77nQonsA8nHdrUVFUf2Ph8wpGmas5ywznpxi3V8tD6DgkX3JM2pHgN5lxKMXVQTIKlnUDPtvI/VllALrqAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TBeCf3sD; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hPfdvTuK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TBeCf3sD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763877229; x=1795413229;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=rsvTA1Er9EGjy2Uf9azazbkH8+FRewVxoldqCUlklsY=;
-  b=hPfdvTuKCUS6n1BdB7MBxGnS3ggIp4PVgFXmhx2zYQLrP9TRc9vQyKuf
-   A035X5V1+W2Ls7Kig0Rp+vf+6T7ClJJb9CMMdu/MEfPXf51zU+I1Xbbwi
-   pz5zLTFdUOf4fTbSzisrSVlKi9RKipeRVNWhB0oC8jkNYiYfyLp+OHDYm
-   XdQ4Lp5MPCa4yE/CwAKuHwjcyUzirU5RoemxvqlfA9w93PIMWJ7KEwAFV
-   pkeZljtgAq3e25H2wa+ztP/IL0isUZ47iO98mxpwideVOcoRe4q+fXLbQ
-   cKBL7RReNRMnUjcFfdcLH6K2reITaLNrXi/B2gCTf9G4tfG4HfLSFIkny
-   Q==;
-X-CSE-ConnectionGUID: /xc65kKjRDe2LPr2wJdCyg==
-X-CSE-MsgGUID: aYdMzPgdQ5WmdVx+POAwjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="65805998"
+  t=1763878490; x=1795414490;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MtW+bfdcmxQhIahJTFbn3smJIRBhArx+mIeURsut5wE=;
+  b=TBeCf3sDMV6snNkbdC3zNINkVo2i/+MejwlMURg7nIQYaMEQOWlQq3TN
+   qUiaVadfK8aT0245sLicZm01DuKNN9BmDZx1qLDfCcFBjBtHO0estOKwi
+   +KM/8FMskHgQnm8OIJvxwnyEvdoMYO5OKbKN0mJ9fyFGvmVINZeUWGH5Z
+   uVpwJNb5bE158LsuwcKe/Mglih8ABb+cPsXjruJ+oVoNnqHqquVZNMY+R
+   /ohwFyt8jlxNw/jAgxCjmvjJ8amGFZZ0gUXaDg6GZI6Zzxp9oxLHI/Tuy
+   atLiR3tV5mbEB7eoallzd2/xNNmxDlJeoegyoQiPH9csNuJ3QL2knsQhm
+   A==;
+X-CSE-ConnectionGUID: UaiboshCQYaeBZ5MCGsUsw==
+X-CSE-MsgGUID: bhJ8K3PfQz2bzWJ8ywWFQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="83303605"
 X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
-   d="scan'208";a="65805998"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 21:53:47 -0800
-X-CSE-ConnectionGUID: ua8DHZQdS3KZtcLti7q8tw==
-X-CSE-MsgGUID: 39tpss/JShCcBFbivulXWw==
+   d="scan'208";a="83303605"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 22:14:49 -0800
+X-CSE-ConnectionGUID: SjsqZeVDQr6GDHdrelRpcw==
+X-CSE-MsgGUID: YRcXCTbBRnqyvizaGzJrqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
-   d="scan'208";a="192820169"
+   d="scan'208";a="192290440"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9c39a92d400b) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Nov 2025 21:53:47 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 22 Nov 2025 22:14:48 -0800
 Received: from kbuild by 9c39a92d400b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vN32f-000000002Kh-0lXL
-	for oe-kbuild@lists.linux.dev;
-	Sun, 23 Nov 2025 05:53:45 +0000
-Date: Sun, 23 Nov 2025 06:53:43 +0100
+	id 1vN3Mz-000000002LF-2i5K;
+	Sun, 23 Nov 2025 06:14:45 +0000
+Date: Sun, 23 Nov 2025 07:14:32 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [morimoto:renesas-lts/v6.18-rc5-2025-11-17-x5h-ironhide 18/39]
- checkpatch: WARNING:REPEATED_WORD: Possible repeated word: 'we'
-Message-ID: <202511230633.KlydpJaR-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [soc:k3/dt-2 47/47] arch/arm64/boot/dts/ti/k3-am62l3-evm.dtb:
+ /bus@f0000/bus@a80000/pinctrl@4084000: failed to match any schema with
+ compatible: ['ti,am62l-padconf', 'pinctrl-single']
+Message-ID: <202511230717.PXzTVnpR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,25 +64,39 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Wolfram Sang <wsa-dev@sang-engineering.com>
+CC: linux-arm-kernel@lists.infradead.org
+CC: arm@kernel.org
+TO: Vignesh Raghavendra <vigneshr@ti.com>
 
-tree:   https://github.com/morimoto/linux renesas-lts/v6.18-rc5-2025-11-17-x5h-ironhide
-head:   dc3fa69f59ac8939059ff00c75f9eaa967708c3b
-commit: 021560de8730acb32a37cbedf307dde71e4d1d4d [18/39] LTS: move commits mentioned in previous 'ignored' to the recent one
-:::::: branch date: 6 days ago
-:::::: commit date: 11 days ago
-reproduce: (https://download.01.org/0day-ci/archive/20251123/202511230633.KlydpJaR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git k3/dt-2
+head:   56baa9190988f35d53b1479a87c1bf44f6c979c6
+commit: 56baa9190988f35d53b1479a87c1bf44f6c979c6 [47/47] arm64: dts: ti: k3-am62l: Fix unit address of cbass_wakeup
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-2051-20251122 (https://download.01.org/0day-ci/archive/20251123/202511230717.PXzTVnpR-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+dtschema version: 2025.9.dev20+g7033eb7ce
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511230717.PXzTVnpR-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202511230717.PXzTVnpR-lkp@intel.com/
 
-WARNING:REPEATED_WORD: Possible repeated word: 'we'
-#95: FILE: renesas-lts/ignored:78:
-+# on its own. It is now easier to do so as we we have landed the V4L2
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/ti/k3-am62l3-evm.dtb: pinctrl@4084000 (ti,am62l-padconf): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['ti,am62l-padconf', 'pinctrl-single'] is too long
+   	'ti,am62l-padconf' is not one of ['pinctrl-single', 'pinconf-single']
+   	'ti,am62l-padconf' is not one of ['ti,am437-padconf', 'ti,am654-padconf', 'ti,dra7-padconf', 'ti,omap2420-padconf', 'ti,omap2430-padconf', 'ti,omap3-padconf', 'ti,omap4-padconf', 'ti,omap5-padconf', 'ti,j7200-padconf']
+   	'ti,am62l-padconf' is not one of ['marvell,pxa1908-padconf']
+   	'pinconf-single' was expected
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml
+>> arch/arm64/boot/dts/ti/k3-am62l3-evm.dtb: /bus@f0000/bus@a80000/pinctrl@4084000: failed to match any schema with compatible: ['ti,am62l-padconf', 'pinctrl-single']
 
 -- 
 0-DAY CI Kernel Test Service
