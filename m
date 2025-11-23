@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD22C19C546
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Nov 2025 04:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E219D154BF5
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Nov 2025 05:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763870871; cv=none; b=PFEIN0VwW3JWfx4OEuq3fY8xAFwNvTHwR4Wk69nmoFAPrDmFbIZVTQdRmkN1wyELz5VKr+4xqnBO1jYCK+dtWZ2JU0x6UpdyuDtwoLHHpZvq5L8fpGaiHo41jx+AH/MZBcA6zrqugXNZGsYWsbXYYWq7kjPvXNnVsjcFFXHfmu8=
+	t=1763874055; cv=none; b=ULuxgFZxxSa41t20yx0REtPrOnhhWm2aaG0g7t6WnSELYS8h+YP5fy14fAh4Uw7lre0URK85wL3qLOUg3PDVn896uMd95rb0Wg3W1rsRHJ0ZiSIQtDfd6DThuCg1wd2/dT/u/zb7KGc1M80kQs9Y3+ZkCPuSr0ZdEjm5SM5Ldh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763870871; c=relaxed/simple;
-	bh=NpmmHSKr5VMKm2MiT4+L2l7FroB1NDdTztfDKQlumqA=;
+	s=arc-20240116; t=1763874055; c=relaxed/simple;
+	bh=r+EmIUrne2lzqwICsVi4mASFC958q5gIgFqVRXTqoPk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iiyioJZCdnKboth4FSOT4QV/0mxUgvHxlOh+t4BK0M3NxOy4csXoFtKGNZBP+5qxZP8f30jP4JwNsWaFNhNhw5Q8vs2MGn0tlZIwRZ5EIBj3klDic1LERuypP6xSnXtMiIDHFP3+MpERQOrmertGJdNtmT54ePM/XY5H0hXBWbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mH/urTPf; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=o0svAHCtgSTmr+Y6i6BRx7gal1gGTg58uA2DPWrk/V92Ep3AzUVRwJmUeq7nVTU07n78FDuWRXYP7dlLv0jr1qaawzo5fP02YRhRaROcyq8NG+zoNpF/NixI96pdOw2fJXdam0R/gJBLwt//MP1yiv5s+Kp/EsT0S7IOcEM+p/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uw8uwRKN; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mH/urTPf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uw8uwRKN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763870870; x=1795406870;
+  t=1763874054; x=1795410054;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NpmmHSKr5VMKm2MiT4+L2l7FroB1NDdTztfDKQlumqA=;
-  b=mH/urTPf38H+YG/MCgZ87XMdqfW3u4rKLT581ReflFIioT0WhPCtnAd6
-   eyt+9KLOc5PTQ41EzgvvYmWtWW7KqB3u0pua8mwAVMojy1dmVim1ZB7+M
-   sZ5rGqKCLAnaT2hcUVw/tKdJ//ZWoEI4cza+8bPkip4j90cmCkuFx/spK
-   nTEHAyVYaalbxr48fkfJIbNJshttQBt+wukd1wpe2FRyvSLRuzjnbC+AO
-   2TqjpdSFKguzPPVyaRAc5GAVk8RlFoh+y8r0W2tNUD8LrGwAqWxzFj421
-   f8AxDZbdsS+Oh2REMRi3fkQB3ii/OiCDHni8FAmO8cnthyQ5ywLd4xFAK
-   Q==;
-X-CSE-ConnectionGUID: 2kKeUbeDT9WzIfGPplnNwg==
-X-CSE-MsgGUID: thbdcL+NQeWmPJ02umu97A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="53481362"
-X-IronPort-AV: E=Sophos;i="6.20,219,1758610800"; 
-   d="scan'208";a="53481362"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 20:07:49 -0800
-X-CSE-ConnectionGUID: S0RwtcmVT4ymkvfkPG0z5g==
-X-CSE-MsgGUID: uRlMjiXVRL2xSM6Jy+kLag==
+  bh=r+EmIUrne2lzqwICsVi4mASFC958q5gIgFqVRXTqoPk=;
+  b=Uw8uwRKNS+s75H1deC77/jcAT71eyMRjU9JH/e57/NdeZfSkLuUZLQ1e
+   nLGhXrEgEvYualenGZVto7fKKoHAkVdzkO9NmuFpFB8oJYEwIAmcI5a5w
+   8YYxSvq/8hO2hQ6qOvFxl/RDheBLs7zE1KN87rn0A6WhJRNLW6OAUxRQk
+   a9/Xf0Vq1hy0GHTjhD2jA1fsIs8UhBS6R6ZMHkkSPPy0vbHa+2NyRXCPo
+   6xZKSPk0O1539CfTi5sY6F4E35+nwMhV3AuA1+WAo71qPkwaOunZZTzaR
+   qiCtVHAs+BUUffqzgZMxMmU85MEKtRxwtteetRMs9/UVbztLNusI2PcGs
+   g==;
+X-CSE-ConnectionGUID: B4a7FUFlT46FOce7iI3E4A==
+X-CSE-MsgGUID: l210Z6jeQFiGD1gYRCyKNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="69778169"
+X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
+   d="scan'208";a="69778169"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 21:00:53 -0800
+X-CSE-ConnectionGUID: MtD5smWHRlCUJswlmbQ2EA==
+X-CSE-MsgGUID: J1JN51OtS0WzicOPEBg/Gg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,219,1758610800"; 
-   d="scan'208";a="192807164"
+X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
+   d="scan'208";a="191706164"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Nov 2025 20:07:48 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 22 Nov 2025 21:00:52 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vN1O6-000829-05;
-	Sun, 23 Nov 2025 04:07:46 +0000
-Date: Sun, 23 Nov 2025 12:07:19 +0800
+	id 1vN2DS-00083b-1F;
+	Sun, 23 Nov 2025 05:00:50 +0000
+Date: Sun, 23 Nov 2025 13:00:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: mm/kasan/kasan_test.o: error: objtool: asan.module_ctor+0x11: call
- without frame pointer save/setup
-Message-ID: <202511231203.vCIOKZQM-lkp@intel.com>
+Subject: [akpm-mm:mm-nonmm-unstable 86/104] liveupdate.c:21:10: fatal error:
+ errno.h: No such file or directory
+Message-ID: <202511231253.aLRTg9sG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,39 +63,38 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: Peter Zijlstra <peterz@infradead.org>
+TO: Pasha Tatashin <pasha.tatashin@soleen.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d13f3ac64efb868d09cb2726b1e84929afe90235
-commit: 36799069b48198e5ce92d99310060c4aecb4b3e3 objtool: Add CONFIG_OBJTOOL_WERROR
-date:   8 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 8 months ago
-config: x86_64-randconfig-161-20251123 (https://download.01.org/0day-ci/archive/20251123/202511231203.vCIOKZQM-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511231203.vCIOKZQM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   5b8dc8b45ebd9e7f3fea3adefeccd9ce94215103
+commit: 2c55496371f19ce7570897a3d7b807d0a2b04dd9 [86/104] selftests/liveupdate: add userspace API selftests
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251123/202511231253.aLRTg9sG-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511231253.aLRTg9sG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511231203.vCIOKZQM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511231253.aLRTg9sG-lkp@intel.com/
+
+Note: the akpm-mm/mm-nonmm-unstable HEAD 5b8dc8b45ebd9e7f3fea3adefeccd9ce94215103 builds fine.
+      It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
->> mm/kasan/kasan_test.o: error: objtool: asan.module_ctor+0x11: call without frame pointer save/setup
-   mm/kasan/kasan_test.o: error: objtool:   asan.module_ctor+0x0: <=== (sym)
->> mm/kasan/kasan_test.o: error: objtool: asan.module_dtor+0x11: call without frame pointer save/setup
-   mm/kasan/kasan_test.o: error: objtool:   asan.module_dtor+0x0: <=== (sym)
-   mm/kasan/kasan_test.o: error: objtool: 2 warning(s) upgraded to errors
-   ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --ibt --mcount --mnop --retpoline --sls --stackval --static-call --uaccess --Werror --backtrace --link --module mm/kasan/kasan_test.o.orig -o mm/kasan/kasan_test.o
+>> liveupdate.c:21:10: fatal error: errno.h: No such file or directory
+      21 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 
 -- 
 0-DAY CI Kernel Test Service
