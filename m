@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6313E158538
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Nov 2025 09:43:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5525B190664
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Nov 2025 12:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763891034; cv=none; b=ZIFmzdjohxP1akrNHXRAVkIuwnq62Naq0pCl4NwQOfeHsk8M/wRlLm/c4O68O78/Q3Eglh0Hk5YuYiv2yAJfMnaWNnlejAMfH93jtNFdHdfiKbZZjzbjrqu7MXt3hKF3x6ULHUP+fRxjl30meP3DluSlG4AWnHfQVHYCXmwq//k=
+	t=1763902174; cv=none; b=GqKbxkxEBHuzWtn112f5AGG2IuNuykzYPYP292jdzNy0IrL9IHD+OsZt+qIzMl2r68zv5C8fo2fO7bx62YKLj7c1w8gyV97RB2boqGr6Ccl777y47USX3sfE1mDUhe3+WUrTPplS6+BWWlx+fDzgfR+3z3qOJJdincogp+EMmLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763891034; c=relaxed/simple;
-	bh=q1EE+TydUBw8PHid8UKhdNgQBPXbCMnMMRZd2WVnvYg=;
+	s=arc-20240116; t=1763902174; c=relaxed/simple;
+	bh=4GvPR9pHIHohP3l0zEBZCSyXagZID7BZxYBw4aEvxjc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B/PT8EQB75hKXbhWSQy0yzZ2WpONAQDwspf8ouihf5ItjAWO73u4GlbBckfyYuMi2ear1w+YabEmxwZuFdQW/SmD1WjAoL1Uq5lNYl3W3S03L7kIa7kA1W4LyvyynCWi5X2SfAbOcH2A/UIGnzSNcxsFTLCReua4X9ouUUXhaoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ji11Ke3I; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=IhbuGQnEdmpwtzJY4P40MUnya/KpLvrjUg/i6f6Wa2wvJHVqU5b3pfx2aSO2L+SYTPRuC8lw2Nk3DbdKA3+5FQ0q90zv+yBWm/UgNNzxQiPEEBPQRz1np86XTJX5fTmm7Yhs0IA5F6VFy/dom3K+jBF9ohO11jdjzkdm/WiMAkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O+A3NlS6; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ji11Ke3I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O+A3NlS6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763891033; x=1795427033;
+  t=1763902172; x=1795438172;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q1EE+TydUBw8PHid8UKhdNgQBPXbCMnMMRZd2WVnvYg=;
-  b=Ji11Ke3I8UfkZwKbj+gMypJ+Yb6bPsvm+MNzywn63C/rkmu3p+msX3sr
-   IxWmZSxMcQZng0eEVoup0wlifvXwv1hhq+jabfGV0kGrHtYfIhNG+drFq
-   A/ObfZOkTrQbGztJWl5Ge/ovrlfh1ryOuHSWhFvQYu9ckeJqR9HA+E6P6
-   KsiAdBrZoy2JP4nSwIWnHB3V64F5zTkPDgQ6Tgc+rC4bqJ0HY+GJih0p9
-   +YB+MIfa1NCMGoGxG01VEvQwfcHVb4goRCbhB6jB0PxH+8h/SPlXevrE+
-   wiw8pyQvjPXKgDHnTfz7Cu1Mv8+PFnwru/lQULMyQG4Pj/qD0tgLYgxZ7
+  bh=4GvPR9pHIHohP3l0zEBZCSyXagZID7BZxYBw4aEvxjc=;
+  b=O+A3NlS67Lu4aFuOqkM2dsan/C6qSQhgJ7udZJf+FUp4PSYRF9jSYIz+
+   wtOtMjk6BixBvj8lOSWf9BI39Lg8Ky0NdngR++PKrOECOfUrmfW8NGQe0
+   cKOlCS0imutjiJMH/IlHDeRdNONnqnf77odhb8BzEg+3TJXl7SpjKGLZn
+   axs8jPVME5ArL4nggVaNFLsq6U/6wcl1A+VMWqsGfIDNaOvtahxjdd3pc
+   /lFK9jQjMSTQn0pqW+ULb37o+934ap1nOrddGFqzQT44ZHpuU/LXSpJcG
+   BFiCTQcjfRjAZv/BB3qHKBL9DpWZMfU8Br4a+FqQu9krWVCB1SrMCdomU
    Q==;
-X-CSE-ConnectionGUID: XPcpcM5ZSFO4caWktj/Xjw==
-X-CSE-MsgGUID: 9mI4TNqESiufF8U/vDvVoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="69538383"
+X-CSE-ConnectionGUID: QDt7G0pkSoSWdiq5KBG05Q==
+X-CSE-MsgGUID: ua3+WOp+RVqiLHqgPgBPBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="77394449"
 X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
-   d="scan'208";a="69538383"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 01:43:52 -0800
-X-CSE-ConnectionGUID: ZLfboxQCTy23G7wOxEVbug==
-X-CSE-MsgGUID: vXxmfB8DQTSFSC8qFIi7pg==
+   d="scan'208";a="77394449"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 04:49:32 -0800
+X-CSE-ConnectionGUID: ZbBw3akiQHija2fQ1XrqHA==
+X-CSE-MsgGUID: 9CEPshtSQ6yXSOVXcOD8Uw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
-   d="scan'208";a="192852121"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9c39a92d400b) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Nov 2025 01:43:50 -0800
-Received: from kbuild by 9c39a92d400b with local (Exim 4.98.2)
+   d="scan'208";a="191270952"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 23 Nov 2025 04:49:31 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vN6dI-000000002Nn-1SLo;
-	Sun, 23 Nov 2025 09:43:48 +0000
-Date: Sun, 23 Nov 2025 10:43:12 +0100
+	id 1vN9Wx-0008Gp-31;
+	Sun, 23 Nov 2025 12:49:27 +0000
+Date: Sun, 23 Nov 2025 20:48:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [soc:qcom/dt64 39/134]
- arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: pmic@66
- (maxim,max77705): '#interrupt-cells', 'interrupt-controller' do not match
- any of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202511231059.J6muQEAc-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [RFC PATCH v1 3/3] fuse: implementation of the
+ FUSE_LOOKUP_HANDLE operation
+Message-ID: <202511232052.lN8GzRFA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,43 +62,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: arm@kernel.org
-TO: Dzmitry Sankouski <dsankouski@gmail.com>
-CC: Bjorn Andersson <andersson@kernel.org>
-CC: Dmitry Baryshkov <lumag@kernel.org>
-CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251120105535.13374-4-luis@igalia.com>
+References: <20251120105535.13374-4-luis@igalia.com>
+TO: Luis Henriques <luis@igalia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git qcom/dt64
-head:   f481e772e014da92fa1232de54e4cac66b5fc5e4
-commit: 4372b15d89e253e40816f0bde100890cddd25a81 [39/134] arm64: dts: qcom: sdm845-starqltechn: fix max77705 interrupts
-:::::: branch date: 9 days ago
-:::::: commit date: 4 weeks ago
-config: arm64-randconfig-2051-20251122 (https://download.01.org/0day-ci/archive/20251123/202511231059.J6muQEAc-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-dtschema version: 2025.9.dev20+g7033eb7ce
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511231059.J6muQEAc-lkp@intel.com/reproduce)
+Hi Luis,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mszeredi-fuse/for-next]
+[also build test WARNING on linus/master v6.18-rc6]
+[cannot apply to next-20251121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Henriques/fuse-initial-infrastructure-for-FUSE_LOOKUP_HANDLE-support/20251120-190106
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
+patch link:    https://lore.kernel.org/r/20251120105535.13374-4-luis%40igalia.com
+patch subject: [RFC PATCH v1 3/3] fuse: implementation of the FUSE_LOOKUP_HANDLE operation
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: s390-randconfig-r071-20251123 (https://download.01.org/0day-ci/archive/20251123/202511232052.lN8GzRFA-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511231059.J6muQEAc-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202511232052.lN8GzRFA-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:4803.27-4858.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicate unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@1eb)
->> arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: pmic@66 (maxim,max77705): '#interrupt-cells', 'interrupt-controller' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: i2c21 (i2c-gpio): $nodename:0: 'i2c21' does not match '^i2c(@.+|-[a-z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: i2c21 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'pmic@60' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
+smatch warnings:
+fs/fuse/inode.c:1198 fuse_encode_lookup_fh() warn: potential pointer math issue ('fh' is a 32 bit pointer)
+fs/fuse/inode.c:1198 fuse_encode_lookup_fh() warn: potential pointer math issue ('fh' is a 32 bit pointer)
+fs/fuse/inode.c:1198 fuse_encode_lookup_fh() warn: potential pointer math issue ('fh' is a 32 bit pointer)
+
+vim +1198 fs/fuse/inode.c
+
+dbd561d236ff16 Miklos Szeredi 2008-07-25  1181  
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1182  static int fuse_encode_lookup_fh(struct inode *inode, u32 *fh, int *max_len,
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1183  				 struct inode *parent)
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1184  {
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1185  	struct fuse_inode *fi = get_fuse_inode(inode);
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1186  	int total_len, len;
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1187  
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1188  	total_len = len = sizeof(struct fuse_file_handle);
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1189  	if (parent)
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1190  		total_len *= 2;
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1191  
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1192  	if (*max_len < total_len)
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1193  		return FILEID_INVALID;
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1194  
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1195  	memcpy(fh, &fi->fh, len);
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1196  	if (parent) {
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1197  		fi = get_fuse_inode(parent);
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20 @1198  		memcpy((fh + len), &fi->fh, len);
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1199  	}
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1200  
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1201  	*max_len = total_len;
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1202  
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1203  	/* XXX define new fid_type */
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1204  	return parent ? FILEID_INO64_GEN_PARENT : FILEID_INO64_GEN;
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1205  }
+c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1206  
 
 -- 
 0-DAY CI Kernel Test Service
