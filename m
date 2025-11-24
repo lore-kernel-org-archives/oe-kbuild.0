@@ -1,140 +1,159 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043362FB607;
-	Mon, 24 Nov 2025 10:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11741EA65
+	for <oe-kbuild@lists.linux.dev>; Mon, 24 Nov 2025 11:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763981719; cv=none; b=CxNfyRWGKlOAMHlsbaY/T5BvKczzwe6LbAH+s0fNuy+dw7gNVE+g/PbmtDV+DKGGLzzoU8CWmf8VerJHePmpdHxq1/JaKjaRAZH3G7dMO7av6s+KrxdBR3okSvHUpX2D4doawioTitpRhw4QuAloVGClNbxVNI8NAe0iZBLKSq4=
+	t=1763983891; cv=none; b=GwcFuW4N1g44hzxacU0G32mBioMfvQokmuM7e4+dcvT3IutQnDBFeMGddLT5jJ8N+caGfo5r7vMQNj7FSBDl+5vyJvif9kJqePKxuaZT/1OSQHXomLSCWyevtb+zh8ot9nt1qhUZKrrsSFN7cLWvYApHGPapcJ/NsTJ1R/HFNBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763981719; c=relaxed/simple;
-	bh=AEM0YGQ6DjPrRVcUaC9r30KLy7eGaofNTKHV2MEjPqk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CAF6VjLlzfSd9KjwZzBbA6TuGH3hxu99IuBPbxQ6kMSMM1sZTwLmW5vGd7uhCncVPbDkRPtBkpntExknngGIRTlhyq9EWR3DFgQcyNPYtbuVCfAgPsgv/huaRf2DYSGNF6CxB0svAR+cSLNozm3UAP7Sm7a/hfYWiay9bAUAv2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=UNpeiPGE; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1763983891; c=relaxed/simple;
+	bh=uWPcnXNV/2aNYpddSz0/5vHJ0wvqPxLSZ0swSl9tTD0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AoqlM7fZimuLd5aE5VO6Fs2cVhEEfPpGZE6aMpIZeAakynDJPFq4z+J5BM8u9/PxHVXHaSnaZk8Q5CDP1//XnSzDduezf3BpxFQCklEoRRi6VBk5X8aASco8Dw0HeV0g78f5yGNiFE0Oygc6zMEAw2m7Oi1QhSpd/cOBk5YXX80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cWGjX3nK; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="UNpeiPGE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=daliigqiCa0BGCXTLd5BJ1qCg3M8Xirctk+CfIkf0T4=; b=UNpeiPGEVjm9TqJCVexZzpuZ6F
-	AsRTHzI/uXkdWp0uD1xuhsgZfhN+u96v7bCnyseG4htGX3BpB6p2uc2cBynmaix7PKU/qYFAMr9rD
-	eyC87Om2F+KNAjBA6eZASQ488JvkygQ+UlSUBj9eZfdqw+s4fGJ6CrRsa0UyBvPvEdh4PNBCkTIar
-	ljKlLnDxssmW7tpQfnUBqyi9Dqaa7E2e6KyrgfYc5sYtUyZxQS0BkuqWxiFaqVAlQNl0KVGoQlOUF
-	2fEznMh7Cij8zNqy2J7ipee5Fm+mI0H7BUjn9Oj+gZfzYaKeAjSoQdNnn94GWl2ARi7zawY61D6zl
-	6TpkisnA==;
-Received: from bl17-145-117.dsl.telepac.pt ([188.82.145.117] helo=localhost)
-	by fanzine2.igalia.com with utf8esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1vNUDp-004igK-Bx; Mon, 24 Nov 2025 11:55:05 +0100
-From: Luis Henriques <luis@igalia.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev,  lkp@intel.com,  oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v1 3/3] fuse: implementation of the
- FUSE_LOOKUP_HANDLE operation
-In-Reply-To: <202511232052.lN8GzRFA-lkp@intel.com> (Dan Carpenter's message of
-	"Mon, 24 Nov 2025 11:14:49 +0300")
-References: <202511232052.lN8GzRFA-lkp@intel.com>
-Date: Mon, 24 Nov 2025 10:54:59 +0000
-Message-ID: <87o6orlmyk.fsf@wotan.olymp>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cWGjX3nK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763983890; x=1795519890;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uWPcnXNV/2aNYpddSz0/5vHJ0wvqPxLSZ0swSl9tTD0=;
+  b=cWGjX3nKSxag4O+488XDe0V8VlPuCAAVM3gRSo7/Ob/bV193C11bPdTp
+   kP4XzdocSYVkj+7fFLfvKTrvdAnZpzhl4VtmB6qu6HTQRpY+vroLQp49e
+   qVtkUk727qEIUWaQpeVLTya32ub0GAWf5J4XUR3fqT/yL/U1kP9Opolr/
+   jQWjPwSWd3538DHH6j2M90pesw3qgzOScV4g34Gdgl3YCR6/sIaS/4W25
+   kLxjVCszE6Oe2EJ4Qv8qyjVQyzVPuyyK/HTmwWXjTRcf9PhYeJb3M307v
+   Mc6UhzKYpx1s60R6/Y2qkkNMtbq/e2+Hukld7LRdv1CyOrnGkQkGC0lIc
+   g==;
+X-CSE-ConnectionGUID: OSn3HzNxQNyMw/64kD9VAA==
+X-CSE-MsgGUID: oNsBZqHZQTu22RjpzQUHHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="69834589"
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="69834589"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 03:31:30 -0800
+X-CSE-ConnectionGUID: xdQDtgKfSlWlEJkrsmgATw==
+X-CSE-MsgGUID: JBr6kUYTQNe/5k+j/sbEcA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="196478648"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 24 Nov 2025 03:31:28 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vNUmz-000000000Dh-3YcS;
+	Mon, 24 Nov 2025 11:31:25 +0000
+Date: Mon, 24 Nov 2025 12:31:13 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [rockchip:v6.19-armsoc/dts64 42/65]
+ arch/arm64/boot/dts/rockchip/px30-cobra-ltk050h3146w-a2.dtb:
+ /video-capture@ff490000: failed to match any schema with compatible:
+ ['rockchip,px30-vip']
+Message-ID: <202511241240.ycjfWYeD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Nov 24 2025, Dan Carpenter wrote:
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-> Hi Luis,
->
-> [This is a private test report for your RFC patch.]
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Henriques/fus=
-e-initial-infrastructure-for-FUSE_LOOKUP_HANDLE-support/20251120-190106
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git=
- for-next
-> patch link:    https://lore.kernel.org/r/20251120105535.13374-4-luis%40ig=
-alia.com
-> patch subject: [RFC PATCH v1 3/3] fuse: implementation of the FUSE_LOOKUP=
-_HANDLE operation
-> config: s390-randconfig-r071-20251123 (https://download.01.org/0day-ci/ar=
-chive/20251123/202511232052.lN8GzRFA-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9=
-e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202511232052.lN8GzRFA-lkp@intel.com/
->
-> smatch warnings:
-> fs/fuse/inode.c:1198 fuse_encode_lookup_fh() warn: potential pointer math=
- issue ('fh' is a 32 bit pointer)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+TO: Mehdi Djait <mehdi.djait@bootlin.com>
+CC: Heiko Stuebner <heiko@sntech.de>
+CC: Michael Riesch <michael.riesch@wolfvision.net>
+CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
 
-Thanks for reporting this.  The issue seems to be real but this code is
-broken in much more fundamental ways (see [0]).  I'll try to keep this
-report in mind when re-writing for the next iteration.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.19-armsoc/dts64
+head:   e34003dd2fb05da8f420bbd7b8ec62ab88242c45
+commit: d2da7e98c0bf7f75433809ad875c6e1ae57f0cea [42/65] arm64: dts: rockchip: add the vip node to px30
+:::::: branch date: 3 days ago
+:::::: commit date: 9 days ago
+config: arm64-randconfig-2051-20251122 (https://download.01.org/0day-ci/archive/20251124/202511241240.ycjfWYeD-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+dtschema version: 2025.9.dev20+g7033eb7ce
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251124/202511241240.ycjfWYeD-lkp@intel.com/reproduce)
 
-[0] https://lore.kernel.org/all/CAOQ4uxgzThRacOhcwQcU6DAx7MEUc-8-Z6j9fSKzJp=
-+kuc5=3D-Q@mail.gmail.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202511241240.ycjfWYeD-lkp@intel.com/
 
-Cheers,
---=20
-Lu=C3=ADs
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/px30-cobra-ltk050h3146w-a2.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+>> arch/arm64/boot/dts/rockchip/px30-cobra-ltk050h3146w.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+>> arch/arm64/boot/dts/rockchip/px30-cobra-ltk050h3148w.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+>> arch/arm64/boot/dts/rockchip/px30-cobra-ltk500hd1829.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+   arch/arm64/boot/dts/rockchip/px30.dtsi:1274.9-1281.5: Warning (graph_child_address): /isp@ff4a0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/px30-evb.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+>> arch/arm64/boot/dts/rockchip/px30-engicam-px30-core-ctouch2.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+>> arch/arm64/boot/dts/rockchip/px30-engicam-px30-core-ctouch2-of10.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+   arch/arm64/boot/dts/rockchip/px30-engicam-px30-core-ctouch2-of10.dtb: panel (ampire,am-1280800n3tzqw-t00h): False schema does not allow ['vesa-24']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple.yaml
+--
+>> arch/arm64/boot/dts/rockchip/px30-engicam-px30-core-edimm2.2.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+   arch/arm64/boot/dts/rockchip/px30-engicam-px30-core-edimm2.2.dtb: panel (yes-optoelectronics,ytc700tlag-05-201c): False schema does not allow ['vesa-24']
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple.yaml
+--
+>> arch/arm64/boot/dts/rockchip/px30-firefly-jd4-core-mb.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+   arch/arm64/boot/dts/rockchip/px30.dtsi:1274.9-1281.5: Warning (graph_child_address): /isp@ff4a0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/px30-pp1516-ltk050h3146w-a2.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+   arch/arm64/boot/dts/rockchip/px30.dtsi:1274.9-1281.5: Warning (graph_child_address): /isp@ff4a0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/px30-pp1516-ltk050h3148w.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+>> arch/arm64/boot/dts/rockchip/px30-ringneck-haikou.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+   arch/arm64/boot/dts/rockchip/px30.dtsi:472.21-486.7: Warning (graph_child_address): /syscon@ff140000/lvds/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/px30.dtsi:1142.19-1156.6: Warning (graph_child_address): /dsi@ff450000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3326-anbernic-rg351m.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+   arch/arm64/boot/dts/rockchip/px30.dtsi:472.21-486.7: Warning (graph_child_address): /syscon@ff140000/lvds/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/px30.dtsi:1142.19-1156.6: Warning (graph_child_address): /dsi@ff450000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3326-anbernic-rg351v.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+   arch/arm64/boot/dts/rockchip/px30.dtsi:472.21-486.7: Warning (graph_child_address): /syscon@ff140000/lvds/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/px30.dtsi:1142.19-1156.6: Warning (graph_child_address): /dsi@ff450000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3326-gameforce-chi.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+   arch/arm64/boot/dts/rockchip/px30.dtsi:472.21-486.7: Warning (graph_child_address): /syscon@ff140000/lvds/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/px30.dtsi:1142.19-1156.6: Warning (graph_child_address): /dsi@ff450000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+   arch/arm64/boot/dts/rockchip/px30.dtsi:472.21-486.7: Warning (graph_child_address): /syscon@ff140000/lvds/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/px30.dtsi:1142.19-1156.6: Warning (graph_child_address): /dsi@ff450000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3326-odroid-go2-v11.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+   arch/arm64/boot/dts/rockchip/px30.dtsi:472.21-486.7: Warning (graph_child_address): /syscon@ff140000/lvds/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/px30.dtsi:1142.19-1156.6: Warning (graph_child_address): /dsi@ff450000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3326-odroid-go3.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+   arch/arm64/boot/dts/rockchip/rk3326-odroid-go3.dtb: mux-controller (gpio-mux): 'pinctrl' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mux/gpio-mux.yaml
+--
+>> arch/arm64/boot/dts/rockchip/px30-ringneck-haikou-haikou-lvds-9904379.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
+--
+>> arch/arm64/boot/dts/rockchip/px30-ringneck-haikou-haikou-video-demo.dtb: /video-capture@ff490000: failed to match any schema with compatible: ['rockchip,px30-vip']
 
-> vim +1198 fs/fuse/inode.c
->
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1182  static int fuse_encode_lo=
-okup_fh(struct inode *inode, u32 *fh, int *max_len,
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1183  				 struct inode *parent)
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1184  {
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1185  	struct fuse_inode *fi =
-=3D get_fuse_inode(inode);
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1186  	int total_len, len;
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1187=20=20
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1188  	total_len =3D len =3D si=
-zeof(struct fuse_file_handle);
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1189  	if (parent)
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1190  		total_len *=3D 2;
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1191=20=20
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1192  	if (*max_len < total_len)
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1193  		return FILEID_INVALID;
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1194=20=20
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1195  	memcpy(fh, &fi->fh, len);
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1196  	if (parent) {
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1197  		fi =3D get_fuse_inode(p=
-arent);
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20 @1198  		memcpy((fh + len), &fi-=
->fh, len);
->
-> fh is a u32 pointer but len is in byte units so this is a pointer math
-> bug.  It should be: memcpy((void *)fh + len, &fi->fh, len);
->
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1199  	}
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1200=20=20
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1201  	*max_len =3D total_len;
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1202=20=20
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1203  	/* XXX define new fid_ty=
-pe */
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1204  	return parent ? FILEID_I=
-NO64_GEN_PARENT : FILEID_INO64_GEN;
-> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1205  }
->
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
