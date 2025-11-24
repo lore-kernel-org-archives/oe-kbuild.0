@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A58296BC1
-	for <oe-kbuild@lists.linux.dev>; Mon, 24 Nov 2025 19:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C30E571
+	for <oe-kbuild@lists.linux.dev>; Mon, 24 Nov 2025 20:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764011496; cv=none; b=iZAzrPPYDfJIW9d9wDOD9RUyw5IuvSfO1w6AMKfVeRYn/djO71l9xZgn8buRSDFUQvqvijEXHwBbSEy4sd+XlCm0SQdU+yYk7t1YtJkA4OBtg1VwWMrlBoYxJB3ZS8B8r+QIkGoT3Ur1FxNyMW+0/KqZsqa34yGbXUwN2HRvfwQ=
+	t=1764015770; cv=none; b=q9JIgRQfK9WL73/YcAo2DXQyxd5kZWAMr+Yu+UZkGLpKbOSSEjguApjbeyf3EoyPOyH/mkigD/xfjtPG2/7UQV0G8Nq05hGngQsAdHs3wR4LvVuMNB2Ofhh0LgOA8zxccESxPL5VPuZZP/vQGpxNGqOYp4gy36BWhVJTazrMFis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764011496; c=relaxed/simple;
-	bh=E1errGnFG4PhOcSf7NqfewPrZUedOfJO2UP5NMHPMNw=;
+	s=arc-20240116; t=1764015770; c=relaxed/simple;
+	bh=QafFb50AvGzsFmt9SHrdYhcVwST3xBRNQILtL3E6gmM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y3ZKJihWLE6xzy4MOG5+yZEJWvLEn5QheeNhqYSp7g2ExmjCFVk4MqJVnt7KZbDD4YO/ZdvtTbdauTfT0/zyynfe7p/C2kfKlLhTvyAuhNw5MCSD9P4bdbBoMIo/bPcgZ0N0LIo1E2OtvTHDY/HF3TS15cVmYsEKnP8RMN4C1jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k2G3XObK; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=uRqUR1TDTaFoywVkGILLJbgI1tNvWxD9lWWMqkn53Zrdd/uZ8tJ8KcdLCmlPEZa7RK4NSKhOhizb45msXyhz+gUwFTYe1MbfV39GfSO3M81GbPUqKSZeMnXkcqurJjdV1AWAHoBI+Lf33Va2MrX5Eu56WZqMUoGWuhFDzJRU0S0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cTSAJ244; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2G3XObK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cTSAJ244"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764011494; x=1795547494;
+  t=1764015767; x=1795551767;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E1errGnFG4PhOcSf7NqfewPrZUedOfJO2UP5NMHPMNw=;
-  b=k2G3XObKVtM6bnnmr0UJg8ErF4LIg/WYgSgTru6uT8MucH1IBoFCKc8b
-   Nl37fGZdvcioN3to4uAS/GkA3AM77/NeTw1NHjc6RBwBXBJLvSdcOVOOW
-   2/pU6oie9xEJ7dtreyUDGuwT3/PLJgpZAGiyiHLYtsJRkCl0FLIVBfQzB
-   4yL9z3tUYi3L5KJqB8sQhncziRDcGEhV5p9+dW1h8SNhDrUsYYUTG2DRx
-   keVZGEH/fnG/aqYKMfogkEnbUOJF/XcKAkpMCwC8Lfb+LDl5BEE5wW0F5
-   mgdFOSReKo+VzCSPnDS9qGniAgTokKaGbI9ggmaw/qLZX5mpROyLO15bw
-   Q==;
-X-CSE-ConnectionGUID: zt+YtRWGS9OPaG+3eZ0wjw==
-X-CSE-MsgGUID: FePa08qrQJqAjWN5jljBLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="66063074"
+  bh=QafFb50AvGzsFmt9SHrdYhcVwST3xBRNQILtL3E6gmM=;
+  b=cTSAJ244bPVxpyPN67BMZbLIsmLbVZwn257mPpuHNYJvnuiNdZpj5/Ri
+   X4Y+A6YOYTtlSS4DyHoM2BcWy1oVZNnPP5bdoyPnu8Ooe18jY0Brwjcek
+   seRaeequYGa8rbhGxbjrt4+7VmouTKiOe581z7RgJQHtR2/nnItYJeZQz
+   G1UC0hmVpN96TeTCP+Uj2+xi8UY+P4os0vMlZr825wsDRzB6qyQafGJqu
+   2DTD2bvE4vTLchkc7rO98NPv035COUk/lR7kG4ZTqldWDdvYA1iF2+Uy0
+   vUl3dCrGc8pXdagk03+m+5hdh62CVHlrsvbxiYnRqRavu5PCwhgfqJWHv
+   w==;
+X-CSE-ConnectionGUID: MFccXi9fRBqb0p5npW4ILw==
+X-CSE-MsgGUID: icJD2DSwSj2PtCmZxDQjcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="53595433"
 X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
-   d="scan'208";a="66063074"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 11:11:33 -0800
-X-CSE-ConnectionGUID: ZHRGOnMaR1GFr476nDvrDw==
-X-CSE-MsgGUID: p9/l4GNKQamHlgialCbk2Q==
+   d="scan'208";a="53595433"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 12:22:33 -0800
+X-CSE-ConnectionGUID: JYO6WM+KTeOXJ8uIQM9vyw==
+X-CSE-MsgGUID: JzYNY0sDTCKLMkEQYo4hnQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
-   d="scan'208";a="191684710"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 24 Nov 2025 11:11:31 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 24 Nov 2025 12:22:32 -0800
 Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vNbyD-000000000Ij-3IGK;
-	Mon, 24 Nov 2025 19:11:29 +0000
-Date: Mon, 24 Nov 2025 20:11:16 +0100
+	id 1vNd4w-000000000Jt-2xiP;
+	Mon, 24 Nov 2025 20:22:30 +0000
+Date: Mon, 24 Nov 2025 21:21:54 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [rockchip:v6.19-armsoc/dts64 43/65]
- arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-d.dtb:
- /video-capture@fdfe0000: failed to match any schema with compatible:
- ['rockchip,rk3568-vicap']
-Message-ID: <202511242044.Pg7kLTUG-lkp@intel.com>
+Subject: [android-common:android12-5.4 5/5]
+ drivers/power/supply/power_supply_core.c:739: warning: Function parameter or
+ member 'temp' not described in 'power_supply_temp2resist_simple'
+Message-ID: <202511242124.Ql5cORJX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,162 +62,76 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-TO: Michael Riesch <michael.riesch@collabora.com>
-CC: Heiko Stuebner <heiko@sntech.de>
-CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.19-armsoc/dts64
-head:   e34003dd2fb05da8f420bbd7b8ec62ab88242c45
-commit: 78f316e90906d54c8aa6029e5c19ae83e420e56a [43/65] arm64: dts: rockchip: add vicap node to rk356x
-:::::: branch date: 3 days ago
-:::::: commit date: 9 days ago
-config: arm64-randconfig-2051-20251122 (https://download.01.org/0day-ci/archive/20251124/202511242044.Pg7kLTUG-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-dtschema version: 2025.9.dev20+g7033eb7ce
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251124/202511242044.Pg7kLTUG-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   7055541caeda53d6275f23b878618d609132e955
+commit: a96c947b075f9781a5d5941f560acf8b4c01405e [5/5] UPSTREAM: power: supply: core: Add battery internal resistance temperature table support
+:::::: branch date: 10 hours ago
+:::::: commit date: 6 years ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251124/202511242124.Ql5cORJX-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251124/202511242124.Ql5cORJX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511242044.Pg7kLTUG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511242124.Ql5cORJX-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-d.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg-arc-s.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353p.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353ps.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353v.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353vs.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-orangepi-3b-v1.1.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-orangepi-3b-v2.1.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
-   arch/arm64/boot/dts/rockchip/rk3566-pinenote.dtsi:488.10-499.6: Warning (graph_child_address): /i2c@fe5c0000/tcpc@60/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
-   arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: usb2phy@fe8a0000 (rockchip,rk3568-usb2phy): otg-port: 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v0.1.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-pinetab2-v2.0.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb10max3.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb20sx.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb30.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-powkiddy-x55.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-quartz64-b.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-radxa-cm3-io.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
-   arch/arm64/boot/dts/rockchip/rk3566-radxa-cm3-io.dtb: wifi@1 (brcm,bcm43455-fmac): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['brcm,bcm43455-fmac'] is too short
-   	'brcm,bcm43455-fmac' is not one of ['brcm,bcm4329-fmac', 'pci14e4,43dc', 'pci14e4,4464', 'pci14e4,4488', 'pci14e4,4425', 'pci14e4,4433', 'pci14e4,4434', 'pci14e4,449d']
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-radxa-zero-3e.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-radxa-zero-3w.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-roc-pc.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-rock-3c.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-soquartz-blade.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-soquartz-cm4.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-soquartz-model-a.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-box-demo.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-lckfb-tspi.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-lubancat-1.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-nanopi-r3s.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
-   arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: touchscreen@48 (ti,tsc2007): 'ti,rt-thr' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2007.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
-   arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: touchscreen@48 (ti,tsc2007): 'ti,rt-thr' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2007.yaml
---
->> arch/arm64/boot/dts/rockchip/rk3568-9tripod-x3568-v4.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-easepi-r1.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-fastrhino-r66s.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-fastrhino-r68s.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-hinlink-h66k.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-hinlink-h68k.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-lubancat-2.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-mecsbc.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-nanopi-r5c.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-nanopi-r5s.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-photonicat.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-radxa-e25.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-roc-pc.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-rock-3b.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
---
->> arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: /video-capture@fdfe0000: failed to match any schema with compatible: ['rockchip,rk3568-vicap']
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: panel@0 (jasonic,jt240mhqs-hwt-ek-e3): compatible: ['jasonic,jt240mhqs-hwt-ek-e3', 'sitronix,st7789v'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/panel/sitronix,st7789v.yaml
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: touchscreen@55 (sitronix,st1624): compatible:0: 'sitronix,st1624' is not one of ['sitronix,st1232', 'sitronix,st1633']
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/sitronix,st1232.yaml
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: touchscreen@55 (sitronix,st1624): compatible: ['sitronix,st1624', 'sitronix,st1633'] is too long
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/sitronix,st1232.yaml
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: touchscreen@55 (sitronix,st1624): Unevaluated properties are not allowed ('wakeup-source' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/sitronix,st1232.yaml
-   arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-vz-2-uhd.dtb: /i2c@fe5a0000/touchscreen@55: failed to match any schema with compatible: ['sitronix,st1624', 'sitronix,st1633']
+All warnings (new ones prefixed by >>):
+
+>> drivers/power/supply/power_supply_core.c:739: warning: Function parameter or member 'temp' not described in 'power_supply_temp2resist_simple'
+>> drivers/power/supply/power_supply_core.c:739: warning: Excess function parameter 'ocv' description in 'power_supply_temp2resist_simple'
+
+
+vim +739 drivers/power/supply/power_supply_core.c
+
+3afb50d7125bcd Baolin Wang 2018-11-05  722  
+a96c947b075f97 Baolin Wang 2019-12-09  723  /**
+a96c947b075f97 Baolin Wang 2019-12-09  724   * power_supply_temp2resist_simple() - find the battery internal resistance
+a96c947b075f97 Baolin Wang 2019-12-09  725   * percent
+a96c947b075f97 Baolin Wang 2019-12-09  726   * @table: Pointer to battery resistance temperature table
+a96c947b075f97 Baolin Wang 2019-12-09  727   * @table_len: The table length
+a96c947b075f97 Baolin Wang 2019-12-09  728   * @ocv: Current temperature
+a96c947b075f97 Baolin Wang 2019-12-09  729   *
+a96c947b075f97 Baolin Wang 2019-12-09  730   * This helper function is used to look up battery internal resistance percent
+a96c947b075f97 Baolin Wang 2019-12-09  731   * according to current temperature value from the resistance temperature table,
+a96c947b075f97 Baolin Wang 2019-12-09  732   * and the table must be ordered descending. Then the actual battery internal
+a96c947b075f97 Baolin Wang 2019-12-09  733   * resistance = the ideal battery internal resistance * percent / 100.
+a96c947b075f97 Baolin Wang 2019-12-09  734   *
+a96c947b075f97 Baolin Wang 2019-12-09  735   * Return: the battery internal resistance percent
+a96c947b075f97 Baolin Wang 2019-12-09  736   */
+a96c947b075f97 Baolin Wang 2019-12-09  737  int power_supply_temp2resist_simple(struct power_supply_resistance_temp_table *table,
+a96c947b075f97 Baolin Wang 2019-12-09  738  				    int table_len, int temp)
+a96c947b075f97 Baolin Wang 2019-12-09 @739  {
+a96c947b075f97 Baolin Wang 2019-12-09  740  	int i, resist;
+a96c947b075f97 Baolin Wang 2019-12-09  741  
+a96c947b075f97 Baolin Wang 2019-12-09  742  	for (i = 0; i < table_len; i++)
+a96c947b075f97 Baolin Wang 2019-12-09  743  		if (temp > table[i].temp)
+a96c947b075f97 Baolin Wang 2019-12-09  744  			break;
+a96c947b075f97 Baolin Wang 2019-12-09  745  
+a96c947b075f97 Baolin Wang 2019-12-09  746  	if (i > 0 && i < table_len) {
+a96c947b075f97 Baolin Wang 2019-12-09  747  		int tmp;
+a96c947b075f97 Baolin Wang 2019-12-09  748  
+a96c947b075f97 Baolin Wang 2019-12-09  749  		tmp = (table[i - 1].resistance - table[i].resistance) *
+a96c947b075f97 Baolin Wang 2019-12-09  750  			(temp - table[i].temp);
+a96c947b075f97 Baolin Wang 2019-12-09  751  		tmp /= table[i - 1].temp - table[i].temp;
+a96c947b075f97 Baolin Wang 2019-12-09  752  		resist = tmp + table[i].resistance;
+a96c947b075f97 Baolin Wang 2019-12-09  753  	} else if (i == 0) {
+a96c947b075f97 Baolin Wang 2019-12-09  754  		resist = table[0].resistance;
+a96c947b075f97 Baolin Wang 2019-12-09  755  	} else {
+a96c947b075f97 Baolin Wang 2019-12-09  756  		resist = table[table_len - 1].resistance;
+a96c947b075f97 Baolin Wang 2019-12-09  757  	}
+a96c947b075f97 Baolin Wang 2019-12-09  758  
+a96c947b075f97 Baolin Wang 2019-12-09  759  	return resist;
+a96c947b075f97 Baolin Wang 2019-12-09  760  }
+a96c947b075f97 Baolin Wang 2019-12-09  761  EXPORT_SYMBOL_GPL(power_supply_temp2resist_simple);
+a96c947b075f97 Baolin Wang 2019-12-09  762  
 
 -- 
 0-DAY CI Kernel Test Service
