@@ -1,125 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C97264627
-	for <oe-kbuild@lists.linux.dev>; Mon, 24 Nov 2025 09:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043362FB607;
+	Mon, 24 Nov 2025 10:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763976929; cv=none; b=ODfI9bFxJkmUyNs834FacK354dswW38ZpBJhahp9xLn4PQdgkcHvuZ+gGpcDHNZuwgIYQFBOrdqdOIVti/4KSpjU+Nj9tUcFS+bxJjUDo9WCNGdAWOAGv+5FKr+caIRJrMh+hwnTPmjUm3O2kTcERjIKAJ+99Mlwi8o/Yrx+Do8=
+	t=1763981719; cv=none; b=CxNfyRWGKlOAMHlsbaY/T5BvKczzwe6LbAH+s0fNuy+dw7gNVE+g/PbmtDV+DKGGLzzoU8CWmf8VerJHePmpdHxq1/JaKjaRAZH3G7dMO7av6s+KrxdBR3okSvHUpX2D4doawioTitpRhw4QuAloVGClNbxVNI8NAe0iZBLKSq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763976929; c=relaxed/simple;
-	bh=hL0mE6f7iZCyry+qUcRWx3iT/2OoReor+i+Vh6kKuPY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mcElbVhLHUN+r0tk/tXKCGAjI4ZkJz5H2nCOxEc+td8CtOtIUOnYls94ykyY5oxkQr+h4+lllOEUCAs8zjivDD6yGLP82pNANkq1h6ZzMRcL8s1+ihObvJVWGuHNFQhbucPdgpRJ/eCHbC6bv0/POX5Fuvb0wj1kZxT/fQVO1y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ISz5yDgz; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763981719; c=relaxed/simple;
+	bh=AEM0YGQ6DjPrRVcUaC9r30KLy7eGaofNTKHV2MEjPqk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CAF6VjLlzfSd9KjwZzBbA6TuGH3hxu99IuBPbxQ6kMSMM1sZTwLmW5vGd7uhCncVPbDkRPtBkpntExknngGIRTlhyq9EWR3DFgQcyNPYtbuVCfAgPsgv/huaRf2DYSGNF6CxB0svAR+cSLNozm3UAP7Sm7a/hfYWiay9bAUAv2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=UNpeiPGE; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ISz5yDgz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763976929; x=1795512929;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=hL0mE6f7iZCyry+qUcRWx3iT/2OoReor+i+Vh6kKuPY=;
-  b=ISz5yDgzTtyiBkDphnptpGPrOUmbB2oBBznrb0xDjB/NqY6RWFXUgQUN
-   MSyoSCXffcmzadfdpSXymZk2Y3kVsQg87z/lHRZsUU0ujctGPhJ8kRlr8
-   ImJE2iZ2Do0WGPONnTgXPsGqRXsqVjEzQANTdjPQHw+kxoLmcGmizP98d
-   9EE2bpCsS7g60PCk3yAXzAWlKq/xBFaAflVz+A6HdZnwswFNAPQFxXXnd
-   9emlKureAzA9Kk0KcPxRSb/WaKAhKk66Hw8i6frK+EgkybLfYKNdvAL7n
-   aIW/9L6YMC4qywEI5rpjKasMSHtHitUsWDf53fzFNJeH8TbXdm/qaqoY8
-   Q==;
-X-CSE-ConnectionGUID: ScvzQ6DgRKeRfFBmKbZpuw==
-X-CSE-MsgGUID: PyYaTvfsQraZFz2C2pgeXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="83360292"
-X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
-   d="scan'208";a="83360292"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 01:35:28 -0800
-X-CSE-ConnectionGUID: EUyZE0juROaMaZnNDgcOQQ==
-X-CSE-MsgGUID: OsNJiqJrTMWpKbWx3iXgMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
-   d="scan'208";a="191950034"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Nov 2025 01:35:26 -0800
-Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vNSyi-000000000CT-23pD;
-	Mon, 24 Nov 2025 09:35:24 +0000
-Date: Mon, 24 Nov 2025 10:35:13 +0100
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 10976/11041]
- tools/testing/selftests/../../../tools/testing/selftests/kselftest.h:53:10:
- fatal error: errno.h: No such file or directory
-Message-ID: <202511241029.klEDjUnB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="UNpeiPGE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=daliigqiCa0BGCXTLd5BJ1qCg3M8Xirctk+CfIkf0T4=; b=UNpeiPGEVjm9TqJCVexZzpuZ6F
+	AsRTHzI/uXkdWp0uD1xuhsgZfhN+u96v7bCnyseG4htGX3BpB6p2uc2cBynmaix7PKU/qYFAMr9rD
+	eyC87Om2F+KNAjBA6eZASQ488JvkygQ+UlSUBj9eZfdqw+s4fGJ6CrRsa0UyBvPvEdh4PNBCkTIar
+	ljKlLnDxssmW7tpQfnUBqyi9Dqaa7E2e6KyrgfYc5sYtUyZxQS0BkuqWxiFaqVAlQNl0KVGoQlOUF
+	2fEznMh7Cij8zNqy2J7ipee5Fm+mI0H7BUjn9Oj+gZfzYaKeAjSoQdNnn94GWl2ARi7zawY61D6zl
+	6TpkisnA==;
+Received: from bl17-145-117.dsl.telepac.pt ([188.82.145.117] helo=localhost)
+	by fanzine2.igalia.com with utf8esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1vNUDp-004igK-Bx; Mon, 24 Nov 2025 11:55:05 +0100
+From: Luis Henriques <luis@igalia.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,  lkp@intel.com,  oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v1 3/3] fuse: implementation of the
+ FUSE_LOOKUP_HANDLE operation
+In-Reply-To: <202511232052.lN8GzRFA-lkp@intel.com> (Dan Carpenter's message of
+	"Mon, 24 Nov 2025 11:14:49 +0300")
+References: <202511232052.lN8GzRFA-lkp@intel.com>
+Date: Mon, 24 Nov 2025 10:54:59 +0000
+Message-ID: <87o6orlmyk.fsf@wotan.olymp>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+On Mon, Nov 24 2025, Dan Carpenter wrote:
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Janosch Frank <frankja@linux.ibm.com>
+> Hi Luis,
+>
+> [This is a private test report for your RFC patch.]
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Henriques/fus=
+e-initial-infrastructure-for-FUSE_LOOKUP_HANDLE-support/20251120-190106
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git=
+ for-next
+> patch link:    https://lore.kernel.org/r/20251120105535.13374-4-luis%40ig=
+alia.com
+> patch subject: [RFC PATCH v1 3/3] fuse: implementation of the FUSE_LOOKUP=
+_HANDLE operation
+> config: s390-randconfig-r071-20251123 (https://download.01.org/0day-ci/ar=
+chive/20251123/202511232052.lN8GzRFA-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9=
+e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202511232052.lN8GzRFA-lkp@intel.com/
+>
+> smatch warnings:
+> fs/fuse/inode.c:1198 fuse_encode_lookup_fh() warn: potential pointer math=
+ issue ('fh' is a 32 bit pointer)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d724c6f85e80a23ed46b7ebc6e38b527c09d64f5
-commit: 7f8441092a215913ee1f9a497ae210e348792fe2 [10976/11041] Merge branch 'next' of https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251124/202511241029.klEDjUnB-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251124/202511241029.klEDjUnB-lkp@intel.com/reproduce)
+Thanks for reporting this.  The issue seems to be real but this code is
+broken in much more fundamental ways (see [0]).  I'll try to keep this
+report in mind when re-writing for the next iteration.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511241029.klEDjUnB-lkp@intel.com/
+[0] https://lore.kernel.org/all/CAOQ4uxgzThRacOhcwQcU6DAx7MEUc-8-Z6j9fSKzJp=
++kuc5=3D-Q@mail.gmail.com
 
-Note: the linux-next/master HEAD d724c6f85e80a23ed46b7ebc6e38b527c09d64f5 builds fine.
-      It may have been fixed somewhere.
+Cheers,
+--=20
+Lu=C3=ADs
 
-All errors (new ones prefixed by >>):
+> vim +1198 fs/fuse/inode.c
+>
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1182  static int fuse_encode_lo=
+okup_fh(struct inode *inode, u32 *fh, int *max_len,
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1183  				 struct inode *parent)
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1184  {
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1185  	struct fuse_inode *fi =
+=3D get_fuse_inode(inode);
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1186  	int total_len, len;
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1187=20=20
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1188  	total_len =3D len =3D si=
+zeof(struct fuse_file_handle);
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1189  	if (parent)
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1190  		total_len *=3D 2;
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1191=20=20
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1192  	if (*max_len < total_len)
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1193  		return FILEID_INVALID;
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1194=20=20
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1195  	memcpy(fh, &fi->fh, len);
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1196  	if (parent) {
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1197  		fi =3D get_fuse_inode(p=
+arent);
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20 @1198  		memcpy((fh + len), &fi-=
+>fh, len);
+>
+> fh is a u32 pointer but len is in byte units so this is a pointer math
+> bug.  It should be: memcpy((void *)fh + len, &fi->fh, len);
+>
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1199  	}
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1200=20=20
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1201  	*max_len =3D total_len;
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1202=20=20
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1203  	/* XXX define new fid_ty=
+pe */
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1204  	return parent ? FILEID_I=
+NO64_GEN_PARENT : FILEID_INO64_GEN;
+> c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1205  }
+>
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
 
-   In file included from s390/user_operexec.c:9:
->> tools/testing/selftests/../../../tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
-      53 | #include <errno.h>
-         |          ^~~~~~~~~
-   compilation terminated.
-
-
-vim +53 tools/testing/selftests/../../../tools/testing/selftests/kselftest.h
-
-7fb2c3ea28bf7b Shuah Khan     2014-10-03  51  
-9e38be732da8fe Mark Brown     2023-04-06  52  #ifndef NOLIBC
-fc2e634e997d84 Aleksa Sarai   2019-07-20 @53  #include <errno.h>
-7fb2c3ea28bf7b Shuah Khan     2014-10-03  54  #include <stdlib.h>
-7fb2c3ea28bf7b Shuah Khan     2014-10-03  55  #include <unistd.h>
-151b2732111f07 Paul Elder     2017-06-28  56  #include <stdarg.h>
-f2662ec26b26ad André Almeida  2025-09-17  57  #include <stdbool.h>
-907f33028871fa Mark Brown     2023-09-28  58  #include <string.h>
-a18261d71bbc62 Tycho Andersen 2019-01-18  59  #include <stdio.h>
-6d029c25b71f2d Oleg Nesterov  2024-04-09  60  #include <sys/utsname.h>
-9e38be732da8fe Mark Brown     2023-04-06  61  #endif
-7fb2c3ea28bf7b Shuah Khan     2014-10-03  62  
-
-:::::: The code at line 53 was first introduced by commit
-:::::: fc2e634e997d84f2610a482b500865ef2c04fcde kselftest: save-and-restore errno to allow for %m formatting
-
-:::::: TO: Aleksa Sarai <cyphar@cyphar.com>
-:::::: CC: Shuah Khan <skhan@linuxfoundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
