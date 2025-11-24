@@ -1,70 +1,58 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80902254864
-	for <oe-kbuild@lists.linux.dev>; Mon, 24 Nov 2025 08:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676F41B4257
+	for <oe-kbuild@lists.linux.dev>; Mon, 24 Nov 2025 08:41:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763972097; cv=none; b=LHnaY+56XteBvCsLeYCNucMh9jjOzZhU2MNX1VJ+t53yLmFLmmgAnTCmAQJNPCTJSszXH1/D+yPkJyDYXmCotPnTYGiosjDVQDFzV/lGjLFnz2zxBTlZTzpyHX+wWV9nMgdBd+yXGkYcatVPCQFZFCXsUQRYZEJKDUTsgrjHTF0=
+	t=1763973688; cv=none; b=q0/OSpC/J+wwxjbuJKg36lU2+l/eZDkdjgnsKf6J/FqdVboqDvEM+LECoiM5N3trCwpqKakZmDetEecwe3bUwlqnyNfHDgKX2WY9lOidZ9xCozBODi1+h8lqyGOnx3XYMD+GbA/Fa+XABiwTeppKijvGDl/JhmoGt9j0wG9pGTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763972097; c=relaxed/simple;
-	bh=SaQ1F6nNaYjfU8wKuJDSOivziZ7XyPNEp/jfjI43gnU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Ly1H+sz6Ex57+LUZGhAUn5pfkSSC3n+Zv90rLLGzudEotaA65AT7GFd4ev434QJrukYupOhGenMGV0hNkG2mhxPQXOuaOFWvSgD88kXoCYlRXIwvAWd3ZSHszqig2np8ExL9nQL6HoS+phy6mOdAhfdvdtH+koRc1ynyyejsrlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Kj4wKKq9; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1763973688; c=relaxed/simple;
+	bh=kck6kaOSkBq6IFht1po4IT6Nt+16ig59SoWygZExCHY=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=b66MGbUuxZ3nrnIzGOxto0pb3hUl1WFvL/3I0VWcYkfyWHeFY0ceVovCBCF2rphz8SXpXQDuSr6+hVUsYyZIL/fsgocAkUSDCUo+WTDEC7AHUjg+jsEEzj2aLpwO+tHZlrj8BMR3K3r1HhUBoJO6AC6BhBm8C/nSEozFsBYGr7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lXdhRU9q; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Kj4wKKq9"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-42b3669ca3dso1581509f8f.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 24 Nov 2025 00:14:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763972093; x=1764576893; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vtLDjsTRAO6VpgXgyjARdy73rxRwcIofjL8obKYSqVA=;
-        b=Kj4wKKq9UZam+pAuK0kc/0t7CkgQw+25vpCk5nYA5cvUkiBPWZt7JL9m3rHhLaWp5N
-         IfKVPsQZxULnsWFaAl2eBVQNN2hc5TI6qcE2C2+lvpw8PElC0Mv4JIOIi7vRi/izk9Hx
-         1AgLhQ+LQPkQcunHJ8oMF3XnhHicYqTke/UewCkGzuW5s3y7f6/58erN7hbTwcqJGS//
-         RsVzDqE3iy1NqLRGpNS2r3RbqWe9LMEQfC+BLBb9t5Q9qfmIPO1ahrsCx/T6kRp8Fana
-         pbTqPwAMxufgDIcYnX0P2vpp7gOFhxN2edPtQaQOz64YK0rcp3ZA65Iyj1pgXr2BrShE
-         WOIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763972093; x=1764576893;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vtLDjsTRAO6VpgXgyjARdy73rxRwcIofjL8obKYSqVA=;
-        b=rrgMyjqy8nsLzGNebKBnEASBhIJYr/lFitGasXEmL/byZf4M4r4VqlcdKUHYYlhOlO
-         VovuYkCA+a0hheBZvboI68L1DN83zYcfkGP9jgPosM9Zj1P7n5TLAAEUPtO0rtFMYras
-         88r/93No1gRBaJVMja+we/PZRYSA0yKPVGFhghRKRlWOBGGUG+jUj2XpHq5kLir5PObw
-         qZTBtcIYE01wNLlRomW8rRp/i0qC8wgR6qBsL/GNz2WEruQoeXXU2KvEWOAn31N5El7E
-         Et6vRvDrJcipA9B+N2RN48j64+MFAU9KDDjCQCELi8NZpMxb6WmMrmbSwLX1ye8HFnfU
-         2KrQ==
-X-Gm-Message-State: AOJu0YxLvRIWLLiUGL7w7YenLIgb+UXXTu9d2OxWGiu6nncCvFtns8mv
-	3qHSWGBCPT3LtYkLOp8uPvZ9TMsHwPu5EU+Wbei92SZtqLmRxBR0qmUhcqjdT4rbk1nAAFwhYtY
-	DWPZN
-X-Gm-Gg: ASbGnctlhGqySLHyUuSZoNUM6RnueKbVp7SNbZZQGFrFvnHcqL7Rd5vmFz+YKiaaxJ8
-	+JE47oJxp0GbPSvEzxGyCMGdN8Y3Wm6absKFZWEwZ0rfBE2vLWwh78ALtouR15Bc3//NqMIZWli
-	Sc7aqkc88jlMQTlIoLb3MobMjhIJYvg1aFHL3U4Mu0QuHWH9y8Au+KuVljDOhdQgCNsj1wiOuQp
-	CuOtCdmr7PhMwS1KrtjYEc3WD2BUoTR5e9X4PJ7oI3y8acCmnbQVbhnOZVeU6N1n/moHCSYz9q2
-	YHQ+5HI/vkDLHG8WY/2WCcWwSuHHqXsg8RNZ+rOEzWPkdGsHtdF524jOdpkqkChD/s7o01CvWXh
-	u34CHn2P/SOku302Y+TSM1lx2BnIkVV4X7CY4v6Bgnyr7rnAJnrDX2NvhkTB7VmlQCsQbdqWoSW
-	jj7v42aBwHPu8Gf73z
-X-Google-Smtp-Source: AGHT+IE7JElKhz38ZIRYrFlgMyGvoHXk94gbncJ+AbHqFy96TF2SN64s1ckZnKcjnPw9Wryz9AfjyQ==
-X-Received: by 2002:a05:6000:1445:b0:42b:5448:7b06 with SMTP id ffacd0b85a97d-42cc1cbce56mr10856001f8f.13.1763972093335;
-        Mon, 24 Nov 2025 00:14:53 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42cb7fa35b7sm27248997f8f.20.2025.11.24.00.14.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 00:14:52 -0800 (PST)
-Date: Mon, 24 Nov 2025 11:14:49 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Luis Henriques <luis@igalia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v1 3/3] fuse: implementation of the
- FUSE_LOOKUP_HANDLE operation
-Message-ID: <202511232052.lN8GzRFA-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lXdhRU9q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763973686; x=1795509686;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=kck6kaOSkBq6IFht1po4IT6Nt+16ig59SoWygZExCHY=;
+  b=lXdhRU9qRZu4X3E81kkhFsKCzNenyUhfMXv8gOZdm5fa7RwrUrM97ToU
+   cLhSA+nLqfDUpszEBf5TfNO4F7+7rnpOHSWnVxA/s3jvy0m57bDDM9Gja
+   s3BetYVHXbogd4mlfzAU838Q4cecLSoYzyDmmciCMvPjvyU++Em4EoU4e
+   AQnrMGQd8N8Wd2G+kxQZZLM1HPWo5ed6NnKBka6tM1ajN93Mf835Yl1+p
+   iMM74QBdzxiMVe0IsQXDZ0wktlBoDj6ODRXS7Y7PFT1Q7OfqcjfvN1z7a
+   QVhteABZCZBfVxX2GHcqqkQHNS9D1eFl4UTF532qtNlzGlwVyTiw+M2Qj
+   w==;
+X-CSE-ConnectionGUID: 5JSorpDPQLmYbcVqOV4ScQ==
+X-CSE-MsgGUID: G9qHkuF+SdCGRHWrARseoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="65917211"
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="65917211"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 00:41:25 -0800
+X-CSE-ConnectionGUID: JJrXUpJLSGqXuNSPNE36kQ==
+X-CSE-MsgGUID: Q1RCwQrDS7OA7ti+OfYj1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="196728016"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 24 Nov 2025 00:41:25 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vNS8R-000000000BB-0EoE
+	for oe-kbuild@lists.linux.dev;
+	Mon, 24 Nov 2025 08:41:23 +0000
+Date: Mon, 24 Nov 2025 09:40:34 +0100
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Subject: [paragon-software-group-ntfs3:devel 2/22] checkpatch: ERROR:SPACING:
+ space required before the open brace '{'
+Message-ID: <202511240907.pD2OvfpJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,64 +61,36 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251120105535.13374-4-luis@igalia.com>
-Message-ID: <20251124081449.-QHV3QairA5KsJl8SOeLnSKH1xfh2I4ycWu7MArz8TM@z>
 
-Hi Luis,
+:::::: 
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: 
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hi Konstantin,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Henriques/fuse-initial-infrastructure-for-FUSE_LOOKUP_HANDLE-support/20251120-190106
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
-patch link:    https://lore.kernel.org/r/20251120105535.13374-4-luis%40igalia.com
-patch subject: [RFC PATCH v1 3/3] fuse: implementation of the FUSE_LOOKUP_HANDLE operation
-config: s390-randconfig-r071-20251123 (https://download.01.org/0day-ci/archive/20251123/202511232052.lN8GzRFA-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511232052.lN8GzRFA-lkp@intel.com/
+tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git devel
+head:   2469f2e78d074bf2d416ea82c32b154f5632effe
+commit: a846cd0d0a05364c6fa5c4988e75d3b639d6dae5 [2/22] fs/ntfs3: Reformat code and update terminology
+:::::: branch date: 7 days ago
+:::::: commit date: 5 weeks ago
+reproduce: (https://download.01.org/0day-ci/archive/20251124/202511240907.pD2OvfpJ-lkp@intel.com/reproduce)
 
-smatch warnings:
-fs/fuse/inode.c:1198 fuse_encode_lookup_fh() warn: potential pointer math issue ('fh' is a 32 bit pointer)
+# many are suggestions rather than must-fix
 
-vim +1198 fs/fuse/inode.c
+ERROR:SPACING: space required before the open brace '{'
+#249: FILE: fs/ntfs3/super.c:607:
++static void ntfs_create_procdir(struct super_block *sb){}
 
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1182  static int fuse_encode_lookup_fh(struct inode *inode, u32 *fh, int *max_len,
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1183  				 struct inode *parent)
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1184  {
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1185  	struct fuse_inode *fi = get_fuse_inode(inode);
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1186  	int total_len, len;
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1187  
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1188  	total_len = len = sizeof(struct fuse_file_handle);
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1189  	if (parent)
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1190  		total_len *= 2;
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1191  
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1192  	if (*max_len < total_len)
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1193  		return FILEID_INVALID;
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1194  
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1195  	memcpy(fh, &fi->fh, len);
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1196  	if (parent) {
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1197  		fi = get_fuse_inode(parent);
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20 @1198  		memcpy((fh + len), &fi->fh, len);
-
-fh is a u32 pointer but len is in byte units so this is a pointer math
-bug.  It should be: memcpy((void *)fh + len, &fi->fh, len);
-
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1199  	}
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1200  
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1201  	*max_len = total_len;
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1202  
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1203  	/* XXX define new fid_type */
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1204  	return parent ? FILEID_INO64_GEN_PARENT : FILEID_INO64_GEN;
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1205  }
+ERROR:SPACING: space required before the open brace '{'
+#250: FILE: fs/ntfs3/super.c:608:
++static void ntfs_remove_procdir(struct super_block *sb){}
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
