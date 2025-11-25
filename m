@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF421D435F
-	for <oe-kbuild@lists.linux.dev>; Tue, 25 Nov 2025 09:17:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F0D30BBB7
+	for <oe-kbuild@lists.linux.dev>; Tue, 25 Nov 2025 10:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764062245; cv=none; b=rpSucwOMVc6UqWNJ64MhzNGeZoNdB6R93etZjMdxwGXxTRL6VimcIs+rvic+Og2h7hafjvr2DAzu2XCU3ngs6g2sOWyZy17pmfdnhp/MabnHaDLXUkxK1WXsF1JExkuE0gJ7gfXII8CiTWL8GSYXHZQ+Jh8KpeHWyr08eXNSEE4=
+	t=1764066645; cv=none; b=KpTSNOUNwjVEkaIQcENE9eSkK4jlfVi+BN+koEqg9nRTdQcgqBcel7TXgWVZR7wC0dVn0G7sFmuDxecCRdnwGBtdZhpPdOP5O/biSyuFgBARhPjT5B6NEPWBw8A9kBfRU1p8DbStZvtq30N4MdbH5hGhBPpekPRZKvqBIjcramU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764062245; c=relaxed/simple;
-	bh=IgBqKu01DdrtGCeFbIE8si38AfLUjO8zljaTrMqzC7E=;
+	s=arc-20240116; t=1764066645; c=relaxed/simple;
+	bh=7XfLwujMOYrnuWxXCFwN8awg2Pyxb+h26Zj5Zo188Sw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HwcjO9DnoaZTsi6N0MMxu02W5IpKw89A6UoEBs8Q6xX4+qRhG2rf52vu6rb9ZTsVwH/Eb6rNV/hquTpR23JWgMPy2tEadZlb4TMowUWgzTaqoSoNKC9AjZxU3Vn1qd2+rJ2ophDtQR26QXKD6srA82lhHtQHDEWlAekpRPZ6O2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XGcofspU; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=QYPQoyAzCyHycCxjwFEP1NSAglBU4b7syx9H1B+47J6D/5k7me2AaTvjeNWsSdtBpJCuuhuzuz0isdYWmC4BdgsUkcCCOXBRcyjj0oCjSwpSvsSchwK6VQxdMCsKki20HlKf0BmcR5LkmxCRPd2xgXY1Uzg1GL0bCi74/9fa0Zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DidY/6qH; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XGcofspU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DidY/6qH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764062244; x=1795598244;
+  t=1764066643; x=1795602643;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IgBqKu01DdrtGCeFbIE8si38AfLUjO8zljaTrMqzC7E=;
-  b=XGcofspUsIObXlKmHZ40P6zZoOxcm+vDsebCt2HY2IHQpvIHYUyiBWBk
-   4UPFjZUJmEWLJ2yel2QZLDkhpuOxW0n4meNs6k+NU8AhrGqiH66/ZeZzV
-   m7hbRdGafQLrxFd2+0902U10VkBRUDiO3veTNf7Y1BOVDJguDvQJh8kys
-   hTPutHKlcQbYfZaK6u+u6rN0PeliBoNdYEx1kuj9pilZMQ6KBCsU9hZPc
-   bpCSgkByILOA2L/o1c3HvlPiCEhu0e/bKHrJ3/t8m/zTKj2WoP6vrM2R4
-   5blW3OaKTVgkhOcXtHJf8qpf+pB1uhIFNW0yN9+fEXAKckzotneG89Wux
-   Q==;
-X-CSE-ConnectionGUID: b+MxcclNQ52qFdqrlRB6wg==
-X-CSE-MsgGUID: 7OXW6ggFQWah/6iSvJ+koQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="66020285"
+  bh=7XfLwujMOYrnuWxXCFwN8awg2Pyxb+h26Zj5Zo188Sw=;
+  b=DidY/6qHIhn3lFQflxLdBeYggpQw9vpX6OV2Ed0XpmQNb2vnk+UnqmhG
+   YaYoIvFIHrfp1F80QRo8/H/5bWmkErXkJUCpN9BjNWA4i2XPtI1cshtrm
+   8dTPl7EHGMd5KHt2dn+hJQccqVLihpL9aOfLEBiRB3hXU+5VWghgTaJzL
+   obKAJchdlclQT4WFLoyJi+THGkaIjpM6xZp4uyMZlxvuiZ1kjUM2onzE8
+   XD7pTRjPMUB0xK5/KeaW12FsGcO5gp5d4t+5+7/7JsbYXyTaE6l5O8/Fg
+   G7uZGvFH/wjUY/sseprki1qwPM6/S90pLxoXV4YhpZItu6bdOmHSuQKSh
+   g==;
+X-CSE-ConnectionGUID: KFj7aIn3ROiTD6vk/HHRuQ==
+X-CSE-MsgGUID: u9sTBxytTbeD9Pd+vw908A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="83472548"
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="66020285"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 01:17:22 -0800
-X-CSE-ConnectionGUID: M3wMo4e3R4uOTKem3j+PDg==
-X-CSE-MsgGUID: NXu2VLWWR6ObNcYwIvmWZQ==
+   d="scan'208";a="83472548"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 02:30:43 -0800
+X-CSE-ConnectionGUID: BxWiX2toSLKnl6q0gOHmnQ==
+X-CSE-MsgGUID: VGg5DQPZTyWSdGLpvkbqGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="196885274"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Nov 2025 01:17:21 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+   d="scan'208";a="223279026"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 25 Nov 2025 02:30:42 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vNpAk-000000001ZH-2mw4;
-	Tue, 25 Nov 2025 09:17:18 +0000
-Date: Tue, 25 Nov 2025 17:17:08 +0800
+	id 1vNqJi-000000000U5-3IaX;
+	Tue, 25 Nov 2025 10:30:38 +0000
+Date: Tue, 25 Nov 2025 11:30:38 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 11410/11727] test_mremap_vdso.c:23:10: fatal
- error: kselftest.h: No such file or directory
-Message-ID: <202511251734.lGNVVYBB-lkp@intel.com>
+Subject: [android-common:android12-5.4 5/5] userfaultfd.c:387:57: error:
+ expected ')' before 'PRId64'
+Message-ID: <202511251113.VCGL6onp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,77 +68,158 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Bala-Vignesh-Reddy" <reddybalavignesh9979@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Wei Yang <richard.weiyang@gmail.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   422f3140bbcb657e1b86c484296972ab76f6d1ff
-commit: 7edd42093cb0f33ab09c8ae317d73795466c7fa2 [11410/11727] selftests: complete kselftest include centralization
-:::::: branch date: 19 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251125/202511251734.lGNVVYBB-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   7055541caeda53d6275f23b878618d609132e955
+commit: 42e354c78fb00fb12774ed0b676eb80bf86425fd [5/5] BACKPORT: FROMGIT: userfaultfd/selftests: unify error handling
+:::::: branch date: 25 hours ago
+:::::: commit date: 4 years, 6 months ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251125/202511251113.VCGL6onp-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251734.lGNVVYBB-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251113.VCGL6onp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511251734.lGNVVYBB-lkp@intel.com/
-
-Note: the linux-next/master HEAD 422f3140bbcb657e1b86c484296972ab76f6d1ff builds fine.
-      It may have been fixed somewhere.
+| Closes: https://lore.kernel.org/r/202511251113.VCGL6onp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from single_step_syscall.c:34:
->> helpers.h:10:10: fatal error: kselftest.h: No such file or directory
-      10 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
---
->> test_mremap_vdso.c:23:10: fatal error: kselftest.h: No such file or directory
-      23 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
---
->> syscall_numbering.c:28:10: fatal error: kselftest.h: No such file or directory
-      28 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
---
->> corrupt_xstate_header.c:20:10: fatal error: kselftest.h: No such file or directory
-      20 | #include "kselftest.h" /* For __cpuid_count() */
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
---
-   In file included from amx.c:19:
->> helpers.h:10:10: fatal error: kselftest.h: No such file or directory
-      10 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
-   In file included from xstate.c:15:
->> helpers.h:10:10: fatal error: kselftest.h: No such file or directory
-      10 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
---
->> lam.c:21:10: fatal error: kselftest.h: No such file or directory
-      21 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
---
-   In file included from avx.c:4:
->> xstate.h:7:10: fatal error: kselftest.h: No such file or directory
-       7 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
-   In file included from xstate.c:15:
->> helpers.h:10:10: fatal error: kselftest.h: No such file or directory
-      10 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
+   userfaultfd.c: In function 'continue_range':
+   userfaultfd.c:323:62: error: expected ')' before 'PRIx64'
+     323 |                 err("UFFDIO_CONTINUE failed for address 0x%" PRIx64,
+         |                                                              ^~~~~~
+   userfaultfd.c:140:43: note: in definition of macro '_err'
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:323:17: note: in expansion of macro 'err'
+     323 |                 err("UFFDIO_CONTINUE failed for address 0x%" PRIx64,
+         |                 ^~~
+   userfaultfd.c:59:1: note: 'PRIx64' is defined in header '<inttypes.h>'; this is probably fixable by adding '#include <inttypes.h>'
+      58 | #include "../kselftest.h"
+     +++ |+#include <inttypes.h>
+      59 | 
+   userfaultfd.c:140:24: note: to match this '('
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                        ^
+   userfaultfd.c:147:17: note: in expansion of macro '_err'
+     147 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:323:17: note: in expansion of macro 'err'
+     323 |                 err("UFFDIO_CONTINUE failed for address 0x%" PRIx64,
+         |                 ^~~
+   userfaultfd.c:140:33: warning: spurious trailing '%' in format [-Wformat=]
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                 ^~~~~~~~~
+   userfaultfd.c:147:17: note: in expansion of macro '_err'
+     147 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:323:17: note: in expansion of macro 'err'
+     323 |                 err("UFFDIO_CONTINUE failed for address 0x%" PRIx64,
+         |                 ^~~
+   userfaultfd.c: In function 'retry_copy_page':
+>> userfaultfd.c:387:57: error: expected ')' before 'PRId64'
+     387 |                         err("UFFDIO_COPY retry error: %"PRId64,
+         |                                                         ^~~~~~
+   userfaultfd.c:140:43: note: in definition of macro '_err'
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:387:25: note: in expansion of macro 'err'
+     387 |                         err("UFFDIO_COPY retry error: %"PRId64,
+         |                         ^~~
+   userfaultfd.c:387:57: note: 'PRId64' is defined in header '<inttypes.h>'; this is probably fixable by adding '#include <inttypes.h>'
+     387 |                         err("UFFDIO_COPY retry error: %"PRId64,
+         |                                                         ^~~~~~
+   userfaultfd.c:140:43: note: in definition of macro '_err'
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:387:25: note: in expansion of macro 'err'
+     387 |                         err("UFFDIO_COPY retry error: %"PRId64,
+         |                         ^~~
+   userfaultfd.c:140:24: note: to match this '('
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                        ^
+   userfaultfd.c:147:17: note: in expansion of macro '_err'
+     147 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:387:25: note: in expansion of macro 'err'
+     387 |                         err("UFFDIO_COPY retry error: %"PRId64,
+         |                         ^~~
+   userfaultfd.c:140:33: warning: spurious trailing '%' in format [-Wformat=]
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                 ^~~~~~~~~
+   userfaultfd.c:147:17: note: in expansion of macro '_err'
+     147 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:387:25: note: in expansion of macro 'err'
+     387 |                         err("UFFDIO_COPY retry error: %"PRId64,
+         |                         ^~~
+   userfaultfd.c:390:54: error: expected ')' before 'PRId64'
+     390 |                 err("UFFDIO_COPY retry unexpected: %"PRId64,
+         |                                                      ^~~~~~
+   userfaultfd.c:140:43: note: in definition of macro '_err'
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:390:17: note: in expansion of macro 'err'
+     390 |                 err("UFFDIO_COPY retry unexpected: %"PRId64,
+         |                 ^~~
+   userfaultfd.c:390:54: note: 'PRId64' is defined in header '<inttypes.h>'; this is probably fixable by adding '#include <inttypes.h>'
+     390 |                 err("UFFDIO_COPY retry unexpected: %"PRId64,
+         |                                                      ^~~~~~
+   userfaultfd.c:140:43: note: in definition of macro '_err'
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:390:17: note: in expansion of macro 'err'
+     390 |                 err("UFFDIO_COPY retry unexpected: %"PRId64,
+         |                 ^~~
+   userfaultfd.c:140:24: note: to match this '('
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                        ^
+   userfaultfd.c:147:17: note: in expansion of macro '_err'
+     147 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:390:17: note: in expansion of macro 'err'
+     390 |                 err("UFFDIO_COPY retry unexpected: %"PRId64,
+         |                 ^~~
+   userfaultfd.c:140:33: warning: spurious trailing '%' in format [-Wformat=]
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                 ^~~~~~~~~
+   userfaultfd.c:147:17: note: in expansion of macro '_err'
+     147 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:390:17: note: in expansion of macro 'err'
+     390 |                 err("UFFDIO_COPY retry unexpected: %"PRId64,
+         |                 ^~~
+   userfaultfd.c: In function '__copy_page':
+   userfaultfd.c:409:51: error: expected ')' before 'PRId64'
+     409 |                         err("UFFDIO_COPY error: %"PRId64,
+         |                                                   ^~~~~~
+   userfaultfd.c:140:43: note: in definition of macro '_err'
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:409:25: note: in expansion of macro 'err'
+     409 |                         err("UFFDIO_COPY error: %"PRId64,
+         |                         ^~~
+   userfaultfd.c:409:51: note: 'PRId64' is defined in header '<inttypes.h>'; this is probably fixable by adding '#include <inttypes.h>'
+     409 |                         err("UFFDIO_COPY error: %"PRId64,
+         |                                                   ^~~~~~
+   userfaultfd.c:140:43: note: in definition of macro '_err'
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:409:25: note: in expansion of macro 'err'
+     409 |                         err("UFFDIO_COPY error: %"PRId64,
+         |                         ^~~
+   userfaultfd.c:140:24: note: to match this '('
+     140 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                        ^
+   userfaultfd.c:147:17: note: in expansion of macro '_err'
+     147 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:409:25: note: in expansion of macro 'err'
+     409 |                         err("UFFDIO_COPY error: %"PRId64,
+         |                         ^~~
+   userfaultfd.c:140:33: warning: spurious trailing '%' in format [-Wformat=]
 
 -- 
 0-DAY CI Kernel Test Service
