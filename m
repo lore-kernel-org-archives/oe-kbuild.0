@@ -1,55 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFCB1CA5A
-	for <oe-kbuild@lists.linux.dev>; Tue, 25 Nov 2025 13:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E533826FDA9
+	for <oe-kbuild@lists.linux.dev>; Tue, 25 Nov 2025 13:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764078832; cv=none; b=CFv7yTSNYlgL4N5/qIj2BbvjeNx4JwGfNudJIBHQAtXuxtau3l2KOP004PA4ap4pbGNW+GIeSETX8DIWqYk9UA8n71/Gg2D/ETD5SDl7nmN6rjeD/kA0HKxg9vAm15VEVSfGeM0gXVlqLghb9Cc+Prnq8V+rRODMm0A4ehSD0Og=
+	t=1764079090; cv=none; b=a0eghadIBSW11kXoXwifLlqXR1pqCGkiuO/eFXUuVWm3m544pTiRVmh0HiSO9L2u0VwgWo3nMBHtZf8m12HKyf8Li+U6K0nHL5RUUQhb2PMKi9pAiVaj3wV9MllpqYCRGBMh+RxiSQB7jnOq/69htgczSk24nrMmHhdy5SlpRrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764078832; c=relaxed/simple;
-	bh=kpy7hRmKCNis6EbP0YBlItsS+826FCgiNvPI8yYfQF0=;
+	s=arc-20240116; t=1764079090; c=relaxed/simple;
+	bh=WYjGwL3I730SSt7dYHK/8zPpUf14fEJ+zheIGXyFMjE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a/TR8hhOAN1EmpwyMecFfXAXVW1XxLFMPojnQ4Y9Yz4jFNG12mPHtzyc6XL3G0P9qTk3FwuEowVQL13nxWeBHCur/j0s96YUl+7lU71ytf+Rxo8EG9hiDhnGqpUJBPCW40t1wCPP6at2VCD/fpmhAJ+nJqHiIlDNn47hnILLTmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OUmLOZ+4; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=EVbqV/7EvUdZeqd9eSx0CJyWYy1qazyni3cXGJt1cnbFJH9kbR2m6yOnZtAP8bEK9snacNgRZTGJh8bd7p+a1ftjZXIbNKdHGz4+RVijR8p6uM3mTaF8j2mv2LomZ5uDpI2l/a9cKFQYXjE/FdRvJMAJT3EGu2axqY7VsmIjHjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Jy7RI69M; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OUmLOZ+4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764078830; x=1795614830;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kpy7hRmKCNis6EbP0YBlItsS+826FCgiNvPI8yYfQF0=;
-  b=OUmLOZ+4bpgXJ/E1ASOwELeSH30J3UHHkootSYb3Lh6TDubEpOuH9N5I
-   2MRiD5o5sD46xUfRcesgNbu6i2LLKB0pF5aaM6CstEtNdXxx+XH3ptMLK
-   5tBw3fa52+x88Yr4IBp7f1IKaOc8gHmc75Uvfomqz5IFQlExMlP3PILdg
-   SxU+QW+OduqXwQmqG3pEWIQJ23WnlGyfPxlRt7Y8uNmJJJBepq9QMQCYU
-   c+2EzYGqWqfL6I9c3qUzlZbPJQR2BEZ8XWpd6BscMV8WPwQnNLzj1Z8oG
-   OQKg8QMRMce4uSjtd3FX7QcFgh+LJSBxPQ3thrQnr7a5ScqbtZ//7z1K0
-   Q==;
-X-CSE-ConnectionGUID: vafBMxNfTaSxZ4zoI2Uk3Q==
-X-CSE-MsgGUID: PaGuqiL9Twm/BvOmQ+JtIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="88747669"
-X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="88747669"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 05:53:49 -0800
-X-CSE-ConnectionGUID: o7v3/5AETsKSjrTOiPqFkQ==
-X-CSE-MsgGUID: WWK4PbIFShSpypxmPQM4xw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="223321397"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Nov 2025 05:53:47 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vNtUG-000000001qZ-4AQh;
-	Tue, 25 Nov 2025 13:53:44 +0000
-Date: Tue, 25 Nov 2025 21:53:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Jy7RI69M"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42b387483bbso4198500f8f.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 25 Nov 2025 05:58:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764079085; x=1764683885; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RM5k3vhkLTVaroSOpEJzNbtDYtsl+y2VQs+4xDyHazU=;
+        b=Jy7RI69MirGlefE9V1/0VAFTbR3m4/ntidY0B5TQucGAIwLZPbOGYLh+NTXTH/cC48
+         lUoZ4IoFkuQmzY5VEWkdszL/EctJpIwoALZKWmqEQ0k3tI48Bqp8SFJgm1EbrBJYxXig
+         ghfgGyqBjNIWu7UCTvAZW8vTVPsoKvizfiTiH5IqJrxrcjlvKkTTt0NEWkwOtO6074rn
+         an6etxbSAQpe0VVw5Q9lhqcYKKgKl73ISRyCZfswIDrCEtyG6OsREwbuywf3Mqk8FGoc
+         wtAVSf7Ad53ki6mjyp48vNvN+FIuV4h147blA7f/FAKyG1abfEVYgmfdgSpjSSiXFo/k
+         k9xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764079085; x=1764683885;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RM5k3vhkLTVaroSOpEJzNbtDYtsl+y2VQs+4xDyHazU=;
+        b=U2hGqMs+PiNLNWEmPJaAn08hpltgUSxQMvHIBejrmXxZhqXfO7vHudqhhz/A/ihjbN
+         YgB3Q2bWRBlpp5b/ZY4IviZ4xlQ85CgO++1PwMJfDlGDfhesdk2XChfbBn596nDkaDDm
+         pn2eTsuJ6a5lvK81lYug0DlvhOL2WzIHN+4tXHuqLgf6AI0eWFvg9Rf2tzWgHYemZxz6
+         S2rxL9JLhRt4q6DzVi5ZpN29Y2LSdh/GCZ9lIzcUExqTxKQgyprYdsk/3RZqwFp5XmR2
+         /ZxtZ3jUA/8YsP/7/iawK6JxyZtcAUPtvwJOyG9nowQ2yTUGJl4KmOW7j57ueT1H60uc
+         FlGw==
+X-Gm-Message-State: AOJu0YxlPs1EyPNOKPXTeoFhtOI5PnrwwHNsos1Pz6NTzDtqPZdG0YBm
+	q33R0e8UmHSSUWUABGBo2bEL68XKZKPydoCi5Jdfe6XCKqSE7UH7c19b0UF9Sr/GQ8Uhbj6M5oA
+	Yejkt
+X-Gm-Gg: ASbGncuigfX9CQ+fLyTpV3iPZUQ4aB74m10Cnn84M6nrZlICh94VMR4FdkyYS4n69qa
+	q4SNLk5KHC68b1tYpkLo3qFM+M9p1Ha6MOMEeO4Aa2HUylOcLmAMGRm20vvIxMy4Gm6Lp/vCyWL
+	VcfvJREOo/kvXFFrv6eyz+wwPD1jqOrKztJhpJGfab8Gdf2RGSy/11g+5s+3Km/a4KyGaww0/fc
+	NnU6r/+JVkUKwaV4vQD1awU1mXzOW5YVJiA/R4pSAqapaKJf3kP8OB3bR9vLccyEsKdtYksg5+Q
+	2xDt8rHKct6K/njY7t1cwt1PXTNaNDwSObtUd8j/ayLiEYtg7J1LCVB2i0V//RztSBKNzuVOOMS
+	lFO+yQ5Xoy/7Blyfar/0IUljtKD8x1Qx4cdWYWZmUHt9G96I5XyQh3zupVoYEBrE6EFwkl7LunW
+	nb+8MfuaSw0uZeMnFA
+X-Google-Smtp-Source: AGHT+IGuTRdHTVon0Z3FbuwAPkFKcHr0nkK6MDcNLipfXtQpK3NwZedVBwC3XhjY79gTGUkgUZa5Fw==
+X-Received: by 2002:a05:6000:40cc:b0:42b:2a09:2e55 with SMTP id ffacd0b85a97d-42cc19fc746mr17925292f8f.0.1764079084436;
+        Tue, 25 Nov 2025 05:58:04 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42cb7fa3a76sm34535111f8f.24.2025.11.25.05.58.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Nov 2025 05:58:03 -0800 (PST)
+Date: Tue, 25 Nov 2025 16:58:00 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Kent Overstreet <kent.overstreet@linux.dev>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [koverstreet-bcachefs:master 986/990] fs/bcachefs/data/read.c:1327
  __bch2_read_extent() error: we previously assumed 'ca' could be null (see
  line 1307)
@@ -62,23 +74,18 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+Message-ID: <20251125135800.QLQKw-LdPHdeGsL1M7WtSsMNV4y-nCbz8vRDfudvolc@z>
 
 tree:   https://github.com/koverstreet/bcachefs master
 head:   09be9a5a514734ebdd6fd840964815b2b0823c66
 commit: 312c51e00acfd6ab012061bbb080ff0b524d7b29 [986/990] bcachefs: read_extent_rbio_alloc()
-:::::: branch date: 10 hours ago
-:::::: commit date: 12 hours ago
 config: riscv-randconfig-r072-20251125 (https://download.01.org/0day-ci/archive/20251125/202511252118.PY7eERkg-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202511252118.PY7eERkg-lkp@intel.com/
 
 smatch warnings:
@@ -86,7 +93,6 @@ fs/bcachefs/data/read.c:1327 __bch2_read_extent() error: we previously assumed '
 
 vim +/ca +1327 fs/bcachefs/data/read.c
 
-312c51e00acfd6 fs/bcachefs/data/read.c Kent Overstreet 2025-11-24  1165  
 312c51e00acfd6 fs/bcachefs/data/read.c Kent Overstreet 2025-11-24  1166  int __bch2_read_extent(struct btree_trans *trans,
 312c51e00acfd6 fs/bcachefs/data/read.c Kent Overstreet 2025-11-24  1167  		       struct bch_read_bio *orig,
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1168  		       struct bvec_iter iter, struct bpos read_pos,
@@ -229,6 +235,9 @@ dff6de9518848b fs/bcachefs/io_read.c   Kent Overstreet 2024-12-30  1297  	}
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1305  	 * hit:
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1306  	 */
 3fb8bacb14b6fb fs/bcachefs/io_read.c   Kent Overstreet 2025-03-12 @1307  	if (ca && pick.ptr.cached && !u)
+                                                                                    ^^
+There are a number of places which assume "ca" can be NULL
+
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1308  		bch2_bucket_io_time_reset(trans, pick.ptr.dev,
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1309  			PTR_BUCKET_NR(ca, &pick.ptr), READ);
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1310  
@@ -249,8 +258,13 @@ a87e7d26cb7538 fs/bcachefs/data/read.c Kent Overstreet 2025-11-24  1323  			bch2
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1325  		}
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1326  
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10 @1327  		this_cpu_add(ca->io_done->sectors[READ][BCH_DATA_user],
+                                                                                                     ^^^^
+
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1328  			     bio_sectors(&rbio->bio));
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1329  		bio_set_dev(&rbio->bio, ca->disk_sb.bdev);
+                                                                                                                ^^^^^^^^^^^
+Unchecked dereferences.
+
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1330  
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1331  		if (unlikely(c->opts.no_data_io)) {
 9157b3ddfb151d fs/bcachefs/io_read.c   Kent Overstreet 2025-01-17  1332  			if (likely(!(flags & BCH_READ_in_retry)))
@@ -326,14 +340,8 @@ de73677ff8e677 fs/bcachefs/io_read.c   Kent Overstreet 2025-03-08  1401  	    !(
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1402  		bch2_rbio_done(orig);
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1403  	return 0;
 1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1404  }
-1809b8cba756d3 fs/bcachefs/io_read.c   Kent Overstreet 2023-09-10  1405  
-
-:::::: The code at line 1327 was first introduced by commit
-:::::: 1809b8cba756d32bd6e976ed4ee64efdf66c6d94 bcachefs: Break up io.c
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
