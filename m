@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6052C2DC76E
-	for <oe-kbuild@lists.linux.dev>; Tue, 25 Nov 2025 21:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE0D1A23B9
+	for <oe-kbuild@lists.linux.dev>; Tue, 25 Nov 2025 21:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764106220; cv=none; b=Cw3xB7W5ReVF2Bl4dNSo+V+RSaPn8NQph9xWmtqS99/1YP9iomJGEl68cd2PQEGu8p/n1KDbcgq8/0GCT1FRm6qh3rdZprRbAoWuodZXK2P+PFv0//98aA0XpAP8wGgo7J5TcItln7jiFNtL51HE2mmSapf84BuZw1fMl7jrK+w=
+	t=1764107748; cv=none; b=lRDp76OBI2891yjDRBmiyTlUZTTrqRfGorAQzLL/TS2xMQEgcmABgpdujcN+WtL889Gmwf96GJFRq+JwG5wy9yNzsJcHNIJA+BcZRVjQGTHS+UHxo72FUDr8WZl7rAqBxeAfyzwttXIqLDfkybi3XeEzn16CSUN6ZhxTYCbesPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764106220; c=relaxed/simple;
-	bh=YT90mhVCWWO+EXy/wawud7iCRXYn8X/c8RcEZ9tenMc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i5rywrfABrHysOluSwsVh5vBgu1h8sV7U98lKNZx9Wk+LzNguPxRzfuD2MYKWEwvbwA/FK5iLAxw+JICBvJwIk2hPbPyTS1+MkzxZfLJZoZwZTK/zcOhTJPCrCOxLDyChhoTwddqXDQOqSwUgtjXK3zbnxMSzQg4iUAt3GrT6uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AUQwqqf+; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1764107748; c=relaxed/simple;
+	bh=29rj3EU74F+HOwC6vNX4kQ3vvbKx+R9BAS7Ryt1QiA8=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ABbmTwc/VGmZtPLq0he50sqfDjx2X7yJSA0eFUu0YYEog29XeO0Bt2yu22tdPrHb3h4/xB0SeBhT7bPzSHNV1rTI/TWVIyVPtRdYVy20Oxrxwpe7ZuFJUK03k+hqSQo+qKWWWVcA4bCD4mYDyUeXKAMkVYB52hAsNfIpf0h4bjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eDrQueE1; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AUQwqqf+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eDrQueE1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764106218; x=1795642218;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YT90mhVCWWO+EXy/wawud7iCRXYn8X/c8RcEZ9tenMc=;
-  b=AUQwqqf+TgievoJdzjxhBSB2QFvzkLWSOvGpAed3oLWuSkeu6FPCk2Xi
-   LFawxVbj4PySwrI+8MZlw77RH3+3NbYekha4MFtpCZdzD59VNMvtygVyR
-   KmUx+UYsvQG033iqKHhgrLzCIm/f+xsW3Q82FpiYqrudXH6vlFLdl+EPf
-   z/yfhI3ck7oC48kGIsYegfIXjYum7+8VKfuksEP/Qk0KrjDlPwJNKsr0S
-   41DcVGIVTEF1RdLqJLUagAHxur265A6ci1rxWWUy+Qrcq5MEfS4vpV1J0
-   aL5+CaZSCrZUDvRUkKzYbJQp4+NTd1kGuKkmVEYTVCH5cDO6YtcHDCk7y
+  t=1764107747; x=1795643747;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=29rj3EU74F+HOwC6vNX4kQ3vvbKx+R9BAS7Ryt1QiA8=;
+  b=eDrQueE1klsVSliIm5/RZgJELJQeFwPHsoPbueEcDuod/yOu06wjAPpp
+   IoZZ7iD5eAPkVBvd9nXL9+AmYBJUShiutaNLi2nfhz9mE6jM6K+28L6az
+   4xRgGymjL5XE5LnoWXjtTxNSGVshPL91Dj7Y7tLutKFaFssi3RimQSJ/m
+   IGu8H0aV4XGcqYFJIMC4ISyoDxwpSXO0s3N7QtVqvYf8wdIE5VsnG9w83
+   Lw0Kv6OPJOz0LTAqJeX8zRpt3hz/ClT7mhhoWJWdooQ8meqkxgmZsFi+0
+   rDrc3SAHDpQ3o3qi2w04VhXzwEezCtrKwGsBTWvkm2GtZe7R5JbJW+2wF
    w==;
-X-CSE-ConnectionGUID: 9gL6CX/nTjyiJUkJ/CneTQ==
-X-CSE-MsgGUID: cNw61IcwRyaiwkhuLbOmnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="65138113"
+X-CSE-ConnectionGUID: tuR3Y9UjRpyqnnOw7mlAaQ==
+X-CSE-MsgGUID: 9GrRoD5bT4aor/0cfCDVQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="77613439"
 X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="65138113"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 13:30:17 -0800
-X-CSE-ConnectionGUID: vM1xvb6qR+qSKcz6BsHodQ==
-X-CSE-MsgGUID: B4Hf63iUTK+P90OPMijIVg==
+   d="scan'208";a="77613439"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 13:55:46 -0800
+X-CSE-ConnectionGUID: 4BzE0K3DTEatPLD2+frOtg==
+X-CSE-MsgGUID: ps0Obj6uQb6x6owlxR4/tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="192655089"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 25 Nov 2025 13:30:17 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+   d="scan'208";a="223737606"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 25 Nov 2025 13:55:45 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vO0c2-000000002Hp-3EMz;
-	Tue, 25 Nov 2025 21:30:14 +0000
-Date: Wed, 26 Nov 2025 05:29:58 +0800
+	id 1vO10h-000000000ZJ-0ceR
+	for oe-kbuild@lists.linux.dev;
+	Tue, 25 Nov 2025 21:55:43 +0000
+Date: Tue, 25 Nov 2025 22:55:19 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH net-next] selftests: af_unix: remove unused stdlib.h
- include
-Message-ID: <202511260511.KZs8KElX-lkp@intel.com>
+Subject: [djwong-xfs:iomap-fuse-prep 9/26] checkpatch: WARNING:SPACING: space
+ prohibited between function name and open parenthesis '('
+Message-ID: <202511252256.pa7ww8Kz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,58 +63,25 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251125113648.25903-1-adelodunolaoluwa@yahoo.com>
-References: <20251125113648.25903-1-adelodunolaoluwa@yahoo.com>
-TO: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-TO: kuniyu@google.com
-TO: davem@davemloft.net
-TO: edumazet@google.com
-TO: kuba@kernel.org
-TO: pabeni@redhat.com
-TO: horms@kernel.org
-TO: shuah@kernel.org
-CC: netdev@vger.kernel.org
-CC: linux-kselftest@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: skhan@linuxfoundation.org
-CC: david.hunter.linux@gmail.com
-CC: linux-kernel-mentees@lists.linuxfoundation.org
-CC: oe-kbuild-all@lists.linux.dev
-CC: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-CC: kernel test robot <lkp@intel.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-Hi Sunday,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git iomap-fuse-prep
+head:   3f83b91c6f2ee77a9f0e471c30f0dd9b6e7f7a19
+commit: 563fc5e10da881b8f21f52c0a6cd28153340c5e2 [9/26] xfs: start creating infrastructure for health monitoring
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+reproduce: (https://download.01.org/0day-ci/archive/20251125/202511252256.pa7ww8Kz-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build errors:
+# many are suggestions rather than must-fix
 
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sunday-Adelodun/selftests-af_unix-remove-unused-stdlib-h-include/20251125-193918
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251125113648.25903-1-adelodunolaoluwa%40yahoo.com
-patch subject: [PATCH net-next] selftests: af_unix: remove unused stdlib.h include
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251126/202511260511.KZs8KElX-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260511.KZs8KElX-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511260511.KZs8KElX-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> unix_connreset.c:17:10: fatal error: string.h: No such file or directory
-      17 | #include <string.h>
-         |          ^~~~~~~~~~
-   compilation terminated.
+WARNING:SPACING: space prohibited between function name and open parenthesis '('
+#59: FILE: fs/xfs/libxfs/xfs_fs.h:1052:
++#define XFS_IOC_HEALTH_MONITOR	_IOW ('X', 68, struct xfs_health_monitor)
 
 -- 
 0-DAY CI Kernel Test Service
