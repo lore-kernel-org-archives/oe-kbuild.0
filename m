@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7478533BBBB
-	for <oe-kbuild@lists.linux.dev>; Wed, 26 Nov 2025 16:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466021E231E
+	for <oe-kbuild@lists.linux.dev>; Wed, 26 Nov 2025 17:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764172809; cv=none; b=WGJsD2zTuGmCa0A5VWnhZfg1gUgrb2L/2DE4yRT3QNMYqWYQpEjffEI+NdSoszleXSHFKN61iNbr/Yt/4kSBWAJPQ/930VbDM7B+bbdFrmNFs7eMGfYn0Ezb8RR3f2NycAgP21aoXRkTe5oU5A0B0hrhpmKNf9mtslCSLEyRJOM=
+	t=1764177193; cv=none; b=LDnx0Mz4B8E1+vzL9/XONYMcPYB4hjCth9l0a8Az5FPNskVo2fY8SfPoHHhYAGOeztLeSpqNZNWFMdLL2Uw0S3axVq6hnCV/HlORHv0NVcV+HfDod9KeFD46Y3cjIevBNIoe958QWNRdXkY6ViNhxFRIHr02MLMLs+aRXN9iTsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764172809; c=relaxed/simple;
-	bh=tkXS6l3xB50nUkDUnCj97YfJ3cOrEe5yNhxy/8IDWms=;
+	s=arc-20240116; t=1764177193; c=relaxed/simple;
+	bh=rcLgso+6/Tw7ngSEgvffTJ+LRjaO0mWuXCKRmAZ7oug=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bkQpHbR9pTIHO8OqJ5AN+DLTvy7s/dhMVxE2+rJrYGEuboIdCqH6WK6lV1rpAy75l08C3urG10mmUyEwyCVnZ7VWk+JSypcMndwKpYRiYVDMyHKb++/hApfz7q9Ww3DKEn0B9ArjukRjd2YyjwYFCj6eXm7YDsvz6Gp4e9XTY6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qj63gO8u; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=L42pWkrwcVYOfBa7q2A90oCAr9Ezbv42arMN2NaIW7Prdf8ZCoW0e8S5G+zA485IA+Xk3Fko1cO+z4/UFvVOvtqoWMv8ZenydDfyrKrUvyrG2LQxfs4pEtUEcESLtS98p6le8dKZCpDhK2u34tV4Wrk/OU36O4LsFxj+ftqZB8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O1C4eu+U; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qj63gO8u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O1C4eu+U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764172807; x=1795708807;
+  t=1764177191; x=1795713191;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tkXS6l3xB50nUkDUnCj97YfJ3cOrEe5yNhxy/8IDWms=;
-  b=Qj63gO8u2UUFkW74S2K9XdDl1+k5XsWEkGBhVXsopzZnKRTKf7fJsFX+
-   jmBx4rolcQF7K0KTJWtyxfFyBz5+nnJWvhEX0BIRu+orFkX5MWWY/VHGG
-   Fpwynad2Qo785nC232dxaPmlL92diQluUMKNrTtVAHmdPHbaUzeGPqynO
-   G7qz1d1KuP8sBPH84Hmg8fueBPw1y2rIm9A4bVH0uk8rzJZEwON9Te2Mn
-   vPAryEg8VE+gXwYiuI3iTfeq0cEGuoLkSRghiyq7UtRFuA7oGtCffqKeR
-   ODHWKIby6ENzSR+58WayQR2TuDQWavQTL+2rKWBXYFNBSMjqO+YzkZp2i
+  bh=rcLgso+6/Tw7ngSEgvffTJ+LRjaO0mWuXCKRmAZ7oug=;
+  b=O1C4eu+U3/M70Gyr/yaZXgdvw0sH3jDozFaZHJD/SdpIsmEep1MalMIm
+   A05h1p6Vo+kTmIzpC6lRaPADrNfh+ljfZH1NGmNB8TRmyXBUuyyM0V1PP
+   N/WH91JX5ZuWunpC4AxIg3NEAcgJHbpPVeF/3Aq+TID9lf+FteP4vu1y1
+   /lFP1FVMNKe+RObMZ+YupqLj8ADzmqi7URcUlJJD2aPRarnyfVuv9nEFM
+   voGaPgXZiAgVNYkECrt8XIIw2iyTaFjePLcWVdA+o3pot03HDJgvspvHx
+   C7dKXvYdyCd1oEDlopuIDJoB/1Vs0rSVFHOfETno2e8c4F5xWPqCTG3Sg
    Q==;
-X-CSE-ConnectionGUID: r3jY55RCRRmCB47+ifYcMw==
-X-CSE-MsgGUID: s2CXs46hSE624d5vrdCjWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="76899067"
+X-CSE-ConnectionGUID: yJTexaF0SfKaBeDr6l9Kvg==
+X-CSE-MsgGUID: 6WU7EiAfSz6L6DjCX09k1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="65408905"
 X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
-   d="scan'208";a="76899067"
+   d="scan'208";a="65408905"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 08:00:05 -0800
-X-CSE-ConnectionGUID: ZK7tyy4/RlSI1veeRPPE3g==
-X-CSE-MsgGUID: 2HFYQWOrSnyTYYf2Z8pVUQ==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 09:13:10 -0800
+X-CSE-ConnectionGUID: YuEyw5vATRaqQX89towH4w==
+X-CSE-MsgGUID: 9a5PekIgRkqcVmDHsJS54g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
-   d="scan'208";a="192608238"
+   d="scan'208";a="192628375"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Nov 2025 08:00:04 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 26 Nov 2025 09:13:09 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOHw2-0000000034D-0EUs;
-	Wed, 26 Nov 2025 16:00:02 +0000
-Date: Wed, 26 Nov 2025 23:59:35 +0800
+	id 1vOJ4l-0000000039j-2IP2;
+	Wed, 26 Nov 2025 17:13:07 +0000
+Date: Thu, 27 Nov 2025 01:12:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [tip:objtool/core 25/44] /bin/bash: line 1: 360969 Segmentation
- fault      ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr
- --hacks=skylake --ibt --cfi --mcount --mnop --orc --retpoline --rethunk
- --sls --static-call --uaccess --no-unreachable --link --module
- drivers/scs...
-Message-ID: <202511262309.Bpk0oo8j-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/steering/hws/fs_hws.c:595
+ mlx5_cmd_hws_modify_header_alloc() warn: iterator 'i' not incremented
+Message-ID: <202511270112.WRgYlBf3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,35 +62,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Alexandre Chartre <alexandre.chartre@oracle.com>
-CC: Peter Zijlstra <peterz@infradead.org>
+TO: Moshe Shemesh <moshe@nvidia.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Yevgeny Kliteynik <kliteyn@nvidia.com>
+CC: Mark Bloch <mbloch@nvidia.com>
+CC: Tariq Toukan <tariqt@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git objtool/core
-head:   c0a67900dc129825c48d3638480297aa00f39c00
-commit: fcb268b47a2f4a497fdb40ef24bb9e06488b7213 [25/44] objtool: Trace instruction state changes during function validation
-:::::: branch date: 2 days ago
-:::::: commit date: 5 days ago
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251126/202511262309.Bpk0oo8j-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511262309.Bpk0oo8j-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   30f09200cc4aefbd8385b01e41bde2e4565a6f0e
+commit: b36315ca69cb39c839c98a31cae27b266481b0ac net/mlx5: fs, add HWS modify header API function
+date:   11 months ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 11 months ago
+config: x86_64-randconfig-161-20251125 (https://download.01.org/0day-ci/archive/20251127/202511270112.WRgYlBf3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511262309.Bpk0oo8j-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202511270112.WRgYlBf3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/steering/hws/fs_hws.c:595 mlx5_cmd_hws_modify_header_alloc() warn: iterator 'i' not incremented
 
->> /bin/bash: line 1: 360969 Segmentation fault      ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --hacks=skylake --ibt --cfi --mcount --mnop --orc --retpoline --rethunk --sls --static-call --uaccess --no-unreachable --link --module drivers/scsi/qla2xxx/qla2xxx.o
+Old smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/steering/hws/fs_hws.c:96 mlx5_fs_cleanup_hws_actions_pool() warn: iterator 'i' not incremented
+
+vim +/i +595 drivers/net/ethernet/mellanox/mlx5/core/steering/hws/fs_hws.c
+
+b36315ca69cb39 Moshe Shemesh 2025-01-09  576  
+b36315ca69cb39 Moshe Shemesh 2025-01-09  577  static int mlx5_cmd_hws_modify_header_alloc(struct mlx5_flow_root_namespace *ns,
+b36315ca69cb39 Moshe Shemesh 2025-01-09  578  					    u8 namespace, u8 num_actions,
+b36315ca69cb39 Moshe Shemesh 2025-01-09  579  					    void *modify_actions,
+b36315ca69cb39 Moshe Shemesh 2025-01-09  580  					    struct mlx5_modify_hdr *modify_hdr)
+b36315ca69cb39 Moshe Shemesh 2025-01-09  581  {
+b36315ca69cb39 Moshe Shemesh 2025-01-09  582  	struct mlx5_fs_hws_actions_pool *hws_pool = &ns->fs_hws_context.hws_pool;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  583  	struct mlx5hws_action_mh_pattern pattern = {};
+b36315ca69cb39 Moshe Shemesh 2025-01-09  584  	struct mlx5_fs_hws_mh *mh_data = NULL;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  585  	struct mlx5hws_action *hws_action;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  586  	struct mlx5_fs_pool *pool;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  587  	unsigned long i, cnt = 0;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  588  	bool known_pattern;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  589  	int err;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  590  
+b36315ca69cb39 Moshe Shemesh 2025-01-09  591  	pattern.sz = MLX5_UN_SZ_BYTES(set_add_copy_action_in_auto) * num_actions;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  592  	pattern.data = modify_actions;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  593  
+b36315ca69cb39 Moshe Shemesh 2025-01-09  594  	known_pattern = false;
+b36315ca69cb39 Moshe Shemesh 2025-01-09 @595  	xa_for_each(&hws_pool->mh_pools, i, pool) {
+b36315ca69cb39 Moshe Shemesh 2025-01-09  596  		if (mlx5_fs_hws_mh_pool_match(pool, &pattern)) {
+b36315ca69cb39 Moshe Shemesh 2025-01-09  597  			known_pattern = true;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  598  			break;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  599  		}
+b36315ca69cb39 Moshe Shemesh 2025-01-09  600  		cnt++;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  601  	}
+b36315ca69cb39 Moshe Shemesh 2025-01-09  602  
+b36315ca69cb39 Moshe Shemesh 2025-01-09  603  	if (!known_pattern) {
+b36315ca69cb39 Moshe Shemesh 2025-01-09  604  		pool = mlx5_fs_create_mh_pool(ns->dev, &pattern,
+b36315ca69cb39 Moshe Shemesh 2025-01-09  605  					      &hws_pool->mh_pools, cnt);
+b36315ca69cb39 Moshe Shemesh 2025-01-09  606  		if (IS_ERR(pool))
+b36315ca69cb39 Moshe Shemesh 2025-01-09  607  			return PTR_ERR(pool);
+b36315ca69cb39 Moshe Shemesh 2025-01-09  608  	}
+b36315ca69cb39 Moshe Shemesh 2025-01-09  609  	mh_data = mlx5_fs_hws_mh_pool_acquire_mh(pool);
+b36315ca69cb39 Moshe Shemesh 2025-01-09  610  	if (IS_ERR(mh_data)) {
+b36315ca69cb39 Moshe Shemesh 2025-01-09  611  		err = PTR_ERR(mh_data);
+b36315ca69cb39 Moshe Shemesh 2025-01-09  612  		goto destroy_pool;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  613  	}
+b36315ca69cb39 Moshe Shemesh 2025-01-09  614  	hws_action = mh_data->bulk->hws_action;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  615  	mh_data->data = kmemdup(pattern.data, pattern.sz, GFP_KERNEL);
+b36315ca69cb39 Moshe Shemesh 2025-01-09  616  	if (!mh_data->data) {
+b36315ca69cb39 Moshe Shemesh 2025-01-09  617  		err = -ENOMEM;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  618  		goto release_mh;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  619  	}
+b36315ca69cb39 Moshe Shemesh 2025-01-09  620  	modify_hdr->fs_hws_action.mh_data = mh_data;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  621  	modify_hdr->fs_hws_action.fs_pool = pool;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  622  	modify_hdr->owner = MLX5_FLOW_RESOURCE_OWNER_SW;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  623  	modify_hdr->fs_hws_action.hws_action = hws_action;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  624  
+b36315ca69cb39 Moshe Shemesh 2025-01-09  625  	return 0;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  626  
+b36315ca69cb39 Moshe Shemesh 2025-01-09  627  release_mh:
+b36315ca69cb39 Moshe Shemesh 2025-01-09  628  	mlx5_fs_hws_mh_pool_release_mh(pool, mh_data);
+b36315ca69cb39 Moshe Shemesh 2025-01-09  629  destroy_pool:
+b36315ca69cb39 Moshe Shemesh 2025-01-09  630  	if (!known_pattern)
+b36315ca69cb39 Moshe Shemesh 2025-01-09  631  		mlx5_fs_destroy_mh_pool(pool, &hws_pool->mh_pools, cnt);
+b36315ca69cb39 Moshe Shemesh 2025-01-09  632  	return err;
+b36315ca69cb39 Moshe Shemesh 2025-01-09  633  }
+b36315ca69cb39 Moshe Shemesh 2025-01-09  634  
 
 -- 
 0-DAY CI Kernel Test Service
