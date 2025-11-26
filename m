@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D7D31D399
-	for <oe-kbuild@lists.linux.dev>; Wed, 26 Nov 2025 13:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6D9287272
+	for <oe-kbuild@lists.linux.dev>; Wed, 26 Nov 2025 13:39:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764163258; cv=none; b=KZeAqOsMMm9fCPNbHon4JTx25oO0ft3f8pdNACssrC7VCV9rFbURQ/JHWJE1wnZAZ7phIzuFoXDIyrpE4TkCCHUa9VMwlHucNiQBZxfH78KnpotwnS2N2tp+o40t5BuPXIQzu1wNVAuEvAqjylYetsr5znW9wzXAH94Zj0t0YLQ=
+	t=1764164359; cv=none; b=mv/jppQsEHvTtxGDaxxoIqJwNtMop91nVp1YuZCY0NtiOfQx8IsV3UpOf0J5mCAdJ3xtVTp0O9RjMenkprSA+D07XKd8GeUfkOlYuvD92bpQO1s9wIuILLYFyhLz2NHkmmUPtr7PjTs7QYq2x9x9d75+Xl8QgNimn/D7uc0vGLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764163258; c=relaxed/simple;
-	bh=pIpv+0WIg5+Cr9kRz/H5I8m6IeAgDMl2gmra8GjwZyU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QZiIqakhno5TjrEloeDBHxVmAwb7pVp+94Yb0Jw3bU+pm/Xbd2c8O+nL0X1iKpkZWzUJsjMFtn+7E+Tdox+dZJYV0yFaUG1jl8fs4H2C6QG32S3qG4+kiYZ7sVcWZpyVcRg+itRPbm0uCjabUxlga8Q0jKhgwLDkIJSr9EJFwPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OkfhlFLK; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1764164359; c=relaxed/simple;
+	bh=qc9mP27xwwEQF+sqCxSnLDta1JZ5LjvSr36qi8mYMfg=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fc/uZXp+iJe1UhpEX3ExyjnbimYDEXuftkycw0PALTb4JQXMq0SnIOxiQxjTHpp1Tka+IgEn+kwWbT3wTilE7COxzYUn+fwHfpv2kjeHM8FeEXHWJm3cH453E2fw2X4MT9XHQA2+HCD7tbgmficXz52lwgJ4g2ONXJn1ijUDQPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayMLtkJj; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OkfhlFLK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayMLtkJj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764163256; x=1795699256;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pIpv+0WIg5+Cr9kRz/H5I8m6IeAgDMl2gmra8GjwZyU=;
-  b=OkfhlFLKiFBEQCGrVbS/3dJKwc3BCWk6ilXgGYPQrOBDZmWk54gYTEYo
-   xd++d8JdfYukJrE8wIU7VukBU/SqGBsS4msy8SGrDD1W23suM6ad8PhKq
-   VvSufIivx6tnLJakEPbpHGKt/jWmghD7AXIH7VxtN9vjUFsr2SavYjops
-   8D/mQ5VMnUCneax6DM35v8+dng13Nd70Rte5EPYlfYX/GE99OCps7Zc7I
-   QWR8q5p1P+XhIdv5g0xDUhePiiyHpdbnEuENY+hT0Gt1QON7EhoR4sbw+
-   hVPZQpmWXm1iok2eQmEaJGY/Imiy8KSAT5Encb4A5G4nNADIexqint4cX
+  t=1764164357; x=1795700357;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=qc9mP27xwwEQF+sqCxSnLDta1JZ5LjvSr36qi8mYMfg=;
+  b=ayMLtkJjrTu+rV2FSUcmIevwmpByGwka5qNKn5Nvn/DN5+pr8Bxc0Xl8
+   AsyIcVAtX5GEtJCirbz3HUr1iT8UH7mrng1r3Odwi6XFpwyVL5Hg7SU2u
+   WIbi+a+ZXqx/FTKNCOcsjkfz0pj6ZTLJK7aOtoJgs3thsBn90f9xSfNDY
+   /1th0r8yhXgbPnHWgLtdSmWk1/a07JyNT548A0tlROIwq8rKKZ00n5IUF
+   5RAHg1fN2OUIJnU41zoen/YvxhivjGHoDyGv5N/VNNoOCJAOzVKl13Zzr
+   QKMAvZg9MS5iPtLt3J+Zzi+VxyeO9nTTIiHOHBt28VNnbMG1wf2W0a1b7
    g==;
-X-CSE-ConnectionGUID: 1/VBq8FDRQCFKOKNCP/wJA==
-X-CSE-MsgGUID: YMINw8OHRnCTH/IBHPemKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="83592261"
+X-CSE-ConnectionGUID: cO/11BdMR0mZbJ31QsN8Ng==
+X-CSE-MsgGUID: CLy0HN6ITRajGr32MsHbTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="53769444"
 X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
-   d="scan'208";a="83592261"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 05:20:56 -0800
-X-CSE-ConnectionGUID: DGnAMl9PQXW3msBlfbzKHw==
-X-CSE-MsgGUID: zgU9pawHTTSMOPNXbWLPQw==
+   d="scan'208";a="53769444"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 05:39:17 -0800
+X-CSE-ConnectionGUID: wUa3N3zrSk69J/FfTjtYNw==
+X-CSE-MsgGUID: b8e/YGNSQI+u7MF2KZpjmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
-   d="scan'208";a="193030308"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 26 Nov 2025 05:20:55 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+   d="scan'208";a="197433703"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 26 Nov 2025 05:39:17 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOFS0-000000002uV-2MEV;
-	Wed, 26 Nov 2025 13:20:52 +0000
-Date: Wed, 26 Nov 2025 21:20:19 +0800
+	id 1vOFjm-000000001Br-0qaB
+	for oe-kbuild@lists.linux.dev;
+	Wed, 26 Nov 2025 13:39:14 +0000
+Date: Wed, 26 Nov 2025 14:38:37 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 11675/12060] arch/s390/kernel/vdso/vdso.so.dbg:
- dynamic relocations are not supported
-Message-ID: <202511262104.Li39R7qd-lkp@intel.com>
+Subject: Re: [PATCH] rust: add a function that returns a reference to the IO
+ Ports Resource
+Message-ID: <202511261436.xZs7i6zW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,39 +63,40 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dynamic relocations are not supported"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Heiko Carstens <hca@linux.ibm.com>
-CC: Jens Remus <jremus@linux.ibm.com>
+In-Reply-To: <20251117163112.22515-1-alexandru.radovici@wyliodrin.com>
+References: <20251117163112.22515-1-alexandru.radovici@wyliodrin.com>
+TO: Alexandru Radovici <alexandru.radovici@wyliodrin.com>
+TO: Miguel Ojeda <ojeda@kernel.org>
+TO: Alex Gaynor <alex.gaynor@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   663d0d1af3faefe673cabf4b6b077149a87ad71f
-commit: c0087d807ae86cc82cc356e366d2dccf0e3bb225 [11675/12060] s390/vdso: Rename vdso64 to vdso
-:::::: branch date: 10 hours ago
-:::::: commit date: 23 hours ago
-config: s390-randconfig-r072-20251126 (https://download.01.org/0day-ci/archive/20251126/202511262104.Li39R7qd-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511262104.Li39R7qd-lkp@intel.com/reproduce)
+Hi Alexandru,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511262104.Li39R7qd-lkp@intel.com/
+kernel test robot noticed the following build warnings:
 
-All errors (new ones prefixed by >>):
+[auto build test WARNING on driver-core/driver-core-next]
+[cannot apply to driver-core/driver-core-testing]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->> arch/s390/kernel/vdso/vdso.so.dbg: dynamic relocations are not supported
-   make[3]: *** [arch/s390/kernel/vdso/Makefile:54: arch/s390/kernel/vdso/vdso.so.dbg] Error 1
-   make[3]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
-   make[2]: *** [arch/s390/Makefile:154: vdso_prepare] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexandru-Radovici/rust-add-a-function-that-returns-a-reference-to-the-IO-Ports-Resource/20251118-004006
+base:   driver-core/driver-core-next
+patch link:    https://lore.kernel.org/r/20251117163112.22515-1-alexandru.radovici%40wyliodrin.com
+patch subject: [PATCH] rust: add a function that returns a reference to the IO Ports Resource
+:::::: branch date: 9 days ago
+:::::: commit date: 9 days ago
+reproduce: (https://download.01.org/0day-ci/archive/20251126/202511261436.xZs7i6zW-lkp@intel.com/reproduce)
+
+# many are suggestions rather than must-fix
+
+WARNING:BAD_SIGN_OFF: Co-developed-by: should not be used to attribute nominal patch author 'Alexandru Radovici <alexandru.radovici@wyliodrin.com>'
+#25: 
+Co-developed-by: Alexandru Radovici <alexandru.radovici@wyliodrin.com>
 
 -- 
 0-DAY CI Kernel Test Service
