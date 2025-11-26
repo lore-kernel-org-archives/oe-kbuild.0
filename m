@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAC5309EE4
-	for <oe-kbuild@lists.linux.dev>; Wed, 26 Nov 2025 04:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934387D098
+	for <oe-kbuild@lists.linux.dev>; Wed, 26 Nov 2025 05:59:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764131133; cv=none; b=rowGNsRVpCvdZ3dJoHLum1ekXgAngmozRRWQtEJkuOUeWlWt4Ej255Vm8yWPbCMMfh/fay07qGYzY1Thl9hv13BY6YdbMjj7f7kpgAjcAbuwQZIeTGzUF0DVy39fJlxhlLReIWtrebY5Uny2CrsJZXsyTh20X6bVnigC9Ifs31c=
+	t=1764136792; cv=none; b=bQ7VrKf1pftzIPHaMDur9LMfS/QoLi0Rr357RFAVasc6CPXtSv6ECh/ghpU3+XtiFP/ifst4R6dKefMIpVYUzVZEsz0nkTVNtlg9UHN1iPiUZzvgRyo80+ZV446LFfWhTHPY2ifCIXlOrKur0dol8KH1uogrc2IjSyz9+Z8xMcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764131133; c=relaxed/simple;
-	bh=/dppzt0EgFfpl9jM0yndQYMrtjmF0EHl2D7mt5ILZOI=;
+	s=arc-20240116; t=1764136792; c=relaxed/simple;
+	bh=MeUK2foKU/U0J8/UP07E4CNaegWEovBVknilrXaqVIw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r1E1ozgh30JiItTyQvKLWuQKnUxG80mXeq8laRUiGx+QsJtPt63MzOKDDRIojw/S6RW0l774iuBBO5+7Omh8Uy72ZT8zeKPxLx4CUXQDPCSIRAU984CX9tkj8Db0AICdPEObuaVNkdzs5/9Z2Emffhd+uqvzAt6sGIUKdhMwQTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iGDKV6xX; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=Y/J02VcSroqlmNp+59BdpxbPwnjq+DoD1Y04bJ/hG6jfzkPmYPRnwBqfSJxEwioVcYk9pTvSMHgk6pVyPlLrz3F4FdeJn0g5M3YozlJkJENOqKJCvd772pELgaWODDn9oHu4GD4Gu8twYpGNIHdSxH3JUbL+CRZ8QlxEtsDOi+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BLHsUyNK; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iGDKV6xX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BLHsUyNK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764131131; x=1795667131;
+  t=1764136791; x=1795672791;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/dppzt0EgFfpl9jM0yndQYMrtjmF0EHl2D7mt5ILZOI=;
-  b=iGDKV6xXIndT5jTbTxQBXxHa4LoPdWk65U1galD6IlSQjtUuKGxTvUtZ
-   nHGNEqY+gf+yOA7W4nTRTPhFyJQqn7S4Jr07YDJ8L1GLcVOm13zIJLVjd
-   6HN0YdzbMDdudRhr8hpVri4lfMoytY19ifbZd9vbA1QQyLa1nzcQmWZhu
-   dh4g57jcsKDovxTlw2Qw1Aff1Q1LuxRpKf29Z+x1Bb7YhyzOvhFUMsw4c
-   7UL9QlDWeApUe3NC0LgIf5cyoLxmG8ilOJmkWJ32dvBKltJKH2c3gQswm
-   +jOAAaCxlTIAfjsQs91zEAjF5E6z6m2YLuR7FNPbYMFVKmdSYnfm89pIk
+  bh=MeUK2foKU/U0J8/UP07E4CNaegWEovBVknilrXaqVIw=;
+  b=BLHsUyNKbgVsif+1HIwyQwDX9g0rt3zt8v8qM0/Hd6PnG42PVlEAHS4o
+   UmkCgQu8wFOeX/uUc4d0hC30i3BxCVoTLXno1E7CWa2DfucT1keBkp8yG
+   U2CTAjJFQBZrPWolkjadYQnRbO53WGITua/aSyfzi36Ffp7bkPOrH4Vx5
+   FWYNg6CncRmhlhjoKO0OQWSa4CARTCAfOF1NnRlGckOmIrwxDuFd3D+7k
+   0TgbIcrQppPxEAnL6pPZTuZE1Ir8gux5dUBlw5fsTW3lxdpKR6dHUiPIR
+   obxpFbjsNgmPwaKQuSSj4vLVnP6WMgcLeMv5+8GOOpQ8iEzFh3yBgNJbB
    w==;
-X-CSE-ConnectionGUID: 6+QT5eR4Th6WUEkL89K6hA==
-X-CSE-MsgGUID: BYIpP5xuRf6EEpnTPKA0Cw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66043606"
+X-CSE-ConnectionGUID: WZOgq6AxSKCF3wLmKrRzzA==
+X-CSE-MsgGUID: 9mr2U2WcQMCpyUtoq5fc+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="65168314"
 X-IronPort-AV: E=Sophos;i="6.20,227,1758610800"; 
-   d="scan'208";a="66043606"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 20:25:31 -0800
-X-CSE-ConnectionGUID: jjIcmF19RQ+b+8bA1ZS+7g==
-X-CSE-MsgGUID: OzicTZgjQMa9wUszjdXbnQ==
+   d="scan'208";a="65168314"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 21:59:50 -0800
+X-CSE-ConnectionGUID: pmqq5+IDR9a24ZdmbbE1vw==
+X-CSE-MsgGUID: Ngx3MKGMTAqnvMC0tV9U4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,227,1758610800"; 
-   d="scan'208";a="192721559"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 25 Nov 2025 20:25:30 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+   d="scan'208";a="193280349"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 25 Nov 2025 21:59:49 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vO75s-000000002U9-01eN;
-	Wed, 26 Nov 2025 04:25:28 +0000
-Date: Wed, 26 Nov 2025 12:24:40 +0800
+	id 1vO8Z9-000000000eX-0qOM;
+	Wed, 26 Nov 2025 05:59:47 +0000
+Date: Wed, 26 Nov 2025 06:59:25 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 3/5] mm: introduce VM_FAULT_UFFD_MINOR fault reason
-Message-ID: <202511261233.RgfmIwhI-lkp@intel.com>
+Subject: [android-common:android12-5.4 5/5] aperf.c:58:9: warning: 'ftime' is
+ deprecated: Use gettimeofday or clock_gettime instead
+Message-ID: <202511260656.Q9gzUBBW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,62 +68,38 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251125183840.2368510-4-rppt@kernel.org>
-References: <20251125183840.2368510-4-rppt@kernel.org>
-TO: Mike Rapoport <rppt@kernel.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-Hi Mike,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 6a23ae0a96a600d1d12557add110e0bb6e32730c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Rapoport/userfaultfd-move-vma_can_userfault-out-of-line/20251126-024059
-base:   6a23ae0a96a600d1d12557add110e0bb6e32730c
-patch link:    https://lore.kernel.org/r/20251125183840.2368510-4-rppt%40kernel.org
-patch subject: [PATCH v2 3/5] mm: introduce VM_FAULT_UFFD_MINOR fault reason
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251126/202511261233.RgfmIwhI-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511261233.RgfmIwhI-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   7055541caeda53d6275f23b878618d609132e955
+commit: 281b93e42e402a1c8368057b84861e1310e64fa3 [5/5] selftests/intel_pstate: fix build for ARCH=x86_64
+:::::: branch date: 2 days ago
+:::::: commit date: 3 years ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251126/202511260656.Q9gzUBBW-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260656.Q9gzUBBW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511261233.RgfmIwhI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511260656.Q9gzUBBW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from ./include/trace/define_trace.h:132,
-                    from ./include/trace/events/f2fs.h:2407,
-                    from fs/f2fs/super.c:41:
-   ./include/trace/events/f2fs.h: In function 'trace_raw_output_f2fs_mmap':
->> ./include/trace/stages/stage3_trace_output.h:70:37: error: expected expression before ',' token
-      70 |                         { flag_array, { -1, NULL }};                    \
-         |                                     ^
-   ./include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     219 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   ./include/trace/events/f2fs.h:1432:9: note: in expansion of macro 'TP_printk'
-    1432 |         TP_printk("dev = (%d,%d), ino = %lu, index = %lu, flags: %s, ret: %s",
-         |         ^~~~~~~~~
-   ./include/trace/events/f2fs.h:1436:17: note: in expansion of macro '__print_flags'
-    1436 |                 __print_flags(__entry->ret, "|", VM_FAULT_RESULT_TRACE))
-         |                 ^~~~~~~~~~~~~
-
-
-vim +70 ./include/trace/stages/stage3_trace_output.h
-
-1bc191051dca28 include/trace/stages/stage3_defines.h Linus Torvalds          2022-03-23  65  
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  66) #undef __print_flags
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  67) #define __print_flags(flag, delim, flag_array...)			\
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  68) 	({								\
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  69) 		static const struct trace_print_flags __flags[] =	\
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03 @70) 			{ flag_array, { -1, NULL }};			\
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  71) 		trace_print_flags_seq(p, delim, flag, __flags);	\
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  72) 	})
-af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  73) 
+   aperf.c: In function 'main':
+>> aperf.c:58:9: warning: 'ftime' is deprecated: Use gettimeofday or clock_gettime instead [-Wdeprecated-declarations]
+      58 |         ftime(&before);
+         |         ^~~~~
+   In file included from aperf.c:9:
+   /usr/include/x86_64-linux-gnu/sys/timeb.h:29:12: note: declared here
+      29 | extern int ftime (struct timeb *__timebuf)
+         |            ^~~~~
+   aperf.c:67:9: warning: 'ftime' is deprecated: Use gettimeofday or clock_gettime instead [-Wdeprecated-declarations]
+      67 |         ftime(&after);
+         |         ^~~~~
+   /usr/include/x86_64-linux-gnu/sys/timeb.h:29:12: note: declared here
+      29 | extern int ftime (struct timeb *__timebuf)
+         |            ^~~~~
 
 -- 
 0-DAY CI Kernel Test Service
