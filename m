@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678852B9B7
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Nov 2025 00:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3343A8F7
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Nov 2025 00:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764202955; cv=none; b=uYq+U8hbXSNQxHiE3fuxtHvZ7OpqeEz8xjO8DFbzk9Z4CaaSYXW9nbWsougR8TEUpGFRkQFVyL9Bk3Qb9ODvv5G6kk68/HoBTfSi0heBx5LcV6YBW9Uno40gWyk1ldWqMB4+yZ74x1wQFlR49+aA2gRudeR8gXmdtyuzYCQUY9I=
+	t=1764203855; cv=none; b=rYmDjbZDK/rAC+CBLQjKsNLo1CeilZnN68SRPtjgZlXUq/n/mSFzd6SZ4GKRj42irWoPMPmrm4PLY5PpH9jOHiwWCnLYKbesyvD0J2mf/9jJatB8U9YwTuQPn/xsQs0MixFnXOUjzusVpNWXJdKeGIMYcVDzLGRciEaJAE5ty4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764202955; c=relaxed/simple;
-	bh=M5cHKrQlax+/BX5mTYICW3XoWQOx+HKRhnt8jscMWa4=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S+JykepW0xsnxrTZJbtufE61U2jZflbbSk2KN3kaNSUfBWY+83n29o1cG2AlOnoUhoDax8Fy7Sh9nF0cCmS+3hTaHUxiQS+CxwaBBJfGClbeg52Hg/IICgK2+jKGJctnCFWsf+xI6FmJ/EB/t4Fa1UJnvveTK1SND6ejBr6zYOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGq2YrEb; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1764203855; c=relaxed/simple;
+	bh=C/A2iWEZYJR7ehnfNYJY1yiLPSVE83azJPD962GGzVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YKIzsJBdu+bE4qQJ3QO3tzwd0nbGqCqaBTVLpb7NEfBYFgpzo7h7bVeBHdRmdkUryx/zaZ0DXy5uHWse+jyCoq7V4Yy/3gwZfxenlpYRcVjrRoedyUIQz/z2E18AuG0hrd2bOtqoO2GpSdBxIuwHTkpsGwh17VVY7VvCgxbtYwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a+BL1j6l; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGq2YrEb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a+BL1j6l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764202954; x=1795738954;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=M5cHKrQlax+/BX5mTYICW3XoWQOx+HKRhnt8jscMWa4=;
-  b=bGq2YrEb6fylMMlczt/DAMIiWEhJrVprsNrCDXv2VuH9p+Cv10RGdYld
-   J8WOFMA9KCWX9F0ehcvIVL0OclbS2Q6zBobO+rK6wIK0J3EIZzSEHk4nE
-   Xz/GDhAeJwRyC7DNEIH9S2vA1PeiBanoiIZefGPHBKToreJtk4oHAGtpi
-   ZMXilaWKYGq3LusuTallV8qHFrPL6ZxZg8jbY9OkjJTzl4dn4LpneafFS
-   cXz0geIo2CxVfXfZgivK7BDCHBt2aAeBuQF9MWSY9KJPi6U4qvTDaTD/W
-   a4HrZ9wLUOeWLqK95IBTW0Z91ZBIhw9PBqWzEtHq/umqxNAJMYrOCRcta
-   g==;
-X-CSE-ConnectionGUID: ZEScoup+TR6Rd0yRXxPfFg==
-X-CSE-MsgGUID: aFYSb1uWRkCEg5QQZZIOgg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="66195676"
+  t=1764203853; x=1795739853;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=C/A2iWEZYJR7ehnfNYJY1yiLPSVE83azJPD962GGzVg=;
+  b=a+BL1j6lR45GT0xNo0vTDCndSqruj2aFlFZZ2X86aA0u8mwyje+93DvR
+   7RK/5OLYSSig9v7YcQ2IRl34Zfwv0F8MTpz1dKGt01xjb33XFQiEpfOPJ
+   1Dm7YYn9Pqk5ZMTk9RppGk8NYep0iwszkXwGhDa/7PuH+qnY2g9bXg4BI
+   8csx6+YPCJrrS6TuknIsgfTZCfElRZDZWkxb7/vkkL/C3DXm0qQK6Uh85
+   XILUC1pHWfbkuXEZUS6eRP1H07Jyw3ckGmBLoGVPeK/cdk0KxYUE89snA
+   CoSILevQSUjtrMMU+1CWIOdjn00Cc0oYOE7SbHS1XhaCmdIix+7wtTr4K
+   w==;
+X-CSE-ConnectionGUID: szvSEGbTSGCBT1U71AA0Hw==
+X-CSE-MsgGUID: WL8bBIlLQ0uq3uGqGGje7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="88893736"
 X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="66195676"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 16:22:33 -0800
-X-CSE-ConnectionGUID: Ung101CGTD+dcnZId3q3Ng==
-X-CSE-MsgGUID: uCqwZxVrRJWNXmn4FeaMdw==
+   d="scan'208";a="88893736"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 16:37:32 -0800
+X-CSE-ConnectionGUID: FV5Eu/wlR6GJVmTnpWhCaQ==
+X-CSE-MsgGUID: jkigxyLzRfGda4CBK+3f3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="230359642"
+   d="scan'208";a="197417450"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 26 Nov 2025 16:22:32 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 26 Nov 2025 16:37:32 -0800
 Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOPmH-000000001Yv-38gr
-	for oe-kbuild@lists.linux.dev;
-	Thu, 27 Nov 2025 00:22:29 +0000
-Date: Thu, 27 Nov 2025 01:22:17 +0100
+	id 1vOQ0n-000000001Z3-3XkJ;
+	Thu, 27 Nov 2025 00:37:29 +0000
+Date: Thu, 27 Nov 2025 01:36:36 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [brauner-vfs:vfs-6.19.fd_prepare 2/3] checkpatch:
- WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
-Message-ID: <202511270152.InV0LMRZ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [thermal:thermal/linux-next 8/10]
+ Documentation/devicetree/bindings/thermal/qcom-tsens.yaml: ignoring, error
+ parsing file
+Message-ID: <202511270103.c5CQ5sw3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,25 +64,34 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christian Brauner <brauner@kernel.org>
+TO: Gaurav Kohli <quic_gkohli@quicinc.com>
+CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+CC: Bjorn Andersson <andersson@kernel.org>
+CC: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+CC: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs-6.19.fd_prepare
-head:   138027e74e9f602e3bb91112dd38840c7a5007e4
-commit: ea2f85c54e81501a25b09e1eaf63f94adf77f591 [2/3] ipc: preserve original file opening pattern
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20251127/202511270152.InV0LMRZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git thermal/linux-next
+head:   c411d8bf06992dade7abb88690dc2d467a868cc4
+commit: 1ee90870ce797f314168fb08a5cbb0fba8d4dd65 [8/10] dt-bindings: thermal: tsens: Add QCS8300 compatible
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: microblaze-randconfig-2051-20251127 (https://download.01.org/0day-ci/archive/20251127/202511270103.c5CQ5sw3-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.4.0
+dtschema version: 2025.9.dev21+gaa859412c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511270103.c5CQ5sw3-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202511270103.c5CQ5sw3-lkp@intel.com/
 
-WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
-#52: FILE: ipc/mqueue.c:920:
-+	struct filename *name __free(putname) = NULL;;
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/thermal/qcom-tsens.yaml: ignoring, error parsing file
 
 -- 
 0-DAY CI Kernel Test Service
