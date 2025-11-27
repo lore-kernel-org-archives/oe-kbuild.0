@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3021EEB3
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Nov 2025 00:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC1122083
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Nov 2025 00:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764201760; cv=none; b=n6whRUz4168t8IKYRtPiRSCvQbFWF3Nbha2RP1KTxre2wzU38Amhf1p1XxmunWG0Z+lXDQXRNdwKXrQwM2dhBBrUBb0VqXnFAL5f/vZ2aAgTf+a+n48lVmvmSkKZKKKBS9kiHNKneuDWxsz6KyH4NJTb+b6UmU4B5Qoe36SExVw=
+	t=1764202295; cv=none; b=rtzkYinEhH3n4BK2oNORxBzOaWDgHkY4EeFLlcLsKhvBLzrkZoJ9AFfLdFauhQOrHfHb4TlqLLr5jFKoJAuMBeub2jLK4M7Gwp0x1QL3oLap94DNrl55if/T4agXGiLlBFz1iGPHOjIokDCLCWZDXmB2HvhFPBErGx5GKjeAoH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764201760; c=relaxed/simple;
-	bh=7W94Xujg7j+UiEsF2i5nTK36GZl/YX9Xz3riA5hS+FA=;
+	s=arc-20240116; t=1764202295; c=relaxed/simple;
+	bh=9YQcQEh1HSBsWaZQRckfIGieeFMHTtUA60xK7oKmVbo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fT676CwOp7t2QBGnjIgcFul/YjG4dGc26nXlxQXrAvSr94yGIU5ZhB3+a4OLKXT5uWutv/9r2MkFnlT2pK56uxjkXWqWSh5Ez74FzfonpwK5ISXPV7z4LT8BxIsHQdzfrgr1npLFpNLMYiWrW5NDk1cWPMwYok4NwrrlDwhCx3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cvZPOv7c; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=u0bTNpeE2GmcG+AUlDgqF5vc27QOtUMQUaRUtS6xk/d6aMdfouzOMSskF2nV4gZeAOEhgSgjg/peD2UYuxCo8FjuRN6XSJIWUbm/oS2wyYp3MhTQbFKgjluBVgyCT6skOjKmZS3fkhD/IO/wcBN0abVC3xn62vKB4Wdmo3E7KYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OAyWwumC; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cvZPOv7c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OAyWwumC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764201758; x=1795737758;
+  t=1764202293; x=1795738293;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7W94Xujg7j+UiEsF2i5nTK36GZl/YX9Xz3riA5hS+FA=;
-  b=cvZPOv7cWFJb0f2XDE5Z4Lc1X8fXHy6rg8ty1I9NxT64YkrZrDG3oKXu
-   pgiCrM8JXxHC9y3thJZwBzgsGCHhXDmT4eC1VoRBEWR682+tdoLOwLg3b
-   AxxvKwDYcHUIgdn1jCpTxRKRc5oQwxUFtyXjxSeR3z/ZXCJiy4QM9qKSf
-   tqSS0EKxTn6UiiPjWu1txzbODw93VDYG4KHdj3FclOZDQ4ac2PODXoBMq
-   EIO9yXiTFuQY22CeRatEJSWgH0Pcy+Qm2EexE2VlU2EDzJy5lTZMjmQlA
-   iqgi1Ak9Qg6eFQ+T4NYiNaAIW0wSgwc7y5MxtzjgflPwJ3gnSTVno/Hzm
-   g==;
-X-CSE-ConnectionGUID: /8T6VgDDSgiMbmXnqyPdjg==
-X-CSE-MsgGUID: +cQ89684TVSYmZvrFymBHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="76936179"
+  bh=9YQcQEh1HSBsWaZQRckfIGieeFMHTtUA60xK7oKmVbo=;
+  b=OAyWwumCYbcxv3FXMQT/LmCJ53Qi4m9JUApMnOEdJkIM4OdU0BEc2W7d
+   grF91Uazh7vu5iIneTssX0pBePiNLWxQG2Tk7T102jttC9XIDI91s5K7a
+   aEWXyvEkd7rf4WpQO1UMxcMBlRJ7VRfVlorQ29SDXmJj5FuskmtJ867eK
+   zyZsWW3e0AeZ5MhgTWZL270VTG/XGRFII6Jumr9JcuOVYYn7wDXFnC/Ca
+   rxZROe9gRArBpGgTXFihNn7kbEpIlsu0Lhhv3ockWRw9EHHf35HIp7I9+
+   YYrp5buVqyGThHpKp5uO/gUe7GodWgAaDTEVx+fdIhMksjVuLn9omIhUi
+   w==;
+X-CSE-ConnectionGUID: zVKehB/vSFW2UAOkJNn9Pw==
+X-CSE-MsgGUID: ofY516HMRheM5Zr6NlBPkg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="69870642"
 X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="76936179"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 16:02:38 -0800
-X-CSE-ConnectionGUID: HFNr0Zh6TGuQQr55PrWxQw==
-X-CSE-MsgGUID: OyyzuxkxTIiL7IJl/1KL+w==
+   d="scan'208";a="69870642"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 16:11:33 -0800
+X-CSE-ConnectionGUID: NVW0YvMsSRO7LQ51R1C8ZA==
+X-CSE-MsgGUID: JckCGv1qT2uleQGAqDOzXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="197411538"
+   d="scan'208";a="230358016"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Nov 2025 16:02:32 -0800
+  by orviesa001.jf.intel.com with ESMTP; 26 Nov 2025 16:11:32 -0800
 Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOPSv-000000001Yf-2HJZ;
-	Thu, 27 Nov 2025 00:02:29 +0000
-Date: Thu, 27 Nov 2025 01:02:10 +0100
+	id 1vOPbd-000000001Yn-2lD9;
+	Thu, 27 Nov 2025 00:11:29 +0000
+Date: Thu, 27 Nov 2025 01:11:16 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [openeuler:OLK-5.10 3333/3333] test_encl.c:36:3: error: incompatible
- function pointer types initializing 'const void (*)(void *)' with an
- expression of type 'void (void *)'
-Message-ID: <202511270143.e1Ftgp7w-lkp@intel.com>
+Subject: [android-common:android16-6.12-lts 1/1]
+ kernel/trace/trace_events.c:2807:6: warning: no previous prototype for
+ function 'remove_event_from_tracers'
+Message-ID: <202511270141.OKIjUmAB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,31 +69,57 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   18627faf2934ad96de2e45368ec4cf2444343b22
-commit: 542b6f40c3a55b186ba771af7c1afc2687e92971 [3333/3333] selftests/sgx: Provide per-op parameter structs for the test enclave
-:::::: branch date: 14 hours ago
-:::::: commit date: 3 years, 2 months ago
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251127/202511270143.e1Ftgp7w-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   639650a6ed80de770c67234a586c214adfee1c7d
+commit: 43c26111cafa87d81570c63d96c497e13ec883da [1/1] ANDROID: binder: unload C Binder trace events
+:::::: branch date: 9 hours ago
+:::::: commit date: 5 weeks ago
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251127/202511270141.OKIjUmAB-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 226765b60cc54e03386f38874a177c906f5aa6e7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511270143.e1Ftgp7w-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511270141.OKIjUmAB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511270143.e1Ftgp7w-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511270141.OKIjUmAB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> test_encl.c:36:3: error: incompatible function pointer types initializing 'const void (*)(void *)' with an expression of type 'void (void *)' [-Wincompatible-function-pointer-types]
-      36 |                 do_encl_op_put,
-         |                 ^~~~~~~~~~~~~~
-   test_encl.c:37:3: error: incompatible function pointer types initializing 'const void (*)(void *)' with an expression of type 'void (void *)' [-Wincompatible-function-pointer-types]
-      37 |                 do_encl_op_get,
-         |                 ^~~~~~~~~~~~~~
-   2 errors generated.
+>> kernel/trace/trace_events.c:2807:6: warning: no previous prototype for function 'remove_event_from_tracers' [-Wmissing-prototypes]
+    2807 | void remove_event_from_tracers(struct trace_event_call *call)
+         |      ^
+   kernel/trace/trace_events.c:2807:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2807 | void remove_event_from_tracers(struct trace_event_call *call)
+         | ^
+         | static 
+   1 warning generated.
+
+
+vim +/remove_event_from_tracers +2807 kernel/trace/trace_events.c
+
+1473e4417c79f1 Steven Rostedt           2009-02-24  2806  
+43c26111cafa87 Alice Ryhl               2025-10-20 @2807  void remove_event_from_tracers(struct trace_event_call *call)
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2808  {
+7f1d2f8210195c Steven Rostedt (Red Hat  2015-05-05  2809) 	struct trace_event_file *file;
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2810  	struct trace_array *tr;
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2811  
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2812  	do_for_each_event_file_safe(tr, file) {
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2813  		if (file->event_call != call)
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2814  			continue;
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2815  
+f6a84bdc75b5c1 Oleg Nesterov            2013-07-26  2816  		remove_event_file_dir(file);
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2817  		/*
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2818  		 * The do_for_each_event_file_safe() is
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2819  		 * a double loop. After finding the call for this
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2820  		 * trace_array, we use break to jump to the next
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2821  		 * trace_array.
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2822  		 */
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2823  		break;
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2824  	} while_for_each_event_file();
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2825  }
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2826  
 
 -- 
 0-DAY CI Kernel Test Service
