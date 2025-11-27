@@ -1,56 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98CFF238D5A
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Nov 2025 04:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA4223EA94
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Nov 2025 04:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764218857; cv=none; b=kh1d/iqFgsjb42jTkWm3o87kyylETprkHK5ti1ltfQEERb9dX0j+VWZrfH1zk/f+fXGSb9ZVQbwenxfWikHDu2Ij69gcP++etV7PM5YqsqyZ21IsQaUVBwCwnEi9VrOThLRvERsEq/5I0b39pngJdDwpFiD2CUQaaQjYGK0fjfw=
+	t=1764219277; cv=none; b=hOmzyUbv0sg0+pIusv2OagcOxHGFOYDnrKUZX0CX7JVYY/xsRa0t4K/gGmyiEc17IEdv8ZkPt738lg5y+Z4GDfpScimuTltGfDkDM8u6JMLtH9NH94k+ZqhUp1UK8MjWa/oJtqvEplO2ZDVsOT1JO5op+udLh1MQhncLmq74CdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764218857; c=relaxed/simple;
-	bh=szO0uQv0Lr4I7Idhb7BCjThRRV5v8HE+ZftrhU9GCFI=;
+	s=arc-20240116; t=1764219277; c=relaxed/simple;
+	bh=wjznjBBMlJWuxYWy5BpURY/YhgYoMYJMShZjTWj7Me0=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BEl7sPSdDD51QbgBOW/0OO+5uHYulhJwzrC2QBamF5QPUfjSV4bWK6/cVRYskomxTKIur08EkvSDaVH377V7HE8kO88bTaZvTLa1fwtKjKKGlPAcQ6DsUD8yxassQGB3yf17mrGZrSv9nvdT2AiJvPbxuMU/oMbQtOJq+xJcrAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XYL+TSCT; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=oI00PeqM4jjcJUUYJIfShQz2LfoMr7dknasU0uCTPfHiYvxjcC/5uy/MpF/Cso2kBJJ0b6InmqjozacnMdbLgQshAiJDlYyhX2CTbtmk0wHOXV68C/qHYkdLLW7GyGIEVcJ+jV6GxdJPs3rwZ69KmXNvuhfoILN4Gld+4E07Fas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CKk/suV6; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XYL+TSCT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CKk/suV6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764218856; x=1795754856;
+  t=1764219276; x=1795755276;
   h=date:from:to:subject:message-id:mime-version;
-  bh=szO0uQv0Lr4I7Idhb7BCjThRRV5v8HE+ZftrhU9GCFI=;
-  b=XYL+TSCTo6gMsrdjaf+TPFVzycSTo7DHeCCD4NZE2sBCX+pUcVgp5NJn
-   DLMyJytiplu6PzInkaos9Xprp08LYyMVpn7+eJDR38Fh4lBLYanfB4lMM
-   y4kE75b85QbqAMKtyuufKrknoo/up1aO0q3K77ALqAl1lQ9vCiD3GQFUI
-   1nCZTnfDw9UzGu9+Elj0uA9Dk6Oze/5Tp1fD89Njgyh75GSr7xSo5RoTW
-   5vKlVfg6ILKv1GmiDeDV6wOpDrE2vAMh5/rJ/m7EVr+YABPc5fAQ9ysMJ
-   5maQ+BQgyi5sMJW8CIoIvBDwZqaw5hVt768jtVPMC5AUTx+t/SAPPP154
+  bh=wjznjBBMlJWuxYWy5BpURY/YhgYoMYJMShZjTWj7Me0=;
+  b=CKk/suV6YRzU7ryd4iXBX5zAmw+42hlm3j2XPN/iEcCyzk0Z0nRf0wfS
+   adF1VxqbbdOeHyCb0eJTv5bsiJ/+VCkX0fSwpnaY039SFQ+l1NH65Ek0w
+   LkVjKDZUICCU7YAbw0k2hdfT4AxHhrXm7bYBUr8tUv7D61cnnflzj0If/
+   EQwzniEkJ5TIpaJHmD6hDUpMCUIjjnLNAmw8Vf9L64VvAjyxkSzCxHSQh
+   IIEcHIF7X6K7SrQ08JgaqaRZoSMmRhjRmmYFEwMqiL7YWrmwne0P/CszX
+   80GyHlUuRwBne/jzQX1oF0xJ6erIVB2yeO+vjVcBFSetoGuNafE+FAYS2
    A==;
-X-CSE-ConnectionGUID: BV87VAmKSsGCwQUpRLmIYg==
-X-CSE-MsgGUID: UrKn6FfJRZ+9NlUp9GfFxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="65973125"
+X-CSE-ConnectionGUID: N+l+u1dQT2m3qNcsuy12Ww==
+X-CSE-MsgGUID: wQOjYRPzQoWxrhrL2Qq1KA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="66221480"
 X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; 
-   d="scan'208";a="65973125"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 20:47:35 -0800
-X-CSE-ConnectionGUID: 7g0Q5FbCSL6mdQ0UoACCrg==
-X-CSE-MsgGUID: xlCix0aARmafwFET1jS8qA==
+   d="scan'208";a="66221480"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 20:54:35 -0800
+X-CSE-ConnectionGUID: ZQqwxiYySd6UV4gpKmaDkg==
+X-CSE-MsgGUID: UCM6hPohTDqWt10fWgsVIA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; 
+   d="scan'208";a="224086434"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Nov 2025 20:47:34 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 26 Nov 2025 20:54:35 -0800
 Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOTum-000000001cF-13xO
+	id 1vOU1Y-000000001cT-1hOW
 	for oe-kbuild@lists.linux.dev;
-	Thu, 27 Nov 2025 04:47:32 +0000
-Date: Thu, 27 Nov 2025 05:47:26 +0100
+	Thu, 27 Nov 2025 04:54:32 +0000
+Date: Thu, 27 Nov 2025 05:53:40 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [agd5f:drm-next 8/46] checkpatch: WARNING:BLOCK_COMMENT_STYLE: Block
- comments should align the * on each line
-Message-ID: <202511270513.0f4RiRbB-lkp@intel.com>
+Subject: [nvdimm:libnvdimm-for-next 2/5] checkpatch: WARNING:BAD_SIGN_OFF:
+ Unexpected content after email: 'Dave Jiang <dave.jiang@intel.com>> ---',
+ should be: 'Dave Jiang <dave.jiang@intel.com> (---)'
+Message-ID: <202511270515.0QhG1LKz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,21 +69,20 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Ivan Lipski <ivan.lipski@amd.com>
+TO: Alison Schofield <alison.schofield@intel.com>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
-head:   5427e32fa3a0ba9a016db83877851ed277b065fb
-commit: c918e75e1ed95be76f8e3156a411188f650fe03f [8/46] drm/amd/display: Add an HPD filter for HDMI
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/nvdimm/nvdimm.git libnvdimm-for-next
+head:   30065e73d7c018cf2e1bec68e2d6ffafc17b3c25
+commit: f59b701b4674f7955170b54c4167c5590f4714eb [2/5] tools/testing/nvdimm: Use per-DIMM device handle
 :::::: branch date: 12 hours ago
-:::::: commit date: 9 days ago
-reproduce: (https://download.01.org/0day-ci/archive/20251127/202511270513.0f4RiRbB-lkp@intel.com/reproduce)
+:::::: commit date: 3 weeks ago
+reproduce: (https://download.01.org/0day-ci/archive/20251127/202511270515.0QhG1LKz-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#123: FILE: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:3996:
-+			/*
-+			* Sinks match - this was a spontaneous HDMI HPD toggle.
+WARNING:BAD_SIGN_OFF: Unexpected content after email: 'Dave Jiang <dave.jiang@intel.com>> ---', should be: 'Dave Jiang <dave.jiang@intel.com> (---)'
+#26: 
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>> ---
 
 -- 
 0-DAY CI Kernel Test Service
