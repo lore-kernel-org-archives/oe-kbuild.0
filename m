@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B2623AB95
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Nov 2025 02:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CD72C08B1
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Nov 2025 03:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764211235; cv=none; b=mpMlJsC9TaEPYPFn3g/n/6yY7DuCu+mCnX36GV+0ZRGy9qumpceppWn38M5rYx+a5DGqJTlGylNSNvHqS6gMwzSp69UXQwi83TZoWpluQogdJNNFUDTUcznpFO1I+JBox3uDCbfemTOt/4bPxsu036jgDVW5oPfH5IX4mbnNI+A=
+	t=1764215077; cv=none; b=D/8mBo+u2pD9TqU2Un+quRC/DU9lBdn38eB9p7JDPXGZ7QpO7cNwDd7WAAFkbfePtW3tknN7d0Vf8oCLRXGjwHvvVmSFslfsy6LkcB0hnfSkRMk5x0XOsu72AHEq+CPoe4T8JhF3cVXovvsinQM615P6L83x/QiTI+DPucosrt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764211235; c=relaxed/simple;
-	bh=HG1s1Nqjd/QWOsa1PlIBOv39jE+o24kXVBRECH3u6qU=;
+	s=arc-20240116; t=1764215077; c=relaxed/simple;
+	bh=lKp8LxnD/Gf+xk8Zrs56h+i5PF4xN2h84cIsx0sJzSk=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VW0SZfn8GSx8k3v7xdf8ICGJczTk2VzeBhuMF6vX0x5KV+ZzSIP/ox+GAGlGpUBAIQs40uglwVtsjb0kNF8Pe3qa3vyBTWaMuQhDuVtb6YWOvt1mDF50MKZagGHU1mEnFayd60q2k/3cyS09IaC7ayoGJnEmYcqxNvbENbyzPcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DApSmWOb; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=FzZa2cqWKrFoifmicMoP2eWsD1rOHEIgOCuNc9yBtPUrNSq2tkQi3GuHRmXSElb9e+SW61TVZF2P3Hl/orkNXgVDRvh+T1s1fjiqTk3JIpT1wpjFJM1Zi/q7sxrovWVA/9aaeL/nK0/2heTzrruZ8Km8BjgICVjGw2w/s6Dcg4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cqjcTXch; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DApSmWOb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cqjcTXch"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764211235; x=1795747235;
+  t=1764215075; x=1795751075;
   h=date:from:to:subject:message-id:mime-version;
-  bh=HG1s1Nqjd/QWOsa1PlIBOv39jE+o24kXVBRECH3u6qU=;
-  b=DApSmWObUPsTq7ixiX83hwKDlCzQgjkXAzsEYiWiY6Ggqc8+oAEJBYYE
-   yViF3hYwUktq0grryMpFhIrqvdr8Z4aVAkEaaL5Lz/nY3M57jdcBki7JK
-   6GKDblHUdlx+uUZFHUpBT6sg+Wu/0iA4x4HwlHQxECZX0LbMLMMMRlqlE
-   L9OO9Y66njCNCbfLHuXgBuVnpGQUuVxTVN5wXJE2hy4Iw+CZpJnWPQTE9
-   Uz3iCDLO2zS9tbXr93KjCQgowg0TQEiTl1E10rlDyqbLyMyMWlbcAVpIR
-   IzBH5Myftr1NX9GjJ7u3KKWpA1IwnKkS+1dQ3360X6V9FRsGatkXLQCHw
-   w==;
-X-CSE-ConnectionGUID: A55iOGn7QdeoBoCZXtoVwg==
-X-CSE-MsgGUID: ryb4pXdtTYyQY+2cDzxw4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="69877460"
+  bh=lKp8LxnD/Gf+xk8Zrs56h+i5PF4xN2h84cIsx0sJzSk=;
+  b=cqjcTXchkpjjB2f/REmd3o7FQ+e6DKoO+xKTbddyGDbHvziBI/WKvZgU
+   6lzfXeoukPNEhPlH3inIh21BnQm10942BlrtskN+t+M3EuK1uDsY8GYhf
+   CQH0qQ4CHpHZqme/3gfCV8YN/YOzDNR8zj1VXbYXsFT/nJ3y+zK/x/dmO
+   D0uXwoXhYSl0aubLlMGPMzg5DlXXhQvrkezq+LA72mLIUNYK1r3b0L+/S
+   CrstK7vFBog0m06zeQh+lBk8WpTCzy77jn870te2dFYybzRUunCLOng/S
+   ItTgs3SFLMhYK3GtDvJbmhCOHCgXLd6y/p37LyxmbaxJnlWMLLQUzGHF2
+   A==;
+X-CSE-ConnectionGUID: ay4EPZTZTxyqaX7T4DLWyg==
+X-CSE-MsgGUID: Ad98YvQPRo6iqADFwG4V3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="66206916"
 X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; 
-   d="scan'208";a="69877460"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 18:40:34 -0800
-X-CSE-ConnectionGUID: /O7zROjvSlK8rJnROsVx/Q==
-X-CSE-MsgGUID: NFhgmJchT2uFo3ChtZ9weQ==
+   d="scan'208";a="66206916"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 19:44:34 -0800
+X-CSE-ConnectionGUID: ctGgR4OGQeOLcpQg17n1TA==
+X-CSE-MsgGUID: zlrPcvATR9WCI8VqogBBGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; 
-   d="scan'208";a="198226081"
+   d="scan'208";a="193343205"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 26 Nov 2025 18:40:33 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 26 Nov 2025 19:44:33 -0800
 Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vORvr-000000001at-0rII
+	id 1vOSvn-000000001bd-3KFF
 	for oe-kbuild@lists.linux.dev;
-	Thu, 27 Nov 2025 02:40:31 +0000
-Date: Thu, 27 Nov 2025 03:40:13 +0100
+	Thu, 27 Nov 2025 03:44:31 +0000
+Date: Thu, 27 Nov 2025 04:44:29 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [djwong-xfs:fuse-service-container 30/82] checkpatch:
- WARNING:REPEATED_WORD: Possible repeated word: 'code'
-Message-ID: <202511270300.nC8Zlnhb-lkp@intel.com>
+Subject: [djwong-xfs:djwong-wtf 83/83] checkpatch: WARNING:SPACING: space
+ prohibited between function name and open parenthesis '('
+Message-ID: <202511270404.jHzpsRyP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,18 +70,18 @@ BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fuse-service-container
-head:   69ff58bd20a3f25ce91f1ff72a2063b65463142b
-commit: 4a3699ff1c256ab3648d80345dfb8d49819b58bf [30/82] fuse: make debugging configurable at runtime
-:::::: branch date: 36 minutes ago
-:::::: commit date: 36 minutes ago
-reproduce: (https://download.01.org/0day-ci/archive/20251127/202511270300.nC8Zlnhb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git djwong-wtf
+head:   6264703eb4053f7664baf4d186f67a62d71036f8
+commit: 6264703eb4053f7664baf4d186f67a62d71036f8 [83/83] xfs: upgrade filesystem features
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20251127/202511270404.jHzpsRyP-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-WARNING:REPEATED_WORD: Possible repeated word: 'code'
-#28: FILE: fs/fuse/Kconfig:104:
-+	  Say N here if you don't want any debugging code code compiled in at
+WARNING:SPACING: space prohibited between function name and open parenthesis '('
+#27: FILE: fs/xfs/libxfs/xfs_fs.h:1223:
++#define XFS_IOC_ADDFEATURE	_IOW ('X', 71, __u64)
 
 -- 
 0-DAY CI Kernel Test Service
