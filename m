@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85002231858
-	for <oe-kbuild@lists.linux.dev>; Fri, 28 Nov 2025 10:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069601E32A2
+	for <oe-kbuild@lists.linux.dev>; Fri, 28 Nov 2025 13:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764324776; cv=none; b=n9vvAlljWAEYuTaVpnA862vKCyO8J5pcZzF6gz2ZOQSZluI9Un3c36IQF4TspCazqukF/xrdVLF0gkIKIrY4wlIajqLBLxpq8Gyt1IRX/8V9F3nQNNhUrHmMmE7NYdNmPacgbjNpY/5a6Hd6p3f0uEKCvfNe+hxK1Bx/xPwcCNs=
+	t=1764336897; cv=none; b=BTRQAeMUoWIWS6EBQI3FJA9THWwOmcArw09OSdLS2GkWjEOhuxzWt6NkqHZksmMWOI2xt642GWGRu4d0yvCiXtFj1hoU889GDPRmBWH2ck1tkek9FM/QRZCyEf0qFKDMgsuTsmOO9sHRNQ6dl1T+cSdJXjlIU0Zms17Qh3etSM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764324776; c=relaxed/simple;
-	bh=8jg5nJUGKHlZEL02litYOxbwOfNijoFdo6VtAqLk5zg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L24RVRyRrgJbS4B8Tv7J9tXlb7h7rOA7dqcpf/BUNYY/lJ8ruvhCDw9/T9BFKlz9CINnREzPTXuJXi+AMOX40Pe7Xkn5QSa4vsvYNGql8+AOGPUsVGRh6UBD/Y+gGAA4O3vZh3mG1gNizcZTpHSNcvcAjpkwNUzTQhBhcxhaNLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=df62VZ5o; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1764336897; c=relaxed/simple;
+	bh=lzya8uF1n6yuOr9T3ucAe0GcFJCCnoxyar4HQIQRe28=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=paV4INGt0sd2O55+Ybz5o5kzWHyUFPtnYv2O+eSVpBRWmwTYnu2Y95jEdCl26RpVCg3ydrrqKDVrqViPpqE8pxyzyJ9LhmLuoOfiBqyKXsxHQESzQm9FAR+6Tp+pnmioRsTR4Kf3Td18ujN2EiF0/kwsv2KFzaEnmB6AZRn3n8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n/w/jE8L; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="df62VZ5o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n/w/jE8L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764324775; x=1795860775;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8jg5nJUGKHlZEL02litYOxbwOfNijoFdo6VtAqLk5zg=;
-  b=df62VZ5oA18zmKsB1GUBiGnqgIAljr9a44uyLHP6tlQALf0ZZNUwvEYU
-   HI4GsVsb5pGf8I81OnntMOji18xxSE/vO/wyS0UfY24lRhkaWPEGsaXtY
-   b+qJIkKigTEkF6SI0Hm7s0Z05ep126VjQvFZ8slNZ+Fw2pWKTQuGJ4LQ6
-   IZ9K0F9JJ4deIh4NFlOmNO8WHbBxhKxNm02td4ej2Wz8M4b/4d9FKrAAl
-   moAfrIDjgPk5xSb+o4AI3SUol7WbQGmBQakgU6mMDp2bjzEiKXspZdrgV
-   fcrQv/X6SV7DQmdNJFz+00krgZCZIBJP3+ieDAAGJF55fClIJRk7hdpWK
+  t=1764336896; x=1795872896;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=lzya8uF1n6yuOr9T3ucAe0GcFJCCnoxyar4HQIQRe28=;
+  b=n/w/jE8Lx0ishn51sCIy3HqTfJ9VdINn0UQ8+e/l4r3vMxaneMd2zaHh
+   a1mEwcYQRjY+SedLNv78ZSF+2rm1/fbUJOYlcwUnhCz3UCQL8O6XalGkC
+   5aYBzAgtFMTrWeyjiScvS3TEGJu6lBeppu2dmaKoe6asQPL8wrNtRwVOl
+   Gp0wKnpTh+diFXUwfh5TtYSCykqCLJOlPuG0970+ZYEub7Axuuym3cLlC
+   BGOhSDMjnVGhOLtaI+6cLkO7lc5M9Cev8Rg1LycQMOW86ksmsIOxAm951
+   0QaD0zjUBTB+TfRjrdgL5qBVPgi2SunBQrMxKPIsc0C6yD0BjYC2N7MhI
    g==;
-X-CSE-ConnectionGUID: KW+/c5pTSy+9ZvxngRlM1g==
-X-CSE-MsgGUID: /hrEqrtcTAaING/IEhF7oA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="83967251"
+X-CSE-ConnectionGUID: 1eaQD7jYStu6Xp0qkgd6dg==
+X-CSE-MsgGUID: QRy6plHeSoaJAKO12w6SnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="83760516"
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="83967251"
+   d="scan'208";a="83760516"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 02:12:54 -0800
-X-CSE-ConnectionGUID: xRHcxVyaQ7aC/4nTcpreNw==
-X-CSE-MsgGUID: vdWmLDeASo2NfnnsSHYb/w==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 05:34:56 -0800
+X-CSE-ConnectionGUID: x8lKM2ocS7qWE+VwKHxYZg==
+X-CSE-MsgGUID: p9VwBfznSkuSCjxgoyxIiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="197760185"
+   d="scan'208";a="197803467"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 28 Nov 2025 02:12:53 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 28 Nov 2025 05:34:55 -0800
 Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOvT9-0000000020D-0bPp;
-	Fri, 28 Nov 2025 10:12:51 +0000
-Date: Fri, 28 Nov 2025 11:12:22 +0100
+	id 1vOyce-0000000022p-497J
+	for oe-kbuild@lists.linux.dev;
+	Fri, 28 Nov 2025 13:34:52 +0000
+Date: Fri, 28 Nov 2025 14:34:37 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 2/3] ARM: dts: exynos: Add Google Manta (Nexus 10)
-Message-ID: <202511281150.2nH9PB7F-lkp@intel.com>
+Subject: [trace:trace/for-next 8/41] checkpatch: WARNING:MINMAX: min() should
+ probably be min_t(unsigned int, ret, buf_size)
+Message-ID: <202511281411.0CRs9mCR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,54 +63,25 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251125-google-manta-v2-2-0f097cfff39c@timmermann.space>
-References: <20251125-google-manta-v2-2-0f097cfff39c@timmermann.space>
-TO: Lukas Timmermann <linux@timmermann.space>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Alim Akhtar <alim.akhtar@samsung.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Russell King <linux@armlinux.org.uk>
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-samsung-soc@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Lukas Timmermann <linux@timmermann.space>
-CC: Alexandre Marquet <tb@a-marquet.fr>
+TO: Steven Rostedt <rostedt@goodmis.org>
 
-Hi Lukas,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace trace/for-next
+head:   f6ed9c5d3190cf18382ee75e0420602101f53586
+commit: 299ea67e6a2b3d0d4b707f45b8c66d8b4bbbf2c6 [8/41] tracing: Add a config and syscall_user_buf_size file to limit amount written
+:::::: branch date: 12 hours ago
+:::::: commit date: 4 weeks ago
+reproduce: (https://download.01.org/0day-ci/archive/20251128/202511281411.0CRs9mCR-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
+# many are suggestions rather than must-fix
 
-[auto build test WARNING on 6a23ae0a96a600d1d12557add110e0bb6e32730c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Timmermann/dt-bindings-ARM-samsung-Add-Google-Manta-Nexus-10/20251125-232335
-base:   6a23ae0a96a600d1d12557add110e0bb6e32730c
-patch link:    https://lore.kernel.org/r/20251125-google-manta-v2-2-0f097cfff39c%40timmermann.space
-patch subject: [PATCH v2 2/3] ARM: dts: exynos: Add Google Manta (Nexus 10)
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-randconfig-2052-20251127 (https://download.01.org/0day-ci/archive/20251128/202511281150.2nH9PB7F-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema version: 2025.9.dev21+gaa859412c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511281150.2nH9PB7F-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511281150.2nH9PB7F-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/samsung/exynos5250-manta.dtb: /soc/i2c@12c70000/led-controller@42: failed to match any schema with compatible: ['ams,as3668']
-   arch/arm/boot/dts/samsung/exynos5250-manta.dtb: rtc@101e0000 (samsung,s3c6410-rtc): clock-names: ['rtc'] is too short
-   	from schema $id: http://devicetree.org/schemas/rtc/s3c-rtc.yaml
-   arch/arm/boot/dts/samsung/exynos5250-manta.dtb: rtc@101e0000 (samsung,s3c6410-rtc): clocks: [[2, 337]] is too short
-   	from schema $id: http://devicetree.org/schemas/rtc/s3c-rtc.yaml
+WARNING:MINMAX: min() should probably be min_t(unsigned int, ret, buf_size)
+#283: FILE: kernel/trace/trace_syscalls.c:587:
++			ret = min((unsigned int)ret, buf_size);
 
 -- 
 0-DAY CI Kernel Test Service
