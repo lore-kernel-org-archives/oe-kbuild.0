@@ -1,60 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928971FF7D7
-	for <oe-kbuild@lists.linux.dev>; Fri, 28 Nov 2025 06:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C231528DB56
+	for <oe-kbuild@lists.linux.dev>; Fri, 28 Nov 2025 06:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764310015; cv=none; b=GRYe45J13jdJfLCMwjIALMOlGhlGUTGsfU70xHka/ef/GbG2veRXMfvrNYPk+97UPx5JTdbYHzwPlN+HNshUDxzZmuJpdEjg8yDR7IrDdJmm8DRY/xvKjm3FA/FDjCC0j1lLCdcOPD+XRRSDjI7g7zBTV40nGdR3428d8STaGr4=
+	t=1764310562; cv=none; b=hUbzMwM2qRHM8tnDm8Yuw+p4PxZy/+kSeuGIPN+5LCxKO6Bi0jolHp3Esn6nlt9AbR5q50SOlxtgsZ4isomMuI4su3bNkl68zyRrXdPDDwm1oQGNQvm6EXwPKFl3B75mNw9LK8RgTcWohy0CiJ/Mq2aXopeRA+/UaGal6OO5h4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764310015; c=relaxed/simple;
-	bh=I5hJycJZmHo/ffc96xMDHmyQx5MrwmEcOLgCaRnZPvs=;
+	s=arc-20240116; t=1764310562; c=relaxed/simple;
+	bh=ffhTyij1ReNQCxTshYxvVfuBAAWHI7lGZdQHx3iN9O4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BxpxYJK0P8c05AEewzZoKZeiLegJbin3IFI+OAa+jUHYxYtnY9F1QVdiUCNKlsgMpJD6waRQRU3wEdXD/9Iv4N9l7SEHTh1vgFmP5x426lbnMUgVjFLcV/bWedXhEvHS8jvWXRJcndelG7RiGEcZb73YqtZuZrlAHb1OOg3ZwUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FBjfbL6P; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=awO6qj84ouX4Um0Y9oU4lQPPpyh1MTQUNF7i8J0eVRLA8JopPuwwq6FNw4utt7STwEfp/nfuVLbe+HH8LF5Edsl4x7lrj8sYAylC4meDwaX6DVUJzB9OABUu5G2P08byt39/6iXmDwfR13rctkCFH8DWWvhvIlGRwT6q8BI28Rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k3uHuvIu; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FBjfbL6P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764310013; x=1795846013;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I5hJycJZmHo/ffc96xMDHmyQx5MrwmEcOLgCaRnZPvs=;
-  b=FBjfbL6P7gsd0eRtGUVOcwNeZdUuhKXfD9RO2maZ28z86O+W3Xl98ywW
-   EfEZadjmyPoqhP7+U2DUQ4imkupJSbK3WBinBIdZvV1Kn5/Yc77hiSwKh
-   JsCkSf1eoNStEk+cCLBXuGEZFXBc0Avqzx8YnxLw1lGtGDPbdMxTuW1hL
-   3DtZkUgY0PZtENpAnxzob9CD93xhofAP69wSsUwqkaDyq+cmPRFGcF1pT
-   lTNxWmdTUp00UdztHm/A/S4RBmaaf0M4oHz+No+8aQxPABPpr4/xSKz5Z
-   u6MVUXhrJkTqChhUkClP2Q6A8Jo7VjtVccRXYqtKg7DJTlAFvPOWieacQ
-   w==;
-X-CSE-ConnectionGUID: XIeiU5KpSMCEyn+9rWI2qg==
-X-CSE-MsgGUID: eTX3Wd9+R1yPMUqNxLnohQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="83736710"
-X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="83736710"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 22:06:53 -0800
-X-CSE-ConnectionGUID: tAJSRr4lSIq26pTNZ8CRBg==
-X-CSE-MsgGUID: Iv2lOHBmTyeLWAsfjXvX9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="192514530"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 27 Nov 2025 22:06:51 -0800
-Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vOrd3-000000001yP-1mtu;
-	Fri, 28 Nov 2025 06:06:49 +0000
-Date: Fri, 28 Nov 2025 07:06:37 +0100
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [conor:riscv-dt-for-next 16/16]
- arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: /soc/syscon@20002000:
- failed to match any schema with compatible:
- ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd']
-Message-ID: <202511280708.cWOT1hiJ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k3uHuvIu"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47796a837c7so9329525e9.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 27 Nov 2025 22:16:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764310559; x=1764915359; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GzOlZeoUbK5GrmA6UDcAo/pAL66N5+Wh7nDV2nIjmh4=;
+        b=k3uHuvIutdL4qU0XPjswJl5cwmJ0qj2XRxeWScGWEINTqm6UxhYYku7T5+cyXfBSJz
+         mrmkPrVjqvX6/TGvnjaWcQehs0yd9xbxmHkdQmsFdSjRXewQY1CmK/EDhbvlzm860P1v
+         7O4C2o+edHFqHoiHIbU+ZPnk0V99+yB4MAX1kx2YXMACgt3YJThPWPE14nMUtdSBhLrH
+         Dayxu+CW1/kttwTl+8G604H+kLgwJhBMySmv1qpVV7cDPc6/haUs7d/sUsFamKmf7k5J
+         9acbGzMGgq4t6iUzyoxsUH7VjNqTeIbv/5nFeL58106YcPdRSxFgX+VlQmEoxyZ9F0vw
+         7UoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764310559; x=1764915359;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GzOlZeoUbK5GrmA6UDcAo/pAL66N5+Wh7nDV2nIjmh4=;
+        b=GW34HEhsVXW2uolxEHDgHciFE0RLT85eijN0l88yk/5CU+4ndbKYdKlqzCTQjRLogU
+         1a+xi3a5iWcnkEBF+bnKSotJPNkr1vPByRJ9INz4oYZZ1sTy/VfTjYFEzlWZVGAMqYwu
+         kCx2raKmDM0QapBI5RbxZSu2zIjdEIvdADPW2+UiUBfzwf4zuWjuIQV/X8UnMl3cpuDY
+         h7P3mt9qA17OzS41mkuJpZogMOsVPOFQ8PeqdWCcJ0x5BwyDB3zyllpt0MjX8yut+YXC
+         UBvmcCCTcgXUJk1g8uuIZH5hdDgheCUD/LzNn04rYuiuZ7xlDRHcVB02d4JFqDEqqTL9
+         Pi5Q==
+X-Gm-Message-State: AOJu0YysdsbhZQqIb1VRiZMR9UkqrPovIJc1BdHQLXYk5xhhNiRR5yef
+	JkxH56FdyCBqK6g8953g1KDBl8uDwQnleMHqyqppKPXUXYVnCDGQUFDxy3yPGS57YA1blIm3Fxu
+	rFYvQ
+X-Gm-Gg: ASbGncsBhZ3vUgJcMJeRUyyLAFDKruD1rjNjYC1Z0FfukGm8L71Yc5zwDeF0KRcxk77
+	JORzuIn+kFhWkre1INByql5o3lx/7x/2tzJG5XIK9kqSV83Fgy3n5KPam1IxulkJavxhO+H5+lM
+	s5i+y+/J5/USAOK8OuTqJKZLuyKHnL3QIJgiFqa4yOpWVSyDP0Pc/m/Kg7+PJYvBOq+pJrqqMvZ
+	GoVBIVrknsBdTm/qF4TVMADYk20UsHeuY3gbOVsgAASvWjUWpms/2gze3iZBYnbmTxQ3ZMPza0j
+	4dMHam7m6vHHZVr02Alfm1sJic0ODXo5sxQdU+hSuAoMAjzXysEPVnFkXnu6QYEKgqWTN1I/mym
+	+hL/nO5OqiHZ/VVPinngQdD0mTfz96pFzVBhIFgHGARBSB36GbRCF0y90pY/dB8cHSfIYlW1Xn1
+	jK+iMTI7Zn8TRvk7Di
+X-Google-Smtp-Source: AGHT+IFdIuL1+ag2sXfLUM/g00Zb6LkyXzXLVWwOpnWTkJoN0WxuvEW4Ox+Z1MnircVKNp0kAljDVQ==
+X-Received: by 2002:a05:600c:1c85:b0:471:9da:524c with SMTP id 5b1f17b1804b1-477c016eab5mr306888745e9.12.1764310558915;
+        Thu, 27 Nov 2025 22:15:58 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-479040d81e4sm88057735e9.3.2025.11.27.22.15.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Nov 2025 22:15:58 -0800 (PST)
+Date: Fri, 28 Nov 2025 09:15:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Keith Busch <kbusch@meta.com>,
+	dm-devel@lists.linux.dev, linux-block@vger.kernel.org,
+	snitzer@kernel.org, hch@lst.de, axboe@kernel.dk,
+	ebiggers@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv2 3/3] dm-crypt: dynamic scatterlist for many segments
+Message-ID: <202511281018.FNOzcP4r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,63 +76,58 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251124170903.3931792-4-kbusch@meta.com>
+Message-ID: <20251128061554.NmosvZfYbo5vthRMqpBwame7hh2Utq5dasgYHBw37RI@z>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Hi Keith,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Conor Dooley <conor.dooley@microchip.com>
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git riscv-dt-for-next
-head:   a4aad736716d345d98c0eecbb0061fc9b6e578a1
-commit: a4aad736716d345d98c0eecbb0061fc9b6e578a1 [16/16] riscv: dts: microchip: convert clock and reset to use syscon
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: riscv-randconfig-2052-20251128 (https://download.01.org/0day-ci/archive/20251128/202511280708.cWOT1hiJ-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 226765b60cc54e03386f38874a177c906f5aa6e7)
-dtschema version: 2025.9.dev21+gaa859412c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280708.cWOT1hiJ-lkp@intel.com/reproduce)
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-remove-stacking-default-dma_alignment/20251125-051340
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
+patch link:    https://lore.kernel.org/r/20251124170903.3931792-4-kbusch%40meta.com
+patch subject: [PATCHv2 3/3] dm-crypt: dynamic scatterlist for many segments
+config: i386-randconfig-141-20251127 (https://download.01.org/0day-ci/archive/20251128/202511281018.FNOzcP4r-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511280708.cWOT1hiJ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202511281018.FNOzcP4r-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: /soc/syscon@20002000: failed to match any schema with compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd']
-   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: clkcfg@3e001000 (microchip,mpfs-clkcfg): reg: [[0, 1040191488, 0, 4096]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/microchip,mpfs-clkcfg.yaml
---
->> arch/riscv/boot/dts/microchip/mpfs-disco-kit.dtb: /soc/syscon@20002000: failed to match any schema with compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd']
-   arch/riscv/boot/dts/microchip/mpfs-disco-kit.dtb: clkcfg@3e001000 (microchip,mpfs-clkcfg): reg: [[0, 1040191488, 0, 4096]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/microchip,mpfs-clkcfg.yaml
---
->> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: /soc/syscon@20002000: failed to match any schema with compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd']
-   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: clkcfg@3e001000 (microchip,mpfs-clkcfg): reg: [[0, 1040191488, 0, 4096]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/microchip,mpfs-clkcfg.yaml
---
->> arch/riscv/boot/dts/microchip/mpfs-icicle-kit-prod.dtb: /soc/syscon@20002000: failed to match any schema with compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd']
-   arch/riscv/boot/dts/microchip/mpfs-icicle-kit-prod.dtb: clkcfg@3e001000 (microchip,mpfs-clkcfg): reg: [[0, 1040191488, 0, 4096]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/microchip,mpfs-clkcfg.yaml
---
->> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: /soc/syscon@20002000: failed to match any schema with compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd']
-   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: clkcfg@3e001000 (microchip,mpfs-clkcfg): reg: [[0, 1040191488, 0, 4096]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/microchip,mpfs-clkcfg.yaml
---
->> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: /soc/syscon@20002000: failed to match any schema with compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd']
-   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: clkcfg@3e001000 (microchip,mpfs-clkcfg): reg: [[0, 1040191488, 0, 4096]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/microchip,mpfs-clkcfg.yaml
---
->> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: /soc/syscon@20002000: failed to match any schema with compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd']
-   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: clkcfg@3e001000 (microchip,mpfs-clkcfg): reg: [[0, 1040191488, 0, 4096]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/microchip,mpfs-clkcfg.yaml
---
->> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: /soc/syscon@20002000: failed to match any schema with compatible: ['microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd']
-   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: clkcfg@3e001000 (microchip,mpfs-clkcfg): reg: [[0, 1040191488, 0, 4096]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/microchip,mpfs-clkcfg.yaml
+New smatch warnings:
+drivers/md/dm-crypt.c:1510 crypt_convert_block_skcipher() warn: was || intended here instead of &&?
+
+vim +1510 drivers/md/dm-crypt.c
+
+8f0009a225171c Milan Broz        2017-03-16  1499  	skcipher_request_set_crypt(req, sg_in, sg_out, cc->sector_size, iv);
+3a7f6c990ad04e Milan Broz        2008-02-08  1500  
+3a7f6c990ad04e Milan Broz        2008-02-08  1501  	if (bio_data_dir(ctx->bio_in) == WRITE)
+bbdb23b5d69521 Herbert Xu        2016-01-24  1502  		r = crypto_skcipher_encrypt(req);
+3a7f6c990ad04e Milan Broz        2008-02-08  1503  	else
+bbdb23b5d69521 Herbert Xu        2016-01-24  1504  		r = crypto_skcipher_decrypt(req);
+3a7f6c990ad04e Milan Broz        2008-02-08  1505  
+2dc5327d3acb33 Milan Broz        2011-01-13  1506  	if (!r && cc->iv_gen_ops && cc->iv_gen_ops->post)
+ef43aa38063a6b Milan Broz        2017-01-04  1507  		r = cc->iv_gen_ops->post(cc, org_iv, dmreq);
+ef43aa38063a6b Milan Broz        2017-01-04  1508  
+02664d2ac0d3cf Keith Busch       2025-11-24  1509  out:
+02664d2ac0d3cf Keith Busch       2025-11-24 @1510  	if (r == -EINPROGRESS && r == -EBUSY) {
+                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Presumably || was intended as the warning suggests since it can't be
+both.
+
+02664d2ac0d3cf Keith Busch       2025-11-24  1511  		kfree(dmreq->__sg_in);
+02664d2ac0d3cf Keith Busch       2025-11-24  1512  		kfree(dmreq->__sg_out);
+02664d2ac0d3cf Keith Busch       2025-11-24  1513  		dmreq->__sg_in = NULL;
+02664d2ac0d3cf Keith Busch       2025-11-24  1514  		dmreq->__sg_out = NULL;
+02664d2ac0d3cf Keith Busch       2025-11-24  1515  	}
+3a7f6c990ad04e Milan Broz        2008-02-08  1516  	return r;
+01482b7671d014 Milan Broz        2008-02-08  1517  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
