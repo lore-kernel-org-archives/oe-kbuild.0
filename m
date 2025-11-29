@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88BC61A267
-	for <oe-kbuild@lists.linux.dev>; Sat, 29 Nov 2025 21:39:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABB5184E
+	for <oe-kbuild@lists.linux.dev>; Sat, 29 Nov 2025 21:49:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764452355; cv=none; b=HQHKe1nncdQipskaIjNmP8qIL5/nj1RR23zZNBdj2Ad4gZZGM3dJ3Xpo7TvYFySiY+eIXwJOr25Bsk3t/OC5sRbcJyuzqmZkRKXUEJubxEnet73RaFxg8ztdGxadCAzVNVOLBmo/m6cKm4BP1cqI3/bojDS/dKNnYf1AfxR//Co=
+	t=1764452956; cv=none; b=eTF2litTC0kVrB/o1X+CyTyvIRgzgrj3u+0pQ+nLYXBziXFAKs+3f0ozwvhWB8ET8129UGyIxJLC+cmo284tDKPQepcy0R4xiJiphgrikNt2iaqQqVUKPEXZhELTP1MMt2wSMJjWingm1AKwmBaABT8VhK07xV1H40vi/GAbGTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764452355; c=relaxed/simple;
-	bh=AvIhLEwbYAx80ohUkTNkgDjCqp7tYxh6aXhaZILmACs=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NwxRXY8gqcKqMcRjKpzBbp7ev1zgreGrZS1h8isZ0CRZnPCpABd86v7+Qkii3K5rdbya08q6NhDgX3TY/+p79LAkawi5YJOAr47qimKirxe/tZrCCRFmAdjq/ixCS0ddHbbA3sMBY6TZKZPJMZKXtq1PZuD+xrAtXTFQdRUp9go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NgFxXcim; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1764452956; c=relaxed/simple;
+	bh=DGEokZ8QnxuRrJLMRovZSF1AXnFdDoyD4+RQYoVYC3c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RQxObmLj+0bc3KpX4sVUwa393sjcrwaAczh5JqeTODxbWc1J/N0HBQ04gPztEIGZmY/WriMR59JjrIF2fMvvReyxwRfjwmkJZh6xyvjOd19tRi4oOU8JG3Vu+8KJYC5YgmgrNRbDfXUoc+vWCRktia6SLWn9gy7tO496DjmmBSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GREk0t4z; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NgFxXcim"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GREk0t4z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764452354; x=1795988354;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=AvIhLEwbYAx80ohUkTNkgDjCqp7tYxh6aXhaZILmACs=;
-  b=NgFxXcimOsbPRmWPpXfkx7F3FNwPit9/L/T4bBx6F30pJH6Rf/9nPhMG
-   QFGm9SFsX6e5KgofLXl9GPJM+Aow9p18z6GkuZBiABmyIQ/PMdXwlRuTA
-   kiMAxlA8ctlaENIwOIaC0q8tXr4Ze1X77Fta36Y+0GInnLP3t92DxkzDU
-   JqEO+e1dexd/Frl/vbyu25YqT/klvNn0hGesPYqUBizXoDoakKSY9YIcx
-   6CqqDnZIl4PDKLKVJGHFkpEHkTq6/0aU/9swD5MXXY8v5xi+L9LKERH+0
-   YunTLoAhO9bPcKdutyz3x2A3rYcFhxzlwKjjLy75XjfOlx4yBABkO0icT
+  t=1764452955; x=1795988955;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DGEokZ8QnxuRrJLMRovZSF1AXnFdDoyD4+RQYoVYC3c=;
+  b=GREk0t4zjmPjQ4GHy7j+zpCOLt7c1fBr0rqGY4STJecE66/MOUzdrDhf
+   WRtMvepfilo+kY4UAOK7W7H3vzBgWkj7Ji2F41il7USVIQ3FW7ejFw53A
+   C3zH1lr/b/rl5V+RHQObyAbwYzYCyuWdYUy1chv0kFdW3su+WvBbF9xlH
+   Sud8ZUOf11Lkd4uiRnJrAyEFuSsdEpLUfKjYBDtveKs+Y02xfgRneBY3l
+   BD/TsmPmyBcyTlXeA+AeAD02toFdoqyqckPApzXNzNTb6iU2m3hJ2iOMD
+   fPmEBDhCJGwEJoMm/ZfZmmWt6OKDuxHOEduAJH6xC88GF09fwlzrsSokW
    A==;
-X-CSE-ConnectionGUID: fPkDdBvmRI6opkNrvTFavA==
-X-CSE-MsgGUID: 8ArZ0kOqRWCd3Q9sZ575vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="65617047"
+X-CSE-ConnectionGUID: EU9KnpBCSWG1mTl+wCUwjw==
+X-CSE-MsgGUID: dKgNJ0iYSxmuroERV+1sYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="65617187"
 X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
-   d="scan'208";a="65617047"
+   d="scan'208";a="65617187"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 13:39:13 -0800
-X-CSE-ConnectionGUID: fPRU+uPmQCimO3/IcWsXIw==
-X-CSE-MsgGUID: hK4PQpnbRE+2jZF5Fet4+w==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 13:49:14 -0800
+X-CSE-ConnectionGUID: Bs16sDqlRW2syyzvvSQQiQ==
+X-CSE-MsgGUID: y4bRrL02SUGhYYl0CT5pdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
-   d="scan'208";a="193620529"
+   d="scan'208";a="193621744"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Nov 2025 13:39:12 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 29 Nov 2025 13:49:14 -0800
 Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vPSes-000000002Px-1siO
-	for oe-kbuild@lists.linux.dev;
-	Sat, 29 Nov 2025 21:39:10 +0000
-Date: Sat, 29 Nov 2025 22:38:44 +0100
+	id 1vPSoY-000000002Q1-26Yi;
+	Sat, 29 Nov 2025 21:49:10 +0000
+Date: Sat, 29 Nov 2025 22:48:33 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [akpm-mm:mm-nonmm-unstable 52/58] checkpatch: WARNING:REPEATED_WORD:
- Possible repeated word: 'user'
-Message-ID: <202511292222.Qc2Uwuid-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [android-common:android12-5.4 5/5] drivers/acpi/arm64/iort.c:637:
+ warning: Function parameter or member 'id' not described in
+ 'iort_get_device_domain'
+Message-ID: <202511292200.BRMGwGeL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,25 +64,75 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Pasha Tatashin <pasha.tatashin@soleen.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   ef7b2f46f63cd48b4453a9634d910f211aeb9eff
-commit: 7061130fb391944a0553e557e5c25abbbeaca115 [52/58] liveupdate: luo_flb: introduce File-Lifecycle-Bound global state
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20251129/202511292222.Qc2Uwuid-lkp@intel.com/reproduce)
+Hi Lorenzo,
 
-# many are suggestions rather than must-fix
+FYI, the error/warning still remains.
 
-WARNING:REPEATED_WORD: Possible repeated word: 'user'
-#25: 
-This patch does not have current user user, but multiple streams depend on
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   7055541caeda53d6275f23b878618d609132e955
+commit: da36a3ef32b476ca6464226010ef73135fc3c3a4 [5/5] ACPI/IORT: Make iort_get_device_domain IRQ domain agnostic
+:::::: branch date: 6 days ago
+:::::: commit date: 2 years ago
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251129/202511292200.BRMGwGeL-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511292200.BRMGwGeL-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202511292200.BRMGwGeL-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/acpi/arm64/iort.c:53: warning: Function parameter or member 'iort_node' not described in 'iort_set_fwnode'
+   drivers/acpi/arm64/iort.c:53: warning: Excess function parameter 'node' description in 'iort_set_fwnode'
+>> drivers/acpi/arm64/iort.c:637: warning: Function parameter or member 'id' not described in 'iort_get_device_domain'
+>> drivers/acpi/arm64/iort.c:637: warning: Function parameter or member 'bus_token' not described in 'iort_get_device_domain'
+>> drivers/acpi/arm64/iort.c:637: warning: Excess function parameter 'req_id' description in 'iort_get_device_domain'
+   drivers/acpi/arm64/iort.c:1064: warning: Function parameter or member 'dma_size' not described in 'iort_dma_setup'
+   drivers/acpi/arm64/iort.c:1064: warning: Excess function parameter 'size' description in 'iort_dma_setup'
+   drivers/acpi/arm64/iort.c:1475: warning: Function parameter or member 'ops' not described in 'iort_add_platform_device'
+
+
+vim +637 drivers/acpi/arm64/iort.c
+
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  627  
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  628  /**
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  629   * iort_get_device_domain() - Find MSI domain related to a device
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  630   * @dev: The device.
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  631   * @req_id: Requester ID for the device.
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  632   *
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  633   * Returns: the MSI domain for this device, NULL otherwise
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  634   */
+da36a3ef32b476 Lorenzo Pieralisi 2020-06-19  635  struct irq_domain *iort_get_device_domain(struct device *dev, u32 id,
+da36a3ef32b476 Lorenzo Pieralisi 2020-06-19  636  					  enum irq_domain_bus_token bus_token)
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12 @637  {
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  638  	struct fwnode_handle *handle;
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  639  	int its_id;
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  640  
+da36a3ef32b476 Lorenzo Pieralisi 2020-06-19  641  	if (iort_dev_find_its_id(dev, id, 0, &its_id))
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  642  		return NULL;
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  643  
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  644  	handle = iort_find_domain_token(its_id);
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  645  	if (!handle)
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  646  		return NULL;
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  647  
+da36a3ef32b476 Lorenzo Pieralisi 2020-06-19  648  	return irq_find_matching_fwnode(handle, bus_token);
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  649  }
+4bf2efd26d7624 Tomasz Nowicki    2016-09-12  650  
+
+:::::: The code at line 637 was first introduced by commit
+:::::: 4bf2efd26d7624372fb7adff8745b4c2e8407004 ACPI: Add new IORT functions to support MSI domain handling
+
+:::::: TO: Tomasz Nowicki <tn@semihalf.com>
+:::::: CC: Marc Zyngier <marc.zyngier@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
