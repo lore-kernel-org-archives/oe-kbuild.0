@@ -1,74 +1,79 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3189F1FC0EF
-	for <oe-kbuild@lists.linux.dev>; Sat, 29 Nov 2025 16:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1C11C701F
+	for <oe-kbuild@lists.linux.dev>; Sat, 29 Nov 2025 16:50:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764434938; cv=none; b=ek6T4v9y2oqVvPNsekKT2EYvT9lUkT5VEmgprcR3Fu85fpBK8u8L1Ope2t3N5TZyV0EbrNJIO8JyoeIOZTAem1uCFR2FxaX4MOvritfbFW5/vzxJTphRkB8OR/x6ONiN3SygsEHVvx8XUHTnhmmgXvq6ANCIuF/loh8iE71uFcs=
+	t=1764435031; cv=none; b=RDyM+nmEMIqE38L75S2keKozy3tGqVOqt7QTOlKrq2UIDZqWG7ZaehzESmMujvX5wNzuV5AURH9PfdWsFN/hz8wMdXYMTIrnzoHwVH8Xc4LCdt3O4QOgtsu8AneiS74N/xNNZOTdk14jwK9jGMwUzx/ExMu3wh8HFVMNGkES/Bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764434938; c=relaxed/simple;
-	bh=UguDFeNm3rR92PuEs88LFVrDqZAmJVW1/LezdGratSs=;
+	s=arc-20240116; t=1764435031; c=relaxed/simple;
+	bh=Cn+yNuLXa8lWVWpF6f/eF1X7MDE7Ri0IU5SGShQe0HM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=bLOAFnrBSq5AfMur04SWQQqjP3tSh92c54MTIqvsax1n76dAdOXoWfEL4m/v+CrTwnp74XDo5nX88bqa+3oENWrQxCSh2BaZolYq0Uprhf3BL2Rtkcz7047xbamqJ26Ic2Nqqy6q+CgDWO7L2EPvwXZtRCxWb5ipxi+BTY+8u7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x3NqfgOf; arc=none smtp.client-ip=209.85.128.45
+	 Content-Disposition:In-Reply-To; b=dHV7I77a4STcd2J3eA0n8Mih49s+eFfBQ89Y5194WAXvtzmiTjXv8McpXnbpdAgOXz8zprI7/+nVt3iYRczhO7peZ5VFvrICknK/XhG0U2is1gCB1aKGkrrE1Ggi1Qigde4O6HRFPsW1THTZdmP8reW9n1Aj6yJi84hU0Y4yCRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IK7IDSgr; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x3NqfgOf"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-477563e28a3so18861805e9.1
-        for <oe-kbuild@lists.linux.dev>; Sat, 29 Nov 2025 08:48:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IK7IDSgr"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso23433775e9.3
+        for <oe-kbuild@lists.linux.dev>; Sat, 29 Nov 2025 08:50:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764434934; x=1765039734; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1764435027; x=1765039827; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PLn4jfKsrHWTW4/4+B+0A89DBI80RuILUmevDYeHCmM=;
-        b=x3NqfgOfr/DUny+lG+4EmgIxVD+9/LgNAx6+e8c6Q9flPDguYgqWRY+1lmxXOjgLLy
-         h/scsudqFvU1BQGdt2h5LmJ8iIV5+LdME4+MYKLxapYZzIrBRFubbxBWiuT9QVbejvGD
-         zujHIm8E/CeMAmub8hdXMEDClibhLLFV14WNvYvQzAJiPPtZ1ZWDJBnoiHMHUcd70L2Z
-         KSWmBJR1oJ9H1t9kc6ivIsNg5sAUlgUBJddYQ5IRmKnpZ2V8mNWqk3fBw7e2vn/Ub8Tq
-         5mKOJ/66V396ubq9rDY0dekvgV+dviasGZQ/ayPA0uqvFMFNgLegx8ztss362+RGqdpd
-         PZKw==
+        bh=+u+kxqq4MMJGawqIDaTzXliKugbB0Ij2lnspVyD3E7E=;
+        b=IK7IDSgrZMzVZ+EqSl2/FQNnXmrvvpigEnhk3V6dnQLpiK8FCejR1aKswuHgvxQLcI
+         7rbqW19SyanJnbbwqm2jt7XYy/5IyUdUtXeXRLKniXD143kxQa6ZsJf7T9OiMlwvDoVk
+         aJCt1wWEO+DveCA5HaOCI5NfiQG51rZgPi8GxNwGb2t4cvUro7JEL7X8R7Yd7l/4nAZD
+         NpxT5j87t5DzaMNdvvUAry1JlYVmkt6g3eKcX29D4Wa7MmUfB7WMy6vsXONAOCEQWL3u
+         gKjvZmAKj1Zu+gCBD7+YlHfr54Jwu60hyPfUUgfqP4e6fzmk4iEYunxEaZlRLX2eByYV
+         nBLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764434934; x=1765039734;
+        d=1e100.net; s=20230601; t=1764435027; x=1765039827;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PLn4jfKsrHWTW4/4+B+0A89DBI80RuILUmevDYeHCmM=;
-        b=b3LBz0yns5i7ItCRGx8H6v/RFhhWSfT+06W0fioPiMWQupCtT1p9rrIm8UzPpu2ZV6
-         aL+2ug7eJZv08ss/t80aaaUUugfFsa9sx74bvMCBIaEcG1EmTaNaK/ONvYXci9xfPsI+
-         1pU8+d/g6H8KXXeCo5WimaxeR5P/1mFMwkkY4JThBZPIR4IWoqKqEaT82aKdjFmMhPmx
-         kfqX5vMxcamafV9xv9/Ga8OAntyEy9I6Xa2i0QQNWMzPrzit0uvPAgkmUMRcr1RnHwor
-         fxxP/vvIhGJZnyz/nFA3TSTFRacKarOxuTMAhX2Re998VqFxMXKuVY09WYxZEAJPOnt7
-         mIzQ==
-X-Gm-Message-State: AOJu0YwaMlptfzYX8YittkSAmoHY3fwxoOD+FnXSOK8oM4wSCKFy/LrT
-	dgTfW0SwKN8p2BF3IM51rE470TsuAxraIYS69ukJyTiC4Ur5ifgDEQA3lo3uNVhh/k41U3Na174
-	HJa3r
-X-Gm-Gg: ASbGnctRsV+ueU111SdjQ67nFRAr3UfJPmgTUda5zbgb2H7HmmXFuLzBzSG3SV3gxGf
-	GX0Ago2pB5pjw0KIwM8srUzlTCZ4HYYOL+qeuLVee8W9bqs1kYodmtriFbZ7F/U2nprDx5UEI/S
-	6IMPRfVK+1tz5Z9/MLKv0AHwYvP/k4GYeDJ+zE/o3Xfa0CbXK7Fxg/AWi2DKqiDYJ14qKyV7kiJ
-	vTQXMleQFN+W//20O3UEws4l9THK113ZNKpXXOSZMv+WBt+NQGJNi5lO9o9DtPMH4MotMX1jmQ/
-	26kq7/pTeqysPkbxtSU736lE30bt+GJEJW6h0xCvnR+vj4XZkzTz1FidxnPuHkC9EewC5EAGETU
-	Z8dV8a0pS76eEzhDpi7RrF7o/jojmH8xU+mezsmOe4uBe2m/lrUZ4NWKmX/aXtlG2uIDXdRHsi6
-	eI+tX9tTAuBcsoYaCR2WOAaYsweh0=
-X-Google-Smtp-Source: AGHT+IEsqge+IGONOcaIskW/dh2jD1PHOkthfQu/5sraz9Ssx6DPunUiwRL9a/P5xS6kCYesirvopQ==
-X-Received: by 2002:a05:600c:204b:b0:477:9d31:9f76 with SMTP id 5b1f17b1804b1-477b9ee4fd0mr266912685e9.12.1764434934210;
-        Sat, 29 Nov 2025 08:48:54 -0800 (PST)
+        bh=+u+kxqq4MMJGawqIDaTzXliKugbB0Ij2lnspVyD3E7E=;
+        b=H5lc++ZutCaBzf3AI8XQ91fqpBI+51LvYQrs0GImSmJnF7Ej+sbAg8RGSt/xYrCnqX
+         NaBj4rESB2+cW3CyW8SU62c9ApXHc8Lar6dWbwRGuVWMceNOhXdn/yOZuhgx6bdL49mv
+         oF8Q1pzk2dV9Cqd39m8sSk8kqZTP8OBXgYLWjCRRBskeuaQ3bFGHbsONgC67lboYKFJG
+         ejP7H1jW0mZORaNRfWsE7bLyaLCQ4W7yJAd9b0vyH41WeGh8+UUDOa7Vc9x1sO96A7AN
+         uvGJspm2VKU2UVomtqh+cvH9jQC07oJTaHAz83vKQKnQsDwI1LKteafg/n1oqqbbTi73
+         orug==
+X-Gm-Message-State: AOJu0Yzcy0nOiRsU6qgREeRXRcsgipLYMTVfDQmw7WLIBUQ603gkSitw
+	jWOJouYGnXP2mKoqmGO/osEf695mPAQphh2dK7t8CVhHA8JtntSKCvrGQtzc/d/9hwSwpy5r3Ch
+	/WJgE
+X-Gm-Gg: ASbGncuCEbSps3NoImzT8N5ZsHvQX9i/MzVLEy6xhe+PK1Rp/+0sE5VldbSAti9c/UG
+	NepQe+pFyOXuMprRkujpv8DAGfD4nNjUt/Y5hAozsx2iRdjSvm91ivzX0zuoxmFivR+r0lDLP/N
+	R1gdSBCiy2bxysIY7y+JLQ9WCJ5b9rVOT2TdV03F4tvSjOj3KUIklz2D/6miCOp/ZVi1nTwByNh
+	BmRjpD31+OMc5lGn5rjKVN0WiPdGzF92+HShBU70KlveGffMF3sSpMGkhseBAPN+xp6Pg/mcdS3
+	NzV/HnlaFF49GxXXkM0SJrRIgytjfvfTby6g8PRuxpMgvndXaya/egfV9Qb2fJV5lO2RvI/b0//
+	P/6Ir0Nor088YbUxM45AVZHaZCcLgLQ5y3KpX1myK2XQyRtXEhDuTOUAaAweWKZT/fEFQyEsUs8
+	EbTHPX28HNDHzS29x7
+X-Google-Smtp-Source: AGHT+IGEoZUwPFD59KrJidNkG9F67yymewSdufIMxYqDAzd7rSdFYU/UTCa8BEI6YpP6tuO8Wx01SA==
+X-Received: by 2002:a05:600c:46cc:b0:477:7b16:5fb1 with SMTP id 5b1f17b1804b1-477c0174856mr324752135e9.7.1764435026599;
+        Sat, 29 Nov 2025 08:50:26 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-479052cfe70sm112532625e9.10.2025.11.29.08.48.53
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4791115caa7sm144049695e9.6.2025.11.29.08.50.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Nov 2025 08:48:53 -0800 (PST)
-Date: Sat, 29 Nov 2025 19:48:49 +0300
+        Sat, 29 Nov 2025 08:50:26 -0800 (PST)
+Date: Sat, 29 Nov 2025 19:50:22 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jie Deng <dengjie03@kylinos.cn>,
-	laurent.pinchart@ideasonboard.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, hansg@kernel.org,
-	mchehab@kernel.org, kieran.bingham@ideasonboard.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jie Deng <dengjie03@kylinos.cn>
-Subject: Re: [PATCH v2] media: usb: uvc: Fix NULL pointer dereference during
- USB device hot-unplug
-Message-ID: <202511290057.kQLrar4L-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Niklas Cassel <cassel@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	FUKAUMI Naoki <naoki@radxa.com>, linux-pci@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH] PCI: dwc: Make Link Up IRQ logic handle already powered
+ on PCIe switches
+Message-ID: <202511290255.uBLXDIG5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -77,79 +82,89 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251122072558.2604753-1-dengjie03@kylinos.cn>
-Message-ID: <20251129164849.LNIeyo4GNz9JM-28v9AuuEuHvNxnjoONoTrK1diZGjw@z>
+In-Reply-To: <20251127134318.3655052-2-cassel@kernel.org>
+Message-ID: <20251129165022.Go1uLkvOuGeoXPKgo6MwKZTj8jUDkx5JKbEj5FGILO8@z>
 
-Hi Jie,
+Hi Niklas,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jie-Deng/media-usb-uvc-Fix-NULL-pointer-dereference-during-USB-device-hot-unplug/20251122-152814
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20251122072558.2604753-1-dengjie03%40kylinos.cn
-patch subject: [PATCH v2] media: usb: uvc: Fix NULL pointer dereference during USB device hot-unplug
-config: x86_64-randconfig-r071-20251128 (https://download.01.org/0day-ci/archive/20251129/202511290057.kQLrar4L-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Cassel/PCI-dwc-Make-Link-Up-IRQ-logic-handle-already-powered-on-PCIe-switches/20251127-214649
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20251127134318.3655052-2-cassel%40kernel.org
+patch subject: [PATCH] PCI: dwc: Make Link Up IRQ logic handle already powered on PCIe switches
+config: x86_64-randconfig-r071-20251128 (https://download.01.org/0day-ci/archive/20251129/202511290255.uBLXDIG5-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511290057.kQLrar4L-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511290255.uBLXDIG5-lkp@intel.com/
 
 smatch warnings:
-drivers/media/usb/uvc/uvc_video.c:2357 uvc_video_stop_streaming() error: we previously assumed 'stream' could be null (see line 2323)
+drivers/pci/controller/dwc/pcie-designware-host.c:737 dw_pcie_host_init() warn: missing error code 'ret'
 
-vim +/stream +2357 drivers/media/usb/uvc/uvc_video.c
+vim +/ret +737 drivers/pci/controller/dwc/pcie-designware-host.c
 
-571e70dbd421056 Kieran Bingham   2018-11-05  2318  void uvc_video_stop_streaming(struct uvc_streaming *stream)
-571e70dbd421056 Kieran Bingham   2018-11-05  2319  {
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2320  	struct usb_host_config *config;
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2321  	int i;
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2322  
-18ffa9a4cf426a8 Jie Deng         2025-11-22 @2323  	if (!stream || !stream->dev || !stream->dev->udev || !stream->intf)
+59fbab1ae40eb0 drivers/pci/controller/dwc/pcie-designware-host.c Rob Herring               2020-11-05  712  
+939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  713  	ret = dw_pcie_setup_rc(pp);
+939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  714  	if (ret)
+939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  715  		goto err_remove_edma;
+939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  716  
+c5097b9869a136 drivers/pci/controller/dwc/pcie-designware-host.c Johan Hovold              2023-07-06  717  	if (!dw_pcie_link_up(pci)) {
+a37beefbde8802 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  718  		ret = dw_pcie_start_link(pci);
+886a9c1347558f drivers/pci/controller/dwc/pcie-designware-host.c Rob Herring               2020-11-05  719  		if (ret)
+939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  720  			goto err_remove_edma;
+da56a1bfbab551 drivers/pci/controller/dwc/pcie-designware-host.c Ajay Agarwal              2023-04-12  721  	}
+886a9c1347558f drivers/pci/controller/dwc/pcie-designware-host.c Rob Herring               2020-11-05  722  
+8d3bf19f1b585a drivers/pci/controller/dwc/pcie-designware-host.c Krishna chaitanya chundru 2024-11-23  723  	/*
+8d3bf19f1b585a drivers/pci/controller/dwc/pcie-designware-host.c Krishna chaitanya chundru 2024-11-23  724  	 * Note: Skip the link up delay only when a Link Up IRQ is present.
+8d3bf19f1b585a drivers/pci/controller/dwc/pcie-designware-host.c Krishna chaitanya chundru 2024-11-23  725  	 * If there is no Link Up IRQ, we should not bypass the delay
+8d3bf19f1b585a drivers/pci/controller/dwc/pcie-designware-host.c Krishna chaitanya chundru 2024-11-23  726  	 * because that would require users to manually rescan for devices.
+8d3bf19f1b585a drivers/pci/controller/dwc/pcie-designware-host.c Krishna chaitanya chundru 2024-11-23  727  	 */
+cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  728  	if (!pp->use_linkup_irq) {
+c5097b9869a136 drivers/pci/controller/dwc/pcie-designware-host.c Johan Hovold              2023-07-06  729  		/* Ignore errors, the link may come up later */
+c5097b9869a136 drivers/pci/controller/dwc/pcie-designware-host.c Johan Hovold              2023-07-06  730  		dw_pcie_wait_for_link(pci);
+c5097b9869a136 drivers/pci/controller/dwc/pcie-designware-host.c Johan Hovold              2023-07-06  731  
+cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  732  		/*
+cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  733  		 * For platforms with Link Up IRQ, initial scan will be done
+cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  734  		 * on first Link Up IRQ.
+cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  735  		 */
+cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  736  		if (dw_pcie_host_initial_scan(pp))
+113fa857b74c94 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24 @737  			goto err_stop_link;
 
-I don't think "stream" can be NULL,
 
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2324  		goto cleanup_clock;
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2325  
-fb58e16bb783833 Kieran Bingham   2018-11-05  2326  	uvc_video_stop_transfer(stream, 1);
-571e70dbd421056 Kieran Bingham   2018-11-05  2327  
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2328  	config = stream->dev->udev->actconfig;
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2329  	if (stream->intf->num_altsetting > 1 && config) {
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2330  		/* Security Check: Check if the interface exists and is valid */
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2331  		for (i = 0; i < config->desc.bNumInterfaces; i++) {
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2332  			if (config->interface[i] &&
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2333  			    config->interface[i]->altsetting[0]
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2334  				.desc.bInterfaceNumber == stream->intfnum) {
-571e70dbd421056 Kieran Bingham   2018-11-05  2335  				usb_set_interface(stream->dev->udev, stream->intfnum, 0);
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2336  				break;
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2337  			}
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2338  		}
-571e70dbd421056 Kieran Bingham   2018-11-05  2339  	} else {
-699b9a86a3f03ad Laurent Pinchart 2022-06-08  2340  		/*
-699b9a86a3f03ad Laurent Pinchart 2022-06-08  2341  		 * UVC doesn't specify how to inform a bulk-based device
-571e70dbd421056 Kieran Bingham   2018-11-05  2342  		 * when the video stream is stopped. Windows sends a
-571e70dbd421056 Kieran Bingham   2018-11-05  2343  		 * CLEAR_FEATURE(HALT) request to the video streaming
-571e70dbd421056 Kieran Bingham   2018-11-05  2344  		 * bulk endpoint, mimic the same behaviour.
-571e70dbd421056 Kieran Bingham   2018-11-05  2345  		 */
-571e70dbd421056 Kieran Bingham   2018-11-05  2346  		unsigned int epnum = stream->header.bEndpointAddress
-571e70dbd421056 Kieran Bingham   2018-11-05  2347  				   & USB_ENDPOINT_NUMBER_MASK;
-571e70dbd421056 Kieran Bingham   2018-11-05  2348  		unsigned int dir = stream->header.bEndpointAddress
-571e70dbd421056 Kieran Bingham   2018-11-05  2349  				 & USB_ENDPOINT_DIR_MASK;
-571e70dbd421056 Kieran Bingham   2018-11-05  2350  		unsigned int pipe;
-571e70dbd421056 Kieran Bingham   2018-11-05  2351  
-571e70dbd421056 Kieran Bingham   2018-11-05  2352  		pipe = usb_sndbulkpipe(stream->dev->udev, epnum) | dir;
-571e70dbd421056 Kieran Bingham   2018-11-05  2353  		usb_clear_halt(stream->dev->udev, pipe);
-571e70dbd421056 Kieran Bingham   2018-11-05  2354  	}
-571e70dbd421056 Kieran Bingham   2018-11-05  2355  
-18ffa9a4cf426a8 Jie Deng         2025-11-22  2356  cleanup_clock:
-141270bd95d48ea Ricardo Ribalda  2024-03-23 @2357  	uvc_video_clock_cleanup(&stream->clock);
-                                                                                ^^^^^^^^^^^^^^
-But if it is then we are toasted.
+	ret = dw_pcie_host_initial_scan(pp);
+	if (ret)
+		goto err_stop_link;
 
+cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  738  	}
+4fbfa17f9a0755 drivers/pci/controller/dwc/pcie-designware-host.c Shradha Todi              2025-02-21  739  
+feb85d9b1c47ea drivers/pci/dwc/pcie-designware-host.c            Kishon Vijay Abraham I    2017-02-15  740  	return 0;
+feb85d9b1c47ea drivers/pci/dwc/pcie-designware-host.c            Kishon Vijay Abraham I    2017-02-15  741  
+113fa857b74c94 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  742  err_stop_link:
+a37beefbde8802 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  743  	dw_pcie_stop_link(pci);
+113fa857b74c94 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  744  
+939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  745  err_remove_edma:
+939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  746  	dw_pcie_edma_remove(pci);
+939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  747  
+9e2b5de5604a6f drivers/pci/controller/dwc/pcie-designware-host.c Jisheng Zhang             2019-03-29  748  err_free_msi:
+f78f02638af594 drivers/pci/controller/dwc/pcie-designware-host.c Rob Herring               2020-11-05  749  	if (pp->has_msi_ctrl)
+9e2b5de5604a6f drivers/pci/controller/dwc/pcie-designware-host.c Jisheng Zhang             2019-03-29  750  		dw_pcie_free_msi(pp);
+c6481d51dc65f2 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  751  
+c6481d51dc65f2 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  752  err_deinit_host:
+aea370b2aec9d3 drivers/pci/controller/dwc/pcie-designware-host.c Yoshihiro Shimoda         2023-12-20  753  	if (pp->ops->deinit)
+aea370b2aec9d3 drivers/pci/controller/dwc/pcie-designware-host.c Yoshihiro Shimoda         2023-12-20  754  		pp->ops->deinit(pp);
+c6481d51dc65f2 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  755  
+f6fd357f7afbeb drivers/pci/controller/dwc/pcie-designware-host.c Krishna Chaitanya Chundru 2025-09-23  756  err_free_ecam:
+f6fd357f7afbeb drivers/pci/controller/dwc/pcie-designware-host.c Krishna Chaitanya Chundru 2025-09-23  757  	if (pp->cfg)
+f6fd357f7afbeb drivers/pci/controller/dwc/pcie-designware-host.c Krishna Chaitanya Chundru 2025-09-23  758  		pci_ecam_free(pp->cfg);
+f6fd357f7afbeb drivers/pci/controller/dwc/pcie-designware-host.c Krishna Chaitanya Chundru 2025-09-23  759  
+feb85d9b1c47ea drivers/pci/dwc/pcie-designware-host.c            Kishon Vijay Abraham I    2017-02-15  760  	return ret;
+feb85d9b1c47ea drivers/pci/dwc/pcie-designware-host.c            Kishon Vijay Abraham I    2017-02-15  761  }
 
 -- 
 0-DAY CI Kernel Test Service
