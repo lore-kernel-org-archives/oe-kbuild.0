@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7861172623
-	for <oe-kbuild@lists.linux.dev>; Sat, 29 Nov 2025 08:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140C91A073F
+	for <oe-kbuild@lists.linux.dev>; Sat, 29 Nov 2025 09:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764405071; cv=none; b=VQU9p8Yl9jQt6tJ8MrHb9pS7TCjzaU4+MSWtNlRhZ0I0csikCGqbdyR0eBBfx2+5IYDIwoJsPIEG87P2bslMUlpT8lpIA+1XltBNTdtuwI8PfenC+gV9zKpb+Ove7ZCRB5PPjwp7SHRDE2x/Gt2+rU1XtqUfcU39sqWJuNho2B8=
+	t=1764408549; cv=none; b=YuxuDL2zJn9j7WASwteWSR7y40RXOKIKMhzXFMIaT/ml4Zny6wj/dG91uM9xgS/y3AWc36krdxJuFbVlROhqEUJ4lxY7JRst1ikPmn6P4XVd4Gm8g0LwevhVAK41PkZhbh9tJiexN3ff38JMDF34yBKbI1KlGf/Af2No1OEmjHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764405071; c=relaxed/simple;
-	bh=IBlmky0xp3GwFOrzPdN6gmi1E6hHxMD09PFggvEjBuk=;
+	s=arc-20240116; t=1764408549; c=relaxed/simple;
+	bh=zmC6mk5KDJRRpPK5DzDHU0jslDTTZZgrcgQ84Ac/jp4=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gIXM9CxjjBC2MQvHCJdsnYZMZxpaM5X299vQRW/mmR3Pkweb2iP8PFpNZbgXhroRtWC+vqZQ97mnB3sYr2UGbA8f8U0W5wtmr3Y+oM4bszlmeLC39exYRKefNgJJeVfJEKYgjMMhsprpJqjzD3P16qKCLafDyNBkWqfe08iU0p0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iqw+9daK; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=LOikE/GTtLwMsOSo44OMTwARauZCQ4hf3VRsqQLqpy0Ewh4YRD52JJ3zJfpyrHVuIgynaOMHkU/6iLruct6cBQEBWLWnPZ3n1COeUnD4rUu7U5Xt+PqBDF13YO0jxcHiSg1bldvw4ocn98/tZ0z/0fJqor8YsrjFfgv0BgRdzW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=StJR/HqV; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iqw+9daK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="StJR/HqV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764405068; x=1795941068;
+  t=1764408548; x=1795944548;
   h=date:from:to:subject:message-id:mime-version;
-  bh=IBlmky0xp3GwFOrzPdN6gmi1E6hHxMD09PFggvEjBuk=;
-  b=Iqw+9daKOxp6k3P02ERvOFR9WyppdV9T1M+6RKr7S4S0aZ2fx93moYD6
-   z7sA/7HZm31BLHMdX73BGru886t84kIhqVd8smvsBwuOnmmIMcFFn390y
-   N/JmjBpVQyfxHHqyAaEt+u8ACAIk1kRehkc1nK3RDqJ1d/c+gh8KIxVW2
-   8lRnnWEe9SLibPcSUi68wn1vvxYkOWxnDj4K4BumS9/InXKCqPFhKB5sY
-   9JrboYzpAzCpuZC/4MOMrmZASH0HmbdNqCKYaP7sRNX+bUcm70xSM1fta
-   FZGF08rHLRrIMZegNjzrBv5WOgcl+PCFS2IEh4OLV1O6kvG/0OYVV2YFE
-   w==;
-X-CSE-ConnectionGUID: /Mc2BwgQRruVJLtbXjIHvw==
-X-CSE-MsgGUID: qJty68nST0merVmRyqgIJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="70030778"
+  bh=zmC6mk5KDJRRpPK5DzDHU0jslDTTZZgrcgQ84Ac/jp4=;
+  b=StJR/HqVnEYUNhsSY/nYVb+ufXOGPRCKojMd1St4Fk7ztIvhKAwyNaSV
+   5jnsdVfUGDRMCe49MIg8a1FLlkphOs4Wv4fdt/4C7wECJvM+Pu4nrxULm
+   CHjDvgDMznQwKQW0lunM6U6rIEn9a0cLKcIqePKM/Gv3mm1KNKuX/QEsL
+   /ApRY4j7wh4SUQlq6NLWTMRo3vIsOga0UR6lNx+TwZczJehXD46ae59SQ
+   ObA9YwZR7ZUjeDG2iDHUGsN6RzNgVn9NXkruaSoKk2cvEiOCaYRECxylm
+   fEC/f/w5z+1K3Tr7N0MmGEoanyJcpX8Ld5ctYIMM4p5oFl0DvS5kPElwP
+   Q==;
+X-CSE-ConnectionGUID: GzhT1gxvSrKYAkDrr8o5IQ==
+X-CSE-MsgGUID: o73S8PaJQ9GQ/rNCauwGhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="66304637"
 X-IronPort-AV: E=Sophos;i="6.20,236,1758610800"; 
-   d="scan'208";a="70030778"
+   d="scan'208";a="66304637"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 00:31:07 -0800
-X-CSE-ConnectionGUID: G7fA6n9yRk+OdbvvuMQmmA==
-X-CSE-MsgGUID: uvx9NviFQAKOgTnVy/JiwA==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 01:29:07 -0800
+X-CSE-ConnectionGUID: osZmZEagR2mMpfks9ubdbg==
+X-CSE-MsgGUID: kkhbh4LpQzmUOoHv7hi6UA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,236,1758610800"; 
-   d="scan'208";a="197950545"
+   d="scan'208";a="197956929"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 29 Nov 2025 00:31:06 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 29 Nov 2025 01:29:06 -0800
 Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vPGMC-000000002HZ-0iQn
+	id 1vPHGK-000000002Hx-26pY
 	for oe-kbuild@lists.linux.dev;
-	Sat, 29 Nov 2025 08:31:04 +0000
-Date: Sat, 29 Nov 2025 09:30:43 +0100
+	Sat, 29 Nov 2025 09:29:04 +0000
+Date: Sat, 29 Nov 2025 10:28:29 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [linux-review:Hithashree-Bojanala/Fix-refcount-bug-in-time-scheduled-paths/20251129-004207
- 1/1] checkpatch: WARNING:BLOCK_COMMENT_STYLE: Block comments should align
- the * on each line
-Message-ID: <202511290924.GAASbgxO-lkp@intel.com>
+Subject: [devsec-tsm:staging 28/31] checkpatch: WARNING:REPEATED_WORD:
+ Possible repeated word: 'and'
+Message-ID: <202511291004.RfxYQzTY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,26 +68,20 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Hithashree Bojanala <bojanalahithashri@gmail.com>
+TO: Dan Williams <dan.j.williams@intel.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Hithashree-Bojanala/Fix-refcount-bug-in-time-scheduled-paths/20251129-004207
-head:   8ee530dead6af43832d4ba8c3cb82b1c5ad99be7
-commit: 8ee530dead6af43832d4ba8c3cb82b1c5ad99be7 [1/1] Fix refcount bug in time scheduled paths
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20251129/202511290924.GAASbgxO-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/devsec/tsm staging
+head:   7849e77cb51ca31f8340e9a27ad0b846524fe07e
+commit: bf316a4fb78d9bde46e665c9490ba246485a51f8 [28/31] samples/devsec: Add sample TSM bind and guest_request flows
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20251129/202511291004.RfxYQzTY-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#40: FILE: net/sctp/sm_sideeffect.c:381:
-+		/* Always hold a reference when rescheduling inside timer callback
-+		* because this callback will put the reference at the end */
-
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#53: FILE: net/sctp/sm_sideeffect.c:393:
-+		/* Always hold a reference when rescheduling inside timer callback
-+		* because this callback will put the reference at the end*/
+WARNING:REPEATED_WORD: Possible repeated word: 'and'
+#8: 
+Arrange for pci_tsm_bind() and and pci_tsm_guest_req() to be invoked via
 
 -- 
 0-DAY CI Kernel Test Service
