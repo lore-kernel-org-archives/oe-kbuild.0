@@ -1,79 +1,72 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1C11C701F
-	for <oe-kbuild@lists.linux.dev>; Sat, 29 Nov 2025 16:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2D71D86FF
+	for <oe-kbuild@lists.linux.dev>; Sat, 29 Nov 2025 16:51:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764435031; cv=none; b=RDyM+nmEMIqE38L75S2keKozy3tGqVOqt7QTOlKrq2UIDZqWG7ZaehzESmMujvX5wNzuV5AURH9PfdWsFN/hz8wMdXYMTIrnzoHwVH8Xc4LCdt3O4QOgtsu8AneiS74N/xNNZOTdk14jwK9jGMwUzx/ExMu3wh8HFVMNGkES/Bc=
+	t=1764435108; cv=none; b=JrLjMBsx5ZLw0aH5RSFmrffy46JQl7qSHYnfM/l4p/mE0aPYpcdJOTA2XV6TYQEM/n0wgfa7Z+9a6Z8UZMXENUC65h2IML5ts9xAvXHygSfKc1c+aONzPaV4HRCbSMXUjwX1HopBUa0FMEj1i0YIP3NcvbLpgwh4eHKB/aOdaDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764435031; c=relaxed/simple;
-	bh=Cn+yNuLXa8lWVWpF6f/eF1X7MDE7Ri0IU5SGShQe0HM=;
+	s=arc-20240116; t=1764435108; c=relaxed/simple;
+	bh=/iNK4Qtd+hA3I1KKNTPu2IlUU49kyEFn0I93BpZeAb0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=dHV7I77a4STcd2J3eA0n8Mih49s+eFfBQ89Y5194WAXvtzmiTjXv8McpXnbpdAgOXz8zprI7/+nVt3iYRczhO7peZ5VFvrICknK/XhG0U2is1gCB1aKGkrrE1Ggi1Qigde4O6HRFPsW1THTZdmP8reW9n1Aj6yJi84hU0Y4yCRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IK7IDSgr; arc=none smtp.client-ip=209.85.128.54
+	 Content-Disposition:In-Reply-To; b=GXWTwJcI7nfulo1jRBU1aeA5NF6v0/nMsEnmNR8vH6ic/BEmS8IFhHsklx0PCDszzju0m0mVGKkYoeczsa4ADzqhWSI7BlF1h3iBXhXxxxYB3aWzyjusSQ4NEfsH8ksoyUpR3kkrYAkVXHr58erF1ukWthi/Lnif+5IucRd0p50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V+PosJYe; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IK7IDSgr"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso23433775e9.3
-        for <oe-kbuild@lists.linux.dev>; Sat, 29 Nov 2025 08:50:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V+PosJYe"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47790b080e4so12539175e9.3
+        for <oe-kbuild@lists.linux.dev>; Sat, 29 Nov 2025 08:51:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764435027; x=1765039827; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1764435105; x=1765039905; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+u+kxqq4MMJGawqIDaTzXliKugbB0Ij2lnspVyD3E7E=;
-        b=IK7IDSgrZMzVZ+EqSl2/FQNnXmrvvpigEnhk3V6dnQLpiK8FCejR1aKswuHgvxQLcI
-         7rbqW19SyanJnbbwqm2jt7XYy/5IyUdUtXeXRLKniXD143kxQa6ZsJf7T9OiMlwvDoVk
-         aJCt1wWEO+DveCA5HaOCI5NfiQG51rZgPi8GxNwGb2t4cvUro7JEL7X8R7Yd7l/4nAZD
-         NpxT5j87t5DzaMNdvvUAry1JlYVmkt6g3eKcX29D4Wa7MmUfB7WMy6vsXONAOCEQWL3u
-         gKjvZmAKj1Zu+gCBD7+YlHfr54Jwu60hyPfUUgfqP4e6fzmk4iEYunxEaZlRLX2eByYV
-         nBLA==
+        bh=eNQQ2TrZ6lIHhcgB8NrgQiNlLOxGJsp2u9drC4JaiaE=;
+        b=V+PosJYe7InO76N3Cu3wtRYOVbU984qd40lmBkJUjq0KnC2o060eYTx5Z3zcdL3qh1
+         iK8m3nRbxt0kZs77EwO0OKB2kov3JN2euf7SvlgoxD4ak84t0WBr+L+i8gG/RWD5Kahg
+         yPxsx0FEUpdu7WF05lGjSy7n/DkH7eepRpFw8A/uUwHeX3rGJe/Qll3dVKYg47+UztIP
+         PaM/FFEy1QimE9NjpraiZENiVJDWPO1+/rDpEx1GhHkEvjwVtpoWEfGdysx/MKYtqGLv
+         +2MX/dmig9ZC9/AoA0hFVUqRngQLc/yn5rc1b6jeR3bO6zF+FMwFvo8WIizjrV7R2GVY
+         pdrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764435027; x=1765039827;
+        d=1e100.net; s=20230601; t=1764435105; x=1765039905;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+u+kxqq4MMJGawqIDaTzXliKugbB0Ij2lnspVyD3E7E=;
-        b=H5lc++ZutCaBzf3AI8XQ91fqpBI+51LvYQrs0GImSmJnF7Ej+sbAg8RGSt/xYrCnqX
-         NaBj4rESB2+cW3CyW8SU62c9ApXHc8Lar6dWbwRGuVWMceNOhXdn/yOZuhgx6bdL49mv
-         oF8Q1pzk2dV9Cqd39m8sSk8kqZTP8OBXgYLWjCRRBskeuaQ3bFGHbsONgC67lboYKFJG
-         ejP7H1jW0mZORaNRfWsE7bLyaLCQ4W7yJAd9b0vyH41WeGh8+UUDOa7Vc9x1sO96A7AN
-         uvGJspm2VKU2UVomtqh+cvH9jQC07oJTaHAz83vKQKnQsDwI1LKteafg/n1oqqbbTi73
-         orug==
-X-Gm-Message-State: AOJu0Yzcy0nOiRsU6qgREeRXRcsgipLYMTVfDQmw7WLIBUQ603gkSitw
-	jWOJouYGnXP2mKoqmGO/osEf695mPAQphh2dK7t8CVhHA8JtntSKCvrGQtzc/d/9hwSwpy5r3Ch
-	/WJgE
-X-Gm-Gg: ASbGncuCEbSps3NoImzT8N5ZsHvQX9i/MzVLEy6xhe+PK1Rp/+0sE5VldbSAti9c/UG
-	NepQe+pFyOXuMprRkujpv8DAGfD4nNjUt/Y5hAozsx2iRdjSvm91ivzX0zuoxmFivR+r0lDLP/N
-	R1gdSBCiy2bxysIY7y+JLQ9WCJ5b9rVOT2TdV03F4tvSjOj3KUIklz2D/6miCOp/ZVi1nTwByNh
-	BmRjpD31+OMc5lGn5rjKVN0WiPdGzF92+HShBU70KlveGffMF3sSpMGkhseBAPN+xp6Pg/mcdS3
-	NzV/HnlaFF49GxXXkM0SJrRIgytjfvfTby6g8PRuxpMgvndXaya/egfV9Qb2fJV5lO2RvI/b0//
-	P/6Ir0Nor088YbUxM45AVZHaZCcLgLQ5y3KpX1myK2XQyRtXEhDuTOUAaAweWKZT/fEFQyEsUs8
-	EbTHPX28HNDHzS29x7
-X-Google-Smtp-Source: AGHT+IGEoZUwPFD59KrJidNkG9F67yymewSdufIMxYqDAzd7rSdFYU/UTCa8BEI6YpP6tuO8Wx01SA==
-X-Received: by 2002:a05:600c:46cc:b0:477:7b16:5fb1 with SMTP id 5b1f17b1804b1-477c0174856mr324752135e9.7.1764435026599;
-        Sat, 29 Nov 2025 08:50:26 -0800 (PST)
+        bh=eNQQ2TrZ6lIHhcgB8NrgQiNlLOxGJsp2u9drC4JaiaE=;
+        b=qIj4R+9XqdnhajaWCXccemk6s1aoa+9J8ivyL+XT5HowxjWj57z4N/68hxJUtvZ0TA
+         MGSjDxkZmi3Tr+PVydulW07J0Gztm5RXIidmlDtPEhymIoyr75zZX7MFtVSEbVBKMUEB
+         KkHnnbyb+0G+fRTgkMCW8ukRMRh0Y5lVg/J9CFa7wz+2YvpNtmakBsWgdN1iZArb24ef
+         JTpdum5/Ab12kW8NERftFbbBfqkK6MDmxcFGURcRwyFc4B1jLfAd5VjSiMSUiiav15K8
+         AXc/yKPpvoiQ86hekamsqwn5/vm/0uXSdnKN5duNmjFsD01qWFbwAFZPzJIQ4xoFg0zA
+         jp5g==
+X-Gm-Message-State: AOJu0Ywdq4ed642npJSqTy+4PUcpwNUhswwUKj61CzAHsIgO+pXoOqf2
+	AWy0n5VXavwSQzNCUzfY8Rmb4zXuwgWHA82cpwlL2oa3mH/TMYUqeoQVI0XXal1Iwd/60HorCGC
+	lDa/a
+X-Gm-Gg: ASbGncvBk7wnA4Z4PHBi6uMt0TFhzD4vWZxtsIbZ1/5J0cfmr2O/y6tSTbcUUIuxl7/
+	V9IqbAdJbUgklYKItKrkBU/i28lUp9YZcQQ2Ph7bih2CW/UsKk7fGRxVDjwCTwYIgekzS2us4Rl
+	HqkwUdrPNAG+ywMv9lciymGDd8iw7pnlIDqUY2pEJSEolL4+3I1hyvWsypYFSHFgNUFckFSCsl4
+	SvdBGH+3y8EVr0sAvwGg37Z1jGwj3s+/onmDBTZzrNQlwmWPpCD2c2G8poxd33tlu3W5bY0yra2
+	ASq214uTyYYuHwz0ZqTJqf+qUeYQ1V/06Y8cm5S6muposYlKDoCGQrK+UlWaK+4+XqEgv/bXERb
+	bKqJ1PXiZYvjTcuIpKtpC9USfGOZs3nU0mGnUAYTnK+EkZEta9RzlGyz19+KRBZhHgqEG7h3aYb
+	SqZBj1g0fhc7Amkw2clHmWGQrmhO4=
+X-Google-Smtp-Source: AGHT+IFQybZ8AC4gkevKQ/6HpN9EXVOyox2BHm3ICg6x870LOSGMofLFGRpseW1XP7cGo/FDwctfxQ==
+X-Received: by 2002:a05:600c:198e:b0:46e:33b2:c8da with SMTP id 5b1f17b1804b1-477c1133927mr322314755e9.32.1764435104802;
+        Sat, 29 Nov 2025 08:51:44 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4791115caa7sm144049695e9.6.2025.11.29.08.50.25
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4790b0c3a28sm217505665e9.9.2025.11.29.08.51.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Nov 2025 08:50:26 -0800 (PST)
-Date: Sat, 29 Nov 2025 19:50:22 +0300
+        Sat, 29 Nov 2025 08:51:44 -0800 (PST)
+Date: Sat, 29 Nov 2025 19:51:41 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Niklas Cassel <cassel@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	FUKAUMI Naoki <naoki@radxa.com>, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] PCI: dwc: Make Link Up IRQ logic handle already powered
- on PCIe switches
-Message-ID: <202511290255.uBLXDIG5-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Alex Markuze <amarkuze@redhat.com>,
+	ceph-devel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, idryomov@gmail.com,
+	linux-fsdevel@vger.kernel.org, amarkuze@redhat.com,
+	vdubeyko@redhat.com
+Subject: Re: [PATCH 3/3] ceph: add subvolume metrics collection and reporting
+Message-ID: <202511290541.wFDJlRdO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -82,89 +75,92 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251127134318.3655052-2-cassel@kernel.org>
-Message-ID: <20251129165022.Go1uLkvOuGeoXPKgo6MwKZTj8jUDkx5JKbEj5FGILO8@z>
+In-Reply-To: <20251127134620.2035796-4-amarkuze@redhat.com>
+Message-ID: <20251129165141.FBnLnLRxptwF8JnOwSkexqnw__VprkAvkXtCWCT9Pg8@z>
 
-Hi Niklas,
+Hi Alex,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Cassel/PCI-dwc-Make-Link-Up-IRQ-logic-handle-already-powered-on-PCIe-switches/20251127-214649
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20251127134318.3655052-2-cassel%40kernel.org
-patch subject: [PATCH] PCI: dwc: Make Link Up IRQ logic handle already powered on PCIe switches
-config: x86_64-randconfig-r071-20251128 (https://download.01.org/0day-ci/archive/20251129/202511290255.uBLXDIG5-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Markuze/ceph-handle-InodeStat-v8-versioned-field-in-reply-parsing/20251127-214928
+base:   https://github.com/ceph/ceph-client.git for-linus
+patch link:    https://lore.kernel.org/r/20251127134620.2035796-4-amarkuze%40redhat.com
+patch subject: [PATCH 3/3] ceph: add subvolume metrics collection and reporting
+config: x86_64-randconfig-r071-20251128 (https://download.01.org/0day-ci/archive/20251129/202511290541.wFDJlRdO-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511290255.uBLXDIG5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511290541.wFDJlRdO-lkp@intel.com/
 
 smatch warnings:
-drivers/pci/controller/dwc/pcie-designware-host.c:737 dw_pcie_host_init() warn: missing error code 'ret'
+fs/ceph/debugfs.c:436 subvolume_metrics_show() error: we previously assumed 'mdsc' could be null (see line 399)
 
-vim +/ret +737 drivers/pci/controller/dwc/pcie-designware-host.c
+vim +/mdsc +436 fs/ceph/debugfs.c
 
-59fbab1ae40eb0 drivers/pci/controller/dwc/pcie-designware-host.c Rob Herring               2020-11-05  712  
-939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  713  	ret = dw_pcie_setup_rc(pp);
-939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  714  	if (ret)
-939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  715  		goto err_remove_edma;
-939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  716  
-c5097b9869a136 drivers/pci/controller/dwc/pcie-designware-host.c Johan Hovold              2023-07-06  717  	if (!dw_pcie_link_up(pci)) {
-a37beefbde8802 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  718  		ret = dw_pcie_start_link(pci);
-886a9c1347558f drivers/pci/controller/dwc/pcie-designware-host.c Rob Herring               2020-11-05  719  		if (ret)
-939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  720  			goto err_remove_edma;
-da56a1bfbab551 drivers/pci/controller/dwc/pcie-designware-host.c Ajay Agarwal              2023-04-12  721  	}
-886a9c1347558f drivers/pci/controller/dwc/pcie-designware-host.c Rob Herring               2020-11-05  722  
-8d3bf19f1b585a drivers/pci/controller/dwc/pcie-designware-host.c Krishna chaitanya chundru 2024-11-23  723  	/*
-8d3bf19f1b585a drivers/pci/controller/dwc/pcie-designware-host.c Krishna chaitanya chundru 2024-11-23  724  	 * Note: Skip the link up delay only when a Link Up IRQ is present.
-8d3bf19f1b585a drivers/pci/controller/dwc/pcie-designware-host.c Krishna chaitanya chundru 2024-11-23  725  	 * If there is no Link Up IRQ, we should not bypass the delay
-8d3bf19f1b585a drivers/pci/controller/dwc/pcie-designware-host.c Krishna chaitanya chundru 2024-11-23  726  	 * because that would require users to manually rescan for devices.
-8d3bf19f1b585a drivers/pci/controller/dwc/pcie-designware-host.c Krishna chaitanya chundru 2024-11-23  727  	 */
-cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  728  	if (!pp->use_linkup_irq) {
-c5097b9869a136 drivers/pci/controller/dwc/pcie-designware-host.c Johan Hovold              2023-07-06  729  		/* Ignore errors, the link may come up later */
-c5097b9869a136 drivers/pci/controller/dwc/pcie-designware-host.c Johan Hovold              2023-07-06  730  		dw_pcie_wait_for_link(pci);
-c5097b9869a136 drivers/pci/controller/dwc/pcie-designware-host.c Johan Hovold              2023-07-06  731  
-cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  732  		/*
-cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  733  		 * For platforms with Link Up IRQ, initial scan will be done
-cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  734  		 * on first Link Up IRQ.
-cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  735  		 */
-cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  736  		if (dw_pcie_host_initial_scan(pp))
-113fa857b74c94 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24 @737  			goto err_stop_link;
+d469e1da62544e7 Alex Markuze 2025-11-27  390  static int subvolume_metrics_show(struct seq_file *s, void *p)
+d469e1da62544e7 Alex Markuze 2025-11-27  391  {
+d469e1da62544e7 Alex Markuze 2025-11-27  392  	struct ceph_fs_client *fsc = s->private;
+d469e1da62544e7 Alex Markuze 2025-11-27  393  	struct ceph_mds_client *mdsc = fsc->mdsc;
+d469e1da62544e7 Alex Markuze 2025-11-27  394  	struct ceph_subvol_metric_snapshot *snapshot = NULL;
+d469e1da62544e7 Alex Markuze 2025-11-27  395  	u32 nr = 0;
+d469e1da62544e7 Alex Markuze 2025-11-27  396  	u64 total_sent = 0;
+d469e1da62544e7 Alex Markuze 2025-11-27  397  	u32 i;
+d469e1da62544e7 Alex Markuze 2025-11-27  398  
+d469e1da62544e7 Alex Markuze 2025-11-27 @399  	if (mdsc) {
 
+This assumes mdsc can be NULL
 
-	ret = dw_pcie_host_initial_scan(pp);
-	if (ret)
-		goto err_stop_link;
+d469e1da62544e7 Alex Markuze 2025-11-27  400  		mutex_lock(&mdsc->subvol_metrics_last_mutex);
+d469e1da62544e7 Alex Markuze 2025-11-27  401  		if (mdsc->subvol_metrics_last &&
+d469e1da62544e7 Alex Markuze 2025-11-27  402  		    mdsc->subvol_metrics_last_nr) {
+d469e1da62544e7 Alex Markuze 2025-11-27  403  			nr = mdsc->subvol_metrics_last_nr;
+d469e1da62544e7 Alex Markuze 2025-11-27  404  			snapshot = kmemdup(mdsc->subvol_metrics_last,
+d469e1da62544e7 Alex Markuze 2025-11-27  405  					   nr * sizeof(*snapshot),
+d469e1da62544e7 Alex Markuze 2025-11-27  406  					   GFP_KERNEL);
+d469e1da62544e7 Alex Markuze 2025-11-27  407  			if (!snapshot)
+d469e1da62544e7 Alex Markuze 2025-11-27  408  				nr = 0;
+d469e1da62544e7 Alex Markuze 2025-11-27  409  		}
+d469e1da62544e7 Alex Markuze 2025-11-27  410  		total_sent = mdsc->subvol_metrics_sent;
+d469e1da62544e7 Alex Markuze 2025-11-27  411  		mutex_unlock(&mdsc->subvol_metrics_last_mutex);
+d469e1da62544e7 Alex Markuze 2025-11-27  412  	}
+d469e1da62544e7 Alex Markuze 2025-11-27  413  
+d469e1da62544e7 Alex Markuze 2025-11-27  414  	seq_puts(s, "Last sent subvolume metrics:\n");
+d469e1da62544e7 Alex Markuze 2025-11-27  415  	if (!nr) {
+d469e1da62544e7 Alex Markuze 2025-11-27  416  		seq_puts(s, "  (none)\n");
+d469e1da62544e7 Alex Markuze 2025-11-27  417  	} else {
+d469e1da62544e7 Alex Markuze 2025-11-27  418  		seq_puts(s, "  subvol_id          rd_ops    wr_ops    rd_bytes       wr_bytes       rd_lat_us      wr_lat_us\n");
+d469e1da62544e7 Alex Markuze 2025-11-27  419  		for (i = 0; i < nr; i++) {
+d469e1da62544e7 Alex Markuze 2025-11-27  420  			const struct ceph_subvol_metric_snapshot *e = &snapshot[i];
+d469e1da62544e7 Alex Markuze 2025-11-27  421  
+d469e1da62544e7 Alex Markuze 2025-11-27  422  			seq_printf(s, "  %-18llu %-9llu %-9llu %-14llu %-14llu %-14llu %-14llu\n",
+d469e1da62544e7 Alex Markuze 2025-11-27  423  				   e->subvolume_id,
+d469e1da62544e7 Alex Markuze 2025-11-27  424  				   e->read_ops, e->write_ops,
+d469e1da62544e7 Alex Markuze 2025-11-27  425  				   e->read_bytes, e->write_bytes,
+d469e1da62544e7 Alex Markuze 2025-11-27  426  				   e->read_latency_us, e->write_latency_us);
+d469e1da62544e7 Alex Markuze 2025-11-27  427  		}
+d469e1da62544e7 Alex Markuze 2025-11-27  428  	}
+d469e1da62544e7 Alex Markuze 2025-11-27  429  	kfree(snapshot);
+d469e1da62544e7 Alex Markuze 2025-11-27  430  
+d469e1da62544e7 Alex Markuze 2025-11-27  431  	seq_puts(s, "\nStatistics:\n");
+d469e1da62544e7 Alex Markuze 2025-11-27  432  	seq_printf(s, "  entries_sent:      %llu\n", total_sent);
+d469e1da62544e7 Alex Markuze 2025-11-27  433  
+d469e1da62544e7 Alex Markuze 2025-11-27  434  	mutex_lock(&mdsc->subvol_metrics_last_mutex);
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Unchecked dereference
 
-cd723d3dce14ac drivers/pci/controller/dwc/pcie-designware-host.c Niklas Cassel             2025-11-27  738  	}
-4fbfa17f9a0755 drivers/pci/controller/dwc/pcie-designware-host.c Shradha Todi              2025-02-21  739  
-feb85d9b1c47ea drivers/pci/dwc/pcie-designware-host.c            Kishon Vijay Abraham I    2017-02-15  740  	return 0;
-feb85d9b1c47ea drivers/pci/dwc/pcie-designware-host.c            Kishon Vijay Abraham I    2017-02-15  741  
-113fa857b74c94 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  742  err_stop_link:
-a37beefbde8802 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  743  	dw_pcie_stop_link(pci);
-113fa857b74c94 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  744  
-939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  745  err_remove_edma:
-939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  746  	dw_pcie_edma_remove(pci);
-939fbcd568fd29 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2023-01-13  747  
-9e2b5de5604a6f drivers/pci/controller/dwc/pcie-designware-host.c Jisheng Zhang             2019-03-29  748  err_free_msi:
-f78f02638af594 drivers/pci/controller/dwc/pcie-designware-host.c Rob Herring               2020-11-05  749  	if (pp->has_msi_ctrl)
-9e2b5de5604a6f drivers/pci/controller/dwc/pcie-designware-host.c Jisheng Zhang             2019-03-29  750  		dw_pcie_free_msi(pp);
-c6481d51dc65f2 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  751  
-c6481d51dc65f2 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  752  err_deinit_host:
-aea370b2aec9d3 drivers/pci/controller/dwc/pcie-designware-host.c Yoshihiro Shimoda         2023-12-20  753  	if (pp->ops->deinit)
-aea370b2aec9d3 drivers/pci/controller/dwc/pcie-designware-host.c Yoshihiro Shimoda         2023-12-20  754  		pp->ops->deinit(pp);
-c6481d51dc65f2 drivers/pci/controller/dwc/pcie-designware-host.c Serge Semin               2022-06-24  755  
-f6fd357f7afbeb drivers/pci/controller/dwc/pcie-designware-host.c Krishna Chaitanya Chundru 2025-09-23  756  err_free_ecam:
-f6fd357f7afbeb drivers/pci/controller/dwc/pcie-designware-host.c Krishna Chaitanya Chundru 2025-09-23  757  	if (pp->cfg)
-f6fd357f7afbeb drivers/pci/controller/dwc/pcie-designware-host.c Krishna Chaitanya Chundru 2025-09-23  758  		pci_ecam_free(pp->cfg);
-f6fd357f7afbeb drivers/pci/controller/dwc/pcie-designware-host.c Krishna Chaitanya Chundru 2025-09-23  759  
-feb85d9b1c47ea drivers/pci/dwc/pcie-designware-host.c            Kishon Vijay Abraham I    2017-02-15  760  	return ret;
-feb85d9b1c47ea drivers/pci/dwc/pcie-designware-host.c            Kishon Vijay Abraham I    2017-02-15  761  }
+d469e1da62544e7 Alex Markuze 2025-11-27  435  	seq_printf(s, "  non_zero_sends:    %llu\n",
+d469e1da62544e7 Alex Markuze 2025-11-27 @436  		   mdsc->subvol_metrics_nonzero_sends);
+d469e1da62544e7 Alex Markuze 2025-11-27  437  	mutex_unlock(&mdsc->subvol_metrics_last_mutex);
+d469e1da62544e7 Alex Markuze 2025-11-27  438  
+d469e1da62544e7 Alex Markuze 2025-11-27  439  	seq_puts(s, "\nPending (unsent) subvolume metrics:\n");
+d469e1da62544e7 Alex Markuze 2025-11-27  440  	ceph_subvolume_metrics_dump(&fsc->mdsc->subvol_metrics, s);
+d469e1da62544e7 Alex Markuze 2025-11-27  441  	return 0;
+d469e1da62544e7 Alex Markuze 2025-11-27  442  }
 
 -- 
 0-DAY CI Kernel Test Service
