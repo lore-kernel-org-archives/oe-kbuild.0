@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF3A3FC2
-	for <oe-kbuild@lists.linux.dev>; Sun, 30 Nov 2025 01:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F33919D071
+	for <oe-kbuild@lists.linux.dev>; Sun, 30 Nov 2025 02:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764465499; cv=none; b=Qu2cFMf4US9JQImGoS5qxdHwqwwHD47USszjAUwxm0XY3YCGjiFqSBrN7NRFn1vSGVcKfPenv4FopeCS5nntY9G7iQMM73OBMlaC+JYTM+KTobVtwKj9aNiwsdHyqputX7pYpwRXnPqxoTzcwRSRZcpyLRhXHKUiYh5mqpIOeCU=
+	t=1764468437; cv=none; b=tT2LlxirMKySo07qyVihDc/VCCtRJwMcgcLzdW87KyR1lTM+2Jm4IjxrwA1QvgY0tyD8V4JPZ59FIL1TL7ImSRY4bRdB10ar2Oh3xcG+ijZyA1dJcZueRz6I1YG37Fd95zJqqZMUIYG7UAqHVwG/nThLENG0viEmb0Huv22k+CE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764465499; c=relaxed/simple;
-	bh=TPUxbX/g5TvANvnPIguQeAskNpi2p+hAT3pgYEh8XG8=;
+	s=arc-20240116; t=1764468437; c=relaxed/simple;
+	bh=pypLkFe7q1ZjRdXUGMwxk/AY9B6jpZeoOTim+pXyHf8=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nxB8YtRMVV8NfqRaVNSNrNGRC4Gs9KHSyhXFlPr23Gftgu3qaUe8NTsQv7Dd5EalGkXawSazWu+zJB4k+JkyvA3OtQiagnsiWLMzl1mORI9eipz0Ke/5z8dLji1YVbsRalLImVZwGGltp0+cpzcmXzbyChJfFXQpecKKXbiTjXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SvdJh0tR; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=p01pKHHOFYovkj33BN/mV8Mk77uIrYqs5OOQGivSaSlP2JwfOI2cEnfHjUJQlYLD2oVD5WatNKtxJsSnP3jqudBY9xrvhLkAOGU1rsbHX0b1nzfy78++8lvqpV888WWu19vvr5yZ3A+bpjZp/R1HE4cSehHpy+d5wIqxqwGggiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XEoAsPGC; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SvdJh0tR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XEoAsPGC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764465498; x=1796001498;
+  t=1764468436; x=1796004436;
   h=date:from:to:subject:message-id:mime-version;
-  bh=TPUxbX/g5TvANvnPIguQeAskNpi2p+hAT3pgYEh8XG8=;
-  b=SvdJh0tR8rblsGRmW3EjOT+QfNjyKAufXEjOjeSzVS37VFq/DFB1GVAW
-   pQgW4pClc6QPy7ruV8omT+q+8brlqdCzMM7H9ZQYZCP8Wf+56BeKHmvYx
-   IaJRTAQIMnnEN4srIMhLktj5TH2l4G/UMXFWX412Fa2HFzAExq8kxUuCu
-   rD+YHxMaAEGd2DDY32GLKf6AlhYWyAwHZQPiKJrCi/1jm9MJpVR1xMxbN
-   SmG0pDW/VyCXs2aDXSX8yo55e5cfk4ugJLYio/gNFwoi58NYgGRGsKgRu
-   PnnH9mfCsJ6gnGY1LNGf04DtK41TT0HhUzB3jK49c0a4Jp5lqHmWVlhIy
+  bh=pypLkFe7q1ZjRdXUGMwxk/AY9B6jpZeoOTim+pXyHf8=;
+  b=XEoAsPGCHEB85kx/uGvV6xtcyO/5ReHXn7dUs7PDkl2Uimdj5+JUACRN
+   FdZ7l1KNwdBp9Q+eEtLDkiEDUEXKxmp/YTGTDxFwUt0jEu46KnqNi74Xv
+   5hObdDuADBQLSEC6NwlORE5uvQO1edJy+1FQ7+PuXCjF9H3aAvtq6AP/6
+   2uks+G6/p+bNz6T82TcgiaeWX4XXn6Y16W1lTnR+a0f31lD5Zw4O+15ji
+   mo2KfOooD+xSvkvjcdw7PGwViwaWpEahCA1GHpgW9kXyjZsWOIPtX2sLf
+   NhAEAGl0ryxl4idQldWszdv1I509ZvfRWiN1qONjzJ0s4igrmdWizeVSQ
    A==;
-X-CSE-ConnectionGUID: L2PnSqfrRJyiRKQ4uz1KjA==
-X-CSE-MsgGUID: 2VmrLwO7QJK8ctVwt6zJ7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="66470589"
+X-CSE-ConnectionGUID: t8Bc6sDYSAaRjNgCvLsdjw==
+X-CSE-MsgGUID: IeFYeQceSr67CUiL0eiOHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="65623274"
 X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
-   d="scan'208";a="66470589"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 17:18:16 -0800
-X-CSE-ConnectionGUID: 4v5IljmdQrOYUfB+K9F8cA==
-X-CSE-MsgGUID: IR0iC+jmReKsFtuViAMEaA==
+   d="scan'208";a="65623274"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 18:07:15 -0800
+X-CSE-ConnectionGUID: 4mtC96y5Rf6R/ExqnqpFNQ==
+X-CSE-MsgGUID: Oxap2ReMQ8eBSoQue5l7YA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
-   d="scan'208";a="198863681"
+   d="scan'208";a="224708845"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 29 Nov 2025 17:18:15 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 29 Nov 2025 18:07:15 -0800
 Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vPW4q-000000002Sn-32VS
+	id 1vPWqH-000000002TF-0Gob
 	for oe-kbuild@lists.linux.dev;
-	Sun, 30 Nov 2025 01:18:12 +0000
-Date: Sun, 30 Nov 2025 02:17:25 +0100
+	Sun, 30 Nov 2025 02:07:13 +0000
+Date: Sun, 30 Nov 2025 03:06:24 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [linux-review:Guanghui-Feng/PCI-Fix-PCIe-SBR-dev-link-wait-error/20251130-004011
- 1/1] checkpatch: ERROR:SPACING: space required before the open parenthesis
- '('
-Message-ID: <202511300200.HswdxhSr-lkp@intel.com>
+Subject: [sj:damon/next 101/124] checkpatch: WARNING:REPEATED_WORD: Possible
+ repeated word: 'is'
+Message-ID: <202511300304.rUeJHz4N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,20 +68,20 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Guanghui Feng <guanghuifeng@linux.alibaba.com>
+TO: SeongJae Park <sj@kernel.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Guanghui-Feng/PCI-Fix-PCIe-SBR-dev-link-wait-error/20251130-004011
-head:   ed01e8f55af7b2243b22a011dc7d30abbcc51892
-commit: ed01e8f55af7b2243b22a011dc7d30abbcc51892 [1/1] PCI: Fix PCIe SBR dev/link wait error
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20251130/202511300200.HswdxhSr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   5944dbef07c13b544ee63200c93230760ca61a37
+commit: 655754d7b2fa367f7f76343942292377393e3ded [101/124] mm/damon: add data structures for access check control
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20251130/202511300304.rUeJHz4N-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-ERROR:SPACING: space required before the open parenthesis '('
-#167: FILE: drivers/pci/pci.c:4796:
-+		if(ret)
+WARNING:REPEATED_WORD: Possible repeated word: 'is'
+#45: FILE: include/linux/damon.h:862:
++ * @matching:	Whether is is for condition-matching reports.
 
 -- 
 0-DAY CI Kernel Test Service
