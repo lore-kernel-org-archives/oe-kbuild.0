@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A98332ED0
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 Dec 2025 15:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E7C191F98
+	for <oe-kbuild@lists.linux.dev>; Mon,  1 Dec 2025 16:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764604581; cv=none; b=ApPHj3g5IskFRf5kw7HTni4OTDQtpfUzBaH0m298woD+3EKDZTgLoQjg3sUQM6BeEizjpDrHYJyy/P5WBRZJL1W3eDoX6lBnhYivgAKw3Kah006oFNbgPOkaOIY7983OW5Ab44lw40IFxBw+c7ZTZjfJVel4ko7PzX7xs4lOs1c=
+	t=1764605836; cv=none; b=ABhMICDa/3PY3kXP1MJ0+qIP2nyhTqUS3lLoeZgcZT9lNQP+333LbzoHyfsmfteQnuNr5KxsdYH+scTUgNljH3FuN7OaZvh8nAawP/CCTZ9DQbVBLsdNCMrmV/O7IdoD61l7ch4p03Io18j5AlqeFj+kQNzgn2lGEJr6lFs2uWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764604581; c=relaxed/simple;
-	bh=rV+Nt4dmC2cW/DMKVFbQk5YwovYZ6KhxIDTsxdWJ6xw=;
+	s=arc-20240116; t=1764605836; c=relaxed/simple;
+	bh=It5phKRuRE9VwO5NSgqWL6C+iIaiNyOj4X1qmqpYclk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PLfaf24uCEybg65ylkTf/EFcRVuxeisDrwVRx69QLIZAmVFLQrIwq1MmMo//Z9YPbzVsHs9dELwjzIPWj2NT9lPHYVQH6QsQg/QS4SawTJVjRV1jmroGkwcV5FIBfOgPPArMicAux84/l5zuwcfJF0bDclQL66lq/gATPGr/HQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i15TCUDX; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=ekF7OEY3Yo7i6Jpj1lOGBXgwF17JtVh3lQ42AKQeFw2vf8OO75bvEmp/WcUebTcw+GAtVTRq1ar8hnUx+16rIfm9ilc8a9Q2S6bkL+UP6kvnikqxXATpFx/IMVIyysn+6UdFj7PXp09K1o7Cuq3OyB8tiGmkK+2aIOfh+5mRLeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CQoPOm/c; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i15TCUDX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CQoPOm/c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764604575; x=1796140575;
+  t=1764605834; x=1796141834;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rV+Nt4dmC2cW/DMKVFbQk5YwovYZ6KhxIDTsxdWJ6xw=;
-  b=i15TCUDXAI+llK6oEWRNGsCVOKIk3aB9o6c5FWbTJiMKjYFnhDK2Y57n
-   FNN1kd1FdXAsM2k6r8SifZVh8axczHWp0CWZO5xJ4Q4H9kRcB2SlsHJ2C
-   LqFkwIv/AwonjRgzcGj4mXjzWcf/RCSEEpJP7eFn4n+QtDjtnW/busW/o
-   N3o4XSMqBFlb7/FjHCPL6qb4LRei+RvwSAu+V0YDMuVLCYJxw2fei5ecI
-   HEk+15/kwGT6xkI1jX0gZuwHE0/69wWADtcTq6npoW3wsKu8AvQon7cj5
-   0znyaUaVQtIm4i53BcCzvpIDv4X+u8QmAdryNr9lJ3SJrqIVtGI7p11T2
-   Q==;
-X-CSE-ConnectionGUID: VkzbLRWmREGAb0Kr2KyqyA==
-X-CSE-MsgGUID: BadfS5MJSLWJCzGge5A5LA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="70160462"
+  bh=It5phKRuRE9VwO5NSgqWL6C+iIaiNyOj4X1qmqpYclk=;
+  b=CQoPOm/cWb2T3Me1HOfUlGTRquMi4zzIsvqxycu76tWDmYxF/jwefvCJ
+   DxAYB4a1PUtVNei0zqLuBtvkuLTiDTVtn5OE+hkNzOxb1YVNgG17sHpPR
+   qf4leC3lXCeufSwVeGhBcOo5jkiJPoGC1XrzKcse3SeO4/UOCtQmxyLjC
+   2Q6MKuESorpkI8Tt/li9lH9ro6I7U4GHxZCIgnCi8Rxgy18+VXi+iMVFE
+   QPuavM97md7NsJVtPByo2AvppHzv6e+ldpJz1Nyhp1b7sSfy2RBvA3kqi
+   h0uMkMtaK9H4JHzi193kLQbRSlAnKb29pheh+XjtTCEswA5GpejMpFVIV
+   A==;
+X-CSE-ConnectionGUID: aPjyk44OSHS6/5wxtwPcmw==
+X-CSE-MsgGUID: V0Ok6NnIQZWUtol0pFbnIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66443608"
 X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
-   d="scan'208";a="70160462"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 07:56:09 -0800
-X-CSE-ConnectionGUID: tTxaPfnRS0el2pLqcCkwOg==
-X-CSE-MsgGUID: Qa1iQID6QcqrApB92WeUDg==
+   d="scan'208";a="66443608"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 08:17:13 -0800
+X-CSE-ConnectionGUID: kh1iAaYBRuquKkQyiBQiig==
+X-CSE-MsgGUID: zLpFnMuXT6uXbvJzAUtcGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
-   d="scan'208";a="193766484"
+   d="scan'208";a="194214490"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 01 Dec 2025 07:56:10 -0800
+  by orviesa008.jf.intel.com with ESMTP; 01 Dec 2025 08:17:12 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQ6Fz-000000008tB-24wu;
-	Mon, 01 Dec 2025 15:56:07 +0000
-Date: Mon, 1 Dec 2025 23:55:37 +0800
+	id 1vQ6aL-000000008vN-3j15;
+	Mon, 01 Dec 2025 16:17:09 +0000
+Date: Tue, 2 Dec 2025 00:16:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: Re: [PATCH] clk: hisilicon: fix compile testing
-Message-ID: <202512012342.fSDxFDZP-lkp@intel.com>
+Message-ID: <202512012348.FlarXiKj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -91,74 +91,47 @@ patch link:    https://lore.kernel.org/r/20251130214720.394745-1-seimun018r%40gm
 patch subject: [PATCH] clk: hisilicon: fix compile testing
 :::::: branch date: 18 hours ago
 :::::: commit date: 18 hours ago
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20251201/202512012342.fSDxFDZP-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512012342.fSDxFDZP-lkp@intel.com/reproduce)
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20251201/202512012348.FlarXiKj-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512012348.FlarXiKj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512012342.fSDxFDZP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512012348.FlarXiKj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   alpha-linux-ld: drivers/clk/hisilicon/clk.o: in function `hisi_clk_register_fixed_rate':
->> (.text+0x174): undefined reference to `clk_register_fixed_rate'
->> alpha-linux-ld: (.text+0x178): undefined reference to `clk_register_fixed_rate'
->> alpha-linux-ld: (.text+0x214): undefined reference to `clk_unregister_fixed_rate'
-   alpha-linux-ld: (.text+0x230): undefined reference to `clk_unregister_fixed_rate'
-   alpha-linux-ld: drivers/clk/hisilicon/clk.o: in function `hisi_clk_register_fixed_factor':
->> (.text+0x2a8): undefined reference to `clk_register_fixed_factor'
->> alpha-linux-ld: (.text+0x2ac): undefined reference to `clk_register_fixed_factor'
->> alpha-linux-ld: (.text+0x348): undefined reference to `clk_unregister_fixed_factor'
-   alpha-linux-ld: (.text+0x364): undefined reference to `clk_unregister_fixed_factor'
-   alpha-linux-ld: drivers/clk/hisilicon/clk.o: in function `hisi_clk_register_mux':
->> (.text+0x410): undefined reference to `clk_register_mux_table'
->> alpha-linux-ld: (.text+0x42c): undefined reference to `clk_register_mux_table'
->> alpha-linux-ld: (.text+0x45c): undefined reference to `clk_register_clkdev'
-   alpha-linux-ld: (.text+0x464): undefined reference to `clk_register_clkdev'
->> alpha-linux-ld: (.text+0x504): undefined reference to `clk_unregister_mux'
-   alpha-linux-ld: (.text+0x520): undefined reference to `clk_unregister_mux'
-   alpha-linux-ld: drivers/clk/hisilicon/clk.o: in function `hisi_clk_register_divider':
->> (.text+0x6c8): undefined reference to `clk_register_divider_table'
->> alpha-linux-ld: (.text+0x6dc): undefined reference to `clk_register_divider_table'
-   alpha-linux-ld: (.text+0x70c): undefined reference to `clk_register_clkdev'
-   alpha-linux-ld: (.text+0x710): undefined reference to `clk_register_clkdev'
->> alpha-linux-ld: (.text+0x7a4): undefined reference to `clk_unregister_divider'
-   alpha-linux-ld: (.text+0x7bc): undefined reference to `clk_unregister_divider'
-   alpha-linux-ld: drivers/clk/hisilicon/clk.o: in function `hisi_clk_register_gate':
->> (.text+0x84c): undefined reference to `clk_register_gate'
->> alpha-linux-ld: (.text+0x85c): undefined reference to `clk_register_gate'
-   alpha-linux-ld: (.text+0x88c): undefined reference to `clk_register_clkdev'
-   alpha-linux-ld: (.text+0x890): undefined reference to `clk_register_clkdev'
->> alpha-linux-ld: (.text+0x924): undefined reference to `clk_unregister_gate'
-   alpha-linux-ld: (.text+0x93c): undefined reference to `clk_unregister_gate'
-   alpha-linux-ld: drivers/clk/hisilicon/clk.o: in function `hisi_clk_register_gate_sep':
->> (.text+0xa08): undefined reference to `clk_register_clkdev'
-   alpha-linux-ld: (.text+0xa0c): undefined reference to `clk_register_clkdev'
-   alpha-linux-ld: drivers/clk/hisilicon/clk.o: in function `hi6220_clk_register_divider':
->> (.init.text+0xe0): undefined reference to `clk_register_clkdev'
->> alpha-linux-ld: (.init.text+0xe4): undefined reference to `clk_register_clkdev'
-   alpha-linux-ld: drivers/clk/hisilicon/clkgate-separated.o: in function `hisi_register_clkgate_sep':
->> (.text+0x230): undefined reference to `clk_register'
-   alpha-linux-ld: (.text+0x27c): undefined reference to `clk_register'
-   alpha-linux-ld: drivers/clk/hisilicon/clkdivider-hi6220.o: in function `hi6220_clkdiv_set_rate':
-   (.text+0xc): undefined reference to `divider_get_val'
-   alpha-linux-ld: (.text+0x38): undefined reference to `divider_get_val'
-   alpha-linux-ld: drivers/clk/hisilicon/clkdivider-hi6220.o: in function `hi6220_clkdiv_recalc_rate':
-   (.text+0x12c): undefined reference to `divider_recalc_rate'
-   alpha-linux-ld: (.text+0x148): undefined reference to `divider_recalc_rate'
-   alpha-linux-ld: drivers/clk/hisilicon/clkdivider-hi6220.o: in function `hi6220_clkdiv_determine_rate':
-   (.text+0x17c): undefined reference to `clk_hw_get_parent'
-   alpha-linux-ld: (.text+0x1ac): undefined reference to `clk_hw_get_parent'
-   alpha-linux-ld: (.text+0x1c8): undefined reference to `divider_round_rate_parent'
-   alpha-linux-ld: (.text+0x1dc): undefined reference to `divider_round_rate_parent'
-   alpha-linux-ld: drivers/clk/hisilicon/clkdivider-hi6220.o: in function `hi6220_register_clkdiv':
-   (.text+0x31c): undefined reference to `clk_register'
-   alpha-linux-ld: (.text+0x378): undefined reference to `clk_register'
-   alpha-linux-ld: drivers/clk/hisilicon/clk-hisi-phase.o: in function `clk_register_hisi_phase':
-   (.text+0x268): undefined reference to `devm_clk_register'
-   alpha-linux-ld: (.text+0x2b4): undefined reference to `devm_clk_register'
+   m68k-linux-ld: drivers/clk/hisilicon/clk.o: in function `hisi_clk_register_fixed_rate':
+   clk.c:(.text+0xcc): undefined reference to `clk_register_fixed_rate'
+>> m68k-linux-ld: clk.c:(.text+0x114): undefined reference to `clk_unregister_fixed_rate'
+   m68k-linux-ld: drivers/clk/hisilicon/clk.o: in function `hisi_clk_register_fixed_factor':
+   clk.c:(.text+0x188): undefined reference to `clk_register_fixed_factor'
+>> m68k-linux-ld: clk.c:(.text+0x1d4): undefined reference to `clk_unregister_fixed_factor'
+   m68k-linux-ld: drivers/clk/hisilicon/clk.o: in function `hisi_clk_register_mux':
+   clk.c:(.text+0x24a): undefined reference to `clk_register_mux_table'
+>> m68k-linux-ld: clk.c:(.text+0x2ea): undefined reference to `clk_unregister_mux'
+   m68k-linux-ld: drivers/clk/hisilicon/clk.o: in function `hisi_clk_register_divider':
+   clk.c:(.text+0x3dc): undefined reference to `clk_register_divider_table'
+>> m68k-linux-ld: clk.c:(.text+0x46c): undefined reference to `clk_unregister_divider'
+   m68k-linux-ld: drivers/clk/hisilicon/clk.o: in function `hisi_clk_register_gate':
+   clk.c:(.text+0x4d0): undefined reference to `clk_register_gate'
+>> m68k-linux-ld: clk.c:(.text+0x55a): undefined reference to `clk_unregister_gate'
+   m68k-linux-ld: drivers/clk/hisilicon/clkgate-separated.o: in function `hisi_register_clkgate_sep':
+   clkgate-separated.c:(.text+0x156): undefined reference to `clk_register'
+>> m68k-linux-ld: clkgate-separated.c:(.text+0x19e): undefined reference to `clk_register'
+   m68k-linux-ld: drivers/clk/hisilicon/clkdivider-hi6220.o: in function `hi6220_clkdiv_set_rate':
+   clkdivider-hi6220.c:(.text+0x26): undefined reference to `divider_get_val'
+   m68k-linux-ld: drivers/clk/hisilicon/clkdivider-hi6220.o: in function `hi6220_clkdiv_recalc_rate':
+   clkdivider-hi6220.c:(.text+0xd2): undefined reference to `divider_recalc_rate'
+   m68k-linux-ld: drivers/clk/hisilicon/clkdivider-hi6220.o: in function `hi6220_clkdiv_determine_rate':
+   clkdivider-hi6220.c:(.text+0x108): undefined reference to `clk_hw_get_parent'
+>> m68k-linux-ld: clkdivider-hi6220.c:(.text+0x124): undefined reference to `divider_round_rate_parent'
+   m68k-linux-ld: drivers/clk/hisilicon/clkdivider-hi6220.o: in function `hi6220_register_clkdiv':
+   clkdivider-hi6220.c:(.text+0x24a): undefined reference to `clk_register'
+   m68k-linux-ld: drivers/clk/hisilicon/clk-hisi-phase.o: in function `clk_register_hisi_phase':
+   clk-hisi-phase.c:(.text+0x1ae): undefined reference to `devm_clk_register'
+>> m68k-linux-ld: clk-hisi-phase.c:(.text+0x220): undefined reference to `devm_clk_register'
 
 -- 
 0-DAY CI Kernel Test Service
