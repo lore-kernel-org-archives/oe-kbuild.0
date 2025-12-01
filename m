@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8161D27E
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 Dec 2025 06:01:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F6720DD75
+	for <oe-kbuild@lists.linux.dev>; Mon,  1 Dec 2025 06:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764568880; cv=none; b=Q519aDDjCpiGlU+vNWSQJazxpH2XiVwWus5PQRZvrlTVVPoIvTNxRmZU3BQ4xq/cYtVT6cZMgE4h9I1E2bGmE/kFXrbk1fa8bxC3X2nxgxKHQfRmoSBemdNkdzvDXflALBceDp87atXWz6J32DLRM5ynuVCfCVajO/ExdzAjXwg=
+	t=1764569479; cv=none; b=Ngu1NIBCA7WMs+5sBoDEjZKAFZyGMFWeKZ4FbVWVaitz/5ba1dsMFhf9UfLcmq4cEexAiuQPv/1afshsdYRxjKGcaLKcRTuG2JOMv9DSjOluMtscK7PmRl90Hb4/B4Shd3TYF+Izr1ZidlpAIRiDFfsthxk1Qcy7+p76rDozm5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764568880; c=relaxed/simple;
-	bh=7FCcidANt/jyEKN+jGrd+KlJwiz4Wg16ir7TlK1GBg8=;
+	s=arc-20240116; t=1764569479; c=relaxed/simple;
+	bh=FNRu1fpPSYdT9T5U/QoGPbkhqRRAiWOWEWEtLVdI8fA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PGFdM/NBpN4XHA2My/LgftCMOpdSGCO9UnBHmq05P7YtpFuc9zMv/v3D5g3r2LQ1qudbG+K3D88U1QwcUezFAqTR89BkyHAbxilLos08dyX88A6wBRgq7nH+pY8qOm0yJs5cQUMWxGZKKGJsM8bXHOsmbAY9L2P2EqD10zpkogA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fKnzEwFf; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=rfWmJSfonfbFnNEEWf39+oFZHTnYBDygpXfwh4uXRc87qeIudZdG6/rVupd2NFkQ8Tdg3JPtvQnm8t9UORVt/VHuRGji0etjol4xg0ako230yiqn5WCX4kJY6wA2VPN4nq5U43Na3jKkLovL1Y4kwP9EeiPb4xmEjRLm6P1PilE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bng5gXqP; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fKnzEwFf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bng5gXqP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764568877; x=1796104877;
+  t=1764569478; x=1796105478;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7FCcidANt/jyEKN+jGrd+KlJwiz4Wg16ir7TlK1GBg8=;
-  b=fKnzEwFfWPktW8xIP3A4CMRmr7/W49zQNfFcb2B5u3FkdnZxW4ka7kst
-   zB8fEneiZtbGMdLLWh+2+zAR3i9OnbUE3c4+30A52fdlbu8FH02hLmZxR
-   mv9rtd+A5Nxm+M4lX/MLYpeGflNQLrVeeDc+Mc3P12y64uSXOFbAvtxMw
-   hebSJK1zU+lWEENcvK+8A5EgvJtM3BrXiSXfqxXXTsfq1oZKK9Po/jPWI
-   UpTyyqCk7JnqiyTNBYQQXMlbJI4pZRitmWh7PiCzN2fxPA+8Ze1ys0Z8B
-   mMIdSJBJeJ+JcmuJyH2mgeWQVuebkBN3NXuYTrVnx37jkUIZYjwK6vB6X
-   A==;
-X-CSE-ConnectionGUID: 8HQ8wrCNQSqWzoaM28cA2w==
-X-CSE-MsgGUID: JtYmed+WTPiPWHXgR2ngJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="77185366"
+  bh=FNRu1fpPSYdT9T5U/QoGPbkhqRRAiWOWEWEtLVdI8fA=;
+  b=bng5gXqPkqhonZhcELveXRdJqNmH0dUeGC0UUFM4JVUUoVGteZGjPF3m
+   RQOc6Nx1a8dacbF0HHOfHaDaMg+pGU+i6aR23EG3s0UOAgkIgrgXDBMQu
+   5IKWK3NYEqPdZvmNZHKsOJly8mPaj7UT2djssS+xaA+ohjbN5uPINV9qP
+   gQl07B/bFxLdIKb/HsEH9nWcVyzR7zRLRw19YwlPEbkFEcggUul4yA9fe
+   M5ZTk+AyRRQgBaQf8R89yvXkWQr/WOxoitK/OGpfycNAXHLlOfYRjWKdK
+   tQECitnLSikOvxdkFsBnHPEZPzjV7X6rVizMDyFUTDHFBt6QgHBHDplus
+   w==;
+X-CSE-ConnectionGUID: Ha596AKZRdCZIJ9BVsaANw==
+X-CSE-MsgGUID: KBLpJ8SySseLlNwtVQd05Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="65503756"
 X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
-   d="scan'208";a="77185366"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 22:01:16 -0800
-X-CSE-ConnectionGUID: BlO6lshYT3GGcSdbvL6iXw==
-X-CSE-MsgGUID: 8P6w+eQPSdWbE3kbVp5e2g==
+   d="scan'208";a="65503756"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 22:11:17 -0800
+X-CSE-ConnectionGUID: fVsQwOXIQb6eYejWYYsmRA==
+X-CSE-MsgGUID: eE3jcaAITfGxKHIrOdZc1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
-   d="scan'208";a="217340158"
+   d="scan'208";a="193801005"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Nov 2025 22:01:16 -0800
+  by orviesa009.jf.intel.com with ESMTP; 30 Nov 2025 22:11:17 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vPwyH-000000008Lh-2tY5;
-	Mon, 01 Dec 2025 06:01:13 +0000
-Date: Mon, 1 Dec 2025 14:00:21 +0800
+	id 1vPx7y-000000008M3-06gF;
+	Mon, 01 Dec 2025 06:11:14 +0000
+Date: Mon, 1 Dec 2025 14:10:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: [jarkko-tpmdd:tpm2-session 10/18]
- drivers/char/tpm/tpm2-cmd.c:211:20: error: invalid use of void expression
-Message-ID: <202512011304.Aw3Wu3Zo-lkp@intel.com>
+ drivers/char/tpm/tpm2-cmd.c:211:20: error: void value not ignored as it
+ ought to be
+Message-ID: <202512011423.RlZBqKJg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,25 +74,25 @@ TO: Jarkko Sakkinen <jarkko@kernel.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2-session
 head:   9e1990f86d12b41f0b37d9414385587a5e79591c
 commit: c094b019ad89433d0fc5e6b9bff002697178cfb2 [10/18] tpm2-sessions: address out-of-range indexing
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
-config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251201/202512011304.Aw3Wu3Zo-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512011304.Aw3Wu3Zo-lkp@intel.com/reproduce)
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251201/202512011423.RlZBqKJg-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512011423.RlZBqKJg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512011304.Aw3Wu3Zo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512011423.RlZBqKJg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    drivers/char/tpm/tpm2-cmd.c: In function 'tpm2_pcr_extend':
->> drivers/char/tpm/tpm2-cmd.c:211:20: error: invalid use of void expression
+>> drivers/char/tpm/tpm2-cmd.c:211:20: error: void value not ignored as it ought to be
      211 |                 rc = tpm_buf_fill_hmac_session(chip, &buf);
          |                    ^
    drivers/char/tpm/tpm2-cmd.c: In function 'tpm2_get_random':
-   drivers/char/tpm/tpm2-cmd.c:276:21: error: invalid use of void expression
+   drivers/char/tpm/tpm2-cmd.c:276:21: error: void value not ignored as it ought to be
      276 |                 err = tpm_buf_fill_hmac_session(chip, &buf);
          |                     ^
 
