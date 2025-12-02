@@ -1,87 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD4D136672;
-	Tue,  2 Dec 2025 01:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0797FBF0
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Dec 2025 01:15:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764637617; cv=none; b=W1aHyXG1c/iOSWBHHfoi4I2jwr7F1tmHjPjrUx9bM0UwLZ/ETh2yQQDvfQEQcVuVCGGFhPh2hsB4AdwzrALyNyw5WwEf7GqhTyUQPakQ33gSCTG3oBYIIL6Khnc3cdbJmnUDpH453KUIRyw5SGOtP2IBsHwcCd1ekFCeAAGHEOM=
+	t=1764638150; cv=none; b=e3N3X3KQw9MfL3NnFuG5Sg+4kIwyVV9utmMi8Mx7QU9d85LQp3xckVn7Pkfc/Y/mWTCro7bpTi++mipye2GnXWIUul66jPz2nfsqkWUE+0+ZhFQiZzTrWgN6WIG9k+Vd1DiR6vWm0s3DDaBg1RLkKvh5fEh3fNGc/saLe0wDexQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764637617; c=relaxed/simple;
-	bh=Jjq8SuepqBFrLbWMv7HAS5lnFc5i5C6b/W/wJCH+GG4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Chip1ngpH0Cnm+zad/n1mk6BqZpljRhj0fVVM0GuFeZPTMTDXAMRRvSDf4y06yu/epM4CGvPBWdq6vduyTF9PlvTcqcoe9LPAQTqLSk+fasXQLXIK6ripenF252JNJa+yrthyYTozPZ1M5WIn9M3rLZ290geSYgV8cxaYS6IchU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NfZ3vo15; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764638150; c=relaxed/simple;
+	bh=0iiFR9fMj5Q8oCLFupUjosJPlrncgpa2Oxel4RYZV34=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XBHlpd4Tt/cBU5/B9zpkAymTTCBLNSZ+4Hg0Ac6G3x763XPvNzE5fBqL9eM8cionoHoZHl8T1IdL5wEhS6EvOIK/+VYWa2Weww1vA7m7HbOHRoEar2m5kMLQ9CgSpHbai+dE93inpVbqbZEX1H5IZ8jcbybgGcAkH4kkjrLE/DY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EGEa6QLl; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NfZ3vo15"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D737AC4CEF1;
-	Tue,  2 Dec 2025 01:06:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764637617;
-	bh=Jjq8SuepqBFrLbWMv7HAS5lnFc5i5C6b/W/wJCH+GG4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NfZ3vo15nvOPh8pjC7ubSkFCDa5ZH+Vxc6i7Vq9pIpDnhNLFYBZDoGcNXKlpolZBL
-	 3QVzNFLGYZJzsn5H4T0xXChovitptTU0tQv5EoiIfzRnJ94P5cItBeREOoyid2Tr3q
-	 5OQ5sEA9O5eT7uZNon996ye/DJXAl+Gnkijr8advnDCdnimLE5W7u+kSrI6Q0YYRYv
-	 ZW+kBETJYQkbHTYoEfdRBFKxoyMcTGdQ8XhRt0Krz5zzKuBWaVPTF8MEso8opxPaG0
-	 tvH7jrNBLYWFS2XPEW6ID6sVyRTSovOT/2pC6G1sQnQm4wUcIR58+9w/Rm08+WxKxN
-	 8Z118+qQGIhEA==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	oe-kbuild@lists.linux.dev,
-	damon@lists.linux.dev
-Subject: Re: [sj:damon/next 145/145] mm/memory.c:6213:9: error: implicit declaration of function 'damon_report_page_fault'
-Date: Mon,  1 Dec 2025 17:06:48 -0800
-Message-ID: <20251202010649.71271-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <202512011308.JsZqQIqQ-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EGEa6QLl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764638149; x=1796174149;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0iiFR9fMj5Q8oCLFupUjosJPlrncgpa2Oxel4RYZV34=;
+  b=EGEa6QLlBe3lJbrExEKXftbRTlSyxGnHVx8+8Lmp20jtwKYIq3FD677y
+   MPGJ3p4qqB1awlFlQsGYYj+LFH/AT+567PXg8qI5rQ2RzviUDbqu/ozwO
+   ow6jGhHW+XvfzLAk+2kCjjJ881hzJjquMIv/UaOtte7IeDPA9H43AibOt
+   4uDqMz4r2M/51fCBuqZ/l37NVlu45r5k+UA/ssJK3+QmxFs8hxy8LgaZK
+   rs3whEA25WDaJDRNwjQZaE6xsxiFaYLCIL/E1NbaTCbhZPRinP/JldmrB
+   2CuqfApNvDmH8uTVC3ly184Q2e5HM/hj3P6EzzxLLjf15jy+BoMrX6eAt
+   A==;
+X-CSE-ConnectionGUID: wOKRcWbYRQydq1IKHjlEQA==
+X-CSE-MsgGUID: CXLkuJ/ET66jk8bcwOJNag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66759971"
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
+   d="scan'208";a="66759971"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 17:15:48 -0800
+X-CSE-ConnectionGUID: LbotfeXeQbuoYdjffSAlnQ==
+X-CSE-MsgGUID: C708X/PAQU2qrVqIXBJNdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
+   d="scan'208";a="199348684"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 01 Dec 2025 17:15:47 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vQEzZ-000000009Hf-0IWv;
+	Tue, 02 Dec 2025 01:15:45 +0000
+Date: Tue, 2 Dec 2025 09:15:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [linux-next:master 13132/13171]
+ tools/testing/selftests/../../../tools/testing/selftests/kselftest.h:53:10:
+ fatal error: errno.h: No such file or directory
+Message-ID: <202512020939.RjrWqk1z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On Mon, 1 Dec 2025 13:19:13 +0800 kernel test robot <lkp@intel.com> wrote:
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
-> :::::: 
-> :::::: Manual check reason: "low confidence bisect report"
-> :::::: 
-> 
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> TO: SeongJae Park <sj@kernel.org>
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   3fdd82439d28bd0bc5eeb347a6e96569ae05ec92
-> commit: 3fdd82439d28bd0bc5eeb347a6e96569ae05ec92 [145/145] mm/memory: move fault reporting into damon
-> :::::: branch date: 7 hours ago
-> :::::: commit date: 7 hours ago
-> config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251201/202512011308.JsZqQIqQ-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512011308.JsZqQIqQ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/r/202512011308.JsZqQIqQ-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    mm/memory.c: In function 'do_damon_page':
-> >> mm/memory.c:6213:9: error: implicit declaration of function 'damon_report_page_fault' [-Wimplicit-function-declaration]
->     6213 |         damon_report_page_fault(vmf, huge_pmd);
->          |         ^~~~~~~~~~~~~~~~~~~~~~~
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Alex Williamson <alex@shazbot.org>
 
-Thank you for this report!  Seems this happens when COFNIG_DAMON is unset.  I
-just pushed a fix:
-http://git.kernel.org/sj/c/47b20fdc07850bd8f
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   95cb2fd6ce0ad61af54191fe5ef271d7177f9c3a
+commit: d6cc2521cb389a8c83c8610b3ff637480692dcf6 [13132/13171] Merge branch 'next' of https://github.com/awilliam/linux-vfio.git
+:::::: branch date: 22 hours ago
+:::::: commit date: 24 hours ago
+config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251202/202512020939.RjrWqk1z-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512020939.RjrWqk1z-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202512020939.RjrWqk1z-lkp@intel.com/
+
+Note: the linux-next/master HEAD 95cb2fd6ce0ad61af54191fe5ef271d7177f9c3a builds fine.
+      It may have been fixed somewhere.
+
+All errors (new ones prefixed by >>):
+
+   In file included from tools/testing/selftests/vfio/lib/vfio_pci_driver.c:2:
+>> tools/testing/selftests/../../../tools/testing/selftests/kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 
 
-Thanks,
-SJ
+vim +53 tools/testing/selftests/../../../tools/testing/selftests/kselftest.h
 
-[...]
+7fb2c3ea28bf7b Shuah Khan     2014-10-03  51  
+9e38be732da8fe Mark Brown     2023-04-06  52  #ifndef NOLIBC
+fc2e634e997d84 Aleksa Sarai   2019-07-20 @53  #include <errno.h>
+7fb2c3ea28bf7b Shuah Khan     2014-10-03  54  #include <stdlib.h>
+7fb2c3ea28bf7b Shuah Khan     2014-10-03  55  #include <unistd.h>
+151b2732111f07 Paul Elder     2017-06-28  56  #include <stdarg.h>
+f2662ec26b26ad André Almeida  2025-09-17  57  #include <stdbool.h>
+907f33028871fa Mark Brown     2023-09-28  58  #include <string.h>
+a18261d71bbc62 Tycho Andersen 2019-01-18  59  #include <stdio.h>
+6d029c25b71f2d Oleg Nesterov  2024-04-09  60  #include <sys/utsname.h>
+9e38be732da8fe Mark Brown     2023-04-06  61  #endif
+7fb2c3ea28bf7b Shuah Khan     2014-10-03  62  
+
+:::::: The code at line 53 was first introduced by commit
+:::::: fc2e634e997d84f2610a482b500865ef2c04fcde kselftest: save-and-restore errno to allow for %m formatting
+
+:::::: TO: Aleksa Sarai <cyphar@cyphar.com>
+:::::: CC: Shuah Khan <skhan@linuxfoundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
