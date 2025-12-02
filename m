@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8677230215D
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Dec 2025 10:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002A51E7C03
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Dec 2025 11:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764671977; cv=none; b=YiIV+VycXLHLaUC00n2+Gnowa4rlflJZ+9bFA24KOKsIGno2nMdJeMwpQBhicBBFWeFYebYNSHo7tnIyz1VelQG1Lunez0ltyFpvyOl0I1on2t1Mvx1qX9NeeW6p6f6rBhMYU2dcQVxfyundpP8AP5lVatT9fCtIjMIad/8Q0m4=
+	t=1764675397; cv=none; b=o++0CpmkQJZSjlC3o5TBqkTQ21QpISkRn2U55DyCvPqEaLD8wfr2oX5mZe9b8nu3eoAuftg5DLaxq4ma8HffV9wTdsjvmjjBvRbHMKnqofLsMF0p5IELKtBOKZN5xyQHcDl5uGWgG6+bWoja0ylQJW8ZmuGv41OfcFB0zTDJcc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764671977; c=relaxed/simple;
-	bh=uKN6P272nfkVgS1VPWKcGNaMcsyZhDW5DvnrZFSyJk0=;
+	s=arc-20240116; t=1764675397; c=relaxed/simple;
+	bh=+inhcRkch9ll2rDHQ0srn+iw21pGxWNKmEzLMYKd1vk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oQtqL9ZEKvdsrVe7o+pnIxXL9zanOhC7k/1JNxwt4DgkbKsDWWTxoufDYq6cjI0hkv82lwH8ROxaWInzmvlbk+XbEGeyQXXa9/QXtxrF5lN7kBo5CAnqDGpK5k/Fz3iRnoJHhHAj9UFk9EwMcJxxJSqLVtsg5uLFBdE7zU9Y/lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=na7kaWZ/; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=I8s7eytxUUfli7gh5yebYI6OCRS4o8SaUBFfdGja1lJq0JSTrSa+dFmyciDEvxUybm7ZMO/PPMWj4+a5LSof6IeCgItrklztA6BTI7vugHsDI/4bxWV7wGDknYG7REU6v6SNZP8L00yDvTbg3KIfIKHI5feY/aKdQTi2GML+jeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAR3uhWP; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="na7kaWZ/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAR3uhWP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764671976; x=1796207976;
+  t=1764675396; x=1796211396;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uKN6P272nfkVgS1VPWKcGNaMcsyZhDW5DvnrZFSyJk0=;
-  b=na7kaWZ/oblnT6RTVYjCqYbEoMvgtbawQRN7uWYc5Z41yjw5N6cYtM6V
-   itkYehGN76hyJYRet+inReQdtv+sIvbv8esRXV3COn4t5Df7VZjgUykvs
-   629+ZgbWW7uESSfD4pm9NPgmYl0j1N3Jf9B0s2aFigNvY3cpVYJKJFWF3
-   EtUyAfGsxVgtONXelDjbQV6yJZ+lTsEtu4aEPXAkc9J5fHp2HBziVzfwt
-   Gg+znwv88UK3UiJTGUlZE2VJ4khz5KAtPEkDjkbRA/KwxDEJQTxstveTC
-   OBj3MNf2rBXGNJy4HbMw2VsGyW7atgavsgZaPdl8bGCi0/fQh6bky2tu0
-   A==;
-X-CSE-ConnectionGUID: DtgLs+dATSGrgxqbUytC8Q==
-X-CSE-MsgGUID: ZrYhNyc9S/OvyB9uJPGZWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="77734253"
+  bh=+inhcRkch9ll2rDHQ0srn+iw21pGxWNKmEzLMYKd1vk=;
+  b=bAR3uhWPQUxV3qLrvr/QrA5BLj2OnJ7H1D5syjPPbV7+zxqG1837fTME
+   uuUTqZMWh1S01Ez5oq3m6wkV5vavAJVvUi3MNLXurjjlOQeH5qFlwWjQm
+   vcxonGb7BMwC/n0TBPSML2XjNyjKJp95AOyO5EjPd6XxQCok+ULuP8tQ+
+   YmtX5G7dL4yVvjTb2g3/zVtOdCxJtzsZgY+UsbunA88M6Z/TVuyB4z1F2
+   YuCNXqkaDTaUTnMtpq84fVTg4ZTHQDDKw1w2JAuNmlW5L5QIf2DLsouCH
+   VbjDX5G5D6rbJyJalEovbxUDzj4hFh5iyXlKc0ea8QCdVXoNIVsYUdhTF
+   g==;
+X-CSE-ConnectionGUID: bSDls6zkRnqPjbnHU1aMOQ==
+X-CSE-MsgGUID: DBbGbcChRwe9gDxsrN4lLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66351987"
 X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; 
-   d="scan'208";a="77734253"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 02:39:35 -0800
-X-CSE-ConnectionGUID: TVgJ0ccURHus/6Ck9MGrmg==
-X-CSE-MsgGUID: 8booZgNdRf+E0pa9861PMg==
+   d="scan'208";a="66351987"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 03:36:35 -0800
+X-CSE-ConnectionGUID: TiorLFPbQNqFXhDOSZOjTw==
+X-CSE-MsgGUID: 7ZQBBEkPT4eXQAlMP34MRg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; 
-   d="scan'208";a="193635178"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 02 Dec 2025 02:39:34 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 02 Dec 2025 03:36:34 -0800
 Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQNn9-000000002r7-3lVq;
-	Tue, 02 Dec 2025 10:39:31 +0000
-Date: Tue, 2 Dec 2025 11:38:44 +0100
+	id 1vQOgK-000000002rV-0kvZ;
+	Tue, 02 Dec 2025 11:36:32 +0000
+Date: Tue, 2 Dec 2025 12:36:23 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [android-common:android15-6.6-lts 14/14]
- drivers/block/loop.c:1989:6: warning: no previous prototype for function
- 'loop_process_cmd_list'
-Message-ID: <202512021118.vPp25EEq-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/display/intel_display_types.h:1989:28: error:
+ field 'base' has incomplete type
+Message-ID: <202512021242.u5Knsko8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,49 +61,76 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245, commit: e1baa3af87f6aa58790e98aa728c99a548dd9cb7"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+CC: 0day robot <lkp@intel.com>
+CC: Suraj Kandpal <suraj.kandpal@intel.com>
+CC: Uma Shankar <uma.shankar@intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-lts
-head:   039073ca9a42736c777c0eb2bb7f177568c5866f
-commit: aa8a9034d8a0e18d37fff6c6053f470be77637ae [14/14] ANDROID: loop: export loop_process_cmd_list
-:::::: branch date: 14 hours ago
-:::::: commit date: 3 weeks ago
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251202/202512021118.vPp25EEq-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021118.vPp25EEq-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245
+head:   a475844eaf5f5246fea92d8289f2c8555f2c0c7e
+commit: e1baa3af87f6aa58790e98aa728c99a548dd9cb7 drm/i915: Add intel_color_op
+date:   28 hours ago
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251202/202512021242.u5Knsko8-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021242.u5Knsko8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512021118.vPp25EEq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512021242.u5Knsko8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/block/loop.c:1989:6: warning: no previous prototype for function 'loop_process_cmd_list' [-Wmissing-prototypes]
-    1989 | void loop_process_cmd_list(struct list_head *cmd_list, struct gendisk *disk)
-         |      ^
-   drivers/block/loop.c:1989:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1989 | void loop_process_cmd_list(struct list_head *cmd_list, struct gendisk *disk)
+   In file included from drivers/gpu/drm/i915/gem/i915_gem_pages.c:13:
+>> drivers/gpu/drm/i915/display/intel_display_types.h:1989:28: error: field 'base' has incomplete type
+    1989 |         struct drm_colorop base;
+         |                            ^~~~
+--
+   In file included from drivers/gpu/drm/i915/display/intel_colorop.h:9,
+                    from drivers/gpu/drm/i915/display/intel_colorop.c:5:
+>> drivers/gpu/drm/i915/display/intel_display_types.h:1989:28: error: field 'base' has incomplete type
+    1989 |         struct drm_colorop base;
+         |                            ^~~~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/plist.h:76,
+                    from include/linux/pm_qos.h:15,
+                    from drivers/gpu/drm/i915/display/intel_display_types.h:29:
+   drivers/gpu/drm/i915/display/intel_colorop.c: In function 'to_intel_colorop':
+   include/linux/compiler_types.h:552:27: error: expression in static assertion is not an integer
+     552 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_colorop.c:9:16: note: in expansion of macro 'container_of'
+       9 |         return container_of(colorop, struct intel_colorop, base);
+         |                ^~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_colorop.c:10:1: warning: control reaches end of non-void function [-Wreturn-type]
+      10 | }
          | ^
-         | static 
-   1 warning generated.
 
 
-vim +/loop_process_cmd_list +1989 drivers/block/loop.c
+vim +/base +1989 drivers/gpu/drm/i915/display/intel_display_types.h
 
-b5dd2f6047ca10 Ming Lei   2014-12-31  1988  
-aa8a9034d8a0e1 jiayingrui 2025-11-10 @1989  void loop_process_cmd_list(struct list_head *cmd_list, struct gendisk *disk)
-aa8a9034d8a0e1 jiayingrui 2025-11-10  1990  {
-aa8a9034d8a0e1 jiayingrui 2025-11-10  1991  	struct loop_device *lo = disk->private_data;
-aa8a9034d8a0e1 jiayingrui 2025-11-10  1992  	loop_process_work(NULL, cmd_list, lo);
-aa8a9034d8a0e1 jiayingrui 2025-11-10  1993  }
-aa8a9034d8a0e1 jiayingrui 2025-11-10  1994  EXPORT_SYMBOL_GPL(loop_process_cmd_list);
-aa8a9034d8a0e1 jiayingrui 2025-11-10  1995  
+0e32b39ceed665 drivers/gpu/drm/i915/intel_drv.h                   Dave Airlie           2014-05-02  1987  
+e1baa3af87f6aa drivers/gpu/drm/i915/display/intel_display_types.h Chaitanya Kumar Borah 2025-12-01  1988  struct intel_colorop {
+e1baa3af87f6aa drivers/gpu/drm/i915/display/intel_display_types.h Chaitanya Kumar Borah 2025-12-01 @1989  	struct drm_colorop base;
+e1baa3af87f6aa drivers/gpu/drm/i915/display/intel_display_types.h Chaitanya Kumar Borah 2025-12-01  1990  	enum intel_color_block id;
+e1baa3af87f6aa drivers/gpu/drm/i915/display/intel_display_types.h Chaitanya Kumar Borah 2025-12-01  1991  };
+e1baa3af87f6aa drivers/gpu/drm/i915/display/intel_display_types.h Chaitanya Kumar Borah 2025-12-01  1992  
 
 -- 
 0-DAY CI Kernel Test Service
