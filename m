@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA85A7DA66
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Dec 2025 14:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332572AE70
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Dec 2025 14:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764685598; cv=none; b=na120jD4YscCN22YKm2zZIlCl9vEOVwiO8SMHyn4RGWuOs+cYCnexjwQB2e6Ma7aSDfoWfE0Y6/XYa71G/R+WhjUDwB2rdc+yCiex7a5o0sSu/3e3GtWUQlUPk2DzX3RfQjBlp9dQCVuSas+CsWmcbGAN8mhm+J6YkK1FUqipeE=
+	t=1764686915; cv=none; b=bSmG5gwgWtb7Sir5YBBJ+tP0bmTMjRgMy5/b+HR5Cos8/Gj8FTBB1cGu8adDXG4vTKmav6NrfVDeJ7nmq/x7ZFrazDrHHGwZ0L8WMna0PgzXIw4DYtSLlV2kj+aNA5h6awH8sa6zuU1EcuO16W3stLOgZZJpZkH3OY7503Q1USo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764685598; c=relaxed/simple;
-	bh=hUbS0oO3cHWhXv0vCPxw9zj2+Iugupd9aWlaNF3GScs=;
+	s=arc-20240116; t=1764686915; c=relaxed/simple;
+	bh=+2GtcM/xlgv2FCPKpGtZuqHyjroftIpz+uyl5cih1Z4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bjPKlFRXl5CrI4xugdryfkn2ChZUyLP3LVlzoOzUiB8J822zQOkWMBMsFdyYxRkA3Q3nCT+xCrc7qF9CgUg0LeYRlJY1+lAQ7zXqY6/je13aazdQSdm1nKSfbA5yHcs+lBzgNT7fCOnY5QPs27hFZMtKGYlhPzKFbQCrlSzkYtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CfHRckf9; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=VJpQBCOs4rIcnJd4I7rdDn8hiZWZj8JTVnYRmkw/B0YOS5jdfHvW6A+Mhgd5cMwbE737Nhd67xnM8GKEMj/O3yHOWS+RBxPTrjlJoZrPfzEJqia+GIpTkV6YVFNwWez3tC5wycs7ivssyHzmuCT2zb5sP8M4GfBtViJ7MkQDY/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dFW38fSc; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CfHRckf9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dFW38fSc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764685597; x=1796221597;
+  t=1764686913; x=1796222913;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hUbS0oO3cHWhXv0vCPxw9zj2+Iugupd9aWlaNF3GScs=;
-  b=CfHRckf9N2sC+81bIVyM+Wi5P5vlj+qw8B1NbytIPL1hCEX1hu+q/ByW
-   U9KQwMp3eS49c/Vc/gIQvyB4KZUinGwn27IHbjUvbRSyEE1F7Y264htBd
-   ImUH4ZqFiqjTOqlZ9gdviqHukZSjx+Nh5W6tmy3wkX4TEQybDNAvGVmnv
-   cbl5Mg49B1PvR4wu3xfCMIroepri1hX0UVEse26kS7SITKdmoaoT1FMn+
-   BuYEygCGM0wlreGNX+sGXraOBhXzbOapmBdpyWlj6J6GCoajQKjnlVS/W
-   1krJwXMg8D1XEa4nZ6LOdp/+AklzfQs25iXdTgWGoYeqqa8UeFINlfveU
-   Q==;
-X-CSE-ConnectionGUID: aBlpL5ttQCSM8cQ+6zPYGw==
-X-CSE-MsgGUID: J/zSsJ0fTwK7XyLxcaJqfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66366622"
+  bh=+2GtcM/xlgv2FCPKpGtZuqHyjroftIpz+uyl5cih1Z4=;
+  b=dFW38fScr8lcDWSfRgiyXulXLEqtSylMqIvKsCKL5hahi1VeW07psMQi
+   EP4v/SLyDHkyyxnIpZx+szzEzdTvieiI8+O23+kikaqG7y+8a+eVaTAEO
+   X4REGzLGmigabQttoTAOrKwN853AY1EBwmfIn23OOJPapLHLCX5Wir0/2
+   jZsGTfQZWm+Xzso3oUTNSfUisd1ADSpZ8Obz77vXAtFon+r5CnGbMm2O8
+   ynFkNt9iPYA4ZO2SxYvXttt3fU2B2/GVLFlnMHKZl3037eBHw0f5vqdX7
+   DCos+xzQ4MYLyl8KNljaikroNMCjqsZpbzx4t9Q6Ax0HtHt3t7X+jX2n9
+   w==;
+X-CSE-ConnectionGUID: XxaBCSbaTLSoA5V1JIn25w==
+X-CSE-MsgGUID: tWy+9Uv+Tji/pPK2D4qdSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="77758288"
 X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="66366622"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 06:26:36 -0800
-X-CSE-ConnectionGUID: 0MSYcLnfTyCN3Ije+t7X0A==
-X-CSE-MsgGUID: TZS5uTIWR1SGi2i01P/NJQ==
+   d="scan'208";a="77758288"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 06:48:32 -0800
+X-CSE-ConnectionGUID: q1BTs2yURbGtLV/kJZbalg==
+X-CSE-MsgGUID: RGOziB9yT1qXU5yD0whxxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="194381655"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 02 Dec 2025 06:26:36 -0800
-Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+   d="scan'208";a="198852038"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 02 Dec 2025 06:48:32 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQRKr-000000002tR-2Nl4;
-	Tue, 02 Dec 2025 14:26:33 +0000
-Date: Tue, 2 Dec 2025 15:26:22 +0100
+	id 1vQRg5-000000009uD-2gZ2;
+	Tue, 02 Dec 2025 14:48:29 +0000
+Date: Tue, 2 Dec 2025 22:47:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [android-common:android14-kiwi-6.1 36/36] map_hugetlb.c:79:18:
- error: call to undeclared function 'default_huge_page_size'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <202512021558.rAIf9zoH-lkp@intel.com>
+Subject: [linux-next:master 11918/13055] ../../kselftest.h:53:10: fatal
+ error: errno.h: No such file or directory
+Message-ID: <202512022226.AMF2ullt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,28 +68,39 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: Deepak Gupta <debug@rivosinc.com>
+CC: Paul Walmsley <pjw@kernel.org>
+CC: Charlie Jenkins <charlie@rivosinc.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   81ab94df653806720116e45346cbfcbf5e63df44
-commit: a584c7734a4dd050451fcdd65c66317e15660e81 [36/36] selftests: mm: fix map_hugetlb failure on 64K page size systems
-:::::: branch date: 18 hours ago
-:::::: commit date: 1 year, 9 months ago
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251202/202512021558.rAIf9zoH-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021558.rAIf9zoH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   47b7b5e32bb7264b51b89186043e1ada4090b558
+commit: 0f226cf6026f3756022e387a869c031add683365 [11918/13055] kselftest/riscv: add kselftest for user mode cfi
+:::::: branch date: 9 hours ago
+:::::: commit date: 5 days ago
+config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251202/202512022226.AMF2ullt-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512022226.AMF2ullt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512021558.rAIf9zoH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512022226.AMF2ullt-lkp@intel.com/
+
+Note: the linux-next/master HEAD 47b7b5e32bb7264b51b89186043e1ada4090b558 builds fine.
+      It may have been fixed somewhere.
 
 All errors (new ones prefixed by >>):
 
->> map_hugetlb.c:79:18: error: call to undeclared function 'default_huge_page_size'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      79 |         hugepage_size = default_huge_page_size();
-         |                         ^
-   1 error generated.
+   In file included from cfitests.c:3:
+>> ../../kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+   In file included from shadowstack.c:3:
+>> ../../kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 
 -- 
 0-DAY CI Kernel Test Service
