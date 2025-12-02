@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A9529D28B
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Dec 2025 17:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761A72D1F64
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Dec 2025 18:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764698326; cv=none; b=WDppUvnSRy/QFW25QH3fMH67dggATa+3c88uEDI3Qkz+sDxFLYHh1E2ZcnszylA23dexH6QsAtoJHH96nHSUaCM6yCDVWAxyQP9b7033OS98nKGEoyZkkckkyRAoZkKI4pN0Ram9Ib6lvn1IDgWHCEzLwXNxamwDXwENnLc98mI=
+	t=1764698502; cv=none; b=kzGqfGok1FiNM4wc7YfrTxK5spGRsntW/pRBzZyvyt+kf9kUjle3aoKXY1HvzZcWgX/JSVgzAwjfIYBxXZLbtT7NUhMHp7FwEvPwvh8Li1Sw4aS/bCk7t6tJBWZCSFfIyxG9SvC+Pv2R3BjAryZFyly9EUJPEu+dT5lizxCWJrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764698326; c=relaxed/simple;
-	bh=a84kgl0VDQwW5SQSlWBEqaSlHKgyL2Ih0I8tYJXRs/s=;
+	s=arc-20240116; t=1764698502; c=relaxed/simple;
+	bh=SyptaBUKiBdkNCS4srWWa1vfr6iET1ajlGmR62Ktx+U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pu5FlCervftrXNVcctOTg9KmKuBA+bvhh0c9mzBmZyL/+uoLBmx4GiWHmpc/Yz6p+Yc3GaQPSbCdsnPRqJ3nQ40z5m+5cyakggFcOX981ph++UkEpv/ZQ9bspSY3kbgUXxiCJV6fqQQ5ViAWgswyzVZALQlEps+38oa2jFsIdsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I4zpyfsb; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=mVS2EIJOQnB0j6mY0B9vLKC0RkbC3HQvDRRzKzPcVCWsuog5XZ4LhpCK5dBd0GzEhk0CHJ9BNhEX1Sdsh7ANVQiEN2mwluB+/fyxe6/XalbO7jGZbhhRCNL26qYyxkwkxoqNpkMcS6dJDDjMTDyeMslhUH0LkkYe0CAcLfO0+gA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cpD0zsrT; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I4zpyfsb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cpD0zsrT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764698324; x=1796234324;
+  t=1764698500; x=1796234500;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a84kgl0VDQwW5SQSlWBEqaSlHKgyL2Ih0I8tYJXRs/s=;
-  b=I4zpyfsbg63wQoyr/soSFr9/T+/RaGYb3ZH1M3Du6brmKTuUEwvm0yx2
-   BD7AtgACuJ0b19+zJ6++kV3gMgKcBKukTTws5wTyxzAslDsrW3HX3x6lg
-   OxXwFTXDY7W8C2O9xWrxgzqTVcfTDuJSNKJRHUkC9m+RKVv9tHc176Qa3
-   EbBgyWH6rJU0qAZ9CZhYNfEx3qPaNLuEA5Ubx30oEVPRmPx8D8pTuNyrp
-   L4NFrM0mvvx1qigIgZBT0oYVvNkQDKXU4wfPxP7J1kOyEC0R18HdXGXak
-   +wo+T+g8O27NZ7Wpf5aPsu/sCYqj4i1NjvZeHfynAK/iRFXFDtCnw2kfd
+  bh=SyptaBUKiBdkNCS4srWWa1vfr6iET1ajlGmR62Ktx+U=;
+  b=cpD0zsrTIgAHH1UwimybaEWdNfLDdGPy7uwlZDb8xXNtMeco9VosUEPb
+   WWQlaI8EWc2cZ9nwlL9tPKGtvHSbC2wpWUNyxUiiOpRe4FoFJYBkFuunB
+   hKsfY9+/P8rOAwpJ1s7Zzxno9S3BCe1NnLO3ySEAJAhhoABatRJRVH/Ei
+   mwtziEq9OLy0AuYc6Snun/sk5SPIza11tR8UXtBvMRJqBj51eLhoKbBJu
+   CstxdjyvJcdQjNxiQpUNNfZGfW3n1Rjl6BCcwufVIUkuObg5JMrvPpjbm
+   aec6+4ZjNrjBrCeX4yfUFvn1dxZGhBP3OO2dmk1SrT2usYUNeCGLVdKDT
    Q==;
-X-CSE-ConnectionGUID: 4jE8LZQ6Qt6efj6KrbrbRQ==
-X-CSE-MsgGUID: NctYp5GnQ3OYjLxApZAddw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66750410"
+X-CSE-ConnectionGUID: 00+xrsLsTxmU1Y8o//sA+Q==
+X-CSE-MsgGUID: f+X3l6EIRHaLlrF9rkciTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66635424"
 X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="66750410"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 09:58:43 -0800
-X-CSE-ConnectionGUID: B3g3GaAORz6o8LVZRHESbQ==
-X-CSE-MsgGUID: l3qBMqvIRKSnF4TYhPIv8g==
+   d="scan'208";a="66635424"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 10:01:39 -0800
+X-CSE-ConnectionGUID: hzEgNEJKT6WFIwLlXK9t2g==
+X-CSE-MsgGUID: xG7u727wR12+NDw1/uG7uA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="231782650"
+   d="scan'208";a="193548253"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 02 Dec 2025 09:58:43 -0800
+  by orviesa006.jf.intel.com with ESMTP; 02 Dec 2025 10:01:37 -0800
 Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQUe3-000000002wf-2l6v;
-	Tue, 02 Dec 2025 17:58:35 +0000
-Date: Tue, 2 Dec 2025 18:58:03 +0100
+	id 1vQUgx-000000002wj-2ve0;
+	Tue, 02 Dec 2025 18:01:35 +0000
+Date: Tue, 2 Dec 2025 19:01:15 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/char/tpm/tpm2-cmd.c:210:6: error: assigning to 'int' from
- incompatible type 'void'
-Message-ID: <202512021827.04qmHc2z-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/display/intel_color.c:3865:20: error: invalid
+ use of undefined type 'struct drm_color_ctm_3x4'
+Message-ID: <202512021955.KJmvBhUB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,260 +63,140 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Jarkko-Sakkinen/tpm2-sessions-address-out-of-range-indexing/20251202-034236, commit: 991addbbc9ef9c912d1dce90bf0e8a9b83b1704e"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245, commit: 531d2c65d4e35c5aaa31efc318fa7de4771695a9"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jarkko Sakkinen <jarkko@kernel.org>
+TO: Uma Shankar <uma.shankar@intel.com>
 CC: 0day robot <lkp@intel.com>
+CC: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/tpm2-sessions-address-out-of-range-indexing/20251202-034236
-head:   991addbbc9ef9c912d1dce90bf0e8a9b83b1704e
-commit: 991addbbc9ef9c912d1dce90bf0e8a9b83b1704e tpm2-sessions: address out-of-range indexing
-date:   22 hours ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251202/202512021827.04qmHc2z-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021827.04qmHc2z-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245
+head:   a475844eaf5f5246fea92d8289f2c8555f2c0c7e
+commit: 531d2c65d4e35c5aaa31efc318fa7de4771695a9 drm/i915/color: Add plane CTM callback for D12 and beyond
+date:   35 hours ago
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251202/202512021955.KJmvBhUB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021955.KJmvBhUB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512021827.04qmHc2z-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512021955.KJmvBhUB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/char/tpm/tpm2-cmd.c:14:
-   In file included from drivers/char/tpm/tpm.h:28:
-   ./include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
-     167 |         int mapping_size;
-         |             ^
->> drivers/char/tpm/tpm2-cmd.c:210:6: error: assigning to 'int' from incompatible type 'void'
-     210 |                 rc = tpm_buf_fill_hmac_session(chip, &buf);
-         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/tpm/tpm2-cmd.c:274:7: error: assigning to 'int' from incompatible type 'void'
-     274 |                 err = tpm_buf_fill_hmac_session(chip, &buf);
-         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 2 errors generated.
+   In file included from drivers/gpu/drm/i915/display/intel_color.c:31:
+   drivers/gpu/drm/i915/display/intel_display_types.h:1993:28: error: field 'base' has incomplete type
+    1993 |         struct drm_colorop base;
+         |                            ^~~~
+   drivers/gpu/drm/i915/display/intel_color.c: In function 'xelpd_load_plane_csc_matrix':
+>> drivers/gpu/drm/i915/display/intel_color.c:3865:20: error: invalid use of undefined type 'struct drm_color_ctm_3x4'
+    3865 |         input = ctm->matrix;
+         |                    ^~
 
 
-vim +210 drivers/char/tpm/tpm2-cmd.c
+vim +3865 drivers/gpu/drm/i915/display/intel_color.c
 
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  @14  #include "tpm.h"
-5ca4c20cfd37ba Jarkko Sakkinen 2015-11-05   15  #include <crypto/hash_info.h>
-5ca4c20cfd37ba Jarkko Sakkinen 2015-11-05   16  
-27184f8905ba68 Jarkko Sakkinen 2024-11-13   17  static bool disable_pcr_integrity;
-27184f8905ba68 Jarkko Sakkinen 2024-11-13   18  module_param(disable_pcr_integrity, bool, 0444);
-27184f8905ba68 Jarkko Sakkinen 2024-11-13   19  MODULE_PARM_DESC(disable_pcr_integrity, "Disable integrity protection of TPM2_PCR_Extend");
-27184f8905ba68 Jarkko Sakkinen 2024-11-13   20  
-5ca4c20cfd37ba Jarkko Sakkinen 2015-11-05   21  static struct tpm2_hash tpm2_hash_map[] = {
-aa042475938f58 Roberto Sassu   2019-02-06   22  	{HASH_ALGO_SHA1, TPM_ALG_SHA1},
-aa042475938f58 Roberto Sassu   2019-02-06   23  	{HASH_ALGO_SHA256, TPM_ALG_SHA256},
-aa042475938f58 Roberto Sassu   2019-02-06   24  	{HASH_ALGO_SHA384, TPM_ALG_SHA384},
-aa042475938f58 Roberto Sassu   2019-02-06   25  	{HASH_ALGO_SHA512, TPM_ALG_SHA512},
-aa042475938f58 Roberto Sassu   2019-02-06   26  	{HASH_ALGO_SM3_256, TPM_ALG_SM3_256},
-5ca4c20cfd37ba Jarkko Sakkinen 2015-11-05   27  };
-5ca4c20cfd37ba Jarkko Sakkinen 2015-11-05   28  
-70a3199a710142 Tomas Winkler   2018-10-19   29  int tpm2_get_timeouts(struct tpm_chip *chip)
-70a3199a710142 Tomas Winkler   2018-10-19   30  {
-70a3199a710142 Tomas Winkler   2018-10-19   31  	chip->timeout_a = msecs_to_jiffies(TPM2_TIMEOUT_A);
-70a3199a710142 Tomas Winkler   2018-10-19   32  	chip->timeout_b = msecs_to_jiffies(TPM2_TIMEOUT_B);
-70a3199a710142 Tomas Winkler   2018-10-19   33  	chip->timeout_c = msecs_to_jiffies(TPM2_TIMEOUT_C);
-70a3199a710142 Tomas Winkler   2018-10-19   34  	chip->timeout_d = msecs_to_jiffies(TPM2_TIMEOUT_D);
-70a3199a710142 Tomas Winkler   2018-10-19   35  	chip->flags |= TPM_CHIP_FLAG_HAVE_TIMEOUTS;
-70a3199a710142 Tomas Winkler   2018-10-19   36  	return 0;
-70a3199a710142 Tomas Winkler   2018-10-19   37  }
-70a3199a710142 Tomas Winkler   2018-10-19   38  
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   39  /*
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   40   * Contains the maximum durations in milliseconds for TPM2 commands.
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12   41   */
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   42  static const struct {
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   43  	unsigned long ordinal;
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   44  	unsigned long duration;
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   45  } tpm2_ordinal_duration_map[] = {
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   46  	{TPM2_CC_STARTUP, 750},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   47  	{TPM2_CC_SELF_TEST, 3000},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   48  	{TPM2_CC_GET_RANDOM, 2000},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   49  	{TPM2_CC_SEQUENCE_UPDATE, 750},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   50  	{TPM2_CC_SEQUENCE_COMPLETE, 750},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   51  	{TPM2_CC_EVENT_SEQUENCE_COMPLETE, 750},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   52  	{TPM2_CC_HASH_SEQUENCE_START, 750},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   53  	{TPM2_CC_VERIFY_SIGNATURE, 30000},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   54  	{TPM2_CC_PCR_EXTEND, 750},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   55  	{TPM2_CC_HIERARCHY_CONTROL, 2000},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   56  	{TPM2_CC_HIERARCHY_CHANGE_AUTH, 2000},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   57  	{TPM2_CC_GET_CAPABILITY, 750},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   58  	{TPM2_CC_NV_READ, 2000},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   59  	{TPM2_CC_CREATE_PRIMARY, 30000},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   60  	{TPM2_CC_CREATE, 30000},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   61  	{TPM2_CC_CREATE_LOADED, 30000},
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   62  };
-899102bc451895 Tomas Winkler   2018-10-19   63  
-899102bc451895 Tomas Winkler   2018-10-19   64  /**
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   65   * tpm2_calc_ordinal_duration() - Calculate the maximum command duration
-899102bc451895 Tomas Winkler   2018-10-19   66   * @ordinal: TPM command ordinal.
-899102bc451895 Tomas Winkler   2018-10-19   67   *
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   68   * Returns the maximum amount of time the chip is expected by kernel to
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   69   * take in jiffies.
-899102bc451895 Tomas Winkler   2018-10-19   70   */
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   71  unsigned long tpm2_calc_ordinal_duration(u32 ordinal)
-899102bc451895 Tomas Winkler   2018-10-19   72  {
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   73  	int i;
-899102bc451895 Tomas Winkler   2018-10-19   74  
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   75  	for (i = 0; i < ARRAY_SIZE(tpm2_ordinal_duration_map); i++)
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   76  		if (ordinal == tpm2_ordinal_duration_map[i].ordinal)
-207696b17f38e8 Jarkko Sakkinen 2025-09-18   77  			return msecs_to_jiffies(tpm2_ordinal_duration_map[i].duration);
-899102bc451895 Tomas Winkler   2018-10-19   78  
-899102bc451895 Tomas Winkler   2018-10-19   79  	return msecs_to_jiffies(TPM2_DURATION_DEFAULT);
-899102bc451895 Tomas Winkler   2018-10-19   80  }
-899102bc451895 Tomas Winkler   2018-10-19   81  
-91f7f3d773a469 Roberto Sassu   2017-06-23   82  struct tpm2_pcr_read_out {
-91f7f3d773a469 Roberto Sassu   2017-06-23   83  	__be32	update_cnt;
-91f7f3d773a469 Roberto Sassu   2017-06-23   84  	__be32	pcr_selects_cnt;
-91f7f3d773a469 Roberto Sassu   2017-06-23   85  	__be16	hash_alg;
-91f7f3d773a469 Roberto Sassu   2017-06-23   86  	u8	pcr_select_size;
-91f7f3d773a469 Roberto Sassu   2017-06-23   87  	u8	pcr_select[TPM2_PCR_SELECT_MIN];
-91f7f3d773a469 Roberto Sassu   2017-06-23   88  	__be32	digests_cnt;
-91f7f3d773a469 Roberto Sassu   2017-06-23   89  	__be16	digest_size;
-91f7f3d773a469 Roberto Sassu   2017-06-23   90  	u8	digest[];
-91f7f3d773a469 Roberto Sassu   2017-06-23   91  } __packed;
-91f7f3d773a469 Roberto Sassu   2017-06-23   92  
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12   93  /**
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12   94   * tpm2_pcr_read() - read a PCR value
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12   95   * @chip:	TPM chip to use.
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12   96   * @pcr_idx:	index of the PCR to read.
-879b589210a9a0 Roberto Sassu   2019-02-06   97   * @digest:	PCR bank and buffer current PCR value is written to.
-879b589210a9a0 Roberto Sassu   2019-02-06   98   * @digest_size_ptr:	pointer to variable that stores the digest size.
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12   99   *
-794c6e109b5938 Winkler, Tomas  2016-11-23  100   * Return: Same as with tpm_transmit_cmd.
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  101   */
-879b589210a9a0 Roberto Sassu   2019-02-06  102  int tpm2_pcr_read(struct tpm_chip *chip, u32 pcr_idx,
-879b589210a9a0 Roberto Sassu   2019-02-06  103  		  struct tpm_digest *digest, u16 *digest_size_ptr)
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  104  {
-879b589210a9a0 Roberto Sassu   2019-02-06  105  	int i;
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  106  	int rc;
-91f7f3d773a469 Roberto Sassu   2017-06-23  107  	struct tpm_buf buf;
-91f7f3d773a469 Roberto Sassu   2017-06-23  108  	struct tpm2_pcr_read_out *out;
-91f7f3d773a469 Roberto Sassu   2017-06-23  109  	u8 pcr_select[TPM2_PCR_SELECT_MIN] = {0};
-879b589210a9a0 Roberto Sassu   2019-02-06  110  	u16 digest_size;
-879b589210a9a0 Roberto Sassu   2019-02-06  111  	u16 expected_digest_size = 0;
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  112  
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  113  	if (pcr_idx >= TPM2_PLATFORM_PCR)
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  114  		return -EINVAL;
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  115  
-879b589210a9a0 Roberto Sassu   2019-02-06  116  	if (!digest_size_ptr) {
-879b589210a9a0 Roberto Sassu   2019-02-06  117  		for (i = 0; i < chip->nr_allocated_banks &&
-879b589210a9a0 Roberto Sassu   2019-02-06  118  		     chip->allocated_banks[i].alg_id != digest->alg_id; i++)
-879b589210a9a0 Roberto Sassu   2019-02-06  119  			;
-879b589210a9a0 Roberto Sassu   2019-02-06  120  
-879b589210a9a0 Roberto Sassu   2019-02-06  121  		if (i == chip->nr_allocated_banks)
-879b589210a9a0 Roberto Sassu   2019-02-06  122  			return -EINVAL;
-879b589210a9a0 Roberto Sassu   2019-02-06  123  
-879b589210a9a0 Roberto Sassu   2019-02-06  124  		expected_digest_size = chip->allocated_banks[i].digest_size;
-879b589210a9a0 Roberto Sassu   2019-02-06  125  	}
-879b589210a9a0 Roberto Sassu   2019-02-06  126  
-91f7f3d773a469 Roberto Sassu   2017-06-23  127  	rc = tpm_buf_init(&buf, TPM2_ST_NO_SESSIONS, TPM2_CC_PCR_READ);
-91f7f3d773a469 Roberto Sassu   2017-06-23  128  	if (rc)
-91f7f3d773a469 Roberto Sassu   2017-06-23  129  		return rc;
-91f7f3d773a469 Roberto Sassu   2017-06-23  130  
-91f7f3d773a469 Roberto Sassu   2017-06-23  131  	pcr_select[pcr_idx >> 3] = 1 << (pcr_idx & 0x7);
-91f7f3d773a469 Roberto Sassu   2017-06-23  132  
-91f7f3d773a469 Roberto Sassu   2017-06-23  133  	tpm_buf_append_u32(&buf, 1);
-879b589210a9a0 Roberto Sassu   2019-02-06  134  	tpm_buf_append_u16(&buf, digest->alg_id);
-91f7f3d773a469 Roberto Sassu   2017-06-23  135  	tpm_buf_append_u8(&buf, TPM2_PCR_SELECT_MIN);
-91f7f3d773a469 Roberto Sassu   2017-06-23  136  	tpm_buf_append(&buf, (const unsigned char *)pcr_select,
-91f7f3d773a469 Roberto Sassu   2017-06-23  137  		       sizeof(pcr_select));
-91f7f3d773a469 Roberto Sassu   2017-06-23  138  
-879b589210a9a0 Roberto Sassu   2019-02-06  139  	rc = tpm_transmit_cmd(chip, &buf, 0, "attempting to read a pcr value");
-879b589210a9a0 Roberto Sassu   2019-02-06  140  	if (rc)
-879b589210a9a0 Roberto Sassu   2019-02-06  141  		goto out;
-879b589210a9a0 Roberto Sassu   2019-02-06  142  
-91f7f3d773a469 Roberto Sassu   2017-06-23  143  	out = (struct tpm2_pcr_read_out *)&buf.data[TPM_HEADER_SIZE];
-879b589210a9a0 Roberto Sassu   2019-02-06  144  	digest_size = be16_to_cpu(out->digest_size);
-879b589210a9a0 Roberto Sassu   2019-02-06  145  	if (digest_size > sizeof(digest->digest) ||
-879b589210a9a0 Roberto Sassu   2019-02-06  146  	    (!digest_size_ptr && digest_size != expected_digest_size)) {
-879b589210a9a0 Roberto Sassu   2019-02-06  147  		rc = -EINVAL;
-879b589210a9a0 Roberto Sassu   2019-02-06  148  		goto out;
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  149  	}
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  150  
-879b589210a9a0 Roberto Sassu   2019-02-06  151  	if (digest_size_ptr)
-879b589210a9a0 Roberto Sassu   2019-02-06  152  		*digest_size_ptr = digest_size;
-879b589210a9a0 Roberto Sassu   2019-02-06  153  
-879b589210a9a0 Roberto Sassu   2019-02-06  154  	memcpy(digest->digest, out->digest, digest_size);
-879b589210a9a0 Roberto Sassu   2019-02-06  155  out:
-91f7f3d773a469 Roberto Sassu   2017-06-23  156  	tpm_buf_destroy(&buf);
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  157  	return rc;
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  158  }
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  159  
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  160  /**
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  161   * tpm2_pcr_extend() - extend a PCR value
-794c6e109b5938 Winkler, Tomas  2016-11-23  162   *
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  163   * @chip:	TPM chip to use.
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  164   * @pcr_idx:	index of the PCR.
-c1f92b4b04ad70 Nayna Jain      2017-01-30  165   * @digests:	list of pcr banks and corresponding digest values to extend.
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  166   *
-794c6e109b5938 Winkler, Tomas  2016-11-23  167   * Return: Same as with tpm_transmit_cmd.
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  168   */
-0b6cf6b97b7ef1 Roberto Sassu   2019-02-06  169  int tpm2_pcr_extend(struct tpm_chip *chip, u32 pcr_idx,
-aa042475938f58 Roberto Sassu   2019-02-06  170  		    struct tpm_digest *digests)
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  171  {
-c1f92b4b04ad70 Nayna Jain      2017-01-30  172  	struct tpm_buf buf;
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  173  	int rc;
-c1f92b4b04ad70 Nayna Jain      2017-01-30  174  	int i;
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  175  
-27184f8905ba68 Jarkko Sakkinen 2024-11-13  176  	if (!disable_pcr_integrity) {
-6519fea6fd372b James Bottomley 2024-04-29  177  		rc = tpm2_start_auth_session(chip);
-c1f92b4b04ad70 Nayna Jain      2017-01-30  178  		if (rc)
-c1f92b4b04ad70 Nayna Jain      2017-01-30  179  			return rc;
-27184f8905ba68 Jarkko Sakkinen 2024-11-13  180  	}
-c1f92b4b04ad70 Nayna Jain      2017-01-30  181  
-6519fea6fd372b James Bottomley 2024-04-29  182  	rc = tpm_buf_init(&buf, TPM2_ST_SESSIONS, TPM2_CC_PCR_EXTEND);
-6519fea6fd372b James Bottomley 2024-04-29  183  	if (rc) {
-27184f8905ba68 Jarkko Sakkinen 2024-11-13  184  		if (!disable_pcr_integrity)
-6519fea6fd372b James Bottomley 2024-04-29  185  			tpm2_end_auth_session(chip);
-6519fea6fd372b James Bottomley 2024-04-29  186  		return rc;
-6519fea6fd372b James Bottomley 2024-04-29  187  	}
-c1f92b4b04ad70 Nayna Jain      2017-01-30  188  
-27184f8905ba68 Jarkko Sakkinen 2024-11-13  189  	if (!disable_pcr_integrity) {
-991addbbc9ef9c Jarkko Sakkinen 2025-12-01  190  		rc = tpm_buf_append_name(chip, &buf, pcr_idx, NULL);
-991addbbc9ef9c Jarkko Sakkinen 2025-12-01  191  		if (rc) {
-991addbbc9ef9c Jarkko Sakkinen 2025-12-01  192  			tpm_buf_destroy(&buf);
-991addbbc9ef9c Jarkko Sakkinen 2025-12-01  193  			return rc;
-991addbbc9ef9c Jarkko Sakkinen 2025-12-01  194  		}
-6519fea6fd372b James Bottomley 2024-04-29  195  		tpm_buf_append_hmac_session(chip, &buf, 0, NULL, 0);
-27184f8905ba68 Jarkko Sakkinen 2024-11-13  196  	} else {
-27184f8905ba68 Jarkko Sakkinen 2024-11-13  197  		tpm_buf_append_handle(chip, &buf, pcr_idx);
-27184f8905ba68 Jarkko Sakkinen 2024-11-13  198  		tpm_buf_append_auth(chip, &buf, 0, NULL, 0);
-27184f8905ba68 Jarkko Sakkinen 2024-11-13  199  	}
-c1f92b4b04ad70 Nayna Jain      2017-01-30  200  
-0b6cf6b97b7ef1 Roberto Sassu   2019-02-06  201  	tpm_buf_append_u32(&buf, chip->nr_allocated_banks);
-c1f92b4b04ad70 Nayna Jain      2017-01-30  202  
-0b6cf6b97b7ef1 Roberto Sassu   2019-02-06  203  	for (i = 0; i < chip->nr_allocated_banks; i++) {
-c1f92b4b04ad70 Nayna Jain      2017-01-30  204  		tpm_buf_append_u16(&buf, digests[i].alg_id);
-879b589210a9a0 Roberto Sassu   2019-02-06  205  		tpm_buf_append(&buf, (const unsigned char *)&digests[i].digest,
-879b589210a9a0 Roberto Sassu   2019-02-06  206  			       chip->allocated_banks[i].digest_size);
-c1f92b4b04ad70 Nayna Jain      2017-01-30  207  	}
-c1f92b4b04ad70 Nayna Jain      2017-01-30  208  
-991addbbc9ef9c Jarkko Sakkinen 2025-12-01  209  	if (!disable_pcr_integrity) {
-991addbbc9ef9c Jarkko Sakkinen 2025-12-01 @210  		rc = tpm_buf_fill_hmac_session(chip, &buf);
-991addbbc9ef9c Jarkko Sakkinen 2025-12-01  211  		if (rc) {
-991addbbc9ef9c Jarkko Sakkinen 2025-12-01  212  			tpm_buf_destroy(&buf);
-991addbbc9ef9c Jarkko Sakkinen 2025-12-01  213  			return rc;
-991addbbc9ef9c Jarkko Sakkinen 2025-12-01  214  		}
-991addbbc9ef9c Jarkko Sakkinen 2025-12-01  215  	}
-991addbbc9ef9c Jarkko Sakkinen 2025-12-01  216  
-47a6c28b6861b1 Jarkko Sakkinen 2018-11-05  217  	rc = tpm_transmit_cmd(chip, &buf, 0, "attempting extend a PCR value");
-27184f8905ba68 Jarkko Sakkinen 2024-11-13  218  	if (!disable_pcr_integrity)
-6519fea6fd372b James Bottomley 2024-04-29  219  		rc = tpm_buf_check_hmac_response(chip, &buf, rc);
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  220  
-c1f92b4b04ad70 Nayna Jain      2017-01-30  221  	tpm_buf_destroy(&buf);
-c1f92b4b04ad70 Nayna Jain      2017-01-30  222  
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  223  	return rc;
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  224  }
-7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  225  
+b4ab7aa848acaf Swati Sharma 2020-03-17  3846  
+531d2c65d4e35c Uma Shankar  2025-12-01  3847  static void
+531d2c65d4e35c Uma Shankar  2025-12-01  3848  xelpd_load_plane_csc_matrix(struct intel_dsb *dsb,
+531d2c65d4e35c Uma Shankar  2025-12-01  3849  			    const struct intel_plane_state *plane_state)
+531d2c65d4e35c Uma Shankar  2025-12-01  3850  {
+531d2c65d4e35c Uma Shankar  2025-12-01  3851  	struct intel_display *display = to_intel_display(plane_state);
+531d2c65d4e35c Uma Shankar  2025-12-01  3852  	const struct drm_plane_state *state = &plane_state->uapi;
+531d2c65d4e35c Uma Shankar  2025-12-01  3853  	enum pipe pipe = to_intel_plane(state->plane)->pipe;
+531d2c65d4e35c Uma Shankar  2025-12-01  3854  	enum plane_id plane = to_intel_plane(state->plane)->id;
+531d2c65d4e35c Uma Shankar  2025-12-01  3855  	const struct drm_property_blob *blob = plane_state->hw.ctm;
+531d2c65d4e35c Uma Shankar  2025-12-01  3856  	struct drm_color_ctm_3x4 *ctm;
+531d2c65d4e35c Uma Shankar  2025-12-01  3857  	const u64 *input;
+531d2c65d4e35c Uma Shankar  2025-12-01  3858  	u16 coeffs[9] = {};
+531d2c65d4e35c Uma Shankar  2025-12-01  3859  	int i, j;
+531d2c65d4e35c Uma Shankar  2025-12-01  3860  
+531d2c65d4e35c Uma Shankar  2025-12-01  3861  	if (!icl_is_hdr_plane(display, plane) || !blob)
+531d2c65d4e35c Uma Shankar  2025-12-01  3862  		return;
+531d2c65d4e35c Uma Shankar  2025-12-01  3863  
+531d2c65d4e35c Uma Shankar  2025-12-01  3864  	ctm = blob->data;
+531d2c65d4e35c Uma Shankar  2025-12-01 @3865  	input = ctm->matrix;
+531d2c65d4e35c Uma Shankar  2025-12-01  3866  
+531d2c65d4e35c Uma Shankar  2025-12-01  3867  	/*
+531d2c65d4e35c Uma Shankar  2025-12-01  3868  	 * Convert fixed point S31.32 input to format supported by the
+531d2c65d4e35c Uma Shankar  2025-12-01  3869  	 * hardware.
+531d2c65d4e35c Uma Shankar  2025-12-01  3870  	 */
+531d2c65d4e35c Uma Shankar  2025-12-01  3871  	for (i = 0, j = 0; i < ARRAY_SIZE(coeffs); i++) {
+531d2c65d4e35c Uma Shankar  2025-12-01  3872  		u64 abs_coeff = ((1ULL << 63) - 1) & input[j];
+531d2c65d4e35c Uma Shankar  2025-12-01  3873  
+531d2c65d4e35c Uma Shankar  2025-12-01  3874  		/*
+531d2c65d4e35c Uma Shankar  2025-12-01  3875  		 * Clamp input value to min/max supported by
+531d2c65d4e35c Uma Shankar  2025-12-01  3876  		 * hardware.
+531d2c65d4e35c Uma Shankar  2025-12-01  3877  		 */
+531d2c65d4e35c Uma Shankar  2025-12-01  3878  		abs_coeff = clamp_val(abs_coeff, 0, CTM_COEFF_4_0 - 1);
+531d2c65d4e35c Uma Shankar  2025-12-01  3879  
+531d2c65d4e35c Uma Shankar  2025-12-01  3880  		/* sign bit */
+531d2c65d4e35c Uma Shankar  2025-12-01  3881  		if (CTM_COEFF_NEGATIVE(input[j]))
+531d2c65d4e35c Uma Shankar  2025-12-01  3882  			coeffs[i] |= 1 << 15;
+531d2c65d4e35c Uma Shankar  2025-12-01  3883  
+531d2c65d4e35c Uma Shankar  2025-12-01  3884  		if (abs_coeff < CTM_COEFF_0_125)
+531d2c65d4e35c Uma Shankar  2025-12-01  3885  			coeffs[i] |= (3 << 12) |
+531d2c65d4e35c Uma Shankar  2025-12-01  3886  				      ILK_CSC_COEFF_FP(abs_coeff, 12);
+531d2c65d4e35c Uma Shankar  2025-12-01  3887  		else if (abs_coeff < CTM_COEFF_0_25)
+531d2c65d4e35c Uma Shankar  2025-12-01  3888  			coeffs[i] |= (2 << 12) |
+531d2c65d4e35c Uma Shankar  2025-12-01  3889  				      ILK_CSC_COEFF_FP(abs_coeff, 11);
+531d2c65d4e35c Uma Shankar  2025-12-01  3890  		else if (abs_coeff < CTM_COEFF_0_5)
+531d2c65d4e35c Uma Shankar  2025-12-01  3891  			coeffs[i] |= (1 << 12) |
+531d2c65d4e35c Uma Shankar  2025-12-01  3892  				      ILK_CSC_COEFF_FP(abs_coeff, 10);
+531d2c65d4e35c Uma Shankar  2025-12-01  3893  		else if (abs_coeff < CTM_COEFF_1_0)
+531d2c65d4e35c Uma Shankar  2025-12-01  3894  			coeffs[i] |= ILK_CSC_COEFF_FP(abs_coeff, 9);
+531d2c65d4e35c Uma Shankar  2025-12-01  3895  		else if (abs_coeff < CTM_COEFF_2_0)
+531d2c65d4e35c Uma Shankar  2025-12-01  3896  			coeffs[i] |= (7 << 12) |
+531d2c65d4e35c Uma Shankar  2025-12-01  3897  				      ILK_CSC_COEFF_FP(abs_coeff, 8);
+531d2c65d4e35c Uma Shankar  2025-12-01  3898  		else
+531d2c65d4e35c Uma Shankar  2025-12-01  3899  			coeffs[i] |= (6 << 12) |
+531d2c65d4e35c Uma Shankar  2025-12-01  3900  				      ILK_CSC_COEFF_FP(abs_coeff, 7);
+531d2c65d4e35c Uma Shankar  2025-12-01  3901  
+531d2c65d4e35c Uma Shankar  2025-12-01  3902  		/* Skip postoffs */
+531d2c65d4e35c Uma Shankar  2025-12-01  3903  		if (!((j + 2) % 4))
+531d2c65d4e35c Uma Shankar  2025-12-01  3904  			j += 2;
+531d2c65d4e35c Uma Shankar  2025-12-01  3905  		else
+531d2c65d4e35c Uma Shankar  2025-12-01  3906  			j++;
+531d2c65d4e35c Uma Shankar  2025-12-01  3907  	}
+531d2c65d4e35c Uma Shankar  2025-12-01  3908  
+531d2c65d4e35c Uma Shankar  2025-12-01  3909  	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 0),
+531d2c65d4e35c Uma Shankar  2025-12-01  3910  			   coeffs[0] << 16 | coeffs[1]);
+531d2c65d4e35c Uma Shankar  2025-12-01  3911  	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 1),
+531d2c65d4e35c Uma Shankar  2025-12-01  3912  			   coeffs[2] << 16);
+531d2c65d4e35c Uma Shankar  2025-12-01  3913  
+531d2c65d4e35c Uma Shankar  2025-12-01  3914  	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 2),
+531d2c65d4e35c Uma Shankar  2025-12-01  3915  			   coeffs[3] << 16 | coeffs[4]);
+531d2c65d4e35c Uma Shankar  2025-12-01  3916  	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 3),
+531d2c65d4e35c Uma Shankar  2025-12-01  3917  			   coeffs[5] << 16);
+531d2c65d4e35c Uma Shankar  2025-12-01  3918  
+531d2c65d4e35c Uma Shankar  2025-12-01  3919  	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 4),
+531d2c65d4e35c Uma Shankar  2025-12-01  3920  			   coeffs[6] << 16 | coeffs[7]);
+531d2c65d4e35c Uma Shankar  2025-12-01  3921  	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 5),
+531d2c65d4e35c Uma Shankar  2025-12-01  3922  			   coeffs[8] << 16);
+531d2c65d4e35c Uma Shankar  2025-12-01  3923  
+531d2c65d4e35c Uma Shankar  2025-12-01  3924  	intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 0), 0);
+531d2c65d4e35c Uma Shankar  2025-12-01  3925  	intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 1), 0);
+531d2c65d4e35c Uma Shankar  2025-12-01  3926  	intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 2), 0);
+531d2c65d4e35c Uma Shankar  2025-12-01  3927  
+531d2c65d4e35c Uma Shankar  2025-12-01  3928  	/*
+531d2c65d4e35c Uma Shankar  2025-12-01  3929  	 * Conversion from S31.32 to S0.12. BIT[12] is the signed bit
+531d2c65d4e35c Uma Shankar  2025-12-01  3930  	 */
+531d2c65d4e35c Uma Shankar  2025-12-01  3931  	intel_de_write_dsb(display, dsb,
+531d2c65d4e35c Uma Shankar  2025-12-01  3932  			   PLANE_CSC_POSTOFF(pipe, plane, 0),
+531d2c65d4e35c Uma Shankar  2025-12-01  3933  			   ctm_to_twos_complement(input[3], 0, 12));
+531d2c65d4e35c Uma Shankar  2025-12-01  3934  	intel_de_write_dsb(display, dsb,
+531d2c65d4e35c Uma Shankar  2025-12-01  3935  			   PLANE_CSC_POSTOFF(pipe, plane, 1),
+531d2c65d4e35c Uma Shankar  2025-12-01  3936  			   ctm_to_twos_complement(input[7], 0, 12));
+531d2c65d4e35c Uma Shankar  2025-12-01  3937  	intel_de_write_dsb(display, dsb,
+531d2c65d4e35c Uma Shankar  2025-12-01  3938  			   PLANE_CSC_POSTOFF(pipe, plane, 2),
+531d2c65d4e35c Uma Shankar  2025-12-01  3939  			   ctm_to_twos_complement(input[11], 0, 12));
+531d2c65d4e35c Uma Shankar  2025-12-01  3940  }
+531d2c65d4e35c Uma Shankar  2025-12-01  3941  
 
 -- 
 0-DAY CI Kernel Test Service
