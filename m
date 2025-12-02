@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761A72D1F64
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Dec 2025 18:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9634C29AB05
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Dec 2025 18:10:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764698502; cv=none; b=kzGqfGok1FiNM4wc7YfrTxK5spGRsntW/pRBzZyvyt+kf9kUjle3aoKXY1HvzZcWgX/JSVgzAwjfIYBxXZLbtT7NUhMHp7FwEvPwvh8Li1Sw4aS/bCk7t6tJBWZCSFfIyxG9SvC+Pv2R3BjAryZFyly9EUJPEu+dT5lizxCWJrk=
+	t=1764699041; cv=none; b=aT6CmdiaIzg0MEkY2Z+CRNjv8h1EsGWRmTtAGatNCoDCJRuSJSyLrrV6MlB86fW/IrTNv56xCBTM9lHChsLR0zMYK8rwia2762GkvYbMY6Mmv6+KsHbNBs/GCNDRVNo1fGJmO+KTuVDEhWdcXxy2Tg6w/AZJ9nGLbSO8UKPFoPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764698502; c=relaxed/simple;
-	bh=SyptaBUKiBdkNCS4srWWa1vfr6iET1ajlGmR62Ktx+U=;
+	s=arc-20240116; t=1764699041; c=relaxed/simple;
+	bh=dAWnYyTlyGrbrr3Tjcc8FrfKYLRNY8rjVTzAUrujfMA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mVS2EIJOQnB0j6mY0B9vLKC0RkbC3HQvDRRzKzPcVCWsuog5XZ4LhpCK5dBd0GzEhk0CHJ9BNhEX1Sdsh7ANVQiEN2mwluB+/fyxe6/XalbO7jGZbhhRCNL26qYyxkwkxoqNpkMcS6dJDDjMTDyeMslhUH0LkkYe0CAcLfO0+gA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cpD0zsrT; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=mfFsXGM75y73Y4qo3jH0LhQbqAFaIVBn/RZLznZt4F2URKkXpTQPqFTuJw8s0wYhHRHkD0vCQikFHdr9yGfkI0zBe0AoF9e6HlOX9JAZSI940tsO9kz0XQ3xCdwv+5HNZ3wcdRiBrZvrPJwJYDJ4bRQXCesrz8c6ajExSCFKO5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5OffoJJ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cpD0zsrT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5OffoJJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764698500; x=1796234500;
+  t=1764699040; x=1796235040;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SyptaBUKiBdkNCS4srWWa1vfr6iET1ajlGmR62Ktx+U=;
-  b=cpD0zsrTIgAHH1UwimybaEWdNfLDdGPy7uwlZDb8xXNtMeco9VosUEPb
-   WWQlaI8EWc2cZ9nwlL9tPKGtvHSbC2wpWUNyxUiiOpRe4FoFJYBkFuunB
-   hKsfY9+/P8rOAwpJ1s7Zzxno9S3BCe1NnLO3ySEAJAhhoABatRJRVH/Ei
-   mwtziEq9OLy0AuYc6Snun/sk5SPIza11tR8UXtBvMRJqBj51eLhoKbBJu
-   CstxdjyvJcdQjNxiQpUNNfZGfW3n1Rjl6BCcwufVIUkuObg5JMrvPpjbm
-   aec6+4ZjNrjBrCeX4yfUFvn1dxZGhBP3OO2dmk1SrT2usYUNeCGLVdKDT
-   Q==;
-X-CSE-ConnectionGUID: 00+xrsLsTxmU1Y8o//sA+Q==
-X-CSE-MsgGUID: f+X3l6EIRHaLlrF9rkciTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66635424"
+  bh=dAWnYyTlyGrbrr3Tjcc8FrfKYLRNY8rjVTzAUrujfMA=;
+  b=g5OffoJJzG8IM8WOVJMafgpvlUaCuBOXH6rF/fCXdrXkjy8Urq3faNvv
+   MPAJZjU7LUnzCknusUIYOt3BWvAIoAfFlY5r2RKeV9WmciD0NqezGU5rd
+   E8I8eDl4gSrR+neanTifz2VnXzvsn27WcYdz02wQoyhoW/oNjLNTV7/Zm
+   YGCzyQpG0N+BZ+HhmnLmDliuuBk9HDvjpCXmUkwbssW+KnW6yMYM3FgFH
+   /0JDqat03oED1vBN6/L1ilqx0K6JMEbGhR9yhFBHsQ6+i2X6OAcJZlvHh
+   XEh4oZ6DhG4vW5tNpjSx1l1hC3eYFZrv1KJdRWcQY4geQrCSxKsTzK2IU
+   w==;
+X-CSE-ConnectionGUID: /SVoJAhITkOUunjonqWYVQ==
+X-CSE-MsgGUID: ObItGgowTmCZSVNfYYbFHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66717591"
 X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="66635424"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 10:01:39 -0800
-X-CSE-ConnectionGUID: hzEgNEJKT6WFIwLlXK9t2g==
-X-CSE-MsgGUID: xG7u727wR12+NDw1/uG7uA==
+   d="scan'208";a="66717591"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 10:10:40 -0800
+X-CSE-ConnectionGUID: BArpRfgCTyejO87JxHQ1pw==
+X-CSE-MsgGUID: Y2zdnJvqSD+oPMOcNGn/sw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="193548253"
+   d="scan'208";a="225134628"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 02 Dec 2025 10:01:37 -0800
+  by orviesa002.jf.intel.com with ESMTP; 02 Dec 2025 10:10:38 -0800
 Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQUgx-000000002wj-2ve0;
-	Tue, 02 Dec 2025 18:01:35 +0000
-Date: Tue, 2 Dec 2025 19:01:15 +0100
+	id 1vQUpf-000000002wp-3IdG;
+	Tue, 02 Dec 2025 18:10:35 +0000
+Date: Tue, 2 Dec 2025 19:10:18 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/gpu/drm/i915/display/intel_color.c:3865:20: error: invalid
- use of undefined type 'struct drm_color_ctm_3x4'
-Message-ID: <202512021955.KJmvBhUB-lkp@intel.com>
+Subject: drivers/scsi/qla2xxx/qla_init.c:8490:28: warning: variable
+ 'fragment' set but not used
+Message-ID: <202512021947.U82G4ELP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,140 +63,178 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245, commit: 531d2c65d4e35c5aaa31efc318fa7de4771695a9"
+:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Nilesh-Javali/qla2xxx-Add-Speed-in-SFP-print-information/20251202-140943, commit: 1bfb31c14b23902a2fe29ecfd75b669ced4b2dc0"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Uma Shankar <uma.shankar@intel.com>
+TO: Manish Rangankar <mrangankar@marvell.com>
 CC: 0day robot <lkp@intel.com>
-CC: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+CC: Nilesh Javali <njavali@marvell.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245
-head:   a475844eaf5f5246fea92d8289f2c8555f2c0c7e
-commit: 531d2c65d4e35c5aaa31efc318fa7de4771695a9 drm/i915/color: Add plane CTM callback for D12 and beyond
-date:   35 hours ago
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251202/202512021955.KJmvBhUB-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021955.KJmvBhUB-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Nilesh-Javali/qla2xxx-Add-Speed-in-SFP-print-information/20251202-140943
+head:   72ffa216e20607b795b5962d24ebee31661864b2
+commit: 1bfb31c14b23902a2fe29ecfd75b669ced4b2dc0 qla2xxx: Add load flash firmware mailbox support for 28xxx
+date:   12 hours ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251202/202512021947.U82G4ELP-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021947.U82G4ELP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512021955.KJmvBhUB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512021947.U82G4ELP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/i915/display/intel_color.c:31:
-   drivers/gpu/drm/i915/display/intel_display_types.h:1993:28: error: field 'base' has incomplete type
-    1993 |         struct drm_colorop base;
-         |                            ^~~~
-   drivers/gpu/drm/i915/display/intel_color.c: In function 'xelpd_load_plane_csc_matrix':
->> drivers/gpu/drm/i915/display/intel_color.c:3865:20: error: invalid use of undefined type 'struct drm_color_ctm_3x4'
-    3865 |         input = ctm->matrix;
-         |                    ^~
+>> drivers/scsi/qla2xxx/qla_init.c:8490:28: warning: variable 'fragment' set but not used [-Wunused-but-set-variable]
+    8490 |         uint templates, segments, fragment;
+         |                                   ^
+   In file included from drivers/scsi/qla2xxx/qla_init.c:6:
+   In file included from drivers/scsi/qla2xxx/qla_def.h:12:
+   In file included from include/linux/module.h:13:
+   In file included from include/linux/stat.h:19:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/x86/include/asm/timex.h:6:
+   In file included from arch/x86/include/asm/tsc.h:11:
+   In file included from arch/x86/include/asm/msr.h:11:
+   In file included from arch/x86/include/asm/cpumask.h:5:
+   In file included from include/linux/cpumask.h:12:
+   In file included from include/linux/bitmap.h:13:
+   In file included from include/linux/string.h:382:
+   include/linux/fortify-string.h:580:4: warning: call to '__read_overflow2_field' declared with 'warning' attribute: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+     580 |                         __read_overflow2_field(q_size_field, size);
+         |                         ^
+   2 warnings generated.
 
 
-vim +3865 drivers/gpu/drm/i915/display/intel_color.c
+vim +/fragment +8490 drivers/scsi/qla2xxx/qla_init.c
 
-b4ab7aa848acaf Swati Sharma 2020-03-17  3846  
-531d2c65d4e35c Uma Shankar  2025-12-01  3847  static void
-531d2c65d4e35c Uma Shankar  2025-12-01  3848  xelpd_load_plane_csc_matrix(struct intel_dsb *dsb,
-531d2c65d4e35c Uma Shankar  2025-12-01  3849  			    const struct intel_plane_state *plane_state)
-531d2c65d4e35c Uma Shankar  2025-12-01  3850  {
-531d2c65d4e35c Uma Shankar  2025-12-01  3851  	struct intel_display *display = to_intel_display(plane_state);
-531d2c65d4e35c Uma Shankar  2025-12-01  3852  	const struct drm_plane_state *state = &plane_state->uapi;
-531d2c65d4e35c Uma Shankar  2025-12-01  3853  	enum pipe pipe = to_intel_plane(state->plane)->pipe;
-531d2c65d4e35c Uma Shankar  2025-12-01  3854  	enum plane_id plane = to_intel_plane(state->plane)->id;
-531d2c65d4e35c Uma Shankar  2025-12-01  3855  	const struct drm_property_blob *blob = plane_state->hw.ctm;
-531d2c65d4e35c Uma Shankar  2025-12-01  3856  	struct drm_color_ctm_3x4 *ctm;
-531d2c65d4e35c Uma Shankar  2025-12-01  3857  	const u64 *input;
-531d2c65d4e35c Uma Shankar  2025-12-01  3858  	u16 coeffs[9] = {};
-531d2c65d4e35c Uma Shankar  2025-12-01  3859  	int i, j;
-531d2c65d4e35c Uma Shankar  2025-12-01  3860  
-531d2c65d4e35c Uma Shankar  2025-12-01  3861  	if (!icl_is_hdr_plane(display, plane) || !blob)
-531d2c65d4e35c Uma Shankar  2025-12-01  3862  		return;
-531d2c65d4e35c Uma Shankar  2025-12-01  3863  
-531d2c65d4e35c Uma Shankar  2025-12-01  3864  	ctm = blob->data;
-531d2c65d4e35c Uma Shankar  2025-12-01 @3865  	input = ctm->matrix;
-531d2c65d4e35c Uma Shankar  2025-12-01  3866  
-531d2c65d4e35c Uma Shankar  2025-12-01  3867  	/*
-531d2c65d4e35c Uma Shankar  2025-12-01  3868  	 * Convert fixed point S31.32 input to format supported by the
-531d2c65d4e35c Uma Shankar  2025-12-01  3869  	 * hardware.
-531d2c65d4e35c Uma Shankar  2025-12-01  3870  	 */
-531d2c65d4e35c Uma Shankar  2025-12-01  3871  	for (i = 0, j = 0; i < ARRAY_SIZE(coeffs); i++) {
-531d2c65d4e35c Uma Shankar  2025-12-01  3872  		u64 abs_coeff = ((1ULL << 63) - 1) & input[j];
-531d2c65d4e35c Uma Shankar  2025-12-01  3873  
-531d2c65d4e35c Uma Shankar  2025-12-01  3874  		/*
-531d2c65d4e35c Uma Shankar  2025-12-01  3875  		 * Clamp input value to min/max supported by
-531d2c65d4e35c Uma Shankar  2025-12-01  3876  		 * hardware.
-531d2c65d4e35c Uma Shankar  2025-12-01  3877  		 */
-531d2c65d4e35c Uma Shankar  2025-12-01  3878  		abs_coeff = clamp_val(abs_coeff, 0, CTM_COEFF_4_0 - 1);
-531d2c65d4e35c Uma Shankar  2025-12-01  3879  
-531d2c65d4e35c Uma Shankar  2025-12-01  3880  		/* sign bit */
-531d2c65d4e35c Uma Shankar  2025-12-01  3881  		if (CTM_COEFF_NEGATIVE(input[j]))
-531d2c65d4e35c Uma Shankar  2025-12-01  3882  			coeffs[i] |= 1 << 15;
-531d2c65d4e35c Uma Shankar  2025-12-01  3883  
-531d2c65d4e35c Uma Shankar  2025-12-01  3884  		if (abs_coeff < CTM_COEFF_0_125)
-531d2c65d4e35c Uma Shankar  2025-12-01  3885  			coeffs[i] |= (3 << 12) |
-531d2c65d4e35c Uma Shankar  2025-12-01  3886  				      ILK_CSC_COEFF_FP(abs_coeff, 12);
-531d2c65d4e35c Uma Shankar  2025-12-01  3887  		else if (abs_coeff < CTM_COEFF_0_25)
-531d2c65d4e35c Uma Shankar  2025-12-01  3888  			coeffs[i] |= (2 << 12) |
-531d2c65d4e35c Uma Shankar  2025-12-01  3889  				      ILK_CSC_COEFF_FP(abs_coeff, 11);
-531d2c65d4e35c Uma Shankar  2025-12-01  3890  		else if (abs_coeff < CTM_COEFF_0_5)
-531d2c65d4e35c Uma Shankar  2025-12-01  3891  			coeffs[i] |= (1 << 12) |
-531d2c65d4e35c Uma Shankar  2025-12-01  3892  				      ILK_CSC_COEFF_FP(abs_coeff, 10);
-531d2c65d4e35c Uma Shankar  2025-12-01  3893  		else if (abs_coeff < CTM_COEFF_1_0)
-531d2c65d4e35c Uma Shankar  2025-12-01  3894  			coeffs[i] |= ILK_CSC_COEFF_FP(abs_coeff, 9);
-531d2c65d4e35c Uma Shankar  2025-12-01  3895  		else if (abs_coeff < CTM_COEFF_2_0)
-531d2c65d4e35c Uma Shankar  2025-12-01  3896  			coeffs[i] |= (7 << 12) |
-531d2c65d4e35c Uma Shankar  2025-12-01  3897  				      ILK_CSC_COEFF_FP(abs_coeff, 8);
-531d2c65d4e35c Uma Shankar  2025-12-01  3898  		else
-531d2c65d4e35c Uma Shankar  2025-12-01  3899  			coeffs[i] |= (6 << 12) |
-531d2c65d4e35c Uma Shankar  2025-12-01  3900  				      ILK_CSC_COEFF_FP(abs_coeff, 7);
-531d2c65d4e35c Uma Shankar  2025-12-01  3901  
-531d2c65d4e35c Uma Shankar  2025-12-01  3902  		/* Skip postoffs */
-531d2c65d4e35c Uma Shankar  2025-12-01  3903  		if (!((j + 2) % 4))
-531d2c65d4e35c Uma Shankar  2025-12-01  3904  			j += 2;
-531d2c65d4e35c Uma Shankar  2025-12-01  3905  		else
-531d2c65d4e35c Uma Shankar  2025-12-01  3906  			j++;
-531d2c65d4e35c Uma Shankar  2025-12-01  3907  	}
-531d2c65d4e35c Uma Shankar  2025-12-01  3908  
-531d2c65d4e35c Uma Shankar  2025-12-01  3909  	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 0),
-531d2c65d4e35c Uma Shankar  2025-12-01  3910  			   coeffs[0] << 16 | coeffs[1]);
-531d2c65d4e35c Uma Shankar  2025-12-01  3911  	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 1),
-531d2c65d4e35c Uma Shankar  2025-12-01  3912  			   coeffs[2] << 16);
-531d2c65d4e35c Uma Shankar  2025-12-01  3913  
-531d2c65d4e35c Uma Shankar  2025-12-01  3914  	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 2),
-531d2c65d4e35c Uma Shankar  2025-12-01  3915  			   coeffs[3] << 16 | coeffs[4]);
-531d2c65d4e35c Uma Shankar  2025-12-01  3916  	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 3),
-531d2c65d4e35c Uma Shankar  2025-12-01  3917  			   coeffs[5] << 16);
-531d2c65d4e35c Uma Shankar  2025-12-01  3918  
-531d2c65d4e35c Uma Shankar  2025-12-01  3919  	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 4),
-531d2c65d4e35c Uma Shankar  2025-12-01  3920  			   coeffs[6] << 16 | coeffs[7]);
-531d2c65d4e35c Uma Shankar  2025-12-01  3921  	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 5),
-531d2c65d4e35c Uma Shankar  2025-12-01  3922  			   coeffs[8] << 16);
-531d2c65d4e35c Uma Shankar  2025-12-01  3923  
-531d2c65d4e35c Uma Shankar  2025-12-01  3924  	intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 0), 0);
-531d2c65d4e35c Uma Shankar  2025-12-01  3925  	intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 1), 0);
-531d2c65d4e35c Uma Shankar  2025-12-01  3926  	intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 2), 0);
-531d2c65d4e35c Uma Shankar  2025-12-01  3927  
-531d2c65d4e35c Uma Shankar  2025-12-01  3928  	/*
-531d2c65d4e35c Uma Shankar  2025-12-01  3929  	 * Conversion from S31.32 to S0.12. BIT[12] is the signed bit
-531d2c65d4e35c Uma Shankar  2025-12-01  3930  	 */
-531d2c65d4e35c Uma Shankar  2025-12-01  3931  	intel_de_write_dsb(display, dsb,
-531d2c65d4e35c Uma Shankar  2025-12-01  3932  			   PLANE_CSC_POSTOFF(pipe, plane, 0),
-531d2c65d4e35c Uma Shankar  2025-12-01  3933  			   ctm_to_twos_complement(input[3], 0, 12));
-531d2c65d4e35c Uma Shankar  2025-12-01  3934  	intel_de_write_dsb(display, dsb,
-531d2c65d4e35c Uma Shankar  2025-12-01  3935  			   PLANE_CSC_POSTOFF(pipe, plane, 1),
-531d2c65d4e35c Uma Shankar  2025-12-01  3936  			   ctm_to_twos_complement(input[7], 0, 12));
-531d2c65d4e35c Uma Shankar  2025-12-01  3937  	intel_de_write_dsb(display, dsb,
-531d2c65d4e35c Uma Shankar  2025-12-01  3938  			   PLANE_CSC_POSTOFF(pipe, plane, 2),
-531d2c65d4e35c Uma Shankar  2025-12-01  3939  			   ctm_to_twos_complement(input[11], 0, 12));
-531d2c65d4e35c Uma Shankar  2025-12-01  3940  }
-531d2c65d4e35c Uma Shankar  2025-12-01  3941  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8482  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8483  static int
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8484  qla28xx_load_fw_template(scsi_qla_host_t *vha, uint32_t faddr)
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8485  {
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8486  	struct qla_hw_data *ha = vha->hw;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8487  	struct fwdt *fwdt = ha->fwdt;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8488  	struct req_que *req = ha->req_q_map[0];
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8489  	uint32_t risc_size, risc_attr = 0;
+1bfb31c14b2390 Manish Rangankar 2025-12-02 @8490  	uint templates, segments, fragment;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8491  	uint32_t *dcode;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8492  	ulong dlen;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8493  	int rval;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8494  	uint j;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8495  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8496  	dcode = (uint32_t *)req->ring;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8497  	segments = FA_RISC_CODE_SEGMENTS;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8498  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8499  	for (j = 0; j < segments; j++) {
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8500  		rval = qla24xx_read_flash_data(vha, dcode, faddr, 10);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8501  		if (rval) {
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8502  			ql_log(ql_log_fatal, vha, 0x01a1,
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8503  			       "-> Failed to read flash addr + size .\n");
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8504  			return QLA_FUNCTION_FAILED;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8505  		}
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8506  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8507  		risc_size = be32_to_cpu((__force __be32)dcode[3]);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8508  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8509  		if (risc_attr == 0)
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8510  			risc_attr = be32_to_cpu((__force __be32)dcode[9]);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8511  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8512  		dlen = ha->fw_transfer_size >> 2;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8513  		for (fragment = 0; risc_size; fragment++) {
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8514  			if (dlen > risc_size)
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8515  				dlen = risc_size;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8516  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8517  			faddr += dlen;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8518  			risc_size -= dlen;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8519  		}
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8520  	}
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8521  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8522  	templates = (risc_attr & BIT_9) ? 2 : 1;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8523  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8524  	ql_dbg(ql_dbg_init, vha, 0x01a1, "-> templates = %u\n", templates);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8525  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8526  	for (j = 0; j < templates; j++, fwdt++) {
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8527  		vfree(fwdt->template);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8528  		fwdt->template = NULL;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8529  		fwdt->length = 0;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8530  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8531  		dcode = (uint32_t *)req->ring;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8532  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8533  		rval = qla24xx_read_flash_data(vha, dcode, faddr, 7);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8534  		if (rval) {
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8535  			ql_log(ql_log_fatal, vha, 0x01a2,
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8536  			    "-> Unable to read template size.\n");
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8537  			goto failed;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8538  		}
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8539  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8540  		risc_size = be32_to_cpu((__force __be32)dcode[2]);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8541  		ql_dbg(ql_dbg_init, vha, 0x01a3,
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8542  		    "-> fwdt%u template array at %#x (%#x dwords)\n",
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8543  		    j, faddr, risc_size);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8544  		if (!risc_size || !~risc_size) {
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8545  			ql_dbg(ql_dbg_init, vha, 0x01a4,
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8546  			    "-> fwdt%u failed to read array\n", j);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8547  			goto failed;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8548  		}
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8549  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8550  		/* skip header and ignore checksum */
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8551  		faddr += 7;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8552  		risc_size -= 8;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8553  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8554  		ql_dbg(ql_dbg_init, vha, 0x01a5,
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8555  		    "-> fwdt%u template allocate template %#x words...\n",
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8556  		    j, risc_size);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8557  		fwdt->template = vmalloc(risc_size * sizeof(*dcode));
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8558  		if (!fwdt->template) {
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8559  			ql_log(ql_log_warn, vha, 0x01a6,
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8560  			    "-> fwdt%u failed allocate template.\n", j);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8561  			goto failed;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8562  		}
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8563  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8564  		dcode = fwdt->template;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8565  		rval = qla24xx_read_flash_data(vha, dcode, faddr, risc_size);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8566  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8567  		if (rval || !qla27xx_fwdt_template_valid(dcode)) {
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8568  			ql_log(ql_log_warn, vha, 0x01a7,
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8569  			    "-> fwdt%u failed template validate (rval %x)\n",
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8570  			    j, rval);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8571  			goto failed;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8572  		}
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8573  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8574  		dlen = qla27xx_fwdt_template_size(dcode);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8575  		ql_dbg(ql_dbg_init, vha, 0x01a7,
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8576  		    "-> fwdt%u template size %#lx bytes (%#lx words)\n",
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8577  		    j, dlen, dlen / sizeof(*dcode));
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8578  		if (dlen > risc_size * sizeof(*dcode)) {
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8579  			ql_log(ql_log_warn, vha, 0x01a8,
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8580  			    "-> fwdt%u template exceeds array (%-lu bytes)\n",
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8581  			    j, dlen - risc_size * sizeof(*dcode));
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8582  			goto failed;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8583  		}
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8584  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8585  		fwdt->length = dlen;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8586  		ql_dbg(ql_dbg_init, vha, 0x01a9,
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8587  		    "-> fwdt%u loaded template ok\n", j);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8588  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8589  		faddr += risc_size + 1;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8590  	}
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8591  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8592  	return QLA_SUCCESS;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8593  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8594  failed:
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8595  	vfree(fwdt->template);
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8596  	fwdt->template = NULL;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8597  	fwdt->length = 0;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8598  
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8599  	return QLA_SUCCESS;
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8600  }
+1bfb31c14b2390 Manish Rangankar 2025-12-02  8601  
 
 -- 
 0-DAY CI Kernel Test Service
