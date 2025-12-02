@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D942AD35
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Dec 2025 03:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B92F244661
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Dec 2025 03:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764645357; cv=none; b=qFnc/x9txd2b/6A6IcNACh8qUktcKZJIZ05v9CDdrNopm7oMO0A+YfMzJ+ChV+nZ3pS/NURILhI+fQtpB0wLKr2Lc39zthkljCVtTi9ANFYFmFEuR2m46wKAdGRH98qsEXJt07nq9/hWism+W7hi+yST0XvUL08RPoazxp4UW5s=
+	t=1764647735; cv=none; b=h3GCzJcSazkGqwIMz/8/4Tlcf8DFRkAD+gzw4fY39DxXH97ccrA7+fepRtnb7lj3lc2hdzhJh+i3YZmvsz+iYfalpuKpxAuxkuS+cr1Yrf57mFdbxqfJhxAjEUPDivlPkT6lg7JX8zR/NAHDrYI1GA9br0mw/p3Lse0b921FRds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764645357; c=relaxed/simple;
-	bh=vTlDRu3Os8USjKOD+5NpeW44r7JnTt09lDzrxjCx4+A=;
+	s=arc-20240116; t=1764647735; c=relaxed/simple;
+	bh=YXRs+z87paYlfRKMxY3RclH3BRakamdK7I+XXjxidCA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LuV1gpfyLh1SlNrVT4Rs3UDyZkfw3sBXTzbjkAgI/zgY2BRQknpsHFWgILKb4s6ckLl+tvdIdsLJb9XnfisVV/IBAhXkQkUXKB8k4L1Oqve3Nzul1wdvPeMFObLMPmjVNoqQFgGnUpD83kvsGLQi4SzpLay7m/oLhPnGxUDSlNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dBczcyC/; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=Izwjh79GO91aCr1SixvqbsDEK/B8tnIW05y35DHQ7h9zEPB7yVciRWVeXclRJ0bBbkNF/G32FghQObHS23MxHAghQlpNpiJzTthw7b4DxTYBfPydp1WlmUT3h9NOWVogp6P7bfEx6irWKfeXx8WPX2zhBvEaoYnSu5Fd9t1fYrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N+A6rM01; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBczcyC/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N+A6rM01"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764645355; x=1796181355;
+  t=1764647733; x=1796183733;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vTlDRu3Os8USjKOD+5NpeW44r7JnTt09lDzrxjCx4+A=;
-  b=dBczcyC/tFHwUWc1rKs1buqBNPMhB3p65JZGYSxj9hqrOJAWsa3eYZ/9
-   7Vmrn+2DGE/q9UKG1/mLDO8bxFzeWQJiDXtKHw+V36DjryN+sIpf/Bzym
-   vuI60A/B08PrHU+nDJye/l6Zlx704k3NLH9/TQU/OOkyS99WG+h0XZcwA
-   IafjTHVL3EoeotdtxA1+aW1bPFy1xs49Nb8KvWZ1mU5sZ0tA/14GdpHHk
-   O6WBYFO/oorh7Og39c9/9JpT5nwJTrvUL2iTff5ky3ZXmhtAKgQciDszP
-   ADZrB5W13CtjxK7T6uosDvGLvr6Hg+0a86y/3vpMmXInmTgf/VC2vDlRB
-   g==;
-X-CSE-ConnectionGUID: 1delttDxS0i5nL+XdGkdjQ==
-X-CSE-MsgGUID: riTn0YOVSgaURyrHQGTLAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="78065892"
+  bh=YXRs+z87paYlfRKMxY3RclH3BRakamdK7I+XXjxidCA=;
+  b=N+A6rM01oHE7Me7WSCZ/uPId5CfLBuZQpVbFhQ1k+jx/w/h5SuubJwOR
+   3K9e8xEbGymB+sGGG4RRNLwBsUfrPymFR2PMNz1smLINmMvk+HSOxPjTZ
+   ByeqvuepOJLrorNGWis9FaZeq0/KEjeQUlTnRvikhwG+Lb85Z7eZPhTKP
+   iHCwcw04jYvynLiXn7YbEsH/I7su+eHQFZUhNbqvJgmhWo9R0Y5FGOcC0
+   9mfI6rQcIzoPEzU/n2RxsAEcE9iCtD/98UZz8n71S3fqdlKN2VVJJZBEe
+   8E/AUyiNFK+txl1aLmTRy7om2tx+nwytVQd5bvvb+g6gGzYOYwU+RXeuK
+   A==;
+X-CSE-ConnectionGUID: HCZgILI1Soi+FR5cY9JTxw==
+X-CSE-MsgGUID: O5GJFpCcRWqM3j2wNtW9wA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66641895"
 X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
-   d="scan'208";a="78065892"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 19:15:55 -0800
-X-CSE-ConnectionGUID: L2mAUQkVTUiT/04i9r+EXA==
-X-CSE-MsgGUID: dyzJMNK/T+CxRPwL/tCDiQ==
+   d="scan'208";a="66641895"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 19:55:33 -0800
+X-CSE-ConnectionGUID: ilhxkBALQl6h8H+6uMH1ZQ==
+X-CSE-MsgGUID: QHjs4CghRhqBRYXaK6Ywjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
-   d="scan'208";a="217587083"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 01 Dec 2025 19:15:53 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+   d="scan'208";a="194244880"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 01 Dec 2025 19:55:32 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQGrm-000000009N1-3s8C;
-	Tue, 02 Dec 2025 03:15:50 +0000
-Date: Tue, 2 Dec 2025 11:15:34 +0800
+	id 1vQHU9-000000002oH-2GY7;
+	Tue, 02 Dec 2025 03:55:29 +0000
+Date: Tue, 2 Dec 2025 04:54:35 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 12434/13171] test_mremap_vdso.c:23:10: fatal
- error: kselftest.h: No such file or directory
-Message-ID: <202512021111.4kiXQeR1-lkp@intel.com>
+Subject: [linux-next:master 12712/13171]
+ tools/testing/selftests/vfio/vfio_pci_device_init_perf_test.c:2:10: fatal
+ error: pthread.h: No such file or directory
+Message-ID: <202512020403.lXv6hkOT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,77 +69,42 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Bala-Vignesh-Reddy" <reddybalavignesh9979@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Wei Yang <richard.weiyang@gmail.com>
+TO: David Matlack <dmatlack@google.com>
+CC: Alex Williamson <alex@shazbot.org>
+CC: Alex Mastro <amastro@fb.com>
+CC: Raghavendra Rao Ananta <rananta@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   95cb2fd6ce0ad61af54191fe5ef271d7177f9c3a
-commit: e6fbd1759c9ece5044d3470f30a5e2166dc9de89 [12434/13171] selftests: complete kselftest include centralization
-:::::: branch date: 24 hours ago
-:::::: commit date: 4 days ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251202/202512021111.4kiXQeR1-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021111.4kiXQeR1-lkp@intel.com/reproduce)
+commit: d721f52e31553a848e0e9947ca15a49c5674aef3 [12712/13171] vfio: selftests: Add vfio_pci_device_init_perf_test
+:::::: branch date: 25 hours ago
+:::::: commit date: 3 days ago
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251202/202512020403.lXv6hkOT-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512020403.lXv6hkOT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512021111.4kiXQeR1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512020403.lXv6hkOT-lkp@intel.com/
 
 Note: the linux-next/master HEAD 95cb2fd6ce0ad61af54191fe5ef271d7177f9c3a builds fine.
       It may have been fixed somewhere.
 
 All errors (new ones prefixed by >>):
 
-   In file included from single_step_syscall.c:34:
->> helpers.h:10:10: fatal error: kselftest.h: No such file or directory
-      10 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
+>> tools/testing/selftests/vfio/vfio_pci_device_init_perf_test.c:2:10: fatal error: pthread.h: No such file or directory
+       2 | #include <pthread.h>
+         |          ^~~~~~~~~~~
    compilation terminated.
---
->> test_mremap_vdso.c:23:10: fatal error: kselftest.h: No such file or directory
-      23 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
---
->> syscall_numbering.c:28:10: fatal error: kselftest.h: No such file or directory
-      28 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
---
->> corrupt_xstate_header.c:20:10: fatal error: kselftest.h: No such file or directory
-      20 | #include "kselftest.h" /* For __cpuid_count() */
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
---
-   In file included from amx.c:19:
->> helpers.h:10:10: fatal error: kselftest.h: No such file or directory
-      10 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
-   In file included from xstate.c:15:
->> helpers.h:10:10: fatal error: kselftest.h: No such file or directory
-      10 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
---
->> lam.c:21:10: fatal error: kselftest.h: No such file or directory
-      21 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
---
-   In file included from avx.c:4:
->> xstate.h:7:10: fatal error: kselftest.h: No such file or directory
-       7 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
-   In file included from xstate.c:15:
->> helpers.h:10:10: fatal error: kselftest.h: No such file or directory
-      10 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
+
+
+vim +2 tools/testing/selftests/vfio/vfio_pci_device_init_perf_test.c
+
+d721f52e31553a David Matlack 2025-11-26 @2  #include <pthread.h>
+d721f52e31553a David Matlack 2025-11-26  3  #include <sys/ioctl.h>
+d721f52e31553a David Matlack 2025-11-26  4  #include <sys/mman.h>
+d721f52e31553a David Matlack 2025-11-26  5  
 
 -- 
 0-DAY CI Kernel Test Service
