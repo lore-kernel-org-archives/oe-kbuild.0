@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89FF72B9BA
-	for <oe-kbuild@lists.linux.dev>; Wed,  3 Dec 2025 03:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC5929B8EF
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 Dec 2025 07:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764730895; cv=none; b=sC4I8lbqPie7THzjPMKKWXqeuuZ1dWGkMo1hsFbfWPJP4LOdzG4iVwb4RkEI0ukLRk9pUmsotSlW5HOwVudn0Tvcr2Uuki6wEA+kN/zKN3syk5MWc8YhRCwug+Cb5UX/AK3Cxw7VZKykAOgkVQGXdBOXS1Jtp0SJhgiDXh+x81I=
+	t=1764747684; cv=none; b=S+B9a6oNjlFaobYTZRspqE+Z8ZkmwsS/zSWn76nxZ+JPKvIyFPsjqe+mr0vQfppxTTOhulF/7s0G0JHwKrC5+t6j3s1etNeJ0b03BkJH8BcfM1l1ms7qjnB20SsxkhpjswW5qXvWn4cMiLnJBF3UVQHluw42hmyFP2b5IjnUVyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764730895; c=relaxed/simple;
-	bh=hGOxV9lBFeUQTlv4n23f4/eknSIcjm0KCC/x6kAlyGE=;
+	s=arc-20240116; t=1764747684; c=relaxed/simple;
+	bh=NQbe8DZiv10yu1+elzvglKbiYxieoUqnRQfcISpspZY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r0hg+gkBJ7/xUUMydVh6i6rP5Q31Z9DAkXZ9uPopXr/HDfSwuOSLOcDoqc1K0q/dThjl3bIqTYbpaUR5zBAm+zk4YMXxdFm77/wL+GHrvkfzPaJh7e9C+wRagOZ3ybQkG1s4VVlFq9BUGVhoMo6acz/34qOKXyZ6MMqTmcjKQB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aEsSjvzW; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=K59MEUtFtkw7DkpSeph9A9Q04BTcPYZ/fuqFBdnKzmcbzFrorWKQDlTLWcBCYZXkr7Gr2s6G2PkLsfcFxv3MxXoMKop9lyWcgt4sfmnCHk8Um5H+EI1siEIj9cX6Rrcaybl4+pbQ32B9bk/5lvS/J1ELiG/VrT7M5pShfPrcfb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OxRbIMCJ; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aEsSjvzW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OxRbIMCJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764730894; x=1796266894;
+  t=1764747684; x=1796283684;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hGOxV9lBFeUQTlv4n23f4/eknSIcjm0KCC/x6kAlyGE=;
-  b=aEsSjvzWlZZzojGeZ1pZviUw9usgH/WirfA+2+8D4WshPX0LxbygusdN
-   POxgWGciym1jZd6wnCr5HgRf6dF5wcLtbujHmqSo6wBcixwoF01wAYilr
-   pSde96BYJub2xXJg1Qz2yJiRxYMWLJJBIA09VUByK5OuF+jF4hpftMEMq
-   rIY7omPMhBPhkxKhPYrhLg5rwAj6mfXV6v68Ec8YCZdBCMbKayxkiUSbF
-   SRm1ed9jQSavzPKScDPSrP+3/hZ+rfKoRU/4/tbXwrOoH7eNB9yI0wElr
-   o4oAGCEDy51sTiHTajxyIAcUkzI39QTu/kvMA/gtKA7IQpjB9SAbkBz2b
-   Q==;
-X-CSE-ConnectionGUID: wtBqtuwzSAGqR0B+al362A==
-X-CSE-MsgGUID: DKeUNMeWQtiUUc0KKaScUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66437913"
-X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; 
-   d="scan'208";a="66437913"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 19:01:32 -0800
-X-CSE-ConnectionGUID: 4ttsJLZJT96XNogjJF816Q==
-X-CSE-MsgGUID: V9kkrUKgR76iCWOpJf3mUg==
+  bh=NQbe8DZiv10yu1+elzvglKbiYxieoUqnRQfcISpspZY=;
+  b=OxRbIMCJaMAzbYwCrz3ZM/blKJZF/RaiLJsDH6iSwmmeUPuqJqtwHhfg
+   BQ9vQGbN90BohwDu7MIeb4Po3v+tXS7t0ORNWsLi8LjPzIEFr0WZKkYyZ
+   KRTu9d3Vx8+MQDDE/0VmgmKX68fkqGqGkro2ctIOd8wPT3fIAaiLcpLp9
+   2NNA1yvayUatps/AbMJi60nbGwvmYMzKaN4U5fW+8cJu9Yki/K3MAEoae
+   9/EykyeXK9pIowcQXXld01Dg7XOKhhPhsxzx15zEHQ2k7w8ZMSt3vp9Mr
+   eMQNDH1Bvn+4xaV791qkoDCzx5AQx7g5HahwjiFCt5B98ZUBOAzg1O9E5
+   g==;
+X-CSE-ConnectionGUID: 9eW66BsNSRa1GIyELVOcGA==
+X-CSE-MsgGUID: EChZygIvRvmfrJrFtD9wvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="84132145"
+X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
+   d="scan'208";a="84132145"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 23:41:23 -0800
+X-CSE-ConnectionGUID: tFIixQfgTkW3JSd/VI6/HA==
+X-CSE-MsgGUID: K8txmM3gRfWTi+wuIFMf7Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; 
-   d="scan'208";a="194780622"
+X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
+   d="scan'208";a="225547087"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Dec 2025 19:01:07 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 02 Dec 2025 23:41:22 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQd73-00000000ATl-26sQ;
-	Wed, 03 Dec 2025 03:01:05 +0000
-Date: Wed, 3 Dec 2025 11:00:33 +0800
+	id 1vQhUF-00000000AiH-2Toi;
+	Wed, 03 Dec 2025 07:41:19 +0000
+Date: Wed, 3 Dec 2025 15:41:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 12114/13055] luo_test_utils.c:10:10: fatal error:
- stdio.h: No such file or directory
-Message-ID: <202512031038.YRJMfnW5-lkp@intel.com>
+Subject: [jpoimboe:objtool-sigsegv 7/7] drivers/scsi/qla2xxx/qla2xxx.o:
+ error: SIGSEGV: objtool stack overflow!
+Message-ID: <202512031510.8BRITf5g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,46 +63,32 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Pasha Tatashin <pasha.tatashin@soleen.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Zhu Yanjun <yanjun.zhu@linux.dev>
-CC: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   47b7b5e32bb7264b51b89186043e1ada4090b558
-commit: a003bdb9ec4e12c869b9c8641dd9bebf90ac0389 [12114/13055] selftests/liveupdate: add simple kexec-based selftest for LUO
-:::::: branch date: 21 hours ago
-:::::: commit date: 5 days ago
-config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251203/202512031038.YRJMfnW5-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512031038.YRJMfnW5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-sigsegv
+head:   b93620bd56cefffb0b9f47233e00d9655613cc55
+commit: b93620bd56cefffb0b9f47233e00d9655613cc55 [7/7] objtool: Add signal error handling
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251203/202512031510.8BRITf5g-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512031510.8BRITf5g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512031038.YRJMfnW5-lkp@intel.com/
-
-Note: the linux-next/master HEAD 47b7b5e32bb7264b51b89186043e1ada4090b558 builds fine.
-      It may have been fixed somewhere.
+| Closes: https://lore.kernel.org/r/202512031510.8BRITf5g-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> luo_test_utils.c:10:10: fatal error: stdio.h: No such file or directory
-      10 | #include <stdio.h>
-         |          ^~~~~~~~~
-   compilation terminated.
---
-   In file included from luo_kexec_simple.c:11:
->> luo_test_utils.h:13:10: fatal error: errno.h: No such file or directory
-      13 | #include <errno.h>
-         |          ^~~~~~~~~
-   compilation terminated.
+>> drivers/scsi/qla2xxx/qla2xxx.o: error: SIGSEGV: objtool stack overflow!
+   /bin/bash: line 1: 1602464 Segmentation fault      ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --hacks=skylake --ibt --cfi --mcount --mnop --orc --retpoline --rethunk --sls --static-call --uaccess --no-unreachable --link --module drivers/scsi/qla2xxx/qla2xxx.o
 
 -- 
 0-DAY CI Kernel Test Service
