@@ -1,161 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841DE200C2
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Dec 2025 23:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27424A945
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 Dec 2025 00:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764717583; cv=none; b=qFyOolPDmnW6ZkoUzSn+EwxwHkbv4MY6u7FsPl6fhSxGkgx2oEs0xvKhcA3kLTSKkhMi915bdTiF3G1YTy7VFpHqTt/Gx9wYdVJ4BH/i+vCKHgxPzxtJNUFOGBXvN1IIzFlA6/HEt+e4wezeN5LH3ZtkcZ5SSdLB/ALXi0jnMPo=
+	t=1764720180; cv=none; b=eP/TqPJnwVMBscrem25urU2N95+swXuXRnhKm5b++ROT3Ta7KtAGEIfuxzG6FfbeXdDMLjz91q1FDy1AyaxStR4+9/m0WszitO5t9WY9Y3tei45SwE4mAFIvtkcyJyxg1S9lnmkzs9U00FuQfFcI+gX4n2O5DLW8omgNCOoU1c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764717583; c=relaxed/simple;
-	bh=ZJWVQ2P/5aJAH2n4sJs66kbHt4sioka45rRpVvdypDc=;
+	s=arc-20240116; t=1764720180; c=relaxed/simple;
+	bh=Wu676z+aGZD7mUP8WspaCr5ajWn97eUeNOCrtoXwwVg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eTOtR4i/k9lD/kaqQy2hKfw9/5t2ktL3Asjv8+ATAN2oEVG9OWlvfx3sMUrvGClO4rgfqmm2jCX6cTJX0rcA/UE6YTA/TltV+dFW9RoousxoD4LkxtHrgyDz1z3aD4sYjB2u6FJVg11epC9hT0bW/LlUj1phnI+hl8Y5dm333sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WQtT/1p0; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=WfOXhEIIIZD+fVxrYk8MdtuG9TpOeKbB1JcRobrwNbb2tVLGJSQQ5r4cJPFlww/90szwzdPE2z8MgVnk6qVw+eB88ENASAxAZ7qSBW8Bv/ghM5FR6JHQcE+w8TrcMAX5+ZdeqZaucAgpTuUUvKvAWmDQEsCXT9GWylBeJakKsqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LL+7yl7G; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WQtT/1p0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LL+7yl7G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764717581; x=1796253581;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ZJWVQ2P/5aJAH2n4sJs66kbHt4sioka45rRpVvdypDc=;
-  b=WQtT/1p0jqe4KfRqTN3CZXKA0ottrg51vGxolRCmOaoF7a4sdK2uqtbz
-   5zzFjWDQXq/I2ozEXDIW+0n+1YAXZOu1M3iqlC0Bzxe5X6bK+omWVXuW9
-   oIlPZMRIL5xmNxK/gVDc6+cSQi4Y+ymlXsH+6E75egD7vsYQk2qiiM4SY
-   CVH9bPy7G2qctxiwarj853EF95Z1kjiprHfAuv1rscY3ujr++t2CErCSo
-   at48ta8LL1AmOjn8MaLN+KDHvGC/p9GXB6RMvia4zFCGe125GKf6VyiUp
-   Wj/kqWWGJy80UrugXCu7ELSpDpSPSBduHbVrGYU3zaIP+a3g9u63bNwVH
-   A==;
-X-CSE-ConnectionGUID: b4hS5KcXQOiU31snwEND5Q==
-X-CSE-MsgGUID: fyoeK99NQPKYXZs1khoT/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66592917"
+  t=1764720177; x=1796256177;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Wu676z+aGZD7mUP8WspaCr5ajWn97eUeNOCrtoXwwVg=;
+  b=LL+7yl7GG34ZrQA5ACGfwToqJYwzTE21VKyop0nyZfpAmwuUFIGtfUW8
+   I+rBVDFkCoyM4dJcPHByGCvS9M7gyheeZTx5/lhJtt6CfrwEMtITkw/Pm
+   63iZllUR5GSiuLuamzVrtLhzDDS8Apm2ajbIi6s9sgZ1HchDmoMITfsnU
+   OOIZjTkiENgXZLVtI9bOG+3Yx8lbHPbr0pnYGi2qLI9Dhk2f+i7hDkmRh
+   HgwP0x0lXixhiPcARDDwEevBKMmj8akx79brjeJd8jlVzphIyzqVrlEvW
+   DbBLPM0IlGdXLhn4vlGYT4zvH2t3HnuoU9gT15HfZBdQ1bXfX4ZfNiCsC
+   Q==;
+X-CSE-ConnectionGUID: S8mt0OKfSEyypgTxsWWF5g==
+X-CSE-MsgGUID: /aEJipAbSuWuD8HB3dZJsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="70323788"
 X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; 
-   d="scan'208";a="66592917"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 15:19:41 -0800
-X-CSE-ConnectionGUID: JrjFCN0cTdmj6i6Domn66Q==
-X-CSE-MsgGUID: Jr0RlunKTNmBKOKKoROFxw==
+   d="scan'208";a="70323788"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 16:02:56 -0800
+X-CSE-ConnectionGUID: +MQb/nAzQFOX2yT49top6g==
+X-CSE-MsgGUID: M+Em4RwZS0qTYcvsVCsw9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; 
-   d="scan'208";a="199458980"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Dec 2025 15:19:40 -0800
-Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+   d="scan'208";a="217858699"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 02 Dec 2025 16:02:56 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQZej-000000002zh-3z8A;
-	Tue, 02 Dec 2025 23:19:37 +0000
-Date: Wed, 3 Dec 2025 00:18:40 +0100
+	id 1vQaKc-00000000AJZ-1Klx;
+	Wed, 03 Dec 2025 00:02:54 +0000
+Date: Wed, 3 Dec 2025 08:02:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/gpu/drm/i915/display/skl_universal_plane.c:1288:21: error:
- implicit declaration of function 'drm_color_lut32_size'; did you mean
- 'drm_color_lut_size'?
-Message-ID: <202512030005.UiqaQB5p-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: block/blk-sysfs.c:715 queue_attr_store() warn: inconsistent returns
+ '&q->limits_lock'.
+Message-ID: <202512030750.e2bgxIGx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "bisect to a FBC not belonging to original linux-review patches: branch: linux-review/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245, commit: a475844eaf5f5246fea92d8289f2c8555f2c0c7e"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Uma Shankar <uma.shankar@intel.com>
-CC: 0day robot <lkp@intel.com>
-CC: Suraj Kandpal <suraj.kandpal@intel.com>
-CC: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Christoph Hellwig <hch@lst.de>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Ming Lei <ming.lei@redhat.com>
+CC: Damien Le Moal <dlemoal@kernel.org>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Nilay Shroff <nilay@linux.ibm.com>
+CC: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+CC: John Garry <john.g.garry@oracle.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245
-head:   a475844eaf5f5246fea92d8289f2c8555f2c0c7e
-commit: a475844eaf5f5246fea92d8289f2c8555f2c0c7e drm/i915/color: Enable Plane Color Pipelines
-date:   2 days ago
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251203/202512030005.UiqaQB5p-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030005.UiqaQB5p-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d7489818348e5374a8a12a309183fa44b3df41cc
+commit: a16230649ce27f8ac7dd8a5b079d9657aa96de16 block: add a store_limit operations for sysfs entries
+date:   11 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 11 months ago
+config: x86_64-randconfig-161-20251202 (https://download.01.org/0day-ci/archive/20251203/202512030750.e2bgxIGx-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512030005.UiqaQB5p-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512030750.e2bgxIGx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+block/blk-sysfs.c:715 queue_attr_store() warn: inconsistent returns '&q->limits_lock'.
 
-   In file included from drivers/gpu/drm/i915/display/skl_universal_plane.c:19:
-   drivers/gpu/drm/i915/display/intel_display_types.h:1993:28: error: field 'base' has incomplete type
-    1993 |         struct drm_colorop base;
-         |                            ^~~~
-   drivers/gpu/drm/i915/display/skl_universal_plane.c: In function 'glk_plane_color_ctl':
->> drivers/gpu/drm/i915/display/skl_universal_plane.c:1288:21: error: implicit declaration of function 'drm_color_lut32_size'; did you mean 'drm_color_lut_size'? [-Wimplicit-function-declaration]
-    1288 |                 if (drm_color_lut32_size(plane_state->hw.gamma_lut) != 32)
-         |                     ^~~~~~~~~~~~~~~~~~~~
-         |                     drm_color_lut_size
+vim +715 block/blk-sysfs.c
 
+8324aa91d1e11a Jens Axboe        2008-01-29  676  
+8324aa91d1e11a Jens Axboe        2008-01-29  677  static ssize_t
+8324aa91d1e11a Jens Axboe        2008-01-29  678  queue_attr_store(struct kobject *kobj, struct attribute *attr,
+8324aa91d1e11a Jens Axboe        2008-01-29  679  		    const char *page, size_t length)
+8324aa91d1e11a Jens Axboe        2008-01-29  680  {
+8324aa91d1e11a Jens Axboe        2008-01-29  681  	struct queue_sysfs_entry *entry = to_queue(attr);
+2bd85221a625b3 Christoph Hellwig 2022-11-14  682  	struct gendisk *disk = container_of(kobj, struct gendisk, queue_kobj);
+2bd85221a625b3 Christoph Hellwig 2022-11-14  683  	struct request_queue *q = disk->queue;
+8324aa91d1e11a Jens Axboe        2008-01-29  684  	ssize_t res;
+8324aa91d1e11a Jens Axboe        2008-01-29  685  
+a16230649ce27f Christoph Hellwig 2025-01-10  686  	if (!entry->store_limit && !entry->store)
+8324aa91d1e11a Jens Axboe        2008-01-29  687  		return -EIO;
+6728cb0e6343d4 Jens Axboe        2008-01-31  688  
+734e1a8603128a Damien Le Moal    2024-09-08  689  	/*
+734e1a8603128a Damien Le Moal    2024-09-08  690  	 * If the attribute needs to load a module, do it before freezing the
+734e1a8603128a Damien Le Moal    2024-09-08  691  	 * queue to ensure that the module file can be read when the request
+734e1a8603128a Damien Le Moal    2024-09-08  692  	 * queue is the one for the device storing the module file.
+734e1a8603128a Damien Le Moal    2024-09-08  693  	 */
+d51c9cdfc214dd Christoph Hellwig 2024-10-08  694  	if (entry->load_module)
+d51c9cdfc214dd Christoph Hellwig 2024-10-08  695  		entry->load_module(disk, page, length);
+734e1a8603128a Damien Le Moal    2024-09-08  696  
+224749be6c23ef Ming Lei          2024-12-18  697  	mutex_lock(&q->sysfs_lock);
+a16230649ce27f Christoph Hellwig 2025-01-10  698  	blk_mq_freeze_queue(q);
+a16230649ce27f Christoph Hellwig 2025-01-10  699  	if (entry->store_limit) {
+a16230649ce27f Christoph Hellwig 2025-01-10  700  		struct queue_limits lim = queue_limits_start_update(q);
+a16230649ce27f Christoph Hellwig 2025-01-10  701  
+a16230649ce27f Christoph Hellwig 2025-01-10  702  		res = entry->store_limit(disk, page, length, &lim);
+a16230649ce27f Christoph Hellwig 2025-01-10  703  		if (res < 0) {
+a16230649ce27f Christoph Hellwig 2025-01-10  704  			queue_limits_cancel_update(q);
+a16230649ce27f Christoph Hellwig 2025-01-10  705  		} else {
+a16230649ce27f Christoph Hellwig 2025-01-10  706  			res = queue_limits_commit_update(q, &lim);
+a16230649ce27f Christoph Hellwig 2025-01-10  707  			if (!res)
+a16230649ce27f Christoph Hellwig 2025-01-10  708  				res = length;
+a16230649ce27f Christoph Hellwig 2025-01-10  709  		}
+a16230649ce27f Christoph Hellwig 2025-01-10  710  	} else {
+62e35f942231e3 Christoph Hellwig 2024-06-27  711  		res = entry->store(disk, page, length);
+a16230649ce27f Christoph Hellwig 2025-01-10  712  	}
+224749be6c23ef Ming Lei          2024-12-18  713  	blk_mq_unfreeze_queue(q);
+a16230649ce27f Christoph Hellwig 2025-01-10  714  	mutex_unlock(&q->sysfs_lock);
+8324aa91d1e11a Jens Axboe        2008-01-29 @715  	return res;
+8324aa91d1e11a Jens Axboe        2008-01-29  716  }
+8324aa91d1e11a Jens Axboe        2008-01-29  717  
 
-vim +1288 drivers/gpu/drm/i915/display/skl_universal_plane.c
+:::::: The code at line 715 was first introduced by commit
+:::::: 8324aa91d1e11a1fc25f209687a0b2e6c2ed47d0 block: split tag and sysfs handling from blk-core.c
 
-46d12f911821f7 Dave Airlie   2021-02-05  1245  
-01e1575609f100 Ville Syrjälä 2025-07-17  1246  static u32 glk_plane_color_ctl(const struct intel_plane_state *plane_state)
-46d12f911821f7 Dave Airlie   2021-02-05  1247  {
-a2ed9f84524795 Ville Syrjälä 2025-02-06  1248  	struct intel_display *display = to_intel_display(plane_state);
-46d12f911821f7 Dave Airlie   2021-02-05  1249  	const struct drm_framebuffer *fb = plane_state->hw.fb;
-46d12f911821f7 Dave Airlie   2021-02-05  1250  	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
-46d12f911821f7 Dave Airlie   2021-02-05  1251  	u32 plane_color_ctl = 0;
-46d12f911821f7 Dave Airlie   2021-02-05  1252  
-46d12f911821f7 Dave Airlie   2021-02-05  1253  	plane_color_ctl |= PLANE_COLOR_PLANE_GAMMA_DISABLE;
-46d12f911821f7 Dave Airlie   2021-02-05  1254  	plane_color_ctl |= glk_plane_color_ctl_alpha(plane_state);
-46d12f911821f7 Dave Airlie   2021-02-05  1255  
-a2ed9f84524795 Ville Syrjälä 2025-02-06  1256  	if (fb->format->is_yuv && !icl_is_hdr_plane(display, plane->id)) {
-46d12f911821f7 Dave Airlie   2021-02-05  1257  		switch (plane_state->hw.color_encoding) {
-46d12f911821f7 Dave Airlie   2021-02-05  1258  		case DRM_COLOR_YCBCR_BT709:
-46d12f911821f7 Dave Airlie   2021-02-05  1259  			plane_color_ctl |= PLANE_COLOR_CSC_MODE_YUV709_TO_RGB709;
-46d12f911821f7 Dave Airlie   2021-02-05  1260  			break;
-46d12f911821f7 Dave Airlie   2021-02-05  1261  		case DRM_COLOR_YCBCR_BT2020:
-46d12f911821f7 Dave Airlie   2021-02-05  1262  			plane_color_ctl |=
-46d12f911821f7 Dave Airlie   2021-02-05  1263  				PLANE_COLOR_CSC_MODE_YUV2020_TO_RGB2020;
-46d12f911821f7 Dave Airlie   2021-02-05  1264  			break;
-46d12f911821f7 Dave Airlie   2021-02-05  1265  		default:
-46d12f911821f7 Dave Airlie   2021-02-05  1266  			plane_color_ctl |=
-46d12f911821f7 Dave Airlie   2021-02-05  1267  				PLANE_COLOR_CSC_MODE_YUV601_TO_RGB601;
-46d12f911821f7 Dave Airlie   2021-02-05  1268  		}
-46d12f911821f7 Dave Airlie   2021-02-05  1269  		if (plane_state->hw.color_range == DRM_COLOR_YCBCR_FULL_RANGE)
-46d12f911821f7 Dave Airlie   2021-02-05  1270  			plane_color_ctl |= PLANE_COLOR_YUV_RANGE_CORRECTION_DISABLE;
-46d12f911821f7 Dave Airlie   2021-02-05  1271  	} else if (fb->format->is_yuv) {
-46d12f911821f7 Dave Airlie   2021-02-05  1272  		plane_color_ctl |= PLANE_COLOR_INPUT_CSC_ENABLE;
-46d12f911821f7 Dave Airlie   2021-02-05  1273  		if (plane_state->hw.color_range == DRM_COLOR_YCBCR_FULL_RANGE)
-46d12f911821f7 Dave Airlie   2021-02-05  1274  			plane_color_ctl |= PLANE_COLOR_YUV_RANGE_CORRECTION_DISABLE;
-46d12f911821f7 Dave Airlie   2021-02-05  1275  	}
-46d12f911821f7 Dave Airlie   2021-02-05  1276  
-841f262e74a7c2 Ville Syrjälä 2021-10-07  1277  	if (plane_state->force_black)
-841f262e74a7c2 Ville Syrjälä 2021-10-07  1278  		plane_color_ctl |= PLANE_COLOR_PLANE_CSC_ENABLE;
-841f262e74a7c2 Ville Syrjälä 2021-10-07  1279  
-a475844eaf5f52 Uma Shankar   2025-12-01  1280  	if (plane_state->hw.degamma_lut)
-a475844eaf5f52 Uma Shankar   2025-12-01  1281  		plane_color_ctl |= PLANE_COLOR_PRE_CSC_GAMMA_ENABLE;
-a475844eaf5f52 Uma Shankar   2025-12-01  1282  
-a475844eaf5f52 Uma Shankar   2025-12-01  1283  	if (plane_state->hw.ctm)
-a475844eaf5f52 Uma Shankar   2025-12-01  1284  		plane_color_ctl |= PLANE_COLOR_PLANE_CSC_ENABLE;
-a475844eaf5f52 Uma Shankar   2025-12-01  1285  
-a475844eaf5f52 Uma Shankar   2025-12-01  1286  	if (plane_state->hw.gamma_lut) {
-a475844eaf5f52 Uma Shankar   2025-12-01  1287  		plane_color_ctl &= ~PLANE_COLOR_PLANE_GAMMA_DISABLE;
-a475844eaf5f52 Uma Shankar   2025-12-01 @1288  		if (drm_color_lut32_size(plane_state->hw.gamma_lut) != 32)
-a475844eaf5f52 Uma Shankar   2025-12-01  1289  			plane_color_ctl |= PLANE_COLOR_POST_CSC_GAMMA_MULTSEG_ENABLE;
-a475844eaf5f52 Uma Shankar   2025-12-01  1290  	}
-a475844eaf5f52 Uma Shankar   2025-12-01  1291  
-46d12f911821f7 Dave Airlie   2021-02-05  1292  	return plane_color_ctl;
-46d12f911821f7 Dave Airlie   2021-02-05  1293  }
-46d12f911821f7 Dave Airlie   2021-02-05  1294  
+:::::: TO: Jens Axboe <jens.axboe@oracle.com>
+:::::: CC: Jens Axboe <jens.axboe@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
