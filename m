@@ -1,88 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75C3126BF1
-	for <oe-kbuild@lists.linux.dev>; Wed,  3 Dec 2025 12:48:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E1520468E
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 Dec 2025 13:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764766115; cv=none; b=r8QdAYC7zT+0BB6Ez4dGvHhuUhCq2Uaq1XnCTg45B4cv5Y/Yd5DRXl+na7DNRky5Dg/3PI+ntoDqxnQxAD6itmfRWuBAivaZ4L6JoGrr2MY739Hc1LP5mo16J+IXCvuQwhnSsEo4BkFDyYq2sxHqUUve+67SmC+JdQSHt/1bwg0=
+	t=1764767340; cv=none; b=sAZ5yuUfMPLEqHqlf7tX+5G8mtrBTm5vRlJCgym34GkBDFIex0llgv8WGnOkEniJ++DJryr4iHFriNP2REYP0Nq6/ejywiIeZVQnKZhW9eW6nKpijxNaVBq1kznbq19Hjr8EOiRjtMwX/vj98qFOW5bR+vPwQMWFn5JYaKlBiuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764766115; c=relaxed/simple;
-	bh=hYpNfTscIxzymwujMi6Qgs1g6zlWpvu7Cldohawvors=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PSvkMA1Oy3aOsz85uK2fqiyfIsI0QhhetI3U/il3nVSZMKn2cdp3y/+k3KBmZh9VXwcGzktaZWOIeMf0iaBTJcavd5YpL6YMirwn7i5RIIKy+N7eJOdn9+inh/swVCESCj3iH14B3VMDy1qfb+pwc+h8b2Xe1weuex13EgwVVks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a3GZ+p2n; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764767340; c=relaxed/simple;
+	bh=73F4wVh5wZ9ZfLtgeFApDwkAfT8PK4Peea2Mdylz3Q8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=XfZkZfx5NMTdMgGwiP/hM/pnte93LHjliVvaWOTdW3ADy/HmT0a1yW89zGzypQZP3OnTkhhtNJkYUWLnOTrzE7JCYCMSvBgnhkdExaO+FlZIwRi9a/UB/3niWD/SeSEkOe61BbX0LJuFcpvof918c+Ek/9Ac/7QhDIqKgHzZY54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=pLtw1EMv; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=sNPl1CUV; arc=none smtp.client-ip=203.29.242.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a3GZ+p2n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764766113; x=1796302113;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=hYpNfTscIxzymwujMi6Qgs1g6zlWpvu7Cldohawvors=;
-  b=a3GZ+p2ngbk26uOShXapbxEQkoIqk6MiHQNCRtdH5cAQ/yXk7Lkx4oOu
-   NQybB9yJuOTQZnximEw6z4cjq1zzpOzNXtKzvuTRUE1IphGIaux0CKEtH
-   LRsC846+wgqBoUohcUf8DMXKa1IZhTkH4Bng2vHmst8JPvn6thDTr8jwD
-   rwajjrRQZGJ1UaeC9M1Yq/Yu2PJVorlE4r+mVIXtRsG4fAyehJoOf/DAF
-   NyeXghDgAmwU1yPFZk66mrqSynGA+FYP1ZApeeBAb8tdcl0vsGDmMh2YN
-   Vk+24QHfcf2B9LG8Dr/9DUeU6ww31/gLBdgazz+jil1upcmyERMP+DV+o
-   w==;
-X-CSE-ConnectionGUID: 8pP+agohQzSwnhoB4TRWTw==
-X-CSE-MsgGUID: acI1+LnZSpai9XdVp0g0gA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="54305707"
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
-   d="scan'208";a="54305707"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 04:48:31 -0800
-X-CSE-ConnectionGUID: /V6R8+QaQ8+DB8Pqd4zYCg==
-X-CSE-MsgGUID: g2mmjnyMTqCTEfuUKwC/UQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
-   d="scan'208";a="194764184"
-Received: from igk-lkp-server01.igk.intel.com (HELO 314ca7b3cca8) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 03 Dec 2025 04:48:31 -0800
-Received: from kbuild by 314ca7b3cca8 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vQmHU-000000000RR-07Mq
-	for oe-kbuild@lists.linux.dev;
-	Wed, 03 Dec 2025 12:48:28 +0000
-Date: Wed, 3 Dec 2025 13:47:28 +0100
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Subject: [device-mapper-dm:for-next 16/23] checkpatch: WARNING:REPEATED_WORD:
- Possible repeated word: 'could'
-Message-ID: <202512031136.8h34YbUC-lkp@intel.com>
+	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="pLtw1EMv";
+	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="sNPl1CUV"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+	s=201606; t=1764766732;
+	bh=73F4wVh5wZ9ZfLtgeFApDwkAfT8PK4Peea2Mdylz3Q8=;
+	h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
+	b=pLtw1EMvqNwuM/nrmfYkD2cv3uN7qJdQzbZh24+OjDCGeRt9nFL4Y8WzxgOznErkr
+	 dR5+z26AwmZl2YVRoBP7bVdhwBecf8ubpu6RsTrjI8NuyCvGi4Yuec8vRNjZl4xWTl
+	 jh3tQW7vDWygnceAaalTNAl3tgdbJUWo/E4qb+XSsm3zvRCao4dJ1T4KgWf6akovU/
+	 9caFjKDB0nw3TvVYgwhNrf767Jq57F6JWAA+OADtj4cclUzlAAlIIV2iuS9yuBS/AF
+	 wZ9ZXpsQpqVQHy/XS7W5i05a/6eWqpZgQsgq6IFYV1K8FDdI7pwWuVuC2akrjSMKrE
+	 lHaUYihexAolaK+uI7uI9ZG+hwrvoO5jj69i8+sWkIFwO88cpMbAtu2V23USBNXmBg
+	 wopcZ2G63oA0APixswG7rqKcuTJUxQuB4oAPc/bz8aFbFDvKzdXY6jqFo46M4OWGWh
+	 16ppRXsiz0ohvclQiZ6e70ntjoMteooeYm7SUJPV+Vv7ig2kmEEzX5qqnbKQ1aXaWa
+	 TDipxGlGjajATUBZ9JqQX8vIQ4+/2V6Lxyi+CUP6XzsBW0Nhy/+JeTuX5201nIZaDc
+	 QsnEk3pX8R4GomsecKLk+n+dyxHDiA1qYbjHA5dzr3tFuwPqJghtzGio2CjSGrPNNw
+	 fnIjJ0bVOSLpNzsRXanusoBM=
+Received: by sphereful.davidgow.net (Postfix, from userid 119)
+	id 9E2D21E60EA; Wed,  3 Dec 2025 20:58:52 +0800 (AWST)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+	s=201606; t=1764766730;
+	bh=73F4wVh5wZ9ZfLtgeFApDwkAfT8PK4Peea2Mdylz3Q8=;
+	h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
+	b=sNPl1CUVZrJ2s3sqA5/ZFmNlxllacCxZaynEPgRwIUgOnHhk/UKjS80alifDt566+
+	 YcpbjXNCgPubSoGbZNXjivy3ZX2wcb3TihgI9yTzGpRmHjFew8NfT5ImO8iP/1zSmU
+	 /mrEWSqHzsXPXPd95wEjy2mWwxWKN14xz0DMCQmaZW6J6DLaQOpbaNVtcd0pMckIgU
+	 rj7x9At5b/Hhl54k1ACJstct1tS/pWawEO8qw7woO2KCu2UU7na8VYZFsaxKZJqGNH
+	 dEQeMjHR3G+++t6e3HoVryRqVnBMW4kM2k+XlH4GoYNmWHMXkvO1Gh39BOhcRMJH/Z
+	 RVN9Zrqukuf1H62yDpj/5/csq8H/MlA7PSSsLNhk6s/hejPGgBEuxd0FPwpKeR0NqN
+	 s50kNleIJOCKU6e3wzM2bTF5fWefOObH/DKH35t6vYG3IZYQvJFl2CkVMP34p+/1Y1
+	 ox/NoSw5MuHbwTxlJhfDJbFfr71kLdFve2C2230xOsUjDyQTQ9GMJ12LyUaq+r8Kyg
+	 ILJ0+CC9KTS2eRIndbpfC8qCqK7pC0Afr/ODasnLUMWfKHUu+FHisIdhUmD13oUQBw
+	 rMfVkPx4d6hgtaAWP5gVODmVWbGOnoNoBfBMe6VbgWrCRFfuLB+hkw0oMi/iXvVjN1
+	 +PLpu0L2pDgB1oAGnAp+CIHo=
+Received: from [IPV6:2001:8003:8824:9e00::bec] (unknown [IPv6:2001:8003:8824:9e00::bec])
+	by sphereful.davidgow.net (Postfix) with ESMTPSA id 8D40C1E5DAD;
+	Wed,  3 Dec 2025 20:58:50 +0800 (AWST)
+Message-ID: <86d2ea1f-810b-45a1-9ce0-ef571f6da0b9@davidgow.net>
+Date: Wed, 3 Dec 2025 20:58:48 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: error[E0560]: struct `kunit_suite` has no field named
+ `suite_init`
+To: kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+References: <202512031957.BoFx2PMx-lkp@intel.com>
+Content-Language: fr
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Daniel Gomez <da.gomez@samsung.com>, kunit-dev@googlegroups.com
+From: David Gow <david@davidgow.net>
+In-Reply-To: <202512031957.BoFx2PMx-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-:::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
-:::::: 
+Hi all,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Mikulas Patocka <mpatocka@redhat.com>
+Le 03/12/2025 à 7:45 PM, kernel test robot a écrit :
+> ::::::
+> :::::: Manual check reason: "arm-randconfig-r121-20251201 results in various rust failures"
+> ::::::
+> 
+> BCC: lkp@intel.com
+> CC: oe-kbuild-all@lists.linux.dev
+> CC: linux-kernel@vger.kernel.org
+> TO: "Thomas Weißschuh" <thomas.weissschuh@linutronix.de>
+> CC: Daniel Gomez <da.gomez@samsung.com>
+> 
+> Hi Thomas,
+> 
+> FYI, the error/warning still remains.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   3f9f0252130e7dd60d41be0802bf58f6471c691d
+> commit: 818783c804bc051f7faf0ac226b5597f8259c6f8 module: make structure definitions always visible
+> date:   4 months ago
+> :::::: branch date: 9 hours ago
+> :::::: commit date: 4 months ago
+> config: arm-randconfig-r121-20251201 (https://download.01.org/0day-ci/archive/20251203/202512031957.BoFx2PMx-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
+> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512031957.BoFx2PMx-lkp@intel.com/reproduce)
+> 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
-head:   8f591d86bc0f12857ed390fce8f16a7133471fed
-commit: 7f75a7c9213aa5233310b20b8a5b3fd590c4948a [16/23] dm: test for REQ_ATOMIC in dm_accept_partial_bio()
-:::::: branch date: 2 days ago
-:::::: commit date: 12 days ago
-reproduce: (https://download.01.org/0day-ci/archive/20251203/202512031136.8h34YbUC-lkp@intel.com/reproduce)
+The current best theory for the cause of these errors (which, alas, I've 
+still not been able to reproduce locally) is the following bindgen bug:
+https://github.com/rust-lang/rust-bindgen/issues/3264
 
-# many are suggestions rather than must-fix
+bindgen 0.72.1 has been released to fix this issue:
+https://github.com/rust-lang/rust-bindgen/releases/tag/v0.72.1
 
-WARNING:REPEATED_WORD: Possible repeated word: 'could'
-#11: 
-otherwise this BUG could could be triggered by stray bios that have the
+It looks like all of the test robot failures are from builds using both 
+clang 22 and bindgen 0.72.0, which would meet the criteria for that bug. 
+Is there any chance you could upgrade the bindgen version used and see 
+if that makes the issues go away?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/r/202512031957.BoFx2PMx-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> error[E0560]: struct `kunit_suite` has no field named `suite_init`
+>     --> rust/kernel/kunit.rs:291:21
+>     |
+>     291  |                     suite_init: None,
+>     |                     ^^^^^^^^^^ `kunit_suite` does not have this field
+>     |
+>     ::: rust/kernel/alloc/kvec.rs:1244:1
+>     |
+>     1244 | #[macros::kunit_tests(rust_kvec_kunit)]
+>     | --------------------------------------- in this procedural macro expansion
+>     |
+>     = note: all struct fields are already assigned
+>     = note: this error originates in the macro `::kernel::kunit_unsafe_test_suite` which comes from the expansion of the attribute macro `macros::kunit_tests` (in Nightly builds, run with -Z macro-backtrace for more info)
+> --
+>>> error[E0560]: struct `kunit_suite` has no field named `suite_exit`
+>     --> rust/kernel/kunit.rs:292:21
+>     |
+>     292  |                     suite_exit: None,
+>     |                     ^^^^^^^^^^ `kunit_suite` does not have this field
+>     |
+>     ::: rust/kernel/alloc/kvec.rs:1244:1
+>     |
+>     1244 | #[macros::kunit_tests(rust_kvec_kunit)]
+>     | --------------------------------------- in this procedural macro expansion
+>     |
+>     = note: all struct fields are already assigned
+>     = note: this error originates in the macro `::kernel::kunit_unsafe_test_suite` which comes from the expansion of the attribute macro `macros::kunit_tests` (in Nightly builds, run with -Z macro-backtrace for more info)
+> --
+
+(...)
+
+Cheers,
+-- David
+
