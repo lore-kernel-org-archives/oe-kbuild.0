@@ -1,98 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5921321442
-	for <oe-kbuild@lists.linux.dev>; Fri,  5 Dec 2025 09:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B272D9EEA
+	for <oe-kbuild@lists.linux.dev>; Fri,  5 Dec 2025 11:35:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764927894; cv=none; b=OCeP+9BfUPWifHhcZvBZQeTnnm9R2Okp/9LLZXtwB1PnS1eubUBIa5sJyAWEGz7tWxKTbW+aJY7uRD/1GqQPYOaf3sXfk7D1yYJYcVMy+l14b4t4e/24T5FCKUntsWJff0YQCGt+At7yC8hNiMfFOznskIO+VIu+KkTtYbuFpMM=
+	t=1764934546; cv=none; b=g4o+X/fE4M9d6texpCdphflwuDo08lkVpRQlHHjzABuZQJVo4374Y3F8nX2YKFQAYnu8zTjVdrYPjKB2o0UBIGi4H5r78AiD/s6zPD8hWWoxfYYl2kxVgFIwUxYsCwsJ+ZDS4ul6nXpT1iOSNADqntTbaky+ZStILIhBTAFsjpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764927894; c=relaxed/simple;
-	bh=vy8loGGWAElA7CbQnK/9hJ/B3aMxEUv3vQkkom48u2k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WFXZ+nNnbZKeQ5nonodn82/CGNWTaxr4WLxWDC5hpN8WmgwfWXJj+9e5motv7HzeQqQwjPLrolceQlqRdHo3bMY5/gA1eyt3QSawLIx4ACs/JwGrWmGzsH2Fh1BkxfrMDS6fpMFheoeW0Nis//ppcpSZPoIbjMXzLtuvTACBk4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UXlA04zW; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764934546; c=relaxed/simple;
+	bh=Jzm1bEXUYpHnFh9ZcEKGxsYxoLlxjGYwQ1tCJYuM+v8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=fL/33oskLpL7lw2BskXhXjcBohds4oLJik7teOCnpm8uq4mmvVP/WQu3TJG7Mu5gRn8iS7Nbaa+P9exSZGao2AeI8LtvGrTkmLzoNhhed7tynLgAQ8u6tBKscYARyPgAizMd7L6eiBxjQd4+5rm0MD2FMPxqEFvbbxIT2fz6LNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dkvBvR35; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UXlA04zW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764927885; x=1796463885;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vy8loGGWAElA7CbQnK/9hJ/B3aMxEUv3vQkkom48u2k=;
-  b=UXlA04zWltxdQsc2/MxgRQSNroetGdW3X2HxfsHd4XNwW1XXnp73dZFb
-   3FuTRNm8l8cEW0QMlf4MpT4FMUzfGE1r8MPEb76gZTG4ll/B2jOUk4rLU
-   qYs3aIGg1JkiAwEe9udk1nrehO4dtZk+9OxD3Dq1Ubmqk6/XNx99ssrOT
-   sl2wRD7C7HHH4Cox0AZ5FPiYlBClkOBva1ddkHQzghjQuAO+Yxxx7zWbg
-   L4VzCVHnK9Ct/0xGe8b+JLM5zE+q+eTG2arWXTg6sUNJdS2XoOCW15fCU
-   MP8Nuz7eEoQ/5CTRfIizGA7hkhHq5/7AiCqFcfco2/ek6rFQzx4T6tsko
-   A==;
-X-CSE-ConnectionGUID: g3uqPBbXQ+Wlj62uh8ugFg==
-X-CSE-MsgGUID: gC0En0V/TtCVZ8EpcH1x4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="77578606"
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="77578606"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 01:44:39 -0800
-X-CSE-ConnectionGUID: TKD49QcSTVuxCbDRhW9rvw==
-X-CSE-MsgGUID: 8F0DzHwuRwulxHoXeSPTnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="195071083"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Dec 2025 01:44:38 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vRSMd-00000000Eq5-3fhr;
-	Fri, 05 Dec 2025 09:44:35 +0000
-Date: Fri, 5 Dec 2025 17:44:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: vmlinux.o: warning: objtool:
- _RINvMs3_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataINtNtNtBc_5alloc4kvec3VecINtNtCsbsbRiabPlh9_4core3pin3PinINtNtB1a_4kbox3BoxINtNtBc_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10DeviceDataENtNtB1a_9...
-Message-ID: <202512051709.DbdqVrxG-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dkvBvR35"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1764934541;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WMNKSESp2KhR2u7iq37LU6C6fvZCMOUrQKe23habOVo=;
+	b=dkvBvR358674SeC4wDy1v9nlEc8tdhmL/DixkoBvO/FO/DZgMUgiMh6vVdq/PC0smxL6L+
+	BX+kPQ70w3kANJ0PezJFmxbhYvyLSTEEEqM+DEE3tBRvN5eccHur0WPVp8E/hdTCAgIeZX
+	Es0i7RqWC9eHlAp4kyxQ89eI2br4bv0=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-457-_vrBxzzNPjuZX7fLQaC_eg-1; Fri, 05 Dec 2025 06:35:40 -0500
+X-MC-Unique: _vrBxzzNPjuZX7fLQaC_eg-1
+X-Mimecast-MFC-AGG-ID: _vrBxzzNPjuZX7fLQaC_eg_1764934540
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-8824f62b614so48641276d6.0
+        for <oe-kbuild@lists.linux.dev>; Fri, 05 Dec 2025 03:35:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764934540; x=1765539340;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WMNKSESp2KhR2u7iq37LU6C6fvZCMOUrQKe23habOVo=;
+        b=tPr478X/A6n6TPnW8vPohXBbg5TY1sKilkH/XzgqqWB+HXAgsGcEXL04FJziRNNllI
+         Pzf5jCY28EFfY7MHimWjo3MCKK3a/TWg04p5f23IP1I9SGNNC6Mtlx4KB7hd9gSPa6+O
+         L9xI25FFzgR+pZ5aaHwe/2U6E+RMRuHav31YyyAo12417sRDiS6Ai6w2fEDqLtidtBUr
+         bclE/4y4Ofz6+AOIDMxyNPhTF8wfjzkyroAtIHM48CnvseyMFwvEOH36lV2b4USntcd2
+         Ppk2tSFQeQAdhgXxAq56y9qGyK6K3AmhNQ1gYzeu7k07UTadbZF8l7Be5qZ4xpuL5/Hz
+         GJZA==
+X-Gm-Message-State: AOJu0YyajQPGOjEmGm+hAJWs2XmcWpPBSqAzxiS2ncaW4Zu6evYQLlAi
+	eHUWjvUD7qih14+gpiAErPxKeSmiwlSjwEW1WIlVhkde/J4djYjTha0erKWlHbJzAyHuE/fti7i
+	5HDNdOrPCmJQ3eTw7JyajSLnSvADbegmJ+vx33FUOrgfwx5ZCCBJs3r5lRj7K1w==
+X-Gm-Gg: ASbGncsFkCyShd7ySctJeSR9ejcViBtO8ncfyqE6xgsarhT/unztYBQnGYiUT8AtImg
+	GClnRv9ku7B5iHVb3GhY6+faTMefAHouoc97Ge1VjPv5SiMT9cgUTAMAjXr/uP01tyLvMChoKYW
+	mwYWEuWiHNvY+OEletllS7RcUoceJ2XyS7jx3kg2qlCFJJH4n36w4mq7GYIT5t8VwU2N2gNj9SO
+	mAm3NAPJbSzZSPooCoSUSwghptnAKYRNooyUijNA21DmP21kainIZxNwlYzQbnPxtQsk2J1CeRb
+	eVIEQXK8pJrLn7/u9BuoMFeCiuBNVPnthN0o8mfbu0fMFT4VWs0FtMN1mKfzcROqlg+pjY6jtA0
+	1MryNUk1QScDL9rEmmK6hokg2HVS3C9esJ+7GNDEZ84l1
+X-Received: by 2002:a05:622a:188f:b0:4ee:2942:c4fb with SMTP id d75a77b69052e-4f017547426mr129887901cf.31.1764934539885;
+        Fri, 05 Dec 2025 03:35:39 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFYtLtTV+jrOOLlUAt4J0kXxIGaZvbsF+GW5Ikr3Ny5hO9ethXcJdrLBtX7RmdExo1wPjVblQ==
+X-Received: by 2002:a05:622a:188f:b0:4ee:2942:c4fb with SMTP id d75a77b69052e-4f017547426mr129887661cf.31.1764934539516;
+        Fri, 05 Dec 2025 03:35:39 -0800 (PST)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b6252cebddsm368213285a.24.2025.12.05.03.35.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Dec 2025 03:35:38 -0800 (PST)
+Date: Fri, 5 Dec 2025 06:35:36 -0500
+From: Brian Masney <bmasney@redhat.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Conor Dooley <conor@kernel.org>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] clk: microchip: core: allow driver to be compiled
+ with COMPILE_TEST
+Message-ID: <aTLDiK50Me-iNkdz@redhat.com>
+References: <20251201-clk-microchip-fixes-v2-3-9d5a0daadd98@redhat.com>
+ <202512050233.R9hAWsJN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <202512050233.R9hAWsJN-lkp@intel.com>
+User-Agent: Mutt/2.2.14 (2025-02-20)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Wae3Nx649o06Lt-bXzVBbumV46QQwt6ObHw5W8QNh0k_1764934540
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
+On Fri, Dec 05, 2025 at 10:21:55AM +0300, Dan Carpenter wrote:
+> smatch warnings:
+> drivers/clk/microchip/clk-core.c:300 roclk_get_parent() warn: signedness bug returning '(-22)'
+> drivers/clk/microchip/clk-core.c:833 sclk_get_parent() warn: signedness bug returning '(-22)'
+> 
+> vim +300 drivers/clk/microchip/clk-core.c
+> 
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  286  static u8 roclk_get_parent(struct clk_hw *hw)
+>                                                              ^^
+> returns a u8.
+> 
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  287  {
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  288  	struct pic32_ref_osc *refo = clkhw_to_refosc(hw);
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  289  	u32 v, i;
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  290  
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  291  	v = (readl(refo->ctrl_reg) >> REFO_SEL_SHIFT) & REFO_SEL_MASK;
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  292  
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  293  	if (!refo->parent_map)
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  294  		return v;
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  295  
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  296  	for (i = 0; i < clk_hw_get_num_parents(hw); i++)
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  297  		if (refo->parent_map[i] == v)
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  298  			return i;
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  299  
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13 @300  	return -EINVAL;
+>                                                         ^^^^^^^^^^^^^^^
+> So it can't return negative error codes.
+> 
+> ce6e11884659988 Purna Chandra Mandal 2016-05-13  301  }
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
+This was an existing bug in the driver. Since I'm making changes
+to this driver, I'll go ahead and fix this as well.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2061f18ad76ecaddf8ed17df81b8611ea88dbddd
-commit: 2058f6d1660edc4a9bda9bee627792b352121b10 objtool: Refactor prefix symbol creation code
-date:   7 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 7 weeks ago
-config: x86_64-randconfig-102-20251204 (https://download.01.org/0day-ci/archive/20251205/202512051709.DbdqVrxG-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051709.DbdqVrxG-lkp@intel.com/reproduce)
+Brian
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512051709.DbdqVrxG-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> vmlinux.o: warning: objtool: _RINvMs3_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataINtNtNtBc_5alloc4kvec3VecINtNtCsbsbRiabPlh9_4core3pin3PinINtNtB1a_4kbox3BoxINtNtBc_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10DeviceDataENtNtB1a_9allocator7KmallocEEB3s_ENtNtB8_5mutex12MutexBackendE5stateNtNtB1z_7convert10InfallibleINtNtCs57PXBekmiam_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB60_6OpaqueNtNtCsfd3uB5I4hpp_8bindings12bindings_raw5mutexE8ffi_initNCNCNvMs0_B8_INtB8_4LockB15_B3Z_E3new0s_0E0B6b_B4x_EEB2G_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10DeviceDataEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB3p_10___internal11InitClosureNCINvYIBH_B1L_B2W_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleINtB3p_12ChainPinInitIB4F_NCINvMs_B1O_B1L_3newB6a_NCINvMB1O_NtB1O_3Dir5scopeB27_B6a_NCNvB29_17create_file_writes0_0B27_E0B27_Es0_0B1L_B6a_ENCB73_0B1L_B6a_EE0B1L_B4l_EEB29_: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10ModuleDataEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB3p_10___internal11InitClosureNCINvYIBH_B1L_B2W_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleINtB3p_12ChainPinInitIB4F_NCINvMs_B1O_B1L_3newB6a_NCINvMB1O_NtB1O_3Dir5scopeB27_B6a_NCNvB29_12init_control0IB4F_NCNvMB29_B27_4inits_0B27_B6a_EE0B8k_Es0_0B1L_B6a_ENCB73_0B1L_B6a_EE0B1L_B4l_EEB29_: symbol name too long, can't create __pfx_ symbol
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
