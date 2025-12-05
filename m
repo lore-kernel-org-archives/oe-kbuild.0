@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A83832C305
-	for <oe-kbuild@lists.linux.dev>; Fri,  5 Dec 2025 13:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADBD3358CE
+	for <oe-kbuild@lists.linux.dev>; Fri,  5 Dec 2025 13:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764941216; cv=none; b=pwqRPXtCfEhzV/AoLZAhaxC0okRCX0F82rx/QGbUnzdkJ96seZUU85Fu1fe0jcagIcjr5jgSM89KqXDKp0YN7StOhUd0xqkVT50fEyROQhq9bgnZjO+lE+qW3jTBTs5y3d0VWgmErWgiH6knzy32K75JCNHKmcqhQl+UDHspVk4=
+	t=1764941277; cv=none; b=Ni8UoS9UjpoDV8ws0UaKKfiUQvE9k+Q/TnOT+3DeAhNMITsCYsVW4QtCH6wDAHoVCJhlQrZuasp2NZ8Obn7oKgopub8FRO7eBV1aT8PXYgTAt+hhBIRdZ08PYkblbebHkrmp00OX4gCKOZvmNQ1G+Qkl5BQzSJKvmeP61SopzVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764941216; c=relaxed/simple;
-	bh=yo0/5QjBGqvPvWL/RZQbK0PY6X47tyLlNxZhn1ElgEM=;
+	s=arc-20240116; t=1764941277; c=relaxed/simple;
+	bh=cEQtm9YCgVBLmV3G19hti/P81u1iD3dgLygYMMmdPy0=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IVUOvPawAnNylY1FvJebMDBhsTI+FlZ1EOmVdIqlKZ9Kb2+VbEFrVupN1QkcZfGw4Um7PwXPkiRqR01mWiGTipozL7mNb4JlT5evqlBMjoUm4Cdnk5BL2ylGbEWi7ipXEu9SWe/fwx4oGgEmP9w6bU/fIhs89hEhkcYrpzcZTHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hxDBLaa4; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=KdbliMs77+FKqKQzIqRQsrDTE2BONFcFMwpn7n7lajehBAhrhQgMsxeBiWSpE2h6r6U6L+Ela61H/v7OvENJQG29wQNlbD4hLgb+A/DL2rpkqECnQeA1uudfnkMwClgb+Nml6PmAiu8y/eW100W/3Grz7gh0wSUk3KZU6XU8pug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bNQUOA1C; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hxDBLaa4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bNQUOA1C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764941214; x=1796477214;
+  t=1764941275; x=1796477275;
   h=date:from:to:subject:message-id:mime-version;
-  bh=yo0/5QjBGqvPvWL/RZQbK0PY6X47tyLlNxZhn1ElgEM=;
-  b=hxDBLaa4RTV76nJzjo7237kpNyLeKbaEWaFU+XIsuNOePpIf6fn3NJK/
-   Lh8l3JTvaw5kKvxo6/KN3O6BlM2BvElpcrVVv/H0onf8Wr+ZHlHQjNXDK
-   zmC4x0k0eOqblvfIgoBwLkrIo39bOq7IXFN5w9MZSNTshStGjHXSSbAAi
-   Yh2GvwOlJBKtic5i+NHmgJuuB1DYzbq1OuFw59XxQKE19Fog/H5YdmlE/
-   Ss0Wn2MeRu6lehJV7AefZ1lgYRYFka63lEuuYP2yHIpN8++76AF0uicrW
-   cORlnXfI7P2y72lIFM9RUpk+JgQs6xVWe+VvdGN1mG2QqKEaN1P9GgY4q
-   w==;
-X-CSE-ConnectionGUID: AqEYJhfSTGKPRmFosKIvhg==
-X-CSE-MsgGUID: MSsaixgPQa2c0triKKeclQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="77660133"
+  bh=cEQtm9YCgVBLmV3G19hti/P81u1iD3dgLygYMMmdPy0=;
+  b=bNQUOA1CBYxjg2oJ/EQ2oi0i9kGfyH8Bmq18MmzyNqDaRIcQwtL39ZI9
+   IffH6vtf/5VbWBbclKy4eCzRrQiuIC8I/K72RFdpJ2FaVyvxtPgdf+0oC
+   IF8B5MPBYlfokb2rISk1eE+pTz1+RHHWiuSLmG4UYsIp5SyoB+yxxxzoG
+   AuK7/qvWl7accrv+NSwBy3KUJ3Bb0D+XhW3k5dHIRDg1eShr4vZEGGuPC
+   DF5ww9HTyumdepegCs3lONr8TkBGufaMenchHSKSqVQGV2ZhPWmPBuFVc
+   H771lTzjk7flW5rPKpiByIbcS3HeJZBUPL/zZNOJlAjsQl/Ud9aKTs1Ej
+   A==;
+X-CSE-ConnectionGUID: O0fcwUMUSk6/E7tRniZTBg==
+X-CSE-MsgGUID: hSXGbkZ+S++2MAQ1+J0z6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="70593724"
 X-IronPort-AV: E=Sophos;i="6.20,252,1758610800"; 
-   d="scan'208";a="77660133"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 05:26:53 -0800
-X-CSE-ConnectionGUID: aLHvc8ouTEO7Fy+0mfvWyw==
-X-CSE-MsgGUID: uh7aDugsTVmgngvcsndNXA==
+   d="scan'208";a="70593724"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 05:27:53 -0800
+X-CSE-ConnectionGUID: 5aVkSr/qRIeLinmw5k3rYw==
+X-CSE-MsgGUID: KY4MXuaETiW14Sv5lrnMMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,252,1758610800"; 
-   d="scan'208";a="194947148"
+   d="scan'208";a="195323766"
 Received: from igk-lkp-server01.igk.intel.com (HELO 314ca7b3cca8) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Dec 2025 05:26:52 -0800
+  by orviesa007.jf.intel.com with ESMTP; 05 Dec 2025 05:27:53 -0800
 Received: from kbuild by 314ca7b3cca8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRVpi-000000000wP-0yfU
+	id 1vRVqg-000000000wb-1R8z
 	for oe-kbuild@lists.linux.dev;
-	Fri, 05 Dec 2025 13:26:50 +0000
-Date: Fri, 5 Dec 2025 14:26:40 +0100
+	Fri, 05 Dec 2025 13:27:50 +0000
+Date: Fri, 5 Dec 2025 14:27:20 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [litex-hub:litex-rebase 14/15] checkpatch: ERROR:POINTER_LOCATION:
- "foo * bar" should be "foo *bar"
-Message-ID: <202512051426.5dh8vPbc-lkp@intel.com>
+Subject: [litex-hub:litex-rebase 15/15] checkpatch: ERROR:SPACING: space
+ required before the open parenthesis '('
+Message-ID: <202512051406.1jF2Two8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,20 +68,20 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Pawel Czarnecki <pczarnecki@internships.antmicro.com>
+TO: Gabriel Somlo <gsomlo@gmail.com>
 
 tree:   https://github.com/litex-hub/linux litex-rebase
 head:   296c02a312917e381bdb9ff6b3d0364b8074e529
-commit: 1dd639447c68ec3020e36c7ea1fa5f74284cffef [14/15] LiteX: driver for MMCM
-:::::: branch date: 71 minutes ago
-:::::: commit date: 71 minutes ago
-reproduce: (https://download.01.org/0day-ci/archive/20251205/202512051426.5dh8vPbc-lkp@intel.com/reproduce)
+commit: 296c02a312917e381bdb9ff6b3d0364b8074e529 [15/15] LiteX: LiteSATA block driver
+:::::: branch date: 72 minutes ago
+:::::: commit date: 72 minutes ago
+reproduce: (https://download.01.org/0day-ci/archive/20251205/202512051406.1jF2Two8-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
-#1223: FILE: drivers/clk/clk-litex.c:925:
-+				synthetic_phase = (d_t * global_period) +
+ERROR:SPACING: space required before the open parenthesis '('
+#330: FILE: drivers/block/litesata.c:280:
++	for(i = 0;
 
 -- 
 0-DAY CI Kernel Test Service
