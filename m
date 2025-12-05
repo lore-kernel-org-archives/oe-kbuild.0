@@ -1,160 +1,252 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724B53385BF
-	for <oe-kbuild@lists.linux.dev>; Fri,  5 Dec 2025 18:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009DB1EB5FD
+	for <oe-kbuild@lists.linux.dev>; Fri,  5 Dec 2025 22:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764959354; cv=none; b=E5S7t28t5vxU9ZsIfF4jnFXPx8eIPSVu7Wvp3FgJAkL0GICF73XfjlTaV8j67ZxxQWR+0EiExvQtD9irwHaUzqpw8ilxwlXtbKzAuSIfYilMZ+QprJfTky6OcrTOMOxUCLHvpHEJWik9AIC22x5Z0GCHyn6pq0qxHQMGYkZJH2k=
+	t=1764972266; cv=none; b=tudUDYN/+XkxX/M7BQ2Aj63W/dH81BMGRzXKc+sVb0hX+UVuhSgKdQK75oPWN0NenvJVgSuGNNKpVrDyyJsF45SaOGO0XDbvG75kH1aKahsvHCtIl0YeOEdwL/Exx3VA3vn9CWfT8iq5YjCrhgNXrFig6yj6BUhMHacQXVBvywU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764959354; c=relaxed/simple;
-	bh=eJ/eOOOyrM4bWdrdzhVgBoMUk91oZ1Hz4W+AoQCMZtI=;
+	s=arc-20240116; t=1764972266; c=relaxed/simple;
+	bh=UMYlQFhFNecQpXcI5PfIj5r8DBnNUZy6yCsm8zIu1Hg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LFFFj3HHCzFPvjI3zYsCW6Iife59YiqP/Jm9mcLLbRdPx2Fm+bUVUhqsM1RV8JzVw2US0VuJmq0a1GHcVgr9V1GcBmkqEEbpOG6y3V7WZ+O5NUBcY5HaI2ryi7+IkWGimexLGtEiPvLHJTOiv+Lbn2OAQEefEcpi2oY01XJ9mSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AbAAJzCb; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=cq8cku8xTfusvhzg3ssOcAhHo2eS7k8gkvghxjL/vXLTLSUBfXl8vTBeRB+BzuAmtpAOjoyhHFMSLZu6FSYLNkKUBjoKeq7gPfrxJbdoudHzg6PolZ0afzQdW4lOh5lTReUwuKRypssIZbdMflqSZEeMh8HMaTtPQfvl154bzEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C0kOJjZy; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AbAAJzCb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C0kOJjZy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764959353; x=1796495353;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=eJ/eOOOyrM4bWdrdzhVgBoMUk91oZ1Hz4W+AoQCMZtI=;
-  b=AbAAJzCbLlWQO1EHCETUkU48yiRJu+RzXaVsiP0FxUHYvPwhWkfYeLU3
-   LPx/qXjE0E2hqrbBp0PfQ0uLwUOW/cE7Ua6EEsnYRUXdojCKVpP6VHsOE
-   VqtwJeAcaxiBVD6xjx1Tlc+k1UIz+On/wnhSyc9t0e8G1soF3AfHuOSYh
-   /aRL+X7zubjw5TBPUnmP9PT0HT0U2gqcRZuPN3OCgGRrqmN5xY/60jOBW
-   BoippZE79HYB4B5k2ief4zp3UmphNAIqVYCJrI06t9oP9WDFIR4V/EcFX
-   zwoLSJ/mMriA0YUI0ZIQYLl/JCTVDOvuPM9gJnn4XYvEsjGkwzN+oGQQ5
+  t=1764972266; x=1796508266;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UMYlQFhFNecQpXcI5PfIj5r8DBnNUZy6yCsm8zIu1Hg=;
+  b=C0kOJjZypLiAuuJ3DsJd2Jt4eQmJ5yHNjjF+DyAy4hyOr9tq92RZAieg
+   KXCrS7EBa+l8G9ECvk+Fj5wuL/YVxFsFi+AGYod01OVsRBQ7TdTgq/W56
+   CPJZQCC94AAGTLhtpdkKwe7JxjdIkAlw/04MpeEQRNdx5kf/NGhFmZWtm
+   dEc1ZMJZ9BUerzI9BYGNzbzVQAEiGSDzlYHllBZYYv66ZN/7NZ4p/u43m
+   Q9Ebf7TJ8/2LombSZwFBA/IVKkaDJqJLNc8BRiOkwpxBC/BMly/GarNnZ
+   Hi+SKMvUIMl3VSpTJuTkWN93qwWqET56PuUetzJTK4NFYOYHuq7oaCOLA
    w==;
-X-CSE-ConnectionGUID: GS2rnUP4Q0iaEXgcW7tCEA==
-X-CSE-MsgGUID: AsLNa4/yQd+0CW6dSwXvbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="77321361"
-X-IronPort-AV: E=Sophos;i="6.20,252,1758610800"; 
-   d="scan'208";a="77321361"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 10:29:10 -0800
-X-CSE-ConnectionGUID: 4e2hFz9xRh+5ohw8gihj1Q==
-X-CSE-MsgGUID: U8go30cPSUavq6AXsWJXPA==
+X-CSE-ConnectionGUID: pOzj3kQWR4GVTx8EOLRWCQ==
+X-CSE-MsgGUID: O7PNOcw+S/emyNmBvYdvFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="66896036"
+X-IronPort-AV: E=Sophos;i="6.20,253,1758610800"; 
+   d="scan'208";a="66896036"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 14:04:25 -0800
+X-CSE-ConnectionGUID: yBh+0f1BRPK1EP7dEJfvOQ==
+X-CSE-MsgGUID: KRCZNwGpTzm1GHSVDDH3Ew==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,252,1758610800"; 
-   d="scan'208";a="226008665"
+X-IronPort-AV: E=Sophos;i="6.20,253,1758610800"; 
+   d="scan'208";a="195839484"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 05 Dec 2025 10:29:09 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 05 Dec 2025 14:04:23 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRaYE-00000000FMH-1FRd;
-	Fri, 05 Dec 2025 18:29:06 +0000
-Date: Sat, 6 Dec 2025 02:28:48 +0800
+	id 1vRduW-00000000FaH-3QFJ;
+	Fri, 05 Dec 2025 22:04:20 +0000
+Date: Sat, 6 Dec 2025 06:03:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [agd5f:amd-staging-drm-next 2373/2507]
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:1867 amdgpu_ttm_mmio_remap_bo_init()
- warn: variable dereferenced before check 'adev->rmmio_remap.bo' (see line
- 1851)
-Message-ID: <202512060239.vfGlJ37r-lkp@intel.com>
+Subject: Re: [PATCH 2/2] usb: dwc3: qcom: Support firmware-managed resource
+ states for power management
+Message-ID: <202512060556.pgIgFNxx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-CC: SRINIVASAN SHANMUGAM <SRINIVASAN.SHANMUGAM@amd.com>
-CC: "Christian König" <christian.koenig@amd.com>
+In-Reply-To: <20251127-controller_scmi_upstream-v1-2-38bcca513c28@oss.qualcomm.com>
+References: <20251127-controller_scmi_upstream-v1-2-38bcca513c28@oss.qualcomm.com>
+TO: Sriram Dash <sriram.dash@oss.qualcomm.com>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Wesley Cheng <quic_wcheng@quicinc.com>
+TO: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+CC: jack.pham@oss.qualcomm.com
+CC: faisal.hassan@oss.qualcomm.com
+CC: krishna.kurapati@oss.qualcomm.com
+CC: andersson@kernel.org
+CC: linux-arm-msm@vger.kernel.org
+CC: linux-usb@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Sriram Dash <sriram.dash@oss.qualcomm.com>
+CC: Konrad Dybcio <konradybcio@kernel.org>
+CC: Shazad Hussain <shazad.hussain@oss.qualcomm.com>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
-head:   074d1b1468931eefcb1fa54f4509fffe3161a42e
-commit: be4c25b157764f6dec4236b0adc1e33f84259d7c [2373/2507] drm/amdgpu/ttm: Pin 4K MMIO_REMAP Singleton BO at Init v2
-:::::: branch date: 3 days ago
-:::::: commit date: 2 weeks ago
-config: i386-randconfig-141-20251205 (https://download.01.org/0day-ci/archive/20251206/202512060239.vfGlJ37r-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+Hi Sriram,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c77a6544d8a2364e4bee1b52890f577be27b7296]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sriram-Dash/dt-bindings-usb-qcom-snps-dwc3-Add-support-for-firmware-managed-resources/20251127-183548
+base:   c77a6544d8a2364e4bee1b52890f577be27b7296
+patch link:    https://lore.kernel.org/r/20251127-controller_scmi_upstream-v1-2-38bcca513c28%40oss.qualcomm.com
+patch subject: [PATCH 2/2] usb: dwc3: qcom: Support firmware-managed resource states for power management
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: nios2-randconfig-r071-20251204 (https://download.01.org/0day-ci/archive/20251206/202512060556.pgIgFNxx-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512060239.vfGlJ37r-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512060556.pgIgFNxx-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:1867 amdgpu_ttm_mmio_remap_bo_init() warn: variable dereferenced before check 'adev->rmmio_remap.bo' (see line 1851)
+drivers/usb/dwc3/dwc3-qcom.c:801 dwc3_qcom_probe() error: uninitialized symbol 'ret'.
 
-vim +1867 drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+vim +/ret +801 drivers/usb/dwc3/dwc3-qcom.c
 
-1e03322cfef9b8 Philip Yang          2023-02-27  1809  
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1810  /**
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1811   * amdgpu_ttm_mmio_remap_bo_init - Allocate the singleton 4K MMIO_REMAP BO
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1812   * @adev: amdgpu device
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1813   *
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1814   * Allocates a one-page (4K) GEM BO in AMDGPU_GEM_DOMAIN_MMIO_REMAP when the
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1815   * hardware exposes a remap base (adev->rmmio_remap.bus_addr) and the host
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1816   * PAGE_SIZE is <= AMDGPU_GPU_PAGE_SIZE (4K). The BO is created as a regular
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1817   * GEM object (amdgpu_bo_create).
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1818   *
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1819   * The BO is created as a normal GEM object via amdgpu_bo_create(), then
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1820   * reserved and pinned at the TTM level (ttm_bo_pin()) so it can never be
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1821   * migrated or evicted. No CPU mapping is established here.
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1822   *
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1823   * Return:
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1824   *  * 0 on success or intentional skip (feature not present/unsupported)
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1825   *  * negative errno on allocation failure
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1826   */
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1827  static int amdgpu_ttm_mmio_remap_bo_init(struct amdgpu_device *adev)
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1828  {
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1829  	struct amdgpu_bo_param bp;
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1830  	int r;
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1831  
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1832  	/* Skip if HW doesn't expose remap, or if PAGE_SIZE > AMDGPU_GPU_PAGE_SIZE (4K). */
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1833  	if (!adev->rmmio_remap.bus_addr || PAGE_SIZE > AMDGPU_GPU_PAGE_SIZE)
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1834  		return 0;
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1835  
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1836  	memset(&bp, 0, sizeof(bp));
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1837  
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1838  	/* Create exactly one GEM BO in the MMIO_REMAP domain. */
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1839  	bp.type        = ttm_bo_type_device;          /* userspace-mappable GEM */
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1840  	bp.size        = AMDGPU_GPU_PAGE_SIZE;        /* 4K */
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1841  	bp.byte_align  = AMDGPU_GPU_PAGE_SIZE;
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1842  	bp.domain      = AMDGPU_GEM_DOMAIN_MMIO_REMAP;
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1843  	bp.flags       = 0;
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1844  	bp.resv        = NULL;
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1845  	bp.bo_ptr_size = sizeof(struct amdgpu_bo);
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1846  
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1847  	r = amdgpu_bo_create(adev, &bp, &adev->rmmio_remap.bo);
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1848  	if (r)
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1849  		return r;
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1850  
-be4c25b157764f Srinivasan Shanmugam 2025-10-06 @1851  	r = amdgpu_bo_reserve(adev->rmmio_remap.bo, true);
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1852  	if (r)
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1853  		goto err_unref;
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1854  
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1855  	/*
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1856  	 * MMIO_REMAP is a fixed I/O placement (AMDGPU_PL_MMIO_REMAP).
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1857  	 * Use TTM-level pin so the BO cannot be evicted/migrated,
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1858  	 * independent of GEM domains. This
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1859  	 * enforces the “fixed I/O window”
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1860  	 */
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1861  	ttm_bo_pin(&adev->rmmio_remap.bo->tbo);
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1862  
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1863  	amdgpu_bo_unreserve(adev->rmmio_remap.bo);
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1864  	return 0;
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1865  
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1866  err_unref:
-be4c25b157764f Srinivasan Shanmugam 2025-10-06 @1867  	if (adev->rmmio_remap.bo)
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1868  		amdgpu_bo_unref(&adev->rmmio_remap.bo);
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1869  	adev->rmmio_remap.bo = NULL;
-be4c25b157764f Srinivasan Shanmugam 2025-10-06  1870  	return r;
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1871  }
-2f711aebfa6496 Srinivasan Shanmugam 2025-08-28  1872  
+21188e8d6d7590 Krishna Kurapati   2025-09-07  668  
+2bc02355f8ba2c Lee Jones          2019-06-17  669  static int dwc3_qcom_probe(struct platform_device *pdev)
+2bc02355f8ba2c Lee Jones          2019-06-17  670  {
+1881a32fe14df8 Bjorn Andersson    2025-04-14  671  	struct dwc3_probe_data	probe_data = {};
+2bc02355f8ba2c Lee Jones          2019-06-17  672  	struct device		*dev = &pdev->dev;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  673  	struct dwc3_qcom	*qcom;
+1881a32fe14df8 Bjorn Andersson    2025-04-14  674  	struct resource		res;
+1881a32fe14df8 Bjorn Andersson    2025-04-14  675  	struct resource		*r;
+e33ebb133a245a Bjorn Andersson    2025-05-08  676  	int			ret;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  677  	bool			ignore_pipe_clk;
+e3fafbd8e36530 Johan Hovold       2022-08-04  678  	bool			wakeup_source;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  679  
+a4333c3a6ba9ca Manu Gautam        2018-05-09  680  	qcom = devm_kzalloc(&pdev->dev, sizeof(*qcom), GFP_KERNEL);
+a4333c3a6ba9ca Manu Gautam        2018-05-09  681  	if (!qcom)
+a4333c3a6ba9ca Manu Gautam        2018-05-09  682  		return -ENOMEM;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  683  
+a4333c3a6ba9ca Manu Gautam        2018-05-09  684  	qcom->dev = &pdev->dev;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  685  
+79456073227880 Sriram Dash        2025-11-27  686  	qcom->fw_managed = device_get_match_data(dev);
+79456073227880 Sriram Dash        2025-11-27  687  	if (qcom->fw_managed) {
+79456073227880 Sriram Dash        2025-11-27  688  		ret = dev_pm_opp_set_level(qcom->dev, DWC3_QCOM_FW_MANAGED_INIT);
+79456073227880 Sriram Dash        2025-11-27  689  		if (ret < 0)
+79456073227880 Sriram Dash        2025-11-27  690  			return ret;
+79456073227880 Sriram Dash        2025-11-27  691  	}
+79456073227880 Sriram Dash        2025-11-27  692  
+a4333c3a6ba9ca Manu Gautam        2018-05-09  693  	qcom->resets = devm_reset_control_array_get_optional_exclusive(dev);
+a4333c3a6ba9ca Manu Gautam        2018-05-09  694  	if (IS_ERR(qcom->resets)) {
+79456073227880 Sriram Dash        2025-11-27  695  		dev_err_probe(&pdev->dev, PTR_ERR(qcom->resets),
+60d5b71933c4f1 Andrew Halaney     2023-06-05  696  			      "failed to get resets\n");
+79456073227880 Sriram Dash        2025-11-27  697  		goto resources_off;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  698  	}
+a4333c3a6ba9ca Manu Gautam        2018-05-09  699  
+e33ebb133a245a Bjorn Andersson    2025-05-08  700  	ret = devm_clk_bulk_get_all(&pdev->dev, &qcom->clks);
+e33ebb133a245a Bjorn Andersson    2025-05-08  701  	if (ret < 0)
+e33ebb133a245a Bjorn Andersson    2025-05-08  702  		return dev_err_probe(dev, ret, "failed to get clocks\n");
+e33ebb133a245a Bjorn Andersson    2025-05-08  703  	qcom->num_clocks = ret;
+e33ebb133a245a Bjorn Andersson    2025-05-08  704  
+a4333c3a6ba9ca Manu Gautam        2018-05-09  705  	ret = reset_control_assert(qcom->resets);
+a4333c3a6ba9ca Manu Gautam        2018-05-09  706  	if (ret) {
+a4333c3a6ba9ca Manu Gautam        2018-05-09  707  		dev_err(&pdev->dev, "failed to assert resets, err=%d\n", ret);
+79456073227880 Sriram Dash        2025-11-27  708  		goto resources_off;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  709  	}
+a4333c3a6ba9ca Manu Gautam        2018-05-09  710  
+a4333c3a6ba9ca Manu Gautam        2018-05-09  711  	usleep_range(10, 1000);
+a4333c3a6ba9ca Manu Gautam        2018-05-09  712  
+a4333c3a6ba9ca Manu Gautam        2018-05-09  713  	ret = reset_control_deassert(qcom->resets);
+a4333c3a6ba9ca Manu Gautam        2018-05-09  714  	if (ret) {
+a4333c3a6ba9ca Manu Gautam        2018-05-09  715  		dev_err(&pdev->dev, "failed to deassert resets, err=%d\n", ret);
+ef8abc0ba49ce7 Krishna Kurapati   2025-07-09  716  		return ret;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  717  	}
+a4333c3a6ba9ca Manu Gautam        2018-05-09  718  
+e33ebb133a245a Bjorn Andersson    2025-05-08  719  	ret = clk_bulk_prepare_enable(qcom->num_clocks, qcom->clks);
+e33ebb133a245a Bjorn Andersson    2025-05-08  720  	if (ret < 0)
+ef8abc0ba49ce7 Krishna Kurapati   2025-07-09  721  		return ret;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  722  
+1881a32fe14df8 Bjorn Andersson    2025-04-14  723  	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+4c0fca65d10548 Dan Carpenter      2025-04-23  724  	if (!r) {
+4c0fca65d10548 Dan Carpenter      2025-04-23  725  		ret = -EINVAL;
+1881a32fe14df8 Bjorn Andersson    2025-04-14  726  		goto clk_disable;
+4c0fca65d10548 Dan Carpenter      2025-04-23  727  	}
+1881a32fe14df8 Bjorn Andersson    2025-04-14  728  	res = *r;
+1881a32fe14df8 Bjorn Andersson    2025-04-14  729  	res.end = res.start + SDM845_QSCRATCH_BASE_OFFSET;
+1881a32fe14df8 Bjorn Andersson    2025-04-14  730  
+1881a32fe14df8 Bjorn Andersson    2025-04-14  731  	qcom->qscratch_base = devm_ioremap(dev, res.end, SDM845_QSCRATCH_SIZE);
+4c0fca65d10548 Dan Carpenter      2025-04-23  732  	if (!qcom->qscratch_base) {
+4c0fca65d10548 Dan Carpenter      2025-04-23  733  		dev_err(dev, "failed to map qscratch region\n");
+4c0fca65d10548 Dan Carpenter      2025-04-23  734  		ret = -ENOMEM;
+41717b88abf1ca Krishna Kurapati   2024-03-05  735  		goto clk_disable;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  736  	}
+a4333c3a6ba9ca Manu Gautam        2018-05-09  737  
+2dc9f137e19426 Bjorn Andersson    2025-04-14  738  	ret = dwc3_qcom_setup_irq(qcom, pdev);
+2bc02355f8ba2c Lee Jones          2019-06-17  739  	if (ret) {
+2bc02355f8ba2c Lee Jones          2019-06-17  740  		dev_err(dev, "failed to setup IRQs, err=%d\n", ret);
+41717b88abf1ca Krishna Kurapati   2024-03-05  741  		goto clk_disable;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  742  	}
+a4333c3a6ba9ca Manu Gautam        2018-05-09  743  
+a4333c3a6ba9ca Manu Gautam        2018-05-09  744  	/*
+a4333c3a6ba9ca Manu Gautam        2018-05-09  745  	 * Disable pipe_clk requirement if specified. Used when dwc3
+a4333c3a6ba9ca Manu Gautam        2018-05-09  746  	 * operates without SSPHY and only HS/FS/LS modes are supported.
+a4333c3a6ba9ca Manu Gautam        2018-05-09  747  	 */
+a4333c3a6ba9ca Manu Gautam        2018-05-09  748  	ignore_pipe_clk = device_property_read_bool(dev,
+a4333c3a6ba9ca Manu Gautam        2018-05-09  749  				"qcom,select-utmi-as-pipe-clk");
+a4333c3a6ba9ca Manu Gautam        2018-05-09  750  	if (ignore_pipe_clk)
+a4333c3a6ba9ca Manu Gautam        2018-05-09  751  		dwc3_qcom_select_utmi_clk(qcom);
+a4333c3a6ba9ca Manu Gautam        2018-05-09  752  
+21188e8d6d7590 Krishna Kurapati   2025-09-07  753  	qcom->mode = usb_get_dr_mode(dev);
+21188e8d6d7590 Krishna Kurapati   2025-09-07  754  
+21188e8d6d7590 Krishna Kurapati   2025-09-07  755  	if (qcom->mode == USB_DR_MODE_HOST) {
+21188e8d6d7590 Krishna Kurapati   2025-09-07  756  		qcom->current_role = USB_ROLE_HOST;
+21188e8d6d7590 Krishna Kurapati   2025-09-07  757  	} else if (qcom->mode == USB_DR_MODE_PERIPHERAL) {
+21188e8d6d7590 Krishna Kurapati   2025-09-07  758  		qcom->current_role = USB_ROLE_DEVICE;
+21188e8d6d7590 Krishna Kurapati   2025-09-07  759  		dwc3_qcom_vbus_override_enable(qcom, true);
+21188e8d6d7590 Krishna Kurapati   2025-09-07  760  	} else {
+21188e8d6d7590 Krishna Kurapati   2025-09-07  761  		if ((device_property_read_bool(dev, "usb-role-switch")) &&
+21188e8d6d7590 Krishna Kurapati   2025-09-07  762  		    (usb_get_role_switch_default_mode(dev) == USB_DR_MODE_HOST))
+21188e8d6d7590 Krishna Kurapati   2025-09-07  763  			qcom->current_role = USB_ROLE_HOST;
+21188e8d6d7590 Krishna Kurapati   2025-09-07  764  		else
+21188e8d6d7590 Krishna Kurapati   2025-09-07  765  			qcom->current_role = USB_ROLE_DEVICE;
+21188e8d6d7590 Krishna Kurapati   2025-09-07  766  	}
+21188e8d6d7590 Krishna Kurapati   2025-09-07  767  
+21188e8d6d7590 Krishna Kurapati   2025-09-07  768  	qcom->dwc.glue_ops = &dwc3_qcom_glue_ops;
+21188e8d6d7590 Krishna Kurapati   2025-09-07  769  
+1881a32fe14df8 Bjorn Andersson    2025-04-14  770  	qcom->dwc.dev = dev;
+1881a32fe14df8 Bjorn Andersson    2025-04-14  771  	probe_data.dwc = &qcom->dwc;
+1881a32fe14df8 Bjorn Andersson    2025-04-14  772  	probe_data.res = &res;
+1881a32fe14df8 Bjorn Andersson    2025-04-14  773  	probe_data.ignore_clocks_and_resets = true;
+7298c06d58e23c Frank Li           2025-09-29  774  	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
+1881a32fe14df8 Bjorn Andersson    2025-04-14  775  	ret = dwc3_core_probe(&probe_data);
+2bc02355f8ba2c Lee Jones          2019-06-17  776  	if (ret)  {
+1881a32fe14df8 Bjorn Andersson    2025-04-14  777  		ret = dev_err_probe(dev, ret, "failed to register DWC3 Core\n");
+41717b88abf1ca Krishna Kurapati   2024-03-05  778  		goto clk_disable;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  779  	}
+a4333c3a6ba9ca Manu Gautam        2018-05-09  780  
+bea46b9815154a Sandeep Maheswaram 2020-07-27  781  	ret = dwc3_qcom_interconnect_init(qcom);
+bea46b9815154a Sandeep Maheswaram 2020-07-27  782  	if (ret)
+1881a32fe14df8 Bjorn Andersson    2025-04-14  783  		goto remove_core;
+bea46b9815154a Sandeep Maheswaram 2020-07-27  784  
+e3fafbd8e36530 Johan Hovold       2022-08-04  785  	wakeup_source = of_property_read_bool(dev->of_node, "wakeup-source");
+e3fafbd8e36530 Johan Hovold       2022-08-04  786  	device_init_wakeup(&pdev->dev, wakeup_source);
+d9be8d5c5b032e Sandeep Maheswaram 2022-06-13  787  
+a4333c3a6ba9ca Manu Gautam        2018-05-09  788  	qcom->is_suspended = false;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  789  
+a4333c3a6ba9ca Manu Gautam        2018-05-09  790  	return 0;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  791  
+1881a32fe14df8 Bjorn Andersson    2025-04-14  792  remove_core:
+1881a32fe14df8 Bjorn Andersson    2025-04-14  793  	dwc3_core_remove(&qcom->dwc);
+a4333c3a6ba9ca Manu Gautam        2018-05-09  794  clk_disable:
+e33ebb133a245a Bjorn Andersson    2025-05-08  795  	clk_bulk_disable_unprepare(qcom->num_clocks, qcom->clks);
+a4333c3a6ba9ca Manu Gautam        2018-05-09  796  
+79456073227880 Sriram Dash        2025-11-27  797  resources_off:
+79456073227880 Sriram Dash        2025-11-27  798  	if (qcom->fw_managed)
+79456073227880 Sriram Dash        2025-11-27  799  		dev_pm_opp_set_level(qcom->dev, DWC3_QCOM_FW_MANAGED_EXIT);
+79456073227880 Sriram Dash        2025-11-27  800  
+a4333c3a6ba9ca Manu Gautam        2018-05-09 @801  	return ret;
+a4333c3a6ba9ca Manu Gautam        2018-05-09  802  }
+a4333c3a6ba9ca Manu Gautam        2018-05-09  803  
 
 -- 
 0-DAY CI Kernel Test Service
