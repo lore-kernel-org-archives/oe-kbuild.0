@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12CD335555
-	for <oe-kbuild@lists.linux.dev>; Fri,  5 Dec 2025 09:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5921321442
+	for <oe-kbuild@lists.linux.dev>; Fri,  5 Dec 2025 09:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764925908; cv=none; b=E/PzJk1v4xtrcKodbZ/n2mM/ALqR8qvNxckjFApbWk7bt+H9SLLC4a0/E7djTQhjelFFQB4/3esRmizk+R+aulW3CXE2+NxIrhIvzuq0qqP8dG9rMDnjkrZOosPFF5hKYU5f3tvkX+CyFtU2xXEkvZ5n/Gv+pv18xXbcj4ml2FA=
+	t=1764927894; cv=none; b=OCeP+9BfUPWifHhcZvBZQeTnnm9R2Okp/9LLZXtwB1PnS1eubUBIa5sJyAWEGz7tWxKTbW+aJY7uRD/1GqQPYOaf3sXfk7D1yYJYcVMy+l14b4t4e/24T5FCKUntsWJff0YQCGt+At7yC8hNiMfFOznskIO+VIu+KkTtYbuFpMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764925908; c=relaxed/simple;
-	bh=RjOGlnHWnchYoPq28+Ejo4YxamVbqA30RKMZwvxHGeo=;
+	s=arc-20240116; t=1764927894; c=relaxed/simple;
+	bh=vy8loGGWAElA7CbQnK/9hJ/B3aMxEUv3vQkkom48u2k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n6gOLir9CSJrnf2JXgKUJrXrbsF+wRNrpLTr1EHpxc6016lmkr46UnU2FsDI3+EC6+nqiRDLDPVEZ89x85dd/PhHrWW4W/KEAUW/u46OXgZx3aaZdGeEcOEzq6BIzSo4rimI2JkRfWOyJkFjIkXRIhF2+Slp5lxrsM6cBKGAk+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TTEaAs7u; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=WFXZ+nNnbZKeQ5nonodn82/CGNWTaxr4WLxWDC5hpN8WmgwfWXJj+9e5motv7HzeQqQwjPLrolceQlqRdHo3bMY5/gA1eyt3QSawLIx4ACs/JwGrWmGzsH2Fh1BkxfrMDS6fpMFheoeW0Nis//ppcpSZPoIbjMXzLtuvTACBk4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UXlA04zW; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TTEaAs7u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UXlA04zW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764925902; x=1796461902;
+  t=1764927885; x=1796463885;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RjOGlnHWnchYoPq28+Ejo4YxamVbqA30RKMZwvxHGeo=;
-  b=TTEaAs7utWptrF7Lh5AEdbndOWnPTmG89+GsNrkpdGQ6zpV5wG50WOOu
-   et9aodW0EwycFFiC0LwQFyhLnby1e86ckN1XCOWIJW3rjk64IQThB5K8V
-   vzbD9ldXj6NxMTnKKGYDCLI3ycqFqhu2ver06wFGMeR3rP8t/qaGWbu/E
-   e3guYzxCdMzFA/wncubcZdsnIybVuCUTVdquzDQYU+iViEvAsNmep+7Rc
-   yTI+XR29n2ahe/7yzebCrQPZLL5bFLZA2erjrKXzrSMmnGvb4LyX7G36a
-   HubwW+e8WbA65DAE651/TeHpAThrfTPQry9kfnETvBL6anGkrT4G+HI6Y
-   Q==;
-X-CSE-ConnectionGUID: OFckz43jSme6BKxWCnWKHA==
-X-CSE-MsgGUID: ua3W5x20SH+3JgW/shxxSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66998925"
+  bh=vy8loGGWAElA7CbQnK/9hJ/B3aMxEUv3vQkkom48u2k=;
+  b=UXlA04zWltxdQsc2/MxgRQSNroetGdW3X2HxfsHd4XNwW1XXnp73dZFb
+   3FuTRNm8l8cEW0QMlf4MpT4FMUzfGE1r8MPEb76gZTG4ll/B2jOUk4rLU
+   qYs3aIGg1JkiAwEe9udk1nrehO4dtZk+9OxD3Dq1Ubmqk6/XNx99ssrOT
+   sl2wRD7C7HHH4Cox0AZ5FPiYlBClkOBva1ddkHQzghjQuAO+Yxxx7zWbg
+   L4VzCVHnK9Ct/0xGe8b+JLM5zE+q+eTG2arWXTg6sUNJdS2XoOCW15fCU
+   MP8Nuz7eEoQ/5CTRfIizGA7hkhHq5/7AiCqFcfco2/ek6rFQzx4T6tsko
+   A==;
+X-CSE-ConnectionGUID: g3uqPBbXQ+Wlj62uh8ugFg==
+X-CSE-MsgGUID: gC0En0V/TtCVZ8EpcH1x4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="77578606"
 X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="66998925"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 01:11:38 -0800
-X-CSE-ConnectionGUID: zq1BXnoCTNGGDLgroYWHgA==
-X-CSE-MsgGUID: HyM9yeGYSuGDgyHkkz4ayw==
+   d="scan'208";a="77578606"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 01:44:39 -0800
+X-CSE-ConnectionGUID: TKD49QcSTVuxCbDRhW9rvw==
+X-CSE-MsgGUID: 8F0DzHwuRwulxHoXeSPTnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="195148983"
+   d="scan'208";a="195071083"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 05 Dec 2025 01:11:36 -0800
+  by orviesa009.jf.intel.com with ESMTP; 05 Dec 2025 01:44:38 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRRqg-00000000EoP-13s8;
-	Fri, 05 Dec 2025 09:11:34 +0000
-Date: Fri, 5 Dec 2025 17:11:01 +0800
+	id 1vRSMd-00000000Eq5-3fhr;
+	Fri, 05 Dec 2025 09:44:35 +0000
+Date: Fri, 5 Dec 2025 17:44:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 5324/13567] samples/tsm-mr/tsm_mr_sample.c:130:1:
- sparse: sparse: bad integer constant expression
-Message-ID: <202512051716.DB363M9w-lkp@intel.com>
+Subject: vmlinux.o: warning: objtool:
+ _RINvMs3_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataINtNtNtBc_5alloc4kvec3VecINtNtCsbsbRiabPlh9_4core3pin3PinINtNtB1a_4kbox3BoxINtNtBc_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10DeviceDataENtNtB1a_9...
+Message-ID: <202512051709.DbdqVrxG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,430 +63,35 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: samples/tsm-mr/tsm_mr_sample.c:130:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kees Cook <kees@kernel.org>
-CC: Daniel Gomez <da.gomez@samsung.com>
-CC: Aaron Tomlin <atomlin@atomlin.com>
-CC: Petr Pavlu <petr.pavlu@suse.com>
+CC: linux-kernel@vger.kernel.org
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6987d58a9cbc5bd57c983baa514474a86c945d56
-commit: ae83f3b72621bd3187eb7956c7c2993a97d4b187 [5324/13567] module: Add compile-time check for embedded NUL characters
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 weeks ago
-config: x86_64-randconfig-121-20251205 (https://download.01.org/0day-ci/archive/20251205/202512051716.DB363M9w-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2061f18ad76ecaddf8ed17df81b8611ea88dbddd
+commit: 2058f6d1660edc4a9bda9bee627792b352121b10 objtool: Refactor prefix symbol creation code
+date:   7 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 7 weeks ago
+config: x86_64-randconfig-102-20251204 (https://download.01.org/0day-ci/archive/20251205/202512051709.DbdqVrxG-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051716.DB363M9w-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051709.DbdqVrxG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512051716.DB363M9w-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512051709.DbdqVrxG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> samples/tsm-mr/tsm_mr_sample.c:130:1: sparse: sparse: bad integer constant expression
->> samples/tsm-mr/tsm_mr_sample.c:130:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
->> samples/tsm-mr/tsm_mr_sample.c:130:1: sparse: sparse: bad integer constant expression
->> samples/tsm-mr/tsm_mr_sample.c:130:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   samples/tsm-mr/tsm_mr_sample.c:131:1: sparse: sparse: bad integer constant expression
->> samples/tsm-mr/tsm_mr_sample.c:131:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
---
-   samples/vfio-mdev/mdpy-fb.c:232:1: sparse: sparse: bad integer constant expression
-   samples/vfio-mdev/mdpy-fb.c:232:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   samples/vfio-mdev/mdpy-fb.c:233:1: sparse: sparse: bad integer constant expression
->> samples/vfio-mdev/mdpy-fb.c:233:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   samples/vfio-mdev/mdpy-fb.c:233:1: sparse: sparse: bad integer constant expression
-   samples/vfio-mdev/mdpy-fb.c:233:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
-   samples/vfio-mdev/mtty.c:2058:1: sparse: sparse: bad integer constant expression
->> samples/vfio-mdev/mtty.c:2058:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   samples/vfio-mdev/mtty.c:2058:1: sparse: sparse: bad integer constant expression
-   samples/vfio-mdev/mtty.c:2058:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   samples/vfio-mdev/mtty.c:2059:1: sparse: sparse: bad integer constant expression
-   samples/vfio-mdev/mtty.c:2059:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   samples/vfio-mdev/mtty.c:2060:1: sparse: sparse: bad integer constant expression
-   samples/vfio-mdev/mtty.c:2060:1: sparse: sparse: static assertion failed: "MODULE_INFO(version, ...) contains embedded NUL byte"
-   samples/vfio-mdev/mtty.c:2061:1: sparse: sparse: bad integer constant expression
-   samples/vfio-mdev/mtty.c:2061:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
---
->> drivers/acpi/acpi_tad.c:30:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/acpi_tad.c:30:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/acpi/acpi_tad.c:31:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/acpi_tad.c:31:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/acpi/acpi_tad.c:31:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/acpi_tad.c:31:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/acpi/acpi_tad.c:32:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/acpi_tad.c:32:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
---
->> drivers/acpi/pfr_update.c:605:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/pfr_update.c:605:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/acpi/pfr_update.c:606:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/pfr_update.c:606:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/acpi/pfr_update.c:606:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/pfr_update.c:606:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
->> drivers/acpi/pfr_telemetry.c:429:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/pfr_telemetry.c:429:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/acpi/pfr_telemetry.c:430:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/pfr_telemetry.c:430:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/acpi/pfr_telemetry.c:430:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/pfr_telemetry.c:430:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
->> drivers/acpi/acpi_pad.c:492:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/acpi_pad.c:492:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/acpi/acpi_pad.c:493:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/acpi_pad.c:493:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/acpi/acpi_pad.c:494:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/acpi_pad.c:494:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/acpi/acpi_pad.c:494:1: sparse: sparse: bad integer constant expression
->> drivers/acpi/acpi_pad.c:494:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
-   drivers/cpufreq/p4-clockmod.c:267:1: sparse: sparse: bad integer constant expression
-   drivers/cpufreq/p4-clockmod.c:267:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/cpufreq/p4-clockmod.c:268:1: sparse: sparse: bad integer constant expression
-   drivers/cpufreq/p4-clockmod.c:268:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/cpufreq/p4-clockmod.c:269:1: sparse: sparse: bad integer constant expression
->> drivers/cpufreq/p4-clockmod.c:269:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/cpufreq/p4-clockmod.c:269:1: sparse: sparse: bad integer constant expression
-   drivers/cpufreq/p4-clockmod.c:269:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
->> drivers/hwmon/gpd-fan.c:27:1: sparse: sparse: bad integer constant expression
->> drivers/hwmon/gpd-fan.c:27:1: sparse: sparse: static assertion failed: "MODULE_INFO(parmtype, ...) contains embedded NUL byte"
-   drivers/hwmon/gpd-fan.c:713:1: sparse: sparse: bad integer constant expression
->> drivers/hwmon/gpd-fan.c:713:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/hwmon/gpd-fan.c:713:1: sparse: sparse: bad integer constant expression
->> drivers/hwmon/gpd-fan.c:713:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/hwmon/gpd-fan.c:714:1: sparse: sparse: bad integer constant expression
->> drivers/hwmon/gpd-fan.c:714:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/hwmon/gpd-fan.c:715:1: sparse: sparse: bad integer constant expression
->> drivers/hwmon/gpd-fan.c:715:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
---
->> drivers/char/tpm/tpm_svsm.c:119:1: sparse: sparse: bad integer constant expression
->> drivers/char/tpm/tpm_svsm.c:119:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/char/tpm/tpm_svsm.c:120:1: sparse: sparse: bad integer constant expression
->> drivers/char/tpm/tpm_svsm.c:120:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/char/tpm/tpm_svsm.c:120:1: sparse: sparse: bad integer constant expression
->> drivers/char/tpm/tpm_svsm.c:120:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/char/tpm/tpm_svsm.c:121:1: sparse: sparse: bad integer constant expression
->> drivers/char/tpm/tpm_svsm.c:121:1: sparse: sparse: static assertion failed: "MODULE_INFO(alias, ...) contains embedded NUL byte"
---
-   drivers/power/supply/max8925_power.c:574:1: sparse: sparse: bad integer constant expression
->> drivers/power/supply/max8925_power.c:574:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/power/supply/max8925_power.c:574:1: sparse: sparse: bad integer constant expression
-   drivers/power/supply/max8925_power.c:574:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/power/supply/max8925_power.c:575:1: sparse: sparse: bad integer constant expression
-   drivers/power/supply/max8925_power.c:575:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/power/supply/max8925_power.c:576:1: sparse: sparse: bad integer constant expression
-   drivers/power/supply/max8925_power.c:576:1: sparse: sparse: static assertion failed: "MODULE_INFO(alias, ...) contains embedded NUL byte"
---
-   drivers/power/supply/mt6370-charger.c:941:1: sparse: sparse: bad integer constant expression
-   drivers/power/supply/mt6370-charger.c:941:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/power/supply/mt6370-charger.c:942:1: sparse: sparse: bad integer constant expression
-   drivers/power/supply/mt6370-charger.c:942:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/power/supply/mt6370-charger.c:943:1: sparse: sparse: bad integer constant expression
->> drivers/power/supply/mt6370-charger.c:943:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/power/supply/mt6370-charger.c:943:1: sparse: sparse: bad integer constant expression
-   drivers/power/supply/mt6370-charger.c:943:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
->> drivers/power/supply/wilco-charger.c:189:1: sparse: sparse: bad integer constant expression
->> drivers/power/supply/wilco-charger.c:189:1: sparse: sparse: static assertion failed: "MODULE_INFO(alias, ...) contains embedded NUL byte"
-   drivers/power/supply/wilco-charger.c:190:1: sparse: sparse: bad integer constant expression
->> drivers/power/supply/wilco-charger.c:190:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/power/supply/wilco-charger.c:191:1: sparse: sparse: bad integer constant expression
->> drivers/power/supply/wilco-charger.c:191:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/power/supply/wilco-charger.c:191:1: sparse: sparse: bad integer constant expression
->> drivers/power/supply/wilco-charger.c:191:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/power/supply/wilco-charger.c:192:1: sparse: sparse: bad integer constant expression
->> drivers/power/supply/wilco-charger.c:192:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
---
-   drivers/mtd/devices/sst25l.c:418:1: sparse: sparse: bad integer constant expression
-   drivers/mtd/devices/sst25l.c:418:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/mtd/devices/sst25l.c:419:1: sparse: sparse: bad integer constant expression
-   drivers/mtd/devices/sst25l.c:419:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/mtd/devices/sst25l.c:421:1: sparse: sparse: bad integer constant expression
->> drivers/mtd/devices/sst25l.c:421:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/mtd/devices/sst25l.c:421:1: sparse: sparse: bad integer constant expression
-   drivers/mtd/devices/sst25l.c:421:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
-   drivers/input/keyboard/max7360-keypad.c:306:1: sparse: sparse: bad integer constant expression
-   drivers/input/keyboard/max7360-keypad.c:306:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/input/keyboard/max7360-keypad.c:307:1: sparse: sparse: bad integer constant expression
-   drivers/input/keyboard/max7360-keypad.c:307:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/input/keyboard/max7360-keypad.c:308:1: sparse: sparse: bad integer constant expression
->> drivers/input/keyboard/max7360-keypad.c:308:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/input/keyboard/max7360-keypad.c:308:1: sparse: sparse: bad integer constant expression
-   drivers/input/keyboard/max7360-keypad.c:308:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
-   drivers/platform/chrome/chromeos_laptop.c:956:1: sparse: sparse: bad integer constant expression
-   drivers/platform/chrome/chromeos_laptop.c:956:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/platform/chrome/chromeos_laptop.c:957:1: sparse: sparse: bad integer constant expression
-   drivers/platform/chrome/chromeos_laptop.c:957:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/platform/chrome/chromeos_laptop.c:958:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/chromeos_laptop.c:958:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/platform/chrome/chromeos_laptop.c:958:1: sparse: sparse: bad integer constant expression
-   drivers/platform/chrome/chromeos_laptop.c:958:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
->> drivers/platform/chrome/chromeos_tbmc.c:120:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/chromeos_tbmc.c:120:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
->> drivers/platform/chrome/chromeos_tbmc.c:120:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/chromeos_tbmc.c:120:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/platform/chrome/chromeos_tbmc.c:121:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/chromeos_tbmc.c:121:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
---
->> drivers/platform/chrome/cros_ec_lpc.c:912:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/cros_ec_lpc.c:912:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
->> drivers/platform/chrome/cros_ec_lpc.c:912:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/cros_ec_lpc.c:912:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/platform/chrome/cros_ec_lpc.c:913:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/cros_ec_lpc.c:913:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
---
-   drivers/platform/chrome/cros_ec_lightbar.c:617:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/cros_ec_lightbar.c:617:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/platform/chrome/cros_ec_lightbar.c:617:1: sparse: sparse: bad integer constant expression
-   drivers/platform/chrome/cros_ec_lightbar.c:617:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/platform/chrome/cros_ec_lightbar.c:618:1: sparse: sparse: bad integer constant expression
-   drivers/platform/chrome/cros_ec_lightbar.c:618:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
---
-   drivers/platform/chrome/cros_ec_debugfs.c:30:1: sparse: sparse: bad integer constant expression
-   drivers/platform/chrome/cros_ec_debugfs.c:30:1: sparse: sparse: static assertion failed: "MODULE_INFO(parmtype, ...) contains embedded NUL byte"
-   drivers/platform/chrome/cros_ec_debugfs.c:31:1: sparse: sparse: bad integer constant expression
-   drivers/platform/chrome/cros_ec_debugfs.c:31:1: sparse: sparse: static assertion failed: "MODULE_INFO(parm, ...) contains embedded NUL byte"
-   drivers/platform/chrome/cros_ec_debugfs.c:579:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/cros_ec_debugfs.c:579:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/platform/chrome/cros_ec_debugfs.c:579:1: sparse: sparse: bad integer constant expression
-   drivers/platform/chrome/cros_ec_debugfs.c:579:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/platform/chrome/cros_ec_debugfs.c:580:1: sparse: sparse: bad integer constant expression
-   drivers/platform/chrome/cros_ec_debugfs.c:580:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
---
->> drivers/input/misc/adxl34x-spi.c:101:1: sparse: sparse: bad integer constant expression
->> drivers/input/misc/adxl34x-spi.c:101:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/input/misc/adxl34x-spi.c:102:1: sparse: sparse: bad integer constant expression
->> drivers/input/misc/adxl34x-spi.c:102:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/input/misc/adxl34x-spi.c:103:1: sparse: sparse: bad integer constant expression
->> drivers/input/misc/adxl34x-spi.c:103:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/input/misc/adxl34x-spi.c:103:1: sparse: sparse: bad integer constant expression
->> drivers/input/misc/adxl34x-spi.c:103:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
->> drivers/input/misc/apanel.c:299:1: sparse: sparse: bad integer constant expression
->> drivers/input/misc/apanel.c:299:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/input/misc/apanel.c:300:1: sparse: sparse: bad integer constant expression
->> drivers/input/misc/apanel.c:300:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/input/misc/apanel.c:301:1: sparse: sparse: bad integer constant expression
->> drivers/input/misc/apanel.c:301:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/input/misc/apanel.c:301:1: sparse: sparse: bad integer constant expression
->> drivers/input/misc/apanel.c:301:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/input/misc/apanel.c:303:1: sparse: sparse: bad integer constant expression
->> drivers/input/misc/apanel.c:303:1: sparse: sparse: static assertion failed: "MODULE_INFO(alias, ...) contains embedded NUL byte"
-   drivers/input/misc/apanel.c:304:1: sparse: sparse: bad integer constant expression
-   drivers/input/misc/apanel.c:304:1: sparse: sparse: static assertion failed: "MODULE_INFO(alias, ...) contains embedded NUL byte"
---
->> drivers/pps/generators/pps_gen_tio.c:266:1: sparse: sparse: bad integer constant expression
->> drivers/pps/generators/pps_gen_tio.c:266:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/pps/generators/pps_gen_tio.c:267:1: sparse: sparse: bad integer constant expression
-   drivers/pps/generators/pps_gen_tio.c:267:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/pps/generators/pps_gen_tio.c:268:1: sparse: sparse: bad integer constant expression
-   drivers/pps/generators/pps_gen_tio.c:268:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/pps/generators/pps_gen_tio.c:269:1: sparse: sparse: bad integer constant expression
-   drivers/pps/generators/pps_gen_tio.c:269:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/pps/generators/pps_gen_tio.c:270:1: sparse: sparse: bad integer constant expression
-   drivers/pps/generators/pps_gen_tio.c:270:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/pps/generators/pps_gen_tio.c:271:1: sparse: sparse: bad integer constant expression
->> drivers/pps/generators/pps_gen_tio.c:271:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/pps/generators/pps_gen_tio.c:272:1: sparse: sparse: bad integer constant expression
->> drivers/pps/generators/pps_gen_tio.c:272:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/pps/generators/pps_gen_tio.c:272:1: sparse: sparse: bad integer constant expression
->> drivers/pps/generators/pps_gen_tio.c:272:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
-   drivers/video/fbdev/hgafb.c:673:1: sparse: sparse: bad integer constant expression
-   drivers/video/fbdev/hgafb.c:673:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/video/fbdev/hgafb.c:674:1: sparse: sparse: bad integer constant expression
-   drivers/video/fbdev/hgafb.c:674:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/video/fbdev/hgafb.c:675:1: sparse: sparse: bad integer constant expression
->> drivers/video/fbdev/hgafb.c:675:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/video/fbdev/hgafb.c:675:1: sparse: sparse: bad integer constant expression
-   drivers/video/fbdev/hgafb.c:675:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/video/fbdev/hgafb.c:677:1: sparse: sparse: bad integer constant expression
-   drivers/video/fbdev/hgafb.c:677:1: sparse: sparse: static assertion failed: "MODULE_INFO(parmtype, ...) contains embedded NUL byte"
-   drivers/video/fbdev/hgafb.c:678:1: sparse: sparse: bad integer constant expression
-   drivers/video/fbdev/hgafb.c:678:1: sparse: sparse: static assertion failed: "MODULE_INFO(parm, ...) contains embedded NUL byte"
---
->> drivers/iio/accel/cros_ec_accel_legacy.c:249:1: sparse: sparse: bad integer constant expression
->> drivers/iio/accel/cros_ec_accel_legacy.c:249:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/iio/accel/cros_ec_accel_legacy.c:250:1: sparse: sparse: bad integer constant expression
->> drivers/iio/accel/cros_ec_accel_legacy.c:250:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/iio/accel/cros_ec_accel_legacy.c:251:1: sparse: sparse: bad integer constant expression
->> drivers/iio/accel/cros_ec_accel_legacy.c:251:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/iio/accel/cros_ec_accel_legacy.c:251:1: sparse: sparse: bad integer constant expression
->> drivers/iio/accel/cros_ec_accel_legacy.c:251:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/iio/accel/cros_ec_accel_legacy.c:252:1: sparse: sparse: bad integer constant expression
->> drivers/iio/accel/cros_ec_accel_legacy.c:252:1: sparse: sparse: static assertion failed: "MODULE_INFO(alias, ...) contains embedded NUL byte"
---
-   drivers/iio/accel/st_accel_core.c:1549:1: sparse: sparse: bad integer constant expression
-   drivers/iio/accel/st_accel_core.c:1549:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/iio/accel/st_accel_core.c:1550:1: sparse: sparse: bad integer constant expression
-   drivers/iio/accel/st_accel_core.c:1550:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/iio/accel/st_accel_core.c:1551:1: sparse: sparse: bad integer constant expression
->> drivers/iio/accel/st_accel_core.c:1551:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/iio/accel/st_accel_core.c:1551:1: sparse: sparse: bad integer constant expression
-   drivers/iio/accel/st_accel_core.c:1551:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/iio/accel/st_accel_core.c:1552:1: sparse: sparse: bad integer constant expression
-   drivers/iio/accel/st_accel_core.c:1552:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
---
-   drivers/iio/accel/st_accel_spi.c:184:1: sparse: sparse: bad integer constant expression
-   drivers/iio/accel/st_accel_spi.c:184:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/iio/accel/st_accel_spi.c:185:1: sparse: sparse: bad integer constant expression
-   drivers/iio/accel/st_accel_spi.c:185:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/iio/accel/st_accel_spi.c:186:1: sparse: sparse: bad integer constant expression
->> drivers/iio/accel/st_accel_spi.c:186:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/iio/accel/st_accel_spi.c:186:1: sparse: sparse: bad integer constant expression
-   drivers/iio/accel/st_accel_spi.c:186:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/iio/accel/st_accel_spi.c:187:1: sparse: sparse: bad integer constant expression
-   drivers/iio/accel/st_accel_spi.c:187:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
---
-   drivers/iio/adc/max11100.c:161:1: sparse: sparse: bad integer constant expression
-   drivers/iio/adc/max11100.c:161:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/iio/adc/max11100.c:162:1: sparse: sparse: bad integer constant expression
-   drivers/iio/adc/max11100.c:162:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/iio/adc/max11100.c:163:1: sparse: sparse: bad integer constant expression
->> drivers/iio/adc/max11100.c:163:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/iio/adc/max11100.c:163:1: sparse: sparse: bad integer constant expression
-   drivers/iio/adc/max11100.c:163:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
-   drivers/iio/gyro/st_gyro_spi.c:124:1: sparse: sparse: bad integer constant expression
-   drivers/iio/gyro/st_gyro_spi.c:124:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/iio/gyro/st_gyro_spi.c:125:1: sparse: sparse: bad integer constant expression
-   drivers/iio/gyro/st_gyro_spi.c:125:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/iio/gyro/st_gyro_spi.c:126:1: sparse: sparse: bad integer constant expression
->> drivers/iio/gyro/st_gyro_spi.c:126:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/iio/gyro/st_gyro_spi.c:126:1: sparse: sparse: bad integer constant expression
-   drivers/iio/gyro/st_gyro_spi.c:126:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/iio/gyro/st_gyro_spi.c:127:1: sparse: sparse: bad integer constant expression
-   drivers/iio/gyro/st_gyro_spi.c:127:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
---
-   drivers/iio/light/acpi-als.c:243:1: sparse: sparse: bad integer constant expression
-   drivers/iio/light/acpi-als.c:243:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/iio/light/acpi-als.c:244:1: sparse: sparse: bad integer constant expression
-   drivers/iio/light/acpi-als.c:244:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/iio/light/acpi-als.c:245:1: sparse: sparse: bad integer constant expression
-   drivers/iio/light/acpi-als.c:245:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/iio/light/acpi-als.c:246:1: sparse: sparse: bad integer constant expression
-   drivers/iio/light/acpi-als.c:246:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/iio/light/acpi-als.c:247:1: sparse: sparse: bad integer constant expression
->> drivers/iio/light/acpi-als.c:247:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/iio/light/acpi-als.c:247:1: sparse: sparse: bad integer constant expression
-   drivers/iio/light/acpi-als.c:247:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_core.c:93:1: sparse: sparse: bad integer constant expression
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_core.c:93:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_core.c:94:1: sparse: sparse: bad integer constant expression
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_core.c:94:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_core.c:95:1: sparse: sparse: bad integer constant expression
->> drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_core.c:95:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_core.c:95:1: sparse: sparse: bad integer constant expression
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_core.c:95:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_core.c:96:1: sparse: sparse: bad integer constant expression
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_core.c:96:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
---
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_spi.c:83:1: sparse: sparse: bad integer constant expression
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_spi.c:83:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_spi.c:84:1: sparse: sparse: bad integer constant expression
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_spi.c:84:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_spi.c:85:1: sparse: sparse: bad integer constant expression
->> drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_spi.c:85:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_spi.c:85:1: sparse: sparse: bad integer constant expression
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_spi.c:85:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_spi.c:86:1: sparse: sparse: bad integer constant expression
-   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_spi.c:86:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
---
->> drivers/gpu/drm/sysfb/efidrm.c:388:1: sparse: sparse: bad integer constant expression
->> drivers/gpu/drm/sysfb/efidrm.c:388:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/gpu/drm/sysfb/efidrm.c:389:1: sparse: sparse: bad integer constant expression
->> drivers/gpu/drm/sysfb/efidrm.c:389:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/gpu/drm/sysfb/efidrm.c:389:1: sparse: sparse: bad integer constant expression
->> drivers/gpu/drm/sysfb/efidrm.c:389:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
->> drivers/gpu/drm/sysfb/vesadrm.c:649:1: sparse: sparse: bad integer constant expression
->> drivers/gpu/drm/sysfb/vesadrm.c:649:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/gpu/drm/sysfb/vesadrm.c:650:1: sparse: sparse: bad integer constant expression
->> drivers/gpu/drm/sysfb/vesadrm.c:650:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/gpu/drm/sysfb/vesadrm.c:650:1: sparse: sparse: bad integer constant expression
->> drivers/gpu/drm/sysfb/vesadrm.c:650:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
-   drivers/iio/trigger/iio-trig-hrtimer.c:197:1: sparse: sparse: bad integer constant expression
-   drivers/iio/trigger/iio-trig-hrtimer.c:197:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/iio/trigger/iio-trig-hrtimer.c:198:1: sparse: sparse: bad integer constant expression
-   drivers/iio/trigger/iio-trig-hrtimer.c:198:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/iio/trigger/iio-trig-hrtimer.c:199:1: sparse: sparse: bad integer constant expression
-   drivers/iio/trigger/iio-trig-hrtimer.c:199:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/iio/trigger/iio-trig-hrtimer.c:200:1: sparse: sparse: bad integer constant expression
->> drivers/iio/trigger/iio-trig-hrtimer.c:200:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/iio/trigger/iio-trig-hrtimer.c:200:1: sparse: sparse: bad integer constant expression
-   drivers/iio/trigger/iio-trig-hrtimer.c:200:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
->> drivers/platform/chrome/wilco_ec/core.c:172:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/core.c:172:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/core.c:173:1: sparse: sparse: bad integer constant expression
-   drivers/platform/chrome/wilco_ec/core.c:173:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/core.c:174:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/core.c:174:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/core.c:174:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/core.c:174:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/core.c:175:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/core.c:175:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
---
->> drivers/platform/chrome/wilco_ec/debugfs.c:285:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/debugfs.c:285:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/debugfs.c:286:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/debugfs.c:286:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/debugfs.c:286:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/debugfs.c:286:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/debugfs.c:287:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/debugfs.c:287:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
---
->> drivers/platform/chrome/wilco_ec/event.c:103:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/event.c:103:1: sparse: sparse: static assertion failed: "MODULE_INFO(parmtype, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/event.c:573:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/event.c:573:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/event.c:574:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/event.c:574:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/event.c:575:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/event.c:575:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/event.c:575:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/event.c:575:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
->> drivers/platform/chrome/wilco_ec/telemetry.c:473:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/telemetry.c:473:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/telemetry.c:474:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/telemetry.c:474:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/telemetry.c:475:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/telemetry.c:475:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/platform/chrome/wilco_ec/telemetry.c:475:1: sparse: sparse: bad integer constant expression
->> drivers/platform/chrome/wilco_ec/telemetry.c:475:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
---
->> lib/crypto/aesgcm.c:197:1: sparse: sparse: bad integer constant expression
->> lib/crypto/aesgcm.c:197:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   lib/crypto/aesgcm.c:198:1: sparse: sparse: bad integer constant expression
->> lib/crypto/aesgcm.c:198:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   lib/crypto/aesgcm.c:199:1: sparse: sparse: bad integer constant expression
->> lib/crypto/aesgcm.c:199:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   lib/crypto/aesgcm.c:199:1: sparse: sparse: bad integer constant expression
->> lib/crypto/aesgcm.c:199:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+All warnings (new ones prefixed by >>):
 
-vim +130 samples/tsm-mr/tsm_mr_sample.c
-
-f6953f1f9ec4ad Cedric Xing 2025-05-06  129  
-f6953f1f9ec4ad Cedric Xing 2025-05-06 @130  MODULE_LICENSE("GPL");
-f6953f1f9ec4ad Cedric Xing 2025-05-06 @131  MODULE_DESCRIPTION("Sample module using tsm-mr to expose emulated MRs");
-
-:::::: The code at line 130 was first introduced by commit
-:::::: f6953f1f9ec4ad68651d7c677f0c065cb4c1edf7 tsm-mr: Add tsm-mr sample code
-
-:::::: TO: Cedric Xing <cedric.xing@intel.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+>> vmlinux.o: warning: objtool: _RINvMs3_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataINtNtNtBc_5alloc4kvec3VecINtNtCsbsbRiabPlh9_4core3pin3PinINtNtB1a_4kbox3BoxINtNtBc_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10DeviceDataENtNtB1a_9allocator7KmallocEEB3s_ENtNtB8_5mutex12MutexBackendE5stateNtNtB1z_7convert10InfallibleINtNtCs57PXBekmiam_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB60_6OpaqueNtNtCsfd3uB5I4hpp_8bindings12bindings_raw5mutexE8ffi_initNCNCNvMs0_B8_INtB8_4LockB15_B3Z_E3new0s_0E0B6b_B4x_EEB2G_: symbol name too long, can't create __pfx_ symbol
+>> vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10DeviceDataEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB3p_10___internal11InitClosureNCINvYIBH_B1L_B2W_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleINtB3p_12ChainPinInitIB4F_NCINvMs_B1O_B1L_3newB6a_NCINvMB1O_NtB1O_3Dir5scopeB27_B6a_NCNvB29_17create_file_writes0_0B27_E0B27_Es0_0B1L_B6a_ENCB73_0B1L_B6a_EE0B1L_B4l_EEB29_: symbol name too long, can't create __pfx_ symbol
+>> vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10ModuleDataEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB3p_10___internal11InitClosureNCINvYIBH_B1L_B2W_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleINtB3p_12ChainPinInitIB4F_NCINvMs_B1O_B1L_3newB6a_NCINvMB1O_NtB1O_3Dir5scopeB27_B6a_NCNvB29_12init_control0IB4F_NCNvMB29_B27_4inits_0B27_B6a_EE0B8k_Es0_0B1L_B6a_ENCB73_0B1L_B6a_EE0B1L_B4l_EEB29_: symbol name too long, can't create __pfx_ symbol
 
 -- 
 0-DAY CI Kernel Test Service
