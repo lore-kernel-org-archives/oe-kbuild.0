@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8029E1991CB
-	for <oe-kbuild@lists.linux.dev>; Fri,  5 Dec 2025 03:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F156D158535
+	for <oe-kbuild@lists.linux.dev>; Fri,  5 Dec 2025 04:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764904679; cv=none; b=WqLT+hRDI8leRX4RNzz0XmORaF+UfcZ7qbYdhOO/vkaEU/asXDBQ5H7RFlDlXQkJaM/ML/AYC5NUAssa6mV1OrSOD2Y5IagPZoXT7PRKAZL8ALsb6f8iX382bt/InaNv0bA0iWEH6KWURFvCct8/1Y2AgwhYH3H61Q1/1uoqnx4=
+	t=1764907318; cv=none; b=Pn4YWjnsBB9wPj50g7SM0cD/HiOViOQGYXJjEhGH/xNeZ9Aq5R6wZU0+hiznpnPf2KoIUDUg7yGP/0+cSVDK91QwGdqae/l5HzikTzJNI8mb6Z1If/TjnfWu8QzQGVyD6j6Qb4sfbizyOrP/g6ghvWCIS/hhRhTyz4kTcZsG+PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764904679; c=relaxed/simple;
-	bh=HfaaXCxY0kG1e3iZTLF/ZjjUpC05Dg9A/2Mdrg1RfLk=;
+	s=arc-20240116; t=1764907318; c=relaxed/simple;
+	bh=/wzx0tOadZ+FqZub3otkcqgpA0u7D3PdcJsYvga8El8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XbyT+FT4OaLepjHsRMmEkQz+Je+YlwdI+ghQsarYx9Z9V2jAbCl6UC61DPzzhfo8bklT4HNdh+cVZMNK6Xgsr0FcQdqfciUN+OtzMJztWwt+LRhoZv2nkvq3sxkCb+joNuaupoZJ+i3eFbpIp6+bIiOvHTjXyyFy+7F/LXysdhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d4SapYXg; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=KCXZdHYDcEe5b50vSz4fiGlW6d37K305ZFgZyn9u+jL+AUVkVrMkCTsn39kq2Gw1bYTQq7nK1myoPcP/p1TJv0u3yDopEgitY6E25TOluDloib3RUmkaQaC8gLUzldW8GVklgcNZsTRdd9LVMrJOBtwIXs1TSwe+0/F6DRE9auk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bwlefx9w; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d4SapYXg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bwlefx9w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764904677; x=1796440677;
+  t=1764907317; x=1796443317;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HfaaXCxY0kG1e3iZTLF/ZjjUpC05Dg9A/2Mdrg1RfLk=;
-  b=d4SapYXgB13uMp46zgUr2a/nsCWAE/VsMubLhhq0/nW26KVlolJM5RLQ
-   N3Kk/kOKl/E8KsxNvU2KB+QOS7YlASm/Y3fMYyadERGLjpH9+LtsaewoC
-   arXsAzCJHptOv9wA55qfLjhoJqTzgRxtHKt6xp8rlTZxBvtCvH5AY1boD
-   0Q70UG316slTu7MFfQp37xzpiR+Nzu2t7KYJ7INhVxwXu/gLJ+Kd7q8Wr
-   QzHfNjxp1fn59QaovvS4MmIyH/9igeTFM0EWUlkLXGkd340yETjj0mqUk
-   yXe1ttRA6GmUcIhH6OmMct480ZPKLEDDL1S1s6qTRGDg/Iqy4NsmJ4H5T
-   Q==;
-X-CSE-ConnectionGUID: D0mhUWibRpCTTM2N61OV6g==
-X-CSE-MsgGUID: wJ5uxuM1Sx6d5FLDGzLEhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="65937726"
-X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="65937726"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 19:17:54 -0800
-X-CSE-ConnectionGUID: U9pQ8C2YQrWx6uKRShIVnw==
-X-CSE-MsgGUID: fUNsfAVQQ3ypNMPsu0MbvQ==
+  bh=/wzx0tOadZ+FqZub3otkcqgpA0u7D3PdcJsYvga8El8=;
+  b=bwlefx9wP4PlHBm8cpdXNCKXt1NlkEh5Jd3zLuXL+rrey0R7xXXBsrx1
+   98RhFv3qffg3bFuKf+FBF0mK6Q2l6j9H2Jp13D4sLSOSh4W1dg5laz0fj
+   gtyUhaW3EfGrtWWKwYgoUjxc+et9NWVmpmHLSUwGoidxOdXYL/phfnKVm
+   BkG02O4wRZ4q7rzn+s4mdpto6Xh5USRqn3drZ92uHXzJvkXHfarCgVS+K
+   /UDsAyuJ4f+pu6DN5Yf8DJboDgF2joQVKY0X88YgaoXdkL36kZJ74G9p5
+   7DVwzgnK896qFz8gBUTlhbjcg/kNRiwLfQls10Xr8+19GEwou4XlUr5qm
+   g==;
+X-CSE-ConnectionGUID: t9bhxukEQlyiTk6hTiWVhg==
+X-CSE-MsgGUID: PF9ApIzCQMSgXnAL204Gxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="77558369"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
+   d="scan'208";a="77558369"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 20:01:56 -0800
+X-CSE-ConnectionGUID: k1VD8SlwTTWfw6yuotifcw==
+X-CSE-MsgGUID: PBexWj1xT1O/2G1yULqYEA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="194235842"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
+   d="scan'208";a="199663555"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Dec 2025 19:17:53 -0800
+  by orviesa004.jf.intel.com with ESMTP; 04 Dec 2025 20:01:54 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRMKM-00000000EX2-31XE;
-	Fri, 05 Dec 2025 03:17:50 +0000
-Date: Fri, 5 Dec 2025 11:17:39 +0800
+	id 1vRN0y-00000000EZL-2MJQ;
+	Fri, 05 Dec 2025 04:01:52 +0000
+Date: Fri, 5 Dec 2025 12:01:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:openEuler-1.0-LTS 1934/1934]
- block/blk-throttle.c:2306:1-7: preceding lock on line 2212
-Message-ID: <202512051143.6xyffzgX-lkp@intel.com>
+Subject: [linux-next:master 12665/13363] fs/smb/client/fs_context.c:1171:3-9:
+ preceding lock on line 1131
+Message-ID: <202512051126.BYD2C9uj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,155 +64,164 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yang Yingliang <yangyingliang@huawei.com>
+TO: Rajasi Mandal <rajasimandal@microsoft.com>
+CC: Steve French <stfrench@microsoft.com>
+CC: Shyam Prasad N <sprasad@microsoft.com>
 
-Hi Laibin,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   5bd996476c86f9b6d2039f9ab662f38d64fa6c70
-commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1934/1934] blk-throttle: Set BIO_THROTTLED when bio has been throttled
-:::::: branch date: 3 days ago
-:::::: commit date: 3 years, 9 months ago
-config: x86_64-randconfig-103-20251115 (https://download.01.org/0day-ci/archive/20251205/202512051143.6xyffzgX-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bc04acf4aeca588496124a6cf54bfce3db327039
+commit: 3ade50c3fc735d47eeae6f35357fff82026db4d7 [12665/13363] cifs: client: allow changing multichannel mount options on remount
+:::::: branch date: 21 hours ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-051-20251205 (https://download.01.org/0day-ci/archive/20251205/202512051126.BYD2C9uj-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202512051143.6xyffzgX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512051126.BYD2C9uj-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+>> fs/smb/client/fs_context.c:1171:3-9: preceding lock on line 1131
 
-vim +2306 block/blk-throttle.c
+vim +1171 fs/smb/client/fs_context.c
 
-2bc19cd5fdb5ff2 Jens Axboe    2017-04-20  2192  
-ae1188963611119 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
-ae1188963611119 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
-e43473b7f223ec8 Vivek Goyal   2010-09-15  2195  {
-c5cc2070b45333f Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
-ae1188963611119 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
-73f0d49a9637a7e Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
-0e9f4164ba91505 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
-bc16a4f933bc5ed Tejun Heo     2011-10-19  2200  	bool throttled = false;
-e1c15e207d153ca Laibin Qiu    2022-03-08  2201  	bool locked = true;
-b9147dd1bae2b15 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
-e43473b7f223ec8 Vivek Goyal   2010-09-15  2203  
-ae1188963611119 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
-ae1188963611119 Tejun Heo     2015-08-18  2205  
-2a0f61e6ecd08d2 Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
-e1c15e207d153ca Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
-e1c15e207d153ca Laibin Qiu    2022-03-08  2208  		locked = false;
-bc16a4f933bc5ed Tejun Heo     2011-10-19  2209  		goto out;
-e1c15e207d153ca Laibin Qiu    2022-03-08  2210  	}
-e43473b7f223ec8 Vivek Goyal   2010-09-15  2211  
-e43473b7f223ec8 Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
-c9589f03e490956 Tejun Heo     2015-08-18  2213  
-b9147dd1bae2b15 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
-b9147dd1bae2b15 Shaohua Li    2017-03-27  2215  
-c9589f03e490956 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
-e1c15e207d153ca Laibin Qiu    2022-03-08  2217  		goto out;
-f469a7b4d5b1d1d Vivek Goyal   2011-05-19  2218  
-2bc19cd5fdb5ff2 Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
-9e234eeafbe17e8 Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
-9e234eeafbe17e8 Shaohua Li    2017-03-27  2221  
-73f0d49a9637a7e Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
-73f0d49a9637a7e Tejun Heo     2013-05-14  2223  
-c79892c5576163b Shaohua Li    2017-03-27  2224  again:
-9e660acffcd1b5a Tejun Heo     2013-05-14  2225  	while (true) {
-3f0abd806651df5 Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
-3f0abd806651df5 Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df5 Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
-fa6fb5aab85f3e2 Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
-9e660acffcd1b5a Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
-0e9f4164ba91505 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
-9e660acffcd1b5a Tejun Heo     2013-05-14  2232  			break;
-9e660acffcd1b5a Tejun Heo     2013-05-14  2233  
-9e660acffcd1b5a Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
-c79892c5576163b Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
-3f0abd806651df5 Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
-b9147dd1bae2b15 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
-b9147dd1bae2b15 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
-c79892c5576163b Shaohua Li    2017-03-27  2239  				goto again;
-c79892c5576163b Shaohua Li    2017-03-27  2240  			}
-9e660acffcd1b5a Tejun Heo     2013-05-14  2241  			break;
-c79892c5576163b Shaohua Li    2017-03-27  2242  		}
-de701c74a34005e Vivek Goyal   2011-03-07  2243  
-9e660acffcd1b5a Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
-e43473b7f223ec8 Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
-04521db04e9a11e Vivek Goyal   2011-03-22  2246  
-04521db04e9a11e Vivek Goyal   2011-03-22  2247  		/*
-04521db04e9a11e Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
-04521db04e9a11e Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
-04521db04e9a11e Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
-04521db04e9a11e Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
-04521db04e9a11e Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
-04521db04e9a11e Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
-04521db04e9a11e Vivek Goyal   2011-03-22  2254  		 * time.
-04521db04e9a11e Vivek Goyal   2011-03-22  2255  		 *
-04521db04e9a11e Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
-04521db04e9a11e Vivek Goyal   2011-03-22  2257  		 */
-0f3457f60edc573 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
-9e660acffcd1b5a Tejun Heo     2013-05-14  2259  
-9e660acffcd1b5a Tejun Heo     2013-05-14  2260  		/*
-9e660acffcd1b5a Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
-9e660acffcd1b5a Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
-9e660acffcd1b5a Tejun Heo     2013-05-14  2263  		 * can be executed directly.
-9e660acffcd1b5a Tejun Heo     2013-05-14  2264  		 */
-c5cc2070b45333f Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
-9e660acffcd1b5a Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
-9e660acffcd1b5a Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
-9e660acffcd1b5a Tejun Heo     2013-05-14  2268  		if (!tg)
-e1c15e207d153ca Laibin Qiu    2022-03-08  2269  			goto out;
-e43473b7f223ec8 Vivek Goyal   2010-09-15  2270  	}
-e43473b7f223ec8 Vivek Goyal   2010-09-15  2271  
-9e660acffcd1b5a Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
-fda6f272c77a7ac Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
-8e89d13f4ede246 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
-9f626e372a60248 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
-9f626e372a60248 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
-9f626e372a60248 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
-73f0d49a9637a7e Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
-e43473b7f223ec8 Vivek Goyal   2010-09-15  2279  
-3f0abd806651df5 Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df5 Shaohua Li    2017-03-27  2281  
-b9147dd1bae2b15 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
-c5cc2070b45333f Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
-bc16a4f933bc5ed Tejun Heo     2011-10-19  2284  	throttled = true;
-e43473b7f223ec8 Vivek Goyal   2010-09-15  2285  
-7f52f98c2a83339 Tejun Heo     2013-05-14  2286  	/*
-7f52f98c2a83339 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
-7f52f98c2a83339 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
-7f52f98c2a83339 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
-7f52f98c2a83339 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
-7f52f98c2a83339 Tejun Heo     2013-05-14  2291  	 */
-0e9f4164ba91505 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
-77216b048481781 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
-7f52f98c2a83339 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
-e43473b7f223ec8 Vivek Goyal   2010-09-15  2295  	}
-e43473b7f223ec8 Vivek Goyal   2010-09-15  2296  
-bc16a4f933bc5ed Tejun Heo     2011-10-19  2297  out:
-111be883981748a Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
-b9147dd1bae2b15 Shaohua Li    2017-03-27  2299  
-b9147dd1bae2b15 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
-b9147dd1bae2b15 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
-5238dcf4136fd72 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
-b9147dd1bae2b15 Shaohua Li    2017-03-27  2303  #endif
-e1c15e207d153ca Laibin Qiu    2022-03-08  2304  	if (locked)
-e1c15e207d153ca Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
-bc16a4f933bc5ed Tejun Heo     2011-10-19 @2306  	return throttled;
-e43473b7f223ec8 Vivek Goyal   2010-09-15  2307  }
-e43473b7f223ec8 Vivek Goyal   2010-09-15  2308  
-
-:::::: The code at line 2306 was first introduced by commit
-:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
-
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1074  
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1075  static int smb3_reconfigure(struct fs_context *fc)
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1076  {
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1077  	struct smb3_fs_context *ctx = smb3_fc2context(fc);
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1078  	struct dentry *root = fc->root;
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1079  	struct cifs_sb_info *cifs_sb = CIFS_SB(root->d_sb);
+c1eb537bf4560b fs/smb/client/fs_context.c Steve French      2024-02-13  1080  	struct cifs_ses *ses = cifs_sb_master_tcon(cifs_sb)->ses;
+c59f7c9661b9d3 fs/smb/client/fs_context.c Paulo Alcantara   2025-04-30  1081  	unsigned int rsize = ctx->rsize, wsize = ctx->wsize;
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1082  	char *new_password = NULL, *new_password2 = NULL;
+c1eb537bf4560b fs/smb/client/fs_context.c Steve French      2024-02-13  1083  	bool need_recon = false;
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1084  	int rc;
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1085  
+c1eb537bf4560b fs/smb/client/fs_context.c Steve French      2024-02-13  1086  	if (ses->expired_pwd)
+c1eb537bf4560b fs/smb/client/fs_context.c Steve French      2024-02-13  1087  		need_recon = true;
+c1eb537bf4560b fs/smb/client/fs_context.c Steve French      2024-02-13  1088  
+c1eb537bf4560b fs/smb/client/fs_context.c Steve French      2024-02-13  1089  	rc = smb3_verify_reconfigure_ctx(fc, ctx, cifs_sb->ctx, need_recon);
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1090  	if (rc)
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1091  		return rc;
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1092  
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1093  	/*
+49bd49f983b502 fs/cifs/fs_context.c       Shyam Prasad N    2021-11-05  1094  	 * We can not change UNC/username/password/domainname/
+49bd49f983b502 fs/cifs/fs_context.c       Shyam Prasad N    2021-11-05  1095  	 * workstation_name/nodename/iocharset
+9ccecae8d1d713 fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1096  	 * during reconnect so ignore what we have in the new context and
+9ccecae8d1d713 fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1097  	 * just use what we already have in cifs_sb->ctx.
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1098  	 */
+9ccecae8d1d713 fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1099  	STEAL_STRING(cifs_sb, ctx, UNC);
+af1a3d2ba9543e fs/cifs/fs_context.c       Ronnie Sahlberg   2021-02-11  1100  	STEAL_STRING(cifs_sb, ctx, source);
+9ccecae8d1d713 fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1101  	STEAL_STRING(cifs_sb, ctx, username);
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1102  
+c1eb537bf4560b fs/smb/client/fs_context.c Steve French      2024-02-13  1103  	if (need_recon == false)
+a4e430c8c8ba96 fs/cifs/fs_context.c       Enzo Matsumiya    2022-09-20  1104  		STEAL_STRING_SENSITIVE(cifs_sb, ctx, password);
+c1eb537bf4560b fs/smb/client/fs_context.c Steve French      2024-02-13  1105  	else  {
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1106  		if (ctx->password) {
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1107  			new_password = kstrdup(ctx->password, GFP_KERNEL);
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1108  			if (!new_password)
+9a5dd61151399a fs/smb/client/fs_context.c Henrique Carvalho 2024-10-22  1109  				return -ENOMEM;
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1110  		} else
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1111  			STEAL_STRING_SENSITIVE(cifs_sb, ctx, password);
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1112  	}
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1113  
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1114  	/*
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1115  	 * if a new password2 has been specified, then reset it's value
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1116  	 * inside the ses struct
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1117  	 */
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1118  	if (ctx->password2) {
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1119  		new_password2 = kstrdup(ctx->password2, GFP_KERNEL);
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1120  		if (!new_password2) {
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1121  			kfree_sensitive(new_password);
+9a5dd61151399a fs/smb/client/fs_context.c Henrique Carvalho 2024-10-22  1122  			return -ENOMEM;
+9a5dd61151399a fs/smb/client/fs_context.c Henrique Carvalho 2024-10-22  1123  		}
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1124  	} else
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1125  		STEAL_STRING_SENSITIVE(cifs_sb, ctx, password2);
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1126  
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1127  	/*
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1128  	 * we may update the passwords in the ses struct below. Make sure we do
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1129  	 * not race with smb2_reconnect
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1130  	 */
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30 @1131  	mutex_lock(&ses->session_mutex);
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1132  
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1133  	/*
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1134  	 * smb2_reconnect may swap password and password2 in case session setup
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1135  	 * failed. First get ctx passwords in sync with ses passwords. It should
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1136  	 * be okay to do this even if this function were to return an error at a
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1137  	 * later stage
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1138  	 */
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1139  	rc = smb3_sync_session_ctx_passwords(cifs_sb, ses);
+cda88d2fef7aa7 fs/smb/client/fs_context.c Dan Carpenter     2024-11-15  1140  	if (rc) {
+cda88d2fef7aa7 fs/smb/client/fs_context.c Dan Carpenter     2024-11-15  1141  		mutex_unlock(&ses->session_mutex);
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1142  		return rc;
+cda88d2fef7aa7 fs/smb/client/fs_context.c Dan Carpenter     2024-11-15  1143  	}
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1144  
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1145  	/*
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1146  	 * now that allocations for passwords are done, commit them
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1147  	 */
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1148  	if (new_password) {
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1149  		kfree_sensitive(ses->password);
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1150  		ses->password = new_password;
+c1eb537bf4560b fs/smb/client/fs_context.c Steve French      2024-02-13  1151  	}
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1152  	if (new_password2) {
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1153  		kfree_sensitive(ses->password2);
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1154  		ses->password2 = new_password2;
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1155  	}
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1156  
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1157  	/*
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1158  	 * If multichannel or max_channels has changed, update the session's channels accordingly.
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1159  	 * This may add or remove channels to match the new configuration.
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1160  	 */
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1161  	if ((ctx->multichannel != cifs_sb->ctx->multichannel) ||
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1162  	    (ctx->max_channels != cifs_sb->ctx->max_channels)) {
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1163  
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1164  		/* Synchronize ses->chan_max with the new mount context */
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1165  		smb3_sync_ses_chan_max(ses, ctx->max_channels);
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1166  		/* Now update the session's channels to match the new configuration */
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1167  		/* Prevent concurrent scaling operations */
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1168  		spin_lock(&ses->ses_lock);
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1169  		if (ses->flags & CIFS_SES_FLAG_SCALE_CHANNELS) {
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1170  			spin_unlock(&ses->ses_lock);
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01 @1171  			return -EINVAL;
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1172  		}
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1173  		ses->flags |= CIFS_SES_FLAG_SCALE_CHANNELS;
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1174  		spin_unlock(&ses->ses_lock);
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1175  
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1176  		mutex_unlock(&ses->session_mutex);
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1177  
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1178  		rc = smb3_update_ses_channels(ses, ses->server,
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1179  					       false /* from_reconnect */,
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1180  					       true /* from_reconfigure */);
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1181  
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1182  		/* Clear scaling flag after operation */
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1183  		spin_lock(&ses->ses_lock);
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1184  		ses->flags &= ~CIFS_SES_FLAG_SCALE_CHANNELS;
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1185  		spin_unlock(&ses->ses_lock);
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1186  	} else {
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1187  		mutex_unlock(&ses->session_mutex);
+3ade50c3fc735d fs/smb/client/fs_context.c Rajasi Mandal     2025-12-01  1188  	}
+0f0e357902957f fs/smb/client/fs_context.c Shyam Prasad N    2024-10-30  1189  
+9ccecae8d1d713 fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1190  	STEAL_STRING(cifs_sb, ctx, domainname);
+9ccecae8d1d713 fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1191  	STEAL_STRING(cifs_sb, ctx, nodename);
+9ccecae8d1d713 fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1192  	STEAL_STRING(cifs_sb, ctx, iocharset);
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1193  
+2d0604934f507b fs/cifs/fs_context.c       Steve French      2020-12-16  1194  	/* if rsize or wsize not passed in on remount, use previous values */
+c59f7c9661b9d3 fs/smb/client/fs_context.c Paulo Alcantara   2025-04-30  1195  	ctx->rsize = rsize ? CIFS_ALIGN_RSIZE(fc, rsize) : cifs_sb->ctx->rsize;
+c59f7c9661b9d3 fs/smb/client/fs_context.c Paulo Alcantara   2025-04-30  1196  	ctx->wsize = wsize ? CIFS_ALIGN_WSIZE(fc, wsize) : cifs_sb->ctx->wsize;
+2d0604934f507b fs/cifs/fs_context.c       Steve French      2020-12-16  1197  
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1198  	smb3_cleanup_fs_context_contents(cifs_sb->ctx);
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1199  	rc = smb3_fs_context_dup(cifs_sb->ctx, ctx);
+1cb6c3d62ca9cf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1200  	smb3_update_mnt_flags(cifs_sb);
+b62366181a5e94 fs/cifs/fs_context.c       Paulo Alcantara   2021-07-16  1201  #ifdef CONFIG_CIFS_DFS_UPCALL
+b62366181a5e94 fs/cifs/fs_context.c       Paulo Alcantara   2021-07-16  1202  	if (!rc)
+b62366181a5e94 fs/cifs/fs_context.c       Paulo Alcantara   2021-07-16  1203  		rc = dfs_cache_remount_fs(cifs_sb);
+b62366181a5e94 fs/cifs/fs_context.c       Paulo Alcantara   2021-07-16  1204  #endif
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1205  
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1206  	return rc;
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1207  }
+d6a78783407cdf fs/cifs/fs_context.c       Ronnie Sahlberg   2020-12-14  1208  
 
 -- 
 0-DAY CI Kernel Test Service
