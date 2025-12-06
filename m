@@ -1,87 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B756227FB3A
-	for <oe-kbuild@lists.linux.dev>; Sat,  6 Dec 2025 22:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7C03B8D47
+	for <oe-kbuild@lists.linux.dev>; Sat,  6 Dec 2025 22:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765058765; cv=none; b=NOFYduwSJSGi3Fe2SLgjjlV2hw/YZQaA4YBC8hIp3DOVavGIbBfWYHH3KwsXZ3faZLtq+MD/fVW+jaswfuN5XHT50ao5F0CjmWxejj9a1XRNjHRA2VL2QQNxhnks97lUvk48YPq7FMhxpZ/TUiSz1xwXEgNSvSUS5Af3ktiHQXg=
+	t=1765061345; cv=none; b=tAEd+AgQgBsweSnBjgdsEf++JqBmYfVJemFz3C/A4Cy1RGCcjO4a76ZOXWvzgHrKLfUV3pW+lN93VKJ1bn4+iEN9at1strgWK6BshFiXOj2wgpmWMKyVdPj/M9tn5V4aYWyY65HGb0/18hfKbo1i9CInlCK/h2oeBDOUjGXyzQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765058765; c=relaxed/simple;
-	bh=iT5lsgOeN3Lwfn+6BO89vyROZ8bXdvTzy7mfxVstlHg=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NBW8Bm3zFj6ae3v6eHuPacyCnpGwmc9vd4JZU/W86DG1tM7U/HOPQssW6/Aox5DlR58Wgb+mlCC0BcnRIr3UMePba8EvQ3QgYTM60ywxSWIex8V906mNJyq8k1HDW2d4HF1pbCFSuq+sRXOKa6yhMUGjPa6SLEhZpXhFZjUhXY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bWu/UOzJ; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1765061345; c=relaxed/simple;
+	bh=OLohKJaMk9RtLItawVXD1e13Eet7q3qWiPmeK3hB2LQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Odk7eg1AoKtx3KnjB8OI7BSpI/oBuhT46honkBdT7MZy70hgTtINFX2t0oykUXO5fH7FSQX4W73NCzzC+IZnQIxtIBJ2Q0oQpZp8Co7+6S8ZMBx1SnMXMjYQq7c0FJ01ADt+KpB7hcAB9n/brQfHsWZzFcvdlIqaFTcjTWr9dJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mcmr4OH6; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bWu/UOzJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mcmr4OH6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765058764; x=1796594764;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=iT5lsgOeN3Lwfn+6BO89vyROZ8bXdvTzy7mfxVstlHg=;
-  b=bWu/UOzJWPKwtw36KPgajlHgesEKFQfCG/P5Hr5E/JlZMPUiKoHNRp5z
-   3122QM3K5QXGAi/j3YYD8ZRM1wlbR6bqG6FJBP3Kz12XBFka2dSDpNZw9
-   /qZmtGURv/MI1kQGuOXzKrmZ4sZG6Ek49o16oKg6BMkJKiqTNCV2RydCR
-   Jw0KvVXeFuxuP+C+jupbYrR+xLj/SkkyHEac+VNZ3iHK2zK94Mn8I/1OL
-   +shyyHeQNXo0tiWr9moUYl9gQyOk6Le/jbRrdqUsluwcesEkEgbo8vUzY
-   DfHQ8xPkqlHXALmhGB+V+7UESQw+U6wo8f3GBjd0ZBqzWVF5AL4TLs8fB
-   g==;
-X-CSE-ConnectionGUID: YOaipDzaSYy9dQus6IhW+Q==
-X-CSE-MsgGUID: qdfGbf7tTK6gOoAVbj5Dxg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="70908764"
+  t=1765061343; x=1796597343;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OLohKJaMk9RtLItawVXD1e13Eet7q3qWiPmeK3hB2LQ=;
+  b=mcmr4OH66OV4xUX3+kYABHTkbqQYm1iXwe0MPxT9R/RQFa4FtDZVODes
+   UylP2F+szw8hfIUF9sHpebe0+NdCifXBE1hAq9DXYOmNEBovraoXkiWOz
+   iEeKX96UQAF8SehhprhEXs6oXBLHkavpJGRqDhIJbnqcD60SDmbSmHN8N
+   iN0Kb5lzgmDC50Hs1yD5na2aygchcWwDNJxvtltKYmLd1XKV7d19YBbHP
+   i/zE16zpKlXQvoBOWnNATQ+1eqv1sQd9TmBCzSRDgzos0gkPS+P/SWKTw
+   Cv2rL1Z2jFRFBcfUBQp1bVB8o6fZVlXOwSUHcwzoq+7c0WXVpLCfU+pfO
+   A==;
+X-CSE-ConnectionGUID: ao6pRuUzRKmkRyEUuAu6mw==
+X-CSE-MsgGUID: QrFSmuacQeuz3z+G/wedvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="67220016"
 X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
-   d="scan'208";a="70908764"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 14:06:02 -0800
-X-CSE-ConnectionGUID: TWVXZKipQG27kq/fmh52NQ==
-X-CSE-MsgGUID: qQ8njcw9QiSXERYhiY+unA==
+   d="scan'208";a="67220016"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 14:49:02 -0800
+X-CSE-ConnectionGUID: Cfhdz280Qsmo87iKgRq5EQ==
+X-CSE-MsgGUID: KkmnCKlNRPyj/ldr4pm03w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
-   d="scan'208";a="200726046"
+   d="scan'208";a="200044226"
 Received: from igk-lkp-server01.igk.intel.com (HELO 314ca7b3cca8) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 06 Dec 2025 14:06:02 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 06 Dec 2025 14:49:01 -0800
 Received: from kbuild by 314ca7b3cca8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vS0Pf-0000000018r-2c5g
-	for oe-kbuild@lists.linux.dev;
-	Sat, 06 Dec 2025 22:05:59 +0000
-Date: Sat, 6 Dec 2025 23:05:28 +0100
+	id 1vS15H-0000000018z-33Hj;
+	Sat, 06 Dec 2025 22:48:59 +0000
+Date: Sat, 6 Dec 2025 23:48:32 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [akpm-mm:mm-nonmm-unstable 59/74] checkpatch: WARNING:REPEATED_WORD:
- Possible repeated word: 'user'
-Message-ID: <202512062302.vzQ1bgBS-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 12302/13567]
+ tools/testing/selftests/vfio/lib/include/../../../kselftest.h:53:10: fatal
+ error: errno.h: No such file or directory
+Message-ID: <202512062357.ZDDNQpUy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Pasha Tatashin <pasha.tatashin@soleen.com>
+TO: David Matlack <dmatlack@google.com>
+CC: Alex Williamson <alex@shazbot.org>
+CC: Alex Mastro <amastro@fb.com>
+CC: Raghavendra Rao Ananta <rananta@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   9db2412368aeb2bbec725122f9100dcd69c6c3d5
-commit: 3955ae0102f35216848ccd7f7c30ca6847f56328 [59/74] liveupdate: luo_flb: introduce File-Lifecycle-Bound global state
-:::::: branch date: 68 minutes ago
-:::::: commit date: 68 minutes ago
-reproduce: (https://download.01.org/0day-ci/archive/20251206/202512062302.vzQ1bgBS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6987d58a9cbc5bd57c983baa514474a86c945d56
+commit: 6c74d9830d8b10d51ce3c55d38e8babf23899c89 [12302/13567] vfio: selftests: Eliminate overly chatty logging
+:::::: branch date: 2 days ago
+:::::: commit date: 8 days ago
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251206/202512062357.ZDDNQpUy-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512062357.ZDDNQpUy-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202512062357.ZDDNQpUy-lkp@intel.com/
 
-WARNING:REPEATED_WORD: Possible repeated word: 'user'
-#25: 
-This patch does not have current user user, but multiple streams depend on
+Note: the linux-next/master HEAD 6987d58a9cbc5bd57c983baa514474a86c945d56 builds fine.
+      It may have been fixed somewhere.
+
+All errors (new ones prefixed by >>):
+
+   In file included from tools/testing/selftests/vfio/lib/vfio_pci_driver.c:2:
+>> tools/testing/selftests/vfio/lib/include/../../../kselftest.h:53:10: fatal error: errno.h: No such file or directory
+      53 | #include <errno.h>
+         |          ^~~~~~~~~
+   compilation terminated.
+
+
+vim +53 tools/testing/selftests/vfio/lib/include/../../../kselftest.h
+
+7fb2c3ea28bf7b Shuah Khan     2014-10-03  51  
+9e38be732da8fe Mark Brown     2023-04-06  52  #ifndef NOLIBC
+fc2e634e997d84 Aleksa Sarai   2019-07-20 @53  #include <errno.h>
+7fb2c3ea28bf7b Shuah Khan     2014-10-03  54  #include <stdlib.h>
+7fb2c3ea28bf7b Shuah Khan     2014-10-03  55  #include <unistd.h>
+151b2732111f07 Paul Elder     2017-06-28  56  #include <stdarg.h>
+f2662ec26b26ad André Almeida  2025-09-17  57  #include <stdbool.h>
+907f33028871fa Mark Brown     2023-09-28  58  #include <string.h>
+a18261d71bbc62 Tycho Andersen 2019-01-18  59  #include <stdio.h>
+6d029c25b71f2d Oleg Nesterov  2024-04-09  60  #include <sys/utsname.h>
+9e38be732da8fe Mark Brown     2023-04-06  61  #endif
+7fb2c3ea28bf7b Shuah Khan     2014-10-03  62  
+
+:::::: The code at line 53 was first introduced by commit
+:::::: fc2e634e997d84f2610a482b500865ef2c04fcde kselftest: save-and-restore errno to allow for %m formatting
+
+:::::: TO: Aleksa Sarai <cyphar@cyphar.com>
+:::::: CC: Shuah Khan <skhan@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
