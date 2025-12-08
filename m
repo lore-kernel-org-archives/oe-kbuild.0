@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BEC242D79
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 Dec 2025 19:11:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514962BD597
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 Dec 2025 20:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765221122; cv=none; b=unFzEaF4hOIIbqOA8rJEG7n+29s7FudcMbxUm8WRaLXp47H7+qZjzv579bgg2Vm8/xS1eutHvNGvZDl9wOqgbPVpuO+WFOFx8qFi7yyUjDqVQ6yIhZ3e/IWl61Pkx3KBC77xnyBe6m+WoZ28GPwXzToheTZI3/rdTpiZICI4QgA=
+	t=1765226229; cv=none; b=dzfw27ElaqWB2wpvYEfnOfFWvrVN0F7AuMIvObL/OHk2upEVWQOsSsYVxb60gNSNt9D+bwGp/fETmiEy7lcrIOUD7R12HZRvox6O48WGxhntq+hteQt8uYCjOl3DWh68jMl70EtxpDom11p6kelUFedfdqOHHe6cRAYU8OQzW5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765221122; c=relaxed/simple;
-	bh=6KnB0sfUPCyfWsHVcDAc05c3uTzP1Y/je2CkUOFLtS8=;
+	s=arc-20240116; t=1765226229; c=relaxed/simple;
+	bh=VN5YJQc3r18tqdrd3PW3KmgzV4MuNIpR4z/jvoYPXqU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IpVFfgDYHAbEHlnwF0w2cngAZjX07JH4E+UN6hBaJ9glcv6nuxqvIoQTleB//1B2b96hHTiKMbl5Xj2OQVlvpEH+nBvaYO0li19USUrOwkTHs4w3cBsaMbeQnbtSXiPWX12jaOYEK56+JrTSoYm/zyxhzY4c07cpjpV3Cla3yl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHtNVLHY; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=DTsu+TyQ8T21MsJlGtx0YZeXWCks7HvUOkWsLZv7jUtOycRhQ8q43n8w6dK6CBuLO8qRyzmrV3geF85mGKOEcA/6DwSvMDSgK1t4yaHdqrwadftZB0VkOBwOWY1Qf5HDMp+ufdzVmzY/wXYG6nFKBFt29eezNB9KDe8WTRD7EmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yvf9igIC; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHtNVLHY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yvf9igIC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765221120; x=1796757120;
+  t=1765226227; x=1796762227;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6KnB0sfUPCyfWsHVcDAc05c3uTzP1Y/je2CkUOFLtS8=;
-  b=QHtNVLHYe8o2GptgDyjIoZiA0Krjkgs8gBJtRFrkv6zKjM3u2sT0kKHl
-   q6OX+R+5v91uEMXy38q4tSqXZ6KCoMEIGYcArFjxt87k7plomDTB9btfV
-   cWIHHGQRamtlTwzWvFgybxLxSL5Jk/CDFFzvc5RqTQKVYxZ3CUqMm3MII
-   KaHGqmsblLYjH2Si2n+JKmwAYvydWADHn3KiS/xKmk+XhjCeIuTSxj9QS
-   M1wbAGGzEH9zXdXqjMgIKJdCsfQnM6rax1TpMQOuYEtowqiPtm13sYgSY
-   aThJBXjlq36HwkG1M5xT/wZsvq6hktg8xJRIE5obi6EIfRX9fhsaM2D5B
-   g==;
-X-CSE-ConnectionGUID: GGdUqqfuQVi3XPsX6/WbAw==
-X-CSE-MsgGUID: b7Rf8D+XT5yxBVm7ElBoDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="66354229"
+  bh=VN5YJQc3r18tqdrd3PW3KmgzV4MuNIpR4z/jvoYPXqU=;
+  b=Yvf9igICMXGaBz8MuKgV9rUY18hyd+R6E1fnQ7GPM2IgdCV+V3vIhA/P
+   NI+58zfVEqyTI7uLGSyRGlXm6A3ADpxBWu9ek0trbeFj8T0jK05E2bq/S
+   5/++Az30i2QO28RKAhkHXlthYIuBJoqbCVfXoLGr6lJ9B+3w+6VRR53BO
+   VzhbL7LWmn5FOWMqWCT5QonbdXx6UijrcoiSaNHhtQ0jBSuqIXOSD6VLv
+   dnqE7kO37o7JPaRyDseQdVXPjP7dcp3aiZ0sdN3OaJ7vkDVTYt7upoRky
+   RBX0/aQk8vXZcklEOVipityTOpD3TUgXcKI2i0zXb4CGYH+3G/CbfdvVg
+   Q==;
+X-CSE-ConnectionGUID: 3sKQp8KdQo6SRTIlmtil+Q==
+X-CSE-MsgGUID: O69eicSySKWeHkvj0vwaPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="54718010"
 X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
-   d="scan'208";a="66354229"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 11:11:59 -0800
-X-CSE-ConnectionGUID: X0pc/5imQWOdDrrToWVYhg==
-X-CSE-MsgGUID: EePr4/PiR8qUIA0gDqbyuw==
+   d="scan'208";a="54718010"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 12:37:06 -0800
+X-CSE-ConnectionGUID: jF2kE7TwTOesmDRlkZuYCg==
+X-CSE-MsgGUID: iTzoL95UTjWLp+cVCJSDhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
-   d="scan'208";a="195296864"
+   d="scan'208";a="201150567"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Dec 2025 11:11:58 -0800
+  by orviesa005.jf.intel.com with ESMTP; 08 Dec 2025 12:37:04 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSgeJ-000000000kX-0oru;
-	Mon, 08 Dec 2025 19:11:55 +0000
-Date: Tue, 9 Dec 2025 03:11:30 +0800
+	id 1vShyg-000000000pl-2ZHd;
+	Mon, 08 Dec 2025 20:37:02 +0000
+Date: Tue, 9 Dec 2025 04:36:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [sean-jc:x86/irq_no_destmap 7/10] arch/x86/kvm/lapic.c:1314
- __kvm_irq_delivery_to_apic() warn: iterator 'i' not incremented
-Message-ID: <202512090250.nEnbUEkh-lkp@intel.com>
+Subject: Re: [PATCH v2 07/12] qla2xxx: Delay module unload while fabric scan
+ in progress
+Message-ID: <202512090414.07Waorz0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,100 +64,77 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sean Christopherson <seanjc@google.com>
+In-Reply-To: <20251204151751.2321801-8-njavali@marvell.com>
+References: <20251204151751.2321801-8-njavali@marvell.com>
+TO: Nilesh Javali <njavali@marvell.com>
+TO: martin.petersen@oracle.com
+CC: linux-scsi@vger.kernel.org
+CC: GR-QLogic-Storage-Upstream@marvell.com
+CC: agurumurthy@marvell.com
+CC: sdeodhar@marvell.com
+CC: emilne@redhat.com
+CC: jmeneghi@redhat.com
 
-Hi Sean,
+Hi Nilesh,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/sean-jc/linux x86/irq_no_destmap
-head:   0ed74286d031b1d01174262f82e5484bf55e607e
-commit: 6790cffdfb45243c3cec0001ce2f7c1c446ee6c5 [7/10] KVM: x86: Add a wrapper to handle common case of IRQ delivery without dest_map
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-161-20251208 (https://download.01.org/0day-ci/archive/20251209/202512090250.nEnbUEkh-lkp@intel.com/config)
+[auto build test WARNING on e6965188f84a7883e6a0d3448e86b0cf29b24dfc]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nilesh-Javali/qla2xxx-Add-Speed-in-SFP-print-information/20251204-233117
+base:   e6965188f84a7883e6a0d3448e86b0cf29b24dfc
+patch link:    https://lore.kernel.org/r/20251204151751.2321801-8-njavali%40marvell.com
+patch subject: [PATCH v2 07/12] qla2xxx: Delay module unload while fabric scan in progress
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-r072-20251208 (https://download.01.org/0day-ci/archive/20251209/202512090414.07Waorz0-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512090250.nEnbUEkh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512090414.07Waorz0-lkp@intel.com/
 
 New smatch warnings:
-arch/x86/kvm/lapic.c:1314 __kvm_irq_delivery_to_apic() warn: iterator 'i' not incremented
+drivers/scsi/qla2xxx/qla_os.c:1187 qla2x00_wait_for_hba_ready() warn: if statement not indented
+drivers/scsi/qla2xxx/qla_os.c:1189 qla2x00_wait_for_hba_ready() warn: inconsistent indenting
 
 Old smatch warnings:
-arch/x86/kvm/lapic.c:404 kvm_recalculate_apic_map() warn: iterator 'i' not incremented
-arch/x86/kvm/lapic.c:1276 kvm_intr_is_single_vcpu() warn: iterator 'i' not incremented
+drivers/scsi/qla2xxx/qla_os.c:4249 qla2x00_mem_alloc() warn: missing unwind goto?
 
-vim +/i +1314 arch/x86/kvm/lapic.c
+vim +1187 drivers/scsi/qla2xxx/qla_os.c
 
-d273b52b6fad95 Sean Christopherson 2025-09-18  1293  
-6790cffdfb4524 Sean Christopherson 2025-07-31  1294  int __kvm_irq_delivery_to_apic(struct kvm *kvm, struct kvm_lapic *src,
-6790cffdfb4524 Sean Christopherson 2025-07-31  1295  			       struct kvm_lapic_irq *irq,
-6790cffdfb4524 Sean Christopherson 2025-07-31  1296  			       struct dest_map *dest_map)
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1297  {
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1298  	int r = -1;
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1299  	struct kvm_vcpu *vcpu, *lowest = NULL;
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1300  	unsigned long i, dest_vcpu_bitmap[BITS_TO_LONGS(KVM_MAX_VCPUS)];
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1301  	unsigned int dest_vcpus = 0;
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1302  
-6790cffdfb4524 Sean Christopherson 2025-07-31  1303  	if (__kvm_irq_delivery_to_apic_fast(kvm, src, irq, &r, dest_map))
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1304  		return r;
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1305  
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1306  	if (irq->dest_mode == APIC_DEST_PHYSICAL &&
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1307  	    irq->dest_id == 0xff && kvm_lowest_prio_delivery(irq)) {
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1308  		pr_info("apic: phys broadcast and lowest prio\n");
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1309  		irq->delivery_mode = APIC_DM_FIXED;
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1310  	}
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1311  
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1312  	memset(dest_vcpu_bitmap, 0, sizeof(dest_vcpu_bitmap));
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1313  
-cbf5d9457462c8 Sean Christopherson 2025-08-21 @1314  	kvm_for_each_vcpu(i, vcpu, kvm) {
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1315  		if (!kvm_apic_present(vcpu))
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1316  			continue;
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1317  
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1318  		if (!kvm_apic_match_dest(vcpu, src, irq->shorthand,
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1319  					irq->dest_id, irq->dest_mode))
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1320  			continue;
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1321  
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1322  		if (!kvm_lowest_prio_delivery(irq)) {
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1323  			if (r < 0)
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1324  				r = 0;
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1325  			r += kvm_apic_set_irq(vcpu, irq, dest_map);
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1326  		} else if (kvm_apic_sw_enabled(vcpu->arch.apic)) {
-aac057dd623132 Sean Christopherson 2025-08-21  1327  			if (!vector_hashing_enabled) {
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1328  				if (!lowest)
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1329  					lowest = vcpu;
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1330  				else if (kvm_apic_compare_prio(vcpu, lowest) < 0)
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1331  					lowest = vcpu;
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1332  			} else {
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1333  				__set_bit(i, dest_vcpu_bitmap);
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1334  				dest_vcpus++;
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1335  			}
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1336  		}
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1337  	}
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1338  
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1339  	if (dest_vcpus != 0) {
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1340  		int idx = kvm_vector_to_index(irq->vector, dest_vcpus,
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1341  					dest_vcpu_bitmap, KVM_MAX_VCPUS);
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1342  
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1343  		lowest = kvm_get_vcpu(kvm, idx);
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1344  	}
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1345  
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1346  	if (lowest)
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1347  		r = kvm_apic_set_irq(lowest, irq, dest_map);
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1348  
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1349  	return r;
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1350  }
-cbf5d9457462c8 Sean Christopherson 2025-08-21  1351  
-
-:::::: The code at line 1314 was first introduced by commit
-:::::: cbf5d9457462c83c1bf851c0b8b04296b037a9dd KVM: x86: Move kvm_irq_delivery_to_apic() from irq.c to lapic.c
-
-:::::: TO: Sean Christopherson <seanjc@google.com>
-:::::: CC: Sean Christopherson <seanjc@google.com>
+726b85487067d7 Quinn Tran       2017-01-19  1163  
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1164  /*
+638a1a01d36a14 Sawan Chandak    2014-04-11  1165   * qla2x00_wait_for_hba_ready
+638a1a01d36a14 Sawan Chandak    2014-04-11  1166   * Wait till the HBA is ready before doing driver unload
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1167   *
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1168   * Input:
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1169   *     ha - pointer to host adapter structure
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1170   *
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1171   * Note:
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1172   *    Does context switching-Release SPIN_LOCK
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1173   *    (if any) before calling this routine.
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1174   *
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1175   */
+638a1a01d36a14 Sawan Chandak    2014-04-11  1176  static void
+638a1a01d36a14 Sawan Chandak    2014-04-11  1177  qla2x00_wait_for_hba_ready(scsi_qla_host_t *vha)
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1178  {
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1179  	struct qla_hw_data *ha = vha->hw;
+783e0dc4f66ade Sawan Chandak    2016-07-06  1180  	scsi_qla_host_t *base_vha = pci_get_drvdata(ha->pdev);
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1181  
+1d48390117c7df Dan Carpenter    2016-08-03  1182  	while ((qla2x00_reset_active(vha) || ha->dpc_active ||
+9d35894d338abc Sawan Chandak    2014-09-25  1183  		ha->flags.mbox_busy) ||
+9d35894d338abc Sawan Chandak    2014-09-25  1184  	       test_bit(FX00_RESET_RECOVERY, &vha->dpc_flags) ||
+cedcf9d7bcbe3a Anil Gurumurthy  2025-12-04  1185  	       test_bit(FX00_TARGET_SCAN, &vha->dpc_flags) ||
+cedcf9d7bcbe3a Anil Gurumurthy  2025-12-04  1186  		(vha->scan.scan_flags & SF_SCANNING)) {
+783e0dc4f66ade Sawan Chandak    2016-07-06 @1187  			if (test_bit(UNLOADING, &base_vha->dpc_flags))
+783e0dc4f66ade Sawan Chandak    2016-07-06  1188  			break;
+86fbee86e94c7e Lalit Chandivade 2010-05-04 @1189  		msleep(1000);
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1190  	}
+783e0dc4f66ade Sawan Chandak    2016-07-06  1191  }
+86fbee86e94c7e Lalit Chandivade 2010-05-04  1192  
 
 -- 
 0-DAY CI Kernel Test Service
