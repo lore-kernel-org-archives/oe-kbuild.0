@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAA13B8D4A
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 Dec 2025 01:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B841A23815D
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 Dec 2025 02:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765158166; cv=none; b=KjSgsHFxf2yRc+uJYmB9kx5AW8V2GkZBAonjF3+Q+C2zgH1SOgBzY7ySuDYfOGQoTVey8vaGqQ3oY63URU1rEuQZJkyg2f+XSOPMPa59FgWQm3dY74k/Xvvba/DHKzqaQzKqf1OtrmhOPksh9/heL6ZmiNksmvixiST18E1w3Hg=
+	t=1765159368; cv=none; b=Z5sgTewBJFFkjagu0HAssyfZ4W6D1r56+DhgV5cLOnmkybPBdxAiaLJk1TBqCixt0IMrZ6APAa8bkyb6cNMegf7ZzxA5V6s3r7U81WtcWFizLZTZlQa8wPK6MApnr52jnneSZj735eaFmzpKbJb3qO7KKAqDuNMpvrrZxX7wWZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765158166; c=relaxed/simple;
-	bh=s4/2vMsU8PagZ0FvVukAUn+nPeqKgpKexfzPX+Uklf8=;
+	s=arc-20240116; t=1765159368; c=relaxed/simple;
+	bh=/cz8HnM7o4bpd8NPUFE4phyuequa4mvgg2kOSzTlPuk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qoqmz8Aqg4a39+uajuWyUUM1fYeV/TrLH8+Q0ujRGiZBVsAQi8kCiK7Y50gaqrWiHA6YdYserLpNP1asHdjdbP7IgQPbZFyT5CWXr3UPfW1J9d1o6SapFyrJ3W1vjPfkb/x9554A/MF1s2P2Bqed2ZHWKmsQl8a95RVrdFU21Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TsTaPm7r; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=Ghzc8rP7M6kYEF+ulykghi3YN8pLZ32676pDF8to1L1di1nfocYYlxTG1c1IYTzhzIntrg7Cv2PZ9QLOI3+Moay9BeV0bYvfmgilK2MoyoxxAIUH7yQhOuJ6CKAJFYn+qsEUYgTpuDqaUBztT94B71CRBikY4WjJHrAUCSoMzfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YvdfOt/o; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TsTaPm7r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YvdfOt/o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765158165; x=1796694165;
+  t=1765159366; x=1796695366;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s4/2vMsU8PagZ0FvVukAUn+nPeqKgpKexfzPX+Uklf8=;
-  b=TsTaPm7rg459FStTOTBz2Xqlo2d1YpbhJV4voZ0IzhZvSR/CHnwNleMn
-   4dzmPd1ZrKE6HziAYxPrSM54Zofs4+gkewkLGZ+P9J9xd8iGfwTTc5bmy
-   LZs4FFZ+jhhnBKcddgdh7sGfPyyAnjvE4LkDlLel04JminduUGqfvz9Xq
-   j8d/2FxRrJqcudavoYUAjUVNQC4bO7eqoC2FMO0B+ih1QszQqud62mKS9
-   RqXdwHb4Lo1zK3PFOZ3v2GM0mnMA3H+rsl5I11o/MeEEj/m1w8h+UKBVJ
-   iIfecdM/IhWe9V7latgFpbqrnr5ax2cQ1PIUbAw03yyufqM+9oETzENFq
+  bh=/cz8HnM7o4bpd8NPUFE4phyuequa4mvgg2kOSzTlPuk=;
+  b=YvdfOt/oTuYqgebvWxms+AUJscG5hQa4cqhipy+4GXr1w1RYoXELKfce
+   W/H+7se/DzzYIQU6bpfETVl+J9OyLm1wKbkYJxAZj8DYdYS8sRbogX7NF
+   VSKt9D6aznhzLybiJs13qhV+JLyyZMx49jMbuibpKW1/ZmbNkp87/YY8K
+   yq/jA4hYs9+UXNznSfzUGbRah3CGij9x83gjOkI7SjUQSDhvKta95sZED
+   9/K01oaWmLcGnJUSDU30T+HGEqf3Jq5U8RSmurBpX88GX1gwL/l84Ywl0
+   2uhszxxOEf3dJTlyZxq9yxN4nSLG2s/C/9YPKgV3dszVfXIgNo9TU+2zi
    g==;
-X-CSE-ConnectionGUID: jKSMndj5Rnqp7ZfP1hVXbQ==
-X-CSE-MsgGUID: TOPPNec4RZmdb9lqNrIarQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="92577740"
+X-CSE-ConnectionGUID: 5RIHqP0vSJa26K/zr5u0kQ==
+X-CSE-MsgGUID: kk17llpaT5etO1/7glklcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67148845"
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="92577740"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 17:42:44 -0800
-X-CSE-ConnectionGUID: hlMT890GT/GTWO3ROkqfUA==
-X-CSE-MsgGUID: /veG1lvgTn2jO0zI7CrAyw==
+   d="scan'208";a="67148845"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 18:02:46 -0800
+X-CSE-ConnectionGUID: vyFbrCZWTh2dXZNjS0Dc7Q==
+X-CSE-MsgGUID: Qrv9JIghRSelJBPRWqWk5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="195616538"
+   d="scan'208";a="233181900"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 Dec 2025 17:42:43 -0800
+  by orviesa001.jf.intel.com with ESMTP; 07 Dec 2025 18:02:44 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSQGu-00000000Jnu-289Z;
-	Mon, 08 Dec 2025 01:42:40 +0000
-Date: Mon, 8 Dec 2025 09:41:41 +0800
+	id 1vSQaH-00000000Jp5-3iWa;
+	Mon, 08 Dec 2025 02:02:41 +0000
+Date: Mon, 8 Dec 2025 10:02:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/powerpc/boot/decompress.c:132:15: error: implicit declaration
- of function '__decompress'
-Message-ID: <202512080905.bTtw5fjy-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [openeuler:openEuler-1.0-LTS 1934/1934]
+ block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+Message-ID: <202512081001.1fYaXWns-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,88 +62,157 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
-CC: Nathan Chancellor <nathan@kernel.org>
-CC: Nicolas Schier <nsc@kernel.org>
+TO: kernel@openeuler.org
+TO: Yang Yingliang <yangyingliang@huawei.com>
 
-Hi Masahiro,
+Hi Laibin,
 
 First bad commit (maybe != root cause):
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ba65a4e7120a616d9c592750d9147f6dcafedffa
-commit: 0ce5139fd96e9d415d3faaef1c575e238f9bbd67 kbuild: always create intermediate vmlinux.unstripped
-date:   2 months ago
-:::::: branch date: 57 minutes ago
-:::::: commit date: 2 months ago
-config: powerpc64-randconfig-001-20251208 (https://download.01.org/0day-ci/archive/20251208/202512080905.bTtw5fjy-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080905.bTtw5fjy-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5bd996476c86f9b6d2039f9ab662f38d64fa6c70
+commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1934/1934] blk-throttle: Set BIO_THROTTLED when bio has been throttled
+:::::: branch date: 6 days ago
+:::::: commit date: 3 years, 9 months ago
+config: x86_64-randconfig-103-20251115 (https://download.01.org/0day-ci/archive/20251208/202512081001.1fYaXWns-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512080905.bTtw5fjy-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202512081001.1fYaXWns-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
 
-   arch/powerpc/boot/decompress.c: In function 'partial_decompress':
->> arch/powerpc/boot/decompress.c:132:15: error: implicit declaration of function '__decompress' [-Wimplicit-function-declaration]
-     132 |         ret = __decompress(inbuf, input_size, NULL, flush, outbuf,
-         |               ^~~~~~~~~~~~
+vim +2306 block/blk-throttle.c
 
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
+ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
+ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
+e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
+c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
+ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
+73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
+0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
+e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
+e43473b7f223ec Vivek Goyal   2010-09-15  2203  
+ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
+ae118896361111 Tejun Heo     2015-08-18  2205  
+2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
+e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
+e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
+bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
+e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2211  
+e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
+c9589f03e49095 Tejun Heo     2015-08-18  2213  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
+c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
+e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
+f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
+9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
+9e234eeafbe17e Shaohua Li    2017-03-27  2221  
+73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
+73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
+c79892c5576163 Shaohua Li    2017-03-27  2224  again:
+9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
+3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
+3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
+fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
+9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
+c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
+3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
+c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
+c79892c5576163 Shaohua Li    2017-03-27  2240  			}
+9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
+c79892c5576163 Shaohua Li    2017-03-27  2242  		}
+de701c74a34005 Vivek Goyal   2011-03-07  2243  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
+e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
+04521db04e9a11 Vivek Goyal   2011-03-22  2246  
+04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
+04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
+04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
+04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
+04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
+04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
+04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
+04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
+04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
+04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
+04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
+0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
+9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
+9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
+c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
+9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
+e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
+e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2271  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
+fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
+8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
+9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
+9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
+9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
+73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
+e43473b7f223ec Vivek Goyal   2010-09-15  2279  
+3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2281  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
+c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
+e43473b7f223ec Vivek Goyal   2010-09-15  2285  
+7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
+7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
+7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
+7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
+7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
+7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
+77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
+7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
+e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2296  
+bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
+111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
+5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
+e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
+e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
+bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
+e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
+e43473b7f223ec Vivek Goyal   2010-09-15  2308  
 
-vim +/__decompress +132 arch/powerpc/boot/decompress.c
+:::::: The code at line 2306 was first introduced by commit
+:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
 
-1b7898ee276b39 Oliver O'Halloran 2016-09-22   97  
-1b7898ee276b39 Oliver O'Halloran 2016-09-22   98  /**
-1b7898ee276b39 Oliver O'Halloran 2016-09-22   99   * partial_decompress - decompresses part or all of a compressed buffer
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  100   * @inbuf:       input buffer
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  101   * @input_size:  length of the input buffer
-930a77c3ad79c3 Zhang Jianhua     2021-05-10  102   * @outbuf:      output buffer
-930a77c3ad79c3 Zhang Jianhua     2021-05-10  103   * @output_size: length of the output buffer
-6efc2f1a64ef62 Yang Li           2024-04-08  104   * @_skip:       number of output bytes to ignore
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  105   *
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  106   * This function takes compressed data from inbuf, decompresses and write it to
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  107   * outbuf. Once output_size bytes are written to the output buffer, or the
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  108   * stream is exhausted the function will return the number of bytes that were
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  109   * decompressed. Otherwise it will return whatever error code the decompressor
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  110   * reported (NB: This is specific to each decompressor type).
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  111   *
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  112   * The skip functionality is mainly there so the program and discover
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  113   * the size of the compressed image so that it can ask firmware (if present)
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  114   * for an appropriately sized buffer.
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  115   */
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  116  long partial_decompress(void *inbuf, unsigned long input_size,
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  117  	void *outbuf, unsigned long output_size, unsigned long _skip)
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  118  {
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  119  	int ret;
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  120  
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  121  	/*
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  122  	 * The skipped bytes needs to be included in the size of data we want
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  123  	 * to decompress.
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  124  	 */
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  125  	output_size += _skip;
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  126  
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  127  	decompressed_bytes = 0;
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  128  	output_buffer = outbuf;
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  129  	limit = output_size;
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  130  	skip = _skip;
-1b7898ee276b39 Oliver O'Halloran 2016-09-22  131  
-1b7898ee276b39 Oliver O'Halloran 2016-09-22 @132  	ret = __decompress(inbuf, input_size, NULL, flush, outbuf,
-
-:::::: The code at line 132 was first introduced by commit
-:::::: 1b7898ee276b39e54d870dc4ef3374f663d0b426 powerpc/boot: Use the pre-boot decompression API
-
-:::::: TO: Oliver O'Halloran <oohall@gmail.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
