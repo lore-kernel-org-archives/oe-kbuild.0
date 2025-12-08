@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE422DE6EF
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 Dec 2025 21:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63591FA859
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 Dec 2025 23:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765230673; cv=none; b=G7NIMU67RdxP2wxtFuFqep0LmDI4lgmxtOKqc6bw+qxGlOmCw+Fqy7kDEKBWrdFo3EkBiGKJNqPNTwNYiINJx6bH4Dqb9gvkjqjTXL/4OqbazktDOrcc/A2t6jXvdawHeqd4HavcXvATEm8XWPp8utF2HOBRyFw+MiECb7VNyAE=
+	t=1765237524; cv=none; b=j8da8WL/bcu9U9dgBGSyuTqOf/EG+Q9JoFocCj3Sdn9Jve09Oh1xVWV7h4/7PLxkRgR3Kt6npSBHOdld0XyGPrxMGyqVJarhpluavWGBaXrIpmt+0D/GaJbHN5MVoUIn/ez50Dj1bkRENus5KoQacWHVkae3B15ZUWzPcNlHQx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765230673; c=relaxed/simple;
-	bh=LbT8CsF0l8Nenu+GbGPoDeSyFMXgN9tJeSLKXS6hOlY=;
+	s=arc-20240116; t=1765237524; c=relaxed/simple;
+	bh=O0EfVmvcpVkbir/M8mXvc3rLMV4JK/1HdIAuJLYbJFs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CGpOBtqphmt64esSDAm6F0TmksbiHT+4FVIb7/mo02Qdh64EeTUVyY01BYMMsWQCkXvVSKWUN/KpkVMD67YxN/cRuIVeis9oCn4kt/mdZRuMyIQRP1snf3wQSIDcn9YxCmUVhiCpv6jsjKAaY7tHwf2ZpA+uCvFmXfDGO5EcTAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lw1H9J00; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=UmLSUBmGR05tE8ClJSA+QT92BKf9Giu3rz5Mt3/U1KLu5fUxLV6+COFyANQN9bvCdxc8BCmk3TxIP8AaJW8iWsOBqsdyvC631+mv8dcw2ZffXe6DhmzF508GFC9Oo+kM1COHzR40OBLJIFWjL3mOq9wFjQHCLRek3CZJdZIPrCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JaM+wXMv; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lw1H9J00"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JaM+wXMv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765230671; x=1796766671;
+  t=1765237521; x=1796773521;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LbT8CsF0l8Nenu+GbGPoDeSyFMXgN9tJeSLKXS6hOlY=;
-  b=Lw1H9J00xRNMYxkbFJGk+Tyss+W4kp/n7LbPwMfEsNVuvgSQ9+25ktI1
-   keVZPKq2j/SWVTGvI1D4eRgz8FnEKm85Z6NOym4fkLEAkToXGFNpwR9zS
-   MwuyQ+axqAbGJ1cLc6rAGG55PJ1yDwtTI4ie8lrkwFy4Wcaxo/KqmHKmZ
-   08kihOHhXtuXHnhXe29qumqOSBLxfbQR9zaZ6N6MbswVyDwdh4mKYWX3x
-   NFC4mzAYaebQZD46UiMwMYZZMNwlwhw4EAksplYsjwGkQtV2dldlUaH8y
-   zNJZGphc/VVp2ELPRafVFAhh1F2yYVPJ3G4+7SrbcB6o9dBRFFJmC9CXZ
+  bh=O0EfVmvcpVkbir/M8mXvc3rLMV4JK/1HdIAuJLYbJFs=;
+  b=JaM+wXMvL/MqYpFixglb3aGSTAJWERPdMjwLStbN+ijWuBqZc57rUM7o
+   Zk9EYivINZhR3nyiyd7yBCKPTyne0Wfqs5s9C4CXLf95xSni6aP83WrCY
+   pcHvSLS5YAAVhAovnxYERx0xsGLeEEmyCSEmKPyBjM1JNHxltu2RpIe1b
+   oY2qpvAtGRUsUG45dTHCk9oqwDE6Hw9Rm72oKpEyo0FnoMxc+4VO/dkCH
+   Je213PlCrjgaoUy8yjQel+Ydwy7q/uuxuA+N9338sgC985k6BJNlqkuvP
+   5l2Roz/vA2UN0DrrLpM+PYE7nshdgtbyyxQyRJ623jL/4lH4v25IB5Qsd
    A==;
-X-CSE-ConnectionGUID: yluHElbGT+GjGg4TFTaaPw==
-X-CSE-MsgGUID: 1q+IzdGvQS2PDOCO3pFH6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="67144265"
-X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
-   d="scan'208";a="67144265"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 13:51:10 -0800
-X-CSE-ConnectionGUID: qJt/XRMyT8uBe7IbY41xTQ==
-X-CSE-MsgGUID: 6P0NhyopT7iGtgxcSqgC8w==
+X-CSE-ConnectionGUID: ty/jq/isRjaQRQdfBqvqQg==
+X-CSE-MsgGUID: +WwyVeJZTKauM/e7NegeJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="67073301"
+X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
+   d="scan'208";a="67073301"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 15:45:20 -0800
+X-CSE-ConnectionGUID: n3Vym3MlRvmtb4YE410wXQ==
+X-CSE-MsgGUID: HjaYevs+TrmLVm172l9mdQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
-   d="scan'208";a="195950098"
+X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
+   d="scan'208";a="195350226"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Dec 2025 13:51:08 -0800
+  by orviesa010.jf.intel.com with ESMTP; 08 Dec 2025 15:45:19 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSj8M-000000000t6-2x8i;
-	Mon, 08 Dec 2025 21:51:06 +0000
-Date: Tue, 9 Dec 2025 05:50:18 +0800
+	id 1vSkuq-000000000zH-0ftq;
+	Mon, 08 Dec 2025 23:45:16 +0000
+Date: Tue, 9 Dec 2025 07:45:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:openEuler-1.0-LTS 1934/1934]
- block/blk-throttle.c:2306:1-7: preceding lock on line 2212
-Message-ID: <202512090557.RL4CYH2Z-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/msm/adreno/a8xx_gpu.c:255 a8xx_set_cp_protect()
+ error: uninitialized symbol 'final_cfg'.
+Message-ID: <202512090746.yHMo8Q3l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,155 +64,70 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yang Yingliang <yangyingliang@huawei.com>
+CC: linux-kernel@vger.kernel.org
+TO: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+CC: Rob Clark <robin.clark@oss.qualcomm.com>
 
-Hi Laibin,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   5bd996476c86f9b6d2039f9ab662f38d64fa6c70
-commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1934/1934] blk-throttle: Set BIO_THROTTLED when bio has been throttled
-:::::: branch date: 7 days ago
-:::::: commit date: 3 years, 9 months ago
-config: x86_64-randconfig-103-20251115 (https://download.01.org/0day-ci/archive/20251209/202512090557.RL4CYH2Z-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a110f942672c8995dc1cacb5a44c6730856743aa
+commit: 288a932008925644d8d0ca69bf7a69a0dce82dc5 drm/msm/adreno: Introduce A8x GPU Support
+date:   3 weeks ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 3 weeks ago
+config: arm64-randconfig-r072-20251207 (https://download.01.org/0day-ci/archive/20251209/202512090746.yHMo8Q3l-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project a805147ac1ba123916de182babb0831fbb148756)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202512090557.RL4CYH2Z-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512090746.yHMo8Q3l-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+smatch warnings:
+drivers/gpu/drm/msm/adreno/a8xx_gpu.c:255 a8xx_set_cp_protect() error: uninitialized symbol 'final_cfg'.
 
-vim +2306 block/blk-throttle.c
+vim +/final_cfg +255 drivers/gpu/drm/msm/adreno/a8xx_gpu.c
 
-2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
-ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
-ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
-e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
-c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
-ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
-73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
-0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
-bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
-e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
-e43473b7f223ec Vivek Goyal   2010-09-15  2203  
-ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
-ae118896361111 Tejun Heo     2015-08-18  2205  
-2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
-e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
-e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
-bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
-e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2211  
-e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
-c9589f03e49095 Tejun Heo     2015-08-18  2213  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
-c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
-e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
-f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
-2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
-9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
-9e234eeafbe17e Shaohua Li    2017-03-27  2221  
-73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
-73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
-c79892c5576163 Shaohua Li    2017-03-27  2224  again:
-9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
-3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
-3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
-fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
-0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
-9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
-9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
-c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
-3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
-c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
-c79892c5576163 Shaohua Li    2017-03-27  2240  			}
-9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
-c79892c5576163 Shaohua Li    2017-03-27  2242  		}
-de701c74a34005 Vivek Goyal   2011-03-07  2243  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
-e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
-04521db04e9a11 Vivek Goyal   2011-03-22  2246  
-04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
-04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
-04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
-04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
-04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
-04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
-04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
-04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
-04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
-04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
-04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
-0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
-9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
-9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
-9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
-9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
-c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
-9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
-9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
-e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
-e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2271  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
-fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
-8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
-9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
-9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
-9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
-73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
-e43473b7f223ec Vivek Goyal   2010-09-15  2279  
-3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df Shaohua Li    2017-03-27  2281  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
-c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
-bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
-e43473b7f223ec Vivek Goyal   2010-09-15  2285  
-7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
-7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
-7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
-7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
-7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
-7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
-0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
-77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
-7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
-e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2296  
-bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
-111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
-5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
-e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
-e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
-bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
-e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
-e43473b7f223ec Vivek Goyal   2010-09-15  2308  
-
-:::::: The code at line 2306 was first introduced by commit
-:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
-
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+288a9320089256 Akhil P Oommen 2025-11-18  221  
+288a9320089256 Akhil P Oommen 2025-11-18  222  static void a8xx_set_cp_protect(struct msm_gpu *gpu)
+288a9320089256 Akhil P Oommen 2025-11-18  223  {
+288a9320089256 Akhil P Oommen 2025-11-18  224  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+288a9320089256 Akhil P Oommen 2025-11-18  225  	const struct adreno_protect *protect = adreno_gpu->info->a6xx->protect;
+288a9320089256 Akhil P Oommen 2025-11-18  226  	u32 cntl, final_cfg;
+288a9320089256 Akhil P Oommen 2025-11-18  227  	unsigned int i;
+288a9320089256 Akhil P Oommen 2025-11-18  228  
+288a9320089256 Akhil P Oommen 2025-11-18  229  	cntl = A8XX_CP_PROTECT_CNTL_PIPE_ACCESS_PROT_EN |
+288a9320089256 Akhil P Oommen 2025-11-18  230  		A8XX_CP_PROTECT_CNTL_PIPE_ACCESS_FAULT_ON_VIOL_EN |
+288a9320089256 Akhil P Oommen 2025-11-18  231  		A8XX_CP_PROTECT_CNTL_PIPE_LAST_SPAN_INF_RANGE |
+288a9320089256 Akhil P Oommen 2025-11-18  232  		A8XX_CP_PROTECT_CNTL_PIPE_HALT_SQE_RANGE__MASK;
+288a9320089256 Akhil P Oommen 2025-11-18  233  	/*
+288a9320089256 Akhil P Oommen 2025-11-18  234  	 * Enable access protection to privileged registers, fault on an access
+288a9320089256 Akhil P Oommen 2025-11-18  235  	 * protect violation and select the last span to protect from the start
+288a9320089256 Akhil P Oommen 2025-11-18  236  	 * address all the way to the end of the register address space
+288a9320089256 Akhil P Oommen 2025-11-18  237  	 */
+288a9320089256 Akhil P Oommen 2025-11-18  238  	a8xx_write_pipe(gpu, PIPE_BR, REG_A8XX_CP_PROTECT_CNTL_PIPE, cntl);
+288a9320089256 Akhil P Oommen 2025-11-18  239  	a8xx_write_pipe(gpu, PIPE_BV, REG_A8XX_CP_PROTECT_CNTL_PIPE, cntl);
+288a9320089256 Akhil P Oommen 2025-11-18  240  
+288a9320089256 Akhil P Oommen 2025-11-18  241  	a8xx_aperture_clear(gpu);
+288a9320089256 Akhil P Oommen 2025-11-18  242  
+288a9320089256 Akhil P Oommen 2025-11-18  243  	for (i = 0; i < protect->count; i++) {
+288a9320089256 Akhil P Oommen 2025-11-18  244  		/* Intentionally skip writing to some registers */
+288a9320089256 Akhil P Oommen 2025-11-18  245  		if (protect->regs[i]) {
+288a9320089256 Akhil P Oommen 2025-11-18  246  			gpu_write(gpu, REG_A8XX_CP_PROTECT_GLOBAL(i), protect->regs[i]);
+288a9320089256 Akhil P Oommen 2025-11-18  247  			final_cfg = protect->regs[i];
+288a9320089256 Akhil P Oommen 2025-11-18  248  		}
+288a9320089256 Akhil P Oommen 2025-11-18  249  	}
+288a9320089256 Akhil P Oommen 2025-11-18  250  
+288a9320089256 Akhil P Oommen 2025-11-18  251  	/*
+288a9320089256 Akhil P Oommen 2025-11-18  252  	 * Last span feature is only supported on PIPE specific register.
+288a9320089256 Akhil P Oommen 2025-11-18  253  	 * So update those here
+288a9320089256 Akhil P Oommen 2025-11-18  254  	 */
+288a9320089256 Akhil P Oommen 2025-11-18 @255  	a8xx_write_pipe(gpu, PIPE_BR, REG_A8XX_CP_PROTECT_PIPE(protect->count_max), final_cfg);
+288a9320089256 Akhil P Oommen 2025-11-18  256  	a8xx_write_pipe(gpu, PIPE_BV, REG_A8XX_CP_PROTECT_PIPE(protect->count_max), final_cfg);
+288a9320089256 Akhil P Oommen 2025-11-18  257  
+288a9320089256 Akhil P Oommen 2025-11-18  258  	a8xx_aperture_clear(gpu);
+288a9320089256 Akhil P Oommen 2025-11-18  259  }
+288a9320089256 Akhil P Oommen 2025-11-18  260  
 
 -- 
 0-DAY CI Kernel Test Service
