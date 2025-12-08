@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8447823815D
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 Dec 2025 10:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7499321FF23
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 Dec 2025 11:32:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765191298; cv=none; b=WZdo+iCT9esIAJL2ccG5hPOnUr/l0QOLdTNGLJrEOLMBzTSsz7J+KBT3IfeSofTjSdEFP1yivcxw7bF1Viy7a2YQeeU15bKhLW4+4OoJo9L+AxOa1PvyoImUqr3xFr9N5UKSK2Yz8o4CIV7/cnTWtPnv9fnIIPhPTSmEWVyKb+E=
+	t=1765193567; cv=none; b=EOS/09OR5feVBezNRUNhmhnLMssQPBypfZ7IGC6K1N34A5es6rcz1y+AVr2cHBQT5vveCPejGTjUwK7drl45xgv0WXWB2TuZ6vIF5IAXbWmxRCtbb7bFmZJ3Eti/aiVH4HJrtLln4BQI2r8ws9OpGWillVfRfZHVcE2mAVwVYvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765191298; c=relaxed/simple;
-	bh=0N4DliacGRG6g2rtxj7p1Xcz27Y+UC5jkv9vzI7hDvM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Kzz+qRgkmLaftkBY9jJp7LWQCbVG3qMS0UgEDLKZrLbLml48gOFDoco2FS/hx4y5gHqQLyya1kexcf8VuaLysA/LE07fNgD4bGBQwJJD7MULlR3bAMnhEwq1rQbanDhN2aEgY3it8jB7rOeIJ2MyDDrbzUEWScE52tNlbIXjlWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fWciBS60; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1765193567; c=relaxed/simple;
+	bh=I6Hn4FgAHzl6SUKBLFn5OeHR0ItlQrdYVaM9FEu4U7I=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TVqP2kYrtRbvQS+yVqDc6FGhQYroGMxngGHLNqzJGwVnJbjBkCNMA9yPSkmw2kE7dbqcT+wKZYGjsOe0H6QOsA9FM4fJmIxiwtXHDpAiiLv9BCRgok9YPPQ1my9TOYsGqfJyadtpU2toQ4HgXH+u3/8iU0BNf/G0e+QOolQtLvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ihpnKijI; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWciBS60"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ihpnKijI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765191296; x=1796727296;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0N4DliacGRG6g2rtxj7p1Xcz27Y+UC5jkv9vzI7hDvM=;
-  b=fWciBS60mA/iTtMXyGiXhCpKz8GZnjgnPRoHUdjPy4VJ2OR+nIpg4yij
-   jcUKjlCRlrfYkxqPQYEloaBXcHLQ96dicIeU9H+c6AuoTDoOSLkhPURfu
-   hunjHFrycC6EWKv1sR0HrBBppLsyUZTs/jdYDw+euHIgWM2C0meUqdXSe
-   hEruSJy2s2YQqh05QiGTAFrQRCLhDniY86argmNO+eXgn0MhltAAdjRqv
-   FEWjjLDsdSRm8NpfVvyStnyfJi+w8xGlhlxUPwfgrIWwx1YA+Fy1XHJ7x
-   57ADwdxdbcsxf2L+JT/nrKdNCNF9hIQdWu8uJF1wvyF5/cUUj37/pwINm
+  t=1765193566; x=1796729566;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=I6Hn4FgAHzl6SUKBLFn5OeHR0ItlQrdYVaM9FEu4U7I=;
+  b=ihpnKijI2x9PmR4bwA1bMO06YSPPAnmyd8If37RdfuKDkU67FkchZrqZ
+   1skvIi1LAw6RksQDUDFXRmBh4pu6FWFmqdGvfIC+re4ttUAu/dPpAwWxI
+   Kl87g/gYaecLhA8pAnDykxrNes/B/uP2L/cw4ZHeZvlcb0ZY+UvJtOPpM
+   0hMMLyCnP+t9YkNJ247ZIunnS+lfmK1fXVcRZ+diw0VcXnOe0HkeWe47C
+   Kyp63+NDYKNRA5cwQXefzEgqGsW+HFcSKkzcI5HMIHz13IMtPt9fbgIaS
+   1nP/7VUdSrg1pqv8YEyqZRVPnliNybETgR/mInE+acpoZWsCsehIWv/MQ
    g==;
-X-CSE-ConnectionGUID: 4sXI2fL0Rf6fNi9mQH7qNQ==
-X-CSE-MsgGUID: YJbna61qROuiVajSGz+SiA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67166907"
+X-CSE-ConnectionGUID: 2wMElwaBSSWlK9BTxb+8rg==
+X-CSE-MsgGUID: 5BsU8mJYRlSxrIfVQbBdsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="78249645"
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="67166907"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 02:54:56 -0800
-X-CSE-ConnectionGUID: Zb1Ac4dQSjuOdsTQUTFUGA==
-X-CSE-MsgGUID: z+SRckVWTIGaTXL0b/Odzg==
+   d="scan'208";a="78249645"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 03:32:46 -0800
+X-CSE-ConnectionGUID: De7HwxipTQOvP4gq674yWQ==
+X-CSE-MsgGUID: 6/iG98iCTCmYsyAWacNk0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="219250090"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Dec 2025 02:54:54 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="200084177"
+Received: from igk-lkp-server01.igk.intel.com (HELO a9286e139fc0) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 08 Dec 2025 03:32:44 -0800
+Received: from kbuild by a9286e139fc0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSYtI-0000000009R-2p7u;
-	Mon, 08 Dec 2025 10:54:52 +0000
-Date: Mon, 8 Dec 2025 18:54:33 +0800
+	id 1vSZTu-00000000051-1Frh
+	for oe-kbuild@lists.linux.dev;
+	Mon, 08 Dec 2025 11:32:42 +0000
+Date: Mon, 8 Dec 2025 12:32:18 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 13543/13567]
- drivers/ufs/host/ufs-amd-versal2.c:562:1: sparse: sparse: bad integer
- constant expression
-Message-ID: <202512081802.UrdFdJdY-lkp@intel.com>
+Subject: [steev:lenovo-t14s-linux-6.18.y 131/135] checkpatch:
+ WARNING:REPEATED_WORD: Possible repeated word: 'for'
+Message-ID: <202512081252.Z0P0Or4s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,49 +63,25 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/ufs/host/ufs-amd-versal2.c:562:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: James Bottomley <James.Bottomley@HansenPartnership.com>
+TO: Steev Klimaszewski <steev@kali.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   82bcd04d124a4d84580ea4a8ba6b120db5f512e7
-commit: 7fb99b824cc8b3a4b521f7935256d90e7ab14687 [13543/13567] Merge branch 'for-next' of https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git
-:::::: branch date: 9 hours ago
-:::::: commit date: 3 days ago
-config: arc-randconfig-r132-20251208 (https://download.01.org/0day-ci/archive/20251208/202512081802.UrdFdJdY-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512081802.UrdFdJdY-lkp@intel.com/reproduce)
+tree:   https://github.com/steev/linux lenovo-t14s-linux-6.18.y
+head:   9066f7e809e610c4f3e79f481616ad27981ae2be
+commit: 1e46e2a34249c3b6ecbfdf44527115d61b3046de [131/135] drm/msm: adreno: attach the GMU device to a driver
+:::::: branch date: 13 hours ago
+:::::: commit date: 2 days ago
+reproduce: (https://download.01.org/0day-ci/archive/20251208/202512081252.Z0P0Or4s-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512081802.UrdFdJdY-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/ufs/host/ufs-amd-versal2.c:562:1: sparse: sparse: bad integer constant expression
->> drivers/ufs/host/ufs-amd-versal2.c:562:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/ufs/host/ufs-amd-versal2.c:563:1: sparse: sparse: bad integer constant expression
->> drivers/ufs/host/ufs-amd-versal2.c:563:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/ufs/host/ufs-amd-versal2.c:564:1: sparse: sparse: bad integer constant expression
->> drivers/ufs/host/ufs-amd-versal2.c:564:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/ufs/host/ufs-amd-versal2.c:564:1: sparse: sparse: bad integer constant expression
->> drivers/ufs/host/ufs-amd-versal2.c:564:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-
-vim +562 drivers/ufs/host/ufs-amd-versal2.c
-
-769b8b2ffded4c Sai Krishna Potthuri 2025-10-21  561  
-769b8b2ffded4c Sai Krishna Potthuri 2025-10-21 @562  MODULE_AUTHOR("Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>");
-769b8b2ffded4c Sai Krishna Potthuri 2025-10-21 @563  MODULE_DESCRIPTION("AMD Versal Gen 2 UFS Host Controller driver");
-769b8b2ffded4c Sai Krishna Potthuri 2025-10-21 @564  MODULE_LICENSE("GPL");
-
-:::::: The code at line 562 was first introduced by commit
-:::::: 769b8b2ffded4cd880669edd83e2952efeeb27f7 scsi: ufs: amd-versal2: Add UFS support for AMD Versal Gen 2 SoC
-
-:::::: TO: Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+WARNING:REPEATED_WORD: Possible repeated word: 'for'
+#285: FILE: drivers/gpu/drm/msm/adreno/a6xx_gmu.c:2024:
++		/* Allocate memory for for the HFI queues */
 
 -- 
 0-DAY CI Kernel Test Service
