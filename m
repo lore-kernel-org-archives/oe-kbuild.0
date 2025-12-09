@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C6F26A1A4
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 Dec 2025 01:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D84E226D17
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 Dec 2025 04:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765242793; cv=none; b=qTNuReG6Ckl2HOuHh5E/sV/jfs6cwmPXn2kCX0XLs4Mfem1N+pGsM0t7gKQPCGOQ7e4mqo4CszYu8as28fygVSjdmGu6x/OOjwQ+gyA8QgAgBib2wTV6A8XrFSw08ql+po5M/RgxWgQobzYKhuWSoLCy5picTc3b+paHeQA9vW4=
+	t=1765255034; cv=none; b=gM1Fmjpu0Qsi1UUvCAienSR1MZvMIf4P56nF85uXbMgPReRnBuk2/W7kEdYnS6Cgjg4OYWUj7a4h3sZsfpByuGLccIlbj6t6SB2ir5p0VOXpwAwNKQ8yHrGAx6Nj+oHiDFFcg45SktixLvnH41mdtpOdAMla0pA/6K1k6rL05z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765242793; c=relaxed/simple;
-	bh=XpoV4g0U9pRCDmhE/QW3298MYdk/zdEWacy9n6/amzg=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qFeyNSiw5UWICGzXGwdMASyNkngPppJQIRX2bL32IfTYvWYhlv9JS7p4F0iGvetF7hbQgTYG7ha0jrZvaQ+bPbc3PiouKXsK43tFnWfb2y8bIuq9cwMlLSTQ5ivYruMb9eGO5E0LysNA2T7wD+xqAvJvmsPGENBGx6YjQ1dWH9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NnOFGNiX; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1765255034; c=relaxed/simple;
+	bh=YPzYwb6y53XU0HocmQ1nmfOuqYWzE0nt+RdkVdlc3Yc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iWMTTQjSzQ9n3r+0aOlAOZ57oPAl2f4Odee/sV/18Km2Uk01XhoHF/o2QtNuk/WncR0CInUQiT3yY9bVYDCvVm0ff5oIRjXpFLzMeKRWATR9+jlbK07IUFYgznB1EAzyBMxDTetBAi6UsOQPR/5CO5vBG+a6uXIwFYXUV+r6Cc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GJPOlHzw; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NnOFGNiX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJPOlHzw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765242791; x=1796778791;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=XpoV4g0U9pRCDmhE/QW3298MYdk/zdEWacy9n6/amzg=;
-  b=NnOFGNiX10E8jH9fq+MaX1186CJ2jW4Vdt2KlIwfRPN+6XX/S2+gclkx
-   RWJ8aHEKUdYLFhx52lyEg4nxl4NGzJRyCnKKYqSIDz9l/vVEMhB5V+sSk
-   Rcxzb9iOSXx2Dz0mshGBXgpnwZ8gwrkQmkRzeewBvdX1CXamRpsk9Ecmn
-   mGpnCnNxXqdVzzFD0bNgBJhrhPbXP8jTvucxuBKPUoAx06dwrn8oEn8eL
-   R5s9doHbnmwLCsYPJ7Oxpes5a2VEzwnTuTjgR6Av0UXIBJ4HjWK4Wfn9y
-   kYwbSWEK2knHoQOisIWI82scL9G5pxxkKryycPQUsqUQ0fAF2DOL01hY9
-   A==;
-X-CSE-ConnectionGUID: YeWu0KGeSIGS0xCzDC+CRw==
-X-CSE-MsgGUID: kjPTgX3iTW+boCMrj9Pigg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="71048852"
+  t=1765255032; x=1796791032;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YPzYwb6y53XU0HocmQ1nmfOuqYWzE0nt+RdkVdlc3Yc=;
+  b=GJPOlHzwlH+WEbe7iSj3H18x2MJTU6Q8E+uOX+6AD+BmG3Hv5mg+dDde
+   Bbeqbjp+mVXOrQUuMCVpJF+1t12+V1RQrxB8SnGwoLDw89kpYFrNVVgqg
+   P3aXi5wTJPYSUgMaEs2L2xH2ZNRcbxQBCf8skcK2++45WX7h0zVgXQVvj
+   1o0Ks9bc+jBZ8ZXc5RVLRXp0tF/shOyROdKC3i6mRhzIDQ4OVvYgzrmgQ
+   gd6lFV2V9Vg24Ccr1/4xNmFpQCeVjyLvxrReMcz+usHxtZI5B+ajAGXr6
+   FqD+Yv7MJyvw/sFcTWUqPMtJp+1vO0htkZgKS1YWafVcMEbqny3lxrW7g
+   Q==;
+X-CSE-ConnectionGUID: te83PJMwTv2K2S5keFTUzg==
+X-CSE-MsgGUID: cIyhsWDFS+uDm0vm/Mr2Zw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="77824294"
 X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="71048852"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 17:13:11 -0800
-X-CSE-ConnectionGUID: Aa2WLlzaSnSuA1HDTR2ImQ==
-X-CSE-MsgGUID: IBKhuE/bT4+MMl2xtGXYAg==
+   d="scan'208";a="77824294"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 20:37:11 -0800
+X-CSE-ConnectionGUID: LbgbNAyKTJyP/rApjqamIA==
+X-CSE-MsgGUID: fWf7oYYjRBa/jL3lQBVA/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="200528580"
-Received: from igk-lkp-server01.igk.intel.com (HELO a9286e139fc0) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2025 17:13:10 -0800
-Received: from kbuild by a9286e139fc0 with local (Exim 4.98.2)
+   d="scan'208";a="201236771"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 08 Dec 2025 20:37:10 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSmHr-000000002MB-3P6Y
-	for oe-kbuild@lists.linux.dev;
-	Tue, 09 Dec 2025 01:13:07 +0000
-Date: Tue, 9 Dec 2025 02:13:04 +0100
+	id 1vSpTH-000000001Jp-3C5T;
+	Tue, 09 Dec 2025 04:37:07 +0000
+Date: Tue, 9 Dec 2025 12:36:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [linux-review:Brian-Foster/iomap-replace-folio_batch-allocation-with-stack-allocation/20251208-220813
- 1/1] checkpatch: WARNING:REPEATED_WORD: Possible repeated word: 'the'
-Message-ID: <202512090239.XcyB7xAr-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: mm/sparse-vmemmap.c:400 vmemmap_populate_hvo() error: uninitialized
+ symbol 'pte'.
+Message-ID: <202512091213.DKfu3rVr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,26 +62,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Brian Foster <bfoster@redhat.com>
+CC: linux-kernel@vger.kernel.org
+TO: Frank van der Linden <fvdl@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Brian-Foster/iomap-replace-folio_batch-allocation-with-stack-allocation/20251208-220813
-head:   469c596d64654df6b3bd0a0de68c8fb34e001caa
-commit: 469c596d64654df6b3bd0a0de68c8fb34e001caa [1/1] iomap: replace folio_batch allocation with stack allocation
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20251209/202512090239.XcyB7xAr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cfd4039213e7b5a828c5b78e1b5235cac91af53d
+commit: 9eb6207b7812cee13431831c9661d21b53f3e93f mm/sparse: add vmemmap_*_hvo functions
+date:   9 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-161-20251209 (https://download.01.org/0day-ci/archive/20251209/202512091213.DKfu3rVr-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512091213.DKfu3rVr-lkp@intel.com/
 
-WARNING:REPEATED_WORD: Possible repeated word: 'the'
-#73: FILE: fs/iomap/buffered-io.c:1555:
-+ * the the batch lookup is performed and the expected offset of a subsequent
+smatch warnings:
+mm/sparse-vmemmap.c:400 vmemmap_populate_hvo() error: uninitialized symbol 'pte'.
+
+vim +/pte +400 mm/sparse-vmemmap.c
+
+9eb6207b7812ce Frank van der Linden 2025-02-28  378  
+9eb6207b7812ce Frank van der Linden 2025-02-28  379  /*
+9eb6207b7812ce Frank van der Linden 2025-02-28  380   * Populate vmemmap pages HVO-style. The first page contains the head
+9eb6207b7812ce Frank van der Linden 2025-02-28  381   * page and needed tail pages, the other ones are mirrors of the first
+9eb6207b7812ce Frank van der Linden 2025-02-28  382   * page.
+9eb6207b7812ce Frank van der Linden 2025-02-28  383   */
+9eb6207b7812ce Frank van der Linden 2025-02-28  384  int __meminit vmemmap_populate_hvo(unsigned long addr, unsigned long end,
+9eb6207b7812ce Frank van der Linden 2025-02-28  385  				       int node, unsigned long headsize)
+9eb6207b7812ce Frank van der Linden 2025-02-28  386  {
+9eb6207b7812ce Frank van der Linden 2025-02-28  387  	pte_t *pte;
+9eb6207b7812ce Frank van der Linden 2025-02-28  388  	unsigned long maddr;
+9eb6207b7812ce Frank van der Linden 2025-02-28  389  
+9eb6207b7812ce Frank van der Linden 2025-02-28  390  	for (maddr = addr; maddr < addr + headsize; maddr += PAGE_SIZE) {
+9eb6207b7812ce Frank van der Linden 2025-02-28  391  		pte = vmemmap_populate_address(maddr, node, NULL, -1, 0);
+9eb6207b7812ce Frank van der Linden 2025-02-28  392  		if (!pte)
+9eb6207b7812ce Frank van der Linden 2025-02-28  393  			return -ENOMEM;
+9eb6207b7812ce Frank van der Linden 2025-02-28  394  	}
+9eb6207b7812ce Frank van der Linden 2025-02-28  395  
+9eb6207b7812ce Frank van der Linden 2025-02-28  396  	/*
+9eb6207b7812ce Frank van der Linden 2025-02-28  397  	 * Reuse the last page struct page mapped above for the rest.
+9eb6207b7812ce Frank van der Linden 2025-02-28  398  	 */
+9eb6207b7812ce Frank van der Linden 2025-02-28  399  	return vmemmap_populate_range(maddr, end, node, NULL,
+9eb6207b7812ce Frank van der Linden 2025-02-28 @400  					pte_pfn(ptep_get(pte)), 0);
+4917f55b4ef963 Joao Martins         2022-04-28  401  }
+4917f55b4ef963 Joao Martins         2022-04-28  402  
 
 -- 
 0-DAY CI Kernel Test Service
