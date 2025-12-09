@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04EDFDF76
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 Dec 2025 07:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA2E238150
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 Dec 2025 07:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765264582; cv=none; b=sWcxJR79hUl6yFwIItZFuhT6ejpy6iiROwbCcXxlT4qZneyjsLg0TVhzv5yrf0xVGD7P3vDGOtbkTM4vJG1dv7/ahxXA41bkhhIhU2D4tlgfIHcqGhGF+EsBbpEzq0VHD5UcxKWP1u/GWs2HDzZLjO/5t041UIkant/OyIWWZRc=
+	t=1765265841; cv=none; b=r9OZJc3Ym0WV2tw55l7bxdRMJvuAutKBEwm+nvt1JTWCXjnkE9hNhmPppeE1U92+Cl3iiw220sXij/aTXmtluwFs47Uxo38Vz3ez44wPRvBrcss3LGd9RcoD5YzfHi6Yx7sEsxJx8irWz5SUyuQcf1lopF4HcjlALyZDnKMcfY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765264582; c=relaxed/simple;
-	bh=U9x/RlU6qmjJqHVb+Wet1kPXRuA2ZHLTUWW7vmE2GTI=;
+	s=arc-20240116; t=1765265841; c=relaxed/simple;
+	bh=KVIpFvUR45w/ge6qqTW8b8AsA/xSCphaBu1L1jPYtmY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I7U1p6E0Z6Bps+QShwPM9eXVxlcvHekbd1st09Xtrn0KJ3MsQQPufadtf5S4EzBgXhM8aIjtfNfSC7NkBtMjOJdMNzAAhkGsaLbK+dCjApfQ3iOZkXhgD5psdSPyjnUJhEFiin5viYErH3Sx6gqepQQdeHBwlQFHCaXKZpxKDvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b10Ahteh; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=ivt8/n5rCs1s5ZdpVgiVcpTPPIYUawAhf+Fa7owT5HzktETNC9eFpcyDJVhqwyBkSnM4ck9c60qJB4CI9YRnZgZRCb8bkvPepHJwNVAvB8LkjLzLKBuqmiApoHKMrns2FcSq1RXK5IOxtD3/aNnIE4KnnLy6Y+Kn4C6cyjz6B0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QW+VvXSy; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b10Ahteh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QW+VvXSy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765264580; x=1796800580;
+  t=1765265839; x=1796801839;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U9x/RlU6qmjJqHVb+Wet1kPXRuA2ZHLTUWW7vmE2GTI=;
-  b=b10AhtehrD7P3cFkSTJV0KkEmPQD/ythiDtcfXlsy3MhOuc3KgXZtXh9
-   qqfWRpDvkZA5n3wHMu8fTHIzUCFHLv1VVwbHLvmVVmzZRZAbwWGFMtWT/
-   rBJbkLSJXspteNw6LmaWTmiZ+vDv19f7/kCrS6JhxqGzpgDYSEw3Ku2QM
-   IDyoT3+XLW5ue/iXaQJhjDxrpE4j0/+9y1quZPkbNbiiYGckW6XkexGsG
-   d1aY4K9+UTvyckgHKMrihZQKEQzP+agU7OmiwaQwsTgU/HLm5+dJZGDNs
-   j616fmHu1oKagfY0buvOekJ6Bc6p4T53Vr2FWF5qNJ7BoD9HiKXIjud32
+  bh=KVIpFvUR45w/ge6qqTW8b8AsA/xSCphaBu1L1jPYtmY=;
+  b=QW+VvXSyh4NuDHyTJcTfvuEUQ3ZItBWt5g77OpnZkgjwmqazJHDCRdKh
+   +Vlj9hJk73251+s9LueN6vTlyLOM2t5JUTRzbi4hcVwdFHJj2zDaYjooE
+   EyH0SVAJmPsHednWP6YS81t4+Cq0DsHz1NTOtmvEFPq+h82tNt1Iyui6g
+   V1Gz3ptfgGAUGrx4xbr6XfVpm8cg6gU4H6qzxaWTa6b7yp5Pq0N+KqSrV
+   XwD9Ua+4oJxLSJ+GMbitWpo8CSaA9jMhqEjXujQS0XoMTIfslRODArmVj
+   W6uGgVRD6+HXjyMkcPTiJDZL8gNy6mYnVrhdDjT0LK21o99wrB+YUAYOU
    w==;
-X-CSE-ConnectionGUID: Ru57dy+rRue9mUsWLthGtw==
-X-CSE-MsgGUID: uc+jGCF3QWidh3rZdxeo4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="92691821"
+X-CSE-ConnectionGUID: k7s5ZvI1SoSEA/SQfXwehA==
+X-CSE-MsgGUID: Ey7/Wgm1SiG1BCrsn+bNhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="77833808"
 X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="92691821"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 23:16:18 -0800
-X-CSE-ConnectionGUID: yFfy3qaiTVO3fqjmh7yX7Q==
-X-CSE-MsgGUID: 2oh6b8l5S4SeqXvuoBMNTw==
+   d="scan'208";a="77833808"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 23:37:19 -0800
+X-CSE-ConnectionGUID: AG6gx9A5Qvy3a2qNdBH6mw==
+X-CSE-MsgGUID: fnYGd84xSIek1UddHggOEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="201075731"
+   d="scan'208";a="196614272"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Dec 2025 23:16:17 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 08 Dec 2025 23:37:18 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSrxH-000000001Rp-1FVs;
-	Tue, 09 Dec 2025 07:16:15 +0000
-Date: Tue, 9 Dec 2025 15:15:33 +0800
+	id 1vSsHc-000000001Sv-0KG0;
+	Tue, 09 Dec 2025 07:37:16 +0000
+Date: Tue, 9 Dec 2025 15:36:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/resctrl/mpam_devices.c:1042 __ris_msmon_read() error:
- uninitialized symbol 'now'.
-Message-ID: <202512091519.RBwiJcSq-lkp@intel.com>
+Subject: mm/cma.c:953 cma_release() error: uninitialized symbol 'cmr'.
+Message-ID: <202512091537.OhfPyp7D-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,93 +64,76 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: James Morse <james.morse@arm.com>
-CC: Catalin Marinas <catalin.marinas@arm.com>
-CC: Jonathan Cameron <jonathan.cameron@huawei.com>
-CC: Gavin Shan <gshan@redhat.com>
-CC: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-CC: Fenghua Yu <fenghuay@nvidia.com>
-CC: Ben Horgan <ben.horgan@arm.com>
+TO: Frank van der Linden <fvdl@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   cfd4039213e7b5a828c5b78e1b5235cac91af53d
-commit: 823e7c3712c584641b4ef890a8af34884c677197 arm_mpam: Add mpam_msmon_read() to read monitor value
-date:   3 weeks ago
+commit: c009da4258f9885c5a3749fc004870db9c0e7a99 mm, cma: support multiple contiguous ranges, if requested
+date:   9 months ago
 :::::: branch date: 7 hours ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-r072-20251208 (https://download.01.org/0day-ci/archive/20251209/202512091519.RBwiJcSq-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project a805147ac1ba123916de182babb0831fbb148756)
+:::::: commit date: 9 months ago
+config: i386-randconfig-141-20251209 (https://download.01.org/0day-ci/archive/20251209/202512091537.OhfPyp7D-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512091519.RBwiJcSq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512091537.OhfPyp7D-lkp@intel.com/
 
 smatch warnings:
-drivers/resctrl/mpam_devices.c:1042 __ris_msmon_read() error: uninitialized symbol 'now'.
+mm/cma.c:953 cma_release() error: uninitialized symbol 'cmr'.
 
-vim +/now +1042 drivers/resctrl/mpam_devices.c
+vim +/cmr +953 mm/cma.c
 
-823e7c3712c5846 James Morse 2025-11-19   987  
-823e7c3712c5846 James Morse 2025-11-19   988  static void __ris_msmon_read(void *arg)
-823e7c3712c5846 James Morse 2025-11-19   989  {
-823e7c3712c5846 James Morse 2025-11-19   990  	u64 now;
-823e7c3712c5846 James Morse 2025-11-19   991  	bool nrdy = false;
-823e7c3712c5846 James Morse 2025-11-19   992  	bool config_mismatch;
-823e7c3712c5846 James Morse 2025-11-19   993  	struct mon_read *m = arg;
-823e7c3712c5846 James Morse 2025-11-19   994  	struct mon_cfg *ctx = m->ctx;
-823e7c3712c5846 James Morse 2025-11-19   995  	struct mpam_msc_ris *ris = m->ris;
-823e7c3712c5846 James Morse 2025-11-19   996  	struct mpam_props *rprops = &ris->props;
-823e7c3712c5846 James Morse 2025-11-19   997  	struct mpam_msc *msc = m->ris->vmsc->msc;
-823e7c3712c5846 James Morse 2025-11-19   998  	u32 mon_sel, ctl_val, flt_val, cur_ctl, cur_flt;
-823e7c3712c5846 James Morse 2025-11-19   999  
-823e7c3712c5846 James Morse 2025-11-19  1000  	if (!mpam_mon_sel_lock(msc)) {
-823e7c3712c5846 James Morse 2025-11-19  1001  		m->err = -EIO;
-823e7c3712c5846 James Morse 2025-11-19  1002  		return;
-823e7c3712c5846 James Morse 2025-11-19  1003  	}
-823e7c3712c5846 James Morse 2025-11-19  1004  	mon_sel = FIELD_PREP(MSMON_CFG_MON_SEL_MON_SEL, ctx->mon) |
-823e7c3712c5846 James Morse 2025-11-19  1005  		  FIELD_PREP(MSMON_CFG_MON_SEL_RIS, ris->ris_idx);
-823e7c3712c5846 James Morse 2025-11-19  1006  	mpam_write_monsel_reg(msc, CFG_MON_SEL, mon_sel);
-823e7c3712c5846 James Morse 2025-11-19  1007  
-823e7c3712c5846 James Morse 2025-11-19  1008  	/*
-823e7c3712c5846 James Morse 2025-11-19  1009  	 * Read the existing configuration to avoid re-writing the same values.
-823e7c3712c5846 James Morse 2025-11-19  1010  	 * This saves waiting for 'nrdy' on subsequent reads.
-823e7c3712c5846 James Morse 2025-11-19  1011  	 */
-823e7c3712c5846 James Morse 2025-11-19  1012  	read_msmon_ctl_flt_vals(m, &cur_ctl, &cur_flt);
-823e7c3712c5846 James Morse 2025-11-19  1013  	clean_msmon_ctl_val(&cur_ctl);
-823e7c3712c5846 James Morse 2025-11-19  1014  	gen_msmon_ctl_flt_vals(m, &ctl_val, &flt_val);
-823e7c3712c5846 James Morse 2025-11-19  1015  	config_mismatch = cur_flt != flt_val ||
-823e7c3712c5846 James Morse 2025-11-19  1016  			  cur_ctl != (ctl_val | MSMON_CFG_x_CTL_EN);
-823e7c3712c5846 James Morse 2025-11-19  1017  
-823e7c3712c5846 James Morse 2025-11-19  1018  	if (config_mismatch)
-823e7c3712c5846 James Morse 2025-11-19  1019  		write_msmon_ctl_flt_vals(m, ctl_val, flt_val);
-823e7c3712c5846 James Morse 2025-11-19  1020  
-823e7c3712c5846 James Morse 2025-11-19  1021  	switch (m->type) {
-823e7c3712c5846 James Morse 2025-11-19  1022  	case mpam_feat_msmon_csu:
-823e7c3712c5846 James Morse 2025-11-19  1023  		now = mpam_read_monsel_reg(msc, CSU);
-823e7c3712c5846 James Morse 2025-11-19  1024  		if (mpam_has_feature(mpam_feat_msmon_csu_hw_nrdy, rprops))
-823e7c3712c5846 James Morse 2025-11-19  1025  			nrdy = now & MSMON___NRDY;
-823e7c3712c5846 James Morse 2025-11-19  1026  		break;
-823e7c3712c5846 James Morse 2025-11-19  1027  	case mpam_feat_msmon_mbwu:
-823e7c3712c5846 James Morse 2025-11-19  1028  		now = mpam_read_monsel_reg(msc, MBWU);
-823e7c3712c5846 James Morse 2025-11-19  1029  		if (mpam_has_feature(mpam_feat_msmon_mbwu_hw_nrdy, rprops))
-823e7c3712c5846 James Morse 2025-11-19  1030  			nrdy = now & MSMON___NRDY;
-823e7c3712c5846 James Morse 2025-11-19  1031  		break;
-823e7c3712c5846 James Morse 2025-11-19  1032  	default:
-823e7c3712c5846 James Morse 2025-11-19  1033  		m->err = -EINVAL;
-823e7c3712c5846 James Morse 2025-11-19  1034  	}
-823e7c3712c5846 James Morse 2025-11-19  1035  	mpam_mon_sel_unlock(msc);
-823e7c3712c5846 James Morse 2025-11-19  1036  
-823e7c3712c5846 James Morse 2025-11-19  1037  	if (nrdy) {
-823e7c3712c5846 James Morse 2025-11-19  1038  		m->err = -EBUSY;
-823e7c3712c5846 James Morse 2025-11-19  1039  		return;
-823e7c3712c5846 James Morse 2025-11-19  1040  	}
-823e7c3712c5846 James Morse 2025-11-19  1041  
-823e7c3712c5846 James Morse 2025-11-19 @1042  	now = FIELD_GET(MSMON___VALUE, now);
-823e7c3712c5846 James Morse 2025-11-19  1043  	*m->val += now;
-823e7c3712c5846 James Morse 2025-11-19  1044  }
-823e7c3712c5846 James Morse 2025-11-19  1045  
+9871e2ded6c1ff Mike Kravetz         2021-11-05  914  
+a254129e8686bf Joonsoo Kim          2014-08-06  915  /**
+a254129e8686bf Joonsoo Kim          2014-08-06  916   * cma_release() - release allocated pages
+a254129e8686bf Joonsoo Kim          2014-08-06  917   * @cma:   Contiguous memory region for which the allocation is performed.
+a254129e8686bf Joonsoo Kim          2014-08-06  918   * @pages: Allocated pages.
+a254129e8686bf Joonsoo Kim          2014-08-06  919   * @count: Number of allocated pages.
+a254129e8686bf Joonsoo Kim          2014-08-06  920   *
+929f92f78068a1 Ryohei Suzuki        2019-07-16  921   * This function releases memory allocated by cma_alloc().
+a254129e8686bf Joonsoo Kim          2014-08-06  922   * It returns false when provided pages do not belong to contiguous area and
+a254129e8686bf Joonsoo Kim          2014-08-06  923   * true otherwise.
+a254129e8686bf Joonsoo Kim          2014-08-06  924   */
+78fa51503fdbe4 Minchan Kim          2021-05-04  925  bool cma_release(struct cma *cma, const struct page *pages,
+78fa51503fdbe4 Minchan Kim          2021-05-04  926  		 unsigned long count)
+a254129e8686bf Joonsoo Kim          2014-08-06  927  {
+c009da4258f988 Frank van der Linden 2025-02-28  928  	struct cma_memrange *cmr;
+c009da4258f988 Frank van der Linden 2025-02-28  929  	unsigned long pfn, end_pfn;
+c009da4258f988 Frank van der Linden 2025-02-28  930  	int r;
+c009da4258f988 Frank van der Linden 2025-02-28  931  
+c009da4258f988 Frank van der Linden 2025-02-28  932  	pr_debug("%s(page %p, count %lu)\n", __func__, (void *)pages, count);
+a254129e8686bf Joonsoo Kim          2014-08-06  933  
+9871e2ded6c1ff Mike Kravetz         2021-11-05  934  	if (!cma_pages_valid(cma, pages, count))
+a254129e8686bf Joonsoo Kim          2014-08-06  935  		return false;
+a254129e8686bf Joonsoo Kim          2014-08-06  936  
+a254129e8686bf Joonsoo Kim          2014-08-06  937  	pfn = page_to_pfn(pages);
+c009da4258f988 Frank van der Linden 2025-02-28  938  	end_pfn = pfn + count;
+a254129e8686bf Joonsoo Kim          2014-08-06  939  
+c009da4258f988 Frank van der Linden 2025-02-28  940  	for (r = 0; r < cma->nranges; r++) {
+c009da4258f988 Frank van der Linden 2025-02-28  941  		cmr = &cma->ranges[r];
+c009da4258f988 Frank van der Linden 2025-02-28  942  		if (pfn >= cmr->base_pfn &&
+c009da4258f988 Frank van der Linden 2025-02-28  943  		    pfn < (cmr->base_pfn + cmr->count)) {
+c009da4258f988 Frank van der Linden 2025-02-28  944  			VM_BUG_ON(end_pfn > cmr->base_pfn + cmr->count);
+c009da4258f988 Frank van der Linden 2025-02-28  945  			break;
+c009da4258f988 Frank van der Linden 2025-02-28  946  		}
+c009da4258f988 Frank van der Linden 2025-02-28  947  	}
+c009da4258f988 Frank van der Linden 2025-02-28  948  
+c009da4258f988 Frank van der Linden 2025-02-28  949  	if (r == cma->nranges)
+c009da4258f988 Frank van der Linden 2025-02-28  950  		return false;
+a254129e8686bf Joonsoo Kim          2014-08-06  951  
+a254129e8686bf Joonsoo Kim          2014-08-06  952  	free_contig_range(pfn, count);
+c009da4258f988 Frank van der Linden 2025-02-28 @953  	cma_clear_bitmap(cma, cmr, pfn, count);
+b9ad003af13a1f Anshuman Khandual    2024-02-06  954  	cma_sysfs_account_release_pages(cma, count);
+3aab8ae7aace33 Minchan Kim          2021-05-04  955  	trace_cma_release(cma->name, pfn, pages, count);
+a254129e8686bf Joonsoo Kim          2014-08-06  956  
+a254129e8686bf Joonsoo Kim          2014-08-06  957  	return true;
+a254129e8686bf Joonsoo Kim          2014-08-06  958  }
+e4231bcda72dae Laura Abbott         2017-04-18  959  
 
 -- 
 0-DAY CI Kernel Test Service
