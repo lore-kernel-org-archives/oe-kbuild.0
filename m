@@ -1,127 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328F927B357
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 Dec 2025 06:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04EDFDF76
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 Dec 2025 07:16:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765263320; cv=none; b=r4+3wsHfKvAQ8DukT5E+byapqyLHRYHG4gZMOn1KtFd437qBo6FUMzS5qWmJnUdKeJQCF5uli+TrdaoAtaqPDdGSeehgTFapJvEptEXlnqP7JN9QTLFTlYr0JnMakQZBQizcYSFhM/aP6gKCgqBx1bqBmJ9iMTW/W2uzAnI/l9k=
+	t=1765264582; cv=none; b=sWcxJR79hUl6yFwIItZFuhT6ejpy6iiROwbCcXxlT4qZneyjsLg0TVhzv5yrf0xVGD7P3vDGOtbkTM4vJG1dv7/ahxXA41bkhhIhU2D4tlgfIHcqGhGF+EsBbpEzq0VHD5UcxKWP1u/GWs2HDzZLjO/5t041UIkant/OyIWWZRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765263320; c=relaxed/simple;
-	bh=5buvdLKpvHT8BXetGdtBurS0umJRkjvRR9BiJoGFWKY=;
+	s=arc-20240116; t=1765264582; c=relaxed/simple;
+	bh=U9x/RlU6qmjJqHVb+Wet1kPXRuA2ZHLTUWW7vmE2GTI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iJOj/a1rq6EtHvdErNC8HHTYzvLkRgaTvi03pPGiA0JrvqaHrFqKWztHq7sFwDbpC4zwxHEY2sqVaTfm0cH66AWdcJb8YewOijiyxmyeqkORXU63LbZ8vON6jGrTzbywOdo0Tm04JJhPOhRq+8PE/05jZrMUkd55YwSsLDy/oCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NL1E6s9o; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=I7U1p6E0Z6Bps+QShwPM9eXVxlcvHekbd1st09Xtrn0KJ3MsQQPufadtf5S4EzBgXhM8aIjtfNfSC7NkBtMjOJdMNzAAhkGsaLbK+dCjApfQ3iOZkXhgD5psdSPyjnUJhEFiin5viYErH3Sx6gqepQQdeHBwlQFHCaXKZpxKDvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b10Ahteh; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NL1E6s9o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b10Ahteh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765263318; x=1796799318;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5buvdLKpvHT8BXetGdtBurS0umJRkjvRR9BiJoGFWKY=;
-  b=NL1E6s9oyFsN3dtKRFf7YU7eUqMWMXqf1xd6KswudL9FLfVYXY5d2Rz6
-   uwNGGIg1r/KnOjJjKYe70NDH2vUa293xpsB2hJnihl7N6KLgaO3oTOw/L
-   CKF3f5g6cOaBwkl9EmYs9pPUbGqIgd5TaK0yRFANnyq0H7haoFf/7zoHv
-   25LeI0qVNpXhYZfOC4Py9TEnPimsr7JJ1LIivj09CERT9E6ly4OqlQ4MI
-   vXbR/2HqzhCyWgbAGwoRc497X7vqZDaBXoeDtgEVBnRwaWq1L4VW9nsfx
-   C/IpjNQxS5qQIZfiAYhtqEEQcNe9dqnr0YOvaDDDcAl8z9EJIZWijvm+s
-   Q==;
-X-CSE-ConnectionGUID: SDnGBOfrTRaBbEpWfC6VKw==
-X-CSE-MsgGUID: CXfGn6rnR1a30KqrVyCiYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="70835120"
+  t=1765264580; x=1796800580;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=U9x/RlU6qmjJqHVb+Wet1kPXRuA2ZHLTUWW7vmE2GTI=;
+  b=b10AhtehrD7P3cFkSTJV0KkEmPQD/ythiDtcfXlsy3MhOuc3KgXZtXh9
+   qqfWRpDvkZA5n3wHMu8fTHIzUCFHLv1VVwbHLvmVVmzZRZAbwWGFMtWT/
+   rBJbkLSJXspteNw6LmaWTmiZ+vDv19f7/kCrS6JhxqGzpgDYSEw3Ku2QM
+   IDyoT3+XLW5ue/iXaQJhjDxrpE4j0/+9y1quZPkbNbiiYGckW6XkexGsG
+   d1aY4K9+UTvyckgHKMrihZQKEQzP+agU7OmiwaQwsTgU/HLm5+dJZGDNs
+   j616fmHu1oKagfY0buvOekJ6Bc6p4T53Vr2FWF5qNJ7BoD9HiKXIjud32
+   w==;
+X-CSE-ConnectionGUID: Ru57dy+rRue9mUsWLthGtw==
+X-CSE-MsgGUID: uc+jGCF3QWidh3rZdxeo4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="92691821"
 X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="70835120"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 22:55:17 -0800
-X-CSE-ConnectionGUID: 2WKndrFCSmq8ib+pI3XZPg==
-X-CSE-MsgGUID: I1okmtCXQRSrmCYbDGg9ig==
+   d="scan'208";a="92691821"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 23:16:18 -0800
+X-CSE-ConnectionGUID: yFfy3qaiTVO3fqjmh7yX7Q==
+X-CSE-MsgGUID: 2oh6b8l5S4SeqXvuoBMNTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="200589816"
+   d="scan'208";a="201075731"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2025 22:55:16 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 08 Dec 2025 23:16:17 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSrcw-000000001Qn-2G8F;
-	Tue, 09 Dec 2025 06:55:14 +0000
-Date: Tue, 9 Dec 2025 14:54:27 +0800
+	id 1vSrxH-000000001Rp-1FVs;
+	Tue, 09 Dec 2025 07:16:15 +0000
+Date: Tue, 9 Dec 2025 15:15:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v4 3/3] gpio: gpio-ltc4283: Add support for the LTC4283
- Swap Controller
-Message-ID: <202512091403.zzZcC3fv-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/resctrl/mpam_devices.c:1042 __ris_msmon_read() error:
+ uninitialized symbol 'now'.
+Message-ID: <202512091519.RBwiJcSq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/gpio/gpio-ltc4283.c:213:1: sparse: sparse: bad integer constant expression"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251204-ltc4283-support-v4-3-db0197fd7984@analog.com>
-References: <20251204-ltc4283-support-v4-3-db0197fd7984@analog.com>
-TO: "Nuno Sá via B4 Relay" <devnull+nuno.sa.analog.com@kernel.org>
-TO: linux-hwmon@vger.kernel.org
-TO: linux-gpio@vger.kernel.org
-TO: devicetree@vger.kernel.org
-TO: linux-doc@vger.kernel.org
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Jean Delvare <jdelvare@suse.com>
-CC: Guenter Roeck <linux@roeck-us.net>
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: Linus Walleij <linus.walleij@linaro.org>
-CC: Bartosz Golaszewski <brgl@bgdev.pl>
+CC: linux-kernel@vger.kernel.org
+TO: James Morse <james.morse@arm.com>
+CC: Catalin Marinas <catalin.marinas@arm.com>
+CC: Jonathan Cameron <jonathan.cameron@huawei.com>
+CC: Gavin Shan <gshan@redhat.com>
+CC: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+CC: Fenghua Yu <fenghuay@nvidia.com>
+CC: Ben Horgan <ben.horgan@arm.com>
 
-Hi Nuno,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bc04acf4aeca588496124a6cf54bfce3db327039]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-S-via-B4-Relay/dt-bindings-hwmon-Document-the-LTC4283-Swap-Controller/20251205-003741
-base:   bc04acf4aeca588496124a6cf54bfce3db327039
-patch link:    https://lore.kernel.org/r/20251204-ltc4283-support-v4-3-db0197fd7984%40analog.com
-patch subject: [PATCH v4 3/3] gpio: gpio-ltc4283: Add support for the LTC4283 Swap Controller
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: microblaze-randconfig-r131-20251209 (https://download.01.org/0day-ci/archive/20251209/202512091403.zzZcC3fv-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512091403.zzZcC3fv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cfd4039213e7b5a828c5b78e1b5235cac91af53d
+commit: 823e7c3712c584641b4ef890a8af34884c677197 arm_mpam: Add mpam_msmon_read() to read monitor value
+date:   3 weeks ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 weeks ago
+config: arm64-randconfig-r072-20251208 (https://download.01.org/0day-ci/archive/20251209/202512091519.RBwiJcSq-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project a805147ac1ba123916de182babb0831fbb148756)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512091403.zzZcC3fv-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512091519.RBwiJcSq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpio/gpio-ltc4283.c:213:1: sparse: sparse: bad integer constant expression
->> drivers/gpio/gpio-ltc4283.c:213:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/gpio/gpio-ltc4283.c:214:1: sparse: sparse: bad integer constant expression
->> drivers/gpio/gpio-ltc4283.c:214:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/gpio/gpio-ltc4283.c:215:1: sparse: sparse: bad integer constant expression
->> drivers/gpio/gpio-ltc4283.c:215:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/gpio/gpio-ltc4283.c:215:1: sparse: sparse: bad integer constant expression
->> drivers/gpio/gpio-ltc4283.c:215:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+smatch warnings:
+drivers/resctrl/mpam_devices.c:1042 __ris_msmon_read() error: uninitialized symbol 'now'.
 
-vim +213 drivers/gpio/gpio-ltc4283.c
+vim +/now +1042 drivers/resctrl/mpam_devices.c
 
-7d6ae8ce607a7b Nuno Sá 2025-12-04  212  
-7d6ae8ce607a7b Nuno Sá 2025-12-04 @213  MODULE_AUTHOR("Nuno Sá <nuno.sa@analog.com>");
-7d6ae8ce607a7b Nuno Sá 2025-12-04 @214  MODULE_DESCRIPTION("GPIO LTC4283 Driver");
-7d6ae8ce607a7b Nuno Sá 2025-12-04 @215  MODULE_LICENSE("GPL");
+823e7c3712c5846 James Morse 2025-11-19   987  
+823e7c3712c5846 James Morse 2025-11-19   988  static void __ris_msmon_read(void *arg)
+823e7c3712c5846 James Morse 2025-11-19   989  {
+823e7c3712c5846 James Morse 2025-11-19   990  	u64 now;
+823e7c3712c5846 James Morse 2025-11-19   991  	bool nrdy = false;
+823e7c3712c5846 James Morse 2025-11-19   992  	bool config_mismatch;
+823e7c3712c5846 James Morse 2025-11-19   993  	struct mon_read *m = arg;
+823e7c3712c5846 James Morse 2025-11-19   994  	struct mon_cfg *ctx = m->ctx;
+823e7c3712c5846 James Morse 2025-11-19   995  	struct mpam_msc_ris *ris = m->ris;
+823e7c3712c5846 James Morse 2025-11-19   996  	struct mpam_props *rprops = &ris->props;
+823e7c3712c5846 James Morse 2025-11-19   997  	struct mpam_msc *msc = m->ris->vmsc->msc;
+823e7c3712c5846 James Morse 2025-11-19   998  	u32 mon_sel, ctl_val, flt_val, cur_ctl, cur_flt;
+823e7c3712c5846 James Morse 2025-11-19   999  
+823e7c3712c5846 James Morse 2025-11-19  1000  	if (!mpam_mon_sel_lock(msc)) {
+823e7c3712c5846 James Morse 2025-11-19  1001  		m->err = -EIO;
+823e7c3712c5846 James Morse 2025-11-19  1002  		return;
+823e7c3712c5846 James Morse 2025-11-19  1003  	}
+823e7c3712c5846 James Morse 2025-11-19  1004  	mon_sel = FIELD_PREP(MSMON_CFG_MON_SEL_MON_SEL, ctx->mon) |
+823e7c3712c5846 James Morse 2025-11-19  1005  		  FIELD_PREP(MSMON_CFG_MON_SEL_RIS, ris->ris_idx);
+823e7c3712c5846 James Morse 2025-11-19  1006  	mpam_write_monsel_reg(msc, CFG_MON_SEL, mon_sel);
+823e7c3712c5846 James Morse 2025-11-19  1007  
+823e7c3712c5846 James Morse 2025-11-19  1008  	/*
+823e7c3712c5846 James Morse 2025-11-19  1009  	 * Read the existing configuration to avoid re-writing the same values.
+823e7c3712c5846 James Morse 2025-11-19  1010  	 * This saves waiting for 'nrdy' on subsequent reads.
+823e7c3712c5846 James Morse 2025-11-19  1011  	 */
+823e7c3712c5846 James Morse 2025-11-19  1012  	read_msmon_ctl_flt_vals(m, &cur_ctl, &cur_flt);
+823e7c3712c5846 James Morse 2025-11-19  1013  	clean_msmon_ctl_val(&cur_ctl);
+823e7c3712c5846 James Morse 2025-11-19  1014  	gen_msmon_ctl_flt_vals(m, &ctl_val, &flt_val);
+823e7c3712c5846 James Morse 2025-11-19  1015  	config_mismatch = cur_flt != flt_val ||
+823e7c3712c5846 James Morse 2025-11-19  1016  			  cur_ctl != (ctl_val | MSMON_CFG_x_CTL_EN);
+823e7c3712c5846 James Morse 2025-11-19  1017  
+823e7c3712c5846 James Morse 2025-11-19  1018  	if (config_mismatch)
+823e7c3712c5846 James Morse 2025-11-19  1019  		write_msmon_ctl_flt_vals(m, ctl_val, flt_val);
+823e7c3712c5846 James Morse 2025-11-19  1020  
+823e7c3712c5846 James Morse 2025-11-19  1021  	switch (m->type) {
+823e7c3712c5846 James Morse 2025-11-19  1022  	case mpam_feat_msmon_csu:
+823e7c3712c5846 James Morse 2025-11-19  1023  		now = mpam_read_monsel_reg(msc, CSU);
+823e7c3712c5846 James Morse 2025-11-19  1024  		if (mpam_has_feature(mpam_feat_msmon_csu_hw_nrdy, rprops))
+823e7c3712c5846 James Morse 2025-11-19  1025  			nrdy = now & MSMON___NRDY;
+823e7c3712c5846 James Morse 2025-11-19  1026  		break;
+823e7c3712c5846 James Morse 2025-11-19  1027  	case mpam_feat_msmon_mbwu:
+823e7c3712c5846 James Morse 2025-11-19  1028  		now = mpam_read_monsel_reg(msc, MBWU);
+823e7c3712c5846 James Morse 2025-11-19  1029  		if (mpam_has_feature(mpam_feat_msmon_mbwu_hw_nrdy, rprops))
+823e7c3712c5846 James Morse 2025-11-19  1030  			nrdy = now & MSMON___NRDY;
+823e7c3712c5846 James Morse 2025-11-19  1031  		break;
+823e7c3712c5846 James Morse 2025-11-19  1032  	default:
+823e7c3712c5846 James Morse 2025-11-19  1033  		m->err = -EINVAL;
+823e7c3712c5846 James Morse 2025-11-19  1034  	}
+823e7c3712c5846 James Morse 2025-11-19  1035  	mpam_mon_sel_unlock(msc);
+823e7c3712c5846 James Morse 2025-11-19  1036  
+823e7c3712c5846 James Morse 2025-11-19  1037  	if (nrdy) {
+823e7c3712c5846 James Morse 2025-11-19  1038  		m->err = -EBUSY;
+823e7c3712c5846 James Morse 2025-11-19  1039  		return;
+823e7c3712c5846 James Morse 2025-11-19  1040  	}
+823e7c3712c5846 James Morse 2025-11-19  1041  
+823e7c3712c5846 James Morse 2025-11-19 @1042  	now = FIELD_GET(MSMON___VALUE, now);
+823e7c3712c5846 James Morse 2025-11-19  1043  	*m->val += now;
+823e7c3712c5846 James Morse 2025-11-19  1044  }
+823e7c3712c5846 James Morse 2025-11-19  1045  
 
 -- 
 0-DAY CI Kernel Test Service
