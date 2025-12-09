@@ -1,119 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D84E226D17
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 Dec 2025 04:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C97800
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 Dec 2025 04:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765255034; cv=none; b=gM1Fmjpu0Qsi1UUvCAienSR1MZvMIf4P56nF85uXbMgPReRnBuk2/W7kEdYnS6Cgjg4OYWUj7a4h3sZsfpByuGLccIlbj6t6SB2ir5p0VOXpwAwNKQ8yHrGAx6Nj+oHiDFFcg45SktixLvnH41mdtpOdAMla0pA/6K1k6rL05z0=
+	t=1765255634; cv=none; b=WSfgL50tl8R5Rv/Z/lMTSy5M+YM7oHie5J9tmOR9J/QmVE/Kcgj24gZp2894DN85rnTc1SFV9oXe2rNFqzLbgILkau266cB/z3MyRkMZzWR85evFMJr0JffiB4NSJ/kHgcubyXqBGln7fihaADXLg/m+FYNp5ct8IHdMvVz/7Ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765255034; c=relaxed/simple;
-	bh=YPzYwb6y53XU0HocmQ1nmfOuqYWzE0nt+RdkVdlc3Yc=;
+	s=arc-20240116; t=1765255634; c=relaxed/simple;
+	bh=PxZTIemlD97XUyu2kMczd+eMTF59+ovgx7tKjuF3DFQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iWMTTQjSzQ9n3r+0aOlAOZ57oPAl2f4Odee/sV/18Km2Uk01XhoHF/o2QtNuk/WncR0CInUQiT3yY9bVYDCvVm0ff5oIRjXpFLzMeKRWATR9+jlbK07IUFYgznB1EAzyBMxDTetBAi6UsOQPR/5CO5vBG+a6uXIwFYXUV+r6Cc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GJPOlHzw; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=R47rUudMCwFx6COhrL19q3y/+VD3AfgP87x5nyxkx3uNyRn6z8zgarEnMDJsrk3aj7/B2kgjIpNyI+EmJhNTTNI9Bw91L6NKmTkBfNBTXN0jVVFYDiCj2yQmL9H92vbuiaRz3j0u65YtLd/z090TrAJtFOzqjjObEX2ugWCir7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RQnegat5; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJPOlHzw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RQnegat5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765255032; x=1796791032;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YPzYwb6y53XU0HocmQ1nmfOuqYWzE0nt+RdkVdlc3Yc=;
-  b=GJPOlHzwlH+WEbe7iSj3H18x2MJTU6Q8E+uOX+6AD+BmG3Hv5mg+dDde
-   Bbeqbjp+mVXOrQUuMCVpJF+1t12+V1RQrxB8SnGwoLDw89kpYFrNVVgqg
-   P3aXi5wTJPYSUgMaEs2L2xH2ZNRcbxQBCf8skcK2++45WX7h0zVgXQVvj
-   1o0Ks9bc+jBZ8ZXc5RVLRXp0tF/shOyROdKC3i6mRhzIDQ4OVvYgzrmgQ
-   gd6lFV2V9Vg24Ccr1/4xNmFpQCeVjyLvxrReMcz+usHxtZI5B+ajAGXr6
-   FqD+Yv7MJyvw/sFcTWUqPMtJp+1vO0htkZgKS1YWafVcMEbqny3lxrW7g
+  t=1765255632; x=1796791632;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=PxZTIemlD97XUyu2kMczd+eMTF59+ovgx7tKjuF3DFQ=;
+  b=RQnegat5u54FE06utb02nkhmjBIKoJKzzr7/PcfNHY96tR9jP49BAM7p
+   sflTLyPR63g1Vra4rY6fC+hBVHghevlwbNvpPstQnv/X5qlSYM48asBxn
+   VzPW5RbzfSQgvOQBc4JW3MM6phZH181Ky+SpsMPJqx9Jv1KRBmgFPiyQI
+   EQYcem2hCA9/ieLIaQeXIIsZS8fNCghW49nTemLio9LOl3MpV/ULu8ZS4
+   GkLk5t/qc3Y+/CQ77c2QBX+BfiPPIzTav+lROcHb/mJf0O7vUq/n3b4to
+   q0IPBg/vyIY6UzMhrheIh6IlzT/LXutwByj2BRKRHhycRUAfnBTYMWvRH
    Q==;
-X-CSE-ConnectionGUID: te83PJMwTv2K2S5keFTUzg==
-X-CSE-MsgGUID: cIyhsWDFS+uDm0vm/Mr2Zw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="77824294"
+X-CSE-ConnectionGUID: 3SAzfgOMTx2upjdZ0WLrfg==
+X-CSE-MsgGUID: auDKFjAIQBubRW4RM01e5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="71062153"
 X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="77824294"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 20:37:11 -0800
-X-CSE-ConnectionGUID: LbgbNAyKTJyP/rApjqamIA==
-X-CSE-MsgGUID: fWf7oYYjRBa/jL3lQBVA/A==
+   d="scan'208";a="71062153"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 20:47:12 -0800
+X-CSE-ConnectionGUID: iGZdkxWiRTeVv5uLKpG0Wg==
+X-CSE-MsgGUID: dPmno9uUSiOD2xEh7bR0nQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="201236771"
+   d="scan'208";a="200305351"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 08 Dec 2025 20:37:10 -0800
+  by orviesa003.jf.intel.com with ESMTP; 08 Dec 2025 20:47:11 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSpTH-000000001Jp-3C5T;
-	Tue, 09 Dec 2025 04:37:07 +0000
-Date: Tue, 9 Dec 2025 12:36:34 +0800
+	id 1vSpcy-000000001KH-2ZSm;
+	Tue, 09 Dec 2025 04:47:08 +0000
+Date: Tue, 9 Dec 2025 12:46:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/sparse-vmemmap.c:400 vmemmap_populate_hvo() error: uninitialized
- symbol 'pte'.
-Message-ID: <202512091213.DKfu3rVr-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v4 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
+ Controller
+Message-ID: <202512091255.47NOTUOd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/hwmon/ltc4283.c:1717:1: sparse: sparse: bad integer constant expression"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Frank van der Linden <fvdl@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+In-Reply-To: <20251204-ltc4283-support-v4-2-db0197fd7984@analog.com>
+References: <20251204-ltc4283-support-v4-2-db0197fd7984@analog.com>
+TO: "Nuno Sá via B4 Relay" <devnull+nuno.sa.analog.com@kernel.org>
+TO: linux-hwmon@vger.kernel.org
+TO: linux-gpio@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-doc@vger.kernel.org
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: Jean Delvare <jdelvare@suse.com>
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: Linus Walleij <linus.walleij@linaro.org>
+CC: Bartosz Golaszewski <brgl@bgdev.pl>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cfd4039213e7b5a828c5b78e1b5235cac91af53d
-commit: 9eb6207b7812cee13431831c9661d21b53f3e93f mm/sparse: add vmemmap_*_hvo functions
-date:   9 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 9 months ago
-config: x86_64-randconfig-161-20251209 (https://download.01.org/0day-ci/archive/20251209/202512091213.DKfu3rVr-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+Hi Nuno,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bc04acf4aeca588496124a6cf54bfce3db327039]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-S-via-B4-Relay/dt-bindings-hwmon-Document-the-LTC4283-Swap-Controller/20251205-003741
+base:   bc04acf4aeca588496124a6cf54bfce3db327039
+patch link:    https://lore.kernel.org/r/20251204-ltc4283-support-v4-2-db0197fd7984%40analog.com
+patch subject: [PATCH v4 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap Controller
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: microblaze-randconfig-r131-20251209 (https://download.01.org/0day-ci/archive/20251209/202512091255.47NOTUOd-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512091255.47NOTUOd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512091213.DKfu3rVr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512091255.47NOTUOd-lkp@intel.com/
 
-smatch warnings:
-mm/sparse-vmemmap.c:400 vmemmap_populate_hvo() error: uninitialized symbol 'pte'.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hwmon/ltc4283.c:1717:1: sparse: sparse: bad integer constant expression
+>> drivers/hwmon/ltc4283.c:1717:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/hwmon/ltc4283.c:1718:1: sparse: sparse: bad integer constant expression
+>> drivers/hwmon/ltc4283.c:1718:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/hwmon/ltc4283.c:1719:1: sparse: sparse: bad integer constant expression
+>> drivers/hwmon/ltc4283.c:1719:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/hwmon/ltc4283.c:1719:1: sparse: sparse: bad integer constant expression
+>> drivers/hwmon/ltc4283.c:1719:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-vim +/pte +400 mm/sparse-vmemmap.c
+vim +1717 drivers/hwmon/ltc4283.c
 
-9eb6207b7812ce Frank van der Linden 2025-02-28  378  
-9eb6207b7812ce Frank van der Linden 2025-02-28  379  /*
-9eb6207b7812ce Frank van der Linden 2025-02-28  380   * Populate vmemmap pages HVO-style. The first page contains the head
-9eb6207b7812ce Frank van der Linden 2025-02-28  381   * page and needed tail pages, the other ones are mirrors of the first
-9eb6207b7812ce Frank van der Linden 2025-02-28  382   * page.
-9eb6207b7812ce Frank van der Linden 2025-02-28  383   */
-9eb6207b7812ce Frank van der Linden 2025-02-28  384  int __meminit vmemmap_populate_hvo(unsigned long addr, unsigned long end,
-9eb6207b7812ce Frank van der Linden 2025-02-28  385  				       int node, unsigned long headsize)
-9eb6207b7812ce Frank van der Linden 2025-02-28  386  {
-9eb6207b7812ce Frank van der Linden 2025-02-28  387  	pte_t *pte;
-9eb6207b7812ce Frank van der Linden 2025-02-28  388  	unsigned long maddr;
-9eb6207b7812ce Frank van der Linden 2025-02-28  389  
-9eb6207b7812ce Frank van der Linden 2025-02-28  390  	for (maddr = addr; maddr < addr + headsize; maddr += PAGE_SIZE) {
-9eb6207b7812ce Frank van der Linden 2025-02-28  391  		pte = vmemmap_populate_address(maddr, node, NULL, -1, 0);
-9eb6207b7812ce Frank van der Linden 2025-02-28  392  		if (!pte)
-9eb6207b7812ce Frank van der Linden 2025-02-28  393  			return -ENOMEM;
-9eb6207b7812ce Frank van der Linden 2025-02-28  394  	}
-9eb6207b7812ce Frank van der Linden 2025-02-28  395  
-9eb6207b7812ce Frank van der Linden 2025-02-28  396  	/*
-9eb6207b7812ce Frank van der Linden 2025-02-28  397  	 * Reuse the last page struct page mapped above for the rest.
-9eb6207b7812ce Frank van der Linden 2025-02-28  398  	 */
-9eb6207b7812ce Frank van der Linden 2025-02-28  399  	return vmemmap_populate_range(maddr, end, node, NULL,
-9eb6207b7812ce Frank van der Linden 2025-02-28 @400  					pte_pfn(ptep_get(pte)), 0);
-4917f55b4ef963 Joao Martins         2022-04-28  401  }
-4917f55b4ef963 Joao Martins         2022-04-28  402  
+affd85259bff87 Nuno Sá 2025-12-04  1716  
+affd85259bff87 Nuno Sá 2025-12-04 @1717  MODULE_AUTHOR("Nuno Sá <nuno.sa@analog.com>");
+affd85259bff87 Nuno Sá 2025-12-04 @1718  MODULE_DESCRIPTION("LTC4283 How Swap Controller driver");
+affd85259bff87 Nuno Sá 2025-12-04 @1719  MODULE_LICENSE("GPL");
 
 -- 
 0-DAY CI Kernel Test Service
