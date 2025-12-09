@@ -1,83 +1,59 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCA335959
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 Dec 2025 08:48:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8E5264FBD
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 Dec 2025 10:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765270125; cv=none; b=L544CIuGDDkiPCkfXlsTYjPMCGNU5cWnBnEpwjyEJQ9RNvGEUutqBi7BsdpCXhHEmheLynWfQt8QdluaqTV6AzN9qoNhY9hvsZj+vd6JOeZ25By85lCG72DYx7pzWOPMLL7SCFwe//zzURBpunBZAyaE6BzjSB4Z4UcvQTp6mP8=
+	t=1765274774; cv=none; b=lKR8c9ckGlDIBj9jK5I8eeIXdczKJ2k2xAmxVv0l8JxGthWyXiCytDwyoBP5Av9AnsanjEqkn6WTNDR6EmHN6CsZtibnTRs50Ta1mEeAgEIJdYDF0bI+yKM7wmGGUuD9bOeLQgtcz58Hh5bNtbR/GBh6fCH8K3e3L+k4fzAPJaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765270125; c=relaxed/simple;
-	bh=xxXWsfhWpFA1GJp9c27igTe9TDJA5SsjtabW2SCAI7o=;
+	s=arc-20240116; t=1765274774; c=relaxed/simple;
+	bh=o6muOYag2Afd559dXe5BI6U1Gkl0vDVEn1zcm6AUaS4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Phl7HSLYJlujrDPcoKAU5urRzEwhZZAIxlYQPC2tKZh91Ky1cYXFURsLZ7xJ0Bt6amd/tdREvVweVewSQXOE05BSRv4iOazqa0ta7JCIjOEifhE2xK0AoTTnyYlFOhW4Q1rDbpGKZfT8marvag1byMx5XI7zQN0+DBpmlqlC+8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VcYWlWFh; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=beLdKPq5Koqx0cdd5KY0uoaIRhT0rlj67XKCe6CHx0NStf4Pq/TDX8Vf3mw/C8jM7amYVwGK2t4FiEAM5XFWzLPMh9ce8nTLDFoD2xtcEepMWWErq0o2H3Y4Nk5aDW+kCBbzGKizk3K9YKjH67n8Bl1KaCBk9XCMtFaP66sie1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kB7ysfAf; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VcYWlWFh"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4779a4fc95aso39369945e9.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 09 Dec 2025 00:48:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765270122; x=1765874922; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l/9hlXudcKRpY6hrJvKE8N2TDVYcPTRVJwW6FEeBPqA=;
-        b=VcYWlWFhBqLl1dUpJPUi1XtoCC2PlKm2aenyI1uAu19DVhXEXtaB+0/rW27HqRIa9p
-         D+ph4MEFBPiyxyyUHAxtDv/t0vtB6NFUMzxsXTHz/mXxec4AUWSUeXiGQcq51Pxvedu9
-         JDGcNYxmWBK8zPvq35u5FiJXPSHearLw1zDqcw/qjWPb+j76LRv7jiYesQqVI2pTNXYl
-         UJPXRMJf2fpoQgG4TYNTg3KspfGQBOjXLT1kuWqEPLKA1HfEBA6o8Hyrd/rZzxRyB6ye
-         ZcTb2QL5b1vb/3M//8XxwYatcnFbwS0D3osuWMWQDKRk9ltDRpBvT/WQ0bcuP37TIsIB
-         mMBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765270122; x=1765874922;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l/9hlXudcKRpY6hrJvKE8N2TDVYcPTRVJwW6FEeBPqA=;
-        b=t+rsQ9YNQx6s8T/dIoUy5YhyiOxBf3Ta7gcUC8oVsLg+WpOZ69PGnBeOYgRBKJa6fA
-         lkBitXtLUihtOnRbkDA2wLsPnTuSGBPIykPwsEz83obZoGtU01OMhJRPQW9EckSIlCl5
-         AOeS4vjayTe68k7QIX+yNkUtUfdO6LmcFBEhFBQC2nN6C6yoimv/0kNUrsS3adTkTZMP
-         C4/7coGzcrCWWL/GzlZG9mLzFMZmczOv4uic/Mzjmf3fjNPQpzKWkIyVmv0WpHds8q2X
-         xdQ1+DZsDKlfnKHVshmBl1bJmLikJByoQH8W7XsU60dGehuqfsohrONq5RFZK3Zktf7G
-         jwmg==
-X-Gm-Message-State: AOJu0YzrfNl2O+PYZKdgmZwdWL/dFgfh7PsXANYtXPTJvNY1N7bCVPMc
-	+tT2zx7GQ4SQdUbyUWAwcN1tj/4CaofyZaVHqwMIRhYvwRdHAxHGeQky+D3YC5OpNkzYQu1dwDB
-	lxt1T
-X-Gm-Gg: ASbGnctyqoomv5QPTD8oIzFTIVJK9SzxfSqrokTJnzXX8cCWYflHjtdjh5B8mVo9YJJ
-	iz8As2pjhJm1rUlfJBXrZnMq/G5CyS8j9JRX1UwK3DmdZt29keeIOBTyaqR62NIwJvmoE66PL/V
-	4XmhSqAZXZexeaVRP2dLyBiv6LfdoHAheLqEP0SGMS4lV89Qw9N+qtNV2mthtH5hyxX/tVj8NNx
-	jBQEVky+F8lAD9Q2yo7kIb+23+dXQMBhfjHaGGPW4zioLrPdMfRq8yO0kAndCG1ut5IMSLRw/FC
-	kE2XwADBP/EuE2qzdYd/NDdP1Jfbb8BkKMDA+JsJturdcWm4dtrTlnb9pnzv8XiZwi67ojS0sxx
-	Ts8Q3u7UToZagOxK0JVPX+eRXKnOisCxfKRJRIJK+k8aUQiTuP32dRoO/WVeo/BIKFgR/gZZ0ro
-	mcguDetLlmpDufbqvg
-X-Google-Smtp-Source: AGHT+IEyUdXVoGKJ6G1vggWr7AbmYX2zJ5dyUaV8iLG3jzVKrJy/wBKa5LULXZdnqeSVsi3fwgMy3w==
-X-Received: by 2002:a05:600c:4fcd:b0:46f:a2ba:581f with SMTP id 5b1f17b1804b1-47a7fa4d3a5mr7260845e9.16.1765270121392;
-        Tue, 09 Dec 2025 00:48:41 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d222478sm29846951f8f.20.2025.12.09.00.48.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 00:48:40 -0800 (PST)
-Date: Tue, 9 Dec 2025 11:48:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sriram Dash <sriram.dash@oss.qualcomm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	jack.pham@oss.qualcomm.com, faisal.hassan@oss.qualcomm.com,
-	krishna.kurapati@oss.qualcomm.com, andersson@kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sriram Dash <sriram.dash@oss.qualcomm.com>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Shazad Hussain <shazad.hussain@oss.qualcomm.com>
-Subject: Re: [PATCH 2/2] usb: dwc3: qcom: Support firmware-managed resource
- states for power management
-Message-ID: <202512060556.pgIgFNxx-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kB7ysfAf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765274771; x=1796810771;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=o6muOYag2Afd559dXe5BI6U1Gkl0vDVEn1zcm6AUaS4=;
+  b=kB7ysfAf48X00TMjD5c3vGB1hW7QItYnjdCycr8ZGXe5czovCx/w5vJ4
+   MHcfmA7Rxc2+uN6T4OQbe9QU/0kyGZtBybQSEJE1HTl1dXSmOrjwaVyOw
+   TXITQEo+1G8Gs1LbEejdMYYsrBdw0dObbdz17feYxxiij9L6JW3KSc5H/
+   b2EPF2QBXK2DeV8M04l+01FFs1n6ZcY8c1JBDU00cfEX7rlSxxuDUAaOq
+   FBEokR76sqQX7vAGs9UBsfWIwKVaQyIUffJmrBggQ2lYnqnYHR+d3tXDL
+   ufqRxhl3HOxkEm4/j683bzdG4xj1TuZPnadfs2Mw7vAAMqSTkvPaFHrBu
+   w==;
+X-CSE-ConnectionGUID: bsezqfuCQxKxJJLu4IqTaw==
+X-CSE-MsgGUID: RQcvJoEoSKmeNQ6AAM9bQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="78691812"
+X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; 
+   d="scan'208";a="78691812"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 02:05:28 -0800
+X-CSE-ConnectionGUID: et5/tWfjRT+O/55g0tummA==
+X-CSE-MsgGUID: 14VFpAT8QT6D1v2nEjKwvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; 
+   d="scan'208";a="196086057"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 09 Dec 2025 02:05:26 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vSuay-000000001dJ-3A37;
+	Tue, 09 Dec 2025 10:05:24 +0000
+Date: Tue, 9 Dec 2025 18:05:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [linux-next:master 13658/13721]
+ drivers/clk/qcom/nsscc-ipq5424.c:1339:1: sparse: sparse: bad integer
+ constant expression
+Message-ID: <202512091802.WtXCOnXL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -86,171 +62,52 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251127-controller_scmi_upstream-v1-2-38bcca513c28@oss.qualcomm.com>
-Message-ID: <20251209084837.hyqgn4B5ENr9hjV_Z39fnfPzz2ckjrI3THIp_dgly0M@z>
 
-Hi Sriram,
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/clk/qcom/nsscc-ipq5424.c:1339:1: sparse: sparse: bad integer constant expression"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Bjorn Andersson <andersson@kernel.org>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sriram-Dash/dt-bindings-usb-qcom-snps-dwc3-Add-support-for-firmware-managed-resources/20251127-183548
-base:   c77a6544d8a2364e4bee1b52890f577be27b7296
-patch link:    https://lore.kernel.org/r/20251127-controller_scmi_upstream-v1-2-38bcca513c28%40oss.qualcomm.com
-patch subject: [PATCH 2/2] usb: dwc3: qcom: Support firmware-managed resource states for power management
-config: nios2-randconfig-r071-20251204 (https://download.01.org/0day-ci/archive/20251206/202512060556.pgIgFNxx-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c75caf76ed86bbc15a72808f48f8df1608a0886c
+commit: aa787fe758acf60add317f09727732b220be314c [13658/13721] Merge branch 'for-next' of https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git
+:::::: branch date: 8 hours ago
+:::::: commit date: 35 hours ago
+config: parisc-randconfig-r113-20251208 (https://download.01.org/0day-ci/archive/20251209/202512091802.WtXCOnXL-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512091802.WtXCOnXL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512060556.pgIgFNxx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512091802.WtXCOnXL-lkp@intel.com/
 
-smatch warnings:
-drivers/usb/dwc3/dwc3-qcom.c:801 dwc3_qcom_probe() error: uninitialized symbol 'ret'.
+All errors (new ones prefixed by >>):
 
-vim +/ret +801 drivers/usb/dwc3/dwc3-qcom.c
+   hppa-linux-ld: drivers/gpu/drm/panel/panel-visionox-rm69299.o: in function `visionox_rm69299_probe':
+>> (.text+0x490): undefined reference to `devm_backlight_device_register'
 
-21188e8d6d7590 Krishna Kurapati   2025-09-07  668  
-2bc02355f8ba2c Lee Jones          2019-06-17  669  static int dwc3_qcom_probe(struct platform_device *pdev)
-2bc02355f8ba2c Lee Jones          2019-06-17  670  {
-1881a32fe14df8 Bjorn Andersson    2025-04-14  671  	struct dwc3_probe_data	probe_data = {};
-2bc02355f8ba2c Lee Jones          2019-06-17  672  	struct device		*dev = &pdev->dev;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  673  	struct dwc3_qcom	*qcom;
-1881a32fe14df8 Bjorn Andersson    2025-04-14  674  	struct resource		res;
-1881a32fe14df8 Bjorn Andersson    2025-04-14  675  	struct resource		*r;
-e33ebb133a245a Bjorn Andersson    2025-05-08  676  	int			ret;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  677  	bool			ignore_pipe_clk;
-e3fafbd8e36530 Johan Hovold       2022-08-04  678  	bool			wakeup_source;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  679  
-a4333c3a6ba9ca Manu Gautam        2018-05-09  680  	qcom = devm_kzalloc(&pdev->dev, sizeof(*qcom), GFP_KERNEL);
-a4333c3a6ba9ca Manu Gautam        2018-05-09  681  	if (!qcom)
-a4333c3a6ba9ca Manu Gautam        2018-05-09  682  		return -ENOMEM;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  683  
-a4333c3a6ba9ca Manu Gautam        2018-05-09  684  	qcom->dev = &pdev->dev;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  685  
-79456073227880 Sriram Dash        2025-11-27  686  	qcom->fw_managed = device_get_match_data(dev);
-79456073227880 Sriram Dash        2025-11-27  687  	if (qcom->fw_managed) {
-79456073227880 Sriram Dash        2025-11-27  688  		ret = dev_pm_opp_set_level(qcom->dev, DWC3_QCOM_FW_MANAGED_INIT);
-79456073227880 Sriram Dash        2025-11-27  689  		if (ret < 0)
-79456073227880 Sriram Dash        2025-11-27  690  			return ret;
-79456073227880 Sriram Dash        2025-11-27  691  	}
-79456073227880 Sriram Dash        2025-11-27  692  
-a4333c3a6ba9ca Manu Gautam        2018-05-09  693  	qcom->resets = devm_reset_control_array_get_optional_exclusive(dev);
-a4333c3a6ba9ca Manu Gautam        2018-05-09  694  	if (IS_ERR(qcom->resets)) {
-79456073227880 Sriram Dash        2025-11-27  695  		dev_err_probe(&pdev->dev, PTR_ERR(qcom->resets),
-60d5b71933c4f1 Andrew Halaney     2023-06-05  696  			      "failed to get resets\n");
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clk/qcom/nsscc-ipq5424.c:1339:1: sparse: sparse: bad integer constant expression
+>> drivers/clk/qcom/nsscc-ipq5424.c:1339:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/clk/qcom/nsscc-ipq5424.c:1340:1: sparse: sparse: bad integer constant expression
+>> drivers/clk/qcom/nsscc-ipq5424.c:1340:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-ret = dev_err_probe()
+vim +1339 drivers/clk/qcom/nsscc-ipq5424.c
 
-79456073227880 Sriram Dash        2025-11-27  697  		goto resources_off;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  698  	}
-a4333c3a6ba9ca Manu Gautam        2018-05-09  699  
-e33ebb133a245a Bjorn Andersson    2025-05-08  700  	ret = devm_clk_bulk_get_all(&pdev->dev, &qcom->clks);
-e33ebb133a245a Bjorn Andersson    2025-05-08  701  	if (ret < 0)
-e33ebb133a245a Bjorn Andersson    2025-05-08  702  		return dev_err_probe(dev, ret, "failed to get clocks\n");
-e33ebb133a245a Bjorn Andersson    2025-05-08  703  	qcom->num_clocks = ret;
-e33ebb133a245a Bjorn Andersson    2025-05-08  704  
-a4333c3a6ba9ca Manu Gautam        2018-05-09  705  	ret = reset_control_assert(qcom->resets);
-a4333c3a6ba9ca Manu Gautam        2018-05-09  706  	if (ret) {
-a4333c3a6ba9ca Manu Gautam        2018-05-09  707  		dev_err(&pdev->dev, "failed to assert resets, err=%d\n", ret);
-79456073227880 Sriram Dash        2025-11-27  708  		goto resources_off;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  709  	}
-a4333c3a6ba9ca Manu Gautam        2018-05-09  710  
-a4333c3a6ba9ca Manu Gautam        2018-05-09  711  	usleep_range(10, 1000);
-a4333c3a6ba9ca Manu Gautam        2018-05-09  712  
-a4333c3a6ba9ca Manu Gautam        2018-05-09  713  	ret = reset_control_deassert(qcom->resets);
-a4333c3a6ba9ca Manu Gautam        2018-05-09  714  	if (ret) {
-a4333c3a6ba9ca Manu Gautam        2018-05-09  715  		dev_err(&pdev->dev, "failed to deassert resets, err=%d\n", ret);
-ef8abc0ba49ce7 Krishna Kurapati   2025-07-09  716  		return ret;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  717  	}
-a4333c3a6ba9ca Manu Gautam        2018-05-09  718  
-e33ebb133a245a Bjorn Andersson    2025-05-08  719  	ret = clk_bulk_prepare_enable(qcom->num_clocks, qcom->clks);
-e33ebb133a245a Bjorn Andersson    2025-05-08  720  	if (ret < 0)
-ef8abc0ba49ce7 Krishna Kurapati   2025-07-09  721  		return ret;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  722  
-1881a32fe14df8 Bjorn Andersson    2025-04-14  723  	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-4c0fca65d10548 Dan Carpenter      2025-04-23  724  	if (!r) {
-4c0fca65d10548 Dan Carpenter      2025-04-23  725  		ret = -EINVAL;
-1881a32fe14df8 Bjorn Andersson    2025-04-14  726  		goto clk_disable;
-4c0fca65d10548 Dan Carpenter      2025-04-23  727  	}
-1881a32fe14df8 Bjorn Andersson    2025-04-14  728  	res = *r;
-1881a32fe14df8 Bjorn Andersson    2025-04-14  729  	res.end = res.start + SDM845_QSCRATCH_BASE_OFFSET;
-1881a32fe14df8 Bjorn Andersson    2025-04-14  730  
-1881a32fe14df8 Bjorn Andersson    2025-04-14  731  	qcom->qscratch_base = devm_ioremap(dev, res.end, SDM845_QSCRATCH_SIZE);
-4c0fca65d10548 Dan Carpenter      2025-04-23  732  	if (!qcom->qscratch_base) {
-4c0fca65d10548 Dan Carpenter      2025-04-23  733  		dev_err(dev, "failed to map qscratch region\n");
-4c0fca65d10548 Dan Carpenter      2025-04-23  734  		ret = -ENOMEM;
-41717b88abf1ca Krishna Kurapati   2024-03-05  735  		goto clk_disable;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  736  	}
-a4333c3a6ba9ca Manu Gautam        2018-05-09  737  
-2dc9f137e19426 Bjorn Andersson    2025-04-14  738  	ret = dwc3_qcom_setup_irq(qcom, pdev);
-2bc02355f8ba2c Lee Jones          2019-06-17  739  	if (ret) {
-2bc02355f8ba2c Lee Jones          2019-06-17  740  		dev_err(dev, "failed to setup IRQs, err=%d\n", ret);
-41717b88abf1ca Krishna Kurapati   2024-03-05  741  		goto clk_disable;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  742  	}
-a4333c3a6ba9ca Manu Gautam        2018-05-09  743  
-a4333c3a6ba9ca Manu Gautam        2018-05-09  744  	/*
-a4333c3a6ba9ca Manu Gautam        2018-05-09  745  	 * Disable pipe_clk requirement if specified. Used when dwc3
-a4333c3a6ba9ca Manu Gautam        2018-05-09  746  	 * operates without SSPHY and only HS/FS/LS modes are supported.
-a4333c3a6ba9ca Manu Gautam        2018-05-09  747  	 */
-a4333c3a6ba9ca Manu Gautam        2018-05-09  748  	ignore_pipe_clk = device_property_read_bool(dev,
-a4333c3a6ba9ca Manu Gautam        2018-05-09  749  				"qcom,select-utmi-as-pipe-clk");
-a4333c3a6ba9ca Manu Gautam        2018-05-09  750  	if (ignore_pipe_clk)
-a4333c3a6ba9ca Manu Gautam        2018-05-09  751  		dwc3_qcom_select_utmi_clk(qcom);
-a4333c3a6ba9ca Manu Gautam        2018-05-09  752  
-21188e8d6d7590 Krishna Kurapati   2025-09-07  753  	qcom->mode = usb_get_dr_mode(dev);
-21188e8d6d7590 Krishna Kurapati   2025-09-07  754  
-21188e8d6d7590 Krishna Kurapati   2025-09-07  755  	if (qcom->mode == USB_DR_MODE_HOST) {
-21188e8d6d7590 Krishna Kurapati   2025-09-07  756  		qcom->current_role = USB_ROLE_HOST;
-21188e8d6d7590 Krishna Kurapati   2025-09-07  757  	} else if (qcom->mode == USB_DR_MODE_PERIPHERAL) {
-21188e8d6d7590 Krishna Kurapati   2025-09-07  758  		qcom->current_role = USB_ROLE_DEVICE;
-21188e8d6d7590 Krishna Kurapati   2025-09-07  759  		dwc3_qcom_vbus_override_enable(qcom, true);
-21188e8d6d7590 Krishna Kurapati   2025-09-07  760  	} else {
-21188e8d6d7590 Krishna Kurapati   2025-09-07  761  		if ((device_property_read_bool(dev, "usb-role-switch")) &&
-21188e8d6d7590 Krishna Kurapati   2025-09-07  762  		    (usb_get_role_switch_default_mode(dev) == USB_DR_MODE_HOST))
-21188e8d6d7590 Krishna Kurapati   2025-09-07  763  			qcom->current_role = USB_ROLE_HOST;
-21188e8d6d7590 Krishna Kurapati   2025-09-07  764  		else
-21188e8d6d7590 Krishna Kurapati   2025-09-07  765  			qcom->current_role = USB_ROLE_DEVICE;
-21188e8d6d7590 Krishna Kurapati   2025-09-07  766  	}
-21188e8d6d7590 Krishna Kurapati   2025-09-07  767  
-21188e8d6d7590 Krishna Kurapati   2025-09-07  768  	qcom->dwc.glue_ops = &dwc3_qcom_glue_ops;
-21188e8d6d7590 Krishna Kurapati   2025-09-07  769  
-1881a32fe14df8 Bjorn Andersson    2025-04-14  770  	qcom->dwc.dev = dev;
-1881a32fe14df8 Bjorn Andersson    2025-04-14  771  	probe_data.dwc = &qcom->dwc;
-1881a32fe14df8 Bjorn Andersson    2025-04-14  772  	probe_data.res = &res;
-1881a32fe14df8 Bjorn Andersson    2025-04-14  773  	probe_data.ignore_clocks_and_resets = true;
-7298c06d58e23c Frank Li           2025-09-29  774  	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
-1881a32fe14df8 Bjorn Andersson    2025-04-14  775  	ret = dwc3_core_probe(&probe_data);
-2bc02355f8ba2c Lee Jones          2019-06-17  776  	if (ret)  {
-1881a32fe14df8 Bjorn Andersson    2025-04-14  777  		ret = dev_err_probe(dev, ret, "failed to register DWC3 Core\n");
-41717b88abf1ca Krishna Kurapati   2024-03-05  778  		goto clk_disable;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  779  	}
-a4333c3a6ba9ca Manu Gautam        2018-05-09  780  
-bea46b9815154a Sandeep Maheswaram 2020-07-27  781  	ret = dwc3_qcom_interconnect_init(qcom);
-bea46b9815154a Sandeep Maheswaram 2020-07-27  782  	if (ret)
-1881a32fe14df8 Bjorn Andersson    2025-04-14  783  		goto remove_core;
-bea46b9815154a Sandeep Maheswaram 2020-07-27  784  
-e3fafbd8e36530 Johan Hovold       2022-08-04  785  	wakeup_source = of_property_read_bool(dev->of_node, "wakeup-source");
-e3fafbd8e36530 Johan Hovold       2022-08-04  786  	device_init_wakeup(&pdev->dev, wakeup_source);
-d9be8d5c5b032e Sandeep Maheswaram 2022-06-13  787  
-a4333c3a6ba9ca Manu Gautam        2018-05-09  788  	qcom->is_suspended = false;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  789  
-a4333c3a6ba9ca Manu Gautam        2018-05-09  790  	return 0;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  791  
-1881a32fe14df8 Bjorn Andersson    2025-04-14  792  remove_core:
-1881a32fe14df8 Bjorn Andersson    2025-04-14  793  	dwc3_core_remove(&qcom->dwc);
-a4333c3a6ba9ca Manu Gautam        2018-05-09  794  clk_disable:
-e33ebb133a245a Bjorn Andersson    2025-05-08  795  	clk_bulk_disable_unprepare(qcom->num_clocks, qcom->clks);
-a4333c3a6ba9ca Manu Gautam        2018-05-09  796  
-79456073227880 Sriram Dash        2025-11-27  797  resources_off:
-79456073227880 Sriram Dash        2025-11-27  798  	if (qcom->fw_managed)
-79456073227880 Sriram Dash        2025-11-27  799  		dev_pm_opp_set_level(qcom->dev, DWC3_QCOM_FW_MANAGED_EXIT);
-79456073227880 Sriram Dash        2025-11-27  800  
-a4333c3a6ba9ca Manu Gautam        2018-05-09 @801  	return ret;
-a4333c3a6ba9ca Manu Gautam        2018-05-09  802  }
+fd0b632efbbdf4 Luo Jie 2025-10-14  1338  
+fd0b632efbbdf4 Luo Jie 2025-10-14 @1339  MODULE_DESCRIPTION("Qualcomm Technologies, Inc. NSSCC IPQ5424 Driver");
+fd0b632efbbdf4 Luo Jie 2025-10-14 @1340  MODULE_LICENSE("GPL");
+
+:::::: The code at line 1339 was first introduced by commit
+:::::: fd0b632efbbdf427678a7a880abeb828bc4633fe clk: qcom: Add NSS clock controller driver for IPQ5424
+
+:::::: TO: Luo Jie <quic_luoj@quicinc.com>
+:::::: CC: Bjorn Andersson <andersson@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
