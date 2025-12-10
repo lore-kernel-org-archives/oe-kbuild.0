@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D672C236B
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 Dec 2025 22:06:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E48F25F988
+	for <oe-kbuild@lists.linux.dev>; Wed, 10 Dec 2025 02:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765317977; cv=none; b=qHg8f4sNTCRJrILw44Ycwn61YVK9K0qbduFhLMMWZD0nLKgtMEcwVWrHrBSSrb4vMGhj8mCHaxla7hIT7hv0iVcixLyhwOd6v3rFdROChBldMryvcPgzcYEQB1uNSEHNPAxc0cKz4DEo9RczfVImBlWUtXqr1hFTDc+wqwTIrFw=
+	t=1765333778; cv=none; b=ZgQyKZlfRgcixTwIl1nFOabAb2ChLo983U83cWaNOslRXoJcs1gjAdSJRy9HouUuX+PlqsM0+mSUq56EOQ1OYFEstnFPh9RAGVdaEB49qhxVr2BUeh7OuxRcK/m6mLQlr3h3ftZRk8uJ1w2fjOQJLjr54EqrK7apKq3slIS1sQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765317977; c=relaxed/simple;
-	bh=sKMPgpnTo0Glttqjcxo9l9Tg6ctwa7BSlD6XOPUhvIU=;
+	s=arc-20240116; t=1765333778; c=relaxed/simple;
+	bh=QnZrqU1+/94Is5/8PmeVTJfgixQ4BtdfR5AbY6/YdEU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WtKtsZzTdkX7lBPsf0A+UeLNLdJWkJzka44OQpZUlbJlN63KUBeeoqNfjwJ6qPYcEZq3PjWBhahFqQm2qx46cJVKSUGcKcDOV/mxhIf8RwGVgY+nHQs74gsDXfADqFywcJ9f9tlMANft7afkMPh94Y/gqMi/GyjuBwsmZx+45UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CU8gDPvV; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=XQLL5xZ5wzlWozUEj87ObmNUvTc1E/wFHE3YNTuBylcC/2UaaNKqPpGPic+eEBjoD81Qjn3ql/Cv5/WfZ7IVDtP30m26V+pZlbQ4chs2peHUr4LzVgwkoO9DuKH3wcLpLoda0vMT4R7H9+lQzsqRyOF8tOKPul7PlP7FXBgsEHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LgxRSqvP; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CU8gDPvV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LgxRSqvP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765317976; x=1796853976;
+  t=1765333776; x=1796869776;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sKMPgpnTo0Glttqjcxo9l9Tg6ctwa7BSlD6XOPUhvIU=;
-  b=CU8gDPvVcmn+uC7hVmYI4G7GKNhUEOiDfe9JJdu6PRC2vr6TsxTw4SD9
-   xwdnOYYsKL/ZJTYOgnB417a38ICY5nfpFu7A+sD38GEoiXNKcPLgnAKU/
-   kTyoZjjezznAn5zSmwied9HXW4+yomkqme96HUFYib7WdY5xGshu7nHEx
-   6otquy2XC597t/KthVDaORTXwDSEqUMjfhYYim8sVzey7Q+m39c19xoUI
-   l66fuSSgti6kydadF1dgeC4qZHriVNXwOs5fdFRirA9YrqYmPa9cmyf+5
-   T2UeOkZWnHKg2oI+rK+eDNImAZCxL8cgkO1OqaCT5jECTppphQT1aBeOd
+  bh=QnZrqU1+/94Is5/8PmeVTJfgixQ4BtdfR5AbY6/YdEU=;
+  b=LgxRSqvPkFz4K1I6cu5vVwM0vxbw6XQsBdQrF+2W6AN4LUKuTekYh78G
+   Dlyvi7fd7vZ17NhsBd/A4Qhm/n2/AX8wXHdyPO6UuSYj4lCpEB9OVRdRT
+   wWGWbp4z8+jS9D4Glowc8VaYq1A+3/BWrQhRCoiCPqjxwMceujSE+TE9d
+   6oEbtSWK16mZ8f/HjESvwqdL/e9eLZI0PpvS5QNik3T5nqcXeZIKS2xsz
+   W502avrmLcYcDPGO+KjtIIt1iWz4XjpQBbWbboxIKCfDuZY6s6hbXqMk2
+   L1yjwS8a5WyfyQh8hUIKLNOmNxeRqkH6iRvZix1XfAGI2+c+zE3ONNGn+
    A==;
-X-CSE-ConnectionGUID: +FvrL22/QUu1vfmYLrE+sA==
-X-CSE-MsgGUID: QCBmsxtARj+A3YAdcyJULw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="69874186"
-X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="69874186"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 14:06:15 -0800
-X-CSE-ConnectionGUID: wEFx03zGRTernnuWBVgT0g==
-X-CSE-MsgGUID: 2OXX325hTqS1/HI4+4oF6A==
+X-CSE-ConnectionGUID: VbR5OKFpQ/yygOsBImzEhg==
+X-CSE-MsgGUID: ENTGDOaNTIeiNRMgpTdHhw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67350261"
+X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
+   d="scan'208";a="67350261"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 18:29:36 -0800
+X-CSE-ConnectionGUID: p5u/G6LRRuiSdc3X65/Jrw==
+X-CSE-MsgGUID: H0h2Hq+7S4WMYPmpSlmHqA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="201268387"
+X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
+   d="scan'208";a="196378174"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Dec 2025 14:06:13 -0800
+  by orviesa007.jf.intel.com with ESMTP; 09 Dec 2025 18:29:35 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vT5qV-000000002JJ-1wd6;
-	Tue, 09 Dec 2025 22:06:11 +0000
-Date: Wed, 10 Dec 2025 06:05:54 +0800
+	id 1vT9xM-000000002ZV-02lj;
+	Wed, 10 Dec 2025 02:29:32 +0000
+Date: Wed, 10 Dec 2025 10:29:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/resctrl/mpam_devices.c:1112 __ris_msmon_read() error:
- uninitialized symbol 'overflow'.
-Message-ID: <202512100547.N7QPYgfb-lkp@intel.com>
+Subject: mm/vmscan.c:3504 walk_pte_range() error: uninitialized symbol
+ 'dirty'.
+Message-ID: <202512101022.PEbwpbWW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,147 +65,200 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Rohit Mathew <rohit.mathew@arm.com>
-CC: Catalin Marinas <catalin.marinas@arm.com>
-CC: James Morse <james.morse@arm.com>
-CC: Ben Horgan <ben.horgan@arm.com>
-CC: Jonathan Cameron <jonathan.cameron@huawei.com>
-CC: Fenghua Yu <fenghuay@nvidia.com>
-CC: Gavin Shan <gshan@redhat.com>
-CC: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+TO: Yu Zhao <yuzhao@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   cb015814f8b6eebcbb8e46e111d108892c5e6821
-commit: 9e5afb7c32830bcd123976a7729ef4e2dff0cd77 arm_mpam: Use long MBWU counters if supported
-date:   3 weeks ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-r072-20251208 (https://download.01.org/0day-ci/archive/20251210/202512100547.N7QPYgfb-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project a805147ac1ba123916de182babb0831fbb148756)
+commit: a52dcec56c5b96250f15efbd7de3d3ea6ce863d9 mm/mglru: fix PTE-mapped large folios
+date:   11 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 11 months ago
+config: m68k-randconfig-r071-20251209 (https://download.01.org/0day-ci/archive/20251210/202512101022.PEbwpbWW-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512100547.N7QPYgfb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512101022.PEbwpbWW-lkp@intel.com/
 
-New smatch warnings:
-drivers/resctrl/mpam_devices.c:1112 __ris_msmon_read() error: uninitialized symbol 'overflow'.
+smatch warnings:
+mm/vmscan.c:3504 walk_pte_range() error: uninitialized symbol 'dirty'.
+mm/vmscan.c:3609 walk_pmd_range_locked() error: uninitialized symbol 'dirty'.
+mm/vmscan.c:4215 lru_gen_look_around() error: uninitialized symbol 'dirty'.
 
-Old smatch warnings:
-drivers/resctrl/mpam_devices.c:1169 __ris_msmon_read() error: uninitialized symbol 'now'.
+vim +/dirty +3504 mm/vmscan.c
 
-vim +/overflow +1112 drivers/resctrl/mpam_devices.c
-
-b35363793291e3 Ben Horgan   2025-11-19  1069  
-823e7c3712c584 James Morse  2025-11-19  1070  static void __ris_msmon_read(void *arg)
-823e7c3712c584 James Morse  2025-11-19  1071  {
-823e7c3712c584 James Morse  2025-11-19  1072  	u64 now;
-823e7c3712c584 James Morse  2025-11-19  1073  	bool nrdy = false;
-823e7c3712c584 James Morse  2025-11-19  1074  	bool config_mismatch;
-b35363793291e3 Ben Horgan   2025-11-19  1075  	bool overflow;
-823e7c3712c584 James Morse  2025-11-19  1076  	struct mon_read *m = arg;
-823e7c3712c584 James Morse  2025-11-19  1077  	struct mon_cfg *ctx = m->ctx;
-823e7c3712c584 James Morse  2025-11-19  1078  	struct mpam_msc_ris *ris = m->ris;
-41e8a14950e173 James Morse  2025-11-19  1079  	struct msmon_mbwu_state *mbwu_state;
-823e7c3712c584 James Morse  2025-11-19  1080  	struct mpam_props *rprops = &ris->props;
-823e7c3712c584 James Morse  2025-11-19  1081  	struct mpam_msc *msc = m->ris->vmsc->msc;
-823e7c3712c584 James Morse  2025-11-19  1082  	u32 mon_sel, ctl_val, flt_val, cur_ctl, cur_flt;
-823e7c3712c584 James Morse  2025-11-19  1083  
-823e7c3712c584 James Morse  2025-11-19  1084  	if (!mpam_mon_sel_lock(msc)) {
-823e7c3712c584 James Morse  2025-11-19  1085  		m->err = -EIO;
-823e7c3712c584 James Morse  2025-11-19  1086  		return;
-823e7c3712c584 James Morse  2025-11-19  1087  	}
-823e7c3712c584 James Morse  2025-11-19  1088  	mon_sel = FIELD_PREP(MSMON_CFG_MON_SEL_MON_SEL, ctx->mon) |
-823e7c3712c584 James Morse  2025-11-19  1089  		  FIELD_PREP(MSMON_CFG_MON_SEL_RIS, ris->ris_idx);
-823e7c3712c584 James Morse  2025-11-19  1090  	mpam_write_monsel_reg(msc, CFG_MON_SEL, mon_sel);
-823e7c3712c584 James Morse  2025-11-19  1091  
-823e7c3712c584 James Morse  2025-11-19  1092  	/*
-823e7c3712c584 James Morse  2025-11-19  1093  	 * Read the existing configuration to avoid re-writing the same values.
-823e7c3712c584 James Morse  2025-11-19  1094  	 * This saves waiting for 'nrdy' on subsequent reads.
-823e7c3712c584 James Morse  2025-11-19  1095  	 */
-823e7c3712c584 James Morse  2025-11-19  1096  	read_msmon_ctl_flt_vals(m, &cur_ctl, &cur_flt);
-9e5afb7c32830b Rohit Mathew 2025-11-19  1097  
-9e5afb7c32830b Rohit Mathew 2025-11-19  1098  	if (mpam_feat_msmon_mbwu_31counter == m->type)
-b35363793291e3 Ben Horgan   2025-11-19  1099  		overflow = cur_ctl & MSMON_CFG_x_CTL_OFLOW_STATUS;
-9e5afb7c32830b Rohit Mathew 2025-11-19  1100  	else if (mpam_feat_msmon_mbwu_44counter == m->type ||
-9e5afb7c32830b Rohit Mathew 2025-11-19  1101  		 mpam_feat_msmon_mbwu_63counter == m->type)
-9e5afb7c32830b Rohit Mathew 2025-11-19  1102  		overflow = cur_ctl & MSMON_CFG_MBWU_CTL_OFLOW_STATUS_L;
-b35363793291e3 Ben Horgan   2025-11-19  1103  
-823e7c3712c584 James Morse  2025-11-19  1104  	clean_msmon_ctl_val(&cur_ctl);
-823e7c3712c584 James Morse  2025-11-19  1105  	gen_msmon_ctl_flt_vals(m, &ctl_val, &flt_val);
-823e7c3712c584 James Morse  2025-11-19  1106  	config_mismatch = cur_flt != flt_val ||
-823e7c3712c584 James Morse  2025-11-19  1107  			  cur_ctl != (ctl_val | MSMON_CFG_x_CTL_EN);
-823e7c3712c584 James Morse  2025-11-19  1108  
-b35363793291e3 Ben Horgan   2025-11-19  1109  	if (config_mismatch) {
-823e7c3712c584 James Morse  2025-11-19  1110  		write_msmon_ctl_flt_vals(m, ctl_val, flt_val);
-b35363793291e3 Ben Horgan   2025-11-19  1111  		overflow = false;
-b35363793291e3 Ben Horgan   2025-11-19 @1112  	} else if (overflow) {
-b35363793291e3 Ben Horgan   2025-11-19  1113  		mpam_write_monsel_reg(msc, CFG_MBWU_CTL,
-9e5afb7c32830b Rohit Mathew 2025-11-19  1114  				      cur_ctl &
-9e5afb7c32830b Rohit Mathew 2025-11-19  1115  				      ~(MSMON_CFG_x_CTL_OFLOW_STATUS |
-9e5afb7c32830b Rohit Mathew 2025-11-19  1116  					MSMON_CFG_MBWU_CTL_OFLOW_STATUS_L));
-b35363793291e3 Ben Horgan   2025-11-19  1117  	}
-823e7c3712c584 James Morse  2025-11-19  1118  
-823e7c3712c584 James Morse  2025-11-19  1119  	switch (m->type) {
-823e7c3712c584 James Morse  2025-11-19  1120  	case mpam_feat_msmon_csu:
-823e7c3712c584 James Morse  2025-11-19  1121  		now = mpam_read_monsel_reg(msc, CSU);
-823e7c3712c584 James Morse  2025-11-19  1122  		if (mpam_has_feature(mpam_feat_msmon_csu_hw_nrdy, rprops))
-823e7c3712c584 James Morse  2025-11-19  1123  			nrdy = now & MSMON___NRDY;
-41e8a14950e173 James Morse  2025-11-19  1124  		now = FIELD_GET(MSMON___VALUE, now);
-823e7c3712c584 James Morse  2025-11-19  1125  		break;
-9e5afb7c32830b Rohit Mathew 2025-11-19  1126  	case mpam_feat_msmon_mbwu_31counter:
-9e5afb7c32830b Rohit Mathew 2025-11-19  1127  	case mpam_feat_msmon_mbwu_44counter:
-9e5afb7c32830b Rohit Mathew 2025-11-19  1128  	case mpam_feat_msmon_mbwu_63counter:
-9e5afb7c32830b Rohit Mathew 2025-11-19  1129  		if (m->type != mpam_feat_msmon_mbwu_31counter) {
-9e5afb7c32830b Rohit Mathew 2025-11-19  1130  			now = mpam_msc_read_mbwu_l(msc);
-9e5afb7c32830b Rohit Mathew 2025-11-19  1131  			if (mpam_has_feature(mpam_feat_msmon_mbwu_hw_nrdy, rprops))
-9e5afb7c32830b Rohit Mathew 2025-11-19  1132  				nrdy = now & MSMON___L_NRDY;
-9e5afb7c32830b Rohit Mathew 2025-11-19  1133  
-9e5afb7c32830b Rohit Mathew 2025-11-19  1134  			if (m->type == mpam_feat_msmon_mbwu_63counter)
-9e5afb7c32830b Rohit Mathew 2025-11-19  1135  				now = FIELD_GET(MSMON___LWD_VALUE, now);
-9e5afb7c32830b Rohit Mathew 2025-11-19  1136  			else
-9e5afb7c32830b Rohit Mathew 2025-11-19  1137  				now = FIELD_GET(MSMON___L_VALUE, now);
-9e5afb7c32830b Rohit Mathew 2025-11-19  1138  		} else {
-823e7c3712c584 James Morse  2025-11-19  1139  			now = mpam_read_monsel_reg(msc, MBWU);
-823e7c3712c584 James Morse  2025-11-19  1140  			if (mpam_has_feature(mpam_feat_msmon_mbwu_hw_nrdy, rprops))
-823e7c3712c584 James Morse  2025-11-19  1141  				nrdy = now & MSMON___NRDY;
-41e8a14950e173 James Morse  2025-11-19  1142  			now = FIELD_GET(MSMON___VALUE, now);
-9e5afb7c32830b Rohit Mathew 2025-11-19  1143  		}
-41e8a14950e173 James Morse  2025-11-19  1144  
-41e8a14950e173 James Morse  2025-11-19  1145  		if (nrdy)
-41e8a14950e173 James Morse  2025-11-19  1146  			break;
-41e8a14950e173 James Morse  2025-11-19  1147  
-41e8a14950e173 James Morse  2025-11-19  1148  		mbwu_state = &ris->mbwu_state[ctx->mon];
-41e8a14950e173 James Morse  2025-11-19  1149  
-b35363793291e3 Ben Horgan   2025-11-19  1150  		if (overflow)
-b35363793291e3 Ben Horgan   2025-11-19  1151  			mbwu_state->correction += mpam_msmon_overflow_val(m->type);
-b35363793291e3 Ben Horgan   2025-11-19  1152  
-b35363793291e3 Ben Horgan   2025-11-19  1153  		/*
-b35363793291e3 Ben Horgan   2025-11-19  1154  		 * Include bandwidth consumed before the last hardware reset and
-b35363793291e3 Ben Horgan   2025-11-19  1155  		 * a counter size increment for each overflow.
-b35363793291e3 Ben Horgan   2025-11-19  1156  		 */
-41e8a14950e173 James Morse  2025-11-19  1157  		now += mbwu_state->correction;
-823e7c3712c584 James Morse  2025-11-19  1158  		break;
-823e7c3712c584 James Morse  2025-11-19  1159  	default:
-823e7c3712c584 James Morse  2025-11-19  1160  		m->err = -EINVAL;
-823e7c3712c584 James Morse  2025-11-19  1161  	}
-823e7c3712c584 James Morse  2025-11-19  1162  	mpam_mon_sel_unlock(msc);
-823e7c3712c584 James Morse  2025-11-19  1163  
-823e7c3712c584 James Morse  2025-11-19  1164  	if (nrdy) {
-823e7c3712c584 James Morse  2025-11-19  1165  		m->err = -EBUSY;
-823e7c3712c584 James Morse  2025-11-19  1166  		return;
-823e7c3712c584 James Morse  2025-11-19  1167  	}
-823e7c3712c584 James Morse  2025-11-19  1168  
-823e7c3712c584 James Morse  2025-11-19  1169  	*m->val += now;
-823e7c3712c584 James Morse  2025-11-19  1170  }
-823e7c3712c584 James Morse  2025-11-19  1171  
-
-:::::: The code at line 1112 was first introduced by commit
-:::::: b35363793291e36c91d4a5b62d7ae7079c70d826 arm_mpam: Consider overflow in bandwidth counter state
-
-:::::: TO: Ben Horgan <ben.horgan@arm.com>
-:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
+a52dcec56c5b96 Yu Zhao        2024-12-30  3449  
+bd74fdaea14602 Yu Zhao        2022-09-18  3450  static bool walk_pte_range(pmd_t *pmd, unsigned long start, unsigned long end,
+bd74fdaea14602 Yu Zhao        2022-09-18  3451  			   struct mm_walk *args)
+bd74fdaea14602 Yu Zhao        2022-09-18  3452  {
+bd74fdaea14602 Yu Zhao        2022-09-18  3453  	int i;
+a52dcec56c5b96 Yu Zhao        2024-12-30  3454  	bool dirty;
+bd74fdaea14602 Yu Zhao        2022-09-18  3455  	pte_t *pte;
+bd74fdaea14602 Yu Zhao        2022-09-18  3456  	spinlock_t *ptl;
+bd74fdaea14602 Yu Zhao        2022-09-18  3457  	unsigned long addr;
+bd74fdaea14602 Yu Zhao        2022-09-18  3458  	int total = 0;
+bd74fdaea14602 Yu Zhao        2022-09-18  3459  	int young = 0;
+a52dcec56c5b96 Yu Zhao        2024-12-30  3460  	struct folio *last = NULL;
+bd74fdaea14602 Yu Zhao        2022-09-18  3461  	struct lru_gen_mm_walk *walk = args->private;
+bd74fdaea14602 Yu Zhao        2022-09-18  3462  	struct mem_cgroup *memcg = lruvec_memcg(walk->lruvec);
+bd74fdaea14602 Yu Zhao        2022-09-18  3463  	struct pglist_data *pgdat = lruvec_pgdat(walk->lruvec);
+cc25bbe10a86a7 Kinsey Ho      2024-02-14  3464  	DEFINE_MAX_SEQ(walk->lruvec);
+a52dcec56c5b96 Yu Zhao        2024-12-30  3465  	int gen = lru_gen_from_seq(max_seq);
+2441774f2d2890 Qi Zheng       2024-09-26  3466  	pmd_t pmdval;
+bd74fdaea14602 Yu Zhao        2022-09-18  3467  
+a52dcec56c5b96 Yu Zhao        2024-12-30  3468  	pte = pte_offset_map_rw_nolock(args->mm, pmd, start & PMD_MASK, &pmdval, &ptl);
+52fc048320adf1 Hugh Dickins   2023-06-08  3469  	if (!pte)
+52fc048320adf1 Hugh Dickins   2023-06-08  3470  		return false;
+a52dcec56c5b96 Yu Zhao        2024-12-30  3471  
+52fc048320adf1 Hugh Dickins   2023-06-08  3472  	if (!spin_trylock(ptl)) {
+52fc048320adf1 Hugh Dickins   2023-06-08  3473  		pte_unmap(pte);
+a52dcec56c5b96 Yu Zhao        2024-12-30  3474  		return true;
+52fc048320adf1 Hugh Dickins   2023-06-08  3475  	}
+bd74fdaea14602 Yu Zhao        2022-09-18  3476  
+2441774f2d2890 Qi Zheng       2024-09-26  3477  	if (unlikely(!pmd_same(pmdval, pmdp_get_lockless(pmd)))) {
+2441774f2d2890 Qi Zheng       2024-09-26  3478  		pte_unmap_unlock(pte, ptl);
+2441774f2d2890 Qi Zheng       2024-09-26  3479  		return false;
+2441774f2d2890 Qi Zheng       2024-09-26  3480  	}
+2441774f2d2890 Qi Zheng       2024-09-26  3481  
+bd74fdaea14602 Yu Zhao        2022-09-18  3482  	arch_enter_lazy_mmu_mode();
+bd74fdaea14602 Yu Zhao        2022-09-18  3483  restart:
+bd74fdaea14602 Yu Zhao        2022-09-18  3484  	for (i = pte_index(start), addr = start; addr != end; i++, addr += PAGE_SIZE) {
+bd74fdaea14602 Yu Zhao        2022-09-18  3485  		unsigned long pfn;
+bd74fdaea14602 Yu Zhao        2022-09-18  3486  		struct folio *folio;
+c33c794828f212 Ryan Roberts   2023-06-12  3487  		pte_t ptent = ptep_get(pte + i);
+bd74fdaea14602 Yu Zhao        2022-09-18  3488  
+bd74fdaea14602 Yu Zhao        2022-09-18  3489  		total++;
+bd74fdaea14602 Yu Zhao        2022-09-18  3490  		walk->mm_stats[MM_LEAF_TOTAL]++;
+bd74fdaea14602 Yu Zhao        2022-09-18  3491  
+1d4832becdc2cd Yu Zhao        2024-10-19  3492  		pfn = get_pte_pfn(ptent, args->vma, addr, pgdat);
+bd74fdaea14602 Yu Zhao        2022-09-18  3493  		if (pfn == -1)
+bd74fdaea14602 Yu Zhao        2022-09-18  3494  			continue;
+bd74fdaea14602 Yu Zhao        2022-09-18  3495  
+798c0330c2ca07 Yu Zhao        2024-12-30  3496  		folio = get_pfn_folio(pfn, memcg, pgdat);
+bd74fdaea14602 Yu Zhao        2022-09-18  3497  		if (!folio)
+bd74fdaea14602 Yu Zhao        2022-09-18  3498  			continue;
+bd74fdaea14602 Yu Zhao        2022-09-18  3499  
+1d4832becdc2cd Yu Zhao        2024-10-19  3500  		if (!ptep_clear_young_notify(args->vma, addr, pte + i))
+1d4832becdc2cd Yu Zhao        2024-10-19  3501  			continue;
+bd74fdaea14602 Yu Zhao        2022-09-18  3502  
+a52dcec56c5b96 Yu Zhao        2024-12-30  3503  		if (last != folio) {
+a52dcec56c5b96 Yu Zhao        2024-12-30 @3504  			walk_update_folio(walk, last, gen, dirty);
+bd74fdaea14602 Yu Zhao        2022-09-18  3505  
+a52dcec56c5b96 Yu Zhao        2024-12-30  3506  			last = folio;
+a52dcec56c5b96 Yu Zhao        2024-12-30  3507  			dirty = false;
+a52dcec56c5b96 Yu Zhao        2024-12-30  3508  		}
+bd74fdaea14602 Yu Zhao        2022-09-18  3509  
+a52dcec56c5b96 Yu Zhao        2024-12-30  3510  		if (pte_dirty(ptent))
+a52dcec56c5b96 Yu Zhao        2024-12-30  3511  			dirty = true;
+a52dcec56c5b96 Yu Zhao        2024-12-30  3512  
+a52dcec56c5b96 Yu Zhao        2024-12-30  3513  		young++;
+a52dcec56c5b96 Yu Zhao        2024-12-30  3514  		walk->mm_stats[MM_LEAF_YOUNG]++;
+bd74fdaea14602 Yu Zhao        2022-09-18  3515  	}
+bd74fdaea14602 Yu Zhao        2022-09-18  3516  
+a52dcec56c5b96 Yu Zhao        2024-12-30  3517  	walk_update_folio(walk, last, gen, dirty);
+a52dcec56c5b96 Yu Zhao        2024-12-30  3518  	last = NULL;
+a52dcec56c5b96 Yu Zhao        2024-12-30  3519  
+bd74fdaea14602 Yu Zhao        2022-09-18  3520  	if (i < PTRS_PER_PTE && get_next_vma(PMD_MASK, PAGE_SIZE, args, &start, &end))
+bd74fdaea14602 Yu Zhao        2022-09-18  3521  		goto restart;
+bd74fdaea14602 Yu Zhao        2022-09-18  3522  
+bd74fdaea14602 Yu Zhao        2022-09-18  3523  	arch_leave_lazy_mmu_mode();
+52fc048320adf1 Hugh Dickins   2023-06-08  3524  	pte_unmap_unlock(pte, ptl);
+bd74fdaea14602 Yu Zhao        2022-09-18  3525  
+bd74fdaea14602 Yu Zhao        2022-09-18  3526  	return suitable_to_scan(total, young);
+bd74fdaea14602 Yu Zhao        2022-09-18  3527  }
+bd74fdaea14602 Yu Zhao        2022-09-18  3528  
+b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3529  static void walk_pmd_range_locked(pud_t *pud, unsigned long addr, struct vm_area_struct *vma,
+b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3530  				  struct mm_walk *args, unsigned long *bitmap, unsigned long *first)
+bd74fdaea14602 Yu Zhao        2022-09-18  3531  {
+bd74fdaea14602 Yu Zhao        2022-09-18  3532  	int i;
+a52dcec56c5b96 Yu Zhao        2024-12-30  3533  	bool dirty;
+bd74fdaea14602 Yu Zhao        2022-09-18  3534  	pmd_t *pmd;
+bd74fdaea14602 Yu Zhao        2022-09-18  3535  	spinlock_t *ptl;
+a52dcec56c5b96 Yu Zhao        2024-12-30  3536  	struct folio *last = NULL;
+bd74fdaea14602 Yu Zhao        2022-09-18  3537  	struct lru_gen_mm_walk *walk = args->private;
+bd74fdaea14602 Yu Zhao        2022-09-18  3538  	struct mem_cgroup *memcg = lruvec_memcg(walk->lruvec);
+bd74fdaea14602 Yu Zhao        2022-09-18  3539  	struct pglist_data *pgdat = lruvec_pgdat(walk->lruvec);
+cc25bbe10a86a7 Kinsey Ho      2024-02-14  3540  	DEFINE_MAX_SEQ(walk->lruvec);
+a52dcec56c5b96 Yu Zhao        2024-12-30  3541  	int gen = lru_gen_from_seq(max_seq);
+bd74fdaea14602 Yu Zhao        2022-09-18  3542  
+bd74fdaea14602 Yu Zhao        2022-09-18  3543  	VM_WARN_ON_ONCE(pud_leaf(*pud));
+bd74fdaea14602 Yu Zhao        2022-09-18  3544  
+bd74fdaea14602 Yu Zhao        2022-09-18  3545  	/* try to batch at most 1+MIN_LRU_BATCH+1 entries */
+b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3546  	if (*first == -1) {
+b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3547  		*first = addr;
+b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3548  		bitmap_zero(bitmap, MIN_LRU_BATCH);
+bd74fdaea14602 Yu Zhao        2022-09-18  3549  		return;
+bd74fdaea14602 Yu Zhao        2022-09-18  3550  	}
+bd74fdaea14602 Yu Zhao        2022-09-18  3551  
+b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3552  	i = addr == -1 ? 0 : pmd_index(addr) - pmd_index(*first);
+bd74fdaea14602 Yu Zhao        2022-09-18  3553  	if (i && i <= MIN_LRU_BATCH) {
+bd74fdaea14602 Yu Zhao        2022-09-18  3554  		__set_bit(i - 1, bitmap);
+bd74fdaea14602 Yu Zhao        2022-09-18  3555  		return;
+bd74fdaea14602 Yu Zhao        2022-09-18  3556  	}
+bd74fdaea14602 Yu Zhao        2022-09-18  3557  
+b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3558  	pmd = pmd_offset(pud, *first);
+bd74fdaea14602 Yu Zhao        2022-09-18  3559  
+bd74fdaea14602 Yu Zhao        2022-09-18  3560  	ptl = pmd_lockptr(args->mm, pmd);
+bd74fdaea14602 Yu Zhao        2022-09-18  3561  	if (!spin_trylock(ptl))
+bd74fdaea14602 Yu Zhao        2022-09-18  3562  		goto done;
+bd74fdaea14602 Yu Zhao        2022-09-18  3563  
+bd74fdaea14602 Yu Zhao        2022-09-18  3564  	arch_enter_lazy_mmu_mode();
+bd74fdaea14602 Yu Zhao        2022-09-18  3565  
+bd74fdaea14602 Yu Zhao        2022-09-18  3566  	do {
+bd74fdaea14602 Yu Zhao        2022-09-18  3567  		unsigned long pfn;
+bd74fdaea14602 Yu Zhao        2022-09-18  3568  		struct folio *folio;
+b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3569  
+b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3570  		/* don't round down the first address */
+b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3571  		addr = i ? (*first & PMD_MASK) + i * PMD_SIZE : *first;
+bd74fdaea14602 Yu Zhao        2022-09-18  3572  
+1d4832becdc2cd Yu Zhao        2024-10-19  3573  		if (!pmd_present(pmd[i]))
+bd74fdaea14602 Yu Zhao        2022-09-18  3574  			goto next;
+bd74fdaea14602 Yu Zhao        2022-09-18  3575  
+bd74fdaea14602 Yu Zhao        2022-09-18  3576  		if (!pmd_trans_huge(pmd[i])) {
+1d4832becdc2cd Yu Zhao        2024-10-19  3577  			if (!walk->force_scan && should_clear_pmd_young() &&
+1d4832becdc2cd Yu Zhao        2024-10-19  3578  			    !mm_has_notifiers(args->mm))
+bd74fdaea14602 Yu Zhao        2022-09-18  3579  				pmdp_test_and_clear_young(vma, addr, pmd + i);
+bd74fdaea14602 Yu Zhao        2022-09-18  3580  			goto next;
+bd74fdaea14602 Yu Zhao        2022-09-18  3581  		}
+bd74fdaea14602 Yu Zhao        2022-09-18  3582  
+1d4832becdc2cd Yu Zhao        2024-10-19  3583  		pfn = get_pmd_pfn(pmd[i], vma, addr, pgdat);
+1d4832becdc2cd Yu Zhao        2024-10-19  3584  		if (pfn == -1)
+1d4832becdc2cd Yu Zhao        2024-10-19  3585  			goto next;
+1d4832becdc2cd Yu Zhao        2024-10-19  3586  
+798c0330c2ca07 Yu Zhao        2024-12-30  3587  		folio = get_pfn_folio(pfn, memcg, pgdat);
+bd74fdaea14602 Yu Zhao        2022-09-18  3588  		if (!folio)
+bd74fdaea14602 Yu Zhao        2022-09-18  3589  			goto next;
+bd74fdaea14602 Yu Zhao        2022-09-18  3590  
+1d4832becdc2cd Yu Zhao        2024-10-19  3591  		if (!pmdp_clear_young_notify(vma, addr, pmd + i))
+bd74fdaea14602 Yu Zhao        2022-09-18  3592  			goto next;
+bd74fdaea14602 Yu Zhao        2022-09-18  3593  
+a52dcec56c5b96 Yu Zhao        2024-12-30  3594  		if (last != folio) {
+a52dcec56c5b96 Yu Zhao        2024-12-30  3595  			walk_update_folio(walk, last, gen, dirty);
+bd74fdaea14602 Yu Zhao        2022-09-18  3596  
+a52dcec56c5b96 Yu Zhao        2024-12-30  3597  			last = folio;
+a52dcec56c5b96 Yu Zhao        2024-12-30  3598  			dirty = false;
+a52dcec56c5b96 Yu Zhao        2024-12-30  3599  		}
+bd74fdaea14602 Yu Zhao        2022-09-18  3600  
+a52dcec56c5b96 Yu Zhao        2024-12-30  3601  		if (pmd_dirty(pmd[i]))
+a52dcec56c5b96 Yu Zhao        2024-12-30  3602  			dirty = true;
+a52dcec56c5b96 Yu Zhao        2024-12-30  3603  
+a52dcec56c5b96 Yu Zhao        2024-12-30  3604  		walk->mm_stats[MM_LEAF_YOUNG]++;
+bd74fdaea14602 Yu Zhao        2022-09-18  3605  next:
+bd74fdaea14602 Yu Zhao        2022-09-18  3606  		i = i > MIN_LRU_BATCH ? 0 : find_next_bit(bitmap, MIN_LRU_BATCH, i) + 1;
+bd74fdaea14602 Yu Zhao        2022-09-18  3607  	} while (i <= MIN_LRU_BATCH);
+bd74fdaea14602 Yu Zhao        2022-09-18  3608  
+a52dcec56c5b96 Yu Zhao        2024-12-30 @3609  	walk_update_folio(walk, last, gen, dirty);
+a52dcec56c5b96 Yu Zhao        2024-12-30  3610  
+bd74fdaea14602 Yu Zhao        2022-09-18  3611  	arch_leave_lazy_mmu_mode();
+bd74fdaea14602 Yu Zhao        2022-09-18  3612  	spin_unlock(ptl);
+bd74fdaea14602 Yu Zhao        2022-09-18  3613  done:
+b5ff4133617d0e T.J. Alumbaugh 2023-01-18  3614  	*first = -1;
+bd74fdaea14602 Yu Zhao        2022-09-18  3615  }
+bd74fdaea14602 Yu Zhao        2022-09-18  3616  
 
 -- 
 0-DAY CI Kernel Test Service
