@@ -1,76 +1,59 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E9D2BEC4A
-	for <oe-kbuild@lists.linux.dev>; Wed, 10 Dec 2025 07:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98AA20013A
+	for <oe-kbuild@lists.linux.dev>; Wed, 10 Dec 2025 08:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765350270; cv=none; b=IK1N6LtcnSI2mNyaa9ydW+78+waaGZqMjRA9wpwAlIGMpmSZTJpI1WZ0vO9Y/2jhSQfGEMOHrowabHLzrMVwrpxPiDFEXovEFLOKhOWCG1FFhTeXvINubmv8XCDofRzlW/5HkKL44TCTobdjKyQaJQgg78K+g3UQDI22WiNnEjE=
+	t=1765355229; cv=none; b=rd0dEFq3zDd+ogrk0kTrcbtLN+1FXc+T87tPZYgRH5j7fVi1UKr0jNDML9K9R+twJ8uRuvt2rRdx24gaw6hjIMcv0oObkHE8N9GrTTT4kKs92ugGp3qwPonEU3dU0bFLeRCSQLpko/DVVPJgsU8Bug0lXcoLZcoc+vzQkF4alOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765350270; c=relaxed/simple;
-	bh=hoU6B1IUKqEePrjSbJ1rl3P9dAuWbzaOt76sUeMAdSM=;
+	s=arc-20240116; t=1765355229; c=relaxed/simple;
+	bh=E3qrRqty89/tkddVAPv+ISzas4woe9FRB1malaDuEOo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cPqWPzy/GWn/mHxa8S03+774gh1ghT+UUr0YUaxf+YNEIahZ/IEXxKW/mI7EgYC7O42wxAS98qyyiNVUOnQSegqEBH37YG3y2P4RIN/OiKlrUbeO1CeuumC8JIeuANVXVM5p/J6NUnpP6fwyBAPTSBXMLPVNd6zGqpOtnlQB5KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QU/UpeWz; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=hoJCrDh0gRUb9ynEoIew2lnw1x6bZ3+rSHjX1i51Q6/kIW5HNoQAiWtO2BPeKBce6T+k5ZmIETqFlpktC2uJgD9FNZcKQz1575Jo6iOWpWcuJWjSzC+F9xj8gyirl3Hm5VOErr2lyJ9y0nOk6vGqbrSJraE5C2lZz2xnSuQhhW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SWQPm/Mo; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QU/UpeWz"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42e2b80ab25so2614751f8f.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 09 Dec 2025 23:04:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765350267; x=1765955067; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wneUdiZIUvSz4bIt7t7dzaQ34xX/EF8I1Wc2lGxK/KU=;
-        b=QU/UpeWzw0Gh/lKT2RTHQVbkLItlD1nTblTnVbLULC6woJUHZUQkjmgTYxwGdz/vOv
-         5tztKA5n5d3ApqmOm1wFtMXZDOOGoXzSwI5uNYTNdM+/sN2AAGdjj9Gg0L1ClBwOMi5W
-         3PK8QIWcAYWeguTZx9zCdb26aV4brqvS9rpuzaT9WMrrOqxqnNRuRzwCpIJlXnVbvzDj
-         +LnFvKp+hSlzsI21awyM+ZFI7YiCr3eQee8VYQTAuqK2k01o3Nm+gYiZuffDVFdQEcuc
-         8AgBmCZLEg38RmMRXNx1q4nsX0ZJFbMgOGoYM5c8a8e0c4ad1oqDrxS7253UrNKfSzUH
-         G+eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765350267; x=1765955067;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wneUdiZIUvSz4bIt7t7dzaQ34xX/EF8I1Wc2lGxK/KU=;
-        b=tRC//a9PRcmCd3fNamAixcyPWybxJPk4f9GVphBi/SdSr+DiZMI4wopnoT2vmV6UhQ
-         MnDH2WBcz4YJzQXQWk7iEhf4Hba/2Wm/OrpL5ZOIhYCszg1qE3ja+4wpmQ46k9ToErx1
-         lWAYAOaL8idhf/yHE6oW/vcCY+PzZhRo2E7UqRNWFPFtTRhS+3paevOtNtnhnfhKR+/B
-         rvOToP+eSJTMbHSTgVBSw7D6ZOnmj1bf0olWNRRP65pxczoNiw40jQDAidydHqOye/wF
-         dbHZFvOPUEmL3b8tUrbK3UGd15QC7BGl3k1oz0HGdUouIq/ZVIMVGePKW59Om7g/n+I3
-         uTjw==
-X-Gm-Message-State: AOJu0YySGE18xSsd0kNOWjS3OoKOYgRuYW/1s57K02sOb/Y6eTdbAjlE
-	dNxt+4dA2CnETmpAaPTKLJ4gn0IglZ1Zdm5Cp54DqT67jy0HTGf5eyZKGj2jZnB8GEa50vZPCm1
-	GFbw1
-X-Gm-Gg: AY/fxX5Br3GyuLIzpotltttU+hubQnP54RapH0nTpZdQliRIJPBPLxZs4nMjOw+pItc
-	ebk1NGpYgdYM+BczXPjgYIk45lfZc6WF16Mzy+V29m8Yg4agx9XqCvHRqaeSBhBMNsk6m/sfNeI
-	K5mqx8+I5kGsH81gWK7IzQDwqAC9X+cCX1J2U2pDoL/cN/YlnZutkasVuzDU79sjvs1IAJHtKGR
-	QYdDNk4luUgOJt3H4/AKFNJX/uEfWkerWelsa6Tr6tKqRUI2QYfBpDDbiFTWMNl3SHtJLpC6AJ7
-	mxwxN6a74eu/HlqwKL7lFyW1K49dHpR69NTXWnBzetr2b9eXv4mvP3z2RdnfjpCGHsJsQUdE+bF
-	Gf7j9chn2Vx1LkUWCDRJBzkSQXKXV6rS+LKHrchmUFXNeMHpz046ErVrUfzuoNXAKkYw94px+U4
-	fhcLSLW+bt+ARaQrYB
-X-Google-Smtp-Source: AGHT+IFcZ/UTVwf8224aO0fl35Qk8UwQ0QlCQ27fmB7JwmfzLHOOZKb1nT6qHZ293CtrmggIF1MUcg==
-X-Received: by 2002:a05:6000:2dc7:b0:42b:3bee:a7ff with SMTP id ffacd0b85a97d-42fa39d2f96mr1265827f8f.24.1765350266483;
-        Tue, 09 Dec 2025 23:04:26 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d331df0sm37067886f8f.36.2025.12.09.23.04.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 23:04:26 -0800 (PST)
-Date: Wed, 10 Dec 2025 10:04:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Rohit Mathew <rohit.mathew@arm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	James Morse <james.morse@arm.com>, Ben Horgan <ben.horgan@arm.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Fenghua Yu <fenghuay@nvidia.com>, Gavin Shan <gshan@redhat.com>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-Subject: drivers/resctrl/mpam_devices.c:1112 __ris_msmon_read() error:
- uninitialized symbol 'overflow'.
-Message-ID: <202512100547.N7QPYgfb-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SWQPm/Mo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765355227; x=1796891227;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=E3qrRqty89/tkddVAPv+ISzas4woe9FRB1malaDuEOo=;
+  b=SWQPm/MoxkusBfzy1ih0QQv1K9KzlPJFEWJ80HZzQGw1bjic/MH+UeKt
+   QLpKxbeD7i4QGKuYlFa5itWridjvAFamSiHsiU22HsKKj6BiZv8N4x4EK
+   IKgzgsra52twTlwKxtC4FOKQfKGs5Ivw1LCZQiwdk9+m2quRKHKKTRFiH
+   pmVYGDBquM602VqIOKPiH1mVhYOdi5lYPiiLMn20t35CvZoD7X7/moO8v
+   9YBrk2MSdGdSUFDurL3TiqT9zss9Fw2mYJFWTdlD0KMt5B/XHkE73BslX
+   t8kxtMkCwAGHe6+HJ/ZWd1JDNFDcym5Nn0G77pHjjwqXhkuo0U1QaUaZM
+   Q==;
+X-CSE-ConnectionGUID: WDDp+GvyTn6/n2aPpSDJAQ==
+X-CSE-MsgGUID: rYxEx5gxSU+lSLVV37i3gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="69911039"
+X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
+   d="scan'208";a="69911039"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 00:27:04 -0800
+X-CSE-ConnectionGUID: Ss/A+Q51RU2OtPuuRr49CA==
+X-CSE-MsgGUID: 5Y2+PtrYQH2dw2XmKoKNdg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
+   d="scan'208";a="196365918"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 10 Dec 2025 00:27:03 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vTFXJ-00000000305-17LE;
+	Wed, 10 Dec 2025 08:27:01 +0000
+Date: Wed, 10 Dec 2025 16:26:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/wireless/intel/iwlegacy/4965-mac.c:4277
+ il4965_rx_handle() warn: variable dereferenced before check 'rxb->page' (see
+ line 4249)
+Message-ID: <202512101649.Q9JYuWWo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -79,86 +62,177 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20251210070422.rO4XnRIozRdERnyjIZy9c3-pyQhg0iNk_0eH__Lr7hQ@z>
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Zi Yan <ziy@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cb015814f8b6eebcbb8e46e111d108892c5e6821
-commit: 9e5afb7c32830bcd123976a7729ef4e2dff0cd77 arm_mpam: Use long MBWU counters if supported
-config: arm64-randconfig-r072-20251208 (https://download.01.org/0day-ci/archive/20251210/202512100547.N7QPYgfb-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project a805147ac1ba123916de182babb0831fbb148756)
+head:   c9b47175e9131118e6f221cc8fb81397d62e7c91
+commit: 56d578c1300f7efe9605b75714173dd3fda16fe2 mm: convert page_to_section() to memdesc_section()
+date:   3 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 3 months ago
+config: alpha-randconfig-r072-20251210 (https://download.01.org/0day-ci/archive/20251210/202512101649.Q9JYuWWo-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512100547.N7QPYgfb-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512101649.Q9JYuWWo-lkp@intel.com/
 
 New smatch warnings:
-drivers/resctrl/mpam_devices.c:1112 __ris_msmon_read() error: uninitialized symbol 'overflow'.
+drivers/net/wireless/intel/iwlegacy/4965-mac.c:4277 il4965_rx_handle() warn: variable dereferenced before check 'rxb->page' (see line 4249)
 
-vim +/overflow +1112 drivers/resctrl/mpam_devices.c
+Old smatch warnings:
+drivers/net/wireless/intel/iwlegacy/4965-mac.c:1740 il4965_tx_skb() warn: potential spectre issue 'il->stations[sta_id]->tid' [r] (local cap)
+drivers/net/wireless/intel/iwlegacy/4965-mac.c:2822 il4965_hdl_tx() warn: potential spectre issue 'il->stations[sta_id]->tid' [r]
+drivers/net/wireless/intel/iwlegacy/4965-mac.c:5388 __il4965_down() warn: mixing irq and irqsave
 
-823e7c3712c584 James Morse  2025-11-19  1070  static void __ris_msmon_read(void *arg)
-823e7c3712c584 James Morse  2025-11-19  1071  {
-823e7c3712c584 James Morse  2025-11-19  1072  	u64 now;
-823e7c3712c584 James Morse  2025-11-19  1073  	bool nrdy = false;
-823e7c3712c584 James Morse  2025-11-19  1074  	bool config_mismatch;
-b35363793291e3 Ben Horgan   2025-11-19  1075  	bool overflow;
-823e7c3712c584 James Morse  2025-11-19  1076  	struct mon_read *m = arg;
-823e7c3712c584 James Morse  2025-11-19  1077  	struct mon_cfg *ctx = m->ctx;
-823e7c3712c584 James Morse  2025-11-19  1078  	struct mpam_msc_ris *ris = m->ris;
-41e8a14950e173 James Morse  2025-11-19  1079  	struct msmon_mbwu_state *mbwu_state;
-823e7c3712c584 James Morse  2025-11-19  1080  	struct mpam_props *rprops = &ris->props;
-823e7c3712c584 James Morse  2025-11-19  1081  	struct mpam_msc *msc = m->ris->vmsc->msc;
-823e7c3712c584 James Morse  2025-11-19  1082  	u32 mon_sel, ctl_val, flt_val, cur_ctl, cur_flt;
-823e7c3712c584 James Morse  2025-11-19  1083  
-823e7c3712c584 James Morse  2025-11-19  1084  	if (!mpam_mon_sel_lock(msc)) {
-823e7c3712c584 James Morse  2025-11-19  1085  		m->err = -EIO;
-823e7c3712c584 James Morse  2025-11-19  1086  		return;
-823e7c3712c584 James Morse  2025-11-19  1087  	}
-823e7c3712c584 James Morse  2025-11-19  1088  	mon_sel = FIELD_PREP(MSMON_CFG_MON_SEL_MON_SEL, ctx->mon) |
-823e7c3712c584 James Morse  2025-11-19  1089  		  FIELD_PREP(MSMON_CFG_MON_SEL_RIS, ris->ris_idx);
-823e7c3712c584 James Morse  2025-11-19  1090  	mpam_write_monsel_reg(msc, CFG_MON_SEL, mon_sel);
-823e7c3712c584 James Morse  2025-11-19  1091  
-823e7c3712c584 James Morse  2025-11-19  1092  	/*
-823e7c3712c584 James Morse  2025-11-19  1093  	 * Read the existing configuration to avoid re-writing the same values.
-823e7c3712c584 James Morse  2025-11-19  1094  	 * This saves waiting for 'nrdy' on subsequent reads.
-823e7c3712c584 James Morse  2025-11-19  1095  	 */
-823e7c3712c584 James Morse  2025-11-19  1096  	read_msmon_ctl_flt_vals(m, &cur_ctl, &cur_flt);
-9e5afb7c32830b Rohit Mathew 2025-11-19  1097  
-9e5afb7c32830b Rohit Mathew 2025-11-19  1098  	if (mpam_feat_msmon_mbwu_31counter == m->type)
-b35363793291e3 Ben Horgan   2025-11-19  1099  		overflow = cur_ctl & MSMON_CFG_x_CTL_OFLOW_STATUS;
-9e5afb7c32830b Rohit Mathew 2025-11-19  1100  	else if (mpam_feat_msmon_mbwu_44counter == m->type ||
-9e5afb7c32830b Rohit Mathew 2025-11-19  1101  		 mpam_feat_msmon_mbwu_63counter == m->type)
-9e5afb7c32830b Rohit Mathew 2025-11-19  1102  		overflow = cur_ctl & MSMON_CFG_MBWU_CTL_OFLOW_STATUS_L;
+vim +4277 drivers/net/wireless/intel/iwlegacy/4965-mac.c
 
-overflow not initialized on else path, but I haven't looked at how
-&cur_flt is set in read_msmon_ctl_flt_vals() so this could be a
-false positive.
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4198  
+35b7fbfc51d61f drivers/net/wireless/intel/iwlegacy/4965-mac.c Lee Jones          2020-08-21  4199  /*
+e2ebc8337d116a drivers/net/wireless/iwlegacy/iwl4965-base.c   Stanislaw Gruszka  2011-10-24  4200   * il4965_rx_handle - Main entry function for receiving responses from uCode
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4201   *
+d0c72347bece32 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2011-08-30  4202   * Uses the il->handlers callback function array to invoke
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4203   * the appropriate handlers, including command responses,
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4204   * frame-received notifications, and other notifications.
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4205   */
+e7392364fcd100 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2011-11-15  4206  void
+e7392364fcd100 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2011-11-15  4207  il4965_rx_handle(struct il_priv *il)
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4208  {
+b73bb5f13bb607 drivers/net/wireless/iwlegacy/iwl4965-base.c   Stanislaw Gruszka  2011-08-26  4209  	struct il_rx_buf *rxb;
+dcae1c641a4d7b drivers/net/wireless/iwlegacy/iwl4965-base.c   Stanislaw Gruszka  2011-08-26  4210  	struct il_rx_pkt *pkt;
+46bc8d4b0e73ac drivers/net/wireless/iwlegacy/iwl4965-base.c   Stanislaw Gruszka  2011-10-24  4211  	struct il_rx_queue *rxq = &il->rxq;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4212  	u32 r, i;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4213  	int reclaim;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4214  	unsigned long flags;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4215  	u8 fill_rx = 0;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4216  	u32 count = 8;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4217  	int total_empty;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4218  
+0c2c885200057c drivers/net/wireless/iwlegacy/iwl4965-base.c   Stanislaw Gruszka  2011-11-15  4219  	/* uCode's read idx (stored in shared DRAM) indicates the last Rx
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4220  	 * buffer that the driver may process (last buffer filled by ucode). */
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4221  	r = le16_to_cpu(rxq->rb_stts->closed_rb_num) & 0x0FFF;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4222  	i = rxq->read;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4223  
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4224  	/* Rx interrupt, but nothing sent from uCode */
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4225  	if (i == r)
+58de00a464f1e7 drivers/net/wireless/iwlegacy/iwl4965-base.c   Stanislaw Gruszka  2011-11-15  4226  		D_RX("r = %d, i = %d\n", r, i);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4227  
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4228  	/* calculate total frames need to be restock after handling RX */
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4229  	total_empty = r - rxq->write_actual;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4230  	if (total_empty < 0)
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4231  		total_empty += RX_QUEUE_SIZE;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4232  
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4233  	if (total_empty > (RX_QUEUE_SIZE / 2))
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4234  		fill_rx = 1;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4235  
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4236  	while (i != r) {
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4237  		rxb = rxq->queue[i];
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4238  
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4239  		/* If an RXB doesn't have a Rx queue slot associated with it,
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4240  		 * then a bug has been introduced in the queue refilling
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4241  		 * routines -- catch it here */
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4242  		BUG_ON(rxb == NULL);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4243  
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4244  		rxq->queue[i] = NULL;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4245  
+ebe9e6514b40f8 drivers/net/wireless/intel/iwlegacy/4965-mac.c Christophe JAILLET 2021-08-22  4246  		dma_unmap_page(&il->pci_dev->dev, rxb->page_dma,
+46bc8d4b0e73ac drivers/net/wireless/iwlegacy/iwl4965-base.c   Stanislaw Gruszka  2011-10-24  4247  			       PAGE_SIZE << il->hw_params.rx_page_order,
+ebe9e6514b40f8 drivers/net/wireless/intel/iwlegacy/4965-mac.c Christophe JAILLET 2021-08-22  4248  			       DMA_FROM_DEVICE);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21 @4249  		pkt = rxb_addr(rxb);
+8e67427aca2f0d drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2014-02-19  4250  		reclaim = il_need_reclaim(il, pkt);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4251  
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4252  		/* Based on type of command response or notification,
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4253  		 *   handle those that need handling via function in
+d0c72347bece32 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2011-08-30  4254  		 *   handlers table.  See il4965_setup_handlers() */
+d0c72347bece32 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2011-08-30  4255  		if (il->handlers[pkt->hdr.cmd]) {
+e7392364fcd100 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2011-11-15  4256  			D_RX("r = %d, i = %d, %s, 0x%02x\n", r, i,
+e7392364fcd100 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2011-11-15  4257  			     il_get_cmd_string(pkt->hdr.cmd), pkt->hdr.cmd);
+d0c72347bece32 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2011-08-30  4258  			il->isr_stats.handlers[pkt->hdr.cmd]++;
+d0c72347bece32 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2011-08-30  4259  			il->handlers[pkt->hdr.cmd] (il, rxb);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4260  		} else {
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4261  			/* No handling needed */
+e7392364fcd100 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2011-11-15  4262  			D_RX("r %d i %d No handler needed for %s, 0x%02x\n", r,
+e7392364fcd100 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2011-11-15  4263  			     i, il_get_cmd_string(pkt->hdr.cmd), pkt->hdr.cmd);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4264  		}
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4265  
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4266  		/*
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4267  		 * XXX: After here, we should always check rxb->page
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4268  		 * against NULL before touching it or its virtual
+d0c72347bece32 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2011-08-30  4269  		 * memory (pkt). Because some handler might have
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4270  		 * already taken or freed the pages.
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4271  		 */
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4272  
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4273  		if (reclaim) {
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4274  			/* Invoke any callbacks, transfer the buffer to caller,
+e2ebc8337d116a drivers/net/wireless/iwlegacy/iwl4965-base.c   Stanislaw Gruszka  2011-10-24  4275  			 * and fire off the (possibly) blocking il_send_cmd()
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4276  			 * as we reclaim the driver command queue */
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21 @4277  			if (rxb->page)
+46bc8d4b0e73ac drivers/net/wireless/iwlegacy/iwl4965-base.c   Stanislaw Gruszka  2011-10-24  4278  				il_tx_cmd_complete(il, rxb);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4279  			else
+9406f79775a537 drivers/net/wireless/iwlegacy/iwl4965-base.c   Stanislaw Gruszka  2011-08-18  4280  				IL_WARN("Claim null rxb?\n");
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4281  		}
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4282  
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4283  		/* Reuse the page if possible. For notification packets and
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4284  		 * SKBs that fail to Rx correctly, add them back into the
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4285  		 * rx_free list for reuse later. */
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4286  		spin_lock_irqsave(&rxq->lock, flags);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4287  		if (rxb->page != NULL) {
+e7392364fcd100 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2011-11-15  4288  			rxb->page_dma =
+ebe9e6514b40f8 drivers/net/wireless/intel/iwlegacy/4965-mac.c Christophe JAILLET 2021-08-22  4289  			    dma_map_page(&il->pci_dev->dev, rxb->page, 0,
+ebe9e6514b40f8 drivers/net/wireless/intel/iwlegacy/4965-mac.c Christophe JAILLET 2021-08-22  4290  					 PAGE_SIZE << il->hw_params.rx_page_order,
+ebe9e6514b40f8 drivers/net/wireless/intel/iwlegacy/4965-mac.c Christophe JAILLET 2021-08-22  4291  					 DMA_FROM_DEVICE);
+96ebbe8d019ab5 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2013-01-30  4292  
+ebe9e6514b40f8 drivers/net/wireless/intel/iwlegacy/4965-mac.c Christophe JAILLET 2021-08-22  4293  			if (unlikely(dma_mapping_error(&il->pci_dev->dev,
+96ebbe8d019ab5 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2013-01-30  4294  						       rxb->page_dma))) {
+96ebbe8d019ab5 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2013-01-30  4295  				__il_free_pages(il, rxb->page);
+96ebbe8d019ab5 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2013-01-30  4296  				rxb->page = NULL;
+96ebbe8d019ab5 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2013-01-30  4297  				list_add_tail(&rxb->list, &rxq->rx_used);
+96ebbe8d019ab5 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2013-01-30  4298  			} else {
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4299  				list_add_tail(&rxb->list, &rxq->rx_free);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4300  				rxq->free_count++;
+96ebbe8d019ab5 drivers/net/wireless/iwlegacy/4965-mac.c       Stanislaw Gruszka  2013-01-30  4301  			}
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4302  		} else
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4303  			list_add_tail(&rxb->list, &rxq->rx_used);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4304  
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4305  		spin_unlock_irqrestore(&rxq->lock, flags);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4306  
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4307  		i = (i + 1) & RX_QUEUE_MASK;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4308  		/* If there are a lot of unused frames,
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4309  		 * restock the Rx queue so ucode wont assert. */
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4310  		if (fill_rx) {
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4311  			count++;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4312  			if (count >= 8) {
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4313  				rxq->read = i;
+46bc8d4b0e73ac drivers/net/wireless/iwlegacy/iwl4965-base.c   Stanislaw Gruszka  2011-10-24  4314  				il4965_rx_replenish_now(il);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4315  				count = 0;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4316  			}
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4317  		}
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4318  	}
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4319  
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4320  	/* Backtrack one entry */
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4321  	rxq->read = i;
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4322  	if (fill_rx)
+46bc8d4b0e73ac drivers/net/wireless/iwlegacy/iwl4965-base.c   Stanislaw Gruszka  2011-10-24  4323  		il4965_rx_replenish_now(il);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4324  	else
+46bc8d4b0e73ac drivers/net/wireless/iwlegacy/iwl4965-base.c   Stanislaw Gruszka  2011-10-24  4325  		il4965_rx_queue_restock(il);
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4326  }
+be663ab67077fa drivers/net/wireless/iwlegacy/iwl4965-base.c   Wey-Yi Guy         2011-02-21  4327  
 
-b35363793291e3 Ben Horgan   2025-11-19  1103  
-823e7c3712c584 James Morse  2025-11-19  1104  	clean_msmon_ctl_val(&cur_ctl);
-823e7c3712c584 James Morse  2025-11-19  1105  	gen_msmon_ctl_flt_vals(m, &ctl_val, &flt_val);
-823e7c3712c584 James Morse  2025-11-19  1106  	config_mismatch = cur_flt != flt_val ||
-823e7c3712c584 James Morse  2025-11-19  1107  			  cur_ctl != (ctl_val | MSMON_CFG_x_CTL_EN);
-823e7c3712c584 James Morse  2025-11-19  1108  
-b35363793291e3 Ben Horgan   2025-11-19  1109  	if (config_mismatch) {
-823e7c3712c584 James Morse  2025-11-19  1110  		write_msmon_ctl_flt_vals(m, ctl_val, flt_val);
-b35363793291e3 Ben Horgan   2025-11-19  1111  		overflow = false;
-b35363793291e3 Ben Horgan   2025-11-19 @1112  	} else if (overflow) {
-                                                           ^^^^^^^^
-here.
+:::::: The code at line 4277 was first introduced by commit
+:::::: be663ab67077fac8e23eb8e231a8c1c94cb32e54 iwlwifi: split the drivers for agn and legacy devices 3945/4965
 
-b35363793291e3 Ben Horgan   2025-11-19  1113  		mpam_write_monsel_reg(msc, CFG_MBWU_CTL,
-9e5afb7c32830b Rohit Mathew 2025-11-19  1114  				      cur_ctl &
-9e5afb7c32830b Rohit Mathew 2025-11-19  1115  				      ~(MSMON_CFG_x_CTL_OFLOW_STATUS |
-9e5afb7c32830b Rohit Mathew 2025-11-19  1116  					MSMON_CFG_MBWU_CTL_OFLOW_STATUS_L));
-b35363793291e3 Ben Horgan   2025-11-19  1117  	}
-823e7c3712c584 James Morse  2025-11-19  1118  
-823e7c3712c584 James Morse  2025-11-19  1119  	switch (m->type) {
-823e7c3712c584 James Morse  2025-11-19  1120  	case mpam_feat_msmon_csu:
+:::::: TO: Wey-Yi Guy <wey-yi.w.guy@intel.com>
+:::::: CC: Wey-Yi Guy <wey-yi.w.guy@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
