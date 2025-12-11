@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC98DF49
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Dec 2025 22:57:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2488214A64
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Dec 2025 22:57:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765493875; cv=none; b=I1YNWwWPvvE1y5JpMXjq5GZXmLR1hZ+kmxgTSAKua/rL1H/a58u6+4MDj5QZit4IixYFBWoz4Nonyv5WRDdIwC+9HvhuIaYhgCvE2vOXbmeKWn5NRmCyztjt1jCVvoEbv8RalfS7uuML278W/TifYR82xBlOwNJZCbcb3wB8Ps8=
+	t=1765493877; cv=none; b=upRI6PMjLOmWy009SRrS03wOkhvU58joJ3ME4Qa0Q7fCNN0zfq3vrxsb50BSwNZfg8HS8fy00LOh/wRkcd5qcU2E5bNHKdlcgbF4uKbdeDvhKDZPgv3cT0hzvMgX6BTSXGixyB/2TAR3z0L65EJ88cUSSFRiQV8+vofomkvDR/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765493875; c=relaxed/simple;
-	bh=EE2NESID90XKHptVH85rHiSWxAZplVuS39jsywpXDJ4=;
+	s=arc-20240116; t=1765493877; c=relaxed/simple;
+	bh=re6GQrkO6ds4u+s6br8Zt18ika/j7tt/g6aNhdhX6jY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dzzdQFxNoeR+D+XyoYXFPCNLpHljV+6yt2n8ZtYNXgvwC/CBEcOQlhfXla8kYaKOCt8WRIIddzocAQkD1v6PYlfbNcCbrJfNjSpYjRBCxtE/yMHB/ocxUaiDN6qwrZNK3ENlwqtn1ghgDrWLg1hl8YUJqgl0Nos/2UvMQo5Am64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YcaqyJeM; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=Zvo4asoBfHU7kD3Rm1PNF/KCtzdqstN3c+wyYj4cyCwwUhYkKuUPdMovm5SamII9wjTnfy3xTGFUhVru1f4+XyAUjfDfq29xn8YJG6RTz7mGhLXQyfOfVmdSrMXaI/xHu9MMoP5VQDv894vlRegv1fbgC2I5VYofEGmdRs4/AsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KGuLkXPz; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YcaqyJeM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KGuLkXPz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765493874; x=1797029874;
+  t=1765493876; x=1797029876;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EE2NESID90XKHptVH85rHiSWxAZplVuS39jsywpXDJ4=;
-  b=YcaqyJeM8xMKMa0qYw6wcd/gd2TvoSuM0jWT0/8e+Z0DEAAqNWgNS9x0
-   9PhDSz5uQy1Zt/iAlYrObKvaPcSi3V6oUaNwndDJlZ1C8K+S5j7t6dOa6
-   2UrxbmNFQN2bkpgqleCXHVS7HZ9QayMAtYaoR91QFvXGK59alR97jJ5Uw
-   cAweltqk5WrvbULGqoAc+Axm74RXS04qgW7txVi+9BDvoZvXIURyS2cRS
-   fSASfiogljWiiTpeXf58POXTk/COtqM1Yaq2/bWDQi7kauX25H2FGaD0c
-   Pv9Q06QVRxxpNd31DvTsgN4o23eJ+fU2aiK/pIRZUWB14DcmZMIKl1Wys
-   Q==;
-X-CSE-ConnectionGUID: XYKpRVOLS0entW+WFugoug==
-X-CSE-MsgGUID: Vc+fwgntS1C8JCTFd/t9lA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78949409"
+  bh=re6GQrkO6ds4u+s6br8Zt18ika/j7tt/g6aNhdhX6jY=;
+  b=KGuLkXPzPKHyZSpj6YPrJAK9WLfuzfhz7p7AgtzCE+XEMlEWgxP1tz2C
+   9bCz+SOtjBlI5yDboq4s3DRaTP4sLVRT70IoV4foxNWOoPploItcN9Nkz
+   3X/cTI5clXnbsoWcjsGcbKs5cd7ifpoScSgWMUPncQPvD+LV+gd/kqB06
+   x/PKCiJ6ZhjA5mVZbxqkhZsLcKWgbQ9VFCS/Vwg7aNRdS6CDh8IlYJFnN
+   7wXvLHFWgludwH4bwd5qmRYBpyHwu0VyP0jqo965sLwjz6uxkL4KCwcTS
+   evcHw1Iw81wj+cF5NdYunDzwSw6v03SzF6iPn9uS3fQt0eVMOZwIrIqr0
+   w==;
+X-CSE-ConnectionGUID: OqDrov+sRAyuBOZ8aShsgw==
+X-CSE-MsgGUID: wHPV6UHQQFmavRrXV1BaKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78949411"
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="78949409"
+   d="scan'208";a="78949411"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 14:57:54 -0800
-X-CSE-ConnectionGUID: rIM50lPZT/uxKsyW83rAZg==
-X-CSE-MsgGUID: f1QzkpTwTQ+wh/6b3gjBUA==
+X-CSE-ConnectionGUID: N/HBeHJhTLG5DEq2ZZLeyA==
+X-CSE-MsgGUID: mZZG0KyyQNe6DZwiF0O4NQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="201086676"
+   d="scan'208";a="201086678"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 11 Dec 2025 14:57:52 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTpbZ-000000005AT-3fkw;
+	id 1vTpbZ-000000005AP-3RVJ;
 	Thu, 11 Dec 2025 22:57:49 +0000
-Date: Fri, 12 Dec 2025 06:57:26 +0800
+Date: Fri, 12 Dec 2025 06:57:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: net/core/net-sysfs.c:1262 rx_queue_add_kobject() warn: Calling
- kobject_put|get with state->initialized unset from line: 1224
-Message-ID: <202512120600.lWwGW3YS-lkp@intel.com>
+Subject: fs/afs/dir_search.c:155 afs_dir_search_bucket() warn: potential
+ spectre issue 'block->dirents' [r] (local cap)
+Message-ID: <202512120622.av4gYfkD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,96 +65,98 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Antoine Tenart <atenart@kernel.org>
-CC: Jakub Kicinski <kuba@kernel.org>
+TO: David Howells <dhowells@redhat.com>
+CC: Christian Brauner <brauner@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   d358e5254674b70f34c847715ca509e46eb81e6f
-commit: 7e54f85c60828842be27e0149f3533357225090e net-sysfs: prevent uncleared queues from being re-added
-date:   10 months ago
+commit: a5b5beebcf96d5e8a2fc79856c2ac1e93f82478e afs: Use the contained hashtable to search a directory
+date:   12 months ago
 :::::: branch date: 20 hours ago
-:::::: commit date: 10 months ago
-config: nios2-randconfig-r073-20251211 (https://download.01.org/0day-ci/archive/20251212/202512120600.lWwGW3YS-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
+:::::: commit date: 12 months ago
+config: arm64-randconfig-r071-20251211 (https://download.01.org/0day-ci/archive/20251212/202512120622.av4gYfkD-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512120600.lWwGW3YS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512120622.av4gYfkD-lkp@intel.com/
 
 smatch warnings:
-net/core/net-sysfs.c:1262 rx_queue_add_kobject() warn: Calling kobject_put|get with state->initialized unset from line: 1224
-net/core/net-sysfs.c:1961 netdev_queue_add_kobject() warn: Calling kobject_put|get with state->initialized unset from line: 1928
+fs/afs/dir_search.c:155 afs_dir_search_bucket() warn: potential spectre issue 'block->dirents' [r] (local cap)
 
-vim +1262 net/core/net-sysfs.c
+vim +155 fs/afs/dir_search.c
 
-50bcfe8df7c73c Paolo Abeni       2023-02-17  1206  
-6b53dafe23fd1f WANG Cong         2014-07-23  1207  static int rx_queue_add_kobject(struct net_device *dev, int index)
-0a9627f2649a02 Tom Herbert       2010-03-16  1208  {
-6b53dafe23fd1f WANG Cong         2014-07-23  1209  	struct netdev_rx_queue *queue = dev->_rx + index;
-0a9627f2649a02 Tom Herbert       2010-03-16  1210  	struct kobject *kobj = &queue->kobj;
-0a9627f2649a02 Tom Herbert       2010-03-16  1211  	int error = 0;
-0a9627f2649a02 Tom Herbert       2010-03-16  1212  
-7e54f85c608288 Antoine Tenart    2025-02-04  1213  	/* Rx queues are cleared in rx_queue_release to allow later
-7e54f85c608288 Antoine Tenart    2025-02-04  1214  	 * re-registration. This is triggered when their kobj refcount is
-7e54f85c608288 Antoine Tenart    2025-02-04  1215  	 * dropped.
-7e54f85c608288 Antoine Tenart    2025-02-04  1216  	 *
-7e54f85c608288 Antoine Tenart    2025-02-04  1217  	 * If a queue is removed while both a read (or write) operation and a
-7e54f85c608288 Antoine Tenart    2025-02-04  1218  	 * the re-addition of the same queue are pending (waiting on rntl_lock)
-7e54f85c608288 Antoine Tenart    2025-02-04  1219  	 * it might happen that the re-addition will execute before the read,
-7e54f85c608288 Antoine Tenart    2025-02-04  1220  	 * making the initial removal to never happen (queue's kobj refcount
-7e54f85c608288 Antoine Tenart    2025-02-04  1221  	 * won't drop enough because of the pending read). In such rare case,
-7e54f85c608288 Antoine Tenart    2025-02-04  1222  	 * return to allow the removal operation to complete.
-7e54f85c608288 Antoine Tenart    2025-02-04  1223  	 */
-7e54f85c608288 Antoine Tenart    2025-02-04  1224  	if (unlikely(kobj->state_initialized)) {
-7e54f85c608288 Antoine Tenart    2025-02-04  1225  		netdev_warn_once(dev, "Cannot re-add rx queues before their removal completed");
-7e54f85c608288 Antoine Tenart    2025-02-04  1226  		return -EAGAIN;
-7e54f85c608288 Antoine Tenart    2025-02-04  1227  	}
-7e54f85c608288 Antoine Tenart    2025-02-04  1228  
-ddd9b5e3e765d8 Jouni Hogander    2019-12-17  1229  	/* Kobject_put later will trigger rx_queue_release call which
-ddd9b5e3e765d8 Jouni Hogander    2019-12-17  1230  	 * decreases dev refcount: Take that reference here
-ddd9b5e3e765d8 Jouni Hogander    2019-12-17  1231  	 */
-d62607c3fe4591 Jakub Kicinski    2022-06-07  1232  	netdev_hold(queue->dev, &queue->dev_tracker, GFP_KERNEL);
-ddd9b5e3e765d8 Jouni Hogander    2019-12-17  1233  
-6b53dafe23fd1f WANG Cong         2014-07-23  1234  	kobj->kset = dev->queues_kset;
-0a9627f2649a02 Tom Herbert       2010-03-16  1235  	error = kobject_init_and_add(kobj, &rx_queue_ktype, NULL,
-0a9627f2649a02 Tom Herbert       2010-03-16  1236  				     "rx-%u", index);
-a953be53ce4044 Michael Dalton    2014-01-16  1237  	if (error)
-b8eb718348b8fb Jouni Hogander    2019-11-20  1238  		goto err;
-a953be53ce4044 Michael Dalton    2014-01-16  1239  
-b7ecc1de51ca7d Antoine Tenart    2025-02-04  1240  	queue->groups = rx_queue_default_groups;
-b7ecc1de51ca7d Antoine Tenart    2025-02-04  1241  	error = sysfs_create_groups(kobj, queue->groups);
-b7ecc1de51ca7d Antoine Tenart    2025-02-04  1242  	if (error)
-b7ecc1de51ca7d Antoine Tenart    2025-02-04  1243  		goto err;
-b7ecc1de51ca7d Antoine Tenart    2025-02-04  1244  
-6b53dafe23fd1f WANG Cong         2014-07-23  1245  	if (dev->sysfs_rx_queue_group) {
-6b53dafe23fd1f WANG Cong         2014-07-23  1246  		error = sysfs_create_group(kobj, dev->sysfs_rx_queue_group);
-b8eb718348b8fb Jouni Hogander    2019-11-20  1247  		if (error)
-b7ecc1de51ca7d Antoine Tenart    2025-02-04  1248  			goto err_default_groups;
-0a9627f2649a02 Tom Herbert       2010-03-16  1249  	}
-0a9627f2649a02 Tom Herbert       2010-03-16  1250  
-50bcfe8df7c73c Paolo Abeni       2023-02-17  1251  	error = rx_queue_default_mask(dev, queue);
-605cfa1b1090b5 Paolo Abeni       2023-02-07  1252  	if (error)
-b7ecc1de51ca7d Antoine Tenart    2025-02-04  1253  		goto err_default_groups;
-50bcfe8df7c73c Paolo Abeni       2023-02-17  1254  
-0a9627f2649a02 Tom Herbert       2010-03-16  1255  	kobject_uevent(kobj, KOBJ_ADD);
-0a9627f2649a02 Tom Herbert       2010-03-16  1256  
-0a9627f2649a02 Tom Herbert       2010-03-16  1257  	return error;
-b8eb718348b8fb Jouni Hogander    2019-11-20  1258  
-b7ecc1de51ca7d Antoine Tenart    2025-02-04  1259  err_default_groups:
-b7ecc1de51ca7d Antoine Tenart    2025-02-04  1260  	sysfs_remove_groups(kobj, queue->groups);
-b8eb718348b8fb Jouni Hogander    2019-11-20  1261  err:
-b8eb718348b8fb Jouni Hogander    2019-11-20 @1262  	kobject_put(kobj);
-b8eb718348b8fb Jouni Hogander    2019-11-20  1263  	return error;
-0a9627f2649a02 Tom Herbert       2010-03-16  1264  }
-d755407d4444c3 Christian Brauner 2020-02-27  1265  
-
-:::::: The code at line 1262 was first introduced by commit
-:::::: b8eb718348b8fb30b5a7d0a8fce26fb3f4ac741b net-sysfs: Fix reference count leak in rx|netdev_queue_add_kobject
-
-:::::: TO: Jouni Hogander <jouni.hogander@unikie.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+a5b5beebcf96d5 David Howells 2024-12-16  119  
+a5b5beebcf96d5 David Howells 2024-12-16  120  /*
+a5b5beebcf96d5 David Howells 2024-12-16  121   * Search through a directory bucket.
+a5b5beebcf96d5 David Howells 2024-12-16  122   */
+a5b5beebcf96d5 David Howells 2024-12-16  123  int afs_dir_search_bucket(struct afs_dir_iter *iter, const struct qstr *name,
+a5b5beebcf96d5 David Howells 2024-12-16  124  			  struct afs_fid *_fid)
+a5b5beebcf96d5 David Howells 2024-12-16  125  {
+a5b5beebcf96d5 David Howells 2024-12-16  126  	const union afs_xdr_dir_block *meta;
+a5b5beebcf96d5 David Howells 2024-12-16  127  	unsigned int entry;
+a5b5beebcf96d5 David Howells 2024-12-16  128  	int ret = -ESTALE;
+a5b5beebcf96d5 David Howells 2024-12-16  129  
+a5b5beebcf96d5 David Howells 2024-12-16  130  	meta = afs_dir_find_block(iter, 0);
+a5b5beebcf96d5 David Howells 2024-12-16  131  	if (!meta)
+a5b5beebcf96d5 David Howells 2024-12-16  132  		return -ESTALE;
+a5b5beebcf96d5 David Howells 2024-12-16  133  
+a5b5beebcf96d5 David Howells 2024-12-16  134  	entry = ntohs(meta->meta.hashtable[iter->bucket & (AFS_DIR_HASHTBL_SIZE - 1)]);
+a5b5beebcf96d5 David Howells 2024-12-16  135  	_enter("%x,%x", iter->bucket, entry);
+a5b5beebcf96d5 David Howells 2024-12-16  136  
+a5b5beebcf96d5 David Howells 2024-12-16  137  	while (entry) {
+a5b5beebcf96d5 David Howells 2024-12-16  138  		const union afs_xdr_dir_block *block;
+a5b5beebcf96d5 David Howells 2024-12-16  139  		const union afs_xdr_dirent *dire;
+a5b5beebcf96d5 David Howells 2024-12-16  140  		unsigned int blnum = entry / AFS_DIR_SLOTS_PER_BLOCK;
+a5b5beebcf96d5 David Howells 2024-12-16  141  		unsigned int slot = entry % AFS_DIR_SLOTS_PER_BLOCK;
+a5b5beebcf96d5 David Howells 2024-12-16  142  		unsigned int resv = (blnum == 0 ? AFS_DIR_RESV_BLOCKS0 : AFS_DIR_RESV_BLOCKS);
+a5b5beebcf96d5 David Howells 2024-12-16  143  
+a5b5beebcf96d5 David Howells 2024-12-16  144  		_debug("search %x", entry);
+a5b5beebcf96d5 David Howells 2024-12-16  145  
+a5b5beebcf96d5 David Howells 2024-12-16  146  		if (slot < resv) {
+a5b5beebcf96d5 David Howells 2024-12-16  147  			kdebug("slot out of range h=%x rs=%2x sl=%2x-%2x",
+a5b5beebcf96d5 David Howells 2024-12-16  148  			       iter->bucket, resv, slot, slot + iter->nr_slots - 1);
+a5b5beebcf96d5 David Howells 2024-12-16  149  			goto bad;
+a5b5beebcf96d5 David Howells 2024-12-16  150  		}
+a5b5beebcf96d5 David Howells 2024-12-16  151  
+a5b5beebcf96d5 David Howells 2024-12-16  152  		block = afs_dir_find_block(iter, blnum);
+a5b5beebcf96d5 David Howells 2024-12-16  153  		if (!block)
+a5b5beebcf96d5 David Howells 2024-12-16  154  			goto bad;
+a5b5beebcf96d5 David Howells 2024-12-16 @155  		dire = &block->dirents[slot];
+a5b5beebcf96d5 David Howells 2024-12-16  156  
+a5b5beebcf96d5 David Howells 2024-12-16  157  		if (slot + iter->nr_slots <= AFS_DIR_SLOTS_PER_BLOCK &&
+a5b5beebcf96d5 David Howells 2024-12-16  158  		    memcmp(dire->u.name, name->name, name->len) == 0 &&
+a5b5beebcf96d5 David Howells 2024-12-16  159  		    dire->u.name[name->len] == '\0') {
+a5b5beebcf96d5 David Howells 2024-12-16  160  			_fid->vnode  = ntohl(dire->u.vnode);
+a5b5beebcf96d5 David Howells 2024-12-16  161  			_fid->unique = ntohl(dire->u.unique);
+a5b5beebcf96d5 David Howells 2024-12-16  162  			ret = entry;
+a5b5beebcf96d5 David Howells 2024-12-16  163  			goto found;
+a5b5beebcf96d5 David Howells 2024-12-16  164  		}
+a5b5beebcf96d5 David Howells 2024-12-16  165  
+a5b5beebcf96d5 David Howells 2024-12-16  166  		iter->prev_entry = entry;
+a5b5beebcf96d5 David Howells 2024-12-16  167  		entry = ntohs(dire->u.hash_next);
+a5b5beebcf96d5 David Howells 2024-12-16  168  		if (!--iter->loop_check) {
+a5b5beebcf96d5 David Howells 2024-12-16  169  			kdebug("dir chain loop h=%x", iter->bucket);
+a5b5beebcf96d5 David Howells 2024-12-16  170  			goto bad;
+a5b5beebcf96d5 David Howells 2024-12-16  171  		}
+a5b5beebcf96d5 David Howells 2024-12-16  172  	}
+a5b5beebcf96d5 David Howells 2024-12-16  173  
+a5b5beebcf96d5 David Howells 2024-12-16  174  	ret = -ENOENT;
+a5b5beebcf96d5 David Howells 2024-12-16  175  found:
+a5b5beebcf96d5 David Howells 2024-12-16  176  	if (iter->block) {
+a5b5beebcf96d5 David Howells 2024-12-16  177  		kunmap_local(iter->block);
+a5b5beebcf96d5 David Howells 2024-12-16  178  		iter->block = NULL;
+a5b5beebcf96d5 David Howells 2024-12-16  179  	}
+a5b5beebcf96d5 David Howells 2024-12-16  180  
+a5b5beebcf96d5 David Howells 2024-12-16  181  bad:
+a5b5beebcf96d5 David Howells 2024-12-16  182  	if (ret == -ESTALE)
+a5b5beebcf96d5 David Howells 2024-12-16  183  		afs_invalidate_dir(iter->dvnode, afs_dir_invalid_iter_stale);
+a5b5beebcf96d5 David Howells 2024-12-16  184  	_leave(" = %d", ret);
+a5b5beebcf96d5 David Howells 2024-12-16  185  	return ret;
+a5b5beebcf96d5 David Howells 2024-12-16  186  }
+a5b5beebcf96d5 David Howells 2024-12-16  187  
 
 -- 
 0-DAY CI Kernel Test Service
