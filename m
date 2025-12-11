@@ -1,124 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093293B8D5D
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Dec 2025 00:32:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515322BE647
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Dec 2025 01:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765413133; cv=none; b=offqpIcOcljyF8/RPYoOyQe/Q0Jl7hSu9nhLb+aW4+xR24ShbmrShsnnt0VFVyiVnEbjzUQPHdT5X/wKpq5rfqS3iZPZEzU/a/urf2AvPzpFoYW9nwZLamu0dBtKKg34Ou3pP+dmoduKnk1/loBB/ScY+D1JKccE/9eVq2QsQvY=
+	t=1765416508; cv=none; b=nnyUGq8pqIO9qLy9h6hd0FRadjXweRwERc2m8cpp+6YpAOTUDzHIL4QfPzfhhT0SbJgvvZauRunh1oKBlw++B3GK4cRXP5pzGb7w89X1pr/U0WSmM73LTE086w2/xGDhT7GH+pvOipzLV5qTNHvKQ6qJ7VIBxAqXpvKCSg4HDbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765413133; c=relaxed/simple;
-	bh=SaDanjv1KZhPt3CqyPZvjMs6aGR5rg3DHtBX3Luh/9o=;
+	s=arc-20240116; t=1765416508; c=relaxed/simple;
+	bh=BgEjkuiIfU/U+z/vRac4WXSX22nF+I3G9aaPF3FWXuA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ui56vyqYh5rlKMijV7r/wPNA8TRdamhr70bgRhdK/Hh6WdUneBg7d1wLOtJyoYfnkxwAwh3arQT9/HONqJlQQaZ4IBhsJYxW2MYRBaElfBnRi1Fr2JcyNwFtibdx17gEipGFwQb94jGD6SOd0AakKEU4OItIR2qKxqMyevPsPHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z4znPMgn; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=Nw7mkvVDfGT5n1yXHH8+ZdUKGaRE9JFuHoJpF+50gPf8+ngEtzWInBnO2yDQoy2BcomxnT5MTYMI0597OvfxTZe2MvISqueMTyhcVsWv90UzKwlpdosHtmq3e5WD7MRu10mDR6jN6a0h4cZniVZVpsW4bh6v2F/N2c71f0LbhNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X7+ktXIL; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z4znPMgn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X7+ktXIL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765413132; x=1796949132;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SaDanjv1KZhPt3CqyPZvjMs6aGR5rg3DHtBX3Luh/9o=;
-  b=Z4znPMgnxkDclyUHRUxgo3mpX3d7rgACLqqNb9c7hGphKWneFWeb9277
-   nLIYZki7OmLpnbiu+VA9Cx2GlQ/sjVkqhKeeQe00RxhyNyDOj2OdD9Goh
-   w46Xwljr626UECRG2nzcKq6becWkS5sO5+e8sitv95v2A7iwXqQO0DNsG
-   0W/uwPeZmnveo86Miuq/Ge1LlQ8Ld5dDwS0VbsgwQ15aY6BOZaEjJhriq
-   FmP4TbdLVBrAONNsxAQChlupY14B/ubanMT9xT2ebcbseqKw7BuaTZyyY
-   EIm3ks+fwg7szKcZ9n/5u0J1OvhNcWr3ajVilGr0ZV61/xPATGRI6DaBh
-   g==;
-X-CSE-ConnectionGUID: Z79dIZRESuuSx9H2doctcA==
-X-CSE-MsgGUID: l8JgPrxEQweUIv5wZEsgKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="92870185"
+  t=1765416506; x=1796952506;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=BgEjkuiIfU/U+z/vRac4WXSX22nF+I3G9aaPF3FWXuA=;
+  b=X7+ktXIL39c50hmFIMtVlYiAOUgFtI2oZVwptrF08/uXrzVe9LdkKImJ
+   heOJNLZRvx1Kxs+U7iwhfQCvDUkqgu0bGjqGn2zGpSnLxLBHdigPYxrH0
+   f6cfj13JmFnR/y0KWLwegAJtOOExyWf87tQXC/0fSOSm/4frDC+/n2qfh
+   YUdOvSFbPaw/9AOl7xg8OKoxz/8bp0axc6yCGn6ZxuB4itQZFSom8YNlM
+   Q7202MBj+O2mPQHDW14cWpJUUHNX1FKpFT4vk0YKRaz8nHY/eLQtY4XWF
+   vQbLSb6uii6sFpah3NzUTfbHEQ6yLEm7U1xIZC6N3z6xJrv6+W8ekUcu2
+   w==;
+X-CSE-ConnectionGUID: VYswBhWdQvqg7sd0AQhD4w==
+X-CSE-MsgGUID: a3fB0orzRl6cU7J3R1U4dQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="84804450"
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="92870185"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 16:32:11 -0800
-X-CSE-ConnectionGUID: RUPd5Wf2QFu8TtLAAeqSKw==
-X-CSE-MsgGUID: IozYKOQbShaPPqa2Uei+rw==
+   d="scan'208";a="84804450"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 17:28:24 -0800
+X-CSE-ConnectionGUID: 7wrE7U8wQMStynDBvIV1ZQ==
+X-CSE-MsgGUID: YAYR9G/gTfyMa3g4vMBmmg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
+   d="scan'208";a="220007984"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Dec 2025 16:32:10 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 10 Dec 2025 17:28:23 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTUbI-000000003u1-22Py;
-	Thu, 11 Dec 2025 00:32:08 +0000
-Date: Thu, 11 Dec 2025 08:31:32 +0800
+	id 1vTVTg-000000003xx-1t5R;
+	Thu, 11 Dec 2025 01:28:20 +0000
+Date: Thu, 11 Dec 2025 09:27:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/f2fs/data.c:348 f2fs_write_end_io() error: 'folio' dereferencing
- possible ERR_PTR()
-Message-ID: <202512110850.9WsI7CfL-lkp@intel.com>
+Subject: Re: [PATCH] drm/i915/crtc: move crtc initialization loop to
+ intel_crtc.c
+Message-ID: <202512110945.XlM3uGiG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-CC: Jaegeuk Kim <jaegeuk@kernel.org>
-CC: Chao Yu <chao@kernel.org>
+In-Reply-To: <20251204143235.3138973-1-jani.nikula@intel.com>
+References: <20251204143235.3138973-1-jani.nikula@intel.com>
+TO: Jani Nikula <jani.nikula@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0048fbb4011ec55c32d3148b2cda56433f273375
-commit: fb9660481e3ccb26143c0596420487513383e940 f2fs: Convert f2fs_write_end_io() to use a folio_iter
-date:   9 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 9 months ago
-config: arm-randconfig-r072-20251210 (https://download.01.org/0day-ci/archive/20251211/202512110850.9WsI7CfL-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
+Hi Jani,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-i915/for-linux-next]
+[also build test WARNING on drm-i915/for-linux-next-fixes linus/master v6.18 next-20251210]
+[cannot apply to drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i915-crtc-move-crtc-initialization-loop-to-intel_crtc-c/20251204-223750
+base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
+patch link:    https://lore.kernel.org/r/20251204143235.3138973-1-jani.nikula%40intel.com
+patch subject: [PATCH] drm/i915/crtc: move crtc initialization loop to intel_crtc.c
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm64-randconfig-r072-20251207 (https://download.01.org/0day-ci/archive/20251211/202512110945.XlM3uGiG-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project a805147ac1ba123916de182babb0831fbb148756)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512110850.9WsI7CfL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512110945.XlM3uGiG-lkp@intel.com/
 
-New smatch warnings:
-fs/f2fs/data.c:348 f2fs_write_end_io() error: 'folio' dereferencing possible ERR_PTR()
+smatch warnings:
+drivers/gpu/drm/i915/display/intel_crtc.c:334 __intel_crtc_init() warn: 'primary' can also be NULL
+drivers/gpu/drm/i915/display/intel_crtc.c:349 __intel_crtc_init() warn: 'plane' can also be NULL
 
-Old smatch warnings:
-fs/f2fs/data.c:270 f2fs_post_read_work() warn: bitwise AND condition is false here
-fs/f2fs/data.c:275 f2fs_post_read_work() warn: bitwise AND condition is false here
-fs/f2fs/data.c:351 f2fs_write_end_io() error: 'folio' dereferencing possible ERR_PTR()
-fs/f2fs/data.c:357 f2fs_write_end_io() error: 'folio' dereferencing possible ERR_PTR()
+vim +/primary +334 drivers/gpu/drm/i915/display/intel_crtc.c
 
-vim +/folio +348 fs/f2fs/data.c
-
-4c8ff7095bef64 Chao Yu                 2019-11-01  347  
-fb9660481e3ccb Matthew Wilcox (Oracle  2025-02-18 @348) 		type = WB_DATA_TYPE(&folio->page, false);
-fb9660481e3ccb Matthew Wilcox (Oracle  2025-02-18  349) 
-4e4cbee93d5613 Christoph Hellwig       2017-06-03  350  		if (unlikely(bio->bi_status)) {
-fb9660481e3ccb Matthew Wilcox (Oracle  2025-02-18  351) 			mapping_set_error(folio->mapping, -EIO);
-b1ca321d1cd8f0 Jaegeuk Kim             2017-12-31  352  			if (type == F2FS_WB_CP_DATA)
-a9cfee0ef98e99 Chao Yu                 2022-09-28  353  				f2fs_stop_checkpoint(sbi, true,
-a9cfee0ef98e99 Chao Yu                 2022-09-28  354  						STOP_CP_REASON_WRITE_FAIL);
-93dfe2ac516250 Jaegeuk Kim             2013-11-30  355  		}
-7dff55d27e07c5 Yunlei He               2018-01-11  356  
-fb9660481e3ccb Matthew Wilcox (Oracle  2025-02-18  357) 		f2fs_bug_on(sbi, folio->mapping == NODE_MAPPING(sbi) &&
-fb9660481e3ccb Matthew Wilcox (Oracle  2025-02-18  358) 				folio->index != nid_of_node(&folio->page));
-7dff55d27e07c5 Yunlei He               2018-01-11  359  
-36951b38d13ac7 Chao Yu                 2016-11-16  360  		dec_page_count(sbi, type);
-fb9660481e3ccb Matthew Wilcox (Oracle  2025-02-18  361) 		if (f2fs_in_warm_node_list(sbi, &folio->page))
-fb9660481e3ccb Matthew Wilcox (Oracle  2025-02-18  362) 			f2fs_del_fsync_node_entry(sbi, &folio->page);
-fb9660481e3ccb Matthew Wilcox (Oracle  2025-02-18  363) 		clear_page_private_gcing(&folio->page);
-fb9660481e3ccb Matthew Wilcox (Oracle  2025-02-18  364) 		folio_end_writeback(folio);
-f568849edac861 Linus Torvalds          2014-01-30  365  	}
-36951b38d13ac7 Chao Yu                 2016-11-16  366  	if (!get_pages(sbi, F2FS_WB_CP_DATA) &&
-f573018491fd82 Jaegeuk Kim             2016-05-17  367  				wq_has_sleeper(&sbi->cp_wait))
-93dfe2ac516250 Jaegeuk Kim             2013-11-30  368  		wake_up(&sbi->cp_wait);
-93dfe2ac516250 Jaegeuk Kim             2013-11-30  369  
-93dfe2ac516250 Jaegeuk Kim             2013-11-30  370  	bio_put(bio);
-93dfe2ac516250 Jaegeuk Kim             2013-11-30  371  }
-93dfe2ac516250 Jaegeuk Kim             2013-11-30  372  
+fbf756c31cca38 Dave Airlie   2021-01-14  311  
+f5d19f74d99a2a Jani Nikula   2025-12-04  312  static int __intel_crtc_init(struct intel_display *display, enum pipe pipe)
+fbf756c31cca38 Dave Airlie   2021-01-14  313  {
+fbf756c31cca38 Dave Airlie   2021-01-14  314  	struct intel_plane *primary, *cursor;
+fbf756c31cca38 Dave Airlie   2021-01-14  315  	const struct drm_crtc_funcs *funcs;
+fbf756c31cca38 Dave Airlie   2021-01-14  316  	struct intel_crtc *crtc;
+fbf756c31cca38 Dave Airlie   2021-01-14  317  	int sprite, ret;
+fbf756c31cca38 Dave Airlie   2021-01-14  318  
+fbf756c31cca38 Dave Airlie   2021-01-14  319  	crtc = intel_crtc_alloc();
+fbf756c31cca38 Dave Airlie   2021-01-14  320  	if (IS_ERR(crtc))
+fbf756c31cca38 Dave Airlie   2021-01-14  321  		return PTR_ERR(crtc);
+fbf756c31cca38 Dave Airlie   2021-01-14  322  
+fbf756c31cca38 Dave Airlie   2021-01-14  323  	crtc->pipe = pipe;
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  324  	crtc->num_scalers = DISPLAY_RUNTIME_INFO(display)->num_scalers[pipe];
+fbf756c31cca38 Dave Airlie   2021-01-14  325  
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  326  	if (DISPLAY_VER(display) >= 9)
+a2ed9f84524795 Ville Syrjälä 2025-02-06  327  		primary = skl_universal_plane_create(display, pipe, PLANE_1);
+46d12f911821f7 Dave Airlie   2021-02-05  328  	else
+880ed2d84db9a1 Ville Syrjälä 2025-02-06  329  		primary = intel_primary_plane_create(display, pipe);
+fbf756c31cca38 Dave Airlie   2021-01-14  330  	if (IS_ERR(primary)) {
+fbf756c31cca38 Dave Airlie   2021-01-14  331  		ret = PTR_ERR(primary);
+fbf756c31cca38 Dave Airlie   2021-01-14  332  		goto fail;
+fbf756c31cca38 Dave Airlie   2021-01-14  333  	}
+fbf756c31cca38 Dave Airlie   2021-01-14 @334  	crtc->plane_ids_mask |= BIT(primary->id);
+fbf756c31cca38 Dave Airlie   2021-01-14  335  
+f414bb4f717ad5 Jani Nikula   2025-02-12  336  	intel_init_fifo_underrun_reporting(display, crtc, false);
+66560f33059ebe Ville Syrjälä 2023-01-25  337  
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  338  	for_each_sprite(display, pipe, sprite) {
+fbf756c31cca38 Dave Airlie   2021-01-14  339  		struct intel_plane *plane;
+fbf756c31cca38 Dave Airlie   2021-01-14  340  
+a76a2be26df373 Jani Nikula   2025-05-06  341  		if (DISPLAY_VER(display) >= 9)
+a2ed9f84524795 Ville Syrjälä 2025-02-06  342  			plane = skl_universal_plane_create(display, pipe, PLANE_2 + sprite);
+46d12f911821f7 Dave Airlie   2021-02-05  343  		else
+9665025b57796f Ville Syrjälä 2025-02-06  344  			plane = intel_sprite_plane_create(display, pipe, sprite);
+fbf756c31cca38 Dave Airlie   2021-01-14  345  		if (IS_ERR(plane)) {
+fbf756c31cca38 Dave Airlie   2021-01-14  346  			ret = PTR_ERR(plane);
+fbf756c31cca38 Dave Airlie   2021-01-14  347  			goto fail;
+fbf756c31cca38 Dave Airlie   2021-01-14  348  		}
+fbf756c31cca38 Dave Airlie   2021-01-14 @349  		crtc->plane_ids_mask |= BIT(plane->id);
+fbf756c31cca38 Dave Airlie   2021-01-14  350  	}
+fbf756c31cca38 Dave Airlie   2021-01-14  351  
+69e79a3a3208fb Ville Syrjälä 2025-02-06  352  	cursor = intel_cursor_plane_create(display, pipe);
+fbf756c31cca38 Dave Airlie   2021-01-14  353  	if (IS_ERR(cursor)) {
+fbf756c31cca38 Dave Airlie   2021-01-14  354  		ret = PTR_ERR(cursor);
+fbf756c31cca38 Dave Airlie   2021-01-14  355  		goto fail;
+fbf756c31cca38 Dave Airlie   2021-01-14  356  	}
+fbf756c31cca38 Dave Airlie   2021-01-14  357  	crtc->plane_ids_mask |= BIT(cursor->id);
+fbf756c31cca38 Dave Airlie   2021-01-14  358  
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  359  	if (HAS_GMCH(display)) {
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  360  		if (display->platform.cherryview ||
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  361  		    display->platform.valleyview ||
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  362  		    display->platform.g4x)
+fbf756c31cca38 Dave Airlie   2021-01-14  363  			funcs = &g4x_crtc_funcs;
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  364  		else if (DISPLAY_VER(display) == 4)
+fbf756c31cca38 Dave Airlie   2021-01-14  365  			funcs = &i965_crtc_funcs;
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  366  		else if (display->platform.i945gm ||
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  367  			 display->platform.i915gm)
+fbf756c31cca38 Dave Airlie   2021-01-14  368  			funcs = &i915gm_crtc_funcs;
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  369  		else if (DISPLAY_VER(display) == 3)
+fbf756c31cca38 Dave Airlie   2021-01-14  370  			funcs = &i915_crtc_funcs;
+fbf756c31cca38 Dave Airlie   2021-01-14  371  		else
+fbf756c31cca38 Dave Airlie   2021-01-14  372  			funcs = &i8xx_crtc_funcs;
+fbf756c31cca38 Dave Airlie   2021-01-14  373  	} else {
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  374  		if (DISPLAY_VER(display) >= 8)
+fbf756c31cca38 Dave Airlie   2021-01-14  375  			funcs = &bdw_crtc_funcs;
+fbf756c31cca38 Dave Airlie   2021-01-14  376  		else
+fbf756c31cca38 Dave Airlie   2021-01-14  377  			funcs = &ilk_crtc_funcs;
+fbf756c31cca38 Dave Airlie   2021-01-14  378  	}
+fbf756c31cca38 Dave Airlie   2021-01-14  379  
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  380  	ret = drm_crtc_init_with_planes(display->drm, &crtc->base,
+fbf756c31cca38 Dave Airlie   2021-01-14  381  					&primary->base, &cursor->base,
+fbf756c31cca38 Dave Airlie   2021-01-14  382  					funcs, "pipe %c", pipe_name(pipe));
+fbf756c31cca38 Dave Airlie   2021-01-14  383  	if (ret)
+fbf756c31cca38 Dave Airlie   2021-01-14  384  		goto fail;
+fbf756c31cca38 Dave Airlie   2021-01-14  385  
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  386  	if (DISPLAY_VER(display) >= 11)
+fbf756c31cca38 Dave Airlie   2021-01-14  387  		drm_crtc_create_scaling_filter_property(&crtc->base,
+fbf756c31cca38 Dave Airlie   2021-01-14  388  						BIT(DRM_SCALING_FILTER_DEFAULT) |
+fbf756c31cca38 Dave Airlie   2021-01-14  389  						BIT(DRM_SCALING_FILTER_NEAREST_NEIGHBOR));
+fbf756c31cca38 Dave Airlie   2021-01-14  390  
+a2b1d9ecaa755c Ville Syrjälä 2022-10-04  391  	intel_color_crtc_init(crtc);
+a2b1d9ecaa755c Ville Syrjälä 2022-10-04  392  	intel_drrs_crtc_init(crtc);
+fbf756c31cca38 Dave Airlie   2021-01-14  393  	intel_crtc_crc_init(crtc);
+fbf756c31cca38 Dave Airlie   2021-01-14  394  
+2bbc6fcaf8c58a Ville Syrjälä 2021-10-21  395  	cpu_latency_qos_add_request(&crtc->vblank_pm_qos, PM_QOS_DEFAULT_VALUE);
+2bbc6fcaf8c58a Ville Syrjälä 2021-10-21  396  
+b2479f7231d8b1 Ville Syrjälä 2025-02-06  397  	drm_WARN_ON(display->drm, drm_crtc_index(&crtc->base) != crtc->pipe);
+fbf756c31cca38 Dave Airlie   2021-01-14  398  
+7460b69f1d61e8 Nemesa Garg   2025-10-28  399  	if (HAS_CASF(display))
+7460b69f1d61e8 Nemesa Garg   2025-10-28  400  		drm_crtc_create_sharpness_strength_property(&crtc->base);
+7460b69f1d61e8 Nemesa Garg   2025-10-28  401  
+fbf756c31cca38 Dave Airlie   2021-01-14  402  	return 0;
+fbf756c31cca38 Dave Airlie   2021-01-14  403  
+fbf756c31cca38 Dave Airlie   2021-01-14  404  fail:
+fbf756c31cca38 Dave Airlie   2021-01-14  405  	intel_crtc_free(crtc);
+fbf756c31cca38 Dave Airlie   2021-01-14  406  
+fbf756c31cca38 Dave Airlie   2021-01-14  407  	return ret;
+fbf756c31cca38 Dave Airlie   2021-01-14  408  }
+d471008b00c1a0 Dave Airlie   2021-02-05  409  
 
 -- 
 0-DAY CI Kernel Test Service
