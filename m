@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B051331770F
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Dec 2025 18:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8DE288C3D
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Dec 2025 19:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765476404; cv=none; b=Zn0wjLyfsP/p7AXQDE+2chJreygahElhsKxK2y2STFg0OpCyB9hjmBr3eAy5d3P/6A/cT7vFlhKkHYH7gobozG3SdnzSV9GnWDdZJA3PQENKZsicPAV43X6gzMuETsOyKcYzbTzNMqYH86sAUcnoTbksuDOIA581y+xT/S4ZzHs=
+	t=1765480125; cv=none; b=K+6zdyjFa6rCrFfDcd8wi/A6Bf5bNP+bXly2r+vaYBzsoKTrVhy2dCzD0PP0MgQmFrzHeBlfyGP8ZzWkhDwHv4m8ttuIfx4Qp7gGCCtu0TW5bPYCH7cE77I0fXUQ++coLqGggL0A7zPwFWjouPp7wbSx8XtPq7adD0BIwGL7PGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765476404; c=relaxed/simple;
-	bh=ehNO9pZ1oV5LVL6Z8Kqkz98jo/t0tr2aXkoFSAXeHag=;
+	s=arc-20240116; t=1765480125; c=relaxed/simple;
+	bh=UMRgtngrXgrPczRv8mcDDtHCnXzcd2U3HrUeUC4PCeM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qPgnkdZgfFIOS8qfLRzOgX3kcjN0z9ViUx7c5wTl1HQgsRFwyrnx0PZCuc2eeieD/xJdJcXPmL32XsAAE2sBjbm6Bbggznc+klg2OkabTegjGhg8pMZnSWQlBDOV6VHihQn2NuM1h6blqd+OOREyPSYHrXfINh9j6l7HZVvizLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZMDY0MzS; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=fSipRNyQBfQmCey1iQ2sSt8sBqtWPqM8S2dxUFqq68YUQjrF8xQ+lAaOngPmNYfmg+6p3U05xVdUxjp0XdjNx0T8B6BbAuT0kKgtNYvJobtWlF2lw3Qc7KfXeoF+J4hbsCHLmjPDWpTGCQ/JvTIF4IB3Yz2hidf+LhvNm3/KgDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nxt/r0PN; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZMDY0MzS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nxt/r0PN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765476401; x=1797012401;
+  t=1765480123; x=1797016123;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ehNO9pZ1oV5LVL6Z8Kqkz98jo/t0tr2aXkoFSAXeHag=;
-  b=ZMDY0MzSIlV/E5L5dynGjAPGQ4U/ECyZrQ6HZ1yNWGcc5lvcnSkBjpWy
-   xBMo3GB9tgA8271uNZ3OXRweJBpaR3aW8DqcCDlCMiR9UP3r+H0bFZeHB
-   yi0H47VEcwuRkPlXCxMiPZQ7o7SlLOSFCEcFvftfu+9vRZM8WZuemXoKo
-   vgHnKZ2gdzVTFe1Gs7CFh0PnH4gKBeb83n4Pwzo1Q7JXEq23IMMtZMjTb
-   rIIfVyW+7IZ2B0oXd9zCis6UfmdYnDmQLw5wZqSdKW2BYTkMak46BOef7
-   LgRtswgTz739q8FIbSFcQw9PZRiutpaGqWU++WA+8pSJ5kqzc9XomSJ2m
-   A==;
-X-CSE-ConnectionGUID: 4AmSYZE5RKiQAUH404+GoQ==
-X-CSE-MsgGUID: i+gq64u8S4+oGrxk+Aqrjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="66649391"
+  bh=UMRgtngrXgrPczRv8mcDDtHCnXzcd2U3HrUeUC4PCeM=;
+  b=Nxt/r0PNMMwr4yKYQ8cS+s4arrycP5iam7Swrna94JzeLwhb7VXOHtKI
+   Utuhhog4VEKaHpzw+DPuZFuhBiJ3tke+/6vCtAIlV4VnFh+pTUrO/9OYS
+   CXjxy7oWDExMnwSRgCvrzpZ0u6D8XldPfjlvxazB7LzKcPIVmyyXaVfun
+   U6Yc9+uZZglWDZhpfD8L8iEtz4mi84TSdQ9jfXWSz4SZq51mtN3zco2Lq
+   +id9I0h09riu3uPSiMm6ma8+Q7I33MavnXroqh9PVIu0eAUQ07FA3KNQ2
+   XNcZElhCBrRXp78/DE1qSFzo5XUlQRubofUJJBQB4WfjtXmU7gEbZHmlL
+   w==;
+X-CSE-ConnectionGUID: noTFzZLPQayDehdBnC8KpA==
+X-CSE-MsgGUID: Z3dnsSb0RlCSJSHvBNCQ4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78093784"
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="66649391"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 10:06:41 -0800
-X-CSE-ConnectionGUID: XjlTRsWMShyz83dzFPJrVQ==
-X-CSE-MsgGUID: ILw+XA2OSVKxevEs/WoQYQ==
+   d="scan'208";a="78093784"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 11:08:43 -0800
+X-CSE-ConnectionGUID: I/fI5EHKTkilN8JkRaa1kA==
+X-CSE-MsgGUID: /InZWTHCSf6a301YR7ouMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="201334412"
+   d="scan'208";a="197695250"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 11 Dec 2025 10:06:39 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 11 Dec 2025 11:08:42 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTl3k-000000004wn-3Dlt;
-	Thu, 11 Dec 2025 18:06:36 +0000
-Date: Fri, 12 Dec 2025 02:05:47 +0800
+	id 1vTm1n-000000004zp-3mXg;
+	Thu, 11 Dec 2025 19:08:39 +0000
+Date: Fri, 12 Dec 2025 03:08:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/9] RDMA/rtrs: Add error description to the logs
-Message-ID: <202512120133.BuJVeI6M-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: vmlinux.o: warning: objtool: gntdev_copy+0x187: unknown CFA base reg
+ -1
+Message-ID: <202512120312.LCyew7T7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,163 +62,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
+
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251208161513.127049-3-haris.iqbal@ionos.com>
-References: <20251208161513.127049-3-haris.iqbal@ionos.com>
-TO: Md Haris Iqbal <haris.iqbal@ionos.com>
-TO: linux-rdma@vger.kernel.org
-CC: bvanassche@acm.org
-CC: leon@kernel.org
-CC: jgg@ziepe.ca
-CC: haris.iqbal@ionos.com
-CC: jinpu.wang@ionos.com
-CC: grzegorz.prajsner@ionos.com
-CC: Kim Zhu <zhu.yanjun@ionos.com>
+CC: linux-kernel@vger.kernel.org
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>
 
-Hi Md,
+Hi Josh,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on rdma/for-next]
-[also build test WARNING on linus/master v6.18 next-20251211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Md-Haris-Iqbal/RDMA-rtrs-srv-fix-SG-mapping/20251209-001817
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/20251208161513.127049-3-haris.iqbal%40ionos.com
-patch subject: [PATCH 2/9] RDMA/rtrs: Add error description to the logs
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-randconfig-r072-20251210 (https://download.01.org/0day-ci/archive/20251212/202512120133.BuJVeI6M-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d358e5254674b70f34c847715ca509e46eb81e6f
+commit: 0a7fb6f07e3ad497d31ae9a2082d2cacab43d54a objtool: Increase per-function WARN_FUNC() rate limit
+date:   9 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-075-20251211 (https://download.01.org/0day-ci/archive/20251212/202512120312.LCyew7T7-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120312.LCyew7T7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512120133.BuJVeI6M-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512120312.LCyew7T7-lkp@intel.com/
 
-smatch warnings:
-drivers/infiniband/ulp/rtrs/rtrs-srv.c:885 process_info_req() warn: passing zero to 'ERR_PTR'
+All warnings (new ones prefixed by >>):
 
-vim +/ERR_PTR +885 drivers/infiniband/ulp/rtrs/rtrs-srv.c
-
-9cb837480424e7 Jack Wang        2020-05-11  807  
-9cb837480424e7 Jack Wang        2020-05-11  808  static int process_info_req(struct rtrs_srv_con *con,
-9cb837480424e7 Jack Wang        2020-05-11  809  			    struct rtrs_msg_info_req *msg)
-9cb837480424e7 Jack Wang        2020-05-11  810  {
-d9372794717f44 Vaishali Thakkar 2022-01-05  811  	struct rtrs_path *s = con->c.path;
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  812  	struct rtrs_srv_path *srv_path = to_srv_path(s);
-9cb837480424e7 Jack Wang        2020-05-11  813  	struct ib_send_wr *reg_wr = NULL;
-9cb837480424e7 Jack Wang        2020-05-11  814  	struct rtrs_msg_info_rsp *rsp;
-9cb837480424e7 Jack Wang        2020-05-11  815  	struct rtrs_iu *tx_iu;
-9cb837480424e7 Jack Wang        2020-05-11  816  	struct ib_reg_wr *rwr;
-9cb837480424e7 Jack Wang        2020-05-11  817  	int mri, err;
-9cb837480424e7 Jack Wang        2020-05-11  818  	size_t tx_sz;
-9cb837480424e7 Jack Wang        2020-05-11  819  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  820  	err = post_recv_path(srv_path);
-4693d6b767d6ca Gioh Kim         2021-08-06  821  	if (err) {
-94ae3ce9b375c6 Kim Zhu          2025-12-08  822  		rtrs_err(s, "post_recv_path(), err: %d(%pe)\n", err, ERR_PTR(err));
-9cb837480424e7 Jack Wang        2020-05-11  823  		return err;
-9cb837480424e7 Jack Wang        2020-05-11  824  	}
-07c14027295a32 Gioh Kim         2021-05-28  825  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  826  	if (strchr(msg->pathname, '/') || strchr(msg->pathname, '.')) {
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  827  		rtrs_err(s, "pathname cannot contain / and .\n");
-dea7bb3ad3e08f Md Haris Iqbal   2021-09-22  828  		return -EINVAL;
-dea7bb3ad3e08f Md Haris Iqbal   2021-09-22  829  	}
-dea7bb3ad3e08f Md Haris Iqbal   2021-09-22  830  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  831  	if (exist_pathname(srv_path->srv->ctx,
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  832  			   msg->pathname, &srv_path->srv->paths_uuid)) {
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  833  		rtrs_err(s, "pathname is duplicated: %s\n", msg->pathname);
-07c14027295a32 Gioh Kim         2021-05-28  834  		return -EPERM;
-07c14027295a32 Gioh Kim         2021-05-28  835  	}
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  836  	strscpy(srv_path->s.sessname, msg->pathname,
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  837  		sizeof(srv_path->s.sessname));
-07c14027295a32 Gioh Kim         2021-05-28  838  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  839  	rwr = kcalloc(srv_path->mrs_num, sizeof(*rwr), GFP_KERNEL);
-4693d6b767d6ca Gioh Kim         2021-08-06  840  	if (!rwr)
-9cb837480424e7 Jack Wang        2020-05-11  841  		return -ENOMEM;
-9cb837480424e7 Jack Wang        2020-05-11  842  
-9cb837480424e7 Jack Wang        2020-05-11  843  	tx_sz  = sizeof(*rsp);
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  844  	tx_sz += sizeof(rsp->desc[0]) * srv_path->mrs_num;
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  845  	tx_iu = rtrs_iu_alloc(1, tx_sz, GFP_KERNEL, srv_path->s.dev->ib_dev,
-9cb837480424e7 Jack Wang        2020-05-11  846  			       DMA_TO_DEVICE, rtrs_srv_info_rsp_done);
-4693d6b767d6ca Gioh Kim         2021-08-06  847  	if (!tx_iu) {
-9cb837480424e7 Jack Wang        2020-05-11  848  		err = -ENOMEM;
-9cb837480424e7 Jack Wang        2020-05-11  849  		goto rwr_free;
-9cb837480424e7 Jack Wang        2020-05-11  850  	}
-9cb837480424e7 Jack Wang        2020-05-11  851  
-9cb837480424e7 Jack Wang        2020-05-11  852  	rsp = tx_iu->buf;
-9cb837480424e7 Jack Wang        2020-05-11  853  	rsp->type = cpu_to_le16(RTRS_MSG_INFO_RSP);
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  854  	rsp->sg_cnt = cpu_to_le16(srv_path->mrs_num);
-9cb837480424e7 Jack Wang        2020-05-11  855  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  856  	for (mri = 0; mri < srv_path->mrs_num; mri++) {
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  857  		struct ib_mr *mr = srv_path->mrs[mri].mr;
-9cb837480424e7 Jack Wang        2020-05-11  858  
-9cb837480424e7 Jack Wang        2020-05-11  859  		rsp->desc[mri].addr = cpu_to_le64(mr->iova);
-9cb837480424e7 Jack Wang        2020-05-11  860  		rsp->desc[mri].key  = cpu_to_le32(mr->rkey);
-9cb837480424e7 Jack Wang        2020-05-11  861  		rsp->desc[mri].len  = cpu_to_le32(mr->length);
-9cb837480424e7 Jack Wang        2020-05-11  862  
-9cb837480424e7 Jack Wang        2020-05-11  863  		/*
-9cb837480424e7 Jack Wang        2020-05-11  864  		 * Fill in reg MR request and chain them *backwards*
-9cb837480424e7 Jack Wang        2020-05-11  865  		 */
-9cb837480424e7 Jack Wang        2020-05-11  866  		rwr[mri].wr.next = mri ? &rwr[mri - 1].wr : NULL;
-9cb837480424e7 Jack Wang        2020-05-11  867  		rwr[mri].wr.opcode = IB_WR_REG_MR;
-9cb837480424e7 Jack Wang        2020-05-11  868  		rwr[mri].wr.wr_cqe = &local_reg_cqe;
-9cb837480424e7 Jack Wang        2020-05-11  869  		rwr[mri].wr.num_sge = 0;
-e8ae7ddb48a1b8 Jack Wang        2020-12-17  870  		rwr[mri].wr.send_flags = 0;
-9cb837480424e7 Jack Wang        2020-05-11  871  		rwr[mri].mr = mr;
-9cb837480424e7 Jack Wang        2020-05-11  872  		rwr[mri].key = mr->rkey;
-9cb837480424e7 Jack Wang        2020-05-11  873  		rwr[mri].access = (IB_ACCESS_LOCAL_WRITE |
-9cb837480424e7 Jack Wang        2020-05-11  874  				   IB_ACCESS_REMOTE_WRITE);
-9cb837480424e7 Jack Wang        2020-05-11  875  		reg_wr = &rwr[mri].wr;
-9cb837480424e7 Jack Wang        2020-05-11  876  	}
-9cb837480424e7 Jack Wang        2020-05-11  877  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  878  	err = rtrs_srv_create_path_files(srv_path);
-4693d6b767d6ca Gioh Kim         2021-08-06  879  	if (err)
-9cb837480424e7 Jack Wang        2020-05-11  880  		goto iu_free;
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  881  	kobject_get(&srv_path->kobj);
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  882  	get_device(&srv_path->srv->dev);
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  883  	err = rtrs_srv_change_state(srv_path, RTRS_SRV_CONNECTED);
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  884  	if (!err) {
-94ae3ce9b375c6 Kim Zhu          2025-12-08 @885  		rtrs_err(s, "rtrs_srv_change_state(), err: %d(%pe)\n", err, ERR_PTR(err));
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  886  		goto iu_free;
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  887  	}
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  888  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  889  	rtrs_srv_start_hb(srv_path);
-9cb837480424e7 Jack Wang        2020-05-11  890  
-9cb837480424e7 Jack Wang        2020-05-11  891  	/*
-9cb837480424e7 Jack Wang        2020-05-11  892  	 * We do not account number of established connections at the current
-9cb837480424e7 Jack Wang        2020-05-11  893  	 * moment, we rely on the client, which should send info request when
-9cb837480424e7 Jack Wang        2020-05-11  894  	 * all connections are successfully established.  Thus, simply notify
-9cb837480424e7 Jack Wang        2020-05-11  895  	 * listener with a proper event if we are the first path.
-9cb837480424e7 Jack Wang        2020-05-11  896  	 */
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  897  	err = rtrs_srv_path_up(srv_path);
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  898  	if (err) {
-94ae3ce9b375c6 Kim Zhu          2025-12-08  899  		rtrs_err(s, "rtrs_srv_path_up(), err: %d(%pe)\n", err, ERR_PTR(err));
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  900  		goto iu_free;
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  901  	}
-9cb837480424e7 Jack Wang        2020-05-11  902  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  903  	ib_dma_sync_single_for_device(srv_path->s.dev->ib_dev,
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  904  				      tx_iu->dma_addr,
-9cb837480424e7 Jack Wang        2020-05-11  905  				      tx_iu->size, DMA_TO_DEVICE);
-9cb837480424e7 Jack Wang        2020-05-11  906  
-9cb837480424e7 Jack Wang        2020-05-11  907  	/* Send info response */
-9cb837480424e7 Jack Wang        2020-05-11  908  	err = rtrs_iu_post_send(&con->c, tx_iu, tx_sz, reg_wr);
-4693d6b767d6ca Gioh Kim         2021-08-06  909  	if (err) {
-94ae3ce9b375c6 Kim Zhu          2025-12-08  910  		rtrs_err(s, "rtrs_iu_post_send(), err: %d(%pe)\n", err, ERR_PTR(err));
-9cb837480424e7 Jack Wang        2020-05-11  911  iu_free:
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  912  		rtrs_iu_free(tx_iu, srv_path->s.dev->ib_dev, 1);
-9cb837480424e7 Jack Wang        2020-05-11  913  	}
-9cb837480424e7 Jack Wang        2020-05-11  914  rwr_free:
-9cb837480424e7 Jack Wang        2020-05-11  915  	kfree(rwr);
-9cb837480424e7 Jack Wang        2020-05-11  916  
-9cb837480424e7 Jack Wang        2020-05-11  917  	return err;
-9cb837480424e7 Jack Wang        2020-05-11  918  }
-9cb837480424e7 Jack Wang        2020-05-11  919  
+   vmlinux.o: warning: objtool: ftrace_likely_update+0x447: call to __stack_chk_fail() with UACCESS enabled
+   vmlinux.o: warning: objtool: gntdev_copy+0x373: stack state mismatch: cfa1=4+96 cfa2=-1+0
+   vmlinux.o: warning: objtool: .text.rk806_set_mode_dcdc: unexpected end of section
+   vmlinux.o: warning: objtool: .text.nvmet_ctrl_state_show: unexpected end of section
+>> vmlinux.o: warning: objtool: gntdev_copy+0x187: unknown CFA base reg -1
 
 -- 
 0-DAY CI Kernel Test Service
