@@ -1,73 +1,58 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1043275105
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Dec 2025 05:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D1014B953
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Dec 2025 06:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765517217; cv=none; b=EQM8C/sUfHuhaFPLXcZHlmkk7ot2xnMjaCeoVMuaLMvNHAk8zgtyjhJ8QTvrLRg3F33bW0Peb4MeyEuKvI3zWhNYxmMXjlJJlA6pSUK9k4vFRwXEaeyEb6aGu41zgEAUYc9O/XqBtgesT/Q/vg8RgkOPJHK3PufhGdXPtW+ZgRg=
+	t=1765520872; cv=none; b=ABpJSzgS+4kz0S0JNSTh2QdjYrToGAOWtJv6UO0u4mtSWHp86Kwa0NDUvE9RxXOq8yjk646hKyGBv3b+kcT0mzBBjF66AZPNl3HnHUEz258drXN+fR8XgxTVaNvDpiVlXadc9W2w/DeXygzKsVV71aScVyDYZW/f4lyobVdOBnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765517217; c=relaxed/simple;
-	bh=OweqykBhgbppa/7Koee8zmJuboG3Y8BEQhfwJL/dzAw=;
+	s=arc-20240116; t=1765520872; c=relaxed/simple;
+	bh=XNDeO58WUOeuGqJyaiGqKD2eoKsH74oWaQXhP5SywCs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Tldewz6r5UUftURsagzAoUq+ttqT0q5LSwI/sb1s9Fb/QnpXEEcoTEJXQc7GrxNQBwMyrpV0n1s0H+ttUDCt9JfzzrEE4r0+zXFiRPMuwRpFiAqahLsdHHh5nnD5Kcn8OMRaMCE8/Ix8+VK0zik/YACu04FMY9+Y8JrZlDbzAeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Oo1RMm53; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=b0dDL68+32281BjGo//Lmj3e3FSM2BQG6t2gaGAsMiUdzbLQ5ZhsaXkBDboXMIukuCoD+q+BdbnBi1u3bxEWUYqbtFO5RE1Yxn7nura05KqQ5doxvOEwWHQHmHtNX6JvBu3YQ5txb2N7L/Evi5SISP9Hy0Kh+M807eM+FEzvjaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HJLStLO5; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Oo1RMm53"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4779ce2a624so9141725e9.2
-        for <oe-kbuild@lists.linux.dev>; Thu, 11 Dec 2025 21:26:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765517214; x=1766122014; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CBWilNLrbHDRlnFxWjIjseFsePfIOw9zW9A1lO325fE=;
-        b=Oo1RMm53vvS6eBhpUk+U0IiiItJwVFRYoMukKV0YnxvZjUxGig/fHx56msVn0D2HMQ
-         nvMOyte8f2SdmMVzeLc56FkiCE29Kc5OT929ilF8g3fH5+t0Xb/khVeKhRJfYYbDnVXE
-         J5uRk/QUzkRCQpfXZLWeYicNK5zsexSrV1oTgZk50l5MQ0mdqfFGi6aiSPaKZ44Oz81z
-         XCfOs8l15ZgiNeMv7RsXljfIoI7/smFqxbv5Mh8allzEDvJitGtu7foE+JVeQ2OSW7ix
-         gxtK8Z6yOcqv/mNaPHn/QNqYq/uliKUyojy/Od+WoKcm7v89fTOfgyrTQyceWnm9udmM
-         fokA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765517214; x=1766122014;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CBWilNLrbHDRlnFxWjIjseFsePfIOw9zW9A1lO325fE=;
-        b=UiEspuxoFMBzPB73uZUianfykGoa3vyqXWgbbuXlVhgMqyWx9jg2x4tUrhEWNuQH7v
-         Qijz8TXOrI9Le1gqjwY8tOliW706ygH2/S2eCU+2/T1azyhVIsZfAq3AVckvkZ4nHYDJ
-         mNgL4nrW+vW9CLvJDBV+Plih0J9bdFPw+5lGwadiOwpoULjqV3WCSp62dy1D+qfviv/l
-         4hh6lw7D9pDrPJlZF1N66FXrtn2xsBKWSMdv9qEYXmOpcyUUIMjUHsp+iQ9vogkUSLzX
-         HbzrwB0encMspzTLctWPXFPMIOVh9p07R78m6g5mev5YulGSNHgYZ0t70mAl0QkjisZx
-         7w5A==
-X-Gm-Message-State: AOJu0Yy4QunWGWND4bOMRHoF+cs7bD5nb4Op/mY2YFBIYO7ybXP+dGf9
-	GVwqW6pGA9T2xYPEu10kIsTicruYmIsLVl3pc0IxIHjfL4DHinORhL7vgQFfGfajc2OJ6WtKBba
-	yin1W
-X-Gm-Gg: AY/fxX4UJyQjm7ArQ4VDeq3dvNAfIr1vhSla0/26xN9I4ZX+dKFv5X3/N2hT8TUeahV
-	UgrmlSpK85bZOLlREL0jtWOHWkfZL8CwgOob/O0wkF+uGnBGr1sYnTwsSnLrnfLxR3va6HJLkjk
-	e4NWu1EJ4VQBLLgMnC+cXtOq+Kx7rcDvaf1lq3f4ZqtkZEyLIxNKwAsQzAeh1qZD9qG1iv3tD0b
-	0s/XmhsWqwFvQiwDsOYlyxX9OCJPb/KbTzFCkkTIu3+0rCLgFIjhNsThMoGVFsIcOd0KzpXFuRn
-	BRS2MFnPsTmnSRKYM6Gv1rV6ZpmUTLxhLqMupYcSN4emoTRjKGtcy3F5gyh5Wer4B7CNEDN6b+D
-	m2PW1V9ac89A/eV0HzhnbcKS0cFjh0AZM5s+P31PCmKlrCu15ymlq039gREMWMqu/2ViHSjYv6h
-	O2HuCRKbNBGfrwytWaBTkLERmDNdc=
-X-Google-Smtp-Source: AGHT+IFcq5X/rgP39w3ouyuMZgsKabYvnG7gJzZhlFGA5V31Y5whTm8H4/ZHY2Xw1qy6oxxHEXPKqw==
-X-Received: by 2002:a05:600c:3495:b0:479:1348:c614 with SMTP id 5b1f17b1804b1-47a8f90e7c9mr7490195e9.26.1765517213522;
-        Thu, 11 Dec 2025 21:26:53 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a8f4ef38bsm13361905e9.0.2025.12.11.21.26.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 21:26:53 -0800 (PST)
-Date: Fri, 12 Dec 2025 08:26:49 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Md Haris Iqbal <haris.iqbal@ionos.com>,
-	linux-rdma@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, bvanassche@acm.org,
-	leon@kernel.org, jgg@ziepe.ca, haris.iqbal@ionos.com,
-	jinpu.wang@ionos.com, grzegorz.prajsner@ionos.com,
-	Kim Zhu <zhu.yanjun@ionos.com>
-Subject: Re: [PATCH 2/9] RDMA/rtrs: Add error description to the logs
-Message-ID: <202512120133.BuJVeI6M-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HJLStLO5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765520870; x=1797056870;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XNDeO58WUOeuGqJyaiGqKD2eoKsH74oWaQXhP5SywCs=;
+  b=HJLStLO571K4F4GRsTL/1GNOY92TCMvKAo85oUObKi93mNCWSEkpoVlU
+   LvVSowwp43RVyHVxTmeK+iLs1gXmi6awri/WqBMvdppHKKymyVj71LRAw
+   YPXCOViEOPUU5FFXALDaeXevhwB59D6tUO8dWxB1O8jqJF5o0BNZ3ksSd
+   8LFGxW52CptEeCYCzvqJ2c2EbCoyJ9cJxKaVjB4fJQtrgnDZcOFdRlHdG
+   1rSdv+wint5ZnC/+4ZE3XGi9K3aZ/fcyHOl8YILoMJ4koQkWFKf/RjVGX
+   8qAoQFiL0cj3AnxRBq+ZurSrDc6t0ulwCvE2/LvGpE9F/RP73eqP24nCY
+   g==;
+X-CSE-ConnectionGUID: 855fPYZBR6W/5yBhJKgfkw==
+X-CSE-MsgGUID: Y6NLnBTfQg+t2GHPYFvEHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78214767"
+X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
+   d="scan'208";a="78214767"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 22:27:33 -0800
+X-CSE-ConnectionGUID: RWWWpGiLQoimI4ufr6ODnw==
+X-CSE-MsgGUID: OX2zowbFQxWemiOGMDKxxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
+   d="scan'208";a="201477538"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 11 Dec 2025 22:27:31 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vTwcj-000000005fH-0T4K;
+	Fri, 12 Dec 2025 06:27:29 +0000
+Date: Fri, 12 Dec 2025 14:26:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: sound/core/pcm_native.c:3210 snd_pcm_ioctl_sync_ptr_compat() error:
+ uninitialized symbol 'sflags'.
+Message-ID: <202512121443.4jiqxOkD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -76,152 +61,96 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251208161513.127049-3-haris.iqbal@ionos.com>
-Message-ID: <20251212052649.S3TtTLnZIaBd88XNkfXy4_Zx7EcTwFvc_kMj-1c8Es8@z>
 
-Hi Md,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+CC: Takashi Iwai <tiwai@suse.de>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Md-Haris-Iqbal/RDMA-rtrs-srv-fix-SG-mapping/20251209-001817
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/20251208161513.127049-3-haris.iqbal%40ionos.com
-patch subject: [PATCH 2/9] RDMA/rtrs: Add error description to the logs
-config: arm-randconfig-r072-20251210 (https://download.01.org/0day-ci/archive/20251212/202512120133.BuJVeI6M-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d358e5254674b70f34c847715ca509e46eb81e6f
+commit: a9b49bf8ad5905ebd999da345dcff3b9fad43877 ALSA: pcm: Convert SNDRV_PCM_IOCTL_SYNC_PTR to user_access_begin/user_access_end()
+date:   6 months ago
+:::::: branch date: 27 hours ago
+:::::: commit date: 6 months ago
+config: i386-randconfig-141-20251212 (https://download.01.org/0day-ci/archive/20251212/202512121443.4jiqxOkD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512120133.BuJVeI6M-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512121443.4jiqxOkD-lkp@intel.com/
 
 smatch warnings:
-drivers/infiniband/ulp/rtrs/rtrs-srv.c:885 process_info_req() warn: passing zero to 'ERR_PTR'
+sound/core/pcm_native.c:3210 snd_pcm_ioctl_sync_ptr_compat() error: uninitialized symbol 'sflags'.
 
-vim +/ERR_PTR +885 drivers/infiniband/ulp/rtrs/rtrs-srv.c
+vim +/sflags +3210 sound/core/pcm_native.c
 
-9cb837480424e7 Jack Wang        2020-05-11  808  static int process_info_req(struct rtrs_srv_con *con,
-9cb837480424e7 Jack Wang        2020-05-11  809  			    struct rtrs_msg_info_req *msg)
-9cb837480424e7 Jack Wang        2020-05-11  810  {
-d9372794717f44 Vaishali Thakkar 2022-01-05  811  	struct rtrs_path *s = con->c.path;
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  812  	struct rtrs_srv_path *srv_path = to_srv_path(s);
-9cb837480424e7 Jack Wang        2020-05-11  813  	struct ib_send_wr *reg_wr = NULL;
-9cb837480424e7 Jack Wang        2020-05-11  814  	struct rtrs_msg_info_rsp *rsp;
-9cb837480424e7 Jack Wang        2020-05-11  815  	struct rtrs_iu *tx_iu;
-9cb837480424e7 Jack Wang        2020-05-11  816  	struct ib_reg_wr *rwr;
-9cb837480424e7 Jack Wang        2020-05-11  817  	int mri, err;
-9cb837480424e7 Jack Wang        2020-05-11  818  	size_t tx_sz;
-9cb837480424e7 Jack Wang        2020-05-11  819  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  820  	err = post_recv_path(srv_path);
-4693d6b767d6ca Gioh Kim         2021-08-06  821  	if (err) {
-94ae3ce9b375c6 Kim Zhu          2025-12-08  822  		rtrs_err(s, "post_recv_path(), err: %d(%pe)\n", err, ERR_PTR(err));
-9cb837480424e7 Jack Wang        2020-05-11  823  		return err;
-9cb837480424e7 Jack Wang        2020-05-11  824  	}
-07c14027295a32 Gioh Kim         2021-05-28  825  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  826  	if (strchr(msg->pathname, '/') || strchr(msg->pathname, '.')) {
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  827  		rtrs_err(s, "pathname cannot contain / and .\n");
-dea7bb3ad3e08f Md Haris Iqbal   2021-09-22  828  		return -EINVAL;
-dea7bb3ad3e08f Md Haris Iqbal   2021-09-22  829  	}
-dea7bb3ad3e08f Md Haris Iqbal   2021-09-22  830  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  831  	if (exist_pathname(srv_path->srv->ctx,
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  832  			   msg->pathname, &srv_path->srv->paths_uuid)) {
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  833  		rtrs_err(s, "pathname is duplicated: %s\n", msg->pathname);
-07c14027295a32 Gioh Kim         2021-05-28  834  		return -EPERM;
-07c14027295a32 Gioh Kim         2021-05-28  835  	}
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  836  	strscpy(srv_path->s.sessname, msg->pathname,
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  837  		sizeof(srv_path->s.sessname));
-07c14027295a32 Gioh Kim         2021-05-28  838  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  839  	rwr = kcalloc(srv_path->mrs_num, sizeof(*rwr), GFP_KERNEL);
-4693d6b767d6ca Gioh Kim         2021-08-06  840  	if (!rwr)
-9cb837480424e7 Jack Wang        2020-05-11  841  		return -ENOMEM;
-9cb837480424e7 Jack Wang        2020-05-11  842  
-9cb837480424e7 Jack Wang        2020-05-11  843  	tx_sz  = sizeof(*rsp);
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  844  	tx_sz += sizeof(rsp->desc[0]) * srv_path->mrs_num;
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  845  	tx_iu = rtrs_iu_alloc(1, tx_sz, GFP_KERNEL, srv_path->s.dev->ib_dev,
-9cb837480424e7 Jack Wang        2020-05-11  846  			       DMA_TO_DEVICE, rtrs_srv_info_rsp_done);
-4693d6b767d6ca Gioh Kim         2021-08-06  847  	if (!tx_iu) {
-9cb837480424e7 Jack Wang        2020-05-11  848  		err = -ENOMEM;
-9cb837480424e7 Jack Wang        2020-05-11  849  		goto rwr_free;
-9cb837480424e7 Jack Wang        2020-05-11  850  	}
-9cb837480424e7 Jack Wang        2020-05-11  851  
-9cb837480424e7 Jack Wang        2020-05-11  852  	rsp = tx_iu->buf;
-9cb837480424e7 Jack Wang        2020-05-11  853  	rsp->type = cpu_to_le16(RTRS_MSG_INFO_RSP);
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  854  	rsp->sg_cnt = cpu_to_le16(srv_path->mrs_num);
-9cb837480424e7 Jack Wang        2020-05-11  855  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  856  	for (mri = 0; mri < srv_path->mrs_num; mri++) {
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  857  		struct ib_mr *mr = srv_path->mrs[mri].mr;
-9cb837480424e7 Jack Wang        2020-05-11  858  
-9cb837480424e7 Jack Wang        2020-05-11  859  		rsp->desc[mri].addr = cpu_to_le64(mr->iova);
-9cb837480424e7 Jack Wang        2020-05-11  860  		rsp->desc[mri].key  = cpu_to_le32(mr->rkey);
-9cb837480424e7 Jack Wang        2020-05-11  861  		rsp->desc[mri].len  = cpu_to_le32(mr->length);
-9cb837480424e7 Jack Wang        2020-05-11  862  
-9cb837480424e7 Jack Wang        2020-05-11  863  		/*
-9cb837480424e7 Jack Wang        2020-05-11  864  		 * Fill in reg MR request and chain them *backwards*
-9cb837480424e7 Jack Wang        2020-05-11  865  		 */
-9cb837480424e7 Jack Wang        2020-05-11  866  		rwr[mri].wr.next = mri ? &rwr[mri - 1].wr : NULL;
-9cb837480424e7 Jack Wang        2020-05-11  867  		rwr[mri].wr.opcode = IB_WR_REG_MR;
-9cb837480424e7 Jack Wang        2020-05-11  868  		rwr[mri].wr.wr_cqe = &local_reg_cqe;
-9cb837480424e7 Jack Wang        2020-05-11  869  		rwr[mri].wr.num_sge = 0;
-e8ae7ddb48a1b8 Jack Wang        2020-12-17  870  		rwr[mri].wr.send_flags = 0;
-9cb837480424e7 Jack Wang        2020-05-11  871  		rwr[mri].mr = mr;
-9cb837480424e7 Jack Wang        2020-05-11  872  		rwr[mri].key = mr->rkey;
-9cb837480424e7 Jack Wang        2020-05-11  873  		rwr[mri].access = (IB_ACCESS_LOCAL_WRITE |
-9cb837480424e7 Jack Wang        2020-05-11  874  				   IB_ACCESS_REMOTE_WRITE);
-9cb837480424e7 Jack Wang        2020-05-11  875  		reg_wr = &rwr[mri].wr;
-9cb837480424e7 Jack Wang        2020-05-11  876  	}
-9cb837480424e7 Jack Wang        2020-05-11  877  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  878  	err = rtrs_srv_create_path_files(srv_path);
-4693d6b767d6ca Gioh Kim         2021-08-06  879  	if (err)
-9cb837480424e7 Jack Wang        2020-05-11  880  		goto iu_free;
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  881  	kobject_get(&srv_path->kobj);
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  882  	get_device(&srv_path->srv->dev);
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  883  	err = rtrs_srv_change_state(srv_path, RTRS_SRV_CONNECTED);
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  884  	if (!err) {
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3192  
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3193  static int snd_pcm_ioctl_sync_ptr_compat(struct snd_pcm_substream *substream,
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3194  					 struct snd_pcm_sync_ptr32 __user *src)
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3195  {
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3196  	struct snd_pcm_runtime *runtime = substream->runtime;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3197  	volatile struct snd_pcm_mmap_status *status;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3198  	volatile struct snd_pcm_mmap_control *control;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3199  	u32 sflags;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3200  	struct snd_pcm_mmap_control scontrol;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3201  	struct snd_pcm_mmap_status sstatus;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3202  	snd_pcm_uframes_t boundary;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3203  	int err;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3204  
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3205  	if (snd_BUG_ON(!runtime))
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3206  		return -EINVAL;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3207  
+2acd83beb4d3fd Christophe Leroy 2025-06-14  3208  	if (snd_pcm_sync_ptr_get_user(sflags, scontrol, src))
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3209  		return -EFAULT;
+09d94175dbeac1 Arnd Bergmann    2018-04-24 @3210  	if (sflags & SNDRV_PCM_SYNC_PTR_HWSYNC) {
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3211  		err = snd_pcm_hwsync(substream);
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3212  		if (err < 0)
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3213  			return err;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3214  	}
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3215  	status = runtime->status;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3216  	control = runtime->control;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3217  	boundary = recalculate_boundary(runtime);
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3218  	if (! boundary)
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3219  		boundary = 0x7fffffff;
+650224fe8d5f6d Takashi Iwai     2024-02-27  3220  	scoped_guard(pcm_stream_lock_irq, substream) {
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3221  		/* FIXME: we should consider the boundary for the sync from app */
+2e2832562c877e Alan Young       2021-07-09  3222  		if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL)) {
+2e2832562c877e Alan Young       2021-07-09  3223  			err = pcm_lib_apply_appl_ptr(substream,
+2e2832562c877e Alan Young       2021-07-09  3224  						     scontrol.appl_ptr);
+650224fe8d5f6d Takashi Iwai     2024-02-27  3225  			if (err < 0)
+2e2832562c877e Alan Young       2021-07-09  3226  				return err;
+2e2832562c877e Alan Young       2021-07-09  3227  		} else
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3228  			scontrol.appl_ptr = control->appl_ptr % boundary;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3229  		if (!(sflags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3230  			control->avail_min = scontrol.avail_min;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3231  		else
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3232  			scontrol.avail_min = control->avail_min;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3233  		sstatus.state = status->state;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3234  		sstatus.hw_ptr = status->hw_ptr % boundary;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3235  		sstatus.tstamp = status->tstamp;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3236  		sstatus.suspended_state = status->suspended_state;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3237  		sstatus.audio_tstamp = status->audio_tstamp;
+650224fe8d5f6d Takashi Iwai     2024-02-27  3238  	}
+a25684a956468e Takashi Iwai     2021-10-17  3239  	if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL))
+a25684a956468e Takashi Iwai     2021-10-17  3240  		snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
+2acd83beb4d3fd Christophe Leroy 2025-06-14  3241  	if (snd_pcm_sync_ptr_put_user(sstatus, scontrol, src))
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3242  		return -EFAULT;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3243  
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3244  	return 0;
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3245  }
+80fe7430c70859 Arnd Bergmann    2018-04-24  3246  #define __SNDRV_PCM_IOCTL_SYNC_PTR32 _IOWR('A', 0x23, struct snd_pcm_sync_ptr32)
+09d94175dbeac1 Arnd Bergmann    2018-04-24  3247  
 
-Probably remove the !?
+:::::: The code at line 3210 was first introduced by commit
+:::::: 09d94175dbeac12d38b1599a02c7000a5e51b4cb ALSA: move snd_pcm_ioctl_sync_ptr_compat into pcm_native.c
 
-94ae3ce9b375c6 Kim Zhu          2025-12-08 @885  		rtrs_err(s, "rtrs_srv_change_state(), err: %d(%pe)\n", err, ERR_PTR(err));
-
-err is zero.  Or is this a success path?
-
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  886  		goto iu_free;
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  887  	}
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  888  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  889  	rtrs_srv_start_hb(srv_path);
-9cb837480424e7 Jack Wang        2020-05-11  890  
-9cb837480424e7 Jack Wang        2020-05-11  891  	/*
-9cb837480424e7 Jack Wang        2020-05-11  892  	 * We do not account number of established connections at the current
-9cb837480424e7 Jack Wang        2020-05-11  893  	 * moment, we rely on the client, which should send info request when
-9cb837480424e7 Jack Wang        2020-05-11  894  	 * all connections are successfully established.  Thus, simply notify
-9cb837480424e7 Jack Wang        2020-05-11  895  	 * listener with a proper event if we are the first path.
-9cb837480424e7 Jack Wang        2020-05-11  896  	 */
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  897  	err = rtrs_srv_path_up(srv_path);
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  898  	if (err) {
-94ae3ce9b375c6 Kim Zhu          2025-12-08  899  		rtrs_err(s, "rtrs_srv_path_up(), err: %d(%pe)\n", err, ERR_PTR(err));
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  900  		goto iu_free;
-ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  901  	}
-9cb837480424e7 Jack Wang        2020-05-11  902  
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  903  	ib_dma_sync_single_for_device(srv_path->s.dev->ib_dev,
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  904  				      tx_iu->dma_addr,
-9cb837480424e7 Jack Wang        2020-05-11  905  				      tx_iu->size, DMA_TO_DEVICE);
-9cb837480424e7 Jack Wang        2020-05-11  906  
-9cb837480424e7 Jack Wang        2020-05-11  907  	/* Send info response */
-9cb837480424e7 Jack Wang        2020-05-11  908  	err = rtrs_iu_post_send(&con->c, tx_iu, tx_sz, reg_wr);
-4693d6b767d6ca Gioh Kim         2021-08-06  909  	if (err) {
-94ae3ce9b375c6 Kim Zhu          2025-12-08  910  		rtrs_err(s, "rtrs_iu_post_send(), err: %d(%pe)\n", err, ERR_PTR(err));
-9cb837480424e7 Jack Wang        2020-05-11  911  iu_free:
-ae4c81644e9105 Vaishali Thakkar 2022-01-05  912  		rtrs_iu_free(tx_iu, srv_path->s.dev->ib_dev, 1);
-9cb837480424e7 Jack Wang        2020-05-11  913  	}
-9cb837480424e7 Jack Wang        2020-05-11  914  rwr_free:
-9cb837480424e7 Jack Wang        2020-05-11  915  	kfree(rwr);
-9cb837480424e7 Jack Wang        2020-05-11  916  
-9cb837480424e7 Jack Wang        2020-05-11  917  	return err;
-9cb837480424e7 Jack Wang        2020-05-11  918  }
+:::::: TO: Arnd Bergmann <arnd@arndb.de>
+:::::: CC: Arnd Bergmann <arnd@arndb.de>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
