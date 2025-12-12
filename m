@@ -1,124 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA762F6162
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Dec 2025 22:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2405CA6B
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Dec 2025 22:30:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765577981; cv=none; b=XGyEVNB530U7qEJzvNrqXI6+qOKLUdfRU844Y0tU34ezWz0H9HZ1FXGTgRpegWStjcoZUtbZYvU7WqFK+sxfy9bPK6NfkKh7xZwC6QhBxPsi6f8jT6ZL0qnEdr/9ODy1+BMYhfFdg53nkLvvV2yGdJJ8fhCmQE0STow++Ytu+MQ=
+	t=1765578638; cv=none; b=UsEVRQTY0QtgFySgVFPkpxWM0agqC0mJNcEa2LoEeejW1+LV0LhaiB0rUO4+wm7/ACMgXz4HtRgLiss5MHNXt1gIZpijZQtrFoTU5vRJ8LxHvDqil1QG0LWpNZCbKjCD/OzqM8lnmdIN+GuNkDQT4YyIllQQyh/pqthLhiAJtn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765577981; c=relaxed/simple;
-	bh=2gXoBSzSqAzgbAddISy8uwIaS9UP3zEt00PpoVeeIUI=;
+	s=arc-20240116; t=1765578638; c=relaxed/simple;
+	bh=Hy6Y+1OpobIz8n5WwfUcAew6DHCHIi3+OyyyOxMhHNo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l5gjlrhX+XnaCLc5CJI7GT9ovgoqiHO3HyEEvCyLvx8mVF7VMO53hyGg39VnUaUtdYQRKrkK9FF7MF4ZJJqgGt/K5FnZkFJEKtOpV+wPQVzZhQomzM9q/CW/erdljH6Q3qyzSb9PTaoVJyDnx2s4ecp6ZkVrcfXMbuqZSSAFjbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S7hE49q+; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=O5ChRRemIT5VVuhwRpP6sWq/nINNB8V8eLtewUofqoaxiEdjCaVsFpUASgSj7d3ikqLu4Bj0HPkyMqa6efp4ieVY6hkDmwHNa5kZLw7T4jQ6yJDPvUPUcFLTYc+ZoG9g0NxKv55eNbBf0s/nB67C3entBWfSOQaHhNQ6VKn+spo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fspLgKRv; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S7hE49q+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fspLgKRv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765577979; x=1797113979;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2gXoBSzSqAzgbAddISy8uwIaS9UP3zEt00PpoVeeIUI=;
-  b=S7hE49q+SCs4wuKCCDmfaO9weM+YVfAuZmMUay+xbgLnUl8KpdPMGAz4
-   fhNzGOg/VfU5TvwlkhH3uoGhUqwVZxfSy9cv6UtKTwXu08MXZSHOhjdwF
-   /wUdXyp0Xw6s91Mf5f0bRxKpAZGDeQRh6ywnAC3SWwXUbA2KNIdjP9wjX
-   3Y3adwWu1+RVz8S16NMXHvR36GSRYDP5XNbJuIk8a8gfyWS0Duvzaz1nP
-   A1Y2xsWw3hLEwjRxPbaA/9U4jzzY0C9FljHwX/xIqLeK022utnRJxSV37
-   vWOXX7+dETb16o/f/Ol6fdVOASD9G+/0rk1DEUJ2M1IB/r07FpsP+w5V7
-   g==;
-X-CSE-ConnectionGUID: xU9SITTvSjagVGZxS2d3Ng==
-X-CSE-MsgGUID: DknQFpg/QEuWCI+vpUq0rg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="77901768"
+  t=1765578636; x=1797114636;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Hy6Y+1OpobIz8n5WwfUcAew6DHCHIi3+OyyyOxMhHNo=;
+  b=fspLgKRvrA7EZ7z1ZpL05tF50jQ3DUe8Z6U4MPM3/8kXQzxAVV+gdje8
+   gXecHMnImruiZhHaZssYNv1YGRKNkUOWquEDgZK6H2ncRQAfXsGOZrBs/
+   Wpy3wsR9McnFHQdz+e/ytNbY9kFv1b+9GFEyQzi9iX+RGnrbqohQ7RS9k
+   ykZWnS0toDHBITo1jMhYDHhqVKm1oLsX33gzdpMcwqcviGVLAJ3ciIr7v
+   YktbMmP+pq2o/7Kp5qjSYM1SJ4iuGICmm1mtdpy3S+u67j3q6a2R+U/RI
+   OuHoX/00ltl10Nq0HbReNaJd5tmPZJqwDYjRt/heMOGQrAumpjQIEGSVB
+   A==;
+X-CSE-ConnectionGUID: FxVHdl8vTQmH/KBtQFPIKg==
+X-CSE-MsgGUID: Zgd2EBQ3T5yxtztj+mSNrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="78291533"
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="77901768"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 14:19:35 -0800
-X-CSE-ConnectionGUID: uidl5oejRIKXPtAgTFvjHg==
-X-CSE-MsgGUID: MU2BbeBgTMK5mtYPfCBwnA==
+   d="scan'208";a="78291533"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 14:30:35 -0800
+X-CSE-ConnectionGUID: x9KjPfV2T7yblodpVnKgYA==
+X-CSE-MsgGUID: HsW3Y1y+TKG7xaD9+O2aBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="198016233"
+   d="scan'208";a="220572932"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Dec 2025 14:19:33 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 12 Dec 2025 14:30:34 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUBU3-000000006gr-1ruW;
-	Fri, 12 Dec 2025 22:19:31 +0000
-Date: Sat, 13 Dec 2025 06:19:03 +0800
+	id 1vUBei-000000006hg-07kl;
+	Fri, 12 Dec 2025 22:30:32 +0000
+Date: Sat, 13 Dec 2025 06:29:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/tty/serial/8250/8250_port.c:2221 serial8250_init_mctrl()
- warn: bitwise AND condition is false here
-Message-ID: <202512130625.94kAagsj-lkp@intel.com>
+Subject: drivers/usb/gadget/function/f_tcm.c:1308 usbg_cmd_work() error: we
+ previously assumed 'active_cmd' could be null (see line 1265)
+Message-ID: <202512130616.R5SPxNDR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+TO: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   187d0801404f415f22c0b31531982c7ea97fa341
-commit: 7bdf59c79cf3757fc25c00800f73093cdd6323d4 serial: 8250: extract serial8250_init_mctrl()
-date:   6 months ago
+commit: 29ed170538729c3c59cb8176ebb62673bbf6c799 usb: gadget: f_tcm: Check overlapped command
+date:   12 months ago
 :::::: branch date: 12 hours ago
-:::::: commit date: 6 months ago
-config: m68k-randconfig-r072-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130625.94kAagsj-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 9.5.0
+:::::: commit date: 12 months ago
+config: x86_64-randconfig-161-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130616.R5SPxNDR-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512130625.94kAagsj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512130616.R5SPxNDR-lkp@intel.com/
 
-New smatch warnings:
-drivers/tty/serial/8250/8250_port.c:2221 serial8250_init_mctrl() warn: bitwise AND condition is false here
+smatch warnings:
+drivers/usb/gadget/function/f_tcm.c:1308 usbg_cmd_work() error: we previously assumed 'active_cmd' could be null (see line 1265)
 
-Old smatch warnings:
-drivers/tty/serial/8250/8250_port.c:1221 autoconfig_irq() warn: bitwise AND condition is false here
-drivers/tty/serial/8250/8250_port.c:1240 autoconfig_irq() warn: bitwise AND condition is false here
-drivers/tty/serial/8250/8250_port.c:1261 autoconfig_irq() warn: bitwise AND condition is false here
-drivers/tty/serial/8250/8250_port.c:2361 serial8250_do_startup() warn: bitwise AND condition is false here
-drivers/tty/serial/8250/8250_port.c:2406 serial8250_do_shutdown() warn: bitwise AND condition is false here
+vim +/active_cmd +1308 drivers/usb/gadget/function/f_tcm.c
 
-vim +2221 drivers/tty/serial/8250/8250_port.c
-
-a194597c0cd35a Jiri Slaby (SUSE  2025-06-11  2218) 
-7bdf59c79cf375 Jiri Slaby (SUSE  2025-06-24  2219) static void serial8250_init_mctrl(struct uart_port *port)
-75f8abe8bee53a Jiri Slaby (SUSE  2025-06-11  2220) {
-795158691cc024 Jiri Slaby (SUSE  2025-06-11 @2221) 	if (port->flags & UPF_FOURPORT) {
-795158691cc024 Jiri Slaby (SUSE  2025-06-11  2222) 		if (!port->irq)
-795158691cc024 Jiri Slaby (SUSE  2025-06-11  2223) 			port->mctrl |= TIOCM_OUT1;
-795158691cc024 Jiri Slaby (SUSE  2025-06-11  2224) 	} else {
-795158691cc024 Jiri Slaby (SUSE  2025-06-11  2225) 		/* Most PC uarts need OUT2 raised to enable interrupts. */
-795158691cc024 Jiri Slaby (SUSE  2025-06-11  2226) 		if (port->irq)
-795158691cc024 Jiri Slaby (SUSE  2025-06-11  2227) 			port->mctrl |= TIOCM_OUT2;
-795158691cc024 Jiri Slaby (SUSE  2025-06-11  2228) 	}
-795158691cc024 Jiri Slaby (SUSE  2025-06-11  2229) 
-795158691cc024 Jiri Slaby (SUSE  2025-06-11  2230) 	serial8250_set_mctrl(port, port->mctrl);
-7bdf59c79cf375 Jiri Slaby (SUSE  2025-06-24  2231) }
-7bdf59c79cf375 Jiri Slaby (SUSE  2025-06-24  2232) 
-
-:::::: The code at line 2221 was first introduced by commit
-:::::: 795158691cc02488264a59398fc6d8ce930d60ac serial: 8250: extract serial8250_initialize()
-
-:::::: TO: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+08a1cb0f65fde6f Andrzej Pietrasiewicz 2015-12-11  1226  
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1227  static void usbg_cmd_work(struct work_struct *work)
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1228  {
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1229  	struct usbg_cmd *cmd = container_of(work, struct usbg_cmd, work);
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1230  
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1231  	/*
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1232  	 * Failure is detected by f_tcm here. Skip submitting the command to the
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1233  	 * target core if we already know the failing response and send the usb
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1234  	 * response to the host directly.
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1235  	 */
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1236  	if (cmd->tmr_rsp != RC_RESPONSE_UNKNOWN)
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1237  		goto skip;
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1238  
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1239  	if (cmd->tmr_func)
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1240  		usbg_submit_tmr(cmd);
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1241  	else
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1242  		usbg_submit_cmd(cmd);
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1243  
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1244  	return;
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1245  
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1246  skip:
+29ed170538729c3 Thinh Nguyen          2024-12-11  1247  	if (cmd->tmr_rsp == RC_OVERLAPPED_TAG) {
+29ed170538729c3 Thinh Nguyen          2024-12-11  1248  		struct f_uas *fu = cmd->fu;
+29ed170538729c3 Thinh Nguyen          2024-12-11  1249  		struct se_session *se_sess;
+29ed170538729c3 Thinh Nguyen          2024-12-11  1250  		struct uas_stream *stream = NULL;
+29ed170538729c3 Thinh Nguyen          2024-12-11  1251  		struct hlist_node *tmp;
+29ed170538729c3 Thinh Nguyen          2024-12-11  1252  		struct usbg_cmd *active_cmd = NULL;
+29ed170538729c3 Thinh Nguyen          2024-12-11  1253  
+29ed170538729c3 Thinh Nguyen          2024-12-11  1254  		se_sess = cmd->fu->tpg->tpg_nexus->tvn_se_sess;
+29ed170538729c3 Thinh Nguyen          2024-12-11  1255  
+29ed170538729c3 Thinh Nguyen          2024-12-11  1256  		hash_for_each_possible_safe(fu->stream_hash, stream, tmp, node, cmd->tag) {
+29ed170538729c3 Thinh Nguyen          2024-12-11  1257  			int i = stream - &fu->stream[0];
+29ed170538729c3 Thinh Nguyen          2024-12-11  1258  
+29ed170538729c3 Thinh Nguyen          2024-12-11  1259  			active_cmd = &((struct usbg_cmd *)se_sess->sess_cmd_map)[i];
+29ed170538729c3 Thinh Nguyen          2024-12-11  1260  			if (active_cmd->tag == cmd->tag)
+29ed170538729c3 Thinh Nguyen          2024-12-11  1261  				break;
+29ed170538729c3 Thinh Nguyen          2024-12-11  1262  		}
+29ed170538729c3 Thinh Nguyen          2024-12-11  1263  
+29ed170538729c3 Thinh Nguyen          2024-12-11  1264  		/* Sanity check */
+29ed170538729c3 Thinh Nguyen          2024-12-11 @1265  		if (!stream || (active_cmd && active_cmd->tag != cmd->tag)) {
+29ed170538729c3 Thinh Nguyen          2024-12-11  1266  			usbg_submit_command(cmd->fu, cmd->req);
+29ed170538729c3 Thinh Nguyen          2024-12-11  1267  			return;
+29ed170538729c3 Thinh Nguyen          2024-12-11  1268  		}
+29ed170538729c3 Thinh Nguyen          2024-12-11  1269  
+29ed170538729c3 Thinh Nguyen          2024-12-11  1270  		reinit_completion(&stream->cmd_completion);
+29ed170538729c3 Thinh Nguyen          2024-12-11  1271  
+29ed170538729c3 Thinh Nguyen          2024-12-11  1272  		/*
+29ed170538729c3 Thinh Nguyen          2024-12-11  1273  		 * A UASP command consists of the command, data, and status
+29ed170538729c3 Thinh Nguyen          2024-12-11  1274  		 * stages, each operating sequentially from different endpoints.
+29ed170538729c3 Thinh Nguyen          2024-12-11  1275  		 *
+29ed170538729c3 Thinh Nguyen          2024-12-11  1276  		 * Each USB endpoint operates independently, and depending on
+29ed170538729c3 Thinh Nguyen          2024-12-11  1277  		 * hardware implementation, a completion callback for a transfer
+29ed170538729c3 Thinh Nguyen          2024-12-11  1278  		 * from one endpoint may not reflect the order of completion on
+29ed170538729c3 Thinh Nguyen          2024-12-11  1279  		 * the wire. This is particularly true for devices with
+29ed170538729c3 Thinh Nguyen          2024-12-11  1280  		 * endpoints that have independent interrupts and event buffers.
+29ed170538729c3 Thinh Nguyen          2024-12-11  1281  		 *
+29ed170538729c3 Thinh Nguyen          2024-12-11  1282  		 * The driver must still detect misbehaving hosts and respond
+29ed170538729c3 Thinh Nguyen          2024-12-11  1283  		 * with an overlap status. To reduce false overlap failures,
+29ed170538729c3 Thinh Nguyen          2024-12-11  1284  		 * allow the active and matching stream ID a brief 1ms to
+29ed170538729c3 Thinh Nguyen          2024-12-11  1285  		 * complete before responding with an overlap command failure.
+29ed170538729c3 Thinh Nguyen          2024-12-11  1286  		 * Overlap failure should be rare.
+29ed170538729c3 Thinh Nguyen          2024-12-11  1287  		 */
+29ed170538729c3 Thinh Nguyen          2024-12-11  1288  		wait_for_completion_timeout(&stream->cmd_completion, msecs_to_jiffies(1));
+29ed170538729c3 Thinh Nguyen          2024-12-11  1289  
+29ed170538729c3 Thinh Nguyen          2024-12-11  1290  		/* If the previous stream is completed, retry the command. */
+29ed170538729c3 Thinh Nguyen          2024-12-11  1291  		if (!hash_hashed(&stream->node)) {
+29ed170538729c3 Thinh Nguyen          2024-12-11  1292  			usbg_submit_command(cmd->fu, cmd->req);
+29ed170538729c3 Thinh Nguyen          2024-12-11  1293  			return;
+29ed170538729c3 Thinh Nguyen          2024-12-11  1294  		}
+29ed170538729c3 Thinh Nguyen          2024-12-11  1295  
+29ed170538729c3 Thinh Nguyen          2024-12-11  1296  		/*
+29ed170538729c3 Thinh Nguyen          2024-12-11  1297  		 * The command isn't submitted to the target core, so we're safe
+29ed170538729c3 Thinh Nguyen          2024-12-11  1298  		 * to remove the bitmap index from the session tag pool.
+29ed170538729c3 Thinh Nguyen          2024-12-11  1299  		 */
+29ed170538729c3 Thinh Nguyen          2024-12-11  1300  		sbitmap_queue_clear(&se_sess->sess_tag_pool,
+29ed170538729c3 Thinh Nguyen          2024-12-11  1301  				    cmd->se_cmd.map_tag,
+29ed170538729c3 Thinh Nguyen          2024-12-11  1302  				    cmd->se_cmd.map_cpu);
+29ed170538729c3 Thinh Nguyen          2024-12-11  1303  
+29ed170538729c3 Thinh Nguyen          2024-12-11  1304  		/*
+29ed170538729c3 Thinh Nguyen          2024-12-11  1305  		 * Overlap command tag detected. Cancel any pending transfer of
+29ed170538729c3 Thinh Nguyen          2024-12-11  1306  		 * the command submitted to target core.
+29ed170538729c3 Thinh Nguyen          2024-12-11  1307  		 */
+29ed170538729c3 Thinh Nguyen          2024-12-11 @1308  		active_cmd->tmr_rsp = RC_OVERLAPPED_TAG;
+29ed170538729c3 Thinh Nguyen          2024-12-11  1309  		usbg_aborted_task(&active_cmd->se_cmd);
+29ed170538729c3 Thinh Nguyen          2024-12-11  1310  
+29ed170538729c3 Thinh Nguyen          2024-12-11  1311  		/* Send the response after the transfer is aborted. */
+29ed170538729c3 Thinh Nguyen          2024-12-11  1312  		return;
+29ed170538729c3 Thinh Nguyen          2024-12-11  1313  	}
+29ed170538729c3 Thinh Nguyen          2024-12-11  1314  
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1315  	uasp_send_tm_response(cmd);
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1316  }
+20e9ab60e6a6638 Thinh Nguyen          2024-12-11  1317  
 
 -- 
 0-DAY CI Kernel Test Service
