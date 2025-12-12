@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C889E30FC1D
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Dec 2025 15:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F6523EA83
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Dec 2025 16:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765553287; cv=none; b=U+7z0NQ9NXcC+Mc46fIpkFmnCOxc4KKoc4kvpa8cDUUYIAMybP/pwDUtbEErxkZcMb43jXTxhnW4gd+Abzf18ZElBZHx+Ty//dHfo3AgDadthRaalUR6LLuZwoKAlXJGiWsKfUuHwPUEjVqSU9SpC+xmKWlQqBUmPeQgUio1Cwg=
+	t=1765555883; cv=none; b=tUVab4QaLqG+RfjWDJqo5IVYKAILhKoDvf7D5aejzZw2lgl/7jfUckrLS/zh9guxqZCk33CQ6ko2jYzKOAs1D25v/pCaJmbBGyT7jgFDOuqFA3ZgFbxtLHtIwoNZYFJOfwEyIyGwxlvllmHbBAYn7rKbd2koknpDMXTJFdLWm+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765553287; c=relaxed/simple;
-	bh=w0uKyFFb9ZOgcWQdM/f/4BZTdm0c5rWqjoIlu0GtUts=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TIsyvyN14DepY15AVKFRMcN9cL8MmZCzmN9IGqWJm/bsj9nv4bhM4gr2jKQf7DeZVgcUwBFfr9ozK1kpMWr6arHpQvRQp3eXB1xH5trlt+jdkpryEquIaNP0GGLz/jMJ+rip3BTb6zRn2QglR+zmeYWUb/nT/KGOfmhta1Efclw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ntjmcvB1; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1765555883; c=relaxed/simple;
+	bh=DG9AVsqCbQhmZD2FzHcrTVeUUuNaUVVaQtFe+xS+hAI=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=o01ARVxWe3jBamrNHXhIyMNjNmgwn2tXhh1D67Ba4kIE+IjV6uzrplqGPdbaWiNuDERyUnK3HKJz0veoMhmLnyRIa9xUMFiw1XqNTgdKJ3QaJryIRirOEJGGeRa5Sg19Nuu3FHzTtB3cuSAsvcuqeSU1PU2hexNpoi6fgxt5BCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NIgJOv3V; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ntjmcvB1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NIgJOv3V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765553285; x=1797089285;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w0uKyFFb9ZOgcWQdM/f/4BZTdm0c5rWqjoIlu0GtUts=;
-  b=ntjmcvB19XDlbUVMTrLTxmKgGmuzhfZtyEJaUsANLtSl6up7kN4IYjVC
-   TIR55MKWq63uYrb0PhJaAPsH1qiB+FPkkiaKOTsSvg9xeT4MUU1aDd2Jv
-   rrOH0clnhxL2qlEgE01G4WpJggJxo82cuXnNibTeihThCcrmNAIUNhaMq
-   8IJi0qOCoyHxVgYYSdVa5e3HUV1m3qPkT/d7JTEgXxLyJV/YKSo994Tov
-   4Z2XujuV449O2tLU9E4v5L8XXNFbjANJv5x+koSUVqRCAkv3hdrV7W2fE
-   gn/irWydRjgOC2F5xrrHgrQF6WVScTA5BkjUD4gCWHl7t3KZ2VXtZC7ZE
+  t=1765555882; x=1797091882;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=DG9AVsqCbQhmZD2FzHcrTVeUUuNaUVVaQtFe+xS+hAI=;
+  b=NIgJOv3Vvfa6FI7wC78fXHmIF02Kev0eE+qo0eG7VMTw/QdbFRiSQbJQ
+   eVpCF9GlvjcPo4cI1a6y+FpEUgg/joijQGzWMDCHOizm+c4FY179LY2S2
+   6q2A/FqhZcJ4bnEkvvBwbDk13s/rTOXi0uh5a1SBzXRraAzznP/weznlD
+   WEMpaHl9NH8qBdxGgzT/NsYHi7w0zw28Jx833l5linjjIRdNkYRpRBNdn
+   7TyHXCr2EMjfGFhFfD2rBMwa/qHKeQk3Y6WPpScm9N7nqPmqjLx+qYOlr
+   pyCkv5+5NiSaNMess/Z06hc/p0lgNtqreilBZuKnR8mMYK9BwVZyKzfBv
    A==;
-X-CSE-ConnectionGUID: 5N2IHz6uSYWPsb5vHaY09A==
-X-CSE-MsgGUID: s6Wsa9MRQP2LV53BJ/n+Cg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67307111"
+X-CSE-ConnectionGUID: UI0vPo9SS4Cyc7XJYAQKbg==
+X-CSE-MsgGUID: z8KXKNSKTwKkTnwALnaouQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="79017078"
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="67307111"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 07:28:04 -0800
-X-CSE-ConnectionGUID: niu/39gfTxSdG4mSEzM8rA==
-X-CSE-MsgGUID: hgkoMtx0TvufiszmSWulNQ==
+   d="scan'208";a="79017078"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 08:11:17 -0800
+X-CSE-ConnectionGUID: vewIPqdDRWu1JKq4o0jz8A==
+X-CSE-MsgGUID: QMSH4pfeTk+yo2ZBGQWAoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="201533198"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Dec 2025 07:28:02 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="202045179"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 12 Dec 2025 08:11:15 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU53p-000000006EH-07IK;
-	Fri, 12 Dec 2025 15:28:01 +0000
-Date: Fri, 12 Dec 2025 23:27:20 +0800
+	id 1vU5jd-000000001lA-1suQ
+	for oe-kbuild@lists.linux.dev;
+	Fri, 12 Dec 2025 16:11:13 +0000
+Date: Fri, 12 Dec 2025 17:10:20 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/pci/rme96.c:1011 snd_rme96_playback_hw_params() warn:
- inconsistent returns '&rme96->lock'.
-Message-ID: <202512122348.yWI6wbWU-lkp@intel.com>
+Subject: [koverstreet-bcachefs:pr/992 1/2] checkpatch:
+ ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
+Message-ID: <202512121753.PXW3xpdA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,100 +62,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Takashi Iwai <tiwai@suse.de>
+TO: jpsollie <janpieter.sollie@edpnet.be>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   187d0801404f415f22c0b31531982c7ea97fa341
-commit: d3424b8bf78593e1751cfa19628aa0008d2e08ce ALSA: rme96: Use guard() for spin locks
-date:   3 months ago
+tree:   https://github.com/koverstreet/bcachefs pr/992
+head:   a744c170d883e5e8085eca560317e8683bb5f159
+commit: dc932f40ad7647081d91eb8d54c72e082e5916ec [1/2] Revert "Remove bcachefs core code"
 :::::: branch date: 5 hours ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-141-20251212 (https://download.01.org/0day-ci/archive/20251212/202512122348.yWI6wbWU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+:::::: commit date: 6 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20251212/202512121753.PXW3xpdA-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512122348.yWI6wbWU-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-smatch warnings:
-sound/pci/rme96.c:1011 snd_rme96_playback_hw_params() warn: inconsistent returns '&rme96->lock'.
-sound/pci/rme96.c:1011 snd_rme96_playback_hw_params() warn: inconsistent returns 'irq'.
+WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
+#18395: FILE: fs/bcachefs/btree_cache.c:520:
++			--touched;;
 
-vim +1011 sound/pci/rme96.c
+WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
+#23031: FILE: fs/bcachefs/btree_io.c:2023:
++	bch2_bkey_buf_exit(&scrub->key, c);;
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16   952  
-^1da177e4c3f41 Linus Torvalds  2005-04-16   953  static int
-a3aefd883dc8c1 Takashi Iwai    2005-11-17   954  snd_rme96_playback_hw_params(struct snd_pcm_substream *substream,
-a3aefd883dc8c1 Takashi Iwai    2005-11-17   955  			     struct snd_pcm_hw_params *params)
-^1da177e4c3f41 Linus Torvalds  2005-04-16   956  {
-a3aefd883dc8c1 Takashi Iwai    2005-11-17   957  	struct rme96 *rme96 = snd_pcm_substream_chip(substream);
-a3aefd883dc8c1 Takashi Iwai    2005-11-17   958  	struct snd_pcm_runtime *runtime = substream->runtime;
-^1da177e4c3f41 Linus Torvalds  2005-04-16   959  	int err, rate, dummy;
-a74a821624c0c7 Takashi Iwai    2015-12-04   960  	bool apply_dac_volume = false;
-^1da177e4c3f41 Linus Torvalds  2005-04-16   961  
-4d23359b7ec8b0 Clemens Ladisch 2005-09-05   962  	runtime->dma_area = (void __force *)(rme96->iobase +
-4d23359b7ec8b0 Clemens Ladisch 2005-09-05   963  					     RME96_IO_PLAY_BUFFER);
-^1da177e4c3f41 Linus Torvalds  2005-04-16   964  	runtime->dma_addr = rme96->port + RME96_IO_PLAY_BUFFER;
-^1da177e4c3f41 Linus Torvalds  2005-04-16   965  	runtime->dma_bytes = RME96_BUFFER_SIZE;
-^1da177e4c3f41 Linus Torvalds  2005-04-16   966  
-d3424b8bf78593 Takashi Iwai    2025-08-29   967  	scoped_guard(spinlock_irq, &rme96->lock) {
-da8eedb169712c Takashi Iwai    2021-06-08   968  		rate = 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16   969  		if (!(rme96->wcreg & RME96_WCR_MASTER) &&
-da8eedb169712c Takashi Iwai    2021-06-08   970  		    snd_rme96_getinputtype(rme96) != RME96_INPUT_ANALOG)
-da8eedb169712c Takashi Iwai    2021-06-08   971  			rate = snd_rme96_capture_getrate(rme96, &dummy);
-da8eedb169712c Takashi Iwai    2021-06-08   972  		if (rate > 0) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16   973  			/* slave clock */
-d3424b8bf78593 Takashi Iwai    2025-08-29   974  			if ((int)params_rate(params) != rate)
-d3424b8bf78593 Takashi Iwai    2025-08-29   975  				return -EIO;
-a74a821624c0c7 Takashi Iwai    2015-12-04   976  		} else {
-a74a821624c0c7 Takashi Iwai    2015-12-04   977  			err = snd_rme96_playback_setrate(rme96, params_rate(params));
-a74a821624c0c7 Takashi Iwai    2015-12-04   978  			if (err < 0)
-d3424b8bf78593 Takashi Iwai    2025-08-29   979  				return err;
-a74a821624c0c7 Takashi Iwai    2015-12-04   980  			apply_dac_volume = err > 0; /* need to restore volume later? */
-^1da177e4c3f41 Linus Torvalds  2005-04-16   981  		}
-a74a821624c0c7 Takashi Iwai    2015-12-04   982  
-a74a821624c0c7 Takashi Iwai    2015-12-04   983  		err = snd_rme96_playback_setformat(rme96, params_format(params));
-a74a821624c0c7 Takashi Iwai    2015-12-04   984  		if (err < 0)
-a74a821624c0c7 Takashi Iwai    2015-12-04   985  			goto error;
-^1da177e4c3f41 Linus Torvalds  2005-04-16   986  		snd_rme96_setframelog(rme96, params_channels(params), 1);
-^1da177e4c3f41 Linus Torvalds  2005-04-16   987  		if (rme96->capture_periodsize != 0) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16   988  			if (params_period_size(params) << rme96->playback_frlog !=
-d3424b8bf78593 Takashi Iwai    2025-08-29   989  			    rme96->capture_periodsize) {
-a74a821624c0c7 Takashi Iwai    2015-12-04   990  				err = -EBUSY;
-a74a821624c0c7 Takashi Iwai    2015-12-04   991  				goto error;
-^1da177e4c3f41 Linus Torvalds  2005-04-16   992  			}
-^1da177e4c3f41 Linus Torvalds  2005-04-16   993  		}
-^1da177e4c3f41 Linus Torvalds  2005-04-16   994  		rme96->playback_periodsize =
-^1da177e4c3f41 Linus Torvalds  2005-04-16   995  			params_period_size(params) << rme96->playback_frlog;
-^1da177e4c3f41 Linus Torvalds  2005-04-16   996  		snd_rme96_set_period_properties(rme96, rme96->playback_periodsize);
-^1da177e4c3f41 Linus Torvalds  2005-04-16   997  		/* S/PDIF setup */
-^1da177e4c3f41 Linus Torvalds  2005-04-16   998  		if ((rme96->wcreg & RME96_WCR_ADAT) == 0) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16   999  			rme96->wcreg &= ~(RME96_WCR_PRO | RME96_WCR_DOLBY | RME96_WCR_EMP);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1000  			writel(rme96->wcreg |= rme96->wcreg_spdif_stream, rme96->iobase + RME96_IO_CONTROL_REGISTER);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1001  		}
-a74a821624c0c7 Takashi Iwai    2015-12-04  1002  
-a74a821624c0c7 Takashi Iwai    2015-12-04  1003  		err = 0;
-d3424b8bf78593 Takashi Iwai    2025-08-29  1004  	}
-a74a821624c0c7 Takashi Iwai    2015-12-04  1005   error:
-a74a821624c0c7 Takashi Iwai    2015-12-04  1006  	if (apply_dac_volume) {
-a74a821624c0c7 Takashi Iwai    2015-12-04  1007  		usleep_range(3000, 10000);
-a74a821624c0c7 Takashi Iwai    2015-12-04  1008  		snd_rme96_apply_dac_volume(rme96);
-a74a821624c0c7 Takashi Iwai    2015-12-04  1009  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1010  
-a74a821624c0c7 Takashi Iwai    2015-12-04 @1011  	return err;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1012  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1013  
+WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
+#26750: FILE: fs/bcachefs/btree_iter.c:2749:
++	iter->pos = bpos_min(iter->pos, k.k->p);;
 
-:::::: The code at line 1011 was first introduced by commit
-:::::: a74a821624c0c75388a193337babd17a8c02c740 ALSA: rme96: Fix unexpected volume reset after rate changes
+ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
+#28798: FILE: fs/bcachefs/btree_iter.h:987:
++typedef struct btree_trans * class_btree_trans_t;
 
-:::::: TO: Takashi Iwai <tiwai@suse.de>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
+ERROR:SPACING: space required before the open brace '{'
+#33610: FILE: fs/bcachefs/btree_trans_commit.c:720:
++		if (unlikely(ret)){
+
+WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
+#34503: FILE: fs/bcachefs/btree_types.h:486:
++	u16			size;;
+
+ERROR:POINTER_LOCATION: "foo * bar" should be "foo *bar"
+#43609: FILE: fs/bcachefs/chardev.h:18:
++				unsigned cmd, void __user * arg)
+
+ERROR:SPACING: space required before that '*' (ctx:VxV)
+#46646: FILE: fs/bcachefs/data_update.c:736:
++	m->bvecs = kmalloc_array(nr_vecs, sizeof*(m->bvecs), GFP_KERNEL);
+ 	                                        ^
+
+ERROR:POINTER_LOCATION: "(foo*)" should be "(foo *)"
+#48140: FILE: fs/bcachefs/dirent.c:46:
++	u64 last_u64 = ((u64*)d.v)[bkey_u64s - 1];
+
+WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
+#59892: FILE: fs/bcachefs/fast_list.h:12:
++	struct ida		slots_allocated;;
+
+WARNING:REPEATED_WORD: Possible repeated word: 'be'
+#69887: FILE: fs/bcachefs/fsck.c:2179:
++		prt_printf(&buf, "subvol with wrong fs_path_parent, should be be %u\n",
+
+ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
+#73623: FILE: fs/bcachefs/io_misc.c:418:
++	switch (op->v.state) {
++case LOGGED_OP_FINSERT_start:
+[...]
++case LOGGED_OP_FINSERT_shift_extents:
+[...]
++case LOGGED_OP_FINSERT_finish:
+
+WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
+#78923: FILE: fs/bcachefs/journal.c:1325:
++	u64 *new_buckets = kcalloc(ja->nr, sizeof(u64), GFP_KERNEL);;
+
+WARNING:MINMAX: min() should probably be min_t(size_t, bch2_nr_btree_keys_need_flush(c), 128)
+#82978: FILE: fs/bcachefs/journal_reclaim.c:723:
++		min_key_cache = min(bch2_nr_btree_keys_need_flush(c), (size_t) 128);
+
+ERROR:SPACING: space required before that '*' (ctx:OxV)
+#89768: FILE: fs/bcachefs/opts.c:260:
++		.set_sb		= type_compatible_or_null(SET_##_sb_opt,*SET_BCH2_NO_SB_OPT),	\
+ 		       		                                        ^
+
+ERROR:SPACING: space required before that '*' (ctx:OxV)
+#89770: FILE: fs/bcachefs/opts.c:262:
++		.set_member	= type_compatible_or_null(SET_##_sb_opt,*SET_BCH2_NO_MEMBER_OPT),\
+ 		           	                                        ^
+
+WARNING:REPEATED_WORD: Possible repeated word: 'lock'
+#103498: FILE: fs/bcachefs/six.h:239:
++ * six_lock_ip - take a six lock lock
+
+WARNING:REPEATED_WORD: Possible repeated word: 'lock'
+#103518: FILE: fs/bcachefs/six.h:259:
++ * six_lock_type - take a six lock lock
 
 -- 
 0-DAY CI Kernel Test Service
