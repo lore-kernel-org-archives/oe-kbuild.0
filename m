@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98212737F4
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Dec 2025 14:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE291339B1
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Dec 2025 14:43:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765548006; cv=none; b=Jd4a6un35STgtGGxhYCfpuxO6ElOS6eCAmrrhXrZkarZNyRJ5Z4tgInALp6se5gu9g8i3ruY5LmyGlwwJMDxomPkz9fZdahFjH5TYXURLT2WVhy2LLgKVudSS/PA2ewZKwxFIMnr1I3pZcW0Ry0bKak6rR0UfKF8KCt+qWLzkNE=
+	t=1765550584; cv=none; b=tgWazGn3vhUI8Yu5sI9QJdJ12USdaBmzbQbwWD4Ba6QwUG7tSUwcc7tXpxRX4/ricOQgoGunutoMfJHgMLTdougcqV8fZuvTDxN8VNl1m0KvOwd5/KlP/50d0d9L2j24ycyCUPgsFle5f4LxCYB0ZystiXSNzgRqOanR5pWfxD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765548006; c=relaxed/simple;
-	bh=ZrqzYpybKYdCSE5sNUzGIkRNiqaRQKmYnHq827nKPZA=;
+	s=arc-20240116; t=1765550584; c=relaxed/simple;
+	bh=DsL3b5iYZhjc96xAwJF7oTKsucVyLpvl8QV8YGYp1Wg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Df9jTeScHciAyKIvfmgMMdKPt0D5O3fzJ7qH7QYhJorMSBHgIGNJMvFVX15It4VjzK+8EuF1FlESn0JDknqLQY7YXTBt84OpLiDtivYN39PggQOeBdNnF8ORTu/knPik3Sp1Ai2yHYseE1D+3ZoJNOg385/BnHL+bYjMqNLc2Bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zx84vy4m; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=lojMgJHCjYIDC7qhyQAx29x7l8WVcTm2CwBWvUQ4LRKSZss8FtWUv26UNYj0dR/htcMl0nLrcDm7SScThEISuux1AkIYqf4oDK9ul2OTjmR/wjFSmJmSYj2GwueKYgi+SsoRuqfW5X3qfCgjBmhgSwuGjkc9xVJtI1NwTf0r8ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kpe2Cd36; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zx84vy4m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kpe2Cd36"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765548003; x=1797084003;
+  t=1765550583; x=1797086583;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZrqzYpybKYdCSE5sNUzGIkRNiqaRQKmYnHq827nKPZA=;
-  b=Zx84vy4mXxA2tBf4hUQRAWi4jwDM/+1brLnqR+1DSHpdmM2OcaZCmqgX
-   I/ywRSWpLDIQ/KYDHSHNZ2CUi6c2e9oenucdAJORfN4VoXOlNy3xSvWIB
-   k9FquzjRIMl19Sn912Itr9axTusj8tj0n84G+LcP920USC6axCG8NGl2v
-   HUC6h0U4BbW+sKQ4Z3QDkaHojouoJ/S5rcGYNbQMjCbcPF8dxItFHLOUO
-   0veEQ8xVw5F9Rcvalm22BmildkOpxukOW7iLg/5UhW/EBBjTEuD9KISal
-   n2TqP7pyIz0QnOUjXDve8NsFtYu34OLaQHTdmDujT9yQGB+LcRcC8XF9g
-   w==;
-X-CSE-ConnectionGUID: /kDQuJQlTFm0n93WMMcaEw==
-X-CSE-MsgGUID: WPqaPHbRQHaWaXjzg5IETA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67492188"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="67492188"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 06:00:00 -0800
-X-CSE-ConnectionGUID: y68X/DjNSfCJvrtMwauJLw==
-X-CSE-MsgGUID: j7hNTjySSF6CvevR8G7g/A==
+  bh=DsL3b5iYZhjc96xAwJF7oTKsucVyLpvl8QV8YGYp1Wg=;
+  b=Kpe2Cd36ZyVeB0ZT0pajlqQyjk9hhj60XD2LiSV5iOx/Z2FnGlvPSZH1
+   CujnrhS3dZ1fnDOi4LY2Y0RYON+ozRGDE6BSLnre0xUjj+6Ff4dcPUcsw
+   eAS1yu0vETWX+F2ZWwhaMWESibrYxg1BHZ7tvxvA1sx7DTlyex7QU5uc4
+   pYi8lWMi1e/OFWKlMhnudwjSnPm/ClN27KZhfNpq8CHkNFpY0QFp6uAI7
+   /DitqqXeEFeRLQOpqI5HbzR2j9DlEaMG2fFycO8SkNS5FnB+gCFGPj94A
+   1PhDpsiRYl3tARty8wZV1VBXcAXKuEj8IPg3qkPi21RwK10kHsI4KQvtS
+   Q==;
+X-CSE-ConnectionGUID: 4MeMvALPTqKSV+eZzPeV+A==
+X-CSE-MsgGUID: f+nkgL/MSGOb9SEZM7FN6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="78667591"
+X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
+   d="scan'208";a="78667591"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 06:43:02 -0800
+X-CSE-ConnectionGUID: O/mhbiM4SruIEZ1kkWo96w==
+X-CSE-MsgGUID: JO+IxsZHSzOzYtuTR1xDcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="201277310"
+   d="scan'208";a="197169730"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 12 Dec 2025 05:59:59 -0800
+  by orviesa008.jf.intel.com with ESMTP; 12 Dec 2025 06:43:01 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU3ga-0000000068F-1lf5;
-	Fri, 12 Dec 2025 13:59:56 +0000
-Date: Fri, 12 Dec 2025 21:59:28 +0800
+	id 1vU4ME-000000006Ao-2bdg;
+	Fri, 12 Dec 2025 14:42:58 +0000
+Date: Fri, 12 Dec 2025 22:42:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: net/mptcp/ctrl.c:260 proc_available_path_managers() warn: (struct
- ctl_table)->procname cannot be NULL. Expression : tbl.procname
-Message-ID: <202512122156.0S7a29Nu-lkp@intel.com>
+Subject: drivers/iio/light/veml6030.c:479 veml6030_read_persistence() error:
+ uninitialized symbol 'y'.
+Message-ID: <202512122250.yNH7lwTV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,61 +65,67 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Geliang Tang <tanggeliang@kylinos.cn>
-CC: mptcp@lists.linux.dev
-CC: matthieu.baerts@tessares.net
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-CC: Simon Horman <horms@kernel.org>
+TO: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   187d0801404f415f22c0b31531982c7ea97fa341
-commit: fa3ee9dd8067e178b459f1df3081fd25fc03c4b5 mptcp: sysctl: add available_path_managers
-date:   9 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 9 months ago
-config: arm64-randconfig-r071-20251211 (https://download.01.org/0day-ci/archive/20251212/202512122156.0S7a29Nu-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
+commit: 22eaca4283b216f5e1f7721e4ad0ecb3d23c6774 iio: light: veml6030: fix scale to conform to ABI
+date:   10 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-161-20251212 (https://download.01.org/0day-ci/archive/20251212/202512122250.yNH7lwTV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512122156.0S7a29Nu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512122250.yNH7lwTV-lkp@intel.com/
 
 New smatch warnings:
-net/mptcp/ctrl.c:260 proc_available_path_managers() warn: (struct ctl_table)->procname cannot be NULL. Expression : tbl.procname
-net/mptcp/ctrl.c:260 proc_available_path_managers() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : tbl.proc_handler
+drivers/iio/light/veml6030.c:479 veml6030_read_persistence() error: uninitialized symbol 'y'.
 
 Old smatch warnings:
-net/mptcp/ctrl.c:135 proc_scheduler() warn: (struct ctl_table)->procname cannot be NULL. Expression : tbl.procname
-net/mptcp/ctrl.c:135 proc_scheduler() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : tbl.proc_handler
-net/mptcp/ctrl.c:154 proc_available_schedulers() warn: (struct ctl_table)->procname cannot be NULL. Expression : tbl.procname
-net/mptcp/ctrl.c:154 proc_available_schedulers() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : tbl.proc_handler
-net/mptcp/ctrl.c:208 proc_path_manager() warn: (struct ctl_table)->procname cannot be NULL. Expression : tbl.procname
-net/mptcp/ctrl.c:208 proc_path_manager() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : tbl.proc_handler
+drivers/iio/light/veml6030.c:498 veml6030_write_persistence() error: uninitialized symbol 'y'.
+drivers/iio/light/veml6030.c:501 veml6030_write_persistence() error: uninitialized symbol 'y'.
+drivers/iio/light/veml6030.c:503 veml6030_write_persistence() error: uninitialized symbol 'y'.
+drivers/iio/light/veml6030.c:505 veml6030_write_persistence() error: uninitialized symbol 'y'.
 
-vim +260 net/mptcp/ctrl.c
+vim +/y +479 drivers/iio/light/veml6030.c
 
-7982ed0edda337 Geliang Tang 2025-03-13  255  
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  256  static int proc_available_path_managers(const struct ctl_table *ctl,
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  257  					int write, void *buffer,
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  258  					size_t *lenp, loff_t *ppos)
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  259  {
-fa3ee9dd8067e1 Geliang Tang 2025-03-13 @260  	struct ctl_table tbl = { .maxlen = MPTCP_PM_BUF_MAX, };
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  261  	int ret;
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  262  
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  263  	tbl.data = kmalloc(tbl.maxlen, GFP_USER);
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  264  	if (!tbl.data)
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  265  		return -ENOMEM;
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  266  
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  267  	mptcp_pm_get_available(tbl.data, MPTCP_PM_BUF_MAX);
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  268  	ret = proc_dostring(&tbl, write, buffer, lenp, ppos);
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  269  	kfree(tbl.data);
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  270  
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  271  	return ret;
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  272  }
-fa3ee9dd8067e1 Geliang Tang 2025-03-13  273  
+7b779f573c48e1 Rishi Gupta     2019-11-04  461  
+7b779f573c48e1 Rishi Gupta     2019-11-04  462  static int veml6030_read_persistence(struct iio_dev *indio_dev,
+7b779f573c48e1 Rishi Gupta     2019-11-04  463  						int *val, int *val2)
+7b779f573c48e1 Rishi Gupta     2019-11-04  464  {
+7b779f573c48e1 Rishi Gupta     2019-11-04  465  	int ret, reg, period, x, y;
+7b779f573c48e1 Rishi Gupta     2019-11-04  466  	struct veml6030_data *data = iio_priv(indio_dev);
+7b779f573c48e1 Rishi Gupta     2019-11-04  467  
+22eaca4283b216 Javier Carrasco 2025-01-27  468  	ret = veml6030_get_it(data, &x, &y);
+7b779f573c48e1 Rishi Gupta     2019-11-04  469  	if (ret < 0)
+7b779f573c48e1 Rishi Gupta     2019-11-04  470  		return ret;
+7b779f573c48e1 Rishi Gupta     2019-11-04  471  
+7b779f573c48e1 Rishi Gupta     2019-11-04  472  	ret = regmap_read(data->regmap, VEML6030_REG_ALS_CONF, &reg);
+7b779f573c48e1 Rishi Gupta     2019-11-04  473  	if (ret) {
+7b779f573c48e1 Rishi Gupta     2019-11-04  474  		dev_err(&data->client->dev,
+7b779f573c48e1 Rishi Gupta     2019-11-04  475  				"can't read als conf register %d\n", ret);
+7b779f573c48e1 Rishi Gupta     2019-11-04  476  	}
+7b779f573c48e1 Rishi Gupta     2019-11-04  477  
+7b779f573c48e1 Rishi Gupta     2019-11-04  478  	/* integration time multiplied by 1/2/4/8 */
+7b779f573c48e1 Rishi Gupta     2019-11-04 @479  	period = y * (1 << ((reg >> 4) & 0x03));
+7b779f573c48e1 Rishi Gupta     2019-11-04  480  
+7b779f573c48e1 Rishi Gupta     2019-11-04  481  	*val = period / 1000000;
+7b779f573c48e1 Rishi Gupta     2019-11-04  482  	*val2 = period % 1000000;
+7b779f573c48e1 Rishi Gupta     2019-11-04  483  
+7b779f573c48e1 Rishi Gupta     2019-11-04  484  	return IIO_VAL_INT_PLUS_MICRO;
+7b779f573c48e1 Rishi Gupta     2019-11-04  485  }
+7b779f573c48e1 Rishi Gupta     2019-11-04  486  
+
+:::::: The code at line 479 was first introduced by commit
+:::::: 7b779f573c48e1ad6da1d6ea5f181f3ecd666bf6 iio: light: add driver for veml6030 ambient light sensor
+
+:::::: TO: Rishi Gupta <gupt21@gmail.com>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
