@@ -1,137 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDBE296BA4
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Dec 2025 23:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529C12D9496
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Dec 2025 23:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765581403; cv=none; b=CmkclDH506KqRgooHTmMQgQbv+DUxolaUiimn1rzjaz20Kf8GAeNc2CcSw8GmHHjdTU1ZbraknDy70W7qZan4p30YdkHdoTYYGw9PpWi+N3HRdnwIP0lkuPBVoWxZ7j4Mg7k2th1sFXX6j3dHvrYokYEi4y3BrX3yReaJ9ZZp7E=
+	t=1765582063; cv=none; b=DKGFUfz1OYcQS0kOv2VGfmNrbJ6zojaAAWKEMjy4t8dzviwBle966kJLLCglk1AVeOA0+Jyd4hIVuimj0UgxZpwWvHXjStlqtYpjuNLnnFdMPnQN2rlXKoUouirOM2ffmyGSeMfZhOwLi+PgCTKv0RXYB6KTk2xS6MJoLJhlaj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765581403; c=relaxed/simple;
-	bh=Lmxo8jaiXcwgSdlxh7tRH3VEM25apwp6dD9C0+9ThEQ=;
+	s=arc-20240116; t=1765582063; c=relaxed/simple;
+	bh=NFsIBfAMmpbSBspPjcmXc/GewEzxVpfIYc9kHL5HQro=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MqPPpDW6hV1goTuAS0mjit8KIp6HG02xcgZDNbO86L0PzHRG4VlHgNYKz0MnVrPOFTOmtY2AOJqnpkGH04yfDevL8TwkOW81nFfif6oJmfXP0hrb4xSkQYNMdQBLPe9ZsDQcsPxZM+uViMBWNTsXU8AMqs06uBRdg+7qPuscsOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GYXpviC3; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=K1jIdbwqLAjpsm16VKUAJlqrz3VObn7MUClzhiF5w0A+b8/qoK0UXqa3FKWlWN8XEXREjvh/JhwoDJ/Y7G0WtuCAansqdfErXXCtFnl1DozEtk9sldgUrkyKK/XYKSCR2qOJVrEq5PI3Y50YApPSpW/qYkABfrw8piV48HV0DtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kiAArRol; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GYXpviC3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kiAArRol"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765581402; x=1797117402;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Lmxo8jaiXcwgSdlxh7tRH3VEM25apwp6dD9C0+9ThEQ=;
-  b=GYXpviC3aH74Ye0LEuCN4y/QYLlptikYg/j7NfCFOg5sTZBY9Fr7ySSC
-   foPAHKorIE+bfahPPXccLceHCf7jcA9aLH9p159UMms3B04TULvxKeVon
-   kLfkQ5na321s6y+ZCx6weQC/TcLeMdyY8NKypP/1F8LsyV6xWP5Fa68my
-   GijtyHMVmcJQNky79QpTtdpg8TQdX7HdSmHj2EwoVfo7XUNqhdnU/4/iw
-   MrJIRGaMObbhMW0zrZWNVzhuBsKiDlqriEjXOeM+QiINw8+lRrXx32H5b
-   SdB39IQsBxob6n0iT5AIYF/SE1ALBhF8hJ04VUYQ2fCqVeb+VPzZAeHzC
-   Q==;
-X-CSE-ConnectionGUID: 9v242cGCT5Swj6GLkHSUSQ==
-X-CSE-MsgGUID: RrRuqVNVR0yUmGrUI8PVQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="66761131"
+  t=1765582061; x=1797118061;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NFsIBfAMmpbSBspPjcmXc/GewEzxVpfIYc9kHL5HQro=;
+  b=kiAArRolxlNPim77eRZ9MDIwpeCVCFa8RbaGMtcUPOW5s4YO/DH0gq4U
+   SS+5m02djD1Hh3SY9KlfOgzNc2ZUXJjamEYTsLds7XZL9hmQNBSRCroWz
+   UQX0ILL6ip6J9Rou171dQJwJlzNxyfjjpF56IUBqWuAIGdl6MvHRsHut0
+   ni6SC+TsFzvr3UpEm48O2laulz9Wx00jMNDmDx5UPqJ3e7H4kbHMDIvPl
+   LxeAQWti8GnfVwY9PmDmbaRmqP6+C4MRkYp1JwtD5yPaeUWh5qCWSCHyG
+   natILIeCLYhZl6yy6j9FW6pxD3ZJJ8quo24qSPdxJ7akC0/yujPP+Fhgb
+   A==;
+X-CSE-ConnectionGUID: 5ctYokaRRfSznRoLZnkG4w==
+X-CSE-MsgGUID: yDlnhCG0R6SYzDLfDwS28Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="66578474"
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="66761131"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 15:16:39 -0800
-X-CSE-ConnectionGUID: NYehv4qnRra4RHiDjPChHQ==
-X-CSE-MsgGUID: 2+yc2FlWRdeYxlER7I2H0Q==
+   d="scan'208";a="66578474"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 15:27:40 -0800
+X-CSE-ConnectionGUID: 8xrB0EzxT/CbrnT0c2q/Yw==
+X-CSE-MsgGUID: 9QGEGepSTdeEBzY7/WnE0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="202131457"
+   d="scan'208";a="198029044"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Dec 2025 15:16:38 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 12 Dec 2025 15:27:39 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUCNI-000000006kt-1mOQ;
-	Fri, 12 Dec 2025 23:16:36 +0000
-Date: Sat, 13 Dec 2025 07:15:44 +0800
+	id 1vUCXx-000000006lb-0H5H;
+	Fri, 12 Dec 2025 23:27:37 +0000
+Date: Sat, 13 Dec 2025 07:27:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/usb/lan78xx.c:2625 lan78xx_set_fixed_link() warn: format
- string contains non-ascii character '\x93'
-Message-ID: <202512130719.5B4g97cN-lkp@intel.com>
+Subject: sound/hda/codecs/generic.c:198 parse_user_hints() warn: assigning
+ (-2) to unsigned variable 'spec->mixer_nid'
+Message-ID: <202512130756.vSqaKZkq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Oleksij Rempel <o.rempel@pengutronix.de>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+TO: Takashi Iwai <tiwai@suse.de>
+CC: Richard Fitzgerald <rf@opensource.cirrus.com>
+
+Hi Takashi,
+
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   187d0801404f415f22c0b31531982c7ea97fa341
-commit: e110bc82589752909e283ba5cbc160e0ab56c085 net: usb: lan78xx: Convert to PHYLINK for improved PHY and MAC management
-date:   6 months ago
+commit: 6014e9021b28e634935c776c0271b5cbcabdc5d6 ALSA: hda: Move codec drivers into sound/hda/codecs directory
+date:   5 months ago
 :::::: branch date: 13 hours ago
-:::::: commit date: 6 months ago
-config: x86_64-randconfig-161-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130719.5B4g97cN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+:::::: commit date: 5 months ago
+config: mips-randconfig-r072-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130756.vSqaKZkq-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512130719.5B4g97cN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512130756.vSqaKZkq-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/usb/lan78xx.c:2625 lan78xx_set_fixed_link() warn: format string contains non-ascii character '\x93'
+smatch warnings:
+sound/hda/codecs/generic.c:198 parse_user_hints() warn: assigning (-2) to unsigned variable 'spec->mixer_nid'
 
-Old smatch warnings:
-drivers/net/usb/lan78xx.c:2625 lan78xx_set_fixed_link() warn: format string contains non-ascii character '\xe2'
-drivers/net/usb/lan78xx.c:2625 lan78xx_set_fixed_link() warn: format string contains non-ascii character '\x80'
-drivers/net/usb/lan78xx.c:2656 lan78xx_get_phy() warn: format string contains non-ascii character '\xe2'
-drivers/net/usb/lan78xx.c:2656 lan78xx_get_phy() warn: format string contains non-ascii character '\x80'
-drivers/net/usb/lan78xx.c:2656 lan78xx_get_phy() warn: format string contains non-ascii character '\x93'
-drivers/net/usb/lan78xx.c:2860 lan78xx_phy_init() error: we previously assumed 'phydev' could be null (see line 2848)
-drivers/net/usb/lan78xx.c:2860 lan78xx_phy_init() warn: 'phydev' can also be NULL
-drivers/net/usb/lan78xx.c:2862 lan78xx_phy_init() warn: 'phydev' can also be NULL
-drivers/net/usb/lan78xx.c:3142 lan78xx_init_ltm() warn: missing unwind goto?
+vim +198 sound/hda/codecs/generic.c
 
-vim +2625 drivers/net/usb/lan78xx.c
+^1da177e4c3f41 sound/pci/hda/hda_generic.c Linus Torvalds 2005-04-16  101  
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  102  /*
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  103   * store user hints
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  104   */
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  105  static void parse_user_hints(struct hda_codec *codec)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  106  {
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  107  	struct hda_gen_spec *spec = codec->spec;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  108  	int val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  109  
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  110  	val = snd_hda_get_bool_hint(codec, "jack_detect");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  111  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  112  		codec->no_jack_detect = !val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  113  	val = snd_hda_get_bool_hint(codec, "inv_jack_detect");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  114  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  115  		codec->inv_jack_detect = !!val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  116  	val = snd_hda_get_bool_hint(codec, "trigger_sense");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  117  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  118  		codec->no_trigger_sense = !val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  119  	val = snd_hda_get_bool_hint(codec, "inv_eapd");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  120  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  121  		codec->inv_eapd = !!val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  122  	val = snd_hda_get_bool_hint(codec, "pcm_format_first");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  123  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  124  		codec->pcm_format_first = !!val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  125  	val = snd_hda_get_bool_hint(codec, "sticky_stream");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  126  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  127  		codec->no_sticky_stream = !val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  128  	val = snd_hda_get_bool_hint(codec, "spdif_status_reset");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  129  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  130  		codec->spdif_status_reset = !!val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  131  	val = snd_hda_get_bool_hint(codec, "pin_amp_workaround");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  132  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  133  		codec->pin_amp_workaround = !!val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  134  	val = snd_hda_get_bool_hint(codec, "single_adc_amp");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  135  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  136  		codec->single_adc_amp = !!val;
+967b1307b69b8a sound/pci/hda/hda_generic.c Takashi Iwai   2015-03-20  137  	val = snd_hda_get_bool_hint(codec, "power_save_node");
+e6feb5d08509be sound/pci/hda/hda_generic.c Takashi Iwai   2015-03-16  138  	if (val >= 0)
+967b1307b69b8a sound/pci/hda/hda_generic.c Takashi Iwai   2015-03-20  139  		codec->power_save_node = !!val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  140  
+f72706be354b35 sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-16  141  	val = snd_hda_get_bool_hint(codec, "auto_mute");
+f72706be354b35 sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-16  142  	if (val >= 0)
+f72706be354b35 sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-16  143  		spec->suppress_auto_mute = !val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  144  	val = snd_hda_get_bool_hint(codec, "auto_mic");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  145  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  146  		spec->suppress_auto_mic = !val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  147  	val = snd_hda_get_bool_hint(codec, "line_in_auto_switch");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  148  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  149  		spec->line_in_auto_switch = !!val;
+7eebffd3f4328c sound/pci/hda/hda_generic.c Takashi Iwai   2013-06-24  150  	val = snd_hda_get_bool_hint(codec, "auto_mute_via_amp");
+7eebffd3f4328c sound/pci/hda/hda_generic.c Takashi Iwai   2013-06-24  151  	if (val >= 0)
+7eebffd3f4328c sound/pci/hda/hda_generic.c Takashi Iwai   2013-06-24  152  		spec->auto_mute_via_amp = !!val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  153  	val = snd_hda_get_bool_hint(codec, "need_dac_fix");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  154  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  155  		spec->need_dac_fix = !!val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  156  	val = snd_hda_get_bool_hint(codec, "primary_hp");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  157  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  158  		spec->no_primary_hp = !val;
+da96fb5b0185d2 sound/pci/hda/hda_generic.c Takashi Iwai   2013-07-29  159  	val = snd_hda_get_bool_hint(codec, "multi_io");
+da96fb5b0185d2 sound/pci/hda/hda_generic.c Takashi Iwai   2013-07-29  160  	if (val >= 0)
+da96fb5b0185d2 sound/pci/hda/hda_generic.c Takashi Iwai   2013-07-29  161  		spec->no_multi_io = !val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  162  	val = snd_hda_get_bool_hint(codec, "multi_cap_vol");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  163  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  164  		spec->multi_cap_vol = !!val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  165  	val = snd_hda_get_bool_hint(codec, "inv_dmic_split");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  166  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  167  		spec->inv_dmic_split = !!val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  168  	val = snd_hda_get_bool_hint(codec, "indep_hp");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  169  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  170  		spec->indep_hp = !!val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  171  	val = snd_hda_get_bool_hint(codec, "add_stereo_mix_input");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  172  	if (val >= 0)
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  173  		spec->add_stereo_mix_input = !!val;
+f811c3cf8fae63 sound/pci/hda/hda_generic.c Takashi Iwai   2013-03-07  174  	/* the following two are just for compatibility */
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  175  	val = snd_hda_get_bool_hint(codec, "add_out_jack_modes");
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  176  	if (val >= 0)
+f811c3cf8fae63 sound/pci/hda/hda_generic.c Takashi Iwai   2013-03-07  177  		spec->add_jack_modes = !!val;
+29476558deb301 sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-17  178  	val = snd_hda_get_bool_hint(codec, "add_in_jack_modes");
+29476558deb301 sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-17  179  	if (val >= 0)
+f811c3cf8fae63 sound/pci/hda/hda_generic.c Takashi Iwai   2013-03-07  180  		spec->add_jack_modes = !!val;
+f811c3cf8fae63 sound/pci/hda/hda_generic.c Takashi Iwai   2013-03-07  181  	val = snd_hda_get_bool_hint(codec, "add_jack_modes");
+f811c3cf8fae63 sound/pci/hda/hda_generic.c Takashi Iwai   2013-03-07  182  	if (val >= 0)
+f811c3cf8fae63 sound/pci/hda/hda_generic.c Takashi Iwai   2013-03-07  183  		spec->add_jack_modes = !!val;
+55196fffc95105 sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-24  184  	val = snd_hda_get_bool_hint(codec, "power_down_unused");
+55196fffc95105 sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-24  185  	if (val >= 0)
+55196fffc95105 sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-24  186  		spec->power_down_unused = !!val;
+967303dabc2233 sound/pci/hda/hda_generic.c Takashi Iwai   2013-02-19  187  	val = snd_hda_get_bool_hint(codec, "add_hp_mic");
+967303dabc2233 sound/pci/hda/hda_generic.c Takashi Iwai   2013-02-19  188  	if (val >= 0)
+967303dabc2233 sound/pci/hda/hda_generic.c Takashi Iwai   2013-02-19  189  		spec->hp_mic = !!val;
+967303dabc2233 sound/pci/hda/hda_generic.c Takashi Iwai   2013-02-19  190  	val = snd_hda_get_bool_hint(codec, "hp_mic_detect");
+967303dabc2233 sound/pci/hda/hda_generic.c Takashi Iwai   2013-02-19  191  	if (val >= 0)
+967303dabc2233 sound/pci/hda/hda_generic.c Takashi Iwai   2013-02-19  192  		spec->suppress_hp_mic_detect = !val;
+7480316c265c9f sound/pci/hda/hda_generic.c Takashi Iwai   2017-04-10  193  	val = snd_hda_get_bool_hint(codec, "vmaster");
+7480316c265c9f sound/pci/hda/hda_generic.c Takashi Iwai   2017-04-10  194  	if (val >= 0)
+7480316c265c9f sound/pci/hda/hda_generic.c Takashi Iwai   2017-04-10  195  		spec->suppress_vmaster = !val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  196  
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  197  	if (!snd_hda_get_int_hint(codec, "mixer_nid", &val))
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11 @198  		spec->mixer_nid = val;
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  199  }
+1c70a583417e8d sound/pci/hda/hda_generic.c Takashi Iwai   2013-01-11  200  
 
-e110bc82589752 Oleksij Rempel            2025-06-18  2607  
-d39f339d260373 Oleksij Rempel            2025-05-05  2608  /**
-e110bc82589752 Oleksij Rempel            2025-06-18  2609   * lan78xx_set_fixed_link() - Set fixed link configuration for LAN7801
-d39f339d260373 Oleksij Rempel            2025-05-05  2610   * @dev: LAN78xx device
-d39f339d260373 Oleksij Rempel            2025-05-05  2611   *
-e110bc82589752 Oleksij Rempel            2025-06-18  2612   * Use fixed link configuration with 1 Gbps full duplex. This is used in special
-e110bc82589752 Oleksij Rempel            2025-06-18  2613   * cases like EVB-KSZ9897-1, where LAN7801 acts as a USB-to-Ethernet interface
-e110bc82589752 Oleksij Rempel            2025-06-18  2614   * to a switch without a visible PHY.
-d39f339d260373 Oleksij Rempel            2025-05-05  2615   *
-d39f339d260373 Oleksij Rempel            2025-05-05  2616   * Return: pointer to the registered fixed PHY, or ERR_PTR() on error.
-d39f339d260373 Oleksij Rempel            2025-05-05  2617   */
-e110bc82589752 Oleksij Rempel            2025-06-18  2618  static int lan78xx_set_fixed_link(struct lan78xx_net *dev)
-55d7de9de6c30a Woojung.Huh@microchip.com 2015-07-30  2619  {
-e110bc82589752 Oleksij Rempel            2025-06-18  2620  	static const struct phylink_link_state state = {
-89b36fb5e53244 Raghuram Chary J          2018-04-28  2621  		.speed = SPEED_1000,
-89b36fb5e53244 Raghuram Chary J          2018-04-28  2622  		.duplex = DUPLEX_FULL,
-89b36fb5e53244 Raghuram Chary J          2018-04-28  2623  	};
-d39f339d260373 Oleksij Rempel            2025-05-05  2624  
-d39f339d260373 Oleksij Rempel            2025-05-05 @2625  	netdev_info(dev->net,
-e110bc82589752 Oleksij Rempel            2025-06-18  2626  		    "No PHY found on LAN7801 – using fixed link instead (e.g. EVB-KSZ9897-1)\n");
-d39f339d260373 Oleksij Rempel            2025-05-05  2627  
-e110bc82589752 Oleksij Rempel            2025-06-18  2628  	return phylink_set_fixed_link(dev->phylink, &state);
-d39f339d260373 Oleksij Rempel            2025-05-05  2629  }
-d39f339d260373 Oleksij Rempel            2025-05-05  2630  
+:::::: The code at line 198 was first introduced by commit
+:::::: 1c70a583417e8db1e1d5069d7651ba294e9499de ALSA: hda - Allow user to give hints for codec parser behavior
 
-:::::: The code at line 2625 was first introduced by commit
-:::::: d39f339d2603736ff90b0b32d9aea3b954307fd5 net: usb: lan78xx: refactor PHY init to separate detection and MAC configuration
-
-:::::: TO: Oleksij Rempel <o.rempel@pengutronix.de>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Takashi Iwai <tiwai@suse.de>
+:::::: CC: Takashi Iwai <tiwai@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
