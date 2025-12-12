@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEF33101D4
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Dec 2025 20:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E721330BF70
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Dec 2025 20:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765571314; cv=none; b=b2XcEv494El9m9Ov8A7GliMf8MVtAwBaOPof95p7lxyJl+B58BCVdSuTETiNru3H/IRjJHuy73rqdJwSg+2lhcHBnQlrZB/MDKDVYNgS8vm4leJ+bkDsLT4l+a9kfM8eVDzUG7+8pJ3wq+UFPAOKNz6yu6CL7KBaIFP/j/06p+A=
+	t=1765571972; cv=none; b=CskZ8zd4uBnP1mk31YGxGZYJBjzRr+ZG9/gyhlzJ+o2vh13+hA44F3yKHg5W7GQ3HRCbIdyzSM4pXKIptfAPBBc7fZMEpFXQWTJ+iWJqcGUtWnU08wlSU+vraUzgoQIKRZXyVBOm68sqUdU3erWiv+RRrPLaxcXFW+cN62vKhJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765571314; c=relaxed/simple;
-	bh=zsnJZlUqG/nxntWboWyamIfu03YRSzyj5AFXdeBeoDo=;
+	s=arc-20240116; t=1765571972; c=relaxed/simple;
+	bh=MNAnOvO5nPIIx8pS0b+J6BSqd966Y76IpcZKvKJUP24=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SpP9evtsEa28D3zZ1AhLPyBcDP9VZXrLqZ+CK2dSSeZxRVKX4VRjXw83DgyiOvwpACfl0nMf7gQL1o1ru0yfL/jd8/sTmo2/IWi4XjqmmweNdYwzE2zwoMP/mqh1ergFQjU1O0eEUKMv10fVtmppHYTMosGc3jQvg7ZSabFUjP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WdZmpRCu; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=fNrC3P/KPf3mWP4SZbKGdqoUexBeUR6HjyHGKGriul35ChH1aZHl9MQvIzi/R2/nCUPEIwyKwEYrW5J2k/DqQeoPKRPzVJdNLoX86kaWvQ4CHEeEbThpgGc0B7LfNrg/rKEKtBcXPMy5YKhmT4z5A8wSJyWEzyy4cCy7TBbSdjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M+Lie7XK; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WdZmpRCu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M+Lie7XK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765571313; x=1797107313;
+  t=1765571971; x=1797107971;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zsnJZlUqG/nxntWboWyamIfu03YRSzyj5AFXdeBeoDo=;
-  b=WdZmpRCuiS8nk23X+jSRF89wR7D4Z5x+PgxPVbYrCSZ1+hI9s3xaY0/8
-   KNPsxRNNZHHYxCcUNjaOp5fZXMsnaXtY+oVwgX9b3tNF1vBJQ97qOf9E3
-   3Ul0Z2Pji2uKIveU0w4FE/eAnkZie7ZuIpuZGSYNrHuiN0FTUIRea0CUQ
-   1BiQTdCSLOFLTKYRN1JKbiw4WYjswCk4Mh8yNwhchVHrDlrXTaGI/23ly
-   ypuVOWU0Q8dpudeTjFxSnJI8U8w1yM+t9zZUbUzmyl9YZwDvKpKNHHXUd
-   PC84PaOzdHeKCBj75pz4mVgo3mYpkE+8xUeDnibiFXdg6AGkEF4NTtFEX
-   g==;
-X-CSE-ConnectionGUID: LTrbIL1hQ6uKshXATMLQGQ==
-X-CSE-MsgGUID: X3jf8T2hQ662Te5jcCtYlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="78284902"
+  bh=MNAnOvO5nPIIx8pS0b+J6BSqd966Y76IpcZKvKJUP24=;
+  b=M+Lie7XKo65KZC4P++uEVIrCELVEIPMbBEz5FQ5X2zNDUiLmJuq7FVgQ
+   cwi8bBzqKoRU3wm+6PXQnai93sP5wZmGHw2+NWQo0AamHIIkP7XVKjJC9
+   VlE/XbKGGRE4wSFSW1hZ4nPzA9IX2O9OIG3DsHNMS6geKecONANlRhaF7
+   i40CLWJTJ/vpkykAgn3oLVFBD8unN28QUWZrK6gnjamePE5YOdj0VDCwK
+   xWJu5hmPxXWfUJG9DTN3JWip5yM3vxSieJ0mdAfwEFLIpPGlXFJKCbLZQ
+   0aQgKPoej0bLgvXfk8iDiQWoH+Q/9V4ZnLpNRTNzWNa8IU7BWCPVIq2tP
+   Q==;
+X-CSE-ConnectionGUID: cW3deb5/S1K+IxixUuiqsg==
+X-CSE-MsgGUID: vIdStonhReW0z8iOBjFT3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="77896164"
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="78284902"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 12:28:28 -0800
-X-CSE-ConnectionGUID: J2SfDbr+TFiRrbH5B3DqVw==
-X-CSE-MsgGUID: lzGsuhVVR06wAmFtcoX67w==
+   d="scan'208";a="77896164"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 12:39:29 -0800
+X-CSE-ConnectionGUID: bGAjMKRESqW07XH4IBc3HQ==
+X-CSE-MsgGUID: GG6LDuaKSQ20V+Zrj2zP0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="196250294"
+   d="scan'208";a="201666552"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 12 Dec 2025 12:28:27 -0800
+  by orviesa004.jf.intel.com with ESMTP; 12 Dec 2025 12:39:28 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU9kW-000000006Zh-1wig;
-	Fri, 12 Dec 2025 20:28:24 +0000
-Date: Sat, 13 Dec 2025 04:28:04 +0800
+	id 1vU9vB-000000006aj-1Xnf;
+	Fri, 12 Dec 2025 20:39:25 +0000
+Date: Sat, 13 Dec 2025 04:38:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [openeuler:openEuler-1.0-LTS 1941/1941] drivers/dma/pl330.c:2599:15:
- warning: 'src' may be used uninitialized in this function
-Message-ID: <202512130409.sZE93fMA-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/mmc/host/mxcmmc.c:626 mxcmci_transfer_data() error:
+ uninitialized symbol 'stat'.
+Message-ID: <202512130401.H7CHsjQ8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,70 +62,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "likely FALSE maybe-used-uninitialized warning on old compiler"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
+CC: linux-kernel@vger.kernel.org
+TO: Mikko Rapeli <mikko.rapeli@linaro.org>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 
-Hi Frank,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   df8d11fbcbb07177c2500e63d7f5a36063977596
-commit: 0299853c014aa0eecf7fb85ac2f1ebd0a9a6ba73 [1941/1941] dmaengine: fix is_slave_direction() return false when DMA_DEV_TO_DEV
-:::::: branch date: 17 hours ago
-:::::: commit date: 1 year, 9 months ago
-config: arm64-randconfig-002-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130409.sZE93fMA-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130409.sZE93fMA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   187d0801404f415f22c0b31531982c7ea97fa341
+commit: 7cd8db0fb0b2bf309163d56fec585c0f9e0964d1 mmc: add COMPILE_TEST to multiple drivers
+date:   3 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 3 months ago
+config: csky-randconfig-r071-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130401.H7CHsjQ8-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512130409.sZE93fMA-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512130401.H7CHsjQ8-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+smatch warnings:
+drivers/mmc/host/mxcmmc.c:626 mxcmci_transfer_data() error: uninitialized symbol 'stat'.
 
-All warnings (new ones prefixed by >>):
+vim +/stat +626 drivers/mmc/host/mxcmmc.c
 
-   drivers/dma/pl330.c: In function 'pl330_prep_dma_cyclic':
->> drivers/dma/pl330.c:2599:15: warning: 'src' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     px->src_addr = src;
-     ~~~~~~~~~~~~~^~~~~
-   drivers/dma/pl330.c:2657:13: note: 'src' was declared here
-     dma_addr_t src;
-                ^~~
->> drivers/dma/pl330.c:2598:15: warning: 'dst' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     px->dst_addr = dst;
-     ~~~~~~~~~~~~~^~~~~
-   drivers/dma/pl330.c:2656:13: note: 'dst' was declared here
-     dma_addr_t dst;
-                ^~~
-   drivers/dma/pl330.c:297: warning: cannot understand function prototype: 'struct pl330_reqcfg '
+d96be879ff4697 Sascha Hauer  2009-01-06  590  
+d96be879ff4697 Sascha Hauer  2009-01-06  591  static int mxcmci_transfer_data(struct mxcmci_host *host)
+d96be879ff4697 Sascha Hauer  2009-01-06  592  {
+d96be879ff4697 Sascha Hauer  2009-01-06  593  	struct mmc_data *data = host->req->data;
+12658af54f2ed1 Linus Walleij 2024-01-27  594  	struct sg_mapping_iter sgm;
+12658af54f2ed1 Linus Walleij 2024-01-27  595  	int stat;
+12658af54f2ed1 Linus Walleij 2024-01-27  596  	u32 *buf;
+d96be879ff4697 Sascha Hauer  2009-01-06  597  
+d96be879ff4697 Sascha Hauer  2009-01-06  598  	host->data = data;
+d96be879ff4697 Sascha Hauer  2009-01-06  599  	host->datasize = 0;
+12658af54f2ed1 Linus Walleij 2024-01-27  600  	sg_miter_start(&sgm, data->sg, data->sg_len,
+12658af54f2ed1 Linus Walleij 2024-01-27  601  		       (data->flags & MMC_DATA_READ) ? SG_MITER_TO_SG : SG_MITER_FROM_SG);
+d96be879ff4697 Sascha Hauer  2009-01-06  602  
+d96be879ff4697 Sascha Hauer  2009-01-06  603  	if (data->flags & MMC_DATA_READ) {
+12658af54f2ed1 Linus Walleij 2024-01-27  604  		while (sg_miter_next(&sgm)) {
+12658af54f2ed1 Linus Walleij 2024-01-27  605  			buf = sgm.addr;
+12658af54f2ed1 Linus Walleij 2024-01-27  606  			stat = mxcmci_pull(host, buf, sgm.length);
+d96be879ff4697 Sascha Hauer  2009-01-06  607  			if (stat)
+12658af54f2ed1 Linus Walleij 2024-01-27  608  				goto transfer_error;
+12658af54f2ed1 Linus Walleij 2024-01-27  609  			host->datasize += sgm.length;
+d96be879ff4697 Sascha Hauer  2009-01-06  610  		}
+d96be879ff4697 Sascha Hauer  2009-01-06  611  	} else {
+12658af54f2ed1 Linus Walleij 2024-01-27  612  		while (sg_miter_next(&sgm)) {
+12658af54f2ed1 Linus Walleij 2024-01-27  613  			buf = sgm.addr;
+12658af54f2ed1 Linus Walleij 2024-01-27  614  			stat = mxcmci_push(host, buf, sgm.length);
+d96be879ff4697 Sascha Hauer  2009-01-06  615  			if (stat)
+12658af54f2ed1 Linus Walleij 2024-01-27  616  				goto transfer_error;
+12658af54f2ed1 Linus Walleij 2024-01-27  617  			host->datasize += sgm.length;
+d96be879ff4697 Sascha Hauer  2009-01-06  618  		}
+d96be879ff4697 Sascha Hauer  2009-01-06  619  		stat = mxcmci_poll_status(host, STATUS_WRITE_OP_DONE);
+d96be879ff4697 Sascha Hauer  2009-01-06  620  		if (stat)
+12658af54f2ed1 Linus Walleij 2024-01-27  621  			goto transfer_error;
+d96be879ff4697 Sascha Hauer  2009-01-06  622  	}
+12658af54f2ed1 Linus Walleij 2024-01-27  623  
+12658af54f2ed1 Linus Walleij 2024-01-27  624  transfer_error:
+12658af54f2ed1 Linus Walleij 2024-01-27  625  	sg_miter_stop(&sgm);
+12658af54f2ed1 Linus Walleij 2024-01-27 @626  	return stat;
+d96be879ff4697 Sascha Hauer  2009-01-06  627  }
+d96be879ff4697 Sascha Hauer  2009-01-06  628  
 
+:::::: The code at line 626 was first introduced by commit
+:::::: 12658af54f2ed10d812dcd0a769d62cb9e9291e5 mmc: mxcmmc: Use sg_miter for PIO
 
-vim +/src +2599 drivers/dma/pl330.c
-
-b3040e40675ec2 Jassi Brar 2010-05-23  2593  
-b3040e40675ec2 Jassi Brar 2010-05-23  2594  static inline void fill_px(struct pl330_xfer *px,
-b3040e40675ec2 Jassi Brar 2010-05-23  2595  		dma_addr_t dst, dma_addr_t src, size_t len)
-b3040e40675ec2 Jassi Brar 2010-05-23  2596  {
-b3040e40675ec2 Jassi Brar 2010-05-23  2597  	px->bytes = len;
-b3040e40675ec2 Jassi Brar 2010-05-23 @2598  	px->dst_addr = dst;
-b3040e40675ec2 Jassi Brar 2010-05-23 @2599  	px->src_addr = src;
-b3040e40675ec2 Jassi Brar 2010-05-23  2600  }
-b3040e40675ec2 Jassi Brar 2010-05-23  2601  
-
-:::::: The code at line 2599 was first introduced by commit
-:::::: b3040e40675ec2c43542331cd30d4ee3dae797e8 DMA: PL330: Add dma api driver
-
-:::::: TO: Jassi Brar <jassi.brar@samsung.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+:::::: TO: Linus Walleij <linus.walleij@linaro.org>
+:::::: CC: Ulf Hansson <ulf.hansson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
