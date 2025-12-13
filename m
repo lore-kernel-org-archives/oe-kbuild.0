@@ -1,262 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8E52DD5F3
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 11:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEA3308F3A
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 11:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765626159; cv=none; b=HzZkP2BhkhNffknj+0RcrqslLtZwcjGgX34/e6PUb0A3WUSHWwheELhMosivo8rB3oIET9wwQ4Y/e1UOgCIr0/5wRA+q0FJCDG4OxgNrw/EnI5ig96UI9+/Vh4Nd6aVxB2ahBBkYfWoJTJmeV01YHEkUeuntFTS6Yzrf3JzhXtk=
+	t=1765626881; cv=none; b=fx5VVAZQn9FPeay/B4+nd1bSJL8gx2buovWGToD2krRhESle16xPTYr/76Qu6CQPB/rtpub8OUME5Q/ltD5z33K7lYymm4wmbDpfFaehSdaFDHeVxN6lI+qiXpUEpyH7cSywHy/H7QtZ3PTkeDrcpSriIDdSvF1GuYzjzk7Mm3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765626159; c=relaxed/simple;
-	bh=efk5Ux/0kIdcQOSqDa05oIYKCDgJLHVY/vfgEc0/XG4=;
+	s=arc-20240116; t=1765626881; c=relaxed/simple;
+	bh=ROPXOqPLXrIYDCz6ItAvvcDLOS8J3W7T1Y+K2PxjAsU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y7g7hqAQfqy+femucm2scKOeFwD+BvLwebf+QJdbsiOIh/ZIxzCNyPnXjvsK4SaQI76baNgPLRB5Z5js0ZU4t9r63MF/RXU4tQhhJ/+ZozcdaJfEtc5n2kOSS8YjgRbxMqK/7tok8Ik721gFtLmJhVIdB71SXqbyhYrfkTwrCEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TarAzTFW; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=GqhazemBfTjrwPIM11BcXvg0JTi47bFpeyRGSn2G95nYk+Zbn+RfLoOrl8p6wtYlrETfltcFc9qL27hJjZ8nTAGTrqby+OYAyJLUMBR/pMAJxjfsPpXWY3MJRK5ZSYj1zvsRVLCy9CNXLNvchM9eLPHfe5kX3B977cV4eS9Axhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BpAVn2Be; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TarAzTFW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpAVn2Be"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765626157; x=1797162157;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=efk5Ux/0kIdcQOSqDa05oIYKCDgJLHVY/vfgEc0/XG4=;
-  b=TarAzTFWRpPM9yHo/j70z1lfvW/jkEyIBM16wmHRebDJpZpB2me95s28
-   22W7qTKUcMi97imnqA5uvrwjPbHV5IXv9Q7Ke177K1VGQ1I94G8Qi+7yr
-   o8X7mVabUEZ15ROmLpWOJaA3fVmnDa/snI0GQU6QhZXurMTTonJe1U/1y
-   62N/fvU66207QsdGZbVvO8FGIVYUIGLZi1tEJphS/xuJm7vArSBuH0l/b
-   3hr3IxBfvI9gbNJr8Bj5akuX2OLkX7NiDSQ97wdW23RUAqotnfzDjNbpr
-   uFwitq944+gSg5lzyk1qxM2LFceAcuKgUgfQbobQKMT9u4a/3fppRYCsu
-   w==;
-X-CSE-ConnectionGUID: cIV+QZgSQJG1Hog3en8FAQ==
-X-CSE-MsgGUID: v+L/c04TQAithBOgtv2nSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="66597196"
+  t=1765626879; x=1797162879;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ROPXOqPLXrIYDCz6ItAvvcDLOS8J3W7T1Y+K2PxjAsU=;
+  b=BpAVn2Beu8LcvWtCeYJcTXSHE9c7nTnH5nJMnZTiVCSLnLMFrX5WG73u
+   13BBGyzQU1bn541izEssTd0EuRVsvfVXcb1F0MId+udQN3ICpukQdRLUG
+   XOymvGyseICopJQnAdQUesSNWM+bbaYepMAfdDebziz7yNJuBQFLkBkh0
+   1R+vCT1cHu04nG6sLRnJDnUr/kZLo2ZXz409xlufhUA5LL0ziE6bto6es
+   enL55W9sXAz5wXYtflzR1flq9K4p95QJ5AFuM+Rx3CjYYqZ6d2cGjundU
+   FTFRMvS9woEmILQIOU/P3Jmpn9UT07cNAHy4KmsQ679GSgJRn3mdO3izy
+   A==;
+X-CSE-ConnectionGUID: 7QtyLPK8SYSkuchl/gVNCA==
+X-CSE-MsgGUID: KeTIl1AzTwuW+sjmVxfULw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67569774"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="66597196"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 03:42:36 -0800
-X-CSE-ConnectionGUID: Lzf5rjDBT7ujo5v3ua75Ig==
-X-CSE-MsgGUID: 2KrjW+/yRWOILapatXge+Q==
+   d="scan'208";a="67569774"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 03:54:37 -0800
+X-CSE-ConnectionGUID: 1T5qNwCWQZOXZvso0fHaLQ==
+X-CSE-MsgGUID: emEJTC+FTAaqGEX5zGgDkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="227960965"
+   d="scan'208";a="197061222"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Dec 2025 03:42:34 -0800
+  by orviesa009.jf.intel.com with ESMTP; 13 Dec 2025 03:54:36 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUO1A-000000007Yl-1Swk;
-	Sat, 13 Dec 2025 11:42:32 +0000
-Date: Sat, 13 Dec 2025 19:42:27 +0800
+	id 1vUOCn-000000007Zb-1Edl;
+	Sat, 13 Dec 2025 11:54:33 +0000
+Date: Sat, 13 Dec 2025 19:53:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/codecs/rt1320-sdw.c:1168 rt1320_set_gain_put() error:
- uninitialized symbol 'err'.
-Message-ID: <202512131905.Wr8k6Aqa-lkp@intel.com>
+Subject: drivers/gpu/drm/xe/xe_vm.c:2910 prefetch_ranges() warn: iterator 'i'
+ not incremented
+Message-ID: <202512131915.Uxpw25Mx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Shuming Fan <shumingf@realtek.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Harry Austen <hpausten@protonmail.com>
+CC: Lucas De Marchi <lucas.demarchi@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9d9c1cfec01cdbf24bd9322ed555713a20422115
-commit: 7bf9e646af9a0ceac57b27e62b71f750af096c2c ASoC: rt1321: Add RT1321 amplifier support
-date:   4 months ago
+commit: a559434880b320b83733d739733250815aecf1b0 drm/xe: Allow dropping kunit dependency as built-in
+date:   6 months ago
 :::::: branch date: 3 hours ago
-:::::: commit date: 4 months ago
-config: i386-randconfig-r073-20251212 (https://download.01.org/0day-ci/archive/20251213/202512131905.Wr8k6Aqa-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+:::::: commit date: 6 months ago
+config: s390-randconfig-r071-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131915.Uxpw25Mx-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512131905.Wr8k6Aqa-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512131915.Uxpw25Mx-lkp@intel.com/
 
-smatch warnings:
-sound/soc/codecs/rt1320-sdw.c:1168 rt1320_set_gain_put() error: uninitialized symbol 'err'.
-sound/soc/codecs/rt1320-sdw.c:1169 rt1320_set_gain_put() error: uninitialized symbol 'reg_base'.
-sound/soc/codecs/rt1320-sdw.c:1226 rt1320_set_gain_get() error: uninitialized symbol 'regvalue'.
+New smatch warnings:
+drivers/gpu/drm/xe/xe_vm.c:2910 prefetch_ranges() warn: iterator 'i' not incremented
 
-vim +/err +1168 sound/soc/codecs/rt1320-sdw.c
+Old smatch warnings:
+drivers/gpu/drm/xe/xe_vm.c:2481 new_vma() error: we previously assumed 'bo' could be null (see line 2455)
+drivers/gpu/drm/xe/xe_vm.c:3904 xe_vm_range_tilemask_tlb_invalidation() error: uninitialized symbol 'err'.
+drivers/gpu/drm/xe/xe_vm.c:4119 xe_vm_snapshot_print() warn: passing zero to 'PTR_ERR'
 
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1072  
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1073  static int rt1320_set_gain_put(struct snd_kcontrol *kcontrol,
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1074  		struct snd_ctl_elem_value *ucontrol)
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1075  {
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1076  	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1077  	struct soc_mixer_control *mc =
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1078  		(struct soc_mixer_control *)kcontrol->private_value;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1079  	struct rt1320_sdw_priv *rt1320 = snd_soc_component_get_drvdata(component);
-f465d10cd73188 Shuming Fan 2024-09-02  1080  	unsigned int gain_l_val, gain_r_val;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1081  	unsigned int lvalue, rvalue;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1082  	const unsigned int interval_offset = 0xc0;
-20079dd9b36448 Shuming Fan 2024-10-25  1083  	unsigned int changed = 0, reg_base;
-20079dd9b36448 Shuming Fan 2024-10-25  1084  	struct rt_sdca_dmic_kctrl_priv *p;
-20079dd9b36448 Shuming Fan 2024-10-25  1085  	unsigned int regvalue[4], gain_val[4], i;
-20079dd9b36448 Shuming Fan 2024-10-25  1086  	int err;
-20079dd9b36448 Shuming Fan 2024-10-25  1087  
-20079dd9b36448 Shuming Fan 2024-10-25  1088  	if (strstr(ucontrol->id.name, "FU Capture Volume"))
-20079dd9b36448 Shuming Fan 2024-10-25  1089  		goto _dmic_vol_;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1090  
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1091  	regmap_read(rt1320->mbq_regmap, mc->reg, &lvalue);
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1092  	regmap_read(rt1320->mbq_regmap, mc->rreg, &rvalue);
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1093  
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1094  	/* L Channel */
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1095  	gain_l_val = ucontrol->value.integer.value[0];
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1096  	if (gain_l_val > mc->max)
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1097  		gain_l_val = mc->max;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1098  	gain_l_val = 0 - ((mc->max - gain_l_val) * interval_offset);
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1099  	gain_l_val &= 0xffff;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1100  
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1101  	/* R Channel */
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1102  	gain_r_val = ucontrol->value.integer.value[1];
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1103  	if (gain_r_val > mc->max)
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1104  		gain_r_val = mc->max;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1105  	gain_r_val = 0 - ((mc->max - gain_r_val) * interval_offset);
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1106  	gain_r_val &= 0xffff;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1107  
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1108  	if (lvalue == gain_l_val && rvalue == gain_r_val)
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1109  		return 0;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1110  
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1111  	/* Lch*/
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1112  	regmap_write(rt1320->mbq_regmap, mc->reg, gain_l_val);
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1113  	/* Rch */
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1114  	regmap_write(rt1320->mbq_regmap, mc->rreg, gain_r_val);
-20079dd9b36448 Shuming Fan 2024-10-25  1115  	goto _done_;
-20079dd9b36448 Shuming Fan 2024-10-25  1116  
-20079dd9b36448 Shuming Fan 2024-10-25  1117  _dmic_vol_:
-20079dd9b36448 Shuming Fan 2024-10-25  1118  	p = (struct rt_sdca_dmic_kctrl_priv *)kcontrol->private_value;
-20079dd9b36448 Shuming Fan 2024-10-25  1119  
-20079dd9b36448 Shuming Fan 2024-10-25  1120  	/* check all channels */
-20079dd9b36448 Shuming Fan 2024-10-25  1121  	for (i = 0; i < p->count; i++) {
-7bf9e646af9a0c Shuming Fan 2025-08-14  1122  		switch (rt1320->dev_id) {
-7bf9e646af9a0c Shuming Fan 2025-08-14  1123  		case RT1320_DEV_ID:
-20079dd9b36448 Shuming Fan 2024-10-25  1124  			if (i < 2) {
-20079dd9b36448 Shuming Fan 2024-10-25  1125  				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-20079dd9b36448 Shuming Fan 2024-10-25  1126  				regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue[i]);
-20079dd9b36448 Shuming Fan 2024-10-25  1127  			} else {
-20079dd9b36448 Shuming Fan 2024-10-25  1128  				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-20079dd9b36448 Shuming Fan 2024-10-25  1129  				regmap_read(rt1320->mbq_regmap, reg_base + i - 2, &regvalue[i]);
-20079dd9b36448 Shuming Fan 2024-10-25  1130  			}
-7bf9e646af9a0c Shuming Fan 2025-08-14  1131  			break;
-7bf9e646af9a0c Shuming Fan 2025-08-14  1132  		case RT1321_DEV_ID:
-7bf9e646af9a0c Shuming Fan 2025-08-14  1133  			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-7bf9e646af9a0c Shuming Fan 2025-08-14  1134  			regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue[i]);
-7bf9e646af9a0c Shuming Fan 2025-08-14  1135  			break;
-7bf9e646af9a0c Shuming Fan 2025-08-14  1136  		}
-20079dd9b36448 Shuming Fan 2024-10-25  1137  
-20079dd9b36448 Shuming Fan 2024-10-25  1138  		gain_val[i] = ucontrol->value.integer.value[i];
-20079dd9b36448 Shuming Fan 2024-10-25  1139  		if (gain_val[i] > p->max)
-20079dd9b36448 Shuming Fan 2024-10-25  1140  			gain_val[i] = p->max;
-20079dd9b36448 Shuming Fan 2024-10-25  1141  
-20079dd9b36448 Shuming Fan 2024-10-25  1142  		gain_val[i] = 0x1e00 - ((p->max - gain_val[i]) * interval_offset);
-20079dd9b36448 Shuming Fan 2024-10-25  1143  		gain_val[i] &= 0xffff;
-20079dd9b36448 Shuming Fan 2024-10-25  1144  		if (regvalue[i] != gain_val[i])
-20079dd9b36448 Shuming Fan 2024-10-25  1145  			changed = 1;
-20079dd9b36448 Shuming Fan 2024-10-25  1146  	}
-20079dd9b36448 Shuming Fan 2024-10-25  1147  
-20079dd9b36448 Shuming Fan 2024-10-25  1148  	if (!changed)
-20079dd9b36448 Shuming Fan 2024-10-25  1149  		return 0;
-20079dd9b36448 Shuming Fan 2024-10-25  1150  
-20079dd9b36448 Shuming Fan 2024-10-25  1151  	for (i = 0; i < p->count; i++) {
-7bf9e646af9a0c Shuming Fan 2025-08-14  1152  		switch (rt1320->dev_id) {
-7bf9e646af9a0c Shuming Fan 2025-08-14  1153  		case RT1320_DEV_ID:
-20079dd9b36448 Shuming Fan 2024-10-25  1154  			if (i < 2) {
-20079dd9b36448 Shuming Fan 2024-10-25  1155  				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-20079dd9b36448 Shuming Fan 2024-10-25  1156  				err = regmap_write(rt1320->mbq_regmap, reg_base + i, gain_val[i]);
-20079dd9b36448 Shuming Fan 2024-10-25  1157  			} else {
-20079dd9b36448 Shuming Fan 2024-10-25  1158  				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-20079dd9b36448 Shuming Fan 2024-10-25  1159  				err = regmap_write(rt1320->mbq_regmap, reg_base + i - 2, gain_val[i]);
-20079dd9b36448 Shuming Fan 2024-10-25  1160  			}
-7bf9e646af9a0c Shuming Fan 2025-08-14  1161  			break;
-7bf9e646af9a0c Shuming Fan 2025-08-14  1162  		case RT1321_DEV_ID:
-7bf9e646af9a0c Shuming Fan 2025-08-14  1163  			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-7bf9e646af9a0c Shuming Fan 2025-08-14  1164  			err = regmap_write(rt1320->mbq_regmap, reg_base + i, gain_val[i]);
-7bf9e646af9a0c Shuming Fan 2025-08-14  1165  			break;
-7bf9e646af9a0c Shuming Fan 2025-08-14  1166  		}
-20079dd9b36448 Shuming Fan 2024-10-25  1167  
-20079dd9b36448 Shuming Fan 2024-10-25 @1168  		if (err < 0)
-20079dd9b36448 Shuming Fan 2024-10-25 @1169  			dev_err(&rt1320->sdw_slave->dev, "0x%08x can't be set\n", reg_base + i);
-20079dd9b36448 Shuming Fan 2024-10-25  1170  	}
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1171  
-20079dd9b36448 Shuming Fan 2024-10-25  1172  _done_:
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1173  	return 1;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1174  }
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1175  
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1176  static int rt1320_set_gain_get(struct snd_kcontrol *kcontrol,
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1177  		struct snd_ctl_elem_value *ucontrol)
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1178  {
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1179  	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1180  	struct rt1320_sdw_priv *rt1320 = snd_soc_component_get_drvdata(component);
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1181  	struct soc_mixer_control *mc =
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1182  		(struct soc_mixer_control *)kcontrol->private_value;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1183  	unsigned int read_l, read_r, ctl_l = 0, ctl_r = 0;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1184  	const unsigned int interval_offset = 0xc0;
-20079dd9b36448 Shuming Fan 2024-10-25  1185  	unsigned int reg_base, regvalue, ctl, i;
-20079dd9b36448 Shuming Fan 2024-10-25  1186  	struct rt_sdca_dmic_kctrl_priv *p;
-20079dd9b36448 Shuming Fan 2024-10-25  1187  
-20079dd9b36448 Shuming Fan 2024-10-25  1188  	if (strstr(ucontrol->id.name, "FU Capture Volume"))
-20079dd9b36448 Shuming Fan 2024-10-25  1189  		goto _dmic_vol_;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1190  
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1191  	regmap_read(rt1320->mbq_regmap, mc->reg, &read_l);
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1192  	regmap_read(rt1320->mbq_regmap, mc->rreg, &read_r);
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1193  
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1194  	ctl_l = mc->max - (((0 - read_l) & 0xffff) / interval_offset);
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1195  
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1196  	if (read_l != read_r)
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1197  		ctl_r = mc->max - (((0 - read_r) & 0xffff) / interval_offset);
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1198  	else
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1199  		ctl_r = ctl_l;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1200  
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1201  	ucontrol->value.integer.value[0] = ctl_l;
-bad0a07a7e61a5 Shuming Fan 2024-05-21  1202  	ucontrol->value.integer.value[1] = ctl_r;
-20079dd9b36448 Shuming Fan 2024-10-25  1203  	goto _done_;
-20079dd9b36448 Shuming Fan 2024-10-25  1204  
-20079dd9b36448 Shuming Fan 2024-10-25  1205  _dmic_vol_:
-20079dd9b36448 Shuming Fan 2024-10-25  1206  	p = (struct rt_sdca_dmic_kctrl_priv *)kcontrol->private_value;
-20079dd9b36448 Shuming Fan 2024-10-25  1207  
-20079dd9b36448 Shuming Fan 2024-10-25  1208  	/* check all channels */
-20079dd9b36448 Shuming Fan 2024-10-25  1209  	for (i = 0; i < p->count; i++) {
-7bf9e646af9a0c Shuming Fan 2025-08-14  1210  		switch (rt1320->dev_id) {
-7bf9e646af9a0c Shuming Fan 2025-08-14  1211  		case RT1320_DEV_ID:
-20079dd9b36448 Shuming Fan 2024-10-25  1212  			if (i < 2) {
-20079dd9b36448 Shuming Fan 2024-10-25  1213  				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-20079dd9b36448 Shuming Fan 2024-10-25  1214  				regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue);
-20079dd9b36448 Shuming Fan 2024-10-25  1215  			} else {
-20079dd9b36448 Shuming Fan 2024-10-25  1216  				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-20079dd9b36448 Shuming Fan 2024-10-25  1217  				regmap_read(rt1320->mbq_regmap, reg_base + i - 2, &regvalue);
-20079dd9b36448 Shuming Fan 2024-10-25  1218  			}
-7bf9e646af9a0c Shuming Fan 2025-08-14  1219  			break;
-7bf9e646af9a0c Shuming Fan 2025-08-14  1220  		case RT1321_DEV_ID:
-7bf9e646af9a0c Shuming Fan 2025-08-14  1221  			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-7bf9e646af9a0c Shuming Fan 2025-08-14  1222  			regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue);
-7bf9e646af9a0c Shuming Fan 2025-08-14  1223  			break;
-7bf9e646af9a0c Shuming Fan 2025-08-14  1224  		}
-20079dd9b36448 Shuming Fan 2024-10-25  1225  
-20079dd9b36448 Shuming Fan 2024-10-25 @1226  		ctl = p->max - (((0x1e00 - regvalue) & 0xffff) / interval_offset);
-20079dd9b36448 Shuming Fan 2024-10-25  1227  		ucontrol->value.integer.value[i] = ctl;
-20079dd9b36448 Shuming Fan 2024-10-25  1228  	}
-20079dd9b36448 Shuming Fan 2024-10-25  1229  _done_:
-20079dd9b36448 Shuming Fan 2024-10-25  1230  	return 0;
-20079dd9b36448 Shuming Fan 2024-10-25  1231  }
-20079dd9b36448 Shuming Fan 2024-10-25  1232  
+vim +/i +2910 drivers/gpu/drm/xe/xe_vm.c
 
-:::::: The code at line 1168 was first introduced by commit
-:::::: 20079dd9b364483db613186b289fe372bddf41b5 ASoC: rt1320: add mic function
+fda75ef80bddf2 Matthew Brost         2024-04-24  2887  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2888  static int prefetch_ranges(struct xe_vm *vm, struct xe_vma_op *op)
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2889  {
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2890  	bool devmem_possible = IS_DGFX(vm->xe) && IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2891  	struct xe_vma *vma = gpuva_to_vma(op->base.prefetch.va);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2892  	int err = 0;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2893  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2894  	struct xe_svm_range *svm_range;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2895  	struct drm_gpusvm_ctx ctx = {};
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2896  	struct xe_tile *tile;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2897  	unsigned long i;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2898  	u32 region;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2899  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2900  	if (!xe_vma_is_cpu_addr_mirror(vma))
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2901  		return 0;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2902  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2903  	region = op->prefetch_range.region;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2904  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2905  	ctx.read_only = xe_vma_read_only(vma);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2906  	ctx.devmem_possible = devmem_possible;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2907  	ctx.check_pages_threshold = devmem_possible ? SZ_64K : 0;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2908  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2909  	/* TODO: Threading the migration */
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13 @2910  	xa_for_each(&op->prefetch_range.range, i, svm_range) {
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2911  		if (!region)
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2912  			xe_svm_range_migrate_to_smem(vm, svm_range);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2913  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2914  		if (xe_svm_range_needs_migrate_to_vram(svm_range, vma, region)) {
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2915  			tile = &vm->xe->tiles[region_to_mem_type[region] - XE_PL_VRAM0];
+b5870168783168 Thomas Hellström      2025-06-19  2916  			err = xe_svm_alloc_vram(tile, svm_range, &ctx);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2917  			if (err) {
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2918  				drm_dbg(&vm->xe->drm, "VRAM allocation failed, retry from userspace, asid=%u, gpusvm=%p, errno=%pe\n",
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2919  					vm->usm.asid, &vm->svm.gpusvm, ERR_PTR(err));
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2920  				return -ENODATA;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2921  			}
+5aee6e33e19593 Himal Prasad Ghimiray 2025-05-13  2922  			xe_svm_range_debug(svm_range, "PREFETCH - RANGE MIGRATED TO VRAM");
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2923  		}
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2924  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2925  		err = xe_svm_range_get_pages(vm, svm_range, &ctx);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2926  		if (err) {
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2927  			drm_dbg(&vm->xe->drm, "Get pages failed, asid=%u, gpusvm=%p, errno=%pe\n",
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2928  				vm->usm.asid, &vm->svm.gpusvm, ERR_PTR(err));
+10201c7de5de94 Matthew Brost         2025-06-09  2929  			if (err == -EOPNOTSUPP || err == -EFAULT || err == -EPERM)
+10201c7de5de94 Matthew Brost         2025-06-09  2930  				err = -ENODATA;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2931  			return err;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2932  		}
+5aee6e33e19593 Himal Prasad Ghimiray 2025-05-13  2933  		xe_svm_range_debug(svm_range, "PREFETCH - RANGE GET PAGES DONE");
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2934  	}
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2935  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2936  	return err;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2937  }
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2938  
 
-:::::: TO: Shuming Fan <shumingf@realtek.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: The code at line 2910 was first introduced by commit
+:::::: 09ba0a8f06cd69d93eef0dc3bee33546880e46f8 drm/xe/svm: Implement prefetch support for SVM ranges
+
+:::::: TO: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+:::::: CC: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
