@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB1F145A05
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 09:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2925E228CBC
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 09:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765616606; cv=none; b=j2wIcQLrk2///a7JXiUXAg3Y5OuGUnmtInyCc/9Q5T5ZiSRSX6+PE1kGdos6rd3B51SLPtgGTtlPkdNktSBoO2zAp++0KYIuRQhux1ZMu+KXSC9HkhFxDmeSoQbRF1U30I9UTvWN8E2+W4yEmiwEPyqXWuk91cQhmW3DyF3bdxs=
+	t=1765617266; cv=none; b=o5+ZIsUSePgv48a7Z3kxqGORIa7wiJPi4xwaqRzWak1qdJeBHP7r/826n63dtTaVP2ntSd5qFNp8TvItOeXsFs1qChmaeXqea/I83x6jjkPm7cY7iURtHxjFxV3gN9ShBiNPVeBMx6o8s3LvpB/E5UIMUFxABzzeWfUXxo9JIUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765616606; c=relaxed/simple;
-	bh=svrmwgL2UVPGGMSnStNwggL5uYFz3M+bwbYRFShw++8=;
+	s=arc-20240116; t=1765617266; c=relaxed/simple;
+	bh=bo6bZvfxJEIu8JcvrOVjmOyqcyolZMGyueTYRhz1/jM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nmVCWJeizLqH6NVBC7BBMvN9T1xbrZYvFWevtTaEo5GtOqJTBacWGilJjU6wYGTcnwai1D06x08W3p49pwfSM3zwNnaWSrLCO1WKS39obpmfJbXOEamSYl21eRmgbcOksL9Rz2XcLWgx4Rpevt6PxyWrvYkWL6LB0sMLzeyygww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jIxYVLPz; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=VnzsxgPY3TONLPgI9UBuV6F+ft1rfEgMOb3jc+owT5y3jrDCrSxe3pyy3RgoY7iHlwlKU26jixkVzcbu0b5VQXDp5cgBpg+HAt0O+zds6N6R2mxJae5K5PjLfKcuin8xuame/LDBS5p0lTX5X0FIIsbrAWeHY71zy5PR1xrn8iY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=STz5lFF/; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jIxYVLPz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="STz5lFF/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765616605; x=1797152605;
+  t=1765617265; x=1797153265;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=svrmwgL2UVPGGMSnStNwggL5uYFz3M+bwbYRFShw++8=;
-  b=jIxYVLPzjEblnPxVZFee6gQwnLCJz+yG11LXBbWsuUbhPkGr0zoOUtl6
-   VPypmfwDPy2L/6qnbCXw5h7pLgiyBvimH74Mg1sEqumJlRMc4fq0/djza
-   Gux40PpDqr9fW7WNUgl/u6981cSxNDC2AjdFd7fybxqDGkpBozG+nNbQP
-   /XsQ5dEtTHFc93pClPXM8rzqt44c7aKBBU0k3Cw5Ka6XJ7jgp0qRpbGmL
-   2z4Ug+x9EgwO7XHT1+qikQYUDt+n46ctQ4gC38R04gKsh67uYckL3jlPc
-   yi1FgIL5cMoRAPBJ/6kXEBh8o/DpaRoYubfFDBIvDd0/1vbMcqYVAAZ2F
+  bh=bo6bZvfxJEIu8JcvrOVjmOyqcyolZMGyueTYRhz1/jM=;
+  b=STz5lFF/IPG0Xp3Ie9qSaU8rppJGTE+uOhfk3TurQFo79+c44HSOoPX6
+   LGsLkcvsSWl3SBExrKbUcNbvPcYzuD95J2coNkM4hKSOGuvBa6L3oJEIu
+   2IR1j8hHuPwUGQiRzoYlpbcMqztbBcUsZWFYt1qQuilJOKTpc/cXhOA0a
+   o9u1rnT9q3iyKIB7cK0O2+He9zI8v5eXmq5meliaj9ykARsYfMN4LRcCo
+   a09bGrTardCZ3h8UQEokTo+9SwwFm9NX8i/J8j/ANAuT2h1bPwox0tZZF
+   noDw6BQZeTRLmZxHxE2sazMm65AvU8i4HazFoU+XMlAZRuiOgSy3H9u+W
    A==;
-X-CSE-ConnectionGUID: See4yKeUStSb0S8cmHDiUA==
-X-CSE-MsgGUID: F9sS0VBuRyKCLRIA4V4u5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="93079732"
+X-CSE-ConnectionGUID: ljqaHK9FRnawrBUvvnQ9ig==
+X-CSE-MsgGUID: XJqVVfsNS4m2U4jVbzHQRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67676906"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="93079732"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 01:03:24 -0800
-X-CSE-ConnectionGUID: fgCBJgDISZu7DLcz461WBg==
-X-CSE-MsgGUID: GC5wSM76SUS0y6NGAc46pg==
+   d="scan'208";a="67676906"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 01:14:25 -0800
+X-CSE-ConnectionGUID: SJB5KBXcSIC1OCwvGcHCoA==
+X-CSE-MsgGUID: YW5cGzRBTaiYEnWYnSDoIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="196568170"
+   d="scan'208";a="228344280"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 13 Dec 2025 01:03:22 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 13 Dec 2025 01:14:23 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vULX6-000000007OL-1W29;
-	Sat, 13 Dec 2025 09:03:20 +0000
-Date: Sat, 13 Dec 2025 17:02:54 +0800
+	id 1vULhk-000000007Or-2tfw;
+	Sat, 13 Dec 2025 09:14:20 +0000
+Date: Sat, 13 Dec 2025 17:13:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:100
- amdgpu_gem_update_bo_mapping() error: we previously assumed 'bo_va' could be
- null (see line 85)
-Message-ID: <202512131704.dhYp30j8-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/display/intel_plane.c:687
+ intel_plane_atomic_check_with_state() error: we previously assumed 'fb'
+ could be null (see line 675)
+Message-ID: <202512131726.qq3Ii5CP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,73 +68,103 @@ Content-Transfer-Encoding: 8bit
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Arvind Yadav <arvind.yadav@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: "Christian König" <christian.koenig@amd.com>
-CC: Shashank Sharma <shashank.sharma@amd.com>
+TO: Jani Nikula <jani.nikula@intel.com>
+CC: Gustavo Sousa <gustavo.sousa@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   a859eca0e4cc96f63ff125dbe5388d961558b0e9
-commit: 70773bef4e091ff6d2a91e3dfb4f29013eb81f1f drm/amdgpu: update userqueue BOs and PDs
-date:   8 months ago
+commit: a649c2abfae0c68d07f127ff4e570c44636afe7e drm/i915/plane: rename intel_atomic_plane.[ch] to intel_plane.[ch]
+date:   6 months ago
 :::::: branch date: 3 hours ago
-:::::: commit date: 8 months ago
-config: s390-randconfig-r071-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131704.dhYp30j8-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 10.5.0
+:::::: commit date: 6 months ago
+config: i386-randconfig-141-20251212 (https://download.01.org/0day-ci/archive/20251213/202512131726.qq3Ii5CP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512131704.dhYp30j8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512131726.qq3Ii5CP-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:100 amdgpu_gem_update_bo_mapping() error: we previously assumed 'bo_va' could be null (see line 85)
+drivers/gpu/drm/i915/display/intel_plane.c:687 intel_plane_atomic_check_with_state() error: we previously assumed 'fb' could be null (see line 675)
 
-vim +/bo_va +100 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+vim +/fb +687 drivers/gpu/drm/i915/display/intel_plane.c
 
-70773bef4e091f Arvind Yadav 2024-09-25   75  
-70773bef4e091f Arvind Yadav 2024-09-25   76  static void
-70773bef4e091f Arvind Yadav 2024-09-25   77  amdgpu_gem_update_bo_mapping(struct drm_file *filp,
-70773bef4e091f Arvind Yadav 2024-09-25   78  			     struct amdgpu_bo_va *bo_va,
-70773bef4e091f Arvind Yadav 2024-09-25   79  			     uint32_t operation,
-70773bef4e091f Arvind Yadav 2024-09-25   80  			     uint64_t point,
-70773bef4e091f Arvind Yadav 2024-09-25   81  			     struct dma_fence *fence,
-70773bef4e091f Arvind Yadav 2024-09-25   82  			     struct drm_syncobj *syncobj,
-70773bef4e091f Arvind Yadav 2024-09-25   83  			     struct dma_fence_chain *chain)
-70773bef4e091f Arvind Yadav 2024-09-25   84  {
-70773bef4e091f Arvind Yadav 2024-09-25  @85  	struct amdgpu_bo *bo = bo_va ? bo_va->base.bo : NULL;
-70773bef4e091f Arvind Yadav 2024-09-25   86  	struct amdgpu_fpriv *fpriv = filp->driver_priv;
-70773bef4e091f Arvind Yadav 2024-09-25   87  	struct amdgpu_vm *vm = &fpriv->vm;
-70773bef4e091f Arvind Yadav 2024-09-25   88  	struct dma_fence *last_update;
-70773bef4e091f Arvind Yadav 2024-09-25   89  
-70773bef4e091f Arvind Yadav 2024-09-25   90  	if (!syncobj)
-70773bef4e091f Arvind Yadav 2024-09-25   91  		return;
-70773bef4e091f Arvind Yadav 2024-09-25   92  
-70773bef4e091f Arvind Yadav 2024-09-25   93  	/* Find the last update fence */
-70773bef4e091f Arvind Yadav 2024-09-25   94  	switch (operation) {
-70773bef4e091f Arvind Yadav 2024-09-25   95  	case AMDGPU_VA_OP_MAP:
-70773bef4e091f Arvind Yadav 2024-09-25   96  	case AMDGPU_VA_OP_REPLACE:
-70773bef4e091f Arvind Yadav 2024-09-25   97  		if (bo && (bo->tbo.base.resv == vm->root.bo->tbo.base.resv))
-70773bef4e091f Arvind Yadav 2024-09-25   98  			last_update = vm->last_update;
-70773bef4e091f Arvind Yadav 2024-09-25   99  		else
-70773bef4e091f Arvind Yadav 2024-09-25 @100  			last_update = bo_va->last_pt_update;
-70773bef4e091f Arvind Yadav 2024-09-25  101  		break;
-70773bef4e091f Arvind Yadav 2024-09-25  102  	case AMDGPU_VA_OP_UNMAP:
-70773bef4e091f Arvind Yadav 2024-09-25  103  	case AMDGPU_VA_OP_CLEAR:
-70773bef4e091f Arvind Yadav 2024-09-25  104  		last_update = fence;
-70773bef4e091f Arvind Yadav 2024-09-25  105  		break;
-70773bef4e091f Arvind Yadav 2024-09-25  106  	default:
-70773bef4e091f Arvind Yadav 2024-09-25  107  		return;
-70773bef4e091f Arvind Yadav 2024-09-25  108  	}
-70773bef4e091f Arvind Yadav 2024-09-25  109  
-70773bef4e091f Arvind Yadav 2024-09-25  110  	/* Add fence to timeline */
-70773bef4e091f Arvind Yadav 2024-09-25  111  	if (!point)
-70773bef4e091f Arvind Yadav 2024-09-25  112  		drm_syncobj_replace_fence(syncobj, last_update);
-70773bef4e091f Arvind Yadav 2024-09-25  113  	else
-70773bef4e091f Arvind Yadav 2024-09-25  114  		drm_syncobj_add_point(syncobj, chain, last_update, point);
-70773bef4e091f Arvind Yadav 2024-09-25  115  }
-70773bef4e091f Arvind Yadav 2024-09-25  116  
+c17897428e1d259 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-02-11  655  
+b2b55502d683c72 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2017-08-23  656  int intel_plane_atomic_check_with_state(const struct intel_crtc_state *old_crtc_state,
+790cc9941b137e0 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2019-01-11  657  					struct intel_crtc_state *new_crtc_state,
+b2b55502d683c72 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2017-08-23  658  					const struct intel_plane_state *old_plane_state,
+790cc9941b137e0 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2019-01-11  659  					struct intel_plane_state *new_plane_state)
+ea2c67bb4affa84 drivers/gpu/drm/i915/intel_atomic_plane.c         Matt Roper        2014-12-23  660  {
+f90a85e76c2a89e drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten Lankhorst 2019-10-31  661  	struct intel_plane *plane = to_intel_plane(new_plane_state->uapi.plane);
+7d8d2cbce5af5ed drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2020-01-10  662  	const struct drm_framebuffer *fb = new_plane_state->hw.fb;
+da20eabd2c69761 drivers/gpu/drm/i915/intel_atomic_plane.c         Maarten Lankhorst 2015-06-15  663  	int ret;
+ea2c67bb4affa84 drivers/gpu/drm/i915/intel_atomic_plane.c         Matt Roper        2014-12-23  664  
+cb1824bb1ec6b46 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2020-03-18  665  	intel_plane_set_invisible(new_crtc_state, new_plane_state);
+ee42ec19ca2e557 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2020-11-24  666  	new_crtc_state->enabled_planes &= ~BIT(plane->id);
+62ef0dd3cc0c217 drivers/gpu/drm/i915/intel_atomic_plane.c         Maarten Lankhorst 2018-09-20  667  
+7b3cb17a48dc1b3 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten Lankhorst 2019-10-31  668  	if (!new_plane_state->hw.crtc && !old_plane_state->hw.crtc)
+c196e1d66c36b07 drivers/gpu/drm/i915/intel_atomic_plane.c         Matt Roper        2015-01-21  669  		return 0;
+c196e1d66c36b07 drivers/gpu/drm/i915/intel_atomic_plane.c         Matt Roper        2015-01-21  670  
+790cc9941b137e0 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2019-01-11  671  	ret = plane->check_plane(new_crtc_state, new_plane_state);
+c389c9c4d981e49 drivers/gpu/drm/i915/intel_atomic_plane.c         Maarten Lankhorst 2015-06-15  672  	if (ret)
+da20eabd2c69761 drivers/gpu/drm/i915/intel_atomic_plane.c         Maarten Lankhorst 2015-06-15  673  		return ret;
+da20eabd2c69761 drivers/gpu/drm/i915/intel_atomic_plane.c         Maarten Lankhorst 2015-06-15  674  
+97bc7ffa1b1e9a8 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2021-03-05 @675  	if (fb)
+97bc7ffa1b1e9a8 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2021-03-05  676  		new_crtc_state->enabled_planes |= BIT(plane->id);
+97bc7ffa1b1e9a8 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2021-03-05  677  
+e9728bd888e1fa2 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2017-03-02  678  	/* FIXME pre-g4x don't work like this */
+f90a85e76c2a89e drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten Lankhorst 2019-10-31  679  	if (new_plane_state->uapi.visible)
+790cc9941b137e0 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2019-01-11  680  		new_crtc_state->active_planes |= BIT(plane->id);
+e9728bd888e1fa2 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2017-03-02  681  
+3358e2ca0ebd645 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-02-11  682  	if (new_plane_state->uapi.visible &&
+3358e2ca0ebd645 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-02-11  683  	    intel_plane_is_scaled(new_plane_state))
+3358e2ca0ebd645 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-02-11  684  		new_crtc_state->scaled_planes |= BIT(plane->id);
+3358e2ca0ebd645 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-02-11  685  
+f90a85e76c2a89e drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten Lankhorst 2019-10-31  686  	if (new_plane_state->uapi.visible &&
+4941f35b48f7f32 drivers/gpu/drm/i915/display/intel_atomic_plane.c Imre Deak         2019-12-21 @687  	    intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier))
+790cc9941b137e0 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2019-01-11  688  		new_crtc_state->nv12_planes |= BIT(plane->id);
+8e021151948c56e drivers/gpu/drm/i915/intel_atomic_plane.c         Maarten Lankhorst 2018-05-12  689  
+f90a85e76c2a89e drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten Lankhorst 2019-10-31  690  	if (new_plane_state->uapi.visible &&
+d1d23d7f4be6a61 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2019-09-13  691  	    fb->format->format == DRM_FORMAT_C8)
+02c52f1ed20aba1 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2019-02-07  692  		new_crtc_state->c8_planes |= BIT(plane->id);
+02c52f1ed20aba1 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2019-02-07  693  
+f90a85e76c2a89e drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten Lankhorst 2019-10-31  694  	if (new_plane_state->uapi.visible || old_plane_state->uapi.visible)
+790cc9941b137e0 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2019-01-11  695  		new_crtc_state->update_planes |= BIT(plane->id);
+afbd8a722bd64e0 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2018-11-27  696  
+943ed3cc02191b2 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  697  	if (new_plane_state->uapi.visible &&
+943ed3cc02191b2 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  698  	    intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier)) {
+943ed3cc02191b2 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  699  		new_crtc_state->data_rate_y[plane->id] =
+943ed3cc02191b2 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  700  			intel_plane_data_rate(new_crtc_state, new_plane_state, 0);
+c457d9cf256e942 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2019-05-24  701  		new_crtc_state->data_rate[plane->id] =
+943ed3cc02191b2 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  702  			intel_plane_data_rate(new_crtc_state, new_plane_state, 1);
+c034363ca898ea0 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  703  
+c034363ca898ea0 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  704  		new_crtc_state->rel_data_rate_y[plane->id] =
+c034363ca898ea0 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  705  			intel_plane_relative_data_rate(new_crtc_state,
+c034363ca898ea0 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  706  						       new_plane_state, 0);
+c034363ca898ea0 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  707  		new_crtc_state->rel_data_rate[plane->id] =
+c034363ca898ea0 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  708  			intel_plane_relative_data_rate(new_crtc_state,
+c034363ca898ea0 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  709  						       new_plane_state, 1);
+943ed3cc02191b2 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  710  	} else if (new_plane_state->uapi.visible) {
+943ed3cc02191b2 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  711  		new_crtc_state->data_rate[plane->id] =
+943ed3cc02191b2 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  712  			intel_plane_data_rate(new_crtc_state, new_plane_state, 0);
+c034363ca898ea0 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  713  
+c034363ca898ea0 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  714  		new_crtc_state->rel_data_rate[plane->id] =
+c034363ca898ea0 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  715  			intel_plane_relative_data_rate(new_crtc_state,
+c034363ca898ea0 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  716  						       new_plane_state, 0);
+943ed3cc02191b2 drivers/gpu/drm/i915/display/intel_atomic_plane.c Ville Syrjälä     2022-03-03  717  	}
+c457d9cf256e942 drivers/gpu/drm/i915/intel_atomic_plane.c         Ville Syrjälä     2019-05-24  718  
+4f25720b2c04a38 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten Lankhorst 2019-06-28  719  	return intel_plane_atomic_calc_changes(old_crtc_state, new_crtc_state,
+4f25720b2c04a38 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten Lankhorst 2019-06-28  720  					       old_plane_state, new_plane_state);
+4f25720b2c04a38 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten Lankhorst 2019-06-28  721  }
+4f25720b2c04a38 drivers/gpu/drm/i915/display/intel_atomic_plane.c Maarten Lankhorst 2019-06-28  722  
+
+:::::: The code at line 687 was first introduced by commit
+:::::: 4941f35b48f7f329bdf2ccad17d6fdb2190f8d34 drm/i915: Make sure CCS YUV semiplanar format checks work
+
+:::::: TO: Imre Deak <imre.deak@intel.com>
+:::::: CC: Imre Deak <imre.deak@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
