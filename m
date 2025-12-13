@@ -1,58 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103AA277C86
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 13:12:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD4D285CB8
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 13:25:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765631567; cv=none; b=B6MWtzDVK2wz5Jv0jr4Sf/FIu/vsilg4UX0aJZsSR+7jTNCKAiFR3XaXhPaxd+H365ayJAdCOS4RevYrapgxaSJrLiiS2vAwsHaw8oyjgUgg1nIGZ72C5s/hLoXTCeAqxRG/PgP7fSE7QSa6EmfmX8kBbntw6nBFZDfFd30yPzM=
+	t=1765632346; cv=none; b=lp9fbsUazIA+iu2ESzInSVJ4jzQMNGgB+lt5wqjLQxzx3063xr0bSvnCs6ketnIKCeYw2gQzKKbeZdzeCUFaaT3kfvqLNeuAEWQxd0aTRTvAUfCD8cBEZg/vbzPWYd0uCD9s3YF+IZx0uEBF3xcd3CEyJw1GJyLN+FZqWuRiSKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765631567; c=relaxed/simple;
-	bh=A3Wxmo6iJdPY4jrzAuzTOw/y5Gbo0cz4S71QqBEgV8o=;
+	s=arc-20240116; t=1765632346; c=relaxed/simple;
+	bh=SEkRzgEGDrFQuNMcOLiBkTEwhPmRMFP+2gZ1N4kbjtw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U9zf4uzG2LP1Nu5SlHi6gxNF7L3Ozzz4A0woXyR993VZjZg5jWq4jHrQLozBAo/W/XOvYsXVMk3rJ3Y+Ri40OaOPTR0h4TiIYzqGHj35+1RCbJxRMPAcBOueUxmJwFh4wBeip6k+Rbqlfo5NtbvVQGr+6z4iX1X9Di9VPWws7rQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1m6oqQ/; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=WcwvfrLYFlYmrkK4FzViY55D3Xdqzp3lf5eSfIPcVdXcb3n6s0IrLlDtlZh87iuEMtF5APLGSjfQRWtImoR1kbLVHJKD9ppJPC71zQF2jjGaqwyWkq0ENCMxFvS0EL7Ad4ODk0oMS7AThw9YpDJWv5QuepeCT5ajWgyHBs/TN/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IxFnFphH; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1m6oqQ/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IxFnFphH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765631564; x=1797167564;
+  t=1765632344; x=1797168344;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=A3Wxmo6iJdPY4jrzAuzTOw/y5Gbo0cz4S71QqBEgV8o=;
-  b=W1m6oqQ/+aWv/1EU3IrrPY84WqvMiADW8Ig2DtmjEG2JU6bwyagdiz8n
-   fkbZTo+oAOUcnnth8r9MHVuK6/SHK5sV22Tsz0aWt/037abK+Tav/okP0
-   CefMNTZFava9WqXcmzwTsbYVuvYAhxeky+a3hX/cc/gj1mdE4vAwoiAhf
-   tOCJaUiPQuoDad164OtOAEOsckRW6+s5jQvcLpj96EDg4n0h2gJ8MtK9/
-   Rej0Uc2WTJJcFIeDb6Wl1SuzaFXPMpJugCfecEbomBiM6BxBUan1yAKGv
-   rFly1Gf6aabm8ch3ZbWXkXv1dWZKoxSfl8rVS129WWMK6yP+0SpS07j/r
-   Q==;
-X-CSE-ConnectionGUID: FYn+Ar43SjKGqu14xbIb9A==
-X-CSE-MsgGUID: oAUAmOONQ2yucoWeyR8uug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="77924971"
+  bh=SEkRzgEGDrFQuNMcOLiBkTEwhPmRMFP+2gZ1N4kbjtw=;
+  b=IxFnFphH4oi1bBonztQcjAjMra7Io9lI0sd5eAAAZGpgzvveE3neV28K
+   KfuLScBs5ApPbMXO7Jbf4kkwFUgDTgB0w31Bpt2WDatXTZ+qu4adu2N3e
+   OOQe9MUBVok9BIMhyWykSI4n7viU4UUqTREcE0gAKV9rbEyuSVRCoGYFm
+   Z7R2jMb+GzKYpkPK70lmhf932xEtJGfdBakJuX+c41mktucxs9UWBzteq
+   GezaDboDSGSq/+PYBeENxEdjb3H+WmwkBDXsb6MrKLF1ThVAcOixxkFw+
+   PxhFWWoL5+B4l08bnIM4u6tZn+4n0CM96trAGG718cnydA45G1Snwzp9B
+   A==;
+X-CSE-ConnectionGUID: dvjgY+nUQoGE/tIVUrmK8g==
+X-CSE-MsgGUID: ebeTipFaS7uet1EgphCezA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="77925195"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="77924971"
+   d="scan'208";a="77925195"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 05:12:43 -0800
-X-CSE-ConnectionGUID: V/GN36SjRCGPpGM+JMN4vA==
-X-CSE-MsgGUID: Sx7pHVZnQG6MFFzGEEx1Xg==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 05:25:44 -0800
+X-CSE-ConnectionGUID: 0NmvTDJsTamgH4oIHo/j+Q==
+X-CSE-MsgGUID: PrKltNxESoCtNUu7nLCYgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="220694151"
+   d="scan'208";a="220695433"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 13 Dec 2025 05:12:42 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 13 Dec 2025 05:25:43 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUPQO-000000007fJ-0mpS;
-	Sat, 13 Dec 2025 13:12:40 +0000
-Date: Sat, 13 Dec 2025 21:12:32 +0800
+	id 1vUPcy-000000007g1-3JxG;
+	Sat, 13 Dec 2025 13:25:40 +0000
+Date: Sat, 13 Dec 2025 21:24:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 5/7] iio: light: vcnl4000: Use IIO cleanup helpers
-Message-ID: <202512132027.vqUer4rn-lkp@intel.com>
+Subject: [drm-misc:drm-misc-next 3/7]
+ drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:594
+ kfd_procfs_add_sysfs_stats() warn: Calling kobject_put|get with
+ state->initialized unset from line: 582
+Message-ID: <202512132152.Ftx1yfio-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,60 +68,89 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251211-lock-impr-v2-5-6fb47bdaaf24@gmail.com>
-References: <20251211-lock-impr-v2-5-6fb47bdaaf24@gmail.com>
-TO: Kurt Borja <kuurtb@gmail.com>
-TO: Andy Shevchenko <andriy.shevchenko@intel.com>
-TO: "Lars-Peter Clausen" <lars@metafoo.de>
-TO: Michael Hennerich <Michael.Hennerich@analog.com>
-TO: Jonathan Cameron <jic23@kernel.org>
-TO: Benson Leung <bleung@chromium.org>
-TO: Antoniu Miclaus <antoniu.miclaus@analog.com>
-TO: Gwendal Grignou <gwendal@chromium.org>
-TO: Shrikant Raskar <raskar.shree97@gmail.com>
-TO: "Per-Daniel Olsson" <perdaniel.olsson@axis.com>
-CC: David Lechner <dlechner@baylibre.com>
-CC: "Nuno Sá" <nuno.sa@analog.com>
-CC: Guenter Roeck <groeck@chromium.org>
-CC: linux-iio@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: chrome-platform@lists.linux.dev
-CC: Kurt Borja <kuurtb@gmail.com>
+CC: dri-devel@lists.freedesktop.org
+TO: Philipp Stanner <phasta@kernel.org>
+CC: "Christian König" <christian.koenig@amd.com>
+CC: Felix Kuehling <felix.kuehling@amd.com>
 
-Hi Kurt,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on daea3a394a8b425a2dd206ab09eb37f0d1087d35]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kurt-Borja/iio-core-Add-and-export-__iio_dev_mode_lock/20251212-105222
-base:   daea3a394a8b425a2dd206ab09eb37f0d1087d35
-patch link:    https://lore.kernel.org/r/20251211-lock-impr-v2-5-6fb47bdaaf24%40gmail.com
-patch subject: [PATCH v2 5/7] iio: light: vcnl4000: Use IIO cleanup helpers
-:::::: branch date: 34 hours ago
-:::::: commit date: 34 hours ago
-config: arm-randconfig-r072-20251213 (https://download.01.org/0day-ci/archive/20251213/202512132027.vqUer4rn-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+head:   d8684ae1cdcf848d21e00bc0e0de821d694a207b
+commit: 06bc18e0def7d926265480faa555bf0b67a35a90 [3/7] amd/amdkfd: Use dma_fence_check_and_signal()
+:::::: branch date: 5 hours ago
+:::::: commit date: 9 days ago
+config: x86_64-randconfig-161-20251213 (https://download.01.org/0day-ci/archive/20251213/202512132152.Ftx1yfio-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512132027.vqUer4rn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512132152.Ftx1yfio-lkp@intel.com/
 
-smatch warnings:
-include/linux/iio/iio.h:747 class___priv__iio_dev_mode_lock_try_direct_constructor() warn: passing zero to 'ERR_PTR'
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:594 kfd_procfs_add_sysfs_stats() warn: Calling kobject_put|get with state->initialized unset from line: 582
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:887 kfd_create_process() warn: Calling kobject_put|get with state->initialized unset from line: 877
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:1999 signal_eviction_fence() warn: signedness bug returning '(-22)'
 
-vim +/ERR_PTR +747 include/linux/iio/iio.h
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:640 kfd_procfs_add_sysfs_counters() warn: Calling kobject_put|get with state->initialized unset from line: 631
 
-847ec80bbaa76aa drivers/staging/iio/iio.h Jonathan Cameron 2009-08-18  742  
-4df16d75ded7288 include/linux/iio/iio.h   Kurt Borja       2025-12-11  743  DEFINE_GUARD(__priv__iio_dev_mode_lock, struct iio_dev *,
-4df16d75ded7288 include/linux/iio/iio.h   Kurt Borja       2025-12-11  744  	     __iio_dev_mode_lock(_T), __iio_dev_mode_unlock(_T));
-4df16d75ded7288 include/linux/iio/iio.h   Kurt Borja       2025-12-11  745  DEFINE_GUARD_COND(__priv__iio_dev_mode_lock, _try_buffer,
-4df16d75ded7288 include/linux/iio/iio.h   Kurt Borja       2025-12-11  746  		  iio_device_claim_buffer_mode(_T));
-4df16d75ded7288 include/linux/iio/iio.h   Kurt Borja       2025-12-11 @747  DEFINE_GUARD_COND(__priv__iio_dev_mode_lock, _try_direct,
-4df16d75ded7288 include/linux/iio/iio.h   Kurt Borja       2025-12-11  748  		  iio_device_claim_direct(_T));
-4df16d75ded7288 include/linux/iio/iio.h   Kurt Borja       2025-12-11  749  
+vim +594 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c
+
+32cb59f3136248c Mukul Joshi     2020-05-26  561  
+75ae84c89b136a5 Philip Yang     2021-06-16  562  static void kfd_procfs_add_sysfs_stats(struct kfd_process *p)
+4327bed2ff8e3dd Philip Cox      2020-06-30  563  {
+75ae84c89b136a5 Philip Yang     2021-06-16  564  	int ret;
+6ae2784114c037c Alex Sierra     2020-04-01  565  	int i;
+4327bed2ff8e3dd Philip Cox      2020-06-30  566  	char stats_dir_filename[MAX_SYSFS_FILENAME_LEN];
+4327bed2ff8e3dd Philip Cox      2020-06-30  567  
+75ae84c89b136a5 Philip Yang     2021-06-16  568  	if (!p || !p->kobj)
+75ae84c89b136a5 Philip Yang     2021-06-16  569  		return;
+4327bed2ff8e3dd Philip Cox      2020-06-30  570  
+4327bed2ff8e3dd Philip Cox      2020-06-30  571  	/*
+4327bed2ff8e3dd Philip Cox      2020-06-30  572  	 * Create sysfs files for each GPU:
+4327bed2ff8e3dd Philip Cox      2020-06-30  573  	 * - proc/<pid>/stats_<gpuid>/
+4327bed2ff8e3dd Philip Cox      2020-06-30  574  	 * - proc/<pid>/stats_<gpuid>/evicted_ms
+f2fa07b39fafb2a Ramesh Errabolu 2020-09-29  575  	 * - proc/<pid>/stats_<gpuid>/cu_occupancy
+4327bed2ff8e3dd Philip Cox      2020-06-30  576  	 */
+6ae2784114c037c Alex Sierra     2020-04-01  577  	for (i = 0; i < p->n_pdds; i++) {
+6ae2784114c037c Alex Sierra     2020-04-01  578  		struct kfd_process_device *pdd = p->pdds[i];
+4327bed2ff8e3dd Philip Cox      2020-06-30  579  
+4327bed2ff8e3dd Philip Cox      2020-06-30  580  		snprintf(stats_dir_filename, MAX_SYSFS_FILENAME_LEN,
+4327bed2ff8e3dd Philip Cox      2020-06-30  581  				"stats_%u", pdd->dev->id);
+75ae84c89b136a5 Philip Yang     2021-06-16  582  		pdd->kobj_stats = kfd_alloc_struct(pdd->kobj_stats);
+75ae84c89b136a5 Philip Yang     2021-06-16  583  		if (!pdd->kobj_stats)
+75ae84c89b136a5 Philip Yang     2021-06-16  584  			return;
+4327bed2ff8e3dd Philip Cox      2020-06-30  585  
+75ae84c89b136a5 Philip Yang     2021-06-16  586  		ret = kobject_init_and_add(pdd->kobj_stats,
+4327bed2ff8e3dd Philip Cox      2020-06-30  587  					   &procfs_stats_type,
+4327bed2ff8e3dd Philip Cox      2020-06-30  588  					   p->kobj,
+4327bed2ff8e3dd Philip Cox      2020-06-30  589  					   stats_dir_filename);
+4327bed2ff8e3dd Philip Cox      2020-06-30  590  
+4327bed2ff8e3dd Philip Cox      2020-06-30  591  		if (ret) {
+4327bed2ff8e3dd Philip Cox      2020-06-30  592  			pr_warn("Creating KFD proc/stats_%s folder failed",
+4327bed2ff8e3dd Philip Cox      2020-06-30  593  				stats_dir_filename);
+75ae84c89b136a5 Philip Yang     2021-06-16 @594  			kobject_put(pdd->kobj_stats);
+75ae84c89b136a5 Philip Yang     2021-06-16  595  			pdd->kobj_stats = NULL;
+75ae84c89b136a5 Philip Yang     2021-06-16  596  			return;
+4327bed2ff8e3dd Philip Cox      2020-06-30  597  		}
+4327bed2ff8e3dd Philip Cox      2020-06-30  598  
+75ae84c89b136a5 Philip Yang     2021-06-16  599  		kfd_sysfs_create_file(pdd->kobj_stats, &pdd->attr_evict,
+75ae84c89b136a5 Philip Yang     2021-06-16  600  				      "evicted_ms");
+f2fa07b39fafb2a Ramesh Errabolu 2020-09-29  601  		/* Add sysfs file to report compute unit occupancy */
+75ae84c89b136a5 Philip Yang     2021-06-16  602  		if (pdd->dev->kfd2kgd->get_cu_occupancy)
+75ae84c89b136a5 Philip Yang     2021-06-16  603  			kfd_sysfs_create_file(pdd->kobj_stats,
+75ae84c89b136a5 Philip Yang     2021-06-16  604  					      &pdd->attr_cu_occupancy,
+75ae84c89b136a5 Philip Yang     2021-06-16  605  					      "cu_occupancy");
+f2fa07b39fafb2a Ramesh Errabolu 2020-09-29  606  	}
+4327bed2ff8e3dd Philip Cox      2020-06-30  607  }
+4327bed2ff8e3dd Philip Cox      2020-06-30  608  
+
+:::::: The code at line 594 was first introduced by commit
+:::::: 75ae84c89b136a5c0193ab7064b03cddfcebba39 drm/amdkfd: add helper function for kfd sysfs create
+
+:::::: TO: Philip Yang <Philip.Yang@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
