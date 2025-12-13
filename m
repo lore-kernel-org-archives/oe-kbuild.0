@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80A82EBBBC
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 03:23:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B75C21CC62
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 03:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765596240; cv=none; b=hDA09qL5TOnzCK8lo9DE+yXevQCHfUAfZEGF0a/JUJnonP6n3jlGmLd8e08YEgV7CHmxR67B/1VYCv96464od+nfSSObiRqi34kAoI0/9eIYK3hlKuBFZdvUGByJSHlPoVDKVi/GuPgXhfGS/Nxwyi2fOH8wHHrt2eg7umPsYzg=
+	t=1765596898; cv=none; b=Jy3sFMPZLk15FKfNnHYBEnf1GerdI2mZZ4vo7/x7jEGSpxpfMY33+cvY37CX4ul2ze+n7zXCEv14d7s2R+B3h+mfVeFWT7y9By7eibpG0y91zAwf3F7UA9iUVrnzFTmjfbhWemTnAXf+fOMUi+UV6U+QERywSLMUOCubESuVpwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765596240; c=relaxed/simple;
-	bh=Ry2pdGgND4p+Q16zVbEd+Rl2otTT/qbVaGGrvoisKlI=;
+	s=arc-20240116; t=1765596898; c=relaxed/simple;
+	bh=Rsl4SbJwJxjpmoKtrDJTb0RyFwJNLI9Ih9yReYW9uRs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r756ULRJHEkb43VF2hHC/tbpnkWEPjTfNtRHGsze5TPxQ2nFvBWZzAynysjCpV0ngCDaAzCPHqz/7V1+bIcXxjYhwbuBfVfmBDJBPHiVabfilOXRwaRYqgxcjMtp5e58PlZffHwSQFuGolx42kjeIxLfGxY0svA97NJiIEOc9yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BKrNdJsX; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=iG9wzPDFXZ/mRtiuX5RxpxNyNWeCAZjBo/A2pg12VpRje3+EeblRCnKQMN1AxxLHq1WK3IWvlOmuGucbNeZKh6HvWLXOvKQslvDiDRl1fiFwEWM6Zy+EqINVvC6MSkbWOQhoCHOY1zEe+qhw7HGKxBgL9Mk7o/gOG4VZ3Yr8g60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S3Mf+sm8; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BKrNdJsX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S3Mf+sm8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765596238; x=1797132238;
+  t=1765596896; x=1797132896;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ry2pdGgND4p+Q16zVbEd+Rl2otTT/qbVaGGrvoisKlI=;
-  b=BKrNdJsXNnnlt7reQrlVb/OW79t20DsrXSWW9qg+JrFwkvPhmkxgs2aM
-   yU4muOOPjnxRQ3tgetu4zK3RSu3Vqzm04RitzT9MRF6uHOg4PK4gb9nHp
-   1fYXGJCucvx4ZBW9Vp4cz4h8g1PpkJ5ojBe+ieRVEWf8ooR/Rtde38NeQ
-   ksz4Dapi0+bLsuMA05dAIa2J5uKd2006R0J+tRngBIo2IqGOlTBwaOgpj
-   lO3t2AuVrX+irgQNbB3A5kjbpw3Ji+yxi0FwErAo5zHWLKdU1g5RzFvhC
-   FsSYG3CFWxS3k7JT7eXawxSKkZNs964M+GR7JoyJg8/TBrPsT9+MyR3ot
-   A==;
-X-CSE-ConnectionGUID: Nh6qPkSYSem4ej4HJrYUGg==
-X-CSE-MsgGUID: 3CA8ET1eT2i0hvBuqdwMNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67473346"
+  bh=Rsl4SbJwJxjpmoKtrDJTb0RyFwJNLI9Ih9yReYW9uRs=;
+  b=S3Mf+sm8BaSwgBj2ZdA7pnZH49S6fov6YFA6fcoy+1gxuehq5KHJDPp6
+   xfC9EVfAdR+7aIUmBaa9RAWWhg/x9EUbMym6klLeGxQburmCsp4/ZeqZj
+   fMm2inqg5LlnZh0gwPahgEK/H5ictXW4/ef2Xb25y2TW8/nfH4XB4tP8i
+   XW4JLZ4LaXmu85b9edEJNjd5GWGCMVysxybDVEQcXyh4wH+m82tmcYUW7
+   j4FQmVY98OYQYKcltGciDJVKEx6jzcI5pKZSabKS4IXvY+/e0NhA6dbgH
+   naWEcNYAKuDC85nOMLmWpMmaQCl5J2cCCZOXIM6blO1cqe3EOvBxNjBmb
+   Q==;
+X-CSE-ConnectionGUID: 59igMNMmTsqKb88BP3ElEQ==
+X-CSE-MsgGUID: iUdYPFQKQEuq+0sWZBNilw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="78235811"
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="67473346"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 19:23:55 -0800
-X-CSE-ConnectionGUID: AYsXfBxsSDCJ+qcm4x4FDg==
-X-CSE-MsgGUID: Fw2SySe5TzevqHfc0bt7Xw==
+   d="scan'208";a="78235811"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 19:34:55 -0800
+X-CSE-ConnectionGUID: ygsdU0TJSMi/MkpA6HEfKw==
+X-CSE-MsgGUID: ZkbFbCjLTjuh4nHwKx8iuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="202325875"
+   d="scan'208";a="196315674"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 12 Dec 2025 19:23:55 -0800
+  by orviesa006.jf.intel.com with ESMTP; 12 Dec 2025 19:34:55 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUGEZ-000000006zN-47xb;
-	Sat, 13 Dec 2025 03:23:51 +0000
-Date: Sat, 13 Dec 2025 11:23:28 +0800
+	id 1vUGPE-000000006zs-1ToZ;
+	Sat, 13 Dec 2025 03:34:52 +0000
+Date: Sat, 13 Dec 2025 11:34:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/pci/doe.c:179 pci_doe_sysfs_feature_populate() warn:
- iterator 'i' not incremented
-Message-ID: <202512131124.cRghpOvg-lkp@intel.com>
+Subject: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/disp.c:137
+ r535_curs_init() warn: 'args' can also be NULL
+Message-ID: <202512131146.hqfFHz0t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,101 +65,61 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Alistair Francis <alistair@alistair23.me>
-CC: Bjorn Helgaas <helgaas@kernel.org>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Ben Skeggs <bskeggs@nvidia.com>
+CC: Dave Airlie <airlied@redhat.com>
+CC: Timur Tabi <ttabi@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   187d0801404f415f22c0b31531982c7ea97fa341
-commit: 2311ab1820fed26caf0095d38ade892770ea574d PCI/DOE: Expose DOE features via sysfs
-date:   9 months ago
+commit: c472d828348cafa7874816f4ad2a2314d0000419 drm/nouveau/gsp: move subdev/engine impls to subdev/gsp/rm/r535/
+date:   7 months ago
 :::::: branch date: 17 hours ago
-:::::: commit date: 9 months ago
-config: i386-randconfig-141-20251212 (https://download.01.org/0day-ci/archive/20251213/202512131124.cRghpOvg-lkp@intel.com/config)
+:::::: commit date: 7 months ago
+config: i386-randconfig-141-20251212 (https://download.01.org/0day-ci/archive/20251213/202512131146.hqfFHz0t-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512131124.cRghpOvg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512131146.hqfFHz0t-lkp@intel.com/
 
 New smatch warnings:
-drivers/pci/doe.c:179 pci_doe_sysfs_feature_populate() warn: iterator 'i' not incremented
+drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/disp.c:137 r535_curs_init() warn: 'args' can also be NULL
 
 Old smatch warnings:
-drivers/pci/doe.c:149 pci_doe_sysfs_feature_remove() warn: iterator 'i' not incremented
+drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/disp.c:190 r535_dmac_init() warn: 'args' can also be NULL
 
-vim +/i +179 drivers/pci/doe.c
+vim +/args +137 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/disp.c
 
-2311ab1820fed2 Alistair Francis 2025-03-06  157  
-2311ab1820fed2 Alistair Francis 2025-03-06  158  static int pci_doe_sysfs_feature_populate(struct pci_dev *pdev,
-2311ab1820fed2 Alistair Francis 2025-03-06  159  					  struct pci_doe_mb *doe_mb)
-2311ab1820fed2 Alistair Francis 2025-03-06  160  {
-2311ab1820fed2 Alistair Francis 2025-03-06  161  	struct device *dev = &pdev->dev;
-2311ab1820fed2 Alistair Francis 2025-03-06  162  	struct device_attribute *attrs;
-2311ab1820fed2 Alistair Francis 2025-03-06  163  	unsigned long num_features = 0;
-2311ab1820fed2 Alistair Francis 2025-03-06  164  	unsigned long vid, type;
-2311ab1820fed2 Alistair Francis 2025-03-06  165  	unsigned long i;
-2311ab1820fed2 Alistair Francis 2025-03-06  166  	void *entry;
-2311ab1820fed2 Alistair Francis 2025-03-06  167  	int ret;
-2311ab1820fed2 Alistair Francis 2025-03-06  168  
-2311ab1820fed2 Alistair Francis 2025-03-06  169  	xa_for_each(&doe_mb->feats, i, entry)
-2311ab1820fed2 Alistair Francis 2025-03-06  170  		num_features++;
-2311ab1820fed2 Alistair Francis 2025-03-06  171  
-2311ab1820fed2 Alistair Francis 2025-03-06  172  	attrs = kcalloc(num_features, sizeof(*attrs), GFP_KERNEL);
-2311ab1820fed2 Alistair Francis 2025-03-06  173  	if (!attrs) {
-2311ab1820fed2 Alistair Francis 2025-03-06  174  		pci_warn(pdev, "Failed allocating the device_attribute array\n");
-2311ab1820fed2 Alistair Francis 2025-03-06  175  		return -ENOMEM;
-2311ab1820fed2 Alistair Francis 2025-03-06  176  	}
-2311ab1820fed2 Alistair Francis 2025-03-06  177  
-2311ab1820fed2 Alistair Francis 2025-03-06  178  	doe_mb->sysfs_attrs = attrs;
-2311ab1820fed2 Alistair Francis 2025-03-06 @179  	xa_for_each(&doe_mb->feats, i, entry) {
-2311ab1820fed2 Alistair Francis 2025-03-06  180  		sysfs_attr_init(&attrs[i].attr);
-2311ab1820fed2 Alistair Francis 2025-03-06  181  		vid = xa_to_value(entry) >> 8;
-2311ab1820fed2 Alistair Francis 2025-03-06  182  		type = xa_to_value(entry) & 0xFF;
-2311ab1820fed2 Alistair Francis 2025-03-06  183  
-2311ab1820fed2 Alistair Francis 2025-03-06  184  		if (vid == PCI_VENDOR_ID_PCI_SIG &&
-2311ab1820fed2 Alistair Francis 2025-03-06  185  		    type == PCI_DOE_FEATURE_DISCOVERY) {
-2311ab1820fed2 Alistair Francis 2025-03-06  186  
-2311ab1820fed2 Alistair Francis 2025-03-06  187  			/*
-2311ab1820fed2 Alistair Francis 2025-03-06  188  			 * DOE Discovery, manually displayed by
-2311ab1820fed2 Alistair Francis 2025-03-06  189  			 * `dev_attr_doe_discovery`
-2311ab1820fed2 Alistair Francis 2025-03-06  190  			 */
-2311ab1820fed2 Alistair Francis 2025-03-06  191  			continue;
-2311ab1820fed2 Alistair Francis 2025-03-06  192  		}
-2311ab1820fed2 Alistair Francis 2025-03-06  193  
-2311ab1820fed2 Alistair Francis 2025-03-06  194  		attrs[i].attr.name = kasprintf(GFP_KERNEL,
-2311ab1820fed2 Alistair Francis 2025-03-06  195  					       "%04lx:%02lx", vid, type);
-2311ab1820fed2 Alistair Francis 2025-03-06  196  		if (!attrs[i].attr.name) {
-2311ab1820fed2 Alistair Francis 2025-03-06  197  			ret = -ENOMEM;
-2311ab1820fed2 Alistair Francis 2025-03-06  198  			pci_warn(pdev, "Failed allocating the attribute name\n");
-2311ab1820fed2 Alistair Francis 2025-03-06  199  			goto fail;
-2311ab1820fed2 Alistair Francis 2025-03-06  200  		}
-2311ab1820fed2 Alistair Francis 2025-03-06  201  
-2311ab1820fed2 Alistair Francis 2025-03-06  202  		attrs[i].attr.mode = 0444;
-2311ab1820fed2 Alistair Francis 2025-03-06  203  		attrs[i].show = pci_doe_sysfs_feature_show;
-2311ab1820fed2 Alistair Francis 2025-03-06  204  
-2311ab1820fed2 Alistair Francis 2025-03-06  205  		ret = sysfs_add_file_to_group(&dev->kobj, &attrs[i].attr,
-2311ab1820fed2 Alistair Francis 2025-03-06  206  					      pci_doe_sysfs_group.name);
-2311ab1820fed2 Alistair Francis 2025-03-06  207  		if (ret) {
-2311ab1820fed2 Alistair Francis 2025-03-06  208  			attrs[i].show = NULL;
-2311ab1820fed2 Alistair Francis 2025-03-06  209  			if (ret != -EEXIST) {
-2311ab1820fed2 Alistair Francis 2025-03-06  210  				pci_warn(pdev, "Failed adding %s to sysfs group\n",
-2311ab1820fed2 Alistair Francis 2025-03-06  211  					 attrs[i].attr.name);
-2311ab1820fed2 Alistair Francis 2025-03-06  212  				goto fail;
-2311ab1820fed2 Alistair Francis 2025-03-06  213  			} else
-2311ab1820fed2 Alistair Francis 2025-03-06  214  				kfree(attrs[i].attr.name);
-2311ab1820fed2 Alistair Francis 2025-03-06  215  		}
-2311ab1820fed2 Alistair Francis 2025-03-06  216  	}
-2311ab1820fed2 Alistair Francis 2025-03-06  217  
-2311ab1820fed2 Alistair Francis 2025-03-06  218  	return 0;
-2311ab1820fed2 Alistair Francis 2025-03-06  219  
-2311ab1820fed2 Alistair Francis 2025-03-06  220  fail:
-2311ab1820fed2 Alistair Francis 2025-03-06  221  	pci_doe_sysfs_feature_remove(pdev, doe_mb);
-2311ab1820fed2 Alistair Francis 2025-03-06  222  	return ret;
-2311ab1820fed2 Alistair Francis 2025-03-06  223  }
-2311ab1820fed2 Alistair Francis 2025-03-06  224  
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  120  
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  121  static int
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  122  r535_curs_init(struct nvkm_disp_chan *chan)
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  123  {
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  124  	NV50VAIO_CHANNELPIO_ALLOCATION_PARAMETERS *args;
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  125  	int ret;
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  126  
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  127  	ret = r535_chan_push(chan);
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  128  	if (ret)
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  129  		return ret;
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  130  
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  131  	args = nvkm_gsp_rm_alloc_get(&chan->disp->rm.object,
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  132  				     (chan->object.oclass << 16) | chan->head,
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  133  				     chan->object.oclass, sizeof(*args), &chan->rm.object);
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  134  	if (IS_ERR(args))
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  135  		return PTR_ERR(args);
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  136  
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19 @137  	args->channelInstance = chan->head;
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  138  
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  139  	return nvkm_gsp_rm_alloc_wr(&chan->rm.object, args);
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  140  }
+9e99444490238d drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c Ben Skeggs 2023-09-19  141  
+
+:::::: The code at line 137 was first introduced by commit
+:::::: 9e99444490238d210a421cef3598432c5da2e086 drm/nouveau/disp/r535: initial support
+
+:::::: TO: Ben Skeggs <bskeggs@redhat.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
