@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B1B192B7D
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 13:47:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94AA3239085
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 13:47:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765633669; cv=none; b=tgiTTWRFwwMTgWjxijsDLagQDzxGwQo6iRPu9B73oHh+23cdfHfC1cKTnSFVcpNESiwKXCK6VBc7egeaQ7OgBUwkoZFrRbYaAFrebkK6xeCNhszCVCuWCw266b8hqBfphCC5YIj+5gJFBIT73TG1sQDEsaesYcx5AsMoA4SPLag=
+	t=1765633671; cv=none; b=M8AdXR8nLYNlI8Ykurl+zotx+rhIoVa8ZgyofFYLWxeEFvwu9Ck4pg85VdB+fS1+yZ4DziYt62AOBdefoPhUyCdGEqMJAD4jyR17ZPyDvTFIg6vESwUTxheQNuXq44Dc2vQY6evTUj+7boeIP/DRRj5xEDfIgPx0U4yA1QqXtpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765633669; c=relaxed/simple;
-	bh=/YQOEalPh/VoSr/x5cKBH7pcq61QOImX8KTNNvA8uDA=;
+	s=arc-20240116; t=1765633671; c=relaxed/simple;
+	bh=caO16k4skHzPF/lNDwd8i6QO38Dx/LiypErEfn8ViNw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Pq+/HlLgm/XUU8VYtQTwIJ09UPUegSa7pqa1cgAOBgp6aboHQ+W0p4ZBb29hNZEWLxFo4pvq2FjL63Om/LVrXC3x5XQKe6/A5TYVhniyk3UieQoazIrCnFvBxDyZ4TswCQgYoivhk1R01aTmo/8mFGPWFYrfyLKEGdIVRA2igL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XULoHJWE; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=T/bz/qG8EYr9iNFt/8LvhdlAAVU4Evu0YXMX7R/Gj3WZO7GYqytzXIqGjGCTwXM4Lb943GUqRqLJlu7wCkakWau9PY4hiUusFQtphQ/fgAYC/KN6Us4sAjDojDUc80uzi/SleDXnL9PAaiKbu9EKO6gw2bPf6fpZL7NqB8wq9e8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dA4T0579; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XULoHJWE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dA4T0579"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765633666; x=1797169666;
+  t=1765633669; x=1797169669;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/YQOEalPh/VoSr/x5cKBH7pcq61QOImX8KTNNvA8uDA=;
-  b=XULoHJWESGNlR7PWdeglGEY0m8w4g4a6PIuXqYcCrSlteLLj7O+xK4N8
-   miYupxjlHfaSOjQirWsE5aPqTVkhF+g597QwLxPBAUT6WohfB2yT8hG6W
-   B39MJjCsJxkyxi0Wj1m3bWzoJ1WoRAgzRxh8ZtQwWtnbJ27rl/+Q9smR7
-   OG0BTHCWYS71VPqZaNJOk2FII/mMui/i2wBvgi1t4b+9zkJUjAj/dX9ih
-   YFZR8pRM/yEfgjIFN5JJyIQ0FOaHSVCiMZBRFQzHzLpCDURpEwVmv7MGG
-   4i6mSLUxQtbQW9CYcP0CJNvkHn/4l7E5pChV1fRExnmsK1U64V5jvNHy/
-   w==;
-X-CSE-ConnectionGUID: QBUmbSNiRrOcJgKKt9G/dg==
-X-CSE-MsgGUID: s9YTWXPpQwmXp5X8zqiOYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="70193101"
+  bh=caO16k4skHzPF/lNDwd8i6QO38Dx/LiypErEfn8ViNw=;
+  b=dA4T0579m2wyTA4z97Ojsqj1aEOvWqOULHK43MczfG9NM3HYN4yaYAYX
+   AQ/CS6eh6FG20xmAOYCZlftKfPbVec1yB2+PiY1hvVfl3frux8qehBS3t
+   KDeqip+Qo85n2YwYvofAkosJ+9cbo9N5ihOFnjMZ3k8b8/s115YoXjRa3
+   Fy7DsmAyUxgdeVRoi0M2KjxF3lUM6feUhR+iwmQQjBAaKs35TjaNRXajA
+   IwINE+C/6Eo3V2WH8hc1NR5Rkx+r2BHgWLEji1JqBGYNobyRG1WjwLPMd
+   H57bcDduHRdZWG8NOLodgzkBIFDgVDhZdIkXehArFSloslLWpxoL3bKhS
+   g==;
+X-CSE-ConnectionGUID: qtjDCo2kSsOknIbwnPrcKw==
+X-CSE-MsgGUID: IiLUkd40TEWoMetBm4X8+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="70193107"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="70193101"
+   d="scan'208";a="70193107"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 05:47:46 -0800
-X-CSE-ConnectionGUID: 7IkCAVZ5QR62azyAj7rxWA==
-X-CSE-MsgGUID: yXQ3OSBMRK27b16zLHw8vg==
+X-CSE-ConnectionGUID: 6/IxCyuzSAW7qNjimq3Wsw==
+X-CSE-MsgGUID: 0nnCAasfS2SwJz8Ckj1l1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="198145273"
+   d="scan'208";a="198145275"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 13 Dec 2025 05:47:45 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUPyJ-000000007hG-0FHI;
+	id 1vUPyJ-000000007hE-08ap;
 	Sat, 13 Dec 2025 13:47:43 +0000
-Date: Sat, 13 Dec 2025 21:47:37 +0800
+Date: Sat, 13 Dec 2025 21:47:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/thunderbolt/tunnel.c:2319 tb_tunnel_activate() warn: missing
- unwind goto?
-Message-ID: <202512132144.oqGpbTtt-lkp@intel.com>
+Subject: drivers/misc/ntsync.c:1068 ntsync_wait_all() warn: potential spectre
+ issue 'q->entries' [r] (local cap)
+Message-ID: <202512132107.xxoLbsRS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,87 +65,151 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Mika Westerberg <mika.westerberg@linux.intel.com>
+TO: Elizabeth Figura <zfigura@codeweavers.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9d9c1cfec01cdbf24bd9322ed555713a20422115
-commit: d6d458d42e1e1544a18f37f1d5c840e00d5261b9 thunderbolt: Handle DisplayPort tunnel activation asynchronously
+commit: c301e1fefc2d6c83a2beb47e9cdd7b59a90b0067 ntsync: No longer depend on BROKEN.
 date:   11 months ago
 :::::: branch date: 5 hours ago
 :::::: commit date: 11 months ago
-config: alpha-randconfig-r071-20251212 (https://download.01.org/0day-ci/archive/20251213/202512132144.oqGpbTtt-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
+config: arm-randconfig-r072-20251213 (https://download.01.org/0day-ci/archive/20251213/202512132107.xxoLbsRS-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512132144.oqGpbTtt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512132107.xxoLbsRS-lkp@intel.com/
 
 smatch warnings:
-drivers/thunderbolt/tunnel.c:2319 tb_tunnel_activate() warn: missing unwind goto?
+drivers/misc/ntsync.c:1068 ntsync_wait_all() warn: potential spectre issue 'q->entries' [r] (local cap)
 
-vim +2319 drivers/thunderbolt/tunnel.c
+vim +1068 drivers/misc/ntsync.c
 
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2274  
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2275  /**
-cab96faacf53d0 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2276   * tb_tunnel_activate() - activate a tunnel
-cab96faacf53d0 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2277   * @tunnel: Tunnel to activate
-93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2278   *
-d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2279   * Return: 0 on success and negative errno in case if failure.
-d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2280   * Specifically returns %-EINPROGRESS if the tunnel activation is still
-d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2281   * in progress (that's for DP tunnels to complete DPRX capabilities
-d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2282   * read).
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2283   */
-cab96faacf53d0 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2284  int tb_tunnel_activate(struct tb_tunnel *tunnel)
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2285  {
-93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2286  	int res, i;
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2287  
-62efe699a7f666 drivers/thunderbolt/tunnel.c     Mika Westerberg 2018-09-17  2288  	tb_tunnel_dbg(tunnel, "activating\n");
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2289  
-aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2290  	/*
-aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2291  	 * Make sure all paths are properly disabled before enabling
-aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2292  	 * them again.
-aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2293  	 */
-93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2294  	for (i = 0; i < tunnel->npaths; i++) {
-aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2295  		if (tunnel->paths[i]->activated) {
-aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2296  			tb_path_deactivate(tunnel->paths[i]);
-93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2297  			tunnel->paths[i]->activated = false;
-aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2298  		}
-aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2299  	}
-aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2300  
-d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2301  	tunnel->state = TB_TUNNEL_ACTIVATING;
-d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2302  
-ae765788936d98 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2303  	if (tunnel->pre_activate) {
-ae765788936d98 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2304  		res = tunnel->pre_activate(tunnel);
-4f807e47ee9a75 drivers/thunderbolt/tunnel.c     Mika Westerberg 2018-09-17  2305  		if (res)
-4f807e47ee9a75 drivers/thunderbolt/tunnel.c     Mika Westerberg 2018-09-17  2306  			return res;
-4f807e47ee9a75 drivers/thunderbolt/tunnel.c     Mika Westerberg 2018-09-17  2307  	}
-4f807e47ee9a75 drivers/thunderbolt/tunnel.c     Mika Westerberg 2018-09-17  2308  
-aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2309  	for (i = 0; i < tunnel->npaths; i++) {
-93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2310  		res = tb_path_activate(tunnel->paths[i]);
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2311  		if (res)
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2312  			goto err;
-93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2313  	}
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2314  
-93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2315  	if (tunnel->activate) {
-93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2316  		res = tunnel->activate(tunnel, true);
-d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2317  		if (res) {
-d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2318  			if (res == -EINPROGRESS)
-d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20 @2319  				return res;
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2320  			goto err;
-93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2321  		}
-d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2322  	}
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2323  
-d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2324  	tunnel->state = TB_TUNNEL_ACTIVE;
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2325  	return 0;
-93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2326  
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2327  err:
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2328  	tb_tunnel_warn(tunnel, "activation failed\n");
-93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2329  	tb_tunnel_deactivate(tunnel);
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2330  	return res;
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2331  }
-3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2332  
+cdbb997822806c Elizabeth Figura 2024-12-13  1034  
+cdbb997822806c Elizabeth Figura 2024-12-13  1035  static int ntsync_wait_all(struct ntsync_device *dev, void __user *argp)
+cdbb997822806c Elizabeth Figura 2024-12-13  1036  {
+cdbb997822806c Elizabeth Figura 2024-12-13  1037  	struct ntsync_wait_args args;
+cdbb997822806c Elizabeth Figura 2024-12-13  1038  	struct ntsync_q *q;
+cdbb997822806c Elizabeth Figura 2024-12-13  1039  	int signaled;
+cdbb997822806c Elizabeth Figura 2024-12-13  1040  	__u32 i;
+cdbb997822806c Elizabeth Figura 2024-12-13  1041  	int ret;
+cdbb997822806c Elizabeth Figura 2024-12-13  1042  
+cdbb997822806c Elizabeth Figura 2024-12-13  1043  	if (copy_from_user(&args, argp, sizeof(args)))
+cdbb997822806c Elizabeth Figura 2024-12-13  1044  		return -EFAULT;
+cdbb997822806c Elizabeth Figura 2024-12-13  1045  
+cdbb997822806c Elizabeth Figura 2024-12-13  1046  	ret = setup_wait(dev, &args, true, &q);
+cdbb997822806c Elizabeth Figura 2024-12-13  1047  	if (ret < 0)
+cdbb997822806c Elizabeth Figura 2024-12-13  1048  		return ret;
+cdbb997822806c Elizabeth Figura 2024-12-13  1049  
+cdbb997822806c Elizabeth Figura 2024-12-13  1050  	/* queue ourselves */
+cdbb997822806c Elizabeth Figura 2024-12-13  1051  
+cdbb997822806c Elizabeth Figura 2024-12-13  1052  	mutex_lock(&dev->wait_all_lock);
+cdbb997822806c Elizabeth Figura 2024-12-13  1053  
+cdbb997822806c Elizabeth Figura 2024-12-13  1054  	for (i = 0; i < args.count; i++) {
+cdbb997822806c Elizabeth Figura 2024-12-13  1055  		struct ntsync_q_entry *entry = &q->entries[i];
+cdbb997822806c Elizabeth Figura 2024-12-13  1056  		struct ntsync_obj *obj = entry->obj;
+cdbb997822806c Elizabeth Figura 2024-12-13  1057  
+cdbb997822806c Elizabeth Figura 2024-12-13  1058  		atomic_inc(&obj->all_hint);
+cdbb997822806c Elizabeth Figura 2024-12-13  1059  
+cdbb997822806c Elizabeth Figura 2024-12-13  1060  		/*
+cdbb997822806c Elizabeth Figura 2024-12-13  1061  		 * obj->all_waiters is protected by dev->wait_all_lock rather
+cdbb997822806c Elizabeth Figura 2024-12-13  1062  		 * than obj->lock, so there is no need to acquire obj->lock
+cdbb997822806c Elizabeth Figura 2024-12-13  1063  		 * here.
+cdbb997822806c Elizabeth Figura 2024-12-13  1064  		 */
+cdbb997822806c Elizabeth Figura 2024-12-13  1065  		list_add_tail(&entry->node, &obj->all_waiters);
+cdbb997822806c Elizabeth Figura 2024-12-13  1066  	}
+a138179a59d476 Elizabeth Figura 2024-12-13  1067  	if (args.alert) {
+a138179a59d476 Elizabeth Figura 2024-12-13 @1068  		struct ntsync_q_entry *entry = &q->entries[args.count];
+a138179a59d476 Elizabeth Figura 2024-12-13  1069  		struct ntsync_obj *obj = entry->obj;
+a138179a59d476 Elizabeth Figura 2024-12-13  1070  
+a138179a59d476 Elizabeth Figura 2024-12-13  1071  		dev_lock_obj(dev, obj);
+a138179a59d476 Elizabeth Figura 2024-12-13  1072  		list_add_tail(&entry->node, &obj->any_waiters);
+a138179a59d476 Elizabeth Figura 2024-12-13  1073  		dev_unlock_obj(dev, obj);
+a138179a59d476 Elizabeth Figura 2024-12-13  1074  	}
+cdbb997822806c Elizabeth Figura 2024-12-13  1075  
+cdbb997822806c Elizabeth Figura 2024-12-13  1076  	/* check if we are already signaled */
+cdbb997822806c Elizabeth Figura 2024-12-13  1077  
+cdbb997822806c Elizabeth Figura 2024-12-13  1078  	try_wake_all(dev, q, NULL);
+cdbb997822806c Elizabeth Figura 2024-12-13  1079  
+cdbb997822806c Elizabeth Figura 2024-12-13  1080  	mutex_unlock(&dev->wait_all_lock);
+cdbb997822806c Elizabeth Figura 2024-12-13  1081  
+a138179a59d476 Elizabeth Figura 2024-12-13  1082  	/*
+a138179a59d476 Elizabeth Figura 2024-12-13  1083  	 * Check if the alert event is signaled, making sure to do so only
+a138179a59d476 Elizabeth Figura 2024-12-13  1084  	 * after checking if the other objects are signaled.
+a138179a59d476 Elizabeth Figura 2024-12-13  1085  	 */
+a138179a59d476 Elizabeth Figura 2024-12-13  1086  
+a138179a59d476 Elizabeth Figura 2024-12-13  1087  	if (args.alert) {
+a138179a59d476 Elizabeth Figura 2024-12-13  1088  		struct ntsync_obj *obj = q->entries[args.count].obj;
+a138179a59d476 Elizabeth Figura 2024-12-13  1089  
+a138179a59d476 Elizabeth Figura 2024-12-13  1090  		if (atomic_read(&q->signaled) == -1) {
+a138179a59d476 Elizabeth Figura 2024-12-13  1091  			bool all = ntsync_lock_obj(dev, obj);
+a138179a59d476 Elizabeth Figura 2024-12-13  1092  			try_wake_any_obj(obj);
+a138179a59d476 Elizabeth Figura 2024-12-13  1093  			ntsync_unlock_obj(dev, obj, all);
+a138179a59d476 Elizabeth Figura 2024-12-13  1094  		}
+a138179a59d476 Elizabeth Figura 2024-12-13  1095  	}
+a138179a59d476 Elizabeth Figura 2024-12-13  1096  
+cdbb997822806c Elizabeth Figura 2024-12-13  1097  	/* sleep */
+cdbb997822806c Elizabeth Figura 2024-12-13  1098  
+cdbb997822806c Elizabeth Figura 2024-12-13  1099  	ret = ntsync_schedule(q, &args);
+cdbb997822806c Elizabeth Figura 2024-12-13  1100  
+cdbb997822806c Elizabeth Figura 2024-12-13  1101  	/* and finally, unqueue */
+cdbb997822806c Elizabeth Figura 2024-12-13  1102  
+cdbb997822806c Elizabeth Figura 2024-12-13  1103  	mutex_lock(&dev->wait_all_lock);
+cdbb997822806c Elizabeth Figura 2024-12-13  1104  
+cdbb997822806c Elizabeth Figura 2024-12-13  1105  	for (i = 0; i < args.count; i++) {
+cdbb997822806c Elizabeth Figura 2024-12-13  1106  		struct ntsync_q_entry *entry = &q->entries[i];
+cdbb997822806c Elizabeth Figura 2024-12-13  1107  		struct ntsync_obj *obj = entry->obj;
+cdbb997822806c Elizabeth Figura 2024-12-13  1108  
+cdbb997822806c Elizabeth Figura 2024-12-13  1109  		/*
+cdbb997822806c Elizabeth Figura 2024-12-13  1110  		 * obj->all_waiters is protected by dev->wait_all_lock rather
+cdbb997822806c Elizabeth Figura 2024-12-13  1111  		 * than obj->lock, so there is no need to acquire it here.
+cdbb997822806c Elizabeth Figura 2024-12-13  1112  		 */
+cdbb997822806c Elizabeth Figura 2024-12-13  1113  		list_del(&entry->node);
+cdbb997822806c Elizabeth Figura 2024-12-13  1114  
+cdbb997822806c Elizabeth Figura 2024-12-13  1115  		atomic_dec(&obj->all_hint);
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1116  
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1117  		put_obj(obj);
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1118  	}
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1119  
+cdbb997822806c Elizabeth Figura 2024-12-13  1120  	mutex_unlock(&dev->wait_all_lock);
+cdbb997822806c Elizabeth Figura 2024-12-13  1121  
+a138179a59d476 Elizabeth Figura 2024-12-13  1122  	if (args.alert) {
+a138179a59d476 Elizabeth Figura 2024-12-13  1123  		struct ntsync_q_entry *entry = &q->entries[args.count];
+a138179a59d476 Elizabeth Figura 2024-12-13  1124  		struct ntsync_obj *obj = entry->obj;
+a138179a59d476 Elizabeth Figura 2024-12-13  1125  		bool all;
+a138179a59d476 Elizabeth Figura 2024-12-13  1126  
+a138179a59d476 Elizabeth Figura 2024-12-13  1127  		all = ntsync_lock_obj(dev, obj);
+a138179a59d476 Elizabeth Figura 2024-12-13  1128  		list_del(&entry->node);
+a138179a59d476 Elizabeth Figura 2024-12-13  1129  		ntsync_unlock_obj(dev, obj, all);
+a138179a59d476 Elizabeth Figura 2024-12-13  1130  
+a138179a59d476 Elizabeth Figura 2024-12-13  1131  		put_obj(obj);
+a138179a59d476 Elizabeth Figura 2024-12-13  1132  	}
+a138179a59d476 Elizabeth Figura 2024-12-13  1133  
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1134  	signaled = atomic_read(&q->signaled);
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1135  	if (signaled != -1) {
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1136  		struct ntsync_wait_args __user *user_args = argp;
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1137  
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1138  		/* even if we caught a signal, we need to communicate success */
+ecc2ee361466e4 Elizabeth Figura 2024-12-13  1139  		ret = q->ownerdead ? -EOWNERDEAD : 0;
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1140  
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1141  		if (put_user(signaled, &user_args->index))
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1142  			ret = -EFAULT;
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1143  	} else if (!ret) {
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1144  		ret = -ETIMEDOUT;
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1145  	}
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1146  
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1147  	kfree(q);
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1148  	return ret;
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1149  }
+b4a7b5fe3f5149 Elizabeth Figura 2024-12-13  1150  
+
+:::::: The code at line 1068 was first introduced by commit
+:::::: a138179a59d47690b069fbded1be12f47648ef07 ntsync: Introduce alertable waits.
+
+:::::: TO: Elizabeth Figura <zfigura@codeweavers.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
