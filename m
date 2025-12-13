@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE3C13D51E
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 14:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21C023D7DC
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 15:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765637152; cv=none; b=JqtxT5HR5bDo2ByUz4HdsbKn3YDxGXPST8+NtdX5uzI29o9C2Dx/veCtd4Ulh4E1JUco6NdwWEYJHeODhL0l4Fbdhjn9fruvVpYZe93oTBHtUU0EomrXmmiQ3YVgZbW9oToAkBQRkCOf7iVhvwdIojZ0s3ffDUVL1iphm7ZsyMU=
+	t=1765641119; cv=none; b=UW2dUxq23hiLDVVEJRlmRwsPfVYVDTKYUpaOhNyUkv4R0FiuJ8aiI7CCh1MKzpGt5H/K9IPKnezLUCIhM9ctTt3P4KXQ3wswkuWYM/YoeVdZXf1mlxBExt6nUHZjJKE6u9k+o3QVnqaZez8SWyKVmxG6nKXxvLioiKmDR705k1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765637152; c=relaxed/simple;
-	bh=v8ta+/VvELDcRTkr9jEXGGxtDwT7aeqwsOLoqooqNac=;
+	s=arc-20240116; t=1765641119; c=relaxed/simple;
+	bh=VqoTQy9QAxtZXMiOm1T+J94QTfmNrXegyRDaVFNoId8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nqrdh5dq7yk7wq4Ih09jPAZEwSCTpHDqnp6leTgPREphBFPg4ComPOQNFIEEyvc2wkrn/f+u4kgqMtKepuWbNEa8YFgAt+HDBZmhF/GRoNbGGwmb1GxcaBdSDcZ1wcc5pU9CvQhBoZcDfoOvy+SAjMBVSEnDl8VqWADLhbS/GPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cvMcnBuJ; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=HY4+EPIVdMKNkiPJtjeqp2w3HysmDJOcusHyHOPkU81egu/JAfRDFtKG5FfutwUlT600RpLRUj7bI0oDFjp9E7dvR2D+MUyJ/G4CUOsuAcqXlrl0Iec4b83CWsdLmRyspaf+S6hCLZ6Z/34g0i6sac+Pz9dkv+BcKtAijMkhX1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k39pFr6P; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cvMcnBuJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k39pFr6P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765637151; x=1797173151;
+  t=1765641118; x=1797177118;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v8ta+/VvELDcRTkr9jEXGGxtDwT7aeqwsOLoqooqNac=;
-  b=cvMcnBuJHnSBYJD+pfXwH+f03X6YyYvw8KJX2c26rDzhuF3ct9rTL56t
-   dx9l/m/yzlDwPCBuV4KXdSV8/Zb/HyRfxu6/F8NJ8VxW8/FNTAnAEn4yl
-   Rw+aBTzkFatXy/mtqqWKXsFL2EaKJfSs+XA9Kezty5Yt8HbRHoCBdkaDE
-   ahPkxDpF3hkNYP9QNx9tSaExmO3gtuQI2vrt6G7DUoRMOU5wSZxdxmb2v
-   nE+zc+rEYw3OJQmWy5VAnpx3RDSgt+zvPkxT/qmMaxYQ+L05OPP1zYgvr
-   QyyTUYsg4tc7eoSVE8+frqP2nQ6VMcUSRZKdNc+J/nDEgWiC+usQCt3KI
-   A==;
-X-CSE-ConnectionGUID: ExmIQv69SAe+3CA8OKnRXg==
-X-CSE-MsgGUID: m+b6vgS5S2Oiwx7BZABc/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="85020531"
+  bh=VqoTQy9QAxtZXMiOm1T+J94QTfmNrXegyRDaVFNoId8=;
+  b=k39pFr6Pzn2LiZGEFkdDATGJH76AeRZlago64+ORIe0KdrwoZvONzYSD
+   iEtTLwHIoFmUAKqmdPXc/ZAKfThlsxYtCGjDkDCLjs24klouRQnzzuXG4
+   pS7aZAj9S2PIA20xm/UZUIDaqdjWxmaBSLSTSnkPxJHoSewalXMmTv57h
+   3kvSIZJJ4P06ASidlQexAvhP8KEnDQyFMr2kKIdrd2wa1WXvhZffPX1Lz
+   KhfMCIdjNTqeKEqA2rdkdMTK3kn8O4Ja2te1JZFqocR+luS8u9xm64bkk
+   XP82nANpcHQ/9IrIuBKt+21Aib4HoncJsazdIz/XhyX+JqjddUYUxXAWB
+   Q==;
+X-CSE-ConnectionGUID: WZqxReoWR3qSydZ7C3UuFA==
+X-CSE-MsgGUID: UlMjoercS9+lxUpBG5kZUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="55178183"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="85020531"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 06:45:51 -0800
-X-CSE-ConnectionGUID: 1SuckUmsT/SJ1ZZipMgDFA==
-X-CSE-MsgGUID: UG4Z+VGpRpSIeGgB3qmixw==
+   d="scan'208";a="55178183"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 07:51:57 -0800
+X-CSE-ConnectionGUID: hc0uaN+nT+O+4lFDdTHMRA==
+X-CSE-MsgGUID: 0zDt4JhDSeub9TAwTnBEGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="196604545"
+   d="scan'208";a="197834034"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 13 Dec 2025 06:45:49 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 13 Dec 2025 07:51:55 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUQsU-000000007ka-112n;
-	Sat, 13 Dec 2025 14:45:46 +0000
-Date: Sat, 13 Dec 2025 22:44:48 +0800
+	id 1vURuS-000000007pO-2pnc;
+	Sat, 13 Dec 2025 15:51:52 +0000
+Date: Sat, 13 Dec 2025 23:51:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/vmm.c:42
- r535_mmu_vaspace_new() warn: 'args' can also be NULL
-Message-ID: <202512132208.HueINJYw-lkp@intel.com>
+Subject: drivers/hwmon/hwmon.c:439 hwmon_attr_show() error: uninitialized
+ symbol 'val'.
+Message-ID: <202512132327.xOOy0Q1z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,100 +65,55 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Ben Skeggs <bskeggs@nvidia.com>
-CC: Dave Airlie <airlied@redhat.com>
-CC: Timur Tabi <ttabi@nvidia.com>
+TO: Guenter Roeck <linux@roeck-us.net>
+CC: Chris Packham <chris.packham@alliedtelesis.co.nz>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9d9c1cfec01cdbf24bd9322ed555713a20422115
-commit: 53dac0623853457ec7564152528b686b8d5dfabe drm/nouveau/gsp: add support for 570.144
-date:   7 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 7 months ago
-config: i386-randconfig-141-20251212 (https://download.01.org/0day-ci/archive/20251213/202512132208.HueINJYw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+commit: 0bcd01f757bc06471c82a137eafee281ef1b6e38 hwmon: Introduce 64-bit energy attribute support
+date:   3 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 months ago
+config: powerpc64-randconfig-r071-20251213 (https://download.01.org/0day-ci/archive/20251213/202512132327.xOOy0Q1z-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512132208.HueINJYw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512132327.xOOy0Q1z-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/vmm.c:42 r535_mmu_vaspace_new() warn: 'args' can also be NULL
+New smatch warnings:
+drivers/hwmon/hwmon.c:439 hwmon_attr_show() error: uninitialized symbol 'val'.
 
-vim +/args +42 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/vmm.c
+Old smatch warnings:
+drivers/hwmon/hwmon.c:442 hwmon_attr_show() error: uninitialized symbol 'val64'.
 
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  25  
-53dac062385345 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/vmm.c Ben Skeggs 2024-11-14  26  int
-53dac062385345 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/vmm.c Ben Skeggs 2024-11-14  27  r535_mmu_vaspace_new(struct nvkm_vmm *vmm, u32 handle)
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  28  {
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  29  	NV_VASPACE_ALLOCATION_PARAMETERS *args;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  30  	int ret;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  31  
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  32  	ret = nvkm_gsp_client_device_ctor(vmm->mmu->subdev.device->gsp,
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  33  					  &vmm->rm.client, &vmm->rm.device);
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  34  	if (ret)
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  35  		return ret;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  36  
-53dac062385345 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/vmm.c Ben Skeggs 2024-11-14  37  	args = nvkm_gsp_rm_alloc_get(&vmm->rm.device.object, handle, FERMI_VASPACE_A,
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  38  				     sizeof(*args), &vmm->rm.object);
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  39  	if (IS_ERR(args))
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  40  		return PTR_ERR(args);
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  41  
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19 @42  	args->index = NV_VASPACE_ALLOCATION_INDEX_GPU_NEW;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  43  
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  44  	ret = nvkm_gsp_rm_alloc_wr(&vmm->rm.object, args);
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  45  	if (ret)
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  46  		return ret;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  47  
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  48  	{
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  49  		NV90F1_CTRL_VASPACE_COPY_SERVER_RESERVED_PDES_PARAMS *ctrl;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  50  
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  51  		mutex_lock(&vmm->mutex.vmm);
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  52  		ret = nvkm_vmm_get_locked(vmm, true, false, false, 0x1d, 32, 0x20000000,
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  53  					  &vmm->rm.rsvd);
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  54  		mutex_unlock(&vmm->mutex.vmm);
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  55  		if (ret)
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  56  			return ret;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  57  
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  58  		ctrl = nvkm_gsp_rm_ctrl_get(&vmm->rm.object,
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  59  					    NV90F1_CTRL_CMD_VASPACE_COPY_SERVER_RESERVED_PDES,
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  60  					    sizeof(*ctrl));
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  61  		if (IS_ERR(ctrl))
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  62  			return PTR_ERR(ctrl);
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  63  
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  64  		ctrl->pageSize = 0x20000000;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  65  		ctrl->virtAddrLo = vmm->rm.rsvd->addr;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  66  		ctrl->virtAddrHi = vmm->rm.rsvd->addr + vmm->rm.rsvd->size - 1;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  67  		ctrl->numLevelsToCopy = vmm->pd->pde[0]->pde[0] ? 3 : 2;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  68  		ctrl->levels[0].physAddress = vmm->pd->pt[0]->addr;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  69  		ctrl->levels[0].size = 0x20;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  70  		ctrl->levels[0].aperture = 1;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  71  		ctrl->levels[0].pageShift = 0x2f;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  72  		ctrl->levels[1].physAddress = vmm->pd->pde[0]->pt[0]->addr;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  73  		ctrl->levels[1].size = 0x1000;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  74  		ctrl->levels[1].aperture = 1;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  75  		ctrl->levels[1].pageShift = 0x26;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  76  		if (vmm->pd->pde[0]->pde[0]) {
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  77  			ctrl->levels[2].physAddress = vmm->pd->pde[0]->pde[0]->pt[0]->addr;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  78  			ctrl->levels[2].size = 0x1000;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  79  			ctrl->levels[2].aperture = 1;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  80  			ctrl->levels[2].pageShift = 0x1d;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  81  		}
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  82  
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  83  		ret = nvkm_gsp_rm_ctrl_wr(&vmm->rm.object, ctrl);
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  84  	}
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  85  
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  86  	return ret;
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  87  }
-5bf0257136a223 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/r535.c        Ben Skeggs 2023-09-19  88  
+vim +/val +439 drivers/hwmon/hwmon.c
 
-:::::: The code at line 42 was first introduced by commit
-:::::: 5bf0257136a223d0e887441799527b320fc8313f drm/nouveau/mmu/r535: initial support
-
-:::::: TO: Ben Skeggs <bskeggs@redhat.com>
-:::::: CC: Dave Airlie <airlied@redhat.com>
+d560168b5d0fb4 Guenter Roeck 2015-08-26  424  
+d560168b5d0fb4 Guenter Roeck 2015-08-26  425  static ssize_t hwmon_attr_show(struct device *dev,
+d560168b5d0fb4 Guenter Roeck 2015-08-26  426  			       struct device_attribute *devattr, char *buf)
+d560168b5d0fb4 Guenter Roeck 2015-08-26  427  {
+d560168b5d0fb4 Guenter Roeck 2015-08-26  428  	struct hwmon_device_attribute *hattr = to_hwmon_attr(devattr);
+0bcd01f757bc06 Guenter Roeck 2024-08-28  429  	s64 val64;
+d560168b5d0fb4 Guenter Roeck 2015-08-26  430  	long val;
+d560168b5d0fb4 Guenter Roeck 2015-08-26  431  	int ret;
+d560168b5d0fb4 Guenter Roeck 2015-08-26  432  
+d560168b5d0fb4 Guenter Roeck 2015-08-26  433  	ret = hattr->ops->read(dev, hattr->type, hattr->attr, hattr->index,
+0bcd01f757bc06 Guenter Roeck 2024-08-28  434  			       (hattr->type == hwmon_energy64) ? (long *)&val64 : &val);
+d560168b5d0fb4 Guenter Roeck 2015-08-26  435  	if (ret < 0)
+d560168b5d0fb4 Guenter Roeck 2015-08-26  436  		return ret;
+d560168b5d0fb4 Guenter Roeck 2015-08-26  437  
+0bcd01f757bc06 Guenter Roeck 2024-08-28  438  	if (hattr->type != hwmon_energy64)
+0bcd01f757bc06 Guenter Roeck 2024-08-28 @439  		val64 = val;
+0bcd01f757bc06 Guenter Roeck 2024-08-28  440  
+61b8ab2c5481dc Nicolin Chen  2018-10-09  441  	trace_hwmon_attr_show(hattr->index + hwmon_attr_base(hattr->type),
+0bcd01f757bc06 Guenter Roeck 2024-08-28  442  			      hattr->name, val64);
+61b8ab2c5481dc Nicolin Chen  2018-10-09  443  
+0bcd01f757bc06 Guenter Roeck 2024-08-28  444  	return sprintf(buf, "%lld\n", val64);
+d560168b5d0fb4 Guenter Roeck 2015-08-26  445  }
+d560168b5d0fb4 Guenter Roeck 2015-08-26  446  
 
 -- 
 0-DAY CI Kernel Test Service
