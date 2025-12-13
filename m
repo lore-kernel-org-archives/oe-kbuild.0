@@ -1,141 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F241F2BAD
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 19:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E636F1B81CA
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 19:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765654878; cv=none; b=uH5f/4X52+5Wvtg54to4t3aYhARJGzglM7QKJI+V0HzUsDh2OtsAez9L6fgPFuBbpUgRKZqrryo7+QfAHPaFQFETGJ/gJvW6VVVcFPFRVe2eX4yTjGwPQWpGgUte+ERW0DJDo7EVmgxK8n+/2RHdArFlb0rU8ulXfKX7fT8waeU=
+	t=1765655600; cv=none; b=eBfNgYZN3Df0zXUTOHWlpMjJwZ85J0Q3vTl4zvlMHPcc+pUr+IUZ+oG1ftg20/8YDUy8zwBuEZXPqQYgHosjGNJvrsk6KYVae1Uwm8uQiPqFjt3PKKOjM++UclBeRIcLCFp23i+HqEKP5MSX8q5w5PraktsYpcIiajcOlI5FAP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765654878; c=relaxed/simple;
-	bh=X1On21rUfQTGLXmVW5iA1xS3hkdGWXkX90XAq2iTyyY=;
+	s=arc-20240116; t=1765655600; c=relaxed/simple;
+	bh=EtPIFou/uND+t0zv3rPHeBhnTARcu6NHKjLLcYfbsYc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mesH9tq5hME8IJrENnQlryhRnnYzIEQCoZuwLlboMqFBFBp55xQWxRaUIRaQb8H8W+7ChjjQ4K5RYtd4qRclgC+pMRp/nnVtfmqf5tXnixD+tpBySau2P1tJ1/lYh1AEO+rPzEaqTeyPmomIGxJFuGHm3slC3n2DdwB8w6yWfvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sxwri4Lu; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=ctd2tK+4KOR+IAYZlIiS72kFkAOKN7bUI1GaUIThzbpacqecKRi9rkYFwAquqPl861IEHKJulFzQVVCqwL0Rjlz9isgom8wUz0jtrU168voOAxZHqkZyJhdlYkcRk3g7ZBZeT1x0+xsptBOfHMFx9TqMcSKojqD70vPIVcZbi50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WMc1Huzh; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sxwri4Lu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WMc1Huzh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765654877; x=1797190877;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=X1On21rUfQTGLXmVW5iA1xS3hkdGWXkX90XAq2iTyyY=;
-  b=Sxwri4LuKtzHHiEKVm+SGkm0WdihgxdMftbZ5eaIbkL89g6zC9f8FFgX
-   uO4JKbblxPhZ8lZAkB0GZErpagKN8bJPcOJYSTjOwcQNvlYRy4gQRGl/D
-   WnmzRzh1i7/8bUGRZbU0OpACOD26UE6Mna8gWFDjGT89JUHSCKJSePaBo
-   8VvKCGod2pEVCLfo5rTU4EBX7u0A5C3TAQnbRTBsB+WXrdvaN4kHGXt+s
-   2nWglQlk7t2Xxcl8IJD/LIoC1D+T2KOKyZmKpVZ7qSfHWALLJ7ys3Cwng
-   d1PS6rd1e8Ua99gKih1VUQqH4f0/LH8uGeYbofrJt/PtU3V2FtrTv+uDL
-   Q==;
-X-CSE-ConnectionGUID: lPvJ+EdcQ8WqmEHcSUx3iA==
-X-CSE-MsgGUID: 3ZxNyxafRVyoaoC0DZ77Kw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="78736349"
+  t=1765655599; x=1797191599;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EtPIFou/uND+t0zv3rPHeBhnTARcu6NHKjLLcYfbsYc=;
+  b=WMc1HuzhXoDiQfLqJlfYdHWbWTMrHx3G51eX63EA8q0gWLz5EJzcpsaC
+   hb+rwLjnVF/HMKOodj21uQRPi5h1DLnYDqJ02YSVnTLEcb1p8aLx+gbpD
+   ujpbRUSiewckkhnuIzLs6eTHuiNHBogv3N3GcbMLWJ+3CTqt5RrqIp3zh
+   is7jJno4xcu8F5UB8u/+ikY7MCvUkxj/UAm4Wc4CzNmGTlaL0FHEcmZ49
+   NiNEqZ0buqYXCMZmiVwmAq7JHH6p3fLFVXRZ+yaLTSkP8RUQci+ebG9k8
+   ApvPi6hdZxqX9MsXC3OopCQ3/jHI3VNBjfccTXiAHpanNm46B+Vkw0Wr/
+   A==;
+X-CSE-ConnectionGUID: Ofna/agjRteWRtsdWCiypQ==
+X-CSE-MsgGUID: ziEZ9sx+T8KcjC8IgVQoCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="79076636"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="78736349"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 11:41:17 -0800
-X-CSE-ConnectionGUID: H8WZGKvqSLeC91bJz4papQ==
-X-CSE-MsgGUID: f85SN18kQxqZXxjHoRxztw==
+   d="scan'208";a="79076636"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 11:53:17 -0800
+X-CSE-ConnectionGUID: 6Xjb4wn2SWKTCuNH+N7IWg==
+X-CSE-MsgGUID: 0uQ/tc9TQt2i2y1dmYWdAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="201776738"
+   d="scan'208";a="196979716"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Dec 2025 11:41:14 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 13 Dec 2025 11:53:15 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUVUO-0000000087N-2oTB;
-	Sat, 13 Dec 2025 19:41:12 +0000
-Date: Sun, 14 Dec 2025 03:40:31 +0800
+	id 1vUVg1-0000000088T-1pdb;
+	Sat, 13 Dec 2025 19:53:13 +0000
+Date: Sun, 14 Dec 2025 03:52:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/xe/xe_vm.c:3230 vm_bind_ioctl_ops_execute() error:
- uninitialized symbol 'fence'.
-Message-ID: <202512140339.M7yiIcbs-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm64/net/bpf_jit_comp.c:3071:32: sparse: sparse: arithmetics
+ on pointers to functions
+Message-ID: <202512140357.cUqP7fty-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: arch/arm64/net/bpf_jit_comp.c:3071:32: sparse: sparse: arithmetics on pointers to functions"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-CC: Matthew Brost <matthew.brost@intel.com>
+TO: Puranjay Mohan <puranjay12@gmail.com>
+CC: Alexei Starovoitov <ast@kernel.org>
+CC: Maxwell Bland <mbland@motorola.com>
+CC: Sami Tolvanen <samitolvanen@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   4a298a43f5e339f48d2dda0665c02b88ee9a4e03
-commit: 8f25e5abcbfb9cbcd923021774f2e785db3f7f55 drm/xe: Convert existing drm_exec transactions for exhaustive eviction
-date:   3 months ago
-:::::: branch date: 80 minutes ago
-:::::: commit date: 3 months ago
-config: s390-randconfig-r071-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140339.M7yiIcbs-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 10.5.0
+commit: 710618c760c0a3267221517d78f4cfb65ca7b882 arm64/cfi,bpf: Support kCFI + BPF on arm64
+date:   5 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 5 months ago
+config: arm64-randconfig-r113-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140357.cUqP7fty-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140357.cUqP7fty-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512140339.M7yiIcbs-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512140357.cUqP7fty-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/xe/xe_vm.c:3230 vm_bind_ioctl_ops_execute() error: uninitialized symbol 'fence'.
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/net/bpf_jit_comp.c:3071:32: sparse: sparse: arithmetics on pointers to functions
+   arch/arm64/net/bpf_jit_comp.c:121:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] data @@
+   arch/arm64/net/bpf_jit_comp.c:121:38: sparse:     expected restricted __le32 [usertype]
+   arch/arm64/net/bpf_jit_comp.c:121:38: sparse:     got unsigned int const [usertype] data
+   arch/arm64/net/bpf_jit_comp.c:121:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] data @@
+   arch/arm64/net/bpf_jit_comp.c:121:38: sparse:     expected restricted __le32 [usertype]
+   arch/arm64/net/bpf_jit_comp.c:121:38: sparse:     got unsigned int const [usertype] data
+   arch/arm64/net/bpf_jit_comp.c:3071:17: sparse: sparse: non size-preserving pointer to integer cast
+   arch/arm64/net/bpf_jit_comp.c:3071:17: sparse: sparse: non size-preserving integer to pointer cast
 
-Old smatch warnings:
-drivers/gpu/drm/xe/xe_vm.c:2408 new_vma() error: uninitialized symbol 'vma'.
-drivers/gpu/drm/xe/xe_vm.c:2858 prefetch_ranges() warn: iterator 'i' not incremented
-drivers/gpu/drm/xe/xe_vm.c:2936 op_lock_and_prep() error: uninitialized symbol 'region'.
-drivers/gpu/drm/xe/xe_vm.c:3866 xe_vm_range_tilemask_tlb_inval() error: uninitialized symbol 'err'.
-drivers/gpu/drm/xe/xe_vm.c:4081 xe_vm_snapshot_print() warn: passing zero to 'PTR_ERR'
-drivers/gpu/drm/xe/xe_vm.c:4215 xe_vm_alloc_vma() error: uninitialized symbol 'default_pat'.
+vim +3071 arch/arm64/net/bpf_jit_comp.c
 
-vim +/fence +3230 drivers/gpu/drm/xe/xe_vm.c
-
-61e3270ef9610a Matthew Brost          2024-04-24  3196  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  3197  static struct dma_fence *vm_bind_ioctl_ops_execute(struct xe_vm *vm,
-701109f2e3a45b Matthew Brost          2024-04-24  3198  						   struct xe_vma_ops *vops)
-f3e9b1f4345874 Matthew Brost          2023-09-14  3199  {
-8f25e5abcbfb9c Thomas Hellström       2025-09-08  3200  	struct xe_validation_ctx ctx;
-77f2ef3f16f511 Matthew Brost          2024-04-24  3201  	struct drm_exec exec;
-75192758d64022 Matthew Brost          2024-04-24  3202  	struct dma_fence *fence;
-8f25e5abcbfb9c Thomas Hellström       2025-09-08  3203  	int err = 0;
-f3e9b1f4345874 Matthew Brost          2023-09-14  3204  
-f3e9b1f4345874 Matthew Brost          2023-09-14  3205  	lockdep_assert_held_write(&vm->lock);
-f3e9b1f4345874 Matthew Brost          2023-09-14  3206  
-8f25e5abcbfb9c Thomas Hellström       2025-09-08  3207  	xe_validation_guard(&ctx, &vm->xe->val, &exec,
-8f25e5abcbfb9c Thomas Hellström       2025-09-08  3208  			    ((struct xe_val_flags) {
-8f25e5abcbfb9c Thomas Hellström       2025-09-08  3209  				    .interruptible = true,
-8f25e5abcbfb9c Thomas Hellström       2025-09-08  3210  				    .exec_ignore_duplicates = true,
-8f25e5abcbfb9c Thomas Hellström       2025-09-08  3211  			    }), err) {
-701109f2e3a45b Matthew Brost          2024-04-24  3212  		err = vm_bind_ioctl_ops_lock_and_prep(&exec, vm, vops);
-77f2ef3f16f511 Matthew Brost          2024-04-24  3213  		drm_exec_retry_on_contention(&exec);
-8f25e5abcbfb9c Thomas Hellström       2025-09-08  3214  		xe_validation_retry_on_oom(&ctx, &err);
-8f25e5abcbfb9c Thomas Hellström       2025-09-08  3215  		if (err)
-8f25e5abcbfb9c Thomas Hellström       2025-09-08  3216  			return ERR_PTR(err);
-77f2ef3f16f511 Matthew Brost          2024-04-24  3217  
-0131514f97890c Thomas Hellström       2025-09-08  3218  		xe_vm_set_validation_exec(vm, &exec);
-4dbbe4579490b4 Matthew Brost          2024-04-24  3219  		fence = ops_execute(vm, vops);
-0131514f97890c Thomas Hellström       2025-09-08  3220  		xe_vm_set_validation_exec(vm, NULL);
-b43e864af0d4e7 Matthew Brost          2025-03-05  3221  		if (IS_ERR(fence)) {
-b43e864af0d4e7 Matthew Brost          2025-03-05  3222  			if (PTR_ERR(fence) == -ENODATA)
-b43e864af0d4e7 Matthew Brost          2025-03-05  3223  				vm_bind_ioctl_ops_fini(vm, vops, NULL);
-8f25e5abcbfb9c Thomas Hellström       2025-09-08  3224  			return fence;
-b43e864af0d4e7 Matthew Brost          2025-03-05  3225  		}
-e8babb280b5ef9 Matthew Brost          2024-07-03  3226  
-e8babb280b5ef9 Matthew Brost          2024-07-03  3227  		vm_bind_ioctl_ops_fini(vm, vops, fence);
-77f2ef3f16f511 Matthew Brost          2024-04-24  3228  	}
-f3e9b1f4345874 Matthew Brost          2023-09-14  3229  
-8f25e5abcbfb9c Thomas Hellström       2025-09-08 @3230  	return err ? ERR_PTR(err) : fence;
-f3e9b1f4345874 Matthew Brost          2023-09-14  3231  }
-9d42476f71a9a0 Francois Dugast        2024-11-13  3232  ALLOW_ERROR_INJECTION(vm_bind_ioctl_ops_execute, ERRNO);
-f3e9b1f4345874 Matthew Brost          2023-09-14  3233  
+75fe4c0b3e181f Puranjay Mohan 2024-05-02  3052  
+1dad391daef129 Puranjay Mohan 2024-02-28  3053  void bpf_jit_free(struct bpf_prog *prog)
+1dad391daef129 Puranjay Mohan 2024-02-28  3054  {
+1dad391daef129 Puranjay Mohan 2024-02-28  3055  	if (prog->jited) {
+1dad391daef129 Puranjay Mohan 2024-02-28  3056  		struct arm64_jit_data *jit_data = prog->aux->jit_data;
+1dad391daef129 Puranjay Mohan 2024-02-28  3057  		struct bpf_binary_header *hdr;
+6c17a882d3804d Puranjay Mohan 2025-07-24  3058  		void __percpu *priv_stack_ptr;
+6c17a882d3804d Puranjay Mohan 2025-07-24  3059  		int priv_stack_alloc_sz;
+1dad391daef129 Puranjay Mohan 2024-02-28  3060  
+1dad391daef129 Puranjay Mohan 2024-02-28  3061  		/*
+1dad391daef129 Puranjay Mohan 2024-02-28  3062  		 * If we fail the final pass of JIT (from jit_subprogs),
+1dad391daef129 Puranjay Mohan 2024-02-28  3063  		 * the program may not be finalized yet. Call finalize here
+1dad391daef129 Puranjay Mohan 2024-02-28  3064  		 * before freeing it.
+1dad391daef129 Puranjay Mohan 2024-02-28  3065  		 */
+1dad391daef129 Puranjay Mohan 2024-02-28  3066  		if (jit_data) {
+1dad391daef129 Puranjay Mohan 2024-02-28  3067  			bpf_arch_text_copy(&jit_data->ro_header->size, &jit_data->header->size,
+1dad391daef129 Puranjay Mohan 2024-02-28  3068  					   sizeof(jit_data->header->size));
+1dad391daef129 Puranjay Mohan 2024-02-28  3069  			kfree(jit_data);
+1dad391daef129 Puranjay Mohan 2024-02-28  3070  		}
+710618c760c0a3 Puranjay Mohan 2025-08-01 @3071  		prog->bpf_func -= cfi_get_offset();
 
 -- 
 0-DAY CI Kernel Test Service
