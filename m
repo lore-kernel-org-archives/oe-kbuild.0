@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA282C0303
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 03:34:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D55299948
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 04:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765596900; cv=none; b=PzZ0+Zqh332gLy3CDMnWwUTTCBtoBhR2WClCt7aS/yDdtRT2ljHh6/qmTaOvgSSsqQ08b/QaHq2JPlyyty0AFeUyaSav6w2zVnwaHm6nWYyiCbmYXPYGqE2cJeY41jftlD+fxX/d4akblqu3AlPDToKHsbVdsyI9nXzhoilpJZw=
+	t=1765598942; cv=none; b=fnFXEloL/deKohmc+DUGU/tCQRp4xoHChrKD9MXVKVVM1CrUj6EIeJqJlrGMkihY/IF4TWkVr0fccfVsVSLhNpRg0ZzhWTP30Iqn5YCPD7mtn8htlb1+tWBPemrsaR90nq6vwAKuBuX1ep5C2m1ZO+i+DwdbmzC6N3wS89xROvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765596900; c=relaxed/simple;
-	bh=Nz6qNTs/zLC/Mm0X4zfer92a9o6smf6uhwxBxnGOCuI=;
+	s=arc-20240116; t=1765598942; c=relaxed/simple;
+	bh=bugDCrkVrHTo4ck4ctYw6cRmP+Vc/auM7c+zdcXLhek=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eundykhr0Bn4XFTB1enZu5wrhP87pkOQCfFgfxT+TTJPpLOxN5GUJAPF+/te8ZCbCVE8kLloWw5h56vJOcjQ2ehx8s5bDIyYsE3nwBqgP5ETtK2ejuTypDb7kffylhGVaH2pnC5xq/CEsQFLrVQRs3cRPt94XslgEXgiSBn/ZxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EG8227m7; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=mhNJU2zhnObKDBJWCiUcLKld+gWJNz9zre2FolHozS1vhlnxFpZJOhGr7ThZEtK79CUElcpyWmTW2Cinf/gXOkneMb7b5K8uh97vYw0x90y05id+qcAo/PUZzUY/57h22p5fZMXtANxK2/B4lTLom7qZgUdsjdNP17hhx6leA2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=frDxTKkA; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EG8227m7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="frDxTKkA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765596898; x=1797132898;
+  t=1765598940; x=1797134940;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Nz6qNTs/zLC/Mm0X4zfer92a9o6smf6uhwxBxnGOCuI=;
-  b=EG8227m75YvTyYffH2WhQPAG5EJBE1oHogUtEnUkPv8+KxIunSxpcA50
-   9KgFdBR1kPS/IS+d064dei93zZfz+2Drr3pymr1/7Bt9WVAaUpm1Fylwm
-   LiXYNYgOYbYpwt5MteWBRCHeIWgtYs2mp0V+PaxYo6Yf+roxcDmqjSFiu
-   +sfyRnZA7uV7/Jz1qogp7ZR7p3A8Sa0Sf7vcsnpx8fakZGjCqrsNDz3SN
-   MAKNR7BvnMV7wKVY9KRVv3G3yK8i1/FRJil2+PP8wCuHoFumJ4Ras4Ge8
-   KKW3lnlqm+C9S/fIkB0a1ZPlJt3v98aflJL2LjvQ+KxD/jngCfzMIq2Di
-   Q==;
-X-CSE-ConnectionGUID: fwE80HU6RNuCeIY0cEfCUA==
-X-CSE-MsgGUID: ZZ8uJnGnQEGv2nv4jE0Kbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="78235813"
+  bh=bugDCrkVrHTo4ck4ctYw6cRmP+Vc/auM7c+zdcXLhek=;
+  b=frDxTKkASs/8YdCs0qzjrhvqiXJHb/fzWkRDWEpka9HBxpjRXUW7e2Pt
+   EbQJ1HRPNByVnfMGWKofoqA6VcJ4avCpUJHA1+VYlyT/6bM+RD0xDsBQs
+   JWj1NgQZhNVxagv9RuHSFXhYNSWKSqu/Jl9s4t3UhWnPHU2/RedlB8rMH
+   mzMIwb72C8CPZJrSlLPR+24+Vj9AIaVB+JH780uxJQwE+riY8qiHDHaEq
+   LmAPqqcFP1wplOpI+idV7OxxCcbNL/E+oX3F8+YbtA+16ovX602hmWL6j
+   wNym1MsGGSku4JHA/G4Ms9OsLlx4oi4RxU45ktCwrk9VptF+FwYMdYcO+
+   g==;
+X-CSE-ConnectionGUID: A77A4gF4TPCEZJ7maGtLHA==
+X-CSE-MsgGUID: hgOyZbXGSjmTtPhpu13hPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="93072636"
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="78235813"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 19:34:55 -0800
-X-CSE-ConnectionGUID: Q4t+WVjSTUKYnqCwZBPNWA==
-X-CSE-MsgGUID: mtqVroziSjKYV9rmcgmh1w==
+   d="scan'208";a="93072636"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 20:09:00 -0800
+X-CSE-ConnectionGUID: eFpMyVnoTIa+RPo4d62urg==
+X-CSE-MsgGUID: eDDuvyZHS+O3fz4O6JSuag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="196315676"
+   d="scan'208";a="197311978"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 12 Dec 2025 19:34:55 -0800
+  by orviesa008.jf.intel.com with ESMTP; 12 Dec 2025 20:08:58 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUGPE-000000006zu-1b9x;
-	Sat, 13 Dec 2025 03:34:52 +0000
-Date: Sat, 13 Dec 2025 11:34:08 +0800
+	id 1vUGwB-0000000071y-2ssk;
+	Sat, 13 Dec 2025 04:08:55 +0000
+Date: Sat, 13 Dec 2025 12:08:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/sitronix/st7571-i2c.c:371
- st7571_fb_update_rect_grayscale() error: uninitialized symbol 'x2'.
-Message-ID: <202512131133.pPJb0B2h-lkp@intel.com>
+Subject: drivers/firmware/xilinx/zynqmp.c:677 zynqmp_pm_query_data() warn:
+ missing error code? 'ret'
+Message-ID: <202512131243.914A9iGX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,97 +65,78 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Marcus Folkesson <marcus.folkesson@gmail.com>
-CC: Javier Martinez Canillas <javierm@redhat.com>
+TO: Ronak Jain <ronak.jain@amd.com>
+CC: Michal Simek <monstr@monstr.eu>
+CC: Jay Buddhabhatti <jay.buddhabhatti@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   187d0801404f415f22c0b31531982c7ea97fa341
-commit: 9b8f32002cddf792fc6657c6f084585c7af1a858 drm/sitronix: move tiny Sitronix drivers to their own subdir
-date:   7 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 7 months ago
-config: i386-randconfig-141-20251212 (https://download.01.org/0day-ci/archive/20251213/202512131133.pPJb0B2h-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+commit: 92fb71333d5737d0296fb968a653dfda4b225175 firmware: xilinx: add support for new SMC call format
+date:   1 year, 2 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 1 year, 2 months ago
+config: arm64-randconfig-r073-20251212 (https://download.01.org/0day-ci/archive/20251213/202512131243.914A9iGX-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512131133.pPJb0B2h-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512131243.914A9iGX-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/sitronix/st7571-i2c.c:371 st7571_fb_update_rect_grayscale() error: uninitialized symbol 'x2'.
+smatch warnings:
+drivers/firmware/xilinx/zynqmp.c:677 zynqmp_pm_query_data() warn: missing error code? 'ret'
 
-Old smatch warnings:
-drivers/gpu/drm/sitronix/st7571-i2c.c:214 st7571_send_command_list() error: uninitialized symbol 'ret'.
-drivers/gpu/drm/sitronix/st7571-i2c.c:371 st7571_fb_update_rect_grayscale() error: uninitialized symbol 'x1'.
+vim +/ret +677 drivers/firmware/xilinx/zynqmp.c
 
-vim +/x2 +371 drivers/gpu/drm/sitronix/st7571-i2c.c
-
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  343  
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  344  static int st7571_fb_update_rect_grayscale(struct drm_framebuffer *fb, struct drm_rect *rect)
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  345  {
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  346  	struct st7571_device *st7571 = drm_to_st7571(fb->dev);
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  347  	u32 format = fb->format->format;
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  348  	char *row = st7571->row;
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  349  	int x1;
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  350  	int x2;
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  351  
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  352  	/* Align y to display page boundaries */
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  353  	rect->y1 = round_down(rect->y1, ST7571_PAGE_HEIGHT);
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  354  	rect->y2 = min_t(unsigned int, round_up(rect->y2, ST7571_PAGE_HEIGHT), st7571->nlines);
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  355  
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  356  	switch (format) {
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  357  	case DRM_FORMAT_XRGB8888:
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  358  		/* Threated as monochrome (R1) */
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  359  		fallthrough;
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  360  	case DRM_FORMAT_R1:
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  361  		x1 = rect->x1;
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  362  		x2 = rect->x2;
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  363  		break;
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  364  	case DRM_FORMAT_R2:
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  365  		x1 = rect->x1 * 2;
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  366  		x2 = rect->x2 * 2;
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  367  		break;
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  368  	}
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  369  
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  370  	for (int y = rect->y1; y < rect->y2; y += ST7571_PAGE_HEIGHT) {
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23 @371  		for (int x = x1; x < x2; x++)
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  372  			row[x] = st7571_transform_xy(st7571->hwbuf, x, y);
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  373  
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  374  		st7571_set_position(st7571, rect->x1, y);
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  375  
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  376  		/* TODO: Investige why we can't write multiple bytes at once */
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  377  		for (int x = x1; x < x2; x++) {
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  378  			regmap_bulk_write(st7571->regmap, ST7571_DATA_MODE, row + x, 1);
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  379  
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  380  			/*
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  381  			 * As the display supports grayscale, all pixels must be written as two bits
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  382  			 * even if the format is monochrome.
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  383  			 *
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  384  			 * The bit values maps to the following grayscale:
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  385  			 * 0 0 = White
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  386  			 * 0 1 = Light gray
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  387  			 * 1 0 = Dark gray
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  388  			 * 1 1 = Black
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  389  			 *
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  390  			 * For monochrome formats, write the same value twice to get
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  391  			 * either a black or white pixel.
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  392  			 */
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  393  			if (format == DRM_FORMAT_R1 || format == DRM_FORMAT_XRGB8888)
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  394  				regmap_bulk_write(st7571->regmap, ST7571_DATA_MODE, row + x, 1);
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  395  		}
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  396  	}
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  397  
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  398  	return 0;
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  399  }
-4b35f0f41ee295 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  400  
-
-:::::: The code at line 371 was first introduced by commit
-:::::: 4b35f0f41ee295059c46a6f4ae97e4b5b8f10d9e drm/st7571-i2c: add support for Sitronix ST7571 LCD controller
-
-:::::: TO: Marcus Folkesson <marcus.folkesson@gmail.com>
-:::::: CC: Javier Martinez Canillas <javierm@redhat.com>
+76582671eb5d00 Rajan Vaja 2018-09-12  645  
+59ecdd778879f1 Rajan Vaja 2018-09-12  646  /**
+59ecdd778879f1 Rajan Vaja 2018-09-12  647   * zynqmp_pm_query_data() - Get query data from firmware
+59ecdd778879f1 Rajan Vaja 2018-09-12  648   * @qdata:	Variable to the zynqmp_pm_query_data structure
+59ecdd778879f1 Rajan Vaja 2018-09-12  649   * @out:	Returned output value
+59ecdd778879f1 Rajan Vaja 2018-09-12  650   *
+59ecdd778879f1 Rajan Vaja 2018-09-12  651   * Return: Returns status, either success or error+reason
+59ecdd778879f1 Rajan Vaja 2018-09-12  652   */
+6366c1bac3149c Rajan Vaja 2020-04-24  653  int zynqmp_pm_query_data(struct zynqmp_pm_query_data qdata, u32 *out)
+59ecdd778879f1 Rajan Vaja 2018-09-12  654  {
+92fb71333d5737 Ronak Jain 2024-09-19  655  	int ret, i = 0;
+92fb71333d5737 Ronak Jain 2024-09-19  656  	u32 ret_payload[PAYLOAD_ARG_CNT] = {0};
+92fb71333d5737 Ronak Jain 2024-09-19  657  
+92fb71333d5737 Ronak Jain 2024-09-19  658  	if (sip_svc_version >= SIP_SVC_PASSTHROUGH_VERSION) {
+92fb71333d5737 Ronak Jain 2024-09-19  659  		ret = zynqmp_pm_invoke_fw_fn(PM_QUERY_DATA, ret_payload, 4,
+92fb71333d5737 Ronak Jain 2024-09-19  660  					     qdata.qid, qdata.arg1,
+92fb71333d5737 Ronak Jain 2024-09-19  661  					     qdata.arg2, qdata.arg3);
+92fb71333d5737 Ronak Jain 2024-09-19  662  		/* To support backward compatibility */
+92fb71333d5737 Ronak Jain 2024-09-19  663  		if (!ret && !ret_payload[0]) {
+92fb71333d5737 Ronak Jain 2024-09-19  664  			/*
+92fb71333d5737 Ronak Jain 2024-09-19  665  			 * TF-A passes return status on 0th index but
+92fb71333d5737 Ronak Jain 2024-09-19  666  			 * api to get clock name reads data from 0th
+92fb71333d5737 Ronak Jain 2024-09-19  667  			 * index so pass data at 0th index instead of
+92fb71333d5737 Ronak Jain 2024-09-19  668  			 * return status
+92fb71333d5737 Ronak Jain 2024-09-19  669  			 */
+92fb71333d5737 Ronak Jain 2024-09-19  670  			if (qdata.qid == PM_QID_CLOCK_GET_NAME ||
+92fb71333d5737 Ronak Jain 2024-09-19  671  			    qdata.qid == PM_QID_PINCTRL_GET_FUNCTION_NAME)
+92fb71333d5737 Ronak Jain 2024-09-19  672  				i = 1;
+92fb71333d5737 Ronak Jain 2024-09-19  673  
+92fb71333d5737 Ronak Jain 2024-09-19  674  			for (; i < PAYLOAD_ARG_CNT; i++, out++)
+92fb71333d5737 Ronak Jain 2024-09-19  675  				*out = ret_payload[i];
+92fb71333d5737 Ronak Jain 2024-09-19  676  
+92fb71333d5737 Ronak Jain 2024-09-19 @677  			return ret;
+92fb71333d5737 Ronak Jain 2024-09-19  678  		}
+92fb71333d5737 Ronak Jain 2024-09-19  679  	}
+f9627312e20721 Rajan Vaja 2018-09-12  680  
+92fb71333d5737 Ronak Jain 2024-09-19  681  	ret = zynqmp_pm_invoke_fn(PM_QUERY_DATA, out, 4, qdata.qid,
+92fb71333d5737 Ronak Jain 2024-09-19  682  				  qdata.arg1, qdata.arg2, qdata.arg3);
+f9627312e20721 Rajan Vaja 2018-09-12  683  
+f9627312e20721 Rajan Vaja 2018-09-12  684  	/*
+f9627312e20721 Rajan Vaja 2018-09-12  685  	 * For clock name query, all bytes in SMC response are clock name
+f9627312e20721 Rajan Vaja 2018-09-12  686  	 * characters and return code is always success. For invalid clocks,
+f9627312e20721 Rajan Vaja 2018-09-12  687  	 * clock name bytes would be zeros.
+f9627312e20721 Rajan Vaja 2018-09-12  688  	 */
+f9627312e20721 Rajan Vaja 2018-09-12  689  	return qdata.qid == PM_QID_CLOCK_GET_NAME ? 0 : ret;
+f9627312e20721 Rajan Vaja 2018-09-12  690  }
+6366c1bac3149c Rajan Vaja 2020-04-24  691  EXPORT_SYMBOL_GPL(zynqmp_pm_query_data);
+f9627312e20721 Rajan Vaja 2018-09-12  692  
 
 -- 
 0-DAY CI Kernel Test Service
