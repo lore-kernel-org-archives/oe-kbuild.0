@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C191B4138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EC2E555
 	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 00:33:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765586029; cv=none; b=JYjV4sjTtIQ2wiQpn5iUp7HXQ2N90/knUb3ohFFYOJI3CSfZ4C6nsaLAEX3cW4HYFvAYlovCxcV/ulvRDyJ33GH/+sJy0H9opwnKuhyTQVEWku3Uc3Wng1B6IZHPzxIUIMunYH7M/QqAbQHAyUzg1kkQa1zsIXJZnAx2lKpFN9o=
+	t=1765586030; cv=none; b=oD5u8nn1WdKjIKJovEh8CFTXbrxOQT1xibXZRmFOI1Ao8LWFNkM0ewu6q4lRuftU82mEJ9dsz8muNkd4jWM8N8xsXWxD6yG7YVbTbs0wpd5C6/w8K/bq0or+9Jh+dixzcj/NqQ9OmSPiw2qtqpVAqi/1rTtLAS7LUqyhq4JRL6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765586029; c=relaxed/simple;
-	bh=S6lRi9ximGjiS0hFjrAa6r/r2GMFbwaPgrsu6icMndo=;
+	s=arc-20240116; t=1765586030; c=relaxed/simple;
+	bh=NmjIMCmXTwodzHKjv+U4eP/EpAuiGCKtuMxZvlOGJlI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CG1gA07CP2+pkRC+TAzSwywAH1N/B+cG2XD0Dd8ZhM/pk+BurDvD3wadzf3XEoxI5UD8zYBJYzz0L2XccZwu5ceniuO8dP9o2dlax0OOBLI321vMNhokPE2IszEC9ArdoV3Pa8OSpM9DSYHgtWWNj7XvoAavJKOs6pHXuQ6YhtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UiolurFZ; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=hc9dVH+HEcpWv9HvJjCTX0r3tWVL1TvOWwUuizF2d6+xAtrRstZwZxXm9y0D40Q/OEJPHxvQEc9aqHcVCcACqgauusSE57kTKtv3ZNmfo23loQcCxwaAPljeJxp5VzMgfZ++B3bkLPRb9We31Hxn2nn2vwc02qFJF/L4MnInfDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l9KZRD9t; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UiolurFZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l9KZRD9t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765586027; x=1797122027;
+  t=1765586028; x=1797122028;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S6lRi9ximGjiS0hFjrAa6r/r2GMFbwaPgrsu6icMndo=;
-  b=UiolurFZ4WMYBSPKNo4Tqs8+UtnONgQNTBaq4/+wVHfCcjzZLF56kEt/
-   hTM/5iGAbL5zA66bTo5Ku48I9Ju0IV8hCFkTVcTlGlzBtgOGaAUNgzEHt
-   EqJqqn10fCwpkOvClDDNpSyrXONUy1sGbKjn2cZi5LvZXPYNkNNXi6aYn
-   L1/K0C569NxNf2i/8tIk93YwY8X3e5o+ZQKbTMDj/1x9OYusPkKVCnDit
-   qBWySev66FkKWWwvaK9l9bsm6CnyLEu2ZCCFPusGJ0ni0jdEPgI9UITKv
-   lkv/8BkFZFgMF+X2ffHa+7fMSIelWOpVXmyM8UyEIfEyoE01KBYzhl1br
-   A==;
-X-CSE-ConnectionGUID: v718pCzsQY2UH688UV8S5Q==
-X-CSE-MsgGUID: ZCGnJ10BQJyUfFe4VGLQ6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="66581151"
+  bh=NmjIMCmXTwodzHKjv+U4eP/EpAuiGCKtuMxZvlOGJlI=;
+  b=l9KZRD9tlz1oCV4BKiP8YaveJEP+uskda7fQE49Mc8uB8uUeHmOxPpyb
+   +8Wxcb2unjjJ601cWVemRwtbB3GJAWY6PXNZKDGGRnNKMtLxc9bfwxi44
+   vEfTWiTFhcV/EcvdAcgHZ3mJyTx3PVjN6y+hKb5supZJ9wQVV0zOjE86t
+   dIcOaWhYKIDBk8M4j0DZ/tH4/5E0b7npDsovVLhEVG+4sKomNjBsKS2I1
+   t79xUPmwagcOMt4YfLwKhVWH3gZEb9Je7zZ0N7ugSxFderbyEZYPvbu9x
+   9RY03e06ASp/e1JsS4IMGdI20mDqSmGEdYgn9u0bSd/PfAKxRNTaR2q3z
+   w==;
+X-CSE-ConnectionGUID: xLFnfBAqT/W5wl+9hwb10A==
+X-CSE-MsgGUID: Lu6cW/m6SdyFsXaQppQQTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="66581153"
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="66581151"
+   d="scan'208";a="66581153"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 16:33:45 -0800
-X-CSE-ConnectionGUID: kSWAlhHZSnWiui7nKR60hw==
-X-CSE-MsgGUID: JzTihoqXTySz/mgZkS+9bQ==
+X-CSE-ConnectionGUID: LXoPqPt5RYCqk0vJ8pWStQ==
+X-CSE-MsgGUID: Eb4zM7oTSW+fuuoIgehA5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="197718305"
+   d="scan'208";a="197718303"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 12 Dec 2025 16:33:43 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUDZt-000000006ph-1LsJ;
+	id 1vUDZt-000000006pn-1gxB;
 	Sat, 13 Dec 2025 00:33:41 +0000
-Date: Sat, 13 Dec 2025 08:33:26 +0800
+Date: Sat, 13 Dec 2025 08:33:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/panel/panel-himax-hx8279.c:807
- hx8279_check_gmux_config() warn: impossible condition '(gmux->gout_r[i] >
- ((((0) + (((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 -
- (((-1)) < 1))))) << (6) & ((((1 << (8 * 8 - 1 - (((-1)) < 1))...
-Message-ID: <202512130857.2ECJ4UeV-lkp@intel.com>
+Subject: kernel/trace/trace_functions_graph.c:950 print_graph_entry_nested()
+ warn: bitwise AND condition is false here
+Message-ID: <202512130854.MZP1H6wu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,64 +65,80 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-CC: Yury Norov <yury.norov@gmail.com>
+TO: Donglin Peng <pengdonglin@xiaomi.com>
+CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   187d0801404f415f22c0b31531982c7ea97fa341
-commit: 104ea1c84b91c9f452e497ba51602b903711cdd5 bits: unify the non-asm GENMASK*()
-date:   4 months ago
+commit: 21e92806d39c68af2accd1fb238c2daecfcf9fbd function_graph: Support recording and printing the function return address
+date:   1 year, 2 months ago
 :::::: branch date: 14 hours ago
-:::::: commit date: 4 months ago
-config: sparc-randconfig-r071-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130857.2ECJ4UeV-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.1.0
+:::::: commit date: 1 year, 2 months ago
+config: arm64-randconfig-r073-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130854.MZP1H6wu-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512130857.2ECJ4UeV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512130854.MZP1H6wu-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/panel/panel-himax-hx8279.c:807 hx8279_check_gmux_config() warn: impossible condition '(gmux->gout_r[i] > ((((0) + (((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1))))) << (6) & ((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1))))) >> ((8 * 8) - 1 - (7))))) | (((0) + (((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1))))) << (0) & ((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1))))) >> ((8 * 8) - 1 - (5))))))) => (0-255 > 255)'
+smatch warnings:
+kernel/trace/trace_functions_graph.c:950 print_graph_entry_nested() warn: bitwise AND condition is false here
 
-Old smatch warnings:
-drivers/gpu/drm/panel/panel-himax-hx8279.c:801 hx8279_check_gmux_config() warn: impossible condition '(gmux->gout_l[i] > ((((0) + (((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1))))) << (6) & ((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1))))) >> ((8 * 8) - 1 - (7))))) | (((0) + (((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1))))) << (0) & ((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1))))) >> ((8 * 8) - 1 - (5))))))) => (0-255 > 255)'
+vim +950 kernel/trace/trace_functions_graph.c
 
-vim +807 drivers/gpu/drm/panel/panel-himax-hx8279.c
-
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  789  
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  790  static int hx8279_check_gmux_config(struct hx8279 *hx, struct device *dev)
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  791  {
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  792  	const struct hx8279_panel_desc *desc = hx->desc;
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  793  	const struct hx8279_goa_mux *gmux = desc->gmux;
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  794  	int i;
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  795  
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  796  	/* No gmux defined means we simply skip the GOA mux configuration */
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  797  	if (!gmux)
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  798  		return 0;
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  799  
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  800  	for (i = 0; i < ARRAY_SIZE(gmux->gout_l); i++) {
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  801  		if (gmux->gout_l[i] > (HX8279_GOUT_STB | HX8279_GOUT_SEL))
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  802  			return dev_err_probe(dev, -EINVAL,
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  803  					     "Invalid value found in gout_l[%d]\n", i);
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  804  	}
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  805  
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  806  	for (i = 0; i < ARRAY_SIZE(gmux->gout_r); i++) {
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14 @807  		if (gmux->gout_r[i] > (HX8279_GOUT_STB | HX8279_GOUT_SEL))
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  808  			return dev_err_probe(dev, -EINVAL,
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  809  					     "Invalid value found in gout_r[%d]\n", i);
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  810  	}
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  811  
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  812  	return 0;
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  813  }
-38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  814  
-
-:::::: The code at line 807 was first introduced by commit
-:::::: 38d42c261389985e8dd4739dbd97e2dc855e8dd0 drm: panel: Add driver for Himax HX8279 DDIC panels
-
-:::::: TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-:::::: CC: Neil Armstrong <neil.armstrong@linaro.org>
+83a8df618eb04b Frederic Weisbecker      2008-11-27  915  
+83a8df618eb04b Frederic Weisbecker      2008-11-27  916  static enum print_line_t
+2fbcdb35aca614 Steven Rostedt           2009-03-19  917  print_graph_entry_nested(struct trace_iterator *iter,
+2fbcdb35aca614 Steven Rostedt           2009-03-19  918  			 struct ftrace_graph_ent_entry *entry,
+d7a8d9e907cc29 Jiri Olsa                2010-04-02  919  			 struct trace_seq *s, int cpu, u32 flags)
+83a8df618eb04b Frederic Weisbecker      2008-11-27  920  {
+83a8df618eb04b Frederic Weisbecker      2008-11-27  921  	struct ftrace_graph_ent *call = &entry->graph_ent;
+2fbcdb35aca614 Steven Rostedt           2009-03-19  922  	struct fgraph_data *data = iter->private;
+983f938ae69585 Steven Rostedt (Red Hat  2015-09-30  923) 	struct trace_array *tr = iter->tr;
+4c57d0be528b12 Steven Rostedt           2024-08-13  924  	unsigned long func;
+2fbcdb35aca614 Steven Rostedt           2009-03-19  925  	int i;
+2fbcdb35aca614 Steven Rostedt           2009-03-19  926  
+2fbcdb35aca614 Steven Rostedt           2009-03-19  927  	if (data) {
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  928  		struct fgraph_cpu_data *cpu_data;
+2fbcdb35aca614 Steven Rostedt           2009-03-19  929  		int cpu = iter->cpu;
+2fbcdb35aca614 Steven Rostedt           2009-03-19  930  
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  931  		cpu_data = per_cpu_ptr(data->cpu_data, cpu);
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  932  		cpu_data->depth = call->depth;
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  933  
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  934  		/* Save this function pointer to see if the exit matches */
+794de08a16cf1f Steven Rostedt (Red Hat  2016-12-08  935) 		if (call->depth < FTRACE_RETFUNC_DEPTH &&
+794de08a16cf1f Steven Rostedt (Red Hat  2016-12-08  936) 		    !WARN_ON_ONCE(call->depth < 0))
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  937  			cpu_data->enter_funcs[call->depth] = call->func;
+2fbcdb35aca614 Steven Rostedt           2009-03-19  938  	}
+83a8df618eb04b Frederic Weisbecker      2008-11-27  939  
+1a056155edd458 Frederic Weisbecker      2008-11-28  940  	/* No time */
+983f938ae69585 Steven Rostedt (Red Hat  2015-09-30  941) 	print_graph_duration(tr, 0, s, flags | FLAGS_FILL_FULL);
+f8b755ac8e0cc3 Frederic Weisbecker      2008-12-09  942  
+83a8df618eb04b Frederic Weisbecker      2008-11-27  943  	/* Function */
+9d9add34ec7b2c Steven Rostedt (Red Hat  2014-11-12  944) 	for (i = 0; i < call->depth * TRACE_GRAPH_INDENT; i++)
+9d9add34ec7b2c Steven Rostedt (Red Hat  2014-11-12  945) 		trace_seq_putc(s, ' ');
+9d9add34ec7b2c Steven Rostedt (Red Hat  2014-11-12  946) 
+4c57d0be528b12 Steven Rostedt           2024-08-13  947  	func = call->func + iter->tr->text_delta;
+4c57d0be528b12 Steven Rostedt           2024-08-13  948  
+21e92806d39c68 Donglin Peng             2024-09-14  949  	trace_seq_printf(s, "%ps() {", (void *)func);
+21e92806d39c68 Donglin Peng             2024-09-14 @950  	if (flags & __TRACE_GRAPH_PRINT_RETADDR  &&
+21e92806d39c68 Donglin Peng             2024-09-14  951  		entry->ent.type == TRACE_GRAPH_RETADDR_ENT)
+21e92806d39c68 Donglin Peng             2024-09-14  952  		print_graph_retaddr(s, (struct fgraph_retaddr_ent_entry *)entry,
+21e92806d39c68 Donglin Peng             2024-09-14  953  			tr->trace_flags, true);
+21e92806d39c68 Donglin Peng             2024-09-14  954  	trace_seq_putc(s, '\n');
+fb52607afcd062 Frederic Weisbecker      2008-11-25  955  
+9d9add34ec7b2c Steven Rostedt (Red Hat  2014-11-12  956) 	if (trace_seq_has_overflowed(s))
+83a8df618eb04b Frederic Weisbecker      2008-11-27  957  		return TRACE_TYPE_PARTIAL_LINE;
+83a8df618eb04b Frederic Weisbecker      2008-11-27  958  
+b91facc367366b Frederic Weisbecker      2009-02-06  959  	/*
+b91facc367366b Frederic Weisbecker      2009-02-06  960  	 * we already consumed the current entry to check the next one
+b91facc367366b Frederic Weisbecker      2009-02-06  961  	 * and see if this is a leaf.
+b91facc367366b Frederic Weisbecker      2009-02-06  962  	 */
+b91facc367366b Frederic Weisbecker      2009-02-06  963  	return TRACE_TYPE_NO_CONSUME;
+287b6e68ca7209 Frederic Weisbecker      2008-11-26  964  }
+fb52607afcd062 Frederic Weisbecker      2008-11-25  965  
 
 -- 
 0-DAY CI Kernel Test Service
