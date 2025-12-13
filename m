@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C7A1946DF
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 21:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EAA288514
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Dec 2025 22:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765661005; cv=none; b=NvVJM23j9KRqxIY7k5ekI02y7IrsYJzcmyoPxd17/+GnH0/PSQZIBeKnie8xCXqNriBBzTrt5znNran9aJ8zxL5Ke3PIzJFliFLeo6xuLg/E/59+8qXJ64Eh/2YbD1st/jaTMM6kR+ryQRu3Q6lSdIHIf5H5abRJxHj8tc07r/o=
+	t=1765663527; cv=none; b=jjGvkVWQDCVtVX6qeHRPN5sgUfSyPRAOcGRToBBYgzU9Mq/dlZz4WVT3WnU55KeTlDn9w54Yj2mIrKPn18lLgb/YrXwFxsBqQXhuD/gehwkUrgqBYaWZ0/WaVV3UXZSg5o45dH1H6MihiKYQhfoAttlZlL4H/qSOiq6bi693uIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765661005; c=relaxed/simple;
-	bh=Aih9Q1F5MTENPXTCW5HJza34Rm/TFI0EFNH7+x6Ij9U=;
+	s=arc-20240116; t=1765663527; c=relaxed/simple;
+	bh=3eweciAlU5AwfN6E7qzVRrgQUFpQ7PF8W+9IFdQDvoA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HPJhHlQAG+lomVlucX8EN1YdiqtKqTEueGNRNcCzRzPIvilxwQA6JY+GGmc2L8TqbT/CzcmMGHWY/Axug2naE9c5hfIS0slGE/eQVl8cy4AYzJ+yDOTyvUzp/rOjVxFmz6CSZcaABBj6tbFK1bwioGO8RDAsm/Fwo8Btq+j0i/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e0dQmtgS; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=ggX4xPUvhf4uhVUsD7tUk6wrBigNJYcP8UxdeciV+qGHtLusXxrnl6v03mcNhxHEDDm7hZcsSZWsF6QB+Co9XGBtgJGIpNf1j7rRxnV/9eA1iDVsFhNwizNb3WVbLUQ0IYnV+r8wZMHtDedLWJlN5M3mdsuEY+sVCF59IAbxNG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T+LsSRjw; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e0dQmtgS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T+LsSRjw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765661003; x=1797197003;
+  t=1765663526; x=1797199526;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Aih9Q1F5MTENPXTCW5HJza34Rm/TFI0EFNH7+x6Ij9U=;
-  b=e0dQmtgSlbIKHhZP2/9Iaxq+vv0v7akD3v4tkWF3TaSDVl+God9CQZnv
-   Q2pSb04IpZUvfj90Xqy2gtJK+dTpZY7l3MW/QOcubhpyYXca+QXm9d/lg
-   Grv+jymww2KpC7+suIf9IPQcLL0J6SVUc3gwkuSOb+8ygDchQjGg1lIZ1
-   r8L9Y3m+O2oVxXmv8h2l4mFAOfJJoMPw+BoPG3eB4mQaG3PYL0wPOuEIB
-   obJT7LwaHnJ4dsxuW2z4eXchhjDb8PGj0kXoMywR7MEsBzW2gYZbgAjVJ
-   riXP5h05gbJZmVuBWt8HJEqXugRPb6baLPhP7Vd2JcvZL4JYlVLz5SWTz
-   A==;
-X-CSE-ConnectionGUID: 7c9Rg6FrQDqQ3Hpfzrdq/A==
-X-CSE-MsgGUID: f/wCBcKvRRKrVwcab+BRSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="55185848"
+  bh=3eweciAlU5AwfN6E7qzVRrgQUFpQ7PF8W+9IFdQDvoA=;
+  b=T+LsSRjwjyugEhe55UC8a7PEucwF6hvlcpFP7qSRaFgEQtIa0dJoidtT
+   kNWalcUswAY2axYdEUq1B1aujdNpVArlF0SzhJ2X1hJEQZWZvFIgLTyjf
+   2j6Auy5qBxPAda6PU31YHaCXRmk57ZFoUH4pbLdTyZbPQDV3tqSZNAzoV
+   Oc0zU5laT/ZV05TF6lwqnWam9cUjXUIbBVRoz1eQ9VW/b5VtU6p43/W/k
+   VHuWyyI83rMdwLv6slwUkJmcjMAssJzGyOxVbC2FX73woepKh0YKiSkPo
+   Y438auUuhTF7jHihatugiZfChL88MMiTxAAM/wMw22PvfzdcFCDf1jUdW
+   g==;
+X-CSE-ConnectionGUID: LWxP6jlrRbeDfJTHILnDTQ==
+X-CSE-MsgGUID: y0e0hjE2TMOLcmsUorSGVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67662935"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="55185848"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 13:23:22 -0800
-X-CSE-ConnectionGUID: zpee1kcuSyGXh3jJ4jtbjw==
-X-CSE-MsgGUID: qNUCJy5pS0aAWNBM2P5VrQ==
+   d="scan'208";a="67662935"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 14:05:25 -0800
+X-CSE-ConnectionGUID: /IrZf+H4S42DwxKrbPlTeg==
+X-CSE-MsgGUID: /CYbN9D8RWCmupcDulDcKw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="201795425"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Dec 2025 13:23:22 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 13 Dec 2025 14:05:24 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUX5E-000000008EB-0VvH;
-	Sat, 13 Dec 2025 21:23:20 +0000
-Date: Sun, 14 Dec 2025 05:22:38 +0800
+	id 1vUXju-000000008Fz-1KNk;
+	Sat, 13 Dec 2025 22:05:22 +0000
+Date: Sun, 14 Dec 2025 06:04:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arc/boot/dts/nsimosci_hs_idu.dtb: Warning (interrupt_map):
- Failed prerequisite 'interrupt_provider'
-Message-ID: <202512140545.81j0qVgw-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/tee/tee_heap.c:327 tee_device_put_all_dma_heaps() warn:
+ iterator 'i' not incremented
+Message-ID: <202512140600.8QizINFP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,41 +60,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
-CC: linux-snps-arc@lists.infradead.org
+TO: Jens Wiklander <jens.wiklander@linaro.org>
+CC: Sumit Garg <sumit.garg@oss.qualcomm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   4a298a43f5e339f48d2dda0665c02b88ee9a4e03
-commit: 3b7f793acc13b6108452271b306d4aa94a3c4940 ARC: migrate to the generic rule for built-in DTB
-date:   11 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 11 months ago
-config: arc-nsimosci_hs_smp_defconfig (https://download.01.org/0day-ci/archive/20251214/202512140545.81j0qVgw-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140545.81j0qVgw-lkp@intel.com/reproduce)
+commit: c924c65f52c300ba36373e140a43a8e723c3abdd tee: implement protected DMA-heap
+date:   3 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 3 months ago
+config: i386-randconfig-141-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140600.8QizINFP-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512140545.81j0qVgw-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512140600.8QizINFP-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arc/boot/dts/skeleton_hs_idu.dtsi:57.9-60.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arc/boot/dts/nsimosci_hs_idu.dts:33.22-37.5: Warning (simple_bus_reg): /fpga/core_clk: missing or empty reg/ranges property
-   arch/arc/boot/dts/nsimosci_hs_idu.dts:39.40-43.5: Warning (simple_bus_reg): /fpga/core-interrupt-controller: missing or empty reg/ranges property
-   arch/arc/boot/dts/nsimosci_hs_idu.dts:45.38-50.5: Warning (simple_bus_reg): /fpga/idu-interrupt-controller: missing or empty reg/ranges property
-   arch/arc/boot/dts/nsimosci_hs_idu.dts:64.18-68.5: Warning (simple_bus_reg): /fpga/pguclk: missing or empty reg/ranges property
-   arch/arc/boot/dts/nsimosci_hs_idu.dts:77.21-83.5: Warning (simple_bus_reg): /fpga/ps2@f9001000: simple-bus unit address format error, expected "f9000400"
-   arch/arc/boot/dts/nsimosci_hs_idu.dts:92.16-96.5: Warning (simple_bus_reg): /fpga/pct: missing or empty reg/ranges property
-   arch/arc/boot/dts/nsimosci_hs_idu.dts:92.16-96.5: Warning (interrupt_provider): /fpga/pct: '#interrupt-cells' found, but node is not an interrupt provider
->> arch/arc/boot/dts/nsimosci_hs_idu.dtb: Warning (interrupt_map): Failed prerequisite 'interrupt_provider'
+smatch warnings:
+drivers/tee/tee_heap.c:327 tee_device_put_all_dma_heaps() warn: iterator 'i' not incremented
+
+vim +/i +327 drivers/tee/tee_heap.c
+
+c924c65f52c300 Jens Wiklander 2025-08-13  321  
+c924c65f52c300 Jens Wiklander 2025-08-13  322  void tee_device_put_all_dma_heaps(struct tee_device *teedev)
+c924c65f52c300 Jens Wiklander 2025-08-13  323  {
+c924c65f52c300 Jens Wiklander 2025-08-13  324  	struct tee_dma_heap *h;
+c924c65f52c300 Jens Wiklander 2025-08-13  325  	u_long i;
+c924c65f52c300 Jens Wiklander 2025-08-13  326  
+c924c65f52c300 Jens Wiklander 2025-08-13 @327  	xa_for_each(&tee_dma_heap, i, h) {
+c924c65f52c300 Jens Wiklander 2025-08-13  328  		if (h) {
+c924c65f52c300 Jens Wiklander 2025-08-13  329  			mutex_lock(&h->mu);
+c924c65f52c300 Jens Wiklander 2025-08-13  330  			if (h->teedev == teedev && !h->shutting_down) {
+c924c65f52c300 Jens Wiklander 2025-08-13  331  				h->shutting_down = true;
+c924c65f52c300 Jens Wiklander 2025-08-13  332  				put_tee_heap(h);
+c924c65f52c300 Jens Wiklander 2025-08-13  333  			}
+c924c65f52c300 Jens Wiklander 2025-08-13  334  			mutex_unlock(&h->mu);
+c924c65f52c300 Jens Wiklander 2025-08-13  335  		}
+c924c65f52c300 Jens Wiklander 2025-08-13  336  	}
+c924c65f52c300 Jens Wiklander 2025-08-13  337  }
+c924c65f52c300 Jens Wiklander 2025-08-13  338  EXPORT_SYMBOL_GPL(tee_device_put_all_dma_heaps);
+c924c65f52c300 Jens Wiklander 2025-08-13  339  
 
 -- 
 0-DAY CI Kernel Test Service
