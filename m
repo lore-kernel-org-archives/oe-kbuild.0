@@ -1,237 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A4A233707
-	for <oe-kbuild@lists.linux.dev>; Sun, 14 Dec 2025 02:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FDF1A3160
+	for <oe-kbuild@lists.linux.dev>; Sun, 14 Dec 2025 02:24:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765678383; cv=none; b=pYTnkORIP6oGeCUxlL2+Hu8KGx2uTrKWS0DrWgGt+lr1qlMHTz1KNke2eHkgVcqdmvQGAlMGm2X1A4xopWq/PjhpCt90YzYaqD93yt30lYcvivmyrt4u0tUOf/ROTAJ2ZoOLAbAUIltJAwN4pZyzzwLkUh65AKYPNx7cgeUU6/4=
+	t=1765679082; cv=none; b=X5jW5CKcaFwwvwAoFENQYYy7FueAO8QZorNVIfbKO4pJP3/FYCJA6RVs39+QkBfvmkccaAFqWu3TzSzH/ngM94nf7DKb4v/trKZAGmVT8He8gOcipp/coy0NzlRnI0bL0UmeeBO42x54KzhKTlKWYKT4DUjccwnTR3tsJCUnxaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765678383; c=relaxed/simple;
-	bh=60FBfNUYA9qBqRs95pk5i0gDxjzb8XBw6gixk2T8d+c=;
+	s=arc-20240116; t=1765679082; c=relaxed/simple;
+	bh=K04S2gH9ZkkwklJuFU4MMJ8fQW+nHdzWUmKCma6qB+k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jqeVXTsduN0rr6M1qwIBKhRYtUmUq/4Y5NwC3/JiZjU84RHok++eQmEpUaa+PAoVZfmpoxoxy/Qx+EEn2n+4l75VmeC2xmn3MJxf9cKQ7hjNsbLBkaeIuyMHWgWTn2FPxkUJZZcRzdou2d6bx+SVBPHfgpAc8q8o/IkkqlbcQ/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NMM1zSjO; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=Zdt6yNeiwCfPLBNz/AZEEq7ummRSBhjKqaib1SXx6COazJaUr7VdGDz/n738p56oon2hxfHknAhkYrjK6WLTICsWAk+UJ5YJ0KfbqKyhRGMBrK5Q2n3/5mz79qFz8ya87paCQHGnOMW01wi7Pdo2+mFXwcwrXKrPJntr5iCNuvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bEEN83Om; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NMM1zSjO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bEEN83Om"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765678382; x=1797214382;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=60FBfNUYA9qBqRs95pk5i0gDxjzb8XBw6gixk2T8d+c=;
-  b=NMM1zSjOLDhwRqn3QVnzFfHMJt1ypXTOEKXnbBl0yo7vukDNi6zkVuGM
-   VkinHXxwnKvy/6RVI0Siz/fJ4hW1JTMgPrfAWt+QBuTxX2Z3l7hZ9aDHE
-   RetLKz5mcinEDPtzWsgUV/kvgoQEz8vAE/l1J84Tr4OMtyU4jAgA6oi/A
-   FZnRuMTlIlhBhTkQy096Nxws5laV0aESgU1RHCmuNx7SYeO3bcqx5o2Vd
-   t8KGaUtp1rUBoVdH4Zdvhnc/QpTl4eUUNiduCp75Ovj/ZFu7ch0UTSIW2
-   YjaXjLnM+CGeC1PlBhOkw+lpF5o3ocE2FjFCiVhQ0eO/hCS/JX4EVMzVP
-   g==;
-X-CSE-ConnectionGUID: CogK5wKGTIKUsdNrPXit+Q==
-X-CSE-MsgGUID: redORC9KQAm+iaXG59aFww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67511904"
+  t=1765679081; x=1797215081;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=K04S2gH9ZkkwklJuFU4MMJ8fQW+nHdzWUmKCma6qB+k=;
+  b=bEEN83Om95nkupcaBCxieIURhrvCb7Gyeth0kpUOO8PC+4q4WCJrEmSY
+   0FPzsXa5iLhvrYggDwiNTlUfi90Velz4ePjF4wYRePcBw/hcURhntAMF2
+   os0ycT803nVoY2QDhLa0Errl5Bt4hNg+0fMXPidZ9mJPz+zd7pn4dPyXf
+   3Z6ejkWj7bYZgPirmt5lRkTishn3Zh3NgQ9LZNpishJfFZhMBNty0huUQ
+   5lz+pdRW/C3dP2AqrTYHLqz8w9VYInb8xeLXRvJptGDjqNvXGyUK8sOZf
+   S5rSIf0HjRnaJzXYv2a2030IG+WS3cus/AzTEpXrcFVqkaPGE1boB75wZ
+   A==;
+X-CSE-ConnectionGUID: KRPOBfBsRYesmUZyVa5ylw==
+X-CSE-MsgGUID: jRAxlRarT5CWe+QP3+K5Bg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="93106932"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="67511904"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 18:13:01 -0800
-X-CSE-ConnectionGUID: MQQp8MwCQkmm7XFq+wPtZQ==
-X-CSE-MsgGUID: gOtPnyYRTbitlc+cYa2vXQ==
+   d="scan'208";a="93106932"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 18:24:40 -0800
+X-CSE-ConnectionGUID: CC9+LVvBSmWjyHcNdexyqg==
+X-CSE-MsgGUID: ypXYY9XaRay/eOrm1nTMcQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
+   d="scan'208";a="197925141"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Dec 2025 18:12:51 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 13 Dec 2025 18:24:39 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUbbB-000000008TB-0nqG;
-	Sun, 14 Dec 2025 02:12:37 +0000
-Date: Sun, 14 Dec 2025 10:11:39 +0800
+	id 1vUbmn-000000008TX-1xBA;
+	Sun, 14 Dec 2025 02:24:37 +0000
+Date: Sun, 14 Dec 2025 10:23:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/firmware/efi/libstub/x86-stub.c:861 efi_stub_entry() error:
- we previously assumed 'boot_params' could be null (see line 824)
-Message-ID: <202512141048.pPlv4HBl-lkp@intel.com>
+Subject: drivers/gpu/drm/v3d/v3d_irq.c:288 v3d_irq_init() warn: missing
+ unwind goto?
+Message-ID: <202512141013.Pxfid88r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Ard Biesheuvel <ardb@kernel.org>
+TO: "Maíra Canal" <mcanal@igalia.com>
+CC: "Juan A. Suarez" <jasuarez@igalia.com>
+CC: Iago Toral Quiroga <itoral@igalia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   4a298a43f5e339f48d2dda0665c02b88ee9a4e03
-commit: dac628e9563640e2de7878decc03a508b1ba319a x86/efistub: Merge PE and handover entrypoints
-date:   10 months ago
+commit: 226862f50a7a88e4e4de9abbf36c64d19acd6fd0 drm/v3d: Disable interrupts before resetting the GPU
+date:   5 months ago
 :::::: branch date: 8 hours ago
-:::::: commit date: 10 months ago
-config: i386-randconfig-141-20251214 (https://download.01.org/0day-ci/archive/20251214/202512141048.pPlv4HBl-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+:::::: commit date: 5 months ago
+config: powerpc64-randconfig-r071-20251213 (https://download.01.org/0day-ci/archive/20251214/202512141013.Pxfid88r-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512141048.pPlv4HBl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512141013.Pxfid88r-lkp@intel.com/
 
 smatch warnings:
-drivers/firmware/efi/libstub/x86-stub.c:861 efi_stub_entry() error: we previously assumed 'boot_params' could be null (see line 824)
+drivers/gpu/drm/v3d/v3d_irq.c:288 v3d_irq_init() warn: missing unwind goto?
 
-vim +/boot_params +861 drivers/firmware/efi/libstub/x86-stub.c
+vim +288 drivers/gpu/drm/v3d/v3d_irq.c
 
-d2d7a54f69b67c drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  802  
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming               2012-07-19  803  /*
-d2d7a54f69b67c drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  804   * On success, this routine will jump to the relocated image directly and never
-d2d7a54f69b67c drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  805   * return.  On failure, it will exit to the firmware via efi_exit() instead of
-d2d7a54f69b67c drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  806   * returning.
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming               2012-07-19  807   */
-df9215f15206c2 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  808  void __noreturn efi_stub_entry(efi_handle_t handle,
-c3710de5065d63 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel             2019-12-24  809  			       efi_system_table_t *sys_table_arg,
-796eb8d26a57f9 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel             2020-01-13  810  			       struct boot_params *boot_params)
-dac628e9563640 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2025-01-26  811  
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming               2012-07-19  812  {
-11078876b7a6a1 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  813  	efi_guid_t guid = EFI_MEMORY_ATTRIBUTE_PROTOCOL_GUID;
-f4dc7fffa9873d drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2022-09-16  814  	const struct linux_efi_initrd *initrd = NULL;
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  815  	unsigned long kernel_entry;
-dac628e9563640 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2025-01-26  816  	struct setup_header *hdr;
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming               2012-07-19  817  	efi_status_t status;
-54b52d87268034 arch/x86/boot/compressed/eboot.c        Matt Fleming               2014-01-10  818  
-ccc27ae7749425 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2020-04-16  819  	efi_system_table = sys_table_arg;
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming               2012-07-19  820  	/* Check if we were booted by the EFI firmware */
-ccc27ae7749425 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2020-04-16  821  	if (efi_system_table->hdr.signature != EFI_SYSTEM_TABLE_SIGNATURE)
-3b8f44fc0810d5 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2020-02-16  822  		efi_exit(handle, EFI_INVALID_PARAMETER);
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming               2012-07-19  823  
-dac628e9563640 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2025-01-26 @824  	if (!IS_ENABLED(CONFIG_EFI_HANDOVER_PROTOCOL) || !boot_params) {
-dac628e9563640 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2025-01-26  825  		status = efi_allocate_bootparams(handle, &boot_params);
-dac628e9563640 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2025-01-26  826  		if (status != EFI_SUCCESS)
-dac628e9563640 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2025-01-26  827  			efi_exit(handle, status);
-dac628e9563640 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2025-01-26  828  	}
-dac628e9563640 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2025-01-26  829  
-dac628e9563640 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2025-01-26  830  	hdr = &boot_params->hdr;
-dac628e9563640 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2025-01-26  831  
-31c77a50992e8d drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  832  	if (have_unsupported_snp_features())
-31c77a50992e8d drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  833  		efi_exit(handle, EFI_UNSUPPORTED);
-31c77a50992e8d drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  834  
-11078876b7a6a1 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  835  	if (IS_ENABLED(CONFIG_EFI_DXE_MEM_ATTRIBUTES)) {
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy             2022-03-03  836  		efi_dxe_table = get_efi_config_table(EFI_DXE_SERVICES_TABLE_GUID);
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy             2022-03-03  837  		if (efi_dxe_table &&
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy             2022-03-03  838  		    efi_dxe_table->hdr.signature != EFI_DXE_SERVICES_TABLE_SIGNATURE) {
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy             2022-03-03  839  			efi_warn("Ignoring DXE services table: invalid signature\n");
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy             2022-03-03  840  			efi_dxe_table = NULL;
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy             2022-03-03  841  		}
-11078876b7a6a1 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  842  	}
-11078876b7a6a1 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  843  
-11078876b7a6a1 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  844  	/* grab the memory attributes protocol if it exists */
-11078876b7a6a1 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  845  	efi_bs_call(locate_protocol, &guid, NULL, (void **)&memattr);
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy             2022-03-03  846  
-cb1c9e02b0c130 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  847  	status = efi_setup_5level_paging();
-cb1c9e02b0c130 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  848  	if (status != EFI_SUCCESS) {
-cb1c9e02b0c130 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  849  		efi_err("efi_setup_5level_paging() failed!\n");
-cb1c9e02b0c130 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  850  		goto fail;
-cb1c9e02b0c130 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  851  	}
-cb1c9e02b0c130 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  852  
-7dde67f2a23ac1 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  853  #ifdef CONFIG_CMDLINE_BOOL
-15aa8fb852f995 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2024-05-16  854  	status = parse_options(CONFIG_CMDLINE);
-055042bedd4e0a drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  855  	if (status != EFI_SUCCESS) {
-055042bedd4e0a drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  856  		efi_err("Failed to parse options\n");
-055042bedd4e0a drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  857  		goto fail;
-055042bedd4e0a drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  858  	}
-7dde67f2a23ac1 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  859  #endif
-7dde67f2a23ac1 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  860  	if (!IS_ENABLED(CONFIG_CMDLINE_OVERRIDE)) {
-7dde67f2a23ac1 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30 @861  		unsigned long cmdline_paddr = ((u64)hdr->cmd_line_ptr |
-c33ce984435bb6 arch/x86/boot/compressed/eboot.c        Hans de Goede              2018-09-12  862  					       ((u64)boot_params->ext_cmd_line_ptr << 32));
-15aa8fb852f995 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2024-05-16  863  		status = parse_options((char *)cmdline_paddr);
-055042bedd4e0a drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  864  		if (status != EFI_SUCCESS) {
-055042bedd4e0a drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  865  			efi_err("Failed to parse options\n");
-055042bedd4e0a drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  866  			goto fail;
-055042bedd4e0a drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  867  		}
-7dde67f2a23ac1 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  868  	}
-c33ce984435bb6 arch/x86/boot/compressed/eboot.c        Hans de Goede              2018-09-12  869  
-cd0d9d92c8bb46 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2024-02-27  870  	if (efi_mem_encrypt > 0)
-cd0d9d92c8bb46 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2024-02-27  871  		hdr->xloadflags |= XLF_MEM_ENCRYPTION;
-cd0d9d92c8bb46 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2024-02-27  872  
-dac628e9563640 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2025-01-26  873  	status = efi_decompress_kernel(&kernel_entry, boot_params);
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  874  	if (status != EFI_SUCCESS) {
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  875  		efi_err("Failed to decompress kernel\n");
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  876  		goto fail;
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  877  	}
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  878  
-ec93fc371f014a drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2020-02-03  879  	/*
-987053a30016a7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  880  	 * At this point, an initrd may already have been loaded by the
-987053a30016a7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  881  	 * bootloader and passed via bootparams. We permit an initrd loaded
-987053a30016a7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  882  	 * from the LINUX_EFI_INITRD_MEDIA_GUID device path to supersede it.
-987053a30016a7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  883  	 *
-987053a30016a7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  884  	 * If the device path is not present, any command-line initrd=
-987053a30016a7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  885  	 * arguments will be processed only if image is not NULL, which will be
-987053a30016a7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  886  	 * the case only if we were loaded via the PE entry point.
-ec93fc371f014a drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2020-02-03  887  	 */
-f4dc7fffa9873d drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2022-09-16  888  	status = efi_load_initrd(image, hdr->initrd_addr_max, ULONG_MAX,
-f4dc7fffa9873d drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2022-09-16  889  				 &initrd);
-20287d56f52dab drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2021-11-19  890  	if (status != EFI_SUCCESS)
-ec93fc371f014a drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2020-02-03  891  		goto fail;
-f4dc7fffa9873d drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2022-09-16  892  	if (initrd && initrd->size > 0) {
-f4dc7fffa9873d drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2022-09-16  893  		efi_set_u64_split(initrd->base, &hdr->ramdisk_image,
-eed4e0193ee7b0 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  894  				  &boot_params->ext_ramdisk_image);
-f4dc7fffa9873d drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2022-09-16  895  		efi_set_u64_split(initrd->size, &hdr->ramdisk_size,
-eed4e0193ee7b0 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  896  				  &boot_params->ext_ramdisk_size);
-79d3219d4e56b3 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2020-02-04  897  	}
-ec93fc371f014a drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2020-02-03  898  
-f4dc7fffa9873d drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2022-09-16  899  
-de8cb458625c16 arch/x86/boot/compressed/eboot.c        David Howells              2017-02-06  900  	/*
-de8cb458625c16 arch/x86/boot/compressed/eboot.c        David Howells              2017-02-06  901  	 * If the boot loader gave us a value for secure_boot then we use that,
-de8cb458625c16 arch/x86/boot/compressed/eboot.c        David Howells              2017-02-06  902  	 * otherwise we ask the BIOS.
-de8cb458625c16 arch/x86/boot/compressed/eboot.c        David Howells              2017-02-06  903  	 */
-de8cb458625c16 arch/x86/boot/compressed/eboot.c        David Howells              2017-02-06  904  	if (boot_params->secure_boot == efi_secureboot_mode_unset)
-cd33a5c1d53e43 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel             2019-12-24  905  		boot_params->secure_boot = efi_get_secureboot();
-ccc829ba3624be arch/x86/boot/compressed/eboot.c        Matthew Garrett            2017-08-25  906  
-ccc829ba3624be arch/x86/boot/compressed/eboot.c        Matthew Garrett            2017-08-25  907  	/* Ask the firmware to clear memory on unclean shutdown */
-cd33a5c1d53e43 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel             2019-12-24  908  	efi_enable_reset_attack_mitigation();
-0d95981438c3bd arch/x86/boot/compressed/eboot.c        Dominik Brodowski          2019-11-06  909  
-cd33a5c1d53e43 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel             2019-12-24  910  	efi_random_get_seed();
-0d95981438c3bd arch/x86/boot/compressed/eboot.c        Dominik Brodowski          2019-11-06  911  
-d228814b191344 drivers/firmware/efi/libstub/x86-stub.c Kuppuswamy Sathyanarayanan 2024-02-15  912  	efi_retrieve_eventlog();
-de8cb458625c16 arch/x86/boot/compressed/eboot.c        David Howells              2017-02-06  913  
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming               2012-07-19  914  	setup_graphics(boot_params);
-291f36325f9f25 arch/x86/boot/compressed/eboot.c        Matt Fleming               2011-12-12  915  
-56394ab8c26893 arch/x86/boot/compressed/eboot.c        Matt Fleming               2014-09-11  916  	setup_efi_pci(boot_params);
-dd5fc854de5fd3 arch/x86/boot/compressed/eboot.c        Matthew Garrett            2012-12-05  917  
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  918  	setup_quirks(boot_params);
-58c5475aba6770 arch/x86/boot/compressed/eboot.c        Lukas Wunner               2016-11-12  919  
-c0461bd1666635 drivers/firmware/efi/libstub/x86-stub.c Dionna Glaze               2023-06-06  920  	setup_unaccepted_memory();
-c0461bd1666635 drivers/firmware/efi/libstub/x86-stub.c Dionna Glaze               2023-06-06  921  
-aab9593c0cb445 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel             2018-07-20  922  	status = exit_boot(boot_params, handle);
-fb86b2440de0ec arch/x86/boot/compressed/eboot.c        Ulf Winkelvos              2014-07-10  923  	if (status != EFI_SUCCESS) {
-36bdd0a78d5683 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar              2020-04-30  924  		efi_err("exit_boot() failed!\n");
-291f36325f9f25 arch/x86/boot/compressed/eboot.c        Matt Fleming               2011-12-12  925  		goto fail;
-fb86b2440de0ec arch/x86/boot/compressed/eboot.c        Ulf Winkelvos              2014-07-10  926  	}
-291f36325f9f25 arch/x86/boot/compressed/eboot.c        Matt Fleming               2011-12-12  927  
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  928  	/*
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  929  	 * Call the SEV init code while still running with the firmware's
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  930  	 * GDT/IDT, so #VC exceptions will be handled by EFI.
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  931  	 */
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  932  	sev_enable(boot_params);
-cb1c9e02b0c130 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  933  
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  934  	efi_5level_switch();
-d2d7a54f69b67c drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  935  
-a1b87d54f4e45f drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  936  	enter_kernel(kernel_entry, boot_params);
-291f36325f9f25 arch/x86/boot/compressed/eboot.c        Matt Fleming               2011-12-12  937  fail:
-df9215f15206c2 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  938  	efi_err("efi_stub_entry() failed!\n");
-90a2186b7df183 arch/x86/boot/compressed/eboot.c        Ingo Molnar                2018-07-11  939  
-3b8f44fc0810d5 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2020-02-16  940  	efi_exit(handle, status);
-291f36325f9f25 arch/x86/boot/compressed/eboot.c        Matt Fleming               2011-12-12  941  }
-df9215f15206c2 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel             2023-08-07  942  
-
-:::::: The code at line 861 was first introduced by commit
-:::::: 7dde67f2a23ac11962b17128d9a71698430ced95 efi/x86: Support builtin command line
-
-:::::: TO: Arvind Sankar <nivedita@alum.mit.edu>
-:::::: CC: Ard Biesheuvel <ardb@kernel.org>
+57692c94dcbe99 Eric Anholt        2018-04-30  259  
+fc22771547e7e8 Eric Anholt        2019-03-08  260  int
+57692c94dcbe99 Eric Anholt        2018-04-30  261  v3d_irq_init(struct v3d_dev *v3d)
+57692c94dcbe99 Eric Anholt        2018-04-30  262  {
+226862f50a7a88 Maíra Canal        2025-06-28  263  	int irq, ret, core;
+57692c94dcbe99 Eric Anholt        2018-04-30  264  
+57692c94dcbe99 Eric Anholt        2018-04-30  265  	INIT_WORK(&v3d->overflow_mem_work, v3d_overflow_mem_work);
+57692c94dcbe99 Eric Anholt        2018-04-30  266  
+57692c94dcbe99 Eric Anholt        2018-04-30  267  	/* Clear any pending interrupts someone might have left around
+57692c94dcbe99 Eric Anholt        2018-04-30  268  	 * for us.
+57692c94dcbe99 Eric Anholt        2018-04-30  269  	 */
+57692c94dcbe99 Eric Anholt        2018-04-30  270  	for (core = 0; core < v3d->cores; core++)
+0ad5bc1ce4634c Iago Toral Quiroga 2023-10-31  271  		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR, V3D_CORE_IRQS(v3d->ver));
+0ad5bc1ce4634c Iago Toral Quiroga 2023-10-31  272  	V3D_WRITE(V3D_HUB_INT_CLR, V3D_HUB_IRQS(v3d->ver));
+57692c94dcbe99 Eric Anholt        2018-04-30  273  
+226862f50a7a88 Maíra Canal        2025-06-28  274  	irq = platform_get_irq_optional(v3d_to_pdev(v3d), 1);
+226862f50a7a88 Maíra Canal        2025-06-28  275  	if (irq == -EPROBE_DEFER)
+226862f50a7a88 Maíra Canal        2025-06-28  276  		return irq;
+226862f50a7a88 Maíra Canal        2025-06-28  277  	if (irq > 0) {
+226862f50a7a88 Maíra Canal        2025-06-28  278  		v3d->irq[V3D_CORE_IRQ] = irq;
+226862f50a7a88 Maíra Canal        2025-06-28  279  
+226862f50a7a88 Maíra Canal        2025-06-28  280  		ret = devm_request_irq(v3d->drm.dev, v3d->irq[V3D_CORE_IRQ],
+eea9b97b450460 Eric Anholt        2019-03-08  281  				       v3d_irq, IRQF_SHARED,
+eea9b97b450460 Eric Anholt        2019-03-08  282  				       "v3d_core0", v3d);
+eea9b97b450460 Eric Anholt        2019-03-08  283  		if (ret)
+eea9b97b450460 Eric Anholt        2019-03-08  284  			goto fail;
+226862f50a7a88 Maíra Canal        2025-06-28  285  
+226862f50a7a88 Maíra Canal        2025-06-28  286  		irq = platform_get_irq(v3d_to_pdev(v3d), 0);
+226862f50a7a88 Maíra Canal        2025-06-28  287  		if (irq < 0)
+226862f50a7a88 Maíra Canal        2025-06-28 @288  			return irq;
+226862f50a7a88 Maíra Canal        2025-06-28  289  		v3d->irq[V3D_HUB_IRQ] = irq;
+226862f50a7a88 Maíra Canal        2025-06-28  290  
+226862f50a7a88 Maíra Canal        2025-06-28  291  		ret = devm_request_irq(v3d->drm.dev, v3d->irq[V3D_HUB_IRQ],
+57692c94dcbe99 Eric Anholt        2018-04-30  292  				       v3d_hub_irq, IRQF_SHARED,
+57692c94dcbe99 Eric Anholt        2018-04-30  293  				       "v3d_hub", v3d);
+fc22771547e7e8 Eric Anholt        2019-03-08  294  		if (ret)
+fc22771547e7e8 Eric Anholt        2019-03-08  295  			goto fail;
+eea9b97b450460 Eric Anholt        2019-03-08  296  	} else {
+eea9b97b450460 Eric Anholt        2019-03-08  297  		v3d->single_irq_line = true;
+fc22771547e7e8 Eric Anholt        2019-03-08  298  
+226862f50a7a88 Maíra Canal        2025-06-28  299  		irq = platform_get_irq(v3d_to_pdev(v3d), 0);
+226862f50a7a88 Maíra Canal        2025-06-28  300  		if (irq < 0)
+226862f50a7a88 Maíra Canal        2025-06-28  301  			return irq;
+226862f50a7a88 Maíra Canal        2025-06-28  302  		v3d->irq[V3D_CORE_IRQ] = irq;
+226862f50a7a88 Maíra Canal        2025-06-28  303  
+226862f50a7a88 Maíra Canal        2025-06-28  304  		ret = devm_request_irq(v3d->drm.dev, v3d->irq[V3D_CORE_IRQ],
+57692c94dcbe99 Eric Anholt        2018-04-30  305  				       v3d_irq, IRQF_SHARED,
+eea9b97b450460 Eric Anholt        2019-03-08  306  				       "v3d", v3d);
+57692c94dcbe99 Eric Anholt        2018-04-30  307  		if (ret)
+fc22771547e7e8 Eric Anholt        2019-03-08  308  			goto fail;
+eea9b97b450460 Eric Anholt        2019-03-08  309  	}
+57692c94dcbe99 Eric Anholt        2018-04-30  310  
+57692c94dcbe99 Eric Anholt        2018-04-30  311  	v3d_irq_enable(v3d);
+fc22771547e7e8 Eric Anholt        2019-03-08  312  	return 0;
+fc22771547e7e8 Eric Anholt        2019-03-08  313  
+fc22771547e7e8 Eric Anholt        2019-03-08  314  fail:
+fc22771547e7e8 Eric Anholt        2019-03-08  315  	if (ret != -EPROBE_DEFER)
+bc662528e29ae7 Simona Vetter      2020-04-15  316  		dev_err(v3d->drm.dev, "IRQ setup failed: %d\n", ret);
+fc22771547e7e8 Eric Anholt        2019-03-08  317  	return ret;
+57692c94dcbe99 Eric Anholt        2018-04-30  318  }
+57692c94dcbe99 Eric Anholt        2018-04-30  319  
 
 -- 
 0-DAY CI Kernel Test Service
