@@ -1,138 +1,220 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1785315746F
-	for <oe-kbuild@lists.linux.dev>; Sun, 14 Dec 2025 02:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1982F190462
+	for <oe-kbuild@lists.linux.dev>; Sun, 14 Dec 2025 03:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765681063; cv=none; b=bMWsSpY6mfhhqfPB6LDCuuHGa/FRrLEFXRiLa+Qc/E8kBGZV5vYzpngJwenlmkPslzvV3mRaltmMyWzG8X2meydjI8ZHAY3Rs9Xf8cWwljzHgu4eCuvLS59NEI7CmymvS5riAddfWULaJxl2+2qeRiQXvl/J+p0M4BShwVtsfow=
+	t=1765681666; cv=none; b=uDnakvKOZNJa/HBoqNd2M+ORkoBxdeda9qMW9mxxW01UZaKKSVOsMVKqib/1yqpGNEopLB8UZcpfFqRnU0FICv42WfbFkeWAqBd5xP4XGnrIPPJyHBLRHGcJVhBLlz1FTt/yHFK6PHmqPfNunKprSpTqKETd8n0kyXZ1ae3gFiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765681063; c=relaxed/simple;
-	bh=Td52bjpvXxTDpBQFYYvMPW7J7TaN77HD0bew7wsTq8M=;
+	s=arc-20240116; t=1765681666; c=relaxed/simple;
+	bh=t+dpMYtsKIgKhx6gt8wrx5Pm9eFbmwNAWaLRYcxL/h4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pHy3kGbantZCkwJ/o0ghDY/fQejMT43icW5avGZ/Cwgq3IDQKdDYaOaSHefrD2aqf+5e2LKl192uvIVANwc2KbOgCPB5cDdnp3gc9vJPqUxH8EhS571hFDXgRNgYknEv8v/lD+hn5WoKdZymFg3zVQ0drW7HSwBnM9Q/wPtFuZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wwti/IU/; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Kah2WTmA1KthC/mF7Q7Dyz0ay+Asyz6qUD4ygc9h2x9Uk0foCkzvjGGbPxRyvY7qzxFDPPybaLYQ9qk59ZK0XudBWnrOgvYl8fS6bkHT6Kvdl5DaEIzgpS/o2h4D7KN8b7Mnop5EEdWzLuAAEP1E2g2ircS9+vZBHTgU5xLt9qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gHHXjcL3; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wwti/IU/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gHHXjcL3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765681062; x=1797217062;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Td52bjpvXxTDpBQFYYvMPW7J7TaN77HD0bew7wsTq8M=;
-  b=Wwti/IU/JYE8DLC6lHsSuBany56dV8GOiWUEAl6aDbcoignbruD+Cq9m
-   GaGG8ecV4wkeENJ3VvdNyCAcaG2rom7dI2m2fh2CYtkL1/e+4b8qorDK2
-   7oaaGcGyWSicPMPWE6OOuPtxwxQAL2WPC1rkboyqtX4izrORR0HLL6usa
-   1J5z8V8xbF9DO43zrrKk4cTp5emqepGBo9cT5LCC5YiNOsYub1gL07Ea2
-   /sqbO/7KtRqNeKo8K0n18zBk23C6JNGvzHz99l39ihR20lFf+piQJk8so
-   d2a43Nw+bFIOUdpibIQ0a6ldoKoY8SW+ZVttnrzWTuWt6+pmhAraj9c2F
-   w==;
-X-CSE-ConnectionGUID: hJGH39OGT5GTFTSxqH7J6w==
-X-CSE-MsgGUID: L71TnNkzRLGwNLKb7ZrT6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67379636"
+  t=1765681665; x=1797217665;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=t+dpMYtsKIgKhx6gt8wrx5Pm9eFbmwNAWaLRYcxL/h4=;
+  b=gHHXjcL3agmh8VdmLhKz4Nk7+LDy22FQNqmZTKrErXBdXH8hhFFWrwkf
+   kGJTLY76uqOvwVvqLXWW2eVEefEZnRQ73lfbZ2ebccPivVk66vMBlHrcf
+   ZdP0EIt+uNCHoXb45WZXYWoBaV+IMehwmdxOO3CNjJZ2DwwETkf1N1VWX
+   uhnpp1QoITea5KFud9WTeLyaoobHf4q0z7WaKxwQ8X/hdNtfvYyz6k9gA
+   /eETIygV7BJXfZVYmOmGoKMDx6H+RUjlYtNiHO+Nnx5wumKderhpeFG8Y
+   U1ZG7YdRSDS31YHhk3DSbcekA78smwus1YweQhC0nU//Qz+1rZ7CY1sDM
+   A==;
+X-CSE-ConnectionGUID: LQ4+w3OeThi11yZcn0j6zg==
+X-CSE-MsgGUID: RXxbN+T1Q8umqK6yXAVBng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67668023"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="67379636"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 18:57:42 -0800
-X-CSE-ConnectionGUID: CBAleXX0QMmdGhKdYBV9yA==
-X-CSE-MsgGUID: eRGULubxQ5yi8XuIEiJi7w==
+   d="scan'208";a="67668023"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 19:07:44 -0800
+X-CSE-ConnectionGUID: CBgHzbikSwqxjk0/Ul7cug==
+X-CSE-MsgGUID: PF125ZrJSHGxTPO03BS9tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="197187806"
+   d="scan'208";a="220810719"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 Dec 2025 18:57:41 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 13 Dec 2025 19:07:42 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUcIk-000000008UJ-0sqU;
-	Sun, 14 Dec 2025 02:57:38 +0000
-Date: Sun, 14 Dec 2025 10:56:48 +0800
+	id 1vUcSS-000000008VZ-1Fjk;
+	Sun, 14 Dec 2025 03:07:40 +0000
+Date: Sun, 14 Dec 2025 11:07:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/stm/ltdc.c:1919 ltdc_resume() warn: 'ldev->bus_clk'
- from clk_prepare_enable() not released on lines: 1919.
-Message-ID: <202512141021.BQJ7qXik-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 04/16] bitfield: Copy #define parameters to locals
+Message-ID: <202512141053.j0Iw4DuX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1146:9: sparse: sparse: invalid initializer"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Yannick Fertre <yannick.fertre@foss.st.com>
-CC: "Raphael Gallais-Pou" <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20251212193721.740055-5-david.laight.linux@gmail.com>
+References: <20251212193721.740055-5-david.laight.linux@gmail.com>
+TO: david.laight.linux@gmail.com
+TO: Yury Norov <yury.norov@gmail.com>
+TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+TO: linux-kernel@vger.kernel.org
+TO: linux-usb@vger.kernel.org
+TO: Geert Uytterhoeven <geert+renesas@glider.be>
+TO: Alexandre Belloni <alexandre.belloni@bootlin.com>
+TO: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Crt Mori <cmo@melexis.com>
+TO: Richard Genoud <richard.genoud@bootlin.com>
+TO: Andy Shevchenko <andriy.shevchenko@intel.com>
+TO: Luo Jie <quic_luoj@quicinc.com>
+TO: Peter Zijlstra <peterz@infradead.org>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: netdev@vger.kernel.org
+TO: "David S . Miller" <davem@davemloft.net>
+TO: Mika Westerberg <mika.westerberg@linux.intel.com>
+TO: Andreas Noever <andreas.noever@gmail.com>
+TO: Yehezkel Bernat <YehezkelShB@gmail.com>
+TO: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+CC: David Laight <david.laight.linux@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4a298a43f5e339f48d2dda0665c02b88ee9a4e03
-commit: b7243862f82a088d6fb7e22a25c7c024818e631d drm/stm: ltdc: handle lvds pixel clock
-date:   4 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 4 months ago
-config: nios2-randconfig-r071-20251213 (https://download.01.org/0day-ci/archive/20251214/202512141021.BQJ7qXik-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on next-20251212]
+[cannot apply to westeri-thunderbolt/next v6.18]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/david-laight-linux-gmail-com/nfp-Call-FIELD_PREP-in-NFP_ETH_SET_BIT_CONFIG-wrapper/20251213-040625
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251212193721.740055-5-david.laight.linux%40gmail.com
+patch subject: [PATCH v2 04/16] bitfield: Copy #define parameters to locals
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: s390-randconfig-r112-20251214 (https://download.01.org/0day-ci/archive/20251214/202512141053.j0Iw4DuX-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512141053.j0Iw4DuX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512141021.BQJ7qXik-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512141053.j0Iw4DuX-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/stm/ltdc.c:1919 ltdc_resume() warn: 'ldev->bus_clk' from clk_prepare_enable() not released on lines: 1919.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1146:9: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1163:9: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1396:9: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1397:9: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1399:9: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1404:9: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1513:33: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1514:33: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1515:33: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1517:33: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1519:33: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1521:33: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1541:33: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1542:33: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1543:33: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1545:33: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1833:17: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1834:17: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1958:17: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1959:17: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1979:17: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1980:17: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1981:17: sparse: sparse: invalid initializer
+   drivers/net/ethernet/qualcomm/ppe/ppe_config.c:1982:17: sparse: sparse: invalid initializer
 
-Old smatch warnings:
-drivers/gpu/drm/stm/ltdc.c:945 ltdc_crtc_mode_set_nofb() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/gpu/drm/stm/ltdc.c:1919 ltdc_resume() warn: 'ldev->pixel_clk' from clk_prepare_enable() not released on lines: 1909,1919.
-drivers/gpu/drm/stm/ltdc.c:2098 ltdc_load() warn: 'ldev->bus_clk' from clk_prepare_enable() not released on lines: 2098.
-drivers/gpu/drm/stm/ltdc.c:2098 ltdc_load() warn: 'ldev->pixel_clk' from clk_prepare_enable() not released on lines: 1964.
+vim +1146 drivers/net/ethernet/qualcomm/ppe/ppe_config.c
 
-vim +1919 drivers/gpu/drm/stm/ltdc.c
-
-df61c776657fa5 Yannick Fertré      2019-03-21  1891  
-df61c776657fa5 Yannick Fertré      2019-03-21  1892  int ltdc_resume(struct drm_device *ddev)
-df61c776657fa5 Yannick Fertré      2019-03-21  1893  {
-df61c776657fa5 Yannick Fertré      2019-03-21  1894  	struct ltdc_device *ldev = ddev->dev_private;
-df61c776657fa5 Yannick Fertré      2019-03-21  1895  	int ret;
-df61c776657fa5 Yannick Fertré      2019-03-21  1896  
-1e00a12dbb09a7 Raphael Gallais-Pou 2025-08-25  1897  	drm_dbg_driver(ddev, "\n");
-df61c776657fa5 Yannick Fertré      2019-03-21  1898  
-df61c776657fa5 Yannick Fertré      2019-03-21  1899  	ret = clk_prepare_enable(ldev->pixel_clk);
-df61c776657fa5 Yannick Fertré      2019-03-21  1900  	if (ret) {
-1e00a12dbb09a7 Raphael Gallais-Pou 2025-08-25  1901  		drm_err(ddev, "failed to enable pixel clock (%d)\n", ret);
-df61c776657fa5 Yannick Fertré      2019-03-21  1902  		return ret;
-df61c776657fa5 Yannick Fertré      2019-03-21  1903  	}
-df61c776657fa5 Yannick Fertré      2019-03-21  1904  
-d80667642b0f43 Yannick Fertre      2025-08-22  1905  	if (ldev->bus_clk) {
-d80667642b0f43 Yannick Fertre      2025-08-22  1906  		ret = clk_prepare_enable(ldev->bus_clk);
-b7243862f82a08 Yannick Fertre      2025-08-22  1907  		if (ret) {
-d80667642b0f43 Yannick Fertre      2025-08-22  1908  			drm_err(ddev, "failed to enable bus clock (%d)\n", ret);
-b7243862f82a08 Yannick Fertre      2025-08-22  1909  			return ret;
-b7243862f82a08 Yannick Fertre      2025-08-22  1910  		}
-b7243862f82a08 Yannick Fertre      2025-08-22  1911  	}
-b7243862f82a08 Yannick Fertre      2025-08-22  1912  
-b7243862f82a08 Yannick Fertre      2025-08-22  1913  	if (ldev->lvds_clk) {
-b7243862f82a08 Yannick Fertre      2025-08-22  1914  		ret = clk_prepare_enable(ldev->lvds_clk);
-b7243862f82a08 Yannick Fertre      2025-08-22  1915  		if (ret)
-b7243862f82a08 Yannick Fertre      2025-08-22  1916  			drm_err(ddev, "failed to prepare lvds clock\n");
-d80667642b0f43 Yannick Fertre      2025-08-22  1917  	}
-d80667642b0f43 Yannick Fertre      2025-08-22  1918  
-d80667642b0f43 Yannick Fertre      2025-08-22 @1919  	return ret;
-df61c776657fa5 Yannick Fertré      2019-03-21  1920  }
-df61c776657fa5 Yannick Fertré      2019-03-21  1921  
-
-:::::: The code at line 1919 was first introduced by commit
-:::::: d80667642b0f43580efd489d627dd24aa10ab98f drm/stm: ltdc: support new hardware version for STM32MP25 SoC
-
-:::::: TO: Yannick Fertre <yannick.fertre@foss.st.com>
-:::::: CC: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+7a23a8af179dac Luo Jie 2025-08-18  1111  
+73d05bdaf01eb2 Luo Jie 2025-08-18  1112  /**
+73d05bdaf01eb2 Luo Jie 2025-08-18  1113   * ppe_sc_config_set - Set PPE service code configuration
+73d05bdaf01eb2 Luo Jie 2025-08-18  1114   * @ppe_dev: PPE device
+73d05bdaf01eb2 Luo Jie 2025-08-18  1115   * @sc: Service ID, 0-255 supported by PPE
+73d05bdaf01eb2 Luo Jie 2025-08-18  1116   * @cfg: Service code configuration
+73d05bdaf01eb2 Luo Jie 2025-08-18  1117   *
+73d05bdaf01eb2 Luo Jie 2025-08-18  1118   * PPE service code is used by the PPE during its packet processing stages,
+73d05bdaf01eb2 Luo Jie 2025-08-18  1119   * to perform or bypass certain selected packet operations on the packet.
+73d05bdaf01eb2 Luo Jie 2025-08-18  1120   *
+73d05bdaf01eb2 Luo Jie 2025-08-18  1121   * Return: 0 on success, negative error code on failure.
+73d05bdaf01eb2 Luo Jie 2025-08-18  1122   */
+73d05bdaf01eb2 Luo Jie 2025-08-18  1123  int ppe_sc_config_set(struct ppe_device *ppe_dev, int sc, struct ppe_sc_cfg cfg)
+73d05bdaf01eb2 Luo Jie 2025-08-18  1124  {
+73d05bdaf01eb2 Luo Jie 2025-08-18  1125  	u32 val, reg, servcode_val[2] = {};
+73d05bdaf01eb2 Luo Jie 2025-08-18  1126  	unsigned long bitmap_value;
+73d05bdaf01eb2 Luo Jie 2025-08-18  1127  	int ret;
+73d05bdaf01eb2 Luo Jie 2025-08-18  1128  
+73d05bdaf01eb2 Luo Jie 2025-08-18  1129  	val = FIELD_PREP(PPE_IN_L2_SERVICE_TBL_DST_PORT_ID_VALID, cfg.dest_port_valid);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1130  	val |= FIELD_PREP(PPE_IN_L2_SERVICE_TBL_DST_PORT_ID, cfg.dest_port);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1131  	val |= FIELD_PREP(PPE_IN_L2_SERVICE_TBL_DST_DIRECTION, cfg.is_src);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1132  
+73d05bdaf01eb2 Luo Jie 2025-08-18  1133  	bitmap_value = bitmap_read(cfg.bitmaps.egress, 0, PPE_SC_BYPASS_EGRESS_SIZE);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1134  	val |= FIELD_PREP(PPE_IN_L2_SERVICE_TBL_DST_BYPASS_BITMAP, bitmap_value);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1135  	val |= FIELD_PREP(PPE_IN_L2_SERVICE_TBL_RX_CNT_EN,
+73d05bdaf01eb2 Luo Jie 2025-08-18  1136  			  test_bit(PPE_SC_BYPASS_COUNTER_RX, cfg.bitmaps.counter));
+73d05bdaf01eb2 Luo Jie 2025-08-18  1137  	val |= FIELD_PREP(PPE_IN_L2_SERVICE_TBL_TX_CNT_EN,
+73d05bdaf01eb2 Luo Jie 2025-08-18  1138  			  test_bit(PPE_SC_BYPASS_COUNTER_TX, cfg.bitmaps.counter));
+73d05bdaf01eb2 Luo Jie 2025-08-18  1139  	reg = PPE_IN_L2_SERVICE_TBL_ADDR + PPE_IN_L2_SERVICE_TBL_INC * sc;
+73d05bdaf01eb2 Luo Jie 2025-08-18  1140  
+73d05bdaf01eb2 Luo Jie 2025-08-18  1141  	ret = regmap_write(ppe_dev->regmap, reg, val);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1142  	if (ret)
+73d05bdaf01eb2 Luo Jie 2025-08-18  1143  		return ret;
+73d05bdaf01eb2 Luo Jie 2025-08-18  1144  
+73d05bdaf01eb2 Luo Jie 2025-08-18  1145  	bitmap_value = bitmap_read(cfg.bitmaps.ingress, 0, PPE_SC_BYPASS_INGRESS_SIZE);
+73d05bdaf01eb2 Luo Jie 2025-08-18 @1146  	PPE_SERVICE_SET_BYPASS_BITMAP(servcode_val, bitmap_value);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1147  	PPE_SERVICE_SET_RX_CNT_EN(servcode_val,
+73d05bdaf01eb2 Luo Jie 2025-08-18  1148  				  test_bit(PPE_SC_BYPASS_COUNTER_RX_VLAN, cfg.bitmaps.counter));
+73d05bdaf01eb2 Luo Jie 2025-08-18  1149  	reg = PPE_SERVICE_TBL_ADDR + PPE_SERVICE_TBL_INC * sc;
+73d05bdaf01eb2 Luo Jie 2025-08-18  1150  
+73d05bdaf01eb2 Luo Jie 2025-08-18  1151  	ret = regmap_bulk_write(ppe_dev->regmap, reg,
+73d05bdaf01eb2 Luo Jie 2025-08-18  1152  				servcode_val, ARRAY_SIZE(servcode_val));
+73d05bdaf01eb2 Luo Jie 2025-08-18  1153  	if (ret)
+73d05bdaf01eb2 Luo Jie 2025-08-18  1154  		return ret;
+73d05bdaf01eb2 Luo Jie 2025-08-18  1155  
+73d05bdaf01eb2 Luo Jie 2025-08-18  1156  	reg = PPE_EG_SERVICE_TBL_ADDR + PPE_EG_SERVICE_TBL_INC * sc;
+73d05bdaf01eb2 Luo Jie 2025-08-18  1157  	ret = regmap_bulk_read(ppe_dev->regmap, reg,
+73d05bdaf01eb2 Luo Jie 2025-08-18  1158  			       servcode_val, ARRAY_SIZE(servcode_val));
+73d05bdaf01eb2 Luo Jie 2025-08-18  1159  	if (ret)
+73d05bdaf01eb2 Luo Jie 2025-08-18  1160  		return ret;
+73d05bdaf01eb2 Luo Jie 2025-08-18  1161  
+73d05bdaf01eb2 Luo Jie 2025-08-18  1162  	PPE_EG_SERVICE_SET_NEXT_SERVCODE(servcode_val, cfg.next_service_code);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1163  	PPE_EG_SERVICE_SET_UPDATE_ACTION(servcode_val, cfg.eip_field_update_bitmap);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1164  	PPE_EG_SERVICE_SET_HW_SERVICE(servcode_val, cfg.eip_hw_service);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1165  	PPE_EG_SERVICE_SET_OFFSET_SEL(servcode_val, cfg.eip_offset_sel);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1166  	PPE_EG_SERVICE_SET_TX_CNT_EN(servcode_val,
+73d05bdaf01eb2 Luo Jie 2025-08-18  1167  				     test_bit(PPE_SC_BYPASS_COUNTER_TX_VLAN, cfg.bitmaps.counter));
+73d05bdaf01eb2 Luo Jie 2025-08-18  1168  
+73d05bdaf01eb2 Luo Jie 2025-08-18  1169  	ret = regmap_bulk_write(ppe_dev->regmap, reg,
+73d05bdaf01eb2 Luo Jie 2025-08-18  1170  				servcode_val, ARRAY_SIZE(servcode_val));
+73d05bdaf01eb2 Luo Jie 2025-08-18  1171  	if (ret)
+73d05bdaf01eb2 Luo Jie 2025-08-18  1172  		return ret;
+73d05bdaf01eb2 Luo Jie 2025-08-18  1173  
+73d05bdaf01eb2 Luo Jie 2025-08-18  1174  	bitmap_value = bitmap_read(cfg.bitmaps.tunnel, 0, PPE_SC_BYPASS_TUNNEL_SIZE);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1175  	val = FIELD_PREP(PPE_TL_SERVICE_TBL_BYPASS_BITMAP, bitmap_value);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1176  	reg = PPE_TL_SERVICE_TBL_ADDR + PPE_TL_SERVICE_TBL_INC * sc;
+73d05bdaf01eb2 Luo Jie 2025-08-18  1177  
+73d05bdaf01eb2 Luo Jie 2025-08-18  1178  	return regmap_write(ppe_dev->regmap, reg, val);
+73d05bdaf01eb2 Luo Jie 2025-08-18  1179  }
+73d05bdaf01eb2 Luo Jie 2025-08-18  1180  
 
 -- 
 0-DAY CI Kernel Test Service
