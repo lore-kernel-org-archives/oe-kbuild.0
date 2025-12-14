@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2622772D
-	for <oe-kbuild@lists.linux.dev>; Sun, 14 Dec 2025 08:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EBC39463
+	for <oe-kbuild@lists.linux.dev>; Sun, 14 Dec 2025 09:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765701184; cv=none; b=iM8VeqScPC3dpZFC1wUuPMJZu50RGwTyQ6t3SROVl4MJgVR5IjhdHYCiUECH44+DbwVBguFfTU4FgN207WiiBJyDu5cSGnbn2C59Bsmw2Smj5ncWi3u2cpFl09xVoggsePdHmlyN+slILwc+2u6g+6P2GzhgdzYPCi/da4tRwHU=
+	t=1765703108; cv=none; b=MnuCxOUYj6klM1uF8ddSxmM+HAqx2jar/oBmIPIaM8WwPW20YtY2jMGcca3eExuP8g5RGZyAd6QszLBJU1zI5KKJ2Zm4BVJdxg+hBE5VOw+EjDYKeojAWF+idvN1WhkZ1NHJIjEU7OlH1+c2eFViZRNYj1o4PEbOIBJQYAGsPns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765701184; c=relaxed/simple;
-	bh=l82qoGMmhz0CvcMPkMqa904UaAm6YZkMweGjjbvzc9A=;
+	s=arc-20240116; t=1765703108; c=relaxed/simple;
+	bh=Yal7aM2+xsE0ubU9YWwMIk8G2MQLN1YXQgXAhKnw32E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TpGaPleMYe81jXXmdCglsMuMJNF5wj87QVGhsfnPpLBJbYyByq2wpOL0gBAAY6P6bDncwp2ebLQcR/mDdFITBei2dTuw8B2wcjZOGxBv5tx0H8m2mFoxdG0upw7kagURcl0xzLlQsN5vPsHnVnKjwvd1wB1S8sOsDgbtGregGzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cgKw79B7; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=kQpa8BGIRQ4Dm+EH+/ez9nh48uHh4MU6kEvdnoCYdooEq//S9oXtYXBNl4qGlSuVTWW1n//m8GJvoJ7nCodShBpp4VFSwWoSKnKa4SFjwoTVCQi7MrqVvUw0O4Lle0RC8MRBXLB0y/d4mH6Vn565TkyGZhVtIlFGJeYJT66Z0O4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K+jt7Ji2; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cgKw79B7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K+jt7Ji2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765701183; x=1797237183;
+  t=1765703107; x=1797239107;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l82qoGMmhz0CvcMPkMqa904UaAm6YZkMweGjjbvzc9A=;
-  b=cgKw79B70WjiILwWb3v4prGtf9kj85cRzcgGStSpnVV4OxHQzJyak6cs
-   7iQcTsrq32aZn4YFM/ZELopaRWr+E01fPkjKM1bWOxh0dc7uUyzFRY/eq
-   Q2TIFX6gNUBl0Z+sm2ttYYFNs0rQlSOUBFMvT0jQekt1Vd7UFAFHTvRUz
-   Vx5WYEy8lu5l6wJBFBp9PDVC9j4u37IYsWcyiiaYRULPqsD7wd32HLWa2
-   Q5nJFtrE6VQdAh4NlD2Qs3iwZRAOjOtXaScJfkbuK6h0cEb97r/BHJ3Rq
-   JSJL6Ud40Kpjn1X0dVOf2fJPLSUkdHDzLXj52cxI2+iNE5ZIIM7lYQP5u
-   A==;
-X-CSE-ConnectionGUID: JwUyrUEQSKOvVS9WCKSBgQ==
-X-CSE-MsgGUID: TeoQUKOsR6KAcQyBN+yt2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="85047500"
+  bh=Yal7aM2+xsE0ubU9YWwMIk8G2MQLN1YXQgXAhKnw32E=;
+  b=K+jt7Ji28Wra36pt1P4FvTpU2K/weVoSmPrrN+M4G2d926tmyN8/IdNW
+   zegTKIdPWM+GvmNy29GRZBh74rKQGHIPTZyj7nlmp/SfFabiSwhKVx9m1
+   P0zM9gW0o+X5b27chSCmZRi/J8p+C5LgHNrhuv9Tgsc5It3WoB2pzmup8
+   vW2p2mDAvOaqIG6ofL+D3fTy1tecXv5GDRfT0FL6Em8rU4eJoU2sYg4v2
+   omQmfVlCR8KoqFrBgbyPyonPX+BHsMEgxNa+IzLAik0cKGR1p7RVQhJpr
+   foRZMx11vPe2k/dUbHK6T3kWFSSLWbrrV0+p00Pq5eX/1zXSMsvvcwhlz
+   w==;
+X-CSE-ConnectionGUID: 8JSYEryrT560WU2kM5UT/g==
+X-CSE-MsgGUID: n+7LcVqbQPWKCNwjPHPJcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="90290569"
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="85047500"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 00:33:02 -0800
-X-CSE-ConnectionGUID: +6J+5FdES3Os/dVuHE3DKg==
-X-CSE-MsgGUID: p7BAIP+QSqSdPw/QxGbfeA==
+   d="scan'208";a="90290569"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 01:05:04 -0800
+X-CSE-ConnectionGUID: oYrqYlxuSHa1Bj8jk7PaPg==
+X-CSE-MsgGUID: X+c5RIikT6yqke063hhM4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="197970012"
+   d="scan'208";a="228133316"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Dec 2025 00:33:00 -0800
+  by orviesa002.jf.intel.com with ESMTP; 14 Dec 2025 01:05:03 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUhXG-000000008sP-19EM;
-	Sun, 14 Dec 2025 08:32:58 +0000
-Date: Sun, 14 Dec 2025 16:32:13 +0800
+	id 1vUi2G-000000008uN-1plB;
+	Sun, 14 Dec 2025 09:05:00 +0000
+Date: Sun, 14 Dec 2025 17:04:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/phy/microchip_t1.c:1299 lan887x_phy_init() warn:
- 'priv->clock' can also be NULL
-Message-ID: <202512141607.90chDMzT-lkp@intel.com>
+Subject: [sj:damon/next 93/115] mm/damon/paddr.c:303 damon_pa_de_activate()
+ error: uninitialized symbol 'folio'.
+Message-ID: <202512141716.JkxtPnub-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,76 +64,72 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Divya Koppera <divya.koppera@microchip.com>
-CC: Jakub Kicinski <kuba@kernel.org>
+TO: SeongJae Park <sj@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: 8541fc12edcdef36a02885672f22ca8391bd2443 net: phy: microchip_t1: Enable pin out specific to lan887x phy for PEROUT signal
-date:   11 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 11 months ago
-config: sparc-randconfig-r072-20251213 (https://download.01.org/0day-ci/archive/20251214/202512141607.90chDMzT-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.1.0
+Hi SeongJae,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   4daf22e4c21ef13ee2779580295eb0073dc3163b
+commit: 02a887177e7ef48d57e2db44c3be0d63f9d22bbe [93/115] mm/damon/paddr: activate DAMOS_LRU_PRIO targets instead of marking accessed
+:::::: branch date: 24 hours ago
+:::::: commit date: 24 hours ago
+config: powerpc-randconfig-r071-20251214 (https://download.01.org/0day-ci/archive/20251214/202512141716.JkxtPnub-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512141607.90chDMzT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512141716.JkxtPnub-lkp@intel.com/
 
 smatch warnings:
-drivers/net/phy/microchip_t1.c:1299 lan887x_phy_init() warn: 'priv->clock' can also be NULL
+mm/damon/paddr.c:303 damon_pa_de_activate() error: uninitialized symbol 'folio'.
 
-vim +1299 drivers/net/phy/microchip_t1.c
+vim +/folio +303 mm/damon/paddr.c
 
-0941c832823498 Divya Koppera 2024-08-21  1279  
-0941c832823498 Divya Koppera 2024-08-21  1280  static int lan887x_phy_init(struct phy_device *phydev)
-0941c832823498 Divya Koppera 2024-08-21  1281  {
-9fc3d6fe802923 Divya Koppera 2024-12-19  1282  	struct lan887x_priv *priv = phydev->priv;
-0941c832823498 Divya Koppera 2024-08-21  1283  	int ret;
-0941c832823498 Divya Koppera 2024-08-21  1284  
-9fc3d6fe802923 Divya Koppera 2024-12-19  1285  	if (!priv->init_done && phy_interrupt_is_valid(phydev)) {
-9fc3d6fe802923 Divya Koppera 2024-12-19  1286  		priv->clock = mchp_rds_ptp_probe(phydev, MDIO_MMD_VEND1,
-9fc3d6fe802923 Divya Koppera 2024-12-19  1287  						 MCHP_RDS_PTP_LTC_BASE_ADDR,
-9fc3d6fe802923 Divya Koppera 2024-12-19  1288  						 MCHP_RDS_PTP_PORT_BASE_ADDR);
-9fc3d6fe802923 Divya Koppera 2024-12-19  1289  		if (IS_ERR(priv->clock))
-9fc3d6fe802923 Divya Koppera 2024-12-19  1290  			return PTR_ERR(priv->clock);
-9fc3d6fe802923 Divya Koppera 2024-12-19  1291  
-8541fc12edcdef Divya Koppera 2025-01-15  1292  		/* Enable pin mux for EVT */
-8541fc12edcdef Divya Koppera 2025-01-15  1293  		phy_modify_mmd(phydev, MDIO_MMD_VEND1,
-8541fc12edcdef Divya Koppera 2025-01-15  1294  			       LAN887X_MX_CHIP_TOP_REG_CONTROL1,
-8541fc12edcdef Divya Koppera 2025-01-15  1295  			       LAN887X_MX_CHIP_TOP_REG_CONTROL1_EVT_EN,
-8541fc12edcdef Divya Koppera 2025-01-15  1296  			       LAN887X_MX_CHIP_TOP_REG_CONTROL1_EVT_EN);
-8541fc12edcdef Divya Koppera 2025-01-15  1297  
-8541fc12edcdef Divya Koppera 2025-01-15  1298  		/* Initialize pin numbers specific to PEROUT */
-8541fc12edcdef Divya Koppera 2025-01-15 @1299  		priv->clock->event_pin = 3;
-8541fc12edcdef Divya Koppera 2025-01-15  1300  
-9fc3d6fe802923 Divya Koppera 2024-12-19  1301  		priv->init_done = true;
-9fc3d6fe802923 Divya Koppera 2024-12-19  1302  	}
-9fc3d6fe802923 Divya Koppera 2024-12-19  1303  
-0941c832823498 Divya Koppera 2024-08-21  1304  	/* Clear loopback */
-0941c832823498 Divya Koppera 2024-08-21  1305  	ret = phy_clear_bits_mmd(phydev, MDIO_MMD_VEND1,
-0941c832823498 Divya Koppera 2024-08-21  1306  				 LAN887X_MIS_CFG_REG2,
-0941c832823498 Divya Koppera 2024-08-21  1307  				 LAN887X_MIS_CFG_REG2_FE_LPBK_EN);
-0941c832823498 Divya Koppera 2024-08-21  1308  	if (ret < 0)
-0941c832823498 Divya Koppera 2024-08-21  1309  		return ret;
-0941c832823498 Divya Koppera 2024-08-21  1310  
-0941c832823498 Divya Koppera 2024-08-21  1311  	/* Configure default behavior of led to link and activity for any
-0941c832823498 Divya Koppera 2024-08-21  1312  	 * speed
-0941c832823498 Divya Koppera 2024-08-21  1313  	 */
-0941c832823498 Divya Koppera 2024-08-21  1314  	ret = phy_modify_mmd(phydev, MDIO_MMD_VEND1,
-0941c832823498 Divya Koppera 2024-08-21  1315  			     LAN887X_COMMON_LED3_LED2,
-0941c832823498 Divya Koppera 2024-08-21  1316  			     LAN887X_COMMON_LED2_MODE_SEL_MASK,
-0941c832823498 Divya Koppera 2024-08-21  1317  			     LAN887X_LED_LINK_ACT_ANY_SPEED);
-0941c832823498 Divya Koppera 2024-08-21  1318  	if (ret < 0)
-0941c832823498 Divya Koppera 2024-08-21  1319  		return ret;
-0941c832823498 Divya Koppera 2024-08-21  1320  
-0941c832823498 Divya Koppera 2024-08-21  1321  	/* PHY interface setup */
-0941c832823498 Divya Koppera 2024-08-21  1322  	return lan887x_config_phy_interface(phydev);
-0941c832823498 Divya Koppera 2024-08-21  1323  }
-0941c832823498 Divya Koppera 2024-08-21  1324  
+57223ac295845b SeongJae Park         2021-11-05  272  
+02a887177e7ef4 SeongJae Park         2025-06-14  273  static inline unsigned long damon_pa_de_activate(
+51a1ebd3a295c8 SeongJae Park         2025-08-28  274  		struct damon_region *r, unsigned long addr_unit,
+02a887177e7ef4 SeongJae Park         2025-06-14  275  		struct damos *s, bool activate,
+96f1971dabca71 SeongJae Park         2025-01-06  276  		unsigned long *sz_filter_passed)
+8cdcc532268df0 SeongJae Park         2022-06-13  277  {
+51a1ebd3a295c8 SeongJae Park         2025-08-28  278  	phys_addr_t addr, applied = 0;
+94ba17adaba0f6 SeongJae Park         2025-02-07  279  	struct folio *folio;
+8cdcc532268df0 SeongJae Park         2022-06-13  280  
+51a1ebd3a295c8 SeongJae Park         2025-08-28  281  	addr = damon_pa_phys_addr(r->ar.start, addr_unit);
+51a1ebd3a295c8 SeongJae Park         2025-08-28  282  	while (addr < damon_pa_phys_addr(r->ar.end, addr_unit)) {
+94ba17adaba0f6 SeongJae Park         2025-02-07  283  		folio = damon_get_folio(PHYS_PFN(addr));
+94ba17adaba0f6 SeongJae Park         2025-02-07  284  		if (damon_pa_invalid_damos_folio(folio, s)) {
+3a06696305e757 Usama Arif            2025-02-07  285  			addr += PAGE_SIZE;
+8cdcc532268df0 SeongJae Park         2022-06-13  286  			continue;
+3a06696305e757 Usama Arif            2025-02-07  287  		}
+18250e78f9c759 SeongJae Park         2022-12-05  288  
+b6993be23601c8 Kefeng Wang           2023-03-08  289  		if (damos_pa_filter_out(s, folio))
+b6993be23601c8 Kefeng Wang           2023-03-08  290  			goto put_folio;
+96f1971dabca71 SeongJae Park         2025-01-06  291  		else
+51a1ebd3a295c8 SeongJae Park         2025-08-28  292  			*sz_filter_passed += folio_size(folio) / addr_unit;
+18250e78f9c759 SeongJae Park         2022-12-05  293  
+02a887177e7ef4 SeongJae Park         2025-06-14  294  		if (activate)
+02a887177e7ef4 SeongJae Park         2025-06-14  295  			folio_activate(folio);
+8193321ac90d52 SeongJae Park         2022-09-13  296  		else
+5a9e34747c9f73 Vishal Moola (Oracle  2022-12-21  297) 			folio_deactivate(folio);
+f70da5ee8fe15b Vishal Moola (Oracle  2022-12-21  298) 		applied += folio_nr_pages(folio);
+b6993be23601c8 Kefeng Wang           2023-03-08  299  put_folio:
+3a06696305e757 Usama Arif            2025-02-07  300  		addr += folio_size(folio);
+dd52a61da0dd8b SeongJae Park         2023-03-04  301  		folio_put(folio);
+8cdcc532268df0 SeongJae Park         2022-06-13  302  	}
+94ba17adaba0f6 SeongJae Park         2025-02-07 @303  	s->last_applied = folio;
+51a1ebd3a295c8 SeongJae Park         2025-08-28  304  	return damon_pa_core_addr(applied * PAGE_SIZE, addr_unit);
+8cdcc532268df0 SeongJae Park         2022-06-13  305  }
+8cdcc532268df0 SeongJae Park         2022-06-13  306  
+
+:::::: The code at line 303 was first introduced by commit
+:::::: 94ba17adaba0f651fdcf745c8891a88e2e028cfa mm/damon: avoid applying DAMOS action to same entity multiple times
+
+:::::: TO: SeongJae Park <sj@kernel.org>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
