@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C3443147
-	for <oe-kbuild@lists.linux.dev>; Mon, 15 Dec 2025 18:41:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D548321E087
+	for <oe-kbuild@lists.linux.dev>; Mon, 15 Dec 2025 18:42:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765824120; cv=none; b=ru4taqZgTbKuHX1WhVlOX24qduGixletgjXUzQdZvxYSNNEbi0YrT9jKpFaSc9jrJkTf2B34Ifx83vDFrd3GRlpegfYbAtWIMBjoYtBFmVcEv+eXl87gMXy6s1pxRKDOIwxWEUMmbCCHhDL997Pis7KSDC0C/kfz8Sy/arzWPCM=
+	t=1765824123; cv=none; b=Y0+NE9mQ39LiY2g/Wz/BMh4r66C5yyULI1LLZpP4UCDjdGuy2/W376sxWFWohYATOYLW+47FHakV2ISyqK2lYJFV8kh9akmgSFfeK2/Bw4PYgNgNz3S5uDNutX4dTSxDAG2zOZMUbJw5hhsryfqPhlMwjZyjsjjkkcqoRR3r8Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765824120; c=relaxed/simple;
-	bh=fT+MYuSKGH6WPIlM6xZeCd9QXrZqlqrODlQZHX93C3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TvH9wWpcl/lDABN8lzSRXg6DA4jO6Kb0izyKW13FflweS48KZrPnEZg4xI44dPsHo1nxQAA8jLOEoSU298Q9LV7Sjgqn87PtLfQp01n+ltsVyKqPNQgR6+ySulMpQWfy2iBP7ynymzXCOxxyq8ybYRrCXmELson1XYP8Eio9pzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZlT7Thea; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1765824123; c=relaxed/simple;
+	bh=NkxRHA9P24fX1tiy9S/6qWSPGUv2PILO85tGuRox5gk=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FXgcqVNkc02zOB1cdjQYT7i8wZ42UVCQ0gT0iTEJfYJ/hkJQneogKKvH6V7lbbdAHE9cAr2zrw53yezY3GDqS3mpoyacatcYCcHt2hXrECnRaDSht7qhZeDQ9oelPI+1QE9XqhYn9xJiD6oslYtBSm0An7elrRkwt/OKLsDcNJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VMvPg44V; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZlT7Thea"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMvPg44V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765824119; x=1797360119;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fT+MYuSKGH6WPIlM6xZeCd9QXrZqlqrODlQZHX93C3w=;
-  b=ZlT7Theap6xiF0jtVqNKyRSEJ9EQoPrajoVxManHBTT+UogfQYBehDl4
-   zXueB2R0bk/fTXKBBe1/DLRkf5pvHXYOhAg+qrLYyUk4uPCgxCjQmSjV5
-   16jLiTDxXnfSK84qyFkIba/Hg04g6HxByoZyvrgLhfKM506TjfLW31+GK
-   +alAkpi1dtVlE6UFF0XHZaVSB3Ax9LdmMboxLH6+S0GVEntbncPOWVTcp
-   ZIsYp16Yr54YXXE2FpwvAsmD9TzkIwGp+GpSsW3pZpgxFHTBFVlntBqZX
-   XZJy+Oxfnyxegh8zC0wdqWTDrqPED5RJY75fhKQORT0eZYgJHOGYfr9Bb
-   w==;
-X-CSE-ConnectionGUID: uGfMpgQZSdOin5BYohiNvA==
-X-CSE-MsgGUID: RX72fUvISQSUyOvLYF8gPA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="78440924"
+  t=1765824122; x=1797360122;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=NkxRHA9P24fX1tiy9S/6qWSPGUv2PILO85tGuRox5gk=;
+  b=VMvPg44V2ie2tBmfOvagGQsuaicsgt6l9d9k8EcuzPpwrrQdcckvgy+t
+   xFWF+FNDRJ9Fbppeq2nQhNBA+csz3Qv4CBP1RVJsOBNC1WISPg7fZdPn1
+   S/v2yLXYrCSDHJtUOPaDHX5bc2+rKQzHsBI245k7sKX167emhoE6CeXHw
+   uorpALDHOK35Lk2dotvr2s0lXr85OXTvno63XzTq5CD6x22RwMMORp+Bj
+   l27n4egEgC61vKWDk9TaPhrphE5qzi5sf2Vqpz5zvfziLv9MYpQ+UsPX7
+   f2JXcp2dzT7uskR5rS+9UggzCdpwIpuyxl4J+yFUrfJYt/AwjA3d8TXwZ
+   g==;
+X-CSE-ConnectionGUID: 0ec9+Dx3RqmRxPCODGadow==
+X-CSE-MsgGUID: u1uJJy26SqOR7s/0/bEEog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="78440926"
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="78440924"
+   d="scan'208";a="78440926"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 10:41:57 -0800
-X-CSE-ConnectionGUID: 2rPs1+cARs6Qf/c4FBuUBg==
-X-CSE-MsgGUID: gESJzPPjQNO1MGwgS+0q4w==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 10:42:02 -0800
+X-CSE-ConnectionGUID: 7KTACstiTBahhfNIW1UM1Q==
+X-CSE-MsgGUID: NTfhql0CRjKDrNjJYmU5bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="201974676"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 15 Dec 2025 10:41:56 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
+   d="scan'208";a="201974681"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 15 Dec 2025 10:42:01 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVDW5-000000000cV-1FUJ;
-	Mon, 15 Dec 2025 18:41:53 +0000
-Date: Tue, 16 Dec 2025 02:41:48 +0800
+	id 1vVDWA-000000002js-3EnY
+	for oe-kbuild@lists.linux.dev;
+	Mon, 15 Dec 2025 18:41:58 +0000
+Date: Mon, 15 Dec 2025 19:41:05 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/bridge/synopsys/dw-dp.c:2080 dw_dp_bind() warn:
- passing zero to 'ERR_PTR'
-Message-ID: <202512160236.WR5aAHUS-lkp@intel.com>
+Subject: [melver:ctx-analysis/dev 11/35] checkpatch: WARNING:REPEATED_WORD:
+ Possible repeated word: 'is'
+Message-ID: <202512151951.a1LBZwsj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,167 +62,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Andy Yan <andy.yan@rock-chips.com>
-CC: Dmitry Baryshkov <lumag@kernel.org>
-CC: Heiko Stuebner <heiko@sntech.de>
+TO: elver@google.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: d68ba7bac9555d05e2f5b310c898b2a5c7eff174 drm/rockchip: Add RK3588 DPTX output support
-date:   4 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 4 months ago
-config: arm64-randconfig-r071-20251215 (https://download.01.org/0day-ci/archive/20251216/202512160236.WR5aAHUS-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ctx-analysis/dev
+head:   982f41984aa2e06402a8080e95499ae6c10a4e74
+commit: 547d54b3dd290db6e8a754ca0bfc5fb294b6ca0b [11/35] locking/seqlock: Support Clang's context analysis
+:::::: branch date: 86 minutes ago
+:::::: commit date: 87 minutes ago
+reproduce: (https://download.01.org/0day-ci/archive/20251215/202512151951.a1LBZwsj-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512160236.WR5aAHUS-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-New smatch warnings:
-drivers/gpu/drm/bridge/synopsys/dw-dp.c:2080 dw_dp_bind() warn: passing zero to 'ERR_PTR'
-
-Old smatch warnings:
-drivers/gpu/drm/bridge/synopsys/dw-dp.c:1152 dw_dp_video_need_vsc_sdp() warn: signedness bug returning '(-22)'
-
-vim +/ERR_PTR +2080 drivers/gpu/drm/bridge/synopsys/dw-dp.c
-
-86eecc3a9c2e06 Andy Yan 2025-08-22  1968  
-86eecc3a9c2e06 Andy Yan 2025-08-22  1969  struct dw_dp *dw_dp_bind(struct device *dev, struct drm_encoder *encoder,
-86eecc3a9c2e06 Andy Yan 2025-08-22  1970  			 const struct dw_dp_plat_data *plat_data)
-86eecc3a9c2e06 Andy Yan 2025-08-22  1971  {
-86eecc3a9c2e06 Andy Yan 2025-08-22  1972  	struct platform_device *pdev = to_platform_device(dev);
-86eecc3a9c2e06 Andy Yan 2025-08-22  1973  	struct dw_dp *dp;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1974  	struct drm_bridge *bridge;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1975  	void __iomem *res;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1976  	int ret;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1977  
-86eecc3a9c2e06 Andy Yan 2025-08-22  1978  	dp = devm_kzalloc(dev, sizeof(*dp), GFP_KERNEL);
-86eecc3a9c2e06 Andy Yan 2025-08-22  1979  	if (!dp)
-86eecc3a9c2e06 Andy Yan 2025-08-22  1980  		return ERR_PTR(-ENOMEM);
-86eecc3a9c2e06 Andy Yan 2025-08-22  1981  
-86eecc3a9c2e06 Andy Yan 2025-08-22  1982  	dp = devm_drm_bridge_alloc(dev, struct dw_dp, bridge, &dw_dp_bridge_funcs);
-86eecc3a9c2e06 Andy Yan 2025-08-22  1983  	if (IS_ERR(dp))
-86eecc3a9c2e06 Andy Yan 2025-08-22  1984  		return ERR_CAST(dp);
-86eecc3a9c2e06 Andy Yan 2025-08-22  1985  
-86eecc3a9c2e06 Andy Yan 2025-08-22  1986  	dp->dev = dev;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1987  	dp->pixel_mode = DW_DP_MP_QUAD_PIXEL;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1988  
-86eecc3a9c2e06 Andy Yan 2025-08-22  1989  	dp->plat_data.max_link_rate = plat_data->max_link_rate;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1990  	bridge = &dp->bridge;
-86eecc3a9c2e06 Andy Yan 2025-08-22  1991  	mutex_init(&dp->irq_lock);
-86eecc3a9c2e06 Andy Yan 2025-08-22  1992  	INIT_WORK(&dp->hpd_work, dw_dp_hpd_work);
-86eecc3a9c2e06 Andy Yan 2025-08-22  1993  	init_completion(&dp->complete);
-86eecc3a9c2e06 Andy Yan 2025-08-22  1994  
-86eecc3a9c2e06 Andy Yan 2025-08-22  1995  	res = devm_platform_ioremap_resource(pdev, 0);
-86eecc3a9c2e06 Andy Yan 2025-08-22  1996  	if (IS_ERR(res))
-86eecc3a9c2e06 Andy Yan 2025-08-22  1997  		return ERR_CAST(res);
-86eecc3a9c2e06 Andy Yan 2025-08-22  1998  
-86eecc3a9c2e06 Andy Yan 2025-08-22  1999  	dp->regmap = devm_regmap_init_mmio(dev, res, &dw_dp_regmap_config);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2000  	if (IS_ERR(dp->regmap)) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  2001  		dev_err_probe(dev, PTR_ERR(dp->regmap), "failed to create regmap\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2002  		return ERR_CAST(dp->regmap);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2003  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  2004  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2005  	dp->phy = devm_of_phy_get(dev, dev->of_node, NULL);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2006  	if (IS_ERR(dp->phy)) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  2007  		dev_err_probe(dev, PTR_ERR(dp->phy), "failed to get phy\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2008  		return ERR_CAST(dp->phy);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2009  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  2010  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2011  	dp->apb_clk = devm_clk_get_enabled(dev, "apb");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2012  	if (IS_ERR(dp->apb_clk)) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  2013  		dev_err_probe(dev, PTR_ERR(dp->apb_clk), "failed to get apb clock\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2014  		return ERR_CAST(dp->apb_clk);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2015  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  2016  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2017  	dp->aux_clk = devm_clk_get_enabled(dev, "aux");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2018  	if (IS_ERR(dp->aux_clk)) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  2019  		dev_err_probe(dev, PTR_ERR(dp->aux_clk), "failed to get aux clock\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2020  		return ERR_CAST(dp->aux_clk);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2021  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  2022  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2023  	dp->i2s_clk = devm_clk_get(dev, "i2s");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2024  	if (IS_ERR(dp->i2s_clk)) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  2025  		dev_err_probe(dev, PTR_ERR(dp->i2s_clk), "failed to get i2s clock\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2026  		return ERR_CAST(dp->i2s_clk);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2027  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  2028  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2029  	dp->spdif_clk = devm_clk_get(dev, "spdif");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2030  	if (IS_ERR(dp->spdif_clk)) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  2031  		dev_err_probe(dev, PTR_ERR(dp->spdif_clk), "failed to get spdif clock\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2032  		return ERR_CAST(dp->spdif_clk);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2033  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  2034  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2035  	dp->hdcp_clk = devm_clk_get(dev, "hdcp");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2036  	if (IS_ERR(dp->hdcp_clk)) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  2037  		dev_err_probe(dev, PTR_ERR(dp->hdcp_clk), "failed to get hdcp clock\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2038  		return ERR_CAST(dp->hdcp_clk);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2039  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  2040  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2041  	dp->rstc = devm_reset_control_get(dev, NULL);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2042  	if (IS_ERR(dp->rstc)) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  2043  		dev_err_probe(dev, PTR_ERR(dp->rstc), "failed to get reset control\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2044  		return ERR_CAST(dp->rstc);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2045  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  2046  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2047  	bridge->of_node = dev->of_node;
-86eecc3a9c2e06 Andy Yan 2025-08-22  2048  	bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_HPD;
-86eecc3a9c2e06 Andy Yan 2025-08-22  2049  	bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
-86eecc3a9c2e06 Andy Yan 2025-08-22  2050  	bridge->ycbcr_420_allowed = true;
-86eecc3a9c2e06 Andy Yan 2025-08-22  2051  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2052  	dp->aux.dev = dev;
-86eecc3a9c2e06 Andy Yan 2025-08-22  2053  	dp->aux.drm_dev = encoder->dev;
-86eecc3a9c2e06 Andy Yan 2025-08-22  2054  	dp->aux.name = dev_name(dev);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2055  	dp->aux.transfer = dw_dp_aux_transfer;
-86eecc3a9c2e06 Andy Yan 2025-08-22  2056  	ret = drm_dp_aux_register(&dp->aux);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2057  	if (ret) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  2058  		dev_err_probe(dev, ret, "Aux register failed\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2059  		return ERR_PTR(ret);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2060  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  2061  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2062  	ret = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2063  	if (ret)
-86eecc3a9c2e06 Andy Yan 2025-08-22  2064  		dev_err_probe(dev, ret, "Failed to attach bridge\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2065  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2066  	dw_dp_init_hw(dp);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2067  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2068  	ret = phy_init(dp->phy);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2069  	if (ret) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  2070  		dev_err_probe(dev, ret, "phy init failed\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2071  		return ERR_PTR(ret);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2072  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  2073  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2074  	ret = devm_add_action_or_reset(dev, dw_dp_phy_exit, dp);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2075  	if (ret)
-86eecc3a9c2e06 Andy Yan 2025-08-22  2076  		return ERR_PTR(ret);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2077  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2078  	dp->irq = platform_get_irq(pdev, 0);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2079  	if (dp->irq < 0)
-86eecc3a9c2e06 Andy Yan 2025-08-22 @2080  		return ERR_PTR(ret);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2081  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2082  	ret = devm_request_threaded_irq(dev, dp->irq, NULL, dw_dp_irq,
-86eecc3a9c2e06 Andy Yan 2025-08-22  2083  					IRQF_ONESHOT, dev_name(dev), dp);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2084  	if (ret) {
-86eecc3a9c2e06 Andy Yan 2025-08-22  2085  		dev_err_probe(dev, ret, "failed to request irq\n");
-86eecc3a9c2e06 Andy Yan 2025-08-22  2086  		return ERR_PTR(ret);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2087  	}
-86eecc3a9c2e06 Andy Yan 2025-08-22  2088  
-86eecc3a9c2e06 Andy Yan 2025-08-22  2089  	return dp;
-86eecc3a9c2e06 Andy Yan 2025-08-22  2090  }
-86eecc3a9c2e06 Andy Yan 2025-08-22  2091  EXPORT_SYMBOL_GPL(dw_dp_bind);
-86eecc3a9c2e06 Andy Yan 2025-08-22  2092  
-
-:::::: The code at line 2080 was first introduced by commit
-:::::: 86eecc3a9c2e06462f6a273fcd24150b6da787de drm/bridge: synopsys: Add DW DPTX Controller support library
-
-:::::: TO: Andy Yan <andy.yan@rock-chips.com>
-:::::: CC: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+WARNING:REPEATED_WORD: Possible repeated word: 'is'
+#251: FILE: include/linux/seqlock.h:1327:
++ * alias analysis of the compiler will recognize that the pointer @s is is an
 
 -- 
 0-DAY CI Kernel Test Service
