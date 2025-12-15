@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782852F0C76
-	for <oe-kbuild@lists.linux.dev>; Mon, 15 Dec 2025 20:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00F92D5C7A
+	for <oe-kbuild@lists.linux.dev>; Mon, 15 Dec 2025 20:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765830565; cv=none; b=IRdqYvk1MukQ5JSDAqOgNZGy4gWQKa4fu0BlMo+WSOJchabH90j9CT4p3NMhduWRZ7hSVZfPCcpu01osvhdFhtnotYl/jwF6ZDC2HrKsSmLE3OtrkZ1u/eHJ1BULi/mMeOomZ1IeFkgKq1WksnGxcRoxWzqeKNuPtU7rPNMUbq8=
+	t=1765831320; cv=none; b=qYignR/IfmpUqyGIuNLXCcWIOn0MpKIMuoznFZ92rp5XaNPqh9ypoMPjyzPnGFAxz+NEQmJKM5SL1TXWBv7L8m+RIf+rVcDhHzUZj1swaVRP2s8PfG85ylf/D4ANv93kHOJeQIvUBURz2TWSqpxYQNGOFqhsHkQxae6zsPuA8P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765830565; c=relaxed/simple;
-	bh=xK242mhSN6rSkPKU1r1RxCfO7XmE03iH790mX9/KG9c=;
+	s=arc-20240116; t=1765831320; c=relaxed/simple;
+	bh=YcYS3+k4BkCVHjOiDDa8O9LVh+15oVf8N23zUBelX/8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mWDV/+Z+UoChMebTUAYqnu/L0v6E4JRM0MRydvsCtwd7byPmgIRtyIf0NEFtoYjskbbKKkShe6+B5jR3/X77p4YnmcDPoD26NBx3ZUJcuRFKOCarUdG2i6BMEnMOW/kCCJWBNggmDkragvWveWaHkkM/SGxYV7FwHPvdEUP2VEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T5WQ5Vrz; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=fq51PnOBLI/EZxDu8CT/M0ZR/sxpiDRQCf+4mpFdVPuRY8/dR11rbkbdolywDjcafvgLtzIW4iH8RKqjEsLRzvwUV/5PQznFKH7AeeSEwrYLqfO7TBeTwaH2k9ZJYZWjQA7XK37l8FzblgD3eEtZaXYbSHVISoO7EUGsRSAcGkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PTR26nok; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T5WQ5Vrz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PTR26nok"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765830564; x=1797366564;
+  t=1765831319; x=1797367319;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xK242mhSN6rSkPKU1r1RxCfO7XmE03iH790mX9/KG9c=;
-  b=T5WQ5Vrzqlt+ZTR+r278FNwKO+Wktiqotzkvrm86ghIG8r0xyJGm1v6c
-   RHqxAtr4CWmtVVvhycmgJtdKakZ+nAmZ0duJErUKkNERVxmaMCMQIwsWx
-   cpkJKKaDzNz0zhenYrxqCXNrkEpBuc4ZX5QZfHCC/9oKWNUpWDt4PtM7V
-   IRXwbhf2fYINPLUnyckdJLzUk+ugwfQ4n1wAwZ59JrEcJtrOVtS8b6sJr
-   2o/AjOL97sOuG0ElD6aACbxGEI0ODcqjDDbLgoFYtDMQvt9jJAm7sX3t7
-   84Po/9e0/BhhJzPCdsPiMbul5skbjkQLwqkQ4AN8DPSu7Bo8HEAlg1/Mb
-   w==;
-X-CSE-ConnectionGUID: dTEPQDtaTwaEtVNSVvTvhw==
-X-CSE-MsgGUID: GThkrGb1TfCm5Bq5PCd+PA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="67625262"
+  bh=YcYS3+k4BkCVHjOiDDa8O9LVh+15oVf8N23zUBelX/8=;
+  b=PTR26nokMPGFYclTyiao5FnoM2d/GnegvO6oIRr3LNSLvFYSEsU9NC00
+   FpSNKfvsiPZuDWmIDd0DMn6Vn1aIloL8+lfno2K3uJsyUxd8hnLPuLije
+   UydJ8rzksXbcLOMy6sll0nBwlwpUKbIJbMCsUb0z2bQx8w1pAJ0UDwEDM
+   jMkq2hqoGSeLo+CU5uHI7a67nmtvlhnlUfTqb3Nab9JMyFn00D57XMeUM
+   cBd1jdFKsRudXfVZpHhv/rHucf1Ex5ilLqJHrKBmY6JmNgszRg6WuomNK
+   34iYtyDKbmTpWFyJbP4d0jpeyC2yv9a9t5hNrWBJmUBxIn1VNKO3bCsH3
+   Q==;
+X-CSE-ConnectionGUID: W0012d/BTWag70ZlYcb/7A==
+X-CSE-MsgGUID: x+0F0patS6mvzlb1pVAakw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="85156059"
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="67625262"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 12:29:20 -0800
-X-CSE-ConnectionGUID: A/blzpFdQIenkcsYCU1OJg==
-X-CSE-MsgGUID: rs26dI87QFm+tXf5kqqB5w==
+   d="scan'208";a="85156059"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 12:41:59 -0800
+X-CSE-ConnectionGUID: xO6c74YtQWC9KeTiFGAYPw==
+X-CSE-MsgGUID: cwjW6FatQniRQWiQb+uMTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="197868246"
+   d="scan'208";a="202002596"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 15 Dec 2025 12:29:18 -0800
+  by orviesa003.jf.intel.com with ESMTP; 15 Dec 2025 12:41:57 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVFBz-000000000jJ-1Ttd;
-	Mon, 15 Dec 2025 20:29:15 +0000
-Date: Tue, 16 Dec 2025 04:28:06 +0800
+	id 1vVFNf-000000000kl-0vFY;
+	Mon, 15 Dec 2025 20:41:22 +0000
+Date: Tue, 16 Dec 2025 04:40:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>,
-	Elena Reshetova <elena.reshetova@intel.com>
-Subject: fs/inode.c:1924:45-46: WARNING: atomic_add_unless
-Message-ID: <202512160420.AI5K5vHE-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/thunderbolt/tunnel.c:2319 tb_tunnel_activate() warn: missing
+ unwind goto?
+Message-ID: <202512160443.6NO9vi4r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,83 +65,87 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Josef Bacik <josef@toxicpanda.com>
-CC: Christian Brauner <brauner@kernel.org>
-CC: Mateusz Guzik <mjguzik@gmail.com>
+TO: Mika Westerberg <mika.westerberg@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: 9e70e985bdc2c6fe7a160e4d59ddd7c0a39bc077 fs: rework iput logic
-date:   4 months ago
+commit: d6d458d42e1e1544a18f37f1d5c840e00d5261b9 thunderbolt: Handle DisplayPort tunnel activation asynchronously
+date:   12 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 4 months ago
-config: i386-randconfig-052-20251215 (https://download.01.org/0day-ci/archive/20251216/202512160420.AI5K5vHE-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+:::::: commit date: 12 months ago
+config: alpha-randconfig-r071-20251212 (https://download.01.org/0day-ci/archive/20251216/202512160443.6NO9vi4r-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202512160420.AI5K5vHE-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512160443.6NO9vi4r-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/inode.c:1924:45-46: WARNING: atomic_add_unless
+smatch warnings:
+drivers/thunderbolt/tunnel.c:2319 tb_tunnel_activate() warn: missing unwind goto?
 
-vim +1924 fs/inode.c
+vim +2319 drivers/thunderbolt/tunnel.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1899  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1900  /**
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1901   *	iput	- put an inode
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1902   *	@inode: inode to put
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1903   *
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1904   *	Puts an inode, dropping its usage count. If the inode use count hits
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1905   *	zero, the inode is then freed and may also be destroyed.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1906   *
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1907   *	Consequently, iput() can sleep.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1908   */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1909  void iput(struct inode *inode)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1910  {
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1911  	if (unlikely(!inode))
-0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1912  		return;
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1913  
-0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1914  retry:
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1915  	lockdep_assert_not_held(&inode->i_lock);
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1916  	VFS_BUG_ON_INODE(inode->i_state & I_CLEAR, inode);
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1917  	/*
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1918  	 * Note this assert is technically racy as if the count is bogusly
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1919  	 * equal to one, then two CPUs racing to further drop it can both
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1920  	 * conclude it's fine.
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1921  	 */
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1922  	VFS_BUG_ON_INODE(atomic_read(&inode->i_count) < 1, inode);
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1923  
-9e70e985bdc2c6 Josef Bacik    2025-08-26 @1924  	if (atomic_add_unless(&inode->i_count, -1, 1))
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1925  		return;
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1926  
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1927  	if ((inode->i_state & I_DIRTY_TIME) && inode->i_nlink) {
-0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1928  		trace_writeback_lazytime_iput(inode);
-0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1929  		mark_inode_dirty_sync(inode);
-0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1930  		goto retry;
-0ae45f63d4ef8d Theodore Ts'o  2015-02-02  1931  	}
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1932  
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1933  	spin_lock(&inode->i_lock);
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1934  	if (unlikely((inode->i_state & I_DIRTY_TIME) && inode->i_nlink)) {
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1935  		spin_unlock(&inode->i_lock);
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1936  		goto retry;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1937  	}
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1938  
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1939  	if (!atomic_dec_and_test(&inode->i_count)) {
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1940  		spin_unlock(&inode->i_lock);
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1941  		return;
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1942  	}
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1943  
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1944  	/*
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1945  	 * iput_final() drops ->i_lock, we can't assert on it as the inode may
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1946  	 * be deallocated by the time the call returns.
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1947  	 */
-9e70e985bdc2c6 Josef Bacik    2025-08-26  1948  	iput_final(inode);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1949  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1950  EXPORT_SYMBOL(iput);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1951  
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2274  
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2275  /**
+cab96faacf53d0 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2276   * tb_tunnel_activate() - activate a tunnel
+cab96faacf53d0 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2277   * @tunnel: Tunnel to activate
+93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2278   *
+d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2279   * Return: 0 on success and negative errno in case if failure.
+d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2280   * Specifically returns %-EINPROGRESS if the tunnel activation is still
+d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2281   * in progress (that's for DP tunnels to complete DPRX capabilities
+d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2282   * read).
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2283   */
+cab96faacf53d0 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2284  int tb_tunnel_activate(struct tb_tunnel *tunnel)
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2285  {
+93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2286  	int res, i;
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2287  
+62efe699a7f666 drivers/thunderbolt/tunnel.c     Mika Westerberg 2018-09-17  2288  	tb_tunnel_dbg(tunnel, "activating\n");
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2289  
+aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2290  	/*
+aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2291  	 * Make sure all paths are properly disabled before enabling
+aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2292  	 * them again.
+aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2293  	 */
+93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2294  	for (i = 0; i < tunnel->npaths; i++) {
+aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2295  		if (tunnel->paths[i]->activated) {
+aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2296  			tb_path_deactivate(tunnel->paths[i]);
+93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2297  			tunnel->paths[i]->activated = false;
+aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2298  		}
+aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2299  	}
+aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2300  
+d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2301  	tunnel->state = TB_TUNNEL_ACTIVATING;
+d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2302  
+ae765788936d98 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2303  	if (tunnel->pre_activate) {
+ae765788936d98 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2304  		res = tunnel->pre_activate(tunnel);
+4f807e47ee9a75 drivers/thunderbolt/tunnel.c     Mika Westerberg 2018-09-17  2305  		if (res)
+4f807e47ee9a75 drivers/thunderbolt/tunnel.c     Mika Westerberg 2018-09-17  2306  			return res;
+4f807e47ee9a75 drivers/thunderbolt/tunnel.c     Mika Westerberg 2018-09-17  2307  	}
+4f807e47ee9a75 drivers/thunderbolt/tunnel.c     Mika Westerberg 2018-09-17  2308  
+aae9e27f3b72ed drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2309  	for (i = 0; i < tunnel->npaths; i++) {
+93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2310  		res = tb_path_activate(tunnel->paths[i]);
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2311  		if (res)
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2312  			goto err;
+93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2313  	}
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2314  
+93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2315  	if (tunnel->activate) {
+93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2316  		res = tunnel->activate(tunnel, true);
+d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2317  		if (res) {
+d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2318  			if (res == -EINPROGRESS)
+d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20 @2319  				return res;
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2320  			goto err;
+93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2321  		}
+d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2322  	}
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2323  
+d6d458d42e1e15 drivers/thunderbolt/tunnel.c     Mika Westerberg 2024-08-20  2324  	tunnel->state = TB_TUNNEL_ACTIVE;
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2325  	return 0;
+93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2326  
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2327  err:
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2328  	tb_tunnel_warn(tunnel, "activation failed\n");
+93f36ade5b7b82 drivers/thunderbolt/tunnel.c     Mika Westerberg 2017-02-19  2329  	tb_tunnel_deactivate(tunnel);
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2330  	return res;
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2331  }
+3364f0c1279571 drivers/thunderbolt/tunnel_pci.c Andreas Noever  2014-06-03  2332  
 
 -- 
 0-DAY CI Kernel Test Service
