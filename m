@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D0033F8C1
-	for <oe-kbuild@lists.linux.dev>; Mon, 15 Dec 2025 19:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE312E1730
+	for <oe-kbuild@lists.linux.dev>; Mon, 15 Dec 2025 19:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765827939; cv=none; b=ZIQVcJQXC4h99pcklDokd4iyIeKOWCQ0unFsrVWjdZ8XdrgfJWbC41thXLdKHw1whrHpqRM2Uni11vAOErFPhVbVLvmfFek5HCIIPOyfrHN4nSO0+Gixa1QGiDuPwj4Ymz1EbFTVwICxuAc+0KgVV1R3A4wOpMbDjXf1GIUVpRM=
+	t=1765828325; cv=none; b=ULAIGdOH5gn/OZXWlRHaj3FsHg5b1bbkFqJH9WB/W2fSEeIHXc+N4tGeKPlArnEFF3BSmsTJoDUrWeoaMBS/gjzBEGWkqkNBV+4bc4aMOkrDz1IxiwzD1ouYpZYEpYS4km99pmKycpqQ52LWU6KNhJ7dblwQVzKF4xxBLgNHBfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765827939; c=relaxed/simple;
-	bh=y0nM+yWJHZYn38WgWzHcuHLbZxIIgs/JDDVdJydFvhU=;
+	s=arc-20240116; t=1765828325; c=relaxed/simple;
+	bh=8D696Ht4AP9pSasw3Aw8Pph1pqiUTNZdrX4OsahSJnM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hew6GFKm2qcuvRfxSDx7FdtNyym4NxpgNuW4Eftd0XCbcl3zTWlLSskKuW/P+HFsvl+TTiqqSn1IfELDehi+L0QgInifRzRmJgfKdiswt1jHrdtrLlkBq9IA2P3v4JkdqLidJKHC0ooLIOxYhZlFEABCwk/trHDZatj5/UyYD2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OzfxA+9L; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=fhaIVgrdgA4c1Dl4Dp8WU+Fcj7i+jS6BKc2NSy/H+oFgpanHthhcujtNwjJhOBVKX1BoU9k+MhL6dBCRgxj2CJXQ/bE+A/QN2AaAQiBpuLwpY6dV3ry7P/f62HG5mZ8nUUuvsEeOYt9Q2JOrEAma1bW7syfOBx7xnh7Ha5yu5Vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Myac9ymU; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OzfxA+9L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Myac9ymU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765827938; x=1797363938;
+  t=1765828324; x=1797364324;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y0nM+yWJHZYn38WgWzHcuHLbZxIIgs/JDDVdJydFvhU=;
-  b=OzfxA+9LkMJIt4YtfnLyBm6Q68mJmoc7sSVbmrmB1YIGs4hIP4WROQsD
-   8xFqH3sXoxNg2y7BeqYXty0XmRKhuUO66ze7uMCZuaBGZmi+C91OFCqPl
-   HrUjWpVTaszz6wNzOrnRysgRTTfZspGOX4IeAVW6Pi3A3eX03ZnFFlMT1
-   Gm+/E/atuZyiY9qO+HqGE3uVUD1VZS0IlMcVwjN/LtPitwLk33LTb4o5E
-   64GHg+uxH2VatmoQhxgyQ0rAhLwbQ4WEX40MEEnqcAlroIAxcrJmd99zq
-   gRHZan0bnQuC8++8chPksCIwymk+i6kHwjf8Rng/iCGdZfSyHLHXuyhvX
-   Q==;
-X-CSE-ConnectionGUID: a3GNoXCBSEGXl47mKfB1Fw==
-X-CSE-MsgGUID: /M5BK0CAROGiPajU6V0tCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="67494334"
+  bh=8D696Ht4AP9pSasw3Aw8Pph1pqiUTNZdrX4OsahSJnM=;
+  b=Myac9ymUVF7Ik6EKqP6WYn2HdEVErUOVbSv/vMjcza1ll+TIzFCQMpWz
+   oQYKfIxim0n5f9M1cHvY/DOKymqkfPa76XExoeXeIfVjPcROAQWBJHYJS
+   W7QRTfKS4ROGJLMS97zx3+++N2ZQYEYNwUs0FY3B7hv3pWK2dIvu5Bhms
+   QLvA2bcrQ7Q0OLnYq+Yol1rXchlyns4yasfyiJi4s0dNjeNUBugcaLxlx
+   D4N6NzaN97ATVHnjLZ93abjgCc7YdqmQhqvhjzq0us3mf+URI/wlTZy0d
+   o8yL2TBA7YWTCBwNch3ihxlIXS+QQvXKmmCdvgUkL8mo+cDjFol9I8yS4
+   g==;
+X-CSE-ConnectionGUID: lD+bGTAKQ9mXagmnnt69dw==
+X-CSE-MsgGUID: ZO9fxk+QSK+LqkrqAKx4KQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="90395476"
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="67494334"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 11:45:36 -0800
-X-CSE-ConnectionGUID: 7YIpa5MISiuS/6TiqI6OSg==
-X-CSE-MsgGUID: 37LkHXDBQI6vXUl3yHXCKA==
+   d="scan'208";a="90395476"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 11:52:03 -0800
+X-CSE-ConnectionGUID: x5fISXEEQDSn0A7cEKtivA==
+X-CSE-MsgGUID: /Md04O9WQoi4M8jfjz1efQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="197084833"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 15 Dec 2025 11:45:35 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
+   d="scan'208";a="221181006"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 15 Dec 2025 11:52:01 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVEVg-000000000g2-0NLQ;
-	Mon, 15 Dec 2025 19:45:32 +0000
-Date: Tue, 16 Dec 2025 03:45:19 +0800
+	id 1vVEbv-000000002ke-1BEe;
+	Mon, 15 Dec 2025 19:51:59 +0000
+Date: Mon, 15 Dec 2025 20:51:16 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/x86/kvm/lapic.c:1279 kvm_intr_is_single_vcpu() warn: iterator
- 'i' not incremented
-Message-ID: <202512160313.njQsasiq-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [leon-rdma:dmabuf-vfio-v10 2/3]
+ tools/testing/selftests/vfio/vfio_dma_buf_test.c:9:10: fatal error: fcntl.h:
+ No such file or directory
+Message-ID: <202512152048.yCSeRGwU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,69 +63,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Sean Christopherson <seanjc@google.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>
+TO: Leon Romanovsky <leonro@nvidia.com>
 
-Hi Sean,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: d273b52b6fad95b6b00b93250151c323c19de50d KVM: x86: Move kvm_intr_is_single_vcpu() to lapic.c
-date:   3 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-141-20251215 (https://download.01.org/0day-ci/archive/20251216/202512160313.njQsasiq-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dmabuf-vfio-v10
+head:   f450671884de47b594f47ec6678edf47e8da57ff
+commit: be9bf37d77ea9c2d9dad71982e2ce121074da2cd [2/3] vfio: selftests: Add DMABUF test
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251215/202512152048.yCSeRGwU-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512152048.yCSeRGwU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512160313.njQsasiq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512152048.yCSeRGwU-lkp@intel.com/
 
-New smatch warnings:
-arch/x86/kvm/lapic.c:1279 kvm_intr_is_single_vcpu() warn: iterator 'i' not incremented
+Note: the leon-rdma/dmabuf-vfio-v10 HEAD f450671884de47b594f47ec6678edf47e8da57ff builds fine.
+      It only hurts bisectability.
 
-Old smatch warnings:
-arch/x86/kvm/lapic.c:404 kvm_recalculate_apic_map() warn: iterator 'i' not incremented
-arch/x86/kvm/lapic.c:1316 kvm_irq_delivery_to_apic() warn: iterator 'i' not incremented
+All errors (new ones prefixed by >>):
 
-vim +/i +1279 arch/x86/kvm/lapic.c
+>> tools/testing/selftests/vfio/vfio_dma_buf_test.c:9:10: fatal error: fcntl.h: No such file or directory
+       9 | #include <fcntl.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 
-8feb4a04dc7560 Feng Wu             2015-09-18  1268  
-d273b52b6fad95 Sean Christopherson 2025-09-18  1269  bool kvm_intr_is_single_vcpu(struct kvm *kvm, struct kvm_lapic_irq *irq,
-d273b52b6fad95 Sean Christopherson 2025-09-18  1270  			     struct kvm_vcpu **dest_vcpu)
-d273b52b6fad95 Sean Christopherson 2025-09-18  1271  {
-d273b52b6fad95 Sean Christopherson 2025-09-18  1272  	int r = 0;
-d273b52b6fad95 Sean Christopherson 2025-09-18  1273  	unsigned long i;
-d273b52b6fad95 Sean Christopherson 2025-09-18  1274  	struct kvm_vcpu *vcpu;
-d273b52b6fad95 Sean Christopherson 2025-09-18  1275  
-d273b52b6fad95 Sean Christopherson 2025-09-18  1276  	if (kvm_intr_is_single_vcpu_fast(kvm, irq, dest_vcpu))
-d273b52b6fad95 Sean Christopherson 2025-09-18  1277  		return true;
-d273b52b6fad95 Sean Christopherson 2025-09-18  1278  
-d273b52b6fad95 Sean Christopherson 2025-09-18 @1279  	kvm_for_each_vcpu(i, vcpu, kvm) {
-d273b52b6fad95 Sean Christopherson 2025-09-18  1280  		if (!kvm_apic_present(vcpu))
-d273b52b6fad95 Sean Christopherson 2025-09-18  1281  			continue;
-d273b52b6fad95 Sean Christopherson 2025-09-18  1282  
-d273b52b6fad95 Sean Christopherson 2025-09-18  1283  		if (!kvm_apic_match_dest(vcpu, NULL, irq->shorthand,
-d273b52b6fad95 Sean Christopherson 2025-09-18  1284  					irq->dest_id, irq->dest_mode))
-d273b52b6fad95 Sean Christopherson 2025-09-18  1285  			continue;
-d273b52b6fad95 Sean Christopherson 2025-09-18  1286  
-d273b52b6fad95 Sean Christopherson 2025-09-18  1287  		if (++r == 2)
-d273b52b6fad95 Sean Christopherson 2025-09-18  1288  			return false;
-d273b52b6fad95 Sean Christopherson 2025-09-18  1289  
-d273b52b6fad95 Sean Christopherson 2025-09-18  1290  		*dest_vcpu = vcpu;
-d273b52b6fad95 Sean Christopherson 2025-09-18  1291  	}
-d273b52b6fad95 Sean Christopherson 2025-09-18  1292  
-d273b52b6fad95 Sean Christopherson 2025-09-18  1293  	return r == 1;
-d273b52b6fad95 Sean Christopherson 2025-09-18  1294  }
-d273b52b6fad95 Sean Christopherson 2025-09-18  1295  EXPORT_SYMBOL_GPL(kvm_intr_is_single_vcpu);
-d273b52b6fad95 Sean Christopherson 2025-09-18  1296  
+
+vim +9 tools/testing/selftests/vfio/vfio_dma_buf_test.c
+
+be9bf37d77ea9c Leon Romanovsky 2025-10-28  @9  #include <fcntl.h>
+be9bf37d77ea9c Leon Romanovsky 2025-10-28  10  #include <stdlib.h>
+be9bf37d77ea9c Leon Romanovsky 2025-10-28  11  #include <sys/ioctl.h>
+be9bf37d77ea9c Leon Romanovsky 2025-10-28  12  #include <sys/mman.h>
+be9bf37d77ea9c Leon Romanovsky 2025-10-28  13  #include <unistd.h>
+be9bf37d77ea9c Leon Romanovsky 2025-10-28  14  #include <errno.h>
+be9bf37d77ea9c Leon Romanovsky 2025-10-28  15  
 
 -- 
 0-DAY CI Kernel Test Service
