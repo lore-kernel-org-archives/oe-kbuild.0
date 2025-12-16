@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDAB32C333
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 04:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E62C330B31
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 05:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765860843; cv=none; b=eCvl7vmPd2ClKopBAN9jHyhmzEp37fR3VDk6O9TVfXLamffYOHLJSdBPjFOGfGxGI8AENJVmCGi33O9Wr6k3glJjhVt2jsb6zyThODefuU/6rO2n0k/3YDF+B/ZaZhhK3c1TFTneG+/J898fXjICC1IiT6I88uISs3XQkFAtoLQ=
+	t=1765863984; cv=none; b=aLue6axD7LqU6QJ0UG1LB9wT6YyBRVwpcu1poAjmkadItiiJ726nz+DEL78MV11N2C1V8vn0PFIaOjQVEJc9ncxmo/9UnvNOF5dk7KfOr6yeAyYorhZGZWBo/nmnPtkg33e+p2Wmebq94/4GKzSHulqG0ibqe51s1nbaRzy5r+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765860843; c=relaxed/simple;
-	bh=lc5YihvDfJTi0RXE7f2WqHGv3ockQT/o4HqtEiftcWU=;
+	s=arc-20240116; t=1765863984; c=relaxed/simple;
+	bh=LEef4NnWrS6Jr5vvIAevF6Rl5WiwDLkaX9QmAKi2ZIA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DcEdJ7/fLPia5IaYwTBHAwEk0dHiNxHenhHUlSI9/acWLHl6vZZpW23oh4nJHg/7WFioP5P/r02jWilvhemO/UpK/0VgUO+tE9pd+jrNEXeRV6/2Y4LSXSKDEaEXTtSNqNjriG4Q7y945wqUzzL74JNYh+mmKa30l1lZMDJmUQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SWW5t0rh; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=PfhXRSod529ViPeA60T7n5L1544iP/uX7+81tRRBPCLAn6aUbpXQk8Je+rHOIhV+INl1UU+HyXJO90zqKWltd+API8EFncJMlgH0dWC5pdQFxbd5oOQHHtQ8MXCrD7oVii8vaIob5i5+7hoIDqGF3+pmv/miePWIXEdNPUSwPo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cur7hJVu; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SWW5t0rh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cur7hJVu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765860839; x=1797396839;
+  t=1765863977; x=1797399977;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lc5YihvDfJTi0RXE7f2WqHGv3ockQT/o4HqtEiftcWU=;
-  b=SWW5t0rhJNqWF7i+JkS7xtRVh8gwzjaCFl6WICdvUDs5eCoMMvlVAiCP
-   Mokw+DALl4rN+Ka4q5wLcUymwkc/zNTo7Du1EETnF0wOlxbY5STYERxxP
-   civr6AZWrVc3JCJj8dePNrGAKMhCc6SAxld53jnEkRuS3JOWRRoHt+KbD
-   H1ipUD0cphgpQ5VTU+g/NFtJjnSErm0YM5KKlcXhMdlKAxuKi+pPmYrHO
-   eT07V2zrfniQ5JQSJ8CCoHDv7GSTx15xTBze6OswIQ/Eo2jxdyfwztvOZ
-   z/2Mtn5BUxGhs6Er++WWFRQ1qABmmuE5WxJWZsr0ndCUDamLV0aFJGEmX
-   A==;
-X-CSE-ConnectionGUID: 7zzCEQBBToKYcj/IczThhg==
-X-CSE-MsgGUID: xHKMLnvWQvuJVL54iGdiUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="79228068"
+  bh=LEef4NnWrS6Jr5vvIAevF6Rl5WiwDLkaX9QmAKi2ZIA=;
+  b=Cur7hJVub+Dr2o6i0zZ/SXlCRzLN9UzHz2sXANndUyjOeff3rFhllmfL
+   9+ZcWDZTwGxZR25GbNV8pXuNUivi8glmarhqeXOw1gLdyvECIEQwBfnQW
+   Nxh1MCJ366ZEGXRRHVaQbARKtn3r+Nk3t922O2l2RP1Myu3J/eKjrdtWs
+   TST/XirPcOeYrV25/J5l3WBJBWhxWTf0rEGS7VVUFZdC7mm8UEYt/9wu3
+   cNNhB3wgzHtZ82AC1Kw3GHt0sOsd3Y6SyQie4fR4QTucA9YnFzVJ5kWGs
+   8q3mUgwxSCMZ2+9IePypvDCZso9yIiUccVX/tyEz0Grp0NzBC3HuNgYWY
+   w==;
+X-CSE-ConnectionGUID: 4opgJ2RkSea6U6/j2YmBTw==
+X-CSE-MsgGUID: fMLvsoh4Q/6R4rXnRVHsiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="85187789"
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="79228068"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 20:53:52 -0800
-X-CSE-ConnectionGUID: qGB+3+KtS+2UJtZbWR6CkA==
-X-CSE-MsgGUID: 8Ffx6dqBQ/aNM+IE1pnfBA==
+   d="scan'208";a="85187789"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 21:46:04 -0800
+X-CSE-ConnectionGUID: JwYducLsT+eOB42INgaUsQ==
+X-CSE-MsgGUID: HDSWwfmaQXGvJ6jQvlwNhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="202415878"
+   d="scan'208";a="235326983"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 15 Dec 2025 20:53:52 -0800
+  by orviesa001.jf.intel.com with ESMTP; 15 Dec 2025 21:46:02 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVN4H-000000001Af-11ev;
-	Tue, 16 Dec 2025 04:53:49 +0000
-Date: Tue, 16 Dec 2025 12:53:04 +0800
+	id 1vVNsl-000000001Cv-2mnt;
+	Tue, 16 Dec 2025 05:45:59 +0000
+Date: Tue, 16 Dec 2025 13:45:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 1425/1848] lib/tests/liveupdate.c:156:1: sparse:
- sparse: bad integer constant expression
-Message-ID: <202512161249.spKlAVdO-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/scheduler/tests/tests_basic.c:136
+ drm_sched_basic_test() error: uninitialized symbol 'job'.
+Message-ID: <202512161353.I4dMzHZU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,45 +62,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: lib/tests/liveupdate.c:156:1: sparse: sparse: bad integer constant expression"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Pasha Tatashin <pasha.tatashin@soleen.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-kernel@vger.kernel.org
+TO: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+CC: Philipp Stanner <phasta@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   563c8dd425b59e44470e28519107b1efc99f4c7b
-commit: 2d5e1aa0daa2ec780558939d67fd08111a6d0d97 [1425/1848] tests/liveupdate: add in-kernel liveupdate test
-:::::: branch date: 3 hours ago
-:::::: commit date: 33 hours ago
-config: x86_64-randconfig-123-20251216 (https://download.01.org/0day-ci/archive/20251216/202512161249.spKlAVdO-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161249.spKlAVdO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+commit: 5a99350794fec11faaed8a4b36a6931e696f672f drm/sched: Add scheduler unit testing infrastructure and some basic tests
+date:   9 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 9 months ago
+config: alpha-randconfig-r071-20251212 (https://download.01.org/0day-ci/archive/20251216/202512161353.I4dMzHZU-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512161249.spKlAVdO-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512161353.I4dMzHZU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> lib/tests/liveupdate.c:156:1: sparse: sparse: bad integer constant expression
-   lib/tests/liveupdate.c:156:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
->> lib/tests/liveupdate.c:156:1: sparse: sparse: bad integer constant expression
-   lib/tests/liveupdate.c:156:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-   lib/tests/liveupdate.c:157:1: sparse: sparse: bad integer constant expression
-   lib/tests/liveupdate.c:157:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   lib/tests/liveupdate.c:158:1: sparse: sparse: bad integer constant expression
-   lib/tests/liveupdate.c:158:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+New smatch warnings:
+drivers/gpu/drm/scheduler/tests/tests_basic.c:136 drm_sched_basic_test() error: uninitialized symbol 'job'.
 
-vim +156 lib/tests/liveupdate.c
+Old smatch warnings:
+drivers/gpu/drm/scheduler/tests/tests_basic.c:176 drm_sched_basic_entity_cleanup() error: uninitialized symbol 'mid'.
 
-2d5e1aa0daa2ec Pasha Tatashin 2025-11-25  155  
-2d5e1aa0daa2ec Pasha Tatashin 2025-11-25 @156  MODULE_LICENSE("GPL");
+vim +/job +136 drivers/gpu/drm/scheduler/tests/tests_basic.c
+
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  106  
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  107  static void drm_sched_basic_test(struct kunit *test)
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  108  {
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  109  	const struct drm_sched_basic_params *params = test->param_value;
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  110  	struct drm_mock_scheduler *sched = test->priv;
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  111  	struct drm_mock_sched_job *job, *prev = NULL;
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  112  	struct drm_mock_sched_entity **entity;
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  113  	unsigned int i, cur_ent = 0;
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  114  	bool done;
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  115  
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  116  	entity = kunit_kcalloc(test, params->num_entities, sizeof(*entity),
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  117  			       GFP_KERNEL);
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  118  	KUNIT_ASSERT_NOT_NULL(test, entity);
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  119  
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  120  	for (i = 0; i < params->num_entities; i++)
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  121  		entity[i] = drm_mock_sched_entity_new(test,
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  122  						      DRM_SCHED_PRIORITY_NORMAL,
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  123  						      sched);
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  124  
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  125  	for (i = 0; i < params->queue_depth; i++) {
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  126  		job = drm_mock_sched_job_new(test, entity[cur_ent++]);
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  127  		cur_ent %= params->num_entities;
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  128  		drm_mock_sched_job_set_duration_us(job, params->job_us);
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  129  		if (params->dep_chain && prev)
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  130  			drm_sched_job_add_dependency(&job->base,
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  131  						     dma_fence_get(&prev->base.s_fence->finished));
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  132  		drm_mock_sched_job_submit(job);
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  133  		prev = job;
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  134  	}
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  135  
+5a99350794fec1 Tvrtko Ursulin 2025-03-24 @136  	done = drm_mock_sched_job_wait_finished(job, HZ);
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  137  	KUNIT_ASSERT_TRUE(test, done);
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  138  
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  139  	for (i = 0; i < params->num_entities; i++)
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  140  		drm_mock_sched_entity_free(entity[i]);
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  141  }
+5a99350794fec1 Tvrtko Ursulin 2025-03-24  142  
 
 -- 
 0-DAY CI Kernel Test Service
