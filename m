@@ -1,54 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57A72135B8
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 10:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD8134D4C1
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 11:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765882057; cv=none; b=TXcoQYswvk0etJ4IovwQ6DW0O+IzA1mBr/DNnP2wpLvpjwEytg9NBObKjb52qYUpHfmWlmVr4bJsffLDM2vNM4ZxHwudpBpmq+iN+fgDn5EII/4SsEWJqZXyIRWSyEaXh3kAIGD7vgapLazFcmTeic+83lfv4EPji9IAFiXfN10=
+	t=1765885332; cv=none; b=ht0831ijR1Olwxa3s6pboB2Rm7AxFp0yeE9R6/6TBXyCoaNu40YiG1GVJWWCDWz2ipN1Aq1nKF7VoRwOv2P1oHLQ3lbDsWZU0IOtuMQ+Oq37KUFvCW1Ueo53+2YeTUnRjs4j1tRkszowQqJ9XehCtjir8xKrY9kjdGmFwAxbNv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765882057; c=relaxed/simple;
-	bh=p0Xl7lTDHNmDWhAb09vb8qc5+gfAXMpAV2BU4d7CQcY=;
+	s=arc-20240116; t=1765885332; c=relaxed/simple;
+	bh=LS6fHj4Cnrh9HQfAH21nptOSuCnFeXP94vV/010fSv8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fe9NIH4tW8IH1+spHE55U6ADjjUfo4NNapWUGmrg+7/8WTjG4Vh+/okWQLvwhgZVRzzgKS3XFE3mwhKaJVgSP9ORqJH+Rkgvf280V2rZJFH5mG+zZJ1biCJMYDYOoKscufjn1uo0LZSQyG2A1J4S6xabGM0MFN/34j5JP4I7k+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BWqzLZK3; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=F6ZaaGprOlNlhT0OzjGrGMf/1zqiaN0r/RQE7RhnBFEpyM68YRqYcQGbX+alQEs31qcbkGnQBymoKWxff/cT6YmxgqKun5vNOVTEz9387bslATfY2n4f+HMtaizUKd+cG2CoTtgHg+emnGZLVC489dhKUqV1eDtsrNDgEdxhtVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PENXBQaM; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BWqzLZK3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765882056; x=1797418056;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=p0Xl7lTDHNmDWhAb09vb8qc5+gfAXMpAV2BU4d7CQcY=;
-  b=BWqzLZK3uHP+6DphJSHu2ELV5sEqPs1CmT9HuhmyBcRAVsNciHWGWRP4
-   ndsk/lbI5/MDvZHC3tJ2sai06Xx1swqC939kHdPizoXyw3Oyq6cx95YTH
-   71uBGximcQzMWaPKe2IwUduoUHaGUd6oO1MmVFRylc1yxgEUgS76f9vZv
-   kHqV4RhDoWPuiVIZFbtCqlO8GXqdRDVrg6bw9Od6APwHBLX3q4bDu3pxQ
-   qrO94qsfd9xOS8vaYTkXi/LizC+G5pMJNaqY7hVyWsalXT1XmBvkUThtP
-   Mtw44ie34G4DGBYID1uvaqFWrt4dmHNPbm1xoL1Ji+1l+XzQzDIK7I0+e
-   g==;
-X-CSE-ConnectionGUID: 3r0E/uyuRRmKMfQEBE2ABw==
-X-CSE-MsgGUID: iPIrbiRxT1K2qUPZCKXbuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="78916121"
-X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="78916121"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 02:47:33 -0800
-X-CSE-ConnectionGUID: kPB4YjjKQsuOvfP/SPNo3Q==
-X-CSE-MsgGUID: TNHHbgDkQ+agun24h/rH1A==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Dec 2025 02:47:31 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vVSaX-000000001Vs-1YAt;
-	Tue, 16 Dec 2025 10:47:29 +0000
-Date: Tue, 16 Dec 2025 18:47:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PENXBQaM"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42f9ece6387so1797081f8f.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 03:42:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1765885328; x=1766490128; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/XKkEeXJIdCM0jA3R+AX01WwX7p/Le5WGR4y6SVX7Ow=;
+        b=PENXBQaMdqMb7QZSTRL8Oh7dl+rce1kiYViWzUwt7VmrPrYj1YtYhdnfMS7IgGcnky
+         Dc1y1el+rNBscmLR0yNCXA1Uey2fBhR4MiMsaGsvlG+nIU3by5jlq6EzdWQjIcTB/4w7
+         QgSsj2xeDrIi03qfV5VfHB9aJmPCiM/Fj2NikDUkbHWApkGiTdZms3Ya5xHPA3Cq5ZUb
+         +9yiLnW+qTM4cJdP+vATJ8NqWQNoIJICYp636CgPr3uBcVfLMz5lNnq9fxznnyEM0xx/
+         sRWGQ+lZLva5C2q1uUmR/vOE8T0D+gXQOEd1RZNKdjBQmBBhjZqB8jRuqQkhjdk8KSGB
+         qsNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765885328; x=1766490128;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/XKkEeXJIdCM0jA3R+AX01WwX7p/Le5WGR4y6SVX7Ow=;
+        b=X/sOfLAAmh02AfIv/KT7W7XSrLt81ZoHbD7dQrZcTyqgQHelP6/uAVZcvivFEZZnu6
+         qDUYNL+MpudAWGGRlNHgdAZBbbRpZn0yi2Sbeq2/EGGMSB2IfiDmw/GqjP9BLuDpVJQU
+         2gcK72115XzTF4HS2cbXVsVAslhkJkDh7ffIhpXbu1d28RKfLET6kaa8AvEdT7PJoPHy
+         d5FEtRr56fg4+mnbP4lYFGjJcvegr0fv6sbdwliJZB+4WmORy5eepdH8X/UIiKl6JknF
+         NAGHplqfKlEq4vdv22JiqW9pH+nCy6TPvH5s3etginkWIsnCpZBxLnLMQY+4w0Fc+Arg
+         6x5g==
+X-Gm-Message-State: AOJu0YwHSm2Jho1A3d66dwLEbf7NGvNCwEbLPmRmCcbkBPwUTtA/dMUt
+	hOcmn7t4lrX9kmSeWwypGeDVlvBaZE3qvgAhspbWiM+b3xUJjzsKMDgfCHNumc7kVNGqRRkI3tv
+	2hz0b
+X-Gm-Gg: AY/fxX6gkhBOQ2YGinJlFtz0yx0wxdCM/ObNi8xdnMytQW8Avy83RcC9cAvo9WVOAMf
+	FawtfJJao/Sv+OC7nuqxtkSoQqf7667+cC3QtmkM9rJegAugR+mj6yCnLAJcLs5vSexCmUG1Tl5
+	z5BkkLQ3xZ71vyI7UNbbQk107dLgkY3+c2DDvZuGdHVp9wO6XmI2nnV5SvF32QMuLeuxdsKR9jR
+	MfoOkGaXwCdJafdFNSOMV8CctLHObhrrLI12fK7zLfoPUHKSuD3Je5ku3zgQyUpGq8a6ZnqHCLW
+	fbRWwlJumDuhuYoHTF0zSbyvh0n2CvWivsv/xLoq0v1NGWQeps4V1dAZpfceFrB3/IyCIqfdTSD
+	5vOv6Fif7W9eFhIu4frmQ/DtYp9QXfIjR7e81mjLqkxXDppbiC+5KMf2dwfx3OuQkj7Tz0WoJqh
+	Wzxd8xvCJ5l3OM52zLD9O0yG6DAQo=
+X-Google-Smtp-Source: AGHT+IGYircDHvtSekzbxSgDHV2UIce5BfnsB9amgS4pKRQRgbZkVeArmF0q0QCGbcAP1ltba53F0Q==
+X-Received: by 2002:a5d:4584:0:b0:430:96bd:411b with SMTP id ffacd0b85a97d-43096bd49cbmr10350650f8f.58.1765885328097;
+        Tue, 16 Dec 2025 03:42:08 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8b85d1esm35406315f8f.26.2025.12.16.03.42.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Dec 2025 03:42:07 -0800 (PST)
+Date: Tue, 16 Dec 2025 14:42:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: drivers/pwm/core.c:2291 pwm_cdev_ioctl() warn: maybe return -EFAULT
  instead of the bytes remaining?
 Message-ID: <202512161840.rzIo5czd-lkp@intel.com>
@@ -61,25 +77,18 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Uwe Kleine-König" <u.kleine-koenig@baylibre.com>
+Message-ID: <20251216114204.DUEk606TFhUPrxHoDvbGq4sMRkwWV6VBNvlsVl-WS4A@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   40fbbd64bba6c6e7a72885d2f59b6a3be9991eeb
 commit: 9c06f26ba5f5da14bcac405c7a652dcf578a785d pwm: Add support for pwmchip devices for faster and easier userspace access
-date:   5 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 5 months ago
 config: sparc-randconfig-r072-20251213 (https://download.01.org/0day-ci/archive/20251216/202512161840.rzIo5czd-lkp@intel.com/config)
 compiler: sparc64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202512161840.rzIo5czd-lkp@intel.com/
 
 New smatch warnings:
@@ -90,7 +99,6 @@ drivers/pwm/core.c:2325 pwm_cdev_ioctl() warn: maybe return -EFAULT instead of t
 
 vim +2291 drivers/pwm/core.c
 
-9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2228  
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2229  static long pwm_cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2230  {
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2231  	int ret = 0;
@@ -155,6 +163,11 @@ vim +2291 drivers/pwm/core.c
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2290  
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30 @2291  			return copy_to_user((struct pwmchip_waveform __user *)arg,
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2292  					    &cwf, sizeof(cwf));
+
+if (copy_to_user())
+	return -EFAULT;
+return 0;
+
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2293  		}
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2294  
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2295  	case PWM_IOCTL_GETWF:
@@ -189,6 +202,12 @@ vim +2291 drivers/pwm/core.c
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2324  
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2325  			return copy_to_user((struct pwmchip_waveform __user *)arg,
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2326  					    &cwf, sizeof(cwf));
+
+if (copy_to_user())
+	return -EFAULT;
+
+return 0;
+
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2327  		}
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2328  
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2329  	case PWM_IOCTL_SETROUNDEDWF:
@@ -240,8 +259,8 @@ vim +2291 drivers/pwm/core.c
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2375  		return -ENOTTY;
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2376  	}
 9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2377  }
-9c06f26ba5f5da Uwe Kleine-König 2025-04-30  2378  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
