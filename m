@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70E423EA8B
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 02:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03ED9310784
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 04:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765852871; cv=none; b=WKEa9vg7sEGHQTJ2O2BEyZoNsvljccB1OIf0/ndyTnWZLvqAKGnjLZ0eutz2jN4MVHJrLpCE6XCfJcRcedxi7DLLYgDNxuzTrlB3x3nXn4jkg/k1GAoKIGhwtkgiVeQasrCQ3btGkaJtaYCNuaeDCOQmjw8jEMkSZaDWuXWJZtw=
+	t=1765858887; cv=none; b=oVetcwmLYlXueVa29EC8+M3BsPhTzh2ajqD6De3Fm/uBcMwDUIOJsGfQKwqV2mxyLq8jsmU118R37q+vVMWftaDKxnayzVjLhS/9oNJVaPQgRB3EeLYdyKgcFz7Np51CQmxVvW2u8ez32c2V/TXz/UxNAvmG3xn7QgQePp45DNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765852871; c=relaxed/simple;
-	bh=Tr/jjnLhvbqW0nB3C9e7tSWOIm9juqEQ4Xp+fEOHbEo=;
+	s=arc-20240116; t=1765858887; c=relaxed/simple;
+	bh=g9Kl9Jj8JzaZVhDb3J8zwJ9HnhPflHVtb6cHVbplRKI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZoLdQT2aPKoOR0kNYaSJAyl0n0pMdV//vwQnwfNt2k+btnsMR6mdDTZT5/fj+zlNcV2/5lg3yhbidjCubecqF85woAK2UTcz4Ltxdz4vKt6nlhbONquGm+TPWbxsfOPhc6KRfM8Y1wwQnW23J8qh9TvGJv1ixeQZSJKo+rkq06Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dQ1n+zgY; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=hc0dJVMomD4pZ6ocTgc/kQ1IZAUmslP7xHafS6o4NqvHK0ycjWe/tPeziZMkCAQwwse60dfemlB0fSxu2aUsRoESDC4wRTrsf16mlLmyhuKbpUPYrIdouXodbye31tffZTcwNRhBlMNAzke31zzsHhPUd2SDr82mzeV2D4Oiwhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fpoRP9Ot; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dQ1n+zgY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fpoRP9Ot"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765852870; x=1797388870;
+  t=1765858873; x=1797394873;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=Tr/jjnLhvbqW0nB3C9e7tSWOIm9juqEQ4Xp+fEOHbEo=;
-  b=dQ1n+zgYm19g29xGpT+d99SQ5TWLK85GbldkM0cXWs4HXEG0pZh9Re60
-   mWez06enARG6NJS6Rnx7vi+DZyRpnhFFnhNOofxG4Z3NBemLl8JvIos6h
-   sditGGPoU4Uw4uby3eWkAPEQUYj1qczkymw5GZRWWszwK4kAIX4j5JX5t
-   4CLndqy7ZN11m5QDtK0+uHJkBebKWvFncGR/CVl8Smh5ITc/81Kqo8lwR
-   96CLVWfO9qyJREc2IvJDModYj9/gaFVL3JU6BDKGCOrvyxMKMx5U/Njir
-   is3iByQRSw/BJhytwGSnyQFo1dOMCDSgvh6EgmtLAlLkUAZNBHnFVLyQi
-   g==;
-X-CSE-ConnectionGUID: l96fO6YlTKqfYNV0pVpJRQ==
-X-CSE-MsgGUID: CezoA9WjTgCb4MfjW6OsDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="85358336"
+  bh=g9Kl9Jj8JzaZVhDb3J8zwJ9HnhPflHVtb6cHVbplRKI=;
+  b=fpoRP9OtWYim/78xqDmgupKZPiBsn3wxBZVd9kdiYzpya/tVOeVlQhb+
+   TxLBZwxUnLHY0509f5fLHLNFUJ67gyUL8JLCibRKGbaCXstzV4RZaOGMq
+   GSZyvw2njyLQFEb/TAD57xqAywt/MgNr0wZyMw0LqHHyToVWueNtndiV4
+   ivA4e66BIOORLIULPoHJaKIibRusMQW/ilaEZIVgD/56+8Uutt2KZ7oqS
+   qe/NuCjr38OG0x4xEpjHWr3RvuXZuqcEPTk4sFTOvIp5OrcWdPUaLKU6B
+   nGrVk9E9U29ps6dCJ6QmOUgdHWlqYgUxn9ta9DyoxLMlSNr0mZ/CJCoiV
+   w==;
+X-CSE-ConnectionGUID: M5xEHaNrQUuBNP8TVxi3ZQ==
+X-CSE-MsgGUID: 5HiICggGSRS+ZoNg76S/6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="70350006"
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="85358336"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 18:41:09 -0800
-X-CSE-ConnectionGUID: XxC1VOJNQHO4mWsbhzotTg==
-X-CSE-MsgGUID: ANIOXRVLR9SGBdd9K8YFWQ==
+   d="scan'208";a="70350006"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 20:21:07 -0800
+X-CSE-ConnectionGUID: V2T3/GYHShydBNZB4LdsKw==
+X-CSE-MsgGUID: rG1O50HQQAa0Q2d7NePYRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="198146792"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Dec 2025 18:41:08 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="197957952"
+Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 15 Dec 2025 20:21:05 -0800
+Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVKzq-000000002uO-06Ci;
-	Tue, 16 Dec 2025 02:41:06 +0000
-Date: Tue, 16 Dec 2025 03:40:11 +0100
+	id 1vVMYZ-0000000019N-1JhJ;
+	Tue, 16 Dec 2025 04:21:03 +0000
+Date: Tue, 16 Dec 2025 12:20:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v1 3/3] dt-bindings: google,cros-ec-keyb: add fn-key and
- f-keymap props
-Message-ID: <202512160313.xQWscEOe-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:335
+ __cvdso_clock_gettime_common() warn: right shifting more than type allows 32
+ vs 40
+Message-ID: <202512161205.Wk05qozB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,149 +65,216 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251209154706.529784-4-fabiobaltieri@chromium.org>
-References: <20251209154706.529784-4-fabiobaltieri@chromium.org>
-TO: Fabio Baltieri <fabiobaltieri@chromium.org>
-TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Benson Leung <bleung@chromium.org>
-TO: Guenter Roeck <groeck@chromium.org>
-CC: Fabio Baltieri <fabiobaltieri@chromium.org>
-CC: "Tzung-Bi Shih" <tzungbi@kernel.org>
-CC: Simon Glass <sjg@chromium.org>
-CC: linux-input@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: chrome-platform@lists.linux.dev
-CC: linux-kernel@vger.kernel.orga
+CC: linux-kernel@vger.kernel.org
+TO: "Thomas Weißschuh" <thomas.weissschuh@linutronix.de>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
-Hi Fabio,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on dtor-input/next]
-[also build test ERROR on dtor-input/for-linus robh/for-next linus/master v6.16-rc1]
-[cannot apply to next-20251215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-Baltieri/Input-cros_ec_keyb-clarify-key-event-error-message/20251209-235043
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20251209154706.529784-4-fabiobaltieri%40chromium.org
-patch subject: [PATCH v1 3/3] dt-bindings: google,cros-ec-keyb: add fn-key and f-keymap props
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm64-randconfig-2052-20251214 (https://download.01.org/0day-ci/archive/20251216/202512160313.xQWscEOe-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ecaf673850beb241957352bd61e95ed34256635f)
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512160313.xQWscEOe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+commit: cd3557a7618bf5c1935e9f66b58a329f1f1f4b27 vdso/gettimeofday: Add support for auxiliary clocks
+date:   5 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-r072-20251214 (https://download.01.org/0day-ci/archive/20251216/202512161205.Wk05qozB-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512160313.xQWscEOe-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512161205.Wk05qozB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:335 __cvdso_clock_gettime_common() warn: right shifting more than type allows 32 vs 40
+arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:335 __cvdso_clock_gettime_common() warn: bitwise AND condition is false here
+arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:481 __cvdso_clock_getres_common() warn: right shifting more than type allows 32 vs 40
+arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:481 __cvdso_clock_getres_common() warn: bitwise AND condition is false here
 
-   Error: Documentation/devicetree/bindings/input/google,cros-ec-keyb.example.dts:83.9-89 Properties must precede subnodes
->> FATAL ERROR: Unable to parse input tree
+vim +335 arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml:83:11: [warning] wrong indentation: expected 12 but found 10 (indentation)
-   Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml:85:11: [warning] wrong indentation: expected 12 but found 10 (indentation)
-
-vim +83 Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-
-50d68feee01039 Ricardo Cañuelo 2020-10-21   9  
-50d68feee01039 Ricardo Cañuelo 2020-10-21  10  maintainers:
-50d68feee01039 Ricardo Cañuelo 2020-10-21  11    - Simon Glass <sjg@chromium.org>
-50d68feee01039 Ricardo Cañuelo 2020-10-21  12    - Benson Leung <bleung@chromium.org>
-50d68feee01039 Ricardo Cañuelo 2020-10-21  13  
-50d68feee01039 Ricardo Cañuelo 2020-10-21  14  description: |
-50d68feee01039 Ricardo Cañuelo 2020-10-21  15    Google's ChromeOS EC Keyboard is a simple matrix keyboard
-50d68feee01039 Ricardo Cañuelo 2020-10-21  16    implemented on a separate EC (Embedded Controller) device. It provides
-50d68feee01039 Ricardo Cañuelo 2020-10-21  17    a message for reading key scans from the EC. These are then converted
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  18    into keycodes for processing by the kernel. This device also supports
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  19    switches/buttons like power and volume buttons.
-50d68feee01039 Ricardo Cañuelo 2020-10-21  20  
-50d68feee01039 Ricardo Cañuelo 2020-10-21  21  properties:
-50d68feee01039 Ricardo Cañuelo 2020-10-21  22    compatible:
-d95bca4fbde0a2 Stephen Boyd    2022-05-18  23      oneOf:
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  24        - description: ChromeOS EC with only buttons/switches
-d95bca4fbde0a2 Stephen Boyd    2022-05-18  25          const: google,cros-ec-keyb-switches
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  26        - description: ChromeOS EC with keyboard and possibly buttons/switches
-50d68feee01039 Ricardo Cañuelo 2020-10-21  27          const: google,cros-ec-keyb
-50d68feee01039 Ricardo Cañuelo 2020-10-21  28  
-50d68feee01039 Ricardo Cañuelo 2020-10-21  29    google,needs-ghost-filter:
-50d68feee01039 Ricardo Cañuelo 2020-10-21  30      description:
-50d68feee01039 Ricardo Cañuelo 2020-10-21  31        Enable a ghost filter for the matrix keyboard. This is recommended
-50d68feee01039 Ricardo Cañuelo 2020-10-21  32        if the EC does not have its own logic or hardware for this.
-50d68feee01039 Ricardo Cañuelo 2020-10-21  33      type: boolean
-50d68feee01039 Ricardo Cañuelo 2020-10-21  34  
-311a27da627139 Philip Chen     2021-02-22  35    function-row-physmap:
-4e71ed985389ce Rob Herring     2022-05-19  36      $ref: /schemas/types.yaml#/definitions/uint32-array
-311a27da627139 Philip Chen     2021-02-22  37      minItems: 1
-311a27da627139 Philip Chen     2021-02-22  38      maxItems: 15
-311a27da627139 Philip Chen     2021-02-22  39      description: |
-311a27da627139 Philip Chen     2021-02-22  40        An ordered u32 array describing the rows/columns (in the scan matrix)
-311a27da627139 Philip Chen     2021-02-22  41        of top row keys from physical left (KEY_F1) to right. Each entry
-311a27da627139 Philip Chen     2021-02-22  42        encodes the row/column as:
-311a27da627139 Philip Chen     2021-02-22  43        (((row) & 0xFF) << 24) | (((column) & 0xFF) << 16)
-311a27da627139 Philip Chen     2021-02-22  44        where the lower 16 bits are reserved. This property is specified only
-311a27da627139 Philip Chen     2021-02-22  45        when the keyboard has a custom design for the top row keys.
-311a27da627139 Philip Chen     2021-02-22  46  
-70fff14a38ad73 Fabio Baltieri  2025-12-09  47    fn-key:
-70fff14a38ad73 Fabio Baltieri  2025-12-09  48      $ref: /schemas/types.yaml#/definitions/uint32
-70fff14a38ad73 Fabio Baltieri  2025-12-09  49      description: |
-70fff14a38ad73 Fabio Baltieri  2025-12-09  50        An u32 containing the coordinate of the Fn key, use the MATRIX_KEY(row,
-70fff14a38ad73 Fabio Baltieri  2025-12-09  51        col, code) macro, code is ignored.
-70fff14a38ad73 Fabio Baltieri  2025-12-09  52  
-70fff14a38ad73 Fabio Baltieri  2025-12-09  53    fn-keymap:
-70fff14a38ad73 Fabio Baltieri  2025-12-09  54      $ref: /schemas/types.yaml#/definitions/uint32-array
-70fff14a38ad73 Fabio Baltieri  2025-12-09  55      minItems: 1
-70fff14a38ad73 Fabio Baltieri  2025-12-09  56      maxItems: 32
-70fff14a38ad73 Fabio Baltieri  2025-12-09  57      description: |
-70fff14a38ad73 Fabio Baltieri  2025-12-09  58        An array of u32 mapping the row, column and codes for the function keys,
-70fff14a38ad73 Fabio Baltieri  2025-12-09  59        use the MATRIX_KEY macro to define the elements.
-70fff14a38ad73 Fabio Baltieri  2025-12-09  60  
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  61  dependencies:
-c6f3b684c2c4e8 Linus Walleij   2023-02-21  62    function-row-physmap: [ 'linux,keymap' ]
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  63    google,needs-ghost-filter: [ 'linux,keymap' ]
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  64  
-50d68feee01039 Ricardo Cañuelo 2020-10-21  65  required:
-50d68feee01039 Ricardo Cañuelo 2020-10-21  66    - compatible
-50d68feee01039 Ricardo Cañuelo 2020-10-21  67  
-70fff14a38ad73 Fabio Baltieri  2025-12-09  68  allOf:
-70fff14a38ad73 Fabio Baltieri  2025-12-09  69    - if:
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  70        properties:
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  71          compatible:
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  72            contains:
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  73              const: google,cros-ec-keyb
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  74      then:
-77987b872fcfea Rob Herring     2023-03-21  75        $ref: /schemas/input/matrix-keymap.yaml#
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  76        required:
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  77          - keypad,num-rows
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  78          - keypad,num-columns
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  79          - linux,keymap
-70fff14a38ad73 Fabio Baltieri  2025-12-09  80    - if:
-70fff14a38ad73 Fabio Baltieri  2025-12-09  81        anyOf:
-70fff14a38ad73 Fabio Baltieri  2025-12-09  82          - required:
-70fff14a38ad73 Fabio Baltieri  2025-12-09 @83            - fn-key
-70fff14a38ad73 Fabio Baltieri  2025-12-09  84          - required:
-70fff14a38ad73 Fabio Baltieri  2025-12-09  85            - fn-keymap
-70fff14a38ad73 Fabio Baltieri  2025-12-09  86      then:
-70fff14a38ad73 Fabio Baltieri  2025-12-09  87        required:
-70fff14a38ad73 Fabio Baltieri  2025-12-09  88          - fn-key
-70fff14a38ad73 Fabio Baltieri  2025-12-09  89          - fn-keymap
-52dc6d3bea3b85 Stephen Boyd    2022-05-16  90  
+cd3557a7618bf5 Thomas Weißschuh   2025-07-01  313  
+fb61bdb27fd730 Thomas Weißschuh   2025-07-01  314  static __always_inline bool
+ac1a42f4e4e296 Thomas Weißschuh   2025-02-04  315  __cvdso_clock_gettime_common(const struct vdso_time_data *vd, clockid_t clock,
+e876f0b69dc993 Christophe Leroy   2020-02-07  316  			     struct __kernel_timespec *ts)
+00b26474c2f161 Vincenzo Frascino  2019-06-21  317  {
+886653e3663917 Anna-Maria Behnsen 2025-03-03  318  	const struct vdso_clock *vc = vd->clock_data;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  319  	u32 msk;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  320  
+1a1cd5fe881fdf Thomas Weißschuh   2025-07-01  321  	if (!vdso_clockid_valid(clock))
+fb61bdb27fd730 Thomas Weißschuh   2025-07-01  322  		return false;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  323  
+00b26474c2f161 Vincenzo Frascino  2019-06-21  324  	/*
+00b26474c2f161 Vincenzo Frascino  2019-06-21  325  	 * Convert the clockid to a bitmask and use it to check which
+00b26474c2f161 Vincenzo Frascino  2019-06-21  326  	 * clocks are handled in the VDSO directly.
+00b26474c2f161 Vincenzo Frascino  2019-06-21  327  	 */
+00b26474c2f161 Vincenzo Frascino  2019-06-21  328  	msk = 1U << clock;
+8463cf80529d0f Christophe Leroy   2019-12-23  329  	if (likely(msk & VDSO_HRES))
+cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  330  		vc = &vc[CS_HRES_COARSE];
+8463cf80529d0f Christophe Leroy   2019-12-23  331  	else if (msk & VDSO_COARSE)
+70067ae181f302 Anna-Maria Behnsen 2025-03-03  332  		return do_coarse(vd, &vc[CS_HRES_COARSE], clock, ts);
+8463cf80529d0f Christophe Leroy   2019-12-23  333  	else if (msk & VDSO_RAW)
+cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  334  		vc = &vc[CS_RAW];
+cd3557a7618bf5 Thomas Weißschuh   2025-07-01 @335  	else if (msk & VDSO_AUX)
+cd3557a7618bf5 Thomas Weißschuh   2025-07-01  336  		return do_aux(vd, clock, ts);
+c966533f8c6c45 Andrei Vagin       2019-11-12  337  	else
+fb61bdb27fd730 Thomas Weißschuh   2025-07-01  338  		return false;
+c966533f8c6c45 Andrei Vagin       2019-11-12  339  
+64c3613ce31a1a Anna-Maria Behnsen 2025-03-03  340  	return do_hres(vd, vc, clock, ts);
+502a590a170b3b Thomas Gleixner    2019-07-28  341  }
+00b26474c2f161 Vincenzo Frascino  2019-06-21  342  
+502a590a170b3b Thomas Gleixner    2019-07-28  343  static __maybe_unused int
+ac1a42f4e4e296 Thomas Weißschuh   2025-02-04  344  __cvdso_clock_gettime_data(const struct vdso_time_data *vd, clockid_t clock,
+e876f0b69dc993 Christophe Leroy   2020-02-07  345  			   struct __kernel_timespec *ts)
+502a590a170b3b Thomas Gleixner    2019-07-28  346  {
+fb61bdb27fd730 Thomas Weißschuh   2025-07-01  347  	bool ok;
+502a590a170b3b Thomas Gleixner    2019-07-28  348  
+fb61bdb27fd730 Thomas Weißschuh   2025-07-01  349  	ok = __cvdso_clock_gettime_common(vd, clock, ts);
+fb61bdb27fd730 Thomas Weißschuh   2025-07-01  350  
+fb61bdb27fd730 Thomas Weißschuh   2025-07-01  351  	if (unlikely(!ok))
+00b26474c2f161 Vincenzo Frascino  2019-06-21  352  		return clock_gettime_fallback(clock, ts);
+502a590a170b3b Thomas Gleixner    2019-07-28  353  	return 0;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  354  }
+00b26474c2f161 Vincenzo Frascino  2019-06-21  355  
+e876f0b69dc993 Christophe Leroy   2020-02-07  356  static __maybe_unused int
+e876f0b69dc993 Christophe Leroy   2020-02-07  357  __cvdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
+e876f0b69dc993 Christophe Leroy   2020-02-07  358  {
+df7fcbefa71090 Thomas Weißschuh   2025-02-04  359  	return __cvdso_clock_gettime_data(__arch_get_vdso_u_time_data(), clock, ts);
+e876f0b69dc993 Christophe Leroy   2020-02-07  360  }
+e876f0b69dc993 Christophe Leroy   2020-02-07  361  
+bf279849ad5953 Vincenzo Frascino  2019-08-30  362  #ifdef BUILD_VDSO32
+00b26474c2f161 Vincenzo Frascino  2019-06-21  363  static __maybe_unused int
+ac1a42f4e4e296 Thomas Weißschuh   2025-02-04  364  __cvdso_clock_gettime32_data(const struct vdso_time_data *vd, clockid_t clock,
+e876f0b69dc993 Christophe Leroy   2020-02-07  365  			     struct old_timespec32 *res)
+00b26474c2f161 Vincenzo Frascino  2019-06-21  366  {
+00b26474c2f161 Vincenzo Frascino  2019-06-21  367  	struct __kernel_timespec ts;
+fb61bdb27fd730 Thomas Weißschuh   2025-07-01  368  	bool ok;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  369  
+fb61bdb27fd730 Thomas Weißschuh   2025-07-01  370  	ok = __cvdso_clock_gettime_common(vd, clock, &ts);
+00b26474c2f161 Vincenzo Frascino  2019-06-21  371  
+fb61bdb27fd730 Thomas Weißschuh   2025-07-01  372  	if (unlikely(!ok))
+c60a32ea4f459f Thomas Gleixner    2019-07-30  373  		return clock_gettime32_fallback(clock, res);
+502a590a170b3b Thomas Gleixner    2019-07-28  374  
+fb61bdb27fd730 Thomas Weißschuh   2025-07-01  375  	/* For ok == true */
+00b26474c2f161 Vincenzo Frascino  2019-06-21  376  	res->tv_sec = ts.tv_sec;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  377  	res->tv_nsec = ts.tv_nsec;
+a279235ddbe975 Vincenzo Frascino  2019-08-30  378  
+fb61bdb27fd730 Thomas Weißschuh   2025-07-01  379  	return 0;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  380  }
+e876f0b69dc993 Christophe Leroy   2020-02-07  381  
+e876f0b69dc993 Christophe Leroy   2020-02-07  382  static __maybe_unused int
+e876f0b69dc993 Christophe Leroy   2020-02-07  383  __cvdso_clock_gettime32(clockid_t clock, struct old_timespec32 *res)
+e876f0b69dc993 Christophe Leroy   2020-02-07  384  {
+df7fcbefa71090 Thomas Weißschuh   2025-02-04  385  	return __cvdso_clock_gettime32_data(__arch_get_vdso_u_time_data(), clock, res);
+e876f0b69dc993 Christophe Leroy   2020-02-07  386  }
+bf279849ad5953 Vincenzo Frascino  2019-08-30  387  #endif /* BUILD_VDSO32 */
+00b26474c2f161 Vincenzo Frascino  2019-06-21  388  
+00b26474c2f161 Vincenzo Frascino  2019-06-21  389  static __maybe_unused int
+ac1a42f4e4e296 Thomas Weißschuh   2025-02-04  390  __cvdso_gettimeofday_data(const struct vdso_time_data *vd,
+e876f0b69dc993 Christophe Leroy   2020-02-07  391  			  struct __kernel_old_timeval *tv, struct timezone *tz)
+00b26474c2f161 Vincenzo Frascino  2019-06-21  392  {
+886653e3663917 Anna-Maria Behnsen 2025-03-03  393  	const struct vdso_clock *vc = vd->clock_data;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  394  
+00b26474c2f161 Vincenzo Frascino  2019-06-21  395  	if (likely(tv != NULL)) {
+00b26474c2f161 Vincenzo Frascino  2019-06-21  396  		struct __kernel_timespec ts;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  397  
+fb61bdb27fd730 Thomas Weißschuh   2025-07-01  398  		if (!do_hres(vd, &vc[CS_HRES_COARSE], CLOCK_REALTIME, &ts))
+00b26474c2f161 Vincenzo Frascino  2019-06-21  399  			return gettimeofday_fallback(tv, tz);
+00b26474c2f161 Vincenzo Frascino  2019-06-21  400  
+00b26474c2f161 Vincenzo Frascino  2019-06-21  401  		tv->tv_sec = ts.tv_sec;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  402  		tv->tv_usec = (u32)ts.tv_nsec / NSEC_PER_USEC;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  403  	}
+00b26474c2f161 Vincenzo Frascino  2019-06-21  404  
+00b26474c2f161 Vincenzo Frascino  2019-06-21  405  	if (unlikely(tz != NULL)) {
+660fd04f931717 Thomas Gleixner    2019-11-12  406  		if (IS_ENABLED(CONFIG_TIME_NS) &&
+cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  407  		    vc->clock_mode == VDSO_CLOCKMODE_TIMENS)
+ac1a42f4e4e296 Thomas Weißschuh   2025-02-04  408  			vd = __arch_get_vdso_u_timens_data(vd);
+660fd04f931717 Thomas Gleixner    2019-11-12  409  
+00b26474c2f161 Vincenzo Frascino  2019-06-21  410  		tz->tz_minuteswest = vd[CS_HRES_COARSE].tz_minuteswest;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  411  		tz->tz_dsttime = vd[CS_HRES_COARSE].tz_dsttime;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  412  	}
+00b26474c2f161 Vincenzo Frascino  2019-06-21  413  
+00b26474c2f161 Vincenzo Frascino  2019-06-21  414  	return 0;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  415  }
+00b26474c2f161 Vincenzo Frascino  2019-06-21  416  
+e876f0b69dc993 Christophe Leroy   2020-02-07  417  static __maybe_unused int
+e876f0b69dc993 Christophe Leroy   2020-02-07  418  __cvdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
+e876f0b69dc993 Christophe Leroy   2020-02-07  419  {
+df7fcbefa71090 Thomas Weißschuh   2025-02-04  420  	return __cvdso_gettimeofday_data(__arch_get_vdso_u_time_data(), tv, tz);
+e876f0b69dc993 Christophe Leroy   2020-02-07  421  }
+e876f0b69dc993 Christophe Leroy   2020-02-07  422  
+00b26474c2f161 Vincenzo Frascino  2019-06-21  423  #ifdef VDSO_HAS_TIME
+e876f0b69dc993 Christophe Leroy   2020-02-07  424  static __maybe_unused __kernel_old_time_t
+ac1a42f4e4e296 Thomas Weißschuh   2025-02-04  425  __cvdso_time_data(const struct vdso_time_data *vd, __kernel_old_time_t *time)
+00b26474c2f161 Vincenzo Frascino  2019-06-21  426  {
+886653e3663917 Anna-Maria Behnsen 2025-03-03  427  	const struct vdso_clock *vc = vd->clock_data;
+660fd04f931717 Thomas Gleixner    2019-11-12  428  	__kernel_old_time_t t;
+660fd04f931717 Thomas Gleixner    2019-11-12  429  
+2d6b01bd88ccab Thomas Gleixner    2020-02-07  430  	if (IS_ENABLED(CONFIG_TIME_NS) &&
+cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  431  	    vc->clock_mode == VDSO_CLOCKMODE_TIMENS) {
+ac1a42f4e4e296 Thomas Weißschuh   2025-02-04  432  		vd = __arch_get_vdso_u_timens_data(vd);
+886653e3663917 Anna-Maria Behnsen 2025-03-03  433  		vc = vd->clock_data;
+cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  434  	}
+660fd04f931717 Thomas Gleixner    2019-11-12  435  
+cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  436  	t = READ_ONCE(vc[CS_HRES_COARSE].basetime[CLOCK_REALTIME].sec);
+00b26474c2f161 Vincenzo Frascino  2019-06-21  437  
+00b26474c2f161 Vincenzo Frascino  2019-06-21  438  	if (time)
+00b26474c2f161 Vincenzo Frascino  2019-06-21  439  		*time = t;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  440  
+00b26474c2f161 Vincenzo Frascino  2019-06-21  441  	return t;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  442  }
+e876f0b69dc993 Christophe Leroy   2020-02-07  443  
+e876f0b69dc993 Christophe Leroy   2020-02-07  444  static __maybe_unused __kernel_old_time_t __cvdso_time(__kernel_old_time_t *time)
+e876f0b69dc993 Christophe Leroy   2020-02-07  445  {
+df7fcbefa71090 Thomas Weißschuh   2025-02-04  446  	return __cvdso_time_data(__arch_get_vdso_u_time_data(), time);
+e876f0b69dc993 Christophe Leroy   2020-02-07  447  }
+00b26474c2f161 Vincenzo Frascino  2019-06-21  448  #endif /* VDSO_HAS_TIME */
+00b26474c2f161 Vincenzo Frascino  2019-06-21  449  
+00b26474c2f161 Vincenzo Frascino  2019-06-21  450  #ifdef VDSO_HAS_CLOCK_GETRES
+00b26474c2f161 Vincenzo Frascino  2019-06-21  451  static __maybe_unused
+34f888e3405ace Thomas Weißschuh   2025-07-01  452  bool __cvdso_clock_getres_common(const struct vdso_time_data *vd, clockid_t clock,
+e876f0b69dc993 Christophe Leroy   2020-02-07  453  				 struct __kernel_timespec *res)
+00b26474c2f161 Vincenzo Frascino  2019-06-21  454  {
+886653e3663917 Anna-Maria Behnsen 2025-03-03  455  	const struct vdso_clock *vc = vd->clock_data;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  456  	u32 msk;
+502a590a170b3b Thomas Gleixner    2019-07-28  457  	u64 ns;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  458  
+1a1cd5fe881fdf Thomas Weißschuh   2025-07-01  459  	if (!vdso_clockid_valid(clock))
+34f888e3405ace Thomas Weißschuh   2025-07-01  460  		return false;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  461  
+2d6b01bd88ccab Thomas Gleixner    2020-02-07  462  	if (IS_ENABLED(CONFIG_TIME_NS) &&
+cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  463  	    vc->clock_mode == VDSO_CLOCKMODE_TIMENS)
+ac1a42f4e4e296 Thomas Weißschuh   2025-02-04  464  		vd = __arch_get_vdso_u_timens_data(vd);
+660fd04f931717 Thomas Gleixner    2019-11-12  465  
+00b26474c2f161 Vincenzo Frascino  2019-06-21  466  	/*
+00b26474c2f161 Vincenzo Frascino  2019-06-21  467  	 * Convert the clockid to a bitmask and use it to check which
+00b26474c2f161 Vincenzo Frascino  2019-06-21  468  	 * clocks are handled in the VDSO directly.
+00b26474c2f161 Vincenzo Frascino  2019-06-21  469  	 */
+00b26474c2f161 Vincenzo Frascino  2019-06-21  470  	msk = 1U << clock;
+cdb7c5a9c897ab Christophe Leroy   2019-12-23  471  	if (msk & (VDSO_HRES | VDSO_RAW)) {
+00b26474c2f161 Vincenzo Frascino  2019-06-21  472  		/*
+00b26474c2f161 Vincenzo Frascino  2019-06-21  473  		 * Preserves the behaviour of posix_get_hrtimer_res().
+00b26474c2f161 Vincenzo Frascino  2019-06-21  474  		 */
+886653e3663917 Anna-Maria Behnsen 2025-03-03  475  		ns = READ_ONCE(vd->hrtimer_res);
+00b26474c2f161 Vincenzo Frascino  2019-06-21  476  	} else if (msk & VDSO_COARSE) {
+00b26474c2f161 Vincenzo Frascino  2019-06-21  477  		/*
+00b26474c2f161 Vincenzo Frascino  2019-06-21  478  		 * Preserves the behaviour of posix_get_coarse_res().
+00b26474c2f161 Vincenzo Frascino  2019-06-21  479  		 */
+00b26474c2f161 Vincenzo Frascino  2019-06-21  480  		ns = LOW_RES_NSEC;
+cd3557a7618bf5 Thomas Weißschuh   2025-07-01 @481  	} else if (msk & VDSO_AUX) {
+cd3557a7618bf5 Thomas Weißschuh   2025-07-01  482  		ns = aux_clock_resolution_ns();
+00b26474c2f161 Vincenzo Frascino  2019-06-21  483  	} else {
+34f888e3405ace Thomas Weißschuh   2025-07-01  484  		return false;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  485  	}
+00b26474c2f161 Vincenzo Frascino  2019-06-21  486  
+1638b8f096ca16 Thomas Gleixner    2019-10-21  487  	if (likely(res)) {
+00b26474c2f161 Vincenzo Frascino  2019-06-21  488  		res->tv_sec = 0;
+00b26474c2f161 Vincenzo Frascino  2019-06-21  489  		res->tv_nsec = ns;
+1638b8f096ca16 Thomas Gleixner    2019-10-21  490  	}
+34f888e3405ace Thomas Weißschuh   2025-07-01  491  	return true;
+502a590a170b3b Thomas Gleixner    2019-07-28  492  }
+502a590a170b3b Thomas Gleixner    2019-07-28  493  
 
 -- 
 0-DAY CI Kernel Test Service
