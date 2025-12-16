@@ -1,172 +1,138 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6E9296BC0
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 13:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5095E346FA0
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 14:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765892603; cv=none; b=sqz/Nsi8vS9oB00v6kDlfdKK/YlWbj9OF1RTtsagQ2CsebpTAhRnNtKNmr6XbHQUb8YY9aIBABb/oIu2poxtu/zuP9ISBCPrjfPm5YPPrgVzR4ZXoqbcvvtLPhB4tLKqtpit/NAlJUyLzFj9LmhtfClrD+FfTnCdkGePMfSnoQE=
+	t=1765894363; cv=none; b=fAZ+wqBc6rNKign0HvaCUE2++qTUz7PbHmZNUVS4dRlNyqguYvZ+mdu6pXWq+cchkArqmOwzaFmln44a2Ez++ZsFEG/cS+4Ttmdd6o5IYFwRJymQV7u5J4471WFXtG+dO+z9sU0N9OxzBPKzpI2xrBPxUajU1aM+p7SHtwR30xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765892603; c=relaxed/simple;
-	bh=tR+5COm7Aajr+rhTyJR6KwpBfk87Pud1IWaOcJU8NXQ=;
+	s=arc-20240116; t=1765894363; c=relaxed/simple;
+	bh=vKRtSkR4kIc8CYDy0m4SepD5IwvaaDCV9iuyOzCxCm0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lhXgbNuT0+pJENJzB9j7l5XyPod2+bxpvyis2GZTqgJk2y/0rwNP6xBEr7VOa9idlqpQpehIxJb2KtMuLqZaa4D2V1DqGIxjVCVE+M0PkZH4VgnSHB2+ROzUyzZMtD7kNcgUZ1ptnkwTyT8KWoz21/xsOfpd9mchU89/0LtXrm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bR0JdTuR; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=C4iCSmuUty1+nCICIYeLn58a9nc3QZe4aCRmlPOydXfFzlOs3kvnjTh/uRqm/Y0eAx+YA6DzPFy1H8t/YyiAvvxatR8d3/+b5a1s+1sFnX0ijwwbG7362W9MmX5TEKkxAEdI+Mk4+2tlmeDoMPBAw0e09TmFFQ+aeJ3/kPn0l9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VhImIfsh; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bR0JdTuR"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42e2d02a3c9so3043956f8f.3
-        for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 05:43:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765892597; x=1766497397; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yUlPjK/WuIqN2nCcCkf3I8wavxJP1d7TYelnQJd0+CY=;
-        b=bR0JdTuRqnvvEQNDJ3fUIN6Pf+0yBlnx0jY/VBhIldVfojf3eivrQRtBQJbfrip8KS
-         RbvJHf831IcrbC+SrSaw7r8kVDrPfq/+vvYQBPYP4vXBvWorwvAV1vXgHNl4cRTNYlp9
-         qJ7wTiKbeRS1gnaZ8Zs6DOE5ilBatRpV4gJmcQmfHeE1K2hT97FxhddZBcTFXOCctrjD
-         4j5rx4YwWJ6/r3Uxb7ebrZa2gu3hRRmFZQYLE266hE30KjZUUP7N/5csa7fPZabaeamm
-         gREsjJad8gkuLfZT/h7XTCWE2bQk+rBE+PJzxjJV9SV+lq79RghQK2XdPBfz/qc9/3V8
-         z1Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765892597; x=1766497397;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yUlPjK/WuIqN2nCcCkf3I8wavxJP1d7TYelnQJd0+CY=;
-        b=qXuRwjBoKvGFbx1cRSYEyh3ND00t6oLKlIqDCrgsWmObqdS1fnckW1RiWE5fvuXE1m
-         HOJVIiQuNi9/ejp/Jrmx7tF5AeNJJudVCC+pmgag3X7wrMrR0uA9kazWN0o4cqm/szM5
-         DfIx6dqR0w4nIshIl2g90xPc3LgtUAD7JFHorqd51QAKrudUcO2HnKQTxl405l9DM8/V
-         gHGi68/r2GmYQ6FpsErfvkteRlqGI9oJL58bk9ESMWgpoNgVnSCPOkK998RX6wUmPUhR
-         7VOS5gGGnZzZEz391+yzdEhsDxY1rVMQOfiG+/slHXJCuspQyajXbc9Q+dETFkuvJh+7
-         2z+Q==
-X-Gm-Message-State: AOJu0Ywm/KwzFzujRjOpYYA3cpUfxPZMMahBlZJpMkDVdZBjK5tsOy4D
-	dcDDyPRG4PWsTohQmnHq4XX24IknO9zC+lH/xWThscqRF5My6i8ZI0Fh+wvZZUs/ualb4rGaQAX
-	86Oug
-X-Gm-Gg: AY/fxX7kSSrRkA6+i406P5ML2OodaxO0FJjWw7YAkxCY+LYQP+YceuHvCi1Y7FO1Gni
-	Pui+c9Jd4k5USJrW4T1iX7vBD5pbLw8vRjA0wY7PYgu//8FtkBu1DBaVn0JRXbpLWx3f6DA5iwF
-	tXwDjw/OfVh4t2GjrnWyHDDtS8pdKkE2WuRP62x89ToTjee9ipsgpsbE2UYvk9omARZdFto5bUV
-	70pr85Ajb/2H8cErMkoc/kSa7Sg61CXgV04EWXgbc9SHNoWFhz3JCxz1eC8x8/GqpRSjEyZUp1U
-	WknP0gGXRWVDXrsvjlimlyesNqb+ePIbBn9UI+OqHX/yI8qig/HMneLGyadbAKXUl7eghnJ34To
-	R0LF+j8/nfzIQhDpi4i1R+VrKOPoGha23434O0QxexikJEojEpyEvrpiAT70kUt434JriVE4f66
-	3PuexzFrNHfS+wS3nz
-X-Google-Smtp-Source: AGHT+IHuvJ59Z1jzIkZ6nejGnOwd19Br4R1Mgp+JiGBQm8dkLJ8TPIA85El0Ts/AzaUTzTNPgPcHrQ==
-X-Received: by 2002:a05:6000:2909:b0:42f:a025:92b3 with SMTP id ffacd0b85a97d-42fb44d4395mr13448992f8f.2.1765892596798;
-        Tue, 16 Dec 2025 05:43:16 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-430f38d01d6sm20782702f8f.8.2025.12.16.05.43.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Dec 2025 05:43:16 -0800 (PST)
-Date: Tue, 16 Dec 2025 16:43:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Andreas Kemnade <andreas@kemnade.info>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: drivers/power/supply/bd71828-power.c:469
- bd71828_battery_get_property() error: uninitialized symbol 'tmp'.
-Message-ID: <202512161012.YCn72zq9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VhImIfsh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765894361; x=1797430361;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vKRtSkR4kIc8CYDy0m4SepD5IwvaaDCV9iuyOzCxCm0=;
+  b=VhImIfsh2RLm7erM9BGoLjT/6WPi/DVE3ecUU0+XOS/q3u583u6fxp3m
+   FnsRdZyksqkm2Mge+7zYrmH3st5lX7/pDJ8W8b6Za5Z9G3B4sgV5y94bA
+   wM4RmDRiNc146Iz7YhWGmx0podRzCntA+l7KqvQ6t5M2T+EJeQR9rxX0Z
+   EVtnMrOwMe5wjdxO/Fs8TdzlHnTOMcA1Ys79IeKcrkYAD2vtP7r7m0mWr
+   LG5SqtV9aINIEZNjC0sjx5eO/GYaub5a+U4cQDyH7iF8cso0nRd8v8ilX
+   oGH6epZvxO38/P4juxh0VIak1Y6whmjR0c296p7zj+bXyZwckiDsPXBGH
+   w==;
+X-CSE-ConnectionGUID: zlitGaUERCeJok2xodNKDA==
+X-CSE-MsgGUID: xim5XUm/RmG4uptA9r9AoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="71666667"
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
+   d="scan'208";a="71666667"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 06:12:38 -0800
+X-CSE-ConnectionGUID: XUAg5Sb5RAC9NfvUfDYFlw==
+X-CSE-MsgGUID: A527T3bWSXCQb2ZOmfALIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
+   d="scan'208";a="202213543"
+Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 16 Dec 2025 06:12:38 -0800
+Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vVVn0-000000003Ha-3f7H;
+	Tue, 16 Dec 2025 14:12:34 +0000
+Date: Tue, 16 Dec 2025 22:12:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/usb/lan78xx.c:2625 lan78xx_set_fixed_link() warn: format
+ string contains non-ascii character '\xe2'
+Message-ID: <202512162219.p0QYUCTQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Message-ID: <20251216134313.UoxtFg7T-WL4OFDyAQ6Ir8950ZKmJ8iO0zlS3_C7Ck4@z>
+Content-Transfer-Encoding: 8bit
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Oleksij Rempel <o.rempel@pengutronix.de>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: 5bff79dad20a51fed3ff6d78f6b60321cd145a99 power: supply: Add bd718(15/28/78) charger driver
-config: openrisc-randconfig-r071-20251214 (https://download.01.org/0day-ci/archive/20251216/202512161012.YCn72zq9-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
+head:   40fbbd64bba6c6e7a72885d2f59b6a3be9991eeb
+commit: e110bc82589752909e283ba5cbc160e0ab56c085 net: usb: lan78xx: Convert to PHYLINK for improved PHY and MAC management
+date:   6 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 months ago
+config: sparc-randconfig-r072-20251213 (https://download.01.org/0day-ci/archive/20251216/202512162219.p0QYUCTQ-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512161012.YCn72zq9-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512162219.p0QYUCTQ-lkp@intel.com/
 
-smatch warnings:
-drivers/power/supply/bd71828-power.c:469 bd71828_battery_get_property() error: uninitialized symbol 'tmp'.
+New smatch warnings:
+drivers/net/usb/lan78xx.c:2625 lan78xx_set_fixed_link() warn: format string contains non-ascii character '\xe2'
 
-vim +/tmp +469 drivers/power/supply/bd71828-power.c
+Old smatch warnings:
+drivers/net/usb/lan78xx.c:2625 lan78xx_set_fixed_link() warn: format string contains non-ascii character '\x80'
+drivers/net/usb/lan78xx.c:2625 lan78xx_set_fixed_link() warn: format string contains non-ascii character '\x93'
+drivers/net/usb/lan78xx.c:2656 lan78xx_get_phy() warn: format string contains non-ascii character '\xe2'
+drivers/net/usb/lan78xx.c:2656 lan78xx_get_phy() warn: format string contains non-ascii character '\x80'
+drivers/net/usb/lan78xx.c:2656 lan78xx_get_phy() warn: format string contains non-ascii character '\x93'
+drivers/net/usb/lan78xx.c:2860 lan78xx_phy_init() error: we previously assumed 'phydev' could be null (see line 2848)
+drivers/net/usb/lan78xx.c:2860 lan78xx_phy_init() warn: 'phydev' can also be NULL
+drivers/net/usb/lan78xx.c:2862 lan78xx_phy_init() warn: 'phydev' can also be NULL
+drivers/net/usb/lan78xx.c:3142 lan78xx_init_ltm() warn: missing unwind goto?
 
-5bff79dad20a51 Andreas Kemnade 2025-09-18  437  static int bd71828_battery_get_property(struct power_supply *psy,
-5bff79dad20a51 Andreas Kemnade 2025-09-18  438  					enum power_supply_property psp,
-5bff79dad20a51 Andreas Kemnade 2025-09-18  439  					union power_supply_propval *val)
-5bff79dad20a51 Andreas Kemnade 2025-09-18  440  {
-5bff79dad20a51 Andreas Kemnade 2025-09-18  441  	struct bd71828_power *pwr = dev_get_drvdata(psy->dev.parent);
-5bff79dad20a51 Andreas Kemnade 2025-09-18  442  	int ret = 0;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  443  	int status, health, tmp, curr, curr_avg, chg_en;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  444  
-5bff79dad20a51 Andreas Kemnade 2025-09-18  445  	if (psp == POWER_SUPPLY_PROP_STATUS ||
-5bff79dad20a51 Andreas Kemnade 2025-09-18  446  	    psp == POWER_SUPPLY_PROP_HEALTH ||
-5bff79dad20a51 Andreas Kemnade 2025-09-18  447  	    psp == POWER_SUPPLY_PROP_CHARGE_TYPE)
-5bff79dad20a51 Andreas Kemnade 2025-09-18  448  		ret = bd71828_charge_status(pwr, &status, &health);
-5bff79dad20a51 Andreas Kemnade 2025-09-18  449  	else if (psp == POWER_SUPPLY_PROP_CURRENT_AVG ||
-5bff79dad20a51 Andreas Kemnade 2025-09-18  450  		 psp == POWER_SUPPLY_PROP_CURRENT_NOW)
-5bff79dad20a51 Andreas Kemnade 2025-09-18  451  		ret = bd71828_get_current_ds_adc(pwr, &curr, &curr_avg);
-5bff79dad20a51 Andreas Kemnade 2025-09-18  452  	if (ret)
-5bff79dad20a51 Andreas Kemnade 2025-09-18  453  		return ret;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  454  
-5bff79dad20a51 Andreas Kemnade 2025-09-18  455  	switch (psp) {
-5bff79dad20a51 Andreas Kemnade 2025-09-18  456  	case POWER_SUPPLY_PROP_STATUS:
-5bff79dad20a51 Andreas Kemnade 2025-09-18  457  		val->intval = status;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  458  		break;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  459  	case POWER_SUPPLY_PROP_HEALTH:
-5bff79dad20a51 Andreas Kemnade 2025-09-18  460  		val->intval = health;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  461  		break;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  462  	case POWER_SUPPLY_PROP_PRESENT:
-5bff79dad20a51 Andreas Kemnade 2025-09-18  463  		ret = get_bat_online(pwr, &tmp);
-5bff79dad20a51 Andreas Kemnade 2025-09-18  464  		if (!ret)
-5bff79dad20a51 Andreas Kemnade 2025-09-18  465  			val->intval = tmp;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  466  		break;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  467  	case POWER_SUPPLY_PROP_VOLTAGE_NOW:
-5bff79dad20a51 Andreas Kemnade 2025-09-18  468  		ret = bd71828_get_vbat(pwr, &tmp);
-5bff79dad20a51 Andreas Kemnade 2025-09-18 @469  		val->intval = tmp;
+vim +2625 drivers/net/usb/lan78xx.c
 
-Smatch complains that we don't check until ret after we assign the
-uninitialized variable.
+e110bc82589752 Oleksij Rempel            2025-06-18  2607  
+d39f339d260373 Oleksij Rempel            2025-05-05  2608  /**
+e110bc82589752 Oleksij Rempel            2025-06-18  2609   * lan78xx_set_fixed_link() - Set fixed link configuration for LAN7801
+d39f339d260373 Oleksij Rempel            2025-05-05  2610   * @dev: LAN78xx device
+d39f339d260373 Oleksij Rempel            2025-05-05  2611   *
+e110bc82589752 Oleksij Rempel            2025-06-18  2612   * Use fixed link configuration with 1 Gbps full duplex. This is used in special
+e110bc82589752 Oleksij Rempel            2025-06-18  2613   * cases like EVB-KSZ9897-1, where LAN7801 acts as a USB-to-Ethernet interface
+e110bc82589752 Oleksij Rempel            2025-06-18  2614   * to a switch without a visible PHY.
+d39f339d260373 Oleksij Rempel            2025-05-05  2615   *
+d39f339d260373 Oleksij Rempel            2025-05-05  2616   * Return: pointer to the registered fixed PHY, or ERR_PTR() on error.
+d39f339d260373 Oleksij Rempel            2025-05-05  2617   */
+e110bc82589752 Oleksij Rempel            2025-06-18  2618  static int lan78xx_set_fixed_link(struct lan78xx_net *dev)
+55d7de9de6c30a Woojung.Huh@microchip.com 2015-07-30  2619  {
+e110bc82589752 Oleksij Rempel            2025-06-18  2620  	static const struct phylink_link_state state = {
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2621  		.speed = SPEED_1000,
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2622  		.duplex = DUPLEX_FULL,
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2623  	};
+d39f339d260373 Oleksij Rempel            2025-05-05  2624  
+d39f339d260373 Oleksij Rempel            2025-05-05 @2625  	netdev_info(dev->net,
+e110bc82589752 Oleksij Rempel            2025-06-18  2626  		    "No PHY found on LAN7801 – using fixed link instead (e.g. EVB-KSZ9897-1)\n");
+d39f339d260373 Oleksij Rempel            2025-05-05  2627  
+e110bc82589752 Oleksij Rempel            2025-06-18  2628  	return phylink_set_fixed_link(dev->phylink, &state);
+d39f339d260373 Oleksij Rempel            2025-05-05  2629  }
+d39f339d260373 Oleksij Rempel            2025-05-05  2630  
 
-5bff79dad20a51 Andreas Kemnade 2025-09-18  470  		break;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  471  	case POWER_SUPPLY_PROP_TECHNOLOGY:
-5bff79dad20a51 Andreas Kemnade 2025-09-18  472  		val->intval = POWER_SUPPLY_TECHNOLOGY_LION;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  473  		break;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  474  	case POWER_SUPPLY_PROP_CURRENT_AVG:
-5bff79dad20a51 Andreas Kemnade 2025-09-18  475  		val->intval = curr_avg;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  476  		break;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  477  	case POWER_SUPPLY_PROP_CURRENT_NOW:
-5bff79dad20a51 Andreas Kemnade 2025-09-18  478  		val->intval = curr;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  479  		break;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  480  	case POWER_SUPPLY_PROP_CURRENT_MAX:
-5bff79dad20a51 Andreas Kemnade 2025-09-18  481  		val->intval = MAX_CURRENT_DEFAULT;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  482  		break;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  483  	case POWER_SUPPLY_PROP_TEMP:
-5bff79dad20a51 Andreas Kemnade 2025-09-18  484  		ret = pwr->get_temp(pwr, &val->intval);
-5bff79dad20a51 Andreas Kemnade 2025-09-18  485  		break;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  486  	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-5bff79dad20a51 Andreas Kemnade 2025-09-18  487  		ret = regmap_read(pwr->regmap, pwr->regs->chg_en, &chg_en);
-5bff79dad20a51 Andreas Kemnade 2025-09-18  488  		if (ret)
-5bff79dad20a51 Andreas Kemnade 2025-09-18  489  			return ret;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  490  
-5bff79dad20a51 Andreas Kemnade 2025-09-18  491  		val->intval = (chg_en & BD7182x_MASK_CHG_EN) ?
-5bff79dad20a51 Andreas Kemnade 2025-09-18  492  			POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO :
-5bff79dad20a51 Andreas Kemnade 2025-09-18  493  			POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  494  		break;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  495  	default:
-5bff79dad20a51 Andreas Kemnade 2025-09-18  496  		ret = -EINVAL;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  497  		break;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  498  	}
-5bff79dad20a51 Andreas Kemnade 2025-09-18  499  
-5bff79dad20a51 Andreas Kemnade 2025-09-18  500  	return ret;
-5bff79dad20a51 Andreas Kemnade 2025-09-18  501  }
+:::::: The code at line 2625 was first introduced by commit
+:::::: d39f339d2603736ff90b0b32d9aea3b954307fd5 net: usb: lan78xx: refactor PHY init to separate detection and MAC configuration
+
+:::::: TO: Oleksij Rempel <o.rempel@pengutronix.de>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
