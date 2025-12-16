@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DDD212552
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 20:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24AD2236E5
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 20:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765916305; cv=none; b=mQNzn0a2sE7d+teAYGbt6luhK4FRPBAFni2XkJTRJ6UlQ5720p9+My2UWIuOom+yzoJbL/OXfHAu3McsEUl4nFi5twr/RnPgLb+Lo8DKay5XUDdI4FLdsoCJ2kN6ongw2z0d+r8WYBvdzLCfKTGJXEADDzktQn0p/UKEdAWjZNE=
+	t=1765917325; cv=none; b=e1qLpEGp8rVOACThxYtS1ynHfWzk0bk1YQQjLdi2JAiH/PQjZ5oiEgK8GD2x0LhUACOYHfrfUEJV+xg6uyFUtxtMRi2CyJ/iNBR8wg27eZbtge4zI2GJdWujFZbKXGIsaoNJvy7PIpsz37jn6W8helKI2btPaVoWVwJNvv526z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765916305; c=relaxed/simple;
-	bh=4GHZ28kfr4RC32f/PAGKhmVSVjMwKbvEy3GGaBGPsAo=;
+	s=arc-20240116; t=1765917325; c=relaxed/simple;
+	bh=wLJxV9aJc1624DBxtBx8jDy6UXwdk0XjF0UmSAz5y0Y=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qhvoEbT+CRsYfbgw7UvQFyxln0flUzK1bZsrr3yrZKLHXPABG6YIqgV7itrokL+93/kaQLza4+yRTldUJ8TMwNI5dnwYGw7mbLlUwBTKdohTOPNCWlb8BGZK60Jn3yQ/yDv9TsyvHYxn0CI64P+1H/mAIZ87K3JXRTSoUzk1toc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nkfNve50; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=dI8D8UvcRfdsn3Sq0rw4pkz9SL/k7B9TxgG+dzXaA05XrDlVMGoAaxzWRsQi7qtPFiHoElks48ylisKxsB0P80CwMLbRB98yxDW4gYPOt6Pcr8nZ7ZRPBggV4DAEXMpPkdpvtAmLpIFWHkrTwkW8aFYaNz2ULwblcB46vrgwPuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NBrgzGnQ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nkfNve50"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NBrgzGnQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765916303; x=1797452303;
+  t=1765917324; x=1797453324;
   h=date:from:to:subject:message-id:mime-version;
-  bh=4GHZ28kfr4RC32f/PAGKhmVSVjMwKbvEy3GGaBGPsAo=;
-  b=nkfNve50YQPQRzVhbGLZbGqGmj6DxzNQauejI5tcFQCQ/NHjyq+Oprgn
-   PgYmClo49fCUkZi7AYsxEyUxtZZd0k8ZleTryjeWYecNDX3od9DoQobab
-   6EiHyEyuFag37dyWKBlrg3L5HEf1mi1PRdg6Yhep2p/hEXm1qvL/Zv4Hr
-   e40i0JdVx+BzqT1nxdJh7o2dHq4qVBLMI9MxaBryAoelKA9BvjaMIaOzo
-   dPe+dPPVRo5Z/sH8bYf0TGZhqpqOpPLn06WI6X56GuV1SFabEWQYcZ7PW
-   0hCeyCwrl4UxCKhylYGopV6EohalZuDemm9ZpBr0/Nd73KToiC7gB3fnW
-   g==;
-X-CSE-ConnectionGUID: QKJW5UN8QkiiKQVbcngJGw==
-X-CSE-MsgGUID: k4Y8y8i9Q3KwfeivpDYwNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="66833082"
-X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="66833082"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 12:18:23 -0800
-X-CSE-ConnectionGUID: CcYuF5LzTCiyQkNjmMsy2A==
-X-CSE-MsgGUID: DA9C42KvQE2PMgvRRCVctQ==
+  bh=wLJxV9aJc1624DBxtBx8jDy6UXwdk0XjF0UmSAz5y0Y=;
+  b=NBrgzGnQ5z1T9r/pTLEZusBCdsTYOQ+0WbAUOF7the5bXsbtJwPjwnmQ
+   CRg2Px+cngvhLDz8xdMhHEXznGOZa6jL7qPl12/jRmTOwrqioUPvYdtdo
+   1YgblmdiRYSNFhda5ZKwHkfXVaimWKXXMaKpfornGRH8W/gH9npor4ucX
+   2VrKzp92I5XZnC7wJYUjo5DnMWr09kFyZNSVKnjVPXt2TObYMgtudUXHc
+   7HYJAVzTzjeSfc+34YVAj46yLRtmC9zmaJg3OYooYDy+O24myagMKAUHz
+   2aZqRz93B390x9eTiav6RS922t55Y82VKVkcqlK2WqC9HPGavO7pJDYMx
+   w==;
+X-CSE-ConnectionGUID: 2BSZwU4nRQajxi9xqhQ3qg==
+X-CSE-MsgGUID: 3EdWbIJ2Qc+CXH7rBXwPpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="67888308"
+X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
+   d="scan'208";a="67888308"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 12:35:23 -0800
+X-CSE-ConnectionGUID: XKJaleJvT1iHtelmAmDkmg==
+X-CSE-MsgGUID: 2Y1EB8f8Rt6y8cz2QVhZfQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="198907102"
+X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
+   d="scan'208";a="198011073"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 16 Dec 2025 12:18:22 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 16 Dec 2025 12:35:23 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVbUy-000000003FY-1xLE
+	id 1vVblQ-000000003Fk-2THn
 	for oe-kbuild@lists.linux.dev;
-	Tue, 16 Dec 2025 20:18:20 +0000
-Date: Tue, 16 Dec 2025 21:18:16 +0100
+	Tue, 16 Dec 2025 20:35:20 +0000
+Date: Tue, 16 Dec 2025 21:35:02 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [djwong-xfs:fuse-fixes 18/28] checkpatch: ERROR:SPACING: space
- required before the open brace '{'
-Message-ID: <202512162150.PaF2M0BT-lkp@intel.com>
+Subject: [djwong-xfs:fuse-iomap-attrs 35/75] checkpatch:
+ WARNING:REPEATED_WORD: Possible repeated word: 'code'
+Message-ID: <202512162132.5XEfuqlj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,18 +70,18 @@ BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fuse-fixes
-head:   858646137d80fd2ac7423e36752a03a4c6b073c8
-commit: 883721717e09b2bf247b689b21af5e3296f28b35 [18/28] xfs: convey metadata health events to the health monitor
-:::::: branch date: 53 minutes ago
-:::::: commit date: 53 minutes ago
-reproduce: (https://download.01.org/0day-ci/archive/20251216/202512162150.PaF2M0BT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fuse-iomap-attrs
+head:   437923fc42e8dae8e2afe0576bd7d30abb043dd7
+commit: 6212851313f7d33fbf77caf75f9dbfed1cfacddc [35/75] fuse: make debugging configurable at runtime
+:::::: branch date: 70 minutes ago
+:::::: commit date: 70 minutes ago
+reproduce: (https://download.01.org/0day-ci/archive/20251216/202512162132.5XEfuqlj-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-ERROR:SPACING: space required before the open brace '{'
-#536: FILE: fs/xfs/xfs_healthmon.c:227:
-+			if (existing->group == new->group){
+WARNING:REPEATED_WORD: Possible repeated word: 'code'
+#28: FILE: fs/fuse/Kconfig:104:
++	  Say N here if you don't want any debugging code code compiled in at
 
 -- 
 0-DAY CI Kernel Test Service
