@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4113328E3
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 10:36:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E7733C53E
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 10:36:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765881394; cv=none; b=Rs7RZBJD8vgyEJm2w85Hp6FjFE+jHUOFKkcyUEPSKdRgb7x5XvmJzxRwSLYcMy3jidbdEDjeUrg0T/c5FGUUCs2cTO8DkNQRr5v0IRCuyRIyz/s8cLpZ3VRcM6F8jegA3z9+ZTh5/dZ6D9awov2HN6726fj5gUFhGNSSTASjfAw=
+	t=1765881397; cv=none; b=ODjvtWrjviBvIACDFj4K1Bv0Pf0o1LZKlRU1H5kZ0aVDu6/Pf+X1GyD8NwYXkYKzQ8OA85Csr+Ky9k6va+WYMLHmUXYqj5vydgOrl7BfSiJ68ruJPEYdizhgOoXvr4XALShid1aX9EFpOjfqcujGnCXKiLUkdpjIizLMOzyLQ8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765881394; c=relaxed/simple;
-	bh=KYRRHbFdTe2sZGUqk4YeZohr4sPEiHsOT75dN6eLDuk=;
+	s=arc-20240116; t=1765881397; c=relaxed/simple;
+	bh=HjHtZWik+uTu7djbEjAGxWhhchyYnZE8KKrgKJ7VqKU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o7Qm5+UVIFvt+B2AbBLwB4ENlWWB7Ajhm67ukfImg0eENZYobZPM6tin0by9HPr6iR+JFL/RV7h8eGGEl5xh3nm5m5kHDOniD9DoFV4OFQXK5q/1dQmN2E6hAL/tpWvAl0drM7nUmX0kxP4vmwuvk9/I78Gv2TwUdeb+WhA0vlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HqH3UxGv; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=JR5y9+EISmU5NzdENtT/0agWNPLcoIIRiz0iABJx4Jiw3rzszWSI2zrMgTEYrhz40zjv/X8J8XnkAJ/enX9ogFJGIH5EcOvzZkTPobg8vKnXdf7EkR5du030MumH6USb2s7bhGKUnS93LV75Y8uj/gpFQ5R0+G4+v3rx/GWSurg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ps1qmiYa; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HqH3UxGv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ps1qmiYa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765881392; x=1797417392;
+  t=1765881395; x=1797417395;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KYRRHbFdTe2sZGUqk4YeZohr4sPEiHsOT75dN6eLDuk=;
-  b=HqH3UxGv2E6mSlESKr4hQAaN3Kj/6C077dPJd+u8bgPCymUMhB+mfCze
-   8iRJ79crnxvBwUas0/75Lb4jaFwwBB6AfBnPlXztAS5Vsyu2ghCPLCq8M
-   sS0CCAfbNKfzYcnrfAqdScCd6Bc7fZTkuJVH70zcsnQq3eUdbb/nZ6s/M
-   XU6UU4bZ3sP4G8LMamRBixp7Ijawd/0xyjJRigMT6IoHXyXFLQU/PxbB7
-   ccJwPgu0UdU369yYbjm4fA2nUInOtFck2kYa+RHkcU++yPkpItWtUmW+5
-   5KmpwmauQsnVWsB4N4zal2xbfrFfxg2k9qx8kECOz9Sj/W8LZtovkoiHD
+  bh=HjHtZWik+uTu7djbEjAGxWhhchyYnZE8KKrgKJ7VqKU=;
+  b=Ps1qmiYaao6iwNjO6+5aUugT51SBgJDrpgWKgn1FoxvjL9VwPmYNFz75
+   3hbqTT933Wi05/IAUFaYvkM/l5gHCQQUpPk2nzell2GVsDWB8x5Uh7Ik8
+   Zq8sdk4O2h50swPXwaDFvh7PBzdefVhfDYQWBP9t8uniBVuhtayZK8Cxi
+   XDuNBCY3IlgpBm7XhRP4DWz71RCPixHmdQguVUNCkzzyQLX6bo8dw8voD
+   UIUdsTsQ5nk6cmmWTWMvUF4c3JcO19NEU9EB2DkUx8v/hUoNML9/2Ca5t
+   QD13yp/zbshxFxmQ3OGepb45h8LPCFSAXSyOuqN14hg9houbBSs+74xBv
    Q==;
-X-CSE-ConnectionGUID: Ty8/T+ZFQYKn+olvQLNIRA==
-X-CSE-MsgGUID: ltTFl6mnRbeB64Mz0dxH5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="55366130"
+X-CSE-ConnectionGUID: xodPDcSzSUqHEjkLg/AuoA==
+X-CSE-MsgGUID: QlT1Sp6aTaqbXFx2C2i0sw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="55366131"
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="55366130"
+   d="scan'208";a="55366131"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 02:36:32 -0800
-X-CSE-ConnectionGUID: I0OZqoDKRS6QOArr9QBStw==
-X-CSE-MsgGUID: sySNU1VyTWenRZVjvglQ7g==
+X-CSE-ConnectionGUID: 1Xo3kCnOR4GF/tNQeD6biw==
+X-CSE-MsgGUID: PJzp/VAgQX23Uep2QI76pQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="202167889"
+   d="scan'208";a="202167891"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
   by orviesa003.jf.intel.com with ESMTP; 16 Dec 2025 02:36:31 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVSPs-000000001VD-3Lmq;
+	id 1vVSPs-000000001VA-312Y;
 	Tue, 16 Dec 2025 10:36:28 +0000
-Date: Tue, 16 Dec 2025 18:36:03 +0800
+Date: Tue, 16 Dec 2025 18:35:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 1676/1848]
- drivers/gpu/drm/sitronix/st7920.c:865:1: sparse: sparse: bad integer
- constant expression
-Message-ID: <202512161833.w5Bkt10d-lkp@intel.com>
+Subject: [android-common:android16-6.12-2025-09 1/1] lib/math/div64.c:219:25:
+ sparse: sparse: division by zero
+Message-ID: <202512161851.KSBY6rlU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,43 +63,38 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/sitronix/st7920.c:865:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "low confidence static check warning: lib/math/div64.c:219:25: sparse: sparse: division by zero"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Iker Pedrosa <ikerpedrosam@gmail.com>
-CC: Javier Martinez Canillas <javierm@redhat.com>
-CC: Thomas Zimmermann <tzimmermann@suse.de>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   563c8dd425b59e44470e28519107b1efc99f4c7b
-commit: 88b09229f34a8a2a0c6aa8a62eb6c96011181e3c [1676/1848] drm: Add driver for Sitronix ST7920 LCD displays
-:::::: branch date: 9 hours ago
-:::::: commit date: 17 hours ago
-config: loongarch-randconfig-r121-20251216 (https://download.01.org/0day-ci/archive/20251216/202512161833.w5Bkt10d-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161833.w5Bkt10d-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-09
+head:   664cf6f08da637d184ba4d36b299b1fdc5ae7dc0
+commit: 1635e62e75a7bbb1c6274f6b43911cedfe0da60a [1/1] mul_u64_u64_div_u64: basic sanity test
+:::::: branch date: 32 hours ago
+:::::: commit date: 1 year, 3 months ago
+config: arm-randconfig-r131-20251216 (https://download.01.org/0day-ci/archive/20251216/202512161851.KSBY6rlU-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161851.KSBY6rlU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512161833.w5Bkt10d-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512161851.KSBY6rlU-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/sitronix/st7920.c:865:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/sitronix/st7920.c:865:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/gpu/drm/sitronix/st7920.c:866:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/sitronix/st7920.c:866:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/gpu/drm/sitronix/st7920.c:867:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/sitronix/st7920.c:867:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/gpu/drm/sitronix/st7920.c:867:1: sparse: sparse: bad integer constant expression
-   drivers/gpu/drm/sitronix/st7920.c:867:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+>> lib/math/div64.c:219:25: sparse: sparse: division by zero
 
-vim +865 drivers/gpu/drm/sitronix/st7920.c
+vim +219 lib/math/div64.c
 
-88b09229f34a8a Iker Pedrosa 2025-12-15  864  
-88b09229f34a8a Iker Pedrosa 2025-12-15 @865  MODULE_DESCRIPTION(DRIVER_DESC);
+b29a62d87cc0af Nicolas Pitre 2024-07-07  214  
+1635e62e75a7bb Nicolas Pitre 2024-07-07  215  	/* make sure c is not zero, trigger exception otherwise */
+1635e62e75a7bb Nicolas Pitre 2024-07-07  216  #pragma GCC diagnostic push
+1635e62e75a7bb Nicolas Pitre 2024-07-07  217  #pragma GCC diagnostic ignored "-Wdiv-by-zero"
+1635e62e75a7bb Nicolas Pitre 2024-07-07  218  	if (unlikely(c == 0))
+1635e62e75a7bb Nicolas Pitre 2024-07-07 @219  		return 1/0;
 
 -- 
 0-DAY CI Kernel Test Service
