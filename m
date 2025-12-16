@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5A3224891
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 01:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2302325C838
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 02:17:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765849561; cv=none; b=t9pVVJCUuQHaepg7QwJMKi+x01REO5TLPR0qplRG2dY7Qm1Hr/23P0y4LmmnagsM4inZ87wER3gjfYc430pfLPj6Eqq2Akbe3n2iDMhWatiUQz1c66cyY/U/6Ta3y6yKeyLHTSWyiYcGYR2autWzrN6B+s5a9mBooH7Yvs2He1c=
+	t=1765851472; cv=none; b=Qn80053W5PGye41fGgGrf7i4SJrD4MUJEOfaWZ0cwHx4659Y8A3jx55+Py/vMAzeNBMygFoIVK62C6mP8wyKAdVWvhSZirzlaa+VHT6ivoDJUiU5BcDTBImTm8E1ffA8IpDxsCywOWboicI1HQqfbjXBBFWIt2SyomhKrU0S0gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765849561; c=relaxed/simple;
-	bh=jZbmwW+atOJ0IGQLloti4HVFy8zH+cd8fvMevYbAXqM=;
+	s=arc-20240116; t=1765851472; c=relaxed/simple;
+	bh=d+0ozNYXdfjEZ12RR+RKgoaAdabug3Bg7X0Ptvzi5wg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A5e492Yqe2bVzV+NXDa9jm/8DTScXMEiXr9iy8F30DFtmemlmg8PUMnD2RdxcuFsZPR72GrCimzzOq2hHPmP16zOQ+gVPkPhiLspxoxwfmwKqmM6iOehMhCmPWXOPs1LLWAoaZNjYZjpCKRauVBfgUGp1ul4mBJJaRANJHWeov8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aUCIHvdS; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=cuM2Wi1FCRxUeTCv7WHTyOFqbC3sJ5ZB5WpMEpj7lCR4hIuzOnSwPBK8EnonB9XQ57jRya2wGWqs0Mnm5hjfyT/QxsNRturdeX4ZoJmoCHGO+OXgshT2YwYh88td3q0osbdZJmwFCx0NlRoWRZcJ9Qg4821ga7lxtaiR6bbPvFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NfAWwmBA; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aUCIHvdS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NfAWwmBA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765849560; x=1797385560;
+  t=1765851470; x=1797387470;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jZbmwW+atOJ0IGQLloti4HVFy8zH+cd8fvMevYbAXqM=;
-  b=aUCIHvdSRmb5aBYbdm+tEs74iXzneFOiQDU/d+Xt0G4hSZdU2Okw029w
-   HtUgg2LwpWRdgn9XKWt7U+jhAhoZXhTTmPsmTxAfavIaxGOmvnsKvnuqx
-   pir/kKkv0iUY8BBdYkxmbzX+7T4oD+rt72OyCt9OdDcQJMvMEFgz7vXMK
-   FFyC1Hp7QTj9TOQ2Z/FSSPmUtoCPlQWL4ipaDTNtwOkrbt3Y2yTQquThk
-   UaPfi0lionh71nEd27VE5HeR/2f+6G1Ic+2u0ooxt+YnOXHZmSiDHYBxs
-   sVoNz0ZFHqITyK7v2UjagZuLaTNU8G5QWDpqz2A0E/J7fh4qPAWAtT89h
-   Q==;
-X-CSE-ConnectionGUID: X81yvxxMRoO05IQpK6V8SA==
-X-CSE-MsgGUID: V5GrYQedRgeYMUGDg2METg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66949826"
+  bh=d+0ozNYXdfjEZ12RR+RKgoaAdabug3Bg7X0Ptvzi5wg=;
+  b=NfAWwmBApK1xXeV/Tei7+XSM+ZQc71dYz+vpUgyUIA1DH1ounnCHOEI2
+   MX2h7pDSC+WprAi5XFyxrz2om86eWVbXMr1Q5GXvD3mjOIvEnOfRfoQvK
+   SKrYlZ9xXre45fAqsZkZdwsBynLlFSaFnj36J3KbCXhsU/kT6K6h6tSYm
+   oIA58UgBYmf0rIgU+C8lNSTc7AYiN9Bl2TlohveQfIXAngazUL2uPP+bh
+   VAOGqEPw3s0DgQmLIJ9vn38JEDJ+KyJOK90qnunopd5uTn+cF8ZstUFmK
+   Zpnk3enwOtfxsHICpi2CTLr7z2W3pZQJoH5QCF9NaV79FLB+U3CNW/Knh
+   g==;
+X-CSE-ConnectionGUID: NHl02kTSRoyleThv6hMZAA==
+X-CSE-MsgGUID: gld5WkPhSpu1mNWmrOu2FQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="78073236"
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="66949826"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 17:45:58 -0800
-X-CSE-ConnectionGUID: 2AG5NOtyTtmJI9cEwpzC7Q==
-X-CSE-MsgGUID: 5cVKHJ8JS/mAfWwkSZ2sWA==
+   d="scan'208";a="78073236"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 18:17:48 -0800
+X-CSE-ConnectionGUID: FllDdbFRRLSs/rmPdKODnQ==
+X-CSE-MsgGUID: cBu6PpbRQz+Eb8EnIqqJ/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="202284962"
+   d="scan'208";a="197875748"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 15 Dec 2025 17:45:56 -0800
+  by orviesa007.jf.intel.com with ESMTP; 15 Dec 2025 18:17:48 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVK8Q-0000000011x-2NzZ;
-	Tue, 16 Dec 2025 01:45:54 +0000
-Date: Tue, 16 Dec 2025 09:45:05 +0800
+	id 1vVKdF-0000000013n-137A;
+	Tue, 16 Dec 2025 02:17:45 +0000
+Date: Tue, 16 Dec 2025 10:17:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpio/gpiolib.c:3627 gpiochip_set_multiple() error:
- uninitialized symbol 'ret'.
-Message-ID: <202512160953.k3uCryx1-lkp@intel.com>
+Subject: drivers/power/supply/bd71828-power.c:469
+ bd71828_battery_get_property() error: uninitialized symbol 'tmp'.
+Message-ID: <202512161012.YCn72zq9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,79 +65,97 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
+TO: Andreas Kemnade <andreas@kemnade.info>
+CC: Sebastian Reichel <sebastian.reichel@collabora.com>
+CC: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen <mazziesaccount@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: 8014097f1466f7e034844770c537b8dc7d98811f gpiolib: remove unneeded WARN_ON() from gpiochip_set_multiple()
-date:   10 months ago
+commit: 5bff79dad20a51fed3ff6d78f6b60321cd145a99 power: supply: Add bd718(15/28/78) charger driver
+date:   6 weeks ago
 :::::: branch date: 2 days ago
-:::::: commit date: 10 months ago
-config: alpha-randconfig-r071-20251212 (https://download.01.org/0day-ci/archive/20251216/202512160953.k3uCryx1-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
+:::::: commit date: 6 weeks ago
+config: openrisc-randconfig-r071-20251214 (https://download.01.org/0day-ci/archive/20251216/202512161012.YCn72zq9-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512160953.k3uCryx1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512161012.YCn72zq9-lkp@intel.com/
 
 smatch warnings:
-drivers/gpio/gpiolib.c:3627 gpiochip_set_multiple() error: uninitialized symbol 'ret'.
+drivers/power/supply/bd71828-power.c:469 bd71828_battery_get_property() error: uninitialized symbol 'tmp'.
 
-vim +/ret +3627 drivers/gpio/gpiolib.c
+vim +/tmp +469 drivers/power/supply/bd71828-power.c
 
-372e722ea4dd4c Alexandre Courbot   2013-02-03  3586  
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3587  /*
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3588   * set multiple outputs on the same chip;
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3589   * use the chip's set_multiple function if available;
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3590   * otherwise set the outputs sequentially;
-a0b66a73785ccc Linus Walleij       2020-03-29  3591   * @chip: the GPIO chip we operate on
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3592   * @mask: bit mask array; one bit per output; BITS_PER_LONG bits per word
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3593   *        defines which outputs are to be changed
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3594   * @bits: bit value array; one bit per output; BITS_PER_LONG bits per word
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3595   *        defines the values the outputs specified by mask are to be set to
-9b407312755fd5 Bartosz Golaszewski 2025-02-20  3596   *
-9b407312755fd5 Bartosz Golaszewski 2025-02-20  3597   * Returns: 0 on success, negative error number on failure.
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3598   */
-9b407312755fd5 Bartosz Golaszewski 2025-02-20  3599  static int gpiochip_set_multiple(struct gpio_chip *gc,
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3600  				 unsigned long *mask, unsigned long *bits)
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3601  {
-9b407312755fd5 Bartosz Golaszewski 2025-02-20  3602  	unsigned int i;
-9b407312755fd5 Bartosz Golaszewski 2025-02-20  3603  	int ret;
-9b407312755fd5 Bartosz Golaszewski 2025-02-20  3604  
-81570d6a7ad370 Bartosz Golaszewski 2025-02-15  3605  	lockdep_assert_held(&gc->gpiodev->srcu);
-81570d6a7ad370 Bartosz Golaszewski 2025-02-15  3606  
-98ce1eb1fd87ea Bartosz Golaszewski 2025-02-20  3607  	if (gc->set_multiple_rv) {
-98ce1eb1fd87ea Bartosz Golaszewski 2025-02-20  3608  		ret = gc->set_multiple_rv(gc, mask, bits);
-98ce1eb1fd87ea Bartosz Golaszewski 2025-02-20  3609  		if (ret > 0)
-98ce1eb1fd87ea Bartosz Golaszewski 2025-02-20  3610  			ret = -EBADE;
-98ce1eb1fd87ea Bartosz Golaszewski 2025-02-20  3611  
-98ce1eb1fd87ea Bartosz Golaszewski 2025-02-20  3612  		return ret;
-98ce1eb1fd87ea Bartosz Golaszewski 2025-02-20  3613  	}
-98ce1eb1fd87ea Bartosz Golaszewski 2025-02-20  3614  
-a0b66a73785ccc Linus Walleij       2020-03-29  3615  	if (gc->set_multiple) {
-a0b66a73785ccc Linus Walleij       2020-03-29  3616  		gc->set_multiple(gc, mask, bits);
-9b407312755fd5 Bartosz Golaszewski 2025-02-20  3617  		return 0;
-9b407312755fd5 Bartosz Golaszewski 2025-02-20  3618  	}
-5e4e6fb3ff31b4 Andy Shevchenko     2017-01-03  3619  
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3620  	/* set outputs if the corresponding mask bit is set */
-9b407312755fd5 Bartosz Golaszewski 2025-02-20  3621  	for_each_set_bit(i, mask, gc->ngpio) {
-9b407312755fd5 Bartosz Golaszewski 2025-02-20  3622  		ret = gpiochip_set(gc, i, test_bit(i, bits));
-9b407312755fd5 Bartosz Golaszewski 2025-02-20  3623  		if (ret)
-9b407312755fd5 Bartosz Golaszewski 2025-02-20  3624  			break;
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3625  	}
-9b407312755fd5 Bartosz Golaszewski 2025-02-20  3626  
-9b407312755fd5 Bartosz Golaszewski 2025-02-20 @3627  	return ret;
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3628  }
-5f42424354f5b0 Rojhalat Ibrahim    2014-11-04  3629  
-
-:::::: The code at line 3627 was first introduced by commit
-:::::: 9b407312755fd5db012413ca005f0f3a661db8dd gpiolib: rework the wrapper around gpio_chip::set_multiple()
-
-:::::: TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-:::::: CC: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+5bff79dad20a51 Andreas Kemnade 2025-09-18  436  
+5bff79dad20a51 Andreas Kemnade 2025-09-18  437  static int bd71828_battery_get_property(struct power_supply *psy,
+5bff79dad20a51 Andreas Kemnade 2025-09-18  438  					enum power_supply_property psp,
+5bff79dad20a51 Andreas Kemnade 2025-09-18  439  					union power_supply_propval *val)
+5bff79dad20a51 Andreas Kemnade 2025-09-18  440  {
+5bff79dad20a51 Andreas Kemnade 2025-09-18  441  	struct bd71828_power *pwr = dev_get_drvdata(psy->dev.parent);
+5bff79dad20a51 Andreas Kemnade 2025-09-18  442  	int ret = 0;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  443  	int status, health, tmp, curr, curr_avg, chg_en;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  444  
+5bff79dad20a51 Andreas Kemnade 2025-09-18  445  	if (psp == POWER_SUPPLY_PROP_STATUS ||
+5bff79dad20a51 Andreas Kemnade 2025-09-18  446  	    psp == POWER_SUPPLY_PROP_HEALTH ||
+5bff79dad20a51 Andreas Kemnade 2025-09-18  447  	    psp == POWER_SUPPLY_PROP_CHARGE_TYPE)
+5bff79dad20a51 Andreas Kemnade 2025-09-18  448  		ret = bd71828_charge_status(pwr, &status, &health);
+5bff79dad20a51 Andreas Kemnade 2025-09-18  449  	else if (psp == POWER_SUPPLY_PROP_CURRENT_AVG ||
+5bff79dad20a51 Andreas Kemnade 2025-09-18  450  		 psp == POWER_SUPPLY_PROP_CURRENT_NOW)
+5bff79dad20a51 Andreas Kemnade 2025-09-18  451  		ret = bd71828_get_current_ds_adc(pwr, &curr, &curr_avg);
+5bff79dad20a51 Andreas Kemnade 2025-09-18  452  	if (ret)
+5bff79dad20a51 Andreas Kemnade 2025-09-18  453  		return ret;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  454  
+5bff79dad20a51 Andreas Kemnade 2025-09-18  455  	switch (psp) {
+5bff79dad20a51 Andreas Kemnade 2025-09-18  456  	case POWER_SUPPLY_PROP_STATUS:
+5bff79dad20a51 Andreas Kemnade 2025-09-18  457  		val->intval = status;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  458  		break;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  459  	case POWER_SUPPLY_PROP_HEALTH:
+5bff79dad20a51 Andreas Kemnade 2025-09-18  460  		val->intval = health;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  461  		break;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  462  	case POWER_SUPPLY_PROP_PRESENT:
+5bff79dad20a51 Andreas Kemnade 2025-09-18  463  		ret = get_bat_online(pwr, &tmp);
+5bff79dad20a51 Andreas Kemnade 2025-09-18  464  		if (!ret)
+5bff79dad20a51 Andreas Kemnade 2025-09-18  465  			val->intval = tmp;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  466  		break;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  467  	case POWER_SUPPLY_PROP_VOLTAGE_NOW:
+5bff79dad20a51 Andreas Kemnade 2025-09-18  468  		ret = bd71828_get_vbat(pwr, &tmp);
+5bff79dad20a51 Andreas Kemnade 2025-09-18 @469  		val->intval = tmp;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  470  		break;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  471  	case POWER_SUPPLY_PROP_TECHNOLOGY:
+5bff79dad20a51 Andreas Kemnade 2025-09-18  472  		val->intval = POWER_SUPPLY_TECHNOLOGY_LION;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  473  		break;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  474  	case POWER_SUPPLY_PROP_CURRENT_AVG:
+5bff79dad20a51 Andreas Kemnade 2025-09-18  475  		val->intval = curr_avg;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  476  		break;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  477  	case POWER_SUPPLY_PROP_CURRENT_NOW:
+5bff79dad20a51 Andreas Kemnade 2025-09-18  478  		val->intval = curr;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  479  		break;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  480  	case POWER_SUPPLY_PROP_CURRENT_MAX:
+5bff79dad20a51 Andreas Kemnade 2025-09-18  481  		val->intval = MAX_CURRENT_DEFAULT;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  482  		break;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  483  	case POWER_SUPPLY_PROP_TEMP:
+5bff79dad20a51 Andreas Kemnade 2025-09-18  484  		ret = pwr->get_temp(pwr, &val->intval);
+5bff79dad20a51 Andreas Kemnade 2025-09-18  485  		break;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  486  	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
+5bff79dad20a51 Andreas Kemnade 2025-09-18  487  		ret = regmap_read(pwr->regmap, pwr->regs->chg_en, &chg_en);
+5bff79dad20a51 Andreas Kemnade 2025-09-18  488  		if (ret)
+5bff79dad20a51 Andreas Kemnade 2025-09-18  489  			return ret;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  490  
+5bff79dad20a51 Andreas Kemnade 2025-09-18  491  		val->intval = (chg_en & BD7182x_MASK_CHG_EN) ?
+5bff79dad20a51 Andreas Kemnade 2025-09-18  492  			POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO :
+5bff79dad20a51 Andreas Kemnade 2025-09-18  493  			POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  494  		break;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  495  	default:
+5bff79dad20a51 Andreas Kemnade 2025-09-18  496  		ret = -EINVAL;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  497  		break;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  498  	}
+5bff79dad20a51 Andreas Kemnade 2025-09-18  499  
+5bff79dad20a51 Andreas Kemnade 2025-09-18  500  	return ret;
+5bff79dad20a51 Andreas Kemnade 2025-09-18  501  }
+5bff79dad20a51 Andreas Kemnade 2025-09-18  502  
 
 -- 
 0-DAY CI Kernel Test Service
