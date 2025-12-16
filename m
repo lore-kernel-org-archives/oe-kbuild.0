@@ -1,159 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CFD82866
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 00:51:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA1B20D4E9
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Dec 2025 01:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765846267; cv=none; b=DYnQLfXpgXS5HDeEGH6HopYLdbbAZ7kQAyy+c9pOyXyI48SXbhd/2zQhS031Kvdn+kNupekEuDQLa4WB/OU85HPMfa4Cn5fq8ruRbuD2FOT6LzQLoCF7bLI6BT2FBGAvZJ+Hkv13RZPYQ7uzb2stPKZ7C7e27guCVk/c8W0C8Ys=
+	t=1765848200; cv=none; b=QXZtaLrmCeklTqo7HoARJhgf0NUCj1OEa8pv4q3DEuFGysojcAIiJSdPYVI6+bHp6/sEs3Qcq6aEvCcAgFlVdSRVgDdB02DLhtyxOxBNE11SpFNaKozGmq3pNbRD4rO3pEmWvx4vS9G8clZ+5gDqIRf4AofHvgeoGAgyi/k6Vwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765846267; c=relaxed/simple;
-	bh=YrdQwSdgOWNaRC2bOYDOvCJ2mkt6MqfiFBO658H+gCA=;
+	s=arc-20240116; t=1765848200; c=relaxed/simple;
+	bh=JaVaPUPCtKQE4drkpxsfOH2DuiG/GR9i4Y9+SPqt2A8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EPI7ZFRG3LEVVRkIaed2DCJE7vGEVGv8EQPTBYLcklgUiPjieSGmHR7vEtNSvF46p7jATLgv7XlB+cTYVh0Eb25BCpY9koZScIr2yrO6F6Qat7FOtUVWkWi33dHreX1b9IQ/v/WrtvxeakV4G0oC3AMTuLg2q0IPzu3UnKGZ8/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=knHJG5xO; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=qmNSNciU9o+XTRAKvjJL3KV8/vBDNUKLBalvVMVHiWmPlnXHw9mCKpRFESyF4UBEPbpqHtGn3eJEoesXi2zsB1/iduSTUr/Hrh1sD9o4UzSm2eJ/MDiIlbdz4HLdX/qA/fhSV9KBsxmbknn9K+XTMgmtA1yukdNhURhM1d2ucrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HcGygc24; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="knHJG5xO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HcGygc24"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765846263; x=1797382263;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=YrdQwSdgOWNaRC2bOYDOvCJ2mkt6MqfiFBO658H+gCA=;
-  b=knHJG5xO+njbtWHAvm9V5BdtAyzGlo+eQf0I0tY1rKv8ZsMg7OxbDSxI
-   vBB/17rR9UeMsiRIvMqvwFKJCX7/h1pPe0pcxI6DWZwxOYPJwpIly4tUy
-   BWFGKZ0vVOXOQGmykyr5XR5CzVow7Zj9Jy7WmQe6F53g8m32la74oaTST
-   9nvaKnziugsb1A3qGmxNaGhDPhSUDqB9BuO5choKd2rInSpExenfHEYs6
-   G46Y9UC14OphMGhzf9oGfKW+9U4mSHbGxyulPpoVyQkn3dV/FkNTzIwNA
-   XzBIzDldChOARDsgVdRisU4t34f7M8F2Ow1dZwcUMo8PpWkaf7he3BzC5
-   g==;
-X-CSE-ConnectionGUID: yzymR7x5RDamM3m7oIIo8Q==
-X-CSE-MsgGUID: L72DrIM/Qz6QChkXeazvUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="67792931"
+  t=1765848198; x=1797384198;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JaVaPUPCtKQE4drkpxsfOH2DuiG/GR9i4Y9+SPqt2A8=;
+  b=HcGygc24267IV712mpKrH/t0y/AxczET7FLApzqvZRO8g4GKaMM9mId2
+   Dn/LPing5j4e5rYA8+DVk1lE2YqyovLTpTaGLAsa2ypl8aZF/Y5I+907X
+   FJA+BjuJSFgme+LhedVYsdUYWoXCrIFKUSiLFfjYDFGmIoSPqIQhJsCw2
+   Ka41A6KK0ywI4Th0C8t59GQ/zkr+2IIJm0yl1tAXUkPJvDUlv4xBp0dsJ
+   sGbs/2xlPoj7F+jYKfQFWuVYJsVMPnpXXImOYjWiBkbmkgns6hXbFewPV
+   0fBOgaL8y5JENBb82ll2EPNNkmqwFOzpaaf6mXwt4OsoAYH3KkFTM4Thq
+   w==;
+X-CSE-ConnectionGUID: 0EnyPG1HTKO06g0epC+vkg==
+X-CSE-MsgGUID: XOGQIYZqTrSJ/kXHa71LCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="55325939"
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="67792931"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 16:51:02 -0800
-X-CSE-ConnectionGUID: b4a29czITpGrlhlrFjlCpw==
-X-CSE-MsgGUID: eDYD+u+CQbC9tKf7YOtwDQ==
+   d="scan'208";a="55325939"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 17:23:18 -0800
+X-CSE-ConnectionGUID: 5Tve1oZwT5KT3ejN8Y0E3w==
+X-CSE-MsgGUID: H5s8mhRFR9a+FeSrqRf3PQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="197617360"
+   d="scan'208";a="197770808"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 15 Dec 2025 16:51:00 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 15 Dec 2025 17:23:17 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVJHB-000000000zH-2NkA;
-	Tue, 16 Dec 2025 00:50:54 +0000
-Date: Tue, 16 Dec 2025 08:50:25 +0800
+	id 1vVJmU-0000000010d-3Wph;
+	Tue, 16 Dec 2025 01:23:14 +0000
+Date: Tue, 16 Dec 2025 09:22:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn: format string
- contains non-ascii character '\x93'
-Message-ID: <202512160807.7eHiIj9U-lkp@intel.com>
+Subject: arch/powerpc/kernel/cacheinfo.c:800 cacheinfo_create_index_dir()
+ warn: Calling kobject_put|get with state->initialized unset from line: 791
+Message-ID: <202512160926.egPHZGYn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Oleksij Rempel <o.rempel@pengutronix.de>
-CC: Thangaraj Samynathan <thangaraj.s@microchip.com>
-
-Hi Oleksij,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+TO: Andreas Gruenbacher <agruenba@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: d39f339d2603736ff90b0b32d9aea3b954307fd5 net: usb: lan78xx: refactor PHY init to separate detection and MAC configuration
-date:   7 months ago
+commit: ae9f3bd8259a0a8f67be2420e66bb05fbb95af48 gfs2: replace sd_aspace with sd_inode
+date:   8 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 7 months ago
-config: sparc-randconfig-r072-20251213 (https://download.01.org/0day-ci/archive/20251216/202512160807.7eHiIj9U-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.1.0
+:::::: commit date: 8 months ago
+config: powerpc-randconfig-r072-20251215 (https://download.01.org/0day-ci/archive/20251216/202512160926.egPHZGYn-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512160807.7eHiIj9U-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512160926.egPHZGYn-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn: format string contains non-ascii character '\x93'
+smatch warnings:
+arch/powerpc/kernel/cacheinfo.c:800 cacheinfo_create_index_dir() warn: Calling kobject_put|get with state->initialized unset from line: 791
 
-Old smatch warnings:
-drivers/net/usb/lan78xx.c:2529 lan78xx_register_fixed_phy() warn: format string contains non-ascii character '\xe2'
-drivers/net/usb/lan78xx.c:2529 lan78xx_register_fixed_phy() warn: format string contains non-ascii character '\x80'
-drivers/net/usb/lan78xx.c:2529 lan78xx_register_fixed_phy() warn: format string contains non-ascii character '\x93'
-drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn: format string contains non-ascii character '\xe2'
-drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn: format string contains non-ascii character '\x80'
-drivers/net/usb/lan78xx.c:3005 lan78xx_init_ltm() warn: missing unwind goto?
+vim +800 arch/powerpc/kernel/cacheinfo.c
 
-vim +2560 drivers/net/usb/lan78xx.c
+93197a36a9c16a Nathan Lynch     2008-12-23  784  
+061d19f279f9be Paul Gortmaker   2013-06-24  785  static void cacheinfo_create_index_dir(struct cache *cache, int index,
+061d19f279f9be Paul Gortmaker   2013-06-24  786  				       struct cache_dir *cache_dir)
+93197a36a9c16a Nathan Lynch     2008-12-23  787  {
+93197a36a9c16a Nathan Lynch     2008-12-23  788  	struct cache_index_dir *index_dir;
+93197a36a9c16a Nathan Lynch     2008-12-23  789  	int rc;
+93197a36a9c16a Nathan Lynch     2008-12-23  790  
+93197a36a9c16a Nathan Lynch     2008-12-23  791  	index_dir = kzalloc(sizeof(*index_dir), GFP_KERNEL);
+93197a36a9c16a Nathan Lynch     2008-12-23  792  	if (!index_dir)
+7e8039795a80bd Tobin C. Harding 2019-04-30  793  		return;
+93197a36a9c16a Nathan Lynch     2008-12-23  794  
+93197a36a9c16a Nathan Lynch     2008-12-23  795  	index_dir->cache = cache;
+93197a36a9c16a Nathan Lynch     2008-12-23  796  
+93197a36a9c16a Nathan Lynch     2008-12-23  797  	rc = kobject_init_and_add(&index_dir->kobj, &cache_index_type,
+93197a36a9c16a Nathan Lynch     2008-12-23  798  				  cache_dir->kobj, "index%d", index);
+7e8039795a80bd Tobin C. Harding 2019-04-30  799  	if (rc) {
+7e8039795a80bd Tobin C. Harding 2019-04-30 @800  		kobject_put(&index_dir->kobj);
+7e8039795a80bd Tobin C. Harding 2019-04-30  801  		return;
+7e8039795a80bd Tobin C. Harding 2019-04-30  802  	}
+93197a36a9c16a Nathan Lynch     2008-12-23  803  
+93197a36a9c16a Nathan Lynch     2008-12-23  804  	index_dir->next = cache_dir->index;
+93197a36a9c16a Nathan Lynch     2008-12-23  805  	cache_dir->index = index_dir;
+93197a36a9c16a Nathan Lynch     2008-12-23  806  
+93197a36a9c16a Nathan Lynch     2008-12-23  807  	cacheinfo_create_index_opt_attrs(index_dir);
+93197a36a9c16a Nathan Lynch     2008-12-23  808  }
+93197a36a9c16a Nathan Lynch     2008-12-23  809  
 
-d39f339d2603736 Oleksij Rempel            2025-05-05  2534  
-d39f339d2603736 Oleksij Rempel            2025-05-05  2535  /**
-d39f339d2603736 Oleksij Rempel            2025-05-05  2536   * lan78xx_get_phy() - Probe or register PHY device and set interface mode
-d39f339d2603736 Oleksij Rempel            2025-05-05  2537   * @dev: LAN78xx device structure
-d39f339d2603736 Oleksij Rempel            2025-05-05  2538   *
-d39f339d2603736 Oleksij Rempel            2025-05-05  2539   * This function attempts to find a PHY on the MDIO bus. If no PHY is found
-d39f339d2603736 Oleksij Rempel            2025-05-05  2540   * and the chip is LAN7801, it registers a fixed PHY as fallback. It also
-d39f339d2603736 Oleksij Rempel            2025-05-05  2541   * sets dev->interface based on chip ID and detected PHY type.
-d39f339d2603736 Oleksij Rempel            2025-05-05  2542   *
-d39f339d2603736 Oleksij Rempel            2025-05-05  2543   * Return: a valid PHY device pointer, or ERR_PTR() on failure.
-d39f339d2603736 Oleksij Rempel            2025-05-05  2544   */
-d39f339d2603736 Oleksij Rempel            2025-05-05  2545  static struct phy_device *lan78xx_get_phy(struct lan78xx_net *dev)
-d39f339d2603736 Oleksij Rempel            2025-05-05  2546  {
-3b51cc75eba28a7 Colin Ian King            2018-02-01  2547  	struct phy_device *phydev;
-55d7de9de6c30ad Woojung.Huh@microchip.com 2015-07-30  2548  
-d39f339d2603736 Oleksij Rempel            2025-05-05  2549  	/* Attempt to locate a PHY on the MDIO bus */
-ce85e13ad6ef47d Woojung.Huh@microchip.com 2015-09-16  2550  	phydev = phy_find_first(dev->mdiobus);
-d39f339d2603736 Oleksij Rempel            2025-05-05  2551  
-d39f339d2603736 Oleksij Rempel            2025-05-05  2552  	switch (dev->chipid) {
-d39f339d2603736 Oleksij Rempel            2025-05-05  2553  	case ID_REV_CHIP_ID_7801_:
-d39f339d2603736 Oleksij Rempel            2025-05-05  2554  		if (phydev) {
-d39f339d2603736 Oleksij Rempel            2025-05-05  2555  			/* External RGMII PHY detected */
-d39f339d2603736 Oleksij Rempel            2025-05-05  2556  			dev->interface = PHY_INTERFACE_MODE_RGMII_ID;
-d39f339d2603736 Oleksij Rempel            2025-05-05  2557  			phydev->is_internal = false;
-d39f339d2603736 Oleksij Rempel            2025-05-05  2558  
-d39f339d2603736 Oleksij Rempel            2025-05-05  2559  			if (!phydev->drv)
-d39f339d2603736 Oleksij Rempel            2025-05-05 @2560  				netdev_warn(dev->net,
-d39f339d2603736 Oleksij Rempel            2025-05-05  2561  					    "PHY driver not found – assuming RGMII delays are on PCB or strapped for the PHY\n");
-d39f339d2603736 Oleksij Rempel            2025-05-05  2562  
-d39f339d2603736 Oleksij Rempel            2025-05-05  2563  			return phydev;
-ce85e13ad6ef47d Woojung.Huh@microchip.com 2015-09-16  2564  		}
-d39f339d2603736 Oleksij Rempel            2025-05-05  2565  
-89b36fb5e532447 Raghuram Chary J          2018-04-28  2566  		dev->interface = PHY_INTERFACE_MODE_RGMII;
-d39f339d2603736 Oleksij Rempel            2025-05-05  2567  		/* No PHY found – fallback to fixed PHY (e.g. KSZ switch board) */
-d39f339d2603736 Oleksij Rempel            2025-05-05  2568  		return lan78xx_register_fixed_phy(dev);
-d39f339d2603736 Oleksij Rempel            2025-05-05  2569  
-d39f339d2603736 Oleksij Rempel            2025-05-05  2570  	case ID_REV_CHIP_ID_7800_:
-d39f339d2603736 Oleksij Rempel            2025-05-05  2571  	case ID_REV_CHIP_ID_7850_:
-d39f339d2603736 Oleksij Rempel            2025-05-05  2572  		if (!phydev)
-d39f339d2603736 Oleksij Rempel            2025-05-05  2573  			return ERR_PTR(-ENODEV);
-d39f339d2603736 Oleksij Rempel            2025-05-05  2574  
-d39f339d2603736 Oleksij Rempel            2025-05-05  2575  		/* These use internal GMII-connected PHY */
-d39f339d2603736 Oleksij Rempel            2025-05-05  2576  		dev->interface = PHY_INTERFACE_MODE_GMII;
-d39f339d2603736 Oleksij Rempel            2025-05-05  2577  		phydev->is_internal = true;
-d39f339d2603736 Oleksij Rempel            2025-05-05  2578  		return phydev;
-d39f339d2603736 Oleksij Rempel            2025-05-05  2579  
-d39f339d2603736 Oleksij Rempel            2025-05-05  2580  	default:
-d39f339d2603736 Oleksij Rempel            2025-05-05  2581  		netdev_err(dev->net, "Unknown CHIP ID: 0x%08x\n", dev->chipid);
-d39f339d2603736 Oleksij Rempel            2025-05-05  2582  		return ERR_PTR(-ENODEV);
-d39f339d2603736 Oleksij Rempel            2025-05-05  2583  	}
-d39f339d2603736 Oleksij Rempel            2025-05-05  2584  }
-d39f339d2603736 Oleksij Rempel            2025-05-05  2585  
+:::::: The code at line 800 was first introduced by commit
+:::::: 7e8039795a80bdf1418964b9cabef6168bc5d9a4 powerpc/cacheinfo: Fix kobject memleak
+
+:::::: TO: Tobin C. Harding <tobin@kernel.org>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
