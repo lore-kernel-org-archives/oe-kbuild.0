@@ -1,197 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23F225228C
-	for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 17:44:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD470287276;
+	Wed, 17 Dec 2025 22:22:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765993448; cv=none; b=QCdUKDBvXs72IrpbahYgLhWzrpdbA+whgxREO4AonTTb2Xxlb/AAzzR+seuQdIXlz6Lm56N4BUMCGmlBL3pnjRli+nz3w7vDxTakC6YVUl0rPZXrTNoJLZx+3k/LUIlsJGrm/H6VZImxNhtrSA3e65SzG4T7Ea0nIDtfGGS7nio=
+	t=1766010155; cv=none; b=pguFJVPh2f5Xwbcy7Pd5aAhoWtZFocEVPlc0S0C0M3WEHS7tcVtozlcSU7aXZzXEn5XxrhJ15Su4QCEGRRqYpCYvEDz/IPjY5DGKBUvjOZkJ/UW/KZFxQUGaepMQCPN3Of0AVdueLEDJw92MS3xm1ZHI3iM5QoNCCv3Rs6MDtII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765993448; c=relaxed/simple;
-	bh=3QwrtzCxQ8FXjD4cJvM0sj1GYuLSVTzDaFU7HZ/vcKc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j/jHQ/pNFjAwc6M5mKL7bjmfxC1d2bzkBZ6Ol4CrrHHYzak5gkOfuogyW5H8YWS603AbObVxyQ6o4XlAlSm6MbrcrxK4Z9m8nhVUnq8OEKJstJX7XaC16YmNKhruYAoWWiuG8YVQpNqku61BiVb7i6lzCTSd2W7BCWqLLhwA/IQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dwcz99vm; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766010155; c=relaxed/simple;
+	bh=7eL1qkwDiS8+URLPuArYTaJEq1bltmjz2Es0TSkL1Io=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Asljp0hx62OZ54yZ0+qEVMBmX0NCdTgB1vXcJ+DhglnnakEiZpoM7+040DeiYTShqsfdTS0ozXNksi8xfaWVpBg3GEb3jG4N6m2CRGWLNH1pwWzGS4w1+FLQg3j7zySbaVgC+mdVvgRowYEKToES7+n4z4Y6mRvRE2+qOEa/kLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OE/Nx4JU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dwcz99vm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765993447; x=1797529447;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3QwrtzCxQ8FXjD4cJvM0sj1GYuLSVTzDaFU7HZ/vcKc=;
-  b=dwcz99vmWbWaGnQTDeh6P0e108mmwQcsnP0KbR8Fj6UXmfdC5tD5VUhD
-   TiUpH03gTYb9/2RXs85y6r0PZpkBqN9gcTsCn4vnSL/ntOMLILHLGrEpN
-   P3xcpH0T1MoV88rAB/lkCJCu0mGd+fK+aZDlAcRBiUPBEUc62V+CJgxLD
-   6/dvWk17OiRir13FZwgrOCnEIkMLXW2nv4eg9tD146axXZ4icGPnlGGma
-   du3QuEDEWrGsopZ3B6AeK2nO0idNe+dkQMJLhl8M48COAhEp2gOzW++zf
-   vwx3fpo8rrn9SowSV7o7tfZiJD5CWH+1KCzU9tZnesWbmvTyq4Bjit65W
-   A==;
-X-CSE-ConnectionGUID: K5+qaUBzTjegxBB2rSk+yQ==
-X-CSE-MsgGUID: j1dZ9DehRqGJsfMH1fhVeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="71794399"
-X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="71794399"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 09:44:05 -0800
-X-CSE-ConnectionGUID: hsP73dMsQbS+dQMkZU8hRQ==
-X-CSE-MsgGUID: 3s7xp/hoTsGMJse5nuBYgw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="198610125"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 17 Dec 2025 09:44:03 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vVvZB-0000000013f-20VD;
-	Wed, 17 Dec 2025 17:44:01 +0000
-Date: Thu, 18 Dec 2025 01:43:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: security/apparmor/label.c:1886 aa_label_strn_parse() warn:
- potentially one past the end of array 'vec[i]'
-Message-ID: <202512180126.G85lF99L-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OE/Nx4JU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53EBCC113D0;
+	Wed, 17 Dec 2025 22:22:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766010154;
+	bh=7eL1qkwDiS8+URLPuArYTaJEq1bltmjz2Es0TSkL1Io=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OE/Nx4JU44XpLz5ohJEIcpt2EYJxuOl4XuJmaoSHUgAl0TTMnwMp6nshh0rw+e+fY
+	 /g4G06tV3PcBRrPWh7ziWWLXmaXMONK5Rh+1dl5g45DLtBze95P6hgkQFxFOvxbdtM
+	 qknZqtIZVUuL2FV8NOBZoEHR7IV4aZE3Gl1abh7aqyvjjE2zRHKgVz25I6amoHrbAQ
+	 CJqnMYYzthKlyxvopkkuHT6kYQl9lLBYB4O30pw/LPcs2xmeTogHQsyDwkXLNqfVE/
+	 G0iv/I5GtusOLE3fCMfaPVgX2vRdgZTtYE5JdcSXsVBdyA5HKgoUhLKzg8QYY0oYJJ
+	 Vp7Us69pUQm+w==
+From: SeongJae Park <sj@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	oe-kbuild@lists.linux.dev,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [sj:damon/next 44/115] mm/damon/sysfs.c:920 damon_sysfs_sample_add_dirs() warn: missing unwind goto?
+Date: Wed, 17 Dec 2025 14:22:30 -0800
+Message-ID: <20251217222230.3221-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <202512141528.AD9GSzHJ-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Suren Baghdasaryan <surenb@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+On Wed, 17 Dec 2025 19:03:40 +0300 Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-commit: 07438779313caafe52ac1a1a6958d735a5938988 alloc_tag: avoid current->alloc_tag manipulations when profiling is disabled
-date:   11 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-randconfig-161-20251213 (https://download.01.org/0day-ci/archive/20251218/202512180126.G85lF99L-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> head:   4daf22e4c21ef13ee2779580295eb0073dc3163b
+> commit: f4df9946a1d00c8aa6326f28807efec79af1c2ea [44/115] mm/damon/sysfs: implement sample/filters/ directory
+> config: i386-randconfig-141-20251214 (https://download.01.org/0day-ci/archive/20251214/202512141528.AD9GSzHJ-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202512141528.AD9GSzHJ-lkp@intel.com/
+> 
+> smatch warnings:
+> mm/damon/sysfs.c:920 damon_sysfs_sample_add_dirs() warn: missing unwind goto?
+> 
+> vim +920 mm/damon/sysfs.c
+> 
+> 4242d70b872082 SeongJae Park 2025-12-02  901  static int damon_sysfs_sample_add_dirs(
+> 4242d70b872082 SeongJae Park 2025-12-02  902  		struct damon_sysfs_sample *sample)
+> 4242d70b872082 SeongJae Park 2025-12-02  903  {
+> 4242d70b872082 SeongJae Park 2025-12-02  904  	struct damon_sysfs_primitives *primitives;
+> f4df9946a1d00c SeongJae Park 2025-12-02  905  	struct damon_sysfs_sample_filters *filters;
+> 4242d70b872082 SeongJae Park 2025-12-02  906  	int err;
+> 4242d70b872082 SeongJae Park 2025-12-02  907  
+> 4242d70b872082 SeongJae Park 2025-12-02  908  	primitives = damon_sysfs_primitives_alloc(true, false);
+> 4242d70b872082 SeongJae Park 2025-12-02  909  	if (!primitives)
+> 4242d70b872082 SeongJae Park 2025-12-02  910  		return -ENOMEM;
+> 4242d70b872082 SeongJae Park 2025-12-02  911  	err = kobject_init_and_add(&primitives->kobj,
+> 4242d70b872082 SeongJae Park 2025-12-02  912  			&damon_sysfs_primitives_ktype, &sample->kobj,
+> 4242d70b872082 SeongJae Park 2025-12-02  913  			"primitives");
+> 4242d70b872082 SeongJae Park 2025-12-02  914  	if (err)
+> 4242d70b872082 SeongJae Park 2025-12-02  915  		goto put_primitives_out;
+> 4242d70b872082 SeongJae Park 2025-12-02  916  	sample->primitives = primitives;
+> 4242d70b872082 SeongJae Park 2025-12-02  917  
+> f4df9946a1d00c SeongJae Park 2025-12-02  918  	filters = damon_sysfs_sample_filters_alloc();
+> f4df9946a1d00c SeongJae Park 2025-12-02  919  	if (!filters)
+> f4df9946a1d00c SeongJae Park 2025-12-02 @920  		return -ENOMEM;
+> 
+> goto put_primitives_out;?
+> 
+> f4df9946a1d00c SeongJae Park 2025-12-02  921  	err = kobject_init_and_add(&filters->kobj,
+> f4df9946a1d00c SeongJae Park 2025-12-02  922  			&damon_sysfs_sample_filters_ktype, &sample->kobj,
+> f4df9946a1d00c SeongJae Park 2025-12-02  923  			"filters");
+> f4df9946a1d00c SeongJae Park 2025-12-02  924  	if (err)
+> f4df9946a1d00c SeongJae Park 2025-12-02  925  		goto put_filters_out;
+> f4df9946a1d00c SeongJae Park 2025-12-02  926  	sample->filters = filters;
+> f4df9946a1d00c SeongJae Park 2025-12-02  927  	return 0;
+> f4df9946a1d00c SeongJae Park 2025-12-02  928  put_filters_out:
+> f4df9946a1d00c SeongJae Park 2025-12-02  929  	kobject_put(&filters->kobj);
+> f4df9946a1d00c SeongJae Park 2025-12-02  930  	sample->filters = NULL;
+> 4242d70b872082 SeongJae Park 2025-12-02  931  put_primitives_out:
+> 4242d70b872082 SeongJae Park 2025-12-02  932  	kobject_put(&primitives->kobj);
+> 4242d70b872082 SeongJae Park 2025-12-02  933  	sample->primitives = NULL;
+> 4242d70b872082 SeongJae Park 2025-12-02  934  	return err;
+> 4242d70b872082 SeongJae Park 2025-12-02  935  }
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512180126.G85lF99L-lkp@intel.com/
+Thank you for catching this and sharing with me, Dan!  Just pushed a fix that
+simply following your suggestion, to damon/next tree.
 
-smatch warnings:
-security/apparmor/label.c:1886 aa_label_strn_parse() warn: potentially one past the end of array 'vec[i]'
-security/apparmor/label.c:1886 aa_label_strn_parse() warn: potentially one past the end of array 'vec[i]'
 
-vim +1886 security/apparmor/label.c
+Thanks,
+SJ
 
-f1bd904175e819 John Johansen 2017-06-09  1841  
-f1bd904175e819 John Johansen 2017-06-09  1842  /**
-95652cac83605d John Johansen 2017-09-06  1843   * aa_label_strn_parse - parse, validate and convert a text string to a label
-f1bd904175e819 John Johansen 2017-06-09  1844   * @base: base label to use for lookups (NOT NULL)
-f1bd904175e819 John Johansen 2017-06-09  1845   * @str: null terminated text string (NOT NULL)
-95652cac83605d John Johansen 2017-09-06  1846   * @n: length of str to parse, will stop at \0 if encountered before n
-f1bd904175e819 John Johansen 2017-06-09  1847   * @gfp: allocation type
-f1bd904175e819 John Johansen 2017-06-09  1848   * @create: true if should create compound labels if they don't exist
-f1bd904175e819 John Johansen 2017-06-09  1849   * @force_stack: true if should stack even if no leading &
-f1bd904175e819 John Johansen 2017-06-09  1850   *
-f1bd904175e819 John Johansen 2017-06-09  1851   * Returns: the matching refcounted label if present
-f1bd904175e819 John Johansen 2017-06-09  1852   *     else ERRPTR
-f1bd904175e819 John Johansen 2017-06-09  1853   */
-95652cac83605d John Johansen 2017-09-06  1854  struct aa_label *aa_label_strn_parse(struct aa_label *base, const char *str,
-95652cac83605d John Johansen 2017-09-06  1855  				     size_t n, gfp_t gfp, bool create,
-95652cac83605d John Johansen 2017-09-06  1856  				     bool force_stack)
-f1bd904175e819 John Johansen 2017-06-09  1857  {
-f1bd904175e819 John Johansen 2017-06-09  1858  	DEFINE_VEC(profile, vec);
-f1bd904175e819 John Johansen 2017-06-09  1859  	struct aa_label *label, *currbase = base;
-f1bd904175e819 John Johansen 2017-06-09  1860  	int i, len, stack = 0, error;
-95652cac83605d John Johansen 2017-09-06  1861  	const char *end = str + n;
-6e0654d20ed967 John Johansen 2017-09-06  1862  	const char *split;
-f1bd904175e819 John Johansen 2017-06-09  1863  
-f1bd904175e819 John Johansen 2017-06-09  1864  	AA_BUG(!base);
-f1bd904175e819 John Johansen 2017-06-09  1865  	AA_BUG(!str);
-f1bd904175e819 John Johansen 2017-06-09  1866  
-95652cac83605d John Johansen 2017-09-06  1867  	str = skipn_spaces(str, n);
-511f7b5b835726 John Johansen 2021-12-14  1868  	if (str == NULL || (AA_DEBUG_LABEL && *str == '_' &&
-511f7b5b835726 John Johansen 2021-12-14  1869  			    base != &root_ns->unconfined->label))
-95652cac83605d John Johansen 2017-09-06  1870  		return ERR_PTR(-EINVAL);
-475bdda1f00074 John Johansen 2017-09-08  1871  
-95652cac83605d John Johansen 2017-09-06  1872  	len = label_count_strn_entries(str, end - str);
-f1bd904175e819 John Johansen 2017-06-09  1873  	if (*str == '&' || force_stack) {
-f1bd904175e819 John Johansen 2017-06-09  1874  		/* stack on top of base */
-f1bd904175e819 John Johansen 2017-06-09  1875  		stack = base->size;
-f1bd904175e819 John Johansen 2017-06-09  1876  		len += stack;
-f1bd904175e819 John Johansen 2017-06-09  1877  		if (*str == '&')
-f1bd904175e819 John Johansen 2017-06-09  1878  			str++;
-f1bd904175e819 John Johansen 2017-06-09  1879  	}
-26b7899510ae24 John Johansen 2017-08-06  1880  
-f1bd904175e819 John Johansen 2017-06-09  1881  	error = vec_setup(profile, vec, len, gfp);
-f1bd904175e819 John Johansen 2017-06-09  1882  	if (error)
-f1bd904175e819 John Johansen 2017-06-09  1883  		return ERR_PTR(error);
-f1bd904175e819 John Johansen 2017-06-09  1884  
-f1bd904175e819 John Johansen 2017-06-09  1885  	for (i = 0; i < stack; i++)
-f1bd904175e819 John Johansen 2017-06-09 @1886  		vec[i] = aa_get_profile(base->vec[i]);
-f1bd904175e819 John Johansen 2017-06-09  1887  
-95652cac83605d John Johansen 2017-09-06  1888  	for (split = aa_label_strn_split(str, end - str), i = stack;
-6e0654d20ed967 John Johansen 2017-09-06  1889  	     split && i < len; i++) {
-f1bd904175e819 John Johansen 2017-06-09  1890  		vec[i] = fqlookupn_profile(base, currbase, str, split - str);
-f1bd904175e819 John Johansen 2017-06-09  1891  		if (!vec[i])
-f1bd904175e819 John Johansen 2017-06-09  1892  			goto fail;
-f1bd904175e819 John Johansen 2017-06-09  1893  		/*
-f1bd904175e819 John Johansen 2017-06-09  1894  		 * if component specified a new ns it becomes the new base
-f1bd904175e819 John Johansen 2017-06-09  1895  		 * so that subsequent lookups are relative to it
-f1bd904175e819 John Johansen 2017-06-09  1896  		 */
-f1bd904175e819 John Johansen 2017-06-09  1897  		if (vec[i]->ns != labels_ns(currbase))
-f1bd904175e819 John Johansen 2017-06-09  1898  			currbase = &vec[i]->label;
-f1bd904175e819 John Johansen 2017-06-09  1899  		str = split + 3;
-95652cac83605d John Johansen 2017-09-06  1900  		split = aa_label_strn_split(str, end - str);
-f1bd904175e819 John Johansen 2017-06-09  1901  	}
-f1bd904175e819 John Johansen 2017-06-09  1902  	/* last element doesn't have a split */
-f1bd904175e819 John Johansen 2017-06-09  1903  	if (i < len) {
-95652cac83605d John Johansen 2017-09-06  1904  		vec[i] = fqlookupn_profile(base, currbase, str, end - str);
-f1bd904175e819 John Johansen 2017-06-09  1905  		if (!vec[i])
-f1bd904175e819 John Johansen 2017-06-09  1906  			goto fail;
-f1bd904175e819 John Johansen 2017-06-09  1907  	}
-f1bd904175e819 John Johansen 2017-06-09  1908  	if (len == 1)
-f1bd904175e819 John Johansen 2017-06-09  1909  		/* no need to free vec as len < LOCAL_VEC_ENTRIES */
-f1bd904175e819 John Johansen 2017-06-09  1910  		return &vec[0]->label;
-f1bd904175e819 John Johansen 2017-06-09  1911  
-f1bd904175e819 John Johansen 2017-06-09  1912  	len -= aa_vec_unique(vec, len, VEC_FLAG_TERMINATE);
-f1bd904175e819 John Johansen 2017-06-09  1913  	/* TODO: deal with reference labels */
-f1bd904175e819 John Johansen 2017-06-09  1914  	if (len == 1) {
-f1bd904175e819 John Johansen 2017-06-09  1915  		label = aa_get_label(&vec[0]->label);
-f1bd904175e819 John Johansen 2017-06-09  1916  		goto out;
-f1bd904175e819 John Johansen 2017-06-09  1917  	}
-f1bd904175e819 John Johansen 2017-06-09  1918  
-f1bd904175e819 John Johansen 2017-06-09  1919  	if (create)
-f1bd904175e819 John Johansen 2017-06-09  1920  		label = aa_vec_find_or_create_label(vec, len, gfp);
-f1bd904175e819 John Johansen 2017-06-09  1921  	else
-f1bd904175e819 John Johansen 2017-06-09  1922  		label = vec_find(vec, len);
-f1bd904175e819 John Johansen 2017-06-09  1923  	if (!label)
-f1bd904175e819 John Johansen 2017-06-09  1924  		goto fail;
-f1bd904175e819 John Johansen 2017-06-09  1925  
-f1bd904175e819 John Johansen 2017-06-09  1926  out:
-f1bd904175e819 John Johansen 2017-06-09  1927  	/* use adjusted len from after vec_unique, not original */
-f1bd904175e819 John Johansen 2017-06-09  1928  	vec_cleanup(profile, vec, len);
-f1bd904175e819 John Johansen 2017-06-09  1929  	return label;
-f1bd904175e819 John Johansen 2017-06-09  1930  
-f1bd904175e819 John Johansen 2017-06-09  1931  fail:
-f1bd904175e819 John Johansen 2017-06-09  1932  	label = ERR_PTR(-ENOENT);
-f1bd904175e819 John Johansen 2017-06-09  1933  	goto out;
-f1bd904175e819 John Johansen 2017-06-09  1934  }
-f1bd904175e819 John Johansen 2017-06-09  1935  
-
-:::::: The code at line 1886 was first introduced by commit
-:::::: f1bd904175e8190ce14aedee37e207ab51fe3b30 apparmor: add the base fns() for domain labels
-
-:::::: TO: John Johansen <john.johansen@canonical.com>
-:::::: CC: John Johansen <john.johansen@canonical.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[...]
