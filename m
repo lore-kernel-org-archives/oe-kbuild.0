@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1419D35CBBE
-	for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 13:09:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDEC735CBAF
+	for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 13:09:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765976982; cv=none; b=RTfjfvkMYZIQVKzBRzKeobVLEuQegIG2euVg71XsLE74XKTklNBWZyYIV0036rNZ/SBYIcSJp5cLeEYeKlfUj95vu9rqg3hLBpPK7ko4PUnq6+eROTs44bcRkF1WrVjCUZsZXu5XUN8SxHz0QC+I2dFyl0Ju11ZZf0Pie0QDmPg=
+	t=1765976984; cv=none; b=U4Oj3e3KRB0s3w/sZCHK9h4L1gfxq34eXkq0kLdIW3OKU7srRVWihBnf+GcAuy6zYhklBa8qoN0+2PrIAG5tXBj0VcbygXh1jq7qOsTbqdAAzSe0dcPkUEwOvDaB3yC7SfeGVC7z4p6Pecr8TF3NpFuBi9MhMqB0yvoy15dJW90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765976982; c=relaxed/simple;
-	bh=9liJC7+4oBLE2QPoI4aptM95WZ7WlbThyHiCCAp6IrI=;
+	s=arc-20240116; t=1765976984; c=relaxed/simple;
+	bh=UzHbYN4XaB58ABTD/fKiJI/6XYGa5EouyMXKhSHARM4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fQ/WFMhmlQtZE2nxYTyH8DvxY7sOEHSoP01AmapztCuUe7c/TAfzwl5u/pU8qUbVzmPKfdQuO9vD5ByO/O3xtwezdw7sYl51PzZnqce6BdZ2LsS3IEnw+r+0wxdSnIhfkXjKKqb1wmrqSA0zvaAsPWlg1A+LHwYMpC5YpGNZ+Y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j7bzOvSn; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=YXBEsCS0TnyoIcyjCSBLQ94DMnaA005bPVVoAjrW7a4POk7eAdoPMSH3UysytKu38LLmfVR+7y/zx4LKEPNiW/F78qrLL6gFnBG8P4T77OmgtutH0ksarbag/cFSSELlpAKfNJ4k0lYg7DPF+LyRTTrxah4yLDc4Wgnxv33ojIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kATP/OhF; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j7bzOvSn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kATP/OhF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765976981; x=1797512981;
+  t=1765976983; x=1797512983;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9liJC7+4oBLE2QPoI4aptM95WZ7WlbThyHiCCAp6IrI=;
-  b=j7bzOvSnYGgJ1/IpC5J2rwNdj7I9YWDm5rbchjawlL+776LK9zFiz5Lf
-   VKFAcI+xwZOAjBtJPXrJE3oTC0gYVEJ+rvKSqQsaY1Ja1FG8BS64Fo/Yp
-   cZEwYdtWbDTf4jZ6+I7THRhLUH5JlqClEPWjT5Sv/MeFRcq4CjiEb8RgI
-   9f00iixA0dTngeFSPtnEkDNGDFgxVHCp4KFunUPRkZJPRBv6CSwpPzSHW
-   H45Mu7RNubaZWcdBpQQ5Cfp54dpXYnlC5o7sEx+ssG0ac7wC8bOicWswy
-   goEDQ1uaYn7YFGNv4UKd42rK6GTA/VfRV6QOeAGHEYZms7R3jG0nEv17t
+  bh=UzHbYN4XaB58ABTD/fKiJI/6XYGa5EouyMXKhSHARM4=;
+  b=kATP/OhFhDoQTlbMVeUeaTplzMSfmECySXho0w3UXXd63IqJ1jkPJtQJ
+   5C6yaZ2NlliBQ4er1pjQLdFKRJS+VYruxqObCBZ9yt/1jLKWrYJDbXWOE
+   8tlJwyKHT+iUIiD+aYUflmS93BpC5nMlkpD2W/zDfSFSxPQTYb1ukAwia
+   SHRHAcQQTjT19TJ1sVwB/oNjxeGjex6khjeaRkSBv0MDilYJcRu4JJV9O
+   whSYRXzkEwhii7msxIfmxtgZRgHhVP1KCvzXPbso33C721QHAAC2pt4Uy
+   vADMJqS4Kcv2FLoOhmUlU9ADvO1MG+V3ZWsdGIKXhkVw0uCvRhYq6dzo7
    A==;
-X-CSE-ConnectionGUID: egTXmDuoTE+VK20GuQZtFg==
-X-CSE-MsgGUID: cJw+5o+oRQKr+6eSWuJg6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="67664360"
+X-CSE-ConnectionGUID: hKfW0zwWTKSD24YzygWlsg==
+X-CSE-MsgGUID: 1uQhLb1jRzmjUOf/g50MUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="67664363"
 X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="67664360"
+   d="scan'208";a="67664363"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 05:09:40 -0800
-X-CSE-ConnectionGUID: 3AdkgJicQSqxng+Rd5XKHg==
-X-CSE-MsgGUID: U/aW0XBQTmyNVmP9HhVNbQ==
+X-CSE-ConnectionGUID: iuf/bsQBSYibt9ke7CHeSQ==
+X-CSE-MsgGUID: xfT9r0GUSSa2EbnGrM0JFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="197403819"
+   d="scan'208";a="197403822"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 17 Dec 2025 05:09:39 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVrHc-000000000aP-46Ty;
-	Wed, 17 Dec 2025 13:09:36 +0000
-Date: Wed, 17 Dec 2025 21:08:59 +0800
+	id 1vVrHd-000000000aR-04Ri;
+	Wed, 17 Dec 2025 13:09:37 +0000
+Date: Wed, 17 Dec 2025 21:09:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/crypto/intel/qat/qat_common/qat_algs.c:127
- qat_alg_do_precomputes() error: buffer overflow 'hash->sha.state1' 64 <= 64
-Message-ID: <202512172137.hTYpXkUM-lkp@intel.com>
+Subject: drivers/hv/hv_common.c:242 hv_kmsg_dump() error: uninitialized
+ symbol 'bytes_written'.
+Message-ID: <202512172102.OcUspn1Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,83 +65,80 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Eric Biggers <ebiggers@kernel.org>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
+TO: Roman Kisel <romank@linux.microsoft.com>
+CC: Wei Liu <wei.liu@kernel.org>
+CC: Michael Kelley <mhklinux@outlook.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-commit: 408cf4850f640f08470450569c209dc3fdfaf12d crypto: qat - Use library to prepare HMAC keys
-date:   3 months ago
+commit: f41ceff1748612b9e1538becc13dc2f1617d9d14 Drivers: hv: Enable VTL mode for arm64
+date:   7 months ago
 :::::: branch date: 9 hours ago
-:::::: commit date: 3 months ago
-config: um-randconfig-r072-20251217 (https://download.01.org/0day-ci/archive/20251217/202512172137.hTYpXkUM-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+:::::: commit date: 7 months ago
+config: arm64-randconfig-r072-20251216 (https://download.01.org/0day-ci/archive/20251217/202512172102.OcUspn1Z-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512172137.hTYpXkUM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512172102.OcUspn1Z-lkp@intel.com/
 
 smatch warnings:
-drivers/crypto/intel/qat/qat_common/qat_algs.c:127 qat_alg_do_precomputes() error: buffer overflow 'hash->sha.state1' 64 <= 64
+drivers/hv/hv_common.c:242 hv_kmsg_dump() error: uninitialized symbol 'bytes_written'.
 
-vim +127 drivers/crypto/intel/qat/qat_common/qat_algs.c
+vim +/bytes_written +242 drivers/hv/hv_common.c
 
-d370cec3219490 drivers/crypto/qat/qat_common/qat_algs.c       Tadeusz Struk   2014-06-05   88  
-d370cec3219490 drivers/crypto/qat/qat_common/qat_algs.c       Tadeusz Struk   2014-06-05   89  static int qat_alg_do_precomputes(struct icp_qat_hw_auth_algo_blk *hash,
-338e84f3a9740a drivers/crypto/qat/qat_common/qat_algs.c       Tadeusz Struk   2014-12-08   90  				  struct qat_alg_aead_ctx *ctx,
-2bfd22766d0041 drivers/crypto/qat/qat_common/qat_algs.c       Wojciech Ziemba 2020-06-03   91  				  const u8 *auth_key,
-26c3af6c1580a0 drivers/crypto/qat/qat_common/qat_algs.c       Tadeusz Struk   2014-09-10   92  				  unsigned int auth_keylen)
-d370cec3219490 drivers/crypto/qat/qat_common/qat_algs.c       Tadeusz Struk   2014-06-05   93  {
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04   94  	switch (ctx->qat_hash_alg) {
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04   95  	case ICP_QAT_HW_AUTH_ALGO_SHA1: {
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04   96  		struct hmac_sha1_key key;
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04   97  		__be32 *istate = (__be32 *)hash->sha.state1;
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04   98  		__be32 *ostate = (__be32 *)(hash->sha.state1 +
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04   99  					    round_up(sizeof(key.istate.h), 8));
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  100  
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  101  		hmac_sha1_preparekey(&key, auth_key, auth_keylen);
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  102  		for (int i = 0; i < ARRAY_SIZE(key.istate.h); i++) {
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  103  			istate[i] = cpu_to_be32(key.istate.h[i]);
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  104  			ostate[i] = cpu_to_be32(key.ostate.h[i]);
-d370cec3219490 drivers/crypto/qat/qat_common/qat_algs.c       Tadeusz Struk   2014-06-05  105  		}
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  106  		memzero_explicit(&key, sizeof(key));
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  107  		return 0;
-d370cec3219490 drivers/crypto/qat/qat_common/qat_algs.c       Tadeusz Struk   2014-06-05  108  	}
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  109  	case ICP_QAT_HW_AUTH_ALGO_SHA256: {
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  110  		struct hmac_sha256_key key;
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  111  		__be32 *istate = (__be32 *)hash->sha.state1;
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  112  		__be32 *ostate = (__be32 *)(hash->sha.state1 +
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  113  					    sizeof(key.key.istate.h));
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  114  
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  115  		hmac_sha256_preparekey(&key, auth_key, auth_keylen);
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  116  		for (int i = 0; i < ARRAY_SIZE(key.key.istate.h); i++) {
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  117  			istate[i] = cpu_to_be32(key.key.istate.h[i]);
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  118  			ostate[i] = cpu_to_be32(key.key.ostate.h[i]);
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  119  		}
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  120  		memzero_explicit(&key, sizeof(key));
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  121  		return 0;
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  122  	}
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  123  	case ICP_QAT_HW_AUTH_ALGO_SHA512: {
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  124  		struct hmac_sha512_key key;
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  125  		__be64 *istate = (__be64 *)hash->sha.state1;
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  126  		__be64 *ostate = (__be64 *)(hash->sha.state1 +
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04 @127  					    sizeof(key.key.istate.h));
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  128  
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  129  		hmac_sha512_preparekey(&key, auth_key, auth_keylen);
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  130  		for (int i = 0; i < ARRAY_SIZE(key.key.istate.h); i++) {
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  131  			istate[i] = cpu_to_be64(key.key.istate.h[i]);
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  132  			ostate[i] = cpu_to_be64(key.key.ostate.h[i]);
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  133  		}
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  134  		memzero_explicit(&key, sizeof(key));
-408cf4850f640f drivers/crypto/intel/qat/qat_common/qat_algs.c Eric Biggers    2025-09-04  135  		return 0;
-d370cec3219490 drivers/crypto/qat/qat_common/qat_algs.c       Tadeusz Struk   2014-06-05  136  	}
-d370cec3219490 drivers/crypto/qat/qat_common/qat_algs.c       Tadeusz Struk   2014-06-05  137  	default:
-d370cec3219490 drivers/crypto/qat/qat_common/qat_algs.c       Tadeusz Struk   2014-06-05  138  		return -EFAULT;
-d370cec3219490 drivers/crypto/qat/qat_common/qat_algs.c       Tadeusz Struk   2014-06-05  139  	}
-d370cec3219490 drivers/crypto/qat/qat_common/qat_algs.c       Tadeusz Struk   2014-06-05  140  }
-d370cec3219490 drivers/crypto/qat/qat_common/qat_algs.c       Tadeusz Struk   2014-06-05  141  
+9c318a1d9b5000 Long Li         2023-04-20  220  
+9c318a1d9b5000 Long Li         2023-04-20  221  /*
+9c318a1d9b5000 Long Li         2023-04-20  222   * Callback from kmsg_dump. Grab as much as possible from the end of the kmsg
+9c318a1d9b5000 Long Li         2023-04-20  223   * buffer and call into Hyper-V to transfer the data.
+9c318a1d9b5000 Long Li         2023-04-20  224   */
+9c318a1d9b5000 Long Li         2023-04-20  225  static void hv_kmsg_dump(struct kmsg_dumper *dumper,
+e1a261ba599eec Jocelyn Falempe 2024-07-02  226  			 struct kmsg_dump_detail *detail)
+9c318a1d9b5000 Long Li         2023-04-20  227  {
+9c318a1d9b5000 Long Li         2023-04-20  228  	struct kmsg_dump_iter iter;
+9c318a1d9b5000 Long Li         2023-04-20  229  	size_t bytes_written;
+9c318a1d9b5000 Long Li         2023-04-20  230  
+9c318a1d9b5000 Long Li         2023-04-20  231  	/* We are only interested in panics. */
+e1a261ba599eec Jocelyn Falempe 2024-07-02  232  	if (detail->reason != KMSG_DUMP_PANIC || !sysctl_record_panic_msg)
+9c318a1d9b5000 Long Li         2023-04-20  233  		return;
+9c318a1d9b5000 Long Li         2023-04-20  234  
+9c318a1d9b5000 Long Li         2023-04-20  235  	/*
+9c318a1d9b5000 Long Li         2023-04-20  236  	 * Write dump contents to the page. No need to synchronize; panic should
+9c318a1d9b5000 Long Li         2023-04-20  237  	 * be single-threaded.
+9c318a1d9b5000 Long Li         2023-04-20  238  	 */
+9c318a1d9b5000 Long Li         2023-04-20  239  	kmsg_dump_rewind(&iter);
+9c318a1d9b5000 Long Li         2023-04-20  240  	kmsg_dump_get_buffer(&iter, false, hv_panic_page, HV_HYP_PAGE_SIZE,
+9c318a1d9b5000 Long Li         2023-04-20  241  			     &bytes_written);
+9c318a1d9b5000 Long Li         2023-04-20 @242  	if (!bytes_written)
+9c318a1d9b5000 Long Li         2023-04-20  243  		return;
+9c318a1d9b5000 Long Li         2023-04-20  244  	/*
+9c318a1d9b5000 Long Li         2023-04-20  245  	 * P3 to contain the physical address of the panic page & P4 to
+9c318a1d9b5000 Long Li         2023-04-20  246  	 * contain the size of the panic data in that page. Rest of the
+9c318a1d9b5000 Long Li         2023-04-20  247  	 * registers are no-op when the NOTIFY_MSG flag is set.
+9c318a1d9b5000 Long Li         2023-04-20  248  	 */
+0e3f7d120086c8 Nuno Das Neves  2024-02-20  249  	hv_set_msr(HV_MSR_CRASH_P0, 0);
+0e3f7d120086c8 Nuno Das Neves  2024-02-20  250  	hv_set_msr(HV_MSR_CRASH_P1, 0);
+0e3f7d120086c8 Nuno Das Neves  2024-02-20  251  	hv_set_msr(HV_MSR_CRASH_P2, 0);
+0e3f7d120086c8 Nuno Das Neves  2024-02-20  252  	hv_set_msr(HV_MSR_CRASH_P3, virt_to_phys(hv_panic_page));
+0e3f7d120086c8 Nuno Das Neves  2024-02-20  253  	hv_set_msr(HV_MSR_CRASH_P4, bytes_written);
+9c318a1d9b5000 Long Li         2023-04-20  254  
+9c318a1d9b5000 Long Li         2023-04-20  255  	/*
+9c318a1d9b5000 Long Li         2023-04-20  256  	 * Let Hyper-V know there is crash data available along with
+9c318a1d9b5000 Long Li         2023-04-20  257  	 * the panic message.
+9c318a1d9b5000 Long Li         2023-04-20  258  	 */
+0e3f7d120086c8 Nuno Das Neves  2024-02-20  259  	hv_set_msr(HV_MSR_CRASH_CTL,
+9c318a1d9b5000 Long Li         2023-04-20  260  		   (HV_CRASH_CTL_CRASH_NOTIFY |
+9c318a1d9b5000 Long Li         2023-04-20  261  		    HV_CRASH_CTL_CRASH_NOTIFY_MSG));
+9c318a1d9b5000 Long Li         2023-04-20  262  }
+9c318a1d9b5000 Long Li         2023-04-20  263  
+
+:::::: The code at line 242 was first introduced by commit
+:::::: 9c318a1d9b5000c77527011f158a75c5483510f5 Drivers: hv: move panic report code from vmbus to hv early init code
+
+:::::: TO: Long Li <longli@microsoft.com>
+:::::: CC: Wei Liu <wei.liu@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
