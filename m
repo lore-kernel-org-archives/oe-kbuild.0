@@ -1,74 +1,70 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901BB35A92E
-	for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 14:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13C434678D
+	for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 16:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765983156; cv=none; b=R6UZjCcUYW5kD7+Bv5PxXerisvHBUWaeSwp8hE7FLAc/MTVSmMJhcD3QwKr9RhFzcauEbAUySlS5Tf68PpZP3QBZP5bRK5GBD2WnzTMLW733L6mi9UpLzaOtuRBL0HoWLqnHdTsvxQRiHWUUAjBaopHeL5tACWBJuycn1sBSdfY=
+	t=1765987383; cv=none; b=ujvn0GBDKlepea2qITSsVYR6OcswGTBHscblsifJHYN0XFFpqOuLNGktmggNq1CcsGaAMPpwrVFZSoBBQJzgxfoFdlqw5j+ZbekTti+qNa+nK938lksJffiOsYuRQx83z8YKKQSXjibK0vB9bjg/RD627yCfU4XZNaskCPuIbCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765983156; c=relaxed/simple;
-	bh=sxUy2lyaRasPfwZBuh4CxUrW3wUHSpO7/djJ2qA5Ygs=;
+	s=arc-20240116; t=1765987383; c=relaxed/simple;
+	bh=+jsPHHAq1q5JHoKafiBk7Xu9mJ8kFC9dh/SryV0TfXk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qu2NxNyWecIpFmwiA/yX2Y8RdtnQxhwGTqNYHAlt1oDgfN56TVJxNIUZ+QfA3pG6AkG6u3+pVrtlwXLwzm51jZcsazYXt6UkEEUmFWWcYW9aDw+CUvCEIlqd+LVAZ41JmK+Dx953ldLiPeLBTlbHgZlAhDctttuNldytwgHtvwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s33DUlWB; arc=none smtp.client-ip=209.85.128.65
+	 Content-Disposition; b=cN5RsTEzt8i6fChv50YUjMKiya/r9BH4l4JzZ9s6U5BYlBH6yJYvOpY0PgmJN6BhSn59PhC5XRx0iFOEv4/+sU5gwzSCuBCKMMLiLXMe4Bxbxijrgw0IPqw+3CVLGzE3i6yjDvpXbZ8tWauLgaZUOe+5Px1lsHums17fEypLL7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ybQAxP63; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s33DUlWB"
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-47a8195e515so48296735e9.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 06:52:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ybQAxP63"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47774d3536dso8059455e9.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 08:03:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765983153; x=1766587953; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1765987380; x=1766592180; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=M9R1VSMxDjDo/PSx2Oy55CzlME/Hv+2vtYOdhIYqnXI=;
-        b=s33DUlWB/2xkvY7JjIV1S0NIlFAuP2EUSg07oRmAVYKRgyq02eAV/Z9n+9cvmUdtLW
-         AuTd9l6sCYxY8pBP9VxNU2x2UE98342wENW1NTmYERUByed70hGAzDWRm1bGJzDU/2Nw
-         Y3R9KRSdcJM8ddMtv8lH9K7/JDgOlLGiP2t1oZXgpeOrU5hUB+axuL5C69wL48zOS9c0
-         dPMPo7PB7piUTOpx0wnqULt9jTSAxyLallNsll1eHDhl7XRoHrZ0qV6A71Vf8JMvJHtL
-         yqdZrxKBPWLZ45rjIK8+liqrQDAWgIFy7cQYMBSjSAdkXqccNyor85Py8cZQtMULOENB
-         9ejg==
+        bh=sAM1ZigkLnC6OWYNyUHlM85lV5ISU4BM9beBtu1Nwv0=;
+        b=ybQAxP63s34wrcowxXZwwK9K0X6vldsZ9Oj2EhbHz8wvDvjyKrMa5IlVGfxzwtxkpg
+         47ubyNypNR8OnkVOXYrCobrIrk09aT5OBzxtSAONEovdkBw4vgyUGY0WDBRvttz0aaZw
+         e0I+UHlRrCz4+6hxBQ4x9RytRLaG2cztWi9lZV/ld+7PBz9KJUuDB0Heu6Z+D6IIuHSM
+         CYAJ/4O2herkYOYn5Gerxs9K4V7CLnb5YSRwHbEEE4sqPwHRTZ4jXvapp20OkLcBci6K
+         im3HBcxciLeOLkmIWVUY+9Mft/RAv7e3Rd+0Ihnw9fDA86UQQZZX/ODEz7zK0ULNLF7V
+         +M8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765983153; x=1766587953;
+        d=1e100.net; s=20230601; t=1765987380; x=1766592180;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=M9R1VSMxDjDo/PSx2Oy55CzlME/Hv+2vtYOdhIYqnXI=;
-        b=nEpIKmdxo0xCjA+GlPCDnZHCQEeXY537RubBEvpi4sm6ykpnqVsIT+qi7/ylI2MmCD
-         9T8PyF8ZyiT6um0zyWrOOPVFA1KLYdVCocCsy1rG+WgqbXk88qdsxYO87iXbLChUhmsk
-         3Ydwj8LV/k5p5qfGmZpbOHHmsmnYEanHBB8h4EHcKhIVHZivx6C6gJLIb9484MaqpVrl
-         AjbFDXc/PbHrW/DPNc5kMnAT3rYfjUZQ98Ws1BAz1srnTXfr626hWxs3P8V7Uq6QcwxF
-         PVzyWJv5lDI3uRRtlR4H+vnJO+gvLlfzpPPzdwD53lC8gMtjdl3V+sCKmCn8ThtVcvml
-         /Mzw==
-X-Gm-Message-State: AOJu0Yx2qQiGJYqkLxK5SzD9uAYDt3TmMMTlZs6nRmoZR9jGpWRJ6pVx
-	iGC4ryr7qYPmNFlA+eg3zJWaXHnTJd15LWyxLD8bClt9C4jitj4CmigJxa6i9HNDwbD8JOTg/44
-	y5PNW
-X-Gm-Gg: AY/fxX7QBMIKqHaJsUqoDcDOROspXS4zPDJxvH5RQZksDe6MHyR66g9Fn5qGaGkJa84
-	+LGlMHbCIWv5YVlECiZtxL4lqAkhM7p7qCRdwoJzkaDlwR2ONYJG8Uz9jPDQ1VmPa+MNl/peI53
-	jKSA3TP2f7KoT5K56wm+MOOItrm44aBBUQiw1qVrXNEt/rKbk6Uv4acz4a0sXTtQd6v6OpX8mJ0
-	ssR1clD76NnFsJIpNhIzkUEzbcwragin82xR/G4KefOUqAtPiDHtRzTc42wMhmY9Nym06Qif2LG
-	fiqwTBMZUFClZ/lSqqkxJkJPyJF6fItymEoZTblb4UkLYo5yusjgDB7HZNV0xInjkNzjQGaVrOx
-	IvsgqDEn5H3gUAfgW4CWOhpzaI+9oPBoyHaxvKy6yuJXcrTHaztUxDzDr7u6prabA6spVq9vE6G
-	CaxEtTUriHUxT9Pewv
-X-Google-Smtp-Source: AGHT+IEUXgc+xMhVYYGwfY93p/WQf2z6WwsqkfeeJjsB47eWKU/eSt1hkobG/fPK2ZsutEsXbAiyxA==
-X-Received: by 2002:a05:600d:13:b0:471:9da:5248 with SMTP id 5b1f17b1804b1-47a9327dc50mr163650505e9.26.1765983152581;
-        Wed, 17 Dec 2025 06:52:32 -0800 (PST)
+        bh=sAM1ZigkLnC6OWYNyUHlM85lV5ISU4BM9beBtu1Nwv0=;
+        b=V04Mq0Aej5kgKz1UheGRn8pFsBei34hQvxexuXr+sN9X7ubuGm5ow8Ny03KqYrJ/PH
+         s+5GlIUGKjdDzegY+SLKsxJ/JnDaft+vp5Ysf69JGtecre7qIKzQlr8VWnDkjbLOZm7m
+         GVdwyUhzUYcJ9Fih7dhDEhXquxuC5y8h7i8pxgsWo6BtDcDC9zAGfefRnaymdDqxyj10
+         8PYtWO5Vu5GwBODt+W2FLI83HVr9Q8kPUL45eyzB+Pp0CTkTRVCFVkMiYpI6aZKAvEPA
+         NOlCVqOHa5/g0Ffps5LUMWruHjmOjdyKoDQsqDHKQrhnQrEMNsSWZ0TP5R+4GoQ03UMD
+         kdSg==
+X-Gm-Message-State: AOJu0YyRUETGS7VWvCb3Nt4Zi55/xc/Vc8vHu4ZnYSCc910uju4p/lsE
+	jL7TvvSwBq3sG0Cn0X5Yzs9mjDArdJ/UHpFhA+rTcd692VVlZslpdBrHlO/es4j1bkboobPrEkR
+	3CBEU
+X-Gm-Gg: AY/fxX6fNqF+TeFZ1U6i2VM+2MCwv/T1Y+PnupKJBvkERjALawiNsXPSk+d1Yi9MieD
+	7QmzUBuW+EWXcF3vJL2SQRiwrQBw0ag4zIwksU7M+rd2XsXLbVJK9qdzzdDnOkC84WjvCXfCq6m
+	IptGmx6Y4u3gcbh8beGFnWCxYewcBjPzErfYjxiQPd3a5jcHnSfS/vyY8WRtc2Zoc2Urh0cxhit
+	DuLLbbi2M6DlWr/8N6kwEXsRO14hzLCzGVsVRkeA5e3V1LrRttVIi5ukuGqcoWazrd5FHgbF/mo
+	GoD0d7mlxH7HdILm7T+PE+fye1RcykpONM2dETdiClVufoN+MWr5+d9Cy5KQYAyk3a/7JQXtVix
+	0Llp5oT0EM04CgLdBlhJZnvE9A31c3cRRbuOZ/3+gKJnJqMGqrX01WrbBTF6hyD87N1Ao0pdNK3
+	JIMpeFJCPckuB36OkgDwLgqZBMkh8=
+X-Google-Smtp-Source: AGHT+IHArLw21LULHbIqVumT21fcwTx6zcl8NBEyIQYCJhyn3zJP8sKlLIUGnWIFt4KO+ZygtMKLxw==
+X-Received: by 2002:a05:600d:486:20b0:477:991c:a17c with SMTP id 5b1f17b1804b1-47a89da4685mr178551355e9.6.1765987379491;
+        Wed, 17 Dec 2025 08:02:59 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47bd90f0bd9sm33323815e9.5.2025.12.17.06.52.31
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4310adf7245sm5324399f8f.41.2025.12.17.08.02.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 06:52:32 -0800 (PST)
-Date: Wed, 17 Dec 2025 17:52:28 +0300
+        Wed, 17 Dec 2025 08:02:59 -0800 (PST)
+Date: Wed, 17 Dec 2025 19:02:55 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Tomasz Jeznach <tjeznach@rivosinc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Joerg Roedel <jroedel@suse.de>,
-	Nick Kossifidis <mick@ics.forth.gr>,
-	Sebastien Boeuf <seb@rivosinc.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>
-Subject: drivers/iommu/riscv/iommu-platform.c:54 riscv_iommu_platform_probe()
- warn: 'iommu->irqs_count' unsigned <= 0
-Message-ID: <202512141551.kZLTle5r-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:queue 8/12] drivers/char/tpm/tpm2-cmd.c:164
+ tpm2_pcr_read() warn: missing error code? 'rc'
+Message-ID: <202512141417.YUHjFhWa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -77,80 +73,83 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20251217145228.GANYo9bDsTXs9vGK6tfu22MdFhdcZE4_SOBPaYErp8U@z>
+Message-ID: <20251217160255.9i1uqRKeDLkDX66akjufN9iKxmNJQEyIYnC9DxDshJM@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: 5c0ebbd3c6c6e00af112fe053e81ac0c7cafe647 iommu/riscv: Add RISC-V IOMMU platform device driver
-config: riscv-randconfig-r072-20251214 (https://download.01.org/0day-ci/archive/20251214/202512141551.kZLTle5r-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 9.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git queue
+head:   fa1990a85a2cacad684075ae3e5004bdb9f33805
+commit: ee8e850748ebc966d985fc493579bb7e06c07087 [8/12] tpm-buf: Implement managed allocations
+config: x86_64-randconfig-r072-20251214 (https://download.01.org/0day-ci/archive/20251214/202512141417.YUHjFhWa-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512141551.kZLTle5r-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512141417.YUHjFhWa-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/riscv/iommu-platform.c:54 riscv_iommu_platform_probe() warn: 'iommu->irqs_count' unsigned <= 0
+drivers/char/tpm/tpm2-cmd.c:164 tpm2_pcr_read() warn: missing error code? 'rc'
 
-vim +54 drivers/iommu/riscv/iommu-platform.c
+vim +/rc +164 drivers/char/tpm/tpm2-cmd.c
 
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  20  static int riscv_iommu_platform_probe(struct platform_device *pdev)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  21  {
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  22  	struct device *dev = &pdev->dev;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  23  	struct riscv_iommu_device *iommu = NULL;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  24  	struct resource *res = NULL;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  25  	int vec;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  26  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  27  	iommu = devm_kzalloc(dev, sizeof(*iommu), GFP_KERNEL);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  28  	if (!iommu)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  29  		return -ENOMEM;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  30  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  31  	iommu->dev = dev;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  32  	iommu->reg = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  33  	if (IS_ERR(iommu->reg))
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  34  		return dev_err_probe(dev, PTR_ERR(iommu->reg),
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  35  				     "could not map register region\n");
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  36  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  37  	dev_set_drvdata(dev, iommu);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  38  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  39  	/* Check device reported capabilities / features. */
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  40  	iommu->caps = riscv_iommu_readq(iommu, RISCV_IOMMU_REG_CAPABILITIES);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  41  	iommu->fctl = riscv_iommu_readl(iommu, RISCV_IOMMU_REG_FCTL);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  42  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  43  	/* For now we only support WSI */
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  44  	switch (FIELD_GET(RISCV_IOMMU_CAPABILITIES_IGS, iommu->caps)) {
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  45  	case RISCV_IOMMU_CAPABILITIES_IGS_WSI:
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  46  	case RISCV_IOMMU_CAPABILITIES_IGS_BOTH:
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  47  		break;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  48  	default:
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  49  		return dev_err_probe(dev, -ENODEV,
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  50  				     "unable to use wire-signaled interrupts\n");
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  51  	}
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  52  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  53  	iommu->irqs_count = platform_irq_count(pdev);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15 @54  	if (iommu->irqs_count <= 0)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  55  		return dev_err_probe(dev, -ENODEV,
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  56  				     "no IRQ resources provided\n");
+879b589210a9a0 Roberto Sassu   2019-02-06  117  int tpm2_pcr_read(struct tpm_chip *chip, u32 pcr_idx,
+879b589210a9a0 Roberto Sassu   2019-02-06  118  		  struct tpm_digest *digest, u16 *digest_size_ptr)
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  119  {
+879b589210a9a0 Roberto Sassu   2019-02-06  120  	int i;
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  121  	int rc;
+91f7f3d773a469 Roberto Sassu   2017-06-23  122  	struct tpm2_pcr_read_out *out;
+91f7f3d773a469 Roberto Sassu   2017-06-23  123  	u8 pcr_select[TPM2_PCR_SELECT_MIN] = {0};
+879b589210a9a0 Roberto Sassu   2019-02-06  124  	u16 digest_size;
+879b589210a9a0 Roberto Sassu   2019-02-06  125  	u16 expected_digest_size = 0;
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  126  
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  127  	struct tpm_buf *buf __free(kfree) = kzalloc(TPM_BUFSIZE, GFP_KERNEL);
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  128  	if (!buf)
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  129  		return -ENOMEM;
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  130  
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  131  	if (pcr_idx >= TPM2_PLATFORM_PCR)
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  132  		return -EINVAL;
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  133  
+879b589210a9a0 Roberto Sassu   2019-02-06  134  	if (!digest_size_ptr) {
+879b589210a9a0 Roberto Sassu   2019-02-06  135  		for (i = 0; i < chip->nr_allocated_banks &&
+879b589210a9a0 Roberto Sassu   2019-02-06  136  		     chip->allocated_banks[i].alg_id != digest->alg_id; i++)
+879b589210a9a0 Roberto Sassu   2019-02-06  137  			;
+879b589210a9a0 Roberto Sassu   2019-02-06  138  
+879b589210a9a0 Roberto Sassu   2019-02-06  139  		if (i == chip->nr_allocated_banks)
+879b589210a9a0 Roberto Sassu   2019-02-06  140  			return -EINVAL;
+879b589210a9a0 Roberto Sassu   2019-02-06  141  
+879b589210a9a0 Roberto Sassu   2019-02-06  142  		expected_digest_size = chip->allocated_banks[i].digest_size;
+879b589210a9a0 Roberto Sassu   2019-02-06  143  	}
+879b589210a9a0 Roberto Sassu   2019-02-06  144  
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  145  	tpm_buf_init(buf, TPM_BUFSIZE);
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  146  	tpm_buf_reset(buf, TPM2_ST_NO_SESSIONS, TPM2_CC_PCR_READ);
+91f7f3d773a469 Roberto Sassu   2017-06-23  147  
+91f7f3d773a469 Roberto Sassu   2017-06-23  148  	pcr_select[pcr_idx >> 3] = 1 << (pcr_idx & 0x7);
+91f7f3d773a469 Roberto Sassu   2017-06-23  149  
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  150  	tpm_buf_append_u32(buf, 1);
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  151  	tpm_buf_append_u16(buf, digest->alg_id);
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  152  	tpm_buf_append_u8(buf, TPM2_PCR_SELECT_MIN);
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  153  	tpm_buf_append(buf, (const unsigned char *)pcr_select,
+91f7f3d773a469 Roberto Sassu   2017-06-23  154  		       sizeof(pcr_select));
+91f7f3d773a469 Roberto Sassu   2017-06-23  155  
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  156  	rc = tpm_transmit_cmd(chip, buf, 0, "TPM2_PCR_Read");
+879b589210a9a0 Roberto Sassu   2019-02-06  157  	if (rc)
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  158  		return rc;
+879b589210a9a0 Roberto Sassu   2019-02-06  159  
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  160  	out = (struct tpm2_pcr_read_out *)&buf->data[TPM_HEADER_SIZE];
+879b589210a9a0 Roberto Sassu   2019-02-06  161  	digest_size = be16_to_cpu(out->digest_size);
+879b589210a9a0 Roberto Sassu   2019-02-06  162  	if (digest_size > sizeof(digest->digest) ||
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18  163  	    (!digest_size_ptr && digest_size != expected_digest_size))
+ee8e850748ebc9 Jarkko Sakkinen 2025-10-18 @164  		return rc;
 
-platform_irq_count() can return -EPROBE_DEFER so iommu->irqs_count needs
-to be signed.  (It's unsigned now).
+return -EINVAL;
 
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  57  	if (iommu->irqs_count > RISCV_IOMMU_INTR_COUNT)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  58  		iommu->irqs_count = RISCV_IOMMU_INTR_COUNT;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  59  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  60  	for (vec = 0; vec < iommu->irqs_count; vec++)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  61  		iommu->irqs[vec] = platform_get_irq(pdev, vec);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  62  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  63  	/* Enable wire-signaled interrupts, fctl.WSI */
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  64  	if (!(iommu->fctl & RISCV_IOMMU_FCTL_WSI)) {
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  65  		iommu->fctl |= RISCV_IOMMU_FCTL_WSI;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  66  		riscv_iommu_writel(iommu, RISCV_IOMMU_REG_FCTL, iommu->fctl);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  67  	}
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  68  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  69  	return riscv_iommu_init(iommu);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  70  };
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  165  
+879b589210a9a0 Roberto Sassu   2019-02-06  166  	if (digest_size_ptr)
+879b589210a9a0 Roberto Sassu   2019-02-06  167  		*digest_size_ptr = digest_size;
+879b589210a9a0 Roberto Sassu   2019-02-06  168  
+879b589210a9a0 Roberto Sassu   2019-02-06  169  	memcpy(digest->digest, out->digest, digest_size);
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  170  	return rc;
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  171  }
 
 -- 
 0-DAY CI Kernel Test Service
