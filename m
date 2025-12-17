@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8DC1E1DFC
-	for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 02:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819412C1594
+	for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 04:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765937435; cv=none; b=uBxyvqNTFH3evV4qIavmQt4sEaFsp4fOFjL3E8p5WzlwOlICUHl+f1c3dDzO59Tv5ZW8+EHk13XEsddQeUh40fQBtXW1zhBHdOhzj32w5XssjiJV1eGRBQdQXYb81JbzaSP4yL1PbMYl4HZB/eahpNMjVDJgTLv0BrVeW3JlHmE=
+	t=1765944816; cv=none; b=GzUZ5FrglHIQRHqQAvhHu+m2Fk6p2EGNcel8OK0QrYZhLxYBpkO6BPwxBH0a041jfkhYM6Hl+2JFNUhEdkADI2pk8Q/NlzODE7NQklfVmF6Wu6iJYfyOChl0PiQQKwiKm8P55Z8hN63HTKOPoKmAlzZnzf/3BylaNX5vxKOhtkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765937435; c=relaxed/simple;
-	bh=ObUqZVlXC5unEP0maOJzyveY84MOyNRuh7XRs11/dwM=;
+	s=arc-20240116; t=1765944816; c=relaxed/simple;
+	bh=P3elSZsPDJNeFunPFhabMBOZ/TqfNE3w25EOpQ9k58o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZGC1Wie895jAb3x+uxdrP0AeKN+4idm+E9N5cwAWmWGkZCVfRPp7bwa+BZlsmgMbOGgQ8qaBO6+2L1AXDBKDi8Y1Az0MN1M6xK5mY8lQprXgEXIgL/hDvPdEyVYt6JWuR5cGLrYuk8h0gUpudFiNb2THUtcM3KPqVXUN+UcFLvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bNtY+wSk; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=QHHi5irn5sjhMh6fxbBojwYDLuzHhxQuBMmkxH5eu76Igeqz8F92EfZ7vji1wuUoXEt0g5ZdShfyLaMEjsMjPHWGo27M5PsRws6voSg2o/50jj7eCvXiDYF4s0gXvc9H5tve5LEyDnPw1xAZ89jfE0CQQjK+aFfvqMaskO15a5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FZa8Xsc4; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bNtY+wSk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FZa8Xsc4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765937434; x=1797473434;
+  t=1765944815; x=1797480815;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ObUqZVlXC5unEP0maOJzyveY84MOyNRuh7XRs11/dwM=;
-  b=bNtY+wSk8Y+DdoWHZFwSonOXKbamyVv/iez3kImqeFFFN7bdSYx3z5PF
-   D4SLP53k9HvIMb1wr4WGxLcIR5XUGOWtjsInxfhcfAVVhfpzrKpzGi37/
-   1EMRKYL4kT5cFiBjYVKaJjLw70CXkO0aSLm68OJRuaNpMZD6SkWcn3dn0
-   LkKteEEwPoLB7MTAs4T77GwYxr51/k0Hojym7BH4tjW4ZLrvoc2WHUnps
-   xemiM55zsdF1BAaGH+CgPWBW5xXj6zwgooIoojnJg6jNVDhEaOS4IxM74
-   akm2TOKlQhnHph2MyZQRZNjm3GUVOkJod3zgPOmZwN1eJr9vcTLviyRNT
-   Q==;
-X-CSE-ConnectionGUID: qQKiLCy7Saa6dkddHjpfmw==
-X-CSE-MsgGUID: wD11LLo2R4ePfjsGByC/vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="78505967"
+  bh=P3elSZsPDJNeFunPFhabMBOZ/TqfNE3w25EOpQ9k58o=;
+  b=FZa8Xsc4xojeV9X0pLBfG060t9ujKyLZuzsgr1N8KazphQ9qBc+VnYPH
+   7b9CtV67TP9yY+G+ocENVn8jnka9uEi7GaXKqKS+QfmSv54SflkAF81at
+   hngV9LdGnfmCxpP0vIeI/MGpSw1NfEfiNuVzxNz/lodqeUl7xoeL3gxq0
+   zlYVa0YpbuEPNBAtBwMdi0+s/Zprpx8kuXnn1nC0P+J3qM2QGBLw6++0F
+   w5euMkKDL9Q2bXPp2j1cryrFuqJbbGIPu7+EWMvtTsy6eZ+jaSB/rwDJG
+   1LJktMcHWW5GlFUDhfYkj8x9uGJf7zoT3Z3NaGU8/C3NwxS4WNXsjWF52
+   g==;
+X-CSE-ConnectionGUID: 9tnJPnVzQn+0VVcom9Oh9w==
+X-CSE-MsgGUID: /nIvEvqiTqa3ueoB1pfboA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="67759636"
 X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
-   d="scan'208";a="78505967"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 18:10:33 -0800
-X-CSE-ConnectionGUID: MbpTy7kORiycS0BXXiwqYA==
-X-CSE-MsgGUID: gfM47PqTRLeVXDd1h7V34g==
+   d="scan'208";a="67759636"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 20:13:34 -0800
+X-CSE-ConnectionGUID: GiDQMFIOTr20BqwysRDlig==
+X-CSE-MsgGUID: sKifoYvaTC6EzMFNUSE6Wg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
-   d="scan'208";a="203090696"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Dec 2025 18:10:31 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
+   d="scan'208";a="198192229"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 16 Dec 2025 20:13:33 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVgzl-0000000043y-3PYt;
-	Wed, 17 Dec 2025 02:10:29 +0000
-Date: Wed, 17 Dec 2025 10:10:14 +0800
+	id 1vViuo-000000003U4-1XTp;
+	Wed, 17 Dec 2025 04:13:30 +0000
+Date: Wed, 17 Dec 2025 05:12:46 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/power/supply/pf1550-charger.c:594:8-33: WARNING: Threaded
- IRQ with no primary handler requested without IRQF_ONESHOT (unless it is
- nested IRQ)
-Message-ID: <202512171041.le9ry8Jd-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v4 1/5] dt-bindings: media: i2c: Add Sony IMX355
+Message-ID: <202512170550.YmwglAiE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,109 +61,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-CC: Lee Jones <lee@kernel.org>
-CC: Frank Li <Frank.Li@nxp.com>
+In-Reply-To: <20251211014846.16602-2-mailingradian@gmail.com>
+References: <20251211014846.16602-2-mailingradian@gmail.com>
+TO: Richard Acayan <mailingradian@gmail.com>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Konrad Dybcio <konradybcio@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+TO: Tianshu Qiu <tian.shu.qiu@intel.com>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+TO: linux-arm-msm@vger.kernel.org
+TO: devicetree@vger.kernel.org
+CC: Robert Mader <robert.mader@collabora.com>
+CC: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+CC: Richard Acayan <mailingradian@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   40fbbd64bba6c6e7a72885d2f59b6a3be9991eeb
-commit: 4b6b6433a97d5863b5340fc87f866d784fdf0783 power: supply: pf1550: add battery charger support
-date:   8 weeks ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 8 weeks ago
-config: microblaze-randconfig-r051-20251217 (https://download.01.org/0day-ci/archive/20251217/202512171041.le9ry8Jd-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 8.5.0
+Hi Richard,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.16-rc1 next-20251216]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Acayan/dt-bindings-media-i2c-Add-Sony-IMX355/20251211-095114
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20251211014846.16602-2-mailingradian%40gmail.com
+patch subject: [PATCH v4 1/5] dt-bindings: media: i2c: Add Sony IMX355
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm64-randconfig-2052-20251214 (https://download.01.org/0day-ci/archive/20251217/202512170550.YmwglAiE-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ecaf673850beb241957352bd61e95ed34256635f)
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512170550.YmwglAiE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202512171041.le9ry8Jd-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512170550.YmwglAiE-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/power/supply/pf1550-charger.c:594:8-33: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
-
-vim +594 drivers/power/supply/pf1550-charger.c
-
-4b6b6433a97d58 Samuel Kayode 2025-10-01  548  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  549  static int pf1550_charger_probe(struct platform_device *pdev)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  550  {
-4b6b6433a97d58 Samuel Kayode 2025-10-01  551  	const struct pf1550_ddata *pf1550 = dev_get_drvdata(pdev->dev.parent);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  552  	struct power_supply_config psy_cfg = {};
-4b6b6433a97d58 Samuel Kayode 2025-10-01  553  	struct pf1550_charger *chg;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  554  	int i, irq, ret;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  555  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  556  	chg = devm_kzalloc(&pdev->dev, sizeof(*chg), GFP_KERNEL);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  557  	if (!chg)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  558  		return -ENOMEM;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  559  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  560  	chg->dev = &pdev->dev;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  561  	chg->pf1550 = pf1550;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  562  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  563  	if (!chg->pf1550->regmap)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  564  		return dev_err_probe(&pdev->dev, -ENODEV,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  565  				     "failed to get regmap\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  566  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  567  	platform_set_drvdata(pdev, chg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  568  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  569  	ret = devm_delayed_work_autocancel(chg->dev, &chg->vbus_sense_work,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  570  					   pf1550_chg_vbus_work);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  571  	if (ret)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  572  		return dev_err_probe(chg->dev, ret,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  573  				     "failed to add vbus sense work\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  574  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  575  	ret = devm_delayed_work_autocancel(chg->dev, &chg->chg_sense_work,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  576  					   pf1550_chg_chg_work);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  577  	if (ret)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  578  		return dev_err_probe(chg->dev, ret,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  579  				     "failed to add charger sense work\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  580  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  581  	ret = devm_delayed_work_autocancel(chg->dev, &chg->bat_sense_work,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  582  					   pf1550_chg_bat_work);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  583  	if (ret)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  584  		return dev_err_probe(chg->dev, ret,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  585  				     "failed to add battery sense work\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  586  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  587  	for (i = 0; i < PF1550_CHARGER_IRQ_NR; i++) {
-4b6b6433a97d58 Samuel Kayode 2025-10-01  588  		irq = platform_get_irq(pdev, i);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  589  		if (irq < 0)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  590  			return irq;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  591  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  592  		chg->virqs[i] = irq;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  593  
-4b6b6433a97d58 Samuel Kayode 2025-10-01 @594  		ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  595  						pf1550_charger_irq_handler,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  596  						IRQF_NO_SUSPEND,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  597  						"pf1550-charger", chg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  598  		if (ret)
-4b6b6433a97d58 Samuel Kayode 2025-10-01  599  			return dev_err_probe(&pdev->dev, ret,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  600  					     "failed irq request\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  601  	}
-4b6b6433a97d58 Samuel Kayode 2025-10-01  602  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  603  	psy_cfg.drv_data = chg;
-4b6b6433a97d58 Samuel Kayode 2025-10-01  604  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  605  	chg->charger = devm_power_supply_register(&pdev->dev,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  606  						  &pf1550_charger_desc,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  607  						  &psy_cfg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  608  	if (IS_ERR(chg->charger))
-4b6b6433a97d58 Samuel Kayode 2025-10-01  609  		return dev_err_probe(&pdev->dev, PTR_ERR(chg->charger),
-4b6b6433a97d58 Samuel Kayode 2025-10-01  610  				     "failed: power supply register\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  611  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  612  	chg->battery = devm_power_supply_register(&pdev->dev,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  613  						  &pf1550_battery_desc,
-4b6b6433a97d58 Samuel Kayode 2025-10-01  614  						  &psy_cfg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  615  	if (IS_ERR(chg->battery))
-4b6b6433a97d58 Samuel Kayode 2025-10-01  616  		return dev_err_probe(&pdev->dev, PTR_ERR(chg->battery),
-4b6b6433a97d58 Samuel Kayode 2025-10-01  617  				     "failed: power supply register\n");
-4b6b6433a97d58 Samuel Kayode 2025-10-01  618  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  619  	pf1550_dt_parse_dev_info(chg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  620  
-4b6b6433a97d58 Samuel Kayode 2025-10-01  621  	return pf1550_reg_init(chg);
-4b6b6433a97d58 Samuel Kayode 2025-10-01  622  }
-4b6b6433a97d58 Samuel Kayode 2025-10-01  623  
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/media/i2c/sony,imx355.yaml: properties:port:properties:endpoint: 'anyOf' conditional failed, one must be fixed:
+   'data-lanes' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
+   'type' was expected
+   from schema $id: http://devicetree.org/meta-schemas/keywords.yaml
+   Documentation/devicetree/bindings/pinctrl/xlnx,versal-pinctrl.yaml: allOf: Missing additionalProperties/unevaluatedProperties constraint
 
 -- 
 0-DAY CI Kernel Test Service
