@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6450633858E
-	for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 17:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23F225228C
+	for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 17:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765992252; cv=none; b=fQTJ/ai5lybsrgEx3kSZgsqNSkXe9YYfeB+bRuhjJPAWvx137QnRh2BD13bhKyiUeb2K3x6NuR+ARnIIFZHPiNZaVNzgGTskzCKPUTX4QNSumO1+uK7AdPFJo+jcTdhrJYmeRUCGEhm55w4GOsBYWoDBSLH9etf6Yiq6cNgyw0g=
+	t=1765993448; cv=none; b=QCdUKDBvXs72IrpbahYgLhWzrpdbA+whgxREO4AonTTb2Xxlb/AAzzR+seuQdIXlz6Lm56N4BUMCGmlBL3pnjRli+nz3w7vDxTakC6YVUl0rPZXrTNoJLZx+3k/LUIlsJGrm/H6VZImxNhtrSA3e65SzG4T7Ea0nIDtfGGS7nio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765992252; c=relaxed/simple;
-	bh=31Txs25GvLP34jFqYZ7HVFn4B8ENwxhZKIxoj2h5pQE=;
+	s=arc-20240116; t=1765993448; c=relaxed/simple;
+	bh=3QwrtzCxQ8FXjD4cJvM0sj1GYuLSVTzDaFU7HZ/vcKc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pPWDTizgW47v94WIK6XcIFZeMPtypOTfrE9hVqnuFxMEVkfKmBuqFhB0MwJAFVcBsag14GNPgoaWJuI3/g5Zuonx3lpxgCo4X43jgPzTGxik4zFye/YX3N3W9LgVTDrg8lNhC3TVSw1DMXTKA1+kkw/yrtdTf358DZuVj+WJF+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=by3ylYX5; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=j/jHQ/pNFjAwc6M5mKL7bjmfxC1d2bzkBZ6Ol4CrrHHYzak5gkOfuogyW5H8YWS603AbObVxyQ6o4XlAlSm6MbrcrxK4Z9m8nhVUnq8OEKJstJX7XaC16YmNKhruYAoWWiuG8YVQpNqku61BiVb7i6lzCTSd2W7BCWqLLhwA/IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dwcz99vm; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="by3ylYX5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dwcz99vm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765992246; x=1797528246;
+  t=1765993447; x=1797529447;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=31Txs25GvLP34jFqYZ7HVFn4B8ENwxhZKIxoj2h5pQE=;
-  b=by3ylYX5Axws9TkP3X0nm3UNQZIWhEQobxCr/JIyu/KYp6Nybq1D9CB+
-   3tiKt0J4PQNqvGf2Xz9Vl21XxH57nnzHXYAzfRdem6+qN2Fg4XdUErapy
-   tEcgT0xlh4qNftrrzKVtHXSuSM24cwfZmkNk+uIvgvzO2RUBr3MXipXRH
-   VbLm2c7CxcJxr62Ht77wKJtSTB0x8XjIOAwpIxShUXvXVCJN5nQEz9qo0
-   ZtyjVqc5LiW6sL6pj9ZBrvH5Hpy3CEDgH8InL+rDRBcaG14rcaMO4UrwR
-   jYzvAuA3aku+p8foMHQEm6KviYp0oq5buaDtbK7aq0iuIYNY1izrP3Uvb
-   Q==;
-X-CSE-ConnectionGUID: n91ENVoqQM6tzg8XKGUAOA==
-X-CSE-MsgGUID: eNNXMu/yR8mhQzjUPf1Pww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="70514948"
+  bh=3QwrtzCxQ8FXjD4cJvM0sj1GYuLSVTzDaFU7HZ/vcKc=;
+  b=dwcz99vmWbWaGnQTDeh6P0e108mmwQcsnP0KbR8Fj6UXmfdC5tD5VUhD
+   TiUpH03gTYb9/2RXs85y6r0PZpkBqN9gcTsCn4vnSL/ntOMLILHLGrEpN
+   P3xcpH0T1MoV88rAB/lkCJCu0mGd+fK+aZDlAcRBiUPBEUc62V+CJgxLD
+   6/dvWk17OiRir13FZwgrOCnEIkMLXW2nv4eg9tD146axXZ4icGPnlGGma
+   du3QuEDEWrGsopZ3B6AeK2nO0idNe+dkQMJLhl8M48COAhEp2gOzW++zf
+   vwx3fpo8rrn9SowSV7o7tfZiJD5CWH+1KCzU9tZnesWbmvTyq4Bjit65W
+   A==;
+X-CSE-ConnectionGUID: K5+qaUBzTjegxBB2rSk+yQ==
+X-CSE-MsgGUID: j1dZ9DehRqGJsfMH1fhVeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="71794399"
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="70514948"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 09:24:03 -0800
-X-CSE-ConnectionGUID: pDJDP1xvQaSNmrs4quzgWg==
-X-CSE-MsgGUID: YxlIdjl4SU2AfomMm8qNVQ==
+   d="scan'208";a="71794399"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 09:44:05 -0800
+X-CSE-ConnectionGUID: hsP73dMsQbS+dQMkZU8hRQ==
+X-CSE-MsgGUID: 3s7xp/hoTsGMJse5nuBYgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="199173346"
+   d="scan'208";a="198610125"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Dec 2025 09:24:02 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 17 Dec 2025 09:44:03 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVvFn-0000000011m-49RP;
-	Wed, 17 Dec 2025 17:23:59 +0000
-Date: Thu, 18 Dec 2025 01:23:09 +0800
+	id 1vVvZB-0000000013f-20VD;
+	Wed, 17 Dec 2025 17:44:01 +0000
+Date: Thu, 18 Dec 2025 01:43:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c:3527
- iwl_trans_pcie_dump_monitor() error: we previously assumed
- 'trans->dbg.dest_tlv' could be null (see line 3512)
-Message-ID: <202512180128.QbBiA5Gb-lkp@intel.com>
+Subject: security/apparmor/label.c:1886 aa_label_strn_parse() warn:
+ potentially one past the end of array 'vec[i]'
+Message-ID: <202512180126.G85lF99L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,95 +65,132 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+TO: Suren Baghdasaryan <surenb@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-commit: c8a00a6e89ffee419a9190d2af9c75a7afe196d2 wifi: iwlwifi: pcie: move generation specific files to a folder
-date:   6 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 6 months ago
-config: alpha-randconfig-r073-20251217 (https://download.01.org/0day-ci/archive/20251218/202512180128.QbBiA5Gb-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.3.0
+commit: 07438779313caafe52ac1a1a6958d735a5938988 alloc_tag: avoid current->alloc_tag manipulations when profiling is disabled
+date:   11 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 11 months ago
+config: x86_64-randconfig-161-20251213 (https://download.01.org/0day-ci/archive/20251218/202512180126.G85lF99L-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512180128.QbBiA5Gb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512180126.G85lF99L-lkp@intel.com/
 
 smatch warnings:
-drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c:3527 iwl_trans_pcie_dump_monitor() error: we previously assumed 'trans->dbg.dest_tlv' could be null (see line 3512)
-drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/tx.c:723 iwl_pcie_txq_alloc() warn: check sign expansion for 'slots_num'
+security/apparmor/label.c:1886 aa_label_strn_parse() warn: potentially one past the end of array 'vec[i]'
+security/apparmor/label.c:1886 aa_label_strn_parse() warn: potentially one past the end of array 'vec[i]'
 
-vim +3527 drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c
+vim +1886 security/apparmor/label.c
 
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3503  
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3504  static u32
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3505  iwl_trans_pcie_dump_monitor(struct iwl_trans *trans,
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3506  			    struct iwl_fw_error_dump_data **data,
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3507  			    u32 monitor_len)
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3508  {
-69f0e5059b0961 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-07-22  3509  	struct iwl_dram_data *fw_mon = &trans->dbg.fw_mon;
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3510  	u32 len = 0;
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3511  
-91c28b83da2162 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-05-13 @3512  	if (trans->dbg.dest_tlv ||
-69f0e5059b0961 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-07-22  3513  	    (fw_mon->size &&
-c96a36491003d7 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Berg      2025-05-08  3514  	     (trans->mac_cfg->device_family == IWL_DEVICE_FAMILY_7000 ||
-c96a36491003d7 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Berg      2025-05-08  3515  	      trans->mac_cfg->device_family >= IWL_DEVICE_FAMILY_AX210))) {
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3516  		struct iwl_fw_error_dump_fw_mon *fw_mon_data;
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3517  
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3518  		(*data)->type = cpu_to_le32(IWL_FW_ERROR_DUMP_FW_MONITOR);
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3519  		fw_mon_data = (void *)(*data)->data;
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3520  
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3521  		iwl_trans_pcie_dump_pointers(trans, fw_mon_data);
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3522  
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3523  		len += sizeof(**data) + sizeof(*fw_mon_data);
-69f0e5059b0961 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-07-22  3524  		if (fw_mon->size) {
-69f0e5059b0961 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-07-22  3525  			memcpy(fw_mon_data->data, fw_mon->block, fw_mon->size);
-69f0e5059b0961 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-07-22  3526  			monitor_len = fw_mon->size;
-91c28b83da2162 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-05-13 @3527  		} else if (trans->dbg.dest_tlv->monitor_mode == SMEM_MODE) {
-7a14c23dcdee68 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Sara Sharon        2018-06-13  3528  			u32 base = le32_to_cpu(fw_mon_data->fw_mon_base_ptr);
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3529  			/*
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3530  			 * Update pointers to reflect actual values after
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3531  			 * shifting
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3532  			 */
-91c28b83da2162 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-05-13  3533  			if (trans->dbg.dest_tlv->version) {
-fd527eb5d22936 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Golan Ben Ami      2017-08-16  3534  				base = (iwl_read_prph(trans, base) &
-fd527eb5d22936 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Golan Ben Ami      2017-08-16  3535  					IWL_LDBG_M2S_BUF_BA_MSK) <<
-91c28b83da2162 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-05-13  3536  				       trans->dbg.dest_tlv->base_shift;
-fd527eb5d22936 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Golan Ben Ami      2017-08-16  3537  				base *= IWL_M2S_UNIT_SIZE;
-857ecb8524020d drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Berg      2025-05-08  3538  				base += trans->mac_cfg->base->smem_offset;
-fd527eb5d22936 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Golan Ben Ami      2017-08-16  3539  			} else {
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3540  				base = iwl_read_prph(trans, base) <<
-91c28b83da2162 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-05-13  3541  				       trans->dbg.dest_tlv->base_shift;
-fd527eb5d22936 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Golan Ben Ami      2017-08-16  3542  			}
-fd527eb5d22936 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Golan Ben Ami      2017-08-16  3543  
-332fbf871d44cc drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Berg      2025-05-02  3544  			iwl_trans_pcie_read_mem(trans, base, fw_mon_data->data,
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3545  						monitor_len / sizeof(u32));
-91c28b83da2162 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Shahar S Matityahu 2019-05-13  3546  		} else if (trans->dbg.dest_tlv->monitor_mode == MARBH_MODE) {
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3547  			monitor_len =
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3548  				iwl_trans_pci_dump_marbh_monitor(trans,
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3549  								 fw_mon_data,
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3550  								 monitor_len);
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3551  		} else {
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3552  			/* Didn't match anything - output no monitor data */
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3553  			monitor_len = 0;
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3554  		}
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3555  
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3556  		len += monitor_len;
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3557  		(*data)->len = cpu_to_le32(monitor_len + sizeof(*fw_mon_data));
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3558  	}
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3559  
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3560  	return len;
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3561  }
-36fb90172688c8 drivers/net/wireless/iwlwifi/pcie/trans.c       Oren Givon         2015-07-15  3562  
+f1bd904175e819 John Johansen 2017-06-09  1841  
+f1bd904175e819 John Johansen 2017-06-09  1842  /**
+95652cac83605d John Johansen 2017-09-06  1843   * aa_label_strn_parse - parse, validate and convert a text string to a label
+f1bd904175e819 John Johansen 2017-06-09  1844   * @base: base label to use for lookups (NOT NULL)
+f1bd904175e819 John Johansen 2017-06-09  1845   * @str: null terminated text string (NOT NULL)
+95652cac83605d John Johansen 2017-09-06  1846   * @n: length of str to parse, will stop at \0 if encountered before n
+f1bd904175e819 John Johansen 2017-06-09  1847   * @gfp: allocation type
+f1bd904175e819 John Johansen 2017-06-09  1848   * @create: true if should create compound labels if they don't exist
+f1bd904175e819 John Johansen 2017-06-09  1849   * @force_stack: true if should stack even if no leading &
+f1bd904175e819 John Johansen 2017-06-09  1850   *
+f1bd904175e819 John Johansen 2017-06-09  1851   * Returns: the matching refcounted label if present
+f1bd904175e819 John Johansen 2017-06-09  1852   *     else ERRPTR
+f1bd904175e819 John Johansen 2017-06-09  1853   */
+95652cac83605d John Johansen 2017-09-06  1854  struct aa_label *aa_label_strn_parse(struct aa_label *base, const char *str,
+95652cac83605d John Johansen 2017-09-06  1855  				     size_t n, gfp_t gfp, bool create,
+95652cac83605d John Johansen 2017-09-06  1856  				     bool force_stack)
+f1bd904175e819 John Johansen 2017-06-09  1857  {
+f1bd904175e819 John Johansen 2017-06-09  1858  	DEFINE_VEC(profile, vec);
+f1bd904175e819 John Johansen 2017-06-09  1859  	struct aa_label *label, *currbase = base;
+f1bd904175e819 John Johansen 2017-06-09  1860  	int i, len, stack = 0, error;
+95652cac83605d John Johansen 2017-09-06  1861  	const char *end = str + n;
+6e0654d20ed967 John Johansen 2017-09-06  1862  	const char *split;
+f1bd904175e819 John Johansen 2017-06-09  1863  
+f1bd904175e819 John Johansen 2017-06-09  1864  	AA_BUG(!base);
+f1bd904175e819 John Johansen 2017-06-09  1865  	AA_BUG(!str);
+f1bd904175e819 John Johansen 2017-06-09  1866  
+95652cac83605d John Johansen 2017-09-06  1867  	str = skipn_spaces(str, n);
+511f7b5b835726 John Johansen 2021-12-14  1868  	if (str == NULL || (AA_DEBUG_LABEL && *str == '_' &&
+511f7b5b835726 John Johansen 2021-12-14  1869  			    base != &root_ns->unconfined->label))
+95652cac83605d John Johansen 2017-09-06  1870  		return ERR_PTR(-EINVAL);
+475bdda1f00074 John Johansen 2017-09-08  1871  
+95652cac83605d John Johansen 2017-09-06  1872  	len = label_count_strn_entries(str, end - str);
+f1bd904175e819 John Johansen 2017-06-09  1873  	if (*str == '&' || force_stack) {
+f1bd904175e819 John Johansen 2017-06-09  1874  		/* stack on top of base */
+f1bd904175e819 John Johansen 2017-06-09  1875  		stack = base->size;
+f1bd904175e819 John Johansen 2017-06-09  1876  		len += stack;
+f1bd904175e819 John Johansen 2017-06-09  1877  		if (*str == '&')
+f1bd904175e819 John Johansen 2017-06-09  1878  			str++;
+f1bd904175e819 John Johansen 2017-06-09  1879  	}
+26b7899510ae24 John Johansen 2017-08-06  1880  
+f1bd904175e819 John Johansen 2017-06-09  1881  	error = vec_setup(profile, vec, len, gfp);
+f1bd904175e819 John Johansen 2017-06-09  1882  	if (error)
+f1bd904175e819 John Johansen 2017-06-09  1883  		return ERR_PTR(error);
+f1bd904175e819 John Johansen 2017-06-09  1884  
+f1bd904175e819 John Johansen 2017-06-09  1885  	for (i = 0; i < stack; i++)
+f1bd904175e819 John Johansen 2017-06-09 @1886  		vec[i] = aa_get_profile(base->vec[i]);
+f1bd904175e819 John Johansen 2017-06-09  1887  
+95652cac83605d John Johansen 2017-09-06  1888  	for (split = aa_label_strn_split(str, end - str), i = stack;
+6e0654d20ed967 John Johansen 2017-09-06  1889  	     split && i < len; i++) {
+f1bd904175e819 John Johansen 2017-06-09  1890  		vec[i] = fqlookupn_profile(base, currbase, str, split - str);
+f1bd904175e819 John Johansen 2017-06-09  1891  		if (!vec[i])
+f1bd904175e819 John Johansen 2017-06-09  1892  			goto fail;
+f1bd904175e819 John Johansen 2017-06-09  1893  		/*
+f1bd904175e819 John Johansen 2017-06-09  1894  		 * if component specified a new ns it becomes the new base
+f1bd904175e819 John Johansen 2017-06-09  1895  		 * so that subsequent lookups are relative to it
+f1bd904175e819 John Johansen 2017-06-09  1896  		 */
+f1bd904175e819 John Johansen 2017-06-09  1897  		if (vec[i]->ns != labels_ns(currbase))
+f1bd904175e819 John Johansen 2017-06-09  1898  			currbase = &vec[i]->label;
+f1bd904175e819 John Johansen 2017-06-09  1899  		str = split + 3;
+95652cac83605d John Johansen 2017-09-06  1900  		split = aa_label_strn_split(str, end - str);
+f1bd904175e819 John Johansen 2017-06-09  1901  	}
+f1bd904175e819 John Johansen 2017-06-09  1902  	/* last element doesn't have a split */
+f1bd904175e819 John Johansen 2017-06-09  1903  	if (i < len) {
+95652cac83605d John Johansen 2017-09-06  1904  		vec[i] = fqlookupn_profile(base, currbase, str, end - str);
+f1bd904175e819 John Johansen 2017-06-09  1905  		if (!vec[i])
+f1bd904175e819 John Johansen 2017-06-09  1906  			goto fail;
+f1bd904175e819 John Johansen 2017-06-09  1907  	}
+f1bd904175e819 John Johansen 2017-06-09  1908  	if (len == 1)
+f1bd904175e819 John Johansen 2017-06-09  1909  		/* no need to free vec as len < LOCAL_VEC_ENTRIES */
+f1bd904175e819 John Johansen 2017-06-09  1910  		return &vec[0]->label;
+f1bd904175e819 John Johansen 2017-06-09  1911  
+f1bd904175e819 John Johansen 2017-06-09  1912  	len -= aa_vec_unique(vec, len, VEC_FLAG_TERMINATE);
+f1bd904175e819 John Johansen 2017-06-09  1913  	/* TODO: deal with reference labels */
+f1bd904175e819 John Johansen 2017-06-09  1914  	if (len == 1) {
+f1bd904175e819 John Johansen 2017-06-09  1915  		label = aa_get_label(&vec[0]->label);
+f1bd904175e819 John Johansen 2017-06-09  1916  		goto out;
+f1bd904175e819 John Johansen 2017-06-09  1917  	}
+f1bd904175e819 John Johansen 2017-06-09  1918  
+f1bd904175e819 John Johansen 2017-06-09  1919  	if (create)
+f1bd904175e819 John Johansen 2017-06-09  1920  		label = aa_vec_find_or_create_label(vec, len, gfp);
+f1bd904175e819 John Johansen 2017-06-09  1921  	else
+f1bd904175e819 John Johansen 2017-06-09  1922  		label = vec_find(vec, len);
+f1bd904175e819 John Johansen 2017-06-09  1923  	if (!label)
+f1bd904175e819 John Johansen 2017-06-09  1924  		goto fail;
+f1bd904175e819 John Johansen 2017-06-09  1925  
+f1bd904175e819 John Johansen 2017-06-09  1926  out:
+f1bd904175e819 John Johansen 2017-06-09  1927  	/* use adjusted len from after vec_unique, not original */
+f1bd904175e819 John Johansen 2017-06-09  1928  	vec_cleanup(profile, vec, len);
+f1bd904175e819 John Johansen 2017-06-09  1929  	return label;
+f1bd904175e819 John Johansen 2017-06-09  1930  
+f1bd904175e819 John Johansen 2017-06-09  1931  fail:
+f1bd904175e819 John Johansen 2017-06-09  1932  	label = ERR_PTR(-ENOENT);
+f1bd904175e819 John Johansen 2017-06-09  1933  	goto out;
+f1bd904175e819 John Johansen 2017-06-09  1934  }
+f1bd904175e819 John Johansen 2017-06-09  1935  
 
-:::::: The code at line 3527 was first introduced by commit
-:::::: 91c28b83da21624dabd1ee9e9c35e2747d6a9563 iwlwifi: dbg: move trans debug fields to a separate struct
+:::::: The code at line 1886 was first introduced by commit
+:::::: f1bd904175e8190ce14aedee37e207ab51fe3b30 apparmor: add the base fns() for domain labels
 
-:::::: TO: Shahar S Matityahu <shahar.s.matityahu@intel.com>
-:::::: CC: Luca Coelho <luciano.coelho@intel.com>
+:::::: TO: John Johansen <john.johansen@canonical.com>
+:::::: CC: John Johansen <john.johansen@canonical.com>
 
 -- 
 0-DAY CI Kernel Test Service
