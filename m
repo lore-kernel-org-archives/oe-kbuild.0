@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05AF33984A
-	for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 07:47:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC443344046
+	for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 08:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765957645; cv=none; b=oQCsVBjmY/gsdvKw9j1Jvl1DRwyGFufe+tt1dguxlhC3+J1cgKk/kA1zdZRZ7/uDMypaFojjXm2TFmUXDC8/gDKoDVnOYyGsXnSa9uQLg+UfygJ0kWhXOV7l42vKyvD35XI6onpbB8eSHAmPYjkkbwEAn+Aa1HXxRb+jrsb4kKY=
+	t=1765961487; cv=none; b=sZPUXj3OT6ZfWya17yQZbym8JvZJX4uQ8Xj12TNN2kWgBc6wiWnbiGZAI6m0oMxuhFWuOjZNj7QA1m5oHJfT9ruKF+X+NZjaJYsZJeAzV1XC2K26GBLGYs400RL6RQfLWik6wwbqhjGmLZfuYmlvFKhB4brO/Fvr50n+Jj1jdzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765957645; c=relaxed/simple;
-	bh=YjqLla3ck2J37wZvrGb6RLm+pmvUULWXRxtftMrEDfk=;
+	s=arc-20240116; t=1765961487; c=relaxed/simple;
+	bh=jmjJKejDxQEiSA6hoQUn/+LbW0W5AN7/i/9fZvUKnis=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lEz6SdtHLE9J15eZXPb7dXAtZHmUD4Ks4mpqI6bAFNuN0JKLk2u0iLxbWMYZrv9CoZFUGcwI2mIn3QnGcOs03prlMgXAlEeog0q5n6C1AhRyypXrM+UZO7YRDUoTzjd8nRoQzahYvMR7IDjONNjU1LG8qjgb2owblNfXCzyXN7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUhwLczx; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=kdfWGig6H1USwBq/yyKcWXJPg/+jZ54CyjeQNCA4nREnG7JwN30M8vu6QqPkmiupp07E9y44v3nxRYf4VmXhdbnDCSyKg7wrdL1YoJ3NIJR7K9l68sL4w4HWrIx0g4lUNFqcZ1HHZCoyFbhg6RQNzrupYRWfDR1PtzQLw4ov64M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aww+IsOf; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUhwLczx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aww+IsOf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765957641; x=1797493641;
+  t=1765961485; x=1797497485;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YjqLla3ck2J37wZvrGb6RLm+pmvUULWXRxtftMrEDfk=;
-  b=lUhwLczxap3Mqsr0m6J4yPvfMQ33lUxjgWsraN4I7xQe0G4vzC8e3KKm
-   Z73pl0UPGA9KtzrnCvmFtpyj1FXnlYrHdfZtLySeVQV6KfdabBzG2T6l6
-   qT8KD2c4II8d7GL9jzaMos3aeBB+i/WpozehJSP+VxvdsJaf4VmUs4Ius
-   9gJSU0dHjFwz2DAEKdEz56TDwMudjZiCzA/dJjvL+OEjD5l9WGht9nCKE
-   EcEQW8fR/DpQwoieuX3uBVWUbnxKYXm8jnoOzg+EtE4pp35meNiTgwX7r
-   JLf+mlh1+eEIsvRFz686nzhlwULhfFSHGBSS3afZhAYxy70pYZYFgK7hQ
-   g==;
-X-CSE-ConnectionGUID: mO563ospS0iTwQbOZF9+qg==
-X-CSE-MsgGUID: 2U0RJEITRVmpiB3vbZZaig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="71746155"
+  bh=jmjJKejDxQEiSA6hoQUn/+LbW0W5AN7/i/9fZvUKnis=;
+  b=aww+IsOfXySK3CK7Eg+cHozqvGlmc3Rn6O3z9NT9NBXuaKnZjChTP938
+   i8jV9dPlnuDtA5ddi+uBU3NVfOOXTUGguIrHvFDoQ+fsmaHDLYeFhzTZu
+   oMcZprdHJqYmW/Hk7L9IzmhqyJsJav0H+4kTCS/gdPF55UEO1NnZCGKo9
+   hqEAbrepuJGs7iFS8xb0UCpam9St59TzIqpweQmhdJ6rBjhIhQzzGPCwU
+   gYKXbsl+Jst6vGnat5WXC1ZdmTKwjR24RsstYcM9ea2AM1SkKG/KEgQk3
+   T7Bnp2D0mh0z3RQGRqdmDJYMFdSLDwpRj791zEtfIqtuJm2mgAaLZ37zQ
+   Q==;
+X-CSE-ConnectionGUID: 7OGl1HDpQbq8gsjSdlMvLA==
+X-CSE-MsgGUID: SAy1yYLGROiUphlYxwbJzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="79263133"
 X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="71746155"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 23:47:20 -0800
-X-CSE-ConnectionGUID: mrvcBk2ZSMu90TNhXdaEgQ==
-X-CSE-MsgGUID: xDEkpCQrQ86qWKtohI4R4A==
+   d="scan'208";a="79263133"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 00:51:24 -0800
+X-CSE-ConnectionGUID: eyrb8YopRDe7gntmrU791w==
+X-CSE-MsgGUID: miXEcASOTI+LUEDDmBXvqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="199043119"
+   d="scan'208";a="198007589"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 16 Dec 2025 23:47:19 -0800
+  by orviesa009.jf.intel.com with ESMTP; 17 Dec 2025 00:51:23 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVmFg-000000000B9-3ASA;
-	Wed, 17 Dec 2025 07:47:16 +0000
-Date: Wed, 17 Dec 2025 15:46:27 +0800
+	id 1vVnFg-000000000FJ-2lO1;
+	Wed, 17 Dec 2025 08:51:20 +0000
+Date: Wed, 17 Dec 2025 16:51:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/mailbox/mailbox-mchp-ipc-sbi.c:187
- mchp_ipc_cluster_aggr_isr() error: uninitialized symbol 'hartid'.
-Message-ID: <202512171533.CDLdScMY-lkp@intel.com>
+Subject: [linux-next:master 1466/2012] drivers/mmc/host/dw_mmc.c:597
+ dw_mci_prepare_desc() error: uninitialized symbol 'desc'.
+Message-ID: <202512171601.RaFs0MBu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,121 +64,131 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Valentina Fernandez <valentina.fernandezalanis@microchip.com>
-CC: Jassi Brar <jassisinghbrar@gmail.com>
+TO: Shawn Lin <shawn.lin@rock-chips.com>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 
-Hi Valentina,
+Hi Shawn,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-commit: c1382852330ee2e78d884bab2da25b880488fa1c riscv: sbi: vendorid_list: Add Microchip Technology to the vendor list
-date:   11 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 11 months ago
-config: riscv-randconfig-r071-20251216 (https://download.01.org/0day-ci/archive/20251217/202512171533.CDLdScMY-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   12b95d29eb979e5c4f4f31bb05817bc935c52050
+commit: af7dde31afcc1901f131ace6c7ec912218021363 [1466/2012] mmc: dw_mmc: add dw_mci_prepare_desc() for both of 32bit and 64bit DMA
+:::::: branch date: 5 hours ago
+:::::: commit date: 2 days ago
+config: microblaze-randconfig-r073-20251217 (https://download.01.org/0day-ci/archive/20251217/202512171601.RaFs0MBu-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512171533.CDLdScMY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512171601.RaFs0MBu-lkp@intel.com/
 
-New smatch warnings:
-drivers/mailbox/mailbox-mchp-ipc-sbi.c:187 mchp_ipc_cluster_aggr_isr() error: uninitialized symbol 'hartid'.
+smatch warnings:
+drivers/mmc/host/dw_mmc.c:597 dw_mci_prepare_desc() error: uninitialized symbol 'desc'.
 
-Old smatch warnings:
-drivers/mailbox/mailbox-mchp-ipc-sbi.c:422 mchp_ipc_probe() warn: passing zero to 'dev_err_probe'
+vim +/desc +597 drivers/mmc/host/dw_mmc.c
 
-vim +/hartid +187 drivers/mailbox/mailbox-mchp-ipc-sbi.c
+3b2a067b98b45f Shawn Lin         2016-09-02  577  
+af7dde31afcc19 Shawn Lin         2025-11-26  578  static inline int dw_mci_prepare_desc(struct dw_mci *host, struct mmc_data *data,
+af7dde31afcc19 Shawn Lin         2025-11-26  579  				      unsigned int sg_len, bool is_64bit)
+f95f3850f7a9e1 Will Newton       2011-01-02  580  {
+5959b32e3636f9 Alexey Brodkin    2015-06-25  581  	unsigned int desc_len;
+af7dde31afcc19 Shawn Lin         2025-11-26  582  	struct idmac_desc *desc_first, *desc_last, *desc;
+af7dde31afcc19 Shawn Lin         2025-11-26  583  	struct idmac_desc_64addr *desc64_first, *desc64_last, *desc64;
+af7dde31afcc19 Shawn Lin         2025-11-26  584  	u32 val, des0;
+af7dde31afcc19 Shawn Lin         2025-11-26  585  	int i, err;
+5959b32e3636f9 Alexey Brodkin    2015-06-25  586  
+af7dde31afcc19 Shawn Lin         2025-11-26  587  	if (is_64bit)
+af7dde31afcc19 Shawn Lin         2025-11-26  588  		desc64_first = desc64_last = desc64 = host->sg_cpu;
+af7dde31afcc19 Shawn Lin         2025-11-26  589  	else
+5959b32e3636f9 Alexey Brodkin    2015-06-25  590  		desc_first = desc_last = desc = host->sg_cpu;
+69d99fdcfd7815 Prabu Thangamuthu 2014-10-20  591  
+5959b32e3636f9 Alexey Brodkin    2015-06-25  592  	for (i = 0; i < sg_len; i++) {
+69d99fdcfd7815 Prabu Thangamuthu 2014-10-20  593  		unsigned int length = sg_dma_len(&data->sg[i]);
+0e3a22c044478b Shawn Lin         2015-08-03  594  
+69d99fdcfd7815 Prabu Thangamuthu 2014-10-20  595  		u64 mem_addr = sg_dma_address(&data->sg[i]);
+69d99fdcfd7815 Prabu Thangamuthu 2014-10-20  596  
+5959b32e3636f9 Alexey Brodkin    2015-06-25 @597  		for ( ; length ; desc++) {
+5959b32e3636f9 Alexey Brodkin    2015-06-25  598  			desc_len = (length <= DW_MCI_DESC_DATA_LENGTH) ?
+5959b32e3636f9 Alexey Brodkin    2015-06-25  599  				   length : DW_MCI_DESC_DATA_LENGTH;
+5959b32e3636f9 Alexey Brodkin    2015-06-25  600  
+5959b32e3636f9 Alexey Brodkin    2015-06-25  601  			length -= desc_len;
+5959b32e3636f9 Alexey Brodkin    2015-06-25  602  
+3b2a067b98b45f Shawn Lin         2016-09-02  603  			/*
+3b2a067b98b45f Shawn Lin         2016-09-02  604  			 * Wait for the former clear OWN bit operation
+3b2a067b98b45f Shawn Lin         2016-09-02  605  			 * of IDMAC to make sure that this descriptor
+3b2a067b98b45f Shawn Lin         2016-09-02  606  			 * isn't still owned by IDMAC as IDMAC's write
+3b2a067b98b45f Shawn Lin         2016-09-02  607  			 * ops and CPU's read ops are asynchronous.
+3b2a067b98b45f Shawn Lin         2016-09-02  608  			 */
+af7dde31afcc19 Shawn Lin         2025-11-26  609  			if (is_64bit)
+af7dde31afcc19 Shawn Lin         2025-11-26  610  				err = readl_poll_timeout_atomic(&desc64->des0, val,
+af7dde31afcc19 Shawn Lin         2025-11-26  611  					IDMAC_OWN_CLR64(val), 10, 100 * USEC_PER_MSEC);
+af7dde31afcc19 Shawn Lin         2025-11-26  612  			else
+af7dde31afcc19 Shawn Lin         2025-11-26  613  				err = readl_poll_timeout_atomic(&desc->des0, val,
+af7dde31afcc19 Shawn Lin         2025-11-26  614  					IDMAC_OWN_CLR64(val), 10, 100 * USEC_PER_MSEC);
+af7dde31afcc19 Shawn Lin         2025-11-26  615  			if (err)
+3b2a067b98b45f Shawn Lin         2016-09-02  616  				goto err_own_bit;
+3b2a067b98b45f Shawn Lin         2016-09-02  617  
+af7dde31afcc19 Shawn Lin         2025-11-26  618  			des0 = IDMAC_DES0_OWN | IDMAC_DES0_DIC | IDMAC_DES0_CH;
+af7dde31afcc19 Shawn Lin         2025-11-26  619  			if (is_64bit)
+af7dde31afcc19 Shawn Lin         2025-11-26  620  				desc64->des0 = des0;
+af7dde31afcc19 Shawn Lin         2025-11-26  621  			else
+af7dde31afcc19 Shawn Lin         2025-11-26  622  				desc->des0 = cpu_to_le32(des0);
+3b2a067b98b45f Shawn Lin         2016-09-02  623  
+69d99fdcfd7815 Prabu Thangamuthu 2014-10-20  624  			/*
+af7dde31afcc19 Shawn Lin         2025-11-26  625  			 * 1. Set OWN bit and disable interrupts for this descriptor
+af7dde31afcc19 Shawn Lin         2025-11-26  626  			 * 2. Set Buffer length
+af7dde31afcc19 Shawn Lin         2025-11-26  627  			 * Set physical address to DMA to/from
+69d99fdcfd7815 Prabu Thangamuthu 2014-10-20  628  			 */
+af7dde31afcc19 Shawn Lin         2025-11-26  629  			if (is_64bit) {
+af7dde31afcc19 Shawn Lin         2025-11-26  630  				desc64->des0 = IDMAC_DES0_OWN | IDMAC_DES0_DIC | IDMAC_DES0_CH;
+af7dde31afcc19 Shawn Lin         2025-11-26  631  				IDMAC_64ADDR_SET_BUFFER1_SIZE(desc64, desc_len);
+af7dde31afcc19 Shawn Lin         2025-11-26  632  				desc64->des4 = mem_addr & 0xffffffff;
+af7dde31afcc19 Shawn Lin         2025-11-26  633  				desc64->des5 = mem_addr >> 32;
+af7dde31afcc19 Shawn Lin         2025-11-26  634  			} else {
+5959b32e3636f9 Alexey Brodkin    2015-06-25  635  				IDMAC_SET_BUFFER1_SIZE(desc, desc_len);
+6687c42fa71acd Ben Dooks         2015-03-25  636  				desc->des2 = cpu_to_le32(mem_addr);
+af7dde31afcc19 Shawn Lin         2025-11-26  637  			}
+5959b32e3636f9 Alexey Brodkin    2015-06-25  638  
+5959b32e3636f9 Alexey Brodkin    2015-06-25  639  			/* Update physical address for the next desc */
+5959b32e3636f9 Alexey Brodkin    2015-06-25  640  			mem_addr += desc_len;
+5959b32e3636f9 Alexey Brodkin    2015-06-25  641  
+5959b32e3636f9 Alexey Brodkin    2015-06-25  642  			/* Save pointer to the last descriptor */
+af7dde31afcc19 Shawn Lin         2025-11-26  643  			if (is_64bit)
+af7dde31afcc19 Shawn Lin         2025-11-26  644  				desc64_last = desc64;
+af7dde31afcc19 Shawn Lin         2025-11-26  645  			else
+5959b32e3636f9 Alexey Brodkin    2015-06-25  646  				desc_last = desc;
+5959b32e3636f9 Alexey Brodkin    2015-06-25  647  		}
+f95f3850f7a9e1 Will Newton       2011-01-02  648  	}
+f95f3850f7a9e1 Will Newton       2011-01-02  649  
+af7dde31afcc19 Shawn Lin         2025-11-26  650  	/* Set the first descriptor and the last descriptor */
+af7dde31afcc19 Shawn Lin         2025-11-26  651  	if (is_64bit) {
+af7dde31afcc19 Shawn Lin         2025-11-26  652  		desc64_first->des0 |= IDMAC_DES0_FD;
+af7dde31afcc19 Shawn Lin         2025-11-26  653  		desc64_last->des0 &= ~(IDMAC_DES0_CH | IDMAC_DES0_DIC);
+af7dde31afcc19 Shawn Lin         2025-11-26  654  		desc64_last->des0 |= IDMAC_DES0_LD;
+af7dde31afcc19 Shawn Lin         2025-11-26  655  	} else {
+5959b32e3636f9 Alexey Brodkin    2015-06-25  656  		desc_first->des0 |= cpu_to_le32(IDMAC_DES0_FD);
+af7dde31afcc19 Shawn Lin         2025-11-26  657  		desc_last->des0 &= cpu_to_le32(~(IDMAC_DES0_CH | IDMAC_DES0_DIC));
+5959b32e3636f9 Alexey Brodkin    2015-06-25  658  		desc_last->des0 |= cpu_to_le32(IDMAC_DES0_LD);
+af7dde31afcc19 Shawn Lin         2025-11-26  659  	}
+3b2a067b98b45f Shawn Lin         2016-09-02  660  
+3b2a067b98b45f Shawn Lin         2016-09-02  661  	return 0;
+3b2a067b98b45f Shawn Lin         2016-09-02  662  err_own_bit:
+3b2a067b98b45f Shawn Lin         2016-09-02  663  	/* restore the descriptor chain as it's polluted */
+26be9d705f4452 Colin Ian King    2016-11-16  664  	dev_dbg(host->dev, "descriptor is still owned by IDMAC.\n");
+cc190d4c6499b1 Shawn Lin         2016-09-02  665  	memset(host->sg_cpu, 0, DESC_RING_BUF_SZ);
+3b2a067b98b45f Shawn Lin         2016-09-02  666  	dw_mci_idmac_init(host);
+3b2a067b98b45f Shawn Lin         2016-09-02  667  	return -EINVAL;
+69d99fdcfd7815 Prabu Thangamuthu 2014-10-20  668  }
+f95f3850f7a9e1 Will Newton       2011-01-02  669  
 
-e4b1d67e71419c Valentina Fernandez 2024-12-17  168  
-e4b1d67e71419c Valentina Fernandez 2024-12-17  169  static irqreturn_t mchp_ipc_cluster_aggr_isr(int irq, void *data)
-e4b1d67e71419c Valentina Fernandez 2024-12-17  170  {
-e4b1d67e71419c Valentina Fernandez 2024-12-17  171  	struct mbox_chan *chan;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  172  	struct mchp_ipc_sbi_chan *chan_info;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  173  	struct mchp_ipc_sbi_mbox *ipc = (struct mchp_ipc_sbi_mbox *)data;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  174  	struct mchp_ipc_msg ipc_msg;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  175  	struct mchp_ipc_status status_msg;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  176  	int ret;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  177  	unsigned long hartid;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  178  	u32 i, chan_index, chan_id;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  179  
-e4b1d67e71419c Valentina Fernandez 2024-12-17  180  	/* Find out the hart that originated the irq */
-e4b1d67e71419c Valentina Fernandez 2024-12-17  181  	for_each_online_cpu(i) {
-e4b1d67e71419c Valentina Fernandez 2024-12-17  182  		hartid = cpuid_to_hartid_map(i);
-e4b1d67e71419c Valentina Fernandez 2024-12-17  183  		if (irq == ipc->cluster_cfg[hartid].irq)
-e4b1d67e71419c Valentina Fernandez 2024-12-17  184  			break;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  185  	}
-e4b1d67e71419c Valentina Fernandez 2024-12-17  186  
-e4b1d67e71419c Valentina Fernandez 2024-12-17 @187  	status_msg.cluster = hartid;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  188  	memcpy(ipc->cluster_cfg[hartid].buf_base, &status_msg, sizeof(struct mchp_ipc_status));
-e4b1d67e71419c Valentina Fernandez 2024-12-17  189  
-e4b1d67e71419c Valentina Fernandez 2024-12-17  190  	ret = mchp_ipc_sbi_send(SBI_EXT_IPC_STATUS, ipc->cluster_cfg[hartid].buf_base_addr);
-e4b1d67e71419c Valentina Fernandez 2024-12-17  191  	if (ret < 0) {
-e4b1d67e71419c Valentina Fernandez 2024-12-17  192  		dev_err_ratelimited(ipc->dev, "could not get IHC irq status ret=%d\n", ret);
-e4b1d67e71419c Valentina Fernandez 2024-12-17  193  		return IRQ_HANDLED;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  194  	}
-e4b1d67e71419c Valentina Fernandez 2024-12-17  195  
-e4b1d67e71419c Valentina Fernandez 2024-12-17  196  	memcpy(&status_msg, ipc->cluster_cfg[hartid].buf_base, sizeof(struct mchp_ipc_status));
-e4b1d67e71419c Valentina Fernandez 2024-12-17  197  
-e4b1d67e71419c Valentina Fernandez 2024-12-17  198  	/*
-e4b1d67e71419c Valentina Fernandez 2024-12-17  199  	 * Iterate over each bit set in the IHC interrupt status register (IRQ_STATUS) to identify
-e4b1d67e71419c Valentina Fernandez 2024-12-17  200  	 * the channel(s) that have a message to be processed/acknowledged.
-e4b1d67e71419c Valentina Fernandez 2024-12-17  201  	 * The bits are organized in alternating format, where each pair of bits represents
-e4b1d67e71419c Valentina Fernandez 2024-12-17  202  	 * the status of the message present and message clear interrupts for each cluster/hart
-e4b1d67e71419c Valentina Fernandez 2024-12-17  203  	 * (from hart 0 to hart 5). Each cluster can have up to 5 fixed channels associated.
-e4b1d67e71419c Valentina Fernandez 2024-12-17  204  	 */
-e4b1d67e71419c Valentina Fernandez 2024-12-17  205  
-e4b1d67e71419c Valentina Fernandez 2024-12-17  206  	for_each_set_bit(i, (unsigned long *)&status_msg.status, IRQ_STATUS_BITS) {
-e4b1d67e71419c Valentina Fernandez 2024-12-17  207  		/* Find out the destination hart that triggered the interrupt */
-e4b1d67e71419c Valentina Fernandez 2024-12-17  208  		chan_index = i / 2;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  209  
-e4b1d67e71419c Valentina Fernandez 2024-12-17  210  		/*
-e4b1d67e71419c Valentina Fernandez 2024-12-17  211  		 * The IP has no loopback channels, so we need to decrement the index when
-e4b1d67e71419c Valentina Fernandez 2024-12-17  212  		 * the target hart has a greater index than our own
-e4b1d67e71419c Valentina Fernandez 2024-12-17  213  		 */
-e4b1d67e71419c Valentina Fernandez 2024-12-17  214  		if (chan_index >= status_msg.cluster)
-e4b1d67e71419c Valentina Fernandez 2024-12-17  215  			chan_index--;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  216  
-e4b1d67e71419c Valentina Fernandez 2024-12-17  217  		/*
-e4b1d67e71419c Valentina Fernandez 2024-12-17  218  		 * Calculate the channel id given the hart and channel index. Channel IDs
-e4b1d67e71419c Valentina Fernandez 2024-12-17  219  		 * are unique across all clusters of an IPC, and iterate contiguously
-e4b1d67e71419c Valentina Fernandez 2024-12-17  220  		 * across all clusters.
-e4b1d67e71419c Valentina Fernandez 2024-12-17  221  		 */
-e4b1d67e71419c Valentina Fernandez 2024-12-17  222  		chan_id = status_msg.cluster * (NUM_CHANS_PER_CLUSTER + chan_index);
-e4b1d67e71419c Valentina Fernandez 2024-12-17  223  
-e4b1d67e71419c Valentina Fernandez 2024-12-17  224  		chan = &ipc->chans[chan_id];
-e4b1d67e71419c Valentina Fernandez 2024-12-17  225  		chan_info = (struct mchp_ipc_sbi_chan *)chan->con_priv;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  226  
-e4b1d67e71419c Valentina Fernandez 2024-12-17  227  		if (i % 2 == 0) {
-e4b1d67e71419c Valentina Fernandez 2024-12-17  228  			mchp_ipc_prepare_receive_req(chan);
-e4b1d67e71419c Valentina Fernandez 2024-12-17  229  			ret = mchp_ipc_sbi_chan_send(SBI_EXT_IPC_RECEIVE, chan_id,
-e4b1d67e71419c Valentina Fernandez 2024-12-17  230  						     chan_info->buf_base_rx_addr);
-e4b1d67e71419c Valentina Fernandez 2024-12-17  231  			if (ret < 0)
-e4b1d67e71419c Valentina Fernandez 2024-12-17  232  				continue;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  233  
-e4b1d67e71419c Valentina Fernandez 2024-12-17  234  			mchp_ipc_process_received_data(chan, &ipc_msg);
-e4b1d67e71419c Valentina Fernandez 2024-12-17  235  			mbox_chan_received_data(&ipc->chans[chan_id], (void *)&ipc_msg);
-e4b1d67e71419c Valentina Fernandez 2024-12-17  236  
-e4b1d67e71419c Valentina Fernandez 2024-12-17  237  		} else {
-e4b1d67e71419c Valentina Fernandez 2024-12-17  238  			ret = mchp_ipc_sbi_chan_send(SBI_EXT_IPC_RECEIVE, chan_id,
-e4b1d67e71419c Valentina Fernandez 2024-12-17  239  						     chan_info->buf_base_rx_addr);
-e4b1d67e71419c Valentina Fernandez 2024-12-17  240  			mbox_chan_txdone(&ipc->chans[chan_id], ret);
-e4b1d67e71419c Valentina Fernandez 2024-12-17  241  		}
-e4b1d67e71419c Valentina Fernandez 2024-12-17  242  	}
-e4b1d67e71419c Valentina Fernandez 2024-12-17  243  	return IRQ_HANDLED;
-e4b1d67e71419c Valentina Fernandez 2024-12-17  244  }
-e4b1d67e71419c Valentina Fernandez 2024-12-17  245  
+:::::: The code at line 597 was first introduced by commit
+:::::: 5959b32e3636f9bfe3f869d1e440bc4a4d660965 mmc: dw_mmc: handle data blocks > than 4kB if IDMAC is used
 
-:::::: The code at line 187 was first introduced by commit
-:::::: e4b1d67e71419c4af581890ecea84b04920d4116 mailbox: add Microchip IPC support
-
-:::::: TO: Valentina Fernandez <valentina.fernandezalanis@microchip.com>
-:::::: CC: Jassi Brar <jassisinghbrar@gmail.com>
+:::::: TO: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+:::::: CC: Ulf Hansson <ulf.hansson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
