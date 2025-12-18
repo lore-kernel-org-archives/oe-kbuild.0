@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0C63093A8
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 21:11:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F7A2877DE
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 23:03:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766092280; cv=none; b=EJUELG85LKp8EE/6R1MOH9Jrs5P+zOO5eQjVTs4BEQNacrWZ2LnCjYTLAg/hZwHxorjBgw1RqthpamztZowmMzet/HaBeTtoaLVtmodBHVMWWY++GgA2X6dSeMUbGsXkub6xX5pqVDkY5q44CiNVQbjJcNkqVyxRLGM8kEvdn1w=
+	t=1766099018; cv=none; b=bVwh949F5sHwfMSFn8KgNJlaa+AmWSrfQ65q6A0RYMRTeZX39kK2kGDiMI5IrP9KaWYle6LaZzoBkgCgVZW2K8+0wXmNxdybu8LqKDEKPVwmj+pIbhCOQKTefwvCYipFrqB6Ij0zSsj0k2QPNwVhOd9AIzopEEDDX++JSCzeziY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766092280; c=relaxed/simple;
-	bh=kP690P1M1vwrNSSgwhkozHdk3BQuv4lLJOUUw5Ikel8=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rf87JPPO21mSdPbS0uhGuZ0OpPc0QYgmq55aXpSJ1YuiI1mSi0cgalkFfhB+uLEV2+ToszXonMfPVKDrmNeqPmFM0Z14VhEWibylRP/w5wztBSmIg7wmt95VZr20oPOfRleIAxA9Vm4AgMxkkysxImhDhJpji5LZzV3jexIi+z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gMjq5ARU; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1766099018; c=relaxed/simple;
+	bh=LUjYJJUoSkuNVs8dg96/Mbb+w5APcNtmN2trOrT5SWI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W3XRYtwDhb7eqxcB+mtGBFDyTqjrz9izEvH3VOaUQvojQwKYZsp64OuUcBUnyWiDQo3RsrFLK6KBx+nnOvuvHSOoHVuTFJ6UulyNtZ9cGEHYKyA21149KsryxEu3oFg/14J5T0g2RF/3pqVfBnl+rHyPt806gsqGMjz9FstUJZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nnl922XY; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gMjq5ARU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nnl922XY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766092278; x=1797628278;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=kP690P1M1vwrNSSgwhkozHdk3BQuv4lLJOUUw5Ikel8=;
-  b=gMjq5ARUBrXullmO6NE+4AA8CbopYPactvxzjmFnXrtbHmMorkMhbDgx
-   vpRyQg/Rb92LwoHJEygqjvOqx0ODbtAM67INTVhyGiizguFgEZzK/oeBS
-   zeKnavitEES6JmiIxDEunKhK2JcWT3pXIkFXg54u6Yo1qESMWfem16cub
-   LB82wPbTJOB6YfTd56wGiDl98Q0LU71w7sC8cBHjAH0ij8ldjG+P9EUvu
-   koNBLIey+k8Q0AL7z5OZAeuxUb83x2Y9A2osKFpu34pMF5u9ogpuh/kH3
-   DuRKDUuoPyl5lIJs289XbZxYeY2Xr10c56xJRd1xwbmo1paAv/g139sKL
-   w==;
-X-CSE-ConnectionGUID: y75FcS0NT2Oriun6TgfkQA==
-X-CSE-MsgGUID: nclozZdfRUmzYcbaCuvrow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="85642077"
+  t=1766099016; x=1797635016;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LUjYJJUoSkuNVs8dg96/Mbb+w5APcNtmN2trOrT5SWI=;
+  b=nnl922XYOE2t/1SSwb6tb75d7UkLm5ehcb3+7/9KWfniGq2eXVFFHK2h
+   Odn0hmffLd6jwZ+g+c3oERfA+al0k6UzcpcLJp6xjrMzMYsJOMC1Ws862
+   F3Z4QwFPJuZo6xs6fzUjwsMQgiyTURoozQIwjc3YhDU1A8nL7/KqqW3fR
+   LUJb9ctA9ZwM5e/PE2sddAxJoDzLhul+O+/5p3Hbt7nrEpe4JmhsiG/wA
+   U/ArhyqG/3N+P7HwsOfwXChagF9tkWMNDkZRS5zfYzdKpm1e6QN7H9SB0
+   V6vZhqqKeQlWvw3iXERZUIBvwMooXxu99m7l7n4AJyZgrfoUa1aCAU82+
+   Q==;
+X-CSE-ConnectionGUID: pHSKhNd8SSOhdR58vEnBOQ==
+X-CSE-MsgGUID: UnYccclzRQ20sNb/zNxbcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="67256150"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="85642077"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 13:11:16 -0800
-X-CSE-ConnectionGUID: JQXgQILmSgG7SLnVtdmymw==
-X-CSE-MsgGUID: 9Nc7p1YXRFG3VHEcrq1zZw==
+   d="scan'208";a="67256150"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 15:03:35 -0800
+X-CSE-ConnectionGUID: 7eac6Mu8RhmOI+qKCWVVZA==
+X-CSE-MsgGUID: 1NYCMpirQlm1SW1B2H3ZSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="236105176"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 18 Dec 2025 13:11:15 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="198471809"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 18 Dec 2025 15:03:34 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWLHE-0000000044O-2moS
-	for oe-kbuild@lists.linux.dev;
-	Thu, 18 Dec 2025 21:11:12 +0000
-Date: Thu, 18 Dec 2025 22:10:43 +0100
+	id 1vWN1v-000000002k5-1PXP;
+	Thu, 18 Dec 2025 23:03:31 +0000
+Date: Fri, 19 Dec 2025 07:02:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [broonie-ci:kvm-arm64-sme 24/29] checkpatch: WARNING:REPEATED_WORD:
- Possible repeated word: 'in'
-Message-ID: <202512182217.fUTtg0bc-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/x86/boot/compressed/sev-handle-vc.c:104 do_boot_stage2_vc()
+ error: we previously assumed 'boot_ghcb' could be null (see line 101)
+Message-ID: <202512190604.MDHRrUiJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,26 +62,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Mark Brown <broonie@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Ard Biesheuvel <ardb@kernel.org>
+CC: Ingo Molnar <mingo@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git kvm-arm64-sme
-head:   d4bbfe35a214da7cae241d61b7d45d05da1b3bbd
-commit: d3f44440fcc10e3acac775d628ede81b05cfc9c5 [24/29] KVM: arm64: Context switch SME state for guests
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20251218/202512182217.fUTtg0bc-lkp@intel.com/reproduce)
+Hi Ard,
 
-# many are suggestions rather than must-fix
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-WARNING:REPEATED_WORD: Possible repeated word: 'in'
-#26: 
-guest operations that are invalid in in streaming mode will generate SME
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dd9b004b7ff3289fb7bae35130c0a5c0537266af
+commit: ed4d95d033e359f9445e85bf5a768a5859a5830b x86/sev: Disentangle #VC handling code from startup code
+date:   8 months ago
+:::::: branch date: 87 minutes ago
+:::::: commit date: 8 months ago
+config: x86_64-randconfig-161-20251218 (https://download.01.org/0day-ci/archive/20251219/202512190604.MDHRrUiJ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512190604.MDHRrUiJ-lkp@intel.com/
+
+smatch warnings:
+arch/x86/boot/compressed/sev-handle-vc.c:104 do_boot_stage2_vc() error: we previously assumed 'boot_ghcb' could be null (see line 101)
+
+vim +/boot_ghcb +104 arch/x86/boot/compressed/sev-handle-vc.c
+
+ed4d95d033e359 Ard Biesheuvel 2025-05-04   95  
+ed4d95d033e359 Ard Biesheuvel 2025-05-04   96  void do_boot_stage2_vc(struct pt_regs *regs, unsigned long exit_code)
+ed4d95d033e359 Ard Biesheuvel 2025-05-04   97  {
+ed4d95d033e359 Ard Biesheuvel 2025-05-04   98  	struct es_em_ctxt ctxt;
+ed4d95d033e359 Ard Biesheuvel 2025-05-04   99  	enum es_result result;
+ed4d95d033e359 Ard Biesheuvel 2025-05-04  100  
+ed4d95d033e359 Ard Biesheuvel 2025-05-04 @101  	if (!boot_ghcb && !early_setup_ghcb())
+ed4d95d033e359 Ard Biesheuvel 2025-05-04  102  		sev_es_terminate(SEV_TERM_SET_GEN, GHCB_SEV_ES_GEN_REQ);
+ed4d95d033e359 Ard Biesheuvel 2025-05-04  103  
+ed4d95d033e359 Ard Biesheuvel 2025-05-04 @104  	vc_ghcb_invalidate(boot_ghcb);
 
 -- 
 0-DAY CI Kernel Test Service
