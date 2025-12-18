@@ -1,190 +1,237 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88D02DFA31
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 10:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E006C1A23B9
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 10:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766054219; cv=none; b=c3Z+dZLYUPN5PtklmnR/sbIXDLX4YmRhJSMymWP1ohUT5015JxcsYQKhZlmQBVjDYfyqAgzPan2i01Ffym6fZcSrQ+x1xSDoRtBeeNV1YL2qSyfHYUfnpIJq92kHwYMNjv6xdRP0UPJ1ih+qceWl2ViYYMOx9HKGPH/6Zbkjywk=
+	t=1766054531; cv=none; b=h0GoCrHnI2U01oyYH5xpF+AYXdnpWvvQyT/3ERIBX3+rTcvcKuPj7H5qWXsHVZDdtCGGIZyW/qiG/hOBW8vLjStoU0YaUXE8//lxYHl9v0DkmXFhg8d1C/3tsFcZoRjFAaU9BV64u035NSwSOEq2xiqFO6YMSu/xyLSnmTFSuuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766054219; c=relaxed/simple;
-	bh=nVGE/Wk8kpZrzJNhY86xLV4a8ij3tY4kODMNFZijC+s=;
+	s=arc-20240116; t=1766054531; c=relaxed/simple;
+	bh=XqoUhtsRtdgqtdfmXpR6HO9z5VpaXoVfNySb3PfxiRM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iGmOd/2j084VCxY4gui96apOPeKyR976BSf06TcVKLnWNve89BJcZsxtPNEO5AiJ8ReSri60HVxW7l1QMVPxWuhOqDb0GC/lyIrEQfkDGgrhHedxqRy4nX61MC1kvFuIgVARgbZDnbWH4mUjjMben69Bv4B+FR4hFSyxAzeAwB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NsLdVmBl; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=eQk3GdyczJWL5mFdF5S8uF2WjPGLzLRe9zst8T4t1Szm4U7Yk/Az+sQlcM8BzR263G9rG0FPY7wvp1zFmEwNQgx2zlqbXWbuYtlw+VNtPjs5le0Y9GFHvSWHIp1g9Q3NBjsLh7hoZgJlXNV9NDz/0ivBnihphxFW2sMN+Dcn1Cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q73WSNtM; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NsLdVmBl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q73WSNtM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766054217; x=1797590217;
+  t=1766054530; x=1797590530;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=nVGE/Wk8kpZrzJNhY86xLV4a8ij3tY4kODMNFZijC+s=;
-  b=NsLdVmBlzXV1rGqWE2n5SlDKrHBLHjR9K8kWNvs4nQdftpTstowf7/jF
-   U/9ac+xiN2sRnSiPJEs3TudrYesofGcfrQsqEGt1zIOmEExRqWb8DwDHs
-   t0E5V3kkdLp5BcojrV4Mu6eLr/swK75g3EuP8d+Gw5I7NDJJGnsl2I8sX
-   nlbsDqKd14kusJECHC2KVPQWg4fF3GmJvLOmpV8S25D/fbL1lr8t8866d
-   Qak1UrQVyKCaQxmbbXddl7S7s6bzgstKWar/sAyO2MNy2A2zWTXNKjLqA
-   qtfnkqUjTQHGeuKC4H/6v6kwA5zAhKX22MfyJg8dO1uqRKQXyQ2rjH58j
-   g==;
-X-CSE-ConnectionGUID: KsIW6ijtQUyv5pFGCBklXA==
-X-CSE-MsgGUID: fTqIB9ndR86dygVbJL1ASA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="93478815"
+  bh=XqoUhtsRtdgqtdfmXpR6HO9z5VpaXoVfNySb3PfxiRM=;
+  b=Q73WSNtMfsgaVYHF32ICh5C5hNfglmzUKB+P9svW5CFaJFG7dNxfGq9I
+   bJw9yY9TbP6q083EDJaCdXKeUi55FYWthDbxa3GV81RS8BHBpot++gs/a
+   oYnFipqrtaWbWtl7pSLTAdPWheg8XJ6m4bjzhq8y6WNDzJbnNRsKQmDJL
+   MYBrxN4wqs7jUlU29egTFS+F5XvkSdM76TO++zHToT2OLSNidid++OGg9
+   4orcMug8GUPHUCZ5b4BM4rOa0g/9PGRR9wnip9xTP3nh83uhmYXYzQLcj
+   UhAcFcj722zQLacNojXUgM1jUiehwTmOFlztnBLk3lNgoofdWQxGMgWbS
+   w==;
+X-CSE-ConnectionGUID: /sIQs9pkRMuVKR1V/lzLww==
+X-CSE-MsgGUID: OoW36KGfTLePLyxICP47TA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="85590037"
 X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="93478815"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 02:36:56 -0800
-X-CSE-ConnectionGUID: 35u0pjMzQ1+ENodGR8bzdw==
-X-CSE-MsgGUID: AOFl06IXQRKlnCbhdpRj6g==
+   d="scan'208";a="85590037"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 02:42:09 -0800
+X-CSE-ConnectionGUID: v6bxmO08RWmB0h0AY3+6VQ==
+X-CSE-MsgGUID: X6mvGT5wTfiWXCp6qCqJuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="202732704"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 18 Dec 2025 02:36:55 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+   d="scan'208";a="203449913"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 18 Dec 2025 02:42:07 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWBNM-000000001x9-3f3c;
-	Thu, 18 Dec 2025 10:36:52 +0000
-Date: Thu, 18 Dec 2025 18:36:12 +0800
+	id 1vWBSP-000000003tw-1XAq;
+	Thu, 18 Dec 2025 10:42:05 +0000
+Date: Thu, 18 Dec 2025 11:41:28 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/platform/x86/intel/pmc/core.c:1438
- pmc_core_pmt_get_lpm_req() error: uninitialized symbol 'ret'.
-Message-ID: <202512181842.zgEbGo2h-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 1/4] dt-bindings: PCI: Convert nvidia,tegra-pcie to DT
+ schema
+Message-ID: <202512181154.O6CjvAbr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Xi Pardee <xi.pardee@linux.intel.com>
-CC: "Ilpo J‰rvinen" <ilpo.jarvinen@linux.intel.com>
+In-Reply-To: <20251215141603.6749-2-linux.amoon@gmail.com>
+References: <20251215141603.6749-2-linux.amoon@gmail.com>
+TO: Anand Moon <linux.amoon@gmail.com>
+TO: Bjorn Helgaas <helgaas@kernel.org>
+TO: Lorenzo Pieralisi <lpieralisi@kernel.org>
+TO: "Krzysztof Wilczy≈Ñski" <kwilczynski@kernel.org>
+TO: Manivannan Sadhasivam <mani@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Thierry Reding <thierry.reding@gmail.com>
+TO: Jonathan Hunter <jonathanh@nvidia.com>
+TO: linux-pci@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-tegra@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: Anand Moon <linux.amoon@gmail.com>
+CC: Mikko Perttunen <mperttunen@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-commit: 1e508af6bc4b24a7924b619800f1b138281f0e82 platform/x86:intel/pmc: Move telemetry endpoint register handling
-date:   3 months ago
-:::::: branch date: 31 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-161-20251218 (https://download.01.org/0day-ci/archive/20251218/202512181842.zgEbGo2h-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi Anand,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anand-Moon/dt-bindings-PCI-Convert-nvidia-tegra-pcie-to-DT-schema/20251215-231359
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20251215141603.6749-2-linux.amoon%40gmail.com
+patch subject: [PATCH v2 1/4] dt-bindings: PCI: Convert nvidia,tegra-pcie to DT schema
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm-randconfig-2051-20251216 (https://download.01.org/0day-ci/archive/20251218/202512181154.O6CjvAbr-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512181154.O6CjvAbr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512181842.zgEbGo2h-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512181154.O6CjvAbr-lkp@intel.com/
 
-New smatch warnings:
-drivers/platform/x86/intel/pmc/core.c:1438 pmc_core_pmt_get_lpm_req() error: uninitialized symbol 'ret'.
-
-Old smatch warnings:
-drivers/platform/x86/intel/pmc/core.c:502 pmc_core_send_ltr_ignore() error: uninitialized symbol 'pmc'.
-drivers/platform/x86/intel/pmc/core.c:502 pmc_core_send_ltr_ignore() error: uninitialized symbol 'map'.
-drivers/platform/x86/intel/pmc/core.c:502 pmc_core_send_ltr_ignore() error: we previously assumed 'pmc' could be null (see line 480)
-
-vim +/ret +1438 drivers/platform/x86/intel/pmc/core.c
-
-78a7491d5cba8b Xi Pardee 2025-04-09  1357  
-78a7491d5cba8b Xi Pardee 2025-04-09  1358  /*
-a59211ee461022 Xi Pardee 2025-04-25  1359   * This function retrieves low power mode requirement data from PMC Low
-a59211ee461022 Xi Pardee 2025-04-25  1360   * Power Mode (LPM) table.
-78a7491d5cba8b Xi Pardee 2025-04-09  1361   *
-78a7491d5cba8b Xi Pardee 2025-04-09  1362   * In telemetry space, the LPM table contains a 4 byte header followed
-78a7491d5cba8b Xi Pardee 2025-04-09  1363   * by 8 consecutive mode blocks (one for each LPM mode). Each block
-78a7491d5cba8b Xi Pardee 2025-04-09  1364   * has a 4 byte header followed by a set of registers that describe the
-78a7491d5cba8b Xi Pardee 2025-04-09  1365   * IP state requirements for the given mode. The IP mapping is platform
-78a7491d5cba8b Xi Pardee 2025-04-09  1366   * specific but the same for each block, making for easy analysis.
-78a7491d5cba8b Xi Pardee 2025-04-09  1367   * Platforms only use a subset of the space to track the requirements
-78a7491d5cba8b Xi Pardee 2025-04-09  1368   * for their IPs. Callers provide the requirement registers they use as
-78a7491d5cba8b Xi Pardee 2025-04-09  1369   * a list of indices. Each requirement register is associated with an
-78a7491d5cba8b Xi Pardee 2025-04-09  1370   * IP map that's maintained by the caller.
-78a7491d5cba8b Xi Pardee 2025-04-09  1371   *
-78a7491d5cba8b Xi Pardee 2025-04-09  1372   * Header
-78a7491d5cba8b Xi Pardee 2025-04-09  1373   * +----+----------------------------+----------------------------+
-78a7491d5cba8b Xi Pardee 2025-04-09  1374   * |  0 |      REVISION              |      ENABLED MODES         |
-78a7491d5cba8b Xi Pardee 2025-04-09  1375   * +----+--------------+-------------+-------------+--------------+
-78a7491d5cba8b Xi Pardee 2025-04-09  1376   *
-78a7491d5cba8b Xi Pardee 2025-04-09  1377   * Low Power Mode 0 Block
-78a7491d5cba8b Xi Pardee 2025-04-09  1378   * +----+--------------+-------------+-------------+--------------+
-78a7491d5cba8b Xi Pardee 2025-04-09  1379   * |  1 |     SUB ID   |     SIZE    |   MAJOR     |   MINOR      |
-78a7491d5cba8b Xi Pardee 2025-04-09  1380   * +----+--------------+-------------+-------------+--------------+
-78a7491d5cba8b Xi Pardee 2025-04-09  1381   * |  2 |           LPM0 Requirements 0                           |
-78a7491d5cba8b Xi Pardee 2025-04-09  1382   * +----+---------------------------------------------------------+
-78a7491d5cba8b Xi Pardee 2025-04-09  1383   * |    |                  ...                                    |
-78a7491d5cba8b Xi Pardee 2025-04-09  1384   * +----+---------------------------------------------------------+
-78a7491d5cba8b Xi Pardee 2025-04-09  1385   * | 29 |           LPM0 Requirements 27                          |
-78a7491d5cba8b Xi Pardee 2025-04-09  1386   * +----+---------------------------------------------------------+
-78a7491d5cba8b Xi Pardee 2025-04-09  1387   *
-78a7491d5cba8b Xi Pardee 2025-04-09  1388   * ...
-78a7491d5cba8b Xi Pardee 2025-04-09  1389   *
-78a7491d5cba8b Xi Pardee 2025-04-09  1390   * Low Power Mode 7 Block
-78a7491d5cba8b Xi Pardee 2025-04-09  1391   * +----+--------------+-------------+-------------+--------------+
-78a7491d5cba8b Xi Pardee 2025-04-09  1392   * |    |     SUB ID   |     SIZE    |   MAJOR     |   MINOR      |
-78a7491d5cba8b Xi Pardee 2025-04-09  1393   * +----+--------------+-------------+-------------+--------------+
-78a7491d5cba8b Xi Pardee 2025-04-09  1394   * | 60 |           LPM7 Requirements 0                           |
-78a7491d5cba8b Xi Pardee 2025-04-09  1395   * +----+---------------------------------------------------------+
-78a7491d5cba8b Xi Pardee 2025-04-09  1396   * |    |                  ...                                    |
-78a7491d5cba8b Xi Pardee 2025-04-09  1397   * +----+---------------------------------------------------------+
-78a7491d5cba8b Xi Pardee 2025-04-09  1398   * | 87 |           LPM7 Requirements 27                          |
-78a7491d5cba8b Xi Pardee 2025-04-09  1399   * +----+---------------------------------------------------------+
-78a7491d5cba8b Xi Pardee 2025-04-09  1400   *
-78a7491d5cba8b Xi Pardee 2025-04-09  1401   */
-1e508af6bc4b24 Xi Pardee 2025-09-10  1402  static int pmc_core_pmt_get_lpm_req(struct pmc_dev *pmcdev, struct pmc *pmc,
-1e508af6bc4b24 Xi Pardee 2025-09-10  1403  				    struct telem_endpoint *ep)
-a59211ee461022 Xi Pardee 2025-04-25  1404  {
-a59211ee461022 Xi Pardee 2025-04-25  1405  	const u8 *lpm_indices;
-a59211ee461022 Xi Pardee 2025-04-25  1406  	int num_maps, mode_offset = 0;
-a59211ee461022 Xi Pardee 2025-04-25  1407  	int ret, mode;
-a59211ee461022 Xi Pardee 2025-04-25  1408  	int lpm_size;
-a59211ee461022 Xi Pardee 2025-04-25  1409  
-a59211ee461022 Xi Pardee 2025-04-25  1410  	lpm_indices = pmc->map->lpm_reg_index;
-a59211ee461022 Xi Pardee 2025-04-25  1411  	num_maps = pmc->map->lpm_num_maps;
-a59211ee461022 Xi Pardee 2025-04-25  1412  	lpm_size = LPM_MAX_NUM_MODES * num_maps;
-a59211ee461022 Xi Pardee 2025-04-25  1413  
-a59211ee461022 Xi Pardee 2025-04-25  1414  	pmc->lpm_req_regs = devm_kzalloc(&pmcdev->pdev->dev,
-a59211ee461022 Xi Pardee 2025-04-25  1415  					 lpm_size * sizeof(u32),
-a59211ee461022 Xi Pardee 2025-04-25  1416  					 GFP_KERNEL);
-1e508af6bc4b24 Xi Pardee 2025-09-10  1417  	if (!pmc->lpm_req_regs)
-1e508af6bc4b24 Xi Pardee 2025-09-10  1418  		return -ENOMEM;
-a59211ee461022 Xi Pardee 2025-04-25  1419  
-78a7491d5cba8b Xi Pardee 2025-04-09  1420  	mode_offset = LPM_HEADER_OFFSET + LPM_MODE_OFFSET;
-78a7491d5cba8b Xi Pardee 2025-04-09  1421  	pmc_for_each_mode(mode, pmcdev) {
-78a7491d5cba8b Xi Pardee 2025-04-09  1422  		u32 *req_offset = pmc->lpm_req_regs + (mode * num_maps);
-78a7491d5cba8b Xi Pardee 2025-04-09  1423  		int m;
-78a7491d5cba8b Xi Pardee 2025-04-09  1424  
-78a7491d5cba8b Xi Pardee 2025-04-09  1425  		for (m = 0; m < num_maps; m++) {
-78a7491d5cba8b Xi Pardee 2025-04-09  1426  			u8 sample_id = lpm_indices[m] + mode_offset;
-78a7491d5cba8b Xi Pardee 2025-04-09  1427  
-78a7491d5cba8b Xi Pardee 2025-04-09  1428  			ret = pmt_telem_read32(ep, sample_id, req_offset, 1);
-78a7491d5cba8b Xi Pardee 2025-04-09  1429  			if (ret) {
-78a7491d5cba8b Xi Pardee 2025-04-09  1430  				dev_err(&pmcdev->pdev->dev,
-78a7491d5cba8b Xi Pardee 2025-04-09  1431  					"couldn't read Low Power Mode requirements: %d\n", ret);
-1e508af6bc4b24 Xi Pardee 2025-09-10  1432  				return ret;
-78a7491d5cba8b Xi Pardee 2025-04-09  1433  			}
-78a7491d5cba8b Xi Pardee 2025-04-09  1434  			++req_offset;
-78a7491d5cba8b Xi Pardee 2025-04-09  1435  		}
-78a7491d5cba8b Xi Pardee 2025-04-09  1436  		mode_offset += LPM_REG_COUNT + LPM_MODE_OFFSET;
-78a7491d5cba8b Xi Pardee 2025-04-09  1437  	}
-78a7491d5cba8b Xi Pardee 2025-04-09 @1438  	return ret;
-78a7491d5cba8b Xi Pardee 2025-04-09  1439  }
-78a7491d5cba8b Xi Pardee 2025-04-09  1440  
-
-:::::: The code at line 1438 was first introduced by commit
-:::::: 78a7491d5cba8b63c8dbaafc15cc92a2e3f049ca platform/x86:intel/pmc: Move PMC Core related functions
-
-:::::: TO: Xi Pardee <xi.pardee@linux.intel.com>
-:::::: CC: Ilpo J‰rvinen <ilpo.jarvinen@linux.intel.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:1172.15-1182.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:1212.15-1222.4: Warning (unique_unit_address_if_enabled): /usb@7d004000: duplicate unit-address (also used in node /usb-phy@7d004000)
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:1251.15-1261.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:37.3-41: Warning (interrupt_map): /pcie@1003000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+>> arch/arm/boot/dts/nvidia/tegra124-apalis-eval.dtb: pcie@1003000 (nvidia,tegra124-pcie): pci@1,0: Unevaluated properties are not allowed ('phy-names', 'phys' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+   arch/arm/boot/dts/nvidia/tegra124-apalis-eval.dtb: pcie@1003000 (nvidia,tegra124-pcie): pci@2,0: Unevaluated properties are not allowed ('phy-names', 'phys' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+   arch/arm/boot/dts/nvidia/tegra124-apalis-eval.dtb: pcie@1003000 (nvidia,tegra124-pcie): Unevaluated properties are not allowed ('avdd-pex-pll-supply', 'avdd-pll-erefe-supply', 'avddio-pex-supply', 'dvddio-pex-supply', 'hvdd-pex-pll-e-supply', 'hvdd-pex-supply', 'vddio-pex-ctl-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+   arch/arm/boot/dts/nvidia/tegra124-apalis-eval.dtb: dma@60020000 (nvidia,tegra124-apbdma): $nodename:0: 'dma@60020000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra20-apbdma.yaml
+   arch/arm/boot/dts/nvidia/tegra124-apalis-eval.dtb: /i2c@7000d000/pmic@40: failed to match any schema with compatible: ['ams,as3722']
+   arch/arm/boot/dts/nvidia/tegra124-apalis-eval.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra124-dfll']
+   arch/arm/boot/dts/nvidia/tegra124-apalis-eval.dtb: /ahub@70300000: failed to match any schema with compatible: ['nvidia,tegra124-ahub']
+--
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:1172.15-1182.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:1212.15-1222.4: Warning (unique_unit_address_if_enabled): /usb@7d004000: duplicate unit-address (also used in node /usb-phy@7d004000)
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:1251.15-1261.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:37.3-41: Warning (interrupt_map): /pcie@1003000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+>> arch/arm/boot/dts/nvidia/tegra124-apalis-v1.2-eval.dtb: pcie@1003000 (nvidia,tegra124-pcie): pci@1,0: Unevaluated properties are not allowed ('phy-names', 'phys' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+   arch/arm/boot/dts/nvidia/tegra124-apalis-v1.2-eval.dtb: pcie@1003000 (nvidia,tegra124-pcie): pci@2,0: Unevaluated properties are not allowed ('phy-names', 'phys' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+   arch/arm/boot/dts/nvidia/tegra124-apalis-v1.2-eval.dtb: pcie@1003000 (nvidia,tegra124-pcie): Unevaluated properties are not allowed ('avdd-pex-pll-supply', 'avdd-pll-erefe-supply', 'avddio-pex-supply', 'dvddio-pex-supply', 'hvdd-pex-pll-e-supply', 'hvdd-pex-supply', 'vddio-pex-ctl-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+   arch/arm/boot/dts/nvidia/tegra124-apalis-v1.2-eval.dtb: dma@60020000 (nvidia,tegra124-apbdma): $nodename:0: 'dma@60020000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra20-apbdma.yaml
+   arch/arm/boot/dts/nvidia/tegra124-apalis-v1.2-eval.dtb: /i2c@7000d000/pmic@40: failed to match any schema with compatible: ['ams,as3722']
+   arch/arm/boot/dts/nvidia/tegra124-apalis-v1.2-eval.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra124-dfll']
+   arch/arm/boot/dts/nvidia/tegra124-apalis-v1.2-eval.dtb: /ahub@70300000: failed to match any schema with compatible: ['nvidia,tegra124-ahub']
+--
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:1172.15-1182.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:1212.15-1222.4: Warning (unique_unit_address_if_enabled): /usb@7d004000: duplicate unit-address (also used in node /usb-phy@7d004000)
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:1251.15-1261.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:37.3-41: Warning (interrupt_map): /pcie@1003000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+>> arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: pcie@1003000 (nvidia,tegra124-pcie): pci@1,0: Unevaluated properties are not allowed ('phy-names', 'phys' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+   arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: pcie@1003000 (nvidia,tegra124-pcie): pci@2,0: Unevaluated properties are not allowed ('phy-names', 'phys' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+   arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: pcie@1003000 (nvidia,tegra124-pcie): Unevaluated properties are not allowed ('avdd-pex-pll-supply', 'avdd-pll-erefe-supply', 'avddio-pex-supply', 'dvddio-pex-supply', 'hvdd-pex-pll-e-supply', 'hvdd-pex-supply', 'vddio-pex-ctl-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+   arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: dma@60020000 (nvidia,tegra124-apbdma): $nodename:0: 'dma@60020000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra20-apbdma.yaml
+   arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: audio-codec@1c (realtek,rt5639): Unevaluated properties are not allowed ('realtek,ldo1-en-gpios' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml
+   arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: /i2c@7000d000/pmic@40: failed to match any schema with compatible: ['ams,as3722']
+--
+   arch/arm/boot/dts/nvidia/tegra20.dtsi:906.15-918.4: Warning (unique_unit_address_if_enabled): /usb@c5004000: duplicate unit-address (also used in node /usb-phy@c5004000)
+   arch/arm/boot/dts/nvidia/tegra20.dtsi:936.15-948.4: Warning (unique_unit_address_if_enabled): /usb@c5008000: duplicate unit-address (also used in node /usb-phy@c5008000)
+   arch/arm/boot/dts/nvidia/tegra20.dtsi:810.3-42: Warning (interrupt_map): /pcie@80003000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+   arch/arm/boot/dts/nvidia/tegra20-harmony.dtb: /nand-controller@70008000: failed to match any schema with compatible: ['nvidia,tegra20-nand']
+   arch/arm/boot/dts/nvidia/tegra20-harmony.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra20-gmi']
+   arch/arm/boot/dts/nvidia/tegra20-harmony.dtb: /i2c@7000d000/tps6586x@34: failed to match any schema with compatible: ['ti,tps6586x']
+   arch/arm/boot/dts/nvidia/tegra20-harmony.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra20-kbc']
+>> arch/arm/boot/dts/nvidia/tegra20-harmony.dtb: pcie@80003000 (nvidia,tegra20-pcie): Unevaluated properties are not allowed ('avdd-pex-pll-supply', 'avdd-pex-supply', 'avdd-plle-supply', 'vdd-pex-supply', 'vddio-pex-clk-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+--
+   arch/arm/boot/dts/nvidia/tegra20.dtsi:936.15-948.4: Warning (unique_unit_address_if_enabled): /usb@c5008000: duplicate unit-address (also used in node /usb-phy@c5008000)
+   arch/arm/boot/dts/nvidia/tegra20.dtsi:810.3-42: Warning (interrupt_map): /pcie@80003000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+   arch/arm/boot/dts/nvidia/tegra20-tec.dtb: /nand-controller@70008000: failed to match any schema with compatible: ['nvidia,tegra20-nand']
+   arch/arm/boot/dts/nvidia/tegra20-tec.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra20-gmi']
+   arch/arm/boot/dts/nvidia/tegra20-tec.dtb: /i2c@7000d000/tps6586x@34: failed to match any schema with compatible: ['ti,tps6586x']
+   arch/arm/boot/dts/nvidia/tegra20-tec.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra20-kbc']
+>> arch/arm/boot/dts/nvidia/tegra20-tec.dtb: pcie@80003000 (nvidia,tegra20-pcie): Unevaluated properties are not allowed ('avdd-pex-pll-supply', 'avdd-pex-supply', 'avdd-plle-supply', 'vdd-pex-supply', 'vddio-pex-clk-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+--
+   arch/arm/boot/dts/nvidia/tegra20.dtsi:906.15-918.4: Warning (unique_unit_address_if_enabled): /usb@c5004000: duplicate unit-address (also used in node /usb-phy@c5004000)
+   arch/arm/boot/dts/nvidia/tegra20.dtsi:936.15-948.4: Warning (unique_unit_address_if_enabled): /usb@c5008000: duplicate unit-address (also used in node /usb-phy@c5008000)
+   arch/arm/boot/dts/nvidia/tegra20.dtsi:810.3-42: Warning (interrupt_map): /pcie@80003000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+   arch/arm/boot/dts/nvidia/tegra20-trimslice.dtb: /nand-controller@70008000: failed to match any schema with compatible: ['nvidia,tegra20-nand']
+   arch/arm/boot/dts/nvidia/tegra20-trimslice.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra20-gmi']
+   arch/arm/boot/dts/nvidia/tegra20-trimslice.dtb: /i2c@7000c500/codec@1a: failed to match any schema with compatible: ['ti,tlv320aic23']
+   arch/arm/boot/dts/nvidia/tegra20-trimslice.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra20-kbc']
+>> arch/arm/boot/dts/nvidia/tegra20-trimslice.dtb: pcie@80003000 (nvidia,tegra20-pcie): Unevaluated properties are not allowed ('avdd-pex-pll-supply', 'avdd-pex-supply', 'avdd-plle-supply', 'vdd-pex-supply', 'vddio-pex-clk-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+--
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1130.15-1143.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1174.15-1186.4: Warning (unique_unit_address_if_enabled): /usb@7d004000: duplicate unit-address (also used in node /usb-phy@7d004000)
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1216.15-1228.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+>> arch/arm/boot/dts/nvidia/tegra30-beaver.dtb: pcie@3000 (nvidia,tegra30-pcie): Unevaluated properties are not allowed ('avdd-pex-pll-supply', 'avdd-pexa-supply', 'avdd-pexb-supply', 'avdd-plle-supply', 'hvdd-pex-supply', 'vdd-pexa-supply', 'vdd-pexb-supply', 'vddio-pex-ctl-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+   arch/arm/boot/dts/nvidia/tegra30-beaver.dtb: vi@54080000 (nvidia,tegra30-vi): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra30-vi', 'nvidia,tegra20-vi'] is too long
+   	'nvidia,tegra20-vi' was expected
+   	'nvidia,tegra114-vi' was expected
+   	'nvidia,tegra124-vi' was expected
+   	'nvidia,tegra132-vi' was expected
+   	'nvidia,tegra210-vi' was expected
+   	'nvidia,tegra186-vi' was expected
+   	'nvidia,tegra194-vi' was expected
+--
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1216.15-1228.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+>> arch/arm/boot/dts/nvidia/tegra30-cardhu-a02.dtb: pcie@3000 (nvidia,tegra30-pcie): Unevaluated properties are not allowed ('avdd-pex-pll-supply', 'avdd-pexb-supply', 'avdd-plle-supply', 'hvdd-pex-supply', 'vdd-pexb-supply', 'vddio-pex-ctl-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+   arch/arm/boot/dts/nvidia/tegra30-cardhu-a02.dtb: vi@54080000 (nvidia,tegra30-vi): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra30-vi', 'nvidia,tegra20-vi'] is too long
+   	'nvidia,tegra20-vi' was expected
+   	'nvidia,tegra114-vi' was expected
+   	'nvidia,tegra124-vi' was expected
+   	'nvidia,tegra132-vi' was expected
+   	'nvidia,tegra210-vi' was expected
+   	'nvidia,tegra186-vi' was expected
+   	'nvidia,tegra194-vi' was expected
+--
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1216.15-1228.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+>> arch/arm/boot/dts/nvidia/tegra30-cardhu-a04.dtb: pcie@3000 (nvidia,tegra30-pcie): Unevaluated properties are not allowed ('avdd-pex-pll-supply', 'avdd-pexb-supply', 'avdd-plle-supply', 'hvdd-pex-supply', 'vdd-pexb-supply', 'vddio-pex-ctl-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/nvidia,tegra-pcie.yaml
+   arch/arm/boot/dts/nvidia/tegra30-cardhu-a04.dtb: vi@54080000 (nvidia,tegra30-vi): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra30-vi', 'nvidia,tegra20-vi'] is too long
+   	'nvidia,tegra20-vi' was expected
+   	'nvidia,tegra114-vi' was expected
+   	'nvidia,tegra124-vi' was expected
+   	'nvidia,tegra132-vi' was expected
+   	'nvidia,tegra210-vi' was expected
+   	'nvidia,tegra186-vi' was expected
+   	'nvidia,tegra194-vi' was expected
 
 -- 
 0-DAY CI Kernel Test Service
