@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536FA1D6187
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 01:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70777221FB6
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 02:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766022567; cv=none; b=EaC9kW+Wl8sFMhxCwdQu2i0rsbTDlQLg1sPUPxUVYDa9NpZ9GTMJcEmpVp7S0e2DwpC/I48pN3C89KUPmS0UCNN38FaeFijWCofG3/AJqcvAiBtQThynUJC8XDAIzyDGgMIue3S4RQMuSHC5QT7g7rMZ42w8rfH+JBgUEaNkGVM=
+	t=1766025930; cv=none; b=J0zx9QZZcDDM56ubShDqTIxf+V2QGv7s8+efPX0nlMjSUfvIgxOUdDG8kIWi7sXMb6jMIgWhcnaDpoNwqAQMYp/L13c4iOF5f1tNWg0Bdij48FB//ksqlOgkB5AXSMBYRtBLlpa1pu3rknuar8x74DLE4lEw8pYBunMZaC5pFvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766022567; c=relaxed/simple;
-	bh=/biw6foyCq7+jl1ZhHiealSi2TIecvwgncaR8FuypSU=;
+	s=arc-20240116; t=1766025930; c=relaxed/simple;
+	bh=P3tkaKplReR4ffU/WvWpAKfa2zus1FT9kB3bBsm83hA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Biv/gvLlgKa5HekgcsjyganVrVrGxoyzxEKPxOukCxV57O5whgVjkEHrWitfsMB3ndQr0NnDvl/vitpa0MbnEkN5Qr0rR4H3PaxYnjv1ODzz0Irux6bS2mk4LrPDRTxGv5504z6GUFODcVWjPUX/Duqm0GVTkObErEm9Tu8X+io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BreS/N0r; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=qJsE+5E5pNVYaAPQ7O6oBS/M7KMih87IOcegP08o4Ukb8pGC8Ca6VVFyemQ1uyHOOGzbchpPqNYFSKRt2hsO1QBvEY1vcuBxWQ/cOgpvnC+IT6rop4eEt+T8uZmqhKwGTKQat+EgM0cDnQFG3QbM9fT1hbsaQuMBTTpm1uIgEYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JOqHIbXX; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BreS/N0r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JOqHIbXX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766022565; x=1797558565;
+  t=1766025927; x=1797561927;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/biw6foyCq7+jl1ZhHiealSi2TIecvwgncaR8FuypSU=;
-  b=BreS/N0roPKnIzqns7r8EvJPwcYCSZPaqRu/J3psn2EfFtv7/MacBqbs
-   zY3+dYT/TGaP9Rod7WmpFFQSxlcrxNO9wfl4tC5VvXyLtRI5rRBxIrxw/
-   Ae4U+28OR9sJVbknWv3GR23n7doDSB833SBcy8YGQiTWA6ouqLXQcjiBj
-   dhcJZJKaQjANQ6XV8q+XP8/G1RTqLJTmdlXcXb+2nckIWU9AoMm2o2Qtk
-   STu0aATVTV8/KX6ROU1bBTYV9FQcMS2NqPhwMIR0bq26aPfqyVHki8kDk
-   rztI17rG+90gugqT5s5aM7VNPmp//fU9GUC1GynOqwSsLxYYksRH7fWQk
-   w==;
-X-CSE-ConnectionGUID: BEQAaBWCS0+0cUpOXwF55A==
-X-CSE-MsgGUID: lFiKJL78RPya5XUOcQ062g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="78608978"
+  bh=P3tkaKplReR4ffU/WvWpAKfa2zus1FT9kB3bBsm83hA=;
+  b=JOqHIbXX8ciSVVs62uToe9x5/NqXMvoYpXxO/qiFSxMk/f/e6KdHX2JD
+   wF6NAS/b0m0ivRQ/2axirY++M2pm6UBVf0ZTbj1zQL2IKRYmrsDLpdrMC
+   eIs3fqlGiVzpbFo/E39fdhRulwWHXWgLiPzGMB+qgF7X+I8TunWScWoM1
+   hhxGE5Zlv4eZbxwgZzXTiTmZ1Lm232UcEtt/nYS+bG6hW21X+vMp1AKUv
+   DXL8ejL/Ou2ZhNU7CWgAxlMTifMNzcRVKqCGSMZyisIeeStQGR0yxuCig
+   D3iivrGhPFMSXExDen0luuQum1+zSjgktdFtbevQZWy5jDXL3TUOmeVNq
+   Q==;
+X-CSE-ConnectionGUID: VQqDo0z3S8+PT18tP7QasA==
+X-CSE-MsgGUID: 9CrPaI69QQGovjui/clmCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="67854821"
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="78608978"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 17:49:24 -0800
-X-CSE-ConnectionGUID: 7UEPRFp0TRGC+jh7wiPbhA==
-X-CSE-MsgGUID: xy3XPCWMSqaXk9B/ac/oqg==
+   d="scan'208";a="67854821"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 18:45:26 -0800
+X-CSE-ConnectionGUID: klIOmVmJRjiKPtUFI1/y2Q==
+X-CSE-MsgGUID: rLvWbitoSa6YvT62eJIm2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="229499657"
+   d="scan'208";a="221870564"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Dec 2025 17:49:23 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 17 Dec 2025 18:45:25 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vW38r-000000001Qh-11FO;
-	Thu, 18 Dec 2025 01:49:21 +0000
-Date: Thu, 18 Dec 2025 09:49:10 +0800
+	id 1vW415-000000001Tt-0pWz;
+	Thu, 18 Dec 2025 02:45:23 +0000
+Date: Thu, 18 Dec 2025 10:44:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: security/apparmor/apparmorfs.c:1846 ns_mkdir_op() warn: passing zero
- to 'ERR_PTR'
-Message-ID: <202512180926.ET1gM59p-lkp@intel.com>
+Subject: drivers/hv/hv_common.c:242 hv_kmsg_dump() error: uninitialized
+ symbol 'bytes_written'.
+Message-ID: <202512181017.7iRykewd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,83 +65,80 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: NeilBrown <neilb@suse.de>
-CC: Christian Brauner <brauner@kernel.org>
-CC: Jeff Layton <jlayton@kernel.org>
-CC: Jan Kara <jack@suse.cz>
+TO: Roman Kisel <romank@linux.microsoft.com>
+CC: Wei Liu <wei.liu@kernel.org>
+CC: Michael Kelley <mhklinux@outlook.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-commit: 88d5baf69082e5b410296435008329676b687549 Change inode_operations.mkdir to return struct dentry *
-date:   10 months ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-161-20251213 (https://download.01.org/0day-ci/archive/20251218/202512180926.ET1gM59p-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+commit: f41ceff1748612b9e1538becc13dc2f1617d9d14 Drivers: hv: Enable VTL mode for arm64
+date:   7 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 7 months ago
+config: arm64-randconfig-r072-20251216 (https://download.01.org/0day-ci/archive/20251218/202512181017.7iRykewd-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512180926.ET1gM59p-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512181017.7iRykewd-lkp@intel.com/
 
 smatch warnings:
-security/apparmor/apparmorfs.c:1846 ns_mkdir_op() warn: passing zero to 'ERR_PTR'
+drivers/hv/hv_common.c:242 hv_kmsg_dump() error: uninitialized symbol 'bytes_written'.
 
-vim +/ERR_PTR +1846 security/apparmor/apparmorfs.c
+vim +/bytes_written +242 drivers/hv/hv_common.c
 
-0d259f043f5f60 John Johansen     2013-07-10  1797  
-88d5baf69082e5 NeilBrown         2025-02-27  1798  static struct dentry *ns_mkdir_op(struct mnt_idmap *idmap, struct inode *dir,
-549c7297717c32 Christian Brauner 2021-01-21  1799  				  struct dentry *dentry, umode_t mode)
-4ae47f33354a96 John Johansen     2017-05-26  1800  {
-4ae47f33354a96 John Johansen     2017-05-26  1801  	struct aa_ns *ns, *parent;
-4ae47f33354a96 John Johansen     2017-05-26  1802  	/* TODO: improve permission check */
-637f688dc3dc30 John Johansen     2017-06-09  1803  	struct aa_label *label;
-637f688dc3dc30 John Johansen     2017-06-09  1804  	int error;
-637f688dc3dc30 John Johansen     2017-06-09  1805  
-637f688dc3dc30 John Johansen     2017-06-09  1806  	label = begin_current_label_crit_section();
-90c436a64a6e20 John Johansen     2022-09-19  1807  	error = aa_may_manage_policy(current_cred(), label, NULL,
-90c436a64a6e20 John Johansen     2022-09-19  1808  				     AA_MAY_LOAD_POLICY);
-637f688dc3dc30 John Johansen     2017-06-09  1809  	end_current_label_crit_section(label);
-4ae47f33354a96 John Johansen     2017-05-26  1810  	if (error)
-88d5baf69082e5 NeilBrown         2025-02-27  1811  		return ERR_PTR(error);
-4ae47f33354a96 John Johansen     2017-05-26  1812  
-4ae47f33354a96 John Johansen     2017-05-26  1813  	parent = aa_get_ns(dir->i_private);
-4ae47f33354a96 John Johansen     2017-05-26  1814  	AA_BUG(d_inode(ns_subns_dir(parent)) != dir);
-4ae47f33354a96 John Johansen     2017-05-26  1815  
-4ae47f33354a96 John Johansen     2017-05-26  1816  	/* we have to unlock and then relock to get locking order right
-4ae47f33354a96 John Johansen     2017-05-26  1817  	 * for pin_fs
-4ae47f33354a96 John Johansen     2017-05-26  1818  	 */
-4ae47f33354a96 John Johansen     2017-05-26  1819  	inode_unlock(dir);
-4ae47f33354a96 John Johansen     2017-05-26  1820  	error = simple_pin_fs(&aafs_ops, &aafs_mnt, &aafs_count);
-feb3c766a3ab32 John Johansen     2017-11-20  1821  	mutex_lock_nested(&parent->lock, parent->level);
-4ae47f33354a96 John Johansen     2017-05-26  1822  	inode_lock_nested(dir, I_MUTEX_PARENT);
-4ae47f33354a96 John Johansen     2017-05-26  1823  	if (error)
-4ae47f33354a96 John Johansen     2017-05-26  1824  		goto out;
-4ae47f33354a96 John Johansen     2017-05-26  1825  
-4ae47f33354a96 John Johansen     2017-05-26  1826  	error = __aafs_setup_d_inode(dir, dentry, mode | S_IFDIR,  NULL,
-4ae47f33354a96 John Johansen     2017-05-26  1827  				     NULL, NULL, NULL);
-4ae47f33354a96 John Johansen     2017-05-26  1828  	if (error)
-4ae47f33354a96 John Johansen     2017-05-26  1829  		goto out_pin;
-4ae47f33354a96 John Johansen     2017-05-26  1830  
-4ae47f33354a96 John Johansen     2017-05-26  1831  	ns = __aa_find_or_create_ns(parent, READ_ONCE(dentry->d_name.name),
-4ae47f33354a96 John Johansen     2017-05-26  1832  				    dentry);
-4ae47f33354a96 John Johansen     2017-05-26  1833  	if (IS_ERR(ns)) {
-4ae47f33354a96 John Johansen     2017-05-26  1834  		error = PTR_ERR(ns);
-4ae47f33354a96 John Johansen     2017-05-26  1835  		ns = NULL;
-4ae47f33354a96 John Johansen     2017-05-26  1836  	}
-4ae47f33354a96 John Johansen     2017-05-26  1837  
-4ae47f33354a96 John Johansen     2017-05-26  1838  	aa_put_ns(ns);		/* list ref remains */
-4ae47f33354a96 John Johansen     2017-05-26  1839  out_pin:
-4ae47f33354a96 John Johansen     2017-05-26  1840  	if (error)
-4ae47f33354a96 John Johansen     2017-05-26  1841  		simple_release_fs(&aafs_mnt, &aafs_count);
-4ae47f33354a96 John Johansen     2017-05-26  1842  out:
-4ae47f33354a96 John Johansen     2017-05-26  1843  	mutex_unlock(&parent->lock);
-4ae47f33354a96 John Johansen     2017-05-26  1844  	aa_put_ns(parent);
-4ae47f33354a96 John Johansen     2017-05-26  1845  
-88d5baf69082e5 NeilBrown         2025-02-27 @1846  	return ERR_PTR(error);
-4ae47f33354a96 John Johansen     2017-05-26  1847  }
-4ae47f33354a96 John Johansen     2017-05-26  1848  
+9c318a1d9b5000 Long Li         2023-04-20  220  
+9c318a1d9b5000 Long Li         2023-04-20  221  /*
+9c318a1d9b5000 Long Li         2023-04-20  222   * Callback from kmsg_dump. Grab as much as possible from the end of the kmsg
+9c318a1d9b5000 Long Li         2023-04-20  223   * buffer and call into Hyper-V to transfer the data.
+9c318a1d9b5000 Long Li         2023-04-20  224   */
+9c318a1d9b5000 Long Li         2023-04-20  225  static void hv_kmsg_dump(struct kmsg_dumper *dumper,
+e1a261ba599eec Jocelyn Falempe 2024-07-02  226  			 struct kmsg_dump_detail *detail)
+9c318a1d9b5000 Long Li         2023-04-20  227  {
+9c318a1d9b5000 Long Li         2023-04-20  228  	struct kmsg_dump_iter iter;
+9c318a1d9b5000 Long Li         2023-04-20  229  	size_t bytes_written;
+9c318a1d9b5000 Long Li         2023-04-20  230  
+9c318a1d9b5000 Long Li         2023-04-20  231  	/* We are only interested in panics. */
+e1a261ba599eec Jocelyn Falempe 2024-07-02  232  	if (detail->reason != KMSG_DUMP_PANIC || !sysctl_record_panic_msg)
+9c318a1d9b5000 Long Li         2023-04-20  233  		return;
+9c318a1d9b5000 Long Li         2023-04-20  234  
+9c318a1d9b5000 Long Li         2023-04-20  235  	/*
+9c318a1d9b5000 Long Li         2023-04-20  236  	 * Write dump contents to the page. No need to synchronize; panic should
+9c318a1d9b5000 Long Li         2023-04-20  237  	 * be single-threaded.
+9c318a1d9b5000 Long Li         2023-04-20  238  	 */
+9c318a1d9b5000 Long Li         2023-04-20  239  	kmsg_dump_rewind(&iter);
+9c318a1d9b5000 Long Li         2023-04-20  240  	kmsg_dump_get_buffer(&iter, false, hv_panic_page, HV_HYP_PAGE_SIZE,
+9c318a1d9b5000 Long Li         2023-04-20  241  			     &bytes_written);
+9c318a1d9b5000 Long Li         2023-04-20 @242  	if (!bytes_written)
+9c318a1d9b5000 Long Li         2023-04-20  243  		return;
+9c318a1d9b5000 Long Li         2023-04-20  244  	/*
+9c318a1d9b5000 Long Li         2023-04-20  245  	 * P3 to contain the physical address of the panic page & P4 to
+9c318a1d9b5000 Long Li         2023-04-20  246  	 * contain the size of the panic data in that page. Rest of the
+9c318a1d9b5000 Long Li         2023-04-20  247  	 * registers are no-op when the NOTIFY_MSG flag is set.
+9c318a1d9b5000 Long Li         2023-04-20  248  	 */
+0e3f7d120086c8 Nuno Das Neves  2024-02-20  249  	hv_set_msr(HV_MSR_CRASH_P0, 0);
+0e3f7d120086c8 Nuno Das Neves  2024-02-20  250  	hv_set_msr(HV_MSR_CRASH_P1, 0);
+0e3f7d120086c8 Nuno Das Neves  2024-02-20  251  	hv_set_msr(HV_MSR_CRASH_P2, 0);
+0e3f7d120086c8 Nuno Das Neves  2024-02-20  252  	hv_set_msr(HV_MSR_CRASH_P3, virt_to_phys(hv_panic_page));
+0e3f7d120086c8 Nuno Das Neves  2024-02-20  253  	hv_set_msr(HV_MSR_CRASH_P4, bytes_written);
+9c318a1d9b5000 Long Li         2023-04-20  254  
+9c318a1d9b5000 Long Li         2023-04-20  255  	/*
+9c318a1d9b5000 Long Li         2023-04-20  256  	 * Let Hyper-V know there is crash data available along with
+9c318a1d9b5000 Long Li         2023-04-20  257  	 * the panic message.
+9c318a1d9b5000 Long Li         2023-04-20  258  	 */
+0e3f7d120086c8 Nuno Das Neves  2024-02-20  259  	hv_set_msr(HV_MSR_CRASH_CTL,
+9c318a1d9b5000 Long Li         2023-04-20  260  		   (HV_CRASH_CTL_CRASH_NOTIFY |
+9c318a1d9b5000 Long Li         2023-04-20  261  		    HV_CRASH_CTL_CRASH_NOTIFY_MSG));
+9c318a1d9b5000 Long Li         2023-04-20  262  }
+9c318a1d9b5000 Long Li         2023-04-20  263  
+
+:::::: The code at line 242 was first introduced by commit
+:::::: 9c318a1d9b5000c77527011f158a75c5483510f5 Drivers: hv: move panic report code from vmbus to hv early init code
+
+:::::: TO: Long Li <longli@microsoft.com>
+:::::: CC: Wei Liu <wei.liu@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
