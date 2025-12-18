@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2405C2DAFA4
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 12:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D1732E72D
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 12:32:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766061125; cv=none; b=eyOqJ15/Fx5pLUrP3e6RmgefkoxiBgABm4MrQ7lC2xSdY5b/whMejw2DskYOry4vvwsi3AmzOt9PJNp4RKd4RMlEKrI1Ci017bYS+S34HPyjXKJWk+hpKUkeVkBxtmiVidsshoIDbm5ZMgHLC6807S+on8HwruukypegnjRDp84=
+	t=1766061128; cv=none; b=C1ZzByL9lnzfUmvKypSCQjZUwM3Zmhie9JJ/oP28HBMjD1kC9xfiNr9YgjzZgLNM7Z4xkvvPD7iexfhRXtUVNQlMBWwzoWNv0K94UlQRD9BlW9Cxdqg3kmz2tdabuaoo2u+wj48rg1jvRSVbUoIMJbGIUfrMu8hUzMTFza5fnzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766061125; c=relaxed/simple;
-	bh=VHVLG3ELS4Mf5D5dh1GLBRkqBDWxzIFVcAkoPi6w/Pk=;
+	s=arc-20240116; t=1766061128; c=relaxed/simple;
+	bh=oJYAgYY25chF+6AHkohjYpbjPwyP3HIMWq/eZHwtpT0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SzCcUobiWR4ik+ceBIIHc49UWrlGERVsgUqCDqBdy/pxVaE7vqaXR5P/otwL0uSzjBhENJUicE/OG2KN6XWi+EQtGmHq39ty9Pw3JIEPqNmeWafy6KwvCqDvmC6qBzy73Zx1X9a96CJLFSpc9/1QFV0CfdSbLo6JcaPQuW1AcMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TdF4zJWJ; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=DEDpa7SaOWee/RIkvLY7uVK7MnRILL/KUUqTzHG/Q5OHTsO7ez8/cSvffpKXV0f1wDGHBeXdqW08h15kUvcurUvHiLM4G5YoMRpIGzdCw1WBzi6HBox4huKbHf731ZdHJltBbfXh6xa2PRz5uEQE5v7a+p5ze5p/Ff7rBTpbQnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJGfYQVb; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TdF4zJWJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJGfYQVb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766061123; x=1797597123;
+  t=1766061125; x=1797597125;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VHVLG3ELS4Mf5D5dh1GLBRkqBDWxzIFVcAkoPi6w/Pk=;
-  b=TdF4zJWJSh6vEVsYNWikan8IJqQTyvLAWborbRiVpS9xTXYu3oL+N1gY
-   ujIh3ondbF5mHqcYm+wCYP/J7U01sGbxjR6tjdFS2OsuTlN7d7PMSWbwf
-   8NnCdN60S4/Tm423+NyJ75Z//mGEOjLORUWJpl9q6pmAH5DIrmZ6mJ4V1
-   kejSGGFpNLkigkWaLb+NCPQSGslqV0gS57huJVpD9UH4F5EjKeKzJBMYT
-   +PCmMp2lXZEFjNo0O9mLsuj81jFLk7lUql3VqnraavAWfw1HYZPWxSoKd
-   MB+aXxulMZhgVDWgqfFFObVafjtLpJakWSoU04RXpZQkKTX/lD07iz6h0
-   g==;
-X-CSE-ConnectionGUID: DL5tzgLcTW6Bk8rmoQOiFQ==
-X-CSE-MsgGUID: fOLghOnBR467w5Q1h7kslw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="55587785"
+  bh=oJYAgYY25chF+6AHkohjYpbjPwyP3HIMWq/eZHwtpT0=;
+  b=LJGfYQVbF3u5hvPt3ozvgtQHn49oLK4bNd8bwTOV+VSBi/fpqIiBVcZx
+   s+JEeoROk7MvxF8rJ7sE/XrGV3xOi9e5jT4RpRn3KN5mGqfqPfarN0rAh
+   DF51lvJhV8EKuEmSPTUjfqIfIOkNiefodXvp6q9r2KMY+KEzfKgVgWxcT
+   V8TxXTDwSIuqPtnucFvaa3zLDBFfQmUa46gK0qCCNH+Us41lyHoOEGCq6
+   JS8LpvwD9C1B72qGACUP/S6u1kSG5EZRaKGOY3Op1SlWXhOlEp1CMDtIU
+   IZOL6jW5zQw8AxE8OeZS5LEfjv0XfBht7IGf3W1vDtvNARHENJ4BPVVwU
+   w==;
+X-CSE-ConnectionGUID: KT0PaJmjSyGxoZ2mgLtacA==
+X-CSE-MsgGUID: OUVJFZlwRyOVZHahW29mIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="55587787"
 X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="55587785"
+   d="scan'208";a="55587787"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 04:32:02 -0800
-X-CSE-ConnectionGUID: 0OR5dDyfQ+emammThX/8Rg==
-X-CSE-MsgGUID: tJKR6bU5SPqeVEz8XqobjQ==
+X-CSE-ConnectionGUID: /+eHhStlTlmULzO3qi7mWg==
+X-CSE-MsgGUID: 1VXzYK/KQ0uAGfS57JUucw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="203469727"
+   d="scan'208";a="203469731"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 18 Dec 2025 04:32:01 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWDAl-0000000024J-18Vg;
+	id 1vWDAl-0000000024H-11dK;
 	Thu, 18 Dec 2025 12:31:59 +0000
-Date: Thu, 18 Dec 2025 20:31:33 +0800
+Date: Thu, 18 Dec 2025 20:31:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arc/boot/dts/vdk_hs38_smp.dtb: Warning (interrupt_map): Failed
- prerequisite 'interrupt_provider'
-Message-ID: <202512182018.u3GH4ETA-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [melver:ctx-analysis/dev 8/36]
+ drivers/tty/serial/fsl_linflexuart.c:657 linflex_console_write() error:
+ uninitialized symbol 'flags'.
+Message-ID: <202512182003.gapcsWar-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,42 +63,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
-CC: linux-snps-arc@lists.infradead.org
+TO: elver@google.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-commit: 3b7f793acc13b6108452271b306d4aa94a3c4940 ARC: migrate to the generic rule for built-in DTB
-date:   11 months ago
-:::::: branch date: 33 hours ago
-:::::: commit date: 11 months ago
-config: arc-vdk_hs38_smp_defconfig (https://download.01.org/0day-ci/archive/20251218/202512182018.u3GH4ETA-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512182018.u3GH4ETA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ctx-analysis/dev
+head:   5950df0508b3b151758cb1d1d965713d93200c47
+commit: 5f1642c5f2075d5dc42bfc1f5978ce33356417fa [8/36] locking/rwlock, spinlock: Support Clang's context analysis
+:::::: branch date: 21 hours ago
+:::::: commit date: 22 hours ago
+config: nios2-randconfig-r073-20251218 (https://download.01.org/0day-ci/archive/20251218/202512182003.gapcsWar-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512182018.u3GH4ETA-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512182003.gapcsWar-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arc/boot/dts/vdk_axc003_idu.dtsi:18.11-55.4: Warning (unit_address_vs_reg): /cpu_card: node has a reg or ranges property, but no unit name
-   arch/arc/boot/dts/vdk_axc003_idu.dtsi:31.29-35.5: Warning (unit_address_vs_reg): /cpu_card/archs-intc@cpu: node has a unit name, but no reg or ranges property
-   arch/arc/boot/dts/vdk_axs10x_mb.dtsi:9.16-111.4: Warning (unit_address_vs_reg): /axs10x_mb_vdk: node has a reg or ranges property, but no unit name
-   arch/arc/boot/dts/vdk_axc003_idu.dtsi:25.22-29.5: Warning (simple_bus_reg): /cpu_card/core_clk: missing or empty reg/ranges property
-   arch/arc/boot/dts/vdk_axc003_idu.dtsi:31.29-35.5: Warning (simple_bus_reg): /cpu_card/archs-intc@cpu: missing or empty reg/ranges property
-   arch/arc/boot/dts/vdk_axc003_idu.dtsi:37.38-42.5: Warning (simple_bus_reg): /cpu_card/idu-interrupt-controller: missing or empty reg/ranges property
-   arch/arc/boot/dts/vdk_axs10x_mb.dtsi:16.10-34.5: Warning (simple_bus_reg): /axs10x_mb_vdk/clocks: missing or empty reg/ranges property
-   arch/arc/boot/dts/vdk_axs10x_mb.dtsi:94.21-99.5: Warning (simple_bus_reg): /axs10x_mb_vdk/ps2@e0017400: simple-bus unit address format error, expected "17400"
-   arch/arc/boot/dts/vdk_axs10x_mb.dtsi:36.18-47.5: Warning (interrupt_provider): /axs10x_mb_vdk/ethernet@18000: '#interrupt-cells' found, but node is not an interrupt provider
->> arch/arc/boot/dts/vdk_hs38_smp.dtb: Warning (interrupt_map): Failed prerequisite 'interrupt_provider'
+New smatch warnings:
+drivers/tty/serial/fsl_linflexuart.c:657 linflex_console_write() error: uninitialized symbol 'flags'.
+drivers/tty/serial/digicolor-usart.c:408 digicolor_uart_console_write() error: uninitialized symbol 'flags'.
+drivers/tty/serial/uartlite.c:523 ulite_console_write() error: uninitialized symbol 'flags'.
+drivers/tty/serial/fsl_lpuart.c:1336 lpuart_timer_func() error: uninitialized symbol 'flags'.
+
+Old smatch warnings:
+drivers/tty/serial/fsl_linflexuart.c:613 linflex_earlycon_putchar() error: we previously assumed 'earlycon_buf.content' could be null (see line 601)
+drivers/tty/serial/fsl_linflexuart.c:746 linflex_console_setup() error: we previously assumed 'earlycon_port' could be null (see line 720)
+
+vim +/flags +657 drivers/tty/serial/fsl_linflexuart.c
+
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  639  
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  640  static void
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  641  linflex_console_write(struct console *co, const char *s, unsigned int count)
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  642  {
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  643  	struct uart_port *sport = linflex_ports[co->index];
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  644  	unsigned long flags;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  645  	int locked = 1;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  646  
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  647  	if (sport->sysrq)
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  648  		locked = 0;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  649  	else if (oops_in_progress)
+7c6725ffd58133 Thomas Gleixner      2023-09-14  650  		locked = uart_port_trylock_irqsave(sport, &flags);
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  651  	else
+7c6725ffd58133 Thomas Gleixner      2023-09-14  652  		uart_port_lock_irqsave(sport, &flags);
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  653  
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  654  	linflex_string_write(sport, s, count);
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  655  
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  656  	if (locked)
+7c6725ffd58133 Thomas Gleixner      2023-09-14 @657  		uart_port_unlock_irqrestore(sport, flags);
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  658  }
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  659  
+
+:::::: The code at line 657 was first introduced by commit
+:::::: 7c6725ffd58133536b372bdb3559e7da0c89e492 serial: linflexuart: Use port lock wrappers
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
