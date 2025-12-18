@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B6E81ACA
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 01:07:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E2125EFBC
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 01:39:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766020054; cv=none; b=gSNu0nq9XTe9qObKq9fLJ7JnE1q9CmkUR5h8jaIkvy3LK9mXk1XTTvgHYuQQUQWWhwN2RLu8oqaQGNhkidNZ0DqyNgSLhm+kYAGFCQFs06o8Xk+kqfGSPW+A1Y23hg3ywHhlU1+Qner2+G1CyAoSKG/C7LjFNblq+nwIdDBDRCs=
+	t=1766021945; cv=none; b=HfvvwiC77iF+oX641aZpDKgUpBc9rBn3Nd9gUw3QbaTsLlVcq9/N9nz2cAlba6qzW4YwO6VIWPYQ49O3j7oXgSLCA+9KK0og79JIkfuVZz6c+EKcuTYk436CTbBwiAjpis9sLXFLamlScsalm3diasPpHFVPaob0DU9ItXs8tzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766020054; c=relaxed/simple;
-	bh=1biikZg6zy6VWOXo8tYaxPTghxwmPyBsbDk3HT/wa38=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZKRORL0Oa7sN93DDjg0f8PY7TmhXFCkL1SMm1XqusGI57zpaisul8PjaQQUnmatqomL/VODfNnq5XjLfQ7z1DLzKjfyiglAhQ5URjNwArErwxhm1njhnnX87CFUvnSgrU7dc8ZY5WrHR6jKSDhM4uGZoNYxwaD66PlWwm81I0yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zmmkk/nC; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1766021945; c=relaxed/simple;
+	bh=6un07QV7U9tQKJlKA+VPJbW/h8Qv8d2lyuORCGS5Zzo=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pOMe8zKxaGRlEo9AQX8eEV+qjXMY30WagVEwwKLrfMfkO22+D1tFUhMal3wpL6F7zXyRZV88pNaq4Gl0sgiPdOzZmkPns7nVwU5PCtkqmccX8Otoy/48qJ6dt7gIj8N/pDK69GP5o6WbgMR5uXJdBzpfwtqnsiEpMLctKrjoVjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JNKSyWSl; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zmmkk/nC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JNKSyWSl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766020053; x=1797556053;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1biikZg6zy6VWOXo8tYaxPTghxwmPyBsbDk3HT/wa38=;
-  b=Zmmkk/nC56BsmEfY76o+ZyFkLunhEgISOmBucLaNmEZCBltpTmUf0fT5
-   fMPC+kHgqxciuroS2FMJmH0sQIG08jI/d/dPy3vtzmNutZv0LXj+Veyri
-   ggZDuh0BZ8NpehXAYsRBiP15HIsgoLPYSoqwgJeXBeqdEnm/bm3LC7fFN
-   iyj02wsuW6Hlch6Pt2vZb2SKmEjU4u+JH4GMc1MhcCPjwJeo4mNpz9cEb
-   pcbvH/PYsB8Uv8QvHA2QTz1aGw7pld+LR7pigLXo2MKFeR5eeoNZuj5DO
-   UkpN7Cy668Z2ss6Ahy4HYvD7C/3UJVJrXvaNeHPxvvKXm+bePiSrweTmn
-   Q==;
-X-CSE-ConnectionGUID: p3AjOkMMTFSwvywzMv85bA==
-X-CSE-MsgGUID: yO9NzbzSQYeDZRgiLjIymg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="55544087"
+  t=1766021944; x=1797557944;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=6un07QV7U9tQKJlKA+VPJbW/h8Qv8d2lyuORCGS5Zzo=;
+  b=JNKSyWSl6LNiadB6cAC1EF+0wcvUMT4sEC1vInhZW0QR0J1EoIDih16N
+   N78ozbKyUQgZiaf2QmthTXxFjPeUiWbRNNiPyvEjkl58M/QpXTISzq86I
+   nDTjegE8stqIKJDvCkHVhh83+ccSqWFNHHcAb77n6FwIyGxgfjg25mkqZ
+   ELWlBXbRgMIa/hJ+j67SdEjfi3adWVZICK0+Hms+fOKxA7ErmAeATKdX9
+   WibC+hllFiCPfTIAEuCJWcUff6w1OkKB6c8dyTJn0omIFO23rRRevkleh
+   JB62bZlw83PcaGVaY140jNWpeDoaBgyALlwGzqzRSh1Wqo4cJ+Ph28y0o
+   A==;
+X-CSE-ConnectionGUID: HxFt/LljRfK0thjqLsH+Hg==
+X-CSE-MsgGUID: GsO25e3/RV2tSgF7zbvqBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="90630444"
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="55544087"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 17:07:23 -0800
-X-CSE-ConnectionGUID: UY/WDlW/QxKDLUXYexgDeg==
-X-CSE-MsgGUID: 6BkCbdAOTqmO6dJgLkpDig==
+   d="scan'208";a="90630444"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 17:39:03 -0800
+X-CSE-ConnectionGUID: NVUbBtjDR6OBvB2MVehE+g==
+X-CSE-MsgGUID: ajeEcO4nSECfEkvUlydUVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="235866858"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 17 Dec 2025 17:07:22 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+   d="scan'208";a="198224782"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 17 Dec 2025 17:39:03 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vW2UB-000000001Of-3smP;
-	Thu, 18 Dec 2025 01:07:19 +0000
-Date: Thu, 18 Dec 2025 09:07:02 +0800
+	id 1vW2yq-000000003ng-2ST6
+	for oe-kbuild@lists.linux.dev;
+	Thu, 18 Dec 2025 01:39:00 +0000
+Date: Thu, 18 Dec 2025 02:38:29 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/mellanox/mlx5/core/eswitch.h:981
- mlx5_esw_vport_vhca_id() warn: signedness bug returning '(-45)'
-Message-ID: <202512180851.WNLFBz7t-lkp@intel.com>
+Subject: [dhowells-fs:cifs-cleanup 28/37] checkpatch: WARNING:REPEATED_WORD:
+ Possible repeated word: 'from'
+Message-ID: <202512180203.QfGbvGm9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,43 +62,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Saeed Mahameed <saeedm@nvidia.com>
-CC: Adithya Jayachandran <ajayachandra@nvidia.com>
-CC: Parav Pandit <parav@nvidia.com>
-CC: Feng Liu <feliu@nvidia.com>
-CC: William Tu <witu@nvidia.com>
-CC: Mark Bloch <mbloch@nvidia.com>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-commit: 1baf30426553efb3ac518b0e9d5c1c3f8ed7762a net/mlx5: E-Switch, Set/Query hca cap via vhca id
-date:   4 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 4 months ago
-config: alpha-randconfig-r073-20251217 (https://download.01.org/0day-ci/archive/20251218/202512180851.WNLFBz7t-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git cifs-cleanup
+head:   b85103543e0f050c63f5bdace9c2cef1b53c6e1f
+commit: fcbcc65031335d36c8a0f4c5ca73f0e6c0279e70 [28/37] cifs: SMB1 split: Don't return smb_hdr from cifs_{,small_}buf_get()
+:::::: branch date: 78 minutes ago
+:::::: commit date: 2 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20251218/202512180203.QfGbvGm9-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512180851.WNLFBz7t-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/eswitch.h:981 mlx5_esw_vport_vhca_id() warn: signedness bug returning '(-45)'
-
-vim +981 drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
-
-1baf30426553efb Saeed Mahameed 2025-06-16  977  
-1baf30426553efb Saeed Mahameed 2025-06-16  978  static inline bool
-1baf30426553efb Saeed Mahameed 2025-06-16  979  mlx5_esw_vport_vhca_id(struct mlx5_eswitch *esw, u16 vportn, u16 *vhca_id)
-1baf30426553efb Saeed Mahameed 2025-06-16  980  {
-1baf30426553efb Saeed Mahameed 2025-06-16 @981  	return -EOPNOTSUPP;
-1baf30426553efb Saeed Mahameed 2025-06-16  982  }
-1baf30426553efb Saeed Mahameed 2025-06-16  983  
+WARNING:REPEATED_WORD: Possible repeated word: 'from'
+#7: 
+Return void* rather than struct smb_hdr* from from cifs_buf_get() and
 
 -- 
 0-DAY CI Kernel Test Service
