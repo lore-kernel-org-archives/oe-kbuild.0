@@ -1,71 +1,57 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9342D323D
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 07:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5CA028371
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 08:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766042493; cv=none; b=D22G0o9Fcf+vtY8Mc3SqkPO93cNHSgNw7rxpKDdUKxKKlmUoDl9p+kr+vh9dF6eY7jMa2Ej/yoFuZu7rdtfgXpudykmkc40YEuAPgZd+vVdesRuBhS90hPkch78PCoKSXXfwXICA+CSs2VkeS/QBpge0f961Vj+k8vEIrcakXnU=
+	t=1766045270; cv=none; b=jkDTxN3TmzFfMorOTEdyqm5HZeI9LA8VM6ybLKbtyUTfAyhTIyebe4EuiY32r5H0ygoG6foKuyq69OJidw0rPBNQq25Kok1qARqkeTil1/tWAyV/Pl9oZeZDRkl+ZiDhoZMUaSq8bSHKiZTOAlv8bfUqMwx4jwd2KPJbEEcCTlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766042493; c=relaxed/simple;
-	bh=fXLtSVk82ESKQOzdshAmeibfIxSRyhMx8s2wTZtSSTg=;
+	s=arc-20240116; t=1766045270; c=relaxed/simple;
+	bh=qNJ6OsVWFZxTLyDqzEn+GhJS8Rr8tDPuRgt0B1nSsCU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BAgC7M3PPJKEaChOO11HERqsuomlc2bZFQKa7UsdzmQ7bA3oEc5XUa/HZVE6ZbOBlmpJsPnLiA+2jY7LyYTXiQfq1N1avX6N6meJtMh67cFuJ/nljUm5bRS0gRKPZ2NNhS5tOYlNdmwwlTnSTc7WoLBG8Bu6m8MeN5JanrTSnZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bCUyfnYx; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=hTKY7+nHhR/Y/TLVRc0hgXzlyzhV4pt9EWHg0OtB7pOchRG8oMlQpyzcK2GHdry5qQx6DsDZQkRieeKKNizBDMasYPI1hxPqbDEQF5Pc+A9jrUrA5gCqBDLpXv2SKEq3t8Dd1aTeJ/79cVFEiQzpG/DHHZCx4ng0iOaaxm3iFcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jh77xZZ9; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bCUyfnYx"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-47798ded6fcso1788445e9.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 17 Dec 2025 23:21:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1766042490; x=1766647290; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XjftRkgAweItEZkBzFZPCbzdvPthZCUVd118Fzc2bn4=;
-        b=bCUyfnYxbHmQeYOXN10RqlLvpn9a3qLfIC31fdH9CjCojGmvBIls+ZCgP3jso+G3A3
-         aCTWbZliLp3IW+WozwAVqH/oGFmF991wt/agZot5NfLVtLoW1WWi0XhKL95stuWuSZG6
-         wb/6UGEwXn0kXKP4uM/MmJyaLnDjp/AwKE9ZBdGoVDwBEWMvXKI+UdLcmC0wzrYbyL0s
-         TSebwFeVDn9jJFagOsDxnPCc8Ras13hjZ6gFc5i5uQHfeb9ovpdkRAjy3vmRP+PhgWs5
-         GxJbCG9SxUO58qW+yxxLOOtP5GcaJSx8P8iC4EnUP15Z4whNr7HDFLCUURlfoQsyznog
-         RYpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766042490; x=1766647290;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XjftRkgAweItEZkBzFZPCbzdvPthZCUVd118Fzc2bn4=;
-        b=dGZVkx88T5UMWcAQpkvDkVLaCh0epYQKrga2E931scBNNyZ/qYjdt7zwTDz4igZfkR
-         TqatH5y7boq9u6yeGydfKlwpye+cJC9w5ZYUeBzVDsoPqw/yoQRJ1N9aWwLn0rARBnp4
-         JHxqMMIaxXneO2G6/xv021sAn8TpT1C0xOBhTeQWo2rVU6R4mA4EpNsqGINSSgqeg67+
-         wGksPNqXxI4XnrkXOhzzJRbKnqj+990za7zbvmCSKSp3N6SGFkYfhX57rsHxfgn5ECBp
-         g584wndm8Zbv0Y9+h7NACOcsN5jLsi/yojRJo2LHeNQQBBFArZ74CjiNgA3qP/j8dHWe
-         zhMg==
-X-Gm-Message-State: AOJu0YxLlBz4JK7oj6Gm0QQSjgx+mHsRAbH3NnY0n6uvsTgcYaqszpeo
-	5UGNiwMNnGKFk/upOfhiaKvFu/zPU0HK02O2q37XV+LrmdIdgDepXuOHUlTLfk8/UDvpR86A+Ko
-	ki2rm8iI=
-X-Gm-Gg: AY/fxX5YiekJWinijGyDoOu4A6OE0uB902IhCvrGxueQSUriIRYdZX3nHddZkGgoqTd
-	zzhCq8NRGIRWwhF7g5oYkirtHH5/86kWna+g2As0AaBfhQSpNvxSIHo2AVE1fD9XFBjzClGlR5T
-	jMKxIoCngiroK9AxECOjeejiscqHWHaPscGltE7umTdCllJBsa7GYXcJbviMrLMX9jqel8C/wj4
-	pxlb2EmcUeQ3itCRZie1Cnaiik2Z/T7G2w13uC/IG8eG0AWs1x1pHgENlBWGjj18OTnUxl3d8Z2
-	M8iPgOOd3T+rJYKf3XGTBEGS3w2osj+7zxHrrch8hWxWIBvEPacdAieRUIz2rZZ5umcBW3EWjOS
-	4/o4BoGgjdBOTKFaX1EOT6IaZHFpBpRhGW+KD8LxZoHvRBlGr3dpHX8sJvs2Jx7zv5XEl7N8Wla
-	H4ixQYlgWvEZNM8cQb
-X-Google-Smtp-Source: AGHT+IG2wYnKF9UcJtAT6tzXqD2LRHXeRY/+PjOkEmoHb+4nvafowC40CKcIOmp6/EX2Aw9ewSX0Kg==
-X-Received: by 2002:a05:600c:8115:b0:477:8b77:155f with SMTP id 5b1f17b1804b1-47a8f8a80eemr197952455e9.8.1766042489623;
-        Wed, 17 Dec 2025 23:21:29 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be32832fbsm23362215e9.14.2025.12.17.23.21.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 23:21:29 -0800 (PST)
-Date: Thu, 18 Dec 2025 10:21:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 14/14]
- drivers/interconnect/debugfs-client.c:121 icc_commit_set() warn: passing
- zero to 'PTR_ERR'
-Message-ID: <202512181424.7SYJiB4W-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jh77xZZ9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766045268; x=1797581268;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qNJ6OsVWFZxTLyDqzEn+GhJS8Rr8tDPuRgt0B1nSsCU=;
+  b=jh77xZZ9IJ9JWwcZTFiqgyOkS5ExQsW6IigJon9VDt40wQBimvS1eHOE
+   VaDFEiIP9Yn7KOF7hbBD1Bg/WEescxaCLq2dHe9TaXdr2rZIJMhwQrILN
+   gGZQJOJDeNgi+rlBAZOI7R51boG5GsqcnVTl8tkYRPebh/MnL+bnvTSZ3
+   wHb7rZstcQOycm8094RccBC+JMGpwsoexL+oar9ezEytyKV1op4zYbxfi
+   aznRlOK5E7gvCVmEV4LB1md6EM95J8BtFfGQmOdJZ8ge7WKEM+aXDR+Tf
+   FTuAGYpjymKq2NQFRXcFQwUzhrn/u2+/CPcEsy/lhlLeOLSLNl9NHSsvy
+   A==;
+X-CSE-ConnectionGUID: Lt4ZAgvtRw6Mv4SgHI+PJw==
+X-CSE-MsgGUID: DsHzLDdgSCi/FERPwEVZtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="78631682"
+X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
+   d="scan'208";a="78631682"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 00:07:47 -0800
+X-CSE-ConnectionGUID: I6MFvl5qQHqSxkwMo/fw2Q==
+X-CSE-MsgGUID: OC2hQO7GTXaO+oEEWH5/6A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
+   d="scan'208";a="229215510"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 18 Dec 2025 00:07:46 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vW931-000000001nt-2yAQ;
+	Thu, 18 Dec 2025 08:07:43 +0000
+Date: Thu, 18 Dec 2025 16:06:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3 3/3] phy: apple: Add Apple Type-C PHY
+Message-ID: <202512181542.sy0ocSoL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -74,48 +60,58 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20251218072125.SDcoQ7T5dv-HHwRwYRRjhsndyS6NzXT1gnVfsWaWVdo@z>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   8b3c4de1cca2b865619f8662a2f262e499db0e13
-commit: 4439db7b8f941e4e418fc4d07e84a2eb31c6f339 [14/14] ANDROID: interconnect: Enable debugfs client
-config: i386-randconfig-141-20251217 (https://download.01.org/0day-ci/archive/20251218/202512181424.7SYJiB4W-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/phy/apple/atc.c:2292:1: sparse: sparse: bad integer constant expression"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20251214-b4-atcphy-v3-3-ba82b20e9459@kernel.org>
+References: <20251214-b4-atcphy-v3-3-ba82b20e9459@kernel.org>
+TO: Sven Peter <sven@kernel.org>
+
+Hi Sven,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sven-Peter/soc-apple-Add-hardware-tunable-support/20251214-195404
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20251214-b4-atcphy-v3-3-ba82b20e9459%40kernel.org
+patch subject: [PATCH v3 3/3] phy: apple: Add Apple Type-C PHY
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: alpha-randconfig-r122-20251216 (https://download.01.org/0day-ci/archive/20251218/202512181542.sy0ocSoL-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512181542.sy0ocSoL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512181424.7SYJiB4W-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512181542.sy0ocSoL-lkp@intel.com/
 
-smatch warnings:
-drivers/interconnect/debugfs-client.c:121 icc_commit_set() warn: passing zero to 'PTR_ERR'
+sparse warnings: (new ones prefixed by >>)
+>> drivers/phy/apple/atc.c:2292:1: sparse: sparse: bad integer constant expression
+   drivers/phy/apple/atc.c:2292:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/phy/apple/atc.c:2293:1: sparse: sparse: bad integer constant expression
+   drivers/phy/apple/atc.c:2293:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/phy/apple/atc.c:2294:1: sparse: sparse: bad integer constant expression
+   drivers/phy/apple/atc.c:2294:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+--
+>> drivers/soc/apple/tunable.c:78:1: sparse: sparse: bad integer constant expression
+   drivers/soc/apple/tunable.c:78:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+   drivers/soc/apple/tunable.c:79:1: sparse: sparse: bad integer constant expression
+   drivers/soc/apple/tunable.c:79:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/soc/apple/tunable.c:80:1: sparse: sparse: bad integer constant expression
+   drivers/soc/apple/tunable.c:80:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
 
-vim +/PTR_ERR +121 drivers/interconnect/debugfs-client.c
+vim +2292 drivers/phy/apple/atc.c
 
-770c69f037c18c Mike Tipton 2023-08-07  114  static int icc_commit_set(void *data, u64 val)
-770c69f037c18c Mike Tipton 2023-08-07  115  {
-770c69f037c18c Mike Tipton 2023-08-07  116  	int ret;
-770c69f037c18c Mike Tipton 2023-08-07  117  
-770c69f037c18c Mike Tipton 2023-08-07  118  	mutex_lock(&debugfs_lock);
-770c69f037c18c Mike Tipton 2023-08-07  119  
-770c69f037c18c Mike Tipton 2023-08-07  120  	if (IS_ERR_OR_NULL(cur_path)) {
-770c69f037c18c Mike Tipton 2023-08-07 @121  		ret = PTR_ERR(cur_path);
-770c69f037c18c Mike Tipton 2023-08-07  122  		goto out;
-770c69f037c18c Mike Tipton 2023-08-07  123  	}
-
-Fixed upstream commit 6bfe104fd0f9 ("interconnect: debugfs: Fix
-incorrect error handling for NULL path")
-
-770c69f037c18c Mike Tipton 2023-08-07  124  
-770c69f037c18c Mike Tipton 2023-08-07  125  	icc_set_tag(cur_path, tag);
-770c69f037c18c Mike Tipton 2023-08-07  126  	ret = icc_set_bw(cur_path, avg_bw, peak_bw);
-770c69f037c18c Mike Tipton 2023-08-07  127  out:
-770c69f037c18c Mike Tipton 2023-08-07  128  	mutex_unlock(&debugfs_lock);
-770c69f037c18c Mike Tipton 2023-08-07  129  	return ret;
-770c69f037c18c Mike Tipton 2023-08-07  130  }
+7ac6d338ba7686 Sven Peter 2025-12-14  2291  
+7ac6d338ba7686 Sven Peter 2025-12-14 @2292  MODULE_AUTHOR("Sven Peter <sven@kernel.org>");
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
