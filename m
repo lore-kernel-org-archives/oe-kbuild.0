@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF90D29CE9
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 17:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F2E2FCBE5
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 17:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766079017; cv=none; b=QLn6LzXSEzO3u0+kcoCHnyM5Tj/berV4Tz26RXkxxlx7UZdDyCQluWeSAx1xkYtUs6SH5BTXe8N6EZqtLjhBRXORRHDKwNnnUfe3pFv2l0FmxSliuV3d9+nL2V0cob2ZbVXLFUJ6/5fSXHC2bvzm6pdNcWAdz9dkmkUBPeskqB4=
+	t=1766079383; cv=none; b=KuyWb+jorJNQ7snQDd7WLXGQcdYzNYQ5ByTv7JlbCPFcn0jgsByntyQRzBlEJtvBnKYrGMRp1MXJh4cttekMmxcmFvnL5OiIpzR2N0u4URk91xi1ZvVqjMqN8E7AsR4lmlriV75uC1PSsviplIFsKMj8qEsVpATKx4knvuN7VLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766079017; c=relaxed/simple;
-	bh=6Rq/qDWq8GG/fBdoL+ZnrmrO8dmYy/9NbvidWxq8kvg=;
+	s=arc-20240116; t=1766079383; c=relaxed/simple;
+	bh=jrvZVsNceOWbhopdf+dogDo4KSpwCA9CVWJBbM+5hVo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MrSKvOzQA6ixpNgFsSGuBCfln5lSj2FPEaTOrfazXsKydNHNxF+9AYvTUB3KeVxHHtQkWsjx7XvraVoTkU4cw5qgRev3MyH9ehag9vkaI7ROadOc9VR1bX85bxQJgYDIqe/H7KcKx5UiohVTTOHve+9oKJh+At6yzVle71PJKVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FCfxfgPT; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=aWig+sbmuBJxkNcMES4yRkiB5reFtirOx1du8UhQpYex+Sdgf7kcJlf/laU2UMovQkWBtfD2VQ4cj6kOI2Wetzk6VECVXsbiKqTFKcERyFFnwank/FgnaBoTp8waEGWIvOEtV14rtM5PN6l88exbR8SV2hk0j/SD9WTDcgo+C1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LA6zeYUg; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FCfxfgPT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LA6zeYUg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766079015; x=1797615015;
+  t=1766079381; x=1797615381;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6Rq/qDWq8GG/fBdoL+ZnrmrO8dmYy/9NbvidWxq8kvg=;
-  b=FCfxfgPTxBjgq+9jSZws+7NGbHXqqdUjQ6HkMxa9gGxGMgk5kmBtQWcp
-   ZPng9J0AlKtCRkVm2/AQrT4Qjy1RLKTkTYfPS/vLzNE7py3cU3TE1PZq+
-   Ztyzb1MwKYMSf9ki+PItOb2vpMTQGk3b6abnKCglPU8GD/fnuXM8Mg7Tt
-   +ZSC7pWgNB6YCHvSY4PtptsxJgGoYjPMyFTCS6UyY0jESVsU6WCVwOQQ7
-   s2sNknfVaK0gORZ6RKK/0mBYcXRPzTYTRdVqA3OW0g1j8JIahRu/lMdlf
-   hQSKkTh7J6782x4CDoJboPY8BtUab1nLeK2baYuk+EC/hH2yvpbe2TKqu
-   w==;
-X-CSE-ConnectionGUID: 71Y3L7AOT3eb3+HWPI3agg==
-X-CSE-MsgGUID: nz5/8q+bT1KiNSI8hSM9Ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="67234054"
+  bh=jrvZVsNceOWbhopdf+dogDo4KSpwCA9CVWJBbM+5hVo=;
+  b=LA6zeYUgn1vr+qg9zkk3o7F+KGAAfCRVfx3hO0fWLW1a4VZDehWGn9TI
+   hkhW8t5WbHzlb3TugwymCvefTGxFHFyYfdzmVUvSA6wxZEQdEBHIVZuDl
+   FclIBH7XaSX4fkIHcOU9zkipFT9/aNgbiPvi2qMnE18MIsi+//Nkd8a6y
+   PCsHqLB6L7MXFkL0Ou5Be7RG3bhQ+P6634qQLQ96kp46KpBeO4/QcUZQX
+   ouLiQdjjWNy0kAC76H0eJ2AwYV+pYcOMp5q1tNdp7V/rA1Jph+Q+SFHfJ
+   gEQHaHm5DEzCsj3Hv2Tm79Rd43eEwLoXpvvtk6kqpP6YiSI6RHLMjZ0fJ
+   g==;
+X-CSE-ConnectionGUID: GpjV8b5ARy+xGx6VrB12wg==
+X-CSE-MsgGUID: q5WZKq4xRe+X/tHdqRP9ew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="85626432"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="67234054"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 09:30:14 -0800
-X-CSE-ConnectionGUID: 3yLCHWFUSNOOZSWotJEcnw==
-X-CSE-MsgGUID: lRfRlcZxRYyvkl3uaYJ5uw==
+   d="scan'208";a="85626432"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 09:36:20 -0800
+X-CSE-ConnectionGUID: ulz1OHXiRyOmLv+hHnUpog==
+X-CSE-MsgGUID: z62g7yA1QGeltP0XStlR9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="222059969"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Dec 2025 09:30:13 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="229310840"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 18 Dec 2025 09:36:20 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWHpK-0000000041s-3LZC;
-	Thu, 18 Dec 2025 17:30:10 +0000
-Date: Thu, 18 Dec 2025 18:30:01 +0100
+	id 1vWHvE-000000002O3-3DFQ;
+	Thu, 18 Dec 2025 17:36:16 +0000
+Date: Fri, 19 Dec 2025 01:36:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [geert-renesas-devel:renesas-dts-for-v6.20 110/115]
- arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb:
- dma-controller@11400000 (renesas,r9a09g056-dmac): compatible: 'oneOf'
- conditional failed, one must be fixed:
-Message-ID: <202512181830.UggcIcNI-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1946/1946]
+ include/linux/string.h:348:9: warning: 'list' may be used uninitialized in
+ this function
+Message-ID: <202512190122.U1WZhmDs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,66 +64,79 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "likely FALSE maybe-used-uninitialized warning on old compiler"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-renesas-soc@vger.kernel.org
-TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
+TO: kernel@openeuler.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.20
-head:   aeba91d1639c58e0649bbd023633155679a611d3
-commit: d7bdd636a13d938b06cd73e013780f0f40f96466 [110/115] arm64: dts: renesas: r9a09g056: Add DMAC nodes
-:::::: branch date: 3 days ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-2052-20251214 (https://download.01.org/0day-ci/archive/20251218/202512181830.UggcIcNI-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ecaf673850beb241957352bd61e95ed34256635f)
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512181830.UggcIcNI-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   4e9c55920995d70b3e88b60c69753df54b03fdf4
+commit: f828b65afdf2bda865c9eb3d8671a687adace842 [1946/1946] hda: add phytium hda driver
+:::::: branch date: 34 hours ago
+:::::: commit date: 2 years, 2 months ago
+config: arm64-randconfig-r062-20251218 (https://download.01.org/0day-ci/archive/20251219/202512190122.U1WZhmDs-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512190122.U1WZhmDs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512181830.UggcIcNI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512190122.U1WZhmDs-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: dma-controller@11400000 (renesas,r9a09g056-dmac): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g056-dmac', 'renesas,r9a09g057-dmac'] is too long
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r7s72100-dmac', 'renesas,r9a07g043-dmac', 'renesas,r9a07g044-dmac', 'renesas,r9a07g054-dmac', 'renesas,r9a08g045-dmac']
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r9a09g047-dmac']
-   	'renesas,r9a09g057-dmac' was expected
-   	'renesas,rz-dmac' was expected
-   	from schema $id: http://devicetree.org/schemas/dma/renesas,rz-dmac.yaml
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: dma-controller@14830000 (renesas,r9a09g056-dmac): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g056-dmac', 'renesas,r9a09g057-dmac'] is too long
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r7s72100-dmac', 'renesas,r9a07g043-dmac', 'renesas,r9a07g044-dmac', 'renesas,r9a07g054-dmac', 'renesas,r9a08g045-dmac']
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r9a09g047-dmac']
---
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: dma-controller@11400000 (renesas,r9a09g056-dmac): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g056-dmac', 'renesas,r9a09g057-dmac'] is too long
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r7s72100-dmac', 'renesas,r9a07g043-dmac', 'renesas,r9a07g044-dmac', 'renesas,r9a07g054-dmac', 'renesas,r9a08g045-dmac']
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r9a09g047-dmac']
-   	'renesas,r9a09g057-dmac' was expected
-   	'renesas,rz-dmac' was expected
-   	from schema $id: http://devicetree.org/schemas/dma/renesas,rz-dmac.yaml
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-emmc.dtb: dma-controller@14830000 (renesas,r9a09g056-dmac): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g056-dmac', 'renesas,r9a09g057-dmac'] is too long
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r7s72100-dmac', 'renesas,r9a07g043-dmac', 'renesas,r9a07g044-dmac', 'renesas,r9a07g054-dmac', 'renesas,r9a08g045-dmac']
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r9a09g047-dmac']
---
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: dma-controller@11400000 (renesas,r9a09g056-dmac): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g056-dmac', 'renesas,r9a09g057-dmac'] is too long
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r7s72100-dmac', 'renesas,r9a07g043-dmac', 'renesas,r9a07g044-dmac', 'renesas,r9a07g054-dmac', 'renesas,r9a08g045-dmac']
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r9a09g047-dmac']
-   	'renesas,r9a09g057-dmac' was expected
-   	'renesas,rz-dmac' was expected
-   	from schema $id: http://devicetree.org/schemas/dma/renesas,rz-dmac.yaml
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk-cn15-sd.dtb: dma-controller@14830000 (renesas,r9a09g056-dmac): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g056-dmac', 'renesas,r9a09g057-dmac'] is too long
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r7s72100-dmac', 'renesas,r9a07g043-dmac', 'renesas,r9a07g044-dmac', 'renesas,r9a07g054-dmac', 'renesas,r9a08g045-dmac']
-   	'renesas,r9a09g056-dmac' is not one of ['renesas,r9a09g047-dmac']
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+
+All warnings (new ones prefixed by >>):
+
+   In file included from arch/arm64/include/asm/processor.h:49,
+                    from include/asm-generic/qrwlock.h:23,
+                    from ./arch/arm64/include/generated/asm/qrwlock.h:1,
+                    from arch/arm64/include/asm/spinlock.h:19,
+                    from include/linux/spinlock.h:88,
+                    from include/linux/mmzone.h:9,
+                    from include/linux/gfp.h:6,
+                    from include/linux/slab.h:15,
+                    from sound/pci/hda/hda_codec.c:24:
+   sound/pci/hda/hda_codec.c: In function 'snd_hda_get_connections':
+>> include/linux/string.h:348:9: warning: 'list' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     348 |  return __builtin_memcpy(p, q, size);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/hda/hda_codec.c:223:19: note: 'list' was declared here
+     223 |  const hda_nid_t *list;
+         |                   ^~~~
+   sound/pci/hda/hda_codec.c: In function 'snd_hda_get_conn_index':
+   sound/pci/hda/hda_codec.c:280:19: warning: 'conn' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     280 |  const hda_nid_t *conn;
+         |                   ^~~~
+   sound/pci/hda/hda_codec.c:897: warning: Function parameter or member 'card' not described in 'snd_hda_codec_new'
+
+
+vim +/list +348 include/linux/string.h
+
+6974f0c4555e28 Daniel Micay 2017-07-12  335  
+6974f0c4555e28 Daniel Micay 2017-07-12  336  __FORTIFY_INLINE void *memcpy(void *p, const void *q, __kernel_size_t size)
+6974f0c4555e28 Daniel Micay 2017-07-12  337  {
+6974f0c4555e28 Daniel Micay 2017-07-12  338  	size_t p_size = __builtin_object_size(p, 0);
+6974f0c4555e28 Daniel Micay 2017-07-12  339  	size_t q_size = __builtin_object_size(q, 0);
+6974f0c4555e28 Daniel Micay 2017-07-12  340  	if (__builtin_constant_p(size)) {
+6974f0c4555e28 Daniel Micay 2017-07-12  341  		if (p_size < size)
+6974f0c4555e28 Daniel Micay 2017-07-12  342  			__write_overflow();
+6974f0c4555e28 Daniel Micay 2017-07-12  343  		if (q_size < size)
+6974f0c4555e28 Daniel Micay 2017-07-12  344  			__read_overflow2();
+6974f0c4555e28 Daniel Micay 2017-07-12  345  	}
+6974f0c4555e28 Daniel Micay 2017-07-12  346  	if (p_size < size || q_size < size)
+6974f0c4555e28 Daniel Micay 2017-07-12  347  		fortify_panic(__func__);
+6974f0c4555e28 Daniel Micay 2017-07-12 @348  	return __builtin_memcpy(p, q, size);
+6974f0c4555e28 Daniel Micay 2017-07-12  349  }
+6974f0c4555e28 Daniel Micay 2017-07-12  350  
+
+:::::: The code at line 348 was first introduced by commit
+:::::: 6974f0c4555e285ab217cee58b6e874f776ff409 include/linux/string.h: add the option of fortified string.h functions
+
+:::::: TO: Daniel Micay <danielmicay@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
