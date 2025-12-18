@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E38732826F
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 11:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2405C2DAFA4
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 12:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766059027; cv=none; b=MZk6P3a+YK21Q63BmgKJXwXhA01okGF0rz3WPDq79+xGUiFPcLTGaYFa2/ygFW5CqB9yqjMpOhWkaKllck9amXlU9tY/4wKU/azPgDPtlUQUzV5EWZjgOT2LGugSVTFbIsezxh5is6/Ern8+7xnhOrcMFqLU9s+AkvoHe2805Hs=
+	t=1766061125; cv=none; b=eyOqJ15/Fx5pLUrP3e6RmgefkoxiBgABm4MrQ7lC2xSdY5b/whMejw2DskYOry4vvwsi3AmzOt9PJNp4RKd4RMlEKrI1Ci017bYS+S34HPyjXKJWk+hpKUkeVkBxtmiVidsshoIDbm5ZMgHLC6807S+on8HwruukypegnjRDp84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766059027; c=relaxed/simple;
-	bh=yzwkILRiEbGIoQZD5AnmNsM3Tys63psTkvgeXUhso/w=;
+	s=arc-20240116; t=1766061125; c=relaxed/simple;
+	bh=VHVLG3ELS4Mf5D5dh1GLBRkqBDWxzIFVcAkoPi6w/Pk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MQDVeXLe85e9BGZk0TMl2Z/FeaFc+Hhz8cCCZR569TTHVUwb1iNEvElZ6OY9TaQgQ56IDqBKqct28PXktmBcwmP5KuyO5+KpW6uN8rlyLX7FbcfEu4OoIPSdss93LKQLtYgOrA9NXDa7I8UaggCk0Ix5HNjrt1z73eZh4o4t9Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ho2uu37E; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=SzCcUobiWR4ik+ceBIIHc49UWrlGERVsgUqCDqBdy/pxVaE7vqaXR5P/otwL0uSzjBhENJUicE/OG2KN6XWi+EQtGmHq39ty9Pw3JIEPqNmeWafy6KwvCqDvmC6qBzy73Zx1X9a96CJLFSpc9/1QFV0CfdSbLo6JcaPQuW1AcMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TdF4zJWJ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ho2uu37E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TdF4zJWJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766059026; x=1797595026;
+  t=1766061123; x=1797597123;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yzwkILRiEbGIoQZD5AnmNsM3Tys63psTkvgeXUhso/w=;
-  b=ho2uu37ER1ebKB28Pzg2ZVbyIUGLgw6+xOtHSKGADAwkIVO73NS3i4hu
-   8aHshWliGdajfVzWElLqcjp4cK6Vs4/ZlaV+NsO+fe/0Cc/Rx03J9/uGF
-   Y+NfHBAWtYTsFgb5gm11kq+GA5Xw3ILPRVMvuVVnZjdfCPhHkoKd5917I
-   v2jWxAHCjp6KnXcYQl9PTJci2Kf7T1DcsmmKw7LcxOF5YIV9uDXT3+CP7
-   7t+UFsP5eLGpQDNjNgcYseYrqC92SdjwqE6MzDiM0bwUCvN2RI8C+Lae4
-   hSi6v8Hi8WIEUcuhOQ1w9KNYLdnR6fz/CECGNFWI3lxb36GHeT2ayn986
+  bh=VHVLG3ELS4Mf5D5dh1GLBRkqBDWxzIFVcAkoPi6w/Pk=;
+  b=TdF4zJWJSh6vEVsYNWikan8IJqQTyvLAWborbRiVpS9xTXYu3oL+N1gY
+   ujIh3ondbF5mHqcYm+wCYP/J7U01sGbxjR6tjdFS2OsuTlN7d7PMSWbwf
+   8NnCdN60S4/Tm423+NyJ75Z//mGEOjLORUWJpl9q6pmAH5DIrmZ6mJ4V1
+   kejSGGFpNLkigkWaLb+NCPQSGslqV0gS57huJVpD9UH4F5EjKeKzJBMYT
+   +PCmMp2lXZEFjNo0O9mLsuj81jFLk7lUql3VqnraavAWfw1HYZPWxSoKd
+   MB+aXxulMZhgVDWgqfFFObVafjtLpJakWSoU04RXpZQkKTX/lD07iz6h0
    g==;
-X-CSE-ConnectionGUID: C3DOgl50RxmftbfF+366UQ==
-X-CSE-MsgGUID: 45+1MWkIThGsUx09hAlMyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="68049383"
+X-CSE-ConnectionGUID: DL5tzgLcTW6Bk8rmoQOiFQ==
+X-CSE-MsgGUID: fOLghOnBR467w5Q1h7kslw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="55587785"
 X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="68049383"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 03:57:02 -0800
-X-CSE-ConnectionGUID: XCawz2GNS6GAVhyp1280/w==
-X-CSE-MsgGUID: b3YcAir2SmiKSf3h0wN67w==
+   d="scan'208";a="55587785"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 04:32:02 -0800
+X-CSE-ConnectionGUID: 0OR5dDyfQ+emammThX/8Rg==
+X-CSE-MsgGUID: tJKR6bU5SPqeVEz8XqobjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="198465647"
+   d="scan'208";a="203469727"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Dec 2025 03:57:00 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 18 Dec 2025 04:32:01 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWCcr-0000000022B-2uus;
-	Thu, 18 Dec 2025 11:56:57 +0000
-Date: Thu, 18 Dec 2025 19:56:04 +0800
+	id 1vWDAl-0000000024J-18Vg;
+	Thu, 18 Dec 2025 12:31:59 +0000
+Date: Thu, 18 Dec 2025 20:31:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/accel/ivpu/ivpu_debugfs.c:467 priority_bands_fops_write()
- warn: potential spectre issue 'vdev->hw->hws.grace_period' [w] (local cap)
-Message-ID: <202512181923.JynJHC1N-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arc/boot/dts/vdk_hs38_smp.dtb: Warning (interrupt_map): Failed
+ prerequisite 'interrupt_provider'
+Message-ID: <202512182018.u3GH4ETA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,70 +62,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Karol Wachowski <karol.wachowski@intel.com>
-CC: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+TO: Masahiro Yamada <masahiroy@kernel.org>
+CC: linux-snps-arc@lists.infradead.org
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-commit: 320323d2e5456df9d6236ac1ce9c030b1a74aa5b accel/ivpu: Add debugfs interface for setting HWS priority bands
-date:   10 months ago
-:::::: branch date: 32 hours ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-161-20251213 (https://download.01.org/0day-ci/archive/20251218/202512181923.JynJHC1N-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+commit: 3b7f793acc13b6108452271b306d4aa94a3c4940 ARC: migrate to the generic rule for built-in DTB
+date:   11 months ago
+:::::: branch date: 33 hours ago
+:::::: commit date: 11 months ago
+config: arc-vdk_hs38_smp_defconfig (https://download.01.org/0day-ci/archive/20251218/202512182018.u3GH4ETA-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512182018.u3GH4ETA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512181923.JynJHC1N-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512182018.u3GH4ETA-lkp@intel.com/
 
-smatch warnings:
-drivers/accel/ivpu/ivpu_debugfs.c:467 priority_bands_fops_write() warn: potential spectre issue 'vdev->hw->hws.grace_period' [w] (local cap)
-drivers/accel/ivpu/ivpu_debugfs.c:468 priority_bands_fops_write() warn: potential spectre issue 'vdev->hw->hws.process_grace_period' [w] (local cap)
-drivers/accel/ivpu/ivpu_debugfs.c:469 priority_bands_fops_write() warn: potential spectre issue 'vdev->hw->hws.process_quantum' [w] (local cap)
-
-vim +467 drivers/accel/ivpu/ivpu_debugfs.c
-
-320323d2e5456d Karol Wachowski 2025-02-04  438  
-320323d2e5456d Karol Wachowski 2025-02-04  439  static ssize_t
-320323d2e5456d Karol Wachowski 2025-02-04  440  priority_bands_fops_write(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
-320323d2e5456d Karol Wachowski 2025-02-04  441  {
-320323d2e5456d Karol Wachowski 2025-02-04  442  	struct seq_file *s = file->private_data;
-320323d2e5456d Karol Wachowski 2025-02-04  443  	struct ivpu_device *vdev = s->private;
-320323d2e5456d Karol Wachowski 2025-02-04  444  	char buf[64];
-320323d2e5456d Karol Wachowski 2025-02-04  445  	u32 grace_period;
-320323d2e5456d Karol Wachowski 2025-02-04  446  	u32 process_grace_period;
-320323d2e5456d Karol Wachowski 2025-02-04  447  	u32 process_quantum;
-320323d2e5456d Karol Wachowski 2025-02-04  448  	u32 band;
-320323d2e5456d Karol Wachowski 2025-02-04  449  	int ret;
-320323d2e5456d Karol Wachowski 2025-02-04  450  
-320323d2e5456d Karol Wachowski 2025-02-04  451  	if (size >= sizeof(buf))
-320323d2e5456d Karol Wachowski 2025-02-04  452  		return -EINVAL;
-320323d2e5456d Karol Wachowski 2025-02-04  453  
-320323d2e5456d Karol Wachowski 2025-02-04  454  	ret = simple_write_to_buffer(buf, sizeof(buf) - 1, pos, user_buf, size);
-320323d2e5456d Karol Wachowski 2025-02-04  455  	if (ret < 0)
-320323d2e5456d Karol Wachowski 2025-02-04  456  		return ret;
-320323d2e5456d Karol Wachowski 2025-02-04  457  
-320323d2e5456d Karol Wachowski 2025-02-04  458  	buf[size] = '\0';
-320323d2e5456d Karol Wachowski 2025-02-04  459  	ret = sscanf(buf, "%u %u %u %u", &band, &grace_period, &process_grace_period,
-320323d2e5456d Karol Wachowski 2025-02-04  460  		     &process_quantum);
-320323d2e5456d Karol Wachowski 2025-02-04  461  	if (ret != 4)
-320323d2e5456d Karol Wachowski 2025-02-04  462  		return -EINVAL;
-320323d2e5456d Karol Wachowski 2025-02-04  463  
-320323d2e5456d Karol Wachowski 2025-02-04  464  	if (band >= VPU_JOB_SCHEDULING_PRIORITY_BAND_COUNT)
-320323d2e5456d Karol Wachowski 2025-02-04  465  		return -EINVAL;
-320323d2e5456d Karol Wachowski 2025-02-04  466  
-320323d2e5456d Karol Wachowski 2025-02-04 @467  	vdev->hw->hws.grace_period[band] = grace_period;
-320323d2e5456d Karol Wachowski 2025-02-04 @468  	vdev->hw->hws.process_grace_period[band] = process_grace_period;
-320323d2e5456d Karol Wachowski 2025-02-04 @469  	vdev->hw->hws.process_quantum[band] = process_quantum;
-320323d2e5456d Karol Wachowski 2025-02-04  470  
-320323d2e5456d Karol Wachowski 2025-02-04  471  	return size;
-320323d2e5456d Karol Wachowski 2025-02-04  472  }
-320323d2e5456d Karol Wachowski 2025-02-04  473  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arc/boot/dts/vdk_axc003_idu.dtsi:18.11-55.4: Warning (unit_address_vs_reg): /cpu_card: node has a reg or ranges property, but no unit name
+   arch/arc/boot/dts/vdk_axc003_idu.dtsi:31.29-35.5: Warning (unit_address_vs_reg): /cpu_card/archs-intc@cpu: node has a unit name, but no reg or ranges property
+   arch/arc/boot/dts/vdk_axs10x_mb.dtsi:9.16-111.4: Warning (unit_address_vs_reg): /axs10x_mb_vdk: node has a reg or ranges property, but no unit name
+   arch/arc/boot/dts/vdk_axc003_idu.dtsi:25.22-29.5: Warning (simple_bus_reg): /cpu_card/core_clk: missing or empty reg/ranges property
+   arch/arc/boot/dts/vdk_axc003_idu.dtsi:31.29-35.5: Warning (simple_bus_reg): /cpu_card/archs-intc@cpu: missing or empty reg/ranges property
+   arch/arc/boot/dts/vdk_axc003_idu.dtsi:37.38-42.5: Warning (simple_bus_reg): /cpu_card/idu-interrupt-controller: missing or empty reg/ranges property
+   arch/arc/boot/dts/vdk_axs10x_mb.dtsi:16.10-34.5: Warning (simple_bus_reg): /axs10x_mb_vdk/clocks: missing or empty reg/ranges property
+   arch/arc/boot/dts/vdk_axs10x_mb.dtsi:94.21-99.5: Warning (simple_bus_reg): /axs10x_mb_vdk/ps2@e0017400: simple-bus unit address format error, expected "17400"
+   arch/arc/boot/dts/vdk_axs10x_mb.dtsi:36.18-47.5: Warning (interrupt_provider): /axs10x_mb_vdk/ethernet@18000: '#interrupt-cells' found, but node is not an interrupt provider
+>> arch/arc/boot/dts/vdk_hs38_smp.dtb: Warning (interrupt_map): Failed prerequisite 'interrupt_provider'
 
 -- 
 0-DAY CI Kernel Test Service
