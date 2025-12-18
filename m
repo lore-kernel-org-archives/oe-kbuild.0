@@ -1,205 +1,190 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BEB2BE7C6
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 10:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88D02DFA31
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 10:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766052177; cv=none; b=vEjgrcx79h7l+vWV2IWWmpzLdcVO4sn8D93om5yCpaQSqvmGpiWWoyNNhNWqoHrNsdd0t5mq7KYnQwpCUauMYziqx9dFPwaIcWmevkONuXtcyjGv0meuu2v6UH2zhmfOJJ9Qc00Qk/uHH2dWZBZH+D+ZEDIP2pss7x9e3iGVzNg=
+	t=1766054219; cv=none; b=c3Z+dZLYUPN5PtklmnR/sbIXDLX4YmRhJSMymWP1ohUT5015JxcsYQKhZlmQBVjDYfyqAgzPan2i01Ffym6fZcSrQ+x1xSDoRtBeeNV1YL2qSyfHYUfnpIJq92kHwYMNjv6xdRP0UPJ1ih+qceWl2ViYYMOx9HKGPH/6Zbkjywk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766052177; c=relaxed/simple;
-	bh=ZmtV32lKR5EobidoOgK2eZDDVu/I3iiECWbQkYSsqiE=;
+	s=arc-20240116; t=1766054219; c=relaxed/simple;
+	bh=nVGE/Wk8kpZrzJNhY86xLV4a8ij3tY4kODMNFZijC+s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RiuMqk3PlbKuz6D0056tRIpSoakjXEsUmk5zwd7gXys//GYeWBbQ4BHa5cIX4G2eKFNJgaZNdiwBa5/OazSVK3la9PpuSJVU7K5uCRwy0oEp+y1piyi0cK0Nxh31RxLGxFtx91N3ADichTKtqKgZGeHo7O8XYgRLJmqN1cYXVV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kUzkOL0Z; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=iGmOd/2j084VCxY4gui96apOPeKyR976BSf06TcVKLnWNve89BJcZsxtPNEO5AiJ8ReSri60HVxW7l1QMVPxWuhOqDb0GC/lyIrEQfkDGgrhHedxqRy4nX61MC1kvFuIgVARgbZDnbWH4mUjjMben69Bv4B+FR4hFSyxAzeAwB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NsLdVmBl; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kUzkOL0Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NsLdVmBl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766052175; x=1797588175;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZmtV32lKR5EobidoOgK2eZDDVu/I3iiECWbQkYSsqiE=;
-  b=kUzkOL0ZXigepuDJbDh7wrwXbE+Kbmv79fGkOBbL46/oL8kev4K19z3L
-   hoBAflMDEkI7JUDpvXRObz0pa/Dn0jw8YR+NeDk6JQ847x3TEjkScEy0g
-   i0z/cpo6oDHMkrwfjXGz6GjQP96gB+vDv6SpX0wxeEgVXIR/s7mBRdaOh
-   EVA3bSuq6vpDL72r4Se0AVNHF2ihLCoMuN5H8LkBeE1TvxKDVwM0AUrNM
-   KMXgni585EvWl4BEzxLmCS+E5Pj5Nyg2782IEibsA1FVBOOEUWdAAoUsA
-   6lr/hvoemuhtJH3DPos0L/6NrnlP//wwZ6fK5t8VNH747VdRvajJBtyIi
+  t=1766054217; x=1797590217;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nVGE/Wk8kpZrzJNhY86xLV4a8ij3tY4kODMNFZijC+s=;
+  b=NsLdVmBlzXV1rGqWE2n5SlDKrHBLHjR9K8kWNvs4nQdftpTstowf7/jF
+   U/9ac+xiN2sRnSiPJEs3TudrYesofGcfrQsqEGt1zIOmEExRqWb8DwDHs
+   t0E5V3kkdLp5BcojrV4Mu6eLr/swK75g3EuP8d+Gw5I7NDJJGnsl2I8sX
+   nlbsDqKd14kusJECHC2KVPQWg4fF3GmJvLOmpV8S25D/fbL1lr8t8866d
+   Qak1UrQVyKCaQxmbbXddl7S7s6bzgstKWar/sAyO2MNy2A2zWTXNKjLqA
+   qtfnkqUjTQHGeuKC4H/6v6kwA5zAhKX22MfyJg8dO1uqRKQXyQ2rjH58j
    g==;
-X-CSE-ConnectionGUID: /jEXadIZSQ+OEihZ+Lmtig==
-X-CSE-MsgGUID: obg0VkjbRea/cM1lvaXz7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="79125890"
+X-CSE-ConnectionGUID: KsIW6ijtQUyv5pFGCBklXA==
+X-CSE-MsgGUID: fTqIB9ndR86dygVbJL1ASA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="93478815"
 X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="79125890"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 02:02:55 -0800
-X-CSE-ConnectionGUID: mJvsAKivQO6Gvu0uI94Z0w==
-X-CSE-MsgGUID: RilvmtwhTleOinH0jV0GUQ==
+   d="scan'208";a="93478815"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 02:36:56 -0800
+X-CSE-ConnectionGUID: 35u0pjMzQ1+ENodGR8bzdw==
+X-CSE-MsgGUID: AOFl06IXQRKlnCbhdpRj6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="229608161"
+   d="scan'208";a="202732704"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Dec 2025 02:02:53 -0800
+  by orviesa003.jf.intel.com with ESMTP; 18 Dec 2025 02:36:55 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWAqR-000000001vD-2Puf;
-	Thu, 18 Dec 2025 10:02:51 +0000
-Date: Thu, 18 Dec 2025 18:02:24 +0800
+	id 1vWBNM-000000001x9-3f3c;
+	Thu, 18 Dec 2025 10:36:52 +0000
+Date: Thu, 18 Dec 2025 18:36:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: kernel/unwind/deferred.c:257:13: sparse: sparse: unsigned value that
- used to be signed checked against zero?
-Message-ID: <202512181724.yp1BFY94-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/platform/x86/intel/pmc/core.c:1438
+ pmc_core_pmt_get_lpm_req() error: uninitialized symbol 'ret'.
+Message-ID: <202512181842.zgEbGo2h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: kernel/unwind/deferred.c:257:13: sparse: sparse: unsigned value that used to be signed checked against zero?"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-
-Hi Josh,
-
-First bad commit (maybe != root cause):
+TO: Xi Pardee <xi.pardee@linux.intel.com>
+CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-commit: 49cf34c0815f93fb2ea3ab5cfbac1124bd9b45d0 unwind_user/x86: Enable frame pointer unwinding on x86
-date:   7 weeks ago
-:::::: branch date: 30 hours ago
-:::::: commit date: 7 weeks ago
-config: x86_64-randconfig-122-20251218 (https://download.01.org/0day-ci/archive/20251218/202512181724.yp1BFY94-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512181724.yp1BFY94-lkp@intel.com/reproduce)
+commit: 1e508af6bc4b24a7924b619800f1b138281f0e82 platform/x86:intel/pmc: Move telemetry endpoint register handling
+date:   3 months ago
+:::::: branch date: 31 hours ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-161-20251218 (https://download.01.org/0day-ci/archive/20251218/202512181842.zgEbGo2h-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512181724.yp1BFY94-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512181842.zgEbGo2h-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/unwind/deferred.c:149:13: sparse: sparse: context imbalance in 'process_unwind_deferred' - different lock contexts for basic block
->> kernel/unwind/deferred.c:257:13: sparse: sparse: unsigned value that used to be signed checked against zero?
-   kernel/unwind/deferred.c:256:15: sparse: signed value source
+New smatch warnings:
+drivers/platform/x86/intel/pmc/core.c:1438 pmc_core_pmt_get_lpm_req() error: uninitialized symbol 'ret'.
 
-vim +257 kernel/unwind/deferred.c
+Old smatch warnings:
+drivers/platform/x86/intel/pmc/core.c:502 pmc_core_send_ltr_ignore() error: uninitialized symbol 'pmc'.
+drivers/platform/x86/intel/pmc/core.c:502 pmc_core_send_ltr_ignore() error: uninitialized symbol 'map'.
+drivers/platform/x86/intel/pmc/core.c:502 pmc_core_send_ltr_ignore() error: we previously assumed 'pmc' could be null (see line 480)
 
-b3b9cb11aa034cf Steven Rostedt 2025-07-29  204  
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  205  /**
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  206   * unwind_deferred_request - Request a user stacktrace on task kernel exit
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  207   * @work: Unwind descriptor requesting the trace
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  208   * @cookie: The cookie of the first request made for this task
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  209   *
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  210   * Schedule a user space unwind to be done in task work before exiting the
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  211   * kernel.
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  212   *
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  213   * The returned @cookie output is the generated cookie of the very first
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  214   * request for a user space stacktrace for this task since it entered the
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  215   * kernel. It can be from a request by any caller of this infrastructure.
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  216   * Its value will also be passed to the callback function.  It can be
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  217   * used to stitch kernel and user stack traces together in post-processing.
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  218   *
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  219   * It's valid to call this function multiple times for the same @work within
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  220   * the same task entry context.  Each call will return the same cookie
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  221   * while the task hasn't left the kernel. If the callback is not pending
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  222   * because it has already been previously called for the same entry context,
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  223   * it will be called again with the same stack trace and cookie.
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  224   *
-be3d526a5b34109 Steven Rostedt 2025-07-29  225   * Return: 0 if the callback successfully was queued.
-be3d526a5b34109 Steven Rostedt 2025-07-29  226   *         1 if the callback is pending or was already executed.
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  227   *         Negative if there's an error.
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  228   *         @cookie holds the cookie of the first request by any user
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  229   */
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  230  int unwind_deferred_request(struct unwind_work *work, u64 *cookie)
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  231  {
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  232  	struct unwind_task_info *info = &current->unwind_info;
-a38a64712e740d6 Peter Zijlstra 2025-09-22  233  	int twa_mode = TWA_RESUME;
-be3d526a5b34109 Steven Rostedt 2025-07-29  234  	unsigned long old, bits;
-357eda2d745054e Steven Rostedt 2025-07-29  235  	unsigned long bit;
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  236  	int ret;
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  237  
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  238  	*cookie = 0;
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  239  
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  240  	if ((current->flags & (PF_KTHREAD | PF_EXITING)) ||
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  241  	    !user_mode(task_pt_regs(current)))
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  242  		return -EINVAL;
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  243  
-055c7060e7ca71b Steven Rostedt 2025-07-29  244  	/*
-055c7060e7ca71b Steven Rostedt 2025-07-29  245  	 * NMI requires having safe cmpxchg operations.
-055c7060e7ca71b Steven Rostedt 2025-07-29  246  	 * Trigger a warning to make it obvious that an architecture
-055c7060e7ca71b Steven Rostedt 2025-07-29  247  	 * is using this in NMI when it should not be.
-055c7060e7ca71b Steven Rostedt 2025-07-29  248  	 */
-a38a64712e740d6 Peter Zijlstra 2025-09-22  249  	if (in_nmi()) {
-a38a64712e740d6 Peter Zijlstra 2025-09-22  250  		if (WARN_ON_ONCE(!CAN_USE_IN_NMI))
-055c7060e7ca71b Steven Rostedt 2025-07-29  251  			return -EINVAL;
-a38a64712e740d6 Peter Zijlstra 2025-09-22  252  		twa_mode = TWA_NMI_CURRENT;
-a38a64712e740d6 Peter Zijlstra 2025-09-22  253  	}
-055c7060e7ca71b Steven Rostedt 2025-07-29  254  
-357eda2d745054e Steven Rostedt 2025-07-29  255  	/* Do not allow cancelled works to request again */
-357eda2d745054e Steven Rostedt 2025-07-29  256  	bit = READ_ONCE(work->bit);
-357eda2d745054e Steven Rostedt 2025-07-29 @257  	if (WARN_ON_ONCE(bit < 0))
-357eda2d745054e Steven Rostedt 2025-07-29  258  		return -EINVAL;
-357eda2d745054e Steven Rostedt 2025-07-29  259  
-357eda2d745054e Steven Rostedt 2025-07-29  260  	/* Only need the mask now */
-357eda2d745054e Steven Rostedt 2025-07-29  261  	bit = BIT(bit);
-357eda2d745054e Steven Rostedt 2025-07-29  262  
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  263  	guard(irqsave)();
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  264  
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  265  	*cookie = get_cookie(info);
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  266  
-639214f65b1db87 Peter Zijlstra 2025-09-22  267  	old = atomic_long_read(&info->unwind_mask);
-055c7060e7ca71b Steven Rostedt 2025-07-29  268  
-be3d526a5b34109 Steven Rostedt 2025-07-29  269  	/* Is this already queued or executed */
-be3d526a5b34109 Steven Rostedt 2025-07-29  270  	if (old & bit)
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  271  		return 1;
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  272  
-be3d526a5b34109 Steven Rostedt 2025-07-29  273  	/*
-be3d526a5b34109 Steven Rostedt 2025-07-29  274  	 * This work's bit hasn't been set yet. Now set it with the PENDING
-be3d526a5b34109 Steven Rostedt 2025-07-29  275  	 * bit and fetch the current value of unwind_mask. If ether the
-be3d526a5b34109 Steven Rostedt 2025-07-29  276  	 * work's bit or PENDING was already set, then this is already queued
-be3d526a5b34109 Steven Rostedt 2025-07-29  277  	 * to have a callback.
-be3d526a5b34109 Steven Rostedt 2025-07-29  278  	 */
-be3d526a5b34109 Steven Rostedt 2025-07-29  279  	bits = UNWIND_PENDING | bit;
-639214f65b1db87 Peter Zijlstra 2025-09-22  280  	old = atomic_long_fetch_or(bits, &info->unwind_mask);
-be3d526a5b34109 Steven Rostedt 2025-07-29  281  	if (old & bits) {
-be3d526a5b34109 Steven Rostedt 2025-07-29  282  		/*
-be3d526a5b34109 Steven Rostedt 2025-07-29  283  		 * If the work's bit was set, whatever set it had better
-be3d526a5b34109 Steven Rostedt 2025-07-29  284  		 * have also set pending and queued a callback.
-be3d526a5b34109 Steven Rostedt 2025-07-29  285  		 */
-be3d526a5b34109 Steven Rostedt 2025-07-29  286  		WARN_ON_ONCE(!(old & UNWIND_PENDING));
-be3d526a5b34109 Steven Rostedt 2025-07-29  287  		return old & bit;
-be3d526a5b34109 Steven Rostedt 2025-07-29  288  	}
-be3d526a5b34109 Steven Rostedt 2025-07-29  289  
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  290  	/* The work has been claimed, now schedule it. */
-a38a64712e740d6 Peter Zijlstra 2025-09-22  291  	ret = task_work_add(current, &info->work, twa_mode);
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  292  
-be3d526a5b34109 Steven Rostedt 2025-07-29  293  	if (WARN_ON_ONCE(ret))
-639214f65b1db87 Peter Zijlstra 2025-09-22  294  		atomic_long_set(&info->unwind_mask, 0);
-be3d526a5b34109 Steven Rostedt 2025-07-29  295  
-be3d526a5b34109 Steven Rostedt 2025-07-29  296  	return ret;
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  297  }
-2dffa355f6c279e Josh Poimboeuf 2025-07-29  298  
+vim +/ret +1438 drivers/platform/x86/intel/pmc/core.c
 
-:::::: The code at line 257 was first introduced by commit
-:::::: 357eda2d745054eb737397368bc9b0f84814b0a5 unwind deferred: Use SRCU unwind_deferred_task_work()
+78a7491d5cba8b Xi Pardee 2025-04-09  1357  
+78a7491d5cba8b Xi Pardee 2025-04-09  1358  /*
+a59211ee461022 Xi Pardee 2025-04-25  1359   * This function retrieves low power mode requirement data from PMC Low
+a59211ee461022 Xi Pardee 2025-04-25  1360   * Power Mode (LPM) table.
+78a7491d5cba8b Xi Pardee 2025-04-09  1361   *
+78a7491d5cba8b Xi Pardee 2025-04-09  1362   * In telemetry space, the LPM table contains a 4 byte header followed
+78a7491d5cba8b Xi Pardee 2025-04-09  1363   * by 8 consecutive mode blocks (one for each LPM mode). Each block
+78a7491d5cba8b Xi Pardee 2025-04-09  1364   * has a 4 byte header followed by a set of registers that describe the
+78a7491d5cba8b Xi Pardee 2025-04-09  1365   * IP state requirements for the given mode. The IP mapping is platform
+78a7491d5cba8b Xi Pardee 2025-04-09  1366   * specific but the same for each block, making for easy analysis.
+78a7491d5cba8b Xi Pardee 2025-04-09  1367   * Platforms only use a subset of the space to track the requirements
+78a7491d5cba8b Xi Pardee 2025-04-09  1368   * for their IPs. Callers provide the requirement registers they use as
+78a7491d5cba8b Xi Pardee 2025-04-09  1369   * a list of indices. Each requirement register is associated with an
+78a7491d5cba8b Xi Pardee 2025-04-09  1370   * IP map that's maintained by the caller.
+78a7491d5cba8b Xi Pardee 2025-04-09  1371   *
+78a7491d5cba8b Xi Pardee 2025-04-09  1372   * Header
+78a7491d5cba8b Xi Pardee 2025-04-09  1373   * +----+----------------------------+----------------------------+
+78a7491d5cba8b Xi Pardee 2025-04-09  1374   * |  0 |      REVISION              |      ENABLED MODES         |
+78a7491d5cba8b Xi Pardee 2025-04-09  1375   * +----+--------------+-------------+-------------+--------------+
+78a7491d5cba8b Xi Pardee 2025-04-09  1376   *
+78a7491d5cba8b Xi Pardee 2025-04-09  1377   * Low Power Mode 0 Block
+78a7491d5cba8b Xi Pardee 2025-04-09  1378   * +----+--------------+-------------+-------------+--------------+
+78a7491d5cba8b Xi Pardee 2025-04-09  1379   * |  1 |     SUB ID   |     SIZE    |   MAJOR     |   MINOR      |
+78a7491d5cba8b Xi Pardee 2025-04-09  1380   * +----+--------------+-------------+-------------+--------------+
+78a7491d5cba8b Xi Pardee 2025-04-09  1381   * |  2 |           LPM0 Requirements 0                           |
+78a7491d5cba8b Xi Pardee 2025-04-09  1382   * +----+---------------------------------------------------------+
+78a7491d5cba8b Xi Pardee 2025-04-09  1383   * |    |                  ...                                    |
+78a7491d5cba8b Xi Pardee 2025-04-09  1384   * +----+---------------------------------------------------------+
+78a7491d5cba8b Xi Pardee 2025-04-09  1385   * | 29 |           LPM0 Requirements 27                          |
+78a7491d5cba8b Xi Pardee 2025-04-09  1386   * +----+---------------------------------------------------------+
+78a7491d5cba8b Xi Pardee 2025-04-09  1387   *
+78a7491d5cba8b Xi Pardee 2025-04-09  1388   * ...
+78a7491d5cba8b Xi Pardee 2025-04-09  1389   *
+78a7491d5cba8b Xi Pardee 2025-04-09  1390   * Low Power Mode 7 Block
+78a7491d5cba8b Xi Pardee 2025-04-09  1391   * +----+--------------+-------------+-------------+--------------+
+78a7491d5cba8b Xi Pardee 2025-04-09  1392   * |    |     SUB ID   |     SIZE    |   MAJOR     |   MINOR      |
+78a7491d5cba8b Xi Pardee 2025-04-09  1393   * +----+--------------+-------------+-------------+--------------+
+78a7491d5cba8b Xi Pardee 2025-04-09  1394   * | 60 |           LPM7 Requirements 0                           |
+78a7491d5cba8b Xi Pardee 2025-04-09  1395   * +----+---------------------------------------------------------+
+78a7491d5cba8b Xi Pardee 2025-04-09  1396   * |    |                  ...                                    |
+78a7491d5cba8b Xi Pardee 2025-04-09  1397   * +----+---------------------------------------------------------+
+78a7491d5cba8b Xi Pardee 2025-04-09  1398   * | 87 |           LPM7 Requirements 27                          |
+78a7491d5cba8b Xi Pardee 2025-04-09  1399   * +----+---------------------------------------------------------+
+78a7491d5cba8b Xi Pardee 2025-04-09  1400   *
+78a7491d5cba8b Xi Pardee 2025-04-09  1401   */
+1e508af6bc4b24 Xi Pardee 2025-09-10  1402  static int pmc_core_pmt_get_lpm_req(struct pmc_dev *pmcdev, struct pmc *pmc,
+1e508af6bc4b24 Xi Pardee 2025-09-10  1403  				    struct telem_endpoint *ep)
+a59211ee461022 Xi Pardee 2025-04-25  1404  {
+a59211ee461022 Xi Pardee 2025-04-25  1405  	const u8 *lpm_indices;
+a59211ee461022 Xi Pardee 2025-04-25  1406  	int num_maps, mode_offset = 0;
+a59211ee461022 Xi Pardee 2025-04-25  1407  	int ret, mode;
+a59211ee461022 Xi Pardee 2025-04-25  1408  	int lpm_size;
+a59211ee461022 Xi Pardee 2025-04-25  1409  
+a59211ee461022 Xi Pardee 2025-04-25  1410  	lpm_indices = pmc->map->lpm_reg_index;
+a59211ee461022 Xi Pardee 2025-04-25  1411  	num_maps = pmc->map->lpm_num_maps;
+a59211ee461022 Xi Pardee 2025-04-25  1412  	lpm_size = LPM_MAX_NUM_MODES * num_maps;
+a59211ee461022 Xi Pardee 2025-04-25  1413  
+a59211ee461022 Xi Pardee 2025-04-25  1414  	pmc->lpm_req_regs = devm_kzalloc(&pmcdev->pdev->dev,
+a59211ee461022 Xi Pardee 2025-04-25  1415  					 lpm_size * sizeof(u32),
+a59211ee461022 Xi Pardee 2025-04-25  1416  					 GFP_KERNEL);
+1e508af6bc4b24 Xi Pardee 2025-09-10  1417  	if (!pmc->lpm_req_regs)
+1e508af6bc4b24 Xi Pardee 2025-09-10  1418  		return -ENOMEM;
+a59211ee461022 Xi Pardee 2025-04-25  1419  
+78a7491d5cba8b Xi Pardee 2025-04-09  1420  	mode_offset = LPM_HEADER_OFFSET + LPM_MODE_OFFSET;
+78a7491d5cba8b Xi Pardee 2025-04-09  1421  	pmc_for_each_mode(mode, pmcdev) {
+78a7491d5cba8b Xi Pardee 2025-04-09  1422  		u32 *req_offset = pmc->lpm_req_regs + (mode * num_maps);
+78a7491d5cba8b Xi Pardee 2025-04-09  1423  		int m;
+78a7491d5cba8b Xi Pardee 2025-04-09  1424  
+78a7491d5cba8b Xi Pardee 2025-04-09  1425  		for (m = 0; m < num_maps; m++) {
+78a7491d5cba8b Xi Pardee 2025-04-09  1426  			u8 sample_id = lpm_indices[m] + mode_offset;
+78a7491d5cba8b Xi Pardee 2025-04-09  1427  
+78a7491d5cba8b Xi Pardee 2025-04-09  1428  			ret = pmt_telem_read32(ep, sample_id, req_offset, 1);
+78a7491d5cba8b Xi Pardee 2025-04-09  1429  			if (ret) {
+78a7491d5cba8b Xi Pardee 2025-04-09  1430  				dev_err(&pmcdev->pdev->dev,
+78a7491d5cba8b Xi Pardee 2025-04-09  1431  					"couldn't read Low Power Mode requirements: %d\n", ret);
+1e508af6bc4b24 Xi Pardee 2025-09-10  1432  				return ret;
+78a7491d5cba8b Xi Pardee 2025-04-09  1433  			}
+78a7491d5cba8b Xi Pardee 2025-04-09  1434  			++req_offset;
+78a7491d5cba8b Xi Pardee 2025-04-09  1435  		}
+78a7491d5cba8b Xi Pardee 2025-04-09  1436  		mode_offset += LPM_REG_COUNT + LPM_MODE_OFFSET;
+78a7491d5cba8b Xi Pardee 2025-04-09  1437  	}
+78a7491d5cba8b Xi Pardee 2025-04-09 @1438  	return ret;
+78a7491d5cba8b Xi Pardee 2025-04-09  1439  }
+78a7491d5cba8b Xi Pardee 2025-04-09  1440  
 
-:::::: TO: Steven Rostedt <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: The code at line 1438 was first introduced by commit
+:::::: 78a7491d5cba8b63c8dbaafc15cc92a2e3f049ca platform/x86:intel/pmc: Move PMC Core related functions
+
+:::::: TO: Xi Pardee <xi.pardee@linux.intel.com>
+:::::: CC: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
