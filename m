@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D1732E72D
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 12:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775E733D4E0
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 13:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766061128; cv=none; b=C1ZzByL9lnzfUmvKypSCQjZUwM3Zmhie9JJ/oP28HBMjD1kC9xfiNr9YgjzZgLNM7Z4xkvvPD7iexfhRXtUVNQlMBWwzoWNv0K94UlQRD9BlW9Cxdqg3kmz2tdabuaoo2u+wj48rg1jvRSVbUoIMJbGIUfrMu8hUzMTFza5fnzE=
+	t=1766062812; cv=none; b=EXR164DeuoPNYUXkfs0JN2f7H1VZeagP6yyomD4tIjWp4baulSC52xPVn6OvtxJxwaOAVWhowb267767OPe2Jd0NiyHsTkQ1DtWfeSS6kEdzjIX8n/BuDQGPNLIvdIJbm16UiPvaZrvyTcYjv96oSnEcik7ozonc6TlKBlXOrHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766061128; c=relaxed/simple;
-	bh=oJYAgYY25chF+6AHkohjYpbjPwyP3HIMWq/eZHwtpT0=;
+	s=arc-20240116; t=1766062812; c=relaxed/simple;
+	bh=mAczpBJEfPOqSP7Ih8TSZGw/itrgBcbnhWV04L9K24g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DEDpa7SaOWee/RIkvLY7uVK7MnRILL/KUUqTzHG/Q5OHTsO7ez8/cSvffpKXV0f1wDGHBeXdqW08h15kUvcurUvHiLM4G5YoMRpIGzdCw1WBzi6HBox4huKbHf731ZdHJltBbfXh6xa2PRz5uEQE5v7a+p5ze5p/Ff7rBTpbQnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJGfYQVb; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=FLv2gdvHoBUwvPDaJafCodGZqLdKrvl2DLoKme7MOcFAIwUQgw2YnpX8XfE6rOO0ZhlHcVavhQlTogV+iuShbG3LHp6wL88Uf9jWnMY76jeliB6uZSqgNdQJlmzIm9yM6WnLR6ckbfSFt9htfmb4OZK5dRPql9SIguWK0O5YNZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R9FYFHLZ; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJGfYQVb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R9FYFHLZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766061125; x=1797597125;
+  t=1766062810; x=1797598810;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oJYAgYY25chF+6AHkohjYpbjPwyP3HIMWq/eZHwtpT0=;
-  b=LJGfYQVbF3u5hvPt3ozvgtQHn49oLK4bNd8bwTOV+VSBi/fpqIiBVcZx
-   s+JEeoROk7MvxF8rJ7sE/XrGV3xOi9e5jT4RpRn3KN5mGqfqPfarN0rAh
-   DF51lvJhV8EKuEmSPTUjfqIfIOkNiefodXvp6q9r2KMY+KEzfKgVgWxcT
-   V8TxXTDwSIuqPtnucFvaa3zLDBFfQmUa46gK0qCCNH+Us41lyHoOEGCq6
-   JS8LpvwD9C1B72qGACUP/S6u1kSG5EZRaKGOY3Op1SlWXhOlEp1CMDtIU
-   IZOL6jW5zQw8AxE8OeZS5LEfjv0XfBht7IGf3W1vDtvNARHENJ4BPVVwU
-   w==;
-X-CSE-ConnectionGUID: KT0PaJmjSyGxoZ2mgLtacA==
-X-CSE-MsgGUID: OUVJFZlwRyOVZHahW29mIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="55587787"
+  bh=mAczpBJEfPOqSP7Ih8TSZGw/itrgBcbnhWV04L9K24g=;
+  b=R9FYFHLZyQTI7r7X7ku9QlOOqE/LMksK1MVVg9WR3SCs8919v6v9xOCV
+   PlfwTysG/ihEEKHcV7W4P86rnljIiZVx1TzxNj96wZNEZyRBsQneEzJgP
+   MO4R8SS3p9G7CoEYmT5bN6DzD+WdhORPWV+BTT2rYi8fGW4S/W4ZXMX5w
+   xX8+LPxUv/Ix+sz3DxE/KmBVoh0yHmf7MiF8s0+hRIwgnfrmTZK3JPc/v
+   WFx/vAcdeFjffmlRHMhuthQq2CYWaR8nFaUgI0ztbes6SOKUkXcZwHIPM
+   ZMWgTCVnlDXrsgdU5iDpn2t02iEt0xggXmihaVxA9Uw1VJg8o43/52hFT
+   A==;
+X-CSE-ConnectionGUID: MH771mVgTEqHyLii25J0fA==
+X-CSE-MsgGUID: xwIbvYYYS26eH4NA1NE1ZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="78329418"
 X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="55587787"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 04:32:02 -0800
-X-CSE-ConnectionGUID: /+eHhStlTlmULzO3qi7mWg==
-X-CSE-MsgGUID: 1VXzYK/KQ0uAGfS57JUucw==
+   d="scan'208";a="78329418"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 05:00:09 -0800
+X-CSE-ConnectionGUID: Tp5TBmNqQ1i6VenUrq9SuQ==
+X-CSE-MsgGUID: N9p3n19xTYqBzsB07jwYFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="203469731"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Dec 2025 04:32:01 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+   d="scan'208";a="198479117"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 18 Dec 2025 05:00:09 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWDAl-0000000024H-11dK;
-	Thu, 18 Dec 2025 12:31:59 +0000
-Date: Thu, 18 Dec 2025 20:31:34 +0800
+	id 1vWDbz-000000003wW-0LwU;
+	Thu, 18 Dec 2025 13:00:07 +0000
+Date: Thu, 18 Dec 2025 14:00:04 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [melver:ctx-analysis/dev 8/36]
- drivers/tty/serial/fsl_linflexuart.c:657 linflex_console_write() error:
- uninitialized symbol 'flags'.
-Message-ID: <202512182003.gapcsWar-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [litex-hub:litex-rebase 14/15]
+ Documentation/devicetree/bindings/clock/litex,clk.yaml:
+ properties:clock-output-names: {'description': 'List of strings of clock
+ output signal names indexed by the first cell in the clock specifier.',
+ 'minItems': 1, 'maxItems': 7, 'items': [{'const': 'CLK...
+Message-ID: <202512181332.OC4AYC3E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,63 +65,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: elver@google.com
+TO: Pawel Czarnecki <pczarnecki@internships.antmicro.com>
+CC: Gabriel Somlo <gsomlo@gmail.com>
+CC: Mateusz Holenko <mholenko@antmicro.com>
+CC: Geert Uytterhoeven <geert@linux-m68k.org>
+CC: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ctx-analysis/dev
-head:   5950df0508b3b151758cb1d1d965713d93200c47
-commit: 5f1642c5f2075d5dc42bfc1f5978ce33356417fa [8/36] locking/rwlock, spinlock: Support Clang's context analysis
-:::::: branch date: 21 hours ago
-:::::: commit date: 22 hours ago
-config: nios2-randconfig-r073-20251218 (https://download.01.org/0day-ci/archive/20251218/202512182003.gapcsWar-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
+tree:   https://github.com/litex-hub/linux litex-rebase
+head:   610265c5a972d9f7191ba7243ab6fb79bfc35de5
+commit: 553f9a11b145aae5c68d5abf17e5fa38a3a93426 [14/15] LiteX: driver for MMCM
+:::::: branch date: 2 days ago
+:::::: commit date: 10 days ago
+config: arm64-randconfig-2052-20251214 (https://download.01.org/0day-ci/archive/20251218/202512181332.OC4AYC3E-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ecaf673850beb241957352bd61e95ed34256635f)
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512181332.OC4AYC3E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512182003.gapcsWar-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512181332.OC4AYC3E-lkp@intel.com/
 
-New smatch warnings:
-drivers/tty/serial/fsl_linflexuart.c:657 linflex_console_write() error: uninitialized symbol 'flags'.
-drivers/tty/serial/digicolor-usart.c:408 digicolor_uart_console_write() error: uninitialized symbol 'flags'.
-drivers/tty/serial/uartlite.c:523 ulite_console_write() error: uninitialized symbol 'flags'.
-drivers/tty/serial/fsl_lpuart.c:1336 lpuart_timer_func() error: uninitialized symbol 'flags'.
-
-Old smatch warnings:
-drivers/tty/serial/fsl_linflexuart.c:613 linflex_earlycon_putchar() error: we previously assumed 'earlycon_buf.content' could be null (see line 601)
-drivers/tty/serial/fsl_linflexuart.c:746 linflex_console_setup() error: we previously assumed 'earlycon_port' could be null (see line 720)
-
-vim +/flags +657 drivers/tty/serial/fsl_linflexuart.c
-
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  639  
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  640  static void
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  641  linflex_console_write(struct console *co, const char *s, unsigned int count)
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  642  {
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  643  	struct uart_port *sport = linflex_ports[co->index];
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  644  	unsigned long flags;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  645  	int locked = 1;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  646  
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  647  	if (sport->sysrq)
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  648  		locked = 0;
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  649  	else if (oops_in_progress)
-7c6725ffd58133 Thomas Gleixner      2023-09-14  650  		locked = uart_port_trylock_irqsave(sport, &flags);
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  651  	else
-7c6725ffd58133 Thomas Gleixner      2023-09-14  652  		uart_port_lock_irqsave(sport, &flags);
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  653  
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  654  	linflex_string_write(sport, s, count);
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  655  
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  656  	if (locked)
-7c6725ffd58133 Thomas Gleixner      2023-09-14 @657  		uart_port_unlock_irqrestore(sport, flags);
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  658  }
-09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  659  
-
-:::::: The code at line 657 was first introduced by commit
-:::::: 7c6725ffd58133536b372bdb3559e7da0c89e492 serial: linflexuart: Use port lock wrappers
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/clock/litex,clk.yaml: properties:clock-output-names: {'description': 'List of strings of clock output signal names indexed by the first cell in the clock specifier.', 'minItems': 1, 'maxItems': 7, 'items': [{'const': 'CLKOUT0'}, {'const': 'CLKOUT1'}, {'const': 'CLKOUT2'}, {'const': 'CLKOUT3'}, {'const': 'CLKOUT4'}, {'const': 'CLKOUT5'}, {'const': 'CLKOUT6'}]} should not be valid under {'required': ['maxItems']}
+   	hint: "maxItems" is not needed with an "items" list
+   	from schema $id: http://devicetree.org/meta-schemas/items.yaml
 
 -- 
 0-DAY CI Kernel Test Service
