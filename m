@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F2E2FCBE5
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 17:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F4623EAAE
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Dec 2025 18:47:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766079383; cv=none; b=KuyWb+jorJNQ7snQDd7WLXGQcdYzNYQ5ByTv7JlbCPFcn0jgsByntyQRzBlEJtvBnKYrGMRp1MXJh4cttekMmxcmFvnL5OiIpzR2N0u4URk91xi1ZvVqjMqN8E7AsR4lmlriV75uC1PSsviplIFsKMj8qEsVpATKx4knvuN7VLA=
+	t=1766083638; cv=none; b=RcKsHYIXpLBZQKvnSfDI8a+fOZ/3iVH2MvWVzNNMpHoULSfJieQ69HTBGeVuEORzrfa4LfNqnMe2JrJ3IRiTIgx2PrO5tC7/YiwUDHKz65KIenHLDxi8Xwdz/Do7anLdcwDAkuFwl3EquXcA90Ce750exj8rjf/sa5UIedHt+DA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766079383; c=relaxed/simple;
-	bh=jrvZVsNceOWbhopdf+dogDo4KSpwCA9CVWJBbM+5hVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aWig+sbmuBJxkNcMES4yRkiB5reFtirOx1du8UhQpYex+Sdgf7kcJlf/laU2UMovQkWBtfD2VQ4cj6kOI2Wetzk6VECVXsbiKqTFKcERyFFnwank/FgnaBoTp8waEGWIvOEtV14rtM5PN6l88exbR8SV2hk0j/SD9WTDcgo+C1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LA6zeYUg; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1766083638; c=relaxed/simple;
+	bh=/n8HKLQTItGDGAsuFthwQbSmWyb+47OIIVYXHceZ+eE=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bFL98B3OGjU+UWipXKZ0YuDiJnuIAAThiqg9nRsQzGllcWNHLW/mpKlnen7IV/vF9FET4GmYnzzEZCkR732XST9uTFYvBzRSoSv/Qv+0FrqHxgBFrEeu6DoyhYOjKEfyXtPfinGsfrw2GCphkekyfOc21wo5kX71clbqxiUAsVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LVtE3/zu; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LA6zeYUg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVtE3/zu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766079381; x=1797615381;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jrvZVsNceOWbhopdf+dogDo4KSpwCA9CVWJBbM+5hVo=;
-  b=LA6zeYUgn1vr+qg9zkk3o7F+KGAAfCRVfx3hO0fWLW1a4VZDehWGn9TI
-   hkhW8t5WbHzlb3TugwymCvefTGxFHFyYfdzmVUvSA6wxZEQdEBHIVZuDl
-   FclIBH7XaSX4fkIHcOU9zkipFT9/aNgbiPvi2qMnE18MIsi+//Nkd8a6y
-   PCsHqLB6L7MXFkL0Ou5Be7RG3bhQ+P6634qQLQ96kp46KpBeO4/QcUZQX
-   ouLiQdjjWNy0kAC76H0eJ2AwYV+pYcOMp5q1tNdp7V/rA1Jph+Q+SFHfJ
-   gEQHaHm5DEzCsj3Hv2Tm79Rd43eEwLoXpvvtk6kqpP6YiSI6RHLMjZ0fJ
-   g==;
-X-CSE-ConnectionGUID: GpjV8b5ARy+xGx6VrB12wg==
-X-CSE-MsgGUID: q5WZKq4xRe+X/tHdqRP9ew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="85626432"
+  t=1766083636; x=1797619636;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=/n8HKLQTItGDGAsuFthwQbSmWyb+47OIIVYXHceZ+eE=;
+  b=LVtE3/zuWJxXw2tLmxOh2Oaq0sl71bgOOB8Y5C9iwJfFXt6RtZZ8cNsW
+   1/P3i644vama+rsj6LmSvVXLdn3nJDlS+XFyLUF1Stnoe6vyF8psVGVt8
+   FAQuPxwQgFifnVDA3UvHmm58iknT7OQ50RmgGHJFAMRxvXUwqKVfkHaDT
+   LQ7Uimj+1VD2KjqoVDIin9g1YLL5Vbsy653QZ4zas+CBse/9RU/BgbngU
+   tyfIh77xvS7tGTXzaAh8wMzFd+YiAj+rUg/jxb6CIWQ8PEmP5xpzDZK1S
+   L2k3GwLT4Lx3bBedIeiUpgUfLz1fsReuVDMcUbLZx71snhGIY2f06+qDv
+   Q==;
+X-CSE-ConnectionGUID: hRAsuFzfS0WkjBB6AOHT+A==
+X-CSE-MsgGUID: jPXW7T5tTx6XigX4sGJo2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="68084144"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="85626432"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 09:36:20 -0800
-X-CSE-ConnectionGUID: ulz1OHXiRyOmLv+hHnUpog==
-X-CSE-MsgGUID: z62g7yA1QGeltP0XStlR9Q==
+   d="scan'208";a="68084144"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 10:47:14 -0800
+X-CSE-ConnectionGUID: GqdkkSoVTGGdE0wKDF3svg==
+X-CSE-MsgGUID: fwVnpLhCSzeHFuDUxw86Bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="229310840"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 18 Dec 2025 09:36:20 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+   d="scan'208";a="229711526"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 18 Dec 2025 10:47:13 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWHvE-000000002O3-3DFQ;
-	Thu, 18 Dec 2025 17:36:16 +0000
-Date: Fri, 19 Dec 2025 01:36:09 +0800
+	id 1vWJ1r-0000000042u-29qE
+	for oe-kbuild@lists.linux.dev;
+	Thu, 18 Dec 2025 18:47:11 +0000
+Date: Thu, 18 Dec 2025 19:47:01 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [openeuler:openEuler-1.0-LTS 1946/1946]
- include/linux/string.h:348:9: warning: 'list' may be used uninitialized in
- this function
-Message-ID: <202512190122.U1WZhmDs-lkp@intel.com>
+Subject: [bcachefs:bcachefs-testing 1/1] checkpatch: WARNING:ONE_SEMICOLON:
+ Statements terminations use 1 semicolon
+Message-ID: <202512181936.5jqaJAUQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,79 +63,33 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "likely FALSE maybe-used-uninitialized warning on old compiler"
+:::::: Manual check reason: "high confidence checkpatch report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   4e9c55920995d70b3e88b60c69753df54b03fdf4
-commit: f828b65afdf2bda865c9eb3d8671a687adace842 [1946/1946] hda: add phytium hda driver
-:::::: branch date: 34 hours ago
-:::::: commit date: 2 years, 2 months ago
-config: arm64-randconfig-r062-20251218 (https://download.01.org/0day-ci/archive/20251219/202512190122.U1WZhmDs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512190122.U1WZhmDs-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   10bc67de516ec0622440a5ea34143be1970ee625
+commit: 10bc67de516ec0622440a5ea34143be1970ee625 [1/1] bcachefs: check_reconcile_work_btree_key() uses bch2_btree_node_update_key()
+:::::: branch date: 52 minutes ago
+:::::: commit date: 52 minutes ago
+reproduce: (https://download.01.org/0day-ci/archive/20251218/202512181936.5jqaJAUQ-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512190122.U1WZhmDs-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
+#37: FILE: fs/bcachefs/data/reconcile.c:2446:
++		return btree_node_update_key_get_node(trans, iter, n);;
 
-All warnings (new ones prefixed by >>):
+WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
+#47: FILE: fs/bcachefs/data/reconcile.c:2458:
++		return btree_node_update_key_get_node(trans, iter, n);;
 
-   In file included from arch/arm64/include/asm/processor.h:49,
-                    from include/asm-generic/qrwlock.h:23,
-                    from ./arch/arm64/include/generated/asm/qrwlock.h:1,
-                    from arch/arm64/include/asm/spinlock.h:19,
-                    from include/linux/spinlock.h:88,
-                    from include/linux/mmzone.h:9,
-                    from include/linux/gfp.h:6,
-                    from include/linux/slab.h:15,
-                    from sound/pci/hda/hda_codec.c:24:
-   sound/pci/hda/hda_codec.c: In function 'snd_hda_get_connections':
->> include/linux/string.h:348:9: warning: 'list' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     348 |  return __builtin_memcpy(p, q, size);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/hda/hda_codec.c:223:19: note: 'list' was declared here
-     223 |  const hda_nid_t *list;
-         |                   ^~~~
-   sound/pci/hda/hda_codec.c: In function 'snd_hda_get_conn_index':
-   sound/pci/hda/hda_codec.c:280:19: warning: 'conn' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     280 |  const hda_nid_t *conn;
-         |                   ^~~~
-   sound/pci/hda/hda_codec.c:897: warning: Function parameter or member 'card' not described in 'snd_hda_codec_new'
-
-
-vim +/list +348 include/linux/string.h
-
-6974f0c4555e28 Daniel Micay 2017-07-12  335  
-6974f0c4555e28 Daniel Micay 2017-07-12  336  __FORTIFY_INLINE void *memcpy(void *p, const void *q, __kernel_size_t size)
-6974f0c4555e28 Daniel Micay 2017-07-12  337  {
-6974f0c4555e28 Daniel Micay 2017-07-12  338  	size_t p_size = __builtin_object_size(p, 0);
-6974f0c4555e28 Daniel Micay 2017-07-12  339  	size_t q_size = __builtin_object_size(q, 0);
-6974f0c4555e28 Daniel Micay 2017-07-12  340  	if (__builtin_constant_p(size)) {
-6974f0c4555e28 Daniel Micay 2017-07-12  341  		if (p_size < size)
-6974f0c4555e28 Daniel Micay 2017-07-12  342  			__write_overflow();
-6974f0c4555e28 Daniel Micay 2017-07-12  343  		if (q_size < size)
-6974f0c4555e28 Daniel Micay 2017-07-12  344  			__read_overflow2();
-6974f0c4555e28 Daniel Micay 2017-07-12  345  	}
-6974f0c4555e28 Daniel Micay 2017-07-12  346  	if (p_size < size || q_size < size)
-6974f0c4555e28 Daniel Micay 2017-07-12  347  		fortify_panic(__func__);
-6974f0c4555e28 Daniel Micay 2017-07-12 @348  	return __builtin_memcpy(p, q, size);
-6974f0c4555e28 Daniel Micay 2017-07-12  349  }
-6974f0c4555e28 Daniel Micay 2017-07-12  350  
-
-:::::: The code at line 348 was first introduced by commit
-:::::: 6974f0c4555e285ab217cee58b6e874f776ff409 include/linux/string.h: add the option of fortified string.h functions
-
-:::::: TO: Daniel Micay <danielmicay@gmail.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
+#59: FILE: fs/bcachefs/data/reconcile.c:2489:
++				return btree_node_update_key_get_node(trans, iter, n);;
 
 -- 
 0-DAY CI Kernel Test Service
