@@ -1,153 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317C7320A1F
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 Dec 2025 17:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B1D28000B
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Dec 2025 17:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766166371; cv=none; b=GtIMLNn9udHG8Uay35dfQl9nuH0LV6zKCNvEC6YiYCK8JI004S8lm7zVeJ7gfxTWkOPTo7w4fiJBiTowOng+JWPnm45uefIYKB7GU9N7726twUQ2hyN49vkIbMxr6HgabS8+0cvrH6d6DXiexkR/O3FrsFUvyyAQQCHj5E/EYME=
+	t=1766166373; cv=none; b=j2ISH8MssmgbcOCq1KqrGHBHw1eoW5FlIUc6Dot/bJOjx4HkYVgdbUj7/8iK432FZXZBttf+ROyqwyAzZu5kB3zDmyQ0pB7uEn2nAGAeHGIjn15cyMQb+eTbyk+5+24M4g1rS+2DHr6uljOs5WiDVFN+K6XENjhNLlpgcrlY+IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766166371; c=relaxed/simple;
-	bh=cSYNLvqEhMVKh3kKknp8ztzAHvUUcRS70FlZrlPm75o=;
+	s=arc-20240116; t=1766166373; c=relaxed/simple;
+	bh=eUbM1JBrA2OpDQ7i2bL9rAzt0I1xp0SF6B3eK1blDlE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Gj8/g+8N4X4GUGn3OSL99/j/StzrjDLF0I9NB54E0es1cDYEBI6jsQ42J7AoH8f7jziW57P7dKUTla2dRNE+69NMEFEhO+airlmQaOtlsiBJHpP8nimq1M/9sL59nNbLIkyFhbgxkql+m6iCk45Wp3yDKrsUaA5a8bVWyox0kRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jKEjRMRb; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=k08hQ1rIe1WdpmYP+9sWZ3X0aNujUTocTKQAbufJ5zEwCHwaj/DmJLBUWTiNCYPH3c1GvU0EUeCnvpdXqikpyffbgNcI2Wc5wFQVjHq6NlfR7SQlZDShahvkbWmmKEbyPmCf5S9ZSjwDairMG3xUiVFZvMyREwZJ+iULFqDv0u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WxmQfWBA; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jKEjRMRb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WxmQfWBA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766166369; x=1797702369;
+  t=1766166372; x=1797702372;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=cSYNLvqEhMVKh3kKknp8ztzAHvUUcRS70FlZrlPm75o=;
-  b=jKEjRMRbRzN2VsbvWN7xjXIKC4jXCMdBggLqT69OkCap6icpJLFJP1MJ
-   baBPiwnoRbJ+WF8VJhEBKBfBj775dWAJ+IXZhLjbt1QzhE9tftvBNOuYN
-   lRtDamaqEMvqgn/LGd4TdsLFWM2qjCJiYOmyx+Ea/aqt6yEzEDYVnCm/w
-   PIqPcpmwPeP/HVagE03+GDdHLbyJb6OApX+DOOXKC1gcgzemAyz3RvE+K
-   fql+5iLO3e1+q6Am5bTrgENa8avVq1RceT7Wy0SxQFWgZ+Dyh2p5cjFma
-   jbRgmdMpn7gixQdcIt7fJ3Hh3DoeJNgVCXnDZFw995H8WwjVCdj9PBQ5A
+  bh=eUbM1JBrA2OpDQ7i2bL9rAzt0I1xp0SF6B3eK1blDlE=;
+  b=WxmQfWBAarKZ/AS08GemcmADVwq75ykhG9ac+Zse9PPeJH4lgcHvlr1g
+   xxuS+iodADcDimRCIY4g9AZATTia0/7Yf4WNHNGe5+HJi2YoGa9H2p3p+
+   OA+M5ZoTGW8YFzWSbaC9rNXc1VWijumK8hyMDcU9sui182Dp7HyQJoyGL
+   ePt6GUv1eYsQJExrYNxHsZlB0JyPCsP81DqSFhiMjBZNIShy4+GOM50gW
+   P7er4VKSbk3jRDI/MhwEEeOAacRSbN7pvnw9AeB/C4+HLVbKqbkNq3zaO
+   CpwtTaGUjceXBGEWzk7eTs8D8VTgREWvnKHRUxxmzncjTpnODARdxZJRK
    g==;
-X-CSE-ConnectionGUID: bdqrIdwPQUqtYVbBdmxaXQ==
-X-CSE-MsgGUID: bU41lJj5TYyQvYKgMHpCJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="71987977"
-X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
-   d="scan'208";a="71987977"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 09:46:07 -0800
-X-CSE-ConnectionGUID: NpeLGC3yRt+5Dot0MIKk4w==
-X-CSE-MsgGUID: YF4joaNERcmAvYYIwDXyQg==
+X-CSE-ConnectionGUID: iFoPI/bTSVWpvFSRVwYNjg==
+X-CSE-MsgGUID: +jgJk75xSQ+I/AOBe0J4cg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68062766"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="68062766"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 09:46:12 -0800
+X-CSE-ConnectionGUID: uJiHphr3RZ+hKJR5QjpWvQ==
+X-CSE-MsgGUID: vU0dmnKLRMKHTyOZPyztcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
-   d="scan'208";a="203316409"
+   d="scan'208";a="198173670"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Dec 2025 09:46:06 -0800
+  by orviesa010.jf.intel.com with ESMTP; 19 Dec 2025 09:46:08 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWeYG-000000003p7-1f7q;
+	id 1vWeYG-000000003p9-1kZ8;
 	Fri, 19 Dec 2025 17:46:04 +0000
-Date: Sat, 20 Dec 2025 01:45:44 +0800
+Date: Sat, 20 Dec 2025 01:45:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 547/2671]
- drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:640
- kfd_procfs_add_sysfs_counters() warn: Calling kobject_put|get with
- state->initialized unset from line: 631
-Message-ID: <202512200129.FqBB6e3D-lkp@intel.com>
+Subject: sound/soc/intel/avs/boards/rt5640.c:151 avs_create_dai_link() warn:
+ excess argument passed to 'devm_kasprintf'
+Message-ID: <202512200119.zHHDZY9m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Philipp Stanner <phasta@kernel.org>
-CC: "Christian K�nig" <christian.koenig@amd.com>
-CC: Felix Kuehling <felix.kuehling@amd.com>
+CC: linux-kernel@vger.kernel.org
+TO: Cezary Rojewski <cezary.rojewski@intel.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
-commit: 06bc18e0def7d926265480faa555bf0b67a35a90 [547/2671] amd/amdkfd: Use dma_fence_check_and_signal()
-:::::: branch date: 15 hours ago
-:::::: commit date: 2 weeks ago
-config: x86_64-randconfig-161-20251218 (https://download.01.org/0day-ci/archive/20251220/202512200129.FqBB6e3D-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dd9b004b7ff3289fb7bae35130c0a5c0537266af
+commit: c95e925daa434ee1a40a86aec6476ce588e4bd77 ASoC: Intel: avs: Add rt5640 machine board
+date:   6 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 6 months ago
+config: x86_64-randconfig-r073-20251215 (https://download.01.org/0day-ci/archive/20251220/202512200119.zHHDZY9m-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512200129.FqBB6e3D-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512200119.zHHDZY9m-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:640 kfd_procfs_add_sysfs_counters() warn: Calling kobject_put|get with state->initialized unset from line: 631
+sound/soc/intel/avs/boards/rt5640.c:151 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
 Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:594 kfd_procfs_add_sysfs_stats() warn: Calling kobject_put|get with state->initialized unset from line: 582
-drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:887 kfd_create_process() warn: Calling kobject_put|get with state->initialized unset from line: 877
-drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:1999 signal_eviction_fence() warn: signedness bug returning '(-22)'
+sound/soc/intel/avs/boards/rt5640.c:158 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
-vim +640 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c
+vim +/devm_kasprintf +151 sound/soc/intel/avs/boards/rt5640.c
 
-4327bed2ff8e3d Philip Cox  2020-06-30  608  
-751580b3ff9ac6 Philip Yang 2021-06-16  609  static void kfd_procfs_add_sysfs_counters(struct kfd_process *p)
-751580b3ff9ac6 Philip Yang 2021-06-16  610  {
-751580b3ff9ac6 Philip Yang 2021-06-16  611  	int ret = 0;
-751580b3ff9ac6 Philip Yang 2021-06-16  612  	int i;
-751580b3ff9ac6 Philip Yang 2021-06-16  613  	char counters_dir_filename[MAX_SYSFS_FILENAME_LEN];
-751580b3ff9ac6 Philip Yang 2021-06-16  614  
-751580b3ff9ac6 Philip Yang 2021-06-16  615  	if (!p || !p->kobj)
-751580b3ff9ac6 Philip Yang 2021-06-16  616  		return;
-751580b3ff9ac6 Philip Yang 2021-06-16  617  
-751580b3ff9ac6 Philip Yang 2021-06-16  618  	/*
-751580b3ff9ac6 Philip Yang 2021-06-16  619  	 * Create sysfs files for each GPU which supports SVM
-751580b3ff9ac6 Philip Yang 2021-06-16  620  	 * - proc/<pid>/counters_<gpuid>/
-751580b3ff9ac6 Philip Yang 2021-06-16  621  	 * - proc/<pid>/counters_<gpuid>/faults
-751580b3ff9ac6 Philip Yang 2021-06-16  622  	 * - proc/<pid>/counters_<gpuid>/page_in
-751580b3ff9ac6 Philip Yang 2021-06-16  623  	 * - proc/<pid>/counters_<gpuid>/page_out
-751580b3ff9ac6 Philip Yang 2021-06-16  624  	 */
-751580b3ff9ac6 Philip Yang 2021-06-16  625  	for_each_set_bit(i, p->svms.bitmap_supported, p->n_pdds) {
-751580b3ff9ac6 Philip Yang 2021-06-16  626  		struct kfd_process_device *pdd = p->pdds[i];
-751580b3ff9ac6 Philip Yang 2021-06-16  627  		struct kobject *kobj_counters;
-751580b3ff9ac6 Philip Yang 2021-06-16  628  
-751580b3ff9ac6 Philip Yang 2021-06-16  629  		snprintf(counters_dir_filename, MAX_SYSFS_FILENAME_LEN,
-751580b3ff9ac6 Philip Yang 2021-06-16  630  			"counters_%u", pdd->dev->id);
-751580b3ff9ac6 Philip Yang 2021-06-16  631  		kobj_counters = kfd_alloc_struct(kobj_counters);
-751580b3ff9ac6 Philip Yang 2021-06-16  632  		if (!kobj_counters)
-751580b3ff9ac6 Philip Yang 2021-06-16  633  			return;
-751580b3ff9ac6 Philip Yang 2021-06-16  634  
-751580b3ff9ac6 Philip Yang 2021-06-16  635  		ret = kobject_init_and_add(kobj_counters, &sysfs_counters_type,
-751580b3ff9ac6 Philip Yang 2021-06-16  636  					   p->kobj, counters_dir_filename);
-751580b3ff9ac6 Philip Yang 2021-06-16  637  		if (ret) {
-751580b3ff9ac6 Philip Yang 2021-06-16  638  			pr_warn("Creating KFD proc/%s folder failed",
-751580b3ff9ac6 Philip Yang 2021-06-16  639  				counters_dir_filename);
-751580b3ff9ac6 Philip Yang 2021-06-16 @640  			kobject_put(kobj_counters);
-751580b3ff9ac6 Philip Yang 2021-06-16  641  			return;
-751580b3ff9ac6 Philip Yang 2021-06-16  642  		}
-751580b3ff9ac6 Philip Yang 2021-06-16  643  
-751580b3ff9ac6 Philip Yang 2021-06-16  644  		pdd->kobj_counters = kobj_counters;
-751580b3ff9ac6 Philip Yang 2021-06-16  645  		kfd_sysfs_create_file(kobj_counters, &pdd->attr_faults,
-751580b3ff9ac6 Philip Yang 2021-06-16  646  				      "faults");
-751580b3ff9ac6 Philip Yang 2021-06-16  647  		kfd_sysfs_create_file(kobj_counters, &pdd->attr_page_in,
-751580b3ff9ac6 Philip Yang 2021-06-16  648  				      "page_in");
-751580b3ff9ac6 Philip Yang 2021-06-16  649  		kfd_sysfs_create_file(kobj_counters, &pdd->attr_page_out,
-751580b3ff9ac6 Philip Yang 2021-06-16  650  				      "page_out");
-751580b3ff9ac6 Philip Yang 2021-06-16  651  	}
-751580b3ff9ac6 Philip Yang 2021-06-16  652  }
-4327bed2ff8e3d Philip Cox  2020-06-30  653  
-
-:::::: The code at line 640 was first introduced by commit
-:::::: 751580b3ff9ac6bf39da8586e132dbebee2409ef drm/amdkfd: add sysfs counters for vm fault and migration
-
-:::::: TO: Philip Yang <Philip.Yang@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+c95e925daa434e Cezary Rojewski 2025-05-30  129  
+c95e925daa434e Cezary Rojewski 2025-05-30  130  static int avs_create_dai_link(struct device *dev, int ssp_port, int tdm_slot,
+c95e925daa434e Cezary Rojewski 2025-05-30  131  			       struct snd_soc_acpi_mach *mach,
+c95e925daa434e Cezary Rojewski 2025-05-30  132  			       struct snd_soc_dai_link **dai_link)
+c95e925daa434e Cezary Rojewski 2025-05-30  133  {
+c95e925daa434e Cezary Rojewski 2025-05-30  134  	struct snd_soc_dai_link_component *platform;
+c95e925daa434e Cezary Rojewski 2025-05-30  135  	struct snd_soc_dai_link *dl;
+c95e925daa434e Cezary Rojewski 2025-05-30  136  	u32 uid = 0;
+c95e925daa434e Cezary Rojewski 2025-05-30  137  	int ret;
+c95e925daa434e Cezary Rojewski 2025-05-30  138  
+c95e925daa434e Cezary Rojewski 2025-05-30  139  	if (mach->uid) {
+c95e925daa434e Cezary Rojewski 2025-05-30  140  		ret = kstrtou32(mach->uid, 0, &uid);
+c95e925daa434e Cezary Rojewski 2025-05-30  141  		if (ret)
+c95e925daa434e Cezary Rojewski 2025-05-30  142  			return ret;
+c95e925daa434e Cezary Rojewski 2025-05-30  143  		uid--; /* 0-based indexing. */
+c95e925daa434e Cezary Rojewski 2025-05-30  144  	}
+c95e925daa434e Cezary Rojewski 2025-05-30  145  
+c95e925daa434e Cezary Rojewski 2025-05-30  146  	dl = devm_kzalloc(dev, sizeof(*dl), GFP_KERNEL);
+c95e925daa434e Cezary Rojewski 2025-05-30  147  	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
+c95e925daa434e Cezary Rojewski 2025-05-30  148  	if (!dl || !platform)
+c95e925daa434e Cezary Rojewski 2025-05-30  149  		return -ENOMEM;
+c95e925daa434e Cezary Rojewski 2025-05-30  150  
+c95e925daa434e Cezary Rojewski 2025-05-30 @151  	dl->name = devm_kasprintf(dev, GFP_KERNEL,
+c95e925daa434e Cezary Rojewski 2025-05-30  152  				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
+c95e925daa434e Cezary Rojewski 2025-05-30  153  	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
+c95e925daa434e Cezary Rojewski 2025-05-30  154  	dl->codecs = devm_kzalloc(dev, sizeof(*dl->codecs), GFP_KERNEL);
+c95e925daa434e Cezary Rojewski 2025-05-30  155  	if (!dl->name || !dl->cpus || !dl->codecs)
+c95e925daa434e Cezary Rojewski 2025-05-30  156  		return -ENOMEM;
+c95e925daa434e Cezary Rojewski 2025-05-30  157  
+c95e925daa434e Cezary Rojewski 2025-05-30  158  	dl->cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+c95e925daa434e Cezary Rojewski 2025-05-30  159  					    AVS_STRING_FMT("SSP", " Pin", ssp_port, tdm_slot));
+c95e925daa434e Cezary Rojewski 2025-05-30  160  	dl->codecs->name = devm_kasprintf(dev, GFP_KERNEL, "i2c-10EC5640:0%d", uid);
+c95e925daa434e Cezary Rojewski 2025-05-30  161  	dl->codecs->dai_name = devm_kasprintf(dev, GFP_KERNEL, RT5640_CODEC_DAI);
+c95e925daa434e Cezary Rojewski 2025-05-30  162  	if (!dl->cpus->dai_name || !dl->codecs->name || !dl->codecs->dai_name)
+c95e925daa434e Cezary Rojewski 2025-05-30  163  		return -ENOMEM;
+c95e925daa434e Cezary Rojewski 2025-05-30  164  
+c95e925daa434e Cezary Rojewski 2025-05-30  165  	platform->name = dev_name(dev);
+c95e925daa434e Cezary Rojewski 2025-05-30  166  	dl->num_cpus = 1;
+c95e925daa434e Cezary Rojewski 2025-05-30  167  	dl->num_codecs = 1;
+c95e925daa434e Cezary Rojewski 2025-05-30  168  	dl->platforms = platform;
+c95e925daa434e Cezary Rojewski 2025-05-30  169  	dl->num_platforms = 1;
+c95e925daa434e Cezary Rojewski 2025-05-30  170  	dl->id = 0;
+c95e925daa434e Cezary Rojewski 2025-05-30  171  	dl->dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBC_CFC;
+c95e925daa434e Cezary Rojewski 2025-05-30  172  	dl->init = avs_rt5640_codec_init;
+c95e925daa434e Cezary Rojewski 2025-05-30  173  	dl->exit = avs_rt5640_codec_exit;
+c95e925daa434e Cezary Rojewski 2025-05-30  174  	dl->be_hw_params_fixup = avs_rt5640_be_fixup;
+c95e925daa434e Cezary Rojewski 2025-05-30  175  	dl->ops = &avs_rt5640_ops;
+c95e925daa434e Cezary Rojewski 2025-05-30  176  	dl->nonatomic = 1;
+c95e925daa434e Cezary Rojewski 2025-05-30  177  	dl->no_pcm = 1;
+c95e925daa434e Cezary Rojewski 2025-05-30  178  
+c95e925daa434e Cezary Rojewski 2025-05-30  179  	*dai_link = dl;
+c95e925daa434e Cezary Rojewski 2025-05-30  180  
+c95e925daa434e Cezary Rojewski 2025-05-30  181  	return 0;
+c95e925daa434e Cezary Rojewski 2025-05-30  182  }
+c95e925daa434e Cezary Rojewski 2025-05-30  183  
 
 -- 
 0-DAY CI Kernel Test Service
