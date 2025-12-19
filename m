@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D3A2144C7
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 Dec 2025 05:15:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2648617AE11
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Dec 2025 05:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766121357; cv=none; b=mOPlySR0mElXHny4fbi/kQC0vXlgUxwHLLZMY7FqeJ6CiqTEeshwIgzsjZg9GogC/KWVLNVqrOymfA7Jf85pi0lrP4r3Uxar4LwQ44s1E+7pe5i2XQ0jya6Qldh3NKyk3J8JXrYvhb131gvy9g6NJjO2lmFSGwAWcL4Ffuv/l/0=
+	t=1766122884; cv=none; b=UbaKqPKsVmq2YN5bdnbGFAVIeeVy/N7DBTcZPUeowbbb0U7NVPcmRG307h0kqm/PoSMre9NSxv/NUKFDwQx4niIf7R3V3JG0vBh1P7lPBscC6a+UqIFwg0I2p2zMymX384Fd4tSWsCWnOlKTb1r7LmwRJuMRx2krDcgj3mOCPUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766121357; c=relaxed/simple;
-	bh=QTPD6ybasyKMTm9o9dDTNZhHpNKRPmXyB2GJxdroFp4=;
+	s=arc-20240116; t=1766122884; c=relaxed/simple;
+	bh=X5ArFxZ/eRaAzyLYUO/dkAnWVUcO4Vp0dUw4DH+9A+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uZVwIMs89m/lmsxTVkfxAgc041H7zP80/DhKbMOBz8HotzXgnHn2sDHBLXWIyk4kGaoPcFMg4cy4sDP4gPNeGqLzjXqhpJa26ZrqWTorlutiHZ+yY4FYMz1/j5kHY5lRxbDeTvMLtwOzZkxQeGVuSqx9nAYZb/5SiZZMT8WyW+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ivb07BD1; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=fHtTpEt8objE9ksLIMrVqhyZzDiVBN83AD2GggrHq6uTZSdNnZ1+66fyM0U0FSzMLhf23IBSaONAfeGdR60DJBS5+K5rBiu/062pFP2L6RsRYS6F8FxCQwl3Ssc5ibIHVerL6vvNUSfv6/s1qOdPapd5VNXXE/G4tDa8JTBHDyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WrbuDty9; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ivb07BD1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WrbuDty9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766121356; x=1797657356;
+  t=1766122882; x=1797658882;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QTPD6ybasyKMTm9o9dDTNZhHpNKRPmXyB2GJxdroFp4=;
-  b=ivb07BD1Goo6R18pJoOuyf2S6AAcqBPSGV/JbT7jX6Xk8PCSzQQp6J+x
-   4Aku+oUuJldOo1c8Sfmrr3O1yzOEFmlV+X7IgKfX3Mced2bD3Ww9juE1n
-   Cg0rPj2w+MRwCXC1DPYQhauynNPNNQdI3QHOq87ePtkVGFlEQr9wETr7j
-   9/Kshp4BOabDgz4/zdn037OCEo4DctJW8tN3ev3VVX6bp1WlNaWqORA3j
-   ytDTXQx/o2hiZ+d3uoMaQm8uA8JS/hBNmjKcVeezRWIDMs0ic12B+cjQK
-   BS7Sc6Tk/LHB6AjRvH2wmszjpcsSRHlSxD35zHB8MDNOQahXacpafKcDJ
-   A==;
-X-CSE-ConnectionGUID: XlbaFDj7RE6HkXvcWTkb0g==
-X-CSE-MsgGUID: PYmcYl1ZQNO8YSIrwkvgig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="71942715"
+  bh=X5ArFxZ/eRaAzyLYUO/dkAnWVUcO4Vp0dUw4DH+9A+E=;
+  b=WrbuDty9pSkhhdl7xqSGc1xxQHPLRB2hzA7S8AKaN/Qe+8INhO+gVFBX
+   dUjuXfyi1SAUf/OfupjmcDKTUfIWnX3WqTblNdObbwWcJ8AnSic8im39q
+   +8kGSA8pfNCG4NnsUEAViuYdPfu9ye+0agAow6bFmXGsoBNRmxZWaQdjL
+   weTK3J0OEFcrGJTvK/GWwG+bbSbzdUCUOhqizou0zismFmiAy/Ei696Cy
+   Jn3rxvqsWy3jMTq8BXmHB1HDvhAN+2Jz3msvpdYXXCeAGxGgUeJCEc12Q
+   SbSWp+dVugGax9KO208f6KIN4lqa55+5CTWU5kSWBls72/yfQmhqpJGTa
+   Q==;
+X-CSE-ConnectionGUID: Vflsm8KDRta+wMFR6K7hjw==
+X-CSE-MsgGUID: eyc/ln00T2amYAGK9fRNYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="68056336"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="71942715"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 21:15:53 -0800
-X-CSE-ConnectionGUID: 7irTHMqDSFyxzO55DsIV/A==
-X-CSE-MsgGUID: nOlqDwNBRP2oxUlL0eJlUQ==
+   d="scan'208";a="68056336"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 21:41:22 -0800
+X-CSE-ConnectionGUID: GrBy1IPMT1ChDTD1agU3yA==
+X-CSE-MsgGUID: 4wTNeIOyRtKC31M2LNHO4g==
 X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 18 Dec 2025 21:15:52 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
+   d="scan'208";a="198691762"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 18 Dec 2025 21:41:20 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWSqE-0000000033d-2uii;
-	Fri, 19 Dec 2025 05:15:50 +0000
-Date: Fri, 19 Dec 2025 13:15:24 +0800
+	id 1vWTEs-000000004C4-0KpF;
+	Fri, 19 Dec 2025 05:41:18 +0000
+Date: Fri, 19 Dec 2025 06:40:42 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arc/boot/dts/axs103_idu.dtb: Warning (interrupt_map): Failed
- prerequisite 'interrupt_provider'
-Message-ID: <202512191308.ru6gC902-lkp@intel.com>
+Subject: Re: [PATCH net-next v1 1/3] dt-bindings: net: micrel: Convert to
+ YAML schema
+Message-ID: <202512190633.w5khnb37-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,41 +63,107 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20251212084657.29239-2-eichest@gmail.com>
+References: <20251212084657.29239-2-eichest@gmail.com>
+TO: Stefan Eichenberger <eichest@gmail.com>
+TO: andrew+netdev@lunn.ch
+TO: davem@davemloft.net
+TO: edumazet@google.com
+TO: kuba@kernel.org
+TO: pabeni@redhat.com
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+TO: hkallweit1@gmail.com
+TO: linux@armlinux.org.uk
+TO: geert+renesas@glider.be
+TO: ben.dooks@codethink.co.uk
+CC: netdev@vger.kernel.org
+CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
-CC: linux-snps-arc@lists.infradead.org
+CC: francesco.dolcini@toradex.com
+CC: rafael.beims@toradex.com
+CC: Stefan Eichenberger <stefan.eichenberger@toradex.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd9b004b7ff3289fb7bae35130c0a5c0537266af
-commit: 3b7f793acc13b6108452271b306d4aa94a3c4940 ARC: migrate to the generic rule for built-in DTB
-date:   11 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 11 months ago
-config: arc-axs103_smp_defconfig (https://download.01.org/0day-ci/archive/20251219/202512191308.ru6gC902-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191308.ru6gC902-lkp@intel.com/reproduce)
+Hi Stefan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Eichenberger/dt-bindings-net-micrel-Convert-to-YAML-schema/20251212-165111
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251212084657.29239-2-eichest%40gmail.com
+patch subject: [PATCH net-next v1 1/3] dt-bindings: net: micrel: Convert to YAML schema
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: arm-randconfig-2051-20251215 (https://download.01.org/0day-ci/archive/20251219/202512190633.w5khnb37-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ecaf673850beb241957352bd61e95ed34256635f)
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512190633.w5khnb37-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512191308.ru6gC902-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512190633.w5khnb37-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arc/boot/dts/axc003_idu.dtsi:24.24-28.5: Warning (simple_bus_reg): /cpu_card/input-clk: missing or empty reg/ranges property
-   arch/arc/boot/dts/axc003_idu.dtsi:45.29-49.5: Warning (simple_bus_reg): /cpu_card/archs-intc@cpu: missing or empty reg/ranges property
-   arch/arc/boot/dts/axc003_idu.dtsi:51.38-56.5: Warning (simple_bus_reg): /cpu_card/idu-interrupt-controller: missing or empty reg/ranges property
-   arch/arc/boot/dts/axc003_idu.dtsi:92.16-97.5: Warning (simple_bus_reg): /cpu_card/pct: missing or empty reg/ranges property
-   arch/arc/boot/dts/axs10x_mb.dtsi:33.10-64.5: Warning (simple_bus_reg): /axs10x_mb/clocks: missing or empty reg/ranges property
-   arch/arc/boot/dts/axs10x_mb.dtsi:233.20-241.5: Warning (simple_bus_reg): /axs10x_mb/connector: missing or empty reg/ranges property
-   arch/arc/boot/dts/axs10x_mb.dtsi:318.18-328.5: Warning (simple_bus_reg): /axs10x_mb/sound_playback: missing or empty reg/ranges property
-   arch/arc/boot/dts/axc003_idu.dtsi:92.16-97.5: Warning (interrupt_provider): /cpu_card/pct: '#interrupt-cells' found, but node is not an interrupt provider
-   arch/arc/boot/dts/axc003_idu.dtsi:109.18-111.5: Warning (interrupt_provider): /axs10x_mb/ethernet@18000: '#interrupt-cells' found, but node is not an interrupt provider
->> arch/arc/boot/dts/axs103_idu.dtb: Warning (interrupt_map): Failed prerequisite 'interrupt_provider'
+>> arch/arm/boot/dts/renesas/r8a7742-iwg21d-q7-dbcm-ca.dtb: ethernet-phy@1 (ethernet-phy-id0022.1560): compatible: ['ethernet-phy-id0022.1560', 'ethernet-phy-ieee802.3-c22'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+--
+>> arch/arm/boot/dts/renesas/r8a7743-sk-rzg1m.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+>> arch/arm/boot/dts/renesas/r8a7743-sk-rzg1m.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): Unevaluated properties are not allowed ('micrel,led-mode' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+--
+>> arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+>> arch/arm/boot/dts/renesas/r8a7745-sk-rzg1e.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): Unevaluated properties are not allowed ('micrel,led-mode' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+--
+   arch/arm/boot/dts/renesas/r8a7790-lager.dtb: /soc/spi@e6e10000/pmic@0: failed to match any schema with compatible: ['renesas,r2a11302ft']
+>> arch/arm/boot/dts/renesas/r8a7790-lager.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+>> arch/arm/boot/dts/renesas/r8a7790-lager.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): Unevaluated properties are not allowed ('micrel,led-mode' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+--
+>> arch/arm/boot/dts/renesas/r8a7790-stout.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+>> arch/arm/boot/dts/renesas/r8a7790-stout.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): Unevaluated properties are not allowed ('micrel,led-mode' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+--
+   arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: /soc/spi@e6e20000/pmic@0: failed to match any schema with compatible: ['renesas,r2a11302ft']
+>> arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+>> arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): Unevaluated properties are not allowed ('micrel,led-mode' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+--
+>> arch/arm/boot/dts/renesas/r8a7791-porter.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+>> arch/arm/boot/dts/renesas/r8a7791-porter.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): Unevaluated properties are not allowed ('micrel,led-mode' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+--
+>> arch/arm/boot/dts/renesas/r8a7793-gose.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+>> arch/arm/boot/dts/renesas/r8a7793-gose.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): Unevaluated properties are not allowed ('micrel,led-mode' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+   arch/arm/boot/dts/renesas/r8a7793-gose.dtb: composite-in@20 (adi,adv7180cp): ports:port@3:endpoint: Unevaluated properties are not allowed ('bus-width' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/media/i2c/adi,adv7180.yaml
+--
+>> arch/arm/boot/dts/renesas/r8a7794-alt.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+>> arch/arm/boot/dts/renesas/r8a7794-alt.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): Unevaluated properties are not allowed ('micrel,led-mode' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+--
+>> arch/arm/boot/dts/renesas/r8a7794-silk.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): compatible: ['ethernet-phy-id0022.1537', 'ethernet-phy-ieee802.3-c22'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
+>> arch/arm/boot/dts/renesas/r8a7794-silk.dtb: ethernet-phy@1 (ethernet-phy-id0022.1537): Unevaluated properties are not allowed ('micrel,led-mode' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/micrel.yaml
 
 -- 
 0-DAY CI Kernel Test Service
