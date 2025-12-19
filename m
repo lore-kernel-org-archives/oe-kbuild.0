@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C602E2EBB84
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 Dec 2025 19:41:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF84F1D86FF
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Dec 2025 20:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766173277; cv=none; b=Rl1bB87Q6o9xly5e80nD2UIl+46qaXgOV6bawmPYj/Bnb1Zh/P3zQquImP+3+vxR2mzjwnwiqJWgNbGPFcSFOq5VW/NUs5aGi6iqrjmMckRsBHrrJX7syssaDsNTBioqthRZJGReBE7VNos6OIUHvl3B+nD4vMZdLasKQDtG8A8=
+	t=1766174537; cv=none; b=FFksIpx1y0MJrIhZHlfytDuCdcOhBjuyBrLUxWSwblnkYsJ/2d7ppy0Kf8nuHXn+MUPYKLgD+nwdOLnTRB1hMDa8gnwFXf1iGuxenIpmGemxYvp1/iERwe+Lw2uHYPcBcdyAsQKhe7hP/pyze9srs6AcwGn7DCVTv9fmT2p3EZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766173277; c=relaxed/simple;
-	bh=y6h/jMQlbTJPZQmLI8EydmRpp4rF63IKR1EU37am/QE=;
+	s=arc-20240116; t=1766174537; c=relaxed/simple;
+	bh=5qdbDTzCReaOgnPL090XqbtkHc+GcIHGKC1aqqpAO+w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fQV2xDVGl6yro0+EPonLyU6UKNTayMvDSTxAWsQSdyVxyfMMtdlYPX0gvfOpeIEN99Umwe6D1yPPF912Vzdz8eUumqWHXu7ZkCfFH4KGipWfWgXbjkTpya4Us4RTl05XylbaKDFxyRHALtwiIMa+LnvYAlFHsQncmaVUI4pT1DI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e/AS04JN; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=JYDokADeeORackhfmExBaJTYJOM5gRI6E5clRPIvZciDreuOX9CYNfWzvKSs10vZiVZPHzDmSkAgx2m9M+oYMpXvxIStxGIxuYVeVORiM5Hf850zmut0iyjhWJ+e/ftjZpTFUjfrv4wrmZvvOz1RRdfFfPC9RczNrVqWiRKHOJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RWcUI/uI; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e/AS04JN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RWcUI/uI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766173276; x=1797709276;
+  t=1766174535; x=1797710535;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y6h/jMQlbTJPZQmLI8EydmRpp4rF63IKR1EU37am/QE=;
-  b=e/AS04JNSXmgU1UHNGFxbQX3rOh8zcvlNy2/eDlksr7i/jUSIcsi7Or7
-   zZ6UX/kCMlHknu6TuCuHyOmhh5V81bXJJZv3UF2lYRYA0I1euGyDQmrtl
-   ntUK8wkFVF0t52fUyGQv22vdaRdnqr1cK5+grXBtlJEot25nrZRdgVV94
-   mzZnBI92GODvHe1grT8n3594euPAiPNw3L5PA5i/IcdyO57mOkn8ea6j1
-   NmjzVtzeRL3F//pHALwW/5noEEGC6xclswDTwyKm6PeM06Diga4G+G4hq
-   6zwvZqgBR6PtudqTX8JWelPmLKbjmDYV1JN6kaTpWSgQH6ugSWBD7n0I7
+  bh=5qdbDTzCReaOgnPL090XqbtkHc+GcIHGKC1aqqpAO+w=;
+  b=RWcUI/uIE/1zGbSmQzh5bt8neDKVe2m1n5ewXbWOGT4qPKoZnXolx4Tl
+   ZfKjax0f4FR4a36hgEkL1tP597E8Z2R3ftzIczCTZOlAOicVBybssnNDo
+   FNEufPCMeSMhjRMuUwAXkRHCtPVd9DzQcxK4O+HfkoJRth0LiqOUEm/jm
+   KeJDirivTnkEj7z0HnmbGjxpTYWdzQyUhFEd5Pq7lbvxglL1MOSW7I4Iv
+   jlN7ERBVAUU46GclFNdtcjuOKXp7kzIfJLUsjCVIs8tgIdi9fj4/qS/j6
+   kyNui6dX0uQVcf6kksMzXsbDQ7E/O+3iPkAe2L8RX8B4wyEaiUxDVi7IN
    A==;
-X-CSE-ConnectionGUID: 7EK2IcFeT266z+vmoeEJXQ==
-X-CSE-MsgGUID: JJ5HWdKASlSmhlQv8FRPvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="67133576"
+X-CSE-ConnectionGUID: EW8IgPQrQ7iyTHruPU8fVA==
+X-CSE-MsgGUID: IdZ7stpRR4ST8MSGz+Kprg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="78853207"
 X-IronPort-AV: E=Sophos;i="6.21,162,1763452800"; 
-   d="scan'208";a="67133576"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 11:41:13 -0800
-X-CSE-ConnectionGUID: gkC/E2d3SOS6LLXM7mUqsA==
-X-CSE-MsgGUID: HJqFFyJ3TB+JkcsEBaLYJg==
+   d="scan'208";a="78853207"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 12:02:14 -0800
+X-CSE-ConnectionGUID: CUTJ6qlKRXaV0U0nhxKleg==
+X-CSE-MsgGUID: CTP8t1xpRjaqoH4mILVktw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,162,1763452800"; 
-   d="scan'208";a="198093598"
+   d="scan'208";a="198939475"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 19 Dec 2025 11:41:13 -0800
+  by orviesa007.jf.intel.com with ESMTP; 19 Dec 2025 12:02:13 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWgLe-000000003wS-075y;
-	Fri, 19 Dec 2025 19:41:10 +0000
-Date: Sat, 20 Dec 2025 03:40:19 +0800
+	id 1vWgfy-000000003x5-2K3f;
+	Fri, 19 Dec 2025 20:02:10 +0000
+Date: Sat, 20 Dec 2025 04:02:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1378
- kvm_trylock_all_vcpus() warn: iterator 'i' not incremented
-Message-ID: <202512200337.um368Um1-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [android-common:android14-kiwi-6.1 44/44] lib/radix-tree.c:1596:2:
+ error: call to '__compiletime_assert_251' declared with 'error' attribute:
+ BUILD_BUG_ON failed: RADIX_TREE_MAX_TAGS + __GFP_BITS_SHIFT > 32
+Message-ID: <202512200351.nB62856w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,69 +63,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Maxim Levitsky <mlevitsk@redhat.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd9b004b7ff3289fb7bae35130c0a5c0537266af
-commit: e4a454ced74c0ac97c8bd32f086ee3ad74528780 KVM: add kvm_lock_all_vcpus and kvm_trylock_all_vcpus
-date:   7 months ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 7 months ago
-config: riscv-randconfig-r073-20251214 (https://download.01.org/0day-ci/archive/20251220/202512200337.um368Um1-lkp@intel.com/config)
+Hi Vaibhav,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   d13a7e3b3e0f1ca9e8faea93fbebfed911c2588d
+commit: 345e3e5b6400f9ee03b8fad705e399b05d46ef1a [44/44] ANDROID: mm: Fix gfp bit position of __GFP_NO_INIT_ON_ALLOC
+:::::: branch date: 34 hours ago
+:::::: commit date: 1 year, 3 months ago
+config: arm-exynos_defconfig (https://download.01.org/0day-ci/archive/20251220/202512200351.nB62856w-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512200351.nB62856w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512200337.um368Um1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512200351.nB62856w-lkp@intel.com/
 
-New smatch warnings:
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1378 kvm_trylock_all_vcpus() warn: iterator 'i' not incremented
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:283 kvm_make_all_cpus_request() warn: iterator 'i' not incremented
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:487 kvm_destroy_vcpus() warn: iterator 'i' not incremented
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1384 kvm_trylock_all_vcpus() warn: iterator 'j' not incremented
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1401 kvm_lock_all_vcpus() warn: iterator 'i' not incremented
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1409 kvm_lock_all_vcpus() warn: iterator 'j' not incremented
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1425 kvm_unlock_all_vcpus() warn: iterator 'i' not incremented
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1721 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1714)
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1723 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1715)
-include/linux/kvm_host.h:1010 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:4961 kvm_vm_ioctl_reset_dirty_pages() warn: iterator 'i' not incremented
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:6092 kvm_get_stat_per_vcpu() warn: iterator 'i' not incremented
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:6103 kvm_clear_stat_per_vcpu() warn: iterator 'i' not incremented
+   lib/radix-tree.c:288:6: warning: no previous prototype for function 'radix_tree_node_rcu_free' [-Wmissing-prototypes]
+     288 | void radix_tree_node_rcu_free(struct rcu_head *head)
+         |      ^
+   lib/radix-tree.c:288:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     288 | void radix_tree_node_rcu_free(struct rcu_head *head)
+         | ^
+         | static 
+>> lib/radix-tree.c:1596:2: error: call to '__compiletime_assert_251' declared with 'error' attribute: BUILD_BUG_ON failed: RADIX_TREE_MAX_TAGS + __GFP_BITS_SHIFT > 32
+    1596 |         BUILD_BUG_ON(RADIX_TREE_MAX_TAGS + __GFP_BITS_SHIFT > 32);
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:375:2: note: expanded from macro 'compiletime_assert'
+     375 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:363:2: note: expanded from macro '_compiletime_assert'
+     363 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:356:4: note: expanded from macro '__compiletime_assert'
+     356 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:74:1: note: expanded from here
+      74 | __compiletime_assert_251
+         | ^
+   1 warning and 1 error generated.
 
-vim +/i +1378 arch/riscv/kvm/../../../virt/kvm/kvm_main.c
 
-6aa8b732ca01c3d drivers/kvm/kvm_main.c Avi Kivity     2006-12-10  1370  
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1371  int kvm_trylock_all_vcpus(struct kvm *kvm)
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1372  {
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1373  	struct kvm_vcpu *vcpu;
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1374  	unsigned long i, j;
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1375  
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1376  	lockdep_assert_held(&kvm->lock);
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1377  
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1378  	kvm_for_each_vcpu(i, vcpu, kvm)
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1379  		if (!mutex_trylock_nest_lock(&vcpu->mutex, &kvm->lock))
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1380  			goto out_unlock;
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1381  	return 0;
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1382  
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1383  out_unlock:
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1384  	kvm_for_each_vcpu(j, vcpu, kvm) {
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1385  		if (i == j)
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1386  			break;
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1387  		mutex_unlock(&vcpu->mutex);
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1388  	}
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1389  	return -EINTR;
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1390  }
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1391  EXPORT_SYMBOL_GPL(kvm_trylock_all_vcpus);
-e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1392  
+vim +1596 lib/radix-tree.c
+
+^1da177e4c3f41 Linus Torvalds            2005-04-16  1591  
+^1da177e4c3f41 Linus Torvalds            2005-04-16  1592  void __init radix_tree_init(void)
+^1da177e4c3f41 Linus Torvalds            2005-04-16  1593  {
+d544abd5ff7d8b Sebastian Andrzej Siewior 2016-11-03  1594  	int ret;
+7e7844226f1053 Michal Hocko              2017-05-03  1595  
+7e7844226f1053 Michal Hocko              2017-05-03 @1596  	BUILD_BUG_ON(RADIX_TREE_MAX_TAGS + __GFP_BITS_SHIFT > 32);
+
+:::::: The code at line 1596 was first introduced by commit
+:::::: 7e7844226f1053236b6f6d5d122a06509fb14fd9 lockdep: allow to disable reclaim lockup detection
+
+:::::: TO: Michal Hocko <mhocko@suse.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
