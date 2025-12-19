@@ -1,71 +1,58 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0467F2652AF
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 Dec 2025 08:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24BC283C93
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Dec 2025 09:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766131591; cv=none; b=TqR5SYltl56Fh0VrPBIqmWuq+SbXfkSKRZpRERdkqgp6cZlgZaftsusNSlGsousCfwjtWq0LFbvlEmtaFtMmhpnP8kFxw/1tASiOSz5KwPDxlTs6yYrAutueFxS4bALNM24ADYmzP29eMd2IB1Hx3s+0fU+YY/BLjCmlMO559us=
+	t=1766135049; cv=none; b=adgOTRkrWVJn0hqUDs2ZC5mJnZBIS6kxBAEghy2eOrwZ9JviB7d/uhrvex/coggTP+pW2CI3HQ+ZAUln0FYsRLL+PpLg6LFWyjbwjSqmlrj9f7t9S7j0uNcRskBgDJ935ItL4Dqurmr1uiT1W3aJh717J4lM2Rig5Gq2Cc+9pkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766131591; c=relaxed/simple;
-	bh=lM5iFd8G0Ace+/s/X/+rVN4FNyVoLU7uwRg8EPb94W8=;
+	s=arc-20240116; t=1766135049; c=relaxed/simple;
+	bh=X192LQ1iH0W4woCTwGSAFQ5Cfg5nQKZ6MuxWKr8K11s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o+MKW1QMwgTX5dFm1gDRJS2AQ355oGbp1wfk6vdUi7ezhQhaHoZ9pYUOYoOiTFWQimr0x8T+BhDs5zW9L6FvMAGtj3QSn15lLjncho3ogyGngMWnf8QcGEmsPZ8FQp7l9racwbLEuu39kI1p91VisyjeWcxQxehQDQ7X6mVoMZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KYDAXFj9; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Co2lxpTljuY0RhGJWjs8Af+zcQCxA9fAkXXW7m1WYYl9y2NXZ4u+raNyJp5Si6uPrrt0Bh7tG92yOXcNcRiFmaufgQrX3sm08w8TVUVS42B4rk+olfwCUcWw56TVb80vL7Epgm/pl4KyeWsGcL+m7FQ9pj+uMAElGDd6clb3wcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CbYnTNSK; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KYDAXFj9"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-477632b0621so8889055e9.2
-        for <oe-kbuild@lists.linux.dev>; Fri, 19 Dec 2025 00:06:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1766131588; x=1766736388; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pqDc58J0mJlF6iz/FD8YaZSHglWLc4nJynwRJQT9VB0=;
-        b=KYDAXFj9WAlbf+wbDFttxXby1t8V1BnG4cD9OZjANB8zMDCkCoqslUCL3jpGvBMmSM
-         Ez2Om2JDWXtFk2f2V+oQFj75g+2P5SxIqQi5dQX9WV1k6OFEkd387ZfdQvmZ8lhsYdzd
-         hCWzqC3x9NrLAESl4FXaRkHRaGVMYx1BT5ZlvzNDVYbxXknaXsm+oadxbRgQ3JRahNJX
-         tK6EaPAMWpLBCuR4WVy28nv29wdNT5DFuqomMq8MovcvrWIgHcGJFDxvBtSOGFWYGvNH
-         UaD1kcKeZuYQ8Gdo0kH/zFykoYOGoCvvgMh+d3yQF2Q4xbyXFNHa0TFVcKOsWQgvM+Lr
-         Y8DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766131588; x=1766736388;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pqDc58J0mJlF6iz/FD8YaZSHglWLc4nJynwRJQT9VB0=;
-        b=jJgQRUdV2VtAvWYPWeIpXvcxfccE1WEmhqYpYhvmBLUNqO5bkKHmbx8xSibUggW0zn
-         h2oz7jEshc2kRQyL7j/gDfJNlE36Ndp5yfj1ornakPKI10Eyq6J+nbL9K/W9NFAZt4E2
-         d7nw79F5A8pUG2tkQs4Faa8pa/dyxjbHvB/Wu+lMS2F60/xBLDYCRzU+femDHuCSaNVs
-         0sRA4b0kHSM3QuJFAjUHJB/rTdv+Sta2TMm0BX4/nzQ1B8GeyDkkzD43NgylukziI1ZU
-         fs16rMjIbaDIca/THIlVUlBXuYVFlmq6fT8Yqc1TQdEJJ4MGhloxxj6la8SKxNoSvyd7
-         eO4g==
-X-Gm-Message-State: AOJu0YyHzqXNxJUSDwoG87eEJ+CdlL32jTDBj3qBywU7QhafGlfIHwvH
-	WDpau2mr0cdjdla5MQ8tw+icP3iXgIQBwPikNFB/nwMAl0NfBrAkUC1CD7b6A1mMBd55ruHEuBS
-	M6FUt
-X-Gm-Gg: AY/fxX5RlrGCi7c6wI0MURi5jKGLjWp4p55ShTGb4CVjJlETnb/cnDF8NcXt5dbOcdw
-	GkUVUvFrIrsDrxMKQpzWw5LhfYD4EfwUbvc4xrYNXxhTFZBadb/ghJFNEpXR4pEOCt1LU2Phceq
-	2HRD6+YuiPYQSQ0o5EruWwcoWI7xmS+FOhGlC7K7TUpowjffTTvN1EnRDvilkj71FCTikUqI192
-	oMpVgIR9VgTiGqbrTrSxzQi3CxD8sG5LWV2fPne4nyjjzny6ureRdcrD+MMVipaFSpIOUCmnM70
-	+XtIo4IXBA1+5AD8eKBZrErLRgbJLuOcZoeTBlDxWrgrzTlC0kfIaRLjBmChkSQ29GPnBVdk0j4
-	1Z2rifv7WPNWvd7sVaPGIHpAUN7Tx6e4Mvm8x8tiJ/2Ot8IUmLo698cjMlB/BB9+ZSqt8hNa6pF
-	GfCwbEJco6qos65SwMlIBXpKXSfxg=
-X-Google-Smtp-Source: AGHT+IGDnrg3fAhxrem74CTe/Ql8uGGeqyOVUZ6NLQXko+3T6NwjpJot8e06kUTBU0L/xFNgP4bTqQ==
-X-Received: by 2002:a05:600c:1c1a:b0:477:5cc6:7e44 with SMTP id 5b1f17b1804b1-47d195780eemr18520105e9.11.1766131587913;
-        Fri, 19 Dec 2025 00:06:27 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be27b28a7sm87239355e9.12.2025.12.19.00.06.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Dec 2025 00:06:27 -0800 (PST)
-Date: Fri, 19 Dec 2025 11:06:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 43/43]
- kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable
- dereferenced before check 'buffer' (see line 2172)
-Message-ID: <202512191559.0oHMB8eD-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CbYnTNSK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766135048; x=1797671048;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=X192LQ1iH0W4woCTwGSAFQ5Cfg5nQKZ6MuxWKr8K11s=;
+  b=CbYnTNSK8qjwM+HfHnGJDvcXgU0IRk3806ULGdRIefzgwvG3HnNDnxcL
+   6tC3zdrAqv4UWmwnNZhlaMV9FHOYCDWV0duI6k+sQh2WxSC3sHKMSzeNG
+   DwGxJYxZ+kC2dc5LtWIrllo5vn59zChkTXd3cJKZFsW43f6XBAat3aWuK
+   lqX8ZqDMExuQeBTVOQadB3ZOv1rmZVnwDrjYZ9Wp585pp45nEufT+lslB
+   xlwno2mOndmfUzIHTkbc9ywzCGNL2jQbTY2S8X4PbrRIcWcjuEl27YqgK
+   mPaqHQhvWVCRg72gtCPA8vWJcp58M6ZcxTL+2oN4Lpru8zQyLTQ2RjBdh
+   A==;
+X-CSE-ConnectionGUID: uUH00DvURSagFDOcmJwpVw==
+X-CSE-MsgGUID: KVoxDj58RzyIQ/0Ye3uHZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="68070623"
+X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
+   d="scan'208";a="68070623"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 01:04:08 -0800
+X-CSE-ConnectionGUID: r3HehA8/R4+vVtKVl8M+jw==
+X-CSE-MsgGUID: 5EXF6KgSSm2VAsdOknmbew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
+   d="scan'208";a="197964525"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 19 Dec 2025 01:04:05 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vWWP5-000000003In-1Vjx;
+	Fri, 19 Dec 2025 09:04:03 +0000
+Date: Fri, 19 Dec 2025 17:03:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/iommu/amd/iommu.c:2401 amd_iommu_probe_device() error:
+ uninitialized symbol 'dev_data'.
+Message-ID: <202512191724.meqJENXe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -74,53 +61,102 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20251219080624.8Lr0kq6URNyx2j53m8LJsUM_hE3AWyMzcQ1lfdvsp8Y@z>
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   d13a7e3b3e0f1ca9e8faea93fbebfed911c2588d
-commit: 5ecbcb61e172d82faf1bd8c00b17837d3c658c59 [43/43] ANDROID: ring-buffer: Introducing external writer support
-config: i386-randconfig-141-20251217 (https://download.01.org/0day-ci/archive/20251219/202512191559.0oHMB8eD-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Kishon Vijay Abraham I <kvijayab@amd.com>
+CC: Joerg Roedel <jroedel@suse.de>
+CC: Sairaj Kodilkar <sarunkod@amd.com>
+CC: Vasant Hegde <vasant.hegde@amd.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dd9b004b7ff3289fb7bae35130c0a5c0537266af
+commit: 19e5cc156cbc32421eb8237615f246c08eea8284 iommu/amd: Enable support for up to 2K interrupts per function
+date:   9 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-r073-20251215 (https://download.01.org/0day-ci/archive/20251219/202512191724.meqJENXe-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512191559.0oHMB8eD-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512191724.meqJENXe-lkp@intel.com/
 
-smatch warnings:
-kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable dereferenced before check 'buffer' (see line 2172)
+New smatch warnings:
+drivers/iommu/amd/iommu.c:2401 amd_iommu_probe_device() error: uninitialized symbol 'dev_data'.
+drivers/iommu/amd/iommu.c:3200 alloc_irq_table() error: we previously assumed 'iommu' could be null (see line 3195)
 
-vim +/buffer +2177 kernel/trace/ring_buffer.c
+Old smatch warnings:
+drivers/iommu/amd/iommu.c:1405 domain_flush_complete() warn: iterator 'i' not incremented
+drivers/iommu/amd/iommu.c:1608 domain_flush_pages_v1() warn: iterator 'i' not incremented
+drivers/iommu/amd/iommu.c:2153 init_gcr3_table() warn: missing error code? 'ret'
+drivers/iommu/amd/iommu.c:2403 amd_iommu_probe_device() error: uninitialized symbol 'dev_data'.
 
-13292494379f92 Steven Rostedt (VMware    2019-12-13  2165) int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2166  			int cpu_id)
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2167  {
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2168  	struct ring_buffer_per_cpu *cpu_buffer;
-9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  2169) 	unsigned long nr_pages;
-0a1754b2a97efa Qiujun Huang              2020-10-19  2170  	int cpu, err;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2171  
-5ecbcb61e172d8 Vincent Donnefort         2022-08-24 @2172  	if (unlikely(has_ext_writer(buffer)))
-                                                                                            ^^^^^^
-Dereferenced here.
+vim +/dev_data +2401 drivers/iommu/amd/iommu.c
 
-5ecbcb61e172d8 Vincent Donnefort         2022-08-24  2173  		return -EINVAL;
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2174  	/*
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2175  	 * Always succeed at resizing a non-existent buffer:
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2176  	 */
-ee51a1de7e3837 Ingo Molnar               2008-11-13 @2177  	if (!buffer)
-                                                                    ^^^^^^^
-Checked too late.
-
-0a1754b2a97efa Qiujun Huang              2020-10-19  2178  		return 0;
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2179  
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2180  	/* Make sure the requested buffer exists */
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2181  	if (cpu_id != RING_BUFFER_ALL_CPUS &&
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2182  	    !cpumask_test_cpu(cpu_id, buffer->cpumask))
-0a1754b2a97efa Qiujun Huang              2020-10-19  2183  		return 0;
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2184  
+e275a2a0fc9e21 arch/x86/kernel/amd_iommu.c Joerg Roedel           2008-12-10  2352  
+dce8d6964ebdb3 drivers/iommu/amd_iommu.c   Joerg Roedel           2020-04-29  2353  static struct iommu_device *amd_iommu_probe_device(struct device *dev)
+15898bbcb48fc8 arch/x86/kernel/amd_iommu.c Joerg Roedel           2009-11-24  2354  {
+dce8d6964ebdb3 drivers/iommu/amd_iommu.c   Joerg Roedel           2020-04-29  2355  	struct iommu_device *iommu_dev;
+e275a2a0fc9e21 arch/x86/kernel/amd_iommu.c Joerg Roedel           2008-12-10  2356  	struct amd_iommu *iommu;
+a0c47f233e683e drivers/iommu/amd/iommu.c   Vasant Hegde           2024-04-18  2357  	struct iommu_dev_data *dev_data;
+8b71c9bf4df829 drivers/iommu/amd/iommu.c   Suravee Suthikulpanit  2022-07-06  2358  	int ret;
+e275a2a0fc9e21 arch/x86/kernel/amd_iommu.c Joerg Roedel           2008-12-10  2359  
+57bd2c24ba1673 drivers/iommu/amd_iommu.c   Joerg Roedel           2020-04-29  2360  	if (!check_device(dev))
+dce8d6964ebdb3 drivers/iommu/amd_iommu.c   Joerg Roedel           2020-04-29  2361  		return ERR_PTR(-ENODEV);
+e275a2a0fc9e21 arch/x86/kernel/amd_iommu.c Joerg Roedel           2008-12-10  2362  
+8b71c9bf4df829 drivers/iommu/amd/iommu.c   Suravee Suthikulpanit  2022-07-06  2363  	iommu = rlookup_amd_iommu(dev);
+8b71c9bf4df829 drivers/iommu/amd/iommu.c   Suravee Suthikulpanit  2022-07-06  2364  	if (!iommu)
+8b71c9bf4df829 drivers/iommu/amd/iommu.c   Suravee Suthikulpanit  2022-07-06  2365  		return ERR_PTR(-ENODEV);
+e275a2a0fc9e21 arch/x86/kernel/amd_iommu.c Joerg Roedel           2008-12-10  2366  
+cbc040081fdf7d drivers/iommu/amd/iommu.c   Robin Murphy           2022-08-15  2367  	/* Not registered yet? */
+cbc040081fdf7d drivers/iommu/amd/iommu.c   Robin Murphy           2022-08-15  2368  	if (!iommu->iommu.ops)
+cbc040081fdf7d drivers/iommu/amd/iommu.c   Robin Murphy           2022-08-15  2369  		return ERR_PTR(-ENODEV);
+cbc040081fdf7d drivers/iommu/amd/iommu.c   Robin Murphy           2022-08-15  2370  
+05a0542b456e13 drivers/iommu/amd_iommu.c   Joerg Roedel           2020-05-27  2371  	if (dev_iommu_priv_get(dev))
+dce8d6964ebdb3 drivers/iommu/amd_iommu.c   Joerg Roedel           2020-04-29  2372  		return &iommu->iommu;
+dce8d6964ebdb3 drivers/iommu/amd_iommu.c   Joerg Roedel           2020-04-29  2373  
+99fc4ac3d2978c drivers/iommu/amd/iommu.c   Suravee Suthikulpanit  2022-07-06  2374  	ret = iommu_init_device(iommu, dev);
+4d58b8a6de6b8c drivers/iommu/amd_iommu.c   Joerg Roedel           2015-06-11  2375  	if (ret) {
+5f226da1b1d706 drivers/iommu/amd_iommu.c   Bjorn Helgaas          2019-02-08  2376  		dev_err(dev, "Failed to initialize - trying to proceed anyway\n");
+dce8d6964ebdb3 drivers/iommu/amd_iommu.c   Joerg Roedel           2020-04-29  2377  		iommu_dev = ERR_PTR(ret);
+99fc4ac3d2978c drivers/iommu/amd/iommu.c   Suravee Suthikulpanit  2022-07-06  2378  		iommu_ignore_device(iommu, dev);
+293aa9ec694e63 drivers/iommu/amd/iommu.c   Vasant Hegde           2024-08-28  2379  		goto out_err;
+293aa9ec694e63 drivers/iommu/amd/iommu.c   Vasant Hegde           2024-08-28  2380  	}
+293aa9ec694e63 drivers/iommu/amd/iommu.c   Vasant Hegde           2024-08-28  2381  
+2b2c6aa63824c6 drivers/iommu/amd/iommu.c   Thomas Gleixner        2020-08-26  2382  	amd_iommu_set_pci_msi_domain(dev, iommu);
+dce8d6964ebdb3 drivers/iommu/amd_iommu.c   Joerg Roedel           2020-04-29  2383  	iommu_dev = &iommu->iommu;
+657cbb6b6cba0f arch/x86/kernel/amd_iommu.c Joerg Roedel           2009-11-23  2384  
+a0c47f233e683e drivers/iommu/amd/iommu.c   Vasant Hegde           2024-04-18  2385  	/*
+a0c47f233e683e drivers/iommu/amd/iommu.c   Vasant Hegde           2024-04-18  2386  	 * If IOMMU and device supports PASID then it will contain max
+a0c47f233e683e drivers/iommu/amd/iommu.c   Vasant Hegde           2024-04-18  2387  	 * supported PASIDs, else it will be zero.
+a0c47f233e683e drivers/iommu/amd/iommu.c   Vasant Hegde           2024-04-18  2388  	 */
+a0c47f233e683e drivers/iommu/amd/iommu.c   Vasant Hegde           2024-04-18  2389  	dev_data = dev_iommu_priv_get(dev);
+a0c47f233e683e drivers/iommu/amd/iommu.c   Vasant Hegde           2024-04-18  2390  	if (amd_iommu_pasid_supported() && dev_is_pci(dev) &&
+a0c47f233e683e drivers/iommu/amd/iommu.c   Vasant Hegde           2024-04-18  2391  	    pdev_pasid_supported(dev_data)) {
+a0c47f233e683e drivers/iommu/amd/iommu.c   Vasant Hegde           2024-04-18  2392  		dev_data->max_pasids = min_t(u32, iommu->iommu.max_pasids,
+a0c47f233e683e drivers/iommu/amd/iommu.c   Vasant Hegde           2024-04-18  2393  					     pci_max_pasids(to_pci_dev(dev)));
+a0c47f233e683e drivers/iommu/amd/iommu.c   Vasant Hegde           2024-04-18  2394  	}
+a0c47f233e683e drivers/iommu/amd/iommu.c   Vasant Hegde           2024-04-18  2395  
+293aa9ec694e63 drivers/iommu/amd/iommu.c   Vasant Hegde           2024-08-28  2396  out_err:
+19e5cc156cbc32 drivers/iommu/amd/iommu.c   Kishon Vijay Abraham I 2025-03-07  2397  
+dce8d6964ebdb3 drivers/iommu/amd_iommu.c   Joerg Roedel           2020-04-29  2398  	iommu_completion_wait(iommu);
+2c9195e9902970 drivers/iommu/amd_iommu.c   Joerg Roedel           2012-07-19  2399  
+19e5cc156cbc32 drivers/iommu/amd/iommu.c   Kishon Vijay Abraham I 2025-03-07  2400  	if (FEATURE_NUM_INT_REMAP_SUP_2K(amd_iommu_efr2))
+19e5cc156cbc32 drivers/iommu/amd/iommu.c   Kishon Vijay Abraham I 2025-03-07 @2401  		dev_data->max_irqs = MAX_IRQS_PER_TABLE_2K;
+19e5cc156cbc32 drivers/iommu/amd/iommu.c   Kishon Vijay Abraham I 2025-03-07  2402  	else
+19e5cc156cbc32 drivers/iommu/amd/iommu.c   Kishon Vijay Abraham I 2025-03-07  2403  		dev_data->max_irqs = MAX_IRQS_PER_TABLE_512;
+19e5cc156cbc32 drivers/iommu/amd/iommu.c   Kishon Vijay Abraham I 2025-03-07  2404  
+6c17c7d5936e6a drivers/iommu/amd/iommu.c   Jason Gunthorpe        2024-08-07  2405  	if (dev_is_pci(dev))
+6c17c7d5936e6a drivers/iommu/amd/iommu.c   Jason Gunthorpe        2024-08-07  2406  		pci_prepare_ats(to_pci_dev(dev), PAGE_SHIFT);
+6c17c7d5936e6a drivers/iommu/amd/iommu.c   Jason Gunthorpe        2024-08-07  2407  
+dce8d6964ebdb3 drivers/iommu/amd_iommu.c   Joerg Roedel           2020-04-29  2408  	return iommu_dev;
+dce8d6964ebdb3 drivers/iommu/amd_iommu.c   Joerg Roedel           2020-04-29  2409  }
+1ac4cbbc5eb56d arch/x86/kernel/amd_iommu.c Joerg Roedel           2008-12-10  2410  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
