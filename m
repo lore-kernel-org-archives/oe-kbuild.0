@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC1B2DE70B
-	for <oe-kbuild@lists.linux.dev>; Sat, 20 Dec 2025 01:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D33663CB
+	for <oe-kbuild@lists.linux.dev>; Sat, 20 Dec 2025 04:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766195915; cv=none; b=gUupy4eWO5uH7VJFeRGAwR4Lbg7ltTMjTXuoe2N1LegWeHJtv7G2h9C0QxDJbXgbX6P2oQo/nbF+reO+c5oXp4/Uk6SO6sjjuNDKvWUBNWmJCCyjHB3al+uKfbyLccRO3KyfIjLSq3wJcc9xGGncFpsL/GNJ3GwTfVMoRvg4lXA=
+	t=1766205104; cv=none; b=bexdHgXP62FwRzMf2v9GivmdL6ahvTTCngGMVZhBFCsGwYdfHsLIyZuu82/AedqCLXKV5Lvpb7+KedHONY0UhVPg29jhSDiUvMUkZEhZDCrYmMy8MW68zBPpIfJoGPTDjDB5W+3m4NtFOq/V1F+HdzsAJoQuVklET8jlKSpHac8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766195915; c=relaxed/simple;
-	bh=4pMzKYVhz6nV2IXg0aO0fafUzN1RTo/ccOfH2hODRfc=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B4YVg66H9BBw1tyJ3z2gQp1LaogGaqhhmGZ6JkYr0NH9nFZ1cfWDep4v0CrjZ1GQNsyA5VRsXRd5mFUf6vYrucnTcaO4nnx5w3MTfhFVREF+5HoBTntYb1EZtZD7vUfinNz8Syr8eKK3DIAddlm6F852cTWdP/EZwmvSRaTQb/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HMnEOuQV; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1766205104; c=relaxed/simple;
+	bh=wZmCwMoJc+Qt29tVCO4pGoRjADS6qcymAJUjlmRbDyg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EG4orlp0SXvTT9HS7Uozc77l1lW4L6jRDIz/5lc7VkO0QVrzjv8oTMSIKy4xK0NaOxGWuOOruxOULLNLq5VunfoS7gzCAhegUnaQXM3ZP/3G07JjHsE3zauezbG7cyLwi23wUPaONbqZ2rwevDE+cDWY9ZQYsaibaRIn93f/buc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GpL5PICe; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HMnEOuQV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GpL5PICe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766195915; x=1797731915;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=4pMzKYVhz6nV2IXg0aO0fafUzN1RTo/ccOfH2hODRfc=;
-  b=HMnEOuQVTen+Vb4HRBkcbgP0U9twUWaXNlcrXB0NsfFhwwv85BAixl2T
-   bckyK8+e3KkMwCT17VG4v6bz2ud5BdGjgkWBaA62uYKmje59Wo+Ug/sKL
-   QDVlwRCMYA3Gw5ZIx/Gjhooyod2k9kF7VCIcwo789QJQidJOUb8U1ddY1
-   Qrq3vMFbZFJGAR7A2XOWcmZ6ifHb1RvKhzLUTdPi8iFOQoU1OHA6JziDy
-   l1Qo3N5JZdw7lHA3ldIWRfjV/DbiUAsiOZtdtB8F21JR9TBQpglfogKOL
-   KpRCmCSjRnqjPgVR2kampevZ1gJvev6Di2eSXNuEICLYPu36yCUPmvGAh
+  t=1766205102; x=1797741102;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wZmCwMoJc+Qt29tVCO4pGoRjADS6qcymAJUjlmRbDyg=;
+  b=GpL5PICe/xdLkTwsFwURI3oK075GnkbsX1zoi0PDMgJTs5fUYhp/GoTg
+   arCtQKOCLNo1EH0I4Pci23q2IR9TuueJrYbiN7jSe4aFc5ExEEKECLfp9
+   WlxqZfD1Im1vNTjYOPV3vgPZz8zeVny383eBdO4R2eMPaMyyc+THHEMG7
+   IKDpfzw6tlxLgeqTHuR0uFvPsN6Y8ULlrlutumZmpWuQEwb4b3X0cgbcj
+   mwMqVKU85ksuC5mNN1xK90p+s40XjMJZgqrdtXhzjABcfTnyw76zOiyxj
+   4pIv0wC70W9AQKMQtGwPLQ3FddSdRp9sYf4W1USDS9+xr53LUYWherAlD
    g==;
-X-CSE-ConnectionGUID: MQ6Ik4s0SRir8fJLPYmf0g==
-X-CSE-MsgGUID: 4HBMVAw+RquVDvVcYB/Smw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="79274112"
+X-CSE-ConnectionGUID: 1mq7ug/FRxWmhIBZQKGQMA==
+X-CSE-MsgGUID: OSs6WzIUSVyoZLtyWdBZIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="67910843"
 X-IronPort-AV: E=Sophos;i="6.21,162,1763452800"; 
-   d="scan'208";a="79274112"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 17:58:33 -0800
-X-CSE-ConnectionGUID: /X9IfRdSQiuGykf+WH2UNQ==
-X-CSE-MsgGUID: YbKyLeU6RtOqJCcTOldzew==
+   d="scan'208";a="67910843"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 20:31:41 -0800
+X-CSE-ConnectionGUID: ccXo1pIVRJ2MKvaMGUIQTg==
+X-CSE-MsgGUID: hoS7rT5ARjiLGBQ6LVN66g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,162,1763452800"; 
-   d="scan'208";a="230031903"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Dec 2025 17:58:32 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="198616889"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 19 Dec 2025 20:31:40 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWmEo-000000004Ss-0c5u
-	for oe-kbuild@lists.linux.dev;
-	Sat, 20 Dec 2025 01:58:30 +0000
-Date: Sat, 20 Dec 2025 02:57:37 +0100
+	id 1vWod0-000000004Kp-1hgH;
+	Sat, 20 Dec 2025 04:31:38 +0000
+Date: Sat, 20 Dec 2025 12:31:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [arm-platforms:kvm-arm64/gicv5-full 81/82] checkpatch:
- WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-Message-ID: <202512200223.brtNYNTe-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 1525/2671] fs/fuse/file.c:1326:9: error: call to
+ '__compiletime_assert_603' declared with 'error' attribute: min(((pos + len
+ - 1) >> 12) - (pos >> 12) + 1, max_pages) signedness error
+Message-ID: <202512201212.xumGaza6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,26 +64,86 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "high confidence checkpatch report"
+:::::: Manual check reason: "__compiletime_assert_NNN"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sascha Bischoff <sascha.bischoff@arm.com>
+TO: David Laight <david.laight.linux@gmail.com>
+CC: Christian Brauner <brauner@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/gicv5-full
-head:   1426b88096b597395df4c82f089b87c62bab45da
-commit: ee68a99e21cc80f34cb403ee5c18d64e0731046f [81/82] irqchip/gic-v5: Enable direct injection in ITS
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20251220/202512200223.brtNYNTe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
+commit: 0f5bb0cfb0b40a31d2fe146ecbef5727690fa547 [1525/2671] fs: use min() or umin() instead of min_t()
+:::::: branch date: 25 hours ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-012-20251220 (https://download.01.org/0day-ci/archive/20251220/202512201212.xumGaza6-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512201212.xumGaza6-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202512201212.xumGaza6-lkp@intel.com/
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#160: FILE: drivers/irqchip/irq-gic-v5-its.c:853:
-+		/*
-+		* Once we are done direct injecting, it is vital that we restore
+All errors (new ones prefixed by >>):
+
+>> fs/fuse/file.c:1326:9: error: call to '__compiletime_assert_603' declared with 'error' attribute: min(((pos + len - 1) >> 12) - (pos >> 12) + 1, max_pages) signedness error
+    1326 |         return min(((pos + len - 1) >> PAGE_SHIFT) - (pos >> PAGE_SHIFT) + 1,
+         |                ^
+   include/linux/minmax.h:105:19: note: expanded from macro 'min'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^
+   include/linux/minmax.h:98:2: note: expanded from macro '__careful_cmp'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^
+   include/linux/minmax.h:93:2: note: expanded from macro '__careful_cmp_once'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:618:2: note: expanded from macro '_compiletime_assert'
+     618 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:611:4: note: expanded from macro '__compiletime_assert'
+     611 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:132:1: note: expanded from here
+     132 | __compiletime_assert_603
+         | ^
+>> fs/fuse/file.c:1326:9: error: call to '__compiletime_assert_603' declared with 'error' attribute: min(((pos + len - 1) >> 12) - (pos >> 12) + 1, max_pages) signedness error
+   include/linux/minmax.h:105:19: note: expanded from macro 'min'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^
+   include/linux/minmax.h:98:2: note: expanded from macro '__careful_cmp'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^
+   include/linux/minmax.h:93:2: note: expanded from macro '__careful_cmp_once'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:618:2: note: expanded from macro '_compiletime_assert'
+     618 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:611:4: note: expanded from macro '__compiletime_assert'
+     611 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:132:1: note: expanded from here
+     132 | __compiletime_assert_603
+         | ^
+   2 errors generated.
+
+
+vim +1326 fs/fuse/file.c
+
+ea9b9907b82a09 Nicholas Piggin       2008-04-30  1322  
+5da784cce4308a Constantine Shulyupin 2018-09-06  1323  static inline unsigned int fuse_wr_pages(loff_t pos, size_t len,
+5da784cce4308a Constantine Shulyupin 2018-09-06  1324  				     unsigned int max_pages)
+d07f09f509fb21 Maxim Patlasov        2012-10-26  1325  {
+0f5bb0cfb0b40a David Laight          2025-11-19 @1326  	return min(((pos + len - 1) >> PAGE_SHIFT) - (pos >> PAGE_SHIFT) + 1,
+5da784cce4308a Constantine Shulyupin 2018-09-06  1327  		   max_pages);
+d07f09f509fb21 Maxim Patlasov        2012-10-26  1328  }
+d07f09f509fb21 Maxim Patlasov        2012-10-26  1329  
 
 -- 
 0-DAY CI Kernel Test Service
