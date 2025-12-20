@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A0E2DC35F
-	for <oe-kbuild@lists.linux.dev>; Sat, 20 Dec 2025 01:54:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0AA29E11B
+	for <oe-kbuild@lists.linux.dev>; Sat, 20 Dec 2025 01:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766195674; cv=none; b=qvObxpjn+N6Eznp8M8TZjCW/CwLJH2bkVLfhN6IoFrbd0xYiKODxQ7qhwb7PeAbMvzYh63+rBzX6B/3Y4a7hvfUhPRb5mz/vAS+YTG9GhepTUxRWRkfK34proe7EfozKNd4rethDB5CsaTPwdtymx3wSe2eJf9h3TONzoSWIo7g=
+	t=1766195735; cv=none; b=ebADNiVPwPxDGd8gkARdRRO/k1EnRRIWdBNcFFApyj/4u7kfMQPxX7oX6NKWYuPgFyv0e/0woJmOrSyM7w0SFxUFTrlvrM4hoV8L5q/dQ/DB2PtzZSP91O12Q+o+wDv7zMMRXHYKQRaxeym+w3f6HfdCMn9Jei0XTTrLXHlEXOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766195674; c=relaxed/simple;
-	bh=aXQMGdOYZ7JyIKGmMsNaPl/dCo7PA7odTBP2POpMz+g=;
+	s=arc-20240116; t=1766195735; c=relaxed/simple;
+	bh=PtJp+lfP0u+BHFVZifjQoCa0N7dv/agPahgqqOCwjfw=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DvwKvtnPeXS+aAOKICDowjvt/8rF8wuPf+Gq1ttI85CMo1ENvJfvsDS6dhFcQbiHQlPcN19qB5kB2KpZI8ba2OHtvXeXTJLkX2sfyv77R3mPykEJzAFnOavPmPfXX1GevZyMHl8eit4uszXAx3R17hQMHr3aEbuAxXx0Y0/LG+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n4ZqfBqp; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=DW90IPJmYpgT7sabKeht6pveTHN51gOYjcawUznL79eIrirSJUYp2TCQA8shWvhldZO2IFwhMB44fyUJ16nWKTeBxvyQRtdICIiHBnI2Xz0ieiMYtaUFG1cO9AmHez3/w0PqQlhKdUJkkx1rCvmrsWpH0v1Csdd69EitQXFAWLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EHnb4L8P; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n4ZqfBqp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EHnb4L8P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766195672; x=1797731672;
+  t=1766195733; x=1797731733;
   h=date:from:to:subject:message-id:mime-version;
-  bh=aXQMGdOYZ7JyIKGmMsNaPl/dCo7PA7odTBP2POpMz+g=;
-  b=n4ZqfBqpDOuhs0+4V8jva67ALLrYCS2R2GSnAKvdAzLvKhgO26QklOJ0
-   86saHdb0AI93Sia2sKOa9OV1PCA/I/7iKbSwANfAEtTlQJtDCp9K16PNx
-   5m5G7qzm8/XzJVXXl9q7VFKrY4xP1+HqlwyCymJIQRcM9VA6eNkeoHZsu
-   EEGgouRX3GRjc92UatsQLrUxYObFd7tJuAolnUmXj68ncsGblHB/yl+w5
-   QPlOFPcYsRTqbZDlFkjS2MtNyEtKOzNn/IJKQ3GTeCe4mJLT4kg91VE6o
-   7eDpltV5uDTgzqPUY064AYLBY3BCK+j2KY2O86h1D3Gnv4ilroDUB3myt
-   A==;
-X-CSE-ConnectionGUID: /RzbdkRlQTi0HR/qbx+Fyw==
-X-CSE-MsgGUID: PSKlTJZ0R7q7QwKfzQpwCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="68201607"
+  bh=PtJp+lfP0u+BHFVZifjQoCa0N7dv/agPahgqqOCwjfw=;
+  b=EHnb4L8PzPxAdkCL5oxZTMX4l3JqQ4ey10a8u9UYfa0X9JTzk0uzpIlQ
+   ODnoj63a6zlL+rA6GnJp209W3MGGSsN1unPsxg56Jg+b/i81d/+VtCagS
+   dTdfvACu0MX9ujpLIr8bJ10rM0OglCWgYZw5W01dmaCDGBLtzFXOrKaBp
+   XdZPUkmL2y6InAuLLqBYxumey0q6vura8wt/tUZQJcblLokuykeAxfKJA
+   0HHpt58TXRW5YziQa/WeA8OTQXegdZfaHLaQ3hiHkXTUk1UXjstLxJP7+
+   /I2u9K+difKAe+Kmf7ITLTHjD6vLqF1Cl57TvpfjlI5FZMvKRp8zflDlZ
+   g==;
+X-CSE-ConnectionGUID: Y8iPW3GPTpeiiymTY7aodg==
+X-CSE-MsgGUID: FsmlN5PmRruiO8wAM2eeKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="71788947"
 X-IronPort-AV: E=Sophos;i="6.21,162,1763452800"; 
-   d="scan'208";a="68201607"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 17:54:32 -0800
-X-CSE-ConnectionGUID: sDwe9Nf/S8+TqW3Jrs9/1w==
-X-CSE-MsgGUID: tmFi1Yb9TFivMbTDGlNjcw==
+   d="scan'208";a="71788947"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 17:55:32 -0800
+X-CSE-ConnectionGUID: QI81MPRrSBSFqpaAopc95A==
+X-CSE-MsgGUID: oKdc5+TySvq5g9Kp1Ev3+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,162,1763452800"; 
-   d="scan'208";a="199517147"
+   d="scan'208";a="198593636"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 19 Dec 2025 17:54:31 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 19 Dec 2025 17:55:31 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWmAv-000000004Rs-2Aag
+	id 1vWmBt-000000004S0-2VLV
 	for oe-kbuild@lists.linux.dev;
-	Sat, 20 Dec 2025 01:54:29 +0000
-Date: Sat, 20 Dec 2025 02:53:53 +0100
+	Sat, 20 Dec 2025 01:55:29 +0000
+Date: Sat, 20 Dec 2025 02:54:33 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [arm-platforms:kvm-arm64/gicv5-full 53/82] checkpatch:
- WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-Message-ID: <202512200240.KEdgivho-lkp@intel.com>
+Subject: [arm-platforms:kvm-arm64/gicv5-full 59/82] checkpatch:
+ ERROR:SPACING: space required before the open parenthesis '('
+Message-ID: <202512200219.a53NsnrX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,22 +72,21 @@ TO: Sascha Bischoff <sascha.bischoff@arm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/gicv5-full
 head:   1426b88096b597395df4c82f089b87c62bab45da
-commit: 9a7c22c0916bb32691a0d1e727ced05e66777620 [53/82] KVM: arm64: gic-v5: Support setting the number of SPIs for vgic_v5
+commit: e19948af6683f38c4f8634a3ee7e30347e481aa9 [59/82] KVM: arm64: gic-v5: Add GICv5 IRS IODEV
 :::::: branch date: 13 hours ago
 :::::: commit date: 13 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20251220/202512200240.KEdgivho-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20251220/202512200219.a53NsnrX-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
 WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#39: FILE: arch/arm64/kvm/vgic/vgic-kvm-device.c:231:
-+			/*
-+			* We require:
+#411: FILE: arch/arm64/kvm/vgic/vgic-irs-v5.c:376:
++		 * default.)
++		*/
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#62: FILE: arch/arm64/kvm/vgic/vgic-kvm-device.c:243:
-+			/*
-+			* Either userspace has already configured NR_IRQS or
+ERROR:SPACING: space required before the open parenthesis '('
+#431: FILE: arch/arm64/kvm/vgic/vgic-irs-v5.c:396:
++		if(FIELD_GET(GICV5_IRS_SPI_RESAMPLER_RESAMPLE, val))
 
 -- 
 0-DAY CI Kernel Test Service
