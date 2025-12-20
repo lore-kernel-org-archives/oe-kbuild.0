@@ -1,107 +1,132 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE213A1E85
-	for <oe-kbuild@lists.linux.dev>; Sat, 20 Dec 2025 15:33:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DE32472AE
+	for <oe-kbuild@lists.linux.dev>; Sat, 20 Dec 2025 15:33:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766244799; cv=none; b=lBpJd6x27WHEbWcOfYjcmwb93vOkE17lnyr9QnxeF0OrOKCdTiXVm9FSVDu8x8wCcxYe0B15KfjQhPuaZd7gxHP3k7q3YtA2I7RpBO+ImmdiQOlGbUVrDwy4KOLVI9Yf0g4i7l7soTdOfifYdnTPlEy2Wwl2VKVJbbgCky6Dns8=
+	t=1766244801; cv=none; b=PI4u6jxl9m0/hwgfOY0n9IUTLorLKAGrNaD/vCkOljgmdAJhv+Hz8yjlHUN1s7Tex/X1EdFI7aeJcdK86jbnVK5BTYUrQ1oZiMFvlaRy69BS+BNCQaedxSCjZUAP0AedfKHEhSJlMv4zEaA7UOZ0rLGQmpafvtl8N927xh6EUeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766244799; c=relaxed/simple;
-	bh=vdvZ0sYrxmztMe9G7I0ooGitaYG17oYSccl+TAshins=;
+	s=arc-20240116; t=1766244801; c=relaxed/simple;
+	bh=qsNugKTjQ7Yf23uU56DXazM7uhGwd9zRdVSDumqg71U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h9PHAUe7DAHckqatrlVQyBnxjnNViEOOS3iwHW85NNYAU1OQ7nWzySdNtx8aQeU6/Vcp75XIVvJ0FptykHJ/igwJaY2oH8sn1JOPLxFvQLdnUQRxYe/SV17dqD5N55PeQq0HGQ98m+D9m6cy6CfXyEAv91HghrbCXiL60pcL6po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DdEqJDiJ; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Or8JbsJ+hU5w5vQ7/y8i+MZss8RcYb8LHa0i02MFpt7xGPOr/3ya7nZiE1FCO8ROpjmXRu5Mc0Otj5oSpCtEvuLgmFF74ZkO1vsPlpBUy4xK7nS3sbK+dOMHQ6NS0eHKQehe9BSYhlrfXEiZYGWA83/qUslJEv0zU+yOBJ7Ga9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BFLDkvz5; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DdEqJDiJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BFLDkvz5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766244798; x=1797780798;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vdvZ0sYrxmztMe9G7I0ooGitaYG17oYSccl+TAshins=;
-  b=DdEqJDiJniRAA3wOi0JlFpPS2EcT6kVU9uG2X1FDyCtjr4ilZtdlp6Se
-   0HemOYvLKxbXLarLey4KgxsK+3NYBIMzODtVlFKbHjGvYg02ElU+Q6bz8
-   RauVfRpE9nF4Wph0oO6M/3M6cLuhUMUir369e5Gv51j01z3DouGVuC1WG
-   Es3m17Jyy3lGUgJXmu8d4hEP0Y9nhMgU6BXgQu4Qh1DrKfhxDB8icdXSN
-   g3gclGyRMk8kSCa1EZjvykXaHWMOYJ+PoiSiwd7X0daylgxciMTqygsoM
-   zzCwGr6YuPMXVuiIYyVMNtJUZBtI5yWaFS9wG7VMgULJNQEzpADl20BAJ
-   w==;
-X-CSE-ConnectionGUID: 5GrKv0VdTrGS5NJ8nHXwog==
-X-CSE-MsgGUID: 9wPnh4AWRSa2hebzCbxg1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="67927101"
+  t=1766244800; x=1797780800;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qsNugKTjQ7Yf23uU56DXazM7uhGwd9zRdVSDumqg71U=;
+  b=BFLDkvz5R1E7FrbBr/q0ds54HSRqKX93P2k6eqhcxKf/yT8IzQd3L1Ty
+   A5RPO1Eo5hQXnWp/r1F8KDogkmDZXoCntmoIEjWA8/7M/W2THNz/t2o9a
+   UDm/fIAGJUwaMDaJjo/6KbA0VVwKauK60NeC7ydUq6I7QGc7dxMsv752b
+   PywDAY7DG2WLmWoSunwYxUWS5pQGSA6CrGODQ5EK3YEyPeuLCyfk2UR2m
+   uqiEWiNidbiKG+SuhcULNMCaKYmxbQnOvJPVpIede5PEQjTkexDqVmxIp
+   FlUAa5UQlKGMg9hGqlI5XyffmGwSLNgugoV2vuaRPjVQtsLUf6u7g18D5
+   Q==;
+X-CSE-ConnectionGUID: jHwdiFJ6SHKBcfDWIOvDQA==
+X-CSE-MsgGUID: hUpUowiBTaO050/7ip4T+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="67927102"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="67927101"
+   d="scan'208";a="67927102"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:33:17 -0800
-X-CSE-ConnectionGUID: ZG8NOQnfTJ65SVVMvkBhug==
-X-CSE-MsgGUID: +KkrDp0dQ9a6nrvKUKg+Pg==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:33:18 -0800
+X-CSE-ConnectionGUID: brZiGx0dR+a+jXcXv9UsPA==
+X-CSE-MsgGUID: aLDA4JmJQ9iVHk5hQf+HxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="203569343"
+   d="scan'208";a="203569345"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 20 Dec 2025 07:33:16 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWyxG-000000004kv-1awP;
+	id 1vWyxG-000000004kp-1MTx;
 	Sat, 20 Dec 2025 15:33:14 +0000
-Date: Sat, 20 Dec 2025 23:33:09 +0800
+Date: Sat, 20 Dec 2025 23:33:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [djwong-xfs:fuse-service-container 33/87] fs/fuse/file_iomap.c:17:1:
- sparse: sparse: bad integer constant expression
-Message-ID: <202512202354.Q3RJv0kX-lkp@intel.com>
+Subject: Re: [PATCH v12 2/2] iio: magnetometer: Add mmc5633 sensor
+Message-ID: <202512202355.0fawsSmn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: fs/fuse/file_iomap.c:17:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "low confidence static check warning: drivers/iio/magnetometer/mmc5633.c:583:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+In-Reply-To: <20251215-i3c_ddr-v12-2-1ae31225b4d9@nxp.com>
+References: <20251215-i3c_ddr-v12-2-1ae31225b4d9@nxp.com>
+TO: Frank Li <Frank.Li@nxp.com>
+TO: Alexandre Belloni <alexandre.belloni@bootlin.com>
+TO: Miquel Raynal <miquel.raynal@bootlin.com>
+TO: Jonathan Cameron <jic23@kernel.org>
+TO: David Lechner <dlechner@baylibre.com>
+TO: "Nuno Sá" <nuno.sa@analog.com>
+TO: Andy Shevchenko <andy@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: linux-i3c@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+CC: imx@lists.linux.dev
+CC: linux-iio@vger.kernel.org
+CC: joshua.yeong@starfivetech.com
+CC: devicetree@vger.kernel.org
+CC: linux@roeck-us.net
+CC: Frank Li <Frank.Li@nxp.com>
+CC: Carlos Song <carlos.song@nxp.com>
+CC: Adrian Fluturel <fluturel.adrian@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fuse-service-container
-head:   b93b1c1c321bbf7ffc11f387ca41557005b5db0d
-commit: b12a7ff891210a972a6ccd32ec1d16e954d45b81 [33/87] fuse: implement the basic iomap mechanisms
-:::::: branch date: 2 days ago
-:::::: commit date: 4 days ago
-config: alpha-randconfig-r123-20251217 (https://download.01.org/0day-ci/archive/20251220/202512202354.Q3RJv0kX-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202354.Q3RJv0kX-lkp@intel.com/reproduce)
+Hi Frank,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dt-bindings-trivial-devices-add-MEMSIC-3-axis-magnetometer/20251216-010451
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20251215-i3c_ddr-v12-2-1ae31225b4d9%40nxp.com
+patch subject: [PATCH v12 2/2] iio: magnetometer: Add mmc5633 sensor
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: sparc64-randconfig-r122-20251217 (https://download.01.org/0day-ci/archive/20251220/202512202355.0fawsSmn-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202355.0fawsSmn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512202354.Q3RJv0kX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512202355.0fawsSmn-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/fuse/file_iomap.c:17:1: sparse: sparse: bad integer constant expression
-   fs/fuse/file_iomap.c:17:1: sparse: sparse: static assertion failed: "MODULE_INFO(parmtype, ...) contains embedded NUL byte"
-   fs/fuse/file_iomap.c:18:1: sparse: sparse: bad integer constant expression
-   fs/fuse/file_iomap.c:18:1: sparse: sparse: static assertion failed: "MODULE_INFO(parm, ...) contains embedded NUL byte"
+>> drivers/iio/magnetometer/mmc5633.c:583:1: sparse: sparse: bad integer constant expression
+   drivers/iio/magnetometer/mmc5633.c:583:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/iio/magnetometer/mmc5633.c:584:1: sparse: sparse: bad integer constant expression
+   drivers/iio/magnetometer/mmc5633.c:584:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/iio/magnetometer/mmc5633.c:585:1: sparse: sparse: bad integer constant expression
+   drivers/iio/magnetometer/mmc5633.c:585:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/iio/magnetometer/mmc5633.c:585:1: sparse: sparse: bad integer constant expression
+   drivers/iio/magnetometer/mmc5633.c:585:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-vim +17 fs/fuse/file_iomap.c
+vim +583 drivers/iio/magnetometer/mmc5633.c
 
-b12a7ff891210a Darrick J. Wong 2025-05-05  10  
-b12a7ff891210a Darrick J. Wong 2025-05-05  11  static bool __read_mostly enable_iomap =
-b12a7ff891210a Darrick J. Wong 2025-05-05  12  #if IS_ENABLED(CONFIG_FUSE_IOMAP_BY_DEFAULT)
-b12a7ff891210a Darrick J. Wong 2025-05-05  13  	true;
-b12a7ff891210a Darrick J. Wong 2025-05-05  14  #else
-b12a7ff891210a Darrick J. Wong 2025-05-05  15  	false;
-b12a7ff891210a Darrick J. Wong 2025-05-05  16  #endif
-b12a7ff891210a Darrick J. Wong 2025-05-05 @17  module_param(enable_iomap, bool, 0644);
-b12a7ff891210a Darrick J. Wong 2025-05-05  18  MODULE_PARM_DESC(enable_iomap, "Enable file I/O through iomap");
-b12a7ff891210a Darrick J. Wong 2025-05-05  19  
+8b0eee16ad53ab Frank Li 2025-12-15  582  
+8b0eee16ad53ab Frank Li 2025-12-15 @583  MODULE_AUTHOR("Frank Li <Frank.li@nxp.com>");
 
 -- 
 0-DAY CI Kernel Test Service
