@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984602DC770
-	for <oe-kbuild@lists.linux.dev>; Sat, 20 Dec 2025 01:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C831D2DC337
+	for <oe-kbuild@lists.linux.dev>; Sat, 20 Dec 2025 01:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766195557; cv=none; b=jeIiqJx8lsZsNLk3uY+fEqzQhiysfoLUy+9XCU1sIvel3lzBquwInPAdoZBaxlKNyLFplTn0mNp4z+c3iu4PTFHMMk4IplYfo5mvgKHdxtHh/9a8AabpLSmjBbsGbNo+sVj/rdnEjdnPqwEExMwzOCRUuB4mz3tr1FBujrZKvyU=
+	t=1766195614; cv=none; b=rv0NF51SI8EcY1I2cpIHN7hZPOJ+78eArzzgDImAHwwHDaLeMyLNqS8iL33o3+UB1YKfYGWweX6LRResMbMSW2awvs53ngTRpW7BGi7DxDzA2UmFIRnLx50YinulBbY80g9NDBQRs5bZms3qBcZiP7v8FtdegLOZyBi5WJ8F40s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766195557; c=relaxed/simple;
-	bh=nRb5BC9DzVJEB+nFf4i3V8l1pbjmQBcVChv65zJnTI0=;
+	s=arc-20240116; t=1766195614; c=relaxed/simple;
+	bh=10Q9KPEINCHKITR3ZfAC3aCAQ033tz7gto9si93nlP4=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DGBJ44URN+MEIy6sPlAfv0KqoXF+7EqV7wBasbaicdxS17i8duBX3G1KLlM2zT02lP+PwnafXtNbyJujGY/wGfuiYP7YfdhmfccJHwtssy4fBSLDHOO80lf2zzicVJtBIZjuOEurInMixVZcKjR/wNfz+DgXgS66Dy92Qe+fbEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CZ3s/v4b; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=vFIgGvGub2uHLXuqo7uSEoq9Nf8tfYRJ5gkETptGYbYu6bA9h3Up9std8bMUIHKkORsCTXxyLkEs/Of0xAe316mxoWNQYS07RmIV88+6vNbC3go6XSebncXMV5pUvHpPu27nB4gfQRMqgtXn2X76S68klg+yCjygGdY4utTeLZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZaQXStwv; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CZ3s/v4b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZaQXStwv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766195556; x=1797731556;
+  t=1766195613; x=1797731613;
   h=date:from:to:subject:message-id:mime-version;
-  bh=nRb5BC9DzVJEB+nFf4i3V8l1pbjmQBcVChv65zJnTI0=;
-  b=CZ3s/v4bcZgKcjrw351fy9uPaQQq0dxQ+/14vFEhgN/RZMbx0HbQJ6rw
-   //x2zIwuBsBgaTknfcd2a5Ye3gUR2jg4KHG/N1FyAhXhvW7qFh19s3/JH
-   +3u9wXvNBMjHQuuCLeoDuy7Y8GHhs93eKxtno1d5bCWc2dkfZ36owjT7j
-   T/nmI4DcQbKy0DFUm0bRe+jh8ZQ/SIrUzJNFiLJpo9dO8uerMWfbYsVxk
-   Hqt92dhQxD0aGUEvJaokRlOyXqwAwnJgqUMDnV1FSoIx6v+M4g90r7cYe
-   Z6F0HoKuLFDo/AcidtKps0tNnJpA/XEfVEhbbCrc7LDVgV8lOcksgQn/n
-   Q==;
-X-CSE-ConnectionGUID: CxCDK1okTAe6GpI69zVYQg==
-X-CSE-MsgGUID: Zeg1QQtvRz6SZkLl1aeZvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="71788860"
+  bh=10Q9KPEINCHKITR3ZfAC3aCAQ033tz7gto9si93nlP4=;
+  b=ZaQXStwvTfu8JrTfxP/JsGl8r6IMA45DmpcuNagD2GxUX9m9aWMdPNty
+   YVG2qcb7MLLNBotZf7L8zRR2sWGVnEwaNzatHYQ5pdVfs6QOBIExMHNTX
+   v8QJhtac5p//X7FKvxBwGQcIaUY2JZh6awIYyGF9xbeDrxSKVL6JmcEy2
+   rH2yOI/4PSyssCm7Zp46o+LsoJa7ZkCt5QF+vUbSY9Fly/wR/Et9sTphn
+   mhHzX/QngB9D3ZAVLWLxPKdwXn//WgfvshTQYNXCuoY57reYYLz90c3UF
+   mzw/kRI95wNnZfMrbD+HZQ67vQOVzhmQ7O11V1eNDUVhag43+zqTcANo0
+   w==;
+X-CSE-ConnectionGUID: fn9CqvHrTU2d6QuCkM9B+g==
+X-CSE-MsgGUID: M4Fg7okiTFmaxcdLdsoYow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="90817033"
 X-IronPort-AV: E=Sophos;i="6.21,162,1763452800"; 
-   d="scan'208";a="71788860"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 17:52:33 -0800
-X-CSE-ConnectionGUID: fmryTpaFRNODEqehCUpFjg==
-X-CSE-MsgGUID: eyGsPV9IStCe8UrwQSUDJw==
+   d="scan'208";a="90817033"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 17:53:33 -0800
+X-CSE-ConnectionGUID: lo4FRi+xT7GZc/gDsYVsog==
+X-CSE-MsgGUID: RJXvTGSBTsODpEvMNz5CiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,162,1763452800"; 
-   d="scan'208";a="198593188"
+   d="scan'208";a="199242028"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Dec 2025 17:52:31 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 19 Dec 2025 17:53:31 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWm8z-000000004RG-0eUS
+	id 1vWm9x-000000004Re-21CP
 	for oe-kbuild@lists.linux.dev;
-	Sat, 20 Dec 2025 01:52:29 +0000
-Date: Sat, 20 Dec 2025 02:52:06 +0100
+	Sat, 20 Dec 2025 01:53:29 +0000
+Date: Sat, 20 Dec 2025 02:53:26 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [arm-platforms:kvm-arm64/gicv5-full 40/82] checkpatch:
- WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
-Message-ID: <202512200240.nU0bDzA6-lkp@intel.com>
+Subject: [arm-platforms:kvm-arm64/gicv5-full 46/82] checkpatch:
+ WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+Message-ID: <202512200212.9zNwnDtu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,16 +72,17 @@ TO: Sascha Bischoff <sascha.bischoff@arm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/gicv5-full
 head:   1426b88096b597395df4c82f089b87c62bab45da
-commit: 4db0a40af6b89ed7b05cd45c7e8ba230190eefca [40/82] irqchip/gic-v5: Extract virt caps and add IF for KVM
+commit: ba7d6d89307574eead1961892a0b49528e58b89c [46/82] KVM: arm64: gic-v5: Make VPEs (non-)resident in vgic_load/put and req DBs
 :::::: branch date: 13 hours ago
 :::::: commit date: 13 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20251220/202512200240.nU0bDzA6-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20251220/202512200212.9zNwnDtu-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
-#61: FILE: drivers/irqchip/irq-gic-v5-irs.c:392:
-+	istmd = !!FIELD_GET(GICV5_IRS_IDR2_ISTMD, idr);;
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#65: FILE: arch/arm64/kvm/vgic/vgic-v5.c:1157:
++		/*
++		* Find the virual running priority and use this to calculate the
 
 -- 
 0-DAY CI Kernel Test Service
