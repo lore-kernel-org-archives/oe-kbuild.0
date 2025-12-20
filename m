@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B132327AC4D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A2223EAB9
 	for <oe-kbuild@lists.linux.dev>; Sat, 20 Dec 2025 18:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766256884; cv=none; b=Uc4P87xdZl21WbwUeHT88wfsiyKaHaW2krfM6zk7skqdmzNjCaO4dzjIUGgPsIsZ+uM+qZicd52/m+IdOX310i+IzWUG7AO50IqhVDH+7jsol45tKbggZ87lTt2ajZTG6Ub1/DsbicMcJuChTn4dQZVeKeWub8uDE7EIUfrKXjE=
+	t=1766256884; cv=none; b=JZdsR21YjYdDS7hreBSG8/+ar+0C3GTFddTT6r6/xOXTJAN3FH20IgOu1TNoFxgXsKvXR6jf3X2c9EA++wfBf652q9VU2eLUx4AEgQ3+DHCXtiHzCETYY2QuZl55Orju5H291PthO32dLIE7Ippu4g2zr/ULxDQ6r6q5yCYJF1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766256884; c=relaxed/simple;
-	bh=ZeqJw3Y0zDPQusBGTKZoM7/PNVAG6cwern/TW7O2OqY=;
+	bh=OiAqfsO+Y5RXxZBXnVIul8MbEir5HRYj8OezbeQKKYw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nvWFahAT12+ifKhPitCGjZMQswUcUgIXJ4iQ2HxOnKql/i4GmRnPbZ1zAqgZ9HJctUToqMi0Kyg5PtsoRNa5+vJDtNR2hlpVk8OSxRTH84RLGCcFbiGQ8XiRMVjAZGg57N3Mp+FX85lDRLKxbiK6FgiYtATCQYE7jt0f2WM2NOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZKuVv420; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=Ur3bGs61rz7N4WpeK86vQP/Cg46S/0ixCwwwrFwYNPxoqxFExcKDgcrYL3a/EXGav7qXcaN1vhEnliIeqK2vNX/9WnNsriw8QMiSScPvnr3i5/2XaCZkmUTnwVVIKhW86tfnqFQ4rrjI3qIqg/FZAEHPkhFFmfZIxGU/GyM+348=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hTH2vNu6; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZKuVv420"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hTH2vNu6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766256883; x=1797792883;
+  t=1766256884; x=1797792884;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZeqJw3Y0zDPQusBGTKZoM7/PNVAG6cwern/TW7O2OqY=;
-  b=ZKuVv42048NpLWwJ+qSTVKlPZlU4bI5RW16gvhVRl/vW1VJK9sAsZEPH
-   dG1xv2aOf5h8XPvQtg3Ziju9ayeG7Olx+GqEzOwyjWJ42c/JiWbvdwgEy
-   4WoBRAf5Acu/LKsIXbNLsG7qp2ntEb9TQMZ4R+CdHQ9vgtgb2lm77OW8G
-   OP092uvJFf3bcy6MpTC3YcQSgHPpuqP6RL1uayn1p1DXSzKh7YRVdA6vL
-   8+DX2/cqupNkhvtcxi4AtdUShUzQstV7EJDFK5B1ewigCwso1L6gbcCWc
-   73LAQyEOnrHdPL9CeA1B5Ob1wpYFNIOf+REFsvN+oOMn+s309ElmhdeKN
-   A==;
-X-CSE-ConnectionGUID: UUJ+IxIwS2qJ7tf3S60sXQ==
-X-CSE-MsgGUID: EZo6SfBhRFytE/422tb0Yw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68119033"
+  bh=OiAqfsO+Y5RXxZBXnVIul8MbEir5HRYj8OezbeQKKYw=;
+  b=hTH2vNu6hJHj79R8R/aKkVnPzf0bmVa6Bbw1103szWx7YV1RTQzsJIEe
+   ZqrhgGC1Uil0sHjiut55d/XcGFlKZ+50fdZIsyD8jV1aYAnPAGCq4aEJz
+   O7Xke43QRq215eDapGEiFF+ZOyA7tv7js/RaGdpbPmGstvq32UOtIpTOG
+   QUyfAgau2re5/KdCZILyJ+uZWlVCnorEs21XpeOjTqePXLhT0W0RhQUof
+   ckdeaVlaQfEqlpkUqr3B+nDX6cosQzA6gAZLtt7psIWcs0GJr4n1mb2Oq
+   sCE+TMyedlkG/DPl1WyKJeUVj9K5a3pz31AgpQEeQ7PHtLllYun3psLXy
+   w==;
+X-CSE-ConnectionGUID: x6GeydOVQdmUHYR/9hzTXg==
+X-CSE-MsgGUID: t+PAIV2kQReDUTFWuRZ9pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68119034"
 X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68119033"
+   d="scan'208";a="68119034"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 10:54:41 -0800
-X-CSE-ConnectionGUID: ickHmOGOT/OVDetAzpbk6A==
-X-CSE-MsgGUID: ZBbmmxqPRTuOB39I9Me4sQ==
+X-CSE-ConnectionGUID: iuGudWG2Q6OE0u2eHFVGaQ==
+X-CSE-MsgGUID: e8EKAeFcSWWvZP6lfUjxAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199186715"
+   d="scan'208";a="199186717"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 20 Dec 2025 10:54:39 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vX268-0000000051v-30DW;
+	id 1vX268-0000000051y-37rm;
 	Sat, 20 Dec 2025 18:54:36 +0000
-Date: Sun, 21 Dec 2025 02:54:01 +0800
+Date: Sun, 21 Dec 2025 02:54:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v3 4/6] reset: anlogic: add support for Anlogic DR1V90
- resets
-Message-ID: <202512210241.hAfeGBaQ-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.19-rc 42/109] net/dsa/tag_mxl862xx.c:197:1:
+ sparse: sparse: bad integer constant expression
+Message-ID: <202512210215.9MMprdKb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,65 +63,60 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/reset/reset-dr1v90.c:139:1: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "low confidence static check warning: net/dsa/tag_mxl862xx.c:197:1: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251216-dr1v90-cru-v3-4-52cc938d1db0@pigmoral.tech>
-References: <20251216-dr1v90-cru-v3-4-52cc938d1db0@pigmoral.tech>
-TO: Junhui Liu <junhui.liu@pigmoral.tech>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
-TO: Junhui Liu <junhui.liu@pigmoral.tech>
-TO: Paul Walmsley <pjw@kernel.org>
-TO: Palmer Dabbelt <palmer@dabbelt.com>
-TO: Albert Ou <aou@eecs.berkeley.edu>
-TO: Alexandre Ghiti <alex@ghiti.fr>
-CC: linux-clk@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-riscv@lists.infradead.org
-CC: devicetree@vger.kernel.org
+TO: Frank Wunderlich <frank-w@public-files.de>
 
-Hi Junhui,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Junhui-Liu/clk-correct-clk_div_mask-return-value-for-width-32/20251216-115101
-base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20251216-dr1v90-cru-v3-4-52cc938d1db0%40pigmoral.tech
-patch subject: [PATCH v3 4/6] reset: anlogic: add support for Anlogic DR1V90 resets
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-r133-20251217 (https://download.01.org/0day-ci/archive/20251221/202512210241.hAfeGBaQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210241.hAfeGBaQ-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.19-rc
+head:   5ee5189ef893fbbb9311f0cdb9f2f382c4a17eb1
+commit: 0a6a21595f5ca404521f94cae72a55efb671ce58 [42/109] net: dsa: add tag formats for MaxLinear switches
+:::::: branch date: 26 hours ago
+:::::: commit date: 3 days ago
+config: hexagon-randconfig-r113-20251218 (https://download.01.org/0day-ci/archive/20251221/202512210215.9MMprdKb-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210215.9MMprdKb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512210241.hAfeGBaQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512210215.9MMprdKb-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/reset/reset-dr1v90.c:139:1: sparse: sparse: bad integer constant expression
-   drivers/reset/reset-dr1v90.c:139:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/reset/reset-dr1v90.c:140:1: sparse: sparse: bad integer constant expression
-   drivers/reset/reset-dr1v90.c:140:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/reset/reset-dr1v90.c:141:1: sparse: sparse: bad integer constant expression
-   drivers/reset/reset-dr1v90.c:141:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/reset/reset-dr1v90.c:141:1: sparse: sparse: bad integer constant expression
-   drivers/reset/reset-dr1v90.c:141:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+>> net/dsa/tag_mxl862xx.c:197:1: sparse: sparse: bad integer constant expression
+   net/dsa/tag_mxl862xx.c:197:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+>> net/dsa/tag_mxl862xx.c:197:1: sparse: sparse: bad integer constant expression
+   net/dsa/tag_mxl862xx.c:197:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+   net/dsa/tag_mxl862xx.c:201:1: sparse: sparse: bad integer constant expression
+   net/dsa/tag_mxl862xx.c:201:1: sparse: sparse: static assertion failed: "MODULE_INFO(alias, ...) contains embedded NUL byte"
+   net/dsa/tag_mxl862xx.c:201:1: sparse: sparse: bad integer constant expression
+   net/dsa/tag_mxl862xx.c:201:1: sparse: sparse: static assertion failed: "MODULE_INFO(alias, ...) contains embedded NUL byte"
+   net/dsa/tag_mxl862xx.c:207:1: sparse: sparse: bad integer constant expression
+   net/dsa/tag_mxl862xx.c:207:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   net/dsa/tag_mxl862xx.c:207:1: sparse: sparse: bad integer constant expression
+   net/dsa/tag_mxl862xx.c:207:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+--
+>> drivers/net/dsa/mxl862xx/mxl862xx.c:3581:1: sparse: sparse: bad integer constant expression
+   drivers/net/dsa/mxl862xx/mxl862xx.c:3581:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/net/dsa/mxl862xx/mxl862xx.c:3582:1: sparse: sparse: bad integer constant expression
+   drivers/net/dsa/mxl862xx/mxl862xx.c:3582:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/net/dsa/mxl862xx/mxl862xx.c:3582:1: sparse: sparse: bad integer constant expression
+   drivers/net/dsa/mxl862xx/mxl862xx.c:3582:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+   drivers/net/dsa/mxl862xx/mxl862xx.c:3583:1: sparse: sparse: bad integer constant expression
+   drivers/net/dsa/mxl862xx/mxl862xx.c:3583:1: sparse: sparse: static assertion failed: "MODULE_INFO(alias, ...) contains embedded NUL byte"
 
-vim +139 drivers/reset/reset-dr1v90.c
+vim +197 net/dsa/tag_mxl862xx.c
 
-123a6bfc523ec9 Junhui Liu 2025-12-16  138  
-123a6bfc523ec9 Junhui Liu 2025-12-16 @139  MODULE_AUTHOR("Junhui Liu <junhui.liu@pigmoral.tech>");
+0a6a21595f5ca4 Daniel Golle 2025-02-28  196  
+0a6a21595f5ca4 Daniel Golle 2025-02-28 @197  MODULE_LICENSE("GPL");
+0a6a21595f5ca4 Daniel Golle 2025-02-28  198  #if (LINUX_VERSION_CODE < KERNEL_VERSION(6, 2, 0))
+0a6a21595f5ca4 Daniel Golle 2025-02-28  199  MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_MXL862);
+0a6a21595f5ca4 Daniel Golle 2025-02-28  200  #else
+0a6a21595f5ca4 Daniel Golle 2025-02-28  201  MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_MXL862, MXL862_NAME);
+0a6a21595f5ca4 Daniel Golle 2025-02-28  202  #endif
+0a6a21595f5ca4 Daniel Golle 2025-02-28  203  
 
 -- 
 0-DAY CI Kernel Test Service
