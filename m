@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B3C2264C0
-	for <oe-kbuild@lists.linux.dev>; Sat, 20 Dec 2025 14:23:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60F01D9A54
+	for <oe-kbuild@lists.linux.dev>; Sat, 20 Dec 2025 14:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766240593; cv=none; b=gNFvCWHrys3YSJMORDMd6/OvPLW9+wInIjTgQhI10L3Wgd4vR8PnfLV21dzQVsFPp/dmSASpWTLo0biEtsBPD3XU7Bbvth4Bo9B8WDfT0x/oOLHR9HxhRRlrAnG0u/QXeDu3KvrhOzisbKaiD4WyzsYg65DUc4jBeEEtuP2sMlk=
+	t=1766242754; cv=none; b=A35wKJoum7mDYka1k7KRCWN7hgfrcrAxtUnxHvMoaT1CoYNORxFUlkIAUGb5JLv5Mh5RKQpg6PtS12ZHDS/X+oOjyJrYf3P7REvGJzQ4K2IjAtMSjNiOAWhnN5j3D9jj+Ji0ipwPooJazkHtuWfpcbARXI7y9RBSHRSib6MPcBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766240593; c=relaxed/simple;
-	bh=E4ZQhaxdlpUMERPw4QL2Th1cxs9gWWTX1KnwsW82OBg=;
+	s=arc-20240116; t=1766242754; c=relaxed/simple;
+	bh=SO5UcAQeFO+d7L+vmSDW3XB3tUDBrdqiVezB4ZFBn9M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LV611EsH1K52e3Ble4FGiCkfW3MKsCj9gVJjUnpcpIpS5hV/eAhWZtf/vlG1ug9HlffuhMNESnmiTB4BXqx1bK+jHHYfjG63YPxYbjKwf1+FAUQTWQAPuRqprKH3CHt04LFIUVcVYBeoyEYui2Ba3X5ikpY+JtN1GZi9QUO/Cec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FDl4ou3x; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=O3UhblUhPBlaIIRsrK+CuyI1qSmUPwxo170gmM488EtcAEYoXd8R4l4eLe4ox+bIL+PcHX5/xt1uddyWf+kDY6EhpmH8jM4hsuSzLlzjXvEepAXBaleEtPbaKNYmXJPMSMVaBNp8e72AUZD02t0X5/YWvWSu3e02FWcHImislEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ndZlMpw6; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FDl4ou3x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ndZlMpw6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766240591; x=1797776591;
+  t=1766242753; x=1797778753;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E4ZQhaxdlpUMERPw4QL2Th1cxs9gWWTX1KnwsW82OBg=;
-  b=FDl4ou3xCoEqePJYg63zoC0NUQSBsMrNzTivYYQaFuQsqrbRd4csC7+5
-   cACXaIJ+QmrzrrmzS1s5yi6wIOyiB4f+qkGGLE/4ipdD4tv30qZzMsWJa
-   kelqqhF15EEi0YP8wDHu0vyqc5kz4l2p9/m5EjmVljUyH8Ffb53Ijik+q
-   3t2pLkp0L/CA/1uX+0o3oVOiUrmprXS4QwKvy2XRirF2hYfAAMW2Vh/GY
-   JWjh6x3j4+DK+hSsl3RH0O9g3nifZt0alrQYZowswfPBpOsMBLc0oWaeC
-   KaS7Z3pVEQjC6yU5N0qMKYxzsphikfZw2XA5CCbIAJM0hwDRrPtR0LrC2
-   Q==;
-X-CSE-ConnectionGUID: vTQtnlDnSGy1OQ3uXnNp+A==
-X-CSE-MsgGUID: LvzvNuRoTJmfgdsfhynR8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68327862"
+  bh=SO5UcAQeFO+d7L+vmSDW3XB3tUDBrdqiVezB4ZFBn9M=;
+  b=ndZlMpw6AFeq0JAzVO/ydxp8rKVF7EM6FeYvXaEE2+IXn1qnA7bjXOdE
+   FPs8bhmnNbpFn3kGvDfbupSYgy++vSsuGo7NVfgiuZGtmGz6u2f2qAmQ+
+   O+QwwHTQbXhD9IdOULcMxr9+HcmQ4nTUgcECai2YG10Bcqe8DVCobqI4q
+   iJFUojrLcYQKsTYJLzdseB6rJ56xtJjwIXChdNXM9zd5tkHEaOqCXwTPo
+   apRMlLXvxM8qisf9FCPAL7o9qYSg8OccN1xn5CD3FmeYJXM5WVfPvO4Yv
+   SghU61Gc3a9LQzPvWM3f0ZAO3AFxL2CjT6dJh4naWLIVN2SkTghBdqgm8
+   w==;
+X-CSE-ConnectionGUID: RtJZE97oRpeNGsD6yybsjg==
+X-CSE-MsgGUID: IBC/L7zoTpqR9w521jAkzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="78493908"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="68327862"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:23:08 -0800
-X-CSE-ConnectionGUID: I7FES9tKRO6i6sgGCg/SBg==
-X-CSE-MsgGUID: 9jYI6x0FT5O4aAd1LFuiKw==
+   d="scan'208";a="78493908"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:59:13 -0800
+X-CSE-ConnectionGUID: +QiCVTzUTMe/HeDt5Z4P3g==
+X-CSE-MsgGUID: rZ9RMjClQNWUWsFZtBiRvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199984402"
+   d="scan'208";a="203639808"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Dec 2025 06:23:06 -0800
+  by orviesa004.jf.intel.com with ESMTP; 20 Dec 2025 06:59:12 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWxrM-000000004dL-15f7;
-	Sat, 20 Dec 2025 14:23:04 +0000
-Date: Sat, 20 Dec 2025 22:23:02 +0800
+	id 1vWyQG-000000004hL-3yeu;
+	Sat, 20 Dec 2025 14:59:08 +0000
+Date: Sat, 20 Dec 2025 22:59:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: arch/x86/coco/sev/core.c:2838:12-13: WARNING opportunity for
- kfree_sensitive/kvfree_sensitive (memset at line 2837)
-Message-ID: <202512202235.WHPQkLZu-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 2323/2671]
+ drivers/clk/qcom/tcsrcc-kaanapali.c:140:1: sparse: sparse: bad integer
+ constant expression
+Message-ID: <202512202243.Xm9Hq4F3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,47 +63,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/clk/qcom/tcsrcc-kaanapali.c:140:1: sparse: sparse: bad integer constant expression"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Nikunj A Dadhania <nikunj@amd.com>
-CC: "Borislav Petkov (AMD)" <bp@alien8.de>
-CC: Tom Lendacky <thomas.lendacky@amd.com>
+TO: Taniya Das <taniya.das@oss.qualcomm.com>
+CC: Bjorn Andersson <andersson@kernel.org>
+CC: Dmitry Baryshkov <lumag@kernel.org>
+CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+CC: Abel Vesa <abel.vesa@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd9b004b7ff3289fb7bae35130c0a5c0537266af
-commit: c5529418d05079384af4dbbb6f6156344c2ffce2 x86/sev: Carve out and export SNP guest messaging init routines
-date:   12 months ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
+commit: e5682c953f5a9fbaad060ea000beff80f11c4048 [2323/2671] clk: qcom: Add TCSR clock driver for Kaanapali
 :::::: branch date: 2 days ago
-:::::: commit date: 12 months ago
-config: x86_64-randconfig-104-20251217 (https://download.01.org/0day-ci/archive/20251220/202512202235.WHPQkLZu-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+:::::: commit date: 3 days ago
+config: nios2-randconfig-r122-20251219 (https://download.01.org/0day-ci/archive/20251220/202512202243.Xm9Hq4F3-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202243.Xm9Hq4F3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202512202235.WHPQkLZu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512202243.Xm9Hq4F3-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/x86/coco/sev/core.c:2838:12-13: WARNING opportunity for kfree_sensitive/kvfree_sensitive (memset at line 2837)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clk/qcom/tcsrcc-kaanapali.c:140:1: sparse: sparse: bad integer constant expression
+   drivers/clk/qcom/tcsrcc-kaanapali.c:140:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/clk/qcom/tcsrcc-kaanapali.c:141:1: sparse: sparse: bad integer constant expression
+   drivers/clk/qcom/tcsrcc-kaanapali.c:141:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/clk/qcom/tcsrcc-kaanapali.c:141:1: sparse: sparse: bad integer constant expression
+   drivers/clk/qcom/tcsrcc-kaanapali.c:141:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-vim +2838 arch/x86/coco/sev/core.c
+vim +140 drivers/clk/qcom/tcsrcc-kaanapali.c
 
-c5529418d05079 Nikunj A Dadhania 2025-01-06  2825  
-c5529418d05079 Nikunj A Dadhania 2025-01-06  2826  void snp_msg_free(struct snp_msg_desc *mdesc)
-c5529418d05079 Nikunj A Dadhania 2025-01-06  2827  {
-c5529418d05079 Nikunj A Dadhania 2025-01-06  2828  	if (!mdesc)
-c5529418d05079 Nikunj A Dadhania 2025-01-06  2829  		return;
-c5529418d05079 Nikunj A Dadhania 2025-01-06  2830  
-c5529418d05079 Nikunj A Dadhania 2025-01-06  2831  	kfree(mdesc->ctx);
-c5529418d05079 Nikunj A Dadhania 2025-01-06  2832  	free_shared_pages(mdesc->response, sizeof(struct snp_guest_msg));
-c5529418d05079 Nikunj A Dadhania 2025-01-06  2833  	free_shared_pages(mdesc->request, sizeof(struct snp_guest_msg));
-c5529418d05079 Nikunj A Dadhania 2025-01-06  2834  	free_shared_pages(mdesc->certs_data, SEV_FW_BLOB_MAX_SIZE);
-c5529418d05079 Nikunj A Dadhania 2025-01-06  2835  	iounmap((__force void __iomem *)mdesc->secrets);
-c5529418d05079 Nikunj A Dadhania 2025-01-06  2836  
-c5529418d05079 Nikunj A Dadhania 2025-01-06 @2837  	memset(mdesc, 0, sizeof(*mdesc));
-c5529418d05079 Nikunj A Dadhania 2025-01-06 @2838  	kfree(mdesc);
+e5682c953f5a9f Taniya Das 2025-12-09  139  
+e5682c953f5a9f Taniya Das 2025-12-09 @140  MODULE_DESCRIPTION("QTI TCSR_CC Kaanapali Driver");
 
 -- 
 0-DAY CI Kernel Test Service
