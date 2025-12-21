@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0692BEC5A
-	for <oe-kbuild@lists.linux.dev>; Sun, 21 Dec 2025 15:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4D323F429
+	for <oe-kbuild@lists.linux.dev>; Sun, 21 Dec 2025 16:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766332569; cv=none; b=URbAltkbzxFjpnszl0LJ+xSqTGaWif3c2kI2lUFYoIAyHoV1w98yzMuOFulv8PAsuagBZfrtAU8tkNPN/atsETY8Ig7Mawi/Mc4Pj3lhxj2SJIZuE7e7p0KdppY7C+VSaeGrbgUexb+4+G3cGQU6r1Al4O/O8gokXQ2rpM8valw=
+	t=1766332810; cv=none; b=GgFEwllJwsS9rrix+4GwAVHYLO5GTyYl3fI1BJA/bTZlWSO+trx4qenqy4yyqtyTDyPlcJ3u5ek8fWDUVflkS+WIR4PeGRGbBOw8TRD2n+BD9SiMZpoWG90AVIBkp+Lc1UWtD2MSn2c59aJAMJQm3zXnvlwlKV3aiMcw/V9cyag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766332569; c=relaxed/simple;
-	bh=l9DjKqZou5H7EqcVpp0Eg+Q3f7xEG7Zqcn5GE03bnC4=;
+	s=arc-20240116; t=1766332810; c=relaxed/simple;
+	bh=e/OIP+EiW8mitzzLajpbNVaicChTFpZfuExeStrksVE=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j0B8+FhNk7wuED3lTBSDU4wmbHnUoZalkzfZf0vlMHThybBKKXPPK9a1iPTos2VGtvSTb5sco98K6ZzUY6a5Wg5UZdHyE6IpWVpoZlay3z+khSIfM5NaKJ7UbH32ues5nDJw7SXM8GbbFDgb6hlc3eYrwu1t8ETlqmme2YqdyX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+RV4mnP; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=BeUBZ2faxmJrd+9JHsLzrc2e58iKahF9T1Vfjw+1uGuwv43Cnk3I9+PrEdXnkv+7qu0MZ3ciuXbXWGpXClKJak9w7nBzpTXXIJFHFxt4BZIpfABuFgo/Alws9R1BYoB6y82Yyo+hK0EnFneiIx1cXYakAU/d+/CNATD3Dd80tj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KJ33nT4j; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+RV4mnP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KJ33nT4j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766332567; x=1797868567;
+  t=1766332808; x=1797868808;
   h=date:from:to:subject:message-id:mime-version;
-  bh=l9DjKqZou5H7EqcVpp0Eg+Q3f7xEG7Zqcn5GE03bnC4=;
-  b=L+RV4mnPceUHCYuLd+mvWHoCZPUlciFVTEPv2X9wI7eR1bGKpIHx3+N5
-   yHPPsodyJyA9pGc9SCxlhLMr1YT1J7ffqMDjSbG4LGy0E4MecMiwLVDxo
-   rsTvi8m7mKsBMzHCxfS/fjd1tdeo2oqHnbRNIk2vFMRiXAjNrlPqS9F1q
-   HF7+QwFJI2gB38co1c8cBTJ0/cX9tjP6yJlgqUO4Aq5GDm7XR3Pg6IrSz
-   criFt838lrxWRIHUBVyUGS8YwqTHnR0hNX9hzioZU+C0uIXitIT8SQAUh
-   55xEknpJP4g3qNQqd8lytyomWGD1i4RBshacLXkrkHgqu6dozicddacS7
+  bh=e/OIP+EiW8mitzzLajpbNVaicChTFpZfuExeStrksVE=;
+  b=KJ33nT4jrfAUIzGTu8GTsSzqf1FvePZvHi1tsK5ZHXXPwc6nMxVYV3wU
+   y5P797ca4DdOBZ57SifIGbygPfgFXUqXSAlgIOh2qfUSHc7arSma1umf7
+   K/+fWbvSIfLuCoO4U2OBKk1vP7L7ToyPNAagA6wsCWO/5MYmSq9eL2624
+   gYQ5abAI7OM2mnrQuffBk7yy47adGEi3sjLL2vSe5D81s5ngtZ2Beb2Nl
+   NY4A3OEO7QtOriDQkSedvV+LvdAXdljVrkCRNKapdYend0KAEO98y9yJW
+   C1VH0IZUKC2MEww2vlBSiaRY3YxTpbsVQ7ynNfnmSK6iqzqYgDzwo0lwo
    g==;
-X-CSE-ConnectionGUID: PCiWkU9yTB+42WRlrfy6iw==
-X-CSE-MsgGUID: r+rL05isRs2BGogO0Lcwxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68288670"
+X-CSE-ConnectionGUID: mgsPD3EtRpmAuj2YsQJd6A==
+X-CSE-MsgGUID: GLE2TiTcT360bVF/G+IAJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="78928971"
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="68288670"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 07:56:04 -0800
-X-CSE-ConnectionGUID: jXlts7TmToipdxzVuMEjTQ==
-X-CSE-MsgGUID: Hw3M55HLSR+OnVH14mvdYA==
+   d="scan'208";a="78928971"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 08:00:05 -0800
+X-CSE-ConnectionGUID: VDhd+rmPRW2dEVKykCYV0Q==
+X-CSE-MsgGUID: Pn6qkS/uRNG2bUdNQPC45A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="198968581"
+   d="scan'208";a="198571885"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Dec 2025 07:56:04 -0800
+  by orviesa010.jf.intel.com with ESMTP; 21 Dec 2025 08:00:05 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXLmr-0000000059k-45l1
+	id 1vXLqk-0000000059q-0F6c
 	for oe-kbuild@lists.linux.dev;
-	Sun, 21 Dec 2025 15:56:01 +0000
-Date: Sun, 21 Dec 2025 16:55:58 +0100
+	Sun, 21 Dec 2025 16:00:02 +0000
+Date: Sun, 21 Dec 2025 16:59:38 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [asahilinux:bits/030-misc 4/19] checkpatch: WARNING:REPEATED_WORD:
- Possible repeated word: 'the'
-Message-ID: <202512211632.XunMWpdo-lkp@intel.com>
+Subject: [asahilinux:bits/010-soc 6/11] checkpatch: ERROR:SPACING: space
+ required before the open parenthesis '('
+Message-ID: <202512211625.UGUbRU5U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,20 +68,20 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
+TO: Hector Martin <marcan@marcan.st>
 
-tree:   https://github.com/AsahiLinux/linux bits/030-misc
-head:   ea4670c7e602bbd5d08cb2beef168aeb479bf195
-commit: 53f87119dfa19c3f31dcc67f09ad48708e7a4c74 [4/19] PCI: apple: Add depends on PAGE_SIZE_16KB
-:::::: branch date: 20 hours ago
+tree:   https://github.com/AsahiLinux/linux bits/010-soc
+head:   ae59b602c2cc0caac2808fea7937dfb2f581020f
+commit: 4c135ef5c4c15479593b86a6da1b7abf87ffa6e7 [6/11] cpuidle: apple: Add Apple SoC cpuidle driver
+:::::: branch date: 7 days ago
 :::::: commit date: 2 weeks ago
-reproduce: (https://download.01.org/0day-ci/archive/20251221/202512211632.XunMWpdo-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20251221/202512211625.UGUbRU5U-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-WARNING:REPEATED_WORD: Possible repeated word: 'the'
-#9: 
-due to non-working DMA. While the the iommu prints a warning in this
+ERROR:SPACING: space required before the open parenthesis '('
+#130: FILE: drivers/cpuidle/cpuidle-apple.c:80:
++	switch(index) {
 
 -- 
 0-DAY CI Kernel Test Service
