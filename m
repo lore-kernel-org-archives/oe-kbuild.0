@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C882882A9
-	for <oe-kbuild@lists.linux.dev>; Sun, 21 Dec 2025 15:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE732951A7
+	for <oe-kbuild@lists.linux.dev>; Sun, 21 Dec 2025 15:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766331127; cv=none; b=B/M3zC112xki9UaLtDRkknTLxq/7vyiEanKsGLiuGCiNKX2/xPPtBWEPs3e55rs5wQuLQg98G7gx8KpwZNJHK05VQR5W3AWoqWDnjwhlC/k6UqStijWLfIIT3Q6K2SjxUVw7lUYHUe6YWqGQnYCcepMKVjUJJdEIHyZ8SUflgTA=
+	t=1766331186; cv=none; b=DIAvh2o4z2okwP+Pn0K1/KttsLEWFYL7qv3QnEnOGlENcDtGRuF+9QFsBQXS7rMmuqMdZnoBL/vFy6y7cqawGolQozJCwF5ZkJKu5vCLCxNK95XToVusMQR+08OeVig+TI786t/Q2ZnZ3gVHd10OfTfTwfQuSz6BOxO0zsRkWKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766331127; c=relaxed/simple;
-	bh=pObHY7VPuqXCmdcjohDpqUfnxGCs0Ruap6Yy6GplCfQ=;
+	s=arc-20240116; t=1766331186; c=relaxed/simple;
+	bh=231W7g+ARV1y/fBNrG9yZoKqnhn+vk5Yw4IIEyQgCLU=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j/Lgn2D6aJuikJNivemMUTSLPvJOoxcStlZzsHISqVKbXjkhdXsCWa5vUozVxMW0lY0BCcjuGlIsOFOPsqoDJXc8aCaIPoLo5gcskDP5yl7ZGWXo6MuaPaBjTsAk4NlBzZG0eDa8O0O2hten1RTUcAVGA5mtoIjAi90KQWyi7y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kVoU9KxS; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=fRWGjvIRlOxJxHnlh4Da9NH9ZlU/dHi2V0TJaJpkzT6MydwCQUFTUqSJic7fynFH9k7QojDL40G+kLhWkOwcq+ocfocW8FGAivA9GXYR5e/4eK2PAh7CwL8ZVx9g8JNiGTRu/boWuJuJj+NVk/2+O9ryUGxAHRMRwaLzlIZLKGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HbIX0HH8; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kVoU9KxS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HbIX0HH8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766331126; x=1797867126;
+  t=1766331184; x=1797867184;
   h=date:from:to:subject:message-id:mime-version;
-  bh=pObHY7VPuqXCmdcjohDpqUfnxGCs0Ruap6Yy6GplCfQ=;
-  b=kVoU9KxSQdkqEfNo7kIdugMlv5Yw1h0Y3kfbLhaaN49oAfvgHeNcO0XK
-   gJ2F7xOjxPxKGJk9IuMgEgAEgr9T9ENRiGCM0hBn7FCFFZXacoiP3+f2v
-   kDbv1kPHzoYNfrNjJWM1duGGkIqwGcSiTMCHhR5Q6VhhC8L5yiWLqPocs
-   PlscJdjiBBTKvd6GvelJXmfJeZMwbagRv0cnIMsOmNRo+vVPH4O1Kvd0U
-   a+SGnRvypZkDWtlemBdwMuLDIKr/i4n83l387Bq1xT8BHRhFgsJNcJFnV
-   bOD6Xi7R52TT9PsxeVYYqeT+xlhsqlpXJN2xIvkoG6hhlrvJokL2cvfqk
-   Q==;
-X-CSE-ConnectionGUID: r5sifQ7bRBKdUNqcFNUKyQ==
-X-CSE-MsgGUID: ra7wuq49SH2R4RU1vWVprA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="70786171"
+  bh=231W7g+ARV1y/fBNrG9yZoKqnhn+vk5Yw4IIEyQgCLU=;
+  b=HbIX0HH8eeGScCAJK7sxdnLNfkMNY+NIOWFRrkmJ1a+k5pQKPxyRutpZ
+   uu+T8UaYq9Wnn6V0lABWlm5NBrT10wURd+MbY1XVw42vU5CzGUCjBJZkN
+   a70uIcCkxvIAP34Pb035xr8E4kHel8k2cm/PVzZTFq1BqnAs59sQLdRiG
+   BI89ILbdALFYJJgE0VBSO5TzB5ZGyFUEFHEjmiqGu5SNfFrg1jEvyXKVv
+   f9vj1r55iiOkwZvnJUZQUuCHV7N22/2oKUGpT5IPzPvcZ6BqxWlgOV1U2
+   WcoPSsywlaPn5VpvFBb0h4DdAbpt3VyOgtZXtgqCsj+LL6rqWh8wDKPj/
+   w==;
+X-CSE-ConnectionGUID: 0vOjD8GCS2qXizF8+Qokww==
+X-CSE-MsgGUID: dHXwdcmRQaOJhUNqoSUK5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="72058728"
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="70786171"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 07:32:03 -0800
-X-CSE-ConnectionGUID: ZI0IZaC8RcOXe0K1/Lu1Nw==
-X-CSE-MsgGUID: iwyLirohQZ6gLV4MjvgY7w==
+   d="scan'208";a="72058728"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 07:33:04 -0800
+X-CSE-ConnectionGUID: hAB4XESkSAO7AlfzdE0uSw==
+X-CSE-MsgGUID: 8Lw47lizTyOMHzxGicNwcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="198965290"
+   d="scan'208";a="199837522"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Dec 2025 07:32:03 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 21 Dec 2025 07:33:02 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXLPc-0000000057Q-2RFa
+	id 1vXLQa-0000000057Y-2d55
 	for oe-kbuild@lists.linux.dev;
-	Sun, 21 Dec 2025 15:32:00 +0000
-Date: Sun, 21 Dec 2025 16:31:53 +0100
+	Sun, 21 Dec 2025 15:33:00 +0000
+Date: Sun, 21 Dec 2025 16:32:03 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [asahilinux:bits/200-dcp 54/246] checkpatch:
- ERROR:RETURN_PARENTHESES: return is not a function, parentheses are not
- required
-Message-ID: <202512211639.NEJSI35j-lkp@intel.com>
+Subject: [asahilinux:bits/200-dcp 58/246] checkpatch: WARNING:REPEATED_WORD:
+ Possible repeated word: 'initial'
+Message-ID: <202512211650.PzT9Tk66-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,16 +72,16 @@ TO: Janne Grunau <j@jannau.net>
 
 tree:   https://github.com/AsahiLinux/linux bits/200-dcp
 head:   a505a983517df0d2df38e87cb1898c518fdf9740
-commit: a8641cf6264648a510fb5436190135c472695b6c [54/246] gpu: drm: apple: Brightness control via atomic commits
+commit: 41d8f709b29145d298eb0be97c70cf3222b8f088 [58/246] drm/apple: register backlight device after IOMFB start
 :::::: branch date: 3 hours ago
 :::::: commit date: 2 weeks ago
-reproduce: (https://download.01.org/0day-ci/archive/20251221/202512211639.NEJSI35j-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20251221/202512211650.PzT9Tk66-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-ERROR:RETURN_PARENTHESES: return is not a function, parentheses are not required
-#136: FILE: drivers/gpu/drm/apple/dcp.c:227:
-+	return (dcp->connector_type);
+WARNING:REPEATED_WORD: Possible repeated word: 'initial'
+#47: FILE: drivers/gpu/drm/apple/dcp-internal.h:159:
++	/* Workqueue for updating the initial initial brightness */
 
 -- 
 0-DAY CI Kernel Test Service
