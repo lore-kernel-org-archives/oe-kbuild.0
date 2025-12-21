@@ -1,309 +1,201 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB83323D7F0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4918B1EF0B0
 	for <oe-kbuild@lists.linux.dev>; Sun, 21 Dec 2025 22:16:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766355383; cv=none; b=qqe0J3voHLDlbXGhg6ZNXy4MAHW8whq/JSuuLXS3qPQi5S2iECa7CMOZrwKVYvsnRKovBQZ33CB2RjNgF+IVMTicj+gLA+/sT+o4Z8Nj282XHOCTvwCU+3zrplbhjJdsCu1ekbVmD0a/VvF1orV4+Wus+jjRpAFt32Ccn7ZPQDk=
+	t=1766355384; cv=none; b=Wu4zyEZ9t5/iAXH41+vV1N8XGOoUvy2D0Dveb1liaiKEnDfUEyBlB5GOm3XjCOE1rWoGN9CfEVKJA55nUZ+xW9FHScOJLaaeeA8cVkIZZO1RNLvbVWgd6DxaL4cz/lZ6L8v6s/Iy+Q5jGBO8rCBE4wcMClFEPkEeoVZmpCWgIBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766355383; c=relaxed/simple;
-	bh=lBC3ECVjLBLo5LQOokGva0jPLBxr4/7GBBCZDrY70QM=;
+	s=arc-20240116; t=1766355384; c=relaxed/simple;
+	bh=DGWkpasVGduDvXRR9YG1V4hhTk9JNjoBlOvuAwytRUw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rJBOMHDL+PAzGau7lBJviQip59kyyUfptrdMUmnwbf6010bu3xIuY7vryU8DuSaiMEjG7dxUIUgDvVuuXFk7IOuv6XiM5zjWJCQ9fu5ozdkuDLYG5Q7kWEQCMp3Kmik2DrvIYx+EWwyXVngxFutLZ1Zn5ZlvweXGn7PSOWj+Rxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jW8y2PkX; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=Hn8IUG9gp/KXG2UNUuJ+5fv8/P7OyrnrAfHEjwuqtfLAIZECOzXjzMiNbRcVlfskWkBQG50jY8KjEqEWFoj19TvkruZysmNpMAPoX0f+vKdKUDWHt1caif73ZMNzZ+B49JTo+MUZI675e2ZG+nCTUaTYfx5aYtwyu7LPbOg61AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fFtzIFeH; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jW8y2PkX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fFtzIFeH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766355381; x=1797891381;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lBC3ECVjLBLo5LQOokGva0jPLBxr4/7GBBCZDrY70QM=;
-  b=jW8y2PkXgiWhewVmXIAFf2MeQBacb/H9SonLq3X1Pb7o6W/DDaA/ZHse
-   lEyrTMZGDJpEocdDBGHnoer3AqfZ4bnBIdS7SWdkh6StWmOLhHMxFe+Eq
-   ofjWLMiqXfc9nEoJEOmqBYDbVtqgzMMNR3OWjxjlhZ06CDFzebxx1y/Ei
-   RuorL4xjJG4Jv0FtFPOdOtWeQfObZRyXCGCFjDspIrS9WVhlBh/1ggWxp
-   yo6wIOY5+XzlAWdSha4//V3jylOL8ev1uZu+NNSBJGjZ82CxA2UDsb8Nc
-   6mX/YMksyyelkicDnpKCBlRqWzZaQWhGekz++KA1csTo6OMCZCMkS6/26
-   g==;
-X-CSE-ConnectionGUID: 4W7652dSTM2DUegR7PaLRw==
-X-CSE-MsgGUID: CfYcTzTCREGe7fUBjQTDZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="93694880"
+  t=1766355382; x=1797891382;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DGWkpasVGduDvXRR9YG1V4hhTk9JNjoBlOvuAwytRUw=;
+  b=fFtzIFeH0X0810sfjQrScEByA1GyugY90xgCDr9zzthNN3rOF6vL2J3l
+   S0eyfd/d4Qw3pio3iZVlZKQmtIFkn3UzKfsy2g6fI94okjgyW69/4s52n
+   yvWqjf5bCNS/tiD14VLfyZuPAo9v94U0Z4heIOo2stBIKVoc9BBqHlIpr
+   RxSPFmJMVjT/eLAwFAJcwEzAVPp34YNm3sn+hroKMEH6uQJgL/4zAWWON
+   IxrIMvCgtLC9XDWAQ2Dj22cpIQoGYSnBIP2k6nx82+4VY4VaRv9jGt88l
+   6CoFkWs5gpXXsZBhxNbMcwHFCORejq0krUhRvT1Ajn4jFp3Thm7d9V1bE
+   A==;
+X-CSE-ConnectionGUID: ZkUKk9SqRGG8U77tkN63yw==
+X-CSE-MsgGUID: 6smvNWW9S0qXTaEWakGHHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="93694882"
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="93694880"
+   d="scan'208";a="93694882"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 14:16:18 -0800
-X-CSE-ConnectionGUID: 52M83hUqTUyZ3qo5gys7wA==
-X-CSE-MsgGUID: KbIJkb7ETC2b7Zt/alQKhg==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 14:16:19 -0800
+X-CSE-ConnectionGUID: apEzkR/OReyMN9qpZjMkfw==
+X-CSE-MsgGUID: YxxHmtw+RjySP9Ad/2QSxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="199018410"
+   d="scan'208";a="199018412"
 Received: from lkp-server01.sh.intel.com (HELO 0713df988ca2) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 21 Dec 2025 14:16:18 -0800
 Received: from kbuild by 0713df988ca2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXRip-000000000En-3GhL;
-	Sun, 21 Dec 2025 22:16:15 +0000
+	id 1vXRiq-000000000Ev-0A8s;
+	Sun, 21 Dec 2025 22:16:16 +0000
 Date: Mon, 22 Dec 2025 06:15:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 4/4] drm/pagemap: Enable THP support for GPU memory
- migration
-Message-ID: <202512220620.usjimf3J-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: kernel/power/energy_model.c:649 em_dev_register_pd_no_update()
+ error: we previously assumed 'dev->em_pd' could be null (see line 594)
+Message-ID: <202512220613.9bpzlxd7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
-:::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20251216201206.1660899-5-francois.dugast@intel.com>
-References: <20251216201206.1660899-5-francois.dugast@intel.com>
-TO: Francois Dugast <francois.dugast@intel.com>
-TO: intel-xe@lists.freedesktop.org
-CC: dri-devel@lists.freedesktop.org
-CC: Francois Dugast <francois.dugast@intel.com>
-CC: Matthew Brost <matthew.brost@intel.com>
-CC: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-CC: Michal Mrozek <michal.mrozek@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: "Rafael J. Wysocki" <rjw@rjwysocki.net>
 
-Hi Francois,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on akpm-mm/mm-everything drm-xe/drm-xe-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v6.19-rc1 next-20251219]
-[cannot apply to daeinki-drm-exynos/exynos-drm-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Francois-Dugast/mm-migrate-Add-migrate_device_split_page/20251217-041401
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20251216201206.1660899-5-francois.dugast%40intel.com
-patch subject: [PATCH 4/4] drm/pagemap: Enable THP support for GPU memory migration
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: powerpc64-randconfig-002-20251221 (https://download.01.org/0day-ci/archive/20251222/202512220620.usjimf3J-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 42b3483ac4987cae1bdb632398e8a3ce2dea6633)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220620.usjimf3J-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9094662f6707d1d4b53d18baba459604e8bb0783
+commit: e0423541477dfb684fbc6e6b5386054bc650f264 PM: EM: Add function for registering a PD without capacity update
+date:   3 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 3 months ago
+config: powerpc64-randconfig-r072-20251221 (https://download.01.org/0day-ci/archive/20251222/202512220613.9bpzlxd7-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512220620.usjimf3J-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512220613.9bpzlxd7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+kernel/power/energy_model.c:649 em_dev_register_pd_no_update() error: we previously assumed 'dev->em_pd' could be null (see line 594)
 
->> drivers/gpu/drm/drm_pagemap.c:438:12: error: call to '__compiletime_assert_602' declared with 'error' attribute: BUILD_BUG failed
-     438 |                         order = HPAGE_PMD_ORDER;
-         |                                 ^
-   include/linux/huge_mm.h:117:26: note: expanded from macro 'HPAGE_PMD_ORDER'
-     117 | #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
-         |                          ^
-   include/linux/huge_mm.h:113:28: note: expanded from macro 'HPAGE_PMD_SHIFT'
-     113 | #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
-         |                            ^
-   include/linux/build_bug.h:59:21: note: expanded from macro 'BUILD_BUG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:618:2: note: expanded from macro '_compiletime_assert'
-     618 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:611:4: note: expanded from macro '__compiletime_assert'
-     611 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:165:1: note: expanded from here
-     165 | __compiletime_assert_602
-         | ^
-   1 error generated.
+vim +649 kernel/power/energy_model.c
 
+e0423541477dfb Rafael J. Wysocki 2025-09-05  564  
+e0423541477dfb Rafael J. Wysocki 2025-09-05  565  /**
+e0423541477dfb Rafael J. Wysocki 2025-09-05  566   * em_dev_register_pd_no_update() - Register a perf domain for a device
+e0423541477dfb Rafael J. Wysocki 2025-09-05  567   * @dev : Device to register the PD for
+e0423541477dfb Rafael J. Wysocki 2025-09-05  568   * @nr_states : Number of performance states in the new PD
+e0423541477dfb Rafael J. Wysocki 2025-09-05  569   * @cb : Callback functions for populating the energy model
+e0423541477dfb Rafael J. Wysocki 2025-09-05  570   * @cpus : CPUs to include in the new PD (mandatory if @dev is a CPU device)
+e0423541477dfb Rafael J. Wysocki 2025-09-05  571   * @microwatts : Whether or not the power values in the EM will be in uW
+e0423541477dfb Rafael J. Wysocki 2025-09-05  572   *
+e0423541477dfb Rafael J. Wysocki 2025-09-05  573   * Like em_dev_register_perf_domain(), but does not trigger a CPU capacity
+e0423541477dfb Rafael J. Wysocki 2025-09-05  574   * update after registering the PD, even if @dev is a CPU device.
+e0423541477dfb Rafael J. Wysocki 2025-09-05  575   */
+e0423541477dfb Rafael J. Wysocki 2025-09-05  576  int em_dev_register_pd_no_update(struct device *dev, unsigned int nr_states,
+e0423541477dfb Rafael J. Wysocki 2025-09-05  577  				 const struct em_data_callback *cb,
+e0423541477dfb Rafael J. Wysocki 2025-09-05  578  				 const cpumask_t *cpus, bool microwatts)
+27871f7a8a341e Quentin Perret    2018-12-03  579  {
+3ee7be9e10dd5f Rafael J. Wysocki 2025-03-06  580  	struct em_perf_table *em_table;
+27871f7a8a341e Quentin Perret    2018-12-03  581  	unsigned long cap, prev_cap = 0;
+91362463114eb6 Lukasz Luba       2022-03-21  582  	unsigned long flags = 0;
+1bc138c6229599 Lukasz Luba       2020-06-10  583  	int cpu, ret;
+27871f7a8a341e Quentin Perret    2018-12-03  584  
+1bc138c6229599 Lukasz Luba       2020-06-10  585  	if (!dev || !nr_states || !cb)
+27871f7a8a341e Quentin Perret    2018-12-03  586  		return -EINVAL;
+27871f7a8a341e Quentin Perret    2018-12-03  587  
+27871f7a8a341e Quentin Perret    2018-12-03  588  	/*
+27871f7a8a341e Quentin Perret    2018-12-03  589  	 * Use a mutex to serialize the registration of performance domains and
+27871f7a8a341e Quentin Perret    2018-12-03  590  	 * let the driver-defined callback functions sleep.
+27871f7a8a341e Quentin Perret    2018-12-03  591  	 */
+27871f7a8a341e Quentin Perret    2018-12-03  592  	mutex_lock(&em_pd_mutex);
+27871f7a8a341e Quentin Perret    2018-12-03  593  
+1bc138c6229599 Lukasz Luba       2020-06-10 @594  	if (dev->em_pd) {
+27871f7a8a341e Quentin Perret    2018-12-03  595  		ret = -EEXIST;
+27871f7a8a341e Quentin Perret    2018-12-03  596  		goto unlock;
+27871f7a8a341e Quentin Perret    2018-12-03  597  	}
+27871f7a8a341e Quentin Perret    2018-12-03  598  
+1bc138c6229599 Lukasz Luba       2020-06-10  599  	if (_is_cpu_device(dev)) {
+1bc138c6229599 Lukasz Luba       2020-06-10  600  		if (!cpus) {
+1bc138c6229599 Lukasz Luba       2020-06-10  601  			dev_err(dev, "EM: invalid CPU mask\n");
+1bc138c6229599 Lukasz Luba       2020-06-10  602  			ret = -EINVAL;
+1bc138c6229599 Lukasz Luba       2020-06-10  603  			goto unlock;
+1bc138c6229599 Lukasz Luba       2020-06-10  604  		}
+1bc138c6229599 Lukasz Luba       2020-06-10  605  
+1bc138c6229599 Lukasz Luba       2020-06-10  606  		for_each_cpu(cpu, cpus) {
+1bc138c6229599 Lukasz Luba       2020-06-10  607  			if (em_cpu_get(cpu)) {
+1bc138c6229599 Lukasz Luba       2020-06-10  608  				dev_err(dev, "EM: exists for CPU%d\n", cpu);
+1bc138c6229599 Lukasz Luba       2020-06-10  609  				ret = -EEXIST;
+1bc138c6229599 Lukasz Luba       2020-06-10  610  				goto unlock;
+1bc138c6229599 Lukasz Luba       2020-06-10  611  			}
+27871f7a8a341e Quentin Perret    2018-12-03  612  			/*
+1bc138c6229599 Lukasz Luba       2020-06-10  613  			 * All CPUs of a domain must have the same
+1bc138c6229599 Lukasz Luba       2020-06-10  614  			 * micro-architecture since they all share the same
+1bc138c6229599 Lukasz Luba       2020-06-10  615  			 * table.
+27871f7a8a341e Quentin Perret    2018-12-03  616  			 */
+8ec59c0f5f4966 Vincent Guittot   2019-06-17  617  			cap = arch_scale_cpu_capacity(cpu);
+27871f7a8a341e Quentin Perret    2018-12-03  618  			if (prev_cap && prev_cap != cap) {
+1bc138c6229599 Lukasz Luba       2020-06-10  619  				dev_err(dev, "EM: CPUs of %*pbl must have the same capacity\n",
+1bc138c6229599 Lukasz Luba       2020-06-10  620  					cpumask_pr_args(cpus));
+1bc138c6229599 Lukasz Luba       2020-06-10  621  
+27871f7a8a341e Quentin Perret    2018-12-03  622  				ret = -EINVAL;
+27871f7a8a341e Quentin Perret    2018-12-03  623  				goto unlock;
+27871f7a8a341e Quentin Perret    2018-12-03  624  			}
+27871f7a8a341e Quentin Perret    2018-12-03  625  			prev_cap = cap;
+27871f7a8a341e Quentin Perret    2018-12-03  626  		}
+1bc138c6229599 Lukasz Luba       2020-06-10  627  	}
+27871f7a8a341e Quentin Perret    2018-12-03  628  
+ae6ccaa650380d Lukasz Luba       2022-07-07  629  	if (microwatts)
+ae6ccaa650380d Lukasz Luba       2022-07-07  630  		flags |= EM_PERF_DOMAIN_MICROWATTS;
+91362463114eb6 Lukasz Luba       2022-03-21  631  	else if (cb->get_cost)
+91362463114eb6 Lukasz Luba       2022-03-21  632  		flags |= EM_PERF_DOMAIN_ARTIFICIAL;
+91362463114eb6 Lukasz Luba       2022-03-21  633  
+3acec69a94eaaf Lukasz Luba       2024-03-08  634  	/*
+3acec69a94eaaf Lukasz Luba       2024-03-08  635  	 * EM only supports uW (exception is artificial EM).
+3acec69a94eaaf Lukasz Luba       2024-03-08  636  	 * Therefore, check and force the drivers to provide
+3acec69a94eaaf Lukasz Luba       2024-03-08  637  	 * power in uW.
+3acec69a94eaaf Lukasz Luba       2024-03-08  638  	 */
+3acec69a94eaaf Lukasz Luba       2024-03-08  639  	if (!microwatts && !(flags & EM_PERF_DOMAIN_ARTIFICIAL)) {
+3acec69a94eaaf Lukasz Luba       2024-03-08  640  		dev_err(dev, "EM: only supports uW power values\n");
+3acec69a94eaaf Lukasz Luba       2024-03-08  641  		ret = -EINVAL;
+3acec69a94eaaf Lukasz Luba       2024-03-08  642  		goto unlock;
+3acec69a94eaaf Lukasz Luba       2024-03-08  643  	}
+3acec69a94eaaf Lukasz Luba       2024-03-08  644  
+91362463114eb6 Lukasz Luba       2022-03-21  645  	ret = em_create_pd(dev, nr_states, cb, cpus, flags);
+1bc138c6229599 Lukasz Luba       2020-06-10  646  	if (ret)
+27871f7a8a341e Quentin Perret    2018-12-03  647  		goto unlock;
+27871f7a8a341e Quentin Perret    2018-12-03  648  
+91362463114eb6 Lukasz Luba       2022-03-21 @649  	dev->em_pd->flags |= flags;
+5609296750afd6 Lukasz Luba       2024-10-30  650  	dev->em_pd->min_perf_state = 0;
+5609296750afd6 Lukasz Luba       2024-10-30  651  	dev->em_pd->max_perf_state = nr_states - 1;
+c250d50fe2ce62 Lukasz Luba       2020-11-05  652  
+3ee7be9e10dd5f Rafael J. Wysocki 2025-03-06  653  	em_table = rcu_dereference_protected(dev->em_pd->em_table,
+3ee7be9e10dd5f Rafael J. Wysocki 2025-03-06  654  					     lockdep_is_held(&em_pd_mutex));
+3ee7be9e10dd5f Rafael J. Wysocki 2025-03-06  655  	em_cpufreq_update_efficiencies(dev, em_table->state);
+e458716a92b57f Vincent Donnefort 2021-09-08  656  
+1bc138c6229599 Lukasz Luba       2020-06-10  657  	em_debug_create_pd(dev);
+1bc138c6229599 Lukasz Luba       2020-06-10  658  	dev_info(dev, "EM: created perf domain\n");
+27871f7a8a341e Quentin Perret    2018-12-03  659  
+27871f7a8a341e Quentin Perret    2018-12-03  660  unlock:
+27871f7a8a341e Quentin Perret    2018-12-03  661  	mutex_unlock(&em_pd_mutex);
+e3f1164fc9ee84 Lukasz Luba       2024-02-08  662  
+27871f7a8a341e Quentin Perret    2018-12-03  663  	return ret;
+27871f7a8a341e Quentin Perret    2018-12-03  664  }
+e0423541477dfb Rafael J. Wysocki 2025-09-05  665  EXPORT_SYMBOL_GPL(em_dev_register_pd_no_update);
+7d9895c7fbfc9c Lukasz Luba       2020-05-27  666  
 
-vim +438 drivers/gpu/drm/drm_pagemap.c
+:::::: The code at line 649 was first introduced by commit
+:::::: 91362463114eb63ead5f02c11d58c46064c339e7 PM: EM: Use the new .get_cost() callback while registering EM
 
-f86ad0ed620cb3c Matthew Brost   2025-06-19  318  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  319  /**
-f86ad0ed620cb3c Matthew Brost   2025-06-19  320   * drm_pagemap_migrate_to_devmem() - Migrate a struct mm_struct range to device memory
-f86ad0ed620cb3c Matthew Brost   2025-06-19  321   * @devmem_allocation: The device memory allocation to migrate to.
-f86ad0ed620cb3c Matthew Brost   2025-06-19  322   * The caller should hold a reference to the device memory allocation,
-f86ad0ed620cb3c Matthew Brost   2025-06-19  323   * and the reference is consumed by this function unless it returns with
-f86ad0ed620cb3c Matthew Brost   2025-06-19  324   * an error.
-f86ad0ed620cb3c Matthew Brost   2025-06-19  325   * @mm: Pointer to the struct mm_struct.
-f86ad0ed620cb3c Matthew Brost   2025-06-19  326   * @start: Start of the virtual address range to migrate.
-f86ad0ed620cb3c Matthew Brost   2025-06-19  327   * @end: End of the virtual address range to migrate.
-f86ad0ed620cb3c Matthew Brost   2025-06-19  328   * @timeslice_ms: The time requested for the migrated pagemap pages to
-f86ad0ed620cb3c Matthew Brost   2025-06-19  329   * be present in @mm before being allowed to be migrated back.
-f86ad0ed620cb3c Matthew Brost   2025-06-19  330   * @pgmap_owner: Not used currently, since only system memory is considered.
-f86ad0ed620cb3c Matthew Brost   2025-06-19  331   *
-f86ad0ed620cb3c Matthew Brost   2025-06-19  332   * This function migrates the specified virtual address range to device memory.
-f86ad0ed620cb3c Matthew Brost   2025-06-19  333   * It performs the necessary setup and invokes the driver-specific operations for
-f86ad0ed620cb3c Matthew Brost   2025-06-19  334   * migration to device memory. Expected to be called while holding the mmap lock in
-f86ad0ed620cb3c Matthew Brost   2025-06-19  335   * at least read mode.
-f86ad0ed620cb3c Matthew Brost   2025-06-19  336   *
-f86ad0ed620cb3c Matthew Brost   2025-06-19  337   * Note: The @timeslice_ms parameter can typically be used to force data to
-f86ad0ed620cb3c Matthew Brost   2025-06-19  338   * remain in pagemap pages long enough for a GPU to perform a task and to prevent
-f86ad0ed620cb3c Matthew Brost   2025-06-19  339   * a migration livelock. One alternative would be for the GPU driver to block
-f86ad0ed620cb3c Matthew Brost   2025-06-19  340   * in a mmu_notifier for the specified amount of time, but adding the
-f86ad0ed620cb3c Matthew Brost   2025-06-19  341   * functionality to the pagemap is likely nicer to the system as a whole.
-f86ad0ed620cb3c Matthew Brost   2025-06-19  342   *
-f86ad0ed620cb3c Matthew Brost   2025-06-19  343   * Return: %0 on success, negative error code on failure.
-f86ad0ed620cb3c Matthew Brost   2025-06-19  344   */
-f86ad0ed620cb3c Matthew Brost   2025-06-19  345  int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
-f86ad0ed620cb3c Matthew Brost   2025-06-19  346  				  struct mm_struct *mm,
-f86ad0ed620cb3c Matthew Brost   2025-06-19  347  				  unsigned long start, unsigned long end,
-f86ad0ed620cb3c Matthew Brost   2025-06-19  348  				  unsigned long timeslice_ms,
-f86ad0ed620cb3c Matthew Brost   2025-06-19  349  				  void *pgmap_owner)
-f86ad0ed620cb3c Matthew Brost   2025-06-19  350  {
-f86ad0ed620cb3c Matthew Brost   2025-06-19  351  	const struct drm_pagemap_devmem_ops *ops = devmem_allocation->ops;
-240e6a97e9220d6 Francois Dugast 2025-12-16  352  	struct drm_pagemap *dpagemap = devmem_allocation->dpagemap;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  353  	struct migrate_vma migrate = {
-f86ad0ed620cb3c Matthew Brost   2025-06-19  354  		.start		= start,
-f86ad0ed620cb3c Matthew Brost   2025-06-19  355  		.end		= end,
-f86ad0ed620cb3c Matthew Brost   2025-06-19  356  		.pgmap_owner	= pgmap_owner,
-240e6a97e9220d6 Francois Dugast 2025-12-16  357  		.flags		= MIGRATE_VMA_SELECT_SYSTEM
-240e6a97e9220d6 Francois Dugast 2025-12-16  358  				| MIGRATE_VMA_SELECT_COMPOUND,
-f86ad0ed620cb3c Matthew Brost   2025-06-19  359  	};
-f86ad0ed620cb3c Matthew Brost   2025-06-19  360  	unsigned long i, npages = npages_in_range(start, end);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  361  	struct vm_area_struct *vas;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  362  	struct drm_pagemap_zdd *zdd = NULL;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  363  	struct page **pages;
-f35a6cdf8a6d69f Francois Dugast 2025-08-05  364  	struct drm_pagemap_addr *pagemap_addr;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  365  	void *buf;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  366  	int err;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  367  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  368  	mmap_assert_locked(mm);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  369  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  370  	if (!ops->populate_devmem_pfn || !ops->copy_to_devmem ||
-f86ad0ed620cb3c Matthew Brost   2025-06-19  371  	    !ops->copy_to_ram)
-f86ad0ed620cb3c Matthew Brost   2025-06-19  372  		return -EOPNOTSUPP;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  373  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  374  	vas = vma_lookup(mm, start);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  375  	if (!vas) {
-f86ad0ed620cb3c Matthew Brost   2025-06-19  376  		err = -ENOENT;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  377  		goto err_out;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  378  	}
-f86ad0ed620cb3c Matthew Brost   2025-06-19  379  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  380  	if (end > vas->vm_end || start < vas->vm_start) {
-f86ad0ed620cb3c Matthew Brost   2025-06-19  381  		err = -EINVAL;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  382  		goto err_out;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  383  	}
-f86ad0ed620cb3c Matthew Brost   2025-06-19  384  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  385  	if (!vma_is_anonymous(vas)) {
-f86ad0ed620cb3c Matthew Brost   2025-06-19  386  		err = -EBUSY;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  387  		goto err_out;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  388  	}
-f86ad0ed620cb3c Matthew Brost   2025-06-19  389  
-f35a6cdf8a6d69f Francois Dugast 2025-08-05  390  	buf = kvcalloc(npages, 2 * sizeof(*migrate.src) + sizeof(*pagemap_addr) +
-f86ad0ed620cb3c Matthew Brost   2025-06-19  391  		       sizeof(*pages), GFP_KERNEL);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  392  	if (!buf) {
-f86ad0ed620cb3c Matthew Brost   2025-06-19  393  		err = -ENOMEM;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  394  		goto err_out;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  395  	}
-f35a6cdf8a6d69f Francois Dugast 2025-08-05  396  	pagemap_addr = buf + (2 * sizeof(*migrate.src) * npages);
-f35a6cdf8a6d69f Francois Dugast 2025-08-05  397  	pages = buf + (2 * sizeof(*migrate.src) + sizeof(*pagemap_addr)) * npages;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  398  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  399  	zdd = drm_pagemap_zdd_alloc(pgmap_owner);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  400  	if (!zdd) {
-f86ad0ed620cb3c Matthew Brost   2025-06-19  401  		err = -ENOMEM;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  402  		goto err_free;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  403  	}
-f86ad0ed620cb3c Matthew Brost   2025-06-19  404  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  405  	migrate.vma = vas;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  406  	migrate.src = buf;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  407  	migrate.dst = migrate.src + npages;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  408  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  409  	err = migrate_vma_setup(&migrate);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  410  	if (err)
-f86ad0ed620cb3c Matthew Brost   2025-06-19  411  		goto err_free;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  412  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  413  	if (!migrate.cpages) {
-f86ad0ed620cb3c Matthew Brost   2025-06-19  414  		err = -EFAULT;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  415  		goto err_free;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  416  	}
-f86ad0ed620cb3c Matthew Brost   2025-06-19  417  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  418  	err = ops->populate_devmem_pfn(devmem_allocation, npages, migrate.dst);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  419  	if (err)
-f86ad0ed620cb3c Matthew Brost   2025-06-19  420  		goto err_finalize;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  421  
-f35a6cdf8a6d69f Francois Dugast 2025-08-05  422  	err = drm_pagemap_migrate_map_pages(devmem_allocation->dev, pagemap_addr,
-f86ad0ed620cb3c Matthew Brost   2025-06-19  423  					    migrate.src, npages, DMA_TO_DEVICE);
-f35a6cdf8a6d69f Francois Dugast 2025-08-05  424  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  425  	if (err)
-f86ad0ed620cb3c Matthew Brost   2025-06-19  426  		goto err_finalize;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  427  
-240e6a97e9220d6 Francois Dugast 2025-12-16  428  	mutex_lock(&dpagemap->folio_split_lock);
-240e6a97e9220d6 Francois Dugast 2025-12-16  429  	for (i = 0; i < npages;) {
-240e6a97e9220d6 Francois Dugast 2025-12-16  430  		unsigned long j;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  431  		struct page *page = pfn_to_page(migrate.dst[i]);
-240e6a97e9220d6 Francois Dugast 2025-12-16  432  		unsigned int order;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  433  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  434  		pages[i] = page;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  435  		migrate.dst[i] = migrate_pfn(migrate.dst[i]);
-240e6a97e9220d6 Francois Dugast 2025-12-16  436  
-240e6a97e9220d6 Francois Dugast 2025-12-16  437  		if (migrate.src[i] & MIGRATE_PFN_COMPOUND) {
-240e6a97e9220d6 Francois Dugast 2025-12-16 @438  			order = HPAGE_PMD_ORDER;
-240e6a97e9220d6 Francois Dugast 2025-12-16  439  
-240e6a97e9220d6 Francois Dugast 2025-12-16  440  			migrate.dst[i] |= MIGRATE_PFN_COMPOUND;
-240e6a97e9220d6 Francois Dugast 2025-12-16  441  
-240e6a97e9220d6 Francois Dugast 2025-12-16  442  			drm_pagemap_get_devmem_page(page, order, zdd);
-240e6a97e9220d6 Francois Dugast 2025-12-16  443  
-240e6a97e9220d6 Francois Dugast 2025-12-16  444  			for (j = 1; j < NR_PAGES(order) && i + j < npages; j++)
-240e6a97e9220d6 Francois Dugast 2025-12-16  445  				migrate.dst[i + j] = 0;
-240e6a97e9220d6 Francois Dugast 2025-12-16  446  
-240e6a97e9220d6 Francois Dugast 2025-12-16  447  		} else {
-240e6a97e9220d6 Francois Dugast 2025-12-16  448  			order = 0;
-240e6a97e9220d6 Francois Dugast 2025-12-16  449  
-240e6a97e9220d6 Francois Dugast 2025-12-16  450  			if (folio_order(page_folio(page)))
-240e6a97e9220d6 Francois Dugast 2025-12-16  451  				migrate_device_split_page(page);
-240e6a97e9220d6 Francois Dugast 2025-12-16  452  
-240e6a97e9220d6 Francois Dugast 2025-12-16  453  			zone_device_page_init(page, 0);
-240e6a97e9220d6 Francois Dugast 2025-12-16  454  			page->zone_device_data = drm_pagemap_zdd_get(zdd);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  455  		}
-f86ad0ed620cb3c Matthew Brost   2025-06-19  456  
-240e6a97e9220d6 Francois Dugast 2025-12-16  457  		i += NR_PAGES(order);
-240e6a97e9220d6 Francois Dugast 2025-12-16  458  	}
-240e6a97e9220d6 Francois Dugast 2025-12-16  459  	mutex_unlock(&dpagemap->folio_split_lock);
-240e6a97e9220d6 Francois Dugast 2025-12-16  460  
-f35a6cdf8a6d69f Francois Dugast 2025-08-05  461  	err = ops->copy_to_devmem(pages, pagemap_addr, npages);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  462  	if (err)
-f86ad0ed620cb3c Matthew Brost   2025-06-19  463  		goto err_finalize;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  464  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  465  	/* Upon success bind devmem allocation to range and zdd */
-f86ad0ed620cb3c Matthew Brost   2025-06-19  466  	devmem_allocation->timeslice_expiration = get_jiffies_64() +
-f86ad0ed620cb3c Matthew Brost   2025-06-19  467  		msecs_to_jiffies(timeslice_ms);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  468  	zdd->devmem_allocation = devmem_allocation;	/* Owns ref */
-f86ad0ed620cb3c Matthew Brost   2025-06-19  469  
-f86ad0ed620cb3c Matthew Brost   2025-06-19  470  err_finalize:
-f86ad0ed620cb3c Matthew Brost   2025-06-19  471  	if (err)
-f86ad0ed620cb3c Matthew Brost   2025-06-19  472  		drm_pagemap_migration_unlock_put_pages(npages, migrate.dst);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  473  	migrate_vma_pages(&migrate);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  474  	migrate_vma_finalize(&migrate);
-f35a6cdf8a6d69f Francois Dugast 2025-08-05  475  	drm_pagemap_migrate_unmap_pages(devmem_allocation->dev, pagemap_addr, npages,
-f86ad0ed620cb3c Matthew Brost   2025-06-19  476  					DMA_TO_DEVICE);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  477  err_free:
-f86ad0ed620cb3c Matthew Brost   2025-06-19  478  	if (zdd)
-f86ad0ed620cb3c Matthew Brost   2025-06-19  479  		drm_pagemap_zdd_put(zdd);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  480  	kvfree(buf);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  481  err_out:
-f86ad0ed620cb3c Matthew Brost   2025-06-19  482  	return err;
-f86ad0ed620cb3c Matthew Brost   2025-06-19  483  }
-f86ad0ed620cb3c Matthew Brost   2025-06-19  484  EXPORT_SYMBOL_GPL(drm_pagemap_migrate_to_devmem);
-f86ad0ed620cb3c Matthew Brost   2025-06-19  485  
+:::::: TO: Lukasz Luba <lukasz.luba@arm.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
