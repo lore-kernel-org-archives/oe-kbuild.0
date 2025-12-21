@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6202FE071
-	for <oe-kbuild@lists.linux.dev>; Sun, 21 Dec 2025 15:41:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A362FE071
+	for <oe-kbuild@lists.linux.dev>; Sun, 21 Dec 2025 15:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766331669; cv=none; b=TDaAv/IlRu5X+FpVbGYiKIdnfqeeYlTA21tSQorUWhkBUnzzKeUau0nRl92/ZXaW/i9a8iunLI7mlsOG5cZzZh/ks75csT59ts7fzIe96PXj81GXWRFdvYxd77LKzP8DeImf2EP1WNMKPdtH7D3PlatDNSn8G8d+rcAxO2Nz+us=
+	t=1766331671; cv=none; b=AmWbrJRFCp+1YAhOevXY1RpqR0jMayZ1UbOUDyHTZkd31nWJZXxrSHF6rkEs8S/YNbT1EkDAazFzPNySfup8PiSeShMoC561BnbemENUYxYrllRENY86lXraPufSEIL7rBpX6vzZD44Fr3oREfwPDGfoDKRRgJvLmNhRRpEHcLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766331669; c=relaxed/simple;
-	bh=iC0LKkd3QdytDlIoxoEQpPure6H790nXjPZCrpEwUKQ=;
+	s=arc-20240116; t=1766331671; c=relaxed/simple;
+	bh=yTE7MeTsDdXlytPjLC56ZoF2gXHn2MFVj9SRYsqfbKA=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ev3hhs29lUt1b6AOkWrstPwP+1Fw8jK+ycQC+uHmAddSYdF24odcCQaeL6TmBUR1rh7zqEutx2aLmZjpYH/XoJnlEBrciWrYX9TGGB+5l9zQhFbdxeG0muTPgwlgIjef0gZ8m/PajkLcN3wjFxb6p/vK+411O4E62x1lfrKRn7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aLeZYAGi; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=oCKAa2DjIZt40Od7Gh0zen0rDZhcuhRsewgAeLm3PaQPeH5f9TGocqMZ4Pcet3f1h6/4HI7pCE8gSkup1e3sc8VTmYXaraalYu49TZdikrswtMCKIE2qMMT5GYidAHplwhSvWY0mUZv8co45GbEr5rDpsutvtlXck7a3ADSMSms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cyAmUXtn; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aLeZYAGi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyAmUXtn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766331667; x=1797867667;
+  t=1766331669; x=1797867669;
   h=date:from:to:subject:message-id:mime-version;
-  bh=iC0LKkd3QdytDlIoxoEQpPure6H790nXjPZCrpEwUKQ=;
-  b=aLeZYAGiFoT/rLnHn0INBJd5iytGTeqG+Ei//2DTrKWGy8R6bR5RuPJu
-   86qZW28ZR+0fKTuGHrmj46GXu2wIkuHBg4gHk3or3X19cYW13Q9KlNag2
-   m+b80NtEXJPxHgTcNBLQ1IJtaFSfdh7NGf+l1MQ2mgSPH/3BxKMaiCI1M
-   ++3x7sDOls0C/JHVrhguPYSGEH6uNn8X5wemFl7Mgug+xGOZLTKQgtjQX
-   l3lMN1Q4nTRMRNy844wRxiTWJXpBz+J9A6dMsdpIpnCOMIdJYo1gzKqxQ
-   AUdepc/sAOHErZtBL8ngQ/+V9iRdHoloLzMR48QaHxjCqWBCX5h7KcSMP
-   Q==;
-X-CSE-ConnectionGUID: lEBOS+A5TDSahn+quRZ1pA==
-X-CSE-MsgGUID: MKOgIDiUTTKV3nDQA7s+Fw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="78847598"
+  bh=yTE7MeTsDdXlytPjLC56ZoF2gXHn2MFVj9SRYsqfbKA=;
+  b=cyAmUXtnsaK+40rvXtD2EZGnha7BPUBa+0I2cw8Bmej4axpsw/YCzNtQ
+   7caPOspLzO40mod+kI4fEr1UmwDoC+wmXpYIBrLorWJrslKhfpCU+e5GB
+   pDfesJl+ntk44hvau5tOAHAf1iIzAvWAjWeOQjoaMDDc4dXu1MPseJ6OJ
+   suV0A/JBcjcRuPOSEvtEWrHpETLWK25NZZn+AHSsbbGDjXf8n0tWYM7Jp
+   Gb2zEycPW67zj6Lba9tBWEr7k6LZulqrEvqZDELxHDiJeSZrUqgthpodw
+   66Kt/2So7wSiIKdaPc0ZeEu8kCjy4idSQQfUWgqfB1vnSPpEBgru6Y2SI
+   A==;
+X-CSE-ConnectionGUID: IybxBrZAQZmt5o8azlklig==
+X-CSE-MsgGUID: siJm95fOR2GHIc38WES+rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="78847599"
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="78847598"
+   d="scan'208";a="78847599"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
   by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 07:41:04 -0800
-X-CSE-ConnectionGUID: 0ol2HpqyQraC1VXvDZkwpg==
-X-CSE-MsgGUID: Zm05v/7ARKqYShC/VxxPpw==
+X-CSE-ConnectionGUID: u5LB3qMCReudHx3teAvYWw==
+X-CSE-MsgGUID: Bg2z01fkT16vY6LMwxvSGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="199618413"
+   d="scan'208";a="199618414"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
   by fmviesa008.fm.intel.com with ESMTP; 21 Dec 2025 07:41:03 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXLYL-0000000059E-2rAe
+	id 1vXLYL-0000000059C-2hmy
 	for oe-kbuild@lists.linux.dev;
 	Sun, 21 Dec 2025 15:41:01 +0000
-Date: Sun, 21 Dec 2025 16:40:59 +0100
+Date: Sun, 21 Dec 2025 16:40:36 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Subject: [asahilinux:bits/200-dcp 243/246] checkpatch: WARNING:REPEATED_WORD:
- Possible repeated word: 'the'
-Message-ID: <202512211645.PIw2nEdm-lkp@intel.com>
+Subject: [asahilinux:bits/200-dcp 230/246] checkpatch: WARNING:REPEATED_WORD:
+ Possible repeated word: 'since'
+Message-ID: <202512211622.1DWrDvnd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,16 +72,16 @@ TO: Janne Grunau <j@jannau.net>
 
 tree:   https://github.com/AsahiLinux/linux bits/200-dcp
 head:   a505a983517df0d2df38e87cb1898c518fdf9740
-commit: 853201c8e51eed322a6bdf78641e35ed3a1f8058 [243/246] drm: apple: Remove conflicting devices as late as possible
+commit: cb7636d60557f5fa675d64dc5912e5cef28c1321 [230/246] drm: apple: afk: Allow replies after service 'teardown'
 :::::: branch date: 3 hours ago
 :::::: commit date: 2 weeks ago
-reproduce: (https://download.01.org/0day-ci/archive/20251221/202512211645.PIw2nEdm-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20251221/202512211622.1DWrDvnd-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
-WARNING:REPEATED_WORD: Possible repeated word: 'the'
-#7: 
-drm_dev_register(). This reduces the the time at startup without KMS drm
+WARNING:REPEATED_WORD: Possible repeated word: 'since'
+#35: FILE: drivers/gpu/drm/apple/afk.c:345:
++	 * teardown must not disable the service since since it may be sent as
 
 -- 
 0-DAY CI Kernel Test Service
