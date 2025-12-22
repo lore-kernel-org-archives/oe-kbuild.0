@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 461B932D0E9
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 15:47:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F6E2BE620
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 16:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766418444; cv=none; b=VwHiP7JorL5DPDUV/271si4weysolvGHWxJWKg1ZNlLgg8J1wudRcDDW91H/4sSqT7yxcYpcahfanSdDP3HxmR8vB4tZ7bjrNHLo1gcOw3rDJT+l1z+FGo8QpwQx+/VhGfCuy/p/d1TGk9LCR2S2VBeQyKycomVDLJ3C1yULGaM=
+	t=1766420971; cv=none; b=hkkK3E65lB0AZRoy0QzcbjmUluY9VOeuvyhABstiBVojKeRclLnoHJOrerTpOgmoBrSn9UtXnniCHOn+JD6aAvLfFKPvjD3PRP3js4RDl9AVPeLT9wCYjrZ2cKWhxP7PuxpAxTkp74qdotL+CBspYtn411mQZ+tpwXdXSpR31Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766418444; c=relaxed/simple;
-	bh=fGqZ7busip10wN9bhjYRob9g12DfiWprKWEswMNVGeM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FlACtOfyCSWNreOOg68/rhGVpxIlfUPJbKHtu8KMGLl72o7xoL6e6hfr2nLkjlW5AUbNZa72ey3+1+pJpkbuwhNXRmeTXNzmPSbE5TKTJixMLSudblDqnLliLv/NwV6MfRiU4EPt0i36ZHogCBRYTeaPR+deezMRXFkDXSr1wG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U+gI3dNa; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1766420971; c=relaxed/simple;
+	bh=01jFnRPqrXFiKPTMRSDB1UiLZ41eI1zv2VNXD9syCUM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Tg7tmMN7vLJZN0FoMQWsIbSgk0AFsq3rd2VRRiQ92AvEmEcBXZ/PcZO/GKVPZhKhLlMqru3rEBgEBcwreWDqQjhGpbDiaH2SQcOUSo/pb4ZfgxkJQu8pLtfJBjXGCaY7J/cMb26WLh9HEYI7Dd/m2LPA3Kzklr6k9fN1FfdNyH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q3moyg0f; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U+gI3dNa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q3moyg0f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766418443; x=1797954443;
+  t=1766420969; x=1797956969;
   h=date:from:to:cc:subject:message-id;
-  bh=fGqZ7busip10wN9bhjYRob9g12DfiWprKWEswMNVGeM=;
-  b=U+gI3dNaPEWJnl5dY8ZsprvmKZQwS7x3gf3Do0W4uoV8IajCt2HqZ65I
-   TY5se1+Bu9NyUl/1KWQaNG3sBi5jNVhLuWMMhPGSHjv85br9GoM74mBYr
-   20ohLPdiXWcAjVQnbjampXkVSabve17QZIwICGA5hkueLe3tSkBNf7u7X
-   IKzPCXYhTGlgzQDKBIRBE0XQHO0Uug1i4HsVyZ2vS8DB1gHjbv/Aob065
-   Vs7b5/Py7jdyPr1j/C8JEMXC6sszlz8i7vRfipID17AUoNsXyng96ZPcx
-   LWVB+NZNFnv84cSowxF/Ql8LGR5TYuEHAhBHJw08RxXJo8gGcABB/6I9N
-   Q==;
-X-CSE-ConnectionGUID: X6vayfxfQKOoJ8jSP8eOlw==
-X-CSE-MsgGUID: uAjg1Ki5SfuY77uboMAxTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68213027"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68213027"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 07:47:19 -0800
-X-CSE-ConnectionGUID: yz7HowNgQYC6Uy0xZHoQjw==
-X-CSE-MsgGUID: N0AjWvJdSeCuSRA67Fpj0w==
+  bh=01jFnRPqrXFiKPTMRSDB1UiLZ41eI1zv2VNXD9syCUM=;
+  b=Q3moyg0fBTJICKDQ8GKdAaayQHU4+MwAyEQvrIO16DVSbvgaN7bSDmNH
+   nsIrmNwYQ1KeOyO57s2AEuktEgg6DU4xOoPQTYtwVMEuxlBHsrpIaly4N
+   edDRBdq12FyS32nWnyurkQsJ9EUI1UPw2Qcs2BHfvKZXjnQXUDm/kGgBe
+   pBqUUtGBGWWCZlhoI9/y+cYcVjSsAftwShrjx7EtGHWjl/dIK0Yg0EwhU
+   wglMX0dlaz6XPAaF8n/JMaF+FtTOR6bylVf6/sePWsR9MhrcUOJi7XLE1
+   Iet2JK0PBgt5bNGMymMuvOWd/bIFsegFWQpuWDOeQGs6EFdyC8lfEhHCK
+   A==;
+X-CSE-ConnectionGUID: b+b8/oX1Ty6AA7nX/pJPlQ==
+X-CSE-MsgGUID: DbunQnx+RluP6qCTy6SrbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68031598"
+X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
+   d="scan'208";a="68031598"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 08:29:29 -0800
+X-CSE-ConnectionGUID: S383b06aRJKk/cbpoafneg==
+X-CSE-MsgGUID: QoZsYc0MR3i8zror5hRlOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="204604996"
+   d="scan'208";a="198702543"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 22 Dec 2025 07:47:17 -0800
+  by orviesa006.jf.intel.com with ESMTP; 22 Dec 2025 08:29:28 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXi7v-000000000lp-1Ahi;
-	Mon, 22 Dec 2025 15:47:15 +0000
-Date: Mon, 22 Dec 2025 23:46:46 +0800
+	id 1vXimj-000000000pN-0bwm;
+	Mon, 22 Dec 2025 16:29:25 +0000
+Date: Tue, 23 Dec 2025 00:29:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/phy/ti/phy-ti-pipe3.c:848 ti_pipe3_probe() warn:
- 'phy->refclk' from clk_prepare_enable() not released on lines: 841,848.
-Message-ID: <202512222357.2ZhDmJqP-lkp@intel.com>
+Subject: 
+ drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:3325
+ vchiq_connect_internal() warn: iterator 'i' not incremented
+Message-ID: <202512230028.z8DREZKj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,103 +63,102 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Dave Penkler <dpenkler@gmail.com>
+TO: Jai Luthra <jai.luthra@ideasonboard.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9448598b22c50c8a5bb77a9103e2d49f134c9578
-commit: e6ab504633e4c06e35377ecf3c8cbc304de79858 staging: gpib: Destage gpib
-date:   4 weeks ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 4 weeks ago
-config: alpha-randconfig-r071-20251222 (https://download.01.org/0day-ci/archive/20251222/202512222357.2ZhDmJqP-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
+commit: aa125180c673881f88b528600b57865dc158b3a7 platform/raspberrypi: Destage VCHIQ interface
+date:   6 weeks ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 6 weeks ago
+config: arc-randconfig-r072-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230028.z8DREZKj-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230028.z8DREZKj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512222357.2ZhDmJqP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512230028.z8DREZKj-lkp@intel.com/
 
-New smatch warnings:
-drivers/phy/ti/phy-ti-pipe3.c:848 ti_pipe3_probe() warn: 'phy->refclk' from clk_prepare_enable() not released on lines: 841,848.
-drivers/gpib/cb7210/cb7210.c:1068 cb_isa_attach() warn: 'config->ibbase' from __request_region() not released on lines: 1064.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Old smatch warnings:
-internal error: arch/alpha/include/asm/io_trivial.h:18 SQL error #2: near "and": syntax error
-internal error: arch/alpha/include/asm/io_trivial.h:18 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
+>> ERROR: modpost: "__ld_r13_to_r23_ret" [lib/zstd/zstd_decompress.ko] undefined!
+>> ERROR: modpost: "__st_r13_to_r22" [lib/zstd/zstd_decompress.ko] undefined!
+>> ERROR: modpost: "__ld_r13_to_r19_ret" [lib/zstd/zstd_decompress.ko] undefined!
+>> ERROR: modpost: "__ld_r13_to_r22_ret" [lib/zstd/zstd_decompress.ko] undefined!
+>> ERROR: modpost: "__st_r13_to_r15" [lib/zstd/zstd_decompress.ko] undefined!
+>> ERROR: modpost: "__st_r13_to_r24" [lib/zstd/zstd_decompress.ko] undefined!
+>> ERROR: modpost: "__st_r13_to_r19" [lib/zstd/zstd_decompress.ko] undefined!
+>> ERROR: modpost: "__st_r13_to_r23" [lib/zstd/zstd_decompress.ko] undefined!
+>> ERROR: modpost: "__ld_r13_to_r24_ret" [lib/zstd/zstd_decompress.ko] undefined!
+>> ERROR: modpost: "__ld_r13_to_r18_ret" [lib/zstd/zstd_decompress.ko] undefined!
+   WARNING: modpost: suppressed 4 unresolved symbol warnings because there were too many)
 
-vim +848 drivers/phy/ti/phy-ti-pipe3.c
+smatch warnings:
+drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:3325 vchiq_connect_internal() warn: iterator 'i' not incremented
+drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:3359 vchiq_shutdown_internal() warn: iterator 'i' not incremented
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:1162 vchiq_instance_get_use_count() warn: iterator 'i' not incremented
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:1189 vchiq_instance_set_trace() warn: iterator 'i' not incremented
 
-234738ea33903a drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  787  
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  788  static int ti_pipe3_probe(struct platform_device *pdev)
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  789  {
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  790  	struct ti_pipe3 *phy;
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  791  	struct phy *generic_phy;
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  792  	struct phy_provider *phy_provider;
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  793  	struct device *dev = &pdev->dev;
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  794  	int ret;
-21bf6fc47a1e45 drivers/phy/ti/phy-ti-pipe3.c Rob Herring            2023-10-09  795  	const struct pipe3_data *data;
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  796  
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  797  	phy = devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  798  	if (!phy)
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  799  		return -ENOMEM;
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  800  
-21bf6fc47a1e45 drivers/phy/ti/phy-ti-pipe3.c Rob Herring            2023-10-09  801  	data = device_get_match_data(dev);
-21bf6fc47a1e45 drivers/phy/ti/phy-ti-pipe3.c Rob Herring            2023-10-09  802  	if (!data)
-22940823f0629b drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  803  		return -EINVAL;
-22940823f0629b drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  804  
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  805  	phy->dev = dev;
-22940823f0629b drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  806  	phy->mode = data->mode;
-22940823f0629b drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  807  	phy->dpll_map = data->dpll_map;
-fdef2f9f700fab drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  808  	phy->settings = data->settings;
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  809  
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  810  	ret = ti_pipe3_get_pll_base(phy);
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  811  	if (ret)
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  812  		return ret;
-1fe521225a830e drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  813  
-2796ceb0c18a5a drivers/phy/ti/phy-ti-pipe3.c Kishon Vijay Abraham I 2017-10-09  814  	ret = ti_pipe3_get_tx_rx_base(phy);
-2796ceb0c18a5a drivers/phy/ti/phy-ti-pipe3.c Kishon Vijay Abraham I 2017-10-09  815  	if (ret)
-2796ceb0c18a5a drivers/phy/ti/phy-ti-pipe3.c Kishon Vijay Abraham I 2017-10-09  816  		return ret;
-2796ceb0c18a5a drivers/phy/ti/phy-ti-pipe3.c Kishon Vijay Abraham I 2017-10-09  817  
-73bbc78e57c96a drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  818  	ret = ti_pipe3_get_sysctrl(phy);
-73bbc78e57c96a drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  819  	if (ret)
-73bbc78e57c96a drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  820  		return ret;
-234738ea33903a drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  821  
-234738ea33903a drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  822  	ret = ti_pipe3_get_clk(phy);
-234738ea33903a drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  823  	if (ret)
-234738ea33903a drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  824  		return ret;
-234738ea33903a drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  825  
-57f6ce072e3577 drivers/usb/phy/omap-usb3.c   Kishon Vijay Abraham I 2013-01-25  826  	platform_set_drvdata(pdev, phy);
-d65ff52eb8ed5c drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  827  	pm_runtime_enable(dev);
-c934b3612747bd drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  828  
-c934b3612747bd drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  829  	/*
-c934b3612747bd drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  830  	 * Prevent auto-disable of refclk for SATA PHY due to Errata i783
-c934b3612747bd drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  831  	 */
-22940823f0629b drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  832  	if (phy->mode == PIPE3_MODE_SATA) {
-c934b3612747bd drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  833  		if (!IS_ERR(phy->refclk)) {
-0a0830feb2adce drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-06-02  834  			clk_prepare_enable(phy->refclk);
-c934b3612747bd drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  835  			phy->sata_refclk_enabled = true;
-c934b3612747bd drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  836  		}
-c934b3612747bd drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  837  	}
-a70143bbef6bf0 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  838  
-d65ff52eb8ed5c drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  839  	generic_phy = devm_phy_create(dev, NULL, &ops);
-a70143bbef6bf0 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  840  	if (IS_ERR(generic_phy))
-a70143bbef6bf0 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  841  		return PTR_ERR(generic_phy);
-a70143bbef6bf0 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  842  
-a70143bbef6bf0 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  843  	phy_set_drvdata(generic_phy, phy);
-cc34ace73dfa24 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  844  
-cc34ace73dfa24 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  845  	ti_pipe3_power_off(generic_phy);
-cc34ace73dfa24 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  846  
-d65ff52eb8ed5c drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  847  	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
-045ef3115382fa drivers/phy/phy-ti-pipe3.c    Vivek Gautam           2016-10-20 @848  	return PTR_ERR_OR_ZERO(phy_provider);
-57f6ce072e3577 drivers/usb/phy/omap-usb3.c   Kishon Vijay Abraham I 2013-01-25  849  }
-57f6ce072e3577 drivers/usb/phy/omap-usb3.c   Kishon Vijay Abraham I 2013-01-25  850  
+vim +/i +3325 drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c
 
-:::::: The code at line 848 was first introduced by commit
-:::::: 045ef3115382fab2c16f2692411296ebfba60256 phy: Fix ptr_ret.cocci warnings
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3316  
+3ba317227aa416 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Umang Jain             2022-12-23  3317  int
+4ddf9a2555caf2 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Jamal Shareef          2019-11-05  3318  vchiq_connect_internal(struct vchiq_state *state, struct vchiq_instance *instance)
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3319  {
+7926c328d9586d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Dominic Braun          2018-12-14  3320  	struct vchiq_service *service;
+fbd06c751a5c20 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Umang Jain             2024-09-18  3321  	int status = 0;
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3322  	int i;
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3323  
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3324  	/* Find all services registered to this client and enable them. */
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02 @3325  	i = 0;
+8a7e5633b506d6 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Gaston Gonzalez        2021-10-24  3326  	while ((service = next_service_by_instance(state, instance, &i)) != NULL) {
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3327  		if (service->srvstate == VCHIQ_SRVSTATE_HIDDEN)
+69838a4e0c4a02 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Stefan Wahren          2022-01-23  3328  			set_service_state(service, VCHIQ_SRVSTATE_LISTENING);
+68a485965abad7 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Stefan Wahren          2021-06-03  3329  		vchiq_service_put(service);
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3330  	}
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3331  
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3332  	if (state->conn_state == VCHIQ_CONNSTATE_DISCONNECTED) {
+fbd06c751a5c20 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Umang Jain             2024-09-18  3333  		status = queue_message(state, NULL, MAKE_CONNECT, NULL, NULL, 0,
+fbd06c751a5c20 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Umang Jain             2024-09-18  3334  				       QMFLAGS_IS_BLOCKING);
+fbd06c751a5c20 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Umang Jain             2024-09-18  3335  		if (status)
+fbd06c751a5c20 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Umang Jain             2024-09-18  3336  			return status;
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3337  
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3338  		vchiq_set_conn_state(state, VCHIQ_CONNSTATE_CONNECTING);
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3339  	}
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3340  
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3341  	if (state->conn_state == VCHIQ_CONNSTATE_CONNECTING) {
+086efbabdc0456 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Nicolas Saenz Julienne 2019-05-09  3342  		if (wait_for_completion_interruptible(&state->connect))
+82a9eb4a3561e1 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Umang Jain             2022-12-23  3343  			return -EAGAIN;
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3344  
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3345  		vchiq_set_conn_state(state, VCHIQ_CONNSTATE_CONNECTED);
+f27e47bc6b8b96 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Nicolas Saenz Julienne 2018-11-20  3346  		complete(&state->connect);
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3347  	}
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3348  
+fbd06c751a5c20 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Umang Jain             2024-09-18  3349  	return status;
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3350  }
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3351  
+e39ff0e4eab67d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Stefan Wahren          2021-05-15  3352  void
+4ddf9a2555caf2 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Jamal Shareef          2019-11-05  3353  vchiq_shutdown_internal(struct vchiq_state *state, struct vchiq_instance *instance)
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3354  {
+7926c328d9586d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Dominic Braun          2018-12-14  3355  	struct vchiq_service *service;
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3356  	int i;
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3357  
+1d702f5962f79e drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Stefan Wahren          2021-05-15  3358  	/* Find all services registered to this client and remove them. */
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02 @3359  	i = 0;
+8a7e5633b506d6 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Gaston Gonzalez        2021-10-24  3360  	while ((service = next_service_by_instance(state, instance, &i)) != NULL) {
+14780bb174266e drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Adrien Thierry         2022-05-18  3361  		(void)vchiq_remove_service(instance, service->handle);
+68a485965abad7 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c Stefan Wahren          2021-06-03  3362  		vchiq_service_put(service);
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3363  	}
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3364  }
+71bad7f086419d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c popcornmix             2013-07-02  3365  
 
-:::::: TO: Vivek Gautam <vivek.gautam@codeaurora.org>
-:::::: CC: Kishon Vijay Abraham I <kishon@ti.com>
+:::::: The code at line 3325 was first introduced by commit
+:::::: 71bad7f086419dc674244b91ca35a12bfa4cb597 staging: add bcm2708 vchiq driver
+
+:::::: TO: popcornmix <popcornmix@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
