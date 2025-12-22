@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2FE242D72
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 19:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE86A199920
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 21:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766433324; cv=none; b=mVXbgxr2BsyMG9jR6dNXTybYsC2NCIq8u78hlE3W4trU97RNgLjkKgchyONS4JubIGJKpISJ+4QNlevwDx/rOcn+pG9Fcr0K8EWM3NBiUQKTG5MOps9687zcDNrJ3ek4jyaeotyUOBy++9A8YpWOA84qyBOh9pe90H/o0R/AMz4=
+	t=1766437311; cv=none; b=n6otzEhFRLX/DFDT0pR03bzsGq/2L6xJlSbhr4zJEwx2i3Gt3nIcPp0iNOCyu0Yeg4d7LQ7+WNhsxBTMof1W1pXiKL2lPubKmqQNSEGOe8/ulevfhfSZFXDmRRD2JfxZLu7k8HEYNeY15ez1MW34CnXVrizn6DyZa62wMw9N7I4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766433324; c=relaxed/simple;
-	bh=S87z9AjxtCpVg4RhXmd8vxGaw2F2WBZdYtTzu0hHhBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rtFroi0LtGznJOFWCMc308etIWT91zTHLEOIvVSwKh9SKutwBYpM+DqDAJsRojUVZ48BeEB+lICibICwwiT7XAJI+Vz6kE4a7J602HLQbWROwijJIYOyG0NGtjEqicGtG4+QikKcOGCSBnKJe5Zwq7/EDHniomIzTpB1plnUCVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nQMOvT/5; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1766437311; c=relaxed/simple;
+	bh=jr+9ZR0bhtwHYL+Px54PniGrlhG7NBFgj+7sX0oWkKs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DEMUEDw6rqazrcb2Tl4Np5w6GKXjb9tO82exl0U8JNyWDKLdwvNEc79mmZXa+q8pfUq9eZhLyf0P/SgtLM/TbggpKcvYRFxChiCMT+Wpq1yjP8nRkXdt4mLk+86pLIPoHUiD+ep8jIyI3/TJiitkzV7ZNsecWmSqge/LOg23wXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WjNLrpDx; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nQMOvT/5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WjNLrpDx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766433323; x=1797969323;
+  t=1766437309; x=1797973309;
   h=date:from:to:cc:subject:message-id;
-  bh=S87z9AjxtCpVg4RhXmd8vxGaw2F2WBZdYtTzu0hHhBQ=;
-  b=nQMOvT/5v0UZrsQiKSiW5ORIX798xN5ukJY6ngl9iC2BJnuCxKT1mAmB
-   eSVFShMgoESJUpWXjy4xyowUMYDlSRRHRhyr6tlYrqp56uJQZEE+EnN+W
-   LM/QYeuu+SypQjosCjv53rm1tG+6RCo0jqDoDQIRSzsBFPN9GL4MQUgFV
-   oDxJzK5gtNP5FBj4sErn51wMqAShMAm+1I4KvTx3Ieb+SamUoA8oZyLit
-   1hhhpLF6Fq6G0+ODVoBoTmnWzvzco6xUzvPjwmW4A0tYUpC+wkpK9vRYT
-   b1faHvZUHRcNXqUbHgk+wOq4e8rsJ0zL34M9NTCUuf9kx8Eihhnyfj7V6
+  bh=jr+9ZR0bhtwHYL+Px54PniGrlhG7NBFgj+7sX0oWkKs=;
+  b=WjNLrpDxfSFf3UX3skJvX2crNiebgu1ERJslVPVtdQ7ufTs3j6ac82aA
+   qAt/yN3G65uBxloY+vHP7QYzLv5oascTKyBAgzODDii+iOsIsMhOsBkxw
+   L86dmVkJx/ZjGmIUUWRz8vWCAizRKu3K9QRlfPZz3fLByQDkPYUXCT0/O
+   kock4Cq/v+lRMqZfJ6mO4nMndfF7oPlMes99N+QTzv6rpcTQ8Fe3NNKyr
+   6RF8KoL6lCW6sTIxOpA1H/qEgkO53IWm0PNy30f9f8+jjLCfbxUlvdv6X
+   IWJnmWyukApJfDz0Wzc207U0fKZiGZOB0yHC81L4TLOSSYyr31OdmRNRl
    w==;
-X-CSE-ConnectionGUID: OrGU34dLTreU23VloNlq+Q==
-X-CSE-MsgGUID: v6dNwfPUQlGS9PHAyXVl1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68274156"
+X-CSE-ConnectionGUID: Yz+kvfenQm27yKWDZVDDEg==
+X-CSE-MsgGUID: L9cwzrWEQg2TrNd+ZslnjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="67288047"
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="68274156"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 11:55:23 -0800
-X-CSE-ConnectionGUID: 8TLv85soTBCuDuOEgHZZZw==
-X-CSE-MsgGUID: lM6hMeSZRlCR/F6qAcscxw==
+   d="scan'208";a="67288047"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 13:01:48 -0800
+X-CSE-ConnectionGUID: vqboNXTdSYaLhxdtBmJ09g==
+X-CSE-MsgGUID: cH53SqRORXCcq4hpFnPsRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="237011339"
+   d="scan'208";a="204567034"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 22 Dec 2025 11:55:21 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 22 Dec 2025 13:01:46 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXlzy-0000000013o-3f4D;
-	Mon, 22 Dec 2025 19:55:18 +0000
-Date: Tue, 23 Dec 2025 03:55:06 +0800
+	id 1vXn2G-0000000016f-11ey;
+	Mon, 22 Dec 2025 21:01:44 +0000
+Date: Tue, 23 Dec 2025 05:00:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 458/799]
- fs/bcachefs/btree/node_scan.c:63 found_btree_node_to_key() error:
- __builtin_memcpy() 'bp->v.start' too small (40 vs 1960)
-Message-ID: <202512230338.1yErYVc8-lkp@intel.com>
+Subject: [bcachefs:bcachefs-testing 12/24]
+ fs/bcachefs/fs/check.c:1331 bch2_check_key_has_inode() error: we previously
+ assumed 'i' could be null (see line 1266)
+Message-ID: <202512230408.qgdGjfpe-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,54 +62,147 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+CC: Kent Overstreet <kent.overstreet@linux.dev>
 TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-Hi Kent,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
-head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
-commit: caf90d22262c52f7c29c4b08bd50f2a27d3dbe25 [458/799] bcachefs: move btree files to subdir
-:::::: branch date: 6 weeks ago
-:::::: commit date: 8 weeks ago
-config: sparc-randconfig-r071-20251223 (https://download.01.org/0day-ci/archive/20251223/202512230338.1yErYVc8-lkp@intel.com/config)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   cd5dbb18d54811800790a91bc389b56210cfaed2
+commit: 2f2a1c5cbc324204379c68bd25fda1a69c7ec5f4 [12/24] bcachefs: Improve bch2_check_key_has_inode()
+:::::: branch date: 15 hours ago
+:::::: commit date: 18 hours ago
+config: sparc-randconfig-r071-20251223 (https://download.01.org/0day-ci/archive/20251223/202512230408.qgdGjfpe-lkp@intel.com/config)
 compiler: sparc64-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512230338.1yErYVc8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512230408.qgdGjfpe-lkp@intel.com/
 
-smatch warnings:
-fs/bcachefs/btree/node_scan.c:63 found_btree_node_to_key() error: __builtin_memcpy() 'bp->v.start' too small (40 vs 1960)
-fs/bcachefs/btree/node_scan.c:63 found_btree_node_to_key() error: __builtin_memcpy() 'f->ptrs' too small (32 vs 1960)
+New smatch warnings:
+fs/bcachefs/fs/check.c:1331 bch2_check_key_has_inode() error: we previously assumed 'i' could be null (see line 1266)
 
-vim +63 fs/bcachefs/btree/node_scan.c
+Old smatch warnings:
+fs/bcachefs/fs/check.c:185 lookup_lostfound() error: uninitialized symbol 'subvolid'.
 
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  50  
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  51  static void found_btree_node_to_key(struct bkey_i *k, const struct found_btree_node *f)
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  52  {
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  53  	struct bkey_i_btree_ptr_v2 *bp = bkey_btree_ptr_v2_init(k);
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  54  
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  55  	set_bkey_val_u64s(&bp->k, sizeof(struct bch_btree_ptr_v2) / sizeof(u64) + f->nr_ptrs);
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  56  	bp->k.p			= f->max_key;
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  57  	bp->v.seq		= cpu_to_le64(f->cookie);
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  58  	bp->v.sectors_written	= 0;
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  59  	bp->v.flags		= 0;
-f7c3dc2646584c fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-04-25  60  	bp->v.sectors_written	= cpu_to_le16(f->sectors_written);
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  61  	bp->v.min_key		= f->min_key;
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  62  	SET_BTREE_PTR_RANGE_UPDATED(&bp->v, f->range_updated);
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11 @63  	memcpy(bp->v.start, f->ptrs, sizeof(struct bch_extent_ptr) * f->nr_ptrs);
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  64  }
-4409b8081d1624 fs/bcachefs/btree_node_scan.c Kent Overstreet 2024-03-11  65  
+vim +/i +1331 fs/bcachefs/fs/check.c
 
-:::::: The code at line 63 was first introduced by commit
-:::::: 4409b8081d1624af814a9cda781ad9cdda3973cb bcachefs: Repair pass for scanning for btree nodes
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1254  
+d08a170ec3e7db fs/bcachefs/fs/check.c Kent Overstreet 2025-10-04  1255  int bch2_check_key_has_inode(struct btree_trans *trans,
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1256  			     struct btree_iter *iter,
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1257  			     struct inode_walker *inode,
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1258  			     struct inode_walker_entry *i,
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1259  			     struct bkey_s_c k)
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1260  {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1261  	errptr_try(i);
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1262  
+13ab885706d6f0 fs/bcachefs/fsck.c     Kent Overstreet 2025-07-24  1263  	if (bkey_extent_whiteout(k.k))
+f6ecd9850b5e0b fs/bcachefs/fsck.c     Kent Overstreet 2025-07-30  1264  		return 0;
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1265  
+855070dc0b349e fs/bcachefs/fsck.c     Kent Overstreet 2025-05-03 @1266  	bool have_inode = i && !i->whiteout;
+855070dc0b349e fs/bcachefs/fsck.c     Kent Overstreet 2025-05-03  1267  
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1268  	if (have_inode && btree_matches_i_mode(iter->btree_id, i->inode.bi_mode))
+f6ecd9850b5e0b fs/bcachefs/fsck.c     Kent Overstreet 2025-07-30  1269  		return 0;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1270  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1271  	struct bch_fs *c = trans->c;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1272  	CLASS(printbuf, buf)();
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1273  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1274  	if (have_inode)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1275  		prt_printf(&buf, "key for wrong inode mode %o", i->inode.bi_mode);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1276  	else
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1277  		prt_str(&buf, "key in missing inode");
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1278  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1279  	struct inode_walker_entry *good_ancestor = NULL;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1280  	darray_for_each(inode->inodes, i2)
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1281  		if (!i2->whiteout &&
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1282  		    bch2_snapshot_is_ancestor(c, k.k->p.snapshot, i2->inode.bi_snapshot) &&
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1283  		    btree_matches_i_mode(iter->btree_id, i2->inode.bi_mode)) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1284  			prt_printf(&buf, ", but found good inode in older snapshot");
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1285  			bch2_inode_unpacked_to_text(&buf, &i2->inode);
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1286  			prt_newline(&buf);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1287  			good_ancestor = i2;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1288  			break;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1289  		}
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1290  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1291  	prt_printf(&buf, "\nfound keys:\n");
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1292  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1293  	struct bpos inode_pos = SPOS(k.k->p.inode, 0, k.k->p.snapshot);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1294  	int ret = count_inode_keys(trans, inode_pos, iter->btree_id, &buf);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1295  	if (ret < 0)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1296  		return ret;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1297  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1298  	unsigned nr_keys = ret;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1299  	if (!nr_keys) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1300  		bch_err(c, "%s: error finding live keys in inode", __func__);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1301  		return bch_err_throw(c, shutdown_with_errors_unfixed);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1302  	}
+4a7e1e4ce94f54 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-30  1303  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1304  	if (nr_keys > 100)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1305  		prt_printf(&buf, "found > %u keys for this inode\n", nr_keys);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1306  	else
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1307  		prt_printf(&buf, "found %u keys for this inode\n", nr_keys);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1308  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1309  	if (c->sb.btrees_lost_data & BIT_ULL(BTREE_ID_inodes))
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1310  		prt_str(&buf, "data was lost in inodes btree\n");
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1311  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1312  	if (!have_inode) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1313  		bool inode_looks_deleted =
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1314  			good_ancestor &&
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1315  			nr_keys < 3 &&
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1316  			!(c->sb.btrees_lost_data & BIT_ULL(BTREE_ID_inodes));
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1317  		if (inode_looks_deleted)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1318  			prt_str(&buf, "inode was deleted, will delete key\n");
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1319  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1320  		if (ret_fsck_err(trans, key_in_missing_inode, "%s", buf.buf)) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1321  			if (inode_looks_deleted)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1322  				return bch2_btree_delete_at(trans, iter, BTREE_UPDATE_internal_snapshot_node);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1323  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1324  			if (!good_ancestor) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1325  				try(reconstruct_inode(trans, iter->btree_id, k.k->p.snapshot, k.k->p.inode));
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1326  				try(bch2_trans_commit(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc));
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1327  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1328  				inode->last_pos.inode--;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1329  				return bch_err_throw(c, transaction_restart_commit);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1330  			} else {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20 @1331  				u32 snapshot = i->inode.bi_snapshot;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1332  				i->inode = good_ancestor->inode;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1333  				i->inode.bi_snapshot = snapshot;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1334  				try(bch2_fsck_write_inode(trans, &i->inode));
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1335  				try(bch2_trans_commit_lazy(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc));
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1336  			}
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1337  		}
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1338  	} else {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1339  		if (ret_fsck_err(trans, key_in_wrong_inode_type, "%s", buf.buf)) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1340  			int nr_extents = iter->btree_id == BTREE_ID_extents
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1341  				? nr_keys : count_inode_keys(trans, inode_pos, BTREE_ID_extents, NULL);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1342  			if (nr_extents < 0)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1343  				return nr_extents;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1344  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1345  			int nr_dirents = iter->btree_id == BTREE_ID_dirents
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1346  				? nr_keys : count_inode_keys(trans, inode_pos, BTREE_ID_dirents, NULL);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1347  			if (nr_dirents < 0)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1348  				return nr_dirents;
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1349  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1350  			if (nr_extents && nr_dirents) {
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1351  				bch_err(c, "have both extents and dirents for inode with bad mode, cannot repair");
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1352  				return bch_err_throw(c, shutdown_with_errors_unfixed);
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1353  			}
+4a7e1e4ce94f54 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-30  1354  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1355  			i->inode.bi_mode &= ~S_IFMT;
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1356  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1357  			if (nr_dirents)
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1358  				i->inode.bi_mode |= S_IFDIR;
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1359  			else
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1360  				i->inode.bi_mode |= S_IFREG;
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1361  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1362  			try(bch2_fsck_write_inode(trans, &i->inode));
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1363  			try(bch2_trans_commit_lazy(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc));
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1364  		}
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1365  	}
+f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1366  
+2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1367  	return 0;
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1368  }
+c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1369  
 
 -- 
 0-DAY CI Kernel Test Service
