@@ -1,191 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58EE663CB
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 21:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F9D31159C
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 22:39:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766438768; cv=none; b=e2yX4/L7FJl/B20zlqm0JFvTmOp5G9+kHU2qjQ/jXeE8CCxndyMjbkB6DMWkaeiyIzMwl+rPdyh/3MaZU1O6hPJuU2BPeTLxPaREVk5XwxjSYe4nfkcZnp2i563+mzeO+JyEeYd51OK7LZ5LcgNP6Vp1E3G1F4lLe6V22K0oh34=
+	t=1766443170; cv=none; b=Cx0FAaaA/Jci1BO0r1zn/C+qIX2FVETso3SHpQ65Bm1OTF7YjxA16Vy3E5EEVp0To8b3qDRtC8SrtG3ccZH58qfD2MhzTEX05lVf5MrfpMrJ49aNpFFTc8Gr0te8YLFOweqH4lZjNhwhSsmYewZ2KnXGvJEnivKvqz5qE+5Ydio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766438768; c=relaxed/simple;
-	bh=gMoYrbHYYVY39CCv9b/Dap3AvT5lVeG7JNkm/LewUKw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YurSdzoMVjgVf3S+cCDK5WghiObPmVkBcqPrABypQmpNy3nVgNRDwG1u3DVrTFjIpvvNXTd4K94PVW9ezN8vU0036l1pwseeBjyWeNMrkxVAoSs+ITSFD7upUGq1PMrdCL6kKuhTp3yoZwQkF4cHfAVC+upIftWPwHcm78BD7F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rcg+gjq2; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1766443170; c=relaxed/simple;
+	bh=hLFEqqr/enUoJaTUlSEBiKrR7Sl+td9ZM7lNo1dew+8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pnbO+Hi25ddLj3SYUALIF3K3N0qIKFC5IUBcBwJ22SR/8q6ieiLNGEOexx+UcQH92SinS5ZWRb7kcFdYt8PBnJuzqznvKD+TMx6J2b+uwQ+vtDSZjUD2BS6T2lr1YT3MyABe1TXzwLuPDkqnAapIdEbC8oSp3SMC/XnC4RKu2JA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RpSko6F4; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rcg+gjq2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RpSko6F4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766438766; x=1797974766;
-  h=date:from:to:cc:subject:message-id;
-  bh=gMoYrbHYYVY39CCv9b/Dap3AvT5lVeG7JNkm/LewUKw=;
-  b=Rcg+gjq2hnzFnO9NXyipg3GP0MjIwk/BsizJM7XBPClTI4RnBH3yYZ6X
-   +9FbOUW12ZNni0IDGt392ixUk/t1UtSJLue8flDsy4t1A8dawp2iIKZGi
-   gLeF7Ku8VZJt3DwFGFDX76Jqa//dn+biLe8sWg0TU2YU8l88tEb/+9lju
-   CTY1tMpwYwaZn8hzFk0n6sODi34VoSP7NIhTENKVY2SxHyOaF9yDGglCz
-   aqsCkvA5rKRW6TP7NolZ3vslnqHe8pfl4SN4+pFOgpEQAgLcexdqNc6Fz
-   FvsL7ijIuP7XsWbO3V/FSy9kdODxMHVRfQkaiywt6F9c/f6N6qvkmp9Y9
+  t=1766443168; x=1797979168;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hLFEqqr/enUoJaTUlSEBiKrR7Sl+td9ZM7lNo1dew+8=;
+  b=RpSko6F4K/fXl3FHngzmLqbqwybB6j6LavfmVMOnRBzAn+8G4sudo49f
+   SOlt4/JectpnC28466uCcR/jvS88SHtPTrKFpRMdYH9wJb67cLgWD7TRE
+   MIP3hx9hIpM5ZIi9uCvl1FRiJE6P3fre9jzaCXVexwe1PS+Dtag2BEgTU
+   uxITY80qPlnQOwb2Rg14oZQg6NdxdpG9k08Vew7OPlz+AbhWeXsQHd6JE
+   AgT6SDz+vV6brABTkSRUdEOSaVyqUd1HAUowuo7SnX/W92SkdwG7GOywu
+   2gySmBSsXQLEcoto5Sow6naWpS1aBLOtWW06r2Q6ht2jcuhCCmMalTZXP
    Q==;
-X-CSE-ConnectionGUID: WhK3XBCPSk+UF8KA/Z/46w==
-X-CSE-MsgGUID: 66GXcLIpSTiHp8iWVULg2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68232975"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68232975"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 13:26:06 -0800
-X-CSE-ConnectionGUID: drC3o8f5Rc6FcV81BE7BaA==
-X-CSE-MsgGUID: 2YvlNCshRPO4/7x7zIU8dQ==
+X-CSE-ConnectionGUID: DfVMSyq1RBykKEw0FutYXQ==
+X-CSE-MsgGUID: sFE2zDrbQZ2xaNjwzfmSOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68340707"
+X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
+   d="scan'208";a="68340707"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 14:39:27 -0800
+X-CSE-ConnectionGUID: xjEQ0xe1RKKay7GAR93hxg==
+X-CSE-MsgGUID: mxZejDkqQI6gmVIojZghgQ==
 X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Dec 2025 13:26:05 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
+   d="scan'208";a="200125772"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 22 Dec 2025 14:39:26 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXnPD-0000000018R-2ier;
-	Mon, 22 Dec 2025 21:25:36 +0000
-Date: Tue, 23 Dec 2025 05:23:19 +0800
+	id 1vXoYm-000000005e4-1hsT;
+	Mon, 22 Dec 2025 22:39:24 +0000
+Date: Mon, 22 Dec 2025 23:39:15 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: lib/test_bitmap.c:1269:2: error: call to
- '__compiletime_assert_268' declared with 'error' attribute: BUILD_BUG_ON
- failed: !__builtin_constant_p(res)
-Message-ID: <202512230532.mEJxJ3nj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH] dt-bindings: arm: vexpress-config: Update clock and
+ regulator node names
+Message-ID: <202512222312.Twb9vQqw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Uros Bizjak <ubizjak@gmail.com>
-CC: Ingo Molnar <mingo@kernel.org>
+In-Reply-To: <20251215212914.3323741-1-robh@kernel.org>
+References: <20251215212914.3323741-1-robh@kernel.org>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
 
-Hi Uros,
+Hi Rob,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b927546677c876e26eba308550207c2ddf812a43
-commit: 194a613088a8c9dae300dfb08433287cee803e8d x86/hweight: Use ASM_CALL_CONSTRAINT in inline asm()
-date:   9 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 9 months ago
-config: x86_64-buildonly-randconfig-002-20251223 (https://download.01.org/0day-ci/archive/20251223/202512230532.mEJxJ3nj-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230532.mEJxJ3nj-lkp@intel.com/reproduce)
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk/for-next krzk-mem-ctrl/for-next krzk-dt/for-next linus/master v6.16-rc1]
+[cannot apply to next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-arm-vexpress-config-Update-clock-and-regulator-node-names/20251216-053816
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20251215212914.3323741-1-robh%40kernel.org
+patch subject: [PATCH] dt-bindings: arm: vexpress-config: Update clock and regulator node names
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: arm-randconfig-2052-20251217 (https://download.01.org/0day-ci/archive/20251222/202512222312.Twb9vQqw-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512222312.Twb9vQqw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512230532.mEJxJ3nj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512222312.Twb9vQqw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> lib/test_bitmap.c:1269:2: error: call to '__compiletime_assert_268' declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(res)
-    1269 |         BUILD_BUG_ON(!__builtin_constant_p(res));
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:542:2: note: expanded from macro 'compiletime_assert'
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:530:2: note: expanded from macro '_compiletime_assert'
-     530 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:523:4: note: expanded from macro '__compiletime_assert'
-     523 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:67:1: note: expanded from here
-      67 | __compiletime_assert_268
-         | ^
-   1 error generated.
-
-
-vim +1269 lib/test_bitmap.c
-
-291f93ca339f5b Barry Song        2021-08-06  1227  
-2356d198d2b4dd Yury Norov        2023-07-17  1228  /*
-2356d198d2b4dd Yury Norov        2023-07-17  1229   * FIXME: Clang breaks compile-time evaluations when KASAN and GCOV are enabled.
-2356d198d2b4dd Yury Norov        2023-07-17  1230   * To workaround it, GCOV is force-disabled in Makefile for this configuration.
-2356d198d2b4dd Yury Norov        2023-07-17  1231   */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1232  static void __init test_bitmap_const_eval(void)
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1233  {
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1234  	DECLARE_BITMAP(bitmap, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1235  	unsigned long initvar = BIT(2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1236  	unsigned long bitopvar = 0;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1237  	unsigned long var = 0;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1238  	int res;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1239  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1240  	/*
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1241  	 * Compilers must be able to optimize all of those to compile-time
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1242  	 * constants on any supported optimization level (-O2, -Os) and any
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1243  	 * architecture. Otherwise, trigger a build bug.
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1244  	 * The whole function gets optimized out then, there's nothing to do
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1245  	 * in runtime.
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1246  	 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1247  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1248  	/* Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1249  	bitmap_clear(bitmap, 0, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1250  	if (!test_bit(7, bitmap))
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1251  		bitmap_set(bitmap, 5, 2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1252  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1253  	/* Equals to `unsigned long bitopvar = BIT(20)` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1254  	__change_bit(31, &bitopvar);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1255  	bitmap_shift_right(&bitopvar, &bitopvar, 11, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1256  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1257  	/* Equals to `unsigned long var = BIT(25)` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1258  	var |= BIT(25);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1259  	if (var & BIT(0))
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1260  		var ^= GENMASK(9, 6);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1261  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1262  	/* __const_hweight<32|64>(GENMASK(6, 5)) == 2 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1263  	res = bitmap_weight(bitmap, 20);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1264  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1265  	BUILD_BUG_ON(res != 2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1266  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1267  	/* !(BIT(31) & BIT(18)) == 1 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1268  	res = !test_bit(18, &bitopvar);
-dc34d5036692c6 Alexander Lobakin 2022-06-24 @1269  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1270  	BUILD_BUG_ON(!res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1271  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1272  	/* BIT(2) & GENMASK(14, 8) == 0 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1273  	res = initvar & GENMASK(14, 8);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1274  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1275  	BUILD_BUG_ON(res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1276  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1277  	/* ~BIT(25) */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1278  	BUILD_BUG_ON(!__builtin_constant_p(~var));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1279  	BUILD_BUG_ON(~var != ~BIT(25));
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1280  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1281  	/* ~BIT(25) | BIT(25) == ~0UL */
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1282  	bitmap_complement(&var, &var, BITS_PER_LONG);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1283  	__assign_bit(25, &var, true);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1284  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1285  	/* !(~(~0UL)) == 1 */
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1286  	res = bitmap_full(&var, BITS_PER_LONG);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1287  	BUILD_BUG_ON(!__builtin_constant_p(res));
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1288  	BUILD_BUG_ON(!res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1289  }
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1290  
-
-:::::: The code at line 1269 was first introduced by commit
-:::::: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
-
-:::::: TO: Alexander Lobakin <alexandr.lobakin@intel.com>
-:::::: CC: Yury Norov <yury.norov@gmail.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/arm/vexpress-v2m-rs1.dtsi:419.9-490.7: Warning (simple_bus_reg): /bus@8000000/motherboard-bus@8000000/iofpga-bus@300000000/mcc: missing or empty reg/ranges property
+   arch/arm/boot/dts/arm/vexpress-v2m-rs1.dtsi:366.13-376.9: Warning (graph_child_address): /bus@8000000/motherboard-bus@8000000/iofpga-bus@300000000/i2c@160000/dvi-transmitter@39/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm/boot/dts/arm/vexpress-v2p-ca5s.dtb: / (arm,vexpress,v2p-ca5s): bus@8000000: Unevaluated properties are not allowed ('#interrupt-cells', 'interrupt-map', 'interrupt-map-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/arm,vexpress-juno.yaml
+   arch/arm/boot/dts/arm/vexpress-v2p-ca5s.dtb: iofpga-bus@300000000 (simple-bus): mcc: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/arm/vexpress-v2p-ca5s.dtb: mcc (arm,vexpress,config-bus): 'oscclk0', 'oscclk1', 'oscclk2', 'volt-vio' do not match any of the regexes: '^amp-.+$', '^clock-controller.*$', '^energy(-.+)?$', '^pinctrl-[0-9]+$', '^power-.+$', '^regulator-.+$', '^reset[0-9]*$', '^temp-.+$'
+   	from schema $id: http://devicetree.org/schemas/arm/vexpress-config.yaml
+   arch/arm/boot/dts/arm/vexpress-v2p-ca5s.dtb: hdlcd@2a110000 (arm,hdlcd): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/arm,hdlcd.yaml
+   arch/arm/boot/dts/arm/vexpress-v2p-ca5s.dtb: /memory-controller@2a150000: failed to match any schema with compatible: ['arm,pl341', 'arm,primecell']
+   arch/arm/boot/dts/arm/vexpress-v2p-ca5s.dtb: timer@2c000200 (arm,cortex-a5-global-timer): compatible: ['arm,cortex-a5-global-timer', 'arm,cortex-a9-global-timer'] is too long
+   	from schema $id: http://devicetree.org/schemas/timer/arm,global_timer.yaml
+   arch/arm/boot/dts/arm/vexpress-v2p-ca5s.dtb: interrupt-controller@2c001000 (arm,cortex-a5-gic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['arm,cortex-a5-gic', 'arm,cortex-a9-gic'] is too long
+   	arch/arm/boot/dts/arm/vexpress-v2p-ca5s.dtb: interrupt-controller@2c001000 (arm,cortex-a5-gic): compatible: 'oneOf' conditional failed, one must be fixed:
+   		['arm,cortex-a5-gic', 'arm,cortex-a9-gic'] is too long
+--
+   arch/arm/boot/dts/arm/vexpress-v2m-rs1.dtsi:419.9-490.7: Warning (simple_bus_reg): /bus@8000000/motherboard-bus@8000000/iofpga-bus@300000000/mcc: missing or empty reg/ranges property
+   arch/arm/boot/dts/arm/vexpress-v2m-rs1.dtsi:366.13-376.9: Warning (graph_child_address): /bus@8000000/motherboard-bus@8000000/iofpga-bus@300000000/i2c@160000/dvi-transmitter@39/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm/boot/dts/arm/vexpress-v2p-ca15-tc1.dtb: / (arm,vexpress,v2p-ca15,tc1): bus@8000000: Unevaluated properties are not allowed ('#interrupt-cells', 'interrupt-map', 'interrupt-map-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/arm,vexpress-juno.yaml
+   arch/arm/boot/dts/arm/vexpress-v2p-ca15-tc1.dtb: iofpga-bus@300000000 (simple-bus): mcc: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/arm/vexpress-v2p-ca15-tc1.dtb: mcc (arm,vexpress,config-bus): 'oscclk0', 'oscclk1', 'oscclk2', 'volt-vio' do not match any of the regexes: '^amp-.+$', '^clock-controller.*$', '^energy(-.+)?$', '^pinctrl-[0-9]+$', '^power-.+$', '^regulator-.+$', '^reset[0-9]*$', '^temp-.+$'
+   	from schema $id: http://devicetree.org/schemas/arm/vexpress-config.yaml
+   arch/arm/boot/dts/arm/vexpress-v2p-ca15-tc1.dtb: hdlcd@2b000000 (arm,hdlcd): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/arm,hdlcd.yaml
+   arch/arm/boot/dts/arm/vexpress-v2p-ca15-tc1.dtb: /memory-controller@2b0a0000: failed to match any schema with compatible: ['arm,pl341', 'arm,primecell']
+   arch/arm/boot/dts/arm/vexpress-v2p-ca15-tc1.dtb: wdt@2b060000 (arm,sp805): $nodename:0: 'wdt@2b060000' does not match '^(timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/arm,sp805.yaml
+   arch/arm/boot/dts/arm/vexpress-v2p-ca15-tc1.dtb: interrupt-controller@2c001000 (arm,cortex-a15-gic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['arm,cortex-a15-gic', 'arm,cortex-a9-gic'] is too long
+   	arch/arm/boot/dts/arm/vexpress-v2p-ca15-tc1.dtb: interrupt-controller@2c001000 (arm,cortex-a15-gic): compatible: 'oneOf' conditional failed, one must be fixed:
+   		['arm,cortex-a15-gic', 'arm,cortex-a9-gic'] is too long
+--
+   arch/arm/boot/dts/arm/vexpress-v2m-rs1.dtsi:419.9-490.7: Warning (simple_bus_reg): /bus@8000000/motherboard-bus@8000000/iofpga-bus@300000000/mcc: missing or empty reg/ranges property
+   arch/arm/boot/dts/arm/vexpress-v2m-rs1.dtsi:366.13-376.9: Warning (graph_child_address): /bus@8000000/motherboard-bus@8000000/iofpga-bus@300000000/i2c@160000/dvi-transmitter@39/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm/boot/dts/arm/vexpress-v2p-ca15_a7.dtb: / (arm,vexpress,v2p-ca15_a7): bus@8000000: Unevaluated properties are not allowed ('#interrupt-cells', 'interrupt-map', 'interrupt-map-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/arm,vexpress-juno.yaml
+   arch/arm/boot/dts/arm/vexpress-v2p-ca15_a7.dtb: iofpga-bus@300000000 (simple-bus): mcc: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/arm/vexpress-v2p-ca15_a7.dtb: mcc (arm,vexpress,config-bus): 'oscclk0', 'oscclk1', 'oscclk2', 'volt-vio' do not match any of the regexes: '^amp-.+$', '^clock-controller.*$', '^energy(-.+)?$', '^pinctrl-[0-9]+$', '^power-.+$', '^regulator-.+$', '^reset[0-9]*$', '^temp-.+$'
+   	from schema $id: http://devicetree.org/schemas/arm/vexpress-config.yaml
+   arch/arm/boot/dts/arm/vexpress-v2p-ca15_a7.dtb: wdt@2a490000 (arm,sp805): $nodename:0: 'wdt@2a490000' does not match '^(timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/arm,sp805.yaml
+   arch/arm/boot/dts/arm/vexpress-v2p-ca15_a7.dtb: hdlcd@2b000000 (arm,hdlcd): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/arm,hdlcd.yaml
+   arch/arm/boot/dts/arm/vexpress-v2p-ca15_a7.dtb: /memory-controller@2b0a0000: failed to match any schema with compatible: ['arm,pl341', 'arm,primecell']
+   arch/arm/boot/dts/arm/vexpress-v2p-ca15_a7.dtb: interrupt-controller@2c001000 (arm,cortex-a15-gic): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['arm,cortex-a15-gic', 'arm,cortex-a9-gic'] is too long
+   	arch/arm/boot/dts/arm/vexpress-v2p-ca15_a7.dtb: interrupt-controller@2c001000 (arm,cortex-a15-gic): compatible: 'oneOf' conditional failed, one must be fixed:
+   		['arm,cortex-a15-gic', 'arm,cortex-a9-gic'] is too long
 
 -- 
 0-DAY CI Kernel Test Service
