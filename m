@@ -1,208 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE86A199920
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 21:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B02033290B
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 21:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766437311; cv=none; b=n6otzEhFRLX/DFDT0pR03bzsGq/2L6xJlSbhr4zJEwx2i3Gt3nIcPp0iNOCyu0Yeg4d7LQ7+WNhsxBTMof1W1pXiKL2lPubKmqQNSEGOe8/ulevfhfSZFXDmRRD2JfxZLu7k8HEYNeY15ez1MW34CnXVrizn6DyZa62wMw9N7I4=
+	t=1766437987; cv=none; b=JYE8Wxt6D5uu0u/UeLeTLd656Hmid8zhNtoXIZlEhfVwn8C9tGvmFRfHjFx3ty7x+7UDyfQDvcitlcxUhTzicqo0XtNYak0cuHbY2q7UOCh4PMdDbLXI97yZpbt9WWfzx5XfcrjyN202E5bNwKb+BXZsMgKeCgFsUlecyI4BG2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766437311; c=relaxed/simple;
-	bh=jr+9ZR0bhtwHYL+Px54PniGrlhG7NBFgj+7sX0oWkKs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DEMUEDw6rqazrcb2Tl4Np5w6GKXjb9tO82exl0U8JNyWDKLdwvNEc79mmZXa+q8pfUq9eZhLyf0P/SgtLM/TbggpKcvYRFxChiCMT+Wpq1yjP8nRkXdt4mLk+86pLIPoHUiD+ep8jIyI3/TJiitkzV7ZNsecWmSqge/LOg23wXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WjNLrpDx; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1766437987; c=relaxed/simple;
+	bh=qECI2448fGwqDm9disW5wB5HkiH0EvBSABxWi0tlpvM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=auB9voPEWw7u1knTEdfaqde0MY08iqNOhxfKH1R04a7VWQp32KgbUdrpTQWxeFWHHInXmoZ7zPuAkEI3HnepfKjyhzBn78Nd1bT79HmsRv0ZcMMd1L+W9C/Pqpimr00fhn9tVTHUXjGObpMlI2eXBp77CHff9fmqU7oOqW5d28o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlxZ48yW; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WjNLrpDx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlxZ48yW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766437309; x=1797973309;
-  h=date:from:to:cc:subject:message-id;
-  bh=jr+9ZR0bhtwHYL+Px54PniGrlhG7NBFgj+7sX0oWkKs=;
-  b=WjNLrpDxfSFf3UX3skJvX2crNiebgu1ERJslVPVtdQ7ufTs3j6ac82aA
-   qAt/yN3G65uBxloY+vHP7QYzLv5oascTKyBAgzODDii+iOsIsMhOsBkxw
-   L86dmVkJx/ZjGmIUUWRz8vWCAizRKu3K9QRlfPZz3fLByQDkPYUXCT0/O
-   kock4Cq/v+lRMqZfJ6mO4nMndfF7oPlMes99N+QTzv6rpcTQ8Fe3NNKyr
-   6RF8KoL6lCW6sTIxOpA1H/qEgkO53IWm0PNy30f9f8+jjLCfbxUlvdv6X
-   IWJnmWyukApJfDz0Wzc207U0fKZiGZOB0yHC81L4TLOSSYyr31OdmRNRl
-   w==;
-X-CSE-ConnectionGUID: Yz+kvfenQm27yKWDZVDDEg==
-X-CSE-MsgGUID: L9cwzrWEQg2TrNd+ZslnjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="67288047"
+  t=1766437982; x=1797973982;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qECI2448fGwqDm9disW5wB5HkiH0EvBSABxWi0tlpvM=;
+  b=XlxZ48yWpmkjYYzslZJwtxDDVjhVOwSluz3woRuIWQ0HZY7OyIXaySUO
+   k1yQyrHMZz0f6IvJAX5BD/YxAjkk6p9+J8k6EwsKt5LXs1KpYGj3UlLmB
+   8Qcj0Pf/WNdfKf5C+oev7Kd5f557bEDpTkD0dNIH2eU628rZ/Uc0H13/4
+   0mjvHlodKG3eM7Jm02zm8KgsZ/y2GX0JNPcd5OrCOmrRmCx35jKqi5J37
+   0w/xk82sadHAAhBbSaXVbHeYn8oBaTbDdcpLZQAWLRqw4VG5Z0UHqaQ6m
+   rL3vrBSezxnAxwBpw5D1dpMa2k1s9XgVi1+YftKylkih6i8za2f3dzPF6
+   Q==;
+X-CSE-ConnectionGUID: uwCjgCw+QFWwYgWDfgZ/LQ==
+X-CSE-MsgGUID: UmOG/FodSL+cxPs61D72BA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="67489861"
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="67288047"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 13:01:48 -0800
-X-CSE-ConnectionGUID: vqboNXTdSYaLhxdtBmJ09g==
-X-CSE-MsgGUID: cH53SqRORXCcq4hpFnPsRQ==
+   d="scan'208";a="67489861"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 13:13:01 -0800
+X-CSE-ConnectionGUID: JPKsrKXoQ4+uNdiQBuwVWw==
+X-CSE-MsgGUID: qqkp6DDxRbK9qBtjbLqj3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="204567034"
+   d="scan'208";a="203742507"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Dec 2025 13:01:46 -0800
+  by orviesa003.jf.intel.com with ESMTP; 22 Dec 2025 13:13:01 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXn2G-0000000016f-11ey;
-	Mon, 22 Dec 2025 21:01:44 +0000
-Date: Tue, 23 Dec 2025 05:00:47 +0800
+	id 1vXnD3-0000000017R-2wqA;
+	Mon, 22 Dec 2025 21:12:54 +0000
+Date: Tue, 23 Dec 2025 05:12:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [bcachefs:bcachefs-testing 12/24]
- fs/bcachefs/fs/check.c:1331 bch2_check_key_has_inode() error: we previously
- assumed 'i' could be null (see line 1266)
-Message-ID: <202512230408.qgdGjfpe-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 2/4] pwm: sun50i: Add H616 PWM support
+Message-ID: <202512230430.NdRQiynO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/pwm/pwm-sun50i-h616.c:890:1: sparse: sparse: bad integer constant expression"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Kent Overstreet <kent.overstreet@linux.dev>
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+In-Reply-To: <20251217082504.80226-3-richard.genoud@bootlin.com>
+References: <20251217082504.80226-3-richard.genoud@bootlin.com>
+TO: Richard Genoud <richard.genoud@bootlin.com>
+TO: "Uwe Kleine-König" <u.kleine-koenig@baylibre.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: "Chen-Yu Tsai" <wens@csie.org>
+TO: Jernej Skrabec <jernej.skrabec@gmail.com>
+TO: Samuel Holland <samuel@sholland.org>
+TO: Philipp Zabel <p.zabel@pengutronix.de>
+CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+CC: linux-pwm@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-sunxi@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: Richard Genoud <richard.genoud@bootlin.com>
+CC: Joao Schim <joao@schimsalabim.eu>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   cd5dbb18d54811800790a91bc389b56210cfaed2
-commit: 2f2a1c5cbc324204379c68bd25fda1a69c7ec5f4 [12/24] bcachefs: Improve bch2_check_key_has_inode()
-:::::: branch date: 15 hours ago
-:::::: commit date: 18 hours ago
-config: sparc-randconfig-r071-20251223 (https://download.01.org/0day-ci/archive/20251223/202512230408.qgdGjfpe-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
+Hi Richard,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Genoud/dt-bindings-pwm-allwinner-add-h616-pwm-compatible/20251217-162733
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20251217082504.80226-3-richard.genoud%40bootlin.com
+patch subject: [PATCH v2 2/4] pwm: sun50i: Add H616 PWM support
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: riscv-randconfig-r133-20251218 (https://download.01.org/0day-ci/archive/20251223/202512230430.NdRQiynO-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230430.NdRQiynO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512230408.qgdGjfpe-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512230430.NdRQiynO-lkp@intel.com/
 
-New smatch warnings:
-fs/bcachefs/fs/check.c:1331 bch2_check_key_has_inode() error: we previously assumed 'i' could be null (see line 1266)
+sparse warnings: (new ones prefixed by >>)
+   drivers/pwm/pwm-sun50i-h616.c: note: in included file:
+   include/linux/pwm.h:13:1: sparse: sparse: bad integer constant expression
+   include/linux/pwm.h:13:1: sparse: sparse: static assertion failed: "MODULE_INFO(import_ns, ...) contains embedded NUL byte"
+>> drivers/pwm/pwm-sun50i-h616.c:890:1: sparse: sparse: bad integer constant expression
+   drivers/pwm/pwm-sun50i-h616.c:890:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/pwm/pwm-sun50i-h616.c:891:1: sparse: sparse: bad integer constant expression
+   drivers/pwm/pwm-sun50i-h616.c:891:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/pwm/pwm-sun50i-h616.c:892:1: sparse: sparse: bad integer constant expression
+   drivers/pwm/pwm-sun50i-h616.c:892:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/pwm/pwm-sun50i-h616.c:892:1: sparse: sparse: bad integer constant expression
+   drivers/pwm/pwm-sun50i-h616.c:892:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-Old smatch warnings:
-fs/bcachefs/fs/check.c:185 lookup_lostfound() error: uninitialized symbol 'subvolid'.
+vim +890 drivers/pwm/pwm-sun50i-h616.c
 
-vim +/i +1331 fs/bcachefs/fs/check.c
-
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1254  
-d08a170ec3e7db fs/bcachefs/fs/check.c Kent Overstreet 2025-10-04  1255  int bch2_check_key_has_inode(struct btree_trans *trans,
-c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1256  			     struct btree_iter *iter,
-c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1257  			     struct inode_walker *inode,
-c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1258  			     struct inode_walker_entry *i,
-c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1259  			     struct bkey_s_c k)
-c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1260  {
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1261  	errptr_try(i);
-c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1262  
-13ab885706d6f0 fs/bcachefs/fsck.c     Kent Overstreet 2025-07-24  1263  	if (bkey_extent_whiteout(k.k))
-f6ecd9850b5e0b fs/bcachefs/fsck.c     Kent Overstreet 2025-07-30  1264  		return 0;
-c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1265  
-855070dc0b349e fs/bcachefs/fsck.c     Kent Overstreet 2025-05-03 @1266  	bool have_inode = i && !i->whiteout;
-855070dc0b349e fs/bcachefs/fsck.c     Kent Overstreet 2025-05-03  1267  
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1268  	if (have_inode && btree_matches_i_mode(iter->btree_id, i->inode.bi_mode))
-f6ecd9850b5e0b fs/bcachefs/fsck.c     Kent Overstreet 2025-07-30  1269  		return 0;
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1270  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1271  	struct bch_fs *c = trans->c;
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1272  	CLASS(printbuf, buf)();
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1273  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1274  	if (have_inode)
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1275  		prt_printf(&buf, "key for wrong inode mode %o", i->inode.bi_mode);
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1276  	else
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1277  		prt_str(&buf, "key in missing inode");
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1278  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1279  	struct inode_walker_entry *good_ancestor = NULL;
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1280  	darray_for_each(inode->inodes, i2)
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1281  		if (!i2->whiteout &&
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1282  		    bch2_snapshot_is_ancestor(c, k.k->p.snapshot, i2->inode.bi_snapshot) &&
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1283  		    btree_matches_i_mode(iter->btree_id, i2->inode.bi_mode)) {
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1284  			prt_printf(&buf, ", but found good inode in older snapshot");
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1285  			bch2_inode_unpacked_to_text(&buf, &i2->inode);
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1286  			prt_newline(&buf);
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1287  			good_ancestor = i2;
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1288  			break;
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1289  		}
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1290  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1291  	prt_printf(&buf, "\nfound keys:\n");
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1292  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1293  	struct bpos inode_pos = SPOS(k.k->p.inode, 0, k.k->p.snapshot);
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1294  	int ret = count_inode_keys(trans, inode_pos, iter->btree_id, &buf);
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1295  	if (ret < 0)
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1296  		return ret;
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1297  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1298  	unsigned nr_keys = ret;
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1299  	if (!nr_keys) {
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1300  		bch_err(c, "%s: error finding live keys in inode", __func__);
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1301  		return bch_err_throw(c, shutdown_with_errors_unfixed);
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1302  	}
-4a7e1e4ce94f54 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-30  1303  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1304  	if (nr_keys > 100)
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1305  		prt_printf(&buf, "found > %u keys for this inode\n", nr_keys);
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1306  	else
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1307  		prt_printf(&buf, "found %u keys for this inode\n", nr_keys);
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1308  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1309  	if (c->sb.btrees_lost_data & BIT_ULL(BTREE_ID_inodes))
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1310  		prt_str(&buf, "data was lost in inodes btree\n");
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1311  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1312  	if (!have_inode) {
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1313  		bool inode_looks_deleted =
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1314  			good_ancestor &&
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1315  			nr_keys < 3 &&
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1316  			!(c->sb.btrees_lost_data & BIT_ULL(BTREE_ID_inodes));
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1317  		if (inode_looks_deleted)
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1318  			prt_str(&buf, "inode was deleted, will delete key\n");
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1319  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1320  		if (ret_fsck_err(trans, key_in_missing_inode, "%s", buf.buf)) {
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1321  			if (inode_looks_deleted)
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1322  				return bch2_btree_delete_at(trans, iter, BTREE_UPDATE_internal_snapshot_node);
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1323  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1324  			if (!good_ancestor) {
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1325  				try(reconstruct_inode(trans, iter->btree_id, k.k->p.snapshot, k.k->p.inode));
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1326  				try(bch2_trans_commit(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc));
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1327  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1328  				inode->last_pos.inode--;
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1329  				return bch_err_throw(c, transaction_restart_commit);
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1330  			} else {
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20 @1331  				u32 snapshot = i->inode.bi_snapshot;
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1332  				i->inode = good_ancestor->inode;
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1333  				i->inode.bi_snapshot = snapshot;
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1334  				try(bch2_fsck_write_inode(trans, &i->inode));
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1335  				try(bch2_trans_commit_lazy(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc));
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1336  			}
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1337  		}
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1338  	} else {
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1339  		if (ret_fsck_err(trans, key_in_wrong_inode_type, "%s", buf.buf)) {
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1340  			int nr_extents = iter->btree_id == BTREE_ID_extents
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1341  				? nr_keys : count_inode_keys(trans, inode_pos, BTREE_ID_extents, NULL);
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1342  			if (nr_extents < 0)
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1343  				return nr_extents;
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1344  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1345  			int nr_dirents = iter->btree_id == BTREE_ID_dirents
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1346  				? nr_keys : count_inode_keys(trans, inode_pos, BTREE_ID_dirents, NULL);
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1347  			if (nr_dirents < 0)
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1348  				return nr_dirents;
-c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1349  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1350  			if (nr_extents && nr_dirents) {
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1351  				bch_err(c, "have both extents and dirents for inode with bad mode, cannot repair");
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1352  				return bch_err_throw(c, shutdown_with_errors_unfixed);
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1353  			}
-4a7e1e4ce94f54 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-30  1354  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1355  			i->inode.bi_mode &= ~S_IFMT;
-c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1356  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1357  			if (nr_dirents)
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1358  				i->inode.bi_mode |= S_IFDIR;
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1359  			else
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1360  				i->inode.bi_mode |= S_IFREG;
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1361  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1362  			try(bch2_fsck_write_inode(trans, &i->inode));
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1363  			try(bch2_trans_commit_lazy(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc));
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1364  		}
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1365  	}
-f2a701fd94f161 fs/bcachefs/fsck.c     Kent Overstreet 2025-06-15  1366  
-2f2a1c5cbc3242 fs/bcachefs/fs/check.c Kent Overstreet 2025-12-20  1367  	return 0;
-c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1368  }
-c13d526d9dc1aa fs/bcachefs/fsck.c     Kent Overstreet 2024-05-26  1369  
+96d1ec9d04e0577 Richard Genoud 2025-12-17  889  
+96d1ec9d04e0577 Richard Genoud 2025-12-17 @890  MODULE_AUTHOR("Richard Genoud <richard.genoud@bootlin.com>");
 
 -- 
 0-DAY CI Kernel Test Service
