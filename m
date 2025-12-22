@@ -1,164 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923C02C859
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 02:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDF1155326
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 04:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766369071; cv=none; b=MVWtQI2atN36Fo4T24DqrEqPWcGzN7ob94wgNMGgMoDVACa4gbrjReZZpdxFI1HT1O90++E1aSK8md11hzj3YqI5XMkcdqNcDY+5Qs6NgU3yXf+/EdiBu100/kY+xCWcRhwIH7llUuLfNiW3FkXLqicDzpws66WotFWLRAao07c=
+	t=1766378357; cv=none; b=bIcp0h7PO5mLypOMMGN4jiROH+tv+6ydfahbZ03a0hkq/GyRQLFwmSTNwzwaRjjOCpQHaQNq3TqMrPnvsSsknPlv+6MTaRtagHzGqvOi+MbJJn20+n5xCr7fH9AUGgt9cRLBbibUafiinp3Syv/ajJk44hFnLuD0ypuZtey0k58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766369071; c=relaxed/simple;
-	bh=h4LxZAHdk/k3EEZEs3K47XUFMr4PyImoV3UTcrq5plQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EjyoyvSD0fA+esNPUPZ/MOTQP53/jeh26MC98/40K3xfWJD/2LYl6+YVS4Dqidsp1uf/6xDDnWn20uWCOHFBrlH9UznNRW56flpdP3X6D7hptp4GvejLPdIFdxVC0QDc1djtIbTlQG3hyNlWQm5lB4RAmj1RDZyoQbOhrqgLd80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g+Zb/J/U; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1766378357; c=relaxed/simple;
+	bh=xQVMRYK2FdCBegwCrgISWqxAQCAoHWOy2qzL8fIy1Qo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Qcq/JkUdSaryyTy7/uP05pZ+60v55jmhUQLw6SC4mBgLC92raYlNkX1RmCc2l/OTPGRE6a2dAhw3F/CaAF4Ui67S6iBHXKVlsIr7S/VRuS4VSkd+HY0Y7P5QIKJ3+w2IAM3GXTwUOOa8Di1PbU59HsyM4bdb/BUJMH7vmYdVYio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhdyxaSz; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g+Zb/J/U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhdyxaSz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766369066; x=1797905066;
-  h=date:from:to:cc:subject:message-id;
-  bh=h4LxZAHdk/k3EEZEs3K47XUFMr4PyImoV3UTcrq5plQ=;
-  b=g+Zb/J/UFOkzhdurDHs0ESD/hByPoc8+RnBDb5ac2bXLHOwtEQv6UqiA
-   Mr+J4fLs36A9D+UlLPf7PhnibHbXRXykPDX8eRJryk6x62+cOc7pc2tBE
-   biOmMMIjsNteZnlTisCawrhd3BQN19oE8XUcvqoRPbkPcMdMXvi1Mm/fj
-   YVGHAGTKRQ6agaqSgGetYFwuIVuJh86+Vntyr3m+2byMYGfsaFSXOOMUN
-   t5kN5Cj4+DyQraMXdTaO9hY1PqBaO3d78J6ayQRjrG3AN0KCgudDIRVlO
-   S58TBNcuYI+j9HlGagtdc/JxzQ6e24prsvrQlHAdmEN/J4vfXMSN542o7
-   w==;
-X-CSE-ConnectionGUID: UHB6K7NbT5CWSvx8AeCBFQ==
-X-CSE-MsgGUID: fxi1xicDT1iUXN6VsZ01IQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="85642160"
+  t=1766378356; x=1797914356;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xQVMRYK2FdCBegwCrgISWqxAQCAoHWOy2qzL8fIy1Qo=;
+  b=YhdyxaSz3JElBG7tWPYd74IfMjSzOVXrTIkbDjhzP1dkSFpvyzPf+F2J
+   ZibkS3pCMu074mk39DUL2TQRTAzQ1dKjMWVZjNyzT4X6yWe3lt196UXep
+   MZ4H0ERa8OQwuKFFX1KRgIF9/aqmM1YwUAJYAo12KyS1W6CkoaT2VOy7P
+   6HvMGdFhtVoaN0w2pD56KAK1VItiqdBYi/jc4/t0xxk2fQAVhTtVwS4zK
+   u3XovL2i+TYE8G94d4VGCDAlwpTrwlVtCSTju0nsdpFVki2wUvHSrfq46
+   lj5L28X4XjGy++MbjJvRKVjeAJR9/1nkzAmsbXX7cF67s+OeBleOwOWnJ
+   Q==;
+X-CSE-ConnectionGUID: b60wcp4CQe66cIOJ9lfCoQ==
+X-CSE-MsgGUID: oHID3KgQRGahLITZzrr+JQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="67227294"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="85642160"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 18:04:26 -0800
-X-CSE-ConnectionGUID: CPbVwziSSNmMJqQiNL3Zuw==
-X-CSE-MsgGUID: Df8ESdxUQCS2x9F0PTr/iA==
+   d="scan'208";a="67227294"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 20:39:14 -0800
+X-CSE-ConnectionGUID: abavBoAzQHGmfGiDrGxu/g==
+X-CSE-MsgGUID: qGR8ZNj/QVGOvfVECJVHOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="203536836"
-Received: from lkp-server02.sh.intel.com (HELO 9d662e18a02b) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 21 Dec 2025 18:04:25 -0800
-Received: from kbuild by 9d662e18a02b with local (Exim 4.98.2)
+   d="scan'208";a="200310337"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 21 Dec 2025 20:39:13 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXVHO-00000000035-1129;
-	Mon, 22 Dec 2025 02:04:12 +0000
-Date: Mon, 22 Dec 2025 10:02:58 +0800
+	id 1vXXhP-000000005MK-1Rvr;
+	Mon, 22 Dec 2025 04:39:11 +0000
+Date: Mon, 22 Dec 2025 05:39:05 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/phy/ti/phy-ti-pipe3.c:848 ti_pipe3_probe() warn:
- 'phy->refclk' from clk_prepare_enable() not released on lines: 841,848.
-Message-ID: <202512220925.TEd3nBDp-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: [dinguyen:socfpga_dts_for_v6.20 7/7]
+ arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_modular.dtb: /
+ (intel,socfpga-agilex5-socdk-modular): compatible: 'oneOf' conditional
+ failed, one must be fixed:
+Message-ID: <202512220536.CCReXciv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Dave Penkler <dpenkler@gmail.com>
+TO: Dinh Nguyen <dinguyen@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9448598b22c50c8a5bb77a9103e2d49f134c9578
-commit: e6ab504633e4c06e35377ecf3c8cbc304de79858 staging: gpib: Destage gpib
-date:   4 weeks ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 4 weeks ago
-config: alpha-randconfig-r071-20251222 (https://download.01.org/0day-ci/archive/20251222/202512220925.TEd3nBDp-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git socfpga_dts_for_v6.20
+head:   43f571b1b74bccfd3fdd106b519ef0614c354518
+commit: 43f571b1b74bccfd3fdd106b519ef0614c354518 [7/7] dt-bindings: arm: altera: combine Intel's SoCFPGA into altera.yaml
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm64-randconfig-2052-20251216 (https://download.01.org/0day-ci/archive/20251222/202512220536.CCReXciv-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220536.CCReXciv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512220925.TEd3nBDp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512220536.CCReXciv-lkp@intel.com/
 
-New smatch warnings:
-drivers/phy/ti/phy-ti-pipe3.c:848 ti_pipe3_probe() warn: 'phy->refclk' from clk_prepare_enable() not released on lines: 841,848.
-drivers/gpib/cb7210/cb7210.c:1068 cb_isa_attach() warn: 'config->ibbase' from __request_region() not released on lines: 1064.
-
-Old smatch warnings:
-internal error: arch/alpha/include/asm/io_trivial.h:18 SQL error #2: near "and": syntax error
-internal error: arch/alpha/include/asm/io_trivial.h:18 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
-
-vim +848 drivers/phy/ti/phy-ti-pipe3.c
-
-234738ea33903a1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  787  
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  788  static int ti_pipe3_probe(struct platform_device *pdev)
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  789  {
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  790  	struct ti_pipe3 *phy;
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  791  	struct phy *generic_phy;
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  792  	struct phy_provider *phy_provider;
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  793  	struct device *dev = &pdev->dev;
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  794  	int ret;
-21bf6fc47a1e450 drivers/phy/ti/phy-ti-pipe3.c Rob Herring            2023-10-09  795  	const struct pipe3_data *data;
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  796  
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  797  	phy = devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  798  	if (!phy)
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  799  		return -ENOMEM;
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  800  
-21bf6fc47a1e450 drivers/phy/ti/phy-ti-pipe3.c Rob Herring            2023-10-09  801  	data = device_get_match_data(dev);
-21bf6fc47a1e450 drivers/phy/ti/phy-ti-pipe3.c Rob Herring            2023-10-09  802  	if (!data)
-22940823f0629b2 drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  803  		return -EINVAL;
-22940823f0629b2 drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  804  
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  805  	phy->dev = dev;
-22940823f0629b2 drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  806  	phy->mode = data->mode;
-22940823f0629b2 drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  807  	phy->dpll_map = data->dpll_map;
-fdef2f9f700fab5 drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  808  	phy->settings = data->settings;
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  809  
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  810  	ret = ti_pipe3_get_pll_base(phy);
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  811  	if (ret)
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  812  		return ret;
-1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  813  
-2796ceb0c18a5a0 drivers/phy/ti/phy-ti-pipe3.c Kishon Vijay Abraham I 2017-10-09  814  	ret = ti_pipe3_get_tx_rx_base(phy);
-2796ceb0c18a5a0 drivers/phy/ti/phy-ti-pipe3.c Kishon Vijay Abraham I 2017-10-09  815  	if (ret)
-2796ceb0c18a5a0 drivers/phy/ti/phy-ti-pipe3.c Kishon Vijay Abraham I 2017-10-09  816  		return ret;
-2796ceb0c18a5a0 drivers/phy/ti/phy-ti-pipe3.c Kishon Vijay Abraham I 2017-10-09  817  
-73bbc78e57c96ab drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  818  	ret = ti_pipe3_get_sysctrl(phy);
-73bbc78e57c96ab drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  819  	if (ret)
-73bbc78e57c96ab drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  820  		return ret;
-234738ea33903a1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  821  
-234738ea33903a1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  822  	ret = ti_pipe3_get_clk(phy);
-234738ea33903a1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  823  	if (ret)
-234738ea33903a1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  824  		return ret;
-234738ea33903a1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  825  
-57f6ce072e35770 drivers/usb/phy/omap-usb3.c   Kishon Vijay Abraham I 2013-01-25  826  	platform_set_drvdata(pdev, phy);
-d65ff52eb8ed5c8 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  827  	pm_runtime_enable(dev);
-c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  828  
-c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  829  	/*
-c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  830  	 * Prevent auto-disable of refclk for SATA PHY due to Errata i783
-c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  831  	 */
-22940823f0629b2 drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  832  	if (phy->mode == PIPE3_MODE_SATA) {
-c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  833  		if (!IS_ERR(phy->refclk)) {
-0a0830feb2adce8 drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-06-02  834  			clk_prepare_enable(phy->refclk);
-c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  835  			phy->sata_refclk_enabled = true;
-c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  836  		}
-c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  837  	}
-a70143bbef6bf06 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  838  
-d65ff52eb8ed5c8 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  839  	generic_phy = devm_phy_create(dev, NULL, &ops);
-a70143bbef6bf06 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  840  	if (IS_ERR(generic_phy))
-a70143bbef6bf06 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  841  		return PTR_ERR(generic_phy);
-a70143bbef6bf06 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  842  
-a70143bbef6bf06 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  843  	phy_set_drvdata(generic_phy, phy);
-cc34ace73dfa24d drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  844  
-cc34ace73dfa24d drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  845  	ti_pipe3_power_off(generic_phy);
-cc34ace73dfa24d drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  846  
-d65ff52eb8ed5c8 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  847  	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
-045ef3115382fab drivers/phy/phy-ti-pipe3.c    Vivek Gautam           2016-10-20 @848  	return PTR_ERR_OR_ZERO(phy_provider);
-57f6ce072e35770 drivers/usb/phy/omap-usb3.c   Kishon Vijay Abraham I 2013-01-25  849  }
-57f6ce072e35770 drivers/usb/phy/omap-usb3.c   Kishon Vijay Abraham I 2013-01-25  850  
-
-:::::: The code at line 848 was first introduced by commit
-:::::: 045ef3115382fab2c16f2692411296ebfba60256 phy: Fix ptr_ret.cocci warnings
-
-:::::: TO: Vivek Gautam <vivek.gautam@codeaurora.org>
-:::::: CC: Kishon Vijay Abraham I <kishon@ti.com>
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_modular.dtb: / (intel,socfpga-agilex5-socdk-modular): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['intel,socfpga-agilex5-socdk-modular', 'intel,socfpga-agilex5'] is too short
+   	'intel,socfpga-agilex5-socdk-modular' is not one of ['altr,socfpga-arria5-socdk']
+   	'intel,socfpga-agilex5-socdk-modular' is not one of ['altr,socfpga-arria10-socdk']
+   	'intel,socfpga-agilex5-socdk-modular' is not one of ['enclustra,mercury-aa1-pe1', 'enclustra,mercury-aa1-pe3', 'enclustra,mercury-aa1-st1', 'google,chameleon-v3']
+   	'intel,socfpga-agilex5-socdk-modular' is not one of ['altr,socfpga-cyclone5-socdk', 'denx,mcvevk', 'ebv,socrates', 'macnica,sodia', 'novtech,chameleon96', 'samtec,vining', 'terasic,de0-atlas', 'terasic,de10-nano', 'terasic,socfpga-cyclone5-sockit']
+   	'intel,socfpga-agilex5-socdk-modular' is not one of ['enclustra,mercury-sa1-pe1', 'enclustra,mercury-sa1-pe3', 'enclustra,mercury-sa1-st1']
+   	'intel,socfpga-agilex5-socdk-modular' is not one of ['enclustra,mercury-sa2-pe1', 'enclustra,mercury-sa2-pe3', 'enclustra,mercury-sa2-st1']
+   	'intel,socfpga-agilex5-socdk-modular' is not one of ['altr,socfpga-stratix10-socdk', 'altr,socfpga-stratix10-swvp']
+   	'intel,socfpga-agilex5-socdk-modular' is not one of ['intel,n5x-socdk', 'intel,socfpga-agilex-n6000', 'intel,socfpga-agilex-socdk']
+   	'intel,socfpga-agilex5-socdk-modular' is not one of ['intel,socfpga-agilex3-socdk']
+--
+   	'altr,socfpga-arria10' was expected
+   	'enclustra,mercury-aa1' was expected
+   	'altr,socfpga-cyclone5' was expected
+   	'enclustra,mercury-sa1' was expected
+   	'enclustra,mercury-sa2' was expected
+   	'altr,socfpga-stratix10' was expected
+   	'intel,socfpga-agilex' was expected
+   	'intel,socfpga-agilex3' was expected
+   	'altr,socfpga' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/altera.yaml
+>> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_modular.dtb: /: failed to match any schema with compatible: ['intel,socfpga-agilex5-socdk-modular', 'intel,socfpga-agilex5']
 
 -- 
 0-DAY CI Kernel Test Service
