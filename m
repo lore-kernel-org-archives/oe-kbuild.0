@@ -1,153 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1582A21CFFA
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 08:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E61A17BB21
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 08:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766390656; cv=none; b=QcoTY75g4zBKLXhJiIfMmj6kyfTHaB6aHWrtundR5vq238UeRkVY5YJG0AthmWG8J8LozhlGIMa+yLBghUOsiE9SANAWMvHnaAn+HpqofOhQCoOgI4llrPtE8rMnQFURh1byWzw5JWL2tKw7ajjLiipVgxqwh3kBs7VFDYTiN3w=
+	t=1766392819; cv=none; b=hMMdF5DSe1OSirj/Dc8WlWCraI31fnxu8dLTrr8Rh6pJZtI5Je3rgmNHtp/3szrhwOCxhbO63vqzAYF7M8qC7O4ulh5p+e3+dVJFL9HmpnWpe0DrDeCyHeEeWNZyvQxKCMGzKz1QLUxkn17lpXyt5NG/RCwpCx7BdlxVQMKH31E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766390656; c=relaxed/simple;
-	bh=HnTKARGQhbg2fxQ/O9RnwTIBk7hrBSQR2lWm+MduAVE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ddM3nlzDAvaj+IE2vcZpf6Hr0W/lnWXGukESwW9dWjxKe8g+Op0G0NX4E1vSETNfHClXb47mE1wPaq/nrdGhGWfJ9wMd4TE1Gu8Q5icdHnFDkOEgnoDC8/D3HcriKyeJW6Mu5egrIfrIKkxJ2dlqwDJ5QFj4sMZN8581i4jW2OY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ee93G9El; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1766392819; c=relaxed/simple;
+	bh=CeHebcaxzu9NO022EYtwCHUAZpUmVrU9oTFg1Pl2tOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WZtbWHwJs69mIdjGSRqgbHqCipa+vVnrnRBxGrkEGVryTB1dTOrPZYXqua+wDYz0B8WgJeH1fFnYsIjNdb44Vmacum0suW4YtzoMSar17bsYXB2n16oIg6cKbj326DNbWzedZCcx4RFpDdYr2CYcrJw+ctPuRZq4oZ7WbIksvJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yw9SHErt; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ee93G9El"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yw9SHErt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766390654; x=1797926654;
-  h=date:from:to:cc:subject:message-id;
-  bh=HnTKARGQhbg2fxQ/O9RnwTIBk7hrBSQR2lWm+MduAVE=;
-  b=Ee93G9ElmgPeH58bn2xPSUGJjmZwwTu3pwqcDVdzOBQyml3MMBYufsmn
-   I2JaGR3F+22BGowrXnov3JtwHsL2x7w2a4LGc1DJGIq14c8HAma9TJfgo
-   /7jYLvF1Z9pdwMIJAh2ZLiv+KP3qlLnwSXtijxlvhNuECDVSBllCDyGhy
-   8jZhPO45BjxCu22OOTSzfuwyMnMwyjSrwV6OiMBnGOvq9PNpXlIS8ncxz
-   t1Vta/PEIbqZRpVSZ7pI59GPxfJnzXL8x0GOyyN+vgiNubdeRCTEQq5lA
-   sQayKk53c6XQL8ucJ1s1vjRf0Ves+Jz0flyDsTxqfJTD7WGiWNsBpX+PX
-   A==;
-X-CSE-ConnectionGUID: SurkfvNARIu8YhCnWNN3Pg==
-X-CSE-MsgGUID: wVvJ6/SsT0OZDfqrbkYQxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68287511"
+  t=1766392817; x=1797928817;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CeHebcaxzu9NO022EYtwCHUAZpUmVrU9oTFg1Pl2tOw=;
+  b=Yw9SHErtc39jx9DkeOHeGH1ygQE+rNKC2Z5Tx5F4JM0NasSDALrKJOzP
+   ramJ53Q73AFnSZm/Ncwm/4Vr634+ypmFfuNvdSHV3Aw4Newb83pcRkWDW
+   rGE5rHXIqZBFBk7cGARF5xKThEGbXUmTnxsj8m37tybdiyypIncESRhEe
+   2uFwuSQ+bT9fX8i5jEV6Fiv+H/nIxJB3whMTUoAZz2ijaVFY7UmOA8Aow
+   VWVty3kEQzGvZDnyrA0slBiixxdVJtxFkA2zaJvpIALgTG66I+zIJDa4y
+   4Hla5bi4eX/7W/V9Ay2n6gSa6f4uMMhk8FIy6t6Pr1Ws0jd73iS6qpaJS
+   Q==;
+X-CSE-ConnectionGUID: yHR567P4RO6ccIDkVyx43w==
+X-CSE-MsgGUID: u4RWSWcVReypK1ni2O8qnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="72106239"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="68287511"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 00:04:12 -0800
-X-CSE-ConnectionGUID: sAUqUACpSNGuNZtoDMSRMQ==
-X-CSE-MsgGUID: EcMJCVxWSgKkkzwsGsjtLA==
+   d="scan'208";a="72106239"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 00:40:17 -0800
+X-CSE-ConnectionGUID: 0T+EyZXsRLmp37J0DeoZCQ==
+X-CSE-MsgGUID: tETT9UKRTBGWTWgKhNwXZg==
 X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Dec 2025 00:04:11 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
+   d="scan'208";a="200362973"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 22 Dec 2025 00:40:16 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXasz-000000000FI-2vsY;
-	Mon, 22 Dec 2025 08:03:51 +0000
-Date: Mon, 22 Dec 2025 16:02:22 +0800
+	id 1vXbSf-000000005PY-3MpU;
+	Mon, 22 Dec 2025 08:40:13 +0000
+Date: Mon, 22 Dec 2025 09:39:22 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android-mainline 5/5]
- kernel/kexec_handover.c:941 kho_preserve_vmalloc() warn: missing error code
- 'err'
-Message-ID: <202512221523.4WsnhR3e-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: lkp@intel.com
+Subject: Re: [PATCH] dt-bindings: mmc: brcm,iproc-sdhci: Allow "dma-coherent"
+ and "iommus" properties
+Message-ID: <202512220920.eVprMmkM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20251215212736.3321550-1-robh@kernel.org>
+References: <20251215212736.3321550-1-robh@kernel.org>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   3ce6827ad16244f83976f3267e13d63da0613660
-commit: a667300bd53f272a3055238bcefe108f88836270 [5/5] kho: add support for preserving vmalloc allocations
-:::::: branch date: 26 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-r073-20251222 (https://download.01.org/0day-ci/archive/20251222/202512221523.4WsnhR3e-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi Rob,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk-dt/for-next linus/master v6.19-rc2]
+[cannot apply to next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-mmc-brcm-iproc-sdhci-Allow-dma-coherent-and-iommus-properties/20251216-053208
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20251215212736.3321550-1-robh%40kernel.org
+patch subject: [PATCH] dt-bindings: mmc: brcm,iproc-sdhci: Allow "dma-coherent" and "iommus" properties
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm64-randconfig-2052-20251216 (https://download.01.org/0day-ci/archive/20251222/202512220920.eVprMmkM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220920.eVprMmkM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512221523.4WsnhR3e-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512220920.eVprMmkM-lkp@intel.com/
 
-smatch warnings:
-kernel/kexec_handover.c:941 kho_preserve_vmalloc() warn: missing error code 'err'
-
-vim +/err +941 kernel/kexec_handover.c
-
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  891) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  892) /**
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  893)  * kho_preserve_vmalloc - preserve memory allocated with vmalloc() across kexec
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  894)  * @ptr: pointer to the area in vmalloc address space
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  895)  * @preservation: placeholder for preservation metadata
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  896)  *
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  897)  * Instructs KHO to preserve the area in vmalloc address space at @ptr. The
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  898)  * physical pages mapped at @ptr will be preserved and on successful return
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  899)  * @preservation will hold the physical address of a structure that describes
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  900)  * the preservation.
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  901)  *
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  902)  * NOTE: The memory allocated with vmalloc_node() variants cannot be reliably
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  903)  * restored on the same node
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  904)  *
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  905)  * Return: 0 on success, error code on failure
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  906)  */
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  907) int kho_preserve_vmalloc(void *ptr, struct kho_vmalloc *preservation)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  908) {
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  909) 	struct kho_vmalloc_chunk *chunk;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  910) 	struct vm_struct *vm = find_vm_area(ptr);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  911) 	unsigned int order, flags, nr_contig_pages;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  912) 	unsigned int idx = 0;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  913) 	int err;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  914) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  915) 	if (!vm)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  916) 		return -EINVAL;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  917) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  918) 	if (vm->flags & ~KHO_VMALLOC_SUPPORTED_FLAGS)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  919) 		return -EOPNOTSUPP;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  920) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  921) 	flags = vmalloc_flags_to_kho(vm->flags);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  922) 	order = get_vm_area_page_order(vm);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  923) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  924) 	chunk = new_vmalloc_chunk(NULL);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  925) 	if (!chunk)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  926) 		return -ENOMEM;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  927) 	KHOSER_STORE_PTR(preservation->first, chunk);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  928) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  929) 	nr_contig_pages = (1 << order);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  930) 	for (int i = 0; i < vm->nr_pages; i += nr_contig_pages) {
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  931) 		phys_addr_t phys = page_to_phys(vm->pages[i]);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  932) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  933) 		err = kho_preserve_pages(vm->pages[i], nr_contig_pages);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  934) 		if (err)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  935) 			goto err_free;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  936) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  937) 		chunk->phys[idx++] = phys;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  938) 		if (idx == ARRAY_SIZE(chunk->phys)) {
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  939) 			chunk = new_vmalloc_chunk(chunk);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  940) 			if (!chunk)
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21 @941) 				goto err_free;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  942) 			idx = 0;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  943) 		}
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  944) 	}
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  945) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  946) 	preservation->total_pages = vm->nr_pages;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  947) 	preservation->flags = flags;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  948) 	preservation->order = order;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  949) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  950) 	return 0;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  951) 
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  952) err_free:
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  953) 	kho_vmalloc_free_chunks(preservation);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  954) 	return err;
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  955) }
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  956) EXPORT_SYMBOL_GPL(kho_preserve_vmalloc);
-a667300bd53f27 Mike Rapoport (Microsoft  2025-09-21  957) 
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: at25@0 (atmel,at25): 'size' is a required property
+   	from schema $id: http://devicetree.org/schemas/eeprom/at25.yaml
+   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: at25@0 (atmel,at25): 'address-width' is a required property
+   	from schema $id: http://devicetree.org/schemas/eeprom/at25.yaml
+   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: at25@0 (atmel,at25): $nodename: 'anyOf' conditional failed, one must be fixed:
+   	'at25@0' does not match '^eeprom@[0-9a-f]{1,2}$'
+   	'at25@0' does not match '^fram@[0-9a-f]{1,2}$'
+   	from schema $id: http://devicetree.org/schemas/eeprom/at25.yaml
+   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: sdhci@66420000 (brcm,sdhci-iproc-cygnus): $nodename:0: 'sdhci@66420000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+>> arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: sdhci@66420000 (brcm,sdhci-iproc-cygnus): Unevaluated properties are not allowed ('bus-width' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: sdhci@66430000 (brcm,sdhci-iproc-cygnus): $nodename:0: 'sdhci@66430000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: sdhci@66430000 (brcm,sdhci-iproc-cygnus): Unevaluated properties are not allowed ('bus-width' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: nand@66460000 (brcm,nand-iproc): $nodename:0: 'nand@66460000' does not match '^nand-controller(@.*)?'
+   	from schema $id: http://devicetree.org/schemas/mtd/brcm,brcmnand.yaml
+   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: nand@66460000 (brcm,nand-iproc): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['brcm,nand-iproc', 'brcm,brcmnand-v6.1'] is too short
+   	'brcm,nand-iproc' is not one of ['brcm,brcmnand-v2.1', 'brcm,brcmnand-v2.2', 'brcm,brcmnand-v4.0', 'brcm,brcmnand-v5.0', 'brcm,brcmnand-v6.0', 'brcm,brcmnand-v6.1', 'brcm,brcmnand-v6.2', 'brcm,brcmnand-v7.0', 'brcm,brcmnand-v7.1', 'brcm,brcmnand-v7.2', 'brcm,brcmnand-v7.3']
+--
+   	'brcm,nand-bcm63138' was expected
+   	'brcm,nand-bcm63168' was expected
+   	'brcm,brcmnand' was expected
+   	'brcm,brcmnand-v6.1' is not one of ['brcm,brcmnand-v7.0', 'brcm,brcmnand-v7.1']
+   	'brcm,nand-bcm6368' was expected
+   	from schema $id: http://devicetree.org/schemas/mtd/brcm,brcmnand.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958742k.dtb: nand@360000 (brcm,nand-iproc): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'nandcs@0' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/brcm,brcmnand.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958742k.dtb: sdhci@3f1000 (brcm,sdhci-iproc): $nodename:0: 'sdhci@3f1000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+>> arch/arm64/boot/dts/broadcom/stingray/bcm958742k.dtb: sdhci@3f1000 (brcm,sdhci-iproc): Unevaluated properties are not allowed ('bus-width', 'full-pwr-cycle', 'mmc-ddr-1_8v', 'non-removable', 'vqmmc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958742k.dtb: sdhci@3f2000 (brcm,sdhci-iproc): $nodename:0: 'sdhci@3f2000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+>> arch/arm64/boot/dts/broadcom/stingray/bcm958742k.dtb: sdhci@3f2000 (brcm,sdhci-iproc): Unevaluated properties are not allowed ('bus-width', 'full-pwr-cycle', 'vqmmc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958742k.dtb: tmons (simple-bus): $nodename:0: 'tmons' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958742k.dtb: nic-hsls (simple-bus): $nodename:0: 'nic-hsls' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958742k.dtb: i2c@60826100 (brcm,iproc-nic-i2c): reg: [[1619157248, 256], [1625293832, 4096]] is too long
+   	from schema $id: http://devicetree.org/schemas/i2c/brcm,iproc-i2c.yaml
+--
+   	'brcm,nand-bcm63138' was expected
+   	'brcm,nand-bcm63168' was expected
+   	'brcm,brcmnand' was expected
+   	'brcm,brcmnand-v6.1' is not one of ['brcm,brcmnand-v7.0', 'brcm,brcmnand-v7.1']
+   	'brcm,nand-bcm6368' was expected
+   	from schema $id: http://devicetree.org/schemas/mtd/brcm,brcmnand.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958742t.dtb: nand@360000 (brcm,nand-iproc): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'nandcs@0' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/brcm,brcmnand.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958742t.dtb: sdhci@3f1000 (brcm,sdhci-iproc): $nodename:0: 'sdhci@3f1000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+>> arch/arm64/boot/dts/broadcom/stingray/bcm958742t.dtb: sdhci@3f1000 (brcm,sdhci-iproc): Unevaluated properties are not allowed ('bus-width', 'full-pwr-cycle', 'mmc-ddr-1_8v', 'non-removable', 'vqmmc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958742t.dtb: sdhci@3f2000 (brcm,sdhci-iproc): $nodename:0: 'sdhci@3f2000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+>> arch/arm64/boot/dts/broadcom/stingray/bcm958742t.dtb: sdhci@3f2000 (brcm,sdhci-iproc): Unevaluated properties are not allowed ('bus-width', 'full-pwr-cycle', 'vqmmc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958742t.dtb: tmons (simple-bus): $nodename:0: 'tmons' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958742t.dtb: nic-hsls (simple-bus): $nodename:0: 'nic-hsls' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958742t.dtb: i2c@60826100 (brcm,iproc-nic-i2c): reg: [[1619157248, 256], [1625293832, 4096]] is too long
+   	from schema $id: http://devicetree.org/schemas/i2c/brcm,iproc-i2c.yaml
+--
+   	['brcm,nand-iproc', 'brcm,brcmnand-v6.1'] is too short
+   	'brcm,nand-iproc' is not one of ['brcm,brcmnand-v2.1', 'brcm,brcmnand-v2.2', 'brcm,brcmnand-v4.0', 'brcm,brcmnand-v5.0', 'brcm,brcmnand-v6.0', 'brcm,brcmnand-v6.1', 'brcm,brcmnand-v6.2', 'brcm,brcmnand-v7.0', 'brcm,brcmnand-v7.1', 'brcm,brcmnand-v7.2', 'brcm,brcmnand-v7.3']
+   	'brcm,nand-bcm63138' was expected
+   	'brcm,nand-bcm63168' was expected
+   	'brcm,brcmnand' was expected
+   	'brcm,brcmnand-v6.1' is not one of ['brcm,brcmnand-v7.0', 'brcm,brcmnand-v7.1']
+   	'brcm,nand-bcm6368' was expected
+   	from schema $id: http://devicetree.org/schemas/mtd/brcm,brcmnand.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dtb: sdhci@3f1000 (brcm,sdhci-iproc): $nodename:0: 'sdhci@3f1000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+>> arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dtb: sdhci@3f1000 (brcm,sdhci-iproc): Unevaluated properties are not allowed ('bus-width', 'full-pwr-cycle', 'no-1-8-v', 'non-removable' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dtb: sdhci@3f2000 (brcm,sdhci-iproc): $nodename:0: 'sdhci@3f2000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dtb: tmons (simple-bus): $nodename:0: 'tmons' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dtb: nic-hsls (simple-bus): $nodename:0: 'nic-hsls' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dtb: i2c@60826100 (brcm,iproc-nic-i2c): reg: [[1619157248, 256], [1625293832, 4096]] is too long
+   	from schema $id: http://devicetree.org/schemas/i2c/brcm,iproc-i2c.yaml
 
 -- 
 0-DAY CI Kernel Test Service
