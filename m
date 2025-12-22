@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC3E31E0F2
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 01:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923C02C859
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 02:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766367746; cv=none; b=llXIUc0/c5GQLkboISXnB02P11mYjZFMlZfCdOlPWzWPptjo7tPqPKvL8jBf8lxuiazcbIBSplKXnjsuHzfYG+5tInBRDO5NBgUYaTnUqggKmvlyJv8AHttQN12AToIVF65+yHzdCdY/l5Msf79RKjIHRtAiM+IPXaUflLlPNMc=
+	t=1766369071; cv=none; b=MVWtQI2atN36Fo4T24DqrEqPWcGzN7ob94wgNMGgMoDVACa4gbrjReZZpdxFI1HT1O90++E1aSK8md11hzj3YqI5XMkcdqNcDY+5Qs6NgU3yXf+/EdiBu100/kY+xCWcRhwIH7llUuLfNiW3FkXLqicDzpws66WotFWLRAao07c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766367746; c=relaxed/simple;
-	bh=NltLfvGFGtMesXERxSxeZWBXCmNmIL1Gh2QHz7hN/Gs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uqOpG6dYqI/EHiOPa2BunzYP9TwMmEhYwOOI2i7o9L8+ZIBNfbDIFxJifEMZKHT+zULR8XuEk8Kns/GkwS/GDuGmyArydTmtxE1KeXm1muKWiNgSDNMMNvP9WkIiYU1hQ6ZgiLGP1RAHwjT8x57Qmo+Pf/akqkcAaIotxBQygPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEfj5j7i; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1766369071; c=relaxed/simple;
+	bh=h4LxZAHdk/k3EEZEs3K47XUFMr4PyImoV3UTcrq5plQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EjyoyvSD0fA+esNPUPZ/MOTQP53/jeh26MC98/40K3xfWJD/2LYl6+YVS4Dqidsp1uf/6xDDnWn20uWCOHFBrlH9UznNRW56flpdP3X6D7hptp4GvejLPdIFdxVC0QDc1djtIbTlQG3hyNlWQm5lB4RAmj1RDZyoQbOhrqgLd80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g+Zb/J/U; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEfj5j7i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g+Zb/J/U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766367744; x=1797903744;
+  t=1766369066; x=1797905066;
   h=date:from:to:cc:subject:message-id;
-  bh=NltLfvGFGtMesXERxSxeZWBXCmNmIL1Gh2QHz7hN/Gs=;
-  b=TEfj5j7iEprFow/Lw3craD4G7QK31Pzp7Fh1UWSWZSE3kIsFmqT0clGn
-   pWlYd8ybbogNihiARReyvcWUeykmxzGx7OcTIIk6dN2HIXr27479hnnEm
-   Ut8sK1yMR4Xm44t6lS417U4EXIKtNYRtb2533IP1vdKKqWbMKJSPdJhv8
-   3l4QFwt47KGo4mKCFifkIE/8dQwcGvIgNZ3wkR7sg2ff3iO4ipv6i+1k7
-   YXGdb5GjSNDmbB28C/da1Wmk0y51XXf4duAwT7dz4E8OAdau4OUgh3b4C
-   Oalg2g3DgzeZa5XSD3jStmxeSxkbQIDnEGXvqB+R18924gHrUVdVTEs6x
-   Q==;
-X-CSE-ConnectionGUID: xMLUZvbKSTqoz9PYI0hrqA==
-X-CSE-MsgGUID: 60KDSoTnQ3Kg4XI77w7I2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="72074158"
+  bh=h4LxZAHdk/k3EEZEs3K47XUFMr4PyImoV3UTcrq5plQ=;
+  b=g+Zb/J/UFOkzhdurDHs0ESD/hByPoc8+RnBDb5ac2bXLHOwtEQv6UqiA
+   Mr+J4fLs36A9D+UlLPf7PhnibHbXRXykPDX8eRJryk6x62+cOc7pc2tBE
+   biOmMMIjsNteZnlTisCawrhd3BQN19oE8XUcvqoRPbkPcMdMXvi1Mm/fj
+   YVGHAGTKRQ6agaqSgGetYFwuIVuJh86+Vntyr3m+2byMYGfsaFSXOOMUN
+   t5kN5Cj4+DyQraMXdTaO9hY1PqBaO3d78J6ayQRjrG3AN0KCgudDIRVlO
+   S58TBNcuYI+j9HlGagtdc/JxzQ6e24prsvrQlHAdmEN/J4vfXMSN542o7
+   w==;
+X-CSE-ConnectionGUID: UHB6K7NbT5CWSvx8AeCBFQ==
+X-CSE-MsgGUID: fxi1xicDT1iUXN6VsZ01IQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="85642160"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="72074158"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 17:42:24 -0800
-X-CSE-ConnectionGUID: JEq5gCZcQDyzTUFriKLHlQ==
-X-CSE-MsgGUID: vtIrxkKdSnmLQsrIBUEsWg==
+   d="scan'208";a="85642160"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 18:04:26 -0800
+X-CSE-ConnectionGUID: CPbVwziSSNmMJqQiNL3Zuw==
+X-CSE-MsgGUID: Df8ESdxUQCS2x9F0PTr/iA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="199302409"
+   d="scan'208";a="203536836"
 Received: from lkp-server02.sh.intel.com (HELO 9d662e18a02b) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Dec 2025 17:42:23 -0800
+  by orviesa003.jf.intel.com with ESMTP; 21 Dec 2025 18:04:25 -0800
 Received: from kbuild by 9d662e18a02b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXUw4-0000000001Y-26go;
-	Mon, 22 Dec 2025 01:42:12 +0000
-Date: Mon, 22 Dec 2025 09:41:39 +0800
+	id 1vXVHO-00000000035-1129;
+	Mon, 22 Dec 2025 02:04:12 +0000
+Date: Mon, 22 Dec 2025 10:02:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/proc/base.c:3288:4-29: opportunity for
- str_yes_no(ksm_process_mergeable ( mm ))
-Message-ID: <202512220929.pRWjLAXB-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/phy/ti/phy-ti-pipe3.c:848 ti_pipe3_probe() warn:
+ 'phy->refclk' from clk_prepare_enable() not released on lines: 841,848.
+Message-ID: <202512220925.TEd3nBDp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
@@ -62,75 +62,103 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: xu xin <xu.xin16@zte.com.cn>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Dave Penkler <dpenkler@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9448598b22c50c8a5bb77a9103e2d49f134c9578
-commit: 3ab76c767bc783c122a8dfe105fbc10a0b029b42 ksm: add ksm involvement information for each process
-date:   11 months ago
+commit: e6ab504633e4c06e35377ecf3c8cbc304de79858 staging: gpib: Destage gpib
+date:   4 weeks ago
 :::::: branch date: 2 hours ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-r064-20251221 (https://download.01.org/0day-ci/archive/20251222/202512220929.pRWjLAXB-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+:::::: commit date: 4 weeks ago
+config: alpha-randconfig-r071-20251222 (https://download.01.org/0day-ci/archive/20251222/202512220925.TEd3nBDp-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202512220929.pRWjLAXB-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202512220925.TEd3nBDp-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/proc/base.c:3288:4-29: opportunity for str_yes_no(ksm_process_mergeable ( mm ))
-   fs/proc/base.c:3281:4-42: opportunity for str_yes_no(test_bit ( MMF_VM_MERGE_ANY , & mm -> flags ))
+New smatch warnings:
+drivers/phy/ti/phy-ti-pipe3.c:848 ti_pipe3_probe() warn: 'phy->refclk' from clk_prepare_enable() not released on lines: 841,848.
+drivers/gpib/cb7210/cb7210.c:1068 cb_isa_attach() warn: 'config->ibbase' from __request_region() not released on lines: 1064.
 
-vim +3288 fs/proc/base.c
+Old smatch warnings:
+internal error: arch/alpha/include/asm/io_trivial.h:18 SQL error #2: near "and": syntax error
+internal error: arch/alpha/include/asm/io_trivial.h:18 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
 
-7c23b330011690 Josh Poimboeuf 2017-02-13  3253  
-7609385337a4fe xu xin         2022-04-28  3254  #ifdef CONFIG_KSM
-7609385337a4fe xu xin         2022-04-28  3255  static int proc_pid_ksm_merging_pages(struct seq_file *m, struct pid_namespace *ns,
-7609385337a4fe xu xin         2022-04-28  3256  				struct pid *pid, struct task_struct *task)
-7609385337a4fe xu xin         2022-04-28  3257  {
-7609385337a4fe xu xin         2022-04-28  3258  	struct mm_struct *mm;
-7609385337a4fe xu xin         2022-04-28  3259  
-7609385337a4fe xu xin         2022-04-28  3260  	mm = get_task_mm(task);
-7609385337a4fe xu xin         2022-04-28  3261  	if (mm) {
-7609385337a4fe xu xin         2022-04-28  3262  		seq_printf(m, "%lu\n", mm->ksm_merging_pages);
-7609385337a4fe xu xin         2022-04-28  3263  		mmput(mm);
-7609385337a4fe xu xin         2022-04-28  3264  	}
-7609385337a4fe xu xin         2022-04-28  3265  
-7609385337a4fe xu xin         2022-04-28  3266  	return 0;
-7609385337a4fe xu xin         2022-04-28  3267  }
-cb4df4cae4f2bd xu xin         2022-08-30  3268  static int proc_pid_ksm_stat(struct seq_file *m, struct pid_namespace *ns,
-cb4df4cae4f2bd xu xin         2022-08-30  3269  				struct pid *pid, struct task_struct *task)
-cb4df4cae4f2bd xu xin         2022-08-30  3270  {
-cb4df4cae4f2bd xu xin         2022-08-30  3271  	struct mm_struct *mm;
-3ab76c767bc783 xu xin         2025-01-10  3272  	int ret = 0;
-cb4df4cae4f2bd xu xin         2022-08-30  3273  
-cb4df4cae4f2bd xu xin         2022-08-30  3274  	mm = get_task_mm(task);
-cb4df4cae4f2bd xu xin         2022-08-30  3275  	if (mm) {
-cb4df4cae4f2bd xu xin         2022-08-30  3276  		seq_printf(m, "ksm_rmap_items %lu\n", mm->ksm_rmap_items);
-c2dc78b86e0821 Chengming Zhou 2024-05-28  3277  		seq_printf(m, "ksm_zero_pages %ld\n", mm_ksm_zero_pages(mm));
-d21077fbc2fc98 Stefan Roesch  2023-04-17  3278  		seq_printf(m, "ksm_merging_pages %lu\n", mm->ksm_merging_pages);
-d21077fbc2fc98 Stefan Roesch  2023-04-17  3279  		seq_printf(m, "ksm_process_profit %ld\n", ksm_process_profit(mm));
-3ab76c767bc783 xu xin         2025-01-10  3280  		seq_printf(m, "ksm_merge_any: %s\n",
-3ab76c767bc783 xu xin         2025-01-10  3281  				test_bit(MMF_VM_MERGE_ANY, &mm->flags) ? "yes" : "no");
-3ab76c767bc783 xu xin         2025-01-10  3282  		ret = mmap_read_lock_killable(mm);
-3ab76c767bc783 xu xin         2025-01-10  3283  		if (ret) {
-3ab76c767bc783 xu xin         2025-01-10  3284  			mmput(mm);
-3ab76c767bc783 xu xin         2025-01-10  3285  			return ret;
-3ab76c767bc783 xu xin         2025-01-10  3286  		}
-3ab76c767bc783 xu xin         2025-01-10  3287  		seq_printf(m, "ksm_mergeable: %s\n",
-3ab76c767bc783 xu xin         2025-01-10 @3288  				ksm_process_mergeable(mm) ? "yes" : "no");
-3ab76c767bc783 xu xin         2025-01-10  3289  		mmap_read_unlock(mm);
-cb4df4cae4f2bd xu xin         2022-08-30  3290  		mmput(mm);
-cb4df4cae4f2bd xu xin         2022-08-30  3291  	}
-cb4df4cae4f2bd xu xin         2022-08-30  3292  
-cb4df4cae4f2bd xu xin         2022-08-30  3293  	return 0;
-cb4df4cae4f2bd xu xin         2022-08-30  3294  }
-7609385337a4fe xu xin         2022-04-28  3295  #endif /* CONFIG_KSM */
-7609385337a4fe xu xin         2022-04-28  3296  
+vim +848 drivers/phy/ti/phy-ti-pipe3.c
+
+234738ea33903a1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  787  
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  788  static int ti_pipe3_probe(struct platform_device *pdev)
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  789  {
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  790  	struct ti_pipe3 *phy;
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  791  	struct phy *generic_phy;
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  792  	struct phy_provider *phy_provider;
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  793  	struct device *dev = &pdev->dev;
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  794  	int ret;
+21bf6fc47a1e450 drivers/phy/ti/phy-ti-pipe3.c Rob Herring            2023-10-09  795  	const struct pipe3_data *data;
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  796  
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  797  	phy = devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  798  	if (!phy)
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  799  		return -ENOMEM;
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  800  
+21bf6fc47a1e450 drivers/phy/ti/phy-ti-pipe3.c Rob Herring            2023-10-09  801  	data = device_get_match_data(dev);
+21bf6fc47a1e450 drivers/phy/ti/phy-ti-pipe3.c Rob Herring            2023-10-09  802  	if (!data)
+22940823f0629b2 drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  803  		return -EINVAL;
+22940823f0629b2 drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  804  
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  805  	phy->dev = dev;
+22940823f0629b2 drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  806  	phy->mode = data->mode;
+22940823f0629b2 drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  807  	phy->dpll_map = data->dpll_map;
+fdef2f9f700fab5 drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  808  	phy->settings = data->settings;
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  809  
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  810  	ret = ti_pipe3_get_pll_base(phy);
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  811  	if (ret)
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  812  		return ret;
+1fe521225a830e1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  813  
+2796ceb0c18a5a0 drivers/phy/ti/phy-ti-pipe3.c Kishon Vijay Abraham I 2017-10-09  814  	ret = ti_pipe3_get_tx_rx_base(phy);
+2796ceb0c18a5a0 drivers/phy/ti/phy-ti-pipe3.c Kishon Vijay Abraham I 2017-10-09  815  	if (ret)
+2796ceb0c18a5a0 drivers/phy/ti/phy-ti-pipe3.c Kishon Vijay Abraham I 2017-10-09  816  		return ret;
+2796ceb0c18a5a0 drivers/phy/ti/phy-ti-pipe3.c Kishon Vijay Abraham I 2017-10-09  817  
+73bbc78e57c96ab drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  818  	ret = ti_pipe3_get_sysctrl(phy);
+73bbc78e57c96ab drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  819  	if (ret)
+73bbc78e57c96ab drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  820  		return ret;
+234738ea33903a1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  821  
+234738ea33903a1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  822  	ret = ti_pipe3_get_clk(phy);
+234738ea33903a1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  823  	if (ret)
+234738ea33903a1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  824  		return ret;
+234738ea33903a1 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  825  
+57f6ce072e35770 drivers/usb/phy/omap-usb3.c   Kishon Vijay Abraham I 2013-01-25  826  	platform_set_drvdata(pdev, phy);
+d65ff52eb8ed5c8 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  827  	pm_runtime_enable(dev);
+c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  828  
+c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  829  	/*
+c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  830  	 * Prevent auto-disable of refclk for SATA PHY due to Errata i783
+c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  831  	 */
+22940823f0629b2 drivers/phy/ti/phy-ti-pipe3.c Roger Quadros          2019-03-22  832  	if (phy->mode == PIPE3_MODE_SATA) {
+c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  833  		if (!IS_ERR(phy->refclk)) {
+0a0830feb2adce8 drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-06-02  834  			clk_prepare_enable(phy->refclk);
+c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  835  			phy->sata_refclk_enabled = true;
+c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  836  		}
+c934b3612747bde drivers/phy/phy-ti-pipe3.c    Roger Quadros          2015-07-17  837  	}
+a70143bbef6bf06 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  838  
+d65ff52eb8ed5c8 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  839  	generic_phy = devm_phy_create(dev, NULL, &ops);
+a70143bbef6bf06 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  840  	if (IS_ERR(generic_phy))
+a70143bbef6bf06 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  841  		return PTR_ERR(generic_phy);
+a70143bbef6bf06 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  842  
+a70143bbef6bf06 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2014-03-03  843  	phy_set_drvdata(generic_phy, phy);
+cc34ace73dfa24d drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  844  
+cc34ace73dfa24d drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  845  	ti_pipe3_power_off(generic_phy);
+cc34ace73dfa24d drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  846  
+d65ff52eb8ed5c8 drivers/phy/phy-ti-pipe3.c    Kishon Vijay Abraham I 2015-12-21  847  	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+045ef3115382fab drivers/phy/phy-ti-pipe3.c    Vivek Gautam           2016-10-20 @848  	return PTR_ERR_OR_ZERO(phy_provider);
+57f6ce072e35770 drivers/usb/phy/omap-usb3.c   Kishon Vijay Abraham I 2013-01-25  849  }
+57f6ce072e35770 drivers/usb/phy/omap-usb3.c   Kishon Vijay Abraham I 2013-01-25  850  
+
+:::::: The code at line 848 was first introduced by commit
+:::::: 045ef3115382fab2c16f2692411296ebfba60256 phy: Fix ptr_ret.cocci warnings
+
+:::::: TO: Vivek Gautam <vivek.gautam@codeaurora.org>
+:::::: CC: Kishon Vijay Abraham I <kishon@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
