@@ -1,147 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453E94CB5B
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 01:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639FF228C9D
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Dec 2025 01:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766365773; cv=none; b=NHuIs5SpxzPlDKaOteFjaUXjIMhHF2hlXd7l/dp8dwzXgZ31vvL9tLUTA29j+FtrB/GiQl0/aAhBnD3k6jaTDbiHfFlfPeVfROS6xHDi7vsPCVD6tQzLv4oDVLc70Z6paeZOBLfl8MzMEuex1a57Yc28aJgvWfkGSJCWPN2dV4g=
+	t=1766367494; cv=none; b=mEAAwzVmYYDEXwverhIaVPtjkgGyNbLIO6i/m4/Vedl3zH6VtiRA4BxwaMNDS1x0afuG6WAyETWdNLdgvygp4ZX95MNH0nayczX2/lArpv3MpfJuQT9pxph9fULiZOrtmq5aYemxOHQyBLdFQjupL2K9NoKd/Htr9cpb5iCWyoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766365773; c=relaxed/simple;
-	bh=BOeaOdktqtIG3TGvQsTO56JHuPZeeB7/YTQ1yRQ3xY8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BsrMzx9+O/yTRiURcbeM41RbyfVCrlUvd1PDhqwhO2du8bhB/3swrWp7i9uISziFbF9mIYwcQPLC7VWHiMBIsdSwxMrTWRnHIuQocnHzYalUS2BWG6VGDug2Uv/lDhQglVq4G+XNk2alHGbI45nx+S+wFbQeCgyUTibqYKODZTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W9yfCSEU; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1766367494; c=relaxed/simple;
+	bh=d9LKhKdRpANYH4T94mj8rQ2LggZxgXPw1tWYNPcxGcg=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RbhJcwNVs+DUaflBToN2AnRFKacQoum6uIkd/Mu6T9zAVU+B/m9pa79vY2lQb9gkU4gaznd1MKdHWxRd2J+F50MU02m64R0ycWVITlihPXZYiZikbmjO0LOf8BUfO9h6R8lK+TkAXSsUBPN5uU51j33lm8kgBZQoksmW7zmfavQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D4pVGPKc; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W9yfCSEU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D4pVGPKc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766365770; x=1797901770;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=BOeaOdktqtIG3TGvQsTO56JHuPZeeB7/YTQ1yRQ3xY8=;
-  b=W9yfCSEUd1htoutQD4RE3AWmmnluA3HJV1Yc2mfdSPvUfjnpSIBHSV9j
-   XvBU3PjURwgm26AtzaHuypGDdExDS7ub3cp3DRqYF8g2aZYolCwRFmVes
-   CtY6bopVcDXj5/80s4slpUeoqyiRBwK8+KN+et6ipewU8EuHCDJv4TAOu
-   ifeDAypITqrNqKZwE+CYcEJIKdIBUI44ELJe1BQsmtWEPB/UitSxEXWm3
-   jnn6oZuoZ1u05hLxXXt9mp1rq9bkGlmjEORGfqMoKF2PoviXJsylA6WVe
-   dQNrq5Jke7dXw+4TvNaEeknUow7dPDcfTg4O/Wuu0E22Lqfl662BnvnV8
-   A==;
-X-CSE-ConnectionGUID: DzNXVoLKRcOcckOM3CjuCg==
-X-CSE-MsgGUID: 7oDpDufBSGC8n9PJM2xOqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68205311"
+  t=1766367493; x=1797903493;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=d9LKhKdRpANYH4T94mj8rQ2LggZxgXPw1tWYNPcxGcg=;
+  b=D4pVGPKciSt9P/2LrqtAC5WvwNYpnuK8AUoRSwAegXSCRHRG0/jIohom
+   m7QQxMh2Ltj2qI6rbpg5CgCaq2oG0QNj5E4Hl9z3MOi5vREazb3D2St7H
+   WcREsgBSi8W4RETUcFYziifHigczIan7UxTA8r7Na3iKS9GoGlJw5zwdK
+   JXckR4Yk1ycLOnO7L+6bunbBJFhVtW1tH0oyxjY8JWSiOpsOhgKHNIPmk
+   sRncvzhqZJilPhOdAAtOikn8TKZVl4I86oHaw1xvSHSQgI2NYY//98oRo
+   kKKiyqBY4p34R0fPg07bru8YqxVdc/b9V+PhrdDNK4nz7VDxbXsDzI7eL
+   w==;
+X-CSE-ConnectionGUID: VzUYPIZcQB6mtGxRw7US9Q==
+X-CSE-MsgGUID: X6dTR3uIQ9qh2+7KzsIUFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="71856823"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="68205311"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 17:09:29 -0800
-X-CSE-ConnectionGUID: 1Cs72WY4Tk2DYFiD4/qu2g==
-X-CSE-MsgGUID: iZLD6u5UTqiFVOGDShv4jg==
+   d="scan'208";a="71856823"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 17:38:12 -0800
+X-CSE-ConnectionGUID: pY7XS97BTeq7MaZ/2MpoSA==
+X-CSE-MsgGUID: 7xLrzeLjRMWK/6YhGBEzBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="230420428"
-Received: from lkp-server01.sh.intel.com (HELO 0713df988ca2) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Dec 2025 17:09:28 -0800
-Received: from kbuild by 0713df988ca2 with local (Exim 4.98.2)
+   d="scan'208";a="199919851"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 21 Dec 2025 17:38:11 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXUQQ-000000000MT-1ugF;
-	Mon, 22 Dec 2025 01:09:26 +0000
-Date: Mon, 22 Dec 2025 09:09:18 +0800
+	id 1vXUsD-000000005JE-0aAR
+	for oe-kbuild@lists.linux.dev;
+	Mon, 22 Dec 2025 01:38:09 +0000
+Date: Mon, 22 Dec 2025 02:37:28 +0100
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [melver:ctx-analysis/dev 24/36] drivers/tty/serial/pch_uart.c:1580
- pch_console_write() error: uninitialized symbol 'flags'.
-Message-ID: <202512220939.O8nwSkDv-lkp@intel.com>
+Subject: [linux-review:Samuel-Dionne-Riel/drm-panel-backlight-quirks-Add-kernel-parameters-for-quirks/20251222-040726
+ 1/1] checkpatch: ERROR:GLOBAL_INITIALISERS: do not initialise globals to
+ false
+Message-ID: <202512220202.QGxgh6oy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "high confidence checkpatch report"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: elver@google.com
+TO: "Samuel Dionne-Riel" <samuel@dionne-riel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ctx-analysis/dev
-head:   716611610a85ff05508277ffc92888daae793783
-commit: 0dc9f525e4453407edb250e4be6cab8a0422bcb2 [24/36] compiler-context-analysis: Remove __cond_lock() function-like helper
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20251222 (https://download.01.org/0day-ci/archive/20251222/202512220939.O8nwSkDv-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://github.com/intel-lab-lkp/linux/commits/Samuel-Dionne-Riel/drm-panel-backlight-quirks-Add-kernel-parameters-for-quirks/20251222-040726
+head:   e40624ce272f4b80fd064796942d3137cb7a14b7
+commit: e40624ce272f4b80fd064796942d3137cb7a14b7 [1/1] drm: panel-backlight-quirks: Add kernel parameters for quirks
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20251222/202512220202.QGxgh6oy-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202512220939.O8nwSkDv-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-New smatch warnings:
-drivers/tty/serial/pch_uart.c:1580 pch_console_write() error: uninitialized symbol 'flags'.
-drivers/scsi/aacraid/commsup.c:1631 aac_reset_adapter() error: calling 'spin_unlock_irqrestore()' with bogus flags
-
-Old smatch warnings:
-drivers/scsi/aacraid/commsup.c:1524 _aac_reset_adapter() warn: mixing irq and irqsave
-drivers/scsi/aacraid/commsup.c:1635 aac_reset_adapter() error: calling 'spin_unlock_irqrestore()' with bogus flags
-
-vim +/flags +1580 drivers/tty/serial/pch_uart.c
-
-e30f867d402d6d Alexander Stein           2011-11-15  1539  
-e30f867d402d6d Alexander Stein           2011-11-15  1540  /*
-e30f867d402d6d Alexander Stein           2011-11-15  1541   *	Print a string to the serial port trying not to disturb
-e30f867d402d6d Alexander Stein           2011-11-15  1542   *	any possible real use of the port...
-e30f867d402d6d Alexander Stein           2011-11-15  1543   *
-e30f867d402d6d Alexander Stein           2011-11-15  1544   *	The console_lock must be held when we get here.
-e30f867d402d6d Alexander Stein           2011-11-15  1545   */
-e30f867d402d6d Alexander Stein           2011-11-15  1546  static void
-e30f867d402d6d Alexander Stein           2011-11-15  1547  pch_console_write(struct console *co, const char *s, unsigned int count)
-e30f867d402d6d Alexander Stein           2011-11-15  1548  {
-e30f867d402d6d Alexander Stein           2011-11-15  1549  	struct eg20t_port *priv;
-e30f867d402d6d Alexander Stein           2011-11-15  1550  	unsigned long flags;
-d47dd323bf959d Sebastian Andrzej Siewior 2024-03-01  1551  	int locked = 1;
-e30f867d402d6d Alexander Stein           2011-11-15  1552  	u8 ier;
-e30f867d402d6d Alexander Stein           2011-11-15  1553  
-e30f867d402d6d Alexander Stein           2011-11-15  1554  	priv = pch_uart_ports[co->index];
-e30f867d402d6d Alexander Stein           2011-11-15  1555  
-e30f867d402d6d Alexander Stein           2011-11-15  1556  	touch_nmi_watchdog();
-e30f867d402d6d Alexander Stein           2011-11-15  1557  
-d47dd323bf959d Sebastian Andrzej Siewior 2024-03-01  1558  	if (oops_in_progress)
-d47dd323bf959d Sebastian Andrzej Siewior 2024-03-01  1559  		locked = uart_port_trylock_irqsave(&priv->port, &flags);
-d47dd323bf959d Sebastian Andrzej Siewior 2024-03-01  1560  	else
-d47dd323bf959d Sebastian Andrzej Siewior 2024-03-01  1561  		uart_port_lock_irqsave(&priv->port, &flags);
-e30f867d402d6d Alexander Stein           2011-11-15  1562  
-e30f867d402d6d Alexander Stein           2011-11-15  1563  	/*
-e30f867d402d6d Alexander Stein           2011-11-15  1564  	 *	First save the IER then disable the interrupts
-e30f867d402d6d Alexander Stein           2011-11-15  1565  	 */
-e30f867d402d6d Alexander Stein           2011-11-15  1566  	ier = ioread8(priv->membase + UART_IER);
-e30f867d402d6d Alexander Stein           2011-11-15  1567  
-e30f867d402d6d Alexander Stein           2011-11-15  1568  	pch_uart_hal_disable_interrupt(priv, PCH_UART_HAL_ALL_INT);
-e30f867d402d6d Alexander Stein           2011-11-15  1569  
-e30f867d402d6d Alexander Stein           2011-11-15  1570  	uart_console_write(&priv->port, s, count, pch_console_putchar);
-e30f867d402d6d Alexander Stein           2011-11-15  1571  
-e30f867d402d6d Alexander Stein           2011-11-15  1572  	/*
-e30f867d402d6d Alexander Stein           2011-11-15  1573  	 *	Finally, wait for transmitter to become empty
-e30f867d402d6d Alexander Stein           2011-11-15  1574  	 *	and restore the IER
-e30f867d402d6d Alexander Stein           2011-11-15  1575  	 */
-34619de1b8cb52 Ilpo Järvinen             2022-06-24  1576  	wait_for_xmitr(priv, UART_LSR_BOTH_EMPTY);
-e30f867d402d6d Alexander Stein           2011-11-15  1577  	iowrite8(ier, priv->membase + UART_IER);
-e30f867d402d6d Alexander Stein           2011-11-15  1578  
-d47dd323bf959d Sebastian Andrzej Siewior 2024-03-01  1579  	if (locked)
-d47dd323bf959d Sebastian Andrzej Siewior 2024-03-01 @1580  		uart_port_unlock_irqrestore(&priv->port, flags);
-e30f867d402d6d Alexander Stein           2011-11-15  1581  }
-e30f867d402d6d Alexander Stein           2011-11-15  1582  
-
-:::::: The code at line 1580 was first introduced by commit
-:::::: d47dd323bf959dbf5f3e7f83373c8ed5f3bec9c0 serial: pch: Use uart_prepare_sysrq_char().
-
-:::::: TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ERROR:GLOBAL_INITIALISERS: do not initialise globals to false
+#64: FILE: drivers/gpu/drm/drm_panel_backlight_quirks.c:22:
++bool param_disable_custom_brightness_curve = false;
 
 -- 
 0-DAY CI Kernel Test Service
